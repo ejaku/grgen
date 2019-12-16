@@ -205,29 +205,29 @@ namespace de.unika.ipd.grGen.grShell
         private List<ShellGraphProcessingEnvironment> shellProcEnvs = new List<ShellGraphProcessingEnvironment>();
         private ShellGraphProcessingEnvironment curShellProcEnv = null; // one of the shellProcEnvs
 
-        private bool silence = false; // node/edge created successfully messages
+        private GrShellSequenceApplierAndDebugger seqApplierAndDebugger;
 
         private ElementRealizers realizers = new ElementRealizers();
 
-        private String debugLayout = "Orthogonal";
         private bool nonDebugNonGuiExitOnError = false;
-        private TextWriter debugOut = System.Console.Out;
-        private TextWriter errOut = System.Console.Error;
-
-        static private string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
+        private bool silence = false; // node/edge created successfully messages
 
         private NewGraphOptions newGraphOptions = new NewGraphOptions();
 
+        private TextWriter debugOut = System.Console.Out;
+        private TextWriter errOut = System.Console.Error;
+
+        private IWorkaround workaround = WorkaroundManager.Workaround;
+
+        static private string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
+
+        private String debugLayout = "Orthogonal";
         /// <summary>
         /// Maps layouts to layout option names to their values.
         /// This only reflects the settings made by the user and may even contain illegal entries,
         /// if the options were set before yComp was attached.
         /// </summary>
         private Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
-
-        private IWorkaround workaround = WorkaroundManager.Workaround;
-
-        private GrShellSequenceApplierAndDebugger seqApplierAndDebugger;
 
 
         public GrShellImpl()
@@ -283,28 +283,108 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public bool Silence
+        public ShellGraphProcessingEnvironment GetShellGraphProcEnv(String graphName)
         {
-            set
+            foreach(ShellGraphProcessingEnvironment shellGraph in shellProcEnvs)
+                if(shellGraph.ProcEnv.NamedGraph.Name == graphName)
+                    return shellGraph;
+
+            errOut.WriteLine("Unknown graph: \"{0}\"", graphName);
+            return null;
+        }
+
+        public ShellGraphProcessingEnvironment GetShellGraphProcEnv(int index)
+        {
+            if((uint)index >= (uint)shellProcEnvs.Count)
+                errOut.WriteLine("Graph index out of bounds!");
+
+            return shellProcEnvs[index];
+        }
+
+        public void External(String lineContentForExternalType)
+        {
+            if(!GraphExists()) return;
+            curShellProcEnv.ProcEnv.Graph.Model.External(lineContentForExternalType, curShellProcEnv.ProcEnv.Graph);
+        }
+
+        public object Askfor(String typeName)
+        {
+            return seqApplierAndDebugger.Askfor(typeName);
+        }
+
+        private bool Evaluate(SequenceExpression if_)
+        {
+            object res = if_.Evaluate(curShellProcEnv.ProcEnv);
+            return (bool)res;
+        }
+
+        private void QuitDebugMode()
+        {
+            seqApplierAndDebugger.QuitDebugModeAsNeeded();
+        }
+
+        private void Cleanup()
+        {
+            foreach(ShellGraphProcessingEnvironment shellProcEnv in shellProcEnvs)
             {
-                silence = value;
-                if (silence) errOut.WriteLine("Disabled \"new node/edge created successfully\"-messages");
-                else errOut.WriteLine("Enabled \"new node/edge created successfully\"-messages");
+                if(shellProcEnv.ProcEnv.EmitWriter != Console.Out)
+                {
+                    shellProcEnv.ProcEnv.EmitWriter.Close();
+                    shellProcEnv.ProcEnv.EmitWriter = Console.Out;
+                }
+            }
+            debugOut.Flush();
+            errOut.Flush();
+        }
+
+        #region get/set variable
+
+        public object GetVarValue(String varName)
+        {
+            if(!GraphExists()) return null;
+            object val = curShellProcEnv.ProcEnv.GetVariableValue(varName);
+            if(val == null)
+            {
+                errOut.WriteLine("Unknown variable: \"{0}\"", varName);
+                return null;
+            }
+            return val;
+        }
+
+        public void SetVariable(String varName, object elem)
+        {
+            if(!GraphExists()) return;
+            curShellProcEnv.ProcEnv.SetVariableValue(varName, elem);
+        }
+
+        public void SetVariableIndexed(String varName, object value, object index)
+        {
+            if(!GraphExists()) return;
+
+            object var = GetVarValue(varName);
+            if(var == null)
+                return;
+
+            if(var is IList)
+            {
+                IList array = (IList)var;
+                array[(int)index] = value;
+            }
+            else if(var is IDeque)
+            {
+                IDeque deque = (IDeque)var;
+                deque[(int)index] = value;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)var;
+                setmap[index] = value;
             }
         }
 
-        public bool SilenceExec
-        {
-            set
-            {
-                seqApplierAndDebugger.SilenceExec = value;
-            }
-        }
+        #endregion get/set variable
 
-        public bool SetDebugMode(bool enable)
-        {
-            return seqApplierAndDebugger.SetDebugMode(enable);
-        }
+        #region get graph element
 
         public IGraphElement GetElemByVar(String varName)
         {
@@ -383,6 +463,415 @@ namespace de.unika.ipd.grGen.grShell
             return (IEdge) elem;
         }
 
+        #endregion get graph element
+
+        #region get/set attribute
+
+        public object GetElementAttribute(IGraphElement elem, String attributeName)
+        {
+            if(elem == null) return null;
+
+            AttributeType attrType = GetElementAttributeType(elem, attributeName);
+            if(attrType == null) return null;
+
+            return elem.GetAttribute(attributeName);
+        }
+
+        public void SetElementAttribute(IGraphElement elem, Param param)
+        {
+            if(elem == null) return;
+            ArrayList attributes = new ArrayList();
+            attributes.Add(param);
+            if(!CheckAttributes(elem.Type, attributes)) return;
+            SetAttributes(elem, attributes);
+        }
+
+        public void SetElementAttributeIndexed(IGraphElement elem, String attrName, String val, object index)
+        {
+            if(elem == null) return;
+
+            GrGenType type = elem.Type;
+            AttributeType attrType = type.GetAttributeType(attrName);
+            if(attrType == null)
+            {
+                errOut.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", type.PackagePrefixedName, attrName);
+                return;
+            }
+            if(attrType.Kind != AttributeKind.ArrayAttr && attrType.Kind != AttributeKind.DequeAttr && attrType.Kind != AttributeKind.MapAttr)
+            {
+                errOut.WriteLine("Attribute for indexed assignment must be of array or deque or map type!");
+                return;
+            }
+
+            object value = null;
+            try
+            {
+                value = ParseAttributeValue(attrType.ValueType, val, attrName);
+            }
+            catch(Exception)
+            {
+                return;
+            }
+            object attr = elem.GetAttribute(attrName);
+            if(attr == null)
+            {
+                errOut.WriteLine("Can't retrieve attribute " + attrName + " !");
+                return;
+            }
+            if(!(attr is IList) && !(attr is IDictionary) && !(attr is IDeque))
+            {
+                errOut.WriteLine("Attribute " + attrName + " is not of array/deque/map type!");
+                return;
+            }
+
+            AttributeChangeType changeType = AttributeChangeType.AssignElement;
+            if(elem is INode)
+                curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, index);
+            else
+                curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
+            if(attr is IList)
+            {
+                IList array = (IList)attr;
+                array[(int)index] = value;
+            }
+            else if(attr is IDeque)
+            {
+                IDeque deque = (IDeque)attr;
+                deque[(int)index] = value;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)attr;
+                setmap[index] = value;
+            }
+            if(elem is INode)
+                curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+            else
+                curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+        }
+
+        #endregion get/set attribute
+
+        #region container add/remove
+
+        private object GetAttribute(IGraphElement elem, String attrName)
+        {
+            if(elem == null) return null;
+            AttributeType attrType = GetElementAttributeType(elem, attrName);
+            if(attrType == null) return null;
+            return elem.GetAttribute(attrName);
+        }
+
+        public void ContainerAdd(IGraphElement elem, String attrName, object keyObj)
+        {
+            object attr = GetAttribute(elem, attrName);
+            if(attr == null)
+                return;
+
+            if(attr is IDictionary)
+            {
+                Type keyType, valueType;
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                if(dict == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a set.");
+                    return;
+                }
+                if(keyType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Set type must be " + keyType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+                if(valueType != typeof(SetValueType))
+                {
+                    errOut.WriteLine("Not a set.");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                dict[keyObj] = null;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else if(attr is IList)
+            {
+                Type valueType;
+                IList array = ContainerHelper.GetListType(attr, out valueType);
+                if(array == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    return;
+                }
+                if(valueType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Array type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                array.Add(keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else if(attr is IDeque)
+            {
+                Type valueType;
+                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
+                if(deque == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
+                    return;
+                }
+                if(valueType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Deque type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                deque.Enqueue(keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else
+            {
+                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a deque.");
+            }
+        }
+
+        public void IndexedContainerAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
+        {
+            object attr = GetAttribute(elem, attrName);
+            if(attr == null)
+                return;
+
+            if(attr is IDictionary)
+            {
+                Type keyType, valueType;
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                if(dict == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a map.");
+                    return;
+                }
+                if(keyType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+                if(valueType != valueObj.GetType())
+                {
+                    errOut.WriteLine("Value type must be " + valueType + ", but is " + valueObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, valueObj, keyObj);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, valueObj, keyObj);
+                dict[keyObj] = valueObj;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else if(attr is IList)
+            {
+                Type valueType;
+                IList array = ContainerHelper.GetListType(attr, out valueType);
+                if(array == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    return;
+                }
+                if(valueType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Value type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+                if(typeof(int) != valueObj.GetType())
+                {
+                    errOut.WriteLine("Index type must be int, but is " + valueObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
+                array.Insert((int)valueObj, keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else if(attr is IDeque)
+            {
+                Type valueType;
+                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
+                if(deque == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
+                    return;
+                }
+                if(valueType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Value type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+                if(typeof(int) != valueObj.GetType())
+                {
+                    errOut.WriteLine("Index type must be int, but is " + valueObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
+                deque.EnqueueAt((int)valueObj, keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else
+            {
+                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a map nor an array nor a deque.");
+            }
+        }
+
+        public void ContainerRemove(IGraphElement elem, String attrName, object keyObj)
+        {
+            object attr = GetAttribute(elem, attrName);
+            if(attr == null)
+                return;
+
+            if(attr is IDictionary)
+            {
+                Type keyType, valueType;
+                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                if(dict == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a set/map.");
+                    return;
+                }
+                if(keyType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                bool isSet = attrType.Kind == AttributeKind.SetAttr; // otherwise map
+                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
+                dict.Remove(keyObj);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else if(attr is IList)
+            {
+                Type valueType;
+                IList array = ContainerHelper.GetListType(attr, out valueType);
+                if(array == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    return;
+                }
+                if(keyObj != null && typeof(int) != keyObj.GetType())
+                {
+                    errOut.WriteLine("Key/Index type must be int, but is " + keyObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
+                if(keyObj != null)
+                    array.RemoveAt((int)keyObj);
+                else
+                    array.RemoveAt(array.Count - 1);
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else if(attr is IDeque)
+            {
+                Type valueType;
+                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
+                if(deque == null)
+                {
+                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
+                    return;
+                }
+                if(keyObj != null && typeof(int) != keyObj.GetType())
+                {
+                    errOut.WriteLine("Key/Index type must be int, but is " + keyObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
+                if(keyObj != null)
+                    deque.DequeueAt((int)keyObj);
+                else
+                    deque.Dequeue();
+                if(elem is INode)
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
+                else
+                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            }
+            else
+            {
+                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a container.");
+            }
+        }
+
+        #endregion container add/remove
+
+        #region get graph element type and compare type
+
         public NodeType GetNodeType(String typeName)
         {
             if(!GraphExists()) return null;
@@ -420,67 +909,31 @@ namespace de.unika.ipd.grGen.grShell
             return null;
         }
 
-        public ShellGraphProcessingEnvironment GetShellGraphProcEnv(String graphName)
+        public void NodeTypeIsA(INode node1, INode node2)
         {
-            foreach(ShellGraphProcessingEnvironment shellGraph in shellProcEnvs)
-                if(shellGraph.ProcEnv.NamedGraph.Name == graphName)
-                    return shellGraph;
+            if(node1 == null || node2 == null) return;
 
-            errOut.WriteLine("Unknown graph: \"{0}\"", graphName);
-            return null;
+            NodeType type1 = node1.Type;
+            NodeType type2 = node2.Type;
+
+            debugOut.WriteLine("{0} type {1} is a node: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
+                type1.IsA(type2) ? "yes" : "no");
         }
 
-        public ShellGraphProcessingEnvironment GetShellGraphProcEnv(int index)
+        public void EdgeTypeIsA(IEdge edge1, IEdge edge2)
         {
-            if((uint) index >= (uint) shellProcEnvs.Count)
-                errOut.WriteLine("Graph index out of bounds!");
+            if(edge1 == null || edge2 == null) return;
 
-            return shellProcEnvs[index];
+            EdgeType type1 = edge1.Type;
+            EdgeType type2 = edge2.Type;
+
+            debugOut.WriteLine("{0} type {1} is an edge: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
+                type1.IsA(type2) ? "yes" : "no");
         }
 
-        public int NumGraphs
-        {
-            get { return this.shellProcEnvs.Count; }
-        }
+        #endregion get graph element type and compare type
 
-        private void HandleSequenceParserException(SequenceParserException ex)
-        {
-            IAction action = ex.Action;
-            errOut.WriteLine(ex.Message);
-
-            debugOut.Write("Prototype: {0}", ex.Name);
-            if(action == null)
-            {
-                debugOut.WriteLine("");
-                return;
-            }
-
-            if(action.RulePattern.Inputs.Length != 0)
-            {
-                debugOut.Write("(");
-                bool first = true;
-                foreach(GrGenType type in action.RulePattern.Inputs)
-                {
-                    debugOut.Write("{0}{1}", first ? "" : ", ", type.PackagePrefixedName);
-                    first = false;
-                }
-                debugOut.Write(")");
-            }
-            if(action.RulePattern.Outputs.Length != 0)
-            {
-                debugOut.Write(" : (");
-                bool first = true;
-                foreach(GrGenType type in action.RulePattern.Outputs)
-                {
-                    debugOut.Write("{0}{1}", first ? "" : ", ", type.PackagePrefixedName);
-                    first = false;
-                }
-                debugOut.Write(")");
-            }
-            debugOut.WriteLine();
-        }
-
-        #region Help text methods
+        #region "help" commands
 
         public void Help(List<String> commands)
         {
@@ -931,17 +1384,13 @@ namespace de.unika.ipd.grGen.grShell
                 + "   If a .gz suffix is given a zipped recording is read.\n");
         }
 
-        #endregion Help text methods
+        #endregion "help" commands
 
-        public void SyncIO()
-        {
-            Infrastructure.Flush(curShellProcEnv.ProcEnv.NamedGraph);
-        }
+        #region external shell execution and file system commands 
 
         public void ExecuteCommandLineInExternalShell(String cmdLine)
         {
             // treat first word as the filename and the rest as arguments
-
             cmdLine = cmdLine.Trim();
             int firstSpace = cmdLine.IndexOf(' ');
             String filename;
@@ -967,12 +1416,6 @@ namespace de.unika.ipd.grGen.grShell
             {
                 errOut.WriteLine("Unable to execute file \"" + filename + "\": " + e.Message);
             }
-        }
-
-        public void External(String cmdLine)
-        {
-            if(!GraphExists()) return;
-            curShellProcEnv.ProcEnv.Graph.Model.External(cmdLine, curShellProcEnv.ProcEnv.Graph);
         }
 
         public bool ChangeDirectory(String filename)
@@ -1043,114 +1486,9 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        private void QuitDebugMode()
-        {
-            seqApplierAndDebugger.QuitDebugModeAsNeeded();
-        }
+        #endregion external shell execution and file system commands
 
-        private void Cleanup()
-        {
-            foreach(ShellGraphProcessingEnvironment shellProcEnv in shellProcEnvs)
-            {
-                if(shellProcEnv.ProcEnv.EmitWriter != Console.Out)
-                {
-                    shellProcEnv.ProcEnv.EmitWriter.Close();
-                    shellProcEnv.ProcEnv.EmitWriter = Console.Out;
-                }
-            }
-            debugOut.Flush();
-            errOut.Flush();
-        }
-
-        #region Model operations
-
-        public bool SelectBackend(String assemblyName, ArrayList parameters)
-        {
-            // replace wrong directory separator chars by the right ones
-            if(Path.DirectorySeparatorChar != '\\')
-                assemblyName = assemblyName.Replace('\\', Path.DirectorySeparatorChar);
-
-            try
-            {
-                Assembly assembly = Assembly.LoadFrom(assemblyName);
-                Type backendType = null;
-                foreach(Type type in assembly.GetTypes())
-                {
-                    if(!type.IsClass || type.IsNotPublic) continue;
-                    if(type.GetInterface("IBackend") != null)
-                    {
-                        if(backendType != null)
-                        {
-                            errOut.WriteLine("The given backend contains more than one IBackend implementation!");
-                            return false;
-                        }
-                        backendType = type;
-                    }
-                }
-                if(backendType == null)
-                {
-                    errOut.WriteLine("The given backend doesn't contain an IBackend implementation!");
-                    return false;
-                }
-                curGraphBackend = (IBackend) Activator.CreateInstance(backendType);
-                backendFilename = assemblyName;
-                backendParameters = (String[]) parameters.ToArray(typeof(String));
-                debugOut.WriteLine("Backend selected successfully.");
-            }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to load backend: {0}", ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-        public bool NewGraphAddReference(String externalAssemblyReference)
-        {
-            if(!newGraphOptions.ExternalAssembliesReferenced.Contains(externalAssemblyReference))
-                newGraphOptions.ExternalAssembliesReferenced.Add(externalAssemblyReference);
-            return true;
-        }
-
-        public bool NewGraphSetKeepDebug(bool on)
-        {
-            newGraphOptions.KeepDebug = on;
-            return true;
-        }
-
-        public bool NewGraphSetStatistics(String filepath)
-        {
-            if(!File.Exists(filepath))
-            {
-                errOut.WriteLine("Can't find statistics file {0}!", filepath);
-                return false;
-            }
-            newGraphOptions.Statistics = filepath;
-            return true;
-        }
-
-        public bool NewGraphSetLazyNIC(bool on)
-        {
-            newGraphOptions.LazyNIC = on;
-            return true;
-        }
-
-        public bool NewGraphSetNoinline(bool on)
-        {
-            newGraphOptions.Noinline = on;
-            return true;
-        }
-
-        public bool NewGraphSetProfile(bool on)
-        {
-            newGraphOptions.Profile = on;
-            return true;
-        }
-
-        private bool GetEmitProfiling()
-        {
-            return newGraphOptions.Profile;
-        }
+        #region "new graph" commands
 
         public bool NewGraph(String specFilename, String graphName, bool forceRebuild)
         {
@@ -1293,10 +1631,15 @@ namespace de.unika.ipd.grGen.grShell
             curShellProcEnv.NameToSubgraph.Add(graphName, graph);
             if(!silence)
                 debugOut.WriteLine("New subgraph \"{0}\" created.", curShellProcEnv.NameToSubgraph[graphName]);
+
             return ChangeGraph(graphName);
         }
 
-		public bool ChangeGraph(String graphName)
+        #endregion "new graph" commands
+
+        #region graph commands (delete, clear, in subgraph)
+
+        public bool ChangeGraph(String graphName)
         {
             if(!curShellProcEnv.NameToSubgraph.ContainsKey(graphName))
             {
@@ -1324,57 +1667,41 @@ namespace de.unika.ipd.grGen.grShell
             if(!silence)
                 debugOut.WriteLine("Switching to subgraph \"{0}\".", curShellProcEnv.NameToSubgraph[graphName]);
             curShellProcEnv.ProcEnv.SwitchToSubgraph(curShellProcEnv.NameToSubgraph[graphName]);
+
             return true;
         }
 
-        public void SelectShellGraphProcEnv(ShellGraphProcessingEnvironment shellGraphProcEnv)
+        public void ClearGraph(ShellGraphProcessingEnvironment shellGraphProcEnv, bool shellGraphSpecified)
         {
-            curShellProcEnv = shellGraphProcEnv ?? curShellProcEnv;
+            if(!shellGraphSpecified)
+            {
+                if(!GraphExists()) return;
+                shellGraphProcEnv = curShellProcEnv;
+            }
+            else if(shellGraphProcEnv == null) return;
+
+            shellGraphProcEnv.ProcEnv.Graph.Clear();
         }
 
-        public bool SelectActions(String actionFilename)
+        public bool DestroyGraph(ShellGraphProcessingEnvironment shellGraphProcEnv, bool shellGraphSpecified)
         {
-            if(!GraphExists()) return false;
-
-            // replace wrong directory separator chars by the right ones
-            if(Path.DirectorySeparatorChar != '\\')
-                actionFilename = actionFilename.Replace('\\', Path.DirectorySeparatorChar);
-
-            try
+            if(!shellGraphSpecified)
             {
-                curShellProcEnv.ProcEnv.Actions = LGSPActions.LoadActions(actionFilename, (LGSPGraph)curShellProcEnv.ProcEnv.NamedGraph);
-                curShellProcEnv.ActionsFilename = actionFilename;
-                ((LGSPGraphProcessingEnvironment)curShellProcEnv.ProcEnv).Initialize((LGSPGraph)curShellProcEnv.ProcEnv.NamedGraph, (LGSPActions)curShellProcEnv.ProcEnv.Actions);
+                if(!GraphExists()) return false;
+                shellGraphProcEnv = curShellProcEnv;
             }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to load the actions from \"{0}\":\n{1}", actionFilename, ex.Message);
-                return false;
-            }
+            else if(shellGraphProcEnv == null) return false;
+
+            seqApplierAndDebugger.DisableDebuggerAfterDeletionAsNeeded(shellGraphProcEnv);
+
+            if(shellGraphProcEnv == curShellProcEnv)
+                curShellProcEnv = null;
+            shellProcEnvs.Remove(shellGraphProcEnv);
+
             return true;
         }
 
-        public bool SelectParser(String parserAssemblyName, String mainMethodName)
-        {
-            if(!GraphExists()) return false;
-
-            // replace wrong directory separator chars by the right ones
-            if(Path.DirectorySeparatorChar != '\\')
-                parserAssemblyName = parserAssemblyName.Replace('\\', Path.DirectorySeparatorChar);
-
-            try
-            {
-                curShellProcEnv.Parser = new ParserPackage(parserAssemblyName, mainMethodName);
-            }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to load parser from \"" + parserAssemblyName + "\":\n" + ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-        #endregion Model operations
+        #endregion graph commands (delete, clear, in subgraph)
 
         #region "new" graph element commands
 
@@ -1417,7 +1744,6 @@ namespace de.unika.ipd.grGen.grShell
                 errOut.WriteLine("Creation of new node failed.");
                 return null;
             }
-
 
             if(elemDef.Attributes != null)
             {
@@ -1940,7 +2266,7 @@ namespace de.unika.ipd.grGen.grShell
 
         #endregion "new" graph element commands
 
-        #region "remove" / "destroy" / "retype" commands
+        #region graph element commands (delete, retype, redirect)
 
         public bool Remove(INode node)
         {
@@ -2048,109 +2374,73 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void ClearGraph(ShellGraphProcessingEnvironment shellGraphProcEnv, bool shellGraphSpecified)
+        public bool Redirect(IEdge edge, String direction, INode node)
         {
-            if(!shellGraphSpecified)
+            if(!GraphExists()) return false;
+            if(edge == null)
             {
-                if(!GraphExists()) return;
-                shellGraphProcEnv = curShellProcEnv;
+                errOut.WriteLine("No edge given to redirect command");
+                return false;
             }
-            else if(shellGraphProcEnv == null) return;
-
-            shellGraphProcEnv.ProcEnv.Graph.Clear();
-        }
-
-        public bool DestroyGraph(ShellGraphProcessingEnvironment shellGraphProcEnv, bool shellGraphSpecified)
-        {
-            if(!shellGraphSpecified)
+            if(direction == null)
             {
-                if(!GraphExists()) return false;
-                shellGraphProcEnv = curShellProcEnv;
+                errOut.WriteLine("No direction given to redirect command");
+                return false;
             }
-            else if(shellGraphProcEnv == null) return false;
+            if(node == null)
+            {
+                errOut.WriteLine("No node given to redirect command");
+                return false;
+            }
 
-            seqApplierAndDebugger.DisableDebuggerAfterDeletionAsNeeded(shellGraphProcEnv);
+            try
+            {
+                bool redirectSource = false;
+                if(direction.ToLower() == "source".ToLower())
+                {
+                    redirectSource = true;
+                }
+                else if(direction.ToLower() == "target".ToLower())
+                {
+                    redirectSource = false;
+                }
+                else
+                {
+                    errOut.WriteLine("direction must be either \"source\" or \"target\"");
+                    return false;
+                }
 
-            if(shellGraphProcEnv == curShellProcEnv)
-                curShellProcEnv = null;
-            shellProcEnvs.Remove(shellGraphProcEnv);
+                String oldNodeName;
+                if(redirectSource)
+                {
+                    oldNodeName = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge.Source);
+                    curShellProcEnv.ProcEnv.NamedGraph.RedirectSource(edge, node, oldNodeName);
+                }
+                else
+                {
+                    oldNodeName = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge.Target);
+                    curShellProcEnv.ProcEnv.NamedGraph.RedirectTarget(edge, node, oldNodeName);
+                }
 
+                if(!silence)
+                {
+                    String edgeName = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge);
+                    String directionName = redirectSource ? "source" : "target";
+                    String newNodeName = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node);
+                    debugOut.WriteLine("Edge \"{0}\" \"{1}\" has been redirected from \"{2}\" to \"{3}\".", edgeName, directionName, oldNodeName, newNodeName);
+                }
+            }
+            catch(ArgumentException e)
+            {
+                errOut.WriteLine("Unable to redirect edge: " + e.Message);
+                return false;
+            }
             return true;
         }
 
-        #endregion "remove" / "destroy" / "retype" commands
+        #endregion graph element commands (delete, retype, redirect)
 
-        #region "show" commands
-
-        private bool ShowElements<T>(IEnumerable<T> elements) where T : IGraphElement
-        {
-            if(!elements.GetEnumerator().MoveNext()) return false;
-
-            debugOut.WriteLine("{0,-20} {1}", "name", "type");
-            foreach(IGraphElement elem in elements)
-            {
-                debugOut.WriteLine("{0,-20} {1}", curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
-            }
-            return true;
-        }
-
-        public void ShowNodes(NodeType nodeType, bool only)
-        {
-            if(nodeType == null)
-            {
-                if(!GraphExists()) return;
-                nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
-            }
-
-            IEnumerable<INode> nodes = only ? curShellProcEnv.ProcEnv.NamedGraph.GetExactNodes(nodeType)
-                : curShellProcEnv.ProcEnv.NamedGraph.GetCompatibleNodes(nodeType);
-            if(!ShowElements(nodes))
-                errOut.WriteLine("There are no nodes " + (only ? "compatible to" : "of") + " type \"" + nodeType.PackagePrefixedName + "\"!");
-        }
-
-        public void ShowEdges(EdgeType edgeType, bool only)
-        {
-            if(edgeType == null)
-            {
-                if(!GraphExists()) return;
-                edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.RootType;
-            }
-
-            IEnumerable<IEdge> edges = only ? curShellProcEnv.ProcEnv.NamedGraph.GetExactEdges(edgeType)
-                : curShellProcEnv.ProcEnv.NamedGraph.GetCompatibleEdges(edgeType);
-            if(!ShowElements(edges))
-                errOut.WriteLine("There are no edges of " + (only ? "compatible to" : "of") + " type \"" + edgeType.PackagePrefixedName + "\"!");
-        }
-
-        public void ShowNumNodes(NodeType nodeType, bool only)
-        {
-            if(nodeType == null)
-            {
-                if(!GraphExists()) return;
-                nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
-            }
-            if(only)
-                debugOut.WriteLine("Number of nodes of the type \"" + nodeType.PackagePrefixedName + "\": "
-                    + curShellProcEnv.ProcEnv.NamedGraph.GetNumExactNodes(nodeType));
-            else
-                debugOut.WriteLine("Number of nodes compatible to type \"" + nodeType.PackagePrefixedName + "\": "
-                    + curShellProcEnv.ProcEnv.NamedGraph.GetNumCompatibleNodes(nodeType));
-        }
-
-        public void ShowNumEdges(EdgeType edgeType, bool only)
-        {
-            if(edgeType == null)
-            {
-                if(!GraphExists()) return;
-                edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.RootType;
-            }
-            if(only)
-                debugOut.WriteLine("Number of edges of the type \"" + edgeType.PackagePrefixedName + "\": "
-                    + curShellProcEnv.ProcEnv.NamedGraph.GetNumExactEdges(edgeType));
-            else
-                debugOut.WriteLine("Number of edges compatible to type \"" + edgeType.PackagePrefixedName + "\": "
-                    + curShellProcEnv.ProcEnv.NamedGraph.GetNumCompatibleEdges(edgeType));
-        }
+        #region "show" type related information commands
 
         public void ShowNodeTypes()
         {
@@ -2215,6 +2505,214 @@ namespace de.unika.ipd.grGen.grShell
                     debugOut.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
             }
         }
+
+        /// <summary>
+        /// Displays the attribute types and names for the given attrTypes.
+        /// If onlyType is not null, it shows only the attributes of exactly the type.
+        /// </summary>
+        private void ShowAvailableAttributes(IEnumerable<AttributeType> attrTypes, GrGenType onlyType)
+        {
+            bool first = true;
+            foreach(AttributeType attrType in attrTypes)
+            {
+                if(onlyType != null && attrType.OwnerType != onlyType) continue;
+
+                if(first)
+                {
+                    debugOut.WriteLine(" - {0,-24} type::attribute", "kind");
+                    first = false;
+                }
+
+                String kind;
+                switch(attrType.Kind)
+                {
+                    case AttributeKind.ByteAttr: kind = "byte"; break;
+                    case AttributeKind.ShortAttr: kind = "short"; break;
+                    case AttributeKind.IntegerAttr: kind = "int"; break;
+                    case AttributeKind.LongAttr: kind = "long"; break;
+                    case AttributeKind.BooleanAttr: kind = "boolean"; break;
+                    case AttributeKind.StringAttr: kind = "string"; break;
+                    case AttributeKind.EnumAttr: kind = attrType.EnumType.PackagePrefixedName; break;
+                    case AttributeKind.FloatAttr: kind = "float"; break;
+                    case AttributeKind.DoubleAttr: kind = "double"; break;
+                    case AttributeKind.ObjectAttr: kind = "object"; break;
+                    case AttributeKind.GraphAttr: kind = "graph"; break;
+                    default: kind = "<INVALID>"; break;
+                }
+                debugOut.WriteLine(" - {0,-24} {1}::{2}", kind, attrType.OwnerType.PackagePrefixedName, attrType.Name);
+            }
+            if(first)
+                errOut.WriteLine(" - No attribute types found.");
+        }
+
+        /// <summary>
+        /// Displays the attributes from the given type or all types, if typeName is null.
+        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
+        /// </summary>
+        public void ShowAvailableNodeAttributes(bool showOnly, NodeType nodeType)
+        {
+            if(nodeType == null)
+            {
+                debugOut.WriteLine("The available attributes for nodes:");
+                ShowAvailableAttributes(curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.AttributeTypes, null);
+            }
+            else
+            {
+                debugOut.WriteLine("The available attributes for {0} \"{1}\":",
+                    (showOnly ? "node type only" : "node type"), nodeType.PackagePrefixedName);
+                ShowAvailableAttributes(nodeType.AttributeTypes, showOnly ? nodeType : null);
+            }
+        }
+
+        /// <summary>
+        /// Displays the attributes from the given type or all types, if typeName is null.
+        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
+        /// </summary>
+        public void ShowAvailableEdgeAttributes(bool showOnly, EdgeType edgeType)
+        {
+            if(edgeType == null)
+            {
+                debugOut.WriteLine("The available attributes for edges:");
+                ShowAvailableAttributes(curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.AttributeTypes, null);
+            }
+            else
+            {
+                debugOut.WriteLine("The available attributes for {0} \"{1}\":",
+                    (showOnly ? "edge type only" : "edge type"), edgeType.PackagePrefixedName);
+                ShowAvailableAttributes(edgeType.AttributeTypes, showOnly ? edgeType : null);
+            }
+        }
+
+        #endregion "show" type related information commands
+
+        #region "show" graph and graph element related information commands
+
+        private bool ShowElements<T>(IEnumerable<T> elements) where T : IGraphElement
+        {
+            if(!elements.GetEnumerator().MoveNext()) return false;
+
+            debugOut.WriteLine("{0,-20} {1}", "name", "type");
+            foreach(IGraphElement elem in elements)
+            {
+                debugOut.WriteLine("{0,-20} {1}", curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
+            }
+
+            return true;
+        }
+
+        public void ShowNodes(NodeType nodeType, bool only)
+        {
+            if(nodeType == null)
+            {
+                if(!GraphExists()) return;
+                nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
+            }
+
+            IEnumerable<INode> nodes = only ? curShellProcEnv.ProcEnv.NamedGraph.GetExactNodes(nodeType)
+                : curShellProcEnv.ProcEnv.NamedGraph.GetCompatibleNodes(nodeType);
+            if(!ShowElements(nodes))
+                errOut.WriteLine("There are no nodes " + (only ? "compatible to" : "of") + " type \"" + nodeType.PackagePrefixedName + "\"!");
+        }
+
+        public void ShowEdges(EdgeType edgeType, bool only)
+        {
+            if(edgeType == null)
+            {
+                if(!GraphExists()) return;
+                edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.RootType;
+            }
+
+            IEnumerable<IEdge> edges = only ? curShellProcEnv.ProcEnv.NamedGraph.GetExactEdges(edgeType)
+                : curShellProcEnv.ProcEnv.NamedGraph.GetCompatibleEdges(edgeType);
+            if(!ShowElements(edges))
+                errOut.WriteLine("There are no edges of " + (only ? "compatible to" : "of") + " type \"" + edgeType.PackagePrefixedName + "\"!");
+        }
+
+        public void ShowNumNodes(NodeType nodeType, bool only)
+        {
+            if(nodeType == null)
+            {
+                if(!GraphExists()) return;
+                nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
+            }
+            if(only)
+                debugOut.WriteLine("Number of nodes of the type \"" + nodeType.PackagePrefixedName + "\": "
+                    + curShellProcEnv.ProcEnv.NamedGraph.GetNumExactNodes(nodeType));
+            else
+                debugOut.WriteLine("Number of nodes compatible to type \"" + nodeType.PackagePrefixedName + "\": "
+                    + curShellProcEnv.ProcEnv.NamedGraph.GetNumCompatibleNodes(nodeType));
+        }
+
+        public void ShowNumEdges(EdgeType edgeType, bool only)
+        {
+            if(edgeType == null)
+            {
+                if(!GraphExists()) return;
+                edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.RootType;
+            }
+            if(only)
+                debugOut.WriteLine("Number of edges of the type \"" + edgeType.PackagePrefixedName + "\": "
+                    + curShellProcEnv.ProcEnv.NamedGraph.GetNumExactEdges(edgeType));
+            else
+                debugOut.WriteLine("Number of edges compatible to type \"" + edgeType.PackagePrefixedName + "\": "
+                    + curShellProcEnv.ProcEnv.NamedGraph.GetNumCompatibleEdges(edgeType));
+        }
+
+        public void ShowGraphs()
+        {
+            if(shellProcEnvs.Count == 0)
+            {
+                errOut.WriteLine("No graphs available.");
+                return;
+            }
+            debugOut.WriteLine("Graphs:");
+            for(int i = 0; i < shellProcEnvs.Count; i++)
+                debugOut.WriteLine(" - \"" + shellProcEnvs[i].ProcEnv.Graph.Name + "\" (" + i + ")");
+        }
+
+        private AttributeType GetElementAttributeType(IGraphElement elem, String attributeName)
+        {
+            AttributeType attrType = elem.Type.GetAttributeType(attributeName);
+            if(attrType == null)
+            {
+                debugOut.WriteLine(((elem is INode) ? "Node" : "Edge") + " \"" + curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem)
+                    + "\" does not have an attribute \"" + attributeName + "\"!");
+                return attrType;
+            }
+            return attrType;
+        }
+
+        public void ShowElementAttributes(IGraphElement elem)
+        {
+            if(elem == null) return;
+            if(elem.Type.NumAttributes == 0)
+            {
+                errOut.WriteLine("{0} \"{1}\" of type \"{2}\" does not have any attributes!", (elem is INode) ? "Node" : "Edge",
+                    curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
+                return;
+            }
+            debugOut.WriteLine("All attributes for {0} \"{1}\" of type \"{2}\":", (elem is INode) ? "node" : "edge",
+                curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
+            foreach(AttributeType attrType in elem.Type.AttributeTypes)
+                debugOut.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.PackagePrefixedName,
+                    attrType.Name, EmitHelper.ToStringAutomatic(elem.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph));
+        }
+
+        public void ShowElementAttribute(IGraphElement elem, String attributeName)
+        {
+            if(elem == null) return;
+
+            AttributeType attrType = GetElementAttributeType(elem, attributeName);
+            if(attrType == null) return;
+
+            debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"");
+            debugOut.Write(EmitHelper.ToStringAutomatic(elem.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph));
+            debugOut.WriteLine("\".");
+        }
+
+        #endregion "show" graph and graph element related information commands
+
+        #region "show graph" command
 
         /// <summary>
         /// Executes the specified viewer and deletes the dump file after the viewer has exited
@@ -2310,7 +2808,7 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 Process process = Process.Start(pngFilename);
-                if (process != null)
+                if(process != null)
                     process.WaitForExit();
                 else
                     Thread.Sleep(1000);
@@ -2324,17 +2822,9 @@ namespace de.unika.ipd.grGen.grShell
             return filename;
         }
 
-        public void ShowGraphs()
-        {
-            if(shellProcEnvs.Count == 0)
-            {
-                errOut.WriteLine("No graphs available.");
-                return;
-            }
-            debugOut.WriteLine("Graphs:");
-            for(int i = 0; i < shellProcEnvs.Count; i++)
-                debugOut.WriteLine(" - \"" + shellProcEnvs[i].ProcEnv.Graph.Name + "\" (" + i + ")");
-        }
+        #endregion "show graph" command
+
+        #region "show" actions, profile, backend, var commands
 
         public void ShowActions()
         {
@@ -2474,123 +2964,6 @@ namespace de.unika.ipd.grGen.grShell
                 debugOut.WriteLine(" - {0}", str);
         }
 
-        /// <summary>
-        /// Displays the attribute types and names for the given attrTypes.
-        /// If onlyType is not null, it shows only the attributes of exactly the type.
-        /// </summary>
-        private void ShowAvailableAttributes(IEnumerable<AttributeType> attrTypes, GrGenType onlyType)
-        {
-            bool first = true;
-            foreach(AttributeType attrType in attrTypes)
-            {
-                if(onlyType != null && attrType.OwnerType != onlyType) continue;
-
-                if(first)
-                {
-                    debugOut.WriteLine(" - {0,-24} type::attribute", "kind");
-                    first = false;
-                }
-
-                String kind;
-                switch(attrType.Kind)
-                {
-                    case AttributeKind.ByteAttr: kind = "byte"; break;
-                    case AttributeKind.ShortAttr: kind = "short"; break;
-                    case AttributeKind.IntegerAttr: kind = "int"; break;
-                    case AttributeKind.LongAttr: kind = "long"; break;
-                    case AttributeKind.BooleanAttr: kind = "boolean"; break;
-                    case AttributeKind.StringAttr: kind = "string"; break;
-                    case AttributeKind.EnumAttr: kind = attrType.EnumType.PackagePrefixedName; break;
-                    case AttributeKind.FloatAttr: kind = "float"; break;
-                    case AttributeKind.DoubleAttr: kind = "double"; break;
-                    case AttributeKind.ObjectAttr: kind = "object"; break;
-                    case AttributeKind.GraphAttr: kind = "graph"; break;
-                    default: kind = "<INVALID>"; break;
-                }
-                debugOut.WriteLine(" - {0,-24} {1}::{2}", kind, attrType.OwnerType.PackagePrefixedName, attrType.Name);
-            }
-            if(first)
-                errOut.WriteLine(" - No attribute types found.");
-        }
-
-        /// <summary>
-        /// Displays the attributes from the given type or all types, if typeName is null.
-        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
-        /// </summary>
-        public void ShowAvailableNodeAttributes(bool showOnly, NodeType nodeType)
-        {
-            if(nodeType == null)
-            {
-                debugOut.WriteLine("The available attributes for nodes:");
-                ShowAvailableAttributes(curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.AttributeTypes, null);
-            }
-            else
-            {
-                debugOut.WriteLine("The available attributes for {0} \"{1}\":",
-                    (showOnly ? "node type only" : "node type"), nodeType.PackagePrefixedName);
-                ShowAvailableAttributes(nodeType.AttributeTypes, showOnly ? nodeType : null);
-            }
-        }
-
-        /// <summary>
-        /// Displays the attributes from the given type or all types, if typeName is null.
-        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
-        /// </summary>
-        public void ShowAvailableEdgeAttributes(bool showOnly, EdgeType edgeType)
-        {
-            if(edgeType == null)
-            {
-                debugOut.WriteLine("The available attributes for edges:");
-                ShowAvailableAttributes(curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.AttributeTypes, null);
-            }
-            else
-            {
-                debugOut.WriteLine("The available attributes for {0} \"{1}\":",
-                    (showOnly ? "edge type only" : "edge type"), edgeType.PackagePrefixedName);
-                ShowAvailableAttributes(edgeType.AttributeTypes, showOnly ? edgeType : null);
-            }
-        }
-
-        private AttributeType GetElementAttributeType(IGraphElement elem, String attributeName)
-        {
-            AttributeType attrType = elem.Type.GetAttributeType(attributeName);
-            if(attrType == null)
-            {
-                debugOut.WriteLine(((elem is INode) ? "Node" : "Edge") + " \"" + curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem)
-                    + "\" does not have an attribute \"" + attributeName + "\"!");
-                return attrType;
-            }
-            return attrType;
-        }
-
-        public void ShowElementAttributes(IGraphElement elem)
-        {
-            if(elem == null) return;
-            if(elem.Type.NumAttributes == 0)
-            {
-                errOut.WriteLine("{0} \"{1}\" of type \"{2}\" does not have any attributes!", (elem is INode) ? "Node" : "Edge",
-                    curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
-                return;
-            }
-            debugOut.WriteLine("All attributes for {0} \"{1}\" of type \"{2}\":", (elem is INode) ? "node" : "edge",
-                curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
-            foreach(AttributeType attrType in elem.Type.AttributeTypes)
-                debugOut.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.PackagePrefixedName,
-                    attrType.Name, EmitHelper.ToStringAutomatic(elem.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph));
-        }
-
-        public void ShowElementAttribute(IGraphElement elem, String attributeName)
-        {
-            if(elem == null) return;
-
-            AttributeType attrType = GetElementAttributeType(elem, attributeName);
-            if(attrType == null) return;
-
-            debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"");
-            debugOut.Write(EmitHelper.ToStringAutomatic(elem.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph));
-            debugOut.WriteLine("\".");
-        }
-
         public void ShowVar(String name)
         {
             object val = GetVarValue(name);
@@ -2640,286 +3013,9 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        #endregion "show" commands
+        #endregion "show" actions, profile, backend, var commands
 
-        public object GetElementAttribute(IGraphElement elem, String attributeName)
-        {
-            if(elem == null) return null;
-
-            AttributeType attrType = GetElementAttributeType(elem, attributeName);
-            if(attrType == null) return null;
-
-            return elem.GetAttribute(attributeName);
-        }
-
-        public void SetElementAttribute(IGraphElement elem, Param param)
-        {
-            if(elem == null) return;
-            ArrayList attributes = new ArrayList();
-            attributes.Add(param);
-            if(!CheckAttributes(elem.Type, attributes)) return;
-            SetAttributes(elem, attributes);
-        }
-
-        public void SetElementAttributeIndexed(IGraphElement elem, String attrName, String val, object index)
-        {
-            if(elem == null) return;
-
-            GrGenType type = elem.Type;
-            AttributeType attrType = type.GetAttributeType(attrName);
-            if(attrType == null)
-            {
-                errOut.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", type.PackagePrefixedName, attrName);
-                return;
-            }
-            if(attrType.Kind!=AttributeKind.ArrayAttr && attrType.Kind!=AttributeKind.DequeAttr && attrType.Kind!=AttributeKind.MapAttr)
-            {
-                errOut.WriteLine("Attribute for indexed assignment must be of array or deque or map type!");
-                return;
-            }
-
-            object value = null;
-            try
-            {
-                value = ParseAttributeValue(attrType.ValueType, val, attrName);
-            }
-            catch(Exception)
-            {
-                return;
-            }
-            object attr = elem.GetAttribute(attrName);
-            if(attr==null)
-            {
-                errOut.WriteLine("Can't retrieve attribute "+attrName+" !");
-                return;
-            }
-            if(!(attr is IList) && !(attr is IDictionary) && !(attr is IDeque))
-            {
-                errOut.WriteLine("Attribute " + attrName + " is not of array/deque/map type!");
-                return;
-            }
-
-            AttributeChangeType changeType = AttributeChangeType.AssignElement;
-            if(elem is INode)
-                curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, index);
-            else
-                curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
-            if(attr is IList)
-            {
-                IList array = (IList)attr;
-                array[(int)index] = value;
-            }
-            else if(attr is IDeque)
-            {
-                IDeque deque = (IDeque)attr;
-                deque[(int)index] = value;
-            }
-            else
-            {
-                IDictionary setmap = (IDictionary)attr;
-                setmap[index] = value;
-            }
-            if(elem is INode)
-                curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-            else
-                curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-        }
-
-        public object GetVarValue(String varName)
-        {
-            if(!GraphExists()) return null;
-            object val = curShellProcEnv.ProcEnv.GetVariableValue(varName);
-            if(val == null)
-            {
-                errOut.WriteLine("Unknown variable: \"{0}\"", varName);
-                return null;
-            }
-            return val;
-        }
-
-        public void SetVariable(String varName, object elem)
-        {
-            if(!GraphExists()) return;
-            curShellProcEnv.ProcEnv.SetVariableValue(varName, elem);
-        }
-
-        public void SetVariableIndexed(String varName, object value, object index)
-        {
-            if(!GraphExists()) return;
-
-            object var = GetVarValue(varName);
-            if(var == null)
-                return;
-
-            if(var is IList)
-            {
-                IList array = (IList)var;
-                array[(int)index] = value;
-            }
-            else if(var is IDeque)
-            {
-                IDeque deque = (IDeque)var;
-                deque[(int)index] = value;
-            }
-            else
-            {
-                IDictionary setmap = (IDictionary)var;
-                setmap[index] = value;
-            }
-        }
-
-        public void SetRandomSeed(int seed)
-        {
-            Sequence.randomGenerator = new Random(seed);
-        }
-
-        public bool RedirectEmit(String filename)
-        {
-            if(!GraphExists()) return false;
-
-            if(curShellProcEnv.ProcEnv.EmitWriter != Console.Out)
-                curShellProcEnv.ProcEnv.EmitWriter.Close();
-            if(filename == "-")
-                curShellProcEnv.ProcEnv.EmitWriter = Console.Out;
-            else
-            {
-                try
-                {
-                    curShellProcEnv.ProcEnv.EmitWriter = new StreamWriter(filename);
-                }
-                catch(Exception ex)
-                {
-                    errOut.WriteLine("Unable to redirect emit to file \"" + filename + "\":\n" + ex.Message);
-                    curShellProcEnv.ProcEnv.EmitWriter = Console.Out;
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public bool Redirect(IEdge edge, String direction, INode node)
-        {
-            if(!GraphExists()) return false;
-            if(edge == null)
-            {
-                errOut.WriteLine("No edge given to redirect command");
-                return false;
-            }
-            if(direction == null)
-            {
-                errOut.WriteLine("No direction given to redirect command");
-                return false;
-            }
-            if(node == null)
-            {
-                errOut.WriteLine("No node given to redirect command");
-                return false;
-            }
-
-            try
-            {
-                bool redirectSource = false;
-                if(direction.ToLower() == "source".ToLower()) {
-                    redirectSource = true;
-                } else if (direction.ToLower() == "target".ToLower()) {
-                    redirectSource = false;
-                } else {
-                    errOut.WriteLine("direction must be either \"source\" or \"target\"");
-                    return false;
-                }
-
-                String oldNodeName; 
-                if (redirectSource) {
-                    oldNodeName = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge.Source);
-                    curShellProcEnv.ProcEnv.NamedGraph.RedirectSource(edge, node, oldNodeName);
-                } else {
-                    oldNodeName = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge.Target);
-                    curShellProcEnv.ProcEnv.NamedGraph.RedirectTarget(edge, node, oldNodeName);
-                }
-
-                if(!silence)
-                {
-                    String edgeName = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge);
-                    String directionName = redirectSource ? "source" : "target";
-                    String newNodeName = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node);
-                    debugOut.WriteLine("Edge \"{0}\" \"{1}\" has been redirected from \"{2}\" to \"{3}\".", edgeName, directionName, oldNodeName, newNodeName);
-                }
-            }
-            catch(ArgumentException e)
-            {
-                errOut.WriteLine("Unable to redirect edge: " + e.Message);
-                return false;
-            }
-            return true;
-        }
-
-        public bool ParseFile(String filename)
-        {
-            if(!GraphExists()) return false;
-            if(curShellProcEnv.Parser == null)
-            {
-                errOut.WriteLine("Please use \"select parser <parserAssembly> <mainMethod>\" first!");
-                return false;
-            }
-            try
-            {
-                using(FileStream file = new FileStream(filename, FileMode.Open))
-                {
-                    ASTdapter.ASTdapter astDapter = new ASTdapter.ASTdapter(curShellProcEnv.Parser);
-                    astDapter.Load(file, curShellProcEnv.ProcEnv.NamedGraph);
-                }
-            }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to parse file \"" + filename + "\":\n" + ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-        public bool ParseString(String str)
-        {
-            if(!GraphExists()) return false;
-            if(curShellProcEnv.Parser == null)
-            {
-                errOut.WriteLine("Please use \"select parser <parserAssembly> <mainMethod>\" first!");
-                return false;
-            }
-            try
-            {
-                ASTdapter.ASTdapter astDapter = new ASTdapter.ASTdapter(curShellProcEnv.Parser);
-                astDapter.Load(str, curShellProcEnv.ProcEnv.NamedGraph);
-            }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to parse string \"" + str + "\":\n" + ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-#if DEBUGACTIONS
-        private void ShowSequenceDetails(Sequence seq, PerformanceInfo perfInfo)
-        {
-            switch(seq.OperandClass)
-            {
-                case Sequence.OperandType.Concat:
-                    ShowSequenceDetails(seq.LeftOperand, perfInfo);
-                    ShowSequenceDetails(seq.RightOperand, perfInfo);
-                    break;
-                case Sequence.OperandType.Star:
-                case Sequence.OperandType.Max:
-                    ShowSequenceDetails(seq.LeftOperand, perfInfo);
-                    break;
-                case Sequence.OperandType.Rule:
-                case Sequence.OperandType.RuleAll:
-                    debugOut.WriteLine(" - {0,-18}: Matches = {1,6}  Match = {2,6} ms  Rewrite = {3,6} ms",
-                        ((IAction) seq.Value).Name, seq.GetTotalApplied(),
-                        perfInfo.TimeDiffToMS(seq.GetTotalMatchTime()), perfInfo.TimeDiffToMS(seq.GetTotalRewriteTime()));
-                    break;
-            }
-        }
-#endif
+        #region sequence related and "debug enable/disable" commands
 
         public void ParseAndDefineSequence(String str, Token tok, out bool noError)
         {
@@ -3069,106 +3165,49 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void DebugLayout()
+        private void HandleSequenceParserException(SequenceParserException ex)
         {
-            seqApplierAndDebugger.DebugDoLayout();
-        }
+            IAction action = ex.Action;
+            errOut.WriteLine(ex.Message);
 
-        public void SetDebugLayout(String layout)
-        {
-            if(layout == null || !YCompClient.IsValidLayout(layout))
+            debugOut.Write("Prototype: {0}", ex.Name);
+            if(action == null)
             {
-                if(layout != null)
-                    errOut.WriteLine("\"" + layout + "\" is not a valid layout name!");
-                debugOut.WriteLine("Available layouts:");
-                foreach(String layoutName in YCompClient.AvailableLayouts)
-                    debugOut.WriteLine(" - " + layoutName);
-                debugOut.WriteLine("Current layout: " + debugLayout);
+                debugOut.WriteLine("");
                 return;
             }
 
-            seqApplierAndDebugger.SetDebugLayout(layout);
-
-            debugLayout = layout;
-        }
-
-        public void GetDebugLayoutOptions()
-        {
-            seqApplierAndDebugger.GetDebugLayoutOptions();
-        }
-
-        public void SetDebugLayoutOption(String optionName, String optionValue)
-        {
-            Dictionary<String, String> optMap;
-            if(!debugLayoutOptions.TryGetValue(debugLayout, out optMap))
+            if(action.RulePattern.Inputs.Length != 0)
             {
-                optMap = new Dictionary<String, String>();
-                debugLayoutOptions[debugLayout] = optMap;
+                debugOut.Write("(");
+                bool first = true;
+                foreach(GrGenType type in action.RulePattern.Inputs)
+                {
+                    debugOut.Write("{0}{1}", first ? "" : ", ", type.PackagePrefixedName);
+                    first = false;
+                }
+                debugOut.Write(")");
             }
-
-            // only remember option if no error was reported (no error in case debugger was not started yet, option is then remembered for next startup)
-            if(seqApplierAndDebugger.SetDebugLayoutOption(optionName, optionValue))
+            if(action.RulePattern.Outputs.Length != 0)
             {
-                optMap[optionName] = optionValue;
-                ChangeOrientationIfNecessary(optionName, optionValue);
+                debugOut.Write(" : (");
+                bool first = true;
+                foreach(GrGenType type in action.RulePattern.Outputs)
+                {
+                    debugOut.Write("{0}{1}", first ? "" : ", ", type.PackagePrefixedName);
+                    first = false;
+                }
+                debugOut.Write(")");
             }
-        }
-
-        private void ChangeOrientationIfNecessary(String optionName, string optionValue)
-        {
-            if(optionName.ToLower() != "orientation")
-                return;
-
-            switch(optionValue.ToLower())
-            {
-            case "top_to_bottom":
-                curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientTopToBottom;
-                break;
-            case "bottom_to_top":
-                curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientBottomToTop;
-                break;
-            case "left_to_right":
-                curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientLeftToRight;
-                break;
-            case "right_to_left":
-                curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientRightToLeft;
-                break;
-            default:
-                Debug.Assert(false, "Unknown orientation: " + optionValue);
-                break;
-            }
-        }
-
-        public object Askfor(String typeName)
-        {
-            return seqApplierAndDebugger.Askfor(typeName);
-        }
-
-        private ElementMode? ParseElementMode(String modeName)
-        {
-            ElementMode mode;
-
-            if(modeName == null)
-                goto showavail;
-
-            try
-            {
-                mode = (ElementMode)Enum.Parse(typeof(ElementMode), modeName, true);
-            }
-            catch(ArgumentException)
-            {
-                errOut.Write("Unknown mode: " + modeName);
-                goto showavail;
-            }
-            return mode;
-
-showavail:
-            debugOut.WriteLine("\nAvailable modes are:");
-            foreach(String name in Enum.GetNames(typeof(ElementMode)))
-                debugOut.WriteLine(" - {0}", name);
             debugOut.WriteLine();
-            return null;
         }
+
+        public bool SetDebugMode(bool enable)
+        {
+            return seqApplierAndDebugger.SetDebugMode(enable);
+        }
+
+        #endregion sequence related and "debug enable/disable" commands
 
         #region "dump" commands
 
@@ -3271,7 +3310,237 @@ showavail:
             return null;
         }
 
-		public void DebugOnAdd(string comparison, string message, bool break_)
+        public bool SetDumpLabel(GrGenType type, String label, bool only)
+        {
+            if(type == null) return false;
+
+            if(only)
+                curShellProcEnv.DumpInfo.SetElemTypeLabel(type, label);
+            else
+            {
+                foreach(GrGenType subType in type.SubOrSameTypes)
+                    curShellProcEnv.DumpInfo.SetElemTypeLabel(subType, label);
+            }
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+
+            return true;
+        }
+
+        private bool SetDumpColor(NodeType type, String colorName, bool only, SetNodeDumpColorProc setDumpColorProc)
+        {
+            GrColor? color = ParseGrColor(colorName);
+            if(color == null) return false;
+
+            if(only)
+                setDumpColorProc(type, (GrColor) color);
+            else
+            {
+                foreach(NodeType subType in type.SubOrSameTypes)
+                    setDumpColorProc(subType, (GrColor) color);
+            }
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+
+            return true;
+        }
+
+        private bool SetDumpColor(EdgeType type, String colorName, bool only, SetEdgeDumpColorProc setDumpColorProc)
+        {
+            GrColor? color = ParseGrColor(colorName);
+            if(color == null) return false;
+
+            if(only)
+                setDumpColorProc(type, (GrColor) color);
+            else
+            {
+                foreach(EdgeType subType in type.SubOrSameTypes)
+                    setDumpColorProc(subType, (GrColor) color);
+            }
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+
+            return true;
+        }
+
+        public bool SetDumpNodeTypeColor(NodeType type, String colorName, bool only)
+        {
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeColor);
+        }
+
+        public bool SetDumpNodeTypeBorderColor(NodeType type, String colorName, bool only)
+        {
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeBorderColor);
+        }
+
+        public bool SetDumpNodeTypeTextColor(NodeType type, String colorName, bool only)
+        {
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeTextColor);
+        }
+
+        public bool SetDumpNodeTypeShape(NodeType type, String shapeName, bool only)
+        {
+            if(type == null) return false;
+
+            GrNodeShape? shape = ParseGrNodeShape(shapeName);
+            if(shape == null) return false;
+
+            if(only)
+                curShellProcEnv.DumpInfo.SetNodeTypeShape(type, (GrNodeShape) shape);
+            else
+            {
+                foreach(NodeType subType in type.SubOrSameTypes)
+                    curShellProcEnv.DumpInfo.SetNodeTypeShape(subType, (GrNodeShape) shape);
+            }
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+
+            return true;
+        }
+
+        public bool SetDumpEdgeTypeColor(EdgeType type, String colorName, bool only)
+        {
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetEdgeTypeColor);
+        }
+
+        public bool SetDumpEdgeTypeTextColor(EdgeType type, String colorName, bool only)
+        {
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetEdgeTypeTextColor);
+        }
+
+        public bool SetDumpEdgeTypeThickness(EdgeType type, int thickness, bool only)
+        {
+            if(type == null) return false;
+            if(thickness < 1 || thickness > 5)
+            {
+                errOut.WriteLine("Edge thickness must be in [1..5]");
+                return false;
+            }
+
+            if(only)
+                curShellProcEnv.DumpInfo.SetEdgeTypeThickness(type, thickness);
+            else
+            {
+                foreach(EdgeType subType in type.SubOrSameTypes)
+                    curShellProcEnv.DumpInfo.SetEdgeTypeThickness(subType, thickness);
+            }
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+
+            return true;
+        }
+
+        public bool SetDumpEdgeTypeLineStyle(EdgeType type, String styleName, bool only)
+        {
+            if(type == null) return false;
+            GrLineStyle? style = ParseGrLineStyle(styleName);
+            if(style == null) return false;
+
+            if(only)
+                curShellProcEnv.DumpInfo.SetEdgeTypeLineStyle(type, (GrLineStyle)style);
+            else
+            {
+                foreach(EdgeType subType in type.SubOrSameTypes)
+                    curShellProcEnv.DumpInfo.SetEdgeTypeLineStyle(subType, (GrLineStyle)style);
+            }
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+
+            return true;
+        }
+
+        public bool AddDumpExcludeGraph()
+        {
+            curShellProcEnv.DumpInfo.ExcludeGraph();
+            return true;
+        }
+
+        public bool SetDumpExcludeGraphOption(int contextDepth)
+        {
+            curShellProcEnv.DumpInfo.SetExcludeGraphContextDepth(contextDepth);
+            return true;
+        }
+
+        public bool AddDumpExcludeNodeType(NodeType nodeType, bool only)
+        {
+            if(nodeType == null) return false;
+
+            if(only)
+                curShellProcEnv.DumpInfo.ExcludeNodeType(nodeType);
+            else
+                foreach(NodeType subType in nodeType.SubOrSameTypes)
+                    curShellProcEnv.DumpInfo.ExcludeNodeType(subType);
+
+            return true;
+        }
+
+        public bool AddDumpExcludeEdgeType(EdgeType edgeType, bool only)
+        {
+            if(edgeType == null) return false;
+
+            if(only)
+                curShellProcEnv.DumpInfo.ExcludeEdgeType(edgeType);
+            else
+                foreach(EdgeType subType in edgeType.SubOrSameTypes)
+                    curShellProcEnv.DumpInfo.ExcludeEdgeType(subType);
+
+            return true;
+        }
+
+        public bool AddDumpGroupNodesBy(NodeType nodeType, bool exactNodeType, EdgeType edgeType, bool exactEdgeType,
+                NodeType adjNodeType, bool exactAdjNodeType, GroupMode groupMode)
+        {
+            if(nodeType == null || edgeType == null || adjNodeType == null) return false;
+
+            curShellProcEnv.DumpInfo.AddOrExtendGroupNodeType(nodeType, exactNodeType, edgeType, exactEdgeType,
+                adjNodeType, exactAdjNodeType, groupMode);
+
+            return true;
+        }
+
+        public bool AddDumpInfoTag(GrGenType type, String attrName, bool only, bool isshort)
+        {
+            if(type == null) return false;
+
+            AttributeType attrType = type.GetAttributeType(attrName);
+            if(attrType == null)
+            {
+                errOut.WriteLine("Type \"" + type.PackagePrefixedName + "\" has no attribute \"" + attrName + "\"");
+                return false;
+            }
+
+            InfoTag infoTag = new InfoTag(attrType, isshort);
+            if(only)
+                curShellProcEnv.DumpInfo.AddTypeInfoTag(type, infoTag);
+            else
+                foreach(GrGenType subtype in type.SubOrSameTypes)
+                    curShellProcEnv.DumpInfo.AddTypeInfoTag(subtype, infoTag);
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+
+            return true;
+        }
+
+        public void DumpReset()
+        {
+            if(!GraphExists()) return;
+
+            curShellProcEnv.DumpInfo.Reset();
+            realizers.ReSetElementRealizers();
+
+            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+        }
+
+        #endregion "dump" commands
+
+        #region "debug on" event watching configuration rules
+
+        public void DebugOnAdd(string comparison, string message, bool break_)
         {
             SubruleMesssageMatchingMode mode = ParseComparison(comparison);
             if(mode == SubruleMesssageMatchingMode.Undefined)
@@ -3390,7 +3659,7 @@ showavail:
         {
             if(curShellProcEnv.ProcEnv.Actions.GetAction(actionname) == null)
             {
-                errOut.WriteLine("Action unknown: "+actionname);
+                errOut.WriteLine("Action unknown: " + actionname);
                 return;
             }
             SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
@@ -3559,95 +3828,78 @@ showavail:
             }
         }
 
-        public bool SetDumpLabel(GrGenType type, String label, bool only)
-        {
-            if(type == null) return false;
+        #endregion "debug on" event watching configuration rules
 
-            if(only)
-                curShellProcEnv.DumpInfo.SetElemTypeLabel(type, label);
-            else
+        #region "debug" layout and mode commands
+
+        public void DebugLayout()
+        {
+            seqApplierAndDebugger.DebugDoLayout();
+        }
+
+        public void SetDebugLayout(String layout)
+        {
+            if(layout == null || !YCompClient.IsValidLayout(layout))
             {
-                foreach(GrGenType subType in type.SubOrSameTypes)
-                    curShellProcEnv.DumpInfo.SetElemTypeLabel(subType, label);
+                if(layout != null)
+                    errOut.WriteLine("\"" + layout + "\" is not a valid layout name!");
+                debugOut.WriteLine("Available layouts:");
+                foreach(String layoutName in YCompClient.AvailableLayouts)
+                    debugOut.WriteLine(" - " + layoutName);
+                debugOut.WriteLine("Current layout: " + debugLayout);
+                return;
             }
 
-            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
+            seqApplierAndDebugger.SetDebugLayout(layout);
 
-            return true;
+            debugLayout = layout;
         }
 
-        private bool SetDumpColor(NodeType type, String colorName, bool only, SetNodeDumpColorProc setDumpColorProc)
+        public void GetDebugLayoutOptions()
         {
-            GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
+            seqApplierAndDebugger.GetDebugLayoutOptions();
+        }
 
-            if(only)
-                setDumpColorProc(type, (GrColor) color);
-            else
+        public void SetDebugLayoutOption(String optionName, String optionValue)
+        {
+            Dictionary<String, String> optMap;
+            if(!debugLayoutOptions.TryGetValue(debugLayout, out optMap))
             {
-                foreach(NodeType subType in type.SubOrSameTypes)
-                    setDumpColorProc(subType, (GrColor) color);
+                optMap = new Dictionary<String, String>();
+                debugLayoutOptions[debugLayout] = optMap;
             }
 
-            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
-
-            return true;
-        }
-
-        private bool SetDumpColor(EdgeType type, String colorName, bool only, SetEdgeDumpColorProc setDumpColorProc)
-        {
-            GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
-
-            if(only)
-                setDumpColorProc(type, (GrColor) color);
-            else
+            // only remember option if no error was reported (no error in case debugger was not started yet, option is then remembered for next startup)
+            if(seqApplierAndDebugger.SetDebugLayoutOption(optionName, optionValue))
             {
-                foreach(EdgeType subType in type.SubOrSameTypes)
-                    setDumpColorProc(subType, (GrColor) color);
+                optMap[optionName] = optionValue;
+                ChangeOrientationIfNecessary(optionName, optionValue);
             }
-
-            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
-
-            return true;
         }
 
-        public bool SetDumpNodeTypeColor(NodeType type, String colorName, bool only)
+        private void ChangeOrientationIfNecessary(String optionName, string optionValue)
         {
-            if(type == null) return false;
-            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeColor);
-        }
+            if(optionName.ToLower() != "orientation")
+                return;
 
-        public bool SetDumpNodeTypeBorderColor(NodeType type, String colorName, bool only)
-        {
-            if(type == null) return false;
-            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeBorderColor);
-        }
-
-        public bool SetDumpNodeTypeTextColor(NodeType type, String colorName, bool only)
-        {
-            if(type == null) return false;
-            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeTextColor);
-        }
-
-        public bool SetDumpNodeTypeShape(NodeType type, String shapeName, bool only)
-        {
-            if(type == null) return false;
-
-            GrNodeShape? shape = ParseGrNodeShape(shapeName);
-            if(shape == null) return false;
-
-            if(only)
-                curShellProcEnv.DumpInfo.SetNodeTypeShape(type, (GrNodeShape) shape);
-            else
+            switch(optionValue.ToLower())
             {
-                foreach(NodeType subType in type.SubOrSameTypes)
-                    curShellProcEnv.DumpInfo.SetNodeTypeShape(subType, (GrNodeShape) shape);
+                case "top_to_bottom":
+                    curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientTopToBottom;
+                    break;
+                case "bottom_to_top":
+                    curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientBottomToTop;
+                    break;
+                case "left_to_right":
+                    curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientLeftToRight;
+                    break;
+                case "right_to_left":
+                    curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientRightToLeft;
+                    break;
+                default:
+                    Debug.Assert(false, "Unknown orientation: " + optionValue);
+                    break;
             }
-
-            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
-
-            return true;
         }
 
         public bool SetDebugNodeModeColor(String modeName, String colorName)
@@ -3700,59 +3952,6 @@ showavail:
             if(shape == null) return false;
 
             realizers.ChangeNodeShape((ElementMode)mode, (GrNodeShape)shape);
-
-            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
-
-            return true;
-        }
-
-        public bool SetDumpEdgeTypeColor(EdgeType type, String colorName, bool only)
-        {
-            if(type == null) return false;
-            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetEdgeTypeColor);
-        }
-
-        public bool SetDumpEdgeTypeTextColor(EdgeType type, String colorName, bool only)
-        {
-            if(type == null) return false;
-            return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetEdgeTypeTextColor);
-        }
-
-        public bool SetDumpEdgeTypeThickness(EdgeType type, int thickness, bool only)
-        {
-            if(type == null) return false;
-            if(thickness < 1 || thickness > 5)
-            {
-                errOut.WriteLine("Edge thickness must be in [1..5]");
-                return false;
-            }
-
-            if(only)
-                curShellProcEnv.DumpInfo.SetEdgeTypeThickness(type, thickness);
-            else
-            {
-                foreach(EdgeType subType in type.SubOrSameTypes)
-                    curShellProcEnv.DumpInfo.SetEdgeTypeThickness(subType, thickness);
-            }
-
-            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
-
-            return true;
-        }
-
-        public bool SetDumpEdgeTypeLineStyle(EdgeType type, String styleName, bool only)
-        {
-            if(type == null) return false;
-            GrLineStyle? style = ParseGrLineStyle(styleName);
-            if(style == null) return false;
-
-            if(only)
-                curShellProcEnv.DumpInfo.SetEdgeTypeLineStyle(type, (GrLineStyle)style);
-            else
-            {
-                foreach(EdgeType subType in type.SubOrSameTypes)
-                    curShellProcEnv.DumpInfo.SetEdgeTypeLineStyle(subType, (GrLineStyle)style);
-            }
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
@@ -3818,405 +4017,35 @@ showavail:
             return true;
         }
 
-        public bool AddDumpExcludeGraph()
+        private ElementMode? ParseElementMode(String modeName)
         {
-            curShellProcEnv.DumpInfo.ExcludeGraph();
-            return true;
+            ElementMode mode;
+
+            if(modeName == null)
+                goto showavail;
+
+            try
+            {
+                mode = (ElementMode)Enum.Parse(typeof(ElementMode), modeName, true);
+            }
+            catch(ArgumentException)
+            {
+                errOut.Write("Unknown mode: " + modeName);
+                goto showavail;
+            }
+            return mode;
+
+            showavail:
+            debugOut.WriteLine("\nAvailable modes are:");
+            foreach(String name in Enum.GetNames(typeof(ElementMode)))
+                debugOut.WriteLine(" - {0}", name);
+            debugOut.WriteLine();
+            return null;
         }
 
-        public bool SetDumpExcludeGraphOption(int contextDepth)
-        {
-            curShellProcEnv.DumpInfo.SetExcludeGraphContextDepth(contextDepth);
-            return true;
-        }
+        #endregion "debug" layout and mode commands
 
-        public bool AddDumpExcludeNodeType(NodeType nodeType, bool only)
-        {
-            if(nodeType == null) return false;
-
-            if(only)
-                curShellProcEnv.DumpInfo.ExcludeNodeType(nodeType);
-            else
-                foreach(NodeType subType in nodeType.SubOrSameTypes)
-                    curShellProcEnv.DumpInfo.ExcludeNodeType(subType);
-
-            return true;
-        }
-
-        public bool AddDumpExcludeEdgeType(EdgeType edgeType, bool only)
-        {
-            if(edgeType == null) return false;
-
-            if(only)
-                curShellProcEnv.DumpInfo.ExcludeEdgeType(edgeType);
-            else
-                foreach(EdgeType subType in edgeType.SubOrSameTypes)
-                    curShellProcEnv.DumpInfo.ExcludeEdgeType(subType);
-
-            return true;
-        }
-
-        public bool AddDumpGroupNodesBy(NodeType nodeType, bool exactNodeType, EdgeType edgeType, bool exactEdgeType,
-                NodeType adjNodeType, bool exactAdjNodeType, GroupMode groupMode)
-        {
-            if(nodeType == null || edgeType == null || adjNodeType == null) return false;
-
-            curShellProcEnv.DumpInfo.AddOrExtendGroupNodeType(nodeType, exactNodeType, edgeType, exactEdgeType,
-                adjNodeType, exactAdjNodeType, groupMode);
-
-            return true;
-        }
-
-        public bool AddDumpInfoTag(GrGenType type, String attrName, bool only, bool isshort)
-        {
-            if(type == null) return false;
-
-            AttributeType attrType = type.GetAttributeType(attrName);
-            if(attrType == null)
-            {
-                errOut.WriteLine("Type \"" + type.PackagePrefixedName + "\" has no attribute \"" + attrName + "\"");
-                return false;
-            }
-
-            InfoTag infoTag = new InfoTag(attrType, isshort);
-            if(only)
-                curShellProcEnv.DumpInfo.AddTypeInfoTag(type, infoTag);
-            else
-                foreach(GrGenType subtype in type.SubOrSameTypes)
-                    curShellProcEnv.DumpInfo.AddTypeInfoTag(subtype, infoTag);
-
-            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
-
-            return true;
-        }
-
-        public void DumpReset()
-        {
-            if(!GraphExists()) return;
-
-            curShellProcEnv.DumpInfo.Reset();
-            realizers.ReSetElementRealizers();
-
-            seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
-        }
-
-        #endregion "dump" commands
-
-        #region "container" commands
-
-        private object GetAttribute(IGraphElement elem, String attrName)
-        {
-            if(elem == null) return null;
-            AttributeType attrType = GetElementAttributeType(elem, attrName);
-            if(attrType == null) return null;
-            return elem.GetAttribute(attrName);
-        }
-
-        public void ContainerAdd(IGraphElement elem, String attrName, object keyObj)
-        {
-            object attr = GetAttribute(elem, attrName);
-            if(attr == null)
-                return;
-
-            if(attr is IDictionary)
-            {
-                Type keyType, valueType;
-                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
-                if(dict == null)
-                {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a set.");
-                    return;
-                }
-                if(keyType != keyObj.GetType())
-                {
-                    errOut.WriteLine("Set type must be " + keyType + ", but is " + keyObj.GetType() + ".");
-                    return;
-                }
-                if(valueType != typeof(SetValueType))
-                {
-                    errOut.WriteLine("Not a set.");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
-                dict[keyObj] = null;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else if(attr is IList)
-            {
-                Type valueType;
-                IList array = ContainerHelper.GetListType(attr, out valueType);
-                if(array == null)
-                {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
-                    return;
-                }
-                if(valueType != keyObj.GetType())
-                {
-                    errOut.WriteLine("Array type must be " + valueType + ", but is " + keyObj.GetType() + ".");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
-                array.Add(keyObj);
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else if(attr is IDeque)
-            {
-                Type valueType;
-                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
-                if(deque == null)
-                {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
-                    return;
-                }
-                if(valueType != keyObj.GetType())
-                {
-                    errOut.WriteLine("Deque type must be " + valueType + ", but is " + keyObj.GetType() + ".");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
-                deque.Enqueue(keyObj);
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else
-            {
-                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a deque.");
-            }
-        }
-
-        public void IndexedContainerAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
-        {
-            object attr = GetAttribute(elem, attrName);
-            if(attr == null)
-                return;
-
-            if(attr is IDictionary)
-            {
-                Type keyType, valueType;
-                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
-                if(dict == null)
-                {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a map.");
-                    return;
-                }
-                if(keyType != keyObj.GetType())
-                {
-                    errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
-                    return;
-                }
-                if(valueType != valueObj.GetType())
-                {
-                    errOut.WriteLine("Value type must be " + valueType + ", but is " + valueObj.GetType() + ".");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, valueObj, keyObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, valueObj, keyObj);
-                dict[keyObj] = valueObj;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else if(attr is IList)
-            {
-                Type valueType;
-                IList array = ContainerHelper.GetListType(attr, out valueType);
-                if(array == null)
-                {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
-                    return;
-                }
-                if(valueType != keyObj.GetType())
-                {
-                    errOut.WriteLine("Value type must be " + valueType + ", but is " + keyObj.GetType() + ".");
-                    return;
-                }
-                if(typeof(int) != valueObj.GetType())
-                {
-                    errOut.WriteLine("Index type must be int, but is " + valueObj.GetType() + ".");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
-                array.Insert((int)valueObj, keyObj);
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else if(attr is IDeque)
-            {
-                Type valueType;
-                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
-                if(deque == null)
-                {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
-                    return;
-                }
-                if(valueType != keyObj.GetType())
-                {
-                    errOut.WriteLine("Value type must be " + valueType + ", but is " + keyObj.GetType() + ".");
-                    return;
-                }
-                if(typeof(int) != valueObj.GetType())
-                {
-                    errOut.WriteLine("Index type must be int, but is " + valueObj.GetType() + ".");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
-                deque.EnqueueAt((int)valueObj, keyObj);
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else
-            {
-                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a map nor an array nor a deque.");
-            }
-        }
-
-        public void ContainerRemove(IGraphElement elem, String attrName, object keyObj)
-        {
-            object attr = GetAttribute(elem, attrName);
-            if(attr == null)
-                return;
-
-            if(attr is IDictionary)
-            {
-                Type keyType, valueType;
-                IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
-                if (dict == null) {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a set/map.");
-                    return;
-                }
-                if(keyType != keyObj.GetType()) {
-                    errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                bool isSet = attrType.Kind == AttributeKind.SetAttr; // otherwise map
-                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
-                dict.Remove(keyObj);
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else if(attr is IList)
-            {
-                Type valueType;
-                IList array = ContainerHelper.GetListType(attr, out valueType);
-                if(array == null)
-                {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not an array.");
-                    return;
-                }
-                if(keyObj != null && typeof(int) != keyObj.GetType())
-                {
-                    errOut.WriteLine("Key/Index type must be int, but is " + keyObj.GetType() + ".");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
-                if(keyObj != null)
-                    array.RemoveAt((int)keyObj);
-                else
-                    array.RemoveAt(array.Count - 1);
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else if(attr is IDeque)
-            {
-                Type valueType;
-                IDeque deque = ContainerHelper.GetDequeType(attr, out valueType);
-                if(deque == null)
-                {
-                    errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a deque.");
-                    return;
-                }
-                if(keyObj != null && typeof(int) != keyObj.GetType())
-                {
-                    errOut.WriteLine("Key/Index type must be int, but is " + keyObj.GetType() + ".");
-                    return;
-                }
-
-                AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
-                if(keyObj != null)
-                    deque.DequeueAt((int)keyObj);
-                else
-                    deque.Dequeue();
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
-            else
-            {
-                errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a container.");
-            }
-        }
-
-        #endregion "container" commands
+        #region graph input/output commands (import, export, record, replay, save session)
 
         private String StringToTextToken(String str)
         {
@@ -4575,16 +4404,11 @@ showavail:
             }
         }
 
-/*        private String FormatName(IGraphElement elem)
-        {
-            String name;
-            if(!curShellGraph.IDToName.TryGetValue(elem.ID, out name))
-                return elem.ID.ToString();
-            else
-                return String.Format("\"{0}\" ({1})", name, elem.ID);
-        }*/
+        #endregion graph input/output commands (import, export, record, replay, save session)
 
-        private bool DumpElems<T>(IEnumerable<T> elems, bool first) where T : IGraphElement
+        #region "validate" commands
+
+        private bool PrintValidateCulprits<T>(IEnumerable<T> elems, bool first) where T : IGraphElement
         {
             foreach (IGraphElement elem in elems)
             {
@@ -4677,9 +4501,9 @@ showavail:
                     errOut.Write("  CAE: {0} \"{1}\" [{2}<{3}] -- {4} ", valInfo.SourceType.PackagePrefixedName,
                         curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges,
                         valInfo.SourceLower, valInfo.EdgeType.PackagePrefixedName);
-                    bool first = DumpElems(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), true);
+                    bool first = PrintValidateCulprits(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), true);
                     if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
-                        DumpElems(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), first);
+                        PrintValidateCulprits(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), first);
                         errOut.WriteLine(" -- {0}", valInfo.TargetType.PackagePrefixedName);
                     } else {
                         errOut.WriteLine(" --> {0}", valInfo.TargetType.PackagePrefixedName);
@@ -4692,9 +4516,9 @@ showavail:
                     errOut.Write("  CAE: {0} \"{1}\" [{2}>{3}] -- {4} ", valInfo.SourceType.PackagePrefixedName,
                         curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges,
                         valInfo.SourceUpper, valInfo.EdgeType.PackagePrefixedName);
-                    bool first = DumpElems(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), true);
+                    bool first = PrintValidateCulprits(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), true);
                     if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
-                        DumpElems(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), first);
+                        PrintValidateCulprits(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), first);
                         errOut.WriteLine(" -- {0}", valInfo.TargetType.PackagePrefixedName);
                     } else {
                         errOut.WriteLine(" --> {0}", valInfo.TargetType.PackagePrefixedName);
@@ -4706,9 +4530,9 @@ showavail:
                     INode node = (INode)error.Elem;
                     errOut.Write("  CAE: {0} -- {1} ", valInfo.SourceType.PackagePrefixedName,
                              valInfo.EdgeType.PackagePrefixedName);
-                    bool first = DumpElems(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), true);
+                    bool first = PrintValidateCulprits(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), true);
                     if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
-                        DumpElems(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), first);
+                        PrintValidateCulprits(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), first);
                         errOut.WriteLine(" -- {0} \"{1}\" [{2}<{3}]", valInfo.TargetType.PackagePrefixedName,
                             curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges, valInfo.TargetLower);
                     } else {
@@ -4722,9 +4546,9 @@ showavail:
                     INode node = (INode)error.Elem;
                     errOut.Write("  CAE: {0} -- {1} ", valInfo.SourceType.PackagePrefixedName,
                         valInfo.EdgeType.PackagePrefixedName);
-                    bool first = DumpElems(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), true);
+                    bool first = PrintValidateCulprits(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), true);
                     if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
-                        DumpElems(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), first);
+                        PrintValidateCulprits(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), first);
                         errOut.WriteLine(" -- {0} \"{1}\" [{2}>{3}]", valInfo.TargetType.PackagePrefixedName,
                             curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges, valInfo.TargetUpper);
                     } else {
@@ -4767,27 +4591,81 @@ showavail:
             return valid;
         }
 
-        public void NodeTypeIsA(INode node1, INode node2)
+        #endregion "validate" commands
+
+        #region "select" commands
+
+        public bool SelectBackend(String assemblyName, ArrayList parameters)
         {
-            if(node1 == null || node2 == null) return;
+            // replace wrong directory separator chars by the right ones
+            if(Path.DirectorySeparatorChar != '\\')
+                assemblyName = assemblyName.Replace('\\', Path.DirectorySeparatorChar);
 
-            NodeType type1 = node1.Type;
-            NodeType type2 = node2.Type;
-
-            debugOut.WriteLine("{0} type {1} is a node: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
-                type1.IsA(type2) ? "yes" : "no");
+            try
+            {
+                Assembly assembly = Assembly.LoadFrom(assemblyName);
+                Type backendType = null;
+                foreach(Type type in assembly.GetTypes())
+                {
+                    if(!type.IsClass || type.IsNotPublic) continue;
+                    if(type.GetInterface("IBackend") != null)
+                    {
+                        if(backendType != null)
+                        {
+                            errOut.WriteLine("The given backend contains more than one IBackend implementation!");
+                            return false;
+                        }
+                        backendType = type;
+                    }
+                }
+                if(backendType == null)
+                {
+                    errOut.WriteLine("The given backend doesn't contain an IBackend implementation!");
+                    return false;
+                }
+                curGraphBackend = (IBackend)Activator.CreateInstance(backendType);
+                backendFilename = assemblyName;
+                backendParameters = (String[])parameters.ToArray(typeof(String));
+                debugOut.WriteLine("Backend selected successfully.");
+            }
+            catch(Exception ex)
+            {
+                errOut.WriteLine("Unable to load backend: {0}", ex.Message);
+                return false;
+            }
+            return true;
         }
 
-        public void EdgeTypeIsA(IEdge edge1, IEdge edge2)
+        public void SelectGraphProcEnv(ShellGraphProcessingEnvironment shellGraphProcEnv)
         {
-            if(edge1 == null || edge2 == null) return;
-
-            EdgeType type1 = edge1.Type;
-            EdgeType type2 = edge2.Type;
-
-            debugOut.WriteLine("{0} type {1} is an edge: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
-                type1.IsA(type2) ? "yes" : "no");
+            curShellProcEnv = shellGraphProcEnv ?? curShellProcEnv;
         }
+
+        public bool SelectActions(String actionFilename)
+        {
+            if(!GraphExists()) return false;
+
+            // replace wrong directory separator chars by the right ones
+            if(Path.DirectorySeparatorChar != '\\')
+                actionFilename = actionFilename.Replace('\\', Path.DirectorySeparatorChar);
+
+            try
+            {
+                curShellProcEnv.ProcEnv.Actions = LGSPActions.LoadActions(actionFilename, (LGSPGraph)curShellProcEnv.ProcEnv.NamedGraph);
+                curShellProcEnv.ActionsFilename = actionFilename;
+                ((LGSPGraphProcessingEnvironment)curShellProcEnv.ProcEnv).Initialize((LGSPGraph)curShellProcEnv.ProcEnv.NamedGraph, (LGSPActions)curShellProcEnv.ProcEnv.Actions);
+            }
+            catch(Exception ex)
+            {
+                errOut.WriteLine("Unable to load the actions from \"{0}\":\n{1}", actionFilename, ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        #endregion "select" commands
+
+        #region "custom" commands
 
         public void CustomGraph(List<String> parameterList)
         {
@@ -4819,10 +4697,182 @@ showavail:
             }
         }
 
-        private bool Evaluate(SequenceExpression if_)
+        #endregion "custom" commands
+
+        #region shell and environment configuration
+
+        public bool Silence
         {
-            object res = if_.Evaluate(curShellProcEnv.ProcEnv);
-            return (bool)res;
+            set
+            {
+                silence = value;
+                if(silence) errOut.WriteLine("Disabled \"new node/edge created successfully\"-messages");
+                else errOut.WriteLine("Enabled \"new node/edge created successfully\"-messages");
+            }
         }
+
+        public bool SilenceExec
+        {
+            set
+            {
+                seqApplierAndDebugger.SilenceExec = value;
+            }
+        }
+
+        public void SetRandomSeed(int seed)
+        {
+            Sequence.randomGenerator = new Random(seed);
+        }
+
+        public bool RedirectEmit(String filename)
+        {
+            if(!GraphExists()) return false;
+
+            if(curShellProcEnv.ProcEnv.EmitWriter != Console.Out)
+                curShellProcEnv.ProcEnv.EmitWriter.Close();
+            if(filename == "-")
+                curShellProcEnv.ProcEnv.EmitWriter = Console.Out;
+            else
+            {
+                try
+                {
+                    curShellProcEnv.ProcEnv.EmitWriter = new StreamWriter(filename);
+                }
+                catch(Exception ex)
+                {
+                    errOut.WriteLine("Unable to redirect emit to file \"" + filename + "\":\n" + ex.Message);
+                    curShellProcEnv.ProcEnv.EmitWriter = Console.Out;
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        #endregion shell and environment configuration
+
+        #region compiler configuration new graph options
+
+        public bool NewGraphAddReference(String externalAssemblyReference)
+        {
+            if(!newGraphOptions.ExternalAssembliesReferenced.Contains(externalAssemblyReference))
+                newGraphOptions.ExternalAssembliesReferenced.Add(externalAssemblyReference);
+            return true;
+        }
+
+        public bool NewGraphSetKeepDebug(bool on)
+        {
+            newGraphOptions.KeepDebug = on;
+            return true;
+        }
+
+        public bool NewGraphSetStatistics(String filepath)
+        {
+            if(!File.Exists(filepath))
+            {
+                errOut.WriteLine("Can't find statistics file {0}!", filepath);
+                return false;
+            }
+            newGraphOptions.Statistics = filepath;
+            return true;
+        }
+
+        public bool NewGraphSetLazyNIC(bool on)
+        {
+            newGraphOptions.LazyNIC = on;
+            return true;
+        }
+
+        public bool NewGraphSetNoinline(bool on)
+        {
+            newGraphOptions.Noinline = on;
+            return true;
+        }
+
+        public bool NewGraphSetProfile(bool on)
+        {
+            newGraphOptions.Profile = on;
+            return true;
+        }
+
+        private bool GetEmitProfiling()
+        {
+            return newGraphOptions.Profile;
+        }
+
+        #endregion compiler configuration new graph options
+
+        #region astdapter parser related
+
+        public void SyncIO()
+        {
+            Infrastructure.Flush(curShellProcEnv.ProcEnv.NamedGraph);
+        }
+
+        public bool SelectParser(String parserAssemblyName, String mainMethodName)
+        {
+            if(!GraphExists()) return false;
+
+            // replace wrong directory separator chars by the right ones
+            if(Path.DirectorySeparatorChar != '\\')
+                parserAssemblyName = parserAssemblyName.Replace('\\', Path.DirectorySeparatorChar);
+
+            try
+            {
+                curShellProcEnv.Parser = new ParserPackage(parserAssemblyName, mainMethodName);
+            }
+            catch(Exception ex)
+            {
+                errOut.WriteLine("Unable to load parser from \"" + parserAssemblyName + "\":\n" + ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public bool ParseFile(String filename)
+        {
+            if(!GraphExists()) return false;
+            if(curShellProcEnv.Parser == null)
+            {
+                errOut.WriteLine("Please use \"select parser <parserAssembly> <mainMethod>\" first!");
+                return false;
+            }
+            try
+            {
+                using(FileStream file = new FileStream(filename, FileMode.Open))
+                {
+                    ASTdapter.ASTdapter astDapter = new ASTdapter.ASTdapter(curShellProcEnv.Parser);
+                    astDapter.Load(file, curShellProcEnv.ProcEnv.NamedGraph);
+                }
+            }
+            catch(Exception ex)
+            {
+                errOut.WriteLine("Unable to parse file \"" + filename + "\":\n" + ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public bool ParseString(String str)
+        {
+            if(!GraphExists()) return false;
+            if(curShellProcEnv.Parser == null)
+            {
+                errOut.WriteLine("Please use \"select parser <parserAssembly> <mainMethod>\" first!");
+                return false;
+            }
+            try
+            {
+                ASTdapter.ASTdapter astDapter = new ASTdapter.ASTdapter(curShellProcEnv.Parser);
+                astDapter.Load(str, curShellProcEnv.ProcEnv.NamedGraph);
+            }
+            catch(Exception ex)
+            {
+                errOut.WriteLine("Unable to parse string \"" + str + "\":\n" + ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        #endregion astdapter parser related
     }
 }
