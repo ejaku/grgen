@@ -103,49 +103,136 @@ namespace de.unika.ipd.grGen.grShell
         public bool Profile = false; // set to true to test profiling
     }
 
-    public class GrShellImpl
+    public interface IGrShellImplForDriver
     {
-        public static readonly String VersionString = "GrShell v4.5.5";
+        void QuitDebugMode();
+        bool Evaluate(SequenceExpression seqExpr);
+        void Cleanup();
+        bool nonDebugNonGuiExitOnError { set; }
+        TextWriter debugOut { get; }
+        TextWriter errOut { get; }
+    }
 
-        IBackend curGraphBackend = new LGSPBackend();
-        String backendFilename = null;
-        String[] backendParameters = null;
+    public interface IGrShellImplForSequenceApplierAndDebugger
+    {
+        bool ActionsExists();
+        GrShellImpl GetGrShellImpl();
+        ShellGraphProcessingEnvironment curShellProcEnv { get; }
+        IWorkaround Workaround { get; }
+        TextWriter debugOut { get; }
+        TextWriter errOut { get; }
+        NewGraphOptions newGraphOptions { get; }
+        bool nonDebugNonGuiExitOnError { get; }
+        String debugLayout { get; }
+        Dictionary<String, Dictionary<String, String>> debugLayoutOptions { get; }
+    }
 
-        List<ShellGraphProcessingEnvironment> shellProcEnvs = new List<ShellGraphProcessingEnvironment>();
-        public ShellGraphProcessingEnvironment curShellProcEnv = null; // one of the shellProcEnvs
+    public interface IGrShellImplForDebugger
+    {
+        bool OperationCancelled { get; }
+        void Cancel();
+        object Askfor(String typeName);
+        GrGenType GetGraphElementType(String typeName);
+        void HandleSequenceParserException(SequenceParserException ex);
+        string ShowGraphWith(String programName, String arguments, bool keep);
+        IGraphElement GetElemByName(String elemName);
+        IWorkaround Workaround { get; }
+        ShellGraphProcessingEnvironment CurrentShellProcEnv { get; }
+        ElementRealizers realizers { get; }
+    }
 
-        bool silence = false; // node/edge created successfully messages
+    /// <summary>
+    /// Implementation class containing application logic for generated GrShell parser class.
+    /// Public methods are called by the GrShell command line parser (which is called by the GrShellDriver),
+    /// other classes access this shell main-functionality class via dedicated/limited interfaces/views.
+    /// </summary>
+    public class GrShellImpl : IGrShellImplForDriver, IGrShellImplForSequenceApplierAndDebugger, IGrShellImplForDebugger
+    {
+        // view on GrShellImpl from GrShellDriver
+        void IGrShellImplForDriver.QuitDebugMode() { QuitDebugMode(); }
+        bool IGrShellImplForDriver.Evaluate(SequenceExpression if_) { return Evaluate(if_); }
+        void IGrShellImplForDriver.Cleanup() { Cleanup(); }
+        bool IGrShellImplForDriver.nonDebugNonGuiExitOnError { set { nonDebugNonGuiExitOnError = value; } }
+        TextWriter IGrShellImplForDriver.debugOut { get { return debugOut; } }
+        TextWriter IGrShellImplForDriver.errOut { get { return errOut; } }
 
-        public ElementRealizers realizers = new ElementRealizers();
+        // view on GrShellImpl from GrShellSequenceApplierAndDebugger
+        bool IGrShellImplForSequenceApplierAndDebugger.ActionsExists() { return ActionsExists(); }
+        GrShellImpl IGrShellImplForSequenceApplierAndDebugger.GetGrShellImpl() { return this; }
+        ShellGraphProcessingEnvironment IGrShellImplForSequenceApplierAndDebugger.curShellProcEnv { get { return curShellProcEnv; } }
+        IWorkaround IGrShellImplForSequenceApplierAndDebugger.Workaround { get { return workaround; } }
+        TextWriter IGrShellImplForSequenceApplierAndDebugger.debugOut { get { return debugOut; } }
+        TextWriter IGrShellImplForSequenceApplierAndDebugger.errOut { get { return errOut; } }
+        NewGraphOptions IGrShellImplForSequenceApplierAndDebugger.newGraphOptions { get { return newGraphOptions; } }
+        bool IGrShellImplForSequenceApplierAndDebugger.nonDebugNonGuiExitOnError { get { return nonDebugNonGuiExitOnError; } }
+        String IGrShellImplForSequenceApplierAndDebugger.debugLayout { get { return debugLayout; } }
+        Dictionary<String, Dictionary<String, String>> IGrShellImplForSequenceApplierAndDebugger.debugLayoutOptions { get { return debugLayoutOptions; } }
 
-        public String debugLayout = "Orthogonal";
-        public bool nonDebugNonGuiExitOnError = false;
-        public TextWriter debugOut = System.Console.Out;
-        public TextWriter errOut = System.Console.Error;
+        // view on GrShellImpl from Debugger
+        bool IGrShellImplForDebugger.OperationCancelled { get { return seqApplierAndDebugger.OperationCancelled; } }
+        void IGrShellImplForDebugger.Cancel() { seqApplierAndDebugger.Cancel(); }
+        object IGrShellImplForDebugger.Askfor(String typeName) { return Askfor(typeName); }
+        GrGenType IGrShellImplForDebugger.GetGraphElementType(String typeName) { return GetGraphElementType(typeName); }
+        void IGrShellImplForDebugger.HandleSequenceParserException(SequenceParserException ex) { HandleSequenceParserException(ex); }
+        string IGrShellImplForDebugger.ShowGraphWith(String programName, String arguments, bool keep) { return ShowGraphWith(programName, arguments, keep); }
+        IWorkaround IGrShellImplForDebugger.Workaround { get { return workaround; } }
+        ShellGraphProcessingEnvironment IGrShellImplForDebugger.CurrentShellProcEnv { get { return curShellProcEnv; } }
+        ElementRealizers IGrShellImplForDebugger.realizers { get { return realizers; } }
 
-        public NewGraphOptions newGraphOptions = new NewGraphOptions();
+        internal class ShowGraphParam
+        {
+            public readonly String ProgramName;
+            public readonly String Arguments;
+            public readonly String GraphFilename;
+            public readonly bool KeepFile;
+
+            public ShowGraphParam(String programName, String arguments, String graphFilename, bool keepFile)
+            {
+                ProgramName = programName;
+                Arguments = arguments;
+                GraphFilename = graphFilename;
+                KeepFile = keepFile;
+            }
+        }
+
+        delegate void SetNodeDumpColorProc(NodeType type, GrColor color);
+        delegate void SetEdgeDumpColorProc(EdgeType type, GrColor color);
+
+        private IBackend curGraphBackend = new LGSPBackend();
+        private String backendFilename = null;
+        private String[] backendParameters = null;
+
+        private List<ShellGraphProcessingEnvironment> shellProcEnvs = new List<ShellGraphProcessingEnvironment>();
+        private ShellGraphProcessingEnvironment curShellProcEnv = null; // one of the shellProcEnvs
+
+        private bool silence = false; // node/edge created successfully messages
+
+        private ElementRealizers realizers = new ElementRealizers();
+
+        private String debugLayout = "Orthogonal";
+        private bool nonDebugNonGuiExitOnError = false;
+        private TextWriter debugOut = System.Console.Out;
+        private TextWriter errOut = System.Console.Error;
+
+        static private string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
+
+        private NewGraphOptions newGraphOptions = new NewGraphOptions();
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
         /// This only reflects the settings made by the user and may even contain illegal entries,
         /// if the options were set before yComp was attached.
         /// </summary>
-        public Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
+        private Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
 
-        public IWorkaround workaround = WorkaroundManager.Workaround;
+        private IWorkaround workaround = WorkaroundManager.Workaround;
 
-        public GrShellSequenceApplierAndDebugger seqApplierAndDebugger;
+        private GrShellSequenceApplierAndDebugger seqApplierAndDebugger;
+
 
         public GrShellImpl()
         {
-            seqApplierAndDebugger = new GrShellSequenceApplierAndDebugger(this, debugOut, errOut);
-        }
-
-        public IWorkaround Workaround { get { return workaround; } }
-
-        public static void PrintVersion()
-        {
-            Console.WriteLine(VersionString + " (enter \"help\" for a list of commands)");
+            seqApplierAndDebugger = new GrShellSequenceApplierAndDebugger(this);
         }
 
         private bool BackendExists()
@@ -168,7 +255,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public bool ActionsExists()
+        private bool ActionsExists()
         {
             if(curShellProcEnv == null || curShellProcEnv.ProcEnv.Actions == null)
             {
@@ -177,8 +264,6 @@ namespace de.unika.ipd.grGen.grShell
             }
             return true;
         }
-
-        public ShellGraphProcessingEnvironment CurrentShellProcEnv { get { return curShellProcEnv; } }
 
         public INamedGraph CurrentGraph
         {
@@ -200,10 +285,6 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool Silence
         {
-            get
-            {
-                return silence;
-            }
             set
             {
                 silence = value;
@@ -240,12 +321,6 @@ namespace de.unika.ipd.grGen.grShell
                 return null;
             }
             return (IGraphElement) elem;
-        }
-
-        public IGraphElement GetElemByVarOrNull(String varName)
-        {
-            if(!GraphExists()) return null;
-            return curShellProcEnv.ProcEnv.GetVariableValue(varName) as IGraphElement;
         }
 
         public IGraphElement GetElemByName(String elemName)
@@ -363,17 +438,12 @@ namespace de.unika.ipd.grGen.grShell
             return shellProcEnvs[index];
         }
 
-        public IGraphProcessingEnvironment GetProcEnv()
-        {
-            return curShellProcEnv.ProcEnv;
-        }
-
         public int NumGraphs
         {
             get { return this.shellProcEnvs.Count; }
         }
 
-        public void HandleSequenceParserException(SequenceParserException ex)
+        private void HandleSequenceParserException(SequenceParserException ex)
         {
             IAction action = ex.Action;
             errOut.WriteLine(ex.Message);
@@ -408,50 +478,6 @@ namespace de.unika.ipd.grGen.grShell
                 debugOut.Write(")");
             }
             debugOut.WriteLine();
-        }
-
-        public IAction GetAction(String actionName, int numParams, int numReturns, bool retSpecified)
-        {
-            if(!ActionsExists()) return null;
-            IAction action = curShellProcEnv.ProcEnv.Actions.GetAction(actionName);
-            if(action == null)
-            {
-                debugOut.WriteLine("Unknown action: \"{0}\"", actionName);
-                return null;
-            }
-            if(action.RulePattern.Inputs.Length != numParams || action.RulePattern.Outputs.Length != numReturns && retSpecified)
-            {
-                if(action.RulePattern.Inputs.Length != numParams && action.RulePattern.Outputs.Length != numReturns)
-                    debugOut.WriteLine("Wrong number of parameters and return values for action \"{0}\"!", actionName);
-                else if(action.RulePattern.Inputs.Length != numParams)
-                    debugOut.WriteLine("Wrong number of parameters for action \"{0}\"!", actionName);
-                else
-                    debugOut.WriteLine("Wrong number of return values for action \"{0}\"!", actionName);
-                debugOut.Write("Prototype: {0}", actionName);
-                if(action.RulePattern.Inputs.Length != 0)
-                {
-                    debugOut.Write("(");
-                    bool first = true;
-                    foreach(GrGenType type in action.RulePattern.Inputs)
-                    {
-                        debugOut.Write("{0}{1}", first ? "" : ",", type.PackagePrefixedName);
-                    }
-                    debugOut.Write(")");
-                }
-                if(action.RulePattern.Outputs.Length != 0)
-                {
-                    debugOut.Write(" : (");
-                    bool first = true;
-                    foreach(GrGenType type in action.RulePattern.Outputs)
-                    {
-                        debugOut.Write("{0}{1}", first ? "" : ",", type.PackagePrefixedName);
-                    }
-                    debugOut.Write(")");
-                }
-                debugOut.WriteLine();
-                return null;
-            }
-            return action;
         }
 
         #region Help text methods
@@ -972,7 +998,7 @@ namespace de.unika.ipd.grGen.grShell
                 DirectoryInfo[] nestedDirectories = dir.GetDirectories();
                 foreach(DirectoryInfo nestedDirectory in nestedDirectories)
                 {
-                    Workaround.PrintHighlighted(nestedDirectory.Name, HighlightingMode.Directory);
+                    workaround.PrintHighlighted(nestedDirectory.Name, HighlightingMode.Directory);
                     debugOut.Write(" ");
                 }
                 debugOut.WriteLine();
@@ -980,17 +1006,17 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(FileInfo file in filesInDirectory)
                 {
                     if(file.Name.EndsWith(".grs"))
-                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GrsFile);
+                        workaround.PrintHighlighted(file.Name, HighlightingMode.GrsFile);
                     else if(file.Name.EndsWith(".grsi"))
-                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GrsiFile);
+                        workaround.PrintHighlighted(file.Name, HighlightingMode.GrsiFile);
                     else if(file.Name.EndsWith(".grg"))
-                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GrgFile);
+                        workaround.PrintHighlighted(file.Name, HighlightingMode.GrgFile);
                     else if(file.Name.EndsWith(".gri"))
-                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GriFile);
+                        workaround.PrintHighlighted(file.Name, HighlightingMode.GriFile);
                     else if(file.Name.EndsWith(".gm"))
-                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GmFile);
+                        workaround.PrintHighlighted(file.Name, HighlightingMode.GmFile);
                     else
-                        Workaround.PrintHighlighted(file.Name, HighlightingMode.None);
+                        workaround.PrintHighlighted(file.Name, HighlightingMode.None);
                     debugOut.Write(" ");
                 }
                 debugOut.WriteLine();
@@ -1017,12 +1043,12 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public void QuitDebugMode()
+        private void QuitDebugMode()
         {
             seqApplierAndDebugger.QuitDebugModeAsNeeded();
         }
 
-        public void Cleanup()
+        private void Cleanup()
         {
             foreach(ShellGraphProcessingEnvironment shellProcEnv in shellProcEnvs)
             {
@@ -1037,6 +1063,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         #region Model operations
+
         public bool SelectBackend(String assemblyName, ArrayList parameters)
         {
             // replace wrong directory separator chars by the right ones
@@ -1120,7 +1147,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public bool GetEmitProfiling()
+        private bool GetEmitProfiling()
         {
             return newGraphOptions.Profile;
         }
@@ -1346,9 +1373,11 @@ namespace de.unika.ipd.grGen.grShell
             }
             return true;
         }
+
         #endregion Model operations
 
         #region "new" graph element commands
+
         public INode NewNode(ElementDef elemDef)
         {
             if(!GraphExists()) return null;
@@ -1670,7 +1699,7 @@ namespace de.unika.ipd.grGen.grShell
             return value;
         }
 
-        internal String RemoveTypeSuffix(String value)
+        public String RemoveTypeSuffix(String value)
         {
             if (value.EndsWith("y") || value.EndsWith("Y")
                 || value.EndsWith("s") || value.EndsWith("S")
@@ -1908,9 +1937,11 @@ namespace de.unika.ipd.grGen.grShell
             }
             return true;
         }
+
         #endregion "new" graph element commands
 
         #region "remove" / "destroy" / "retype" commands
+
         public bool Remove(INode node)
         {
             if(node == null) return false;
@@ -2046,9 +2077,11 @@ namespace de.unika.ipd.grGen.grShell
 
             return true;
         }
+
         #endregion "remove" / "destroy" / "retype" commands
 
         #region "show" commands
+
         private bool ShowElements<T>(IEnumerable<T> elements) where T : IGraphElement
         {
             if(!elements.GetEnumerator().MoveNext()) return false;
@@ -2183,22 +2216,6 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        internal class ShowGraphParam
-        {
-            public readonly String ProgramName;
-            public readonly String Arguments;
-            public readonly String GraphFilename;
-            public readonly bool KeepFile;
-
-            public ShowGraphParam(String programName, String arguments, String graphFilename, bool keepFile)
-            {
-                ProgramName = programName;
-                Arguments = arguments;
-                GraphFilename = graphFilename;
-                KeepFile = keepFile;
-            }
-        }
-
         /// <summary>
         /// Executes the specified viewer and deletes the dump file after the viewer has exited
         /// </summary>
@@ -2239,7 +2256,6 @@ namespace de.unika.ipd.grGen.grShell
             return filename;
         }
 
-        static private string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
         private bool IsDotExecutable(String programName)
         {
             foreach(String dotExecutable in dotExecutables)
@@ -2273,7 +2289,7 @@ namespace de.unika.ipd.grGen.grShell
             return filename;
         }
 
-        public string ShowGraphWithDot(String programName, String arguments, bool keep)
+        private string ShowGraphWithDot(String programName, String arguments, bool keep)
         {
             String filename = GetUniqueFilename("tmpgraph", "dot");
 
@@ -2535,7 +2551,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public AttributeType GetElementAttributeType(IGraphElement elem, String attributeName)
+        private AttributeType GetElementAttributeType(IGraphElement elem, String attributeName)
         {
             AttributeType attrType = elem.Type.GetAttributeType(attributeName);
             if(attrType == null)
@@ -2939,7 +2955,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void DefineRewriteSequence(ISequenceDefinition seqDef)
+        private void DefineRewriteSequence(ISequenceDefinition seqDef)
         {
             bool overwritten = ((BaseActions)CurrentActions).RegisterGraphRewriteSequenceDefinition((SequenceDefinition)seqDef);
             if(overwritten)
@@ -3098,7 +3114,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void ChangeOrientationIfNecessary(String optionName, string optionValue)
+        private void ChangeOrientationIfNecessary(String optionName, string optionValue)
         {
             if(optionName.ToLower() != "orientation")
                 return;
@@ -3154,8 +3170,8 @@ showavail:
             return null;
         }
 
-
         #region "dump" commands
+
         public void DumpGraph(String filename)
         {
             if(!GraphExists()) return;
@@ -3372,14 +3388,14 @@ showavail:
 
         public void DebugOnMatch(string actionname, bool break_, SequenceExpression if_)
         {
-            if(GetProcEnv().Actions.GetAction(actionname) == null)
+            if(curShellProcEnv.ProcEnv.Actions.GetAction(actionname) == null)
             {
                 errOut.WriteLine("Action unknown: "+actionname);
                 return;
             }
             SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
                 SubruleDebuggingEvent.Match,
-                GetProcEnv().Actions.GetAction(actionname),
+                curShellProcEnv.ProcEnv.Actions.GetAction(actionname),
                 break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
                 if_
                 );
@@ -3560,8 +3576,6 @@ showavail:
             return true;
         }
 
-        delegate void SetNodeDumpColorProc(NodeType type, GrColor color);
-
         private bool SetDumpColor(NodeType type, String colorName, bool only, SetNodeDumpColorProc setDumpColorProc)
         {
             GrColor? color = ParseGrColor(colorName);
@@ -3579,8 +3593,6 @@ showavail:
 
             return true;
         }
-
-        delegate void SetEdgeDumpColorProc(EdgeType type, GrColor color);
 
         private bool SetDumpColor(EdgeType type, String colorName, bool only, SetEdgeDumpColorProc setDumpColorProc)
         {
@@ -3887,11 +3899,12 @@ showavail:
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
         }
+
         #endregion "dump" commands
 
         #region "container" commands
 
-        public object GetAttribute(IGraphElement elem, String attrName)
+        private object GetAttribute(IGraphElement elem, String attrName)
         {
             if(elem == null) return null;
             AttributeType attrType = GetElementAttributeType(elem, attrName);
@@ -4643,7 +4656,7 @@ showavail:
             return valid;
         }
 
-        public void PrintValidateError(ConnectionAssertionError error)
+        private void PrintValidateError(ConnectionAssertionError error)
         {
             ValidateInfo valInfo = error.ValidateInfo;
             switch (error.CAEType)
@@ -4723,7 +4736,7 @@ showavail:
             }
         }
 
-        IEnumerable<IEdge> OutgoingEdgeToNodeOfType(INode node, EdgeType edgeType, NodeType targetNodeType)
+        private IEnumerable<IEdge> OutgoingEdgeToNodeOfType(INode node, EdgeType edgeType, NodeType targetNodeType)
         {
             foreach (IEdge outEdge in node.GetExactOutgoing(edgeType))
             {
@@ -4732,7 +4745,7 @@ showavail:
             }
         }
 
-        IEnumerable<IEdge> IncomingEdgeFromNodeOfType(INode node, EdgeType edgeType, NodeType sourceNodeType)
+        private IEnumerable<IEdge> IncomingEdgeFromNodeOfType(INode node, EdgeType edgeType, NodeType sourceNodeType)
         {
             foreach (IEdge inEdge in node.GetExactIncoming(edgeType))
             {
@@ -4741,7 +4754,7 @@ showavail:
             }
         }
 
-        public bool ValidateWithSequence(Sequence seq)
+        private bool ValidateWithSequence(Sequence seq)
         {
             if(!GraphExists()) return false;
             if(!ActionsExists()) return false;
@@ -4806,7 +4819,7 @@ showavail:
             }
         }
 
-        public bool Evaluate(SequenceExpression if_)
+        private bool Evaluate(SequenceExpression if_)
         {
             object res = if_.Evaluate(curShellProcEnv.ProcEnv);
             return (bool)res;

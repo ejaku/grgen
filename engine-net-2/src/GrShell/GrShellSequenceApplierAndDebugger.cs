@@ -48,6 +48,9 @@ namespace de.unika.ipd.grGen.grShell
         IActionExecutionEnvironment actionEnv;
     }
 
+    /// <summary>
+    /// GrShellImpl part that controls applying the sequences and the debugger.
+    /// </summary>
     public class GrShellSequenceApplierAndDebugger
     {
         private bool silenceExec = false; // print match statistics during sequence execution on timer
@@ -56,22 +59,18 @@ namespace de.unika.ipd.grGen.grShell
         private Debugger debugger = null;
 
         private bool pendingDebugEnable = false;
-        private TextWriter debugOut;
-        private TextWriter errOut;
         private IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
 
         private Sequence curGRS;
         private SequenceRuleCall curRule;
 
-        private GrShellImpl impl;
+        private IGrShellImplForSequenceApplierAndDebugger impl;
 
-        public GrShellSequenceApplierAndDebugger(GrShellImpl impl, TextWriter debugOut, TextWriter errOut)
+        public GrShellSequenceApplierAndDebugger(IGrShellImplForSequenceApplierAndDebugger impl)
         {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
 
             this.impl = impl;
-            this.debugOut = debugOut;
-            this.errOut = errOut;
         }
 
         public bool OperationCancelled
@@ -124,7 +123,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!CheckDebuggerAlive())
             {
-                debugOut.WriteLine("YComp is not active, yet!");
+                impl.debugOut.WriteLine("YComp is not active, yet!");
                 return;
             }
 
@@ -141,7 +140,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!CheckDebuggerAlive())
             {
-                errOut.WriteLine("Layout options can only be read, when YComp is active!");
+                impl.errOut.WriteLine("Layout options can only be read, when YComp is active!");
                 return;
             }
 
@@ -168,9 +167,9 @@ namespace de.unika.ipd.grGen.grShell
             {
                 silenceExec = value;
                 if(silenceExec)
-                    errOut.WriteLine("Disabled printing match statistics during non-debug sequence execution every second");
+                    impl.errOut.WriteLine("Disabled printing match statistics during non-debug sequence execution every second");
                 else
-                    errOut.WriteLine("Enabled printing match statistics during non-debug sequence execution every second");
+                    impl.errOut.WriteLine("Enabled printing match statistics during non-debug sequence execution every second");
             }
         }
 
@@ -211,9 +210,9 @@ namespace de.unika.ipd.grGen.grShell
             curGRS = seq;
             curRule = null;
 
-            debugOut.WriteLine("Executing Graph Rewrite Sequence (CTRL+C for abort) ...");
+            impl.debugOut.WriteLine("Executing Graph Rewrite Sequence (CTRL+C for abort) ...");
             cancelSequence = false;
-            impl.workaround.PreventComputerGoingIntoSleepMode(true);
+            impl.Workaround.PreventComputerGoingIntoSleepMode(true);
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
             StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
             Timer timer = null;
@@ -226,20 +225,20 @@ namespace de.unika.ipd.grGen.grShell
                     timer.Dispose();
 
                 seq.ResetExecutionState();
-                debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:",
+                impl.debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:",
                     (impl.curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture), result);
                 if(impl.newGraphOptions.Profile)
-                    debugOut.WriteLine(" - {0} search steps executed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
+                    impl.debugOut.WriteLine(" - {0} search steps executed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
-                debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
-                debugOut.WriteLine(" - {0} rewrites performed in {1} ms", perfInfo.RewritesPerformed, perfInfo.TotalRewriteTimeMS);
+                impl.debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
+                impl.debugOut.WriteLine(" - {0} rewrites performed in {1} ms", perfInfo.RewritesPerformed, perfInfo.TotalRewriteTimeMS);
 #if DEBUGACTIONS
-                debugOut.WriteLine("\nDetails:");
+                impl.debugOut.WriteLine("\nDetails:");
                 ShowSequenceDetails(seq, perfInfo);
 #endif
 #else
-                debugOut.WriteLine(" - {0} matches found", impl.curShellProcEnv.ProcEnv.PerformanceInfo.MatchesFound);
-                debugOut.WriteLine(" - {0} rewrites performed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.RewritesPerformed);
+                impl.debugOut.WriteLine(" - {0} matches found", impl.curShellProcEnv.ProcEnv.PerformanceInfo.MatchesFound);
+                impl.debugOut.WriteLine(" - {0} rewrites performed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.RewritesPerformed);
 #endif
             }
             catch(OperationCanceledException)
@@ -248,15 +247,15 @@ namespace de.unika.ipd.grGen.grShell
                 if(timer != null)
                     timer.Dispose();
                 if(curRule == null)
-                    errOut.WriteLine("Rewrite sequence aborted!");
+                    impl.errOut.WriteLine("Rewrite sequence aborted!");
                 else
                 {
-                    errOut.WriteLine("Rewrite sequence aborted after position:");
+                    impl.errOut.WriteLine("Rewrite sequence aborted after position:");
                     Debugger.PrintSequence(curGRS, curRule, impl.Workaround);
-                    errOut.WriteLine();
+                    impl.errOut.WriteLine();
                 }
             }
-            impl.workaround.PreventComputerGoingIntoSleepMode(false);
+            impl.Workaround.PreventComputerGoingIntoSleepMode(false);
             curRule = null;
             curGRS = null;
 
@@ -329,10 +328,10 @@ namespace de.unika.ipd.grGen.grShell
         private void DumpOnFinishing(IMatches matches, bool special)
         {
             int i = 1;
-            debugOut.WriteLine("Matched " + matches.Producer.Name + " rule:");
+            impl.debugOut.WriteLine("Matched " + matches.Producer.Name + " rule:");
             foreach(IMatch match in matches)
             {
-                debugOut.WriteLine(" - " + i + ". match:");
+                impl.debugOut.WriteLine(" - " + i + ". match:");
                 DumpMatch(match, "   ");
                 ++i;
             }
@@ -342,32 +341,32 @@ namespace de.unika.ipd.grGen.grShell
         {
             int i = 0;
             foreach (INode node in match.Nodes)
-                debugOut.WriteLine(indentation + match.Pattern.Nodes[i++].UnprefixedName + ": " + impl.curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node));
+                impl.debugOut.WriteLine(indentation + match.Pattern.Nodes[i++].UnprefixedName + ": " + impl.curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node));
             int j = 0;
             foreach (IEdge edge in match.Edges)
-                debugOut.WriteLine(indentation + match.Pattern.Edges[j++].UnprefixedName + ": " + impl.curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge));
+                impl.debugOut.WriteLine(indentation + match.Pattern.Edges[j++].UnprefixedName + ": " + impl.curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge));
 
             foreach(IMatch nestedMatch in match.EmbeddedGraphs)
             {
-                debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
+                impl.debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
                 DumpMatch(nestedMatch, indentation + "  ");
             }
             foreach (IMatch nestedMatch in match.Alternatives)
             {
-                debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
+                impl.debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
                 DumpMatch(nestedMatch, indentation + "  ");
             }
             foreach (IMatches nestedMatches in match.Iterateds)
             {
                 foreach (IMatch nestedMatch in nestedMatches)
                 {
-                    debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
+                    impl.debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
                     DumpMatch(nestedMatch, indentation + "  ");
                 }
             }
             foreach (IMatch nestedMatch in match.Independents)
             {
-                debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
+                impl.debugOut.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
                 DumpMatch(nestedMatch, indentation + "  ");
             }
         }
@@ -377,9 +376,9 @@ namespace de.unika.ipd.grGen.grShell
             if(curGRS == null || cancelSequence)
                 return;
             if(curRule == null)
-                errOut.WriteLine("Cancelling...");
+                impl.errOut.WriteLine("Cancelling...");
             else
-                errOut.WriteLine("Cancelling: Waiting for \"" + curRule.ParamBindings.Action.Name + "\" to finish...");
+                impl.errOut.WriteLine("Cancelling: Waiting for \"" + curRule.ParamBindings.Action.Name + "\" to finish...");
             e.Cancel = true;        // we handled the cancel event
             cancelSequence = true;
         }
@@ -391,21 +390,22 @@ namespace de.unika.ipd.grGen.grShell
         /// <returns>True, if the mode has the desired value at the end of the function.</returns>
         public bool SetDebugMode(bool enable)
         {
-            if(impl.nonDebugNonGuiExitOnError) {
+            if(impl.nonDebugNonGuiExitOnError)
+            {
                 return true;
             }
 
             if(enable)
             {
-                if(impl.CurrentShellProcEnv == null)
+                if(impl.curShellProcEnv == null)
                 {
-                    errOut.WriteLine("Debug mode will be enabled as soon as a graph has been created!");
+                    impl.errOut.WriteLine("Debug mode will be enabled as soon as a graph has been created!");
                     pendingDebugEnable = true;
                     return false;
                 }
                 if(InDebugMode && CheckDebuggerAlive())
                 {
-                    errOut.WriteLine("You are already in debug mode!");
+                    impl.errOut.WriteLine("You are already in debug mode!");
                     return true;
                 }
 
@@ -413,29 +413,29 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    debugger = new Debugger(impl, impl.debugLayout, optMap);
+                    debugger = new Debugger(impl.GetGrShellImpl(), impl.debugLayout, optMap);
                     impl.curShellProcEnv.ProcEnv.UserProxy = debugger;
                 }
                 catch(Exception ex)
                 {
                     if(ex.Message != "Connection to yComp lost")
-                        errOut.WriteLine(ex.Message);
+                        impl.errOut.WriteLine(ex.Message);
                     return false;
                 }
                 pendingDebugEnable = false;
             }
             else
             {
-                if(impl.CurrentShellProcEnv == null && pendingDebugEnable)
+                if(impl.curShellProcEnv == null && pendingDebugEnable)
                 {
-                    debugOut.WriteLine("Debug mode will not be enabled anymore when a graph has been created.");
+                    impl.debugOut.WriteLine("Debug mode will not be enabled anymore when a graph has been created.");
                     pendingDebugEnable = false;
                     return true;
                 }
 
                 if(!InDebugMode)
                 {
-                    errOut.WriteLine("You are not in debug mode!");
+                    impl.errOut.WriteLine("You are not in debug mode!");
                     return true;
                 }
 
@@ -480,7 +480,8 @@ namespace de.unika.ipd.grGen.grShell
 
             if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
             {
-                if (UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?")) {
+                if(UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?"))
+                {
                     SetDebugMode(false);
                 }
             }
@@ -494,31 +495,31 @@ namespace de.unika.ipd.grGen.grShell
                 return null;
             }
 
-            if(TypesHelper.GetNodeOrEdgeType(typeName, impl.curShellProcEnv.ProcEnv.NamedGraph.Model)!=null) // if type is node/edge type let the user select the element in yComp
+            if(TypesHelper.GetNodeOrEdgeType(typeName, impl.curShellProcEnv.ProcEnv.NamedGraph.Model) != null) // if type is node/edge type let the user select the element in yComp
             {
                 if(!CheckDebuggerAlive())
                 {
-                    errOut.WriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
+                    impl.errOut.WriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
                     return null;
                 }
 
-                debugOut.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
+                impl.debugOut.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
 
                 String id = debugger.ChooseGraphElement();
                 if(id == null)
                     return null;
 
-                debugOut.WriteLine("Received @(\"" + id + "\")");
+                impl.debugOut.WriteLine("Received @(\"" + id + "\")");
 
                 IGraphElement elem = impl.curShellProcEnv.ProcEnv.NamedGraph.GetGraphElement(id);
                 if(elem == null)
                 {
-                    errOut.WriteLine("Graph element does not exist (anymore?).");
+                    impl.errOut.WriteLine("Graph element does not exist (anymore?).");
                     return null;
                 }
                 if(!TypesHelper.IsSameOrSubtype(elem.Type.PackagePrefixedName, typeName, impl.curShellProcEnv.ProcEnv.NamedGraph.Model))
                 {
-                    errOut.WriteLine(elem.Type.PackagePrefixedName + " is not the same type as/a subtype of " + typeName + ".");
+                    impl.errOut.WriteLine(elem.Type.PackagePrefixedName + " is not the same type as/a subtype of " + typeName + ".");
                     return null;
                 }
                 return elem;
@@ -528,12 +529,12 @@ namespace de.unika.ipd.grGen.grShell
                 String inputValue = UserInterface.ShowMsgAskForString("Enter a value of type " + typeName + ": ");
                 StringReader reader = new StringReader(inputValue);
                 GrShell shellForParsing = new GrShell(reader);
-                shellForParsing.SetImpl(impl);
+                shellForParsing.SetImpl(impl.GetGrShellImpl());
                 object val = shellForParsing.Constant();
                 String valTypeName = TypesHelper.XgrsTypeOfConstant(val, impl.curShellProcEnv.ProcEnv.NamedGraph.Model);
                 if(!TypesHelper.IsSameOrSubtype(valTypeName, typeName, impl.curShellProcEnv.ProcEnv.NamedGraph.Model))
                 {
-                    errOut.WriteLine(valTypeName + " is not the same type as/a subtype of " + typeName + ".");
+                    impl.errOut.WriteLine(valTypeName + " is not the same type as/a subtype of " + typeName + ".");
                     return null;
                 }
                 return val;

@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.grShell
 {
     class Debugger : IUserProxyForSequenceExecution
     {
-        GrShellImpl grShellImpl;
+        IGrShellImplForDebugger grShellImpl;
         ShellGraphProcessingEnvironment shellProcEnv;
         ElementRealizers realizers;
 
@@ -102,12 +102,12 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public Debugger(GrShellImpl grShellImpl)
+        public Debugger(IGrShellImplForDebugger grShellImpl)
             : this(grShellImpl, "Orthogonal", null)
         {
         }
 
-        public Debugger(GrShellImpl grShellImpl, String debugLayout)
+        public Debugger(IGrShellImplForDebugger grShellImpl, String debugLayout)
             : this(grShellImpl, debugLayout, null)
         {
         }
@@ -120,7 +120,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="debugLayout">The name of the layout to be used.</param>
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
-        public Debugger(GrShellImpl grShellImpl, String debugLayout, Dictionary<String, String> layoutOptions)
+        public Debugger(IGrShellImplForDebugger grShellImpl, String debugLayout, Dictionary<String, String> layoutOptions)
         {
             this.grShellImpl = grShellImpl;
             this.shellProcEnv = grShellImpl.CurrentShellProcEnv;
@@ -374,13 +374,13 @@ namespace de.unika.ipd.grGen.grShell
         /// <returns>The ConsoleKeyInfo object for the pressed key.</returns>
         ConsoleKeyInfo ReadKeyWithCancel()
         {
-            if(grShellImpl.seqApplierAndDebugger.OperationCancelled)
-                grShellImpl.seqApplierAndDebugger.Cancel();
+            if(grShellImpl.OperationCancelled)
+                grShellImpl.Cancel();
 
             ConsoleKeyInfo key = grShellImpl.Workaround.ReadKeyWithControlCAsInput();
 
             if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
-                grShellImpl.seqApplierAndDebugger.Cancel();
+                grShellImpl.Cancel();
 
             return key;
         }
@@ -451,7 +451,7 @@ namespace de.unika.ipd.grGen.grShell
                     HandleToggleLazyChoice();
                     break;
                 case 'a':
-                    grShellImpl.seqApplierAndDebugger.Cancel();
+                    grShellImpl.Cancel();
                     return false;                               // never reached
                 case 'n':
                     stepMode = false;
@@ -4130,7 +4130,7 @@ after_debugging_decision: ;
                 switch(key.KeyChar)
                 {
                 case 'a':
-                    grShellImpl.seqApplierAndDebugger.Cancel();
+                    grShellImpl.Cancel();
                     return;                               // never reached
                 case 's':
                     if(isBottomUpBreak && !stepMode)
@@ -4219,7 +4219,7 @@ after_debugging_decision: ;
         void DebugOnConnectionLost()
         {
             Console.WriteLine("Connection to yComp lost!");
-            grShellImpl.seqApplierAndDebugger.Cancel();
+            grShellImpl.Cancel();
         }
 
         /// <summary>
