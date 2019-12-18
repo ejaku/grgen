@@ -16,6 +16,10 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    /// <summary>
+    /// The sequence expression execution helper selects and executes the correct version of an operator based on the target and argument types.
+    /// It is employed at runtime for sequence operator implementation, or at compile time in case the type is not known statically.
+    /// </summary>
     public static class SequenceExpressionExecutionHelper
     {
         // the double casting in the following code is needed because a boxed value must be unboxed first

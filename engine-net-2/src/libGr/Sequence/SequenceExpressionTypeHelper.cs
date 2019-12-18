@@ -16,6 +16,12 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    /// <summary>
+    /// The sequence expression type helper contains code for operator type balancing,
+    /// i.e. determining the correct version(/implementation) of an operator.
+    /// It is used in type checking, and implementation selection (esp. meaning apropriate casting of the arguments),
+    /// at runtime (SequenceExpressionExecutionHelper) as well as compile time (SequenceExpressionGeneratorHelper).
+    /// </summary>
     public static class SequenceExpressionTypeHelper
     {
         // implicit casts supported by GrGen:
@@ -31,28 +37,6 @@ namespace de.unika.ipd.grGen.libGr
         // floating point number -> integer number
         // everything -> object
 
-
-        /// <summary>
-        /// Returns the type to which the operand must be casted to,
-        /// to satisfy the expected type (i.e. the expected type itself).
-        /// Returns "" if the type can only be determined at runtime.
-        /// Returns "-" in case of a type error (not allowed cast).
-        /// </summary>
-        public static string Adjust(string expected, string given, IGraphModel model)
-        {
-            // todo: enums erst in int, dann in zieltyp casten, an stellen wo nötig
-
-            if(TypesHelper.IsSameOrSubtype(given, expected, model))
-                return expected;
-            if(expected == "int" && TypesHelper.IsEnumType(given, model)) return "int";
-            if(expected == "short" && given == "byte") return "short";
-            if(expected == "int" && (given == "byte" || given == "short")) return "int";
-            if(expected == "long" && (given == "byte" || given == "short" || given == "int")) return "long";
-            if(expected == "float" && (given == "byte" || given == "short" || given == "int" || given == "long")) return "float";
-            if(expected == "double" && (given == "byte" || given == "short" || given == "int" || given == "long" || given == "float")) return "double";
-            if(expected == "string") return "string";
-            return "-";
-        }
 
         /// <summary>
         /// Returns the types to which the operands must be casted to, 
@@ -148,7 +132,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns "" if the type can only be determined at runtime.
         /// Returns "-" in case of a type error and/or if no operator working on numbers can be applied.
         /// </summary>
-        public static string BalanceArithmetic(string left, string right, IGraphModel model)
+        private static string BalanceArithmetic(string left, string right, IGraphModel model)
         {
             switch(left)
             {
@@ -236,7 +220,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns "" if the type can only be determined at runtime.
         /// Returns "-" in case of a type error and/or if no operator working on strings can be applied.
         /// </summary>
-        public static string BalanceString(string left, string right, IGraphModel model)
+        private static string BalanceString(string left, string right, IGraphModel model)
         {
             if(left == "string" || right == "string")
                 return "string";
@@ -253,7 +237,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns "" if the type can only be determined at runtime.
         /// Returns "-" in case of a type error and/or if no operator working on strings can be applied.
         /// </summary>
-        public static string BalanceGraphElement(string left, string right, IGraphModel model)
+        private static string BalanceGraphElement(string left, string right, IGraphModel model)
         {
             if(left == right)
                 return left;
@@ -276,7 +260,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns "" if the type can only be determined at runtime.
         /// Returns "-" in case of a type error and/or if no operator working on external types can be applied.
         /// </summary>
-        public static string BalanceExternalType(string left, string right, IGraphModel model)
+        private static string BalanceExternalType(string left, string right, IGraphModel model)
         {
             if(left == right)
                 return left;
