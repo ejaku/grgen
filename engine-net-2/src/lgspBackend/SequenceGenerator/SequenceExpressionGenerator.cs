@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.EqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.EqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.EqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceExpressionStructuralEqual seq = (SequenceExpressionStructuralEqual)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
                     string rightExpr = GetSequenceExpression(seq.Right, source);
-                    return SequenceExpressionHelper.StructuralEqualStatic(leftExpr, rightExpr);
+                    return SequenceExpressionHelperStatic.StructuralEqualStatic(leftExpr, rightExpr);
                 }
 
                 case SequenceExpressionType.NotEqual:
@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.NotEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.NotEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.NotEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -127,7 +127,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.LowerStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.LowerStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.LowerObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -143,7 +143,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.GreaterStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.GreaterStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.GreaterObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -159,7 +159,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.LowerEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.LowerEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.LowerEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.GreaterEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.GreaterEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.GreaterEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -191,7 +191,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.PlusStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.PlusStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.PlusObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -207,7 +207,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.MinusStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.MinusStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.MinusObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -223,7 +223,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.MulStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.MulStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.MulObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -239,7 +239,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.DivStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.DivStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.DivObjects("
                             + leftExpr + ", " + rightExpr + ", "
@@ -255,7 +255,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string leftType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + leftExpr + ", graph.Model)";
                     string rightType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + rightExpr + ", graph.Model)";
                     if(seq.BalancedTypeStatic != "")
-                        return SequenceExpressionHelper.ModStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
+                        return SequenceExpressionHelperStatic.ModStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.ModObjects("
                             + leftExpr + ", " + rightExpr + ", "
