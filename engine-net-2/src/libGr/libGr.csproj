@@ -69,6 +69,10 @@
     <Compile Include="Actions\ActionsTypeInformation.cs" />
     <Compile Include="backendInterface.cs" />
     <Compile Include="Actions\BaseActions.cs" />
+    <Compile Include="GraphProcessingEnvironments\GraphGlobalVariable.cs" />
+    <Compile Include="GraphProcessingEnvironments\IRecorder.cs" />
+    <Compile Include="GraphProcessingEnvironments\ITransactionManager.cs" />
+    <Compile Include="GraphProcessingEnvironments\PerformanceInfo.cs" />
     <Compile Include="Graph\BaseGraph.cs" />
     <Compile Include="ContainerHelper.cs" />
     <Compile Include="Deque.cs" />

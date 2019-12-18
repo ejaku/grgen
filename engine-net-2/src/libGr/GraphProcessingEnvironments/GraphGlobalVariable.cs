@@ -14,34 +14,29 @@ using System.Diagnostics;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Describes a range with a minimum and a maximum value.
+    /// A named graph-global variable.
     /// </summary>
-    public struct Range
+    public class Variable
     {
         /// <summary>
-        /// Constant value representing positive infinity for a range.
+        /// The name of the variable.
         /// </summary>
-        public const int Infinite = int.MaxValue;
+        public readonly String Name;
 
         /// <summary>
-        /// The lower bound of the range.
+        /// The value pointed to by the variable.
         /// </summary>
-        public int Min;
+        public object Value;
 
         /// <summary>
-        /// The upper bound of the range.
+        /// Initializes a Variable instance.
         /// </summary>
-        public int Max;
-
-        /// <summary>
-        /// Constructs a Range object.
-        /// </summary>
-        /// <param name="min">The lower bound of the range.</param>
-        /// <param name="max">The upper bound of the range.</param>
-        public Range(int min, int max)
+        /// <param name="name">The name of the variable.</param>
+        /// <param name="value">The value pointed to by the variable.</param>
+        public Variable(String name, object value)
         {
-            Min = min;
-            Max = max;
+            Name = name;
+            Value = value;
         }
     }
 }
