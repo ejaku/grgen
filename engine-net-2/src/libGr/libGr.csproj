@@ -141,6 +141,7 @@
     <Compile Include="SequenceParser\SequenceParserEnvironmentInterpretedDebugEventCondition.cs" />
     <Compile Include="SequenceParser\SequenceParserExceptions.cs" />
     <Compile Include="SequenceParser\SequenceParserTokenManager.cs" />
+    <Compile Include="Sequence\SequenceExpressionTypeHelper.cs" />
     <Compile Include="Sequence\SequenceVariable.cs" />
     <Compile Include="IO\set.cs" />
     <Compile Include="SequenceParser\SimpleCharStream.cs" />

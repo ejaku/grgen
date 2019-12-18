@@ -91,7 +91,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.EqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Equal, " + leftType + ", " + rightType + ", graph.Model), "
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Equal, " + leftType + ", " + rightType + ", graph.Model), "
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -115,7 +115,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.NotEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.NotEqual, " + leftType + ", " + rightType + ", graph.Model), "
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.NotEqual, " + leftType + ", " + rightType + ", graph.Model), "
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -131,7 +131,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.LowerObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Lower, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Lower, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -147,7 +147,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.GreaterObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Greater, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Greater, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -163,7 +163,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.LowerEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.LowerEqual, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.LowerEqual, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.GreaterEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.GreaterEqual, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.GreaterEqual, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -195,7 +195,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.PlusObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Plus, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Plus, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -211,7 +211,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.MinusObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Minus, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Minus, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -227,7 +227,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.MulObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Mul, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Mul, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -243,7 +243,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.DivObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Div, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Div, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 
@@ -259,7 +259,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         return "GRGEN_LIBGR.SequenceExpressionHelper.ModObjects("
                             + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Mod, " + leftType + ", " + rightType + ", graph.Model),"
+                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Mod, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
                 }
 

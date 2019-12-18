@@ -228,7 +228,7 @@ namespace de.unika.ipd.grGen.libGr
 
             LeftTypeStatic = Left.Type(env);
             RightTypeStatic = Right.Type(env);
-            BalancedTypeStatic = SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+            BalancedTypeStatic = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
             if(BalancedTypeStatic == "-")
             {
                 throw new SequenceParserException(Operator, LeftTypeStatic, RightTypeStatic, Symbol);
@@ -514,7 +514,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -580,7 +580,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -620,7 +620,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -660,7 +660,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -700,7 +700,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -740,7 +740,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -773,7 +773,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             LeftTypeStatic = Left.Type(env);
             RightTypeStatic = Right.Type(env);
-            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -788,7 +788,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -820,7 +820,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             LeftTypeStatic = Left.Type(env);
             RightTypeStatic = Right.Type(env);
-            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -835,7 +835,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -867,7 +867,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             LeftTypeStatic = Left.Type(env);
             RightTypeStatic = Right.Type(env);
-            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -882,7 +882,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -914,7 +914,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             LeftTypeStatic = Left.Type(env);
             RightTypeStatic = Right.Type(env);
-            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -929,7 +929,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
@@ -961,7 +961,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             LeftTypeStatic = Left.Type(env);
             RightTypeStatic = Right.Type(env);
-            return SequenceExpressionHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -976,7 +976,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
                 rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
                 if(balancedType == "-")
                 {
                     throw new SequenceParserException(Operator, leftType, rightType, Symbol);
