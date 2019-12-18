@@ -17,7 +17,7 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    public static class SequenceExpressionHelperStatic
+    public static class SequenceExpressionGeneratorHelper
     {
         public static string EqualStatic(string leftValue, string rightValue,
             string balancedType, string leftType, string rightType, IGraphModel model)

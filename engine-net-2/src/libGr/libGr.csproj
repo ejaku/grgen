@@ -132,7 +132,6 @@
     <Compile Include="Sequence\SequenceComputation.cs" />
     <Compile Include="Sequence\SequenceExecutionInterface.cs" />
     <Compile Include="Sequence\SequenceExpression.cs" />
-    <Compile Include="Sequence\SequenceExpressionHelper.cs" />
     <Compile Include="SequenceParser\SequenceParser.cs" />
     <Compile Include="SequenceParser\SequenceParserConstants.cs" />
     <Compile Include="SequenceParser\SequenceParserEnvironment.cs" />
@@ -141,6 +140,7 @@
     <Compile Include="SequenceParser\SequenceParserEnvironmentInterpretedDebugEventCondition.cs" />
     <Compile Include="SequenceParser\SequenceParserExceptions.cs" />
     <Compile Include="SequenceParser\SequenceParserTokenManager.cs" />
+    <Compile Include="Sequence\SequenceExpressionExecutionHelper.cs" />
     <Compile Include="Sequence\SequenceExpressionTypeHelper.cs" />
     <Compile Include="Sequence\SequenceVariable.cs" />
     <Compile Include="IO\set.cs" />
