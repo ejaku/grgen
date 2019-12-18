@@ -122,9 +122,11 @@
     <Compile Include="Actions\ProcedureInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphProcessingEnvironments\Recorder.cs" />
+    <Compile Include="Sequence\IUserProxyForSequenceExecution.cs" />
     <Compile Include="Sequence\Sequence.cs" />
     <Compile Include="Sequence\SequenceAssignmentTarget.cs" />
     <Compile Include="Sequence\SequenceBase.cs" />
+    <Compile Include="Sequence\SequenceCheckingEnvironment.cs" />
     <Compile Include="Sequence\SequenceComputation.cs" />
     <Compile Include="Sequence\SequenceExecutionInterface.cs" />
     <Compile Include="Sequence\SequenceExpression.cs" />
