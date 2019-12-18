@@ -84,6 +84,7 @@
     <Compile Include="Actions\IActions.cs" />
     <Compile Include="Graph\IIndexSet.cs" />
     <Compile Include="Actions\InvocationRepresentations.cs" />
+    <Compile Include="Graph\Range.cs" />
     <Compile Include="IO\DOTDumper.cs" />
     <Compile Include="IO\dumpInterface.cs" />
     <Compile Include="Actions\actionInterface.cs" />
@@ -92,7 +93,6 @@
     <Compile Include="Graph\GraphValidator.cs" />
     <Compile Include="GraphProcessingEnvironments\IActionExecutionEnvironment.cs" />
     <Compile Include="Graph\IGraph.cs" />
-    <Compile Include="Graph\IGraphHelpers.cs" />
     <Compile Include="GraphProcessingEnvironments\IGraphProcessingEnvironment.cs" />
     <Compile Include="Graph\INamedGraph.cs" />
     <Compile Include="IO\ECoreImport.cs" />
