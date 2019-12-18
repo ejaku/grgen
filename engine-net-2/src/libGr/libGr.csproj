@@ -69,6 +69,8 @@
     <Compile Include="Actions\ActionsTypeInformation.cs" />
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\IFunctionDefinition.cs" />
+    <Compile Include="Actions\IMatch.cs" />
+    <Compile Include="Actions\IMatches.cs" />
     <Compile Include="Actions\IProcedureDefinition.cs" />
     <Compile Include="Actions\ISequenceDefinition.cs" />
     <Compile Include="Actions\VarType.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="IO\XMIExport.cs" />
     <Compile Include="GraphProcessingEnvironments\ISubactionAndOutputAdditionEnvironment.cs" />
     <Compile Include="matchesHelper.cs" />
-    <Compile Include="Actions\matchesInterface.cs" />
     <Compile Include="SequenceParser\ParseException.cs" />
     <Compile Include="Actions\patternInterface.cs" />
     <Compile Include="IO\Porter.cs" />
