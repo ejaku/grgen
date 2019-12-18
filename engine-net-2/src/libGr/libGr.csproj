@@ -67,6 +67,10 @@
   <ItemGroup>
     <Compile Include="Actions\ActionNames.cs" />
     <Compile Include="Actions\ActionsTypeInformation.cs" />
+    <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actions\IFunctionDefinition.cs" />
+    <Compile Include="Actions\IProcedureDefinition.cs" />
+    <Compile Include="Actions\ISequenceDefinition.cs" />
     <Compile Include="Actions\VarType.cs" />
     <Compile Include="backendInterface.cs" />
     <Compile Include="Actions\BaseActions.cs" />
@@ -99,7 +103,6 @@
     <Compile Include="Graph\Range.cs" />
     <Compile Include="IO\DOTDumper.cs" />
     <Compile Include="IO\dumpInterface.cs" />
-    <Compile Include="Actions\actionInterface.cs" />
     <Compile Include="IO\GraphDumper.cs" />
     <Compile Include="Graph\GraphValidator.cs" />
     <Compile Include="GraphProcessingEnvironments\IActionExecutionEnvironment.cs" />
