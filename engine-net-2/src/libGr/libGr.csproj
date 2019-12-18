@@ -127,6 +127,8 @@
     <Compile Include="Sequence\SequenceAssignmentTarget.cs" />
     <Compile Include="Sequence\SequenceBase.cs" />
     <Compile Include="Sequence\SequenceCheckingEnvironment.cs" />
+    <Compile Include="Sequence\SequenceCheckingEnvironmentCompiled.cs" />
+    <Compile Include="Sequence\SequenceCheckingEnvironmentInterpreted.cs" />
     <Compile Include="Sequence\SequenceComputation.cs" />
     <Compile Include="Sequence\SequenceExecutionInterface.cs" />
     <Compile Include="Sequence\SequenceExpression.cs" />
