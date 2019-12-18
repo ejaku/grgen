@@ -91,6 +91,7 @@
     <Compile Include="Graph\GraphElementModel.cs" />
     <Compile Include="Graph\GraphElementType.cs" />
     <Compile Include="Graph\GrGenType.cs" />
+    <Compile Include="Graph\IGraphElement.cs" />
     <Compile Include="Graph\IGraphModel.cs" />
     <Compile Include="Graph\IIndexSet.cs" />
     <Compile Include="Actions\InvocationRepresentations.cs" />
@@ -99,7 +100,6 @@
     <Compile Include="IO\DOTDumper.cs" />
     <Compile Include="IO\dumpInterface.cs" />
     <Compile Include="Actions\actionInterface.cs" />
-    <Compile Include="Graph\elementInterface.cs" />
     <Compile Include="IO\GraphDumper.cs" />
     <Compile Include="Graph\GraphValidator.cs" />
     <Compile Include="GraphProcessingEnvironments\IActionExecutionEnvironment.cs" />
