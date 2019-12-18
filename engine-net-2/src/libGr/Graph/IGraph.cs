@@ -13,6 +13,43 @@ using System.IO;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    /// <summary>
+    /// The different graph validation modes
+    /// </summary>
+    public enum ValidationMode
+    {
+        OnlyMultiplicitiesOfMatchingTypes, // check the multiplicities of the incoming/outgoing edges which match the types specified
+        StrictOnlySpecified, // as first and additionally check that edges with connections assertions specified are covered by at least on connection assertion
+        Strict // as first and additionally check that all edges are covered by at least one connection assertion
+    }
+
+    /// <summary>
+    /// The changes which might occur to graph element attributes.
+    /// </summary>
+    public enum AttributeChangeType
+    {
+        /// <summary>
+        /// Assignment of a value to some attribute.
+        /// Value semantics, even if assigned attribute is a set or a map, not a primitive type.
+        /// </summary>
+        Assign,
+
+        /// <summary>
+        /// Inserting a value into some set or a key value pair into some map or a value into some array.
+        /// </summary>
+        PutElement,
+
+        /// <summary>
+        /// Removing a value from some set or a key value pair from some map or a key/index from some array.
+        /// </summary>
+        RemoveElement,
+
+        /// <summary>
+        /// Assignment of a value to a key/index position in an array, overwriting old element at that position.
+        /// </summary>
+        AssignElement
+    }
+
     #region GraphDelegates
 
     /// <summary>
