@@ -68,9 +68,16 @@
     <Compile Include="Actions\ActionNames.cs" />
     <Compile Include="Actions\ActionsTypeInformation.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actions\IAlternative.cs" />
+    <Compile Include="Actions\IFilter.cs" />
     <Compile Include="Actions\IFunctionDefinition.cs" />
+    <Compile Include="Actions\IIterated.cs" />
     <Compile Include="Actions\IMatch.cs" />
     <Compile Include="Actions\IMatches.cs" />
+    <Compile Include="Actions\IMatchingPattern.cs" />
+    <Compile Include="Actions\IPatternElement.cs" />
+    <Compile Include="Actions\IPatternGraph.cs" />
+    <Compile Include="Actions\IPatternGraphEmbedding.cs" />
     <Compile Include="Actions\IProcedureDefinition.cs" />
     <Compile Include="Actions\ISequenceDefinition.cs" />
     <Compile Include="Actions\VarType.cs" />
@@ -121,7 +128,6 @@
     <Compile Include="GraphProcessingEnvironments\ISubactionAndOutputAdditionEnvironment.cs" />
     <Compile Include="matchesHelper.cs" />
     <Compile Include="SequenceParser\ParseException.cs" />
-    <Compile Include="Actions\patternInterface.cs" />
     <Compile Include="IO\Porter.cs" />
     <Compile Include="Actions\ProcedureInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
