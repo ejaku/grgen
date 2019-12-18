@@ -69,8 +69,10 @@
     <Compile Include="Actions\ActionsTypeInformation.cs" />
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\IFilter.cs" />
+    <Compile Include="Actions\IFunctionDefinitionAndInfo.cs" />
+    <Compile Include="Actions\IProcedureDefinitionAndInfo.cs" />
+    <Compile Include="Actions\ISequenceDefinitionAndInfo.cs" />
     <Compile Include="PatternsAndMatches\IAlternative.cs" />
-    <Compile Include="Actions\IFunctionDefinition.cs" />
     <Compile Include="PatternsAndMatches\IIterated.cs" />
     <Compile Include="PatternsAndMatches\IMatch.cs" />
     <Compile Include="PatternsAndMatches\IMatches.cs" />
@@ -78,8 +80,6 @@
     <Compile Include="PatternsAndMatches\IPatternElement.cs" />
     <Compile Include="PatternsAndMatches\IPatternGraph.cs" />
     <Compile Include="PatternsAndMatches\IPatternGraphEmbedding.cs" />
-    <Compile Include="Actions\IProcedureDefinition.cs" />
-    <Compile Include="Actions\ISequenceDefinition.cs" />
     <Compile Include="Actions\VarType.cs" />
     <Compile Include="backendInterface.cs" />
     <Compile Include="Actions\BaseActions.cs" />
@@ -94,7 +94,6 @@
     <Compile Include="Deque.cs" />
     <Compile Include="EmitHelper.cs" />
     <Compile Include="Actions\FilterCall.cs" />
-    <Compile Include="Actions\FunctionInfo.cs" />
     <Compile Include="GraphHelper.cs" />
     <Compile Include="GraphHelperParallel.cs" />
     <Compile Include="Actions\IActions.cs" />
@@ -129,7 +128,6 @@
     <Compile Include="matchesHelper.cs" />
     <Compile Include="SequenceParser\ParseException.cs" />
     <Compile Include="IO\Porter.cs" />
-    <Compile Include="Actions\ProcedureInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphProcessingEnvironments\Recorder.cs" />
     <Compile Include="Sequence\IUserProxyForSequenceExecution.cs" />
@@ -140,7 +138,6 @@
     <Compile Include="Sequence\SequenceCheckingEnvironmentCompiled.cs" />
     <Compile Include="Sequence\SequenceCheckingEnvironmentInterpreted.cs" />
     <Compile Include="Sequence\SequenceComputation.cs" />
-    <Compile Include="Sequence\SequenceExecutionInterface.cs" />
     <Compile Include="Sequence\SequenceExpression.cs" />
     <Compile Include="SequenceParser\SequenceParser.cs" />
     <Compile Include="SequenceParser\SequenceParserConstants.cs" />
