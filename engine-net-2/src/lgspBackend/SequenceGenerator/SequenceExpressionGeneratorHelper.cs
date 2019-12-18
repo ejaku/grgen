@@ -17,6 +17,10 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
 {
+    /// <summary>
+    /// The sequence expression generator helper generates the code for the sequence expression operators,
+    /// in case the (result) type is known statically (same semantics as calling the SequenceExpressionExecutionHelper, but faster due to statically known types).
+    /// </summary>
     public static class SequenceExpressionGeneratorHelper
     {
         public static string EqualStatic(string leftValue, string rightValue,
