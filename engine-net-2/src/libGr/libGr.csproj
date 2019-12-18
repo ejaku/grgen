@@ -67,12 +67,15 @@
   <ItemGroup>
     <Compile Include="Actions\ActionNames.cs" />
     <Compile Include="Actions\ActionsTypeInformation.cs" />
+    <Compile Include="Actions\VarType.cs" />
     <Compile Include="backendInterface.cs" />
     <Compile Include="Actions\BaseActions.cs" />
     <Compile Include="GraphProcessingEnvironments\GraphGlobalVariable.cs" />
     <Compile Include="GraphProcessingEnvironments\IRecorder.cs" />
     <Compile Include="GraphProcessingEnvironments\ITransactionManager.cs" />
     <Compile Include="GraphProcessingEnvironments\PerformanceInfo.cs" />
+    <Compile Include="Graph\Annotations.cs" />
+    <Compile Include="Graph\AttributeType.cs" />
     <Compile Include="Graph\BaseGraph.cs" />
     <Compile Include="ContainerHelper.cs" />
     <Compile Include="Deque.cs" />
@@ -82,8 +85,16 @@
     <Compile Include="GraphHelper.cs" />
     <Compile Include="GraphHelperParallel.cs" />
     <Compile Include="Actions\IActions.cs" />
+    <Compile Include="Graph\ConnectionAssertionsAndFailures.cs" />
+    <Compile Include="Graph\EnumAttributeType.cs" />
+    <Compile Include="Graph\ExternalType.cs" />
+    <Compile Include="Graph\GraphElementModel.cs" />
+    <Compile Include="Graph\GraphElementType.cs" />
+    <Compile Include="Graph\GrGenType.cs" />
+    <Compile Include="Graph\IGraphModel.cs" />
     <Compile Include="Graph\IIndexSet.cs" />
     <Compile Include="Actions\InvocationRepresentations.cs" />
+    <Compile Include="Graph\IndexDescription.cs" />
     <Compile Include="Graph\Range.cs" />
     <Compile Include="IO\DOTDumper.cs" />
     <Compile Include="IO\dumpInterface.cs" />
@@ -105,7 +116,6 @@
     <Compile Include="GraphProcessingEnvironments\ISubactionAndOutputAdditionEnvironment.cs" />
     <Compile Include="matchesHelper.cs" />
     <Compile Include="Actions\matchesInterface.cs" />
-    <Compile Include="Graph\modelInterface.cs" />
     <Compile Include="SequenceParser\ParseException.cs" />
     <Compile Include="Actions\patternInterface.cs" />
     <Compile Include="IO\Porter.cs" />
@@ -130,6 +140,7 @@
     <Compile Include="Sequence\SequenceVariable.cs" />
     <Compile Include="IO\set.cs" />
     <Compile Include="SequenceParser\SimpleCharStream.cs" />
+    <Compile Include="SetValueType.cs" />
     <Compile Include="SingleLinkedList.cs" />
     <Compile Include="SequenceParser\SymbolTable.cs" />
     <Compile Include="SymmetryChecker.cs" />
