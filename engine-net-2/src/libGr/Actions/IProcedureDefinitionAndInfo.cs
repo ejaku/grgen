@@ -62,11 +62,11 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Applies this procedure with the given action environment on the given graph.
-        /// Takes the parameters from paramBindings as inputs.
+        /// Takes the arguments as inputs.
         /// Returns an array of output values.
         /// Attention: at the next call of Apply, the array returned from previous call is overwritten with the new return values.
         /// </summary>
-        object[] Apply(IActionExecutionEnvironment actionEnv, IGraph graph, ProcedureInvocationParameterBindings paramBindings);
+        object[] Apply(IActionExecutionEnvironment actionEnv, IGraph graph, object[] argument);
     }
 
     /// <summary>
@@ -158,10 +158,10 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Applies this procedure with the given action environment on the given graph.
-        /// Takes the parameters from paramBindings as inputs.
+        /// Takes the arguments as inputs.
         /// Returns an array of output values.
         /// Attention: at the next call of Apply, the array returned from previous call is overwritten with the new return values.
         /// </summary>
-        public abstract object[] Apply(IActionExecutionEnvironment actionEnv, IGraph graph, ProcedureInvocationParameterBindings paramBindings);
+        public abstract object[] Apply(IActionExecutionEnvironment actionEnv, IGraph graph, object[] argument);
     }
 }

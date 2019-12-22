@@ -62,10 +62,10 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Applies this function with the given action environment on the given graph.
-        /// Takes the parameters from paramBindings as inputs.
+        /// Takes the arguments as inputs.
         /// Returns the one output value.
         /// </summary>
-        object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, FunctionInvocationParameterBindings paramBindings);
+        object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, object[] arguments);
     }
 
     /// <summary>
@@ -150,9 +150,9 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Applies this function with the given action environment on the given graph.
-        /// Takes the parameters from paramBindings as inputs.
+        /// Takes the arguments as inputs.
         /// Returns the one output value.
         /// </summary>
-        public abstract object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, FunctionInvocationParameterBindings paramBindings);
+        public abstract object Apply(IActionExecutionEnvironment actionEnv, IGraph graph, object[] arguments);
     }
 }

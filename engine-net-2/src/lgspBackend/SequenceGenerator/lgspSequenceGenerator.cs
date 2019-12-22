@@ -237,6 +237,9 @@ namespace de.unika.ipd.grGen.lgsp
             GenerateSequenceDefinedSingleton(source, sequence);
 
             source.Append("\n");
+            GenerateGenericMethodReturnValues(source, sequence);
+
+            source.Append("\n");
             GenerateInternalDefinedSequenceApplicationMethod(source, sequence, seq);
 
             source.Append("\n");
@@ -267,6 +270,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             GenerateSequenceDefinedSingleton(source, sequence);
+
+            source.Append("\n");
+            GenerateGenericMethodReturnValues(source, sequence);
 
             source.Append("\n");
             GenerateExactExternalDefinedSequenceApplicationMethod(source, sequence);
@@ -436,7 +442,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void GenerateGenericExternalDefinedSequenceApplicationMethod(SourceBuilder source, DefinedSequenceInfo sequence)
         {
-            source.AppendFront("public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraphProcessingEnvironment procEnv)");
+            source.AppendFront("public override bool Apply(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues)");
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFront("GRGEN_LGSP.LGSPGraph graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
@@ -445,7 +451,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.ParameterTypes[i]), model);
                 source.AppendFront(typeName + " var_" + sequence.Parameters[i]);
-                source.Append(" = (" + typeName + ")sequenceInvocation.ArgumentExpressions[" + i + "].Evaluate((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv);\n");
+                source.Append(" = (" + typeName + ")arguments[" + i + "];\n");
             }
             for(int i = 0; i < sequence.OutParameters.Length; ++i)
             {
@@ -454,8 +460,6 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(" = " + TypesHelper.DefaultValueString(typeName, model) + ";\n");
             }
 
-            source.AppendFront("if(sequenceInvocation.Subgraph!=null)\n");
-            source.AppendFront("\t{ procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv)); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }\n");
 
             source.AppendFront("bool result = ApplyXGRS_" + sequence.Name + "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)procEnv");
             for(int i = 0; i < sequence.Parameters.Length; ++i)
@@ -468,8 +472,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             source.Append(");\n");
 
-            source.AppendFront("if(sequenceInvocation.Subgraph!=null)\n");
-            source.AppendFront("\t{ procEnv.ReturnFromSubgraph(); graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph; }\n");
+
+            source.AppendFront("returnValues = ReturnValues;\n");
 
             if(sequence.OutParameters.Length > 0)
             {
@@ -477,7 +481,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Indent();
                 for(int i = 0; i < sequence.OutParameters.Length; ++i)
                 {
-                    source.AppendFront("sequenceInvocation.ReturnVars[" + i + "].SetVariableValue(var_" + sequence.OutParameters[i] + ", procEnv);\n");
+                    source.AppendFront("returnValues[" + i + "] = var_" + sequence.OutParameters[i] + ";\n");
                 }
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -486,6 +490,11 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("return result;\n");
             source.Unindent();
             source.AppendFront("}\n");
+        }
+
+        private void GenerateGenericMethodReturnValues(SourceBuilder source, DefinedSequenceInfo sequence)
+        {
+            source.AppendFrontFormat("private object[] ReturnValues = new object[{0}];\n", sequence.OutParameters.Length);
         }
 
         private void HandleSequenceParserException(SequenceParserException ex)
@@ -502,12 +511,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             switch(ex.Kind)
             {
-                case SequenceParserError.BadNumberOfParametersOrReturnParameters:
-                    if(helper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGivenInputs && helper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGivenOutputs)
-                        Console.Error.WriteLine("Wrong number of parameters and return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    else if(helper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGivenInputs)
+                case SequenceParserError.BadNumberOfParameters:
+                    if(helper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGiven)
                         Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    else if(helper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGivenOutputs)
+                    else
+                        goto default;
+                    break;
+
+                case SequenceParserError.BadNumberOfReturnParameters:
+                    if(helper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGiven)
                         Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                     else
                         goto default;

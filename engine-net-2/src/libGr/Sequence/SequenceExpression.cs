@@ -5838,78 +5838,217 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "copy(" + ObjectToBeCopied.Symbol + ")"; } }
     }
 
-    public class SequenceExpressionFunctionCall : SequenceExpression
+    public abstract class SequenceExpressionFunctionCall : SequenceExpression
     {
-        public FunctionInvocationParameterBindings ParamBindings;
+        /// <summary>
+        /// An array of expressions used to compute the input arguments.
+        /// </summary>
+        public SequenceExpression[] ArgumentExpressions;
+
+        /// <summary>
+        /// Buffer to store the argument values for the call; used to avoid unneccessary memory allocations.
+        /// </summary>
+        public object[] Arguments;
+
+        public abstract FunctionInvocation FunctionInvocation { get; }
+        public abstract String NameForFunctionString { get; }
+
         public bool IsExternalFunctionCalled;
 
-        public SequenceExpressionFunctionCall(FunctionInvocationParameterBindings paramBindings)
+        public SequenceExpressionFunctionCall(List<SequenceExpression> argExprs)
             : base(SequenceExpressionType.FunctionCall)
         {
-            ParamBindings = paramBindings;
+            InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
         }
 
-        public SequenceExpressionFunctionCall(SequenceExpressionType seqExprType, FunctionInvocationParameterBindings paramBindings)
+        public SequenceExpressionFunctionCall(SequenceExpressionType seqExprType, List<SequenceExpression> argExprs)
             : base(seqExprType)
         {
-            ParamBindings = paramBindings;
+            InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             env.CheckFunctionCall(this);
-            IsExternalFunctionCalled = env.IsFunctionCallExternal(ParamBindings);
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            if(ParamBindings.FunctionDef != null)
-               return TypesHelper.DotNetTypeToXgrsType(ParamBindings.FunctionDef.Output);
-            else // compiled sequence
-               return ParamBindings.ReturnType;
-        }
-
-        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            SequenceExpressionFunctionCall copy = (SequenceExpressionFunctionCall)MemberwiseClone();
-            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
-            return copy;
-        }
-
-        public override object Execute(IGraphProcessingEnvironment procEnv)
-        {
-            IFunctionDefinition funcDef = ParamBindings.FunctionDef;
-            for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
-            {
-                if(ParamBindings.ArgumentExpressions[i] != null)
-                    ParamBindings.Arguments[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv);
-            }
-            object res = funcDef.Apply(procEnv, procEnv.Graph, ParamBindings);
-            return res;
+            IsExternalFunctionCalled = env.IsFunctionCallExternal(FunctionInvocation);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
-            ParamBindings.GetLocalVariables(variables, containerConstructors);
+            GetLocalVariables(ArgumentExpressions, variables, containerConstructors);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get { foreach(SequenceExpression argument in ParamBindings.ArgumentExpressions) yield return argument; }
+            get { foreach(SequenceExpression argument in ArgumentExpressions) yield return argument; }
         }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return ParamBindings.Name + "(...)"; } }
+
+        protected virtual String GetFunctionString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(NameForFunctionString);
+            if(ArgumentExpressions.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                {
+                    sb.Append(ArgumentExpressions[i].Symbol);
+                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+            }
+            return sb.ToString();
+        }
+
+        public override string Symbol { get { return GetFunctionString(); } }
+    }
+
+    public class SequenceExpressionFunctionCallInterpreted : SequenceExpressionFunctionCall
+    {
+        /// <summary>
+        /// The function to be used
+        /// </summary>
+        public IFunctionDefinition FunctionDef;
+
+        public override FunctionInvocation FunctionInvocation
+        {
+            get { return new FunctionInvocation(FunctionDef); }
+        }
+
+        public override string NameForFunctionString
+        {
+            get { return FunctionDef.Name; }
+        }
+
+        public SequenceExpressionFunctionCallInterpreted(IFunctionDefinition FunctionDef, 
+            List<SequenceExpression> argExprs)
+            : base(argExprs)
+        {
+            this.FunctionDef = FunctionDef;
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return TypesHelper.DotNetTypeToXgrsType(FunctionDef.Output);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionFunctionCallInterpreted copy = (SequenceExpressionFunctionCallInterpreted)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            IFunctionDefinition funcDef = FunctionDef;
+            FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+            object res = funcDef.Apply(procEnv, procEnv.Graph, Arguments);
+            return res;
+        }
+    }
+
+    public class SequenceExpressionFunctionCallCompiled : SequenceExpressionFunctionCall
+    {
+        /// <summary>
+        /// The name of the function.
+        /// </summary>
+        public String Name;
+
+        /// <summary>
+        /// null if this is a call of a global function, otherwise the package the call target is contained in.
+        /// </summary>
+        public String Package;
+
+        /// <summary>
+        /// The name of the function, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String PackagePrefixedName;
+
+        /// <summary>
+        /// The type returned
+        /// </summary>
+        public string ReturnType;
+
+        public override FunctionInvocation FunctionInvocation
+        {
+            get
+            {
+                FunctionInvocation functionInvocation = new FunctionInvocation(null);
+                functionInvocation.Name = Name;
+                functionInvocation.Package = Package;
+                functionInvocation.PackagePrefixedName = PackagePrefixedName;
+                return functionInvocation;
+            }
+        }
+
+        public override string NameForFunctionString
+        {
+            get { return Name; }
+        }
+
+        public SequenceExpressionFunctionCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedFunctionNameExists, String ReturnType,
+            List<SequenceExpression> argExprs)
+            : base(argExprs)
+        {
+            this.Name = Name;
+            this.ReturnType = ReturnType;
+
+            ResolvePackage(Name, PrePackage, PrePackageContext, unprefixedFunctionNameExists,
+                        out Package, out PackagePrefixedName);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return ReturnType;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionFunctionCallCompiled copy = (SequenceExpressionFunctionCallCompiled)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class SequenceExpressionFunctionMethodCall : SequenceExpressionFunctionCall
     {
         public SequenceExpression TargetExpr;
 
-        public SequenceExpressionFunctionMethodCall(SequenceExpression targetExpr, FunctionInvocationParameterBindings paramBindings)
-            : base(SequenceExpressionType.FunctionMethodCall, paramBindings)
+        String Name;
+
+        public override FunctionInvocation FunctionInvocation
+        {
+            get
+            {
+                FunctionInvocation functionInvocation = new FunctionInvocation(null);
+                functionInvocation.Name = Name;
+                functionInvocation.ReturnType = "";
+                return functionInvocation;
+            }
+        }
+
+        public override string NameForFunctionString
+        {
+            get { return Name; }
+        }
+
+        public SequenceExpressionFunctionMethodCall(SequenceExpression targetExpr,
+            String name,
+            List<SequenceExpression> argExprs)
+            : base(SequenceExpressionType.FunctionMethodCall, argExprs)
         {
             TargetExpr = targetExpr;
+            Name = name;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -5919,43 +6058,37 @@ namespace de.unika.ipd.grGen.libGr
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            if(ParamBindings.FunctionDef != null)
-                return TypesHelper.DotNetTypeToXgrsType(ParamBindings.FunctionDef.Output);
-            else // compiled sequence
-                return ParamBindings.ReturnType;
+            return "";
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionFunctionMethodCall copy = (SequenceExpressionFunctionMethodCall)MemberwiseClone();
             copy.TargetExpr = TargetExpr.CopyExpression(originalToCopy, procEnv);
-            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
             return copy;
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             IGraphElement owner = (IGraphElement)TargetExpr.Evaluate(procEnv);
-            for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
-            {
-                if(ParamBindings.ArgumentExpressions[i] != null)
-                    ParamBindings.Arguments[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv);
-            }
-            return owner.ApplyFunctionMethod(procEnv, procEnv.Graph, ParamBindings.Name, ParamBindings.Arguments);
+            FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+            return owner.ApplyFunctionMethod(procEnv, procEnv.Graph, NameForFunctionString, Arguments);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             TargetExpr.GetLocalVariables(variables, containerConstructors);
-            ParamBindings.GetLocalVariables(variables, containerConstructors);
+            GetLocalVariables(ArgumentExpressions, variables, containerConstructors);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get { yield return TargetExpr; foreach(SequenceExpression argument in ParamBindings.ArgumentExpressions) yield return argument; }
+            get { yield return TargetExpr; foreach(SequenceExpression argument in ArgumentExpressions) yield return argument; }
         }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return TargetExpr.Symbol + "." + ParamBindings.Name + "(...)"; } }
+        public override string Symbol { get { return TargetExpr.Symbol + "." + GetFunctionString(); } }
     }
 }

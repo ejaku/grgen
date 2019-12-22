@@ -222,51 +222,42 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        List<object[]> emptyList = new List<object[]>();
 
-        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters)
+        public List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
-            object[] parameters;
-            if(paramBindings.ArgumentExpressions.Length > 0)
-            {
-                parameters = paramBindings.Arguments;
-                for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
-                {
-                    if(paramBindings.ArgumentExpressions[i] != null)
-                        parameters[i] = paramBindings.ArgumentExpressions[i].Evaluate(this);
-                }
-            }
-            else parameters = null;
-
-            if(paramBindings.Subgraph != null)
-                SwitchToSubgraph((IGraph)paramBindings.Subgraph.GetVariableValue(this));
+            if(subgraph != null)
+                SwitchToSubgraph(subgraph);
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StartLocal();
 #endif
-            IMatches matches = paramBindings.Action.Match(this, curMaxMatches, parameters);
+            IMatches matches = action.Match(this, curMaxMatches, arguments);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StopMatch();
 #endif
             for(int i=0; i<filters.Count; ++i)
-                paramBindings.Action.Filter(this, matches, filters[i]);
+                action.Filter(this, matches, filters[i]);
 
             Matched(matches, null, special);
             if(matches.Count == 0)
             {
-                if(paramBindings.Subgraph != null)
+                if(subgraph != null)
                     ReturnFromSubgraph();
-                return 0;
+                numMatches = 0;
+                return emptyList;
             }
 
             PerformanceInfo.MatchesFound += matches.Count;
 
             if(test)
             {
-                if(paramBindings.Subgraph != null)
+                if(subgraph != null)
                     ReturnFromSubgraph();
-                return matches.Count;
+                numMatches = matches.Count;
+                return emptyList;
             }
 
             Finishing(matches, special);
@@ -275,45 +266,16 @@ namespace de.unika.ipd.grGen.lgsp
             PerformanceInfo.StartLocal();
 #endif
             List<object[]> retElemsList = Replace(matches, which);
-            if(which == -1)
-            {
-                IList[] returnVars = null;
-                if(paramBindings.ReturnVars.Length > 0)
-                {
-                    returnVars = new IList[paramBindings.ReturnVars.Length];
-                    for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
-                    {
-                        returnVars[i] = (IList)paramBindings.ReturnVars[i].GetVariableValue(this);
-                        if(returnVars[i] == null) {
-                            string returnType = TypesHelper.DotNetTypeToXgrsType(paramBindings.Action.RulePattern.Outputs[i]);
-                            Type valueType = ContainerHelper.GetTypeFromNameForContainer(returnType, graph);
-                            returnVars[i] = ContainerHelper.NewList(valueType);
-                            paramBindings.ReturnVars[i].SetVariableValue(returnVars[i], this);
-                        } else
-                            returnVars[i].Clear();
-                    }
-                }
-                for(int curRetElemNum = 0; curRetElemNum < retElemsList.Count; ++curRetElemNum)
-                {
-                    object[] retElems = retElemsList[curRetElemNum];
-                    for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
-                        returnVars[i].Add(retElems[i]);
-                }
-            }
-            else
-            {
-                object[] retElems = retElemsList[0]; 
-                for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
-                    paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
-            }
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StopRewrite();
 #endif
             Finished(matches, special);
 
-            if(paramBindings.Subgraph != null)
+            if(subgraph != null)
                 ReturnFromSubgraph();
-            return matches.Count;
+
+            numMatches = matches.Count;
+            return retElemsList;
         }
 
 

@@ -35,14 +35,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IGraphModel Model { get { return actions.Graph.Model; } }
 
-        public override bool IsProcedureCallExternal(ProcedureInvocationParameterBindings paramBindings)
+        public override bool IsProcedureCallExternal(ProcedureInvocation invocation)
         {
-            return paramBindings.ProcedureDef.IsExternal;
+            return invocation.ProcedureDef.IsExternal;
         }
 
-        public override bool IsFunctionCallExternal(FunctionInvocationParameterBindings paramBindings)
+        public override bool IsFunctionCallExternal(FunctionInvocation invocation)
         {
-            return paramBindings.FunctionDef.IsExternal;
+            return invocation.FunctionDef.IsExternal;
         }
 
         public override string TypeOfTopLevelEntityInRule(string ruleName, string entityName)
@@ -66,177 +66,177 @@ namespace de.unika.ipd.grGen.libGr
             throw new SequenceParserException(ruleName, entityName, SequenceParserError.UnknownPatternElement);
         }
 
-        protected override bool IsCalledEntityExisting(InvocationParameterBindings paramBindings, GrGenType ownerType)
+        protected override bool IsCalledEntityExisting(Invocation invocation, GrGenType ownerType)
         {
-            if(paramBindings is RuleInvocationParameterBindings)
+            if(invocation is RuleInvocation)
             {
-                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return ruleParamBindings.Action != null;
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return ruleInvocation.Action != null;
             }
-            else if(paramBindings is SequenceInvocationParameterBindings)
+            else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                return seqParamBindings.SequenceDef != null;
+                SequenceInvocation seqInvocation = (SequenceInvocation)invocation;
+                return seqInvocation.SequenceDef != null;
             }
-            else if(paramBindings is ProcedureInvocationParameterBindings)
+            else if(invocation is ProcedureInvocation)
             {
-                ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
+                ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procParamBindings.Name) != null;
+                    return ownerType.GetProcedureMethod(procInvocation.Name) != null;
                 else
-                    return procParamBindings.ProcedureDef != null;
+                    return procInvocation.ProcedureDef != null;
             }
-            else if(paramBindings is FunctionInvocationParameterBindings)
+            else if(invocation is FunctionInvocation)
             {
-                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetFunctionMethod(funcParamBindings.Name) != null;
+                    return ownerType.GetFunctionMethod(funcInvocation.Name) != null;
                 else
-                    return funcParamBindings.FunctionDef != null;
+                    return funcInvocation.FunctionDef != null;
             }
             throw new Exception("Internal error");
         }
 
-        protected override int NumInputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType)
+        protected override int NumInputParameters(Invocation invocation, GrGenType ownerType)
         {
-            if(paramBindings is RuleInvocationParameterBindings)
+            if(invocation is RuleInvocation)
             {
-                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return ruleParamBindings.Action.RulePattern.Inputs.Length;
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return ruleInvocation.Action.RulePattern.Inputs.Length;
             }
-            else if(paramBindings is SequenceInvocationParameterBindings)
+            else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
+                SequenceInvocation seqInvocation = (SequenceInvocation)invocation;
+                if(seqInvocation.SequenceDef is SequenceDefinitionInterpreted)
                 {
-                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqParamBindings.SequenceDef;
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqInvocation.SequenceDef;
                     return seqDef.InputVariables.Length;
                 }
                 else
                 {
-                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
+                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqInvocation.SequenceDef;
                     return seqDef.SeqInfo.ParameterTypes.Length;
                 }
             }
-            else if(paramBindings is ProcedureInvocationParameterBindings)
+            else if(invocation is ProcedureInvocation)
             {
-                ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
+                ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procParamBindings.Name).Inputs.Length;
+                    return ownerType.GetProcedureMethod(procInvocation.Name).Inputs.Length;
                 else
-                    return procParamBindings.ProcedureDef.Inputs.Length;
+                    return procInvocation.ProcedureDef.Inputs.Length;
             }
-            else if(paramBindings is FunctionInvocationParameterBindings)
+            else if(invocation is FunctionInvocation)
             {
-                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetFunctionMethod(funcParamBindings.Name).Inputs.Length;
+                    return ownerType.GetFunctionMethod(funcInvocation.Name).Inputs.Length;
                 else
-                    return funcParamBindings.FunctionDef.Inputs.Length;
+                    return funcInvocation.FunctionDef.Inputs.Length;
             }
             throw new Exception("Internal error");
         }
 
-        protected override int NumOutputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType)
+        protected override int NumOutputParameters(Invocation invocation, GrGenType ownerType)
         {
-            if(paramBindings is RuleInvocationParameterBindings)
+            if(invocation is RuleInvocation)
             {
-                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return ruleParamBindings.Action.RulePattern.Outputs.Length;
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return ruleInvocation.Action.RulePattern.Outputs.Length;
             }
-            else if(paramBindings is SequenceInvocationParameterBindings)
+            else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
+                SequenceInvocation seqInvocation = (SequenceInvocation)invocation;
+                if(seqInvocation.SequenceDef is SequenceDefinitionInterpreted)
                 {
-                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqParamBindings.SequenceDef;
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqInvocation.SequenceDef;
                     return seqDef.OutputVariables.Length;
                 }
                 else
                 {
-                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
+                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqInvocation.SequenceDef;
                     return seqDef.SeqInfo.OutParameterTypes.Length;
                 }
             }
-            else if(paramBindings is ProcedureInvocationParameterBindings)
+            else if(invocation is ProcedureInvocation)
             {
-                ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
+                ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procParamBindings.Name).Outputs.Length;
+                    return ownerType.GetProcedureMethod(procInvocation.Name).Outputs.Length;
                 else
-                    return procParamBindings.ProcedureDef.Outputs.Length;
+                    return procInvocation.ProcedureDef.Outputs.Length;
             }
             throw new Exception("Internal error");
         }
 
-        protected override string InputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType)
+        protected override string InputParameterType(int i, Invocation invocation, GrGenType ownerType)
         {
-            if(paramBindings is RuleInvocationParameterBindings)
+            if(invocation is RuleInvocation)
             {
-                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return TypesHelper.DotNetTypeToXgrsType(ruleParamBindings.Action.RulePattern.Inputs[i]);
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return TypesHelper.DotNetTypeToXgrsType(ruleInvocation.Action.RulePattern.Inputs[i]);
             }
-            else if(paramBindings is SequenceInvocationParameterBindings)
+            else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
+                SequenceInvocation seqInvocation = (SequenceInvocation)invocation;
+                if(seqInvocation.SequenceDef is SequenceDefinitionInterpreted)
                 {
-                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqParamBindings.SequenceDef;
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqInvocation.SequenceDef;
                     return seqDef.InputVariables[i].Type;
                 }
                 else
                 {
-                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
+                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqInvocation.SequenceDef;
                     return TypesHelper.DotNetTypeToXgrsType(seqDef.SeqInfo.ParameterTypes[i]);
                 }
             }
-            else if(paramBindings is ProcedureInvocationParameterBindings)
+            else if(invocation is ProcedureInvocation)
             {
-                ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
+                ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).Inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procInvocation.Name).Inputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.Inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(procInvocation.ProcedureDef.Inputs[i]);
             }
-            else if(paramBindings is FunctionInvocationParameterBindings)
+            else if(invocation is FunctionInvocation)
             {
-                FunctionInvocationParameterBindings funcParamBindings = (FunctionInvocationParameterBindings)paramBindings;
+                FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcParamBindings.Name).Inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcInvocation.Name).Inputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(funcParamBindings.FunctionDef.Inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(funcInvocation.FunctionDef.Inputs[i]);
             }
             throw new Exception("Internal error");
         }
 
-        protected override string OutputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType)
+        protected override string OutputParameterType(int i, Invocation invocation, GrGenType ownerType)
         {
-            if(paramBindings is RuleInvocationParameterBindings)
+            if(invocation is RuleInvocation)
             {
-                RuleInvocationParameterBindings ruleParamBindings = (RuleInvocationParameterBindings)paramBindings;
-                return TypesHelper.DotNetTypeToXgrsType(ruleParamBindings.Action.RulePattern.Outputs[i]);
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return TypesHelper.DotNetTypeToXgrsType(ruleInvocation.Action.RulePattern.Outputs[i]);
             }
-            else if(paramBindings is SequenceInvocationParameterBindings)
+            else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationParameterBindings seqParamBindings = (SequenceInvocationParameterBindings)paramBindings;
-                if(seqParamBindings.SequenceDef is SequenceDefinitionInterpreted)
+                SequenceInvocation seqInvocation = (SequenceInvocation)invocation;
+                if(seqInvocation.SequenceDef is SequenceDefinitionInterpreted)
                 {
-                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqParamBindings.SequenceDef;
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqInvocation.SequenceDef;
                     return seqDef.OutputVariables[i].Type;
                 }
                 else
                 {
-                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqParamBindings.SequenceDef;
+                    SequenceDefinitionCompiled seqDef = (SequenceDefinitionCompiled)seqInvocation.SequenceDef;
                     return TypesHelper.DotNetTypeToXgrsType(seqDef.SeqInfo.OutParameterTypes[i]);
                 }
             }
-            else if(paramBindings is ProcedureInvocationParameterBindings)
+            else if(invocation is ProcedureInvocation)
             {
-                ProcedureInvocationParameterBindings procParamBindings = (ProcedureInvocationParameterBindings)paramBindings;
+                ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procParamBindings.Name).Outputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procInvocation.Name).Outputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(procParamBindings.ProcedureDef.Outputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(procInvocation.ProcedureDef.Outputs[i]);
             }
             throw new Exception("Internal error");
         }
@@ -254,13 +254,13 @@ namespace de.unika.ipd.grGen.libGr
             }
             filterCall.Package = filterCall.PrePackage;
             filterCall.PackagePrefixedName = filterCall.Package != null ? filterCall.Package + "::" + filterCall.Name : filterCall.Name;
-            if(filterCall.IsContainedIn(seq.ParamBindings.Action.RulePattern.Filters))
+            if(filterCall.IsContainedIn(seq.RuleInvocation.Action.RulePattern.Filters))
                 return true;
-            if(filterCall.IsAutoGenerated && seq.ParamBindings.Package != null)
+            if(filterCall.IsAutoGenerated && seq.RuleInvocation.Package != null)
             {
-                filterCall.Package = seq.ParamBindings.Package;
-                filterCall.PackagePrefixedName = seq.ParamBindings.Package + "::" + filterCall.Name;
-                return filterCall.IsContainedIn(seq.ParamBindings.Action.RulePattern.Filters);
+                filterCall.Package = seq.RuleInvocation.Package;
+                filterCall.PackagePrefixedName = seq.RuleInvocation.Package + "::" + filterCall.Name;
+                return filterCall.IsContainedIn(seq.RuleInvocation.Action.RulePattern.Filters);
             }
             return false;
         }
@@ -274,7 +274,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return 1;
             }
-            foreach(IFilter filter in seq.ParamBindings.Action.RulePattern.Filters)
+            foreach(IFilter filter in seq.RuleInvocation.Action.RulePattern.Filters)
             {
                 if(filter is IFilterFunction)
                 {
@@ -296,7 +296,7 @@ namespace de.unika.ipd.grGen.libGr
                 return "int";
             if(filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
                 return "double";
-            foreach(IFilter filter in seq.ParamBindings.Action.RulePattern.Filters)
+            foreach(IFilter filter in seq.RuleInvocation.Action.RulePattern.Filters)
             {
                 if(filter is IFilterFunction)
                 {

@@ -1292,7 +1292,7 @@ namespace de.unika.ipd.grGen.lgsp
                     String returnParameterDeclarations;
                     String returnArguments;
                     String returnAssignments;
-                    helper.BuildReturnParameters(seqCall.ParamBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+                    helper.BuildReturnParameters(seqCall.ProcedureInvocation, seqCall.ReturnVars, out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
                     if(returnParameterDeclarations.Length != 0)
                         source.AppendFront(returnParameterDeclarations + "\n");
@@ -1300,10 +1300,10 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seqCall.IsExternalProcedureCalled)
                         source.AppendFront("GRGEN_EXPR.ExternalProcedures.");
                     else
-                        source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", TypesHelper.GetPackagePrefixDot(seqCall.ParamBindings.Package));
-                    source.Append(seqCall.ParamBindings.Name);
+                        source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", TypesHelper.GetPackagePrefixDot(seqCall.ProcedureInvocation.Package));
+                    source.Append(seqCall.ProcedureInvocation.Name);
                     source.Append("(procEnv, graph");
-                    source.Append(helper.BuildParameters(seqCall.ParamBindings));
+                    source.Append(helper.BuildParameters(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
                     source.Append(returnArguments);
                     source.Append(");\n");
 
@@ -1328,18 +1328,18 @@ namespace de.unika.ipd.grGen.lgsp
                         else
                             source.Append(helper.GetVar(seqCall.TargetVar));
                         source.Append(").ApplyProcedureMethod(procEnv, graph, ");
-                        source.Append("\"" + seqCall.ParamBindings.Name + "\"");
-                        source.Append(helper.BuildParametersInObject(seqCall.ParamBindings));
+                        source.Append("\"" + seqCall.ProcedureInvocation.Name + "\"");
+                        source.Append(helper.BuildParametersInObject(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
                         source.Append(");\n");
-                        for(int i = 0; i < seqCall.ParamBindings.ReturnVars.Length; i++)
-                            source.Append(helper.SetVar(seqCall.ParamBindings.ReturnVars[i], tmpVarName));
+                        for(int i = 0; i < seqCall.ReturnVars.Length; i++)
+                            source.Append(helper.SetVar(seqCall.ReturnVars[i], tmpVarName));
                     }
                     else
                     {
                         String returnParameterDeclarations;
                         String returnArguments;
                         String returnAssignments;
-                        helper.BuildReturnParameters(seqCall.ParamBindings, TypesHelper.GetNodeOrEdgeType(type, model), out returnParameterDeclarations, out returnArguments, out returnAssignments);
+                        helper.BuildReturnParameters(seqCall.ProcedureInvocation, seqCall.ReturnVars, TypesHelper.GetNodeOrEdgeType(type, model), out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
                         if(returnParameterDeclarations.Length != 0)
                             source.AppendFront(returnParameterDeclarations + "\n");
@@ -1352,9 +1352,9 @@ namespace de.unika.ipd.grGen.lgsp
                         else
                             source.Append(helper.GetVar(seqCall.TargetVar));
                         source.Append(").");
-                        source.Append(seqCall.ParamBindings.Name);
+                        source.Append(seqCall.ProcedureInvocation.Name);
                         source.Append("(procEnv, graph");
-                        source.Append(helper.BuildParameters(seqCall.ParamBindings, TypesHelper.GetNodeOrEdgeType(type, model).GetProcedureMethod(seqCall.ParamBindings.Name)));
+                        source.Append(helper.BuildParameters(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(type, model).GetProcedureMethod(seqCall.ProcedureInvocation.Name)));
                         source.Append(returnArguments);
                         source.Append(");\n");
                     }

@@ -906,11 +906,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceComputationDebugAdd : SequenceComputation
     {
         public List<SequenceExpression> ArgExprs;
+        object[] values;
 
         public SequenceComputationDebugAdd(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugAdd)
         {
             ArgExprs = argExprs;
+            values = new object[ArgExprs.Count - 1];
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -935,7 +937,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object[] values = new object[ArgExprs.Count-1];
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 values[i-1] = ArgExprs[i].Evaluate(procEnv);
@@ -970,11 +971,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceComputationDebugRem : SequenceComputation
     {
         public List<SequenceExpression> ArgExprs;
+        object[] values;
 
         public SequenceComputationDebugRem(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugRem)
         {
             ArgExprs = argExprs;
+            values = new object[ArgExprs.Count - 1];
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -999,7 +1002,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object[] values = new object[ArgExprs.Count - 1];
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 values[i - 1] = ArgExprs[i].Evaluate(procEnv);
@@ -1034,11 +1036,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceComputationDebugEmit : SequenceComputation
     {
         public List<SequenceExpression> ArgExprs;
+        object[] values;
 
         public SequenceComputationDebugEmit(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugEmit)
         {
             ArgExprs = argExprs;
+            values = new object[ArgExprs.Count - 1];
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -1063,7 +1067,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object[] values = new object[ArgExprs.Count - 1];
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 values[i - 1] = ArgExprs[i].Evaluate(procEnv);
@@ -1098,11 +1101,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceComputationDebugHalt : SequenceComputation
     {
         public List<SequenceExpression> ArgExprs;
+        object[] values;
 
         public SequenceComputationDebugHalt(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugHalt)
         {
             ArgExprs = argExprs;
+            values = new object[ArgExprs.Count - 1];
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -1127,7 +1132,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            object[] values = new object[ArgExprs.Count - 1];
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 values[i - 1] = ArgExprs[i].Evaluate(procEnv);
@@ -2526,57 +2530,53 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return GetProcedureString(); } }
     }
     
-    public class SequenceComputationProcedureCall : SequenceComputation
+    public abstract class SequenceComputationProcedureCall : SequenceComputation
     {
-        public ProcedureInvocationParameterBindings ParamBindings;
+        /// <summary>
+        /// An array of expressions used to compute the input arguments.
+        /// </summary>
+        public SequenceExpression[] ArgumentExpressions;
+
+        /// <summary>
+        /// Buffer to store the argument values for the call; used to avoid unneccessary memory allocations.
+        /// </summary>
+        public object[] Arguments;
+
+        /// <summary>
+        /// An array of variables used for the return values. Might be empty if the caller is not interested in available returns values.
+        /// </summary>
+        public SequenceVariable[] ReturnVars;
+
+        public abstract ProcedureInvocation ProcedureInvocation { get; }
+        public abstract String NameForProcedureString { get; }
+
         public bool IsExternalProcedureCalled;
 
-        public SequenceComputationProcedureCall(ProcedureInvocationParameterBindings paramBindings)
+        public SequenceComputationProcedureCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
             : base(SequenceComputationType.ProcedureCall)
         {
-            ParamBindings = paramBindings;
+            InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
+            InitializeReturnVariables(returnVars, out ReturnVars);
         }
 
-        public SequenceComputationProcedureCall(SequenceComputationType seqCompType, ProcedureInvocationParameterBindings paramBindings)
+        public SequenceComputationProcedureCall(SequenceComputationType seqCompType, List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
             : base(seqCompType)
         {
-            ParamBindings = paramBindings;
+            InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
+            InitializeReturnVariables(returnVars, out ReturnVars);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             env.CheckProcedureCall(this);
-            IsExternalProcedureCalled = env.IsProcedureCallExternal(ParamBindings);
-        }
-
-        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            SequenceComputationProcedureCall copy = (SequenceComputationProcedureCall)MemberwiseClone();
-            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
-            return copy;
-        }
-
-        public override object Execute(IGraphProcessingEnvironment procEnv)
-        {
-            IProcedureDefinition procedureDef = ParamBindings.ProcedureDef;
-            for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
-            {
-                if(ParamBindings.ArgumentExpressions[i] != null)
-                    ParamBindings.Arguments[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv);
-            }
-            object[] resultVars = procedureDef.Apply(procEnv, procEnv.Graph, ParamBindings);
-            if(ParamBindings.ReturnVars.Length>0)
-            {
-                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
-                    ParamBindings.ReturnVars[i].SetVariableValue(resultVars[i], procEnv);
-            }
-            return null;
+            IsExternalProcedureCalled = env.IsProcedureCallExternal(ProcedureInvocation);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
-            ParamBindings.GetLocalVariables(variables, containerConstructors);
+            GetLocalVariables(ArgumentExpressions, variables, containerConstructors);
+            GetLocalVariables(ReturnVars, variables, containerConstructors);
         }
 
         public override IEnumerable<SequenceComputation> Children { get { yield break; } }
@@ -2585,27 +2585,24 @@ namespace de.unika.ipd.grGen.libGr
         protected virtual String GetProcedureString()
         {
             StringBuilder sb = new StringBuilder();
-            if(ParamBindings.ReturnVars.Length > 0)
+            if(ReturnVars.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                for(int i = 0; i < ReturnVars.Length; ++i)
                 {
-                    sb.Append(ParamBindings.ReturnVars[i].Name);
-                    if(i != ParamBindings.ReturnVars.Length - 1) sb.Append(",");
+                    sb.Append(ReturnVars[i].Name);
+                    if(i != ReturnVars.Length - 1) sb.Append(",");
                 }
                 sb.Append(")=");
             }
-            sb.Append(ParamBindings.ProcedureDef.Name);
-            if(ParamBindings.ArgumentExpressions.Length > 0)
+            sb.Append(NameForProcedureString);
+            if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
-                    if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(ParamBindings.ArgumentExpressions[i].Symbol);
-                    else
-                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
-                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                    sb.Append(ArgumentExpressions[i].Symbol);
+                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
             }
@@ -2615,21 +2612,155 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return GetProcedureString(); } }
     }
 
+    public class SequenceComputationProcedureCallInterpreted : SequenceComputationProcedureCall
+    {
+        /// <summary>
+        /// The procedure to be used
+        /// </summary>
+        public IProcedureDefinition ProcedureDef;
+
+        public override ProcedureInvocation ProcedureInvocation
+        {
+            get { return new ProcedureInvocation(ProcedureDef); }
+        }
+
+        public override string NameForProcedureString
+        {
+            get { return ProcedureDef.Name; }
+        }
+
+        public SequenceComputationProcedureCallInterpreted(IProcedureDefinition ProcedureDef,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+            : base(argExprs, returnVars)
+        {
+            this.ProcedureDef = ProcedureDef;
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationProcedureCallInterpreted copy = (SequenceComputationProcedureCallInterpreted)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            IProcedureDefinition procedureDef = ProcedureDef;
+            FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+            object[] resultValues = procedureDef.Apply(procEnv, procEnv.Graph, Arguments);
+            if(ReturnVars.Length > 0)
+                FillReturnVariablesFromValues(ReturnVars, procEnv, resultValues);
+            return null;
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+    }
+
+    public class SequenceComputationProcedureCallCompiled : SequenceComputationProcedureCall
+    {
+        /// <summary>
+        /// The name of the procedure.
+        /// </summary>
+        public String Name;
+
+        /// <summary>
+        /// null if this is a call of a global procedure, otherwise the package the call target is contained in.
+        /// </summary>
+        public String Package;
+
+        /// <summary>
+        /// The name of the procedure, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String PackagePrefixedName;
+
+        public override ProcedureInvocation ProcedureInvocation
+        {
+            get
+            {
+                ProcedureInvocation procedureInvocation = new ProcedureInvocation(null);
+                procedureInvocation.Name = Name;
+                procedureInvocation.Package = Package;
+                procedureInvocation.PackagePrefixedName = PackagePrefixedName;
+                return procedureInvocation;
+            }
+        }
+
+        public override string NameForProcedureString
+        {
+            get { return Name; }
+        }
+
+        public SequenceComputationProcedureCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedProcedureNameExists,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+            : base(argExprs, returnVars)
+        {
+            this.Name = Name;
+
+            ResolvePackage(Name, PrePackage, PrePackageContext, unprefixedProcedureNameExists,
+                        out Package, out PackagePrefixedName);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceComputationProcedureCallCompiled copy = (SequenceComputationProcedureCallCompiled)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            return copy;
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+    }
+
     public class SequenceComputationProcedureMethodCall : SequenceComputationProcedureCall
     {
         public SequenceExpression TargetExpr;
         public SequenceVariable TargetVar;
 
-        public SequenceComputationProcedureMethodCall(SequenceExpression targetExpr, ProcedureInvocationParameterBindings paramBindings)
-            : base(SequenceComputationType.ProcedureMethodCall, paramBindings)
+        String Name;
+
+        public override ProcedureInvocation ProcedureInvocation
         {
-            TargetExpr = targetExpr;
+            get
+            {
+                ProcedureInvocation procedureInvocation = new ProcedureInvocation(null);
+                procedureInvocation.Name = Name;
+                return procedureInvocation;
+            }
         }
 
-        public SequenceComputationProcedureMethodCall(SequenceVariable targetVar, ProcedureInvocationParameterBindings paramBindings)
-            : base(SequenceComputationType.ProcedureMethodCall, paramBindings)
+        public override string NameForProcedureString
+        {
+            get { return Name; }
+        }
+
+        public SequenceComputationProcedureMethodCall(SequenceExpression targetExpr, 
+            String name, 
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+            : base(SequenceComputationType.ProcedureMethodCall, argExprs, returnVars)
+        {
+            TargetExpr = targetExpr;
+            Name = name;
+        }
+
+        public SequenceComputationProcedureMethodCall(SequenceVariable targetVar, 
+            String name, 
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+            : base(SequenceComputationType.ProcedureMethodCall, argExprs, returnVars)
         {
             TargetVar = targetVar;
+            Name = name;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -2645,7 +2776,10 @@ namespace de.unika.ipd.grGen.libGr
             SequenceComputationProcedureMethodCall copy = (SequenceComputationProcedureMethodCall)MemberwiseClone();
             if(TargetExpr!=null) copy.TargetExpr = TargetExpr.CopyExpression(originalToCopy, procEnv);
             if(TargetVar != null) copy.TargetVar = TargetVar.Copy(originalToCopy, procEnv);
-            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
             return copy;
         }
 
@@ -2656,17 +2790,10 @@ namespace de.unika.ipd.grGen.libGr
                 owner = (IGraphElement)TargetExpr.Evaluate(procEnv);
             else
                 owner = (IGraphElement)TargetVar.GetVariableValue(procEnv);
-            for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
-            {
-                if(ParamBindings.ArgumentExpressions[i] != null)
-                    ParamBindings.Arguments[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv);
-            }
-            object[] resultVars = owner.ApplyProcedureMethod(procEnv, procEnv.Graph, ParamBindings.Name, ParamBindings.Arguments);
-            if(ParamBindings.ReturnVars.Length > 0)
-            {
-                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
-                    ParamBindings.ReturnVars[i].SetVariableValue(resultVars[i], procEnv);
-            }
+            FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+            object[] resultValues = owner.ApplyProcedureMethod(procEnv, procEnv.Graph, NameForProcedureString, Arguments);
+            if(ReturnVars.Length > 0)
+                FillReturnVariablesFromValues(ReturnVars, procEnv, resultValues);
             return null;
         }
 
@@ -2675,7 +2802,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(TargetExpr != null) TargetExpr.GetLocalVariables(variables, containerConstructors);
             if(TargetVar != null) TargetVar.GetLocalVariables(variables);
-            ParamBindings.GetLocalVariables(variables, containerConstructors);
+            GetLocalVariables(ArgumentExpressions, variables, containerConstructors);
+            GetLocalVariables(ReturnVars, variables, containerConstructors);
         }
 
         public override IEnumerable<SequenceComputation> Children { get { yield break; } }
@@ -2684,29 +2812,26 @@ namespace de.unika.ipd.grGen.libGr
         protected override String GetProcedureString()
         {
             StringBuilder sb = new StringBuilder();
-            if(ParamBindings.ReturnVars.Length > 0)
+            if(ReturnVars.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                for(int i = 0; i < ReturnVars.Length; ++i)
                 {
-                    sb.Append(ParamBindings.ReturnVars[i].Name);
-                    if(i != ParamBindings.ReturnVars.Length - 1) sb.Append(",");
+                    sb.Append(ReturnVars[i].Name);
+                    if(i != ReturnVars.Length - 1) sb.Append(",");
                 }
                 sb.Append(")=");
             }
             if(TargetExpr != null) sb.Append(TargetExpr.Symbol + ".");
             if(TargetVar != null) sb.Append(TargetVar.ToString() + ".");
-            sb.Append(ParamBindings.ProcedureDef.Name);
-            if(ParamBindings.ArgumentExpressions.Length > 0)
+            sb.Append(NameForProcedureString);
+            if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
-                    if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(ParamBindings.ArgumentExpressions[i].Symbol);
-                    else
-                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
-                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                    sb.Append(ArgumentExpressions[i].Symbol);
+                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
             }

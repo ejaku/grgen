@@ -82,18 +82,18 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.RuleCountAllCall:
                 {
 					SequenceRuleCall seqRule = (SequenceRuleCall) seq;
-					String ruleName = seqRule.ParamBindings.PackagePrefixedName;
+					String ruleName = seqRule.RuleInvocation.PackagePrefixedName;
 					if(!knownRules.ContainsKey(ruleName))
 					{
                         knownRules.Add(ruleName, null);
-                        source.AppendFront(TypesHelper.GetPackagePrefixDot(seqRule.ParamBindings.Package) + "Action_" + seqRule.ParamBindings.Name + " " + "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.ParamBindings.Package, seqRule.ParamBindings.Name));
-                        source.Append(" = " + TypesHelper.GetPackagePrefixDot(seqRule.ParamBindings.Package) + "Action_" + seqRule.ParamBindings.Name + ".Instance;\n");
+                        source.AppendFront(TypesHelper.GetPackagePrefixDot(seqRule.RuleInvocation.Package) + "Action_" + seqRule.RuleInvocation.Name + " " + "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.RuleInvocation.Package, seqRule.RuleInvocation.Name));
+                        source.Append(" = " + TypesHelper.GetPackagePrefixDot(seqRule.RuleInvocation.Package) + "Action_" + seqRule.RuleInvocation.Name + ".Instance;\n");
                     }
-                    // no handling for the input arguments seqRule.ParamBindings.ArgumentExpressions needed 
+                    // no handling for the input arguments seqRule.ArgumentExpressions needed 
                     // because there can only be variable uses
-                    for(int i=0; i<seqRule.ParamBindings.ReturnVars.Length; ++i)
+                    for(int i=0; i<seqRule.ReturnVars.Length; ++i)
                     {
-                        EmitVarIfNew(seqRule.ParamBindings.ReturnVars[i], source);
+                        EmitVarIfNew(seqRule.ReturnVars[i], source);
                     }
                     if(seq.SequenceType == SequenceType.RuleCountAllCall)
                     {
@@ -106,11 +106,11 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.SequenceCall:
                 {
                     SequenceSequenceCall seqSeq = (SequenceSequenceCall)seq;
-                    // no handling for the input arguments seqSeq.ParamBindings.ArgumentExpressions or the optional Subgraph needed 
+                    // no handling for the input arguments seqSeq.ArgumentExpressions or the optional Subgraph needed 
                     // because there can only be variable uses
-                    for(int i = 0; i < seqSeq.ParamBindings.ReturnVars.Length; ++i)
+                    for(int i = 0; i < seqSeq.ReturnVars.Length; ++i)
                     {
-                        EmitVarIfNew(seqSeq.ParamBindings.ReturnVars[i], source);
+                        EmitVarIfNew(seqSeq.ReturnVars[i], source);
                     }
                     break;
                 }
@@ -232,11 +232,11 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.ProcedureCall:
                 {
                     SequenceComputationProcedureCall seqProc = (SequenceComputationProcedureCall)seqComp;
-                    // no handling for the input arguments seqProc.ParamBindings.ArgumentExpressions needed 
+                    // no handling for the input arguments seqProc.ArgumentExpressions needed 
                     // because there can only be variable uses
-                    for(int i = 0; i < seqProc.ParamBindings.ReturnVars.Length; ++i)
+                    for(int i = 0; i < seqProc.ReturnVars.Length; ++i)
                     {
-                        EmitVarIfNew(seqProc.ParamBindings.ReturnVars[i], source);
+                        EmitVarIfNew(seqProc.ReturnVars[i], source);
                     }
                     break;
                 }
@@ -244,7 +244,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceComputationType.BuiltinProcedureCall:
                 {
                     SequenceComputationBuiltinProcedureCall seqProc = (SequenceComputationBuiltinProcedureCall)seqComp;
-                    // no handling for the input arguments seqProc.ParamBindings.ArgumentExpressions needed 
+                    // no handling for the input arguments seqProc.ArgumentExpressions needed 
                     // because there can only be variable uses
                     for(int i = 0; i < seqProc.ReturnVars.Count; ++i)
                     {

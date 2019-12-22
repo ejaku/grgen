@@ -18,8 +18,6 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Environment for sequence (esp. type) checking giving access to model and action signatures.
     /// Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences.
-    /// The compiled version in addition resolves names that are given without package context but do not reference global names
-    /// because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language).
     /// </summary>
     public abstract class SequenceCheckingEnvironment
     {
@@ -29,192 +27,71 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IGraphModel Model { get; }
 
         /// <summary>
-        /// Helper for checking rule calls, rule all calls, and sequence calls.
+        /// Helper for checking rule calls.
         /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence to check, must be a rule call, a rule all call, or a sequence call</param>
-        public void CheckCall(Sequence seq, bool isRuleAllCall)
+        /// <param name="seqRuleCall">The rule call to check</param>
+        public void CheckRuleCall(SequenceRuleCall seqRuleCall)
         {
-            InvocationParameterBindingsWithReturns paramBindings = ExtractParameterBindings(seq);
+            RuleInvocation ruleInvocation = seqRuleCall.RuleInvocation;
 
             // check the name against the available names, "resolves" them as needed (pre- and context packages to packages)
-            if(!IsCalledEntityExisting(paramBindings, null))
-                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
+            if(!IsCalledEntityExisting(ruleInvocation, null))
+                throw new SequenceParserException(ruleInvocation, -1, SequenceParserError.UnknownRuleOrSequence);
 
-            // Check whether number of parameters and return parameters match
-            if(NumInputParameters(paramBindings, null) != paramBindings.ArgumentExpressions.Length
-                    || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings, null) != paramBindings.ReturnVars.Length)
-                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+            CheckInputParameters(ruleInvocation, seqRuleCall.ArgumentExpressions, null);
+            CheckOutputParameters(ruleInvocation, seqRuleCall.ReturnVars, null);
 
-            // Check parameter types
-            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
-            {
-                paramBindings.ArgumentExpressions[i].Check(this);
+            CheckFilterCalls(seqRuleCall, ruleInvocation);
 
-                if(paramBindings.ArgumentExpressions[i] != null)
-                {
-                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings, null), Model))
-                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
-                }
-                else
-                {
-                    if(paramBindings.Arguments[i]!=null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings, null), Model))
-                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
-                }
-            }
+            CheckSubgraph(ruleInvocation);
 
-            // Check return types
-            for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
-            {
-                if(isRuleAllCall)
-                {
-                    if(paramBindings.ReturnVars[i].Type != "")
-                    {
-                        if(!paramBindings.ReturnVars[i].Type.StartsWith("array<"))
-                        {
-                            Console.Error.WriteLine("An all call expects all return parameters T in an array<T>");
-                            throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
-                        }
-                        if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings, null), paramBindings.ReturnVars[i].Type.Substring(6, paramBindings.ReturnVars[i].Type.Length - 7), Model))
-                        {
-                            Console.Error.WriteLine("The arrays of the all call are inconsemurable in their value types");
-                            throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
-                        }
-                    }
-                }
-                else
-                {
-                    if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings, null), paramBindings.ReturnVars[i].Type, Model))
-                        throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
-                }
-            }
-
-            // Check filter calls
-            if(seq is SequenceRuleCall)
-            {
-                SequenceRuleCall seqRuleCall = (SequenceRuleCall)seq;
-                foreach(FilterCall filterCall in seqRuleCall.Filters)
-                {
-                    if(!IsFilterExisting(filterCall, seqRuleCall))
-                        throw new SequenceParserException(paramBindings.PackagePrefixedName ?? paramBindings.Name, filterCall.PackagePrefixedName ?? filterCall.Name, SequenceParserError.FilterError);
-
-                    // Check whether number of filter parameters match
-                    if(NumFilterFunctionParameters(filterCall, seqRuleCall) != filterCall.ArgumentExpressions.Length)
-                        throw new SequenceParserException(paramBindings.Name, filterCall.Name, SequenceParserError.FilterParameterError);
-
-                    // Check parameter types
-                    for(int i = 0; i < filterCall.ArgumentExpressions.Length; i++)
-                    {
-                        filterCall.ArgumentExpressions[i].Check(this);
-
-                        if(filterCall.ArgumentExpressions[i] != null)
-                        {
-                            if(!TypesHelper.IsSameOrSubtype(filterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
-                                throw new SequenceParserException(paramBindings.Name, filterCall.Name, SequenceParserError.FilterParameterError);
-                        }
-                        else
-                        {
-                            if(filterCall.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(filterCall.Arguments[i], Model), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
-                                throw new SequenceParserException(paramBindings.Name, filterCall.Name, SequenceParserError.FilterParameterError);
-                        }
-                    }
-                }
-            }
-
-            SequenceVariable subgraph;
-            if(paramBindings is RuleInvocationParameterBindings)
-                subgraph = ((RuleInvocationParameterBindings)paramBindings).Subgraph;
-            else
-                subgraph = ((SequenceInvocationParameterBindings)paramBindings).Subgraph;
-            if(subgraph!=null && !TypesHelper.IsSameOrSubtype("graph", subgraph.Type, Model))
-                throw new SequenceParserException(paramBindings.Name, subgraph.Type, SequenceParserError.SubgraphTypeError);
-    
             // ok, this is a well-formed invocation
         }
 
         /// <summary>
-        /// Helper for checking procedure calls.
+        /// Helper for checking rule all calls.
         /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence computation to check, must be a procedure call</param>
-        /// <param name="ownerType">Gives the owner type of the procedure method call, in case this is a method call, otherwise null</param>
-        private void CheckProcedureCallBase(SequenceComputation seq, GrGenType ownerType)
+        /// <param name="seqRuleAllCall">The rule all call to check</param>
+        public void CheckRuleAllCall(SequenceRuleAllCall seqRuleAllCall)
         {
-            InvocationParameterBindingsWithReturns paramBindings = (seq as SequenceComputationProcedureCall).ParamBindings;
+            RuleInvocation ruleInvocation = seqRuleAllCall.RuleInvocation;
 
-            // check the name against the available names
-            if(!IsCalledEntityExisting(paramBindings, ownerType))
-                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownProcedure);
+            // check the name against the available names, "resolves" them as needed (pre- and context packages to packages)
+            if(!IsCalledEntityExisting(ruleInvocation, null))
+                throw new SequenceParserException(ruleInvocation, -1, SequenceParserError.UnknownRuleOrSequence);
 
-            // Check whether number of parameters and return parameters match
-            if(NumInputParameters(paramBindings, ownerType) != paramBindings.ArgumentExpressions.Length
-                    || paramBindings.ReturnVars.Length != 0 && NumOutputParameters(paramBindings, ownerType) != paramBindings.ReturnVars.Length)
-                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+            CheckInputParameters(ruleInvocation, seqRuleAllCall.ArgumentExpressions, null);
+            CheckOutputParametersRuleAll(ruleInvocation, seqRuleAllCall.ReturnVars);
 
-            // Check parameter types
-            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
-            {
-                paramBindings.ArgumentExpressions[i].Check(this);
+            CheckFilterCalls(seqRuleAllCall, ruleInvocation);
 
-                if(paramBindings.ArgumentExpressions[i] != null)
-                {
-                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings, ownerType), Model))
-                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
-                }
-                else
-                {
-                    if(paramBindings.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings, ownerType), Model))
-                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
-                }
-            }
-
-            // Check return types
-            for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
-            {
-                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, paramBindings, ownerType), paramBindings.ReturnVars[i].Type, Model))
-                    throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
-            }
+            CheckSubgraph(ruleInvocation);
 
             // ok, this is a well-formed invocation
         }
 
         /// <summary>
-        /// Helper for checking function calls.
-        /// Checks whether called entity exists, and type checks the input.
+        /// Helper for checking sequence calls.
+        /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence expression to check, must be a function call</param>
-        /// <param name="ownerType">Gives the owner type of the function method call, in case this is a method call, otherwise null</param>
-        private void CheckFunctionCallBase(SequenceExpression seq, GrGenType ownerType)
+        /// <param name="seqSeqCall">The sequence call to check</param>
+        public void CheckSequenceCall(SequenceSequenceCall seqSeqCall)
         {
-            InvocationParameterBindings paramBindings = (seq as SequenceExpressionFunctionCall).ParamBindings;
+            SequenceInvocation sequenceInvocation = seqSeqCall.SequenceInvocation;
 
-            // check the name against the available names
-            if(!IsCalledEntityExisting(paramBindings, ownerType))
-                throw new SequenceParserException(paramBindings, SequenceParserError.UnknownFunction);
+            // check the name against the available names, "resolves" them as needed (pre- and context packages to packages)
+            if(!IsCalledEntityExisting(sequenceInvocation, null))
+                throw new SequenceParserException(sequenceInvocation, -1, SequenceParserError.UnknownRuleOrSequence);
 
-            // Check whether number of parameters and return parameters match
-            if(NumInputParameters(paramBindings, ownerType) != paramBindings.ArgumentExpressions.Length)
-                throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+            CheckInputParameters(sequenceInvocation, seqSeqCall.ArgumentExpressions, null);
+            CheckOutputParameters(sequenceInvocation, seqSeqCall.ReturnVars, null);
 
-            // Check parameter types
-            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
-            {
-                paramBindings.ArgumentExpressions[i].Check(this);
-
-                if(paramBindings.ArgumentExpressions[i] != null)
-                {
-                    if(!TypesHelper.IsSameOrSubtype(paramBindings.ArgumentExpressions[i].Type(this), InputParameterType(i, paramBindings, ownerType), Model))
-                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
-                }
-                else
-                {
-                    if(paramBindings.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(paramBindings.Arguments[i], Model), InputParameterType(i, paramBindings, ownerType), Model))
-                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
-                }
-            }
+            CheckSubgraph(sequenceInvocation);
 
             // ok, this is a well-formed invocation
         }
@@ -224,22 +101,20 @@ namespace de.unika.ipd.grGen.libGr
         /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence computation to check, must be a procedure call</param>
-        public void CheckProcedureCall(SequenceComputation seq)
+        /// <param name="seqCompProcCall">The procedure call to check</param>
+        public void CheckProcedureCall(SequenceComputationProcedureCall seqCompProcCall)
         {
-            CheckProcedureCallBase(seq, null);
+            CheckProcedureCallBase(seqCompProcCall, null);
         }
-
-        public abstract bool IsProcedureCallExternal(ProcedureInvocationParameterBindings paramBindings);
 
         /// <summary>
         /// Helper for checking procedure method calls.
         /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence computation to check, must be a procedure call</param>
+        /// <param name="seqCompProcMethodCall">The procedure method call to check</param>
         /// <param name="targetExpr">The target of the procedure method call</param>
-        public void CheckProcedureMethodCall(SequenceExpression targetExpr, SequenceComputation seq)
+        public void CheckProcedureMethodCall(SequenceExpression targetExpr, SequenceComputationProcedureMethodCall seqCompProcMethodCall)
         {
             if(targetExpr.Type(this) == "")
             {
@@ -254,7 +129,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(targetExpr.Type(this), SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
             }
             
-            CheckProcedureCallBase(seq, ownerType);
+            CheckProcedureCallBase(seqCompProcMethodCall, ownerType);
         }
 
         /// <summary>
@@ -262,9 +137,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence computation to check, must be a procedure call</param>
+        /// <param name="seqCompProcMethodCall">The procedure method call to check</param>
         /// <param name="targetVar">The target of the procedure method call</param>
-        public void CheckProcedureMethodCall(SequenceVariable targetVar, SequenceComputation seq)
+        public void CheckProcedureMethodCall(SequenceVariable targetVar, SequenceComputationProcedureMethodCall seqCompProcMethodCall)
         {
             if(targetVar.Type == "")
             {
@@ -279,7 +154,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(targetVar.Type, SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
             }
 
-            CheckProcedureCallBase(seq, ownerType);
+            CheckProcedureCallBase(seqCompProcMethodCall, ownerType);
         }
 
         /// <summary>
@@ -287,22 +162,20 @@ namespace de.unika.ipd.grGen.libGr
         /// Checks whether called entity exists, type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence expression to check, must be a function call</param>
-        public void CheckFunctionCall(SequenceExpression seq)
+        /// <param name="seq">The function call to check</param>
+        public void CheckFunctionCall(SequenceExpressionFunctionCall seq)
         {
             CheckFunctionCallBase(seq, null);
         }
-
-        public abstract bool IsFunctionCallExternal(FunctionInvocationParameterBindings paramBindings);
 
         /// <summary>
         /// Helper for checking function method calls.
         /// Checks whether called entity exists, and type checks the input.
         /// Throws an exception when an error is found.
         /// </summary>
-        /// <param name="seq">The sequence expression to check, must be a function call</param>
+        /// <param name="seqExprFuncMethodCall">The function method call to check</param>
         /// <param name="targetExpr">The target of the procedure function call</param>
-        public void CheckFunctionMethodCall(SequenceExpression targetExpr, SequenceExpression seq)
+        public void CheckFunctionMethodCall(SequenceExpression targetExpr, SequenceExpressionFunctionMethodCall seqExprFuncMethodCall)
         {
             if(targetExpr.Type(this) == "")
             {
@@ -317,8 +190,148 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(targetExpr.Type(this), SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
             }
 
-            CheckFunctionCallBase(seq, ownerType);
+            CheckFunctionCallBase(seqExprFuncMethodCall, ownerType);
         }
+
+        /// <summary>
+        /// Helper for checking procedure calls.
+        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seqCompProcCall">The procedure call to check</param>
+        /// <param name="ownerType">Gives the owner type of the procedure method call, in case this is a method call, otherwise null</param>
+        private void CheckProcedureCallBase(SequenceComputationProcedureCall seqCompProcCall, GrGenType ownerType)
+        {
+            ProcedureInvocation procedureInvocation = seqCompProcCall.ProcedureInvocation;
+
+            // check the name against the available names
+            if(!IsCalledEntityExisting(procedureInvocation, ownerType))
+                throw new SequenceParserException(procedureInvocation, -1, SequenceParserError.UnknownProcedure);
+
+            CheckInputParameters(procedureInvocation, seqCompProcCall.ArgumentExpressions, ownerType);
+            CheckOutputParameters(procedureInvocation, seqCompProcCall.ReturnVars, ownerType);
+
+            // ok, this is a well-formed invocation
+        }
+
+        /// <summary>
+        /// Helper for checking function calls.
+        /// Checks whether called entity exists, and type checks the input.
+        /// Throws an exception when an error is found.
+        /// </summary>
+        /// <param name="seqExprFuncCall">The function call to check</param>
+        /// <param name="ownerType">Gives the owner type of the function method call, in case this is a method call, otherwise null</param>
+        private void CheckFunctionCallBase(SequenceExpressionFunctionCall seqExprFuncCall, GrGenType ownerType)
+        {
+            FunctionInvocation functionInvocation = seqExprFuncCall.FunctionInvocation;
+
+            // check the name against the available names
+            if(!IsCalledEntityExisting(functionInvocation, ownerType))
+                throw new SequenceParserException(functionInvocation, -1, SequenceParserError.UnknownFunction);
+
+            CheckInputParameters(functionInvocation, seqExprFuncCall.ArgumentExpressions, ownerType);
+
+            // ok, this is a well-formed invocation
+        }
+
+        private void CheckInputParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, GrGenType ownerType)
+        {
+            // Check whether number of parameters and return parameters match
+            if(NumInputParameters(invocation, ownerType) != ArgumentExpressions.Length)
+                throw new SequenceParserException(invocation, ArgumentExpressions.Length, SequenceParserError.BadNumberOfParameters);
+
+            // Check parameter types
+            for(int i = 0; i < ArgumentExpressions.Length; i++)
+            {
+                ArgumentExpressions[i].Check(this);
+
+                if(!TypesHelper.IsSameOrSubtype(ArgumentExpressions[i].Type(this), InputParameterType(i, invocation, ownerType), Model))
+                    throw new SequenceParserException(invocation, -1, SequenceParserError.BadParameter, i);
+            }
+        }
+
+        private void CheckOutputParameters(Invocation invocation, SequenceVariable[] ReturnVars, GrGenType ownerType)
+        {
+            // Check whether number of parameters and return parameters match
+            if(ReturnVars.Length != 0 && NumOutputParameters(invocation, ownerType) != ReturnVars.Length)
+                throw new SequenceParserException(invocation, ReturnVars.Length, SequenceParserError.BadNumberOfReturnParameters);
+
+            // Check return types
+            for(int i = 0; i < ReturnVars.Length; ++i)
+            {
+                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, invocation, ownerType), ReturnVars[i].Type, Model))
+                    throw new SequenceParserException(invocation, -1, SequenceParserError.BadReturnParameter, i);
+            }
+        }
+
+        private void CheckOutputParametersRuleAll(Invocation invocation, SequenceVariable[] ReturnVars)
+        {
+            // Check whether number of parameters and return parameters match
+            if(ReturnVars.Length != 0 && NumOutputParameters(invocation, null) != ReturnVars.Length)
+                throw new SequenceParserException(invocation, ReturnVars.Length, SequenceParserError.BadNumberOfReturnParameters);
+
+            // Check return types
+            for(int i = 0; i < ReturnVars.Length; ++i)
+            {
+                if(ReturnVars[i].Type != "")
+                {
+                    if(!ReturnVars[i].Type.StartsWith("array<"))
+                    {
+                        Console.Error.WriteLine("An all call expects all return parameters T in an array<T>");
+                        throw new SequenceParserException(invocation, -1, SequenceParserError.BadReturnParameter, i);
+                    }
+                    if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, invocation, null), ReturnVars[i].Type.Substring(6, ReturnVars[i].Type.Length - 7), Model))
+                    {
+                        Console.Error.WriteLine("The arrays of the all call are inconsemurable in their value types");
+                        throw new SequenceParserException(invocation, -1, SequenceParserError.BadReturnParameter, i);
+                    }
+                }
+            }
+        }
+
+        private void CheckFilterCalls(SequenceRuleCall seqRuleCall, Invocation invocation)
+        {
+            foreach(FilterCall filterCall in seqRuleCall.Filters)
+            {
+                if(!IsFilterExisting(filterCall, seqRuleCall))
+                    throw new SequenceParserException(invocation.PackagePrefixedName ?? invocation.Name, filterCall.PackagePrefixedName ?? filterCall.Name, SequenceParserError.FilterError);
+
+                // Check whether number of filter parameters match
+                if(NumFilterFunctionParameters(filterCall, seqRuleCall) != filterCall.ArgumentExpressions.Length)
+                    throw new SequenceParserException(invocation.Name, filterCall.Name, SequenceParserError.FilterParameterError);
+
+                // Check parameter types
+                for(int i = 0; i < filterCall.ArgumentExpressions.Length; i++)
+                {
+                    filterCall.ArgumentExpressions[i].Check(this);
+
+                    if(filterCall.ArgumentExpressions[i] != null)
+                    {
+                        if(!TypesHelper.IsSameOrSubtype(filterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
+                            throw new SequenceParserException(invocation.Name, filterCall.Name, SequenceParserError.FilterParameterError);
+                    }
+                    else
+                    {
+                        if(filterCall.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(filterCall.Arguments[i], Model), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
+                            throw new SequenceParserException(invocation.Name, filterCall.Name, SequenceParserError.FilterParameterError);
+                    }
+                }
+            }
+        }
+
+        private void CheckSubgraph(Invocation invocation)
+        {
+            SequenceVariable subgraph;
+            if(invocation is RuleInvocation)
+                subgraph = ((RuleInvocation)invocation).Subgraph;
+            else
+                subgraph = ((SequenceInvocation)invocation).Subgraph;
+            if(subgraph != null && !TypesHelper.IsSameOrSubtype("graph", subgraph.Type, Model))
+                throw new SequenceParserException(invocation.Name, subgraph.Type, SequenceParserError.SubgraphTypeError);
+        }
+
+        public abstract bool IsFunctionCallExternal(FunctionInvocation functionInvocation);
+        public abstract bool IsProcedureCallExternal(ProcedureInvocation procedureInvocation);
 
         /// <summary>
         /// Helper which returns the type of the given top level entity of the given rule.
@@ -327,19 +340,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract string TypeOfTopLevelEntityInRule(string ruleName, string entityName);
 
-        private InvocationParameterBindingsWithReturns ExtractParameterBindings(SequenceBase seq)
-        {
-            if(seq is SequenceRuleCall) // hint: a rule all call is a rule call, too
-                return (seq as SequenceRuleCall).ParamBindings;
-            else
-                return (seq as SequenceSequenceCall).ParamBindings;
-        }
-
-        protected abstract bool IsCalledEntityExisting(InvocationParameterBindings paramBindings, GrGenType ownerType);
-        protected abstract int NumInputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType);
-        protected abstract int NumOutputParameters(InvocationParameterBindings paramBindings, GrGenType ownerType);
-        protected abstract string InputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType);
-        protected abstract string OutputParameterType(int i, InvocationParameterBindings paramBindings, GrGenType ownerType);
+        protected abstract bool IsCalledEntityExisting(Invocation invocation, GrGenType ownerType);
+        protected abstract int NumInputParameters(Invocation invocation, GrGenType ownerType);
+        protected abstract int NumOutputParameters(Invocation invocation, GrGenType ownerType);
+        protected abstract string InputParameterType(int i, Invocation invocation, GrGenType ownerType);
+        protected abstract string OutputParameterType(int i, Invocation invocation, GrGenType ownerType);
         protected abstract bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq);
         protected abstract int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq);
         protected abstract string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq);

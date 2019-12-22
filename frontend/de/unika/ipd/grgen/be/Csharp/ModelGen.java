@@ -2153,7 +2153,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tthrow new Exception(\"Not implemented, can't call function method without this object!\");\n");
 		sb.append("\t\t}\n");
@@ -2209,7 +2209,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tthrow new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
 		sb.append("\t\t}\n");
@@ -4765,7 +4765,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tthrow new Exception(\"Not implemented, can't call function method without this object!\");\n");
 		sb.append("\t\t}\n");
@@ -4823,7 +4823,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tthrow new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
 		sb.append("\t\t}\n");

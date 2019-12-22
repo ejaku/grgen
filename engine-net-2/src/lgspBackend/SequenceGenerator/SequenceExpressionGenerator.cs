@@ -1389,10 +1389,10 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seqFuncCall.IsExternalFunctionCalled)
                         sb.Append("GRGEN_EXPR.ExternalFunctions.");
                     else
-                        sb.AppendFormat("GRGEN_ACTIONS.{0}Functions.", TypesHelper.GetPackagePrefixDot(seqFuncCall.ParamBindings.Package));
-                    sb.Append(seqFuncCall.ParamBindings.Name);
+                        sb.AppendFormat("GRGEN_ACTIONS.{0}Functions.", TypesHelper.GetPackagePrefixDot(seqFuncCall.FunctionInvocation.Package));
+                    sb.Append(seqFuncCall.FunctionInvocation.Name);
                     sb.Append("(procEnv, graph");
-                    sb.Append(helper.BuildParameters(seqFuncCall.ParamBindings));
+                    sb.Append(helper.BuildParameters(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions));
                     sb.Append(")");
                     return sb.ToString();
                 }
@@ -1406,8 +1406,8 @@ namespace de.unika.ipd.grGen.lgsp
                         sb.Append("((GRGEN_LIBGR.IGraphElement)");
                         sb.Append(GetSequenceExpression(seqFuncCall.TargetExpr, source));
                         sb.Append(").ApplyFunctionMethod(procEnv, graph, ");
-                        sb.Append("\"" + seqFuncCall.ParamBindings.Name+ "\"");
-                        sb.Append(helper.BuildParametersInObject(seqFuncCall.ParamBindings));
+                        sb.Append("\"" + seqFuncCall.FunctionInvocation.Name+ "\"");
+                        sb.Append(helper.BuildParametersInObject(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions));
                         sb.Append(")");
                     }
                     else
@@ -1417,9 +1417,9 @@ namespace de.unika.ipd.grGen.lgsp
                         sb.Append(")");
                         sb.Append(GetSequenceExpression(seqFuncCall.TargetExpr, source));
                         sb.Append(").");
-                        sb.Append(seqFuncCall.ParamBindings.Name);
+                        sb.Append(seqFuncCall.FunctionInvocation.Name);
                         sb.Append("(procEnv, graph");
-                        sb.Append(helper.BuildParameters(seqFuncCall.ParamBindings, TypesHelper.GetNodeOrEdgeType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.ParamBindings.Name)));
+                        sb.Append(helper.BuildParameters(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.FunctionInvocation.Name)));
                         sb.Append(")");
                     }
                     return sb.ToString();
