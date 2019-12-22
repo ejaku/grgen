@@ -47,8 +47,9 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             }
         }
 
-        public override SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, String packagePrefix,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
+        public override SequenceSequenceCall CreateSequenceSequenceCall(String sequenceName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special)
         {
             ISequenceDefinition sequenceDef = null;
             if(packagePrefix != null) {
@@ -61,15 +62,17 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new Exception("Unknown sequence: " + sequenceName);
             }
 
-            SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(sequenceDef,
-                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
+            SequenceSequenceCall seqSequenceCall = new SequenceSequenceCallInterpreted(sequenceDef,
+                argExprs, returnVars, subgraph,
+                special);
 
-            return paramBindings;
+            return seqSequenceCall;
         }
 
 
-        public override RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, String packagePrefix,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph)
+        public override SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters)
         {
             IAction action = null;
             if(packagePrefix != null) {
@@ -82,10 +85,66 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new Exception("Unknown rule: " + ruleName);
             }
 
-            RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action,
-                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray(), subgraph);
+            SequenceRuleCall seqRuleCall = new SequenceRuleCallInterpreted(action,
+                argExprs, returnVars, subgraph,
+                special, test, filters);
 
-            return paramBindings;
+            return seqRuleCall;
+        }
+
+        public override SequenceRuleAllCall CreateSequenceRuleAllCall(String ruleName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test,
+            bool chooseRandom, SequenceVariable varChooseRandom,
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<FilterCall> filters)
+        {
+            IAction action = null;
+            if(packagePrefix != null)
+            {
+                action = actions.GetAction(packagePrefix + "::" + ruleName);
+                if(action == null)
+                    throw new Exception("Unknown rule: " + packagePrefix + "::" + ruleName);
+            }
+            else
+            {
+                action = actions.GetAction(ruleName);
+                if(action == null)
+                    throw new Exception("Unknown rule: " + ruleName);
+            }
+
+            SequenceRuleAllCall seqRuleAllCall = new SequenceRuleAllCallInterpreted(action,
+                argExprs, returnVars, subgraph,
+                special, test, filters,
+                chooseRandom, varChooseRandom,
+                chooseRandom2, varChooseRandom2, choice);
+
+            return seqRuleAllCall;
+        }
+
+        public override SequenceRuleCountAllCall CreateSequenceRuleCountAllCall(String ruleName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, SequenceVariable countResult, List<FilterCall> filters)
+        {
+            IAction action = null;
+            if(packagePrefix != null)
+            {
+                action = actions.GetAction(packagePrefix + "::" + ruleName);
+                if(action == null)
+                    throw new Exception("Unknown rule: " + packagePrefix + "::" + ruleName);
+            }
+            else
+            {
+                action = actions.GetAction(ruleName);
+                if(action == null)
+                    throw new Exception("Unknown rule: " + ruleName);
+            }
+
+            SequenceRuleCountAllCall seqRuleCountAllCall = new SequenceRuleCountAllCallInterpreted(action,
+                argExprs, returnVars, subgraph,
+                special, test, filters,
+                countResult);
+
+            return seqRuleCountAllCall;
         }
 
         public override bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage)
@@ -132,7 +191,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return ((BaseActions)actions).ProcedureNames;
         }
 
-        public override ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(String procedureName, String packagePrefix,
+        public override SequenceComputationProcedureCall CreateSequenceComputationProcedureCall(String procedureName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
         {
             IProcedureDefinition procedureDef = null;
@@ -141,11 +200,9 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             } else {
                 procedureDef = actions.GetProcedureDefinition(procedureName);
             }
-
-            ProcedureInvocationParameterBindings paramBindings = new ProcedureInvocationParameterBindings(procedureDef,
-                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
     
-            return paramBindings;
+            return new SequenceComputationProcedureCallInterpreted(procedureDef, 
+                argExprs, returnVars);
         }
 
 
@@ -164,7 +221,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return ((BaseActions)actions).FunctionNames;
         }
 
-        public override FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName, String packagePrefix,
+        public override SequenceExpressionFunctionCall CreateSequenceExpressionFunctionCall(String functionName, String packagePrefix,
             List<SequenceExpression> argExprs)
         {
             IFunctionDefinition functionDef = null;
@@ -174,10 +231,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 functionDef = actions.GetFunctionDefinition(functionName);
             }
 
-            FunctionInvocationParameterBindings paramBindings = new FunctionInvocationParameterBindings(functionDef,
-                argExprs.ToArray(), new object[argExprs.Count]);
-
-            return paramBindings;
+            return new SequenceExpressionFunctionCallInterpreted(functionDef, argExprs);
         }
     }
 }

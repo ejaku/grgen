@@ -57,9 +57,11 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Apply a rewrite rule (first computing the parameters with sequence expressions, last assigning result variables).
+        /// Apply a rewrite rule.
         /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the rule invocation</param>
+        /// <param name="action">The rule to invoke</param>
+        /// <param name="subgraph">The subgraph to invoke the rule in, if not null</param>
+        /// <param name="arguments">The input arguments</param>
         /// <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
         /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
         /// depends on MaxMatches)</param>
@@ -67,8 +69,9 @@ namespace de.unika.ipd.grGen.libGr
         /// the application</param>
         /// <param name="test">If true, no rewrite step is performed.</param>
         /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
-        /// <returns>The number of matches found</returns>
-        int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters);
+        /// <param name="numMatches">The amount of matches found (output returned).</param>
+        /// <returns>The list of outputs (for each match a list element, a list element is an array with the returned values).</returns>
+        List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches);
 
 
         #region Variables management

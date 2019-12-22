@@ -252,12 +252,12 @@ public class ActionsGen extends CSharpBase {
 		addAnnotations(sb, function, "annotations");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\treturn GRGEN_EXPR.ExternalFunctions." + functionName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		i = 0;
-		for(Type inType : function.getParameterTypes()) {			
-			sb.append(", (" + formatType(inType) + ")paramBindings.Arguments[" + i + "]");
+		for(Type inType : function.getParameterTypes()) {
+			sb.append(", (" + formatType(inType) + ")arguments[" + i + "]");
 			++i;
 		}
 		sb.append(");\n");
@@ -314,7 +314,7 @@ public class ActionsGen extends CSharpBase {
 		addAnnotations(sb, procedure, "annotations");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.append("\t\t{\n");
 		
 		i = 0;
@@ -328,7 +328,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tGRGEN_EXPR.ExternalProcedures." + procedureName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		i = 0;
 		for(Type inType : procedure.getParameterTypes()) {
-			sb.append(", (" + formatType(inType) + ")paramBindings.Arguments[" + i + "]");
+			sb.append(", (" + formatType(inType) + ")arguments[" + i + "]");
 			++i;
 		}
 		for(i=0; i<procedure.getReturnTypes().size(); ++i) {
@@ -586,12 +586,12 @@ public class ActionsGen extends CSharpBase {
 		addAnnotations(sb, function, "annotations");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\treturn GRGEN_ACTIONS." + getPackagePrefixDot(function) + "Functions." + functionName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		int i = 0;
-		for(Entity inParam : function.getParameters()) {			
-			sb.append(", (" + formatType(inParam.getType()) + ")paramBindings.Arguments[" + i + "]");
+		for(Entity inParam : function.getParameters()) {
+			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
 			++i;
 		}
 		sb.append(");\n");
@@ -726,7 +726,7 @@ public class ActionsGen extends CSharpBase {
 		addAnnotations(sb, procedure, "annotations");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)\n");
+		sb.append("\t\tpublic override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.append("\t\t{\n");
 		
 		int i = 0;
@@ -740,7 +740,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tGRGEN_ACTIONS." + getPackagePrefixDot(procedure) + "Procedures." + procedureName + "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		i = 0;
 		for(Entity inParam : procedure.getParameters()) {
-			sb.append(", (" + formatType(inParam.getType()) + ")paramBindings.Arguments[" + i + "]");
+			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
 			++i;
 		}
 		for(i=0; i<procedure.getReturnTypes().size(); ++i) {

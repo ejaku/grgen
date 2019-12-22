@@ -108,24 +108,24 @@ namespace de.unika.ipd.grGen.lgsp
             return id;
         }
 
-        public String BuildParameters(InvocationParameterBindings paramBindings)
+        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions)
         {
             String parameters = "";
-            for (int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            for(int i = 0; i < ArgumentExpressions.Length; i++)
             {
-                if (paramBindings.ArgumentExpressions[i] != null)
+                if(ArgumentExpressions[i] != null)
                 {
                     String typeName;
-                    if(actionsTypeInformation.rulesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
-                        typeName = actionsTypeInformation.rulesToInputTypes[paramBindings.PackagePrefixedName][i];
-                    else if(actionsTypeInformation.sequencesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
-                        typeName = actionsTypeInformation.sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
-                    else if(actionsTypeInformation.proceduresToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
-                        typeName = actionsTypeInformation.proceduresToInputTypes[paramBindings.PackagePrefixedName][i];
+                    if(actionsTypeInformation.rulesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
+                        typeName = actionsTypeInformation.rulesToInputTypes[invocation.PackagePrefixedName][i];
+                    else if(actionsTypeInformation.sequencesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
+                        typeName = actionsTypeInformation.sequencesToInputTypes[invocation.PackagePrefixedName][i];
+                    else if(actionsTypeInformation.proceduresToInputTypes.ContainsKey(invocation.PackagePrefixedName))
+                        typeName = actionsTypeInformation.proceduresToInputTypes[invocation.PackagePrefixedName][i];
                     else
-                        typeName = actionsTypeInformation.functionsToInputTypes[paramBindings.PackagePrefixedName][i];
+                        typeName = actionsTypeInformation.functionsToInputTypes[invocation.PackagePrefixedName][i];
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -136,16 +136,16 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        public String BuildParameters(InvocationParameterBindings paramBindings, IFunctionDefinition functionMethod)
+        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, IFunctionDefinition functionMethod)
         {
             String parameters = "";
-            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            for(int i = 0; i < ArgumentExpressions.Length; i++)
             {
-                if(paramBindings.ArgumentExpressions[i] != null)
+                if(ArgumentExpressions[i] != null)
                 {
                     String typeName = TypesHelper.DotNetTypeToXgrsType(functionMethod.Inputs[i]);
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -156,16 +156,16 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        public String BuildParameters(InvocationParameterBindings paramBindings, IProcedureDefinition procedureMethod)
+        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, IProcedureDefinition procedureMethod)
         {
             String parameters = "";
-            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            for(int i = 0; i < ArgumentExpressions.Length; i++)
             {
-                if(paramBindings.ArgumentExpressions[i] != null)
+                if(ArgumentExpressions[i] != null)
                 {
                     String typeName = TypesHelper.DotNetTypeToXgrsType(procedureMethod.Inputs[i]);
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -176,14 +176,14 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        public String BuildParametersInObject(InvocationParameterBindings paramBindings)
+        public String BuildParametersInObject(Invocation invocation, SequenceExpression[] ArgumentExpressions)
         {
             String parameters = ", new object[] { ";
-            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            for(int i = 0; i < ArgumentExpressions.Length; i++)
             {
-                if(paramBindings.ArgumentExpressions[i] != null)
+                if(ArgumentExpressions[i] != null)
                 {
-                    parameters += ", " + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null);
+                    parameters += ", " + exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
                 }
                 else
                 {
@@ -194,22 +194,22 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters + " }";
         }
 
-        public String BuildParametersInDeclarations(InvocationParameterBindings paramBindings, out String declarations)
+        public String BuildParametersInDeclarations(Invocation invocation, SequenceExpression[] ArgumentExpressions, out String declarations)
         {
             String parameters = "";
             declarations = "";
-            for(int i = 0; i < paramBindings.ArgumentExpressions.Length; i++)
+            for(int i = 0; i < ArgumentExpressions.Length; i++)
             {
-                if(paramBindings.ArgumentExpressions[i] != null)
+                if(ArgumentExpressions[i] != null)
                 {
                     String typeName;
-                    if(actionsTypeInformation.rulesToInputTypes.ContainsKey(paramBindings.PackagePrefixedName))
-                        typeName = actionsTypeInformation.rulesToInputTypes[paramBindings.PackagePrefixedName][i];
+                    if(actionsTypeInformation.rulesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
+                        typeName = actionsTypeInformation.rulesToInputTypes[invocation.PackagePrefixedName][i];
                     else 
-                        typeName = actionsTypeInformation.sequencesToInputTypes[paramBindings.PackagePrefixedName][i];
+                        typeName = actionsTypeInformation.sequencesToInputTypes[invocation.PackagePrefixedName][i];
                     String type = TypesHelper.XgrsTypeToCSharpType(typeName, model);
                     String name = "tmpvar_" + GetUniqueId();
-                    declarations += type + " " + name + " = " + "(" + type + ")" + exprGen.GetSequenceExpression(paramBindings.ArgumentExpressions[i], null) + ";";
+                    declarations += type + " " + name + " = " + "(" + type + ")" + exprGen.GetSequenceExpression(ArgumentExpressions[i], null) + ";";
                     parameters += ", " + name;
                 }
                 else
@@ -221,28 +221,28 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        public void BuildOutParameters(SequenceInvocationParameterBindings paramBindings, out String outParameterDeclarations, out String outArguments, out String outAssignments)
+        public void BuildOutParameters(SequenceInvocation invocation, SequenceVariable[] ReturnVars, out String outParameterDeclarations, out String outArguments, out String outAssignments)
         {
             outParameterDeclarations = "";
             outArguments = "";
             outAssignments = "";
-            for(int i = 0; i < actionsTypeInformation.sequencesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.sequencesToOutputTypes[invocation.PackagePrefixedName].Count; i++)
             {
                 String varName;
-                if(paramBindings.ReturnVars.Length != 0)
-                    varName = GetUniqueId() + paramBindings.ReturnVars[i].PureName;
+                if(ReturnVars.Length != 0)
+                    varName = GetUniqueId() + ReturnVars[i].PureName;
                 else
                     varName = GetUniqueId();
-                String typeName = actionsTypeInformation.sequencesToOutputTypes[paramBindings.PackagePrefixedName][i];
+                String typeName = actionsTypeInformation.sequencesToOutputTypes[invocation.PackagePrefixedName][i];
                 outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName
                     + " = " + TypesHelper.DefaultValueString(typeName, model) + ";";
                 outArguments += ", ref tmpvar_" + varName;
-                if(paramBindings.ReturnVars.Length != 0)
-                    outAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
+                if(ReturnVars.Length != 0)
+                    outAssignments += SetVar(ReturnVars[i], "tmpvar_" + varName);
             }
         }
 
-        public void BuildReturnParameters(RuleInvocationParameterBindings paramBindings, 
+        public void BuildReturnParameters(RuleInvocation invocation, SequenceVariable[] ReturnVars,
             out String returnParameterDeclarations, out String returnArguments, out String returnAssignments,
             out String returnParameterDeclarationsAllCall, out String intermediateReturnAssignmentsAllCall, out String returnAssignmentsAllCall)
         {
@@ -258,14 +258,14 @@ namespace de.unika.ipd.grGen.lgsp
             StringBuilder sbIntermediateReturnAssignmentsAllCall = new StringBuilder();
             StringBuilder sbReturnAssignmentsAllCall = new StringBuilder();
 
-            for(int i = 0; i < actionsTypeInformation.rulesToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.rulesToOutputTypes[invocation.PackagePrefixedName].Count; i++)
             {
                 String varName;
-                if(paramBindings.ReturnVars.Length != 0)
-                    varName = GetUniqueId() + paramBindings.ReturnVars[i].PureName;
+                if(ReturnVars.Length != 0)
+                    varName = GetUniqueId() + ReturnVars[i].PureName;
                 else
                     varName = GetUniqueId();
-                String typeName = actionsTypeInformation.rulesToOutputTypes[paramBindings.PackagePrefixedName][i];
+                String typeName = actionsTypeInformation.rulesToOutputTypes[invocation.PackagePrefixedName][i];
                 
                 sbReturnParameterDeclarations.Append(TypesHelper.XgrsTypeToCSharpType(typeName, model));
                 sbReturnParameterDeclarations.Append(" tmpvar_");
@@ -273,9 +273,9 @@ namespace de.unika.ipd.grGen.lgsp
                 sbReturnParameterDeclarations.Append("; ");
 
                 String returnListValueVarType = typeName;
-                if(paramBindings.ReturnVars.Length != 0 && paramBindings.ReturnVars[i].Type != "" && paramBindings.ReturnVars[i].Type.StartsWith("array<"))
-                    returnListValueVarType = TypesHelper.ExtractSrc(paramBindings.ReturnVars[i].Type);
-                if(paramBindings.ReturnVars.Length != 0)
+                if(ReturnVars.Length != 0 && ReturnVars[i].Type != "" && ReturnVars[i].Type.StartsWith("array<"))
+                    returnListValueVarType = TypesHelper.ExtractSrc(ReturnVars[i].Type);
+                if(ReturnVars.Length != 0)
                 {
                     sbReturnParameterDeclarationsAllCall.Append("List<");
                     sbReturnParameterDeclarationsAllCall.Append(TypesHelper.XgrsTypeToCSharpType(returnListValueVarType, model));
@@ -289,9 +289,9 @@ namespace de.unika.ipd.grGen.lgsp
                 sbReturnArguments.Append(", out tmpvar_");
                 sbReturnArguments.Append(varName);
 
-                if(paramBindings.ReturnVars.Length != 0)
+                if(ReturnVars.Length != 0)
                 {
-                    sbReturnAssignments.Append(SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName));
+                    sbReturnAssignments.Append(SetVar(ReturnVars[i], "tmpvar_" + varName));
 
                     sbIntermediateReturnAssignmentsAllCall.Append("tmpvarlist_");
                     sbIntermediateReturnAssignmentsAllCall.Append(varName);
@@ -301,7 +301,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sbIntermediateReturnAssignmentsAllCall.Append(varName);
                     sbIntermediateReturnAssignmentsAllCall.Append("); ");
                     
-                    sbReturnAssignmentsAllCall.Append(SetVar(paramBindings.ReturnVars[i], "tmpvarlist_" + varName));
+                    sbReturnAssignmentsAllCall.Append(SetVar(ReturnVars[i], "tmpvarlist_" + varName));
                 }
             }
 
@@ -313,7 +313,7 @@ namespace de.unika.ipd.grGen.lgsp
             returnAssignmentsAllCall = sbReturnAssignmentsAllCall.ToString();
         }
 
-        public void BuildReturnParameters(ProcedureInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
+        public void BuildReturnParameters(ProcedureInvocation invocation, SequenceVariable[] ReturnVars, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
         {
             // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
             // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
@@ -323,22 +323,22 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int i = 0; i < actionsTypeInformation.proceduresToOutputTypes[paramBindings.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.proceduresToOutputTypes[invocation.PackagePrefixedName].Count; i++)
             {
                 String varName;
-                if(paramBindings.ReturnVars.Length != 0)
-                    varName = GetUniqueId() + paramBindings.ReturnVars[i].PureName;
+                if(ReturnVars.Length != 0)
+                    varName = GetUniqueId() + ReturnVars[i].PureName;
                 else
                     varName = GetUniqueId();
-                String typeName = actionsTypeInformation.proceduresToOutputTypes[paramBindings.PackagePrefixedName][i];
+                String typeName = actionsTypeInformation.proceduresToOutputTypes[invocation.PackagePrefixedName][i];
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
-                if(paramBindings.ReturnVars.Length != 0)
-                    returnAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
+                if(ReturnVars.Length != 0)
+                    returnAssignments += SetVar(ReturnVars[i], "tmpvar_" + varName);
             }
         }
 
-        public void BuildReturnParameters(ProcedureInvocationParameterBindings paramBindings, GrGenType ownerType, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
+        public void BuildReturnParameters(ProcedureInvocation invocation, SequenceVariable[] ReturnVars, GrGenType ownerType, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
         {
             // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
             // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
@@ -348,18 +348,18 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int i = 0; i < ownerType.GetProcedureMethod(paramBindings.Name).Outputs.Length; i++)
+            for(int i = 0; i < ownerType.GetProcedureMethod(invocation.Name).Outputs.Length; i++)
             {
                 String varName;
-                if(paramBindings.ReturnVars.Length != 0)
-                    varName = GetUniqueId() + paramBindings.ReturnVars[i].PureName;
+                if(ReturnVars.Length != 0)
+                    varName = GetUniqueId() + ReturnVars[i].PureName;
                 else
                     varName = GetUniqueId();
-                String typeName = TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(paramBindings.Name).Outputs[i]);
+                String typeName = TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(invocation.Name).Outputs[i]);
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
-                if(paramBindings.ReturnVars.Length != 0)
-                    returnAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
+                if(ReturnVars.Length != 0)
+                    returnAssignments += SetVar(ReturnVars[i], "tmpvar_" + varName);
             }
         }
 

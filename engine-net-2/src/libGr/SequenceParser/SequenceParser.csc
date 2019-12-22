@@ -1486,7 +1486,7 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
                 if(argExprs.Count!=0 && argExprs.Count!=1) throw new ParseException("\"" + methodOrAttrName + "\" expects none or one parameter)");
                 return new SequenceExpressionContainerPeek(fromExpr, argExprs.Count!=0 ? argExprs[0] : null);
             } else {
-                return new SequenceExpressionFunctionMethodCall(fromExpr, SequenceParserEnvironment.CreateFunctionMethodInvocationParameterBindings(methodOrAttrName, argExprs));
+                return env.CreateSequenceExpressionFunctionMethodCall(fromExpr, methodOrAttrName, argExprs);
             }
         }
     |
@@ -1611,7 +1611,7 @@ SequenceComputation ProcedureOrMethodCall():
                 return new SequenceComputationDebugHighlight(argExprs);
             } else {
                 if(env.IsProcedureName(procedure, package)) {
-                    return new SequenceComputationProcedureCall(env.CreateProcedureInvocationParameterBindings(procedure, package, argExprs, returnVars));
+                    return env.CreateSequenceComputationProcedureCall(procedure, package, argExprs, returnVars);
                 } else {
                     throw new ParseException("Unknown procedure name: \"" + procedure + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|emitdebug|record|File::export|File::delete|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedures defined in the .grg: " + env.GetProcedureNames() + ")");
                 }
@@ -1629,7 +1629,7 @@ SequenceComputation ProcedureOrMethodCall():
                     if(argExprs.Count>0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
                     return new SequenceComputationContainerClear(fromVar);
                 } else {
-                    return new SequenceComputationProcedureMethodCall(fromVar, SequenceParserEnvironment.CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
+                    return env.CreateSequenceComputationProcedureMethodCall(fromVar, procedure, argExprs, returnVars);
                 }
             } else { // attribute method call
                 SequenceExpressionAttributeAccess attrAcc = new SequenceExpressionAttributeAccess(fromVar, attrName);
@@ -1643,7 +1643,7 @@ SequenceComputation ProcedureOrMethodCall():
                     if(argExprs.Count>0) throw new ParseException("\"" + procedure + "\" expects no parameters)");
                     return new SequenceComputationContainerClear(attrAcc);
                 } else {
-                    return new SequenceComputationProcedureMethodCall(attrAcc, SequenceParserEnvironment.CreateProcedureMethodInvocationParameterBindings(procedure, argExprs, returnVars));
+                    return env.CreateSequenceComputationProcedureMethodCall(attrAcc, procedure, argExprs, returnVars);
                 }
             }
         }
@@ -1910,7 +1910,7 @@ SequenceExpression FunctionCall():
             return new SequenceExpressionEdgeByUnique(getArgument(argExprs, 0), getArgument(argExprs, 1));
         } else {
             if(env.IsFunctionName(function, package)) {
-                return new SequenceExpressionFunctionCall(env.CreateFunctionInvocationParameterBindings(function, package, argExprs));
+                return env.CreateSequenceExpressionFunctionCall(function, package, argExprs);
             } else {
                 if(function=="valloc" || function=="add" || function=="retype" || function=="insertInduced" || function=="insertDefined") {
                     throw new ParseException("\"" + function + "\" is a procedure, call with (var)=" + function + "();");
@@ -1964,7 +1964,7 @@ Sequence Rule():
             if(varDecls.Lookup(str)!=null)
                 throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-            return new SequenceRuleAllCall(env.CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
+            return env.CreateSequenceRuleAllCall(str, package, argExprs, returnVars, subgraph,
                     special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice, filters);
         }
     |
@@ -1979,7 +1979,7 @@ Sequence Rule():
             if(varDecls.Lookup(str)!=null)
                 throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-            return new SequenceRuleCountAllCall(env.CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
+            return env.CreateSequenceRuleCountAllCall(str, package, argExprs, returnVars, subgraph,
                     special, test, countResult, filters);
         }
     |
@@ -2010,12 +2010,10 @@ Sequence Rule():
             if(env.IsSequenceName(str, package)) {
                 if(filters.Count > 0)
                     throw new SequenceParserException(str, FiltersToString(filters), SequenceParserError.FilterError);
-                return new SequenceSequenceCall(
-                                env.CreateSequenceInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
+                return env.CreateSequenceSequenceCall(str, package, argExprs, returnVars, subgraph,
                                 special);
             } else {
-                return new SequenceRuleCall(
-                                env.CreateRuleInvocationParameterBindings(str, package, argExprs, returnVars, subgraph),
+                return env.CreateSequenceRuleCall(str, package, argExprs, returnVars, subgraph,
                                 special, test, filters);
             }
         }

@@ -32,16 +32,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Applies this sequence.
         /// </summary>
-        /// <param name="sequenceInvocation">Sequence invocation object for this sequence application,
-        ///     containing the input parameter sources and output parameter targets</param>
         /// <param name="procEnv">The graph processing environment on which this sequence is to be applied.
         ///     Contains especially the graph on which this sequence is to be applied.
         ///     The rules will only be chosen during the Sequence object instantiation, so
         ///     exchanging rules will have no effect for already existing Sequence objects.</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+        /// <param name="arguments">Input arguments</param>
+        /// <param name="returnValues">Output return values</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraphProcessingEnvironment procEnv);
+        bool Apply(IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues);
     }
 
     /// <summary>

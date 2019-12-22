@@ -749,16 +749,18 @@ namespace de.unika.ipd.grGen.lgsp
 
                     source.AppendFront(compGen.SetResultVar(seqFor, "true"));
 
-                    RuleInvocationParameterBindings paramBindings = seqFor.Rule.ParamBindings;
+                    RuleInvocation ruleInvocation = seqFor.Rule.RuleInvocation;
+                    SequenceExpression[] ArgumentExpressions = seqFor.Rule.ArgumentExpressions;
+                    SequenceVariable[] ReturnVars = seqFor.Rule.ReturnVars;
                     String specialStr = seqFor.Rule.Special ? "true" : "false";
-                    String parameters = helper.BuildParameters(paramBindings);
-                    String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
-                    String patternName = paramBindings.Name;
+                    String parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+                    String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
+                    String patternName = ruleInvocation.Name;
                     String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
                     String matchName = "match_" + seqFor.Id;
                     String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
                     String matchesName = "matches_" + seqFor.Id;
-                    source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
+                    source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name)
                         + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
                     for(int i=0; i<seqFor.Rule.Filters.Count; ++i)
                     {
@@ -777,7 +779,7 @@ namespace de.unika.ipd.grGen.lgsp
                     String returnParameterDeclarationsAllCall;
                     String intermediateReturnAssignmentsAllCall;
                     String returnAssignmentsAllCall;
-                    helper.BuildReturnParameters(paramBindings,
+                    helper.BuildReturnParameters(ruleInvocation, ReturnVars,
                         out returnParameterDeclarations, out returnArguments, out returnAssignments,
                         out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
@@ -1077,29 +1079,31 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitRuleOrRuleAllCall(SequenceRuleCall seqRule, SourceBuilder source)
         {
-            RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
+            RuleInvocation ruleInvocation = seqRule.RuleInvocation;
+            SequenceExpression[] ArgumentExpressions = seqRule.ArgumentExpressions;
+            SequenceVariable[] ReturnVars = seqRule.ReturnVars;
             String specialStr = seqRule.Special ? "true" : "false";
             String parameterDeclarations = null;
             String parameters = null;
-            if(paramBindings.Subgraph != null)
-                parameters = helper.BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
+            if(ruleInvocation.Subgraph != null)
+                parameters = helper.BuildParametersInDeclarations(ruleInvocation, ArgumentExpressions, out parameterDeclarations);
             else
-                parameters = helper.BuildParameters(paramBindings);
-            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
-            String patternName = paramBindings.Name;
+                parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
+            String patternName = ruleInvocation.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             String matchName = "match_" + seqRule.Id;
             String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             String matchesName = "matches_" + seqRule.Id;
 
-            if(paramBindings.Subgraph != null)
+            if(ruleInvocation.Subgraph != null)
             {
                 source.AppendFront(parameterDeclarations + "\n");
-                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(paramBindings.Subgraph) + ");\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(ruleInvocation.Subgraph) + ");\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
-            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name)
                 + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                 + parameters + ");\n");
             for(int i = 0; i < seqRule.Filters.Count; ++i)
@@ -1141,7 +1145,7 @@ namespace de.unika.ipd.grGen.lgsp
             String returnParameterDeclarationsAllCall;
             String intermediateReturnAssignmentsAllCall;
             String returnAssignmentsAllCall;
-            helper.BuildReturnParameters(paramBindings,
+            helper.BuildReturnParameters(ruleInvocation, ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
@@ -1149,7 +1153,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
                 if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
             }
@@ -1165,7 +1169,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
                 source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) procEnv.RewritingNextMatch();\n");
                 if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
                 source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
@@ -1185,7 +1189,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("if(i != 0) procEnv.RewritingNextMatch();\n");
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
                 if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
                 source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
@@ -1198,7 +1202,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            if(paramBindings.Subgraph != null)
+            if(ruleInvocation.Subgraph != null)
             {
                 source.AppendFront("procEnv.ReturnFromSubgraph();\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
@@ -1207,28 +1211,30 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceCall(SequenceSequenceCall seqSeq, SourceBuilder source)
         {
-            SequenceInvocationParameterBindings paramBindings = seqSeq.ParamBindings;
+            SequenceInvocation sequenceInvocation = seqSeq.SequenceInvocation;
+            SequenceExpression[] ArgumentExpressions = seqSeq.ArgumentExpressions;
+            SequenceVariable[] ReturnVars = seqSeq.ReturnVars;
             String parameterDeclarations = null;
             String parameters = null;
-            if(paramBindings.Subgraph != null)
-                parameters = helper.BuildParametersInDeclarations(paramBindings, out parameterDeclarations);
+            if(sequenceInvocation.Subgraph != null)
+                parameters = helper.BuildParametersInDeclarations(sequenceInvocation, ArgumentExpressions, out parameterDeclarations);
             else
-                parameters = helper.BuildParameters(paramBindings);
+                parameters = helper.BuildParameters(sequenceInvocation, ArgumentExpressions);
             String outParameterDeclarations;
             String outArguments;
             String outAssignments;
-            helper.BuildOutParameters(paramBindings, out outParameterDeclarations, out outArguments, out outAssignments);
+            helper.BuildOutParameters(sequenceInvocation, ReturnVars, out outParameterDeclarations, out outArguments, out outAssignments);
 
-            if(paramBindings.Subgraph != null)
+            if(sequenceInvocation.Subgraph != null)
             {
                 source.AppendFront(parameterDeclarations + "\n");
-                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(paramBindings.Subgraph) + ");\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(sequenceInvocation.Subgraph) + ");\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
             if(outParameterDeclarations.Length != 0)
                 source.AppendFront(outParameterDeclarations + "\n");
-            source.AppendFront("if(" + TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Sequence_" + paramBindings.Name + ".ApplyXGRS_" + paramBindings.Name
+            source.AppendFront("if(" + TypesHelper.GetPackagePrefixDot(sequenceInvocation.Package) + "Sequence_" + sequenceInvocation.Name + ".ApplyXGRS_" + sequenceInvocation.Name
                                 + "(procEnv" + parameters + outArguments + ")) {\n");
             source.Indent();
             if(outAssignments.Length != 0)
@@ -1241,7 +1247,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            if(paramBindings.Subgraph != null)
+            if(sequenceInvocation.Subgraph != null)
             {
                 source.AppendFront("procEnv.ReturnFromSubgraph();\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
@@ -1250,16 +1256,18 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceBacktrack(SequenceBacktrack seq, SourceBuilder source)
         {
-            RuleInvocationParameterBindings paramBindings = seq.Rule.ParamBindings;
+            RuleInvocation ruleInvocation = seq.Rule.RuleInvocation;
+            SequenceExpression[] ArgumentExpressions = seq.Rule.ArgumentExpressions;
+            SequenceVariable[] ReturnVars = seq.Rule.ReturnVars;
             String specialStr = seq.Rule.Special ? "true" : "false";
-            String parameters = helper.BuildParameters(paramBindings);
-            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
-            String patternName = paramBindings.Name;
+            String parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
+            String patternName = ruleInvocation.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             String matchName = "match_" + seq.Id;
             String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             String matchesName = "matches_" + seq.Id;
-            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name)
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
             for(int i=0; i<seq.Rule.Filters.Count; ++i)
             {
@@ -1283,7 +1291,7 @@ namespace de.unika.ipd.grGen.lgsp
             String returnParameterDeclarationsAllCall;
             String intermediateReturnAssignmentsAllCall;
             String returnAssignmentsAllCall;
-            helper.BuildReturnParameters(paramBindings,
+            helper.BuildReturnParameters(ruleInvocation, ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
@@ -1306,7 +1314,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
             if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
 
-            source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+            source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
             if(fireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
@@ -1407,15 +1415,16 @@ namespace de.unika.ipd.grGen.lgsp
             for (int i = 0; i < seqSome.Sequences.Count; ++i)
             {
                 SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
-                RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
+                RuleInvocation ruleInvocation = seqRule.RuleInvocation;
+                SequenceExpression[] ArgumentExpressions = seqRule.ArgumentExpressions;
                 String specialStr = seqRule.Special ? "true" : "false";
-                String parameters = helper.BuildParameters(paramBindings);
-                String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(paramBindings.Package) + "Rule_" + paramBindings.Name;
-                String patternName = paramBindings.Name;
+                String parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+                String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
+                String patternName = ruleInvocation.Name;
                 String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
                 String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
                 String matchesName = "matches_" + seqRule.Id;
-                source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name)
+                source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name)
                     + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                     + parameters + ");\n");
                 for(int j=0; j<seqRule.Filters.Count; ++j)
@@ -1459,10 +1468,11 @@ namespace de.unika.ipd.grGen.lgsp
             for (int i = 0; i < seqSome.Sequences.Count; ++i)
             {
                 SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
-                RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
+                RuleInvocation ruleInvocation = seqRule.RuleInvocation;
+                SequenceVariable[] ReturnVars = seqRule.ReturnVars;
                 String specialStr = seqRule.Special ? "true" : "false";
-                String matchingPatternClassName = "Rule_" + paramBindings.Name;
-                String patternName = paramBindings.Name;
+                String matchingPatternClassName = "Rule_" + ruleInvocation.Name;
+                String patternName = ruleInvocation.Name;
                 String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
                 String matchName = "match_" + seqRule.Id;
                 String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
@@ -1480,7 +1490,7 @@ namespace de.unika.ipd.grGen.lgsp
                 String returnParameterDeclarationsAllCall;
                 String intermediateReturnAssignmentsAllCall;
                 String returnAssignmentsAllCall;
-                helper.BuildReturnParameters(paramBindings,
+                helper.BuildReturnParameters(ruleInvocation, ReturnVars,
                     out returnParameterDeclarations, out returnArguments, out returnAssignments,
                     out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
@@ -1496,7 +1506,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                    source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                    source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                     if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                     source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
@@ -1527,7 +1537,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                    source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                    source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                     if(returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
                     source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
@@ -1564,7 +1574,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                        source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                        source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                         if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                         source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
@@ -1582,7 +1592,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                        source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(paramBindings.Package, paramBindings.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+                        source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
                         if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                         source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");

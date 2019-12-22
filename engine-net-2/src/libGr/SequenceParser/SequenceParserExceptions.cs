@@ -32,9 +32,14 @@ namespace de.unika.ipd.grGen.libGr
         UnknownFunction,
 
         /// <summary>
-        /// The number of parameters and/or return parameters does not match the signature of the definition.
+        /// The number of parameters does not match the signature of the definition.
         /// </summary>
-        BadNumberOfParametersOrReturnParameters,
+        BadNumberOfParameters,
+
+        /// <summary>
+        /// The number of return parameters does not match the signature of the definition.
+        /// </summary>
+        BadNumberOfReturnParameters,
 
         /// <summary>
         /// The type of a parameter does not match the signature of the definition.
@@ -173,14 +178,9 @@ namespace de.unika.ipd.grGen.libGr
         public IAction Action;
 
         /// <summary>
-        /// The number of inputs given to the rule.
+        /// The number of inputs or outputs given to the rule.
         /// </summary>
-        public int NumGivenInputs;
-
-        /// <summary>
-        /// The number of outputs given to the rule.
-        /// </summary>
-        public int NumGivenOutputs;
+        public int NumGiven;
 
         /// <summary>
         /// The index of a bad parameter or -1 if another error occurred.
@@ -228,15 +228,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="ruleName">The name of the rule.</param>
         /// <param name="action">The associated action instance.
         /// If it is null, there was no rule with the name specified in RuleName.</param>
-        /// <param name="numGivenInputs">The number of inputs given to the rule.</param>
-        /// <param name="numGivenOutputs">The number of outputs given to the rule.</param>
         /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
-        public SequenceParserException(String ruleName, IAction action, int numGivenInputs, int numGivenOutputs, int badParamIndex)
+        public SequenceParserException(String ruleName, IAction action, int numGiven, int badParamIndex)
         {
             Name = ruleName;
             Action = action;
-            NumGivenInputs = numGivenInputs;
-            NumGivenOutputs = numGivenOutputs;
+            NumGiven = numGiven;
             BadParamIndex = badParamIndex;
         }
 
@@ -253,60 +250,32 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule or sequence
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule/sequence/procedure/function
         /// with the given name does not exist or input or output parameters do not match.
         /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the rule/sequence invocation.</param>
+        /// <param name="invocation">The rule/sequence/procedure/function invocation.</param>
         /// <param name="errorKind">The kind of error.</param>
-        public SequenceParserException(InvocationParameterBindingsWithReturns paramBindings, SequenceParserError errorKind)
-            : this(paramBindings, errorKind, -1)
+        public SequenceParserException(Invocation invocation, int numGiven, SequenceParserError errorKind)
+            : this(invocation, numGiven, errorKind, -1)
         {
         }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule or sequence 
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule/sequence/procedure/function 
         /// with the given name does not exist or input or output parameters do not match.
         /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the rule/sequence invocation.</param>
+        /// <param name="invocation">The rule/sequence/procedure/function invocation.</param>
         /// <param name="errorKind">The kind of error.</param>
         /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
-        public SequenceParserException(InvocationParameterBindingsWithReturns paramBindings, SequenceParserError errorKind, int badParamIndex)
+        public SequenceParserException(Invocation invocation, int numGiven, SequenceParserError errorKind, int badParamIndex)
         {
             Kind = errorKind;
-            Name = paramBindings.Name;
-            if(paramBindings is RuleInvocationParameterBindings)
-                Action = ((RuleInvocationParameterBindings)paramBindings).Action;
-            NumGivenInputs = paramBindings.Arguments.Length;
-            NumGivenOutputs = paramBindings.ReturnVars.Length;
+            Name = invocation.Name;
+            if(invocation is RuleInvocation)
+                Action = ((RuleInvocation)invocation).Action;
+            NumGiven = numGiven;
             BadParamIndex = badParamIndex;
-            ClassifyDefinitionType(paramBindings);
-        }
-
-        /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the function
-        /// with the given name does not exist or input or output parameters do not match.
-        /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the function invocation.</param>
-        /// <param name="errorKind">The kind of error.</param>
-        public SequenceParserException(InvocationParameterBindings paramBindings, SequenceParserError errorKind)
-            : this(paramBindings, errorKind, -1)
-        {
-        }
-
-        /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the function 
-        /// with the given name does not exist or input or output parameters do not match.
-        /// </summary>
-        /// <param name="paramBindings">The parameter bindings of the function invocation.</param>
-        /// <param name="errorKind">The kind of error.</param>
-        /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
-        public SequenceParserException(InvocationParameterBindings paramBindings, SequenceParserError errorKind, int badParamIndex)
-        {
-            Kind = errorKind;
-            Name = paramBindings.Name;
-            NumGivenInputs = paramBindings.Arguments.Length;
-            BadParamIndex = badParamIndex;
-            ClassifyDefinitionType(paramBindings);
+            ClassifyDefinitionType(invocation);
         }
 
         /// <summary>
@@ -368,16 +337,20 @@ namespace de.unika.ipd.grGen.libGr
                 case SequenceParserError.UnknownRuleOrSequence:
                     return "Unknown rule/sequence: \"" + this.Name + "\"";
 
-                case SequenceParserError.BadNumberOfParametersOrReturnParameters:
+                case SequenceParserError.BadNumberOfParameters:
                     if(this.Action == null) {
-                        return "Wrong number of parameters for " + DefinitionTypeName + " \"" + this.Name + "\"";
-                    } else if(this.Action.RulePattern.Inputs.Length != this.NumGivenInputs &&
-                        this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs) {
-                        return "Wrong number of parameters and return values for " + DefinitionTypeName + " \"" + this.Name + "\"!";
-                    } else if (this.Action.RulePattern.Inputs.Length != this.NumGivenInputs) {
-                        return "Wrong number of parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
-                    } else if (this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs) {
-                        return "Wrong number of return values for " + DefinitionTypeName + " \"" + this.Name + "\"!";
+                        return "Wrong number of input parameters for " + DefinitionTypeName + " \"" + this.Name + "\"";
+                    } else if(this.Action.RulePattern.Inputs.Length != this.NumGiven) {
+                        return "Wrong number of input parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
+                    } else {
+                        goto default;
+                    }
+
+                case SequenceParserError.BadNumberOfReturnParameters:
+                    if(this.Action == null) {
+                        return "Wrong number of output parameters for " + DefinitionTypeName + " \"" + this.Name + "\"";
+                    } else if(this.Action.RulePattern.Outputs.Length != this.NumGiven) {
+                        return "Wrong number of output parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
                     } else {
                         goto default;
                     }
@@ -448,15 +421,15 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        void ClassifyDefinitionType(InvocationParameterBindings paramBindings)
+        void ClassifyDefinitionType(Invocation invocation)
         {
-            if(paramBindings is RuleInvocationParameterBindings)
+            if(invocation is RuleInvocation)
                 DefType = DefinitionType.Action;
-            else if(paramBindings is SequenceInvocationParameterBindings)
+            else if(invocation is SequenceInvocation)
                 DefType = DefinitionType.Sequence;
-            else if(paramBindings is ProcedureInvocationParameterBindings)
+            else if(invocation is ProcedureInvocation)
                 DefType = DefinitionType.Procedure;
-            else if(paramBindings is FunctionInvocationParameterBindings)
+            else if(invocation is FunctionInvocation)
                 DefType = DefinitionType.Function;
         }
 

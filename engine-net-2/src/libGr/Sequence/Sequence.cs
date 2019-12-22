@@ -717,58 +717,43 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "[" + Min + ":" + Max + "]"; } }
     }
 
-    public class SequenceRuleCall : SequenceSpecial
+    public abstract class SequenceRuleCall : SequenceSpecial
     {
-        public RuleInvocationParameterBindings ParamBindings;
+        /// <summary>
+        /// An array of expressions used to compute the input arguments.
+        /// </summary>
+        public SequenceExpression[] ArgumentExpressions;
+
+        /// <summary>
+        /// Buffer to store the argument values for the call; used to avoid unneccessary memory allocations.
+        /// </summary>
+        public object[] Arguments;
+
+        /// <summary>
+        /// An array of variables used for the return values. Might be empty if the caller is not interested in available returns values.
+        /// </summary>
+        public SequenceVariable[] ReturnVars;
+
+        /// <summary>
+        /// The subgraph to be switched to for rule execution.
+        /// </summary>
+        public SequenceVariable Subgraph;
+
+        public abstract RuleInvocation RuleInvocation { get; }
+        public abstract String NameForRuleString { get; }
 
         public bool Test;
         public List<FilterCall> Filters;
 
-        public SequenceRuleCall(RuleInvocationParameterBindings paramBindings, bool special, bool test, List<FilterCall> filters)
+        public SequenceRuleCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters)
             : base(special, SequenceType.RuleCall)
         {
-            ParamBindings = paramBindings;
+            InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
+            InitializeReturnVariables(returnVars, out ReturnVars);
+            Subgraph = subgraph;
             Test = test;
             Filters = filters;
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            env.CheckCall(this, false);
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            SequenceRuleCall copy = (SequenceRuleCall)MemberwiseClone();
-            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
-        {
-            bool res;
-            try
-            {
-#if LOG_SEQUENCE_EXECUTION
-                procEnv.Recorder.WriteLine("Applying rule " + GetRuleCallString(procEnv));
-#endif
-                res = procEnv.ApplyRewrite(ParamBindings, 0, 1, Special, Test, Filters) > 0;
-            }
-            catch (NullReferenceException)
-            {
-                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
-                throw;
-            }
-
-#if LOG_SEQUENCE_EXECUTION
-            if(res)
-            {
-                procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
-                procEnv.Recorder.Flush();
-            }
-#endif
-            return res;
         }
 
         public virtual bool Rewrite(IGraphProcessingEnvironment procEnv, IMatches matches, IMatch chosenMatch)
@@ -776,7 +761,7 @@ namespace de.unika.ipd.grGen.libGr
             if(matches.Count == 0) return false;
             if(Test) return false;
 
-            IMatch match = chosenMatch!=null ? chosenMatch : matches.First;
+            IMatch match = chosenMatch != null ? chosenMatch : matches.First;
 
             procEnv.Finishing(matches, Special);
 
@@ -789,8 +774,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(retElems == null) retElems = NoElems;
 
-            for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
-                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], procEnv);
+            FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
@@ -808,7 +792,10 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            ParamBindings.GetLocalVariables(variables, containerConstructors);
+            GetLocalVariables(ArgumentExpressions, variables, containerConstructors);
+            GetLocalVariables(ReturnVars, variables, containerConstructors);
+            if(Subgraph != null)
+                Subgraph.GetLocalVariables(variables);
             return this == target;
         }
 
@@ -817,7 +804,7 @@ namespace de.unika.ipd.grGen.libGr
         { 
             get
             { 
-                foreach(SequenceExpression expr in ParamBindings.ArgumentExpressions)
+                foreach(SequenceExpression expr in ArgumentExpressions)
                     yield return expr;
                 foreach(FilterCall fc in Filters)
                     foreach(SequenceExpression expr in fc.ArgumentExpressions)
@@ -829,19 +816,16 @@ namespace de.unika.ipd.grGen.libGr
         public String GetRuleCallString(IGraphProcessingEnvironment procEnv)
         {
             StringBuilder sb = new StringBuilder();
-            if(ParamBindings.Subgraph != null)
-                sb.Append(ParamBindings.Subgraph.Name + ".");
-            sb.Append(ParamBindings.Action.Name);
-            if(ParamBindings.ArgumentExpressions.Length > 0)
+            if(Subgraph != null)
+                sb.Append(Subgraph.Name + ".");
+            sb.Append(NameForRuleString);
+            if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
-                    if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(EmitHelper.ToStringAutomatic(ParamBindings.ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
-                    else
-                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
-                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                    sb.Append(EmitHelper.ToStringAutomatic(ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
+                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
             }
@@ -855,29 +839,26 @@ namespace de.unika.ipd.grGen.libGr
         protected String GetRuleString()
         {
             StringBuilder sb = new StringBuilder();
-            if(ParamBindings.ReturnVars.Length > 0)
+            if(ReturnVars.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                for(int i = 0; i < ReturnVars.Length; ++i)
                 {
-                    sb.Append(ParamBindings.ReturnVars[i].Name);
-                    if(i != ParamBindings.ReturnVars.Length - 1) sb.Append(",");
+                    sb.Append(ReturnVars[i].Name);
+                    if(i != ReturnVars.Length - 1) sb.Append(",");
                 }
                 sb.Append(")=");
             }
-            if(ParamBindings.Subgraph != null)
-                sb.Append(ParamBindings.Subgraph.Name + ".");
-            sb.Append(ParamBindings.Action.Name);
-            if(ParamBindings.ArgumentExpressions.Length > 0)
+            if(Subgraph != null)
+                sb.Append(Subgraph.Name + ".");
+            sb.Append(NameForRuleString);
+            if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
-                    if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(ParamBindings.ArgumentExpressions[i].Symbol);
-                    else
-                        sb.Append(ParamBindings.Arguments[i]!=null ? ParamBindings.Arguments[i] : "null");
-                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                    sb.Append(ArgumentExpressions[i].Symbol);
+                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
             }
@@ -908,7 +889,177 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceRuleAllCall : SequenceRuleCall, SequenceRandomChoice
+    public class SequenceRuleCallInterpreted : SequenceRuleCall
+    {
+        /// <summary>
+        /// The IAction instance to be used
+        /// </summary>
+        public IAction Action;
+
+        public override RuleInvocation RuleInvocation
+        {
+            get { return new RuleInvocation(Action, Subgraph); }
+        }
+
+        public override string NameForRuleString
+        {
+            get { return Action.Name; }
+        }
+
+        public SequenceRuleCallInterpreted(IAction action,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters)
+            : base(argExprs, returnVars, subgraph, special, test, filters)
+        {
+            Action = action;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckRuleCall(this);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceRuleCallInterpreted copy = (SequenceRuleCallInterpreted)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            int numMatches = 0;
+            try
+            {
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Applying rule " + GetRuleCallString(procEnv));
+#endif
+                FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+                List<object[]> retElemsList = procEnv.ApplyRewrite(Action, Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null, Arguments, 0, 1, Special, Test, Filters, out numMatches);
+                if(retElemsList.Count > 0)
+                    FillReturnVariablesFromValues(ReturnVars, Action, procEnv, retElemsList, 0);
+            }
+            catch(NullReferenceException)
+            {
+                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                throw;
+            }
+
+#if LOG_SEQUENCE_EXECUTION
+            if(res)
+            {
+                procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
+                procEnv.Recorder.Flush();
+            }
+#endif
+            return numMatches > 0;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override IEnumerable<SequenceBase> ChildrenBase
+        {
+            get
+            {
+                foreach(SequenceExpression expr in ArgumentExpressions)
+                    yield return expr;
+                foreach(FilterCall fc in Filters)
+                    foreach(SequenceExpression expr in fc.ArgumentExpressions)
+                        yield return expr;
+            }
+        }
+        public override int Precedence { get { return 8; } }
+    }
+
+    public class SequenceRuleCallCompiled : SequenceRuleCall
+    {
+        /// <summary>
+        /// The name of the rule.
+        /// </summary>
+        public String Name;
+
+        /// <summary>
+        /// null if this is a call of a global rule, otherwise the package the call target is contained in.
+        /// </summary>
+        public String Package;
+
+        /// <summary>
+        /// The name of the rule, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String PackagePrefixedName;
+
+        public override RuleInvocation RuleInvocation
+        {
+            get
+            {
+                RuleInvocation ruleInvocation = new RuleInvocation(null, Subgraph);
+                ruleInvocation.Name = Name;
+                ruleInvocation.Package = Package;
+                ruleInvocation.PackagePrefixedName = PackagePrefixedName;
+                return ruleInvocation;
+            }
+        }
+
+        public override string NameForRuleString
+        {
+            get { return Name; }
+        }
+
+        public SequenceRuleCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters)
+            : base(argExprs, returnVars, subgraph, special, test, filters)
+        {
+            this.Name = Name;
+
+            ResolvePackage(Name, PrePackage, PrePackageContext, unprefixedRuleNameExists,
+                        out Package, out PackagePrefixedName);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckRuleCall(this);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceRuleCallCompiled copy = (SequenceRuleCallCompiled)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override IEnumerable<SequenceBase> ChildrenBase
+        {
+            get
+            {
+                foreach(SequenceExpression expr in ArgumentExpressions)
+                    yield return expr;
+                foreach(FilterCall fc in Filters)
+                    foreach(SequenceExpression expr in fc.ArgumentExpressions)
+                        yield return expr;
+            }
+        }
+        public override int Precedence { get { return 8; } }
+    }
+
+    public abstract class SequenceRuleAllCall : SequenceRuleCall, SequenceRandomChoice
     {
         public bool ChooseRandom;
         public bool MinSpecified;
@@ -916,10 +1067,11 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable MaxVarChooseRandom;
         private bool choice;
 
-        public SequenceRuleAllCall(RuleInvocationParameterBindings paramBindings, bool special, bool test,
+        public SequenceRuleAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters,
             bool chooseRandom, SequenceVariable varChooseRandom,
-            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<FilterCall> filters)
-            : base(paramBindings, special, test, filters)
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
+            : base(argExprs, returnVars, subgraph, special, test, filters)
         {
             SequenceType = SequenceType.RuleAllCall;
             ChooseRandom = chooseRandom;
@@ -937,103 +1089,8 @@ namespace de.unika.ipd.grGen.libGr
             this.choice = choice;
         }
 
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            env.CheckCall(this, true);
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            SequenceRuleAllCall copy = (SequenceRuleAllCall)MemberwiseClone();
-            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
-            if(MinVarChooseRandom!=null)
-                copy.MinVarChooseRandom = MinVarChooseRandom.Copy(originalToCopy, procEnv);
-            if(MaxVarChooseRandom!=null)
-                copy.MaxVarChooseRandom = MaxVarChooseRandom.Copy(originalToCopy, procEnv);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
         public bool Random { get { return ChooseRandom; } set { ChooseRandom = value; } }
         public bool Choice { get { return choice; } set { choice = value; } }
-
-        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
-        {
-            if(!ChooseRandom)
-            {
-                bool res;
-                try
-                {
-#if LOG_SEQUENCE_EXECUTION
-                    procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
-#endif
-                    res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test, Filters) > 0;
-                }
-                catch (NullReferenceException)
-                {
-                    System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
-                    throw;
-                }
-#if LOG_SEQUENCE_EXECUTION
-                if(res)
-                {
-                    procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
-                    procEnv.Recorder.Flush();
-                }
-#endif
-                return res;
-            }
-            else
-            {
-                // TODO: Code duplication! Compare with BaseGraph.ApplyRewrite.
-
-                int curMaxMatches = procEnv.MaxMatches;
-
-                object[] parameters;
-                if(ParamBindings.ArgumentExpressions.Length > 0)
-                {
-                    parameters = ParamBindings.Arguments;
-                    for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; i++)
-                    {
-                        if(ParamBindings.ArgumentExpressions[i] != null)
-                            parameters[i] = ParamBindings.ArgumentExpressions[i].Evaluate(procEnv);
-                    }
-                }
-                else parameters = null;
-
-                if(ParamBindings.Subgraph!=null)
-                    procEnv.SwitchToSubgraph((IGraph)ParamBindings.Subgraph.GetVariableValue(procEnv));
-
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-                procEnv.PerformanceInfo.StartLocal();
-#endif
-                IMatches matches;
-                try
-                {
-                    matches = ParamBindings.Action.Match(procEnv, curMaxMatches, parameters);
-                    for(int i = 0; i < Filters.Count; ++i)
-                        ParamBindings.Action.Filter(procEnv, matches, Filters[i]);
-                }
-                catch (NullReferenceException)
-                {
-                    System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
-                    throw;
-                }
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-                procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
-#endif
-                procEnv.PerformanceInfo.MatchesFound += matches.Count;
-
-                procEnv.Matched(matches, null, Special);
-
-                bool result = Rewrite(procEnv, matches, null);
-
-                if(ParamBindings.Subgraph != null)
-                    procEnv.ReturnFromSubgraph();
-                
-                return result;
-            }
-        }
 
         public override bool Rewrite(IGraphProcessingEnvironment procEnv, IMatches matches, IMatch chosenMatch)
         {
@@ -1089,8 +1146,7 @@ namespace de.unika.ipd.grGen.libGr
                 if (retElems == null) retElems = NoElems;
             }
 
-            for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
-                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], procEnv);
+            FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
@@ -1108,7 +1164,7 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            ParamBindings.GetLocalVariables(variables, containerConstructors);
+            base.GetLocalVariables(variables, containerConstructors, target);
             if(MinVarChooseRandom!=null) MinVarChooseRandom.GetLocalVariables(variables);
             if(MaxVarChooseRandom!=null) MaxVarChooseRandom.GetLocalVariables(variables);
             return this == target;
@@ -1151,51 +1207,226 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceRuleCountAllCall : SequenceRuleCall
+    public class SequenceRuleAllCallInterpreted : SequenceRuleAllCall
     {
-        public SequenceVariable CountResult;
-        
-        public SequenceRuleCountAllCall(RuleInvocationParameterBindings paramBindings, 
-            bool special, bool test, SequenceVariable countResult, List<FilterCall> filters)
-            : base(paramBindings, special, test, filters)
+        /// <summary>
+        /// The IAction instance to be used
+        /// </summary>
+        public IAction Action;
+
+        public override RuleInvocation RuleInvocation
         {
-            SequenceType = SequenceType.RuleCountAllCall;
-            CountResult = countResult;
+            get { return new RuleInvocation(Action, Subgraph); }
+        }
+
+        public override string NameForRuleString
+        {
+            get { return Action.Name; }
+        }
+
+        public SequenceRuleAllCallInterpreted(IAction Action,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters,
+            bool chooseRandom, SequenceVariable varChooseRandom,
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
+            : base(argExprs, returnVars, subgraph,
+                    special, test, filters,
+                    chooseRandom, varChooseRandom, chooseRandom2, varChooseRandom2, choice)
+        {
+            this.Action = Action;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckRuleAllCall(this);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            SequenceRuleCountAllCall copy = (SequenceRuleCountAllCall)MemberwiseClone();
-            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
-            copy.CountResult = CountResult.Copy(originalToCopy, procEnv);
+            SequenceRuleAllCallInterpreted copy = (SequenceRuleAllCallInterpreted)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
+            if(MinVarChooseRandom != null)
+                copy.MinVarChooseRandom = MinVarChooseRandom.Copy(originalToCopy, procEnv);
+            if(MaxVarChooseRandom != null)
+                copy.MaxVarChooseRandom = MaxVarChooseRandom.Copy(originalToCopy, procEnv);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            int res = 0;
-            try
+            if(!ChooseRandom)
             {
+                int numMatches = 0;
+                try
+                {
 #if LOG_SEQUENCE_EXECUTION
-                procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
+                    procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
 #endif
-                res = procEnv.ApplyRewrite(ParamBindings, -1, -1, Special, Test, Filters);
-            }
-            catch(NullReferenceException)
-            {
-                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
-                throw;
-            }
-            CountResult.SetVariableValue(res, procEnv);
+                    FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+                    List<object[]> retElemsList = procEnv.ApplyRewrite(Action, Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null, Arguments, -1, -1, Special, Test, Filters, out numMatches);
+                    if(retElemsList.Count > 0)
+                        FillReturnVariablesFromValues(ReturnVars, Action, procEnv, retElemsList, -1);
+                }
+                catch(NullReferenceException)
+                {
+                    System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                    throw;
+                }
 #if LOG_SEQUENCE_EXECUTION
-            if(res > 0)
-            {
-                procEnv.Recorder.WriteLine("Matched/Applied " + Symbol + " yielding " + res + " matches");
-                procEnv.Recorder.Flush();
-            }
+                if(res)
+                {
+                    procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
+                    procEnv.Recorder.Flush();
+                }
 #endif
-            return res > 0;
+                return numMatches > 0;
+            }
+            else
+            {
+                // TODO: Code duplication! Compare with BaseGraph.ApplyRewrite.
+
+                int curMaxMatches = procEnv.MaxMatches;
+
+                object[] parameters;
+                if(ArgumentExpressions.Length > 0)
+                {
+                    parameters = Arguments;
+                    for(int i = 0; i < ArgumentExpressions.Length; i++)
+                    {
+                        parameters[i] = ArgumentExpressions[i].Evaluate(procEnv);
+                    }
+                }
+                else parameters = null;
+
+                if(Subgraph != null)
+                    procEnv.SwitchToSubgraph((IGraph)Subgraph.GetVariableValue(procEnv));
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+                procEnv.PerformanceInfo.StartLocal();
+#endif
+                IMatches matches;
+                try
+                {
+                    matches = Action.Match(procEnv, curMaxMatches, parameters);
+                    for(int i = 0; i < Filters.Count; ++i)
+                        Action.Filter(procEnv, matches, Filters[i]);
+                }
+                catch(NullReferenceException)
+                {
+                    System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                    throw;
+                }
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+                procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
+#endif
+                procEnv.PerformanceInfo.MatchesFound += matches.Count;
+
+                procEnv.Matched(matches, null, Special);
+
+                bool result = Rewrite(procEnv, matches, null);
+
+                if(Subgraph != null)
+                    procEnv.ReturnFromSubgraph();
+
+                return result;
+            }
+        }
+    }
+
+    public class SequenceRuleAllCallCompiled : SequenceRuleAllCall
+    {
+        /// <summary>
+        /// The name of the rule.
+        /// </summary>
+        public String Name;
+
+        /// <summary>
+        /// null if this is a call of a global rule, otherwise the package the call target is contained in.
+        /// </summary>
+        public String Package;
+
+        /// <summary>
+        /// The name of the rule, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String PackagePrefixedName;
+
+        public override RuleInvocation RuleInvocation
+        {
+            get
+            {
+                RuleInvocation ruleInvocation = new RuleInvocation(null, Subgraph);
+                ruleInvocation.Name = Name;
+                ruleInvocation.Package = Package;
+                ruleInvocation.PackagePrefixedName = PackagePrefixedName;
+                return ruleInvocation;
+            }
+        }
+
+        public override string NameForRuleString
+        {
+            get { return Name; }
+        }
+
+        public SequenceRuleAllCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters,
+            bool chooseRandom, SequenceVariable varChooseRandom,
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
+            : base(argExprs, returnVars, subgraph,
+                  special, test, filters,
+                  chooseRandom, varChooseRandom, chooseRandom2, varChooseRandom2, choice)
+        {
+            this.Name = Name;
+
+            ResolvePackage(Name, PrePackage, PrePackageContext, unprefixedRuleNameExists,
+                        out Package, out PackagePrefixedName);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckRuleAllCall(this);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceRuleAllCallCompiled copy = (SequenceRuleAllCallCompiled)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
+            if(MinVarChooseRandom != null)
+                copy.MinVarChooseRandom = MinVarChooseRandom.Copy(originalToCopy, procEnv);
+            if(MaxVarChooseRandom != null)
+                copy.MaxVarChooseRandom = MaxVarChooseRandom.Copy(originalToCopy, procEnv);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public abstract class SequenceRuleCountAllCall : SequenceRuleCall
+    {
+        public SequenceVariable CountResult;
+        
+        public SequenceRuleCountAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters,
+            SequenceVariable countResult)
+            : base(argExprs, returnVars, subgraph, special, test, filters)
+        {
+            SequenceType = SequenceType.RuleCountAllCall;
+            CountResult = countResult;
         }
 
         public override bool Rewrite(IGraphProcessingEnvironment procEnv, IMatches matches, IMatch chosenMatch)
@@ -1221,8 +1452,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(retElems == null) retElems = NoElems;
 
-            for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
-                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], procEnv);
+            FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
 #endif
@@ -1239,7 +1469,8 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
-            ParamBindings.GetLocalVariables(variables, containerConstructors);
+            base.GetLocalVariables(variables, containerConstructors, target);
+            CountResult.GetLocalVariables(variables);
             return this == target;
         }
 
@@ -1260,6 +1491,156 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 return prefix + GetRuleString() + "]";
             }
+        }
+    }
+
+    public class SequenceRuleCountAllCallInterpreted : SequenceRuleCountAllCall
+    {
+        /// <summary>
+        /// The IAction instance to be used
+        /// </summary>
+        public IAction Action;
+
+        public override RuleInvocation RuleInvocation
+        {
+            get { return new RuleInvocation(Action, Subgraph); }
+        }
+
+        public override string NameForRuleString
+        {
+            get { return Action.Name; }
+        }
+
+        public SequenceRuleCountAllCallInterpreted(IAction Action,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters,
+            SequenceVariable countResult)
+            : base(argExprs, returnVars, subgraph,
+                    special, test, filters,
+                    countResult)
+        {
+            this.Action = Action;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckRuleCall(this);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceRuleCountAllCallInterpreted copy = (SequenceRuleCountAllCallInterpreted)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
+            copy.CountResult = CountResult.Copy(originalToCopy, procEnv);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            int numMatches = 0;
+            try
+            {
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
+#endif
+                FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+                List<object[]> retElemsList = procEnv.ApplyRewrite(Action, Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null, Arguments, -1, -1, Special, Test, Filters, out numMatches);
+                if(retElemsList.Count > 0)
+                    FillReturnVariablesFromValues(ReturnVars, Action, procEnv, retElemsList, -1);
+            }
+            catch(NullReferenceException)
+            {
+                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                throw;
+            }
+            CountResult.SetVariableValue(numMatches, procEnv);
+#if LOG_SEQUENCE_EXECUTION
+            if(res > 0)
+            {
+                procEnv.Recorder.WriteLine("Matched/Applied " + Symbol + " yielding " + res + " matches");
+                procEnv.Recorder.Flush();
+            }
+#endif
+            return numMatches > 0;
+        }
+    }
+
+    public class SequenceRuleCountAllCallCompiled : SequenceRuleCountAllCall
+    {
+        /// <summary>
+        /// The name of the rule.
+        /// </summary>
+        public String Name;
+
+        /// <summary>
+        /// null if this is a call of a global rule, otherwise the package the call target is contained in.
+        /// </summary>
+        public String Package;
+
+        /// <summary>
+        /// The name of the rule, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String PackagePrefixedName;
+
+        public override RuleInvocation RuleInvocation
+        {
+            get
+            {
+                RuleInvocation ruleInvocation = new RuleInvocation(null, Subgraph);
+                ruleInvocation.Name = Name;
+                ruleInvocation.Package = Package;
+                ruleInvocation.PackagePrefixedName = PackagePrefixedName;
+                return ruleInvocation;
+            }
+        }
+
+        public override string NameForRuleString
+        {
+            get { return Name; }
+        }
+
+        public SequenceRuleCountAllCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters,
+            SequenceVariable countResult)
+            : base(argExprs, returnVars, subgraph,
+                  special, test, filters,
+                  countResult)
+        {
+            this.Name = Name;
+
+            ResolvePackage(Name, PrePackage, PrePackageContext, unprefixedRuleNameExists,
+                        out Package, out PackagePrefixedName);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckRuleCall(this);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceRuleCountAllCallCompiled copy = (SequenceRuleCountAllCallCompiled)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
+            copy.CountResult = CountResult.Copy(originalToCopy, procEnv);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -1800,7 +2181,7 @@ namespace de.unika.ipd.grGen.libGr
                     && ((SequenceRuleAllCall)seqChild).MinVarChooseRandom != null
                     && ((SequenceRuleAllCall)seqChild).MaxVarChooseRandom != null)
                     throw new Exception("Sequence SomeFromSet (e.g. {<r1,[r2],$[r3>)} can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
-                if(((SequenceRuleCall)seqChild).ParamBindings.Subgraph != null)
+                if(((SequenceRuleCall)seqChild).RuleInvocation.Subgraph != null)
                     throw new Exception("Sequence SomeFromSet (e.g. {<r1,[r2],$[r3>)} can't contain a call with subgraph prefix (e.g. sg.r4, e.g. $[sg.r4])");
             }
         }
@@ -1907,13 +2288,12 @@ namespace de.unika.ipd.grGen.libGr
                     maxMatches = procEnv.MaxMatches;
 
                 object[] parameters;
-                if (rule.ParamBindings.ArgumentExpressions.Length > 0)
+                if (rule.ArgumentExpressions.Length > 0)
                 {
-                    parameters = rule.ParamBindings.Arguments;
-                    for (int j = 0; j < rule.ParamBindings.ArgumentExpressions.Length; j++)
+                    parameters = rule.Arguments;
+                    for (int j = 0; j < rule.ArgumentExpressions.Length; j++)
                     {
-                        if (rule.ParamBindings.ArgumentExpressions[j] != null)
-                            parameters[j] = rule.ParamBindings.ArgumentExpressions[j].Evaluate(procEnv);
+                        parameters[j] = rule.ArgumentExpressions[j].Evaluate(procEnv);
                     }
                 }
                 else parameters = null;
@@ -1921,9 +2301,9 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 procEnv.PerformanceInfo.StartLocal();
 #endif
-                IMatches matches = rule.ParamBindings.Action.Match(procEnv, maxMatches, parameters);
+                IMatches matches = rule.RuleInvocation.Action.Match(procEnv, maxMatches, parameters);
                 for(int j=0; j<rule.Filters.Count; ++j)
-                    rule.ParamBindings.Action.Filter(procEnv, matches, rule.Filters[j]);
+                    rule.RuleInvocation.Action.Filter(procEnv, matches, rule.Filters[j]);
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
@@ -2002,7 +2382,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception("Sequence Backtrack can't contain a counted rule all call");
             if(Rule.Test)
                 throw new Exception("Sequence Backtrack can't contain a call to a rule reduced to a test");
-            if(Rule.ParamBindings.Subgraph != null)
+            if(Rule.RuleInvocation.Subgraph != null)
                 throw new Exception("Sequence Backtrack can't employ a call with subgraph prefix (no <<sg.r; seq>> possible)");
             base.Check(env);
         }
@@ -2025,13 +2405,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             // first get all matches of the rule
             object[] parameters;
-            if(Rule.ParamBindings.ArgumentExpressions.Length > 0)
+            if(Rule.ArgumentExpressions.Length > 0)
             {
-                parameters = Rule.ParamBindings.Arguments;
-                for(int j = 0; j < Rule.ParamBindings.ArgumentExpressions.Length; j++)
+                parameters = Rule.Arguments;
+                for(int j = 0; j < Rule.ArgumentExpressions.Length; j++)
                 {
-                    if(Rule.ParamBindings.ArgumentExpressions[j] != null)
-                        parameters[j] = Rule.ParamBindings.ArgumentExpressions[j].Evaluate(procEnv);
+                    parameters[j] = Rule.ArgumentExpressions[j].Evaluate(procEnv);
                 }
             }
             else parameters = null;
@@ -2043,9 +2422,9 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StartLocal();
 #endif
-            IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
+            IMatches matches = Rule.RuleInvocation.Action.Match(procEnv, procEnv.MaxMatches, parameters);
             for(int i=0; i<Rule.Filters.Count; ++i)
-                Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filters[i]);
+                Rule.RuleInvocation.Action.Filter(procEnv, matches, Rule.Filters[i]);
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
@@ -4178,13 +4557,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Rule is SequenceRuleAllCall || Rule is SequenceRuleCountAllCall)
                 throw new Exception("Sequence ForMatch must be of the form for{v in [?r]; seq}, rule maybe with input parameters, or a breakpoint");
-            if(Rule.ParamBindings.ReturnVars.Length > 0)
+            if(Rule.ReturnVars.Length > 0)
                 throw new Exception("No output parameters allowed for the rule used in the for matches iteration sequence");
             if(Var.Type == "")
                 throw new SequenceParserException(Var.Name, "a match type (match<rulename>)", "statically unknown type");
-            if(!TypesHelper.IsSameOrSubtype(Var.Type, "match<"+Rule.ParamBindings.Name+">", env.Model))
-                throw new SequenceParserException(Symbol, "match<" + Rule.ParamBindings.Name + ">", Var.Type);
-            if(Rule.ParamBindings.Subgraph != null)
+            if(!TypesHelper.IsSameOrSubtype(Var.Type, "match<"+Rule.RuleInvocation.Name+">", env.Model))
+                throw new SequenceParserException(Symbol, "match<" + Rule.RuleInvocation.Name + ">", Var.Type);
+            if(Rule.RuleInvocation.Subgraph != null)
                 throw new Exception("Sequence ForMatch can't employ a call with subgraph prefix (no for{v in [?sg.r]; seq} possible)");
             base.Check(env);
         }
@@ -4208,13 +4587,13 @@ namespace de.unika.ipd.grGen.libGr
 
             // first get all matches of the rule
             object[] parameters;
-            if(Rule.ParamBindings.ArgumentExpressions.Length > 0)
+            if(Rule.ArgumentExpressions.Length > 0)
             {
-                parameters = Rule.ParamBindings.Arguments;
-                for(int j = 0; j < Rule.ParamBindings.ArgumentExpressions.Length; j++)
+                parameters = Rule.Arguments;
+                for(int j = 0; j < Rule.ArgumentExpressions.Length; j++)
                 {
-                    if(Rule.ParamBindings.ArgumentExpressions[j] != null)
-                        parameters[j] = Rule.ParamBindings.ArgumentExpressions[j].Evaluate(procEnv);
+                    if(Rule.ArgumentExpressions[j] != null)
+                        parameters[j] = Rule.ArgumentExpressions[j].Evaluate(procEnv);
                 }
             }
             else parameters = null;
@@ -4226,9 +4605,9 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StartLocal();
 #endif
-            IMatches matches = Rule.ParamBindings.Action.Match(procEnv, procEnv.MaxMatches, parameters);
+            IMatches matches = Rule.RuleInvocation.Action.Match(procEnv, procEnv.MaxMatches, parameters);
             for(int i=0; i<Rule.Filters.Count; ++i)
-                Rule.ParamBindings.Action.Filter(procEnv, matches, Rule.Filters[i]);
+                Rule.RuleInvocation.Action.Filter(procEnv, matches, Rule.Filters[i]);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
 #endif
@@ -4323,16 +4702,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Applies this sequence.
         /// </summary>
-        /// <param name="sequenceInvocation">Sequence invocation object for this sequence application,
-        ///     containing the input parameter sources and output parameter targets</param>
         /// <param name="procEnv">The graph processing environment on which this sequence is to be applied.
         ///     Contains especially the graph on which this sequence is to be applied.
         ///     The rules will only be chosen during the Sequence object instantiation, so
         ///     exchanging rules will have no effect for already existing Sequence objects.</param>
-        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+        /// <param name="arguments">Input arguments</param>
+        /// <param name="returnValues">Output return values</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        public abstract bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraphProcessingEnvironment procEnv);
+        public abstract bool Apply(IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues);
 
         public String Name { get { return SequenceName; } }
 
@@ -4354,6 +4731,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceVariable[] InputVariables;
         public SequenceVariable[] OutputVariables;
+        public object[] ReturnValues;
         public Sequence Seq;
 
         // a cache for copies of sequence definitions, accessed by the name
@@ -4372,6 +4750,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             InputVariables = inputVariables;
             OutputVariables = outputVariables;
+            ReturnValues = new object[OutputVariables.Length];
             Seq = seq;
         }
 
@@ -4394,15 +4773,14 @@ namespace de.unika.ipd.grGen.libGr
             Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
-        public override bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraphProcessingEnvironment procEnv)
+        public override bool Apply(IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues)
         {
             // If this sequence definition is currently executed
             // we must copy it and use the copy in its place
             // to prevent state corruption.
             if(executionState == SequenceExecutionState.Underway)
             {
-                return ApplyCopy(sequenceInvocation, procEnv);
+                return ApplyCopy(procEnv, arguments, out returnValues);
             }
 
             procEnv.EnteringSequence(this);
@@ -4410,7 +4788,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Before executing sequence definition " + Id + ": " + Symbol);
 #endif
-            bool res = ApplyImpl(sequenceInvocation, procEnv);
+            bool res = ApplyImpl(procEnv, arguments, out returnValues);
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence definition " + Id + ": " + Symbol + " result " + res);
 #endif
@@ -4426,8 +4804,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         // creates or reuses a copy and applies the copy
-        protected bool ApplyCopy(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraphProcessingEnvironment procEnv)
+        protected bool ApplyCopy(IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues)
         {
             // To improve performance we recycle copies in nameToCopies.
             SequenceDefinition seqCopy;
@@ -4441,9 +4818,9 @@ namespace de.unika.ipd.grGen.libGr
                     = new Dictionary<SequenceVariable, SequenceVariable>();
                 seqCopy = (SequenceDefinition)Copy(originalToCopy, procEnv);
             }
-            sequenceInvocation.SequenceDef = seqCopy;
-            bool success = seqCopy.Apply(sequenceInvocation, procEnv);
-            sequenceInvocation.SequenceDef = this;
+            //sequenceInvocation.SequenceDef = seqCopy;
+            bool success = seqCopy.Apply(procEnv, arguments, out returnValues);
+            //sequenceInvocation.SequenceDef = this;
             if(!nameToCopies.ContainsKey(SequenceName))
                 nameToCopies.Add(SequenceName, new Stack<SequenceDefinition>());
             nameToCopies[SequenceName].Push(seqCopy);
@@ -4451,36 +4828,26 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         // applies the sequence of/in the sequence definition
-        protected bool ApplyImpl(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraphProcessingEnvironment procEnv)
+        protected bool ApplyImpl(IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues)
         {
-            if(sequenceInvocation.ArgumentExpressions.Length != InputVariables.Length)
+            if(arguments.Length != InputVariables.Length)
                 throw new Exception("Number of input parameters given and expected differ for " + Symbol);
-            if(sequenceInvocation.ReturnVars.Length != OutputVariables.Length)
-                throw new Exception("Number of output parameters given and expected differ for " + Symbol);
 
             // prefill the local input variables with the invocation values, read from parameter variables of the caller
-            for(int i=0; i<sequenceInvocation.ArgumentExpressions.Length; ++i)
+            for(int i=0; i<arguments.Length; ++i)
             {
-                if(sequenceInvocation.ArgumentExpressions[i] != null)
-                    InputVariables[i].SetVariableValue(sequenceInvocation.ArgumentExpressions[i].Evaluate(procEnv), procEnv);
-                else
-                    InputVariables[i].SetVariableValue(sequenceInvocation.Arguments[i], procEnv);
+                InputVariables[i].SetVariableValue(arguments[i], procEnv);
             }
-
-            if(sequenceInvocation.Subgraph != null)
-                procEnv.SwitchToSubgraph((IGraph)sequenceInvocation.Subgraph.GetVariableValue(procEnv));
 
             bool success = Seq.Apply(procEnv);
 
-            if(sequenceInvocation.Subgraph != null)
-                procEnv.ReturnFromSubgraph();
+            returnValues = ReturnValues;
 
             if(success)
             {
                 // postfill the return-to variables of the caller with the return values, read from the local output variables
-                for(int i = 0; i < sequenceInvocation.ReturnVars.Length; i++)
-                    sequenceInvocation.ReturnVars[i].SetVariableValue(OutputVariables[i].GetVariableValue(procEnv), procEnv);
+                for(int i = 0; i < OutputVariables.Length; i++)
+                    returnValues[i] = OutputVariables[i].GetVariableValue(procEnv);
             }
 
             return success;
@@ -4589,8 +4956,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Can't apply compiled sequence definition like a normal sequence");
         }
 
-        public abstract override bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
-            IGraphProcessingEnvironment procEnv);
+        public abstract override bool Apply(IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues);
 
         public override Sequence GetCurrentlyExecutedSequence()
         {
@@ -4606,43 +4972,122 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children { get { yield break; } }
     }
 
-    public class SequenceSequenceCall : SequenceSpecial
+    public abstract class SequenceSequenceCall : SequenceSpecial
     {
-        public SequenceInvocationParameterBindings ParamBindings;
+        /// <summary>
+        /// An array of expressions used to compute the input arguments.
+        /// </summary>
+        public SequenceExpression[] ArgumentExpressions;
 
-        public SequenceSequenceCall(SequenceInvocationParameterBindings paramBindings, bool special)
+        /// <summary>
+        /// Buffer to store the argument values for the call; used to avoid unneccessary memory allocations.
+        /// </summary>
+        public object[] Arguments;
+
+        /// <summary>
+        /// An array of variables used for the return values. Might be empty if the caller is not interested in available returns values.
+        /// </summary>
+        public SequenceVariable[] ReturnVars;
+
+        /// <summary>
+        /// The subgraph to be switched to for sequence execution.
+        /// </summary>
+        public SequenceVariable Subgraph;
+
+        public abstract SequenceInvocation SequenceInvocation { get; }
+
+        public SequenceSequenceCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special)
             : base(special, SequenceType.SequenceCall)
         {
-            ParamBindings = paramBindings;
+            InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
+            InitializeReturnVariables(returnVars, out ReturnVars);
+            Subgraph = subgraph;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            GetLocalVariables(ArgumentExpressions, variables, containerConstructors);
+            GetLocalVariables(ReturnVars, variables, containerConstructors);
+            if(Subgraph != null)
+                Subgraph.GetLocalVariables(variables);
+            return this == target;
+        }
+
+        public override IEnumerable<SequenceBase> ChildrenBase
+        { 
+            get 
+            {
+                foreach(SequenceExpression expr in ArgumentExpressions)
+                    yield return expr;
+            }
+        }
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+    }
+
+    public class SequenceSequenceCallInterpreted : SequenceSequenceCall
+    {
+        /// <summary>
+        /// The defined sequence to be used
+        /// </summary>
+        public ISequenceDefinition SequenceDef;
+
+        public override SequenceInvocation SequenceInvocation
+        {
+            get { return new SequenceInvocation(SequenceDef, Subgraph); }
+        }
+
+        public SequenceSequenceCallInterpreted(ISequenceDefinition SequenceDef,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special)
+            : base(argExprs, returnVars, subgraph, special)
+        {
+            this.SequenceDef = SequenceDef;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            env.CheckCall(this, false);
+            env.CheckSequenceCall(this);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            SequenceSequenceCall copy = (SequenceSequenceCall)MemberwiseClone();
-            copy.ParamBindings = ParamBindings.Copy(originalToCopy, procEnv);
+            SequenceSequenceCallInterpreted copy = (SequenceSequenceCallInterpreted)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
 
         internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
         {
-            if(ParamBindings.SequenceDef==oldDef)
-                ParamBindings.SequenceDef = newDef;
+            if(SequenceDef == oldDef)
+                SequenceDef = newDef;
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            ISequenceDefinition seqDef = ParamBindings.SequenceDef;
+            ISequenceDefinition seqDef = SequenceDef;
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Applying sequence " + GetSequenceCallString(procEnv));
 #endif
 
-            bool res = seqDef.Apply(ParamBindings, procEnv);
+            FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+
+            if(Subgraph != null)
+                procEnv.SwitchToSubgraph((IGraph)Subgraph.GetVariableValue(procEnv));
+
+            object[] returnValues;
+            bool res = seqDef.Apply(procEnv, Arguments, out returnValues);
+
+            if(res)
+                FillReturnVariablesFromValues(ReturnVars, procEnv, returnValues);
 
 #if LOG_SEQUENCE_EXECUTION
             if(res)
@@ -4654,18 +5099,11 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
-        {
-            ParamBindings.GetLocalVariables(variables, containerConstructors);
-            return this == target;
-        }
-
         public override IEnumerable<SequenceBase> ChildrenBase
-        { 
-            get 
+        {
+            get
             {
-                foreach(SequenceExpression expr in ParamBindings.ArgumentExpressions)
+                foreach(SequenceExpression expr in ArgumentExpressions)
                     yield return expr;
             }
         }
@@ -4675,17 +5113,14 @@ namespace de.unika.ipd.grGen.libGr
         public String GetSequenceCallString(IGraphProcessingEnvironment procEnv)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(ParamBindings.SequenceDef.Name);
-            if(ParamBindings.ArgumentExpressions.Length > 0)
+            sb.Append(SequenceDef.Name);
+            if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
-                    if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(EmitHelper.ToStringAutomatic(ParamBindings.ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
-                    else
-                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
-                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                    sb.Append(EmitHelper.ToStringAutomatic(ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
+                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
             }
@@ -4695,29 +5130,138 @@ namespace de.unika.ipd.grGen.libGr
         protected String GetSequenceString()
         {
             StringBuilder sb = new StringBuilder();
-            if(ParamBindings.ReturnVars.Length > 0)
+            if(ReturnVars.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                for(int i = 0; i < ReturnVars.Length; ++i)
                 {
-                    sb.Append(ParamBindings.ReturnVars[i].Name);
-                    if(i != ParamBindings.ReturnVars.Length - 1) sb.Append(",");
+                    sb.Append(ReturnVars[i].Name);
+                    if(i != ReturnVars.Length - 1) sb.Append(",");
                 }
                 sb.Append(")=");
             }
-            if(ParamBindings.Subgraph != null)
-                sb.Append(ParamBindings.Subgraph.Name + ".");
-            sb.Append(ParamBindings.SequenceDef.Name);
-            if(ParamBindings.ArgumentExpressions.Length > 0)
+            if(Subgraph != null)
+                sb.Append(Subgraph.Name + ".");
+            sb.Append(SequenceDef.Name);
+            if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
-                for(int i = 0; i < ParamBindings.ArgumentExpressions.Length; ++i)
+                for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
-                    if(ParamBindings.ArgumentExpressions[i] != null)
-                        sb.Append(ParamBindings.ArgumentExpressions[i].Symbol);
-                    else
-                        sb.Append(ParamBindings.Arguments[i] != null ? ParamBindings.Arguments[i] : "null");
-                    if(i != ParamBindings.ArgumentExpressions.Length - 1) sb.Append(",");
+                    sb.Append(ArgumentExpressions[i].Symbol);
+                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+            }
+            return sb.ToString();
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return (Special ? "%" : "") + GetSequenceString();
+            }
+        }
+    }
+
+    public class SequenceSequenceCallCompiled : SequenceSequenceCall
+    {
+        /// <summary>
+        /// The name of the sequence.
+        /// </summary>
+        public String Name;
+
+        /// <summary>
+        /// null if this is a call of a global sequence, otherwise the package the call target is contained in.
+        /// </summary>
+        public String Package;
+
+        /// <summary>
+        /// The name of the sequence, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String PackagePrefixedName;
+
+        public override SequenceInvocation SequenceInvocation
+        {
+            get
+            {
+                SequenceInvocation sequenceInvocation = new SequenceInvocation(null, Subgraph);
+                sequenceInvocation.Name = Name;
+                sequenceInvocation.Package = Package;
+                sequenceInvocation.PackagePrefixedName = PackagePrefixedName;
+                return sequenceInvocation;
+            }
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            env.CheckSequenceCall(this);
+        }
+
+        public SequenceSequenceCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedSequenceNameExists,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special)
+            : base(argExprs, returnVars, subgraph, special)
+        {
+            this.Name = Name;
+
+            ResolvePackage(Name, PrePackage, PrePackageContext, unprefixedSequenceNameExists,
+                        out Package, out PackagePrefixedName);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            SequenceSequenceCallCompiled copy = (SequenceSequenceCallCompiled)MemberwiseClone();
+            CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, ArgumentExpressions,
+                out copy.ArgumentExpressions, out copy.Arguments);
+            CopyReturnVars(originalToCopy, procEnv, ReturnVars,
+                out copy.ReturnVars);
+            if(copy.Subgraph != null)
+                copy.Subgraph = Subgraph.Copy(originalToCopy, procEnv);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<SequenceBase> ChildrenBase
+        {
+            get
+            {
+                foreach(SequenceExpression expr in ArgumentExpressions)
+                    yield return expr;
+            }
+        }
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+
+        protected String GetSequenceString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if(ReturnVars.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ReturnVars.Length; ++i)
+                {
+                    sb.Append(ReturnVars[i].Name);
+                    if(i != ReturnVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")=");
+            }
+            if(Subgraph != null)
+                sb.Append(Subgraph.Name + ".");
+            sb.Append(Name);
+            if(ArgumentExpressions.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                {
+                    sb.Append(ArgumentExpressions[i].Symbol);
+                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
             }

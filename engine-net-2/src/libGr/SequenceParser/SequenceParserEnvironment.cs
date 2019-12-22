@@ -50,12 +50,24 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         abstract public bool IsSequenceName(String ruleOrSequenceName, String package);
 
-        abstract public SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, String packagePrefix,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph);
+        abstract public SequenceSequenceCall CreateSequenceSequenceCall(String sequenceName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special);
 
 
-        abstract public RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, String packagePrefix,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph);
+        abstract public SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters);
+
+        abstract public SequenceRuleAllCall CreateSequenceRuleAllCall(String ruleName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test,
+            bool chooseRandom, SequenceVariable varChooseRandom,
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<FilterCall> filters);
+
+        abstract public SequenceRuleCountAllCall CreateSequenceRuleCountAllCall(String ruleName, String packagePrefix,
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, SequenceVariable countResult, List<FilterCall> filters);
 
         abstract public bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage);
 
@@ -64,18 +76,19 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         abstract public string GetProcedureNames();
 
-        abstract public ProcedureInvocationParameterBindings CreateProcedureInvocationParameterBindings(String procedureName, String packagePrefix,
+        abstract public SequenceComputationProcedureCall CreateSequenceComputationProcedureCall(String procedureName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars);
 
-        static public ProcedureInvocationParameterBindings CreateProcedureMethodInvocationParameterBindings(String procedureName,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+        public SequenceComputationProcedureMethodCall CreateSequenceComputationProcedureMethodCall(SequenceExpression targetExpr,
+            String procedureName, List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
         {
-            ProcedureInvocationParameterBindings paramBindings = new ProcedureInvocationParameterBindings(null,
-                argExprs.ToArray(), new object[argExprs.Count], returnVars.ToArray());
+            return new SequenceComputationProcedureMethodCall(targetExpr, procedureName, argExprs, returnVars);
+        }
 
-            paramBindings.Name = procedureName;
-
-            return paramBindings;
+        public SequenceComputationProcedureMethodCall CreateSequenceComputationProcedureMethodCall(SequenceVariable targetVar,
+            String procedureName, List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+        {
+            return new SequenceComputationProcedureMethodCall(targetVar, procedureName, argExprs, returnVars);
         }
 
 
@@ -83,19 +96,13 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         abstract public string GetFunctionNames();
 
-        abstract public FunctionInvocationParameterBindings CreateFunctionInvocationParameterBindings(String functionName, String packagePrefix,
+        abstract public SequenceExpressionFunctionCall CreateSequenceExpressionFunctionCall(String functionName, String packagePrefix,
             List<SequenceExpression> argExprs);
 
-        static public FunctionInvocationParameterBindings CreateFunctionMethodInvocationParameterBindings(String functionMethodName,
-            List<SequenceExpression> argExprs)
+        public SequenceExpressionFunctionMethodCall CreateSequenceExpressionFunctionMethodCall(SequenceExpression fromExpr,
+            String functionMethodName, List<SequenceExpression> argExprs)
         {
-            FunctionInvocationParameterBindings paramBindings = new FunctionInvocationParameterBindings(null,
-                argExprs.ToArray(), new object[argExprs.Count]);
-
-            paramBindings.Name = functionMethodName;
-            paramBindings.ReturnType = "";
-
-            return paramBindings;
+            return new SequenceExpressionFunctionMethodCall(fromExpr, functionMethodName, argExprs);
         }
     }
 }
