@@ -15,159 +15,293 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// An object representing a rule or sequence or procedure or function invocation.
     /// </summary>
-    public class Invocation
+    public abstract class Invocation
     {
         /// <summary>
         /// The name of the rule or sequence or procedure or function.
-        /// Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
         /// </summary>
-        public String Name;
+        public abstract String Name { get; }
 
         /// <summary>
         /// null if this is a call of a global rule/sequence/procedure/function, otherwise the package the call target is contained in.
-        /// Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
         /// </summary>
-        public String Package;
+        public abstract String Package { get; }
 
         /// <summary>
         /// The name of the rule or sequence or procedure or function, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
-        /// Used for compilation, where the rule or sequence or procedure or function representation objects do not exist yet.
         /// </summary>
-        public String PackagePrefixedName;
-
-        /// <summary>
-        /// Instantiates a new Invocation object
-        /// </summary>
-        public Invocation()
-        {
-            Name = "<Unknown>";
-        }
+        public abstract String PackagePrefixedName { get; }
     }
 
     /// <summary>
     /// An object representing a rule invocation.
     /// </summary>
-    public class RuleInvocation : Invocation
+    public abstract class RuleInvocation : Invocation
     {
-        /// <summary>
-        /// The IAction instance to be used
-        /// </summary>
-        public IAction Action;
-
         /// <summary>
         /// The subgraph to be switched to for rule execution
         /// </summary>
         public SequenceVariable Subgraph;
 
-        /// <summary>
-        /// Instantiates a new RuleInvocation object
-        /// </summary>
-        /// <param name="action">The IAction instance to be used</param>
-        public RuleInvocation(IAction action,
-            SequenceVariable subgraph)
-            : base()
+        protected RuleInvocation(SequenceVariable subgraph)
         {
-            Action = action;
-            if(action != null)
-            {
-                Name = action.Name;
-                Package = action.Package;
-                PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
-            }
             Subgraph = subgraph;
         }
     }
 
     /// <summary>
-    /// An object representing a sequence invocation.
+    /// An object representing a rule invocation at runtime.
     /// </summary>
-    public class SequenceInvocation : Invocation
+    public class RuleInvocationInterpreted : RuleInvocation
     {
-        /// <summary>
-        /// The defined sequence to be used
-        /// </summary>
-        public ISequenceDefinition SequenceDef;
+        public override String Name { get { return Action.Name; } }
 
+        public override String Package { get { return Action.Package; } }
+
+        public override String PackagePrefixedName { get { return Action.Package != null ? Action.Package + "::" + Action.Name : Action.Name; } }
+
+        /// <summary>
+        /// The IAction instance to be used
+        /// </summary>
+        public IAction Action;
+
+        public RuleInvocationInterpreted(IAction action,
+            SequenceVariable subgraph)
+            : base(subgraph)
+        {
+            Action = action;
+        }
+    }
+
+    /// <summary>
+    /// An object representing a rule invocation at compile time (rule representation object does not exist yet).
+    /// </summary>
+    public class RuleInvocationCompiled : RuleInvocation
+    {
+        private String name;
+        public override String Name { get { return name; } }
+
+        private String package;
+        public override String Package { get { return package; } }
+
+        private String packagePrefixedName;
+        public override String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        public RuleInvocationCompiled(String name, String package, String packagePrefixedName,
+            SequenceVariable subgraph)
+            : base(subgraph)
+        {
+            this.name = name;
+            this.package = package;
+            this.packagePrefixedName = packagePrefixedName;
+        }
+    }
+
+    /// <summary>
+    /// An object representing a sequence invocation (of a defined thus named thus callable sequence).
+    /// </summary>
+    public abstract class SequenceInvocation : Invocation
+    {
         /// <summary>
         /// The subgraph to be switched to for sequence execution
         /// </summary>
         public SequenceVariable Subgraph;
 
-        /// <summary>
-        /// Instantiates a new SequenceInvocation object
-        /// </summary>
-        /// <param name="sequenceDef">The defined sequence to be used</param>
-        public SequenceInvocation(ISequenceDefinition sequenceDef,
-            SequenceVariable subgraph)
-            : base()
+        public SequenceInvocation(SequenceVariable subgraph)
         {
-            SequenceDef = sequenceDef;
-            if(sequenceDef != null)
-            {
-                Name = sequenceDef.Name;
-                Package = sequenceDef is SequenceDefinitionCompiled ? ((SequenceDefinitionCompiled)sequenceDef).SeqInfo.Package : null;
-                PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
-            }
             Subgraph = subgraph;
         }
     }
 
     /// <summary>
-    /// An object representing a procedure.
+    /// An object representing a sequence invocation at runtime.
     /// </summary>
-    public class ProcedureInvocation : Invocation
+    public class SequenceInvocationInterpreted : SequenceInvocation
     {
+        public override String Name { get { return SequenceDef.Name; } }
+
+        public override String Package { get { return SequenceDef is SequenceDefinitionCompiled ? ((SequenceDefinitionCompiled)SequenceDef).SeqInfo.Package : null; } }
+
+        public override String PackagePrefixedName { get { return Package != null ? ((SequenceDefinitionCompiled)SequenceDef).SeqInfo.Package + "::" + SequenceDef.Name : SequenceDef.Name; } }
+
+        /// <summary>
+        /// The defined sequence to be used
+        /// </summary>
+        public ISequenceDefinition SequenceDef;
+
+        public SequenceInvocationInterpreted(ISequenceDefinition sequenceDef,
+            SequenceVariable subgraph)
+            : base(subgraph)
+        {
+            SequenceDef = sequenceDef;
+        }
+    }
+
+    /// <summary>
+    /// An object representing a sequence invocation at compile time (sequence representation object does not exist yet).
+    /// </summary>
+    public class SequenceInvocationCompiled : SequenceInvocation
+    {
+        private String name;
+        public override String Name { get { return name; } }
+
+        private String package;
+        public override String Package { get { return package; } }
+
+        private String packagePrefixedName;
+        public override String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        public SequenceInvocationCompiled(String name, String package, String packagePrefixedName,
+            SequenceVariable subgraph)
+            : base(subgraph)
+        {
+            this.name = name;
+            this.package = package;
+            this.packagePrefixedName = packagePrefixedName;
+        }
+    }
+
+    /// <summary>
+    /// An object representing a procedure invocation.
+    /// </summary>
+    public abstract class ProcedureInvocation : Invocation
+    {
+        public ProcedureInvocation()
+        {
+        }
+    }
+
+    /// <summary>
+    /// An object representing a procedure invocation at runtime.
+    /// </summary>
+    public class ProcedureInvocationInterpreted : ProcedureInvocation
+    {
+        public override String Name { get { return ProcedureDef.Name; } }
+
+        public override String Package { get { return ProcedureDef.Package; } }
+
+        public override String PackagePrefixedName { get { return ProcedureDef.Package != null ? ProcedureDef.Package + "::" + ProcedureDef.Name : ProcedureDef.Name; } }
+
         /// <summary>
         /// The procedure to be used
         /// </summary>
         public IProcedureDefinition ProcedureDef;
 
-        /// <summary>
-        /// Instantiates a new ProcedureInvocation object
-        /// </summary>
-        /// <param name="procedureDef">The defined procedure to be used</param>
-        public ProcedureInvocation(IProcedureDefinition procedureDef)
-            : base()
+        public ProcedureInvocationInterpreted(IProcedureDefinition procedureDef)
         {
             ProcedureDef = procedureDef;
-            if(procedureDef != null)
-            {
-                Name = procedureDef.Name;
-                Package = procedureDef.Package;
-                PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
-            }
+        }
+    }
+
+    /// <summary>
+    /// An object representing a procedure invocation at compile time (procedure representation object does not exist yet).
+    /// </summary>
+    public class ProcedureInvocationCompiled : ProcedureInvocation
+    {
+        private String name;
+        public override String Name { get { return name; } }
+
+        private String package;
+        public override String Package { get { return package; } }
+
+        private String packagePrefixedName;
+        public override String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        public ProcedureInvocationCompiled(String name, String package, String packagePrefixedName)
+        {
+            this.name = name;
+            this.package = package;
+            this.packagePrefixedName = packagePrefixedName;
+        }
+    }
+
+    /// <summary>
+    /// An object representing a method procedure invocation (both runtime and compile time).
+    /// </summary>
+    public class MethodProcedureInvocation : ProcedureInvocation
+    {
+        private String name;
+        public override String Name { get { return name; } }
+
+        public override String Package { get { return null; } }
+
+        public override String PackagePrefixedName { get { return name; } }
+
+        public MethodProcedureInvocation(String name)
+        {
+            this.name = name;
         }
     }
 
     /// <summary>
     /// An object representing a function invocation.
     /// </summary>
-    public class FunctionInvocation : Invocation
+    public abstract class FunctionInvocation : Invocation
     {
+        protected FunctionInvocation()
+        {
+        }
+    }
+
+    /// <summary>
+    /// An object representing a function invocation at runtime.
+    /// </summary>
+    public class FunctionInvocationInterpreted : FunctionInvocation
+    {
+        public override String Name { get { return FunctionDef.Name; } }
+
+        public override String Package { get { return FunctionDef.Package; } }
+
+        public override String PackagePrefixedName { get { return FunctionDef.Package != null ? FunctionDef.Package + "::" + FunctionDef.Name : FunctionDef.Name; } }
+
         /// <summary>
         /// The function to be used
         /// </summary>
         public IFunctionDefinition FunctionDef;
 
-        /// <summary>
-        /// The type returned
-        /// </summary>
-        public string ReturnType;
-
-        /// <summary>
-        /// Instantiates a new FunctionInvocation object
-        /// </summary>
-        /// <param name="functionDef">The defined function to be used</param>
-        public FunctionInvocation(IFunctionDefinition functionDef)
-            : base()
+        public FunctionInvocationInterpreted(IFunctionDefinition functionDef)
         {
             FunctionDef = functionDef;
-            if(functionDef != null)
-            {
-                Name = functionDef.Name;
-                Package = functionDef.Package;
-                PackagePrefixedName = Package != null ? Package + "::" + Name : Name;
-            }
+        }
+    }
+
+    /// <summary>
+    /// An object representing a function invocation at compile time (function representation object does not exist yet).
+    /// </summary>
+    public class FunctionInvocationCompiled : FunctionInvocation
+    {
+        private String name;
+        public override String Name { get { return name; } }
+
+        private String package;
+        public override String Package { get { return package; } }
+
+        private String packagePrefixedName;
+        public override String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        public FunctionInvocationCompiled(String name, String package, String packagePrefixedName)
+        {
+            this.name = name;
+            this.package = package;
+            this.packagePrefixedName = packagePrefixedName;
+        }
+    }
+
+    /// <summary>
+    /// An object representing a method function invocation (both runtime and compile time).
+    /// </summary>
+    public class MethodFunctionInvocation: FunctionInvocation
+    {
+        private String name;
+        public override String Name { get { return name; } }
+
+        public override String Package { get { return null; } }
+
+        public override String PackagePrefixedName { get { return name; } }
+
+        public MethodFunctionInvocation(String name)
+        {
+            this.name = name;
         }
     }
 }

@@ -271,8 +271,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             Kind = errorKind;
             Name = invocation.Name;
-            if(invocation is RuleInvocation)
-                Action = ((RuleInvocation)invocation).Action;
+            if(invocation is RuleInvocationInterpreted)
+                Action = ((RuleInvocationInterpreted)invocation).Action;
             NumGiven = numGiven;
             BadParamIndex = badParamIndex;
             ClassifyDefinitionType(invocation);
