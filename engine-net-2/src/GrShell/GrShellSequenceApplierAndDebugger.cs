@@ -401,7 +401,7 @@ namespace de.unika.ipd.grGen.grShell
             if(curRule == null)
                 impl.errOut.WriteLine("Cancelling...");
             else
-                impl.errOut.WriteLine("Cancelling: Waiting for \"" + curRule.RuleInvocation.Action.Name + "\" to finish...");
+                impl.errOut.WriteLine("Cancelling: Waiting for \"" + curRule.NameForRuleString + "\" to finish...");
             e.Cancel = true;        // we handled the cancel event
             cancelSequence = true;
         }
