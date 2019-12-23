@@ -898,7 +898,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override RuleInvocation RuleInvocation
         {
-            get { return new RuleInvocation(Action, Subgraph); }
+            get { return new RuleInvocationInterpreted(Action, Subgraph); }
         }
 
         public override string NameForRuleString
@@ -995,14 +995,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override RuleInvocation RuleInvocation
         {
-            get
-            {
-                RuleInvocation ruleInvocation = new RuleInvocation(null, Subgraph);
-                ruleInvocation.Name = Name;
-                ruleInvocation.Package = Package;
-                ruleInvocation.PackagePrefixedName = PackagePrefixedName;
-                return ruleInvocation;
-            }
+            get { return new RuleInvocationCompiled(Name, Package, PackagePrefixedName, Subgraph); }
         }
 
         public override string NameForRuleString
@@ -1216,7 +1209,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override RuleInvocation RuleInvocation
         {
-            get { return new RuleInvocation(Action, Subgraph); }
+            get { return new RuleInvocationInterpreted(Action, Subgraph); }
         }
 
         public override string NameForRuleString
@@ -1358,14 +1351,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override RuleInvocation RuleInvocation
         {
-            get
-            {
-                RuleInvocation ruleInvocation = new RuleInvocation(null, Subgraph);
-                ruleInvocation.Name = Name;
-                ruleInvocation.Package = Package;
-                ruleInvocation.PackagePrefixedName = PackagePrefixedName;
-                return ruleInvocation;
-            }
+            get { return new RuleInvocationCompiled(Name, Package, PackagePrefixedName, Subgraph); }
         }
 
         public override string NameForRuleString
@@ -1503,7 +1489,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override RuleInvocation RuleInvocation
         {
-            get { return new RuleInvocation(Action, Subgraph); }
+            get { return new RuleInvocationInterpreted(Action, Subgraph); }
         }
 
         public override string NameForRuleString
@@ -1590,14 +1576,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override RuleInvocation RuleInvocation
         {
-            get
-            {
-                RuleInvocation ruleInvocation = new RuleInvocation(null, Subgraph);
-                ruleInvocation.Name = Name;
-                ruleInvocation.Package = Package;
-                ruleInvocation.PackagePrefixedName = PackagePrefixedName;
-                return ruleInvocation;
-            }
+            get { return new RuleInvocationCompiled(Name, Package, PackagePrefixedName, Subgraph); }
         }
 
         public override string NameForRuleString
@@ -2301,9 +2280,10 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 procEnv.PerformanceInfo.StartLocal();
 #endif
-                IMatches matches = rule.RuleInvocation.Action.Match(procEnv, maxMatches, parameters);
+                RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)rule.RuleInvocation;
+                IMatches matches = ruleInvocation.Action.Match(procEnv, maxMatches, parameters);
                 for(int j=0; j<rule.Filters.Count; ++j)
-                    rule.RuleInvocation.Action.Filter(procEnv, matches, rule.Filters[j]);
+                    ruleInvocation.Action.Filter(procEnv, matches, rule.Filters[j]);
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
@@ -2422,9 +2402,10 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StartLocal();
 #endif
-            IMatches matches = Rule.RuleInvocation.Action.Match(procEnv, procEnv.MaxMatches, parameters);
+            RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)Rule.RuleInvocation;
+            IMatches matches = ruleInvocation.Action.Match(procEnv, procEnv.MaxMatches, parameters);
             for(int i=0; i<Rule.Filters.Count; ++i)
-                Rule.RuleInvocation.Action.Filter(procEnv, matches, Rule.Filters[i]);
+                ruleInvocation.Action.Filter(procEnv, matches, Rule.Filters[i]);
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
@@ -4605,9 +4586,10 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StartLocal();
 #endif
-            IMatches matches = Rule.RuleInvocation.Action.Match(procEnv, procEnv.MaxMatches, parameters);
+            RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)Rule.RuleInvocation;
+            IMatches matches = ruleInvocation.Action.Match(procEnv, procEnv.MaxMatches, parameters);
             for(int i=0; i<Rule.Filters.Count; ++i)
-                Rule.RuleInvocation.Action.Filter(procEnv, matches, Rule.Filters[i]);
+                ruleInvocation.Action.Filter(procEnv, matches, Rule.Filters[i]);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
 #endif
@@ -5036,7 +5018,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override SequenceInvocation SequenceInvocation
         {
-            get { return new SequenceInvocation(SequenceDef, Subgraph); }
+            get { return new SequenceInvocationInterpreted(SequenceDef, Subgraph); }
         }
 
         public SequenceSequenceCallInterpreted(ISequenceDefinition SequenceDef,
@@ -5184,14 +5166,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override SequenceInvocation SequenceInvocation
         {
-            get
-            {
-                SequenceInvocation sequenceInvocation = new SequenceInvocation(null, Subgraph);
-                sequenceInvocation.Name = Name;
-                sequenceInvocation.Package = Package;
-                sequenceInvocation.PackagePrefixedName = PackagePrefixedName;
-                return sequenceInvocation;
-            }
+            get { return new SequenceInvocationCompiled(Name, Package, PackagePrefixedName, Subgraph); }
         }
 
         public override void Check(SequenceCheckingEnvironment env)

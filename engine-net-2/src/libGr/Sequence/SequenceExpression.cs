@@ -5914,7 +5914,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override FunctionInvocation FunctionInvocation
         {
-            get { return new FunctionInvocation(FunctionDef); }
+            get { return new FunctionInvocationInterpreted(FunctionDef); }
         }
 
         public override string NameForFunctionString
@@ -5975,14 +5975,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override FunctionInvocation FunctionInvocation
         {
-            get
-            {
-                FunctionInvocation functionInvocation = new FunctionInvocation(null);
-                functionInvocation.Name = Name;
-                functionInvocation.Package = Package;
-                functionInvocation.PackagePrefixedName = PackagePrefixedName;
-                return functionInvocation;
-            }
+            get { return new FunctionInvocationCompiled(Name, Package, PackagePrefixedName); }
         }
 
         public override string NameForFunctionString
@@ -6028,13 +6021,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override FunctionInvocation FunctionInvocation
         {
-            get
-            {
-                FunctionInvocation functionInvocation = new FunctionInvocation(null);
-                functionInvocation.Name = Name;
-                functionInvocation.ReturnType = "";
-                return functionInvocation;
-            }
+            get { return new MethodFunctionInvocation(Name); }
         }
 
         public override string NameForFunctionString

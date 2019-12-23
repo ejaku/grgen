@@ -2621,7 +2621,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override ProcedureInvocation ProcedureInvocation
         {
-            get { return new ProcedureInvocation(ProcedureDef); }
+            get { return new ProcedureInvocationInterpreted(ProcedureDef); }
         }
 
         public override string NameForProcedureString
@@ -2679,14 +2679,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override ProcedureInvocation ProcedureInvocation
         {
-            get
-            {
-                ProcedureInvocation procedureInvocation = new ProcedureInvocation(null);
-                procedureInvocation.Name = Name;
-                procedureInvocation.Package = Package;
-                procedureInvocation.PackagePrefixedName = PackagePrefixedName;
-                return procedureInvocation;
-            }
+            get { return new ProcedureInvocationCompiled(Name, Package, PackagePrefixedName); }
         }
 
         public override string NameForProcedureString
@@ -2732,12 +2725,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override ProcedureInvocation ProcedureInvocation
         {
-            get
-            {
-                ProcedureInvocation procedureInvocation = new ProcedureInvocation(null);
-                procedureInvocation.Name = Name;
-                return procedureInvocation;
-            }
+            get { return new MethodProcedureInvocation(Name); }
         }
 
         public override string NameForProcedureString
