@@ -11,9 +11,9 @@ using System;
 using System.Collections.Generic;
 
 // this is not related in any way to IGraphHelpers.cs
-// this is for the reachable functions that normally mark elements in the graph
-//  -- this is not possible in case of a parallelized version because of multiple threads mapping to one mark
-// (not all functions need to be here as of now, some are handled with the same code in the non-parallel version by now,
+// this is for the reachable (and related) functions that normally mark elements in the graph (the marks are stored in the graph elements)
+//  -- this is not possible in case of a parallelized version because of multiple threads mapping to one marking (thus destroying each other)
+// (some functions are handled with the same code as in the non-parallel version as of now,
 //   but I want to allow implementing the parallel and non-parallel version differently (distinguished by threadId in the interface))
 // don't forget GraphHelper.cs for the non-parallelized versions
 
