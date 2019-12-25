@@ -1,0 +1,7 @@
+new graph "rulallcall/assignlist"
+
+exec init
+
+exec rexec
+
+quit

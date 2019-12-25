@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.libGr
                     returnVars = new IList[ReturnVars.Length];
                     for(int i = 0; i < ReturnVars.Length; i++)
                     {
-                        returnVars[i] = (IList)ReturnVars[i].GetVariableValue(procEnv);
+                        returnVars[i] = ReturnVars[i].GetVariableValue(procEnv) as IList;
                         if(returnVars[i] == null)
                         {
                             string returnType = TypesHelper.DotNetTypeToXgrsType(Action.RulePattern.Outputs[i]);
@@ -144,6 +144,9 @@ namespace de.unika.ipd.grGen.libGr
                 ReturnVars[i].SetVariableValue(retElems[i], procEnv);
         }
 
+        // resolves names that are given without package context but do not reference global names
+        // because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language)
+        // (i.e. calls of entities from packages, without package prefix are changed to package calls (may occur for entities from the same package))
         public static void ResolvePackage(String Name, String PrePackage, String PrePackageContext, bool unprefixedNameExists,
             out String Package, out String PackagePrefixedName)
         {

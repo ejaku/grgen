@@ -1,0 +1,34 @@
+#using "basic_model_001.gm"
+
+rule init
+{
+	modify {
+		n:N;
+	}
+}
+
+rule r : (N, Node, int, string)
+{
+	n:N;
+	
+	modify {
+		return(n, n, 42, "42");
+	}
+}
+
+rule rexec
+{
+	modify {
+		exec ( (::_r1,::_r2,::_r3,::_r4)=r
+			;> { emit("the value of variable \"_r1\" of type dontcare is: ", ::_r1, "\n") }
+			;> { emit("the value of variable \"_r2\" of type dontcare is: ", ::_r2, "\n") }
+			;> { emit("the value of variable \"_r3\" of type dontcare is: ", ::_r3, "\n") }
+			;> { emit("the value of variable \"_r4\" of type dontcare is: ", ::_r4, "\n") }
+			;> (::_r1,::_r2,::_r3,::_r4)=[r]
+			;> { emit("the value of variable \"_r1\" of type dontcare is: ", ::_r1, "\n") }
+			;> { emit("the value of variable \"_r2\" of type dontcare is: ", ::_r2, "\n") }
+			;> { emit("the value of variable \"_r3\" of type dontcare is: ", ::_r3, "\n") }
+			;> { emit("the value of variable \"_r4\" of type dontcare is: ", ::_r4, "\n") }
+		);
+	}
+}
