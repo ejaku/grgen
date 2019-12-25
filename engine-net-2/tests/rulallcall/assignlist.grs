@@ -1,0 +1,17 @@
+new graph "rulallcall/assignlist"
+
+exec init
+
+exec (::_r1,::_r2,::_r3,::_r4)=r
+show var _r1
+show var _r2
+show var _r3
+show var _r4
+
+exec (::_r1,::_r2,::_r3,::_r4)=[r]
+show var _r1
+show var _r2
+show var _r3
+show var _r4
+
+quit
