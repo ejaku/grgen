@@ -559,12 +559,12 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine(i + " - " + shellProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
             }
 
+            Console.WriteLine("Press (e) to edit, (t) to toggle (enable/disable), or (d) to delete one of the watchpoints."
+                + " Press (i) to insert at a specified position, or (p) to append a watchpoint."
+                + " Press (a) to abort.");
+
             while(true)
             {
-                Console.WriteLine("Press (e) to edit, (t) to toggle (enable/disable), or (d) to delete one of the watchpoints."
-                    + " Press (i) to insert at a specified position, or (p) to append a watchpoint."
-                    + " Press (a) to abort.");
-
                 int num = -1;
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
@@ -615,19 +615,22 @@ namespace de.unika.ipd.grGen.grShell
         int QueryWatchpoint(string action)
         {
             Console.Write("Enter number of watchpoint to " + action + " (-1 for abort): ");
-            String numStr = Console.ReadLine();
-            int num;
-            if(int.TryParse(numStr, out num))
+
+            do
             {
-                if(num < -1 || num >= shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count)
+                String numStr = Console.ReadLine();
+                int num;
+                if(int.TryParse(numStr, out num))
                 {
-                    Console.WriteLine("You must specify a number between -1 and " + (shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
-                    return -1;
+                    if(num < -1 || num >= shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count)
+                    {
+                        Console.WriteLine("You must specify a number between -1 and " + (shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
+                        continue;
+                    }
+                    return num;
                 }
-                return num;
-            }
-            Console.WriteLine("You must enter a valid integer number!");
-            return -1;
+                Console.WriteLine("You must enter a valid integer number!");
+            } while(true);
         }
 
         void EditWatchpoint(int num)
@@ -699,6 +702,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.Write("(8) graph element retyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? " or (k)eep\n" : "\n"));
                 Console.Write("(9) graph element attribute assignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? " or (k)eep\n" : "\n"));
                 Console.WriteLine("(a)bort");
+
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -1112,7 +1116,7 @@ after_debugging_decision: ;
         {
             object toBeShownAsGraph = null;
             AttributeType attrType = null;
-            while(true)
+            do
             {
                 Console.WriteLine("Enter name of variable or attribute access to show as graph (just enter for abort): ");
                 Console.WriteLine("Examples: \"v\", \"v.a\", \"@(\"$0\").a\" ");
@@ -1189,7 +1193,7 @@ after_debugging_decision: ;
                     }
                     break;
                 }
-            }
+            } while(true);
 
             INamedGraph graph = shellProcEnv.ProcEnv.Graph.Model.AsGraph(toBeShownAsGraph, attrType, shellProcEnv.ProcEnv.Graph);
             if(graph == null)
@@ -1634,12 +1638,12 @@ after_debugging_decision: ;
 
         int HandleTogglePoint(string pointName, int numPositions)
         {
-            while(true)
-            {
-                Console.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
-                Console.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
-                                + " Press (a) to abort.");
+            Console.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
+            Console.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
+                            + " Press (a) to abort.");
 
+            do
+            {
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch (key.KeyChar)
                 {
@@ -1681,7 +1685,7 @@ after_debugging_decision: ;
                         + ")! Only (0)...(9), (e)nter number, (a)bort allowed! ");
                     break;
                 }
-            }
+            } while(true);
         }
 
         void ToggleChoicepoint(Sequence seq, int cpPos)
@@ -2739,7 +2743,8 @@ after_debugging_decision: ;
 
             context.workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
             Console.Write(" (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
-            while(true)
+
+            do
             {
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
@@ -2759,7 +2764,7 @@ after_debugging_decision: ;
                             + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
                         break;
                 }
-            }
+            } while(true);
         }
 
         /// <summary>
@@ -2777,7 +2782,7 @@ after_debugging_decision: ;
                                 + " Press (s) or (n) to commit to the pre-selected sequence and continue."
                                 + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained sequences.");
 
-            while(true)
+            do
             {
                 context.highlightSeq = sequences[seqToExecute];
                 context.choice = true;
@@ -2787,6 +2792,7 @@ after_debugging_decision: ;
                 context.choice = false;
                 context.sequences = null;
 
+read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -2804,7 +2810,7 @@ after_debugging_decision: ;
                         if(num >= sequences.Count)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                            break;
+                            goto read_again;
                         }
                         seqToExecute = num;
                         break;
@@ -2816,13 +2822,13 @@ after_debugging_decision: ;
                             if(num < 0 || num >= sequences.Count)
                             {
                                 Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                                break;
+                                goto read_again;
                             }
                             seqToExecute = num;
                             break;
                         }
                         Console.WriteLine("You must enter a valid integer number!");
-                        break;
+                        goto read_again;
                     case 's':
                     case 'n':
                         return seqToExecute;
@@ -2833,9 +2839,9 @@ after_debugging_decision: ;
                     default:
                         Console.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
-                        break;
+                        goto read_again;
                 }
-            }
+            } while(true);
         }
 
         /// <summary>
@@ -2852,7 +2858,7 @@ after_debugging_decision: ;
             Console.WriteLine("Press (e) to enter a point in the interval series of the sequence to show."
                                 + " Press (s) or (n) to commit to the pre-selected sequence and continue.");
 
-            while(true)
+            do
             {
                 context.highlightSeq = seq.Sequences[seq.GetSequenceFromPoint(pointToExecute)];
                 context.choice = true;
@@ -2862,6 +2868,7 @@ after_debugging_decision: ;
                 context.choice = false;
                 context.sequences = null;
 
+read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -2875,22 +2882,22 @@ after_debugging_decision: ;
                             if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
                             {
                                 Console.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
-                                break;
+                                goto read_again;
                             }
                             pointToExecute = num;
                             break;
                         }
                         Console.WriteLine("You must enter a valid floating point number!");
-                        break;
+                        goto read_again;
                     case 's':
                     case 'n':
                         return pointToExecute;
                     default:
                         Console.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (e)nter number and (s)/(n) to commit and continue allowed! ");
-                        break;
+                        goto read_again;
                 }
-            }
+            } while(true);
         }
 
         /// <summary>
@@ -2915,7 +2922,7 @@ after_debugging_decision: ;
             Console.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
                                 + " Press (s) or (n) to commit to the pre-selected match and continue.");
 
-            while(true)
+            do
             {
                 int rule; int match;
                 seq.FromTotalMatch(totalMatchToExecute, out rule, out match);
@@ -2933,6 +2940,7 @@ after_debugging_decision: ;
                 context.sequences = null;
                 context.matches = null;
 
+read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -2950,7 +2958,7 @@ after_debugging_decision: ;
                         if(num >= seq.NumTotalMatches)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                            break;
+                            goto read_again;
                         }
                         Unmark(rule, match, seq);
                         totalMatchToExecute = num;
@@ -2963,7 +2971,7 @@ after_debugging_decision: ;
                             if(num < 0 || num >= seq.NumTotalMatches)
                             {
                                 Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                                break;
+                                goto read_again;
                             }
                             Unmark(rule, match, seq);
                             totalMatchToExecute = num;
@@ -2978,9 +2986,9 @@ after_debugging_decision: ;
                     default:
                         Console.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                        break;
+                        goto read_again;
                 }
-            }
+            } while(true);
         }
 
         /// <summary>
@@ -3016,7 +3024,7 @@ after_debugging_decision: ;
             ycompClient.Sync();
 
             int newMatchToRewrite = matchToApply;
-            while(true)
+            do
             {
                 MarkMatch(matches.GetMatch(matchToApply), null, null);
                 AnnotateMatch(matches.GetMatch(matchToApply), false);
@@ -3028,6 +3036,7 @@ after_debugging_decision: ;
 
                 Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
 
+read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -3045,7 +3054,7 @@ after_debugging_decision: ;
                         if(num >= matches.Count)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                            break;
+                            goto read_again;
                         }
                         newMatchToRewrite = num;
                         break;
@@ -3057,7 +3066,7 @@ after_debugging_decision: ;
                             if(num < 0 || num >= matches.Count)
                             {
                                 Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                                break;
+                                goto read_again;
                             }
                             newMatchToRewrite = num;
                             break;
@@ -3074,9 +3083,9 @@ after_debugging_decision: ;
                     default:
                         Console.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                        break;
+                        goto read_again;
                 }
-            }
+            } while(true);
         }
 
         /// <summary>
@@ -3094,9 +3103,10 @@ after_debugging_decision: ;
             Console.WriteLine();
             context.choice = false;
 
-            while(true)
+            Console.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
+
+            do
             {
-                Console.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
                 String numStr = Console.ReadLine();
                 if(numStr == "")
                     return randomNumber;
@@ -3111,7 +3121,7 @@ after_debugging_decision: ;
                     return num;
                 }
                 Console.WriteLine("You must enter a valid integer number!");
-            }
+            } while(true);
         }
 
         /// <summary>
@@ -3129,9 +3139,10 @@ after_debugging_decision: ;
             Console.WriteLine();
             context.choice = false;
 
-            while(true)
+            Console.Write("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber + ": ");
+
+            do
             {
-                Console.Write("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber + ": ");
                 String numStr = Console.ReadLine();
                 if(numStr == "")
                     return randomNumber;
@@ -3147,7 +3158,7 @@ after_debugging_decision: ;
                     return num;
                 }
                 Console.WriteLine("You must enter a valid double number!");
-            }
+            } while(true);
         }
 
         /// <summary>
@@ -3205,6 +3216,8 @@ after_debugging_decision: ;
             while(value == null)
             {
                 Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
+
+read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -3218,7 +3231,7 @@ after_debugging_decision: ;
                     default:
                         Console.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (a)bort user choice or (r)etry allowed! ");
-                        break;
+                        goto read_again;
                 }
             }
 
@@ -4091,7 +4104,7 @@ after_debugging_decision: ;
         /// </summary>
         private void QueryContinueOrTrace(bool isBottomUpBreak)
         {
-            while(true)
+            do
             {
                 if(!isBottomUpBreak && computationsEnteredStack.Count == 0)
                     Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
@@ -4126,6 +4139,7 @@ after_debugging_decision: ;
                     else
                         Console.WriteLine("debugging as before.");
                 }
+
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -4185,7 +4199,7 @@ after_debugging_decision: ;
                 default:
                     return;
                 }
-            }
+            } while(true);
         }
 
         int TargetStackLevelForUpInDetailedMode()
