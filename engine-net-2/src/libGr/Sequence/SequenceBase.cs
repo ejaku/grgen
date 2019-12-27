@@ -93,6 +93,40 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        // resolves names that are given without package context but do not reference global names
+        // because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language)
+        // (i.e. calls of entities from packages, without package prefix are changed to package calls (may occur for entities from the same package))
+        public static void ResolvePackage(String Name, String PrePackage, String PrePackageContext, bool unprefixedNameExists,
+            out String Package, out String PackagePrefixedName)
+        {
+            if(PrePackage != null)
+            {
+                Package = PrePackage;
+                PackagePrefixedName = PrePackage + "::" + Name;
+                return;
+            }
+
+            if(unprefixedNameExists)
+            {
+                Package = null;
+                PackagePrefixedName = Name;
+                return;
+            }
+
+            if(PrePackageContext != null)
+            {
+                Package = PrePackageContext;
+                PackagePrefixedName = PrePackageContext + "::" + Name;
+                return;
+            }
+
+            // should not occur, (to be) handled in SequenceCheckingEnvironment
+            Package = null;
+            PackagePrefixedName = Name;
+        }
+
+        #region helper methods for call input argument and argument expression, as well as return variable handling
+
         public static void FillArgumentsFromArgumentExpressions(SequenceExpression[] ArgumentExpressions, object[] Arguments, IGraphProcessingEnvironment procEnv)
         {
             for(int i = 0; i < ArgumentExpressions.Length; ++i)
@@ -133,8 +167,7 @@ namespace de.unika.ipd.grGen.libGr
             else
             {
                 object[] retElems = retElemsList[0];
-                for(int i = 0; i < ReturnVars.Length; i++)
-                    ReturnVars[i].SetVariableValue(retElems[i], procEnv);
+                FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
             }
         }
 
@@ -142,38 +175,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             for(int i = 0; i < ReturnVars.Length; ++i)
                 ReturnVars[i].SetVariableValue(retElems[i], procEnv);
-        }
-
-        // resolves names that are given without package context but do not reference global names
-        // because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language)
-        // (i.e. calls of entities from packages, without package prefix are changed to package calls (may occur for entities from the same package))
-        public static void ResolvePackage(String Name, String PrePackage, String PrePackageContext, bool unprefixedNameExists,
-            out String Package, out String PackagePrefixedName)
-        {
-            if(PrePackage != null)
-            {
-                Package = PrePackage;
-                PackagePrefixedName = PrePackage + "::" + Name;
-                return;
-            }
-
-            if(unprefixedNameExists)
-            {
-                Package = null;
-                PackagePrefixedName = Name;
-                return;
-            }
-
-            if(PrePackageContext != null)
-            {
-                Package = PrePackageContext;
-                PackagePrefixedName = PrePackageContext + "::" + Name;
-                return;
-            }
-
-            // should not occur, (to be) handled in SequenceCheckingEnvironment
-            Package = null;
-            PackagePrefixedName = Name;
         }
 
         public static void InitializeArgumentExpressionsAndArguments(List<SequenceExpression> argExprs,
@@ -227,5 +228,7 @@ namespace de.unika.ipd.grGen.libGr
             foreach(SequenceVariable seqVar in ReturnVars)
                 seqVar.GetLocalVariables(variables);
         }
+
+        #endregion helper methods for call input argument and argument expression, as well as return variable handling
     }
 }
