@@ -161,6 +161,7 @@ namespace de.unika.ipd.grGen.grShell
 
     public enum SubruleDebuggingEvent
     {
+        Undefined,
         Add,
         Rem,
         Emit,
@@ -171,6 +172,20 @@ namespace de.unika.ipd.grGen.grShell
         Delete,
         Retype,
         SetAttributes
+    }
+
+    public enum SubruleDebuggingMatchGraphElementMode
+    {
+        Undefined,
+        ByName,
+        ByType
+    }
+
+    public enum SubruleDebuggingMatchGraphElementByTypeMode
+    {
+        Undefined,
+        IncludingSubtypes,
+        OnlyType
     }
 
     public enum SubruleDebuggingDecision

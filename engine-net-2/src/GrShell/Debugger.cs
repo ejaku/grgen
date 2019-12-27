@@ -687,78 +687,17 @@ namespace de.unika.ipd.grGen.grShell
         SubruleDebuggingConfigurationRule EditOrCreateRule(SubruleDebuggingConfigurationRule cr)
         {
             // edit or keep type
-            SubruleDebuggingEvent sde;
-            while(true)
-            {
-                Console.WriteLine("What event to listen to?");
-                Console.Write("(0) subrule entry aka Debug::add" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? " or (k)eep\n" : "\n"));
-                Console.Write("(1) subrule exit aka Debug::rem" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Rem ? " or (k)eep\n" : "\n"));
-                Console.Write("(2) subrule report aka Debug::emit" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Emit ? " or (k)eep\n" : "\n"));
-                Console.Write("(3) subrule halt aka Debug::halt" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Halt ? " or (k)eep\n" : "\n"));
-                Console.Write("(4) subrule highlight aka Debug::highlight" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Highlight ? " or (k)eep\n" : "\n"));
-                Console.Write("(5) rule match" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Match ? " or (k)eep\n" : "\n"));
-                Console.Write("(6) graph element creation" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.New ? " or (k)eep\n" : "\n"));
-                Console.Write("(7) graph element deletion" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Delete ? " or (k)eep\n" : "\n"));
-                Console.Write("(8) graph element retyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? " or (k)eep\n" : "\n"));
-                Console.Write("(9) graph element attribute assignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? " or (k)eep\n" : "\n"));
-                Console.WriteLine("(a)bort");
-
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                    case '0':
-                        sde = SubruleDebuggingEvent.Add;
-                        goto after_debugging_event;
-                    case '1':
-                        sde = SubruleDebuggingEvent.Rem;
-                        goto after_debugging_event;
-                    case '2':
-                        sde = SubruleDebuggingEvent.Emit;
-                        goto after_debugging_event;
-                    case '3':
-                        sde = SubruleDebuggingEvent.Halt;
-                        goto after_debugging_event;
-                    case '4':
-                        sde = SubruleDebuggingEvent.Highlight;
-                        goto after_debugging_event;
-                    case '5':
-                        sde = SubruleDebuggingEvent.Match;
-                        goto after_debugging_event;
-                    case '6':
-                        sde = SubruleDebuggingEvent.New;
-                        goto after_debugging_event;
-                    case '7':
-                        sde = SubruleDebuggingEvent.Delete;
-                        goto after_debugging_event;
-                    case '8':
-                        sde = SubruleDebuggingEvent.Retype;
-                        goto after_debugging_event;
-                    case '9':
-                        sde = SubruleDebuggingEvent.SetAttributes;
-                        goto after_debugging_event;
-                    case 'a':
-                        return null;
-                    default:
-                        if(key.KeyChar == 'k' && cr != null)
-                        {
-                            sde = cr.DebuggingEvent;
-                            goto after_debugging_event;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Illegal choice (Key = " + key.Key
-                                + ")! Only (0)...(9), (a)bort allowed! ");
-                            break;
-                        }
-                }
-            }
-after_debugging_event: ;
+            SubruleDebuggingEvent sde = DetermineEventTypeToConfigure(cr);
+            if(sde==SubruleDebuggingEvent.Undefined)
+                return null;
 
             // for Add, Rem, Emit, Halt, Highlight
             string message = null;
             SubruleMesssageMatchingMode smmm = SubruleMesssageMatchingMode.Undefined;
+
             // for Match
             IAction action = null;
+
             // for New, Delete, Retype, SetAttributes
             string graphElementName = null;
             GrGenType graphElementType = null;
@@ -768,304 +707,39 @@ after_debugging_event: ;
                 || sde==SubruleDebuggingEvent.Halt || sde==SubruleDebuggingEvent.Highlight)
             {
                 // edit or keep message matching mode and message
-                Console.WriteLine("Enter the subrule message to match.");
-                if(cr != null)
-                    Console.WriteLine("Empty string for " + cr.MessageToMatch);
-                else
-                    Console.WriteLine("Empty string to abort.");
-
-                message = Console.ReadLine();
-                if(message.Length == 0)
-                {
-                    if(cr != null)
-                        message = cr.MessageToMatch;
-                    else
-                        return null;
-                }
-
-                while(true)
-                {
-                    Console.WriteLine("How to match the subrule message?");
-                    Console.Write("(0) equals" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Equals ? " or (k)eep\n" : "\n"));
-                    Console.Write("(1) startsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.StartsWith ? " or (k)eep\n" : "\n"));
-                    Console.Write("(2) endsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.EndsWith ? " or (k)eep\n" : "\n"));
-                    Console.Write("(3) contains" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Contains ? " or (k)eep\n" : "\n"));
-                    Console.WriteLine("(a)bort");
-                    ConsoleKeyInfo key = ReadKeyWithCancel();
-                    switch(key.KeyChar)
-                    {
-                        case '0':
-                            smmm = SubruleMesssageMatchingMode.Equals;
-                            goto after_message_matching_mode;
-                        case '1':
-                            smmm = SubruleMesssageMatchingMode.StartsWith;
-                            goto after_message_matching_mode;
-                        case '2':
-                            smmm = SubruleMesssageMatchingMode.EndsWith;
-                            goto after_message_matching_mode;
-                        case '3':
-                            smmm = SubruleMesssageMatchingMode.Contains;
-                            goto after_message_matching_mode;
-                        case 'a':
-                            return null;
-                        default:
-                            if(key.KeyChar == 'k' && cr != null)
-                            {
-                                smmm = cr.MessageMatchingMode;
-                                goto after_message_matching_mode;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Illegal choice (Key = " + key.Key
-                                    + ")! Only (0)...(3), (a)bort allowed! ");
-                                break;
-                            }
-                    }
-                }
-after_message_matching_mode: ;
+                smmm = DetermineMessageAndMessageMatchingMode(cr, 
+                    out message);
+                if(smmm == SubruleMesssageMatchingMode.Undefined)
+                    return null;
             }
             else if(sde==SubruleDebuggingEvent.Match)
             {
                 // edit ok keep action name
-                while(true)
-                {
-                    Console.WriteLine("Enter the name of the action to match.");
-                    if(cr != null)
-                        Console.WriteLine("Empty string for " + cr.ActionToMatch.PackagePrefixedName);
-                    else
-                        Console.WriteLine("Empty string to abort.");
-
-                    String actionName = Console.ReadLine();
-                    if(actionName.Length == 0)
-                    {
-                        if(cr != null)
-                        {
-                            action = cr.ActionToMatch;
-                            break;
-                        }
-                        else
-                            return null;
-                    }
-
-                    action = shellProcEnv.ProcEnv.Actions.GetAction(actionName);
-                    if(action == null)
-                        Console.WriteLine("Unknown action: " + actionName);
-                    else
-                        break;
-                }
+                action = DetermineAction(cr);
+                if(action == null)
+                    return null;
             }
             else if(sde==SubruleDebuggingEvent.New || sde==SubruleDebuggingEvent.Delete
                 || sde==SubruleDebuggingEvent.Retype || sde==SubruleDebuggingEvent.SetAttributes)
             {
                 // edit or keep choice of type, exact type, name
-                bool byName;
-                while(true)
-                {
-                    Console.WriteLine("Match graph element based on name or based on type?");
-                    Console.Write("(0) by name" + (cr != null && cr.NameToMatch != null ? " or (k)eep\n" : "\n"));
-                    Console.Write("(1) by type" + (cr != null && cr.NameToMatch == null ? " or (k)eep\n" : "\n"));
-                    Console.WriteLine("(a)bort");
-                    ConsoleKeyInfo key = ReadKeyWithCancel();
-                    switch(key.KeyChar)
-                    {
-                        case '0':
-                            byName = true;
-                            goto after_name_or_type_decision;
-                        case '1':
-                            byName = false;
-                            goto after_name_or_type_decision;
-                        case 'a':
-                            return null;
-                        default:
-                            if(key.KeyChar == 'k' && cr != null)
-                            {
-                                byName = cr.NameToMatch != null;
-                                goto after_name_or_type_decision;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Illegal choice (Key = " + key.Key
-                                    + ")! Only (0), (1), (a)bort allowed! ");
-                                break;
-                            }
-                    }
-                }
-after_name_or_type_decision: ;
-
-                if(byName)
-                {
-                    Console.WriteLine("Enter the graph element name to match.");
-                    if(cr != null)
-                        Console.WriteLine("Empty string for " + cr.NameToMatch);
-                    else
-                        Console.WriteLine("Empty string to abort.");
-
-                    graphElementName = Console.ReadLine();
-                    if(graphElementName.Length == 0)
-                    {
-                        if(cr != null)
-                            graphElementName = cr.NameToMatch;
-                        else
-                            return null;
-                    }
-                }
-                else
-                {
-                    while(true)
-                    {
-                        Console.WriteLine("Enter the type of the graph element to match.");
-                        if(cr != null)
-                            Console.WriteLine("Empty string for " + cr.TypeToMatch.PackagePrefixedName);
-                        else
-                            Console.WriteLine("Empty string to abort.");
-
-                        String graphElementTypeName = Console.ReadLine();
-                        if(graphElementTypeName.Length == 0)
-                        {
-                            if(cr != null)
-                            {
-                                graphElementType = cr.TypeToMatch;
-                                break;
-                            }
-                            else
-                                return null;
-                        }
-
-                        graphElementType = grShellImpl.GetGraphElementType(graphElementTypeName);
-                        if(graphElementType == null)
-                            Console.WriteLine("Unknown graph element type: " + graphElementTypeName);
-                        else
-                            break;
-                    }
-
-                    while(true)
-                    {
-                        Console.WriteLine("Only the graph element type or also subtypes?");
-                        Console.Write("(0) also subtypes" + (cr != null && !cr.OnlyThisType ? " or (k)eep\n" : "\n"));
-                        Console.Write("(1) only the type" + (cr != null && cr.OnlyThisType ? " or (k)eep\n" : "\n"));
-                        Console.WriteLine("(a)bort");
-                        ConsoleKeyInfo key = ReadKeyWithCancel();
-                        switch(key.KeyChar)
-                        {
-                            case '0':
-                                only = false;
-                                goto after_only_decision;
-                            case '1':
-                                only = true;
-                                goto after_only_decision;
-                            case 'a':
-                                return null;
-                            default:
-                                if(key.KeyChar == 'k' && cr != null)
-                                {
-                                    only = cr.OnlyThisType;
-                                    goto after_only_decision;
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                                        + ")! Only (0), (1), (a)bort allowed! ");
-                                    break;
-                                }
-                        }
-                    }
-after_only_decision: ;
-                }
+                bool abort = DetermineMatchGraphElementMode(cr, 
+                    out graphElementName, out graphElementType, out only);
+                if(abort)
+                    return null;
             }
-            
+
             // edit or keep decision action
-            SubruleDebuggingDecision sdd;
-            while(true)
-            {
-                Console.WriteLine("How to react when the event is triggered?");
-                Console.Write("(0) break" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Break ? " or (k)eep\n" : "\n"));
-                Console.Write("(1) continue" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Continue ? " or (k)eep\n" : "\n"));
-                Console.WriteLine("(a)bort");
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                    case '0':
-                        sdd = SubruleDebuggingDecision.Break;
-                        goto after_debugging_decision;
-                    case '1':
-                        sdd = SubruleDebuggingDecision.Continue;
-                        goto after_debugging_decision;
-                    case 'a':
-                        return null;
-                    default:
-                        if(key.KeyChar == 'k' && cr != null)
-                        {
-                            sdd = cr.DecisionOnMatch;
-                            goto after_debugging_decision;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Illegal choice (Key = " + key.Key
-                                + ")! Only (0), (1), (a)bort allowed! ");
-                            break;
-                        }
-                }
-            }
-after_debugging_decision: ;
+            SubruleDebuggingDecision sdd = DetermineDecisionAction(cr);
+            if(sdd == SubruleDebuggingDecision.Undefined)
+                return null;
 
             // edit or keep condition if type action or graph change
             SequenceExpression ifClause = null;
-            while(sde != SubruleDebuggingEvent.Add && sde != SubruleDebuggingEvent.Rem && sde != SubruleDebuggingEvent.Retype
-                && sde != SubruleDebuggingEvent.Halt && sde != SubruleDebuggingEvent.Highlight) // condition won't change, decides entry only
+            if(sde != SubruleDebuggingEvent.Add && sde != SubruleDebuggingEvent.Rem && sde != SubruleDebuggingEvent.Retype
+                && sde != SubruleDebuggingEvent.Halt && sde != SubruleDebuggingEvent.Highlight)
             {
-                Console.WriteLine("Conditional rule via sequence expression?");
-                if(cr != null && cr.IfClause != null)
-                    Console.WriteLine("Press enter to take over " + cr.IfClause.Symbol + ", enter \"-\" to clear the condition, otherwise enter the sequence expression to apply.");
-                else
-                    Console.WriteLine("Press enter if you don't want to add an if part, otherwise enter the sequence expression to apply.");
-
-                String ifClauseStr = Console.ReadLine();
-                if(ifClauseStr.Length == 0)
-                {
-                    if(cr != null)
-                        ifClause = cr.IfClause;
-                    break;
-                }
-                if(ifClauseStr == "-")
-                    break;
-
-                Dictionary<String, String> predefinedVariables = new Dictionary<String, String>();
-                predefinedVariables.Add("this", "");
-                string ruleOfMatchThis = null;
-                if(sde == SubruleDebuggingEvent.Match)
-                    ruleOfMatchThis = action.Name;
-                string typeOfGraphElementThis = null;
-                if(sde == SubruleDebuggingEvent.New || sde == SubruleDebuggingEvent.Delete
-                    || sde == SubruleDebuggingEvent.Retype || sde == SubruleDebuggingEvent.SetAttributes)
-                {
-                    typeOfGraphElementThis = "";
-                    if(graphElementType != null)
-                        typeOfGraphElementThis = graphElementType.PackagePrefixedName;
-                }
-                try
-                {
-                    SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(shellProcEnv.ProcEnv.Actions, ruleOfMatchThis, typeOfGraphElementThis);
-                    List<String> warnings = new List<String>();
-                    ifClause = SequenceParser.ParseSequenceExpression(ifClauseStr, predefinedVariables, parserEnv, warnings);
-                    foreach(string warning in warnings)
-                    {
-                        Console.WriteLine("The sequence expression for the if clause reported back: " + warning);
-                    }
-                    break;
-                }
-                catch(SequenceParserException ex)
-                {
-                    Console.WriteLine("Unable to parse sequence expression");
-                    grShellImpl.HandleSequenceParserException(ex);
-                }
-                catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-                {
-                    Console.WriteLine("Unable to parse sequence expression: " + ex.Message);
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine("Unable to parse sequence expression : " + ex);
-                }
+                ifClause = DetermineCondition(cr, sde, action, graphElementType);
             }
 
             if(sde == SubruleDebuggingEvent.Add || sde == SubruleDebuggingEvent.Rem || sde == SubruleDebuggingEvent.Emit
@@ -1087,6 +761,397 @@ after_debugging_decision: ;
             }
 
             return null;
+        }
+
+        SubruleDebuggingEvent DetermineEventTypeToConfigure(SubruleDebuggingConfigurationRule cr)
+        {
+            Console.WriteLine("What event to listen to?");
+            Console.Write("(0) subrule entry aka Debug::add" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? " or (k)eep\n" : "\n"));
+            Console.Write("(1) subrule exit aka Debug::rem" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Rem ? " or (k)eep\n" : "\n"));
+            Console.Write("(2) subrule report aka Debug::emit" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Emit ? " or (k)eep\n" : "\n"));
+            Console.Write("(3) subrule halt aka Debug::halt" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Halt ? " or (k)eep\n" : "\n"));
+            Console.Write("(4) subrule highlight aka Debug::highlight" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Highlight ? " or (k)eep\n" : "\n"));
+            Console.Write("(5) rule match" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Match ? " or (k)eep\n" : "\n"));
+            Console.Write("(6) graph element creation" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.New ? " or (k)eep\n" : "\n"));
+            Console.Write("(7) graph element deletion" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Delete ? " or (k)eep\n" : "\n"));
+            Console.Write("(8) graph element retyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? " or (k)eep\n" : "\n"));
+            Console.Write("(9) graph element attribute assignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? " or (k)eep\n" : "\n"));
+            Console.WriteLine("(a)bort");
+
+            do
+            {
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case '0':
+                    return SubruleDebuggingEvent.Add;
+                case '1':
+                    return SubruleDebuggingEvent.Rem;
+                case '2':
+                    return SubruleDebuggingEvent.Emit;
+                case '3':
+                    return SubruleDebuggingEvent.Halt;
+                case '4':
+                    return SubruleDebuggingEvent.Highlight;
+                case '5':
+                    return SubruleDebuggingEvent.Match;
+                case '6':
+                    return SubruleDebuggingEvent.New;
+                case '7':
+                    return SubruleDebuggingEvent.Delete;
+                case '8':
+                    return SubruleDebuggingEvent.Retype;
+                case '9':
+                    return SubruleDebuggingEvent.SetAttributes;
+                case 'a':
+                    return SubruleDebuggingEvent.Undefined;
+                default:
+                    if(key.KeyChar == 'k' && cr != null)
+                    {
+                        return cr.DebuggingEvent;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0)...(9), (a)bort allowed! ");
+                        break;
+                    }
+                }
+            } while(true);
+        }
+
+        SubruleMesssageMatchingMode DetermineMessageAndMessageMatchingMode(SubruleDebuggingConfigurationRule cr, out string message)
+        {
+            Console.WriteLine("Enter the subrule message to match.");
+            if(cr != null)
+                Console.WriteLine("Empty string for " + cr.MessageToMatch);
+            else
+                Console.WriteLine("Empty string to abort.");
+
+            message = Console.ReadLine();
+            if(message.Length == 0)
+            {
+                if(cr != null)
+                    message = cr.MessageToMatch;
+                else
+                    return SubruleMesssageMatchingMode.Undefined;
+            }
+
+            Console.WriteLine("How to match the subrule message?");
+            Console.Write("(0) equals" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Equals ? " or (k)eep\n" : "\n"));
+            Console.Write("(1) startsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.StartsWith ? " or (k)eep\n" : "\n"));
+            Console.Write("(2) endsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.EndsWith ? " or (k)eep\n" : "\n"));
+            Console.Write("(3) contains" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Contains ? " or (k)eep\n" : "\n"));
+            Console.WriteLine("(a)bort");
+
+            do
+            {
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case '0':
+                    return SubruleMesssageMatchingMode.Equals;
+                case '1':
+                    return SubruleMesssageMatchingMode.StartsWith;
+                case '2':
+                    return SubruleMesssageMatchingMode.EndsWith;
+                case '3':
+                    return SubruleMesssageMatchingMode.Contains;
+                case 'a':
+                    return SubruleMesssageMatchingMode.Undefined;
+                default:
+                    if(key.KeyChar == 'k' && cr != null)
+                    {
+                        return cr.MessageMatchingMode;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0)...(3), (a)bort allowed! ");
+                        break;
+                    }
+                }
+            } while(true);
+        }
+
+        IAction DetermineAction(SubruleDebuggingConfigurationRule cr)
+        {
+            do
+            {
+                Console.WriteLine("Enter the name of the action to match.");
+                if(cr != null)
+                    Console.WriteLine("Empty string for " + cr.ActionToMatch.PackagePrefixedName);
+                else
+                    Console.WriteLine("Empty string to abort.");
+
+                String actionName = Console.ReadLine();
+                if(actionName.Length == 0)
+                {
+                    if(cr != null)
+                    {
+                        return cr.ActionToMatch;
+                    }
+                    else
+                        return null;
+                }
+
+                IAction action = shellProcEnv.ProcEnv.Actions.GetAction(actionName);
+                if(action == null)
+                    Console.WriteLine("Unknown action: " + actionName);
+                else
+                    return action;
+            } while(true);
+        }
+
+        bool DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr, 
+            out string graphElementName, out GrGenType graphElementType, out bool only)
+        {
+            graphElementName = null;
+            graphElementType = null;
+            only = false;
+
+            SubruleDebuggingMatchGraphElementMode mode = DetermineMatchGraphElementMode(cr);
+            if(mode == SubruleDebuggingMatchGraphElementMode.Undefined)
+                return true;
+
+            if(mode == SubruleDebuggingMatchGraphElementMode.ByName)
+            {
+                bool abort = DetermineMatchGraphElementByName(cr, out graphElementName);
+                if(abort)
+                    return true;
+            }
+            else
+            {
+                bool abort = DetermineMatchGraphElementByType(cr, out graphElementType);
+                if(abort)
+                    return true;
+
+                SubruleDebuggingMatchGraphElementByTypeMode byTypeMode = DetermineMatchGraphElementByTypeMode(cr);
+                if(byTypeMode == SubruleDebuggingMatchGraphElementByTypeMode.Undefined)
+                    return true;
+            }
+
+            return false;
+        }
+
+        SubruleDebuggingMatchGraphElementMode DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr)
+        {
+            Console.WriteLine("Match graph element based on name or based on type?");
+            Console.Write("(0) by name" + (cr != null && cr.NameToMatch != null ? " or (k)eep\n" : "\n"));
+            Console.Write("(1) by type" + (cr != null && cr.NameToMatch == null ? " or (k)eep\n" : "\n"));
+            Console.WriteLine("(a)bort");
+
+            do
+            {
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case '0':
+                    return SubruleDebuggingMatchGraphElementMode.ByName;
+                case '1':
+                    return SubruleDebuggingMatchGraphElementMode.ByType;
+                case 'a':
+                    return SubruleDebuggingMatchGraphElementMode.Undefined;
+                default:
+                    if(key.KeyChar == 'k' && cr != null)
+                    {
+                        return cr.NameToMatch != null ? SubruleDebuggingMatchGraphElementMode.ByName : SubruleDebuggingMatchGraphElementMode.ByType;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0), (1), (a)bort allowed! ");
+                        break;
+                    }
+                }
+            } while(true);
+        }
+
+        bool DetermineMatchGraphElementByName(SubruleDebuggingConfigurationRule cr,
+            out string graphElementName)
+        {
+            Console.WriteLine("Enter the graph element name to match.");
+            if(cr != null)
+                Console.WriteLine("Empty string for " + cr.NameToMatch);
+            else
+                Console.WriteLine("Empty string to abort.");
+
+            graphElementName = Console.ReadLine();
+            if(graphElementName.Length == 0)
+            {
+                if(cr != null)
+                    graphElementName = cr.NameToMatch;
+                else
+                    return true;
+            }
+
+            return false;
+        }
+
+        bool DetermineMatchGraphElementByType(SubruleDebuggingConfigurationRule cr,
+            out GrGenType graphElementType)
+        {
+            while(true)
+            {
+                Console.WriteLine("Enter the type of the graph element to match.");
+                if(cr != null)
+                    Console.WriteLine("Empty string for " + cr.TypeToMatch.PackagePrefixedName);
+                else
+                    Console.WriteLine("Empty string to abort.");
+
+                String graphElementTypeName = Console.ReadLine();
+                if(graphElementTypeName.Length == 0)
+                {
+                    if(cr != null)
+                    {
+                        graphElementType = cr.TypeToMatch;
+                        break;
+                    }
+                    else
+                    {
+                        graphElementType = null;
+                        return true;
+                    }
+                }
+
+                graphElementType = grShellImpl.GetGraphElementType(graphElementTypeName);
+                if(graphElementType == null)
+                    Console.WriteLine("Unknown graph element type: " + graphElementTypeName);
+                else
+                    break;
+            }
+
+            return false;
+        }
+
+        SubruleDebuggingMatchGraphElementByTypeMode DetermineMatchGraphElementByTypeMode(SubruleDebuggingConfigurationRule cr)
+        {
+            Console.WriteLine("Only the graph element type or also subtypes?");
+            Console.Write("(0) also subtypes" + (cr != null && !cr.OnlyThisType ? " or (k)eep\n" : "\n"));
+            Console.Write("(1) only the type" + (cr != null && cr.OnlyThisType ? " or (k)eep\n" : "\n"));
+            Console.WriteLine("(a)bort");
+
+            while(true)
+            {
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case '0':
+                    return SubruleDebuggingMatchGraphElementByTypeMode.IncludingSubtypes;
+                case '1':
+                    return SubruleDebuggingMatchGraphElementByTypeMode.OnlyType;
+                case 'a':
+                    return SubruleDebuggingMatchGraphElementByTypeMode.Undefined;
+                default:
+                    if(key.KeyChar == 'k' && cr != null)
+                    {
+                        return cr.OnlyThisType ? SubruleDebuggingMatchGraphElementByTypeMode.OnlyType : SubruleDebuggingMatchGraphElementByTypeMode.IncludingSubtypes;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0), (1), (a)bort allowed! ");
+                        break;
+                    }
+                }
+            }
+        }
+
+        SubruleDebuggingDecision DetermineDecisionAction(SubruleDebuggingConfigurationRule cr)
+        {
+            // edit or keep decision action
+            Console.WriteLine("How to react when the event is triggered?");
+            Console.Write("(0) break" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Break ? " or (k)eep\n" : "\n"));
+            Console.Write("(1) continue" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Continue ? " or (k)eep\n" : "\n"));
+            Console.WriteLine("(a)bort");
+
+            do
+            {
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case '0':
+                    return SubruleDebuggingDecision.Break;
+                case '1':
+                    return SubruleDebuggingDecision.Continue;
+                case 'a':
+                    return SubruleDebuggingDecision.Undefined;
+                default:
+                    if(key.KeyChar == 'k' && cr != null)
+                    {
+                        return cr.DecisionOnMatch;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0), (1), (a)bort allowed! ");
+                        break;
+                    }
+                }
+            } while(true);
+        }
+
+        SequenceExpression DetermineCondition(SubruleDebuggingConfigurationRule cr, 
+            SubruleDebuggingEvent sde, IAction action, GrGenType graphElementType)
+        {
+            // edit or keep condition if type action or graph change
+            do
+            {
+                Console.WriteLine("Conditional rule via sequence expression?");
+                if(cr != null && cr.IfClause != null)
+                    Console.WriteLine("Press enter to take over " + cr.IfClause.Symbol + ", enter \"-\" to clear the condition, otherwise enter the sequence expression to apply.");
+                else
+                    Console.WriteLine("Press enter if you don't want to add an if part, otherwise enter the sequence expression to apply.");
+
+                String ifClauseStr = Console.ReadLine();
+                if(ifClauseStr.Length == 0)
+                {
+                    if(cr != null)
+                        return cr.IfClause;
+                    else
+                        return null;
+                }
+                if(ifClauseStr == "-")
+                    return null;
+
+                Dictionary<String, String> predefinedVariables = new Dictionary<String, String>();
+                predefinedVariables.Add("this", "");
+                string ruleOfMatchThis = null;
+                if(sde == SubruleDebuggingEvent.Match)
+                    ruleOfMatchThis = action.Name;
+                string typeOfGraphElementThis = null;
+                if(sde == SubruleDebuggingEvent.New || sde == SubruleDebuggingEvent.Delete
+                    || sde == SubruleDebuggingEvent.Retype || sde == SubruleDebuggingEvent.SetAttributes)
+                {
+                    typeOfGraphElementThis = "";
+                    if(graphElementType != null)
+                        typeOfGraphElementThis = graphElementType.PackagePrefixedName;
+                }
+                try
+                {
+                    SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(shellProcEnv.ProcEnv.Actions, ruleOfMatchThis, typeOfGraphElementThis);
+                    List<String> warnings = new List<String>();
+                    SequenceExpression ifClause = SequenceParser.ParseSequenceExpression(ifClauseStr, predefinedVariables, parserEnv, warnings);
+                    foreach(string warning in warnings)
+                    {
+                        Console.WriteLine("The sequence expression for the if clause reported back: " + warning);
+                    }
+                    return ifClause;
+                }
+                catch(SequenceParserException ex)
+                {
+                    Console.WriteLine("Unable to parse sequence expression");
+                    grShellImpl.HandleSequenceParserException(ex);
+                }
+                catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+                {
+                    Console.WriteLine("Unable to parse sequence expression: " + ex.Message);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Unable to parse sequence expression : " + ex);
+                }
+            } while(true);
         }
 
         void HandleShowVariable(Sequence seq)
