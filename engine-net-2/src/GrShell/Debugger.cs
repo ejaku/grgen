@@ -2222,7 +2222,7 @@ after_debugging_decision: ;
                                     {
                                         if(seqChild == context.sequences[i] && context.matches[i].Count > 0)
                                         {
-                                            PrintListOfMatchesNumbers(context, ref numCurTotalMatch, context.matches[i].Count);
+                                            PrintListOfMatchesNumbers(context, ref numCurTotalMatch, seqSome.IsNonRandomRuleAllCall(i) ? 1 : context.matches[i].Count);
                                         }
                                     }
                                 }
@@ -2481,7 +2481,7 @@ after_debugging_decision: ;
 
         void Mark(int rule, int match, SequenceSomeFromSet seq)
         {
-            if(seq.NonRandomAll(rule))
+            if(seq.IsNonRandomRuleAllCall(rule))
             {
                 MarkMatches(seq.Matches[rule], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
                 AnnotateMatches(seq.Matches[rule], true);
@@ -2495,7 +2495,7 @@ after_debugging_decision: ;
 
         void Unmark(int rule, int match, SequenceSomeFromSet seq)
         {
-            if(seq.NonRandomAll(rule))
+            if(seq.IsNonRandomRuleAllCall(rule))
             {
                 MarkMatches(seq.Matches[rule], null, null);
                 AnnotateMatches(seq.Matches[rule], false);

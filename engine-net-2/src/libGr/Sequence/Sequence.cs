@@ -226,7 +226,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         internal SequenceExecutionState executionState;
 
-        public static readonly object[] NoElems = new object[] { }; // A singleton object array used when no elements are returned.
+        //public static readonly object[] NoElems = new object[] { }; // A singleton object array used when no elements are returned.
     }
 
 
@@ -772,7 +772,7 @@ namespace de.unika.ipd.grGen.libGr
             retElems = matches.Producer.Modify(procEnv, match);
             procEnv.PerformanceInfo.RewritesPerformed++;
 
-            if(retElems == null) retElems = NoElems;
+            //if(retElems == null) retElems = NoElems;
 
             FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
 
@@ -787,6 +787,27 @@ namespace de.unika.ipd.grGen.libGr
 #endif
 
             return true;
+        }
+
+        protected List<object[]> RewriteAllMatches(IGraphProcessingEnvironment procEnv, IMatches matches)
+        {
+            List<object[]> returns = matches.Producer.Reserve(matches.Count);
+
+            int curResultNum = 0;
+            foreach(IMatch match in matches)
+            {
+                if(match != matches.First)
+                    procEnv.RewritingNextMatch();
+                object[] retElems = matches.Producer.Modify(procEnv, match);
+                //if(retElems == null) retElems = NoElems;
+                object[] curResult = returns[curResultNum];
+                for(int i = 0; i < retElems.Length; ++i)
+                    curResult[i] = retElems[i];
+                procEnv.PerformanceInfo.RewritesPerformed++;
+                curResultNum++;
+            }
+
+            return returns;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -1103,43 +1124,19 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StartLocal();
 #endif
-            object[] retElems = null;
+            List<object[]> returns;
             if (!ChooseRandom)
             {
                 if (chosenMatch!=null)
                     throw new InvalidOperationException("Chosen match given although all matches should get rewritten");
-                IEnumerator<IMatch> matchesEnum = matches.GetEnumerator();
-                while (matchesEnum.MoveNext())
-                {
-                    IMatch match = matchesEnum.Current;
-                    if (match != matches.First) procEnv.RewritingNextMatch();
-                    retElems = matches.Producer.Modify(procEnv, match);
-                    procEnv.PerformanceInfo.RewritesPerformed++;
-                }
-                if (retElems == null) retElems = NoElems;
+                returns = RewriteAllMatches(procEnv, matches);
             }
             else
             {
-                object val = MaxVarChooseRandom != null ? MaxVarChooseRandom.GetVariableValue(procEnv) : (MinSpecified ? 2147483647 : 1);
-                if (!(val is int))
-                    throw new InvalidOperationException("The variable '" + MaxVarChooseRandom.Name + "' is not of type int!");
-                int numChooseRandom = (int)val;
-                if (matches.Count < numChooseRandom) numChooseRandom = matches.Count;
-
-                for (int i = 0; i < numChooseRandom; i++)
-                {
-                    if (i != 0) procEnv.RewritingNextMatch();
-                    int matchToApply = randomGenerator.Next(matches.Count);
-                    if (Choice) matchToApply = procEnv.UserProxy.ChooseMatch(matchToApply, matches, numChooseRandom - 1 - i, this);
-                    IMatch match = matches.RemoveMatch(matchToApply);
-                    if (chosenMatch != null) match = chosenMatch;
-                    retElems = matches.Producer.Modify(procEnv, match);
-                    procEnv.PerformanceInfo.RewritesPerformed++;
-                }
-                if (retElems == null) retElems = NoElems;
+                returns = RewriteSomeMatches(procEnv, matches, chosenMatch);
             }
 
-            FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
+            FillReturnVariablesFromValues(ReturnVars, matches.Producer, procEnv, returns, -1);
 
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
@@ -1152,6 +1149,36 @@ namespace de.unika.ipd.grGen.libGr
 #endif
 
             return true;
+        }
+
+        protected List<object[]> RewriteSomeMatches(IGraphProcessingEnvironment procEnv, IMatches matches, IMatch chosenMatch)
+        {
+            object val = MaxVarChooseRandom != null ? MaxVarChooseRandom.GetVariableValue(procEnv) : (MinSpecified ? 2147483647 : 1);
+            if(!(val is int))
+                throw new InvalidOperationException("The variable '" + MaxVarChooseRandom.Name + "' is not of type int!");
+            int numChooseRandom = (int)val;
+            if(matches.Count < numChooseRandom) numChooseRandom = matches.Count;
+
+            List<object[]> returns = matches.Producer.Reserve(numChooseRandom);
+
+            int curResultNum = 0;
+            for(int i = 0; i < numChooseRandom; i++)
+            {
+                if(i != 0) procEnv.RewritingNextMatch();
+                int matchToApply = randomGenerator.Next(matches.Count);
+                if(Choice) matchToApply = procEnv.UserProxy.ChooseMatch(matchToApply, matches, numChooseRandom - 1 - i, this);
+                IMatch match = matches.RemoveMatch(matchToApply);
+                if(chosenMatch != null) match = chosenMatch;
+                object[] retElems = matches.Producer.Modify(procEnv, match);
+                //if(retElems == null) retElems = NoElems;
+                object[] curResult = returns[curResultNum];
+                for(int j = 0; j < retElems.Length; ++j)
+                    curResult[j] = retElems[j];
+                procEnv.PerformanceInfo.RewritesPerformed++;
+                curResultNum++;
+            }
+
+            return returns;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -1427,18 +1454,14 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StartLocal();
 #endif
-            object[] retElems = null;
-            IEnumerator<IMatch> matchesEnum = matches.GetEnumerator();
-            while(matchesEnum.MoveNext())
-            {
-                IMatch match = matchesEnum.Current;
-                if(match != matches.First) procEnv.RewritingNextMatch();
-                retElems = matches.Producer.Modify(procEnv, match);
-                procEnv.PerformanceInfo.RewritesPerformed++;
-            }
-            if(retElems == null) retElems = NoElems;
 
-            FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
+            if(chosenMatch != null)
+                throw new InvalidOperationException("Chosen match given although all matches should get rewritten");
+
+            List<object[]> returns = RewriteAllMatches(procEnv, matches);
+
+            FillReturnVariablesFromValues(ReturnVars, matches.Producer, procEnv, returns, -1);
+
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
 #endif
@@ -2121,7 +2144,7 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A sequence consisting of a list of subsequences.
+    /// A sequence consisting of a list of subsequences in the form of rule calls (and inherited rule all and count rule all calls).
     /// Decision on order of execution by random, by user choice possible.
     /// First all the contained rules are matched, then they get rewritten
     /// </summary>
@@ -2165,7 +2188,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public bool NonRandomAll(int rule)
+        public bool IsNonRandomRuleAllCall(int rule)
         {
             return Sequences[rule] is SequenceRuleAllCall && !((SequenceRuleAllCall)Sequences[rule]).ChooseRandom;
         }
@@ -2174,8 +2197,8 @@ namespace de.unika.ipd.grGen.libGr
             int numTotalMatches = 0;
             for (int i = 0; i < Sequences.Count; ++i)
             {
-                if (NonRandomAll(i))
-                    ++numTotalMatches;
+                if (IsNonRandomRuleAllCall(i))
+                    numTotalMatches += Math.Min(Matches[i].Count, 1);
                 else
                     numTotalMatches += Matches[i].Count;
             }
@@ -2188,12 +2211,15 @@ namespace de.unika.ipd.grGen.libGr
             for (int i = 0; i < Sequences.Count; ++i)
             {
                 rule = i;
-                if (NonRandomAll(i))
+                if (IsNonRandomRuleAllCall(i))
                 {
-                    match = 0;
-                    if (curMatch == totalMatch)
-                        return;
-                    ++curMatch;
+                    if(Matches[i].Count > 0)
+                    {
+                        match = 0;
+                        if(curMatch == totalMatch)
+                            return;
+                        ++curMatch;
+                    }
                 }
                 else
                 {
@@ -2228,12 +2254,10 @@ namespace de.unika.ipd.grGen.libGr
                 FromTotalMatch(totalMatchToExecute, out ruleToExecute, out matchToExecute);
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[ruleToExecute];
                 IMatch match = Matches[ruleToExecute].GetMatch(matchToExecute);
-                if (!(rule is SequenceRuleAllCall))
-                    ApplyRule(rule, procEnv, Matches[ruleToExecute], null);
-                else if (!((SequenceRuleAllCall)rule).ChooseRandom)
-                    ApplyRule(rule, procEnv, Matches[ruleToExecute], null);
-                else
+                if(rule is SequenceRuleAllCall && ((SequenceRuleAllCall)rule).ChooseRandom)
                     ApplyRule(rule, procEnv, Matches[ruleToExecute], Matches[ruleToExecute].GetMatch(matchToExecute));
+                else
+                    ApplyRule(rule, procEnv, Matches[ruleToExecute], null);
                 for (int i = 0; i < Sequences.Count; ++i)
                     Sequences[i].executionState = Matches[i].Count == 0 ? SequenceExecutionState.Fail : Sequences[i].executionState;
                 Sequences[ruleToExecute].executionState = SequenceExecutionState.Success; // ApplyRule removed the match from the matches

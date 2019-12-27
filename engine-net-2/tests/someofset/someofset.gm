@@ -1,0 +1,16 @@
+node class M
+{
+	val:string;
+}
+
+node class N extends M
+{
+}
+
+node class O extends M
+{
+}
+
+node class P extends M
+{
+}

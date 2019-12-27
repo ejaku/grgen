@@ -1,0 +1,77 @@
+new graph "someofset/someofset"
+
+new n0:N
+new n1:N
+new n2:O
+new n3:O
+new n4:P
+new n5:P
+
+new n0 -:Edge-> n0
+new n1 -:Edge-> n1
+new n2 -:Edge-> n2
+new n3 -:Edge-> n3
+new n4 -:Edge-> n4
+new n5 -:Edge-> n5
+
+show num nodes N
+show num nodes O
+show num nodes P
+
+exec (::m)=count[findM]=>::cnt
+show var ::cnt
+show var ::m
+
+randomseed 42
+
+exec execOneOfSet
+
+exec (::m)=count[findM]=>::cnt
+show var ::cnt
+show var ::m
+
+m = array<M>[]
+n = null
+o = array<O>[]
+p = array<P>[]
+
+exec execOneOfSet
+
+exec (::m)=count[findM]=>::cnt
+show var ::cnt
+show var ::m
+
+m = array<M>[]
+n = null
+o = array<O>[]
+p = array<P>[]
+
+exec execOneOfSet
+
+exec (::m)=count[findM]=>::cnt
+show var ::cnt
+show var ::m
+
+m = array<M>[]
+n = null
+o = array<O>[]
+p = array<P>[]
+
+exec execOneOfSet
+
+exec (::m)=count[findM]=>::cnt
+show var ::cnt
+show var ::m
+
+m = array<M>[]
+n = null
+o = array<O>[]
+p = array<P>[]
+
+exec execOneOfSet
+
+exec (::m)=count[findM]=>::cnt
+show var ::cnt
+show var ::m
+
+quit
