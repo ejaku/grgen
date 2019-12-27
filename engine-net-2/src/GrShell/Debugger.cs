@@ -165,7 +165,8 @@ namespace de.unika.ipd.grGen.grShell
                     {
                         if(!SetLayoutOption(option.Key, option.Value))
                         {
-                            if(illegalOptions == null) illegalOptions = new List<String>();
+                            if(illegalOptions == null)
+                                illegalOptions = new List<String>();
                             illegalOptions.Add(option.Key);
                         }
                     }
@@ -191,7 +192,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Uploads the graph to YComp, updates the display and makes a synchonisation
         /// </summary>
-        void UploadGraph(INamedGraph graph)
+        private void UploadGraph(INamedGraph graph)
         {
             foreach(INode node in graph.Nodes)
                 ycompClient.AddNode(node);
@@ -205,7 +206,7 @@ namespace de.unika.ipd.grGen.grShell
         /// Searches for a free TCP port in the range 4242-4251
         /// </summary>
         /// <returns>A free TCP port or -1, if they are all occupied</returns>
-        int GetFreeTCPPort()
+        private int GetFreeTCPPort()
         {
             for(int i = 4242; i < 4252; i++)
             {
@@ -355,14 +356,16 @@ namespace de.unika.ipd.grGen.grShell
         /// Searches in the given sequence seq for the parent sequence of the sequence childseq.
         /// </summary>
         /// <returns>The parent sequence of childseq or null, if no parent has been found.</returns>
-        Sequence GetParentSequence(Sequence childseq, Sequence seq)
+        private Sequence GetParentSequence(Sequence childseq, Sequence seq)
         {
             Sequence res = null;
             foreach(Sequence child in seq.Children)
             {
-                if(child == childseq) return seq;
+                if(child == childseq)
+                    return seq;
                 res = GetParentSequence(childseq, child);
-                if(res != null) return res;
+                if(res != null)
+                    return res;
             }
             return res;
         }
@@ -372,7 +375,7 @@ namespace de.unika.ipd.grGen.grShell
         /// If CTRL+C is pressed, grShellImpl.Cancel() is called.
         /// </summary>
         /// <returns>The ConsoleKeyInfo object for the pressed key.</returns>
-        ConsoleKeyInfo ReadKeyWithCancel()
+        private ConsoleKeyInfo ReadKeyWithCancel()
         {
             if(grShellImpl.OperationCancelled)
                 grShellImpl.Cancel();
@@ -493,7 +496,7 @@ namespace de.unika.ipd.grGen.grShell
 
         #region Methods for directly handling user commands
 
-        void HandleToggleBreakpoints()
+        private void HandleToggleBreakpoints()
         {
             Console.Write("Available breakpoint positions:\n  ");
 
@@ -509,13 +512,13 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             int pos = HandleTogglePoint("breakpoint", contextBp.bpPosCounter);
-            if (pos == -1)
+            if(pos == -1)
                 return;
 
             TogglePointInAllInstances(pos, false);
         }
 
-        void HandleToggleChoicepoints()
+        private void HandleToggleChoicepoints()
         {
             Console.Write("Available choicepoint positions:\n  ");
 
@@ -524,20 +527,20 @@ namespace de.unika.ipd.grGen.grShell
             PrintSequence(debugSequences.Peek(), contextCp, debugSequences.Count);
             Console.WriteLine();
 
-            if (contextCp.cpPosCounter == 0)
+            if(contextCp.cpPosCounter == 0)
             {
                 Console.WriteLine("No choicepoint positions available!");
                 return;
             }
 
             int pos = HandleTogglePoint("choicepoint", contextCp.cpPosCounter);
-            if (pos == -1)
+            if(pos == -1)
                 return;
 
             TogglePointInAllInstances(pos, true);
         }
 
-        void HandleToggleLazyChoice()
+        private void HandleToggleLazyChoice()
         {
             if(lazyChoice)
             {
@@ -551,7 +554,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void HandleWatchpoints()
+        private void HandleWatchpoints()
         {
             Console.WriteLine("List of registered watchpoints:");
             for(int i = 0; i < shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
@@ -569,50 +572,50 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case 'e':
-                        num = QueryWatchpoint("edit");
-                        if(num == -1)
-                            break;
-                        EditWatchpoint(num);
-                        Console.WriteLine("Back from watchpoints to debugging.");
-                        return;
-                    case 't':
-                        num = QueryWatchpoint("toggle (enable/disable)");
-                        if(num == -1)
-                            break;
-                        ToggleWatchpoint(num);
-                        Console.WriteLine("Back from watchpoints to debugging.");
-                        return;
-                    case 'd':
-                        num = QueryWatchpoint("delete");
-                        if(num == -1)
-                            break;
-                        DeleteWatchpoint(num);
-                        Console.WriteLine("Back from watchpoints to debugging.");
-                        return;
-                    case 'i':
-                        num = QueryWatchpoint("insert");
-                        if(num == -1)
-                            break;
-                        InsertWatchpoint(num);
-                        Console.WriteLine("Back from watchpoints to debugging.");
-                        return;
-                    case 'p':
-                        AppendWatchpoint();
-                        Console.WriteLine("Back from watchpoints to debugging.");
-                        return;
-                    case 'a':
-                        Console.WriteLine("Back from watchpoints to debugging.");
-                        return;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (e)dit, (t)oggle, (d)elete, (i)nsert, a(p)pend, or (a)bort allowed! ");
+                case 'e':
+                    num = QueryWatchpoint("edit");
+                    if(num == -1)
                         break;
+                    EditWatchpoint(num);
+                    Console.WriteLine("Back from watchpoints to debugging.");
+                    return;
+                case 't':
+                    num = QueryWatchpoint("toggle (enable/disable)");
+                    if(num == -1)
+                        break;
+                    ToggleWatchpoint(num);
+                    Console.WriteLine("Back from watchpoints to debugging.");
+                    return;
+                case 'd':
+                    num = QueryWatchpoint("delete");
+                    if(num == -1)
+                        break;
+                    DeleteWatchpoint(num);
+                    Console.WriteLine("Back from watchpoints to debugging.");
+                    return;
+                case 'i':
+                    num = QueryWatchpoint("insert");
+                    if(num == -1)
+                        break;
+                    InsertWatchpoint(num);
+                    Console.WriteLine("Back from watchpoints to debugging.");
+                    return;
+                case 'p':
+                    AppendWatchpoint();
+                    Console.WriteLine("Back from watchpoints to debugging.");
+                    return;
+                case 'a':
+                    Console.WriteLine("Back from watchpoints to debugging.");
+                    return;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (e)dit, (t)oggle, (d)elete, (i)nsert, a(p)pend, or (a)bort allowed! ");
+                    break;
                 }
             }
         }
 
-        int QueryWatchpoint(string action)
+        private int QueryWatchpoint(string action)
         {
             Console.Write("Enter number of watchpoint to " + action + " (-1 for abort): ");
 
@@ -633,7 +636,7 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        void EditWatchpoint(int num)
+        private void EditWatchpoint(int num)
         {
             SubruleDebuggingConfigurationRule cr = shellProcEnv.SubruleDebugConfig.ConfigurationRules[num];
             cr = EditOrCreateRule(cr);
@@ -646,21 +649,21 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void ToggleWatchpoint(int num)
+        private void ToggleWatchpoint(int num)
         {
             SubruleDebuggingConfigurationRule cr = shellProcEnv.SubruleDebugConfig.ConfigurationRules[num];
             cr.Enabled = !cr.Enabled;
             Console.WriteLine("toggled entry " + num + " - " + cr.ToString());
         }
 
-        void DeleteWatchpoint(int num)
+        private void DeleteWatchpoint(int num)
         {
             SubruleDebuggingConfigurationRule cr = shellProcEnv.SubruleDebugConfig.ConfigurationRules[num];
             shellProcEnv.SubruleDebugConfig.Delete(num);
             Console.WriteLine("deleted entry " + num + " - " + cr.ToString());
         }
 
-        void InsertWatchpoint(int num)
+        private void InsertWatchpoint(int num)
         {
             SubruleDebuggingConfigurationRule cr = EditOrCreateRule(null);
             if(cr == null)
@@ -672,7 +675,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void AppendWatchpoint()
+        private void AppendWatchpoint()
         {
             SubruleDebuggingConfigurationRule cr = EditOrCreateRule(null);
             if(cr == null)
@@ -684,11 +687,11 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        SubruleDebuggingConfigurationRule EditOrCreateRule(SubruleDebuggingConfigurationRule cr)
+        private SubruleDebuggingConfigurationRule EditOrCreateRule(SubruleDebuggingConfigurationRule cr)
         {
             // edit or keep type
             SubruleDebuggingEvent sde = DetermineEventTypeToConfigure(cr);
-            if(sde==SubruleDebuggingEvent.Undefined)
+            if(sde == SubruleDebuggingEvent.Undefined)
                 return null;
 
             // for Add, Rem, Emit, Halt, Highlight
@@ -703,8 +706,8 @@ namespace de.unika.ipd.grGen.grShell
             GrGenType graphElementType = null;
             bool only = false;
 
-            if(sde==SubruleDebuggingEvent.Add || sde==SubruleDebuggingEvent.Rem || sde==SubruleDebuggingEvent.Emit 
-                || sde==SubruleDebuggingEvent.Halt || sde==SubruleDebuggingEvent.Highlight)
+            if(sde == SubruleDebuggingEvent.Add || sde == SubruleDebuggingEvent.Rem || sde == SubruleDebuggingEvent.Emit 
+                || sde == SubruleDebuggingEvent.Halt || sde == SubruleDebuggingEvent.Highlight)
             {
                 // edit or keep message matching mode and message
                 smmm = DetermineMessageAndMessageMatchingMode(cr, 
@@ -712,15 +715,15 @@ namespace de.unika.ipd.grGen.grShell
                 if(smmm == SubruleMesssageMatchingMode.Undefined)
                     return null;
             }
-            else if(sde==SubruleDebuggingEvent.Match)
+            else if(sde == SubruleDebuggingEvent.Match)
             {
                 // edit ok keep action name
                 action = DetermineAction(cr);
                 if(action == null)
                     return null;
             }
-            else if(sde==SubruleDebuggingEvent.New || sde==SubruleDebuggingEvent.Delete
-                || sde==SubruleDebuggingEvent.Retype || sde==SubruleDebuggingEvent.SetAttributes)
+            else if(sde == SubruleDebuggingEvent.New || sde == SubruleDebuggingEvent.Delete
+                || sde == SubruleDebuggingEvent.Retype || sde == SubruleDebuggingEvent.SetAttributes)
             {
                 // edit or keep choice of type, exact type, name
                 bool abort = DetermineMatchGraphElementMode(cr, 
@@ -763,7 +766,7 @@ namespace de.unika.ipd.grGen.grShell
             return null;
         }
 
-        SubruleDebuggingEvent DetermineEventTypeToConfigure(SubruleDebuggingConfigurationRule cr)
+        private SubruleDebuggingEvent DetermineEventTypeToConfigure(SubruleDebuggingConfigurationRule cr)
         {
             Console.WriteLine("What event to listen to?");
             Console.Write("(0) subrule entry aka Debug::add" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? " or (k)eep\n" : "\n"));
@@ -820,7 +823,7 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        SubruleMesssageMatchingMode DetermineMessageAndMessageMatchingMode(SubruleDebuggingConfigurationRule cr, out string message)
+        private SubruleMesssageMatchingMode DetermineMessageAndMessageMatchingMode(SubruleDebuggingConfigurationRule cr, out string message)
         {
             Console.WriteLine("Enter the subrule message to match.");
             if(cr != null)
@@ -874,7 +877,7 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        IAction DetermineAction(SubruleDebuggingConfigurationRule cr)
+        private IAction DetermineAction(SubruleDebuggingConfigurationRule cr)
         {
             do
             {
@@ -903,7 +906,7 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        bool DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr, 
+        private bool DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr, 
             out string graphElementName, out GrGenType graphElementType, out bool only)
         {
             graphElementName = null;
@@ -934,7 +937,7 @@ namespace de.unika.ipd.grGen.grShell
             return false;
         }
 
-        SubruleDebuggingMatchGraphElementMode DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr)
+        private SubruleDebuggingMatchGraphElementMode DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr)
         {
             Console.WriteLine("Match graph element based on name or based on type?");
             Console.Write("(0) by name" + (cr != null && cr.NameToMatch != null ? " or (k)eep\n" : "\n"));
@@ -967,7 +970,7 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        bool DetermineMatchGraphElementByName(SubruleDebuggingConfigurationRule cr,
+        private bool DetermineMatchGraphElementByName(SubruleDebuggingConfigurationRule cr,
             out string graphElementName)
         {
             Console.WriteLine("Enter the graph element name to match.");
@@ -988,7 +991,7 @@ namespace de.unika.ipd.grGen.grShell
             return false;
         }
 
-        bool DetermineMatchGraphElementByType(SubruleDebuggingConfigurationRule cr,
+        private bool DetermineMatchGraphElementByType(SubruleDebuggingConfigurationRule cr,
             out GrGenType graphElementType)
         {
             while(true)
@@ -1024,7 +1027,7 @@ namespace de.unika.ipd.grGen.grShell
             return false;
         }
 
-        SubruleDebuggingMatchGraphElementByTypeMode DetermineMatchGraphElementByTypeMode(SubruleDebuggingConfigurationRule cr)
+        private SubruleDebuggingMatchGraphElementByTypeMode DetermineMatchGraphElementByTypeMode(SubruleDebuggingConfigurationRule cr)
         {
             Console.WriteLine("Only the graph element type or also subtypes?");
             Console.Write("(0) also subtypes" + (cr != null && !cr.OnlyThisType ? " or (k)eep\n" : "\n"));
@@ -1057,7 +1060,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        SubruleDebuggingDecision DetermineDecisionAction(SubruleDebuggingConfigurationRule cr)
+        private SubruleDebuggingDecision DetermineDecisionAction(SubruleDebuggingConfigurationRule cr)
         {
             // edit or keep decision action
             Console.WriteLine("How to react when the event is triggered?");
@@ -1091,7 +1094,7 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        SequenceExpression DetermineCondition(SubruleDebuggingConfigurationRule cr, 
+        private SequenceExpression DetermineCondition(SubruleDebuggingConfigurationRule cr, 
             SubruleDebuggingEvent sde, IAction action, GrGenType graphElementType)
         {
             // edit or keep condition if type action or graph change
@@ -1154,14 +1157,14 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        void HandleShowVariable(Sequence seq)
+        private void HandleShowVariable(Sequence seq)
         {
             PrintVariables(null, null);
             PrintVariables(debugSequences.Peek(), seq);
             PrintVisited();
         }
 
-        void HandleDump()
+        private void HandleDump()
         {
             string filename = grShellImpl.ShowGraphWith("ycomp", "", false);
             Console.WriteLine("Showing dumped graph " + filename + " with ycomp");
@@ -1177,88 +1180,16 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void HandleAsGraph(Sequence seq)
+        private void HandleAsGraph(Sequence seq)
         {
-            object toBeShownAsGraph = null;
-            AttributeType attrType = null;
-            do
+            object toBeShownAsGraph;
+            AttributeType attrType;
+            bool abort = FetchObjectToBeShownAsGraph(seq, out toBeShownAsGraph, out attrType);
+            if(abort)
             {
-                Console.WriteLine("Enter name of variable or attribute access to show as graph (just enter for abort): ");
-                Console.WriteLine("Examples: \"v\", \"v.a\", \"@(\"$0\").a\" ");
-                String str = Console.ReadLine();
-                if(str.Length == 0)
-                {
-                    Console.WriteLine("Back from as-graph display to debugging.");
-                    return;
-                }
-
-                if(str.StartsWith("@"))
-                {
-                    // graph element by name
-                    string attributeName;
-                    IGraphElement elem = ParseAccessByName(str, out attributeName);
-                    if(elem == null)
-                    {
-                        Console.WriteLine("Can't parse graph access / unknown graph element: " + str);
-                        continue;
-                    }
-                    if(attributeName == null)
-                    {
-                        Console.WriteLine("The result of a graph access is a node or edge, you must access an attribute: " + str);
-                        continue;
-                    }
-                    attrType = elem.Type.GetAttributeType(attributeName);
-                    if(attrType == null)
-                    {
-                        Console.WriteLine("Unknown attribute: " + attributeName);
-                        continue;
-                    }
-                    object attribute = elem.GetAttribute(attributeName);
-                    if(attribute == null)
-                    {
-                        Console.WriteLine("Null-valued attribute: " + attributeName);
-                        continue;
-                    }
-                    toBeShownAsGraph = attribute;
-                    break;
-                }
-                else
-                {
-                    // variable
-                    string attributeName;
-                    object value = ParseVariable(str, seq, out attributeName);
-                    if(value == null)
-                    {
-                        Console.WriteLine("Can't parse variable / unknown variable / null-valued variable: " + str);
-                        continue;
-                    }
-                    if(attributeName == null)
-                        toBeShownAsGraph = value;
-                    else
-                    {
-                        if(!(value is IGraphElement))
-                        {
-                            Console.WriteLine("Can't access attribute, the variable value is not a graph element: " + str);
-                            continue;
-                        }
-                        IGraphElement elem = (IGraphElement)value;
-                        attrType = elem.Type.GetAttributeType(attributeName);
-                        if(attrType == null)
-                        {
-                            Console.WriteLine("Unknown attribute: " + attributeName);
-                            continue;
-                        }
-                        object attribute = elem.GetAttribute(attributeName);
-                        if(attribute == null)
-                        {
-                            Console.WriteLine("Null-valued attribute: " + attributeName);
-                            continue;
-                        }
-                        toBeShownAsGraph = attribute;
-                    }
-                    break;
-                }
-            } while(true);
+                Console.WriteLine("Back from as-graph display to debugging.");
+                return;
+            }
 
             INamedGraph graph = shellProcEnv.ProcEnv.Graph.Model.AsGraph(toBeShownAsGraph, attrType, shellProcEnv.ProcEnv.Graph);
             if(graph == null)
@@ -1294,7 +1225,97 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("Back from as-graph display to debugging.");
         }
 
-        IGraphElement ParseAccessByName(string str, out string attribute)
+        private bool FetchObjectToBeShownAsGraph(Sequence seq, out object toBeShownAsGraph, out AttributeType attrType)
+        {
+            do
+            {
+                Console.WriteLine("Enter name of variable or attribute access to show as graph (just enter for abort): ");
+                Console.WriteLine("Examples: \"v\", \"v.a\", \"@(\"$0\").a\" ");
+                String str = Console.ReadLine();
+                if(str.Length == 0)
+                {
+                    toBeShownAsGraph = null;
+                    attrType = null;
+                    return true;
+                }
+
+                if(str.StartsWith("@"))
+                {
+                    // graph element by name
+                    string attributeName;
+                    IGraphElement elem = ParseAccessByName(str, out attributeName);
+                    if(elem == null)
+                    {
+                        Console.WriteLine("Can't parse graph access / unknown graph element: " + str);
+                        continue;
+                    }
+                    if(attributeName == null)
+                    {
+                        Console.WriteLine("The result of a graph access is a node or edge, you must access an attribute: " + str);
+                        continue;
+                    }
+                    attrType = elem.Type.GetAttributeType(attributeName);
+                    if(attrType == null)
+                    {
+                        Console.WriteLine("Unknown attribute: " + attributeName);
+                        continue;
+                    }
+                    object attribute = elem.GetAttribute(attributeName);
+                    if(attribute == null)
+                    {
+                        Console.WriteLine("Null-valued attribute: " + attributeName);
+                        continue;
+                    }
+
+                    toBeShownAsGraph = attribute;
+                    return false;
+                }
+                else
+                {
+                    // variable
+                    string attributeName;
+                    object value = ParseVariable(str, seq, out attributeName);
+                    if(value == null)
+                    {
+                        Console.WriteLine("Can't parse variable / unknown variable / null-valued variable: " + str);
+                        continue;
+                    }
+
+                    if(attributeName != null)
+                    {
+                        if(!(value is IGraphElement))
+                        {
+                            Console.WriteLine("Can't access attribute, the variable value is not a graph element: " + str);
+                            continue;
+                        }
+                        IGraphElement elem = (IGraphElement)value;
+                        attrType = elem.Type.GetAttributeType(attributeName);
+                        if(attrType == null)
+                        {
+                            Console.WriteLine("Unknown attribute: " + attributeName);
+                            continue;
+                        }
+                        object attribute = elem.GetAttribute(attributeName);
+                        if(attribute == null)
+                        {
+                            Console.WriteLine("Null-valued attribute: " + attributeName);
+                            continue;
+                        }
+
+                        toBeShownAsGraph = attribute;
+                        return false;
+                    }
+                    else
+                    {
+                        attrType = null;
+                        toBeShownAsGraph = value;
+                        return false;
+                    }
+                }
+            } while(true);
+        }
+
+        private IGraphElement ParseAccessByName(string str, out string attribute)
         {
             attribute = null;
 
@@ -1322,7 +1343,7 @@ namespace de.unika.ipd.grGen.grShell
             return grShellImpl.GetElemByName(sb.ToString());
         }
 
-        object ParseVariable(string str, Sequence seq, out string attribute)
+        private object ParseVariable(string str, Sequence seq, out string attribute)
         {
             string varName;
             if(str.Contains("."))
@@ -1352,7 +1373,7 @@ namespace de.unika.ipd.grGen.grShell
             return null;
         }
 
-        void HandleUserHighlight(Sequence seq)
+        private void HandleUserHighlight(Sequence seq)
         {
             Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
             String str = Console.ReadLine();
@@ -1362,12 +1383,12 @@ namespace de.unika.ipd.grGen.grShell
             DoHighlight(values, annotations);
         }
 
-        void HandleHighlight(List<object> originalValues, List<string> sourceNames)
+        private void HandleHighlight(List<object> originalValues, List<string> sourceNames)
         {
             DoHighlight(originalValues, sourceNames);
         }
 
-        void ComputeHighlight(Sequence seq, String str, out List<object> values, out List<string> annotations)
+        private void ComputeHighlight(Sequence seq, String str, out List<object> values, out List<string> annotations)
         {
             values = new List<object>();
             annotations = new List<string>();
@@ -1441,7 +1462,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("Use (v)ariables to print variables and visited flags.");
         }
 
-        void DoHighlight(List<object> sources, List<string> annotations)
+        private void DoHighlight(List<object> sources, List<string> annotations)
         {
             if(ycompClient.dumpInfo.IsExcludedGraph())
             {
@@ -1482,7 +1503,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("End of highlighting");
         }
 
-        void HighlightValue(object value, string name, bool addAnnotation)
+        private void HighlightValue(object value, string name, bool addAnnotation)
         {
             if(value is IDictionary)
                 HighlightDictionary((IDictionary)value, name, addAnnotation);
@@ -1494,7 +1515,7 @@ namespace de.unika.ipd.grGen.grShell
                 HighlightSingleValue(value, name, addAnnotation);
         }
 
-        void HighlightDictionary(IDictionary value, string name, bool addAnnotation)
+        private void HighlightDictionary(IDictionary value, string name, bool addAnnotation)
         {
             Type keyType;
             Type valueType;
@@ -1528,7 +1549,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void HighlightList(IList value, string name, bool addAnnotation)
+        private void HighlightList(IList value, string name, bool addAnnotation)
         {
             for(int i=0; i<value.Count; ++i)
             {
@@ -1544,7 +1565,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void HighlightDeque(IDeque value, string name, bool addAnnotation)
+        private void HighlightDeque(IDeque value, string name, bool addAnnotation)
         {
             int distanceToTop = 0;
             object prevElem = null;
@@ -1564,7 +1585,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void HighlightMapping(INode source, INode target, string name, int cnt, bool addAnnotation)
+        private void HighlightMapping(INode source, INode target, string name, int cnt, bool addAnnotation)
         {
             HighlightSingleValue(source, name + ".Domain", addAnnotation);
             HighlightSingleValue(target, name + ".Range", addAnnotation);
@@ -1574,7 +1595,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.DeleteEdge(name + cnt);
         }
 
-        void HighlightSingleValue(object value, string name, bool addAnnotation)
+        private void HighlightSingleValue(object value, string name, bool addAnnotation)
         {
             if(value is int)
             {
@@ -1664,7 +1685,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void HandleStackTrace()
+        private void HandleStackTrace()
         {
             Console.WriteLine("Current sequence call stack is:");
             PrintSequenceContext contextTrace = new PrintSequenceContext(grShellImpl.Workaround);
@@ -1678,7 +1699,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("continuing execution with:");
         }
 
-        void HandleFullState()
+        private void HandleFullState()
         {
             Console.WriteLine("Current execution state is:");
             PrintVariables(null, null);
@@ -1701,7 +1722,7 @@ namespace de.unika.ipd.grGen.grShell
 
         #region Choice/Breakpoint helpers
 
-        int HandleTogglePoint(string pointName, int numPositions)
+        private int HandleTogglePoint(string pointName, int numPositions)
         {
             Console.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
             Console.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
@@ -1723,7 +1744,7 @@ namespace de.unika.ipd.grGen.grShell
                 case '8':
                 case '9':
                     int num = key.KeyChar - '0';
-                    if (num >= numPositions)
+                    if(num >= numPositions)
                     {
                         Console.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
                         break;
@@ -1732,9 +1753,9 @@ namespace de.unika.ipd.grGen.grShell
                 case 'e':
                     Console.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
                     String numStr = Console.ReadLine();
-                    if (int.TryParse(numStr, out num))
+                    if(int.TryParse(numStr, out num))
                     {
-                        if (num < -1 || num >= numPositions)
+                        if(num < -1 || num >= numPositions)
                         {
                             Console.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
                             break;
@@ -1753,53 +1774,55 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        void ToggleChoicepoint(Sequence seq, int cpPos)
+        private void ToggleChoicepoint(Sequence seq, int cpPos)
         {
             int cpCounter = 0; // dummy
             SequenceRandomChoice cpSeq = GetSequenceAtChoicepointPosition(seq, cpPos, ref cpCounter);
             cpSeq.Choice = !cpSeq.Choice;
         }
 
-        void ToggleBreakpoint(Sequence seq, int bpPos)
+        private void ToggleBreakpoint(Sequence seq, int bpPos)
         {
             int bpCounter = 0; // dummy
             SequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(seq, bpPos, ref bpCounter);
             bpSeq.Special = !bpSeq.Special;
         }
 
-        SequenceSpecial GetSequenceAtBreakpointPosition(Sequence seq, int bpPos, ref int counter)
+        private SequenceSpecial GetSequenceAtBreakpointPosition(Sequence seq, int bpPos, ref int counter)
         {
-            if (seq is SequenceSpecial)
+            if(seq is SequenceSpecial)
             {
-                if (counter == bpPos)
+                if(counter == bpPos)
                     return (SequenceSpecial)seq;
                 counter++;
             }
             foreach (Sequence child in seq.Children)
             {
                 SequenceSpecial res = GetSequenceAtBreakpointPosition(child, bpPos, ref counter);
-                if (res != null) return res;
+                if(res != null)
+                    return res;
             }
             return null;
         }
 
-        SequenceRandomChoice GetSequenceAtChoicepointPosition(Sequence seq, int cpPos, ref int counter)
+        private SequenceRandomChoice GetSequenceAtChoicepointPosition(Sequence seq, int cpPos, ref int counter)
         {
-            if (seq is SequenceRandomChoice && ((SequenceRandomChoice)seq).Random)
+            if(seq is SequenceRandomChoice && ((SequenceRandomChoice)seq).Random)
             {
-                if (counter == cpPos)
+                if(counter == cpPos)
                     return (SequenceRandomChoice)seq;
                 counter++;
             }
             foreach (Sequence child in seq.Children)
             {
                 SequenceRandomChoice res = GetSequenceAtChoicepointPosition(child, cpPos, ref counter);
-                if (res != null) return res;
+                if(res != null)
+                    return res;
             }
             return null;
         }
         
-        void TogglePointInAllInstances(int pos, bool choice)
+        private void TogglePointInAllInstances(int pos, bool choice)
         {
             if(debugSequences.Count > 1)
             {
@@ -1861,590 +1884,612 @@ namespace de.unika.ipd.grGen.grShell
         private static void PrintSequence(Sequence seq, Sequence parent, PrintSequenceContext context)
         {
             // print parentheses, if neccessary
-            if(parent != null && seq.Precedence < parent.Precedence) Console.Write("(");
+            if(parent != null && seq.Precedence < parent.Precedence)
+                Console.Write("(");
 
             switch(seq.SequenceType)
             {
-                // Binary
-                case SequenceType.ThenLeft:
-                case SequenceType.ThenRight:
-                case SequenceType.LazyOr:
-                case SequenceType.LazyAnd:
-                case SequenceType.StrictOr:
-                case SequenceType.Xor:
-                case SequenceType.StrictAnd:
+            // Binary
+            case SequenceType.ThenLeft:
+            case SequenceType.ThenRight:
+            case SequenceType.LazyOr:
+            case SequenceType.LazyAnd:
+            case SequenceType.StrictOr:
+            case SequenceType.Xor:
+            case SequenceType.StrictAnd:
+                {
+                    SequenceBinary seqBin = (SequenceBinary)seq;
+
+                    if(context.cpPosCounter >= 0 && seqBin.Random)
                     {
-                        SequenceBinary seqBin = (SequenceBinary)seq;
-
-                        if(context.cpPosCounter >= 0 && seqBin.Random)
-                        {
-                            int cpPosCounter = context.cpPosCounter;
-                            ++context.cpPosCounter;
-                            PrintSequence(seqBin.Left, seq, context);
-                            PrintChoice(seqBin, context);
-                            Console.Write(seq.Symbol + " ");
-                            PrintSequence(seqBin.Right, seq, context);
-                            break;
-                        }
-
-                        if(seqBin == context.highlightSeq && context.choice)
-                        {
-                            context.workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
-                            PrintSequence(seqBin.Left, seq, context);
-                            context.workaround.PrintHighlighted("(l) " + seq.Symbol + " (r)", HighlightingMode.Choicepoint);
-                            PrintSequence(seqBin.Right, seq, context);
-                            context.workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
-                            break;
-                        }
-
+                        int cpPosCounter = context.cpPosCounter;
+                        ++context.cpPosCounter;
                         PrintSequence(seqBin.Left, seq, context);
-                        Console.Write(" " + seq.Symbol + " ");
+                        PrintChoice(seqBin, context);
+                        Console.Write(seq.Symbol + " ");
                         PrintSequence(seqBin.Right, seq, context);
                         break;
                     }
-                case SequenceType.IfThen:
+
+                    if(seqBin == context.highlightSeq && context.choice)
                     {
-                        SequenceIfThen seqIfThen = (SequenceIfThen)seq;
-                        Console.Write("if{");
-                        PrintSequence(seqIfThen.Left, seq, context);
-                        Console.Write(";");
-                        PrintSequence(seqIfThen.Right, seq, context);
-                        Console.Write("}");
+                        context.workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
+                        PrintSequence(seqBin.Left, seq, context);
+                        context.workaround.PrintHighlighted("(l) " + seq.Symbol + " (r)", HighlightingMode.Choicepoint);
+                        PrintSequence(seqBin.Right, seq, context);
+                        context.workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
                         break;
                     }
 
-                // Unary
-                case SequenceType.Not:
+                    PrintSequence(seqBin.Left, seq, context);
+                    Console.Write(" " + seq.Symbol + " ");
+                    PrintSequence(seqBin.Right, seq, context);
+                    break;
+                }
+            case SequenceType.IfThen:
+                {
+                    SequenceIfThen seqIfThen = (SequenceIfThen)seq;
+                    Console.Write("if{");
+                    PrintSequence(seqIfThen.Left, seq, context);
+                    Console.Write(";");
+                    PrintSequence(seqIfThen.Right, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+
+            // Unary
+            case SequenceType.Not:
+                {
+                    SequenceNot seqNot = (SequenceNot)seq;
+                    Console.Write(seq.Symbol);
+                    PrintSequence(seqNot.Seq, seq, context);
+                    break;
+                }
+            case SequenceType.IterationMin:
+                {
+                    SequenceIterationMin seqMin = (SequenceIterationMin)seq;
+                    PrintSequence(seqMin.Seq, seq, context);
+                    Console.Write("[" + seqMin.Min + ":*]");
+                    break;
+                }
+            case SequenceType.IterationMinMax:
+                {
+                    SequenceIterationMinMax seqMinMax = (SequenceIterationMinMax)seq;
+                    PrintSequence(seqMinMax.Seq, seq, context);
+                    Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
+                    break;
+                }
+            case SequenceType.Transaction:
+                {
+                    SequenceTransaction seqTrans = (SequenceTransaction)seq;
+                    Console.Write("<");
+                    PrintSequence(seqTrans.Seq, seq, context);
+                    Console.Write(">");
+                    break;
+                }
+            case SequenceType.Backtrack:
+                {
+                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
+                    Console.Write("<<");
+                    PrintSequence(seqBack.Rule, seq, context);
+                    Console.Write(";;");
+                    PrintSequence(seqBack.Seq, seq, context);
+                    Console.Write(">>");
+                    break;
+                }
+            case SequenceType.Pause:
+                {
+                    SequencePause seqPause = (SequencePause)seq;
+                    Console.Write("/");
+                    PrintSequence(seqPause.Seq, seq, context);
+                    Console.Write("/");
+                    break;
+                }
+            case SequenceType.ForContainer:
+                {
+                    SequenceForContainer seqFor = (SequenceForContainer)seq;
+                    Console.Write("for{");
+                    Console.Write(seqFor.Var.Name);
+                    if(seqFor.VarDst != null)
+                        Console.Write("->" + seqFor.VarDst.Name);
+                    Console.Write(" in " + seqFor.Container.Name);
+                    Console.Write("; ");
+                    PrintSequence(seqFor.Seq, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+            case SequenceType.ForIntegerRange:
+                {
+                    SequenceForIntegerRange seqFor = (SequenceForIntegerRange)seq;
+                    Console.Write("for{");
+                    Console.Write(seqFor.Var.Name);
+                    Console.Write(" in [");
+                    Console.Write(seqFor.Left.Symbol);
+                    Console.Write(":");
+                    Console.Write(seqFor.Right.Symbol);
+                    Console.Write("]; ");
+                    PrintSequence(seqFor.Seq, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+            case SequenceType.ForIndexAccessEquality:
+                {
+                    SequenceForIndexAccessEquality seqFor = (SequenceForIndexAccessEquality)seq;
+                    Console.Write("for{");
+                    Console.Write(seqFor.Var.Name);
+                    Console.Write(" in {");
+                    Console.Write(seqFor.IndexName);
+                    Console.Write("==");
+                    Console.Write(seqFor.Expr.Symbol);
+                    Console.Write("}; ");
+                    PrintSequence(seqFor.Seq, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+            case SequenceType.ForIndexAccessOrdering:
+                {
+                    SequenceForIndexAccessOrdering seqFor = (SequenceForIndexAccessOrdering)seq;
+                    Console.Write("for{");
+                    Console.Write(seqFor.Var.Name);
+                    Console.Write(" in {");
+                    if(seqFor.Ascending)
+                        Console.Write("ascending");
+                    else
+                        Console.Write("descending");
+                    Console.Write("(");
+                    if(seqFor.From() != null && seqFor.To() != null)
                     {
-                        SequenceNot seqNot = (SequenceNot)seq;
-                        Console.Write(seq.Symbol);
-                        PrintSequence(seqNot.Seq, seq, context);
-                        break;
-                    }
-                case SequenceType.IterationMin:
-                    {
-                        SequenceIterationMin seqMin = (SequenceIterationMin)seq;
-                        PrintSequence(seqMin.Seq, seq, context);
-                        Console.Write("[" + seqMin.Min + ":*]");
-                        break;
-                    }
-                case SequenceType.IterationMinMax:
-                    {
-                        SequenceIterationMinMax seqMinMax = (SequenceIterationMinMax)seq;
-                        PrintSequence(seqMinMax.Seq, seq, context);
-                        Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
-                        break;
-                    }
-                case SequenceType.Transaction:
-                    {
-                        SequenceTransaction seqTrans = (SequenceTransaction)seq;
-                        Console.Write("<");
-                        PrintSequence(seqTrans.Seq, seq, context);
-                        Console.Write(">");
-                        break;
-                    }
-                case SequenceType.Backtrack:
-                    {
-                        SequenceBacktrack seqBack = (SequenceBacktrack)seq;
-                        Console.Write("<<");
-                        PrintSequence(seqBack.Rule, seq, context);
-                        Console.Write(";;");
-                        PrintSequence(seqBack.Seq, seq, context);
-                        Console.Write(">>");
-                        break;
-                    }
-                case SequenceType.Pause:
-                    {
-                        SequencePause seqPause = (SequencePause)seq;
-                        Console.Write("/");
-                        PrintSequence(seqPause.Seq, seq, context);
-                        Console.Write("/");
-                        break;
-                    }
-                case SequenceType.ForContainer:
-                    {
-                        SequenceForContainer seqFor = (SequenceForContainer)seq;
-                        Console.Write("for{");
-                        Console.Write(seqFor.Var.Name);
-                        if(seqFor.VarDst != null) Console.Write("->" + seqFor.VarDst.Name);
-                        Console.Write(" in " + seqFor.Container.Name);
-                        Console.Write("; ");
-                        PrintSequence(seqFor.Seq, seq, context);
-                        Console.Write("}");
-                        break;
-                    }
-                case SequenceType.ForIntegerRange:
-                    {
-                        SequenceForIntegerRange seqFor = (SequenceForIntegerRange)seq;
-                        Console.Write("for{");
-                        Console.Write(seqFor.Var.Name);
-                        Console.Write(" in [");
-                        Console.Write(seqFor.Left.Symbol);
-                        Console.Write(":");
-                        Console.Write(seqFor.Right.Symbol);
-                        Console.Write("]; ");
-                        PrintSequence(seqFor.Seq, seq, context);
-                        Console.Write("}");
-                        break;
-                    }
-                case SequenceType.ForIndexAccessEquality:
-                    {
-                        SequenceForIndexAccessEquality seqFor = (SequenceForIndexAccessEquality)seq;
-                        Console.Write("for{");
-                        Console.Write(seqFor.Var.Name);
-                        Console.Write(" in {");
                         Console.Write(seqFor.IndexName);
-                        Console.Write("==");
+                        Console.Write(seqFor.DirectionAsString(seqFor.Direction));
                         Console.Write(seqFor.Expr.Symbol);
-                        Console.Write("}; ");
-                        PrintSequence(seqFor.Seq, seq, context);
-                        Console.Write("}");
-                        break;
+                        Console.Write(",");
+                        Console.Write(seqFor.IndexName);
+                        Console.Write(seqFor.DirectionAsString(seqFor.Direction2));
+                        Console.Write(seqFor.Expr2.Symbol);
                     }
-                case SequenceType.ForIndexAccessOrdering:
+                    else if(seqFor.From() != null)
                     {
-                        SequenceForIndexAccessOrdering seqFor = (SequenceForIndexAccessOrdering)seq;
-                        Console.Write("for{");
-                        Console.Write(seqFor.Var.Name);
-                        Console.Write(" in {");
-                        if(seqFor.Ascending)
-                            Console.Write("ascending");
-                        else
-                            Console.Write("descending");
-                        Console.Write("(");
-                        if(seqFor.From() != null && seqFor.To() != null)
-                        {
-                            Console.Write(seqFor.IndexName);
-                            Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                            Console.Write(seqFor.Expr.Symbol);
-                            Console.Write(",");
-                            Console.Write(seqFor.IndexName);
-                            Console.Write(seqFor.DirectionAsString(seqFor.Direction2));
-                            Console.Write(seqFor.Expr2.Symbol);
-                        }
-                        else if(seqFor.From() != null)
-                        {
-                            Console.Write(seqFor.IndexName);
-                            Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                            Console.Write(seqFor.Expr.Symbol);
-                        }
-                        else if(seqFor.To() != null)
-                        {
-                            Console.Write(seqFor.IndexName);
-                            Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                            Console.Write(seqFor.Expr.Symbol);
-                        }
-                        else
-                        {
-                            Console.Write(seqFor.IndexName);
-                        }
-                        Console.Write(")");
-                        Console.Write("}; ");
-                        PrintSequence(seqFor.Seq, seq, context);
-                        Console.Write("}");
-                        break;
+                        Console.Write(seqFor.IndexName);
+                        Console.Write(seqFor.DirectionAsString(seqFor.Direction));
+                        Console.Write(seqFor.Expr.Symbol);
                     }
-                case SequenceType.ForAdjacentNodes:
-                case SequenceType.ForAdjacentNodesViaIncoming:
-                case SequenceType.ForAdjacentNodesViaOutgoing:
-                case SequenceType.ForIncidentEdges:
-                case SequenceType.ForIncomingEdges:
-                case SequenceType.ForOutgoingEdges:
-                case SequenceType.ForReachableNodes:
-                case SequenceType.ForReachableNodesViaIncoming:
-                case SequenceType.ForReachableNodesViaOutgoing:
-                case SequenceType.ForReachableEdges:
-                case SequenceType.ForReachableEdgesViaIncoming:
-                case SequenceType.ForReachableEdgesViaOutgoing:
-                case SequenceType.ForBoundedReachableNodes:
-                case SequenceType.ForBoundedReachableNodesViaIncoming:
-                case SequenceType.ForBoundedReachableNodesViaOutgoing:
-                case SequenceType.ForBoundedReachableEdges:
-                case SequenceType.ForBoundedReachableEdgesViaIncoming:
-                case SequenceType.ForBoundedReachableEdgesViaOutgoing:
-                case SequenceType.ForNodes:
-                case SequenceType.ForEdges:
+                    else if(seqFor.To() != null)
                     {
-                        SequenceForFunction seqFor = (SequenceForFunction)seq;
-                        Console.Write("for{");
-                        Console.Write(seqFor.Var.Name);
-                        Console.Write(" in ");
-                        Console.Write(seqFor.FunctionSymbol + ";");
-                        PrintSequence(seqFor.Seq, seq, context);
-                        Console.Write("}");
-                        break;
+                        Console.Write(seqFor.IndexName);
+                        Console.Write(seqFor.DirectionAsString(seqFor.Direction));
+                        Console.Write(seqFor.Expr.Symbol);
                     }
-                case SequenceType.ForMatch:
+                    else
                     {
-                        SequenceForMatch seqFor = (SequenceForMatch)seq;
-                        Console.Write("for{");
-                        Console.Write(seqFor.Var.Name);
-                        Console.Write(" in [?");
-                        PrintSequence(seqFor.Rule, seq, context);
-                        Console.Write("]; ");
-                        PrintSequence(seqFor.Seq, seq, context);
-                        Console.Write("}");
-                        break;
+                        Console.Write(seqFor.IndexName);
                     }
-                case SequenceType.ExecuteInSubgraph:
+                    Console.Write(")");
+                    Console.Write("}; ");
+                    PrintSequence(seqFor.Seq, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+            case SequenceType.ForAdjacentNodes:
+            case SequenceType.ForAdjacentNodesViaIncoming:
+            case SequenceType.ForAdjacentNodesViaOutgoing:
+            case SequenceType.ForIncidentEdges:
+            case SequenceType.ForIncomingEdges:
+            case SequenceType.ForOutgoingEdges:
+            case SequenceType.ForReachableNodes:
+            case SequenceType.ForReachableNodesViaIncoming:
+            case SequenceType.ForReachableNodesViaOutgoing:
+            case SequenceType.ForReachableEdges:
+            case SequenceType.ForReachableEdgesViaIncoming:
+            case SequenceType.ForReachableEdgesViaOutgoing:
+            case SequenceType.ForBoundedReachableNodes:
+            case SequenceType.ForBoundedReachableNodesViaIncoming:
+            case SequenceType.ForBoundedReachableNodesViaOutgoing:
+            case SequenceType.ForBoundedReachableEdges:
+            case SequenceType.ForBoundedReachableEdgesViaIncoming:
+            case SequenceType.ForBoundedReachableEdgesViaOutgoing:
+            case SequenceType.ForNodes:
+            case SequenceType.ForEdges:
+                {
+                    SequenceForFunction seqFor = (SequenceForFunction)seq;
+                    Console.Write("for{");
+                    Console.Write(seqFor.Var.Name);
+                    Console.Write(" in ");
+                    Console.Write(seqFor.FunctionSymbol + ";");
+                    PrintSequence(seqFor.Seq, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+            case SequenceType.ForMatch:
+                {
+                    SequenceForMatch seqFor = (SequenceForMatch)seq;
+                    Console.Write("for{");
+                    Console.Write(seqFor.Var.Name);
+                    Console.Write(" in [?");
+                    PrintSequence(seqFor.Rule, seq, context);
+                    Console.Write("]; ");
+                    PrintSequence(seqFor.Seq, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+            case SequenceType.ExecuteInSubgraph:
+                {
+                    SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
+                    Console.Write("in ");
+                    Console.Write(seqExecInSub.SubgraphVar.Name);
+                    if(seqExecInSub.AttributeName != null)
+                        Console.Write("." + seqExecInSub.AttributeName);
+                    Console.Write(" {");
+                    PrintSequence(seqExecInSub.Seq, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+
+            // Ternary
+            case SequenceType.IfThenElse:
+                {
+                    SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
+                    Console.Write("if{");
+                    PrintSequence(seqIf.Condition, seq, context);
+                    Console.Write(";");
+                    PrintSequence(seqIf.TrueCase, seq, context);
+                    Console.Write(";");
+                    PrintSequence(seqIf.FalseCase, seq, context);
+                    Console.Write("}");
+                    break;
+                }
+
+            // n-ary
+            case SequenceType.LazyOrAll:
+            case SequenceType.LazyAndAll:
+            case SequenceType.StrictOrAll:
+            case SequenceType.StrictAndAll:
+                {
+                    SequenceNAry seqN = (SequenceNAry)seq;
+
+                    if(context.cpPosCounter >= 0)
                     {
-                        SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
-                        Console.Write("in ");
-                        Console.Write(seqExecInSub.SubgraphVar.Name);
-                        if(seqExecInSub.AttributeName != null)
-                            Console.Write("." + seqExecInSub.AttributeName);
-                        Console.Write(" {");
-                        PrintSequence(seqExecInSub.Seq, seq, context);
-                        Console.Write("}");
-                        break;
-                    }
-
-                // Ternary
-                case SequenceType.IfThenElse:
-                    {
-                        SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
-                        Console.Write("if{");
-                        PrintSequence(seqIf.Condition, seq, context);
-                        Console.Write(";");
-                        PrintSequence(seqIf.TrueCase, seq, context);
-                        Console.Write(";");
-                        PrintSequence(seqIf.FalseCase, seq, context);
-                        Console.Write("}");
-                        break;
-                    }
-
-                // n-ary
-                case SequenceType.LazyOrAll:
-                case SequenceType.LazyAndAll:
-                case SequenceType.StrictOrAll:
-                case SequenceType.StrictAndAll:
-                    {
-                        SequenceNAry seqN = (SequenceNAry)seq;
-
-                        if(context.cpPosCounter >= 0)
-                        {
-                            PrintChoice(seqN, context);
-                            ++context.cpPosCounter;
-                            Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
-                            bool first = true;
-                            foreach(Sequence seqChild in seqN.Children)
-                            {
-                                if(!first) Console.Write(", ");
-                                PrintSequence(seqChild, seqN, context);
-                                first = false;
-                            }
-                            Console.Write(")");
-                            break;
-                        }
-
-                        bool highlight = false;
-                        foreach(Sequence seqChild in seqN.Children)
-                            if(seqChild == context.highlightSeq)
-                                highlight = true;
-                        if(highlight && context.choice)
-                        {
-                            context.workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
-                            bool first = true;
-                            foreach(Sequence seqChild in seqN.Children)
-                            {
-                                if(!first) Console.Write(", ");
-                                if(seqChild == context.highlightSeq)
-                                    context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
-                                if(context.sequences != null)
-                                {
-                                    for(int i = 0; i < context.sequences.Count; ++i)
-                                    {
-                                        if(seqChild == context.sequences[i])
-                                            context.workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
-                                    }
-                                }
-
-                                Sequence highlightSeqBackup = context.highlightSeq;
-                                context.highlightSeq = null; // we already highlighted here
-                                PrintSequence(seqChild, seqN, context);
-                                context.highlightSeq = highlightSeqBackup;
-
-                                if(seqChild == context.highlightSeq)
-                                    context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                                first = false;
-                            }
-                            context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
-                            break;
-                        }
-
+                        PrintChoice(seqN, context);
+                        ++context.cpPosCounter;
                         Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
-                        PrintChildren(seqN, context);
+                        bool first = true;
+                        foreach(Sequence seqChild in seqN.Children)
+                        {
+                            if(!first)
+                                Console.Write(", ");
+                            PrintSequence(seqChild, seqN, context);
+                            first = false;
+                        }
                         Console.Write(")");
                         break;
                     }
 
-                case SequenceType.WeightedOne:
+                    bool highlight = false;
+                    foreach(Sequence seqChild in seqN.Children)
+                        if(seqChild == context.highlightSeq)
+                            highlight = true;
+                    if(highlight && context.choice)
                     {
-                        SequenceWeightedOne seqWeighted = (SequenceWeightedOne)seq;
-
-                        if(context.cpPosCounter >= 0)
+                        context.workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
+                        bool first = true;
+                        foreach(Sequence seqChild in seqN.Children)
                         {
-                            PrintChoice(seqWeighted, context);
-                            ++context.cpPosCounter;
-                            Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
-                            bool first = true;
-                            for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
-                            {
-                                if(first) Console.Write("0.00 ");
-                                else Console.Write(" ");
-                                PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
-                                Console.Write(" ");
-                                Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
-                                first = false;
-                            }
-                            Console.Write(")");
-                            break;
-                        }
-
-                        bool highlight = false;
-                        foreach(Sequence seqChild in seqWeighted.Children)
+                            if(!first)
+                                Console.Write(", ");
                             if(seqChild == context.highlightSeq)
-                                highlight = true;
-                        if(highlight && context.choice)
-                        {
-                            context.workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
-                            bool first = true;
-                            for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                            if(context.sequences != null)
                             {
-                                if(first) Console.Write("0.00 ");
-                                else Console.Write(" ");
-                                if(seqWeighted.Sequences[i] == context.highlightSeq)
-                                    context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
-
-                                Sequence highlightSeqBackup = context.highlightSeq;
-                                context.highlightSeq = null; // we already highlighted here
-                                PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
-                                context.highlightSeq = highlightSeqBackup;
-
-                                if(seqWeighted.Sequences[i] == context.highlightSeq)
-                                    context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                                Console.Write(" ");
-                                Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
-                                first = false;
+                                for(int i = 0; i < context.sequences.Count; ++i)
+                                {
+                                    if(seqChild == context.sequences[i])
+                                        context.workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
+                                }
                             }
-                            context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
-                            break;
-                        }
 
+                            Sequence highlightSeqBackup = context.highlightSeq;
+                            context.highlightSeq = null; // we already highlighted here
+                            PrintSequence(seqChild, seqN, context);
+                            context.highlightSeq = highlightSeqBackup;
+
+                            if(seqChild == context.highlightSeq)
+                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                            first = false;
+                        }
+                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                        break;
+                    }
+
+                    Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
+                    PrintChildren(seqN, context);
+                    Console.Write(")");
+                    break;
+                }
+
+            case SequenceType.WeightedOne:
+                {
+                    SequenceWeightedOne seqWeighted = (SequenceWeightedOne)seq;
+
+                    if(context.cpPosCounter >= 0)
+                    {
+                        PrintChoice(seqWeighted, context);
+                        ++context.cpPosCounter;
                         Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
-                        bool ffs = true;
+                        bool first = true;
                         for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
                         {
-                            if(ffs) Console.Write("0.00 ");
-                            else Console.Write(" ");
+                            if(first)
+                                Console.Write("0.00 ");
+                            else
+                                Console.Write(" ");
                             PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
                             Console.Write(" ");
                             Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
-                            ffs = false;
+                            first = false;
                         }
                         Console.Write(")");
                         break;
                     }
 
-                case SequenceType.SomeFromSet:
+                    bool highlight = false;
+                    foreach(Sequence seqChild in seqWeighted.Children)
+                        if(seqChild == context.highlightSeq)
+                            highlight = true;
+                    if(highlight && context.choice)
                     {
-                        SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
-
-                        if(context.cpPosCounter >= 0
-                            && seqSome.Random)
+                        context.workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
+                        bool first = true;
+                        for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
                         {
-                            PrintChoice(seqSome, context);
-                            ++context.cpPosCounter;
-                            Console.Write(seqSome.Choice ? "$%{<" : "${<");
-                            bool first = true;
-                            foreach(Sequence seqChild in seqSome.Children)
-                            {
-                                if(!first) Console.Write(", ");
-                                int cpPosCounterBackup = context.cpPosCounter;
-                                context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
-                                PrintSequence(seqChild, seqSome, context);
-                                context.cpPosCounter = cpPosCounterBackup;
-                                first = false;
-                            }
-                            Console.Write(")}");
-                            break;
+                            if(first)
+                                Console.Write("0.00 ");
+                            else
+                                Console.Write(" ");
+                            if(seqWeighted.Sequences[i] == context.highlightSeq)
+                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+
+                            Sequence highlightSeqBackup = context.highlightSeq;
+                            context.highlightSeq = null; // we already highlighted here
+                            PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                            context.highlightSeq = highlightSeqBackup;
+
+                            if(seqWeighted.Sequences[i] == context.highlightSeq)
+                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                            Console.Write(" ");
+                            Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                            first = false;
                         }
+                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                        break;
+                    }
 
-                        bool highlight = false;
+                    Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
+                    bool ffs = true;
+                    for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+                    {
+                        if(ffs)
+                            Console.Write("0.00 ");
+                        else
+                            Console.Write(" ");
+                        PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                        Console.Write(" ");
+                        Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                        ffs = false;
+                    }
+                    Console.Write(")");
+                    break;
+                }
+
+            case SequenceType.SomeFromSet:
+                {
+                    SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
+
+                    if(context.cpPosCounter >= 0
+                        && seqSome.Random)
+                    {
+                        PrintChoice(seqSome, context);
+                        ++context.cpPosCounter;
+                        Console.Write(seqSome.Choice ? "$%{<" : "${<");
+                        bool first = true;
                         foreach(Sequence seqChild in seqSome.Children)
-                            if(seqChild == context.highlightSeq)
-                                highlight = true;
-
-                        if(highlight && context.choice)
                         {
-                            context.workaround.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);
-                            bool first = true;
-                            int numCurTotalMatch = 0;
-                            foreach(Sequence seqChild in seqSome.Children)
+                            if(!first)
+                                Console.Write(", ");
+                            int cpPosCounterBackup = context.cpPosCounter;
+                            context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
+                            PrintSequence(seqChild, seqSome, context);
+                            context.cpPosCounter = cpPosCounterBackup;
+                            first = false;
+                        }
+                        Console.Write(")}");
+                        break;
+                    }
+
+                    bool highlight = false;
+                    foreach(Sequence seqChild in seqSome.Children)
+                        if(seqChild == context.highlightSeq)
+                            highlight = true;
+
+                    if(highlight && context.choice)
+                    {
+                        context.workaround.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);
+                        bool first = true;
+                        int numCurTotalMatch = 0;
+                        foreach(Sequence seqChild in seqSome.Children)
+                        {
+                            if(!first)
+                                Console.Write(", ");
+                            if(seqChild == context.highlightSeq)
+                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                            if(context.sequences != null)
                             {
-                                if(!first) Console.Write(", ");
-                                if(seqChild == context.highlightSeq)
-                                    context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
-                                if(context.sequences != null)
+                                for(int i = 0; i < context.sequences.Count; ++i)
                                 {
-                                    for(int i = 0; i < context.sequences.Count; ++i)
+                                    if(seqChild == context.sequences[i] && context.matches[i].Count > 0)
                                     {
-                                        if(seqChild == context.sequences[i] && context.matches[i].Count > 0)
-                                        {
-                                            PrintListOfMatchesNumbers(context, ref numCurTotalMatch, seqSome.IsNonRandomRuleAllCall(i) ? 1 : context.matches[i].Count);
-                                        }
+                                        PrintListOfMatchesNumbers(context, ref numCurTotalMatch, seqSome.IsNonRandomRuleAllCall(i) ? 1 : context.matches[i].Count);
                                     }
                                 }
-
-                                Sequence highlightSeqBackup = context.highlightSeq;
-                                context.highlightSeq = null; // we already highlighted here
-                                PrintSequence(seqChild, seqSome, context);
-                                context.highlightSeq = highlightSeqBackup;
-
-                                if(seqChild == context.highlightSeq)
-                                    context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                                first = false;
                             }
-                            context.workaround.PrintHighlighted(">}", HighlightingMode.Choicepoint);
-                            break;
-                        }
 
-                        bool succesBackup = context.success;
-                        if(highlight) context.success = true;
-                        Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<");
-                        PrintChildren(seqSome, context);
-                        Console.Write(">}");
-                        context.success = succesBackup;
+                            Sequence highlightSeqBackup = context.highlightSeq;
+                            context.highlightSeq = null; // we already highlighted here
+                            PrintSequence(seqChild, seqSome, context);
+                            context.highlightSeq = highlightSeqBackup;
+
+                            if(seqChild == context.highlightSeq)
+                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                            first = false;
+                        }
+                        context.workaround.PrintHighlighted(">}", HighlightingMode.Choicepoint);
                         break;
                     }
 
-                // Breakpointable atoms
-                case SequenceType.SequenceCall:
-                case SequenceType.RuleCall:
-                case SequenceType.RuleAllCall:
-                case SequenceType.RuleCountAllCall:
-                case SequenceType.BooleanComputation:
+                    bool succesBackup = context.success;
+                    if(highlight)
+                        context.success = true;
+                    Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<");
+                    PrintChildren(seqSome, context);
+                    Console.Write(">}");
+                    context.success = succesBackup;
+                    break;
+                }
+
+            // Breakpointable atoms
+            case SequenceType.SequenceCall:
+            case SequenceType.RuleCall:
+            case SequenceType.RuleAllCall:
+            case SequenceType.RuleCountAllCall:
+            case SequenceType.BooleanComputation:
+                {
+                    if(context.bpPosCounter >= 0)
                     {
-                        if(context.bpPosCounter >= 0)
-                        {
-                            PrintBreak((SequenceSpecial)seq, context);
-                            Console.Write(seq.Symbol);
-                            ++context.bpPosCounter;
-                            break;
-                        }
-
-                        if(context.cpPosCounter >= 0 && seq is SequenceRandomChoice
-                            && ((SequenceRandomChoice)seq).Random)
-                        {
-                            PrintChoice((SequenceRandomChoice)seq, context);
-                            Console.Write(seq.Symbol);
-                            ++context.cpPosCounter;
-                            break;
-                        }
-
-                        HighlightingMode mode = HighlightingMode.None;
-                        if(seq == context.highlightSeq)
-                        {
-                            if(context.choice) mode |= HighlightingMode.Choicepoint;
-                            else if(context.success) mode |= HighlightingMode.FocusSucces;
-                            else mode |= HighlightingMode.Focus;
-                        }
-                        if(seq.ExecutionState == SequenceExecutionState.Success) mode |= HighlightingMode.LastSuccess;
-                        if(seq.ExecutionState == SequenceExecutionState.Fail) mode |= HighlightingMode.LastFail;
-                        if(context.sequences != null && context.sequences.Contains(seq))
-                        {
-                            if(context.matches != null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
-                                mode |= HighlightingMode.FocusSucces;
-                        }
-                        context.workaround.PrintHighlighted(seq.Symbol, mode);
-                        break;
-                    }
-
-                // Unary assignment
-                case SequenceType.AssignSequenceResultToVar:
-                case SequenceType.OrAssignSequenceResultToVar:
-                case SequenceType.AndAssignSequenceResultToVar:
-                    {
-                        SequenceAssignSequenceResultToVar seqAss = (SequenceAssignSequenceResultToVar)seq;
-                        Console.Write("(");
-                        PrintSequence(seqAss.Seq, seq, context);
-                        if(seq.SequenceType == SequenceType.OrAssignSequenceResultToVar)
-                            Console.Write("|>");
-                        else if(seq.SequenceType == SequenceType.AndAssignSequenceResultToVar)
-                            Console.Write("&>");
-                        else //if(seq.SequenceType==SequenceType.AssignSequenceResultToVar)
-                            Console.Write("=>");
-                        Console.Write(seqAss.DestVar.Name);
-                        Console.Write(")");
-                        break;
-                    }
-
-                // Choice highlightable user assignments
-                case SequenceType.AssignUserInputToVar:
-                case SequenceType.AssignRandomIntToVar:
-                case SequenceType.AssignRandomDoubleToVar:
-                    {
-                        if(context.cpPosCounter >= 0 
-                            && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
-                        {
-                            PrintChoice((SequenceRandomChoice)seq, context);
-                            Console.Write(seq.Symbol);
-                            ++context.cpPosCounter;
-                            break;
-                        }
-
-                        if(seq == context.highlightSeq && context.choice)
-                            context.workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
-                        else
-                            Console.Write(seq.Symbol);
-                        break;
-                    }
-
-                case SequenceType.SequenceDefinitionInterpreted:
-                    {
-                        SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seq;
-                        HighlightingMode mode = HighlightingMode.None;
-                        if(seqDef.ExecutionState == SequenceExecutionState.Success) mode = HighlightingMode.LastSuccess;
-                        if(seqDef.ExecutionState == SequenceExecutionState.Fail) mode = HighlightingMode.LastFail;
-                        context.workaround.PrintHighlighted(seqDef.Symbol + ": ", mode);
-                        PrintSequence(seqDef.Seq, seqDef.Seq, context);
-                        break;
-                    }
-
-                // Atoms (assignments)
-                case SequenceType.AssignVarToVar:
-                case SequenceType.AssignConstToVar:
-                case SequenceType.AssignContainerConstructorToVar:
-                case SequenceType.DeclareVariable:
-                    {
+                        PrintBreak((SequenceSpecial)seq, context);
                         Console.Write(seq.Symbol);
+                        ++context.bpPosCounter;
                         break;
                     }
 
-                default:
+                    if(context.cpPosCounter >= 0 && seq is SequenceRandomChoice
+                        && ((SequenceRandomChoice)seq).Random)
                     {
-                        Debug.Assert(false);
-                        Console.Write("<UNKNOWN_SEQUENCE_TYPE>");
+                        PrintChoice((SequenceRandomChoice)seq, context);
+                        Console.Write(seq.Symbol);
+                        ++context.cpPosCounter;
                         break;
                     }
+
+                    HighlightingMode mode = HighlightingMode.None;
+                    if(seq == context.highlightSeq)
+                    {
+                        if(context.choice)
+                            mode |= HighlightingMode.Choicepoint;
+                        else if(context.success)
+                            mode |= HighlightingMode.FocusSucces;
+                        else
+                            mode |= HighlightingMode.Focus;
+                    }
+                    if(seq.ExecutionState == SequenceExecutionState.Success)
+                        mode |= HighlightingMode.LastSuccess;
+                    if(seq.ExecutionState == SequenceExecutionState.Fail)
+                        mode |= HighlightingMode.LastFail;
+                    if(context.sequences != null && context.sequences.Contains(seq))
+                    {
+                        if(context.matches != null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
+                            mode |= HighlightingMode.FocusSucces;
+                    }
+                    context.workaround.PrintHighlighted(seq.Symbol, mode);
+                    break;
+                }
+
+            // Unary assignment
+            case SequenceType.AssignSequenceResultToVar:
+            case SequenceType.OrAssignSequenceResultToVar:
+            case SequenceType.AndAssignSequenceResultToVar:
+                {
+                    SequenceAssignSequenceResultToVar seqAss = (SequenceAssignSequenceResultToVar)seq;
+                    Console.Write("(");
+                    PrintSequence(seqAss.Seq, seq, context);
+                    if(seq.SequenceType == SequenceType.OrAssignSequenceResultToVar)
+                        Console.Write("|>");
+                    else if(seq.SequenceType == SequenceType.AndAssignSequenceResultToVar)
+                        Console.Write("&>");
+                    else //if(seq.SequenceType==SequenceType.AssignSequenceResultToVar)
+                        Console.Write("=>");
+                    Console.Write(seqAss.DestVar.Name);
+                    Console.Write(")");
+                    break;
+                }
+
+            // Choice highlightable user assignments
+            case SequenceType.AssignUserInputToVar:
+            case SequenceType.AssignRandomIntToVar:
+            case SequenceType.AssignRandomDoubleToVar:
+                {
+                    if(context.cpPosCounter >= 0 
+                        && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
+                    {
+                        PrintChoice((SequenceRandomChoice)seq, context);
+                        Console.Write(seq.Symbol);
+                        ++context.cpPosCounter;
+                        break;
+                    }
+
+                    if(seq == context.highlightSeq && context.choice)
+                        context.workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
+                    else
+                        Console.Write(seq.Symbol);
+                    break;
+                }
+
+            case SequenceType.SequenceDefinitionInterpreted:
+                {
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seq;
+                    HighlightingMode mode = HighlightingMode.None;
+                    if(seqDef.ExecutionState == SequenceExecutionState.Success)
+                        mode = HighlightingMode.LastSuccess;
+                    if(seqDef.ExecutionState == SequenceExecutionState.Fail)
+                        mode = HighlightingMode.LastFail;
+                    context.workaround.PrintHighlighted(seqDef.Symbol + ": ", mode);
+                    PrintSequence(seqDef.Seq, seqDef.Seq, context);
+                    break;
+                }
+
+            // Atoms (assignments)
+            case SequenceType.AssignVarToVar:
+            case SequenceType.AssignConstToVar:
+            case SequenceType.AssignContainerConstructorToVar:
+            case SequenceType.DeclareVariable:
+                {
+                    Console.Write(seq.Symbol);
+                    break;
+                }
+
+            default:
+                {
+                    Debug.Assert(false);
+                    Console.Write("<UNKNOWN_SEQUENCE_TYPE>");
+                    break;
+                }
             }
 
             // print parentheses, if neccessary
-            if(parent != null && seq.Precedence < parent.Precedence) Console.Write(")");
+            if(parent != null && seq.Precedence < parent.Precedence)
+                Console.Write(")");
         }
 
-        static void PrintChildren(Sequence seq, PrintSequenceContext context)
+        private static void PrintChildren(Sequence seq, PrintSequenceContext context)
         {
             bool first = true;
             foreach(Sequence seqChild in seq.Children)
             {
-                if(!first) Console.Write(", ");
+                if(!first)
+                    Console.Write(", ");
                 PrintSequence(seqChild, seq, context);
                 first = false;
             }
         }
 
-        static void PrintChoice(SequenceRandomChoice seq, PrintSequenceContext context)
+        private static void PrintChoice(SequenceRandomChoice seq, PrintSequenceContext context)
         {
             if(seq.Choice)
                 context.workaround.PrintHighlighted("-%" + context.cpPosCounter + "-:", HighlightingMode.Choicepoint);
@@ -2452,7 +2497,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.workaround.PrintHighlighted("+%" + context.cpPosCounter + "+:", HighlightingMode.Choicepoint);
         }
 
-        static void PrintBreak(SequenceSpecial seq, PrintSequenceContext context)
+        private static void PrintBreak(SequenceSpecial seq, PrintSequenceContext context)
         {
             if(seq.Special)
                 context.workaround.PrintHighlighted("-%" + context.bpPosCounter + "-:", HighlightingMode.Breakpoint);
@@ -2460,13 +2505,14 @@ namespace de.unika.ipd.grGen.grShell
                 context.workaround.PrintHighlighted("+%" + context.bpPosCounter + "+:", HighlightingMode.Breakpoint);
         }
 
-        static void PrintListOfMatchesNumbers(PrintSequenceContext context, ref int numCurTotalMatch, int numMatches)
+        private static void PrintListOfMatchesNumbers(PrintSequenceContext context, ref int numCurTotalMatch, int numMatches)
         {
             context.workaround.PrintHighlighted("(", HighlightingMode.Choicepoint);
             bool first = true;
             for(int i = 0; i < numMatches; ++i)
             {
-                if(!first) context.workaround.PrintHighlighted(",", HighlightingMode.Choicepoint);
+                if(!first)
+                    context.workaround.PrintHighlighted(",", HighlightingMode.Choicepoint);
                 context.workaround.PrintHighlighted(numCurTotalMatch.ToString(), HighlightingMode.Choicepoint);
                 ++numCurTotalMatch;
                 first = false;
@@ -2485,7 +2531,7 @@ namespace de.unika.ipd.grGen.grShell
             // TODO: what to do if abort came within sequence called from top sequence?
         }
 
-        void PrintVariables(Sequence seqStart, Sequence seq)
+        private void PrintVariables(Sequence seqStart, Sequence seq)
         {
             if(seq != null)
             {
@@ -2528,7 +2574,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void PrintVisited()
+        private void PrintVisited()
         {
             List<int> allocatedVisitedFlags = shellProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
             Console.Write("Allocated visited flags are: ");
@@ -2548,7 +2594,7 @@ namespace de.unika.ipd.grGen.grShell
 
         #region Match marking and annotation in graph
 
-        void Mark(int rule, int match, SequenceSomeFromSet seq)
+        private void Mark(int rule, int match, SequenceSomeFromSet seq)
         {
             if(seq.IsNonRandomRuleAllCall(rule))
             {
@@ -2562,7 +2608,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        void Unmark(int rule, int match, SequenceSomeFromSet seq)
+        private void Unmark(int rule, int match, SequenceSomeFromSet seq)
         {
             if(seq.IsNonRandomRuleAllCall(rule))
             {
@@ -2649,8 +2695,10 @@ namespace de.unika.ipd.grGen.grShell
                         String name = match.Pattern.Nodes[i].UnprefixedName;
                         if(nestingLevel > 0)
                         {
-                            if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX) name = prefix + "/" + name;
-                            else name = "/|...|=" + nestingLevel + "/" + name;
+                            if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX)
+                                name = prefix + "/" + name;
+                            else
+                                name = "/|...|=" + nestingLevel + "/" + name;
                         }
                         if(annotatedNodes.ContainsKey(node))
                             annotatedNodes[node] += ", " + name;
@@ -2676,8 +2724,10 @@ namespace de.unika.ipd.grGen.grShell
                         String name = match.Pattern.Edges[i].UnprefixedName;
                         if(nestingLevel > 0)
                         {
-                            if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX) name = prefix + "/" + name;
-                            else name = "/|...|=" + nestingLevel + "/" + name;
+                            if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX)
+                                name = prefix + "/" + name;
+                            else
+                                name = "/|...|=" + nestingLevel + "/" + name;
                         }
                         if(annotatedEdges.ContainsKey(edge))
                             annotatedEdges[edge] += ", " + name;
@@ -2714,7 +2764,7 @@ namespace de.unika.ipd.grGen.grShell
             IPatternGraph pattern = parentMatch.Pattern;
             IEnumerable<IMatches> iteratedsMatches = parentMatch.Iterateds;
             int numIterated, numOptional, numMultiple, numOther;
-            classifyIterateds(pattern, out numIterated, out numOptional, out numMultiple, out numOther);
+            ClassifyIterateds(pattern, out numIterated, out numOptional, out numMultiple, out numOther);
 
             int i = 0;
             foreach(IMatches matches in iteratedsMatches)
@@ -2722,16 +2772,20 @@ namespace de.unika.ipd.grGen.grShell
                 String name;
                 if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0) {
                     name = "(.)*";
-                    if(numIterated > 1) name += "'" + i;
+                    if(numIterated > 1)
+                        name += "'" + i;
                 } else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1) {
                     name = "(.)?";
-                    if(numOptional > 1) name += "'" + i;
+                    if(numOptional > 1)
+                        name += "'" + i;
                 } else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0) {
                     name = "(.)+";
-                    if(numMultiple > 1) name += "'" + i;
+                    if(numMultiple > 1)
+                        name += "'" + i;
                 } else {
                     name = "(.)[" + pattern.Iterateds[i].MinMatches + ":" + pattern.Iterateds[i].MaxMatches + "]";
-                    if(numOther > 1) name += "'" + i;
+                    if(numOther > 1)
+                        name += "'" + i;
                 }
 
                 int j = 0;
@@ -2753,7 +2807,8 @@ namespace de.unika.ipd.grGen.grShell
             foreach(IMatch match in matches)
             {
                 String name = "(.|.)";
-                if(pattern.Alternatives.Length>1) name += "'" + i;
+                if(pattern.Alternatives.Length>1)
+                    name += "'" + i;
                 String caseName = match.Pattern.Name;
                 AnnotateMatch(match, addAnnotation, prefix + "/" + name + "/" + caseName, nestingLevel + 1, false);
                 ++i;
@@ -2768,21 +2823,26 @@ namespace de.unika.ipd.grGen.grShell
             foreach(IMatch match in matches)
             {
                 String name = "&(.)";
-                if(pattern.IndependentPatternGraphs.Length>1) name += "'" + i;
+                if(pattern.IndependentPatternGraphs.Length>1)
+                    name += "'" + i;
                 AnnotateMatch(match, addAnnotation, prefix + "/" + name, nestingLevel + 1, false);
                 ++i;
             }
         }
 
-        private void classifyIterateds(IPatternGraph pattern, out int numIterated, out int numOptional, out int numMultiple, out int numOther)
+        private static void ClassifyIterateds(IPatternGraph pattern, out int numIterated, out int numOptional, out int numMultiple, out int numOther)
         {
             numIterated = numOptional = numMultiple = numOther = 0;
             for(int i = 0; i < pattern.Iterateds.Length; ++i)
             {
-                if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0) ++numIterated;
-                else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1) ++numOptional;
-                else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0) ++numMultiple;
-                else ++numOther;
+                if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0)
+                    ++numIterated;
+                else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1)
+                    ++numOptional;
+                else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0)
+                    ++numMultiple;
+                else
+                    ++numOther;
             }
         }
 
@@ -2814,20 +2874,20 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case 'l':
-                        Console.WriteLine();
-                        return 0;
-                    case 'r':
-                        Console.WriteLine();
-                        return 1;
-                    case 's':
-                    case 'n':
-                        Console.WriteLine();
-                        return direction;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
-                        break;
+                case 'l':
+                    Console.WriteLine();
+                    return 0;
+                case 'r':
+                    Console.WriteLine();
+                    return 1;
+                case 's':
+                case 'n':
+                    Console.WriteLine();
+                    return direction;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
+                    break;
                 }
             } while(true);
         }
@@ -2861,50 +2921,50 @@ read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        int num = key.KeyChar - '0';
-                        if(num >= sequences.Count)
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    int num = key.KeyChar - '0';
+                    if(num >= sequences.Count)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                        goto read_again;
+                    }
+                    seqToExecute = num;
+                    break;
+                case 'e':
+                    Console.Write("Enter number of sequence to show: ");
+                    String numStr = Console.ReadLine();
+                    if(int.TryParse(numStr, out num))
+                    {
+                        if(num < 0 || num >= sequences.Count)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
                             goto read_again;
                         }
                         seqToExecute = num;
                         break;
-                    case 'e':
-                        Console.Write("Enter number of sequence to show: ");
-                        String numStr = Console.ReadLine();
-                        if(int.TryParse(numStr, out num))
-                        {
-                            if(num < 0 || num >= sequences.Count)
-                            {
-                                Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                                goto read_again;
-                            }
-                            seqToExecute = num;
-                            break;
-                        }
-                        Console.WriteLine("You must enter a valid integer number!");
-                        goto read_again;
-                    case 's':
-                    case 'n':
-                        return seqToExecute;
-                    case 'u':
-                    case 'o':
-                        seq.Skip = true; // skip remaining rules (reset after exection of seq)
-                        return seqToExecute;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
-                        goto read_again;
+                    }
+                    Console.WriteLine("You must enter a valid integer number!");
+                    goto read_again;
+                case 's':
+                case 'n':
+                    return seqToExecute;
+                case 'u':
+                case 'o':
+                    seq.Skip = true; // skip remaining rules (reset after exection of seq)
+                    return seqToExecute;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
+                    goto read_again;
                 }
             } while(true);
         }
@@ -2937,30 +2997,30 @@ read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case 'e':
-                        double num;
-                        Console.Write("Enter point in interval series of sequence to show: ");
-                        String numStr = Console.ReadLine();
-                        if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
-                                System.Globalization.CultureInfo.InvariantCulture, out num))
+                case 'e':
+                    double num;
+                    Console.Write("Enter point in interval series of sequence to show: ");
+                    String numStr = Console.ReadLine();
+                    if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out num))
+                    {
+                        if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
                         {
-                            if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
-                            {
-                                Console.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
-                                goto read_again;
-                            }
-                            pointToExecute = num;
-                            break;
+                            Console.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
+                            goto read_again;
                         }
-                        Console.WriteLine("You must enter a valid floating point number!");
-                        goto read_again;
-                    case 's':
-                    case 'n':
-                        return pointToExecute;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (e)nter number and (s)/(n) to commit and continue allowed! ");
-                        goto read_again;
+                        pointToExecute = num;
+                        break;
+                    }
+                    Console.WriteLine("You must enter a valid floating point number!");
+                    goto read_again;
+                case 's':
+                case 'n':
+                    return pointToExecute;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (e)nter number and (s)/(n) to commit and continue allowed! ");
+                    goto read_again;
                 }
             } while(true);
         }
@@ -3009,18 +3069,31 @@ read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        int num = key.KeyChar - '0';
-                        if(num >= seq.NumTotalMatches)
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    int num = key.KeyChar - '0';
+                    if(num >= seq.NumTotalMatches)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
+                        goto read_again;
+                    }
+                    Unmark(rule, match, seq);
+                    totalMatchToExecute = num;
+                    break;
+                case 'e':
+                    Console.Write("Enter number of rule to show: ");
+                    String numStr = Console.ReadLine();
+                    if(int.TryParse(numStr, out num))
+                    {
+                        if(num < 0 || num >= seq.NumTotalMatches)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
                             goto read_again;
@@ -3028,30 +3101,17 @@ read_again:
                         Unmark(rule, match, seq);
                         totalMatchToExecute = num;
                         break;
-                    case 'e':
-                        Console.Write("Enter number of rule to show: ");
-                        String numStr = Console.ReadLine();
-                        if(int.TryParse(numStr, out num))
-                        {
-                            if(num < 0 || num >= seq.NumTotalMatches)
-                            {
-                                Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                                goto read_again;
-                            }
-                            Unmark(rule, match, seq);
-                            totalMatchToExecute = num;
-                            break;
-                        }
-                        Console.WriteLine("You must enter a valid integer number!");
-                        break;
-                    case 's':
-                    case 'n':
-                        Unmark(rule, match, seq);
-                        return totalMatchToExecute;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                        goto read_again;
+                    }
+                    Console.WriteLine("You must enter a valid integer number!");
+                    break;
+                case 's':
+                case 'n':
+                    Unmark(rule, match, seq);
+                    return totalMatchToExecute;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
+                    goto read_again;
                 }
             } while(true);
         }
@@ -3105,50 +3165,50 @@ read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        int num = key.KeyChar - '0';
-                        if(num >= matches.Count)
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    int num = key.KeyChar - '0';
+                    if(num >= matches.Count)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                        goto read_again;
+                    }
+                    newMatchToRewrite = num;
+                    break;
+                case 'e':
+                    Console.Write("Enter number of match to show: ");
+                    String numStr = Console.ReadLine();
+                    if(int.TryParse(numStr, out num))
+                    {
+                        if(num < 0 || num >= matches.Count)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
                             goto read_again;
                         }
                         newMatchToRewrite = num;
                         break;
-                    case 'e':
-                        Console.Write("Enter number of match to show: ");
-                        String numStr = Console.ReadLine();
-                        if(int.TryParse(numStr, out num))
-                        {
-                            if(num < 0 || num >= matches.Count)
-                            {
-                                Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                                goto read_again;
-                            }
-                            newMatchToRewrite = num;
-                            break;
-                        }
-                        Console.WriteLine("You must enter a valid integer number!");
-                        break;
-                    case 's':
-                    case 'n':
-                        MarkMatch(matches.GetMatch(matchToApply), null, null);
-                        AnnotateMatch(matches.GetMatch(matchToApply), false);
-                        ycompClient.UpdateDisplay();
-                        ycompClient.Sync();
-                        return matchToApply;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                        goto read_again;
+                    }
+                    Console.WriteLine("You must enter a valid integer number!");
+                    break;
+                case 's':
+                case 'n':
+                    MarkMatch(matches.GetMatch(matchToApply), null, null);
+                    AnnotateMatch(matches.GetMatch(matchToApply), false);
+                    ycompClient.UpdateDisplay();
+                    ycompClient.Sync();
+                    return matchToApply;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
+                    goto read_again;
                 }
             } while(true);
         }
@@ -3286,17 +3346,17 @@ read_again:
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case 'a':
-                        Console.WriteLine();
-                        return null;
-                    case 'r':
-                        Console.WriteLine();
-                        value = grShellImpl.Askfor(type);
-                        break;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (a)bort user choice or (r)etry allowed! ");
-                        goto read_again;
+                case 'a':
+                    Console.WriteLine();
+                    return null;
+                case 'r':
+                    Console.WriteLine();
+                    value = grShellImpl.Askfor(type);
+                    break;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (a)bort user choice or (r)etry allowed! ");
+                    goto read_again;
                 }
             }
 
@@ -3393,9 +3453,11 @@ read_again:
                         foreach(IEdge edge in node.Incoming)
                         {
                             INode parent = edge.Source;
-                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID)) continue;
+                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID))
+                                continue;
                             GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, node.Type);
-                            if((grpMode & GroupMode.GroupOutgoingNodes) == 0) continue;
+                            if((grpMode & GroupMode.GroupOutgoingNodes) == 0)
+                                continue;
                             if(!excludedGraphNodesIncluded.ContainsKey(parent))
                             {
                                 newlyAddedNodes.Add(parent);
@@ -3412,9 +3474,11 @@ read_again:
                         foreach(IEdge edge in node.Outgoing)
                         {
                             INode parent = edge.Target;
-                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID)) continue;
+                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID))
+                                continue;
                             GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, node.Type);
-                            if((grpMode & GroupMode.GroupIncomingNodes) == 0) continue;
+                            if((grpMode & GroupMode.GroupIncomingNodes) == 0)
+                                continue;
                             if(!excludedGraphNodesIncluded.ContainsKey(parent))
                             {
                                 newlyAddedNodes.Add(parent);
@@ -3442,7 +3506,7 @@ read_again:
 
         #region Event Handling
 
-        void DebugNodeAdded(INode node)
+        private void DebugNodeAdded(INode node)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New, 
@@ -3458,10 +3522,11 @@ read_again:
                 addedNodes[node] = true;
                 ycompClient.AnnotateElement(node, curAddedNodeNames[nextAddedNodeIndex++]);
             }
-            else if(alwaysShow) ycompClient.UpdateDisplay();
+            else if(alwaysShow)
+                ycompClient.UpdateDisplay();
         }
 
-        void DebugEdgeAdded(IEdge edge)
+        private void DebugEdgeAdded(IEdge edge)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New,
@@ -3477,10 +3542,11 @@ read_again:
                 addedEdges[edge] = true;
                 ycompClient.AnnotateElement(edge, curAddedEdgeNames[nextAddedEdgeIndex++]);
             }
-            else if(alwaysShow) ycompClient.UpdateDisplay();
+            else if(alwaysShow)
+                ycompClient.UpdateDisplay();
         }
 
-        void DebugDeletingNode(INode node)
+        private void DebugDeletingNode(INode node)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete, 
@@ -3493,7 +3559,8 @@ read_again:
             if(!recordMode)
             {
                 ycompClient.DeleteNode(node);
-                if(alwaysShow) ycompClient.UpdateDisplay();
+                if(alwaysShow)
+                    ycompClient.UpdateDisplay();
             }
             else
             {
@@ -3506,7 +3573,7 @@ read_again:
             }
         }
 
-        void DebugDeletingEdge(IEdge edge)
+        private void DebugDeletingEdge(IEdge edge)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete, 
@@ -3519,7 +3586,8 @@ read_again:
             if(!recordMode)
             {
                 ycompClient.DeleteEdge(edge);
-                if(alwaysShow) ycompClient.UpdateDisplay();
+                if(alwaysShow)
+                    ycompClient.UpdateDisplay();
             }
             else
             {
@@ -3532,7 +3600,7 @@ read_again:
             }
         }
 
-        void DebugClearingGraph()
+        private void DebugClearingGraph()
         {
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
@@ -3540,7 +3608,7 @@ read_again:
             ycompClient.ClearGraph();
         }
 
-        void DebugChangedNodeAttribute(INode node, AttributeType attrType)
+        private void DebugChangedNodeAttribute(INode node, AttributeType attrType)
         {
             if(!ycompClient.dumpInfo.IsExcludedGraph() || recordMode)
                 ycompClient.ChangeNodeAttribute(node, attrType);
@@ -3551,7 +3619,7 @@ read_again:
                 InternalHalt(cr, node, attrType.Name);
         }
 
-        void DebugChangedEdgeAttribute(IEdge edge, AttributeType attrType)
+        private void DebugChangedEdgeAttribute(IEdge edge, AttributeType attrType)
         {
             if(!ycompClient.dumpInfo.IsExcludedGraph() || recordMode)
                 ycompClient.ChangeEdgeAttribute(edge, attrType);
@@ -3562,7 +3630,7 @@ read_again:
                 InternalHalt(cr, edge, attrType.Name);
         }
 
-        void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
+        private void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Retype, 
@@ -3573,7 +3641,8 @@ read_again:
                 return;
             
             ycompClient.RetypingElement(oldElem, newElem);
-            if(!recordMode) return;
+            if(!recordMode)
+                return;
 
             if(oldElem is INode)
             {
@@ -3605,19 +3674,19 @@ read_again:
             }
         }
 
-        void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)
+        private void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)
         {
             curAddedNodeNames = namesOfNodesAdded;
             nextAddedNodeIndex = 0;
         }
 
-        void DebugSettingAddedEdgeNames(string[] namesOfEdgesAdded)
+        private void DebugSettingAddedEdgeNames(string[] namesOfEdgesAdded)
         {
             curAddedEdgeNames = namesOfEdgesAdded;
             nextAddedEdgeIndex = 0;
         }
 
-        void DebugMatched(IMatches matches, IMatch match, bool special)
+        private void DebugMatched(IMatches matches, IMatch match, bool special)
         {
             if(matches.Count == 0) // happens e.g. from compiled sequences firing the event always, but the Finishing only comes in case of Count!=0
                 return;
@@ -3731,13 +3800,13 @@ read_again:
             nextAddedEdgeIndex = 0;
         }
 
-        void DebugNextMatch()
+        private void DebugNextMatch()
         {
             nextAddedNodeIndex = 0;
             nextAddedEdgeIndex = 0;
         }
 
-        void DebugFinished(IMatches matches, bool special)
+        private void DebugFinished(IMatches matches, bool special)
         {
             // integrate matched actions into subrule traces stack
             if(matches != null)
@@ -3796,7 +3865,7 @@ read_again:
             matchDepth--;
         }
 
-        void DebugEnteringSequence(Sequence seq)
+        private void DebugEnteringSequence(Sequence seq)
         {
             // root node of sequence entered and interactive debugging activated
             if(stepMode && lastlyEntered == null)
@@ -3805,8 +3874,7 @@ read_again:
                 ycompClient.Sync();
                 PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
-                context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
-                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, and (a)bort (plus Ctrl+C for forced abort).");
+                PrintDebugInstructionsOnEntering();
                 QueryUser(seq);
             }
 
@@ -3856,7 +3924,7 @@ read_again:
             }
         }
 
-        void DebugExitingSequence(Sequence seq)
+        private void DebugExitingSequence(Sequence seq)
         {
             skipMode = false;
 
@@ -3886,48 +3954,57 @@ read_again:
             }
         }
 
+        private void PrintDebugInstructionsOnEntering()
+        {
+            context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
+            Console.Write(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, ");
+            Console.Write("toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, ");
+            Console.Write("show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, ");
+            Console.WriteLine("and (a)bort (plus Ctrl+C for forced abort).");
+        }
+
         private static bool IsLoop(Sequence seq)
         {
             switch(seq.SequenceType)
             {
-                case SequenceType.IterationMin:
-                case SequenceType.IterationMinMax:
-                case SequenceType.ForContainer:
-                case SequenceType.ForIntegerRange:
-                case SequenceType.ForIndexAccessEquality:
-                case SequenceType.ForIndexAccessOrdering:
-                case SequenceType.ForAdjacentNodes:
-                case SequenceType.ForAdjacentNodesViaIncoming:
-                case SequenceType.ForAdjacentNodesViaOutgoing:
-                case SequenceType.ForIncidentEdges:
-                case SequenceType.ForIncomingEdges:
-                case SequenceType.ForOutgoingEdges:
-                case SequenceType.ForReachableNodes:
-                case SequenceType.ForReachableNodesViaIncoming:
-                case SequenceType.ForReachableNodesViaOutgoing:
-                case SequenceType.ForReachableEdges:
-                case SequenceType.ForReachableEdgesViaIncoming:
-                case SequenceType.ForReachableEdgesViaOutgoing:
-                case SequenceType.ForBoundedReachableNodes:
-                case SequenceType.ForBoundedReachableNodesViaIncoming:
-                case SequenceType.ForBoundedReachableNodesViaOutgoing:
-                case SequenceType.ForBoundedReachableEdges:
-                case SequenceType.ForBoundedReachableEdgesViaIncoming:
-                case SequenceType.ForBoundedReachableEdgesViaOutgoing:
-                case SequenceType.ForNodes:
-                case SequenceType.ForEdges:
-                case SequenceType.ForMatch:
-                case SequenceType.Backtrack:
-                    return true;
-                default:
-                    return false;
+            case SequenceType.IterationMin:
+            case SequenceType.IterationMinMax:
+            case SequenceType.ForContainer:
+            case SequenceType.ForIntegerRange:
+            case SequenceType.ForIndexAccessEquality:
+            case SequenceType.ForIndexAccessOrdering:
+            case SequenceType.ForAdjacentNodes:
+            case SequenceType.ForAdjacentNodesViaIncoming:
+            case SequenceType.ForAdjacentNodesViaOutgoing:
+            case SequenceType.ForIncidentEdges:
+            case SequenceType.ForIncomingEdges:
+            case SequenceType.ForOutgoingEdges:
+            case SequenceType.ForReachableNodes:
+            case SequenceType.ForReachableNodesViaIncoming:
+            case SequenceType.ForReachableNodesViaOutgoing:
+            case SequenceType.ForReachableEdges:
+            case SequenceType.ForReachableEdgesViaIncoming:
+            case SequenceType.ForReachableEdgesViaOutgoing:
+            case SequenceType.ForBoundedReachableNodes:
+            case SequenceType.ForBoundedReachableNodesViaIncoming:
+            case SequenceType.ForBoundedReachableNodesViaOutgoing:
+            case SequenceType.ForBoundedReachableEdges:
+            case SequenceType.ForBoundedReachableEdgesViaIncoming:
+            case SequenceType.ForBoundedReachableEdgesViaOutgoing:
+            case SequenceType.ForNodes:
+            case SequenceType.ForEdges:
+            case SequenceType.ForMatch:
+            case SequenceType.Backtrack:
+                return true;
+            default:
+                return false;
             }
         }
 
         /// <summary>
         /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
         /// </summary>
-        void DebugEndOfIteration(bool continueLoop, Sequence seq)
+        private void DebugEndOfIteration(bool continueLoop, Sequence seq)
         {
             if(stepMode || dynamicStepMode)
             {
@@ -3938,8 +4015,10 @@ read_again:
                     if(seqBack.Seq.ExecutionState == SequenceExecutionState.Success)
                         text = "Success ";
                     else
-                        if(continueLoop) text = "Backtracking ";
-                        else text = "Backtracking possibilities exhausted, fail ";
+                        if(continueLoop)
+                            text = "Backtracking ";
+                        else
+                            text = "Backtracking possibilities exhausted, fail ";
                     context.workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     PrintSequence(seq, context, debugSequences.Count);
@@ -3970,7 +4049,7 @@ read_again:
         /// informs debugger about the change of the graph, so it can switch yComp display to the new one
         /// called just before switch with the new one, the old one is the current graph
         /// </summary>
-        void DebugSwitchToGraph(IGraph newGraph)
+        private void DebugSwitchToGraph(IGraph newGraph)
         {
             // potential future extension: display the stack of graphs instead of only the topmost one
             // with the one at the forefront being the top of the stack; would save clearing and uploading
@@ -3987,7 +4066,7 @@ read_again:
         /// informs debugger about the change of the graph, so it can switch yComp display to the new one
         /// called just after the switch with the old one, the new one is the current graph
         /// </summary>
-        void DebugReturnedFromGraph(IGraph oldGraph)
+        private void DebugReturnedFromGraph(IGraph oldGraph)
         {
             UnregisterLibGrEvents((INamedGraph)oldGraph);
             context.workaround.PrintHighlighted("...leaving graph\n", HighlightingMode.SequenceStart);
@@ -3998,7 +4077,7 @@ read_again:
             RegisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
         }
 
-        void DebugEnter(string message, params object[] values)
+        private void DebugEnter(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Add, 
@@ -4012,7 +4091,7 @@ read_again:
                 Console.WriteLine(entry.ToString(false));
         }
 
-        void DebugExit(string message, params object[] values)
+        private void DebugExit(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Rem, 
@@ -4034,7 +4113,7 @@ read_again:
             }
         }
 
-        void RemoveUpToEntryForExit(string message)
+        private void RemoveUpToEntryForExit(string message)
         {
             int posOfEntry = 0;
             for(int i = computationsEnteredStack.Count - 1; i >= 0; --i)
@@ -4054,7 +4133,7 @@ read_again:
             computationsEnteredStack.RemoveRange(posOfEntry, computationsEnteredStack.Count - posOfEntry);
         }
 
-        void DebugEmit(string message, params object[] values)
+        private void DebugEmit(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Emit, 
@@ -4068,7 +4147,7 @@ read_again:
                 Console.WriteLine(emit.ToString(false));
         }
 
-        void DebugHalt(string message, params object[] values)
+        private void DebugHalt(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Halt, 
@@ -4096,7 +4175,7 @@ read_again:
             QueryContinueOrTrace(true);
         }
 
-        void InternalHalt(SubruleDebuggingConfigurationRule cr, object data, params object[] additionalData)
+        private void InternalHalt(SubruleDebuggingConfigurationRule cr, object data, params object[] additionalData)
         {
             context.workaround.PrintHighlighted("Break ", HighlightingMode.Breakpoint);
             Console.WriteLine("because " + cr.ToString(data, shellProcEnv.ProcEnv.NamedGraph, additionalData));
@@ -4117,7 +4196,7 @@ read_again:
         /// <summary>
         /// highlights the values in the graphs if debugging is active (annotating them with the source names)
         /// </summary>
-        void DebugHighlight(string message, List<object> values, List<string> sourceNames)
+        private void DebugHighlight(string message, List<object> values, List<string> sourceNames)
         {
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Highlight, 
@@ -4151,7 +4230,7 @@ read_again:
             QueryContinueOrTrace(true);
         }
 
-        void PrintDebugTracesStack(bool full)
+        private void PrintDebugTracesStack(bool full)
         {
             Console.WriteLine("Subrule traces stack is:");
             for(int i = 0; i < computationsEnteredStack.Count; ++i)
@@ -4171,39 +4250,7 @@ read_again:
         {
             do
             {
-                if(!isBottomUpBreak && computationsEnteredStack.Count == 0)
-                    Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
-                else
-                {
-                    if(!isBottomUpBreak)
-                    {
-                        Console.Write("Detailed subrule debugging -- ");
-                        if(computationsEnteredStack.Count > 0)
-                        {
-                            Console.Write("(r)un until end of detail debugging, ");
-                            if(TargetStackLevelForUpInDetailedMode() > 0)
-                            {
-                                Console.Write("(u)p from current entry, ");
-                                if(TargetStackLevelForOutInDetailedMode() > 0)
-                                {
-                                    Console.Write("(o)ut of detail debugging entry we are nested in, ");
-                                }
-                            }
-                        }
-                    }
-                    else
-                        Console.Write("Watchpoint/halt/highlight hit -- ");
-                    if(isBottomUpBreak && !stepMode)
-                        Console.Write("(s)tep mode, ");
-                    if(computationsEnteredStack.Count > 0)
-                        Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
-                    else
-                        Console.Write("(f)ull state, or (a)bort, any other key continues ");
-                    if(!isBottomUpBreak)
-                        Console.WriteLine("detailed debugging.");
-                    else
-                        Console.WriteLine("debugging as before.");
-                }
+                PrintDebugInstructions(isBottomUpBreak);
 
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
@@ -4267,7 +4314,47 @@ read_again:
             } while(true);
         }
 
-        int TargetStackLevelForUpInDetailedMode()
+        private void PrintDebugInstructions(bool isBottomUpBreak)
+        {
+            if(!isBottomUpBreak && computationsEnteredStack.Count == 0)
+                Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
+            else
+            {
+                if(!isBottomUpBreak)
+                {
+                    Console.Write("Detailed subrule debugging -- ");
+                    if(computationsEnteredStack.Count > 0)
+                    {
+                        Console.Write("(r)un until end of detail debugging, ");
+                        if(TargetStackLevelForUpInDetailedMode() > 0)
+                        {
+                            Console.Write("(u)p from current entry, ");
+                            if(TargetStackLevelForOutInDetailedMode() > 0)
+                            {
+                                Console.Write("(o)ut of detail debugging entry we are nested in, ");
+                            }
+                        }
+                    }
+                }
+                else
+                    Console.Write("Watchpoint/halt/highlight hit -- ");
+
+                if(isBottomUpBreak && !stepMode)
+                    Console.Write("(s)tep mode, ");
+
+                if(computationsEnteredStack.Count > 0)
+                    Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
+                else
+                    Console.Write("(f)ull state, or (a)bort, any other key continues ");
+
+                if(!isBottomUpBreak)
+                    Console.WriteLine("detailed debugging.");
+                else
+                    Console.WriteLine("debugging as before.");
+            }
+        }
+
+        private int TargetStackLevelForUpInDetailedMode()
         {
             int posOfEntry = 0;
             for(int i = computationsEnteredStack.Count - 1; i >= 0; --i)
@@ -4281,7 +4368,7 @@ read_again:
             return posOfEntry;
         }
 
-        int TargetStackLevelForOutInDetailedMode()
+        private int TargetStackLevelForOutInDetailedMode()
         {
             int posOfEntry = 0;
             for(int i = TargetStackLevelForUpInDetailedMode() - 1; i >= 0; --i)
@@ -4295,7 +4382,7 @@ read_again:
             return posOfEntry;
         }
 
-        void DebugOnConnectionLost()
+        private void DebugOnConnectionLost()
         {
             Console.WriteLine("Connection to yComp lost!");
             grShellImpl.Cancel();
@@ -4304,7 +4391,7 @@ read_again:
         /// <summary>
         /// Registers event handlers for needed LibGr events
         /// </summary>
-        void RegisterLibGrEvents(INamedGraph graph)
+        private void RegisterLibGrEvents(INamedGraph graph)
         {
             graph.OnNodeAdded += DebugNodeAdded;
             graph.OnEdgeAdded += DebugEdgeAdded;
@@ -4339,7 +4426,7 @@ read_again:
         /// <summary>
         /// Unregisters the events previously registered with RegisterLibGrEvents()
         /// </summary>
-        void UnregisterLibGrEvents(INamedGraph graph)
+        private void UnregisterLibGrEvents(INamedGraph graph)
         {
             graph.OnNodeAdded -= DebugNodeAdded;
             graph.OnEdgeAdded -= DebugEdgeAdded;
