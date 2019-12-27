@@ -1562,6 +1562,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (seqSome.Random)
                     {
                         // for the match selected: rewrite it
+                        if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
                         String enumeratorName = "enum_" + seqRule.Id;
                         source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
                         source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
@@ -1575,11 +1576,12 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                         source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-                        if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                        if (returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
                         source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
                         source.Unindent();
                         source.AppendFront("}\n");
+                        if (returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
                         source.AppendFront("++" + curTotalMatch + ";\n");
                         source.Unindent();
                         source.AppendFront("}\n");
@@ -1587,15 +1589,17 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                     {
                         // randomly choose match, rewrite it and remove it from available matches
+                        if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarationsAllCall + "\n");
                         source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".GetMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
                         if (fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
                         if (fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                         source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-                        if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                        if (returnAssignments.Length != 0) source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
                         source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
+                        if (returnAssignments.Length != 0) source.AppendFront(returnAssignmentsAllCall + "\n");
                     }
                 }
 

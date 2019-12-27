@@ -1,0 +1,63 @@
+using someofset;
+
+test findM : (M)
+{
+	m:M;
+	if{ m.val != "foo"; }
+	return(m);
+}
+
+rule findN : (N,Edge)
+{
+	n:N -e:Edge->;
+	if{ n.val != "foo"; }
+
+	modify {
+		eval { n.val = "foo"; }
+		return(n,e);
+	}
+}
+
+rule findO : (O,Edge)
+{
+	o:O -e:Edge->;
+	if{ o.val != "foo"; }
+
+	modify {
+		eval { o.val = "foo"; }
+		return(o,e);
+	}
+}
+
+rule findP : (P,Edge)
+{
+	p:P -e:Edge->;
+	if{ p.val != "foo"; }
+
+	modify {
+		eval { p.val = "foo"; }
+		return(p,e);
+	}
+}
+
+rule execSomeOfSet
+{
+	modify {
+		exec({<(::n,::ne)=findN,(::o,::oe)=[findO],(::p,::pe)=$[findP]>}
+		;> {emit("The value of variable n of type n is: "); emit(::n); emit("\n")}
+		;> {emit("The value of variable o of type array<O> is: "); emit(::o); emit("\n")}
+		;> {emit("The value of variable p of type array<P> is: "); emit(::p); emit("\n")}
+		);
+	}
+}
+
+rule execOneOfSet
+{
+	modify {
+		exec(${<(::n,::ne)=findN,(::o,::oe)=[findO],(::p,::pe)=$[findP]>}
+		;> {emit("The value of variable n of type n is: "); emit(::n); emit("\n")}
+		;> {emit("The value of variable o of type array<O> is: "); emit(::o); emit("\n")}
+		;> {emit("The value of variable p of type array<P> is: "); emit(::p); emit("\n")}
+		);
+	}
+}

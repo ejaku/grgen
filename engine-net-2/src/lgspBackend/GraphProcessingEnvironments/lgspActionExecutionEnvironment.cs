@@ -175,7 +175,6 @@ namespace de.unika.ipd.grGen.lgsp
                     PerformanceInfo.RewritesPerformed++;
                     curResultNum++;
                 }
-                if(retElems == null) retElems = Sequence.NoElems;
             }
             return returns;
         }
