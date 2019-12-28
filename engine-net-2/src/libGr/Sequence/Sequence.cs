@@ -756,6 +756,11 @@ namespace de.unika.ipd.grGen.libGr
             Filters = filters;
         }
 
+        // Modify of the Action is normally called by Rewrite of the graph processing environment, delegated to from the ApplyImpl method
+        // this Rewrite is called by Backtracking, SomeFromSet, and a rule all call in case of random choice
+        // those are constructs that first compute several matches, potentially of multiple rules, and then rewrite some of them
+        // overriden in RuleAllCall and RuleCountAllCall to handle their differences, including/esp. list returns
+        // (the backtracking computes all matches but rewrites only one of them as in case of a single rule (and then the next one; implemented with a rule, not a rule all))
         public virtual bool Rewrite(IGraphProcessingEnvironment procEnv, IMatches matches, IMatch chosenMatch)
         {
             if(matches.Count == 0) return false;
@@ -4932,7 +4937,7 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// A sequence representing a compiled sequence definition.
-    /// The subclass contains the method implementing the real sequence,
+    /// The generated subclass contains the method implementing the real sequence,
     /// and ApplyImpl calling that method mapping SequenceInvocationParameterBindings to the exact parameters of that method.
     /// </summary>
     public abstract class SequenceDefinitionCompiled : SequenceDefinition
