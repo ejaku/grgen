@@ -74,6 +74,7 @@
     <Compile Include="GrShellSequenceApplierAndDebugger.cs" />
     <Compile Include="GrShellTokenManager.cs" />
     <Compile Include="ShellGraphProcessingEnvironment.cs" />
+    <Compile Include="SubruleDebugging.cs" />
     <Compile Include="WorkaroundManager.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
