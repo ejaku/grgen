@@ -47,31 +47,16 @@ namespace de.unika.ipd.grGen.grShell
 
         PrintSequenceContext context = null;
 
+        GraphAnnotationAndChangesRecorder renderRecorder = null;
+
+        Dictionary<INode, bool> excludedGraphNodesIncluded = new Dictionary<INode, bool>();
+        Dictionary<IEdge, bool> excludedGraphEdgesIncluded = new Dictionary<IEdge, bool>();
+
         int matchDepth = 0;
 
         bool lazyChoice = true;
 
-        IRulePattern curRulePattern = null;
-        int nextAddedNodeIndex = 0;
-        int nextAddedEdgeIndex = 0;
-
-        String[] curAddedNodeNames = null;
-        String[] curAddedEdgeNames = null;
-
-        Dictionary<INode, String> annotatedNodes = new Dictionary<INode, String>();
-        Dictionary<IEdge, String> annotatedEdges = new Dictionary<IEdge, String>();
-
         LinkedList<Sequence> loopList = new LinkedList<Sequence>();
-
-        Dictionary<INode, bool> addedNodes = new Dictionary<INode, bool>();
-        List<String> deletedNodes = new List<String>();
-        Dictionary<IEdge, bool> addedEdges = new Dictionary<IEdge, bool>();
-        List<String> deletedEdges = new List<String>();
-        Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
-        Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
-
-        Dictionary<INode, bool> excludedGraphNodesIncluded = new Dictionary<INode, bool>();
-        Dictionary<IEdge, bool> excludedGraphEdgesIncluded = new Dictionary<IEdge, bool>();
 
         List<SubruleComputation> computationsEnteredStack = new List<SubruleComputation>(); // can't use stack class, too weak
 
@@ -127,6 +112,8 @@ namespace de.unika.ipd.grGen.grShell
             this.realizers = grShellImpl.realizers;
 
             this.context = new PrintSequenceContext(grShellImpl.Workaround);
+
+            this.renderRecorder = new GraphAnnotationAndChangesRecorder();
 
             int ycompPort = GetFreeTCPPort();
             if(ycompPort < 0)
@@ -1482,10 +1469,7 @@ namespace de.unika.ipd.grGen.grShell
                 AddNeighboursAndParentsOfNeededGraphElements();
             }
 
-            foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
-                ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
-            foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
-                ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
+            renderRecorder.AnnotateGraphElements(ycompClient);
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
@@ -1645,16 +1629,13 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 ycompClient.ChangeNode(node, realizers.MatchedNodeRealizer);
-                if(annotatedNodes.ContainsKey(node))
-                    annotatedNodes[node] += ", " + name;
-                else
-                    annotatedNodes[node] = name;
+                renderRecorder.AddNodeAnnotation(node, name);
             }
             else
             {
                 ycompClient.ChangeNode(node, null);
                 ycompClient.AnnotateElement(node, null);
-                annotatedNodes.Remove(node);
+                renderRecorder.RemoveNodeAnnotation(node);
             }
         }
 
@@ -1672,16 +1653,13 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 ycompClient.ChangeEdge(edge, realizers.MatchedEdgeRealizer);
-                if(annotatedEdges.ContainsKey(edge))
-                    annotatedEdges[edge] += ", " + name;
-                else
-                    annotatedEdges[edge] = name;
+                renderRecorder.AddEdgeAnnotation(edge, name);
             }
             else
             {
                 ycompClient.ChangeEdge(edge, null);
                 ycompClient.AnnotateElement(edge, null);
-                annotatedEdges.Remove(edge);
+                renderRecorder.RemoveEdgeAnnotation(edge);
             }
         }
 
@@ -2652,10 +2630,7 @@ namespace de.unika.ipd.grGen.grShell
             AnnotateMatch(match, addAnnotation, "", 0, true);
             if(addAnnotation)
             {
-                foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
-                    ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
-                foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
-                    ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
+                renderRecorder.AnnotateGraphElements(ycompClient);
             }
         }
 
@@ -2664,10 +2639,7 @@ namespace de.unika.ipd.grGen.grShell
             AnnotateMatches(matches, addAnnotation, "", 0, true);
             if(addAnnotation)
             {
-                foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
-                    ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
-                foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
-                    ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
+                renderRecorder.AnnotateGraphElements(ycompClient);
             }
         }
 
@@ -2700,16 +2672,13 @@ namespace de.unika.ipd.grGen.grShell
                             else
                                 name = "/|...|=" + nestingLevel + "/" + name;
                         }
-                        if(annotatedNodes.ContainsKey(node))
-                            annotatedNodes[node] += ", " + name;
-                        else
-                            annotatedNodes[node] = name;
+                        renderRecorder.AddNodeAnnotation(node, name);
                     }
                 }
                 else
                 {
                     ycompClient.AnnotateElement(node, null);
-                    annotatedNodes.Remove(node);
+                    renderRecorder.RemoveNodeAnnotation(node);
                 }
             }
             for(int i = 0; i < match.NumberOfEdges; ++i)
@@ -2729,16 +2698,13 @@ namespace de.unika.ipd.grGen.grShell
                             else
                                 name = "/|...|=" + nestingLevel + "/" + name;
                         }
-                        if(annotatedEdges.ContainsKey(edge))
-                            annotatedEdges[edge] += ", " + name;
-                        else
-                            annotatedEdges[edge] = name;
+                        renderRecorder.AddEdgeAnnotation(edge, name);
                     }
                 }
                 else
                 {
                     ycompClient.AnnotateElement(edge, null);
-                    annotatedEdges.Remove(edge);
+                    renderRecorder.RemoveEdgeAnnotation(edge);
                 }
             }
             AnnotateSubpatternMatches(match, addAnnotation, prefix, nestingLevel);
@@ -3519,8 +3485,8 @@ read_again:
             ycompClient.AddNode(node);
             if(recordMode)
             {
-                addedNodes[node] = true;
-                ycompClient.AnnotateElement(node, curAddedNodeNames[nextAddedNodeIndex++]);
+                String nodeName = renderRecorder.AddedNode(node);
+                ycompClient.AnnotateElement(node, nodeName);
             }
             else if(alwaysShow)
                 ycompClient.UpdateDisplay();
@@ -3539,8 +3505,8 @@ read_again:
             ycompClient.AddEdge(edge);
             if(recordMode)
             {
-                addedEdges[edge] = true;
-                ycompClient.AnnotateElement(edge, curAddedEdgeNames[nextAddedEdgeIndex++]);
+                String edgeName = renderRecorder.AddedEdge(edge);
+                ycompClient.AnnotateElement(edge, edgeName);
             }
             else if(alwaysShow)
                 ycompClient.UpdateDisplay();
@@ -3564,12 +3530,12 @@ read_again:
             }
             else
             {
-                annotatedNodes.Remove(node);
+                renderRecorder.RemoveNodeAnnotation(node);
                 ycompClient.ChangeNode(node, realizers.DeletedNodeRealizer);
 
                 String name = ycompClient.Graph.GetElementName(node);
                 ycompClient.RenameNode(name, "zombie_" + name);
-                deletedNodes.Add("zombie_" + name);
+                renderRecorder.DeletedNode("zombie_" + name);
             }
         }
 
@@ -3591,12 +3557,12 @@ read_again:
             }
             else
             {
-                annotatedEdges.Remove(edge);
+                renderRecorder.RemoveEdgeAnnotation(edge);
                 ycompClient.ChangeEdge(edge, realizers.DeletedEdgeRealizer);
 
                 String name = ycompClient.Graph.GetElementName(edge);
                 ycompClient.RenameEdge(name, "zombie_" + name);
-                deletedEdges.Add("zombie_" + name);
+                renderRecorder.DeletedEdge("zombie_" + name);
             }
         }
 
@@ -3649,41 +3615,31 @@ read_again:
                 INode oldNode = (INode) oldElem;
                 INode newNode = (INode) newElem;
                 String name;
-                if(annotatedNodes.TryGetValue(oldNode, out name))
-                {
-                    annotatedNodes.Remove(oldNode);
-                    annotatedNodes[newNode] = name;
+                if(renderRecorder.WasNodeAnnotationReplaced(oldNode, newNode, out name))
                     ycompClient.AnnotateElement(newElem, name);
-                }
                 ycompClient.ChangeNode(newNode, realizers.RetypedNodeRealizer);
-                retypedNodes[newNode] = true;
+                renderRecorder.RetypedNode(newNode);
             }
             else
             {
                 IEdge oldEdge = (IEdge) oldElem;
                 IEdge newEdge = (IEdge) newElem;
                 String name;
-                if(annotatedEdges.TryGetValue(oldEdge, out name))
-                {
-                    annotatedEdges.Remove(oldEdge);
-                    annotatedEdges[newEdge] = name;
+                if(renderRecorder.WasEdgeAnnotationReplaced(oldEdge, newEdge, out name))
                     ycompClient.AnnotateElement(newElem, name);
-                }
                 ycompClient.ChangeEdge(newEdge, realizers.RetypedEdgeRealizer);
-                retypedEdges[newEdge] = true;
+                renderRecorder.RetypedEdge(newEdge);
             }
         }
 
         private void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)
         {
-            curAddedNodeNames = namesOfNodesAdded;
-            nextAddedNodeIndex = 0;
+            renderRecorder.SetAddedNodeNames(namesOfNodesAdded);
         }
 
         private void DebugSettingAddedEdgeNames(string[] namesOfEdgesAdded)
         {
-            curAddedEdgeNames = namesOfEdgesAdded;
-            nextAddedEdgeIndex = 0;
+            renderRecorder.SetAddedEdgeNames(namesOfEdgesAdded);
         }
 
         private void DebugMatched(IMatches matches, IMatch match, bool special)
@@ -3708,8 +3664,7 @@ read_again:
                 {
                     DebugFinished(null, false);
                     matchDepth++;
-                    annotatedNodes.Clear();
-                    annotatedEdges.Clear();
+                    renderRecorder.RemoveAllAnnotations();
                 }
                 return;
             }
@@ -3742,8 +3697,7 @@ read_again:
                 matchDepth++;
                 if(outOfDetailedMode)
                 {
-                    annotatedNodes.Clear();
-                    annotatedEdges.Clear();
+                    renderRecorder.RemoveAllAnnotations();
                     return;
                 }
             }
@@ -3751,10 +3705,8 @@ read_again:
             if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
                 Console.WriteLine("Matched " + matches.Producer.Name);
 
-            annotatedNodes.Clear();
-            annotatedEdges.Clear();
-
-            curRulePattern = matches.Producer.RulePattern;
+            renderRecorder.RemoveAllAnnotations();
+            renderRecorder.SetCurrentRule(matches.Producer.RulePattern);
 
             if(ycompClient.dumpInfo.IsExcludedGraph())
             {
@@ -3796,14 +3748,12 @@ read_again:
             recordMode = true;
             ycompClient.NodeRealizerOverride = realizers.NewNodeRealizer;
             ycompClient.EdgeRealizerOverride = realizers.NewEdgeRealizer;
-            nextAddedNodeIndex = 0;
-            nextAddedEdgeIndex = 0;
+            renderRecorder.ResetAddedNames();
         }
 
         private void DebugNextMatch()
         {
-            nextAddedNodeIndex = 0;
-            nextAddedEdgeIndex = 0;
+            renderRecorder.ResetAddedNames();
         }
 
         private void DebugFinished(IMatches matches, bool special)
@@ -3828,39 +3778,12 @@ read_again:
 
             QueryContinueOrTrace(false);
 
-            foreach(INode node in addedNodes.Keys)
-            {
-                ycompClient.ChangeNode(node, null);
-                ycompClient.AnnotateElement(node, null);
-            }
-            foreach(IEdge edge in addedEdges.Keys)
-            {
-                ycompClient.ChangeEdge(edge, null);
-                ycompClient.AnnotateElement(edge, null);
-            }
-
-            foreach(String edgeName in deletedEdges)
-                ycompClient.DeleteEdge(edgeName);
-            foreach(String nodeName in deletedNodes)
-                ycompClient.DeleteNode(nodeName);
-
-            foreach(INode node in retypedNodes.Keys)
-                ycompClient.ChangeNode(node, null);
-            foreach(IEdge edge in retypedEdges.Keys)
-                ycompClient.ChangeEdge(edge, null);
-
-            foreach(INode node in annotatedNodes.Keys)
-                ycompClient.AnnotateElement(node, null);
-            foreach(IEdge edge in annotatedEdges.Keys)
-                ycompClient.AnnotateElement(edge, null);
+            renderRecorder.ApplyChanges(ycompClient);
 
             ycompClient.NodeRealizerOverride = null;
             ycompClient.EdgeRealizerOverride = null;
 
-            addedNodes.Clear();
-            addedEdges.Clear();
-            deletedEdges.Clear();
-            deletedNodes.Clear();
+            renderRecorder.ResetAllChangedElements();
             recordMode = false;
             matchDepth--;
         }

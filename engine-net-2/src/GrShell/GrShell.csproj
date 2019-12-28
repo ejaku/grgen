@@ -65,6 +65,7 @@
     <Compile Include="ElementRealizers.cs" />
     <Compile Include="FromToReader.cs" />
     <Compile Include="Debugger.cs" />
+    <Compile Include="GraphAnnotationAndChangesRecorder.cs" />
     <Compile Include="GrShell.cs" />
     <Compile Include="GrShellConsoleUI.cs" />
     <Compile Include="GrShellConstants.cs" />
