@@ -16,6 +16,10 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// An object representing an executable sequence.
+    /// Implemented by SequenceDefinitionInterpreted inheriting from SequenceDefinition, in the Sequences file, for sequences registered at runtime,
+    /// and by the generated class inheriting from SequenceDefinitionCompiled inheriting from SequenceDefinition, for sequences already available at compile time.
+    /// Embedded execs are employed directly by their rules, have only an EmbeddedSequenceInfo as representation 
+    /// (without capability of getting called, this occurs only directly in the generated code).
     /// </summary>
     public interface ISequenceDefinition
     {
