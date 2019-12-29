@@ -27,10 +27,12 @@ namespace de.unika.ipd.grGen.grShell
     {
         IGrShellImplForDebugger grShellImpl;
         ShellGraphProcessingEnvironment shellProcEnv;
-        ElementRealizers realizers;
 
-        Process viewerProcess = null;
+        ElementRealizers realizers;
+        GraphAnnotationAndChangesRecorder renderRecorder = null;
         YCompClient ycompClient = null;
+        Process viewerProcess = null;
+
         Stack<Sequence> debugSequences = new Stack<Sequence>();
         bool stepMode = true;
         bool dynamicStepMode = false;
@@ -46,8 +48,6 @@ namespace de.unika.ipd.grGen.grShell
         Sequence recentlyMatched = null;
 
         PrintSequenceContext context = null;
-
-        GraphAnnotationAndChangesRecorder renderRecorder = null;
 
         int matchDepth = 0;
 
@@ -355,24 +355,6 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
-        /// Reads a key from the keyboard using the workaround manager of grShellImpl.
-        /// If CTRL+C is pressed, grShellImpl.Cancel() is called.
-        /// </summary>
-        /// <returns>The ConsoleKeyInfo object for the pressed key.</returns>
-        private ConsoleKeyInfo ReadKeyWithCancel()
-        {
-            if(grShellImpl.OperationCancelled)
-                grShellImpl.Cancel();
-
-            ConsoleKeyInfo key = grShellImpl.Workaround.ReadKeyWithControlCAsInput();
-
-            if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
-                grShellImpl.Cancel();
-
-            return key;
-        }
-
-        /// <summary>
         /// Debugger method waiting for user commands
         /// </summary>
         /// <param name="seq"></param>
@@ -381,7 +363,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             while(true)
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 's':
@@ -553,7 +535,7 @@ namespace de.unika.ipd.grGen.grShell
             while(true)
             {
                 int num = -1;
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'e':
@@ -767,7 +749,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -833,7 +815,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -930,7 +912,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -1020,7 +1002,7 @@ namespace de.unika.ipd.grGen.grShell
 
             while(true)
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -1054,7 +1036,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -1198,7 +1180,7 @@ namespace de.unika.ipd.grGen.grShell
             UploadGraph(graph);
 
             Console.WriteLine("...press any key to continue...");
-            ReadKeyWithCancel();
+            grShellImpl.ReadKeyWithCancel();
 
             Console.WriteLine("...return to normal graph.");
             ycompClient.ClearGraph();
@@ -1469,7 +1451,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to continue...");
-            ReadKeyWithCancel();
+            grShellImpl.ReadKeyWithCancel();
 
             for(int i = 0; i < sources.Count; ++i)
             {
@@ -1691,7 +1673,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch (key.KeyChar)
                 {
                 case '0':
@@ -2820,7 +2802,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'l':
@@ -2867,7 +2849,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.sequences = null;
 
 read_again:
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -2943,7 +2925,7 @@ read_again:
                 context.sequences = null;
 
 read_again:
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'e':
@@ -3015,7 +2997,7 @@ read_again:
                 context.matches = null;
 
 read_again:
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -3111,7 +3093,7 @@ read_again:
                 Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
 
 read_again:
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -3292,7 +3274,7 @@ read_again:
                 Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
 
 read_again:
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'a':
@@ -3611,7 +3593,7 @@ read_again:
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to apply rewrite...");
-            ReadKeyWithCancel();
+            grShellImpl.ReadKeyWithCancel();
 
             if(match!=null)
                 MarkMatch(match, null, null);
@@ -4048,7 +4030,7 @@ read_again:
             {
                 PrintDebugInstructions(isBottomUpBreak);
 
-                ConsoleKeyInfo key = ReadKeyWithCancel();
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'a':
