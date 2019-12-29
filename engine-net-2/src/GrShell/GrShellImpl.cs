@@ -129,8 +129,8 @@ namespace de.unika.ipd.grGen.grShell
 
     public interface IGrShellImplForDebugger
     {
-        bool OperationCancelled { get; }
         void Cancel();
+        ConsoleKeyInfo ReadKeyWithCancel();
         object Askfor(String typeName);
         GrGenType GetGraphElementType(String typeName);
         void HandleSequenceParserException(SequenceParserException ex);
@@ -169,8 +169,8 @@ namespace de.unika.ipd.grGen.grShell
         Dictionary<String, Dictionary<String, String>> IGrShellImplForSequenceApplierAndDebugger.debugLayoutOptions { get { return debugLayoutOptions; } }
 
         // view on GrShellImpl from Debugger
-        bool IGrShellImplForDebugger.OperationCancelled { get { return seqApplierAndDebugger.OperationCancelled; } }
         void IGrShellImplForDebugger.Cancel() { seqApplierAndDebugger.Cancel(); }
+        ConsoleKeyInfo IGrShellImplForDebugger.ReadKeyWithCancel() { return seqApplierAndDebugger.ReadKeyWithCancel(); }
         object IGrShellImplForDebugger.Askfor(String typeName) { return Askfor(typeName); }
         GrGenType IGrShellImplForDebugger.GetGraphElementType(String typeName) { return GetGraphElementType(typeName); }
         void IGrShellImplForDebugger.HandleSequenceParserException(SequenceParserException ex) { HandleSequenceParserException(ex); }

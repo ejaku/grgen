@@ -510,6 +510,24 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        /// <summary>
+        /// Reads a key from the keyboard using the workaround manager of grShellImpl.
+        /// If CTRL+C is pressed, grShellImpl.Cancel() is called.
+        /// </summary>
+        /// <returns>The ConsoleKeyInfo object for the pressed key.</returns>
+        public ConsoleKeyInfo ReadKeyWithCancel()
+        {
+            if(OperationCancelled)
+                Cancel();
+
+            ConsoleKeyInfo key = impl.Workaround.ReadKeyWithControlCAsInput();
+
+            if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
+                Cancel();
+
+            return key;
+        }
+
         public object Askfor(String typeName)
         {
             if(typeName == null)
