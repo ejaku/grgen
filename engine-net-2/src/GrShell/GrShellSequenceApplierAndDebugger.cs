@@ -251,7 +251,7 @@ namespace de.unika.ipd.grGen.grShell
                 else
                 {
                     impl.errOut.WriteLine("Rewrite sequence aborted after position:");
-                    Debugger.PrintSequence(curGRS, curRule, impl.Workaround);
+                    SequencePrinter.PrintSequence(curGRS, curRule, impl.Workaround);
                     impl.errOut.WriteLine();
                 }
             }

@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.grShell
 
             PrintSequenceContext contextBp = new PrintSequenceContext(grShellImpl.Workaround);
             contextBp.bpPosCounter = 0;
-            Debugger.PrintSequence(debugSequences.Peek(), contextBp, debugSequences.Count);
+            SequencePrinter.PrintSequence(debugSequences.Peek(), contextBp, debugSequences.Count);
             Console.WriteLine();
 
             if(contextBp.bpPosCounter == 0)
@@ -54,7 +54,7 @@ namespace de.unika.ipd.grGen.grShell
 
             PrintSequenceContext contextCp = new PrintSequenceContext(grShellImpl.Workaround);
             contextCp.cpPosCounter = 0;
-            Debugger.PrintSequence(debugSequences.Peek(), contextCp, debugSequences.Count);
+            SequencePrinter.PrintSequence(debugSequences.Peek(), contextCp, debugSequences.Count);
             Console.WriteLine();
 
             if(contextCp.cpPosCounter == 0)

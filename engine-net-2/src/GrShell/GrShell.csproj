@@ -76,6 +76,7 @@
     <Compile Include="GrShellTokenManager.cs" />
     <Compile Include="Highlighter.cs" />
     <Compile Include="PrintSequenceContext.cs" />
+    <Compile Include="SequencePrinter.cs" />
     <Compile Include="ShellGraphProcessingEnvironment.cs" />
     <Compile Include="SubruleDebugging.cs" />
     <Compile Include="VariableOrAttributeAccessParserAndValueFetcher.cs" />
