@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BreakpointAndChoicepointEditor.cs" />
     <Compile Include="ElementRealizers.cs" />
     <Compile Include="FromToReader.cs" />
     <Compile Include="Debugger.cs" />
@@ -73,9 +74,12 @@
     <Compile Include="GrShellImpl.cs" />
     <Compile Include="GrShellSequenceApplierAndDebugger.cs" />
     <Compile Include="GrShellTokenManager.cs" />
+    <Compile Include="Highlighter.cs" />
     <Compile Include="PrintSequenceContext.cs" />
     <Compile Include="ShellGraphProcessingEnvironment.cs" />
     <Compile Include="SubruleDebugging.cs" />
+    <Compile Include="VariableOrAttributeAccessParserAndValueFetcher.cs" />
+    <Compile Include="WatchpointEditor.cs" />
     <Compile Include="WorkaroundManager.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
