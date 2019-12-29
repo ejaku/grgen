@@ -62,11 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BreakpointAndChoicepointEditor.cs" />
-    <Compile Include="ElementRealizers.cs" />
+    <Compile Include="Debugger\BreakpointAndChoicepointEditor.cs" />
+    <Compile Include="Debugger\ElementRealizers.cs" />
     <Compile Include="FromToReader.cs" />
-    <Compile Include="Debugger.cs" />
-    <Compile Include="GraphAnnotationAndChangesRecorder.cs" />
+    <Compile Include="Debugger\Debugger.cs" />
+    <Compile Include="Debugger\GraphAnnotationAndChangesRecorder.cs" />
     <Compile Include="GrShell.cs" />
     <Compile Include="GrShellConsoleUI.cs" />
     <Compile Include="GrShellConstants.cs" />
@@ -74,20 +74,20 @@
     <Compile Include="GrShellImpl.cs" />
     <Compile Include="GrShellSequenceApplierAndDebugger.cs" />
     <Compile Include="GrShellTokenManager.cs" />
-    <Compile Include="Highlighter.cs" />
-    <Compile Include="PrintSequenceContext.cs" />
-    <Compile Include="SequencePrinter.cs" />
+    <Compile Include="Debugger\Highlighter.cs" />
+    <Compile Include="Debugger\PrintSequenceContext.cs" />
+    <Compile Include="Debugger\SequencePrinter.cs" />
     <Compile Include="ShellGraphProcessingEnvironment.cs" />
-    <Compile Include="SubruleDebugging.cs" />
-    <Compile Include="VariableOrAttributeAccessParserAndValueFetcher.cs" />
-    <Compile Include="WatchpointEditor.cs" />
+    <Compile Include="Debugger\SubruleDebugging.cs" />
+    <Compile Include="Debugger\VariableOrAttributeAccessParserAndValueFetcher.cs" />
+    <Compile Include="Debugger\WatchpointEditor.cs" />
     <Compile Include="WorkaroundManager.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleCharStream.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TokenMgrError.cs" />
-    <Compile Include="YCompClient.cs" />
+    <Compile Include="Debugger\YCompClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GrShell.csc" />
