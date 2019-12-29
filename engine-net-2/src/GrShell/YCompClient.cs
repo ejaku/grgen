@@ -146,6 +146,9 @@ namespace de.unika.ipd.grGen.grShell
 
         Dictionary<IEdge, bool> hiddenEdges = new Dictionary<IEdge,bool>();
 
+        Dictionary<INode, bool> nodesIncludedWhileGraphExcluded = new Dictionary<INode, bool>();
+        Dictionary<IEdge, bool> edgesIncludedWhileGraphExcluded = new Dictionary<IEdge, bool>();
+
         String nodeRealizerOverride = null;
         String edgeRealizerOverride = null;
 
@@ -366,6 +369,15 @@ namespace de.unika.ipd.grGen.grShell
             isLayoutDirty = true;
         }
 
+        public void AddNodeEvenIfGraphExcluded(INode node)
+        {
+            if(!nodesIncludedWhileGraphExcluded.ContainsKey(node))
+            {
+                AddNode(node);
+                nodesIncludedWhileGraphExcluded.Add(node, true);
+            }
+        }
+
         public void AddEdge(IEdge edge)
         {
             if(IsEdgeExcluded(edge)) return;
@@ -426,6 +438,15 @@ namespace de.unika.ipd.grGen.grShell
             isLayoutDirty = true;
         }
 
+        public void AddEdgeEvenIfGraphExcluded(IEdge edge)
+        {
+            if(!edgesIncludedWhileGraphExcluded.ContainsKey(edge))
+            {
+                AddEdge(edge);
+                edgesIncludedWhileGraphExcluded.Add(edge, true);
+            }
+        }
+
         /// <summary>
         /// Adding of helper edge used in debugging, for visualization of map content
         /// </summary>
@@ -438,6 +459,98 @@ namespace de.unika.ipd.grGen.grShell
                 + "\" \"" + realizers.MatchedEdgeRealizer + "\" \"" + edgeLabel + "\"\n");
             isDirty = true;
             isLayoutDirty = true;
+        }
+
+        public void AddNeighboursAndParentsOfNeededGraphElements()
+        {
+            // add all neighbours of elements to graph and excludedGraphElementsIncluded (1-level direct context by default, maybe overriden by user)
+            Set<INode> nodesIncluded = new Set<INode>(); // second variable needed to prevent disturbing iteration
+            foreach(INode node in nodesIncludedWhileGraphExcluded.Keys)
+                nodesIncluded.Add(node);
+            for(int i = 0; i < dumpInfo.GetExcludeGraphContextDepth(); ++i)
+                AddDirectNeighboursOfNeededGraphElements(nodesIncluded);
+
+            // add all parents of elements to graph and excludedGraphElementsIncluded (n-level nesting)
+            AddParentsOfNeededGraphElements(nodesIncluded);
+        }
+
+        private void AddDirectNeighboursOfNeededGraphElements(Set<INode> nodesIncluded)
+        {
+            foreach(INode node in nodesIncluded)
+            {
+                foreach(IEdge edge in node.Incident)
+                {
+                    AddNodeEvenIfGraphExcluded(edge.Opposite(node));
+                    AddEdgeEvenIfGraphExcluded(edge);
+                }
+            }
+            foreach(INode node in nodesIncludedWhileGraphExcluded.Keys)
+                if(!nodesIncluded.Contains(node))
+                    nodesIncluded.Add(node);
+        }
+
+        private void AddParentsOfNeededGraphElements(Set<INode> latelyAddedNodes)
+        {
+            Set<INode> newlyAddedNodes = new Set<INode>();
+
+            // wavefront algorithm, in the following step all nodes added by the previous step are inspected,
+            // until the wave collapses cause no not already added node is added any more
+            while(latelyAddedNodes.Count > 0)
+            {
+                foreach(INode node in latelyAddedNodes)
+                {
+                    bool parentFound = false;
+                    foreach(GroupNodeType groupNodeType in dumpInfo.GroupNodeTypes)
+                    {
+                        foreach(IEdge edge in node.Incoming)
+                        {
+                            INode parent = edge.Source;
+                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID))
+                                continue;
+                            GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, node.Type);
+                            if((grpMode & GroupMode.GroupOutgoingNodes) == 0)
+                                continue;
+                            if(!nodesIncludedWhileGraphExcluded.ContainsKey(parent))
+                            {
+                                newlyAddedNodes.Add(parent);
+                                AddNode(parent);
+                                nodesIncludedWhileGraphExcluded.Add(parent, true);
+                                AddEdge(edge);
+                                if(!edgesIncludedWhileGraphExcluded.ContainsKey(edge))
+                                    edgesIncludedWhileGraphExcluded.Add(edge, true);
+                            }
+                            parentFound = true;
+                        }
+                        if(parentFound)
+                            break;
+                        foreach(IEdge edge in node.Outgoing)
+                        {
+                            INode parent = edge.Target;
+                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID))
+                                continue;
+                            GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, node.Type);
+                            if((grpMode & GroupMode.GroupIncomingNodes) == 0)
+                                continue;
+                            if(!nodesIncludedWhileGraphExcluded.ContainsKey(parent))
+                            {
+                                newlyAddedNodes.Add(parent);
+                                AddNode(parent);
+                                nodesIncludedWhileGraphExcluded.Add(parent, true);
+                                AddEdge(edge);
+                                if(!edgesIncludedWhileGraphExcluded.ContainsKey(edge))
+                                    edgesIncludedWhileGraphExcluded.Add(edge, true);
+                            }
+                            parentFound = true;
+                        }
+                        if(parentFound)
+                            break;
+                    }
+                }
+                Set<INode> tmp = latelyAddedNodes;
+                latelyAddedNodes = newlyAddedNodes;
+                newlyAddedNodes = tmp;
+                newlyAddedNodes.Clear();
+            }
         }
 
         /// <summary>
@@ -644,6 +757,8 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = false;
             isLayoutDirty = false;
             hiddenEdges.Clear();
+            nodesIncludedWhileGraphExcluded.Clear();
+            edgesIncludedWhileGraphExcluded.Clear();
         }
 
         public void WaitForElement(bool val)
