@@ -669,251 +669,6 @@ namespace de.unika.ipd.grGen.grShell
         #endregion Print variables
 
 
-        #region Match marking and annotation in graph
-
-        private void Mark(int rule, int match, SequenceSomeFromSet seq)
-        {
-            if(seq.IsNonRandomRuleAllCall(rule))
-            {
-                MarkMatches(seq.Matches[rule], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-                AnnotateMatches(seq.Matches[rule], true);
-            }
-            else
-            {
-                MarkMatch(seq.Matches[rule].GetMatch(match), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-                AnnotateMatch(seq.Matches[rule].GetMatch(match), true);
-            }
-        }
-
-        private void Unmark(int rule, int match, SequenceSomeFromSet seq)
-        {
-            if(seq.IsNonRandomRuleAllCall(rule))
-            {
-                MarkMatches(seq.Matches[rule], null, null);
-                AnnotateMatches(seq.Matches[rule], false);
-            }
-            else
-            {
-                MarkMatch(seq.Matches[rule].GetMatch(match), null, null);
-                AnnotateMatch(seq.Matches[rule].GetMatch(match), false);
-            }
-        }
-
-        private void MarkMatch(IMatch match, String nodeRealizerName, String edgeRealizerName)
-        {
-            foreach(INode node in match.Nodes)
-            {
-                ycompClient.ChangeNode(node, nodeRealizerName);
-            }
-            foreach(IEdge edge in match.Edges)
-            {
-                ycompClient.ChangeEdge(edge, edgeRealizerName);
-            }
-            MarkMatches(match.EmbeddedGraphs, nodeRealizerName, edgeRealizerName);
-            foreach(IMatches iteratedsMatches in match.Iterateds)
-                MarkMatches(iteratedsMatches, nodeRealizerName, edgeRealizerName);
-            MarkMatches(match.Alternatives, nodeRealizerName, edgeRealizerName);
-            MarkMatches(match.Independents, nodeRealizerName, edgeRealizerName);
-        }
-
-        private void MarkMatches(IEnumerable<IMatch> matches, String nodeRealizerName, String edgeRealizerName)
-        {
-            foreach(IMatch match in matches)
-            {
-                MarkMatch(match, nodeRealizerName, edgeRealizerName);
-            }
-        }
-
-        private void AnnotateMatch(IMatch match, bool addAnnotation)
-        {
-            AnnotateMatch(match, addAnnotation, "", 0, true);
-            if(addAnnotation)
-            {
-                renderRecorder.AnnotateGraphElements(ycompClient);
-            }
-        }
-
-        private void AnnotateMatches(IEnumerable<IMatch> matches, bool addAnnotation)
-        {
-            AnnotateMatches(matches, addAnnotation, "", 0, true);
-            if(addAnnotation)
-            {
-                renderRecorder.AnnotateGraphElements(ycompClient);
-            }
-        }
-
-        private void AnnotateMatches(IEnumerable<IMatch> matches, bool addAnnotation, string prefix, int nestingLevel, bool topLevel)
-        {
-            foreach(IMatch match in matches)
-            {
-                AnnotateMatch(match, addAnnotation, prefix, nestingLevel, topLevel);
-            }
-        }
-
-        private void AnnotateMatch(IMatch match, bool addAnnotation, string prefix, int nestingLevel, bool topLevel)
-        {
-            const int PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX = 7;
-
-            for(int i = 0; i < match.NumberOfNodes; ++i)
-            {
-                INode node = match.getNodeAt(i);
-                IPatternNode patternNode = match.Pattern.Nodes[i];
-                if(addAnnotation)
-                {
-                    if(patternNode.PointOfDefinition == match.Pattern
-                        || patternNode.PointOfDefinition == null && topLevel)
-                    {
-                        String name = match.Pattern.Nodes[i].UnprefixedName;
-                        if(nestingLevel > 0)
-                        {
-                            if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX)
-                                name = prefix + "/" + name;
-                            else
-                                name = "/|...|=" + nestingLevel + "/" + name;
-                        }
-                        renderRecorder.AddNodeAnnotation(node, name);
-                    }
-                }
-                else
-                {
-                    ycompClient.AnnotateElement(node, null);
-                    renderRecorder.RemoveNodeAnnotation(node);
-                }
-            }
-            for(int i = 0; i < match.NumberOfEdges; ++i)
-            {
-                IEdge edge = match.getEdgeAt(i);
-                IPatternEdge patternEdge = match.Pattern.Edges[i];
-                if(addAnnotation)
-                {
-                    if(patternEdge.PointOfDefinition == match.Pattern
-                        || patternEdge.PointOfDefinition == null && topLevel)
-                    {
-                        String name = match.Pattern.Edges[i].UnprefixedName;
-                        if(nestingLevel > 0)
-                        {
-                            if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX)
-                                name = prefix + "/" + name;
-                            else
-                                name = "/|...|=" + nestingLevel + "/" + name;
-                        }
-                        renderRecorder.AddEdgeAnnotation(edge, name);
-                    }
-                }
-                else
-                {
-                    ycompClient.AnnotateElement(edge, null);
-                    renderRecorder.RemoveEdgeAnnotation(edge);
-                }
-            }
-            AnnotateSubpatternMatches(match, addAnnotation, prefix, nestingLevel);
-            AnnotateIteratedsMatches(match, addAnnotation, prefix, nestingLevel);
-            AnnotateAlternativesMatches(match, addAnnotation, prefix, nestingLevel);
-            AnnotateIndependentsMatches(match, addAnnotation, prefix, nestingLevel);
-        }
-
-        private void AnnotateSubpatternMatches(IMatch parentMatch, bool addAnnotation, string prefix, int nestingLevel)
-        {
-            IPatternGraph pattern = parentMatch.Pattern;
-            IEnumerable<IMatch> matches = parentMatch.EmbeddedGraphs;
-            int i = 0;
-            foreach(IMatch match in matches)
-            {
-                AnnotateMatch(match, addAnnotation, prefix + "/" + pattern.EmbeddedGraphs[i].Name, nestingLevel + 1, true);
-                ++i;
-            }
-        }
-
-        private void AnnotateIteratedsMatches(IMatch parentMatch, bool addAnnotation, string prefix, int nestingLevel)
-        {
-            IPatternGraph pattern = parentMatch.Pattern;
-            IEnumerable<IMatches> iteratedsMatches = parentMatch.Iterateds;
-            int numIterated, numOptional, numMultiple, numOther;
-            ClassifyIterateds(pattern, out numIterated, out numOptional, out numMultiple, out numOther);
-
-            int i = 0;
-            foreach(IMatches matches in iteratedsMatches)
-            {
-                String name;
-                if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0) {
-                    name = "(.)*";
-                    if(numIterated > 1)
-                        name += "'" + i;
-                } else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1) {
-                    name = "(.)?";
-                    if(numOptional > 1)
-                        name += "'" + i;
-                } else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0) {
-                    name = "(.)+";
-                    if(numMultiple > 1)
-                        name += "'" + i;
-                } else {
-                    name = "(.)[" + pattern.Iterateds[i].MinMatches + ":" + pattern.Iterateds[i].MaxMatches + "]";
-                    if(numOther > 1)
-                        name += "'" + i;
-                }
-
-                int j = 0;
-                foreach(IMatch match in matches)
-                {
-                    AnnotateMatch(match, addAnnotation, prefix + "/" + name + "/" + j, nestingLevel + 1, false);
-                    ++j;
-                }
-
-                ++i;
-            }
-        }
-
-        private void AnnotateAlternativesMatches(IMatch parentMatch, bool addAnnotation, string prefix, int nestingLevel)
-        {
-            IPatternGraph pattern = parentMatch.Pattern;
-            IEnumerable<IMatch> matches = parentMatch.Alternatives;
-            int i = 0;
-            foreach(IMatch match in matches)
-            {
-                String name = "(.|.)";
-                if(pattern.Alternatives.Length>1)
-                    name += "'" + i;
-                String caseName = match.Pattern.Name;
-                AnnotateMatch(match, addAnnotation, prefix + "/" + name + "/" + caseName, nestingLevel + 1, false);
-                ++i;
-            }
-        }
-
-        private void AnnotateIndependentsMatches(IMatch parentMatch, bool addAnnotation, string prefix, int nestingLevel)
-        {
-            IPatternGraph pattern = parentMatch.Pattern;
-            IEnumerable<IMatch> matches = parentMatch.Independents;
-            int i = 0;
-            foreach(IMatch match in matches)
-            {
-                String name = "&(.)";
-                if(pattern.IndependentPatternGraphs.Length>1)
-                    name += "'" + i;
-                AnnotateMatch(match, addAnnotation, prefix + "/" + name, nestingLevel + 1, false);
-                ++i;
-            }
-        }
-
-        private static void ClassifyIterateds(IPatternGraph pattern, out int numIterated, out int numOptional, out int numMultiple, out int numOther)
-        {
-            numIterated = numOptional = numMultiple = numOther = 0;
-            for(int i = 0; i < pattern.Iterateds.Length; ++i)
-            {
-                if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0)
-                    ++numIterated;
-                else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1)
-                    ++numOptional;
-                else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0)
-                    ++numMultiple;
-                else
-                    ++numOther;
-            }
-        }
-
-        #endregion Match marking and annotation in graph
-
-
         #region Possible user choices during sequence execution
 
         /// <summary>
@@ -931,30 +686,8 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine();
             context.choice = false;
 
-            context.workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
-            Console.Write(" (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
-
-            do
-            {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                case 'l':
-                    Console.WriteLine();
-                    return 0;
-                case 'r':
-                    Console.WriteLine();
-                    return 1;
-                case 's':
-                case 'n':
-                    Console.WriteLine();
-                    return direction;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
-                    break;
-                }
-            } while(true);
+            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
+            return menu.ChooseDirection(direction, seq);
         }
 
         /// <summary>
@@ -966,11 +699,8 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
 
-            context.workaround.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
-            Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
-                                + " Press (s) or (n) to commit to the pre-selected sequence and continue."
-                                + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained sequences.");
+            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
+            menu.ChooseSequencePrintHeader(seqToExecute);
 
             do
             {
@@ -982,55 +712,9 @@ namespace de.unika.ipd.grGen.grShell
                 context.choice = false;
                 context.sequences = null;
 
-read_again:
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    int num = key.KeyChar - '0';
-                    if(num >= sequences.Count)
-                    {
-                        Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                        goto read_again;
-                    }
-                    seqToExecute = num;
-                    break;
-                case 'e':
-                    Console.Write("Enter number of sequence to show: ");
-                    String numStr = Console.ReadLine();
-                    if(int.TryParse(numStr, out num))
-                    {
-                        if(num < 0 || num >= sequences.Count)
-                        {
-                            Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                            goto read_again;
-                        }
-                        seqToExecute = num;
-                        break;
-                    }
-                    Console.WriteLine("You must enter a valid integer number!");
-                    goto read_again;
-                case 's':
-                case 'n':
+                bool commit = menu.ChooseSequence(ref seqToExecute, sequences, seq);
+                if(commit)
                     return seqToExecute;
-                case 'u':
-                case 'o':
-                    seq.Skip = true; // skip remaining rules (reset after exection of seq)
-                    return seqToExecute;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
-                    goto read_again;
-                }
             } while(true);
         }
 
@@ -1043,10 +727,8 @@ read_again:
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
 
-            context.workaround.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
-            Console.WriteLine("Press (e) to enter a point in the interval series of the sequence to show."
-                                + " Press (s) or (n) to commit to the pre-selected sequence and continue.");
+            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
+            menu.ChoosePointPrintHeader(pointToExecute);
 
             do
             {
@@ -1058,36 +740,12 @@ read_again:
                 context.choice = false;
                 context.sequences = null;
 
-read_again:
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                case 'e':
-                    double num;
-                    Console.Write("Enter point in interval series of sequence to show: ");
-                    String numStr = Console.ReadLine();
-                    if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
-                            System.Globalization.CultureInfo.InvariantCulture, out num))
-                    {
-                        if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
-                        {
-                            Console.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
-                            goto read_again;
-                        }
-                        pointToExecute = num;
-                        break;
-                    }
-                    Console.WriteLine("You must enter a valid floating point number!");
-                    goto read_again;
-                case 's':
-                case 'n':
-                    return pointToExecute;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (e)nter number and (s)/(n) to commit and continue allowed! ");
-                    goto read_again;
-                }
+                bool commit = menu.ChoosePoint(ref pointToExecute, seq);
+                if(commit)
+                    break;
             } while(true);
+
+            return pointToExecute;
         }
 
         /// <summary>
@@ -1107,16 +765,16 @@ read_again:
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
 
-            context.workaround.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
-            Console.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
-                                + " Press (s) or (n) to commit to the pre-selected match and continue.");
+            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
+            menu.ChooseMatchSomeFromSetPrintHeader(totalMatchToExecute);
+
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
 
             do
             {
                 int rule; int match;
                 seq.FromTotalMatch(totalMatchToExecute, out rule, out match);
-                Mark(rule, match, seq);
+                matchMarkerAndAnnotator.Mark(rule, match, seq);
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
 
@@ -1130,55 +788,13 @@ read_again:
                 context.sequences = null;
                 context.matches = null;
 
-read_again:
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    int num = key.KeyChar - '0';
-                    if(num >= seq.NumTotalMatches)
-                    {
-                        Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                        goto read_again;
-                    }
-                    Unmark(rule, match, seq);
-                    totalMatchToExecute = num;
+                bool commit = menu.ChooseMatch(ref totalMatchToExecute, seq);
+                matchMarkerAndAnnotator.Unmark(rule, match, seq);
+                if(commit)
                     break;
-                case 'e':
-                    Console.Write("Enter number of rule to show: ");
-                    String numStr = Console.ReadLine();
-                    if(int.TryParse(numStr, out num))
-                    {
-                        if(num < 0 || num >= seq.NumTotalMatches)
-                        {
-                            Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                            goto read_again;
-                        }
-                        Unmark(rule, match, seq);
-                        totalMatchToExecute = num;
-                        break;
-                    }
-                    Console.WriteLine("You must enter a valid integer number!");
-                    break;
-                case 's':
-                case 'n':
-                    Unmark(rule, match, seq);
-                    return totalMatchToExecute;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                    goto read_again;
-                }
             } while(true);
+
+            return totalMatchToExecute;
         }
 
         /// <summary>
@@ -1200,15 +816,15 @@ read_again:
                 return matchToApply;
             }
 
-            context.workaround.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
-            Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
-                                + " Press (s) or (n) to commit to the currently shown match and continue.");
+            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
+            menu.ChooseMatchPrintHeader(numFurtherMatchesToApply);
+
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
 
             if(detailedMode)
             {
-                MarkMatches(matches, null, null);
-                AnnotateMatches(matches, false);
+                matchMarkerAndAnnotator.MarkMatches(matches, null, null);
+                matchMarkerAndAnnotator.AnnotateMatches(matches, false);
             }
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
@@ -1216,64 +832,24 @@ read_again:
             int newMatchToRewrite = matchToApply;
             do
             {
-                MarkMatch(matches.GetMatch(matchToApply), null, null);
-                AnnotateMatch(matches.GetMatch(matchToApply), false);
+                matchMarkerAndAnnotator.MarkMatch(matches.GetMatch(matchToApply), null, null);
+                matchMarkerAndAnnotator.AnnotateMatch(matches.GetMatch(matchToApply), false);
                 matchToApply = newMatchToRewrite;
-                MarkMatch(matches.GetMatch(matchToApply), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-                AnnotateMatch(matches.GetMatch(matchToApply), true);
+                matchMarkerAndAnnotator.MarkMatch(matches.GetMatch(matchToApply), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+                matchMarkerAndAnnotator.AnnotateMatch(matches.GetMatch(matchToApply), true);
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
 
                 Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
 
-read_again:
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                bool commit = menu.ChooseMatch(matchToApply, matches, numFurtherMatchesToApply, seq, out newMatchToRewrite);
+                if(commit)
                 {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    int num = key.KeyChar - '0';
-                    if(num >= matches.Count)
-                    {
-                        Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                        goto read_again;
-                    }
-                    newMatchToRewrite = num;
-                    break;
-                case 'e':
-                    Console.Write("Enter number of match to show: ");
-                    String numStr = Console.ReadLine();
-                    if(int.TryParse(numStr, out num))
-                    {
-                        if(num < 0 || num >= matches.Count)
-                        {
-                            Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                            goto read_again;
-                        }
-                        newMatchToRewrite = num;
-                        break;
-                    }
-                    Console.WriteLine("You must enter a valid integer number!");
-                    break;
-                case 's':
-                case 'n':
-                    MarkMatch(matches.GetMatch(matchToApply), null, null);
-                    AnnotateMatch(matches.GetMatch(matchToApply), false);
+                    matchMarkerAndAnnotator.MarkMatch(matches.GetMatch(matchToApply), null, null);
+                    matchMarkerAndAnnotator.AnnotateMatch(matches.GetMatch(matchToApply), false);
                     ycompClient.UpdateDisplay();
                     ycompClient.Sync();
-                    return matchToApply;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                    goto read_again;
+                    return newMatchToRewrite;
                 }
             } while(true);
         }
@@ -1293,25 +869,8 @@ read_again:
             Console.WriteLine();
             context.choice = false;
 
-            Console.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
-
-            do
-            {
-                String numStr = Console.ReadLine();
-                if(numStr == "")
-                    return randomNumber;
-                int num;
-                if(int.TryParse(numStr, out num))
-                {
-                    if(num < 0 || num >= upperBound)
-                    {
-                        Console.WriteLine("You must specify a number between 0 and " + (upperBound - 1) + "!");
-                        continue;
-                    }
-                    return num;
-                }
-                Console.WriteLine("You must enter a valid integer number!");
-            } while(true);
+            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
+            return menu.ChooseRandomNumber(randomNumber, upperBound, seq);
         }
 
         /// <summary>
@@ -1329,26 +888,8 @@ read_again:
             Console.WriteLine();
             context.choice = false;
 
-            Console.Write("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber + ": ");
-
-            do
-            {
-                String numStr = Console.ReadLine();
-                if(numStr == "")
-                    return randomNumber;
-                double num;
-                if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
-                                System.Globalization.CultureInfo.InvariantCulture, out num))
-                {
-                    if(num < 0.0 || num >= 1.0)
-                    {
-                        Console.WriteLine("You must specify a number between 0.0 and 1.0 exclusive !");
-                        continue;
-                    }
-                    return num;
-                }
-                Console.WriteLine("You must enter a valid double number!");
-            } while(true);
+            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
+            return menu.ChooseRandomNumber(randomNumber, seq);
         }
 
         /// <summary>
@@ -1401,31 +942,8 @@ read_again:
             Console.WriteLine();
             context.choice = false;
 
-            object value = grShellImpl.Askfor(type);
-
-            while(value == null)
-            {
-                Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
-
-read_again:
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                case 'a':
-                    Console.WriteLine();
-                    return null;
-                case 'r':
-                    Console.WriteLine();
-                    value = grShellImpl.Askfor(type);
-                    break;
-                default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (a)bort user choice or (r)etry allowed! ");
-                    goto read_again;
-                }
-            }
-
-            return value;
+            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
+            return menu.ChooseValue(type, seq);
         }
 
         #endregion Possible user choices during sequence execution
@@ -1715,14 +1233,16 @@ read_again:
                 ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
             }
 
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
+
             if(match!=null)
-                MarkMatch(match, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+                matchMarkerAndAnnotator.MarkMatch(match, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
             else
-                MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+                matchMarkerAndAnnotator.MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
             if(match!=null)
-                AnnotateMatch(match, true);
+                matchMarkerAndAnnotator.AnnotateMatch(match, true);
             else
-                AnnotateMatches(matches, true);
+                matchMarkerAndAnnotator.AnnotateMatches(matches, true);
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
@@ -1730,9 +1250,9 @@ read_again:
             grShellImpl.ReadKeyWithCancel();
 
             if(match!=null)
-                MarkMatch(match, null, null);
+                matchMarkerAndAnnotator.MarkMatch(match, null, null);
             else
-                MarkMatches(matches, null, null);
+                matchMarkerAndAnnotator.MarkMatches(matches, null, null);
 
             recordMode = true;
             ycompClient.NodeRealizerOverride = realizers.NewNodeRealizer;
