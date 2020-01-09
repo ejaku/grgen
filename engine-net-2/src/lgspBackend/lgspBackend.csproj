@@ -84,7 +84,6 @@
     <Compile Include="Graph\lgspGraph.cs" />
     <Compile Include="Graph\lgspGraphElements.cs" />
     <Compile Include="MatcherGenerator\lgspMatcherGenerator.cs" />
-    <None Include="MonoILReader.cs" />
     <Compile Include="Actions\lgspMatches.cs" />
     <Compile Include="Graph\lgspNamedGraph.cs" />
     <Compile Include="Actions\lgspPattern.cs" />
