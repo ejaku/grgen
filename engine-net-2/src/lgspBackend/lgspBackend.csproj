@@ -90,6 +90,7 @@
     <Compile Include="Actions\lgspPatternElements.cs" />
     <Compile Include="MatcherGenerator\ScheduleDumper.cs" />
     <Compile Include="MatcherGenerator\ScheduleExplainer.cs" />
+    <Compile Include="SearchProgramOperations\SearchProgramOperationMiscellaneous.cs" />
     <Compile Include="SequenceGenerator\lgspSequenceGenerator.cs" />
     <Compile Include="GraphProcessingEnvironments\lgspSubactionAndOutputAdditionEnvironment.cs" />
     <Compile Include="GraphProcessingEnvironments\lgspTransactionManager.cs" />
