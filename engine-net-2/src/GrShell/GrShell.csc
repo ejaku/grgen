@@ -975,19 +975,6 @@ void ShellCommand():
         impl.NodeTypeIsA(node1, node2);
     }
 |
-    "parse"
-    (
-        "file" str1=Filename() LineEnd()
-        {
-            noError = impl.ParseFile(str1);
-        }
-    |
-        str1=WordOrText() LineEnd()
-        {
-            noError = impl.ParseString(str1);
-        }
-    )
-|
     ("quit" | "exit") LineEnd()
     {
         driver.Quit();
@@ -1045,11 +1032,6 @@ void ShellCommand():
     |
         "off" { if(boolVal) impl.SilenceExec = false; else impl.Silence = false;}
     )
-|
-    "sync" "io" LineEnd()
-    {
-        impl.SyncIO();
-    }
 |
     tok="validate" ("exitonfailure" {exitOnFailure = true;})?
     (
@@ -1382,11 +1364,6 @@ void SelectCommand():
         "actions" str=Filename() LineEnd()
         {
             noError = impl.SelectActions(str);
-        }
-    |
-        "parser" str=Filename() mainname=WordOrText() LineEnd()
-        {
-            noError = impl.SelectParser(str, mainname);
         }
     }
     catch(ParseException ex)

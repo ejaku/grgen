@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using ASTdapter;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 
@@ -22,7 +21,6 @@ namespace de.unika.ipd.grGen.grShell
         public DumpInfo DumpInfo;
         public SubruleDebuggingConfiguration SubruleDebugConfig;
         public VCGFlags VcgFlags = VCGFlags.OrientTopToBottom | VCGFlags.EdgeLabels;
-        public ParserPackage Parser = null;
 
         public String BackendFilename;
         public String[] BackendParameters;
@@ -65,7 +63,6 @@ namespace de.unika.ipd.grGen.grShell
             result.DumpInfo = this.DumpInfo;
             result.SubruleDebugConfig = this.SubruleDebugConfig;
             result.VcgFlags = this.VcgFlags;
-            result.Parser = this.Parser;
             result.ActionsFilename = this.ActionsFilename;
             result.ProcEnv.EmitWriter = this.ProcEnv.EmitWriter;
             return result;
