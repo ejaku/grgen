@@ -521,7 +521,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             StreamWriter sw = new StreamWriter(dumpname + "-scheduledsp.txt", false);
             SourceBuilder sb = new SourceBuilder();
-            ssp.Explain(sb, model);
+            ScheduleExplainer.Explain(ssp, sb, model);
             sb.Append("\n");
             sw.WriteLine(sb.ToString());
             sw.Close();
