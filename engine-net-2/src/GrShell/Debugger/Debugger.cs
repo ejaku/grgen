@@ -686,8 +686,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine();
             context.choice = false;
 
-            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
-            return menu.ChooseDirection(direction, seq);
+            return UserChoiceMenu.ChooseDirection(context, grShellImpl, direction, seq);
         }
 
         /// <summary>
@@ -699,8 +698,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
 
-            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
-            menu.ChooseSequencePrintHeader(seqToExecute);
+            UserChoiceMenu.ChooseSequencePrintHeader(context, seqToExecute);
 
             do
             {
@@ -712,7 +710,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.choice = false;
                 context.sequences = null;
 
-                bool commit = menu.ChooseSequence(ref seqToExecute, sequences, seq);
+                bool commit = UserChoiceMenu.ChooseSequence(grShellImpl, ref seqToExecute, sequences, seq);
                 if(commit)
                     return seqToExecute;
             } while(true);
@@ -727,8 +725,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
 
-            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
-            menu.ChoosePointPrintHeader(pointToExecute);
+            UserChoiceMenu.ChoosePointPrintHeader(context, pointToExecute);
 
             do
             {
@@ -740,7 +737,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.choice = false;
                 context.sequences = null;
 
-                bool commit = menu.ChoosePoint(ref pointToExecute, seq);
+                bool commit = UserChoiceMenu.ChoosePoint(grShellImpl, ref pointToExecute, seq);
                 if(commit)
                     break;
             } while(true);
@@ -765,8 +762,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
 
-            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
-            menu.ChooseMatchSomeFromSetPrintHeader(totalMatchToExecute);
+            UserChoiceMenu.ChooseMatchSomeFromSetPrintHeader(context, totalMatchToExecute);
 
             MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
 
@@ -788,7 +784,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.sequences = null;
                 context.matches = null;
 
-                bool commit = menu.ChooseMatch(ref totalMatchToExecute, seq);
+                bool commit = UserChoiceMenu.ChooseMatch(grShellImpl, ref totalMatchToExecute, seq);
                 matchMarkerAndAnnotator.Unmark(rule, match, seq);
                 if(commit)
                     break;
@@ -816,8 +812,7 @@ namespace de.unika.ipd.grGen.grShell
                 return matchToApply;
             }
 
-            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
-            menu.ChooseMatchPrintHeader(numFurtherMatchesToApply);
+            UserChoiceMenu.ChooseMatchPrintHeader(context, numFurtherMatchesToApply);
 
             MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
 
@@ -842,7 +837,7 @@ namespace de.unika.ipd.grGen.grShell
 
                 Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
 
-                bool commit = menu.ChooseMatch(matchToApply, matches, numFurtherMatchesToApply, seq, out newMatchToRewrite);
+                bool commit = UserChoiceMenu.ChooseMatch(grShellImpl, matchToApply, matches, numFurtherMatchesToApply, seq, out newMatchToRewrite);
                 if(commit)
                 {
                     matchMarkerAndAnnotator.MarkMatch(matches.GetMatch(matchToApply), null, null);
@@ -869,8 +864,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine();
             context.choice = false;
 
-            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
-            return menu.ChooseRandomNumber(randomNumber, upperBound, seq);
+            return UserChoiceMenu.ChooseRandomNumber(randomNumber, upperBound, seq);
         }
 
         /// <summary>
@@ -888,8 +882,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine();
             context.choice = false;
 
-            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
-            return menu.ChooseRandomNumber(randomNumber, seq);
+            return UserChoiceMenu.ChooseRandomNumber(randomNumber, seq);
         }
 
         /// <summary>
@@ -942,8 +935,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine();
             context.choice = false;
 
-            UserChoiceMenu menu = new UserChoiceMenu(grShellImpl, context);
-            return menu.ChooseValue(type, seq);
+            return UserChoiceMenu.ChooseValue(grShellImpl, type, seq);
         }
 
         #endregion Possible user choices during sequence execution
