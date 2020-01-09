@@ -1165,15 +1165,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(parallelizedSchedule != null)
             {
-                parallelizedSchedule[0].Explain(sb, model);
-                parallelizedSchedule[1].Explain(sb, model);
+                ScheduleExplainer.Explain(parallelizedSchedule[0], sb, model);
+                ScheduleExplainer.Explain(parallelizedSchedule[1], sb, model);
                 sb.Append("\n");
             }
             else
             {
                 foreach(ScheduledSearchPlan ssp in schedulesIncludingNegativesAndIndependents)
                 {
-                    ssp.Explain(sb, model);
+                    ScheduleExplainer.Explain(ssp, sb, model);
                     sb.Append("\n");
                 }
             }
