@@ -14,18 +14,9 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.grShell
 {
-    class UserChoiceMenu
+    static class UserChoiceMenu
     {
-        IGrShellImplForDebugger grShellImpl;
-        PrintSequenceContext context;
-
-        public UserChoiceMenu(IGrShellImplForDebugger grShellImpl, PrintSequenceContext context)
-        {
-            this.grShellImpl = grShellImpl;
-            this.context = context;
-        }
-
-        public int ChooseDirection(int direction, Sequence seq)
+        public static int ChooseDirection(PrintSequenceContext context, IGrShellImplForDebugger grShellImpl, int direction, Sequence seq)
         {
             context.workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
             Console.Write(" (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
@@ -53,7 +44,7 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        public void ChooseSequencePrintHeader(int seqToExecute)
+        public static void ChooseSequencePrintHeader(PrintSequenceContext context, int seqToExecute)
         {
             context.workaround.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
@@ -62,10 +53,10 @@ namespace de.unika.ipd.grGen.grShell
                                 + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained sequences.");
         }
 
-        public bool ChooseSequence(ref int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
+        public static bool ChooseSequence(IGrShellImplForDebugger grShellImpl, ref int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
         {
+            do
             {
-read_again:
                 ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -83,7 +74,7 @@ read_again:
                     if(num >= sequences.Count)
                     {
                         Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                        goto read_again;
+                        break;
                     }
                     seqToExecute = num;
                     return false;
@@ -95,13 +86,13 @@ read_again:
                         if(num < 0 || num >= sequences.Count)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                            goto read_again;
+                            break;
                         }
                         seqToExecute = num;
                         return false;
                     }
                     Console.WriteLine("You must enter a valid integer number!");
-                    goto read_again;
+                    break;
                 case 's':
                 case 'n':
                     return true;
@@ -112,12 +103,12 @@ read_again:
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
-                    goto read_again;
+                    break;
                 }
-            }
+            } while(true);
         }
 
-        public void ChoosePointPrintHeader(double pointToExecute)
+        public static void ChoosePointPrintHeader(PrintSequenceContext context, double pointToExecute)
         {
             context.workaround.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
@@ -125,12 +116,13 @@ read_again:
                                 + " Press (s) or (n) to commit to the pre-selected sequence and continue.");
         }
 
-        public bool ChoosePoint(ref double pointToExecute, SequenceWeightedOne seq)
+        public static bool ChoosePoint(IGrShellImplForDebugger grShellImpl, ref double pointToExecute, SequenceWeightedOne seq)
         {
-read_again:
-            ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
-            switch(key.KeyChar)
+            do
             {
+                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
                 case 'e':
                     double num;
                     Console.Write("Enter point in interval series of sequence to show: ");
@@ -141,24 +133,25 @@ read_again:
                         if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
                         {
                             Console.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
-                            goto read_again;
+                            break;
                         }
                         pointToExecute = num;
                         return false;
                     }
                     Console.WriteLine("You must enter a valid floating point number!");
-                    goto read_again;
+                    break;
                 case 's':
                 case 'n':
                     return true;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (e)nter number and (s)/(n) to commit and continue allowed! ");
-                    goto read_again;
-            }
+                    break;
+                }
+            } while(true);
         }
 
-        public void ChooseMatchSomeFromSetPrintHeader(int totalMatchToExecute)
+        public static void ChooseMatchSomeFromSetPrintHeader(PrintSequenceContext context, int totalMatchToExecute)
         {
             context.workaround.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
@@ -166,10 +159,10 @@ read_again:
                                 + " Press (s) or (n) to commit to the pre-selected match and continue.");
         }
 
-        public bool ChooseMatch(ref int totalMatchToExecute, SequenceSomeFromSet seq)
+        public static bool ChooseMatch(IGrShellImplForDebugger grShellImpl, ref int totalMatchToExecute, SequenceSomeFromSet seq)
         {
+            do
             {
-read_again:
                 ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -187,7 +180,7 @@ read_again:
                     if(num >= seq.NumTotalMatches)
                     {
                         Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                        goto read_again;
+                        break;
                     }
                     totalMatchToExecute = num;
                     return false;
@@ -199,25 +192,25 @@ read_again:
                         if(num < 0 || num >= seq.NumTotalMatches)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                            goto read_again;
+                            break;
                         }
                         totalMatchToExecute = num;
                         return false;
                     }
                     Console.WriteLine("You must enter a valid integer number!");
-                    goto read_again;
+                    break;
                 case 's':
                 case 'n':
                     return true;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                    goto read_again;
+                    break;
                 }
-            }
+            } while(true);
         }
 
-        public void ChooseMatchPrintHeader(int numFurtherMatchesToApply)
+        public static void ChooseMatchPrintHeader(PrintSequenceContext context, int numFurtherMatchesToApply)
         {
             context.workaround.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
@@ -225,12 +218,12 @@ read_again:
                                 + " Press (s) or (n) to commit to the currently shown match and continue.");
         }
 
-        public bool ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq, out int newMatchToRewrite)
+        public static bool ChooseMatch(IGrShellImplForDebugger grShellImpl, int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq, out int newMatchToRewrite)
         {
             newMatchToRewrite = matchToApply;
 
+            do
             {
-read_again:
                 ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -248,7 +241,7 @@ read_again:
                     if(num >= matches.Count)
                     {
                         Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                        goto read_again;
+                        break;
                     }
                     newMatchToRewrite = num;
                     return false;
@@ -260,7 +253,7 @@ read_again:
                         if(num < 0 || num >= matches.Count)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                            goto read_again;
+                            break;
                         }
                         newMatchToRewrite = num;
                         return false;
@@ -273,12 +266,12 @@ read_again:
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
-                    goto read_again;
+                    break;
                 }
-            }
+            } while(true);
         }
 
-        public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
+        public static int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
         {
             Console.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
 
@@ -301,7 +294,7 @@ read_again:
             } while(true);
         }
 
-        public double ChooseRandomNumber(double randomNumber, Sequence seq)
+        public static double ChooseRandomNumber(double randomNumber, Sequence seq)
         {
             Console.Write("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber + ": ");
 
@@ -325,11 +318,11 @@ read_again:
             } while(true);
         }
 
-        public object ChooseValue(string type, Sequence seq)
+        public static object ChooseValue(IGrShellImplForDebugger grShellImpl, string type, Sequence seq)
         {
             object value = grShellImpl.Askfor(type);
 
-            while(value == null)
+            while(value == null) // bad input case
             {
                 Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
 
