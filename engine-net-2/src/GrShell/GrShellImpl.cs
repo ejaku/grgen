@@ -14,8 +14,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
-using ASTdapter;
-using grIO;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
 using de.unika.ipd.grGen.lgsp;
@@ -1032,9 +1030,6 @@ namespace de.unika.ipd.grGen.grShell
                 + " - custom graph ...          Graph backend specific commands\n"
                 + " - custom actions ...        Action backend specific commands\n"
                 + " - redirect ...              Redirects edges or emit instruction output\n"
-                + " - sync io                   Writes out all files (grIO framework)\n"
-                + " - parse file <filename>     Parses the given file (ASTdapter framework)\n"
-                + " - parse <text>              Parses the given string (ASTdapter framework)\n"
                 + " - randomseed (time|<seed>)  Sets the seed of the random number generator\n"
                 + "                             to the current time or the given integer\n"
                 + " - <elem>.<member>           Shows the given graph element member\n"
@@ -1098,10 +1093,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - select graph <name>\n"
                 + "   Selects the given already loaded graph.\n\n"
                 + " - select actions <dllname>\n"
-                + "   Selects the actions assembly for the current graph.\n\n"
-                + " - select parser <dllname> <startmethod>\n"
-                + "   Selects the ANTLR parser assembly and the name of the start symbol method\n"
-                + "   (ASTdapter framework)\n");
+                + "   Selects the actions assembly for the current graph.\n\n");
         }
 
         public void HelpDelete(List<String> commands)
@@ -4800,79 +4792,5 @@ showavail:
         }
 
         #endregion compiler configuration new graph options
-
-        #region astdapter parser related
-
-        public void SyncIO()
-        {
-            Infrastructure.Flush(curShellProcEnv.ProcEnv.NamedGraph);
-        }
-
-        public bool SelectParser(String parserAssemblyName, String mainMethodName)
-        {
-            if(!GraphExists()) return false;
-
-            // replace wrong directory separator chars by the right ones
-            if(Path.DirectorySeparatorChar != '\\')
-                parserAssemblyName = parserAssemblyName.Replace('\\', Path.DirectorySeparatorChar);
-
-            try
-            {
-                curShellProcEnv.Parser = new ParserPackage(parserAssemblyName, mainMethodName);
-            }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to load parser from \"" + parserAssemblyName + "\":\n" + ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-        public bool ParseFile(String filename)
-        {
-            if(!GraphExists()) return false;
-            if(curShellProcEnv.Parser == null)
-            {
-                errOut.WriteLine("Please use \"select parser <parserAssembly> <mainMethod>\" first!");
-                return false;
-            }
-            try
-            {
-                using(FileStream file = new FileStream(filename, FileMode.Open))
-                {
-                    ASTdapter.ASTdapter astDapter = new ASTdapter.ASTdapter(curShellProcEnv.Parser);
-                    astDapter.Load(file, curShellProcEnv.ProcEnv.NamedGraph);
-                }
-            }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to parse file \"" + filename + "\":\n" + ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-        public bool ParseString(String str)
-        {
-            if(!GraphExists()) return false;
-            if(curShellProcEnv.Parser == null)
-            {
-                errOut.WriteLine("Please use \"select parser <parserAssembly> <mainMethod>\" first!");
-                return false;
-            }
-            try
-            {
-                ASTdapter.ASTdapter astDapter = new ASTdapter.ASTdapter(curShellProcEnv.Parser);
-                astDapter.Load(str, curShellProcEnv.ProcEnv.NamedGraph);
-            }
-            catch(Exception ex)
-            {
-                errOut.WriteLine("Unable to parse string \"" + str + "\":\n" + ex.Message);
-                return false;
-            }
-            return true;
-        }
-
-        #endregion astdapter parser related
     }
 }

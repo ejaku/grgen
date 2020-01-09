@@ -44,5 +44,3 @@ exec (::file, ::dummyLine, ::curPa, ::dummyPa)=InitOutput && ::lastLine=::dummyL
     && (::conc)=PAWriteConcurrencyNext(::lastLine, ::conc)*                               \
     && PAWriteConcurrencyLast(::lastLine, ::conc))                                        \
   )* | FinishOutput(::dummyLine, ::dummyPa)
-
-sync io

@@ -95,14 +95,6 @@
     <None Include="GrShell.csc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ASTdapter\ASTdapter.csproj">
-      <Project>{611BE482-BA91-4BA8-A4EF-5D628A913041}</Project>
-      <Name>ASTdapter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GrIO\GrIO.csproj">
-      <Project>{7ECF099A-B6B1-4863-A949-A9ABB8955EAA}</Project>
-      <Name>GrIO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\lgspBackend\lgspBackend.csproj">
       <Project>{28747063-D1D2-4626-B1F1-84CC201B2063}</Project>
       <Name>lgspBackend</Name>
