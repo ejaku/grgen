@@ -8,13 +8,7 @@
 // by Moritz Kroll, Edgar Jakumeit
 
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Reflection;
-using System.IO;
-using System.Collections;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp

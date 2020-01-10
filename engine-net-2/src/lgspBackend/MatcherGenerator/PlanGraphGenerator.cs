@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-// by Moritz Kroll, Edgar Jakumeit
+// by Edgar Jakumeit, Moritz Kroll
 
 #define MONO_MULTIDIMARRAY_WORKAROUND       // must be equally set to the same flag in lgspGraphStatistics.cs!
 

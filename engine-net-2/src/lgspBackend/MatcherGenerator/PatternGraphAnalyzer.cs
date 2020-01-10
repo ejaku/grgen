@@ -9,9 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.expression;
 

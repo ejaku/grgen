@@ -8,12 +8,8 @@
 // by Edgar Jakumeit, Moritz Kroll
 
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Text;
 using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.libGr.sequenceParser;
 
 namespace de.unika.ipd.grGen.lgsp
 {

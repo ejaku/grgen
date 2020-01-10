@@ -5,17 +5,14 @@
  * www.grgen.net
  */
 
-// by Moritz Kroll, Edgar Jakumeit
+// by Edgar Jakumeit
 
 using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    /// <summary>
     /// A representation of an external type registered with GrGen.
     /// The bottom type of the external type hierarchy that is always available is type object.
     /// </summary>

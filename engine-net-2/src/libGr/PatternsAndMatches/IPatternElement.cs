@@ -8,7 +8,6 @@
 // by Moritz Kroll, Edgar Jakumeit
 
 using System;
-using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {

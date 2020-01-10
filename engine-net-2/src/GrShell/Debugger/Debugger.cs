@@ -18,8 +18,6 @@ using System.IO;
 using System.Reflection;
 
 using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.libGr.sequenceParser;
-using System.Text;
 
 namespace de.unika.ipd.grGen.grShell
 {

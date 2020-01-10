@@ -5,16 +5,13 @@
  * www.grgen.net
  */
 
-// by Edgar Jakumeit, Moritz Kroll
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+// by Moritz Kroll
 
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// Describes a range with a minimum and a maximum value.
+    /// Currently not used, was added for G# (integration of graph rewriting/GrGen into C# compiler) - TODO/potential use: ranges in validation, maybe loops
     /// </summary>
     public struct Range
     {

@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-// by Moritz Kroll, Edgar Jakumeit
+// by Edgar Jakumeit, Moritz Kroll
 
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,6 @@ using System.Text;
 
 using de.unika.ipd.grGen.libGr;
 using System.Diagnostics;
-using de.unika.ipd.grGen.expression;
 
 namespace de.unika.ipd.grGen.lgsp
 {

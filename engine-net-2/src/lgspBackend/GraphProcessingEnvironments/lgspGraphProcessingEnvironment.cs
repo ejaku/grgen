@@ -8,7 +8,6 @@
 // by Moritz Kroll, Edgar Jakumeit
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;

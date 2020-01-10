@@ -10,7 +10,6 @@
 namespace de.unika.ipd.grGen.libGr
 {
     using System;
-    using System.IO;
     using System.Collections.Generic;
 
     // beware: when you change the order, also the dumpers must be adapted

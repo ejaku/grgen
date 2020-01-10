@@ -9,10 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Reflection;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp

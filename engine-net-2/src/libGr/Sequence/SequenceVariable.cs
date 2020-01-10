@@ -10,7 +10,6 @@
 //#define LOG_VARIABLE_OPERATIONS
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr

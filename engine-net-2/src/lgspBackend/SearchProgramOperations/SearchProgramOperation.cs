@@ -5,10 +5,7 @@
  * www.grgen.net
  */
 
-// by Edgar Jakumeit, Moritz Kroll
-
-//note the same define in SearchProgram.cs
-//#define ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
+// by Edgar Jakumeit
 
 using System.Diagnostics;
 

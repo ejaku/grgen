@@ -7,9 +7,7 @@
 
 // by Moritz Kroll
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace de.unika.ipd.grGen.lgsp
 {
