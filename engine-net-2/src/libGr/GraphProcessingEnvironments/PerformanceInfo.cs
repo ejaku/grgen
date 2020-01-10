@@ -7,12 +7,12 @@
 
 // by Edgar Jakumeit, Moritz Kroll
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    /// <summary>
     /// An object accumulating information about needed time, number of found matches and number of performed rewrites.
     /// </summary>
     public class PerformanceInfo

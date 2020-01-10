@@ -26,9 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.lgsp;
 
 using INodeList = System.Collections.Generic.List<de.unika.ipd.grGen.libGr.INode>;
 using IEdgeList = System.Collections.Generic.List<de.unika.ipd.grGen.libGr.IEdge>;

@@ -7,7 +7,6 @@
 
 // by Edgar Jakumeit, Moritz Kroll
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 

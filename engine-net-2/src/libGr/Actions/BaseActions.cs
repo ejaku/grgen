@@ -5,12 +5,11 @@
  * www.grgen.net
  */
 
-// by Moritz Kroll, Edgar Jakumeit
+// by Edgar Jakumeit, Moritz Kroll
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using de.unika.ipd.grGen.libGr.sequenceParser;
 
 namespace de.unika.ipd.grGen.libGr
 {

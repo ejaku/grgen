@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-// by Edgar Jakumeit, Moritz Kroll
+// by Edgar Jakumeit, based on engine-net by Moritz Kroll
 
 using System.Collections.Generic;
 using System.Diagnostics;

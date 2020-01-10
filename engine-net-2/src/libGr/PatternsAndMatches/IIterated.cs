@@ -5,10 +5,7 @@
  * www.grgen.net
  */
 
-// by Moritz Kroll, Edgar Jakumeit
-
-using System;
-using System.Collections.Generic;
+// by Edgar Jakumeit
 
 namespace de.unika.ipd.grGen.libGr
 {

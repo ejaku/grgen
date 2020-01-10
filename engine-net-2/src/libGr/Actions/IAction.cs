@@ -7,8 +7,6 @@
 
 // by Moritz Kroll, Edgar Jakumeit
 
-//#define USE_HIGHPERFORMANCE_COUNTER
-
 using System;
 using System.Collections.Generic;
 

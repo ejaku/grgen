@@ -7,14 +7,13 @@
 
 // by Moritz Kroll
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Set class only used by the dumping code in BaseGraph.
+    /// Set class only used by the dumping code.
     /// The value of this class is questionable...
     /// </summary>
     /// <typeparam name="T">The type of the contained elements.</typeparam>

@@ -5,12 +5,9 @@
  * www.grgen.net
  */
 
-// by Moritz Kroll, Edgar Jakumeit
-
-//#define USE_HIGHPERFORMANCE_COUNTER
+// by Edgar Jakumeit
 
 using System;
-using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {

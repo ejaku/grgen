@@ -7,13 +7,6 @@
 
 // by Edgar Jakumeit
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using System.Diagnostics;
-
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>

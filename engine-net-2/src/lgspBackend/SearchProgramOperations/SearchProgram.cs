@@ -5,9 +5,9 @@
  * www.grgen.net
  */
 
-// by Edgar Jakumeit, Moritz Kroll
+// by Edgar Jakumeit, based on engine-net by Moritz Kroll
 
-//note the same define in SearchProgramOperation.cs
+//note the same define in SearchProgramOperationMiscellaneous.cs
 //#define ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
 
 using System.Collections.Generic;

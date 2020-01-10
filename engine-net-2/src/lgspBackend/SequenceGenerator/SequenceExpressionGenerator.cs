@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-// by Edgar Jakumeit, Moritz Kroll
+// by Edgar Jakumeit
 
 using System;
 using System.Text;

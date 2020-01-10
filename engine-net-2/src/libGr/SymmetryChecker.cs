@@ -9,7 +9,6 @@
 
 //#define LOG_MATCHES
 
-using System;
 using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr

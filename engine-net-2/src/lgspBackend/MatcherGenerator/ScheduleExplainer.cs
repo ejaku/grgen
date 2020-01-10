@@ -5,12 +5,9 @@
  * www.grgen.net
  */
 
-// by Moritz Kroll, Edgar Jakumeit
+// by Edgar Jakumeit
 
 using System;
-using System.Text;
-using System.Diagnostics;
-using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libGr;
 

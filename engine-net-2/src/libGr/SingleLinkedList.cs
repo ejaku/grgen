@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {

@@ -12,10 +12,8 @@
 //#define CHECK_VISITED_FLAGS_CLEAR_ON_FREE
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp

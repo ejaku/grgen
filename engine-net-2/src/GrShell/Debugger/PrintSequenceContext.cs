@@ -7,11 +7,9 @@
 
 // by Edgar Jakumeit, Moritz Kroll
 
-using System;
 using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libGr;
-using System.Text;
 
 namespace de.unika.ipd.grGen.grShell
 {
