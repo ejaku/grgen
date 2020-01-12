@@ -742,7 +742,7 @@ Configures a reference to an external assembly \emph{Filename} to be linked into
 \end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
 Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols (includes emitting of some validity checking code),
 or configures the generation of the matchers.
-The latter in order to either execute negatives, independents, and conditions only at the end of matching (normally asap),
+The latter in order to either execute negatives, independents, and conditions only lazily at the end of matching (normally as soon as possible),
 or to never inline subpatterns,
 or to include profiling information.
 Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-lazynic}, \texttt{-noinline}, or  \texttt{-profile} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
@@ -845,7 +845,9 @@ The search plan generation and explanation offered by them are of outstanding im
 Leading directly to high-performance solutions by adapting the pattern matchers to the specifics of the host graph.
 Or indirectly by explaining the chosen search plan so you can inspect it for the spots where the planner was not able to circumvent massively splitting passages; you may have to rethink your solutions regarding those, with maybe a change in the modelling, a change in the pattern, or even imperative code with hash set intersections/joins.
 
-The \indexed{LGSPBackend} supports the following custom commands:
+The \indexed{LGSPBackend} supports the following custom commands, separated into the realms of the graph and the actions.
+
+\subsubsection*{Graph related custom commands}
 
 \begin{rail}
   'custom' 'graph' 'analyze'
@@ -862,17 +864,12 @@ This way you can save the statistics of a characteristic graph of your domain an
 See \ref{grgenoptions} or \ref{sec:compilerconfigshell} for explanations on how to do this.
 
 \begin{rail}
-  'custom' 'graph' setmaxmatches Number
-\end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{setmaxmatches}
-Sets the maximum amount of possible pattern matches to \emph{Number}.
-This command affects the expression \texttt{[\emph{Rule}]}.
-If \emph{Number} is less or equal to zero, the constraint is reset.
-
-\begin{rail}
   'custom' 'graph' 'optimizereuse' BoolLit
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{optimizereuse}
 If set to false it prevents deleted elements from getting reused in a rewrite (i.e. it disables a performance optimization).
-If set to true, new elements may not be discriminable anymore from already deleted elements using object equality, hash maps, etc.
+If set to true (default), new elements may not be discriminable anymore from already deleted elements using object equality, hash maps, etc.
+
+\subsubsection*{Action related custom commands}
 
 \begin{rail}
   'custom' 'actions' gensearchplan (Action*)
@@ -899,7 +896,20 @@ This is an inspection tool comparable to the \texttt{explain} command offered by
 \begin{rail}
   'custom' 'actions' dumpsourcecode BoolLit
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{dumpsourcecode}
-If set to true, C\# files will be dumped for the newly generated searchplans (similar to the \texttt{-keep} option of the generator).
+If set to true, C\# files will be dumped for the newly generated searchplans (similar to the \texttt{-keep} option of the generator; defaults to \texttt{false}).
 
+\begin{rail}
+  'custom' 'actions' setmaxmatches Number
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{setmaxmatches}
+Sets the maximum amount of possible pattern matches to \emph{Number}.
+This command affects the expression \texttt{[\emph{Rule}]}.
+If \emph{Number} is less or equal to zero, the constraint is reset.
+
+\begin{rail}
+  'custom' 'actions' 'adaptvariables' BoolLit
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{adaptvariables}
+If set to true (default), variables are cleared (nulled) if they contain graph elements which are removed from the graph, and rewritten to the new element on retypings (only graph-global variables, not sequence variables).
+This saves us from outdated and dangling variables at the cost of listening to node and edge removals and retypings.
+Setting it to false improves performance, but can lead to zombie elements hanging out in the graph-global variables (and a lot of confusion in case they are reused, as it is possible when \texttt{optimizereuse} is not set to \texttt{false}, see graph custom commands above).
 
 % todo: beispielshellscripte
