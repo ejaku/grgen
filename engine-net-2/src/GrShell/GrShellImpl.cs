@@ -1028,6 +1028,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - export ...                Exports the current graph.\n"
                 + " - import ...                Imports a graph instance and/or a graph model\n"
                 + " - record ...                Records the changes of the current graph\n"
+                + " - recordflush               Flushes the buffers of the recordings to disk\n"
                 + " - replay ...                Replays the recorded changes to a graph\n"
                 + " - echo <text>               Writes the given text to the console\n"
                 + " - custom graph ...          Graph backend specific commands\n"
@@ -1051,6 +1052,10 @@ namespace de.unika.ipd.grGen.grShell
                 + "                             entered on the keyboard (format as in <expr>\n"
                 + "                             but constant only)\n"
                 + " - ! <command>               Executes the given system command\n"
+                + " - pwd                       Prints the path to the current working directory\n"
+                + " - ls                        Lists the directories and files in the current\n"
+                + "                             working directory, highlighting relevant files\n"
+                + " - cd <path>                 Changes the current working directory to the path\n"
                 + " - help <command>*           Displays this help or help about a command\n"
                 + " - exit | quit               Exits the GrShell\n"
                 + "Type \"help <command>\" to get extended help on <command> (in case of ...)\n");
