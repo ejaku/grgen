@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jul 29 09:01:00 CEST 2018
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jan 12 22:15:19 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -150,8 +150,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -304,8 +304,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -458,8 +458,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -600,7 +600,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_AnnotationTestNode() : base((int) NodeTypes.@AnnotationTestNode)
 		{
-			annotations.Add("bla", "blubb");
+			annotations.annotations.Add("bla", "blubb");
 		}
 		public override string Name { get { return "AnnotationTestNode"; } }
 		public override string Package { get { return null; } }
@@ -613,8 +613,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -671,8 +671,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -824,8 +824,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -978,8 +978,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1141,8 +1141,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1304,8 +1304,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1467,8 +1467,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1630,8 +1630,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1793,8 +1793,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1956,8 +1956,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -2128,7 +2128,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public EdgeType_annotationTestEdge() : base((int) EdgeTypes.@annotationTestEdge)
 		{
 			AttributeType_attrib = new GRGEN_LIBGR.AttributeType("attrib", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
-			AttributeType_attrib.annotations.Add("special", "42");
+			AttributeType_attrib.annotations.annotations.Add("special", "42");
 		}
 		public override string Name { get { return "annotationTestEdge"; } }
 		public override string Package { get { return null; } }
@@ -2147,8 +2147,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
-		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
-		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jul 29 09:00:46 CEST 2018
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jan 12 22:15:02 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -2659,7 +2659,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 			ReachedEndOfWorldAnywhere_node__node0.pointOfDefinition = pat_ReachedEndOfWorldAnywhere;
 			ReachedEndOfWorldAnywhere_node_n.pointOfDefinition = pat_ReachedEndOfWorldAnywhere;
-			ReachedEndOfWorldAnywhere_node_n.annotations.Add("prio", "10000");
+			ReachedEndOfWorldAnywhere_node_n.annotations.annotations.Add("prio", "10000");
 			ReachedEndOfWorldAnywhere_edge__edge0.pointOfDefinition = pat_ReachedEndOfWorldAnywhere;
 			ReachedEndOfWorldAnywhere_neg_0_edge__edge0.pointOfDefinition = ReachedEndOfWorldAnywhere_neg_0;
 

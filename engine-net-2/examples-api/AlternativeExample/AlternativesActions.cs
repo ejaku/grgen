@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Jul 29 09:00:44 CEST 2018
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Jan 12 22:15:01 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -21300,7 +21300,7 @@ label3: ;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // Lookup alternative_in_iterated_iter_0_node__node0 
