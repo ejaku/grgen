@@ -76,6 +76,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         private static int actionID = 0;
 
+        protected Dictionary<String, String> customCommandsToDescriptions;
+
 
         /// <summary>
         /// Constructs a new LGSPActions instance.
@@ -88,6 +90,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             modelAssemblyName = Assembly.GetAssembly(graph.Model.GetType()).Location;
             actionsAssemblyName = Assembly.GetAssembly(this.GetType()).Location;
+
+            FillCustomCommandDescriptions();
 
 #if ASSERT_ALL_UNMAPPED_AFTER_MATCH
             OnMatched += new AfterMatchHandler(AssertAllUnmappedAfterMatch);
@@ -107,6 +111,9 @@ namespace de.unika.ipd.grGen.lgsp
             modelAssemblyName = modelAsmName;
             actionsAssemblyName = actionsAsmName;
             matcherGenerator = new LGSPMatcherGenerator(graph.Model);
+
+            FillCustomCommandDescriptions();
+
 #if ASSERT_ALL_UNMAPPED_AFTER_MATCH
             OnMatched += new AfterMatchHandler(AssertAllUnmappedAfterMatch);
 #endif
@@ -316,17 +323,45 @@ namespace de.unika.ipd.grGen.lgsp
             actions[actionName] = newAction;
         }
 
+        private void FillCustomCommandDescriptions()
+        {
+            customCommandsToDescriptions = new Dictionary<string, string>();
+            customCommandsToDescriptions.Add("gen_searchplan",
+                "- gen_searchplan: Generates a new searchplan for a given action\n" +
+                "     depending on a previous graph analysis.\n");
+            customCommandsToDescriptions.Add("explain",
+                "- explain: explains the searchplan in use for a given action.\n");
+            customCommandsToDescriptions.Add("dump_sourcecode",
+                "- dump_sourcecode: Sets dumping of C# files for new searchplans.\n");
+            customCommandsToDescriptions.Add("dump_searchplan",
+                "- dump_searchplan: Sets dumping of VCG and TXT files of new\n" +
+                "     searchplans (with some intermediate steps).\n");
+        }
+
+        /// <summary>
+        /// The action-backend dependent commands that are available, and a description of each command.
+        /// </summary>
+        public override IDictionary<String, String> CustomCommandsAndDescriptions
+        {
+            get
+            {
+                return customCommandsToDescriptions;
+            }
+        }
+
         /// <summary>
         /// Does action-backend dependent stuff.
         /// </summary>
-        /// <param name="args">Any kind of parameters for the stuff to do</param>
+        /// <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         public override void Custom(params object[] args)
         {
-            if(args.Length == 0) goto invalidCommand;
+            if(args.Length == 0)
+                throw new ArgumentException("No command given");
 
-            switch((String) args[0])
+            String command = (String)args[0];
+            switch(command)
             {
-                case "gen_searchplan":
+            case "gen_searchplan":
                 {
                     if(graph.statistics.edgeCounts == null)
                         throw new ArgumentException("Graph not analyzed yet!\nPlease execute 'custom graph analyze'!");
@@ -371,25 +406,25 @@ namespace de.unika.ipd.grGen.lgsp
                     return;
                 }
 
-                case "dump_sourcecode":
-                    if(args.Length != 2)
-                        throw new ArgumentException("Usage: dump_sourcecode <bool>\n"
-                                + "If <bool> == true, C# files will be dumped for new searchplans.");
+            case "dump_sourcecode":
+                if(args.Length != 2)
+                    throw new ArgumentException("Usage: dump_sourcecode <bool>\n"
+                            + "If <bool> == true, C# files will be dumped for new searchplans.");
 
-                    if(!bool.TryParse((String) args[1], out matcherGenerator.DumpDynSourceCode))
-                        throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
-                    return;
+                if(!bool.TryParse((String) args[1], out matcherGenerator.DumpDynSourceCode))
+                    throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
+                return;
 
-                case "dump_searchplan":
-                    if(args.Length != 2)
-                        throw new ArgumentException("Usage: dump_searchplan <bool>\n"
-                                + "If <bool> == true, VCG and TXT files will be dumped for new searchplans.");
+            case "dump_searchplan":
+                if(args.Length != 2)
+                    throw new ArgumentException("Usage: dump_searchplan <bool>\n"
+                            + "If <bool> == true, VCG and TXT files will be dumped for new searchplans.");
 
-                    if(!bool.TryParse((String) args[1], out matcherGenerator.DumpSearchPlan))
-                        throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
-                    return;
+                if(!bool.TryParse((String) args[1], out matcherGenerator.DumpSearchPlan))
+                    throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
+                return;
 
-                case "explain":
+            case "explain":
                 {
                     if(args.Length != 2)
                         throw new ArgumentException("Usage: explain <name>\n"
@@ -424,16 +459,10 @@ namespace de.unika.ipd.grGen.lgsp
                     Console.WriteLine(sb.ToString());
                     return;
                 }
-            }
 
-invalidCommand:
-            throw new ArgumentException("Possible commands:\n"
-                + "- gen_searchplan:  Generates a new searchplan for a given action\n"
-                + "     depending on a previous graph analysis\n"
-                + "- explain: explains the searchplan in use for a given action\n"
-                + "- dump_sourcecode: Sets dumping of C# files for new searchplans\n"
-                + "- dump_searchplan: Sets dumping of VCG and TXT files of new\n"
-                + "     searchplans (with some intermediate steps)");
+            default:
+                throw new ArgumentException("Unknown command: " + command);
+            }
         }
 
         /// <summary>

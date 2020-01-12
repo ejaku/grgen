@@ -162,6 +162,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public List<List<Dictionary<IGraphElement, IGraphElement>>> perThreadInIsoSpaceMatchedElementsGlobal;
 
+        protected Dictionary<String, String> customCommandsToDescriptions;
+
 
         /// <summary>
         /// Constructs an LGSPGraph object with the given model and an automatically generated name.
@@ -191,6 +193,7 @@ namespace de.unika.ipd.grGen.lgsp
             : this(grname)
         {
             InitializeGraph(grmodel);
+            FillCustomCommandDescriptions();
         }
 
         /// <summary>
@@ -232,6 +235,8 @@ namespace de.unika.ipd.grGen.lgsp
             name = grname;
 
             statistics = new LGSPGraphStatistics(this.Model);
+
+            FillCustomCommandDescriptions();
         }
 
         /// <summary>
@@ -246,6 +251,8 @@ namespace de.unika.ipd.grGen.lgsp
             ++graphIDSource;
             
             Copy(dataSource, newName, out oldToNewMap);
+
+            FillCustomCommandDescriptions();
         }
 
         /// <summary>
@@ -260,6 +267,8 @@ namespace de.unika.ipd.grGen.lgsp
             
             IDictionary<IGraphElement, IGraphElement> oldToNewMap;
             Copy(dataSource, newName, out oldToNewMap);
+
+            FillCustomCommandDescriptions();
         }
 
         /// <summary>
@@ -1800,18 +1809,50 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("Internal error: Node not in graph");
         }
 
+        private void FillCustomCommandDescriptions()
+        {
+            customCommandsToDescriptions = new Dictionary<string, string>();
+            customCommandsToDescriptions.Add("analyze",
+                "- analyze: Analyzes the graph. The generated information can then be\n" +
+                "     used by Actions implementations to optimize the pattern matching.\n");
+            customCommandsToDescriptions.Add("analyze_graph",
+                "- analyze_graph: Analyzes the graph. The generated information can then be\n" +
+                "     used by Actions implementations to optimize the pattern matching.\n");
+            customCommandsToDescriptions.Add("statistics",
+                "- statistics save <filename>: Writes the statistics of the last analyze\n" +
+                "     to the specified statistics file (the graph must have been analyzed before)\n" +
+                "     To be used with the statistics compiler/shell option, to directly emit\n" +
+                "     matchers adapted to that class of graphs.\n");
+            customCommandsToDescriptions.Add("optimizereuse",
+                "- optimizereuse: Sets whether deleted elements may be reused in a rewrite.\n" +
+                "     Defaults to: true.\n");
+        }
+
+        /// <summary>
+        /// The graph-backend dependent commands that are available, and a description of each command.
+        /// </summary>
+        public override IDictionary<String, String> CustomCommandsAndDescriptions
+        {
+            get
+            {
+                return customCommandsToDescriptions;
+            }
+        }
+
         /// <summary>
         /// Does graph-backend dependent stuff.
         /// </summary>
-        /// <param name="args">Any kind of paramteres for the stuff to do</param>
+        /// <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         public override void Custom(params object[] args)
         {
-            if(args.Length == 0) goto invalidCommand;
+            if(args.Length == 0)
+                throw new ArgumentException("No command given");
 
-            switch((String) args[0])
+            String command = (String)args[0];
+            switch(command)
             {
-                case "analyze":
-                case "analyze_graph":
+            case "analyze":
+            case "analyze_graph":
                 {
                     int startticks = Environment.TickCount;
                     AnalyzeGraph();
@@ -1819,7 +1860,7 @@ namespace de.unika.ipd.grGen.lgsp
                     return;
                 }
 
-                case "statistics":
+            case "statistics":
                 {
                     if(args.Length != 3 || (string)(args[1]) != "save")
                         throw new ArgumentException("Usage: statistics save \"<filepath>\"\n"
@@ -1833,24 +1874,20 @@ namespace de.unika.ipd.grGen.lgsp
                     return;
                 }
 
-                case "optimizereuse":
-                    if(args.Length != 2)
-                        throw new ArgumentException("Usage: optimizereuse <bool>\n"
-                                + "If <bool> == true, deleted elements may be reused in a rewrite.\n"
-                                + "As a result new elements may not be discriminable anymore from\n"
-                                + "already deleted elements using object equality, hash maps, etc.");
+            case "optimizereuse":
+                if(args.Length != 2)
+                    throw new ArgumentException("Usage: optimizereuse <bool>\n"
+                            + "If <bool> == true, deleted elements may be reused in a rewrite.\n"
+                            + "As a result new elements may not be discriminable anymore from\n"
+                            + "already deleted elements using object equality, hash maps, etc.");
 
-                    if(!bool.TryParse((String) args[1], out reuseOptimization))
-                        throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
-                    return;
+                if(!bool.TryParse((String) args[1], out reuseOptimization))
+                    throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
+                return;
+
+            default:
+                throw new ArgumentException("Unknown command: " + command);
             }
-
-invalidCommand:
-            throw new ArgumentException("Possible commands:\n"
-                + "- analyze: Analyzes the graph. The generated information can then be\n"
-                + "     used by Actions implementations to optimize the pattern matching\n"
-                + "- optimizereuse: Sets whether deleted elements may be reused in a rewrite\n"
-                + "     (default: true)\n");
         }
 
         /// <summary>

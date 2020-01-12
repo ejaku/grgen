@@ -426,9 +426,14 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
+        /// The graph-backend dependent commands that are available, and a description of each command.
+        /// </summary>
+        IDictionary<String, String> CustomCommandsAndDescriptions { get; }
+
+        /// <summary>
         /// Does graph-backend dependent stuff.
         /// </summary>
-        /// <param name="args">Any kind of paramteres for the stuff to do</param>
+        /// <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         void Custom(params object[] args);
 
         /// <summary>

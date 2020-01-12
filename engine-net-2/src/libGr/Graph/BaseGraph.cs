@@ -80,6 +80,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract void RedirectTarget(IEdge edge, INode newTarget, string oldTargetName);
         public abstract void RedirectSourceAndTarget(IEdge edge, INode newSource, INode newTarget, string oldSourceName, string oldTargetName);
 
+        public abstract IDictionary<String, String> CustomCommandsAndDescriptions { get; }
         public abstract void Custom(params object[] args);
         public abstract IBackend Backend { get; }
 
