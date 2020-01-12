@@ -38,6 +38,7 @@ namespace de.unika.ipd.grGen.lgsp
             transactionManager = new LGSPTransactionManager(this);
             sequencesManager = new LGSPDeferredSequencesManager();
             SetClearVariables(true);
+            FillCustomCommandDescriptions();
         }
 
         public override void Initialize(LGSPGraph graph, LGSPActions actions)
@@ -151,18 +152,28 @@ namespace de.unika.ipd.grGen.lgsp
             // TODO: implement
         }
 
+        private void FillCustomCommandDescriptions()
+        {
+            customCommandsToDescriptions.Add("adaptvariables",
+                "- adaptvariables: Sets whether variables are cleared if they contain\n" +
+                "     elements which are removed from the graph, and rewritten to\n" +
+                "     the new element on retypings.\n");
+        }
+
         public override void Custom(params object[] args)
         {
-            if(args.Length == 0) goto invalidCommand;
+            if(args.Length == 0)
+                throw new ArgumentException("No command given");
 
-            bool newClearVariables;
-            switch((String)args[0])
+            String command = (String)args[0];
+            switch(command)
             {
-                case "set_max_matches":
-                    base.Custom(args);
-                    return;
+            case "set_max_matches":
+                base.Custom(args);
+                break;
 
-                case "adaptvariables":
+            case "adaptvariables":
+                {
                     if(args.Length != 2)
                         throw new ArgumentException("Usage: adaptvariables <bool>\n"
                                 + "If <bool> == true, variables are cleared (nulled) if they contain\n"
@@ -171,27 +182,16 @@ namespace de.unika.ipd.grGen.lgsp
                                 + "variables at the cost of listening to node and edge removals and retypings.\n"
                                 + "Dangerous! Disable this only if you don't work with variables.");
 
+                    bool newClearVariables;
                     if(!bool.TryParse((String)args[1], out newClearVariables))
                         throw new ArgumentException("Illegal bool value specified: \"" + (String)args[1] + "\"");
                     SetClearVariables(newClearVariables);
-                    return;
-            }
+                    break;
+                }
 
-        invalidCommand:
-            string errorMsg = "";
-            try
-            {
-                base.Custom(args);
+            default:
+                throw new ArgumentException("Unknown command: " + command);
             }
-            catch(ArgumentException ex)
-            {
-                errorMsg = ex.Message;
-            }
-
-            throw new ArgumentException(errorMsg
-                + "- adaptvariables: Sets whether variables are cleared if they contain\n"
-                + "     elements which are removed from the graph, and rewritten to\n"
-                + "     the new element on retypings.\n");
         }
 
         internal void SetClearVariables(bool newClearVariables)

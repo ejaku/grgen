@@ -106,9 +106,14 @@ namespace de.unika.ipd.grGen.libGr
         String ModelMD5Hash { get; }
 
         /// <summary>
+        /// The action-backend dependent commands that are available, and a description of each command.
+        /// </summary>
+        IDictionary<String, String> CustomCommandsAndDescriptions { get; }
+
+        /// <summary>
         /// Does action-backend dependent stuff.
         /// </summary>
-        /// <param name="args">Any kind of parameters for the stuff to do</param>
+        /// <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         void Custom(params object[] args);
     }
 }

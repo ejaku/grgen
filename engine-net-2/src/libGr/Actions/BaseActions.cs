@@ -223,12 +223,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract String ModelMD5Hash { get; }
 
+        public abstract IDictionary<String, String> CustomCommandsAndDescriptions { get; }
         public abstract void Custom(params object[] args);
 
         public abstract bool LazyNIC { get; }
-
         public abstract bool InlineIndependents { get; }
-
         public abstract bool Profile { get; }
     }
 }

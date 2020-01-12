@@ -27,6 +27,7 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNamedGraph namedGraph { get { return namedGraphOnTop; } }
         protected LGSPNamedGraph namedGraphOnTop;
         public LGSPActions curActions;
+        protected Dictionary<String, String> customCommandsToDescriptions;
 
 
         public LGSPActionExecutionEnvironment(LGSPGraph graph, LGSPActions actions)
@@ -37,6 +38,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.namedGraphOnTop = graph as LGSPNamedGraph;
             this.curActions = actions;
             InitActionsProfile(actions);
+            FillCustomCommandDescriptions();
         }
 
         public IGraph Graph
@@ -101,28 +103,44 @@ namespace de.unika.ipd.grGen.lgsp
             get { return maxMatches; }
             set { maxMatches = value; }
         }
-        
+
+        private void FillCustomCommandDescriptions()
+        {
+            customCommandsToDescriptions = new Dictionary<string, string>();
+            customCommandsToDescriptions.Add("set_max_matches", 
+                "- set_max_matches: Sets the maximum number of matches to be found\n" +
+                "     during matching (for all-bracketed rule calls like [r]).\n");
+        }
+
+        public IDictionary<String, String> CustomCommandsAndDescriptions
+        {
+            get
+            {
+                return customCommandsToDescriptions;
+            }
+        }
+
         public virtual void Custom(params object[] args)
         {
-            if(args.Length == 0) goto invalidCommand;
+            if(args.Length == 0)
+                throw new ArgumentException("No command given");
 
-            switch((String)args[0])
+            String command = (String)args[0];
+            switch(command)
             {
-                case "set_max_matches":
-                    if(args.Length != 2)
-                        throw new ArgumentException("Usage: set_max_matches <integer>\nIf <integer> <= 0, all matches will be matched.");
+            case "set_max_matches":
+                if(args.Length != 2)
+                    throw new ArgumentException("Usage: set_max_matches <integer>\nIf <integer> <= 0, all matches will be matched.");
 
-                    int newMaxMatches;
-                    if(!int.TryParse((String)args[1], out newMaxMatches))
-                        throw new ArgumentException("Illegal integer value specified: \"" + (String)args[1] + "\"");
-                    MaxMatches = newMaxMatches;
-                    return;
+                int newMaxMatches;
+                if(!int.TryParse((String)args[1], out newMaxMatches))
+                    throw new ArgumentException("Illegal integer value specified: \"" + (String)args[1] + "\"");
+                MaxMatches = newMaxMatches;
+                return;
+
+            default:
+                throw new ArgumentException("Unknown command: " + command);
             }
-
-        invalidCommand:
-            throw new ArgumentException("Possible commands:\n"
-                + "- set_max_matches: Sets the maximum number of matches to be found\n"
-                + "     during matching\n");
         }
 
 

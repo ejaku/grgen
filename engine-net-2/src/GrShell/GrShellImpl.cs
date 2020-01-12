@@ -1007,6 +1007,9 @@ namespace de.unika.ipd.grGen.grShell
                 + " - new ...                   Creation commands\n"
                 + " - select ...                Selection commands\n"
                 + " - include <filename>        Includes and executes the given .grs-script\n"
+                + " - if se clt [else clf] endif Conditionally executes the command lines clt\n"
+                + "                             if the sequence expression se evaluates to true\n"
+                + "                             or otherwise the command lines clf\n"
                 + " - silence (on | off)        Switches \"new ... created\" messages on/off\n"
                 + " - silence exec (on | off)   Print match statistics during execution every sec?\n"
                 + " - delete ...                Deletes something\n"
@@ -1035,7 +1038,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - <elem>.<member>           Shows the given graph element member\n"
                 + " - <elem>.<member> = <val>   Sets the value of the given element member\n"
                 + " - <elem>.<memb>.add(<val>)  Adds the value to the given set member\n"
-                + " - <elem>.<memb>.add(<k>,<v>)Adds values k->v to the given map member\n"
+                + " - <elem>.<memb>.add(<k>,<v>) Adds values k->v to the given map member\n"
                 + " - <elem>.rem(<val>)         Removes value from the given set/map member\n"
                 + " - <var> = <exp>             Assigns the given expression to <var>, <exp>:\n"
                 + "                               - <elem>\n"
@@ -1077,6 +1080,24 @@ namespace de.unika.ipd.grGen.grShell
                 + "     - new n1 --> n2\n"
                 + "     - new proc1 -:next-> proc2\n"
                 + "     - new proc1 -req:request(amount=5)-> res1\n");
+
+            debugOut.WriteLine("List of compilation configuration options starting with \"new\":\n"
+                + " - new add reference <filename>\n"
+                + "   Configures a reference to an external assembly\n"
+                + "   to be linked into the generated assemblies.\n"
+                + " - new set keepdebug (on | off)\n"
+                + "   switches on/off whether to keep the generated files and to add debug symbols\n"
+                + "   (includes emitting of some validity checking code)\n"
+                + " - new set lazynic (on | off)\n"
+                + "   switches on/off whether to execute negatives, independents, and conditions\n"
+                + "   lazily only at the end of matching (normally asap)\n"
+                + " - new set noinline (on | off)\n"
+                + "   switches on/off whether to inline subpatterns\n"
+                + " - new set profile (on | off)\n"
+                + "   switches on/off whether to emit profiling information\n"
+                + " - new set statistics <filename>\n"
+                + "   Generates assemblies using the statistics file specified,\n"
+                + "   yielding pattern matchers adapted to the class of graphs described there.\n");
         }
 
         public void HelpSelect(List<String> commands)
@@ -1274,11 +1295,10 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             debugOut.WriteLine("\nList of available commands for \"custom\":\n"
-                + " - custom graph:\n\n");
+                + " - custom graph:\n");
             CustomGraph(new List<String>());
-            debugOut.WriteLine("\n - custom actions:\n\n");
+            debugOut.WriteLine(" - custom actions:\n");
             CustomActions(new List<String>());
-            debugOut.WriteLine();
         }
 
         public void HelpValidate(List<String> commands)
@@ -4661,12 +4681,28 @@ showavail:
 
         public void CustomGraph(List<String> parameterList)
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
 
-            String[] parameters = parameterList.ToArray();
+            if(parameterList.Count == 0 
+                || !curShellProcEnv.ProcEnv.NamedGraph.CustomCommandsAndDescriptions.ContainsKey(parameterList[0]))
+            {
+                if(parameterList.Count > 0)
+                    errOut.WriteLine("Unknown command!");
+
+                debugOut.WriteLine("Possible commands:");
+                foreach(String description in curShellProcEnv.ProcEnv.NamedGraph.CustomCommandsAndDescriptions.Values)
+                {
+                    debugOut.Write(description);
+                }
+                debugOut.WriteLine();
+
+                return;
+            }
+
             try
             {
-                curShellProcEnv.ProcEnv.NamedGraph.Custom(parameters);
+                curShellProcEnv.ProcEnv.NamedGraph.Custom(parameterList.ToArray());
             }
             catch(ArgumentException e)
             {
@@ -4676,16 +4712,51 @@ showavail:
 
         public void CustomActions(List<String> parameterList)
         {
-            if(!ActionsExists()) return;
+            if(!ActionsExists())
+                return;
 
-            String[] parameters = parameterList.ToArray();
-            try
+            if(parameterList.Count == 0 
+                || (!curShellProcEnv.ProcEnv.Actions.CustomCommandsAndDescriptions.ContainsKey(parameterList[0])
+                    && !curShellProcEnv.ProcEnv.CustomCommandsAndDescriptions.ContainsKey(parameterList[0])))
             {
-                curShellProcEnv.ProcEnv.Actions.Custom(parameters);
+                if(parameterList.Count > 0)
+                    errOut.WriteLine("Unknown command!");
+
+                debugOut.WriteLine("Possible commands:");
+                foreach(String description in curShellProcEnv.ProcEnv.Actions.CustomCommandsAndDescriptions.Values)
+                {
+                    debugOut.Write(description);
+                }
+                foreach(String description in curShellProcEnv.ProcEnv.CustomCommandsAndDescriptions.Values)
+                {
+                    debugOut.Write(description);
+                }
+                debugOut.WriteLine();
+
+                return;
             }
-            catch(ArgumentException e)
+
+            if(curShellProcEnv.ProcEnv.Actions.CustomCommandsAndDescriptions.ContainsKey(parameterList[0]))
             {
-                errOut.WriteLine(e.Message);
+                try
+                {
+                    curShellProcEnv.ProcEnv.Actions.Custom(parameterList.ToArray());
+                }
+                catch(ArgumentException e)
+                {
+                    errOut.WriteLine(e.Message);
+                }
+            }
+            else
+            {
+                try
+                {
+                    curShellProcEnv.ProcEnv.Custom(parameterList.ToArray());
+                }
+                catch(ArgumentException e)
+                {
+                    errOut.WriteLine(e.Message);
+                }
             }
         }
 
