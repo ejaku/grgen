@@ -1,4 +1,58 @@
-﻿v4.5.5 (2019-11-18)
+﻿v4.5.6 (2020-01-12)
+ Extended post matches sorting filters orderAscendingBy and orderDescendingBy to support multiple variables
+  e.g. orderAscendingBy<v,w> orders the matches primarily by v and secondarily by w,
+  i.e in case the values of the first def variable are equal, the values of the second one decide
+
+ Added conditional interpretation to shell scripts, of the form:
+  if SequenceExpression CommandLines (else CommandLines)? endif 
+ Example:
+  cond = true
+  if ::cond
+    dump set node Node color red
+  else
+    dump set node Node color blue
+  endif
+
+ Added support for a validityCheck annotation:
+  A node/edge annotated by validityCheck=false skips the contained-in-graph checks for that node/edge,
+  which are executed in case the compiler flag (or shell option) debug (or keepdebug) is supplied,
+  before a match is rewritten, esp. in between matches of an all-bracketed rule execution.
+  A rule annotated by validityCheck=false skips the contained-in-graph checks for all nodes/edges in the pattern(s) of the rule.
+  
+ Changed the semantics of the still-contained-in-graph checking:
+  An edge is only reported as invalid if the nodes incident to it are valid;
+  so if a node was deleted during the rewrite of one of the matches of an all-bracketed rule,
+  the rewrite of another match does not complain about a referenced edge that was incident to that node
+  (this may hide bugs, but saves us from littering the code with many checkValidity annotations).
+
+ Missing adaptations (bugfixes):
+ - rule all call returns list of values, now also in case random choice is requested (e.g. $[r]) (in interpreted and compiled sequences)
+ - rule all call used from some-from-set now returns list of values (in interpreted sequences)
+ - rule count all call used from some-from-set returns list of values, now also in interpreted sequences
+ - added missing commands to the help of the shell (and reorganized them)
+
+ Bugfix(es): 
+ - in rule all calls in interpreted sequences: create list if untyped return variable does not contain one instead of crashing
+ - the generated code was not kept when the shell option keepdebug was supplied
+ - fixed bugs in sequence some from set match assignment and match number computation
+ - fixed bug in printing match numbers in one-from-set version of some-from-set in debugger
+   (minor fix in graph expressions)
+ - avoid multiple marking of graph elements in case of a match selection error
+ - custom commands of action execution environment (and derived environments) were missing from shell custom actions (/graph) command,
+   only the custom commands of the actions (/graph) themselves were available (since the graph processing environment was split out of the graph)
+   (adaptvariables and set_max_matches are custom actions commands (now - were previously custom graph commands))
+
+ User manual adaptations, corrections, and improvements
+ 
+ Removed outdated ancient ASTdapter and GrIO projects (and MonoILReader.cs), and their related shell commands (parse, select parser, sync io)
+
+ Massive code restructuring; and slight API changes:
+ - eleminated usage of InvocationParameterBinding classes from the Apply methods of the functions/procedures/sequences 
+ - replaced Annotations enumerable/dictionary by explicit class
+ - custom command listing and help description separated from execution and error reporting
+ - added indexer giving access to the attributes to the graph elements
+  
+v4.5.5 (2019-11-18)
  Added support for dumping graphs in dot format and rendering with the graphviz programs,
   which are dot, neato, fdp, sfdp, twopi, circo
   Example: show graph dot -- executes dot to render a png image from a dot language dump, 
