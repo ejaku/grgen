@@ -1,4 +1,4 @@
-GrGen.NET v4.5.5 (2019-11-18)
+GrGen.NET v4.5.6 (2020-01-12)
 -----------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -166,7 +166,7 @@ Caroline von Totth
 COPYING
 -------
 
-Copyright (C) 2003-2017 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
+Copyright (C) 2003-2020 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
 This file is part of GrGen, Version GrGen.NET 4.5
 
