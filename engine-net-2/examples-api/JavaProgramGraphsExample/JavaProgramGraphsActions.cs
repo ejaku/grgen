@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Jul 29 09:00:58 CEST 2018
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Jan 12 22:15:16 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -36747,7 +36747,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleContainedPackagesOrClasses_node_p 
@@ -36952,7 +36952,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleContainedPackagesOrClasses_node_p_inlined_mpc_0 
@@ -37126,7 +37126,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleContainedPackagesOrClasses_node_p_inlined_mpc_0 
@@ -37308,7 +37308,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleContainedPackagesOrClasses_node_p 
@@ -37518,7 +37518,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleMethodBodies_node_c_inlined_mm_1 
@@ -37688,7 +37688,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleVariables_node_c_inlined_mv_2 
@@ -37942,7 +37942,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleVariables_node_c 
@@ -38196,7 +38196,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleMethodBodies_node_c 
@@ -38397,7 +38397,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MethodBodyAndImplementation_node_mb_inlined_bi_3 
@@ -38567,7 +38567,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MethodBodyAndImplementation_node_mb_inlined_bi_3 
@@ -38850,7 +38850,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MethodBodyAndImplementation_node_mb 
@@ -39034,7 +39034,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleParameters_node_op_inlined__sub0_4 
@@ -39192,7 +39192,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MethodBodyAndImplementation_node_mb 
@@ -39393,7 +39393,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleExpressions_node_b_inlined_me_5 
@@ -39567,7 +39567,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleExpressions_node_b_inlined_me_5 
@@ -39845,7 +39845,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleParameters_node_op 
@@ -40116,7 +40116,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleExpressions_node_b 
@@ -40636,7 +40636,7 @@ label2: ;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleExpressions_node_b 
@@ -41195,7 +41195,7 @@ label5: ;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleActualParameters_node_c_inlined__sub0_8 
@@ -41369,7 +41369,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleActualParameters_node_c_inlined__sub0_8 
@@ -42706,7 +42706,7 @@ label14: ;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleActualParameters_node_c_inlined__sub0_11 
@@ -42880,7 +42880,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleActualParameters_node_c_inlined__sub0_11 
@@ -43179,7 +43179,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleActualParameters_node_c 
@@ -43699,7 +43699,7 @@ label17: ;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleActualParameters_node_c 
@@ -44262,7 +44262,7 @@ label20: ;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleActualParameters_node_c_inlined__sub1_14 
@@ -44436,7 +44436,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleActualParameters_node_c_inlined__sub1_14 
@@ -44718,7 +44718,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleExtendingClasses_node_c 
@@ -44906,7 +44906,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleExtendingClasses_node_c_inlined__sub0_15 
@@ -53432,7 +53432,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // Lookup emitSpanningTree_iter_0_node_p 
@@ -53637,7 +53637,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleContainedPackagesOrClasses_node_p_inlined_mpc_18 
@@ -53811,7 +53811,7 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // dummy iteration for iterated return prevention
+            // dummy loop for iterated matching return prevention
             do
             {
                 // SubPreset MultipleContainedPackagesOrClasses_node_p_inlined_mpc_18 

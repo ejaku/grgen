@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jul 29 09:00:50 CEST 2018
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jan 12 22:15:07 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -1868,9 +1868,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			return GRGEN_EXPR.ExternalFunctions.foo((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (int)paramBindings.Arguments[0], (double)paramBindings.Arguments[1], (GRGEN_MODEL.ENUM_Enu)paramBindings.Arguments[2], (string)paramBindings.Arguments[3]);
+			return GRGEN_EXPR.ExternalFunctions.foo((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (int)arguments[0], (double)arguments[1], (GRGEN_MODEL.ENUM_Enu)arguments[2], (string)arguments[3]);
 		}
 	}
 
@@ -1890,9 +1890,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			return GRGEN_EXPR.ExternalFunctions.bar((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)paramBindings.Arguments[0], (object)paramBindings.Arguments[1]);
+			return GRGEN_EXPR.ExternalFunctions.bar((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)arguments[0], (object)arguments[1]);
 		}
 	}
 
@@ -1912,9 +1912,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			return GRGEN_EXPR.ExternalFunctions.isnull((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)paramBindings.Arguments[0]);
+			return GRGEN_EXPR.ExternalFunctions.isnull((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)arguments[0]);
 		}
 	}
 
@@ -1934,9 +1934,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			return GRGEN_EXPR.ExternalFunctions.bla((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.IN)paramBindings.Arguments[0], (GRGEN_MODEL.IE)paramBindings.Arguments[1]);
+			return GRGEN_EXPR.ExternalFunctions.bla((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.IN)arguments[0], (GRGEN_MODEL.IE)arguments[1]);
 		}
 	}
 
@@ -1956,9 +1956,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			return GRGEN_EXPR.ExternalFunctions.blo((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)paramBindings.Arguments[0], (GRGEN_LIBGR.IDEdge)paramBindings.Arguments[1]);
+			return GRGEN_EXPR.ExternalFunctions.blo((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)arguments[0], (GRGEN_LIBGR.IDEdge)arguments[1]);
 		}
 	}
 
@@ -1978,9 +1978,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			return GRGEN_EXPR.ExternalFunctions.har((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.Own)paramBindings.Arguments[0], (GRGEN_MODEL.OwnPown)paramBindings.Arguments[1]);
+			return GRGEN_EXPR.ExternalFunctions.har((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.Own)arguments[0], (GRGEN_MODEL.OwnPown)arguments[1]);
 		}
 	}
 
@@ -2000,9 +2000,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			return GRGEN_EXPR.ExternalFunctions.hur((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPown)paramBindings.Arguments[0]);
+			return GRGEN_EXPR.ExternalFunctions.hur((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPown)arguments[0]);
 		}
 	}
 
@@ -2022,9 +2022,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			return GRGEN_EXPR.ExternalFunctions.hurdur((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPownHome)paramBindings.Arguments[0]);
+			return GRGEN_EXPR.ExternalFunctions.hurdur((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPownHome)arguments[0]);
 		}
 	}
 
@@ -2044,7 +2044,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
 			return GRGEN_EXPR.ExternalFunctions.own((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph);
 		}
@@ -2066,7 +2066,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
 			return GRGEN_EXPR.ExternalFunctions.ownPown((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph);
 		}
@@ -2088,7 +2088,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.FunctionInvocationParameterBindings paramBindings)
+		public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
 			return GRGEN_EXPR.ExternalFunctions.ownPownHome((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph);
 		}
@@ -2110,9 +2110,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			GRGEN_EXPR.ExternalProcedures.fooProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (int)paramBindings.Arguments[0], (double)paramBindings.Arguments[1], (GRGEN_MODEL.ENUM_Enu)paramBindings.Arguments[2], (string)paramBindings.Arguments[3]);
+			GRGEN_EXPR.ExternalProcedures.fooProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (int)arguments[0], (double)arguments[1], (GRGEN_MODEL.ENUM_Enu)arguments[2], (string)arguments[3]);
 			return ReturnArray;
 		}
 	}
@@ -2133,10 +2133,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
 			object _out_param_0;
-			GRGEN_EXPR.ExternalProcedures.barProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)paramBindings.Arguments[0], (object)paramBindings.Arguments[1], out _out_param_0);
+			GRGEN_EXPR.ExternalProcedures.barProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)arguments[0], (object)arguments[1], out _out_param_0);
 			ReturnArray[0] = _out_param_0;
 			return ReturnArray;
 		}
@@ -2158,10 +2158,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
 			bool _out_param_0;
-			GRGEN_EXPR.ExternalProcedures.isnullProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)paramBindings.Arguments[0], out _out_param_0);
+			GRGEN_EXPR.ExternalProcedures.isnullProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (object)arguments[0], out _out_param_0);
 			ReturnArray[0] = _out_param_0;
 			return ReturnArray;
 		}
@@ -2183,11 +2183,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
 			bool _out_param_0;
 			bool _out_param_1;
-			GRGEN_EXPR.ExternalProcedures.blaProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.IN)paramBindings.Arguments[0], (GRGEN_MODEL.IE)paramBindings.Arguments[1], out _out_param_0, out _out_param_1);
+			GRGEN_EXPR.ExternalProcedures.blaProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.IN)arguments[0], (GRGEN_MODEL.IE)arguments[1], out _out_param_0, out _out_param_1);
 			ReturnArray[0] = _out_param_0;
 			ReturnArray[1] = _out_param_1;
 			return ReturnArray;
@@ -2210,10 +2210,10 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
 			GRGEN_MODEL.IN _out_param_0;
-			GRGEN_EXPR.ExternalProcedures.bloProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)paramBindings.Arguments[0], (GRGEN_LIBGR.IDEdge)paramBindings.Arguments[1], out _out_param_0);
+			GRGEN_EXPR.ExternalProcedures.bloProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_LIBGR.INode)arguments[0], (GRGEN_LIBGR.IDEdge)arguments[1], out _out_param_0);
 			ReturnArray[0] = _out_param_0;
 			return ReturnArray;
 		}
@@ -2235,12 +2235,12 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
 			GRGEN_MODEL.OwnPown _out_param_0;
 			GRGEN_MODEL.Own _out_param_1;
 			GRGEN_MODEL.IN _out_param_2;
-			GRGEN_EXPR.ExternalProcedures.harProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.Own)paramBindings.Arguments[0], (GRGEN_MODEL.OwnPown)paramBindings.Arguments[1], out _out_param_0, out _out_param_1, out _out_param_2);
+			GRGEN_EXPR.ExternalProcedures.harProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.Own)arguments[0], (GRGEN_MODEL.OwnPown)arguments[1], out _out_param_0, out _out_param_1, out _out_param_2);
 			ReturnArray[0] = _out_param_0;
 			ReturnArray[1] = _out_param_1;
 			ReturnArray[2] = _out_param_2;
@@ -2264,9 +2264,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			GRGEN_EXPR.ExternalProcedures.hurProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPown)paramBindings.Arguments[0]);
+			GRGEN_EXPR.ExternalProcedures.hurProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPown)arguments[0]);
 			return ReturnArray;
 		}
 	}
@@ -2287,9 +2287,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 					  )
 		{
 		}
-		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.ProcedureInvocationParameterBindings paramBindings)
+		public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)
 		{
-			GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPownHome)paramBindings.Arguments[0]);
+			GRGEN_EXPR.ExternalProcedures.hurdurProc((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph, (GRGEN_MODEL.OwnPownHome)arguments[0]);
 			return ReturnArray;
 		}
 	}

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jul 29 09:01:00 CEST 2018
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jan 12 22:15:19 CET 2020
 
 using System;
 using System.Collections.Generic;
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			newRule_node_p1.pointOfDefinition = pat_newRule;
 			newRule_node_p2.pointOfDefinition = pat_newRule;
 			newRule_edge_n.pointOfDefinition = pat_newRule;
-			newRule_edge_n.annotations.Add("prio", "10000");
+			newRule_edge_n.annotations.annotations.Add("prio", "10000");
 
 			patternGraph = pat_newRule;
 		}
@@ -1016,7 +1016,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unmountRule.edgeToTargetNode.Add(unmountRule_edge_t, unmountRule_node_p);
 
 			unmountRule_node_r.pointOfDefinition = pat_unmountRule;
-			unmountRule_node_r.annotations.Add("prio", "5000");
+			unmountRule_node_r.annotations.annotations.Add("prio", "5000");
 			unmountRule_node_p.pointOfDefinition = pat_unmountRule;
 			unmountRule_edge_t.pointOfDefinition = pat_unmountRule;
 
@@ -1387,7 +1387,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			passRule_neg_0.embeddingGraph = pat_passRule;
 
 			passRule_node_r.pointOfDefinition = pat_passRule;
-			passRule_node_r.annotations.Add("prio", "5000");
+			passRule_node_r.annotations.annotations.Add("prio", "5000");
 			passRule_node_p1.pointOfDefinition = pat_passRule;
 			passRule_node_p2.pointOfDefinition = pat_passRule;
 			passRule_edge__edge0.pointOfDefinition = pat_passRule;
@@ -2006,7 +2006,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			requestRule_node_p.pointOfDefinition = pat_requestRule;
 			requestRule_node_r.pointOfDefinition = pat_requestRule;
-			requestRule_node_r.annotations.Add("prio", "10000");
+			requestRule_node_r.annotations.annotations.Add("prio", "10000");
 			requestRule_neg_0_edge_hb.pointOfDefinition = requestRule_neg_0;
 			requestRule_neg_1_node_m.pointOfDefinition = requestRule_neg_1;
 			requestRule_neg_1_edge_req.pointOfDefinition = requestRule_neg_1;
@@ -2703,7 +2703,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			takeRule_node_r.pointOfDefinition = pat_takeRule;
 			takeRule_node_p.pointOfDefinition = pat_takeRule;
 			takeRule_edge_t.pointOfDefinition = pat_takeRule;
-			takeRule_edge_t.annotations.Add("prio", "10000");
+			takeRule_edge_t.annotations.annotations.Add("prio", "10000");
 			takeRule_edge_req.pointOfDefinition = pat_takeRule;
 
 			patternGraph = pat_takeRule;
@@ -3075,7 +3075,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			releaseRule_node_r.pointOfDefinition = pat_releaseRule;
 			releaseRule_node_p.pointOfDefinition = pat_releaseRule;
 			releaseRule_edge_hb.pointOfDefinition = pat_releaseRule;
-			releaseRule_edge_hb.annotations.Add("prio", "10000");
+			releaseRule_edge_hb.annotations.annotations.Add("prio", "10000");
 			releaseRule_neg_0_node_m.pointOfDefinition = releaseRule_neg_0;
 			releaseRule_neg_0_edge_req.pointOfDefinition = releaseRule_neg_0;
 
@@ -3591,7 +3591,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			giveRule_node_p1.pointOfDefinition = pat_giveRule;
 			giveRule_node_p2.pointOfDefinition = pat_giveRule;
 			giveRule_edge_rel.pointOfDefinition = pat_giveRule;
-			giveRule_edge_rel.annotations.Add("prio", "10000");
+			giveRule_edge_rel.annotations.annotations.Add("prio", "10000");
 			giveRule_edge_n.pointOfDefinition = pat_giveRule;
 
 			patternGraph = pat_giveRule;
@@ -3923,7 +3923,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			blockedRule_node_p1.pointOfDefinition = pat_blockedRule;
 			blockedRule_node_r.pointOfDefinition = pat_blockedRule;
-			blockedRule_node_r.annotations.Add("prio", "5000");
+			blockedRule_node_r.annotations.annotations.Add("prio", "5000");
 			blockedRule_node_p2.pointOfDefinition = pat_blockedRule;
 			blockedRule_edge_req.pointOfDefinition = pat_blockedRule;
 			blockedRule_edge_hb.pointOfDefinition = pat_blockedRule;
@@ -4275,7 +4275,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			waitingRule_node_r1.pointOfDefinition = pat_waitingRule;
 			waitingRule_node_p2.pointOfDefinition = pat_waitingRule;
 			waitingRule_node_r.pointOfDefinition = pat_waitingRule;
-			waitingRule_node_r.annotations.Add("prio", "5000");
+			waitingRule_node_r.annotations.annotations.Add("prio", "5000");
 			waitingRule_edge_b.pointOfDefinition = pat_waitingRule;
 			waitingRule_edge_hb.pointOfDefinition = pat_waitingRule;
 			waitingRule_edge_req.pointOfDefinition = pat_waitingRule;
@@ -4676,7 +4676,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			ignoreRule_neg_0.embeddingGraph = pat_ignoreRule;
 
 			ignoreRule_node_r.pointOfDefinition = pat_ignoreRule;
-			ignoreRule_node_r.annotations.Add("prio", "5000");
+			ignoreRule_node_r.annotations.annotations.Add("prio", "5000");
 			ignoreRule_node_p.pointOfDefinition = pat_ignoreRule;
 			ignoreRule_edge_b.pointOfDefinition = pat_ignoreRule;
 			ignoreRule_neg_0_node_m.pointOfDefinition = ignoreRule_neg_0;
@@ -5183,7 +5183,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unlockRule.edgeToTargetNode.Add(unlockRule_edge_hb, unlockRule_node_p);
 
 			unlockRule_node_r.pointOfDefinition = pat_unlockRule;
-			unlockRule_node_r.annotations.Add("prio", "5000");
+			unlockRule_node_r.annotations.annotations.Add("prio", "5000");
 			unlockRule_node_p.pointOfDefinition = pat_unlockRule;
 			unlockRule_edge_b.pointOfDefinition = pat_unlockRule;
 			unlockRule_edge_hb.pointOfDefinition = pat_unlockRule;
@@ -6521,7 +6521,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestSimpleRule_neg_0.embeddingGraph = pat_requestSimpleRule;
 
 			requestSimpleRule_node_r.pointOfDefinition = pat_requestSimpleRule;
-			requestSimpleRule_node_r.annotations.Add("prio", "5000");
+			requestSimpleRule_node_r.annotations.annotations.Add("prio", "5000");
 			requestSimpleRule_node_p.pointOfDefinition = pat_requestSimpleRule;
 			requestSimpleRule_edge_t.pointOfDefinition = pat_requestSimpleRule;
 			requestSimpleRule_neg_0_edge_req.pointOfDefinition = requestSimpleRule_neg_0;
@@ -7499,7 +7499,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 			filters = new GRGEN_LGSP.LGSPFilter[] { };
 
-			annotations.Add("specialRule", "true");
+			annotations.annotations.Add("specialRule", "true");
 		}
 		private void initialize()
 		{
@@ -7543,8 +7543,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_annotationTestRule.edgeToTargetNode.Add(annotationTestRule_edge_e1, annotationTestRule_node_n1);
 
 			annotationTestRule_node_n1.pointOfDefinition = pat_annotationTestRule;
-			annotationTestRule_node_n1.annotations.Add("bar", "foo");
-			annotationTestRule_node_n1.annotations.Add("foo", "bar");
+			annotationTestRule_node_n1.annotations.annotations.Add("bar", "foo");
+			annotationTestRule_node_n1.annotations.annotations.Add("foo", "bar");
 			annotationTestRule_edge_e1.pointOfDefinition = pat_annotationTestRule;
 
 			patternGraph = pat_annotationTestRule;
