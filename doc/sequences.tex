@@ -113,7 +113,7 @@ The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{co
 With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried out.
 
 The \indexed{random match selector} \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten (but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
-Rule application will fail in case no match was found and succeed otherwise. 
+Rule application will fail in case no match was found and succeed otherwise (the return values are of array type, as with all-bracketed rule calls, even in case only one match is requested). 
 You may change the lower bound for success by giving a variable containing the value to apply before the comma-separated upper bound variable.
 In case a lower bound is given the upper bound may be set to unlimited with the \texttt{*}.
 An \texttt{\%} appended to the \texttt{\$} denotes a \indexed{choice point} 
