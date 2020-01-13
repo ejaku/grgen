@@ -18,3 +18,7 @@ To learn more about GrGen, take a look at its user manual:
 
     http://grgen.net/GrGenNET-Manual.pdf
 
+The source code was previously available from: 
+
+    https://bitbucket.org/eja/grgen
+
