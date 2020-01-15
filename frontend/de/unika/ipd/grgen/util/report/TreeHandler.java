@@ -123,7 +123,7 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
       return true;
     }
 
-    public Enumeration<?> children() {
+    public Enumeration<? extends TreeNode> children() {
       return null;
     }
 
