@@ -211,7 +211,7 @@ namespace de.unika.ipd.grGen.grShell
 
             impl.debugOut.WriteLine("Executing Graph Rewrite Sequence (CTRL+C for abort) ...");
             cancelSequence = false;
-            impl.Workaround.PreventComputerGoingIntoSleepMode(true);
+            WorkaroundManager.Workaround.PreventComputerGoingIntoSleepMode(true);
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
             StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
             Timer timer = null;
@@ -250,11 +250,11 @@ namespace de.unika.ipd.grGen.grShell
                 else
                 {
                     impl.errOut.WriteLine("Rewrite sequence aborted after position:");
-                    SequencePrinter.PrintSequence(curGRS, curRule, impl.Workaround);
+                    SequencePrinter.PrintSequence(curGRS, curRule);
                     impl.errOut.WriteLine();
                 }
             }
-            impl.Workaround.PreventComputerGoingIntoSleepMode(false);
+            WorkaroundManager.Workaround.PreventComputerGoingIntoSleepMode(false);
             curRule = null;
             curGRS = null;
 
@@ -510,7 +510,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
-        /// Reads a key from the keyboard using the workaround manager of grShellImpl.
+        /// Reads a key from the keyboard using the workaround manager.
         /// If CTRL+C is pressed, grShellImpl.Cancel() is called.
         /// </summary>
         /// <returns>The ConsoleKeyInfo object for the pressed key.</returns>
@@ -519,7 +519,7 @@ namespace de.unika.ipd.grGen.grShell
             if(OperationCancelled)
                 Cancel();
 
-            ConsoleKeyInfo key = impl.Workaround.ReadKeyWithControlCAsInput();
+            ConsoleKeyInfo key = WorkaroundManager.Workaround.ReadKeyWithControlCAsInput();
 
             if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
                 Cancel();

@@ -106,7 +106,7 @@ namespace de.unika.ipd.grGen.grShell
             this.shellProcEnv = grShellImpl.CurrentShellProcEnv;
             this.realizers = grShellImpl.realizers;
 
-            this.context = new PrintSequenceContext(grShellImpl.Workaround);
+            this.context = new PrintSequenceContext();
 
             this.renderRecorder = new GraphAnnotationAndChangesRecorder();
 
@@ -258,7 +258,7 @@ namespace de.unika.ipd.grGen.grShell
             skipMode = false;
             lastlyEntered = null;
             recentlyMatched = null;
-            context.Init(grShellImpl.Workaround);
+            context.Init();
         }
 
         public void AbortRewriteSequence()
@@ -573,7 +573,7 @@ namespace de.unika.ipd.grGen.grShell
         private void HandleStackTrace()
         {
             Console.WriteLine("Current sequence call stack is:");
-            PrintSequenceContext contextTrace = new PrintSequenceContext(grShellImpl.Workaround);
+            PrintSequenceContext contextTrace = new PrintSequenceContext();
             Sequence[] callStack = debugSequences.ToArray();
             for(int i = callStack.Length - 1; i >= 0; --i)
             {
@@ -588,7 +588,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.WriteLine("Current execution state is:");
             PrintVariables(null, null);
-            PrintSequenceContext contextTrace = new PrintSequenceContext(grShellImpl.Workaround);
+            PrintSequenceContext contextTrace = new PrintSequenceContext();
             Sequence[] callStack = debugSequences.ToArray();
             for(int i = callStack.Length - 1; i >= 0; --i)
             {
@@ -752,7 +752,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(seq.NumTotalMatches <= 1 && lazyChoice)
             {
-                context.workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
+                WorkaroundManager.Workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
                 Console.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
                 return totalMatchToExecute;
             }
@@ -805,7 +805,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(matches.Count <= 1 + numFurtherMatchesToApply && lazyChoice)
             {
-                context.workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
+                WorkaroundManager.Workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
                 Console.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
                 return matchToApply;
             }
@@ -896,7 +896,7 @@ namespace de.unika.ipd.grGen.grShell
             // Allow to abort with ESC
             while(true)
             {
-                if(Console.KeyAvailable && grShellImpl.Workaround.ReadKey(true).Key == ConsoleKey.Escape)
+                if(Console.KeyAvailable && WorkaroundManager.Workaround.ReadKey(true).Key == ConsoleKey.Escape)
                 {
                     Console.WriteLine("Aborted!");
                     ycompClient.WaitForElement(false);
@@ -1368,17 +1368,17 @@ namespace de.unika.ipd.grGen.grShell
 
             if(debugSequences.Count == 1 && seq == debugSequences.Peek())
             {
-                context.workaround.PrintHighlighted("State at end of sequence ", HighlightingMode.SequenceStart);
+                WorkaroundManager.Workaround.PrintHighlighted("State at end of sequence ", HighlightingMode.SequenceStart);
                 context.highlightSeq = null;
                 SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                context.workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
+                WorkaroundManager.Workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
                 Console.WriteLine();
             }
         }
 
         private void PrintDebugInstructionsOnEntering()
         {
-            context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
+            WorkaroundManager.Workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
             Console.Write(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, ");
             Console.Write("toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, ");
             Console.Write("show (v)ariables, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, ");
@@ -1441,27 +1441,27 @@ namespace de.unika.ipd.grGen.grShell
                             text = "Backtracking ";
                         else
                             text = "Backtracking possibilities exhausted, fail ";
-                    context.workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
+                    WorkaroundManager.Workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
                     if(!continueLoop)
-                        context.workaround.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
+                        WorkaroundManager.Workaround.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
                 }
                 else if(seq is SequenceDefinition)
                 {
                     SequenceDefinition seqDef = (SequenceDefinition)seq;
-                    context.workaround.PrintHighlighted("State at end of sequence call ", HighlightingMode.SequenceStart);
+                    WorkaroundManager.Workaround.PrintHighlighted("State at end of sequence call ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
-                    context.workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
+                    WorkaroundManager.Workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
                 }
                 else
                 {
-                    context.workaround.PrintHighlighted("State at end of iteration step ", HighlightingMode.SequenceStart);
+                    WorkaroundManager.Workaround.PrintHighlighted("State at end of iteration step ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
                     if(!continueLoop)
-                        context.workaround.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
+                        WorkaroundManager.Workaround.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
                 }
                 Console.WriteLine(" (updating, please wait...)");
             }
@@ -1476,7 +1476,7 @@ namespace de.unika.ipd.grGen.grShell
             // potential future extension: display the stack of graphs instead of only the topmost one
             // with the one at the forefront being the top of the stack; would save clearing and uploading
             UnregisterLibGrEvents(shellProcEnv.ProcEnv.NamedGraph);
-            context.workaround.PrintHighlighted("Entering graph...\n", HighlightingMode.SequenceStart);
+            WorkaroundManager.Workaround.PrintHighlighted("Entering graph...\n", HighlightingMode.SequenceStart);
             ycompClient.ClearGraph();
             ycompClient.Graph = (INamedGraph)newGraph;
             if(!ycompClient.dumpInfo.IsExcludedGraph())
@@ -1491,7 +1491,7 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugReturnedFromGraph(IGraph oldGraph)
         {
             UnregisterLibGrEvents((INamedGraph)oldGraph);
-            context.workaround.PrintHighlighted("...leaving graph\n", HighlightingMode.SequenceStart);
+            WorkaroundManager.Workaround.PrintHighlighted("...leaving graph\n", HighlightingMode.SequenceStart);
             ycompClient.ClearGraph();
             ycompClient.Graph = shellProcEnv.ProcEnv.NamedGraph;
             if(!ycompClient.dumpInfo.IsExcludedGraph())
@@ -1599,7 +1599,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void InternalHalt(SubruleDebuggingConfigurationRule cr, object data, params object[] additionalData)
         {
-            context.workaround.PrintHighlighted("Break ", HighlightingMode.Breakpoint);
+            WorkaroundManager.Workaround.PrintHighlighted("Break ", HighlightingMode.Breakpoint);
             Console.WriteLine("because " + cr.ToString(data, shellProcEnv.ProcEnv.NamedGraph, additionalData));
 
             ycompClient.UpdateDisplay();

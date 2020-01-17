@@ -116,7 +116,6 @@ namespace de.unika.ipd.grGen.grShell
         bool ActionsExists();
         GrShellImpl GetGrShellImpl();
         ShellGraphProcessingEnvironment curShellProcEnv { get; }
-        IWorkaround Workaround { get; }
         TextWriter debugOut { get; }
         TextWriter errOut { get; }
         NewGraphOptions newGraphOptions { get; }
@@ -134,7 +133,6 @@ namespace de.unika.ipd.grGen.grShell
         void HandleSequenceParserException(SequenceParserException ex);
         string ShowGraphWith(String programName, String arguments, bool keep);
         IGraphElement GetElemByName(String elemName);
-        IWorkaround Workaround { get; }
         ShellGraphProcessingEnvironment CurrentShellProcEnv { get; }
         ElementRealizers realizers { get; }
     }
@@ -158,7 +156,6 @@ namespace de.unika.ipd.grGen.grShell
         bool IGrShellImplForSequenceApplierAndDebugger.ActionsExists() { return ActionsExists(); }
         GrShellImpl IGrShellImplForSequenceApplierAndDebugger.GetGrShellImpl() { return this; }
         ShellGraphProcessingEnvironment IGrShellImplForSequenceApplierAndDebugger.curShellProcEnv { get { return curShellProcEnv; } }
-        IWorkaround IGrShellImplForSequenceApplierAndDebugger.Workaround { get { return workaround; } }
         TextWriter IGrShellImplForSequenceApplierAndDebugger.debugOut { get { return debugOut; } }
         TextWriter IGrShellImplForSequenceApplierAndDebugger.errOut { get { return errOut; } }
         NewGraphOptions IGrShellImplForSequenceApplierAndDebugger.newGraphOptions { get { return newGraphOptions; } }
@@ -173,7 +170,6 @@ namespace de.unika.ipd.grGen.grShell
         GrGenType IGrShellImplForDebugger.GetGraphElementType(String typeName) { return GetGraphElementType(typeName); }
         void IGrShellImplForDebugger.HandleSequenceParserException(SequenceParserException ex) { HandleSequenceParserException(ex); }
         string IGrShellImplForDebugger.ShowGraphWith(String programName, String arguments, bool keep) { return ShowGraphWith(programName, arguments, keep); }
-        IWorkaround IGrShellImplForDebugger.Workaround { get { return workaround; } }
         ShellGraphProcessingEnvironment IGrShellImplForDebugger.CurrentShellProcEnv { get { return curShellProcEnv; } }
         ElementRealizers IGrShellImplForDebugger.realizers { get { return realizers; } }
 
@@ -214,8 +210,6 @@ namespace de.unika.ipd.grGen.grShell
 
         private TextWriter debugOut = System.Console.Out;
         private TextWriter errOut = System.Console.Error;
-
-        private IWorkaround workaround = WorkaroundManager.Workaround;
 
         static private string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
 
@@ -1462,7 +1456,7 @@ namespace de.unika.ipd.grGen.grShell
                 DirectoryInfo[] nestedDirectories = dir.GetDirectories();
                 foreach(DirectoryInfo nestedDirectory in nestedDirectories)
                 {
-                    workaround.PrintHighlighted(nestedDirectory.Name, HighlightingMode.Directory);
+                    WorkaroundManager.Workaround.PrintHighlighted(nestedDirectory.Name, HighlightingMode.Directory);
                     debugOut.Write(" ");
                 }
                 debugOut.WriteLine();
@@ -1470,17 +1464,17 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(FileInfo file in filesInDirectory)
                 {
                     if(file.Name.EndsWith(".grs"))
-                        workaround.PrintHighlighted(file.Name, HighlightingMode.GrsFile);
+                        WorkaroundManager.Workaround.PrintHighlighted(file.Name, HighlightingMode.GrsFile);
                     else if(file.Name.EndsWith(".grsi"))
-                        workaround.PrintHighlighted(file.Name, HighlightingMode.GrsiFile);
+                        WorkaroundManager.Workaround.PrintHighlighted(file.Name, HighlightingMode.GrsiFile);
                     else if(file.Name.EndsWith(".grg"))
-                        workaround.PrintHighlighted(file.Name, HighlightingMode.GrgFile);
+                        WorkaroundManager.Workaround.PrintHighlighted(file.Name, HighlightingMode.GrgFile);
                     else if(file.Name.EndsWith(".gri"))
-                        workaround.PrintHighlighted(file.Name, HighlightingMode.GriFile);
+                        WorkaroundManager.Workaround.PrintHighlighted(file.Name, HighlightingMode.GriFile);
                     else if(file.Name.EndsWith(".gm"))
-                        workaround.PrintHighlighted(file.Name, HighlightingMode.GmFile);
+                        WorkaroundManager.Workaround.PrintHighlighted(file.Name, HighlightingMode.GmFile);
                     else
-                        workaround.PrintHighlighted(file.Name, HighlightingMode.None);
+                        WorkaroundManager.Workaround.PrintHighlighted(file.Name, HighlightingMode.None);
                     debugOut.Write(" ");
                 }
                 debugOut.WriteLine();

@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.Write("Available breakpoint positions:\n  ");
 
-            PrintSequenceContext contextBp = new PrintSequenceContext(grShellImpl.Workaround);
+            PrintSequenceContext contextBp = new PrintSequenceContext();
             contextBp.bpPosCounter = 0;
             SequencePrinter.PrintSequence(debugSequences.Peek(), contextBp, debugSequences.Count);
             Console.WriteLine();
@@ -52,7 +52,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.Write("Available choicepoint positions:\n  ");
 
-            PrintSequenceContext contextCp = new PrintSequenceContext(grShellImpl.Workaround);
+            PrintSequenceContext contextCp = new PrintSequenceContext();
             contextCp.cpPosCounter = 0;
             SequencePrinter.PrintSequence(debugSequences.Peek(), contextCp, debugSequences.Count);
             Console.WriteLine();

@@ -61,13 +61,11 @@ namespace de.unika.ipd.grGen.grShell
                 return errorCode;
             }
 
-            IWorkaround workaround = WorkaroundManager.Workaround;
-
             TextReader reader;
             bool showPrompt;
             bool readFromConsole;
 
-            errorCode = DetermineAndOpenInputSource(command, scriptFilename, workaround, 
+            errorCode = DetermineAndOpenInputSource(command, scriptFilename, 
                 out reader, out showPrompt, out readFromConsole);
             if(errorCode != 0)
                 return errorCode;
@@ -93,7 +91,7 @@ namespace de.unika.ipd.grGen.grShell
                     bool success = shell.ParseShellCommand();
 
                     errorCode = HandleEofOrErrorIfNonConsoleShell(scriptFilename, success, nonDebugNonGuiExitOnError,
-                        shell, driver, workaround,
+                        shell, driver,
                         ref reader, ref showPrompt, ref readFromConsole);
                     if(errorCode != 0)
                         return errorCode;
@@ -301,7 +299,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
         }
 
-        static int DetermineAndOpenInputSource(String command, List<String> scriptFilename, IWorkaround workaround,
+        static int DetermineAndOpenInputSource(String command, List<String> scriptFilename,
             out TextReader reader, out bool showPrompt, out bool readFromConsole)
         {
             if(command != null)
@@ -330,7 +328,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                reader = workaround.In;
+                reader = WorkaroundManager.Workaround.In;
                 showPrompt = true;
                 readFromConsole = true;
             }
@@ -339,7 +337,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         static int HandleEofOrErrorIfNonConsoleShell(List<String> scriptFilename, bool success, bool nonDebugNonGuiExitOnError, 
-            GrShell shell, GrShellDriver driver, IWorkaround workaround, 
+            GrShell shell, GrShellDriver driver,
             ref TextReader reader, ref bool showPrompt, ref bool readFromConsole)
         {
             if(readFromConsole || (!driver.Eof && success))
@@ -368,7 +366,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                shell.ReInit(workaround.In);
+                shell.ReInit(WorkaroundManager.Workaround.In);
                 driver.tokenSources.Pop();
                 driver.tokenSources.Push(shell.token_source);
                 showPrompt = true;

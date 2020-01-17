@@ -16,11 +16,6 @@ namespace de.unika.ipd.grGen.grShell
     public class PrintSequenceContext
     {
         /// <summary>
-        /// The workaround for printing highlighted
-        /// </summary>
-        public IWorkaround workaround;
-
-        /// <summary>
         /// A counter increased for every potential breakpoint position and printed next to a potential breakpoint.
         /// If bpPosCounter is smaller than zero, no such counter is used or printed.
         /// If bpPosCounter is greater than or equal zero, the following highlighting values are irrelvant.
@@ -46,15 +41,13 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary> If not null, gives the matches of the sequences to choose amongst </summary>
         public List<IMatches> matches;
 
-        public PrintSequenceContext(IWorkaround workaround)
+        public PrintSequenceContext()
         {
-            Init(workaround);
+            Init();
         }
 
-        public void Init(IWorkaround workaround)
+        public void Init()
         {
-            this.workaround = workaround;
-
             bpPosCounter = -1;
 
             cpPosCounter = -1;

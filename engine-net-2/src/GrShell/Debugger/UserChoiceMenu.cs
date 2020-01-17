@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.grShell
     {
         public static int ChooseDirection(PrintSequenceContext context, IGrShellImplForDebugger grShellImpl, int direction, Sequence seq)
         {
-            context.workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
+            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
             Console.Write(" (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
 
             do
@@ -46,7 +46,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void ChooseSequencePrintHeader(PrintSequenceContext context, int seqToExecute)
         {
-            context.workaround.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
+            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
             Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
                                 + " Press (s) or (n) to commit to the pre-selected sequence and continue."
@@ -110,7 +110,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void ChoosePointPrintHeader(PrintSequenceContext context, double pointToExecute)
         {
-            context.workaround.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
+            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
             Console.WriteLine("Press (e) to enter a point in the interval series of the sequence to show."
                                 + " Press (s) or (n) to commit to the pre-selected sequence and continue.");
@@ -153,7 +153,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void ChooseMatchSomeFromSetPrintHeader(PrintSequenceContext context, int totalMatchToExecute)
         {
-            context.workaround.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
+            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
             Console.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
                                 + " Press (s) or (n) to commit to the pre-selected match and continue.");
@@ -212,7 +212,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void ChooseMatchPrintHeader(PrintSequenceContext context, int numFurtherMatchesToApply)
         {
-            context.workaround.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
+            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
             Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
                                 + " Press (s) or (n) to commit to the currently shown match and continue.");

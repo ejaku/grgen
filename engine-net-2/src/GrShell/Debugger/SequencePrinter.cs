@@ -24,7 +24,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="nestingLevel">The level the sequence is nested in</param>
         public static void PrintSequence(Sequence seq, PrintSequenceContext context, int nestingLevel)
         {
-            context.workaround.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
+            WorkaroundManager.Workaround.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
             PrintSequence(seq, null, context);
         }
 
@@ -66,11 +66,11 @@ namespace de.unika.ipd.grGen.grShell
 
                     if(seqBin == context.highlightSeq && context.choice)
                     {
-                        context.workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
                         PrintSequence(seqBin.Left, seq, context);
-                        context.workaround.PrintHighlighted("(l) " + seq.Symbol + " (r)", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted("(l) " + seq.Symbol + " (r)", HighlightingMode.Choicepoint);
                         PrintSequence(seqBin.Right, seq, context);
-                        context.workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
                         break;
                     }
 
@@ -322,20 +322,20 @@ namespace de.unika.ipd.grGen.grShell
                             highlight = true;
                     if(highlight && context.choice)
                     {
-                        context.workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
                         bool first = true;
                         foreach(Sequence seqChild in seqN.Children)
                         {
                             if(!first)
                                 Console.Write(", ");
                             if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                                WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
                             if(context.sequences != null)
                             {
                                 for(int i = 0; i < context.sequences.Count; ++i)
                                 {
                                     if(seqChild == context.sequences[i])
-                                        context.workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
+                                        WorkaroundManager.Workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
                                 }
                             }
 
@@ -345,10 +345,10 @@ namespace de.unika.ipd.grGen.grShell
                             context.highlightSeq = highlightSeqBackup;
 
                             if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                                WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
                             first = false;
                         }
-                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
                         break;
                     }
 
@@ -389,7 +389,7 @@ namespace de.unika.ipd.grGen.grShell
                             highlight = true;
                     if(highlight && context.choice)
                     {
-                        context.workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
                         bool first = true;
                         for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
                         {
@@ -398,7 +398,7 @@ namespace de.unika.ipd.grGen.grShell
                             else
                                 Console.Write(" ");
                             if(seqWeighted.Sequences[i] == context.highlightSeq)
-                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                                WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
 
                             Sequence highlightSeqBackup = context.highlightSeq;
                             context.highlightSeq = null; // we already highlighted here
@@ -406,12 +406,12 @@ namespace de.unika.ipd.grGen.grShell
                             context.highlightSeq = highlightSeqBackup;
 
                             if(seqWeighted.Sequences[i] == context.highlightSeq)
-                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                                WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
                             Console.Write(" ");
                             Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
                             first = false;
                         }
-                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
                         break;
                     }
 
@@ -464,7 +464,7 @@ namespace de.unika.ipd.grGen.grShell
 
                     if(highlight && context.choice)
                     {
-                        context.workaround.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);
                         bool first = true;
                         int numCurTotalMatch = 0;
                         foreach(Sequence seqChild in seqSome.Children)
@@ -472,7 +472,7 @@ namespace de.unika.ipd.grGen.grShell
                             if(!first)
                                 Console.Write(", ");
                             if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                                WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
                             if(context.sequences != null)
                             {
                                 for(int i = 0; i < context.sequences.Count; ++i)
@@ -490,10 +490,10 @@ namespace de.unika.ipd.grGen.grShell
                             context.highlightSeq = highlightSeqBackup;
 
                             if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                                WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
                             first = false;
                         }
-                        context.workaround.PrintHighlighted(">}", HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted(">}", HighlightingMode.Choicepoint);
                         break;
                     }
 
@@ -550,7 +550,7 @@ namespace de.unika.ipd.grGen.grShell
                         if(context.matches != null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
                             mode |= HighlightingMode.FocusSucces;
                     }
-                    context.workaround.PrintHighlighted(seq.Symbol, mode);
+                    WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, mode);
                     break;
                 }
 
@@ -588,7 +588,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
 
                     if(seq == context.highlightSeq && context.choice)
-                        context.workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
+                        WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
                     else
                         Console.Write(seq.Symbol);
                     break;
@@ -602,7 +602,7 @@ namespace de.unika.ipd.grGen.grShell
                         mode = HighlightingMode.LastSuccess;
                     if(seqDef.ExecutionState == SequenceExecutionState.Fail)
                         mode = HighlightingMode.LastFail;
-                    context.workaround.PrintHighlighted(seqDef.Symbol + ": ", mode);
+                    WorkaroundManager.Workaround.PrintHighlighted(seqDef.Symbol + ": ", mode);
                     PrintSequence(seqDef.Seq, seqDef.Seq, context);
                     break;
                 }
@@ -645,40 +645,40 @@ namespace de.unika.ipd.grGen.grShell
         private static void PrintChoice(SequenceRandomChoice seq, PrintSequenceContext context)
         {
             if(seq.Choice)
-                context.workaround.PrintHighlighted("-%" + context.cpPosCounter + "-:", HighlightingMode.Choicepoint);
+                WorkaroundManager.Workaround.PrintHighlighted("-%" + context.cpPosCounter + "-:", HighlightingMode.Choicepoint);
             else
-                context.workaround.PrintHighlighted("+%" + context.cpPosCounter + "+:", HighlightingMode.Choicepoint);
+                WorkaroundManager.Workaround.PrintHighlighted("+%" + context.cpPosCounter + "+:", HighlightingMode.Choicepoint);
         }
 
         private static void PrintBreak(SequenceSpecial seq, PrintSequenceContext context)
         {
             if(seq.Special)
-                context.workaround.PrintHighlighted("-%" + context.bpPosCounter + "-:", HighlightingMode.Breakpoint);
+                WorkaroundManager.Workaround.PrintHighlighted("-%" + context.bpPosCounter + "-:", HighlightingMode.Breakpoint);
             else
-                context.workaround.PrintHighlighted("+%" + context.bpPosCounter + "+:", HighlightingMode.Breakpoint);
+                WorkaroundManager.Workaround.PrintHighlighted("+%" + context.bpPosCounter + "+:", HighlightingMode.Breakpoint);
         }
 
         private static void PrintListOfMatchesNumbers(PrintSequenceContext context, ref int numCurTotalMatch, int numMatches)
         {
-            context.workaround.PrintHighlighted("(", HighlightingMode.Choicepoint);
+            WorkaroundManager.Workaround.PrintHighlighted("(", HighlightingMode.Choicepoint);
             bool first = true;
             for(int i = 0; i < numMatches; ++i)
             {
                 if(!first)
-                    context.workaround.PrintHighlighted(",", HighlightingMode.Choicepoint);
-                context.workaround.PrintHighlighted(numCurTotalMatch.ToString(), HighlightingMode.Choicepoint);
+                    WorkaroundManager.Workaround.PrintHighlighted(",", HighlightingMode.Choicepoint);
+                WorkaroundManager.Workaround.PrintHighlighted(numCurTotalMatch.ToString(), HighlightingMode.Choicepoint);
                 ++numCurTotalMatch;
                 first = false;
             }
-            context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+            WorkaroundManager.Workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
         }
 
         /// <summary>
         /// Called from shell after an debugging abort highlighting the lastly executed rule
         /// </summary>
-        public static void PrintSequence(Sequence seq, Sequence highlight, IWorkaround workaround)
+        public static void PrintSequence(Sequence seq, Sequence highlight)
         {
-            PrintSequenceContext context = new PrintSequenceContext(workaround);
+            PrintSequenceContext context = new PrintSequenceContext();
             context.highlightSeq = highlight;
             PrintSequence(seq, context, 0);
             // TODO: what to do if abort came within sequence called from top sequence?
