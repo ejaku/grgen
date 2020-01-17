@@ -17,21 +17,21 @@ namespace de.unika.ipd.grGen.grShell
 {
     public class GrShellDriver
     {
-        public static readonly String VersionString = "GrShell v4.5.6";
+        public const String VersionString = "GrShell v4.5.6";
 
         // stack of token sources, for a new file included, a new token source is created, while the old ones are kept so we can restore its state
-        private Stack<GrShellTokenManager> tokenSources = new Stack<GrShellTokenManager>();
+        private readonly Stack<GrShellTokenManager> tokenSources = new Stack<GrShellTokenManager>();
 
         // stack of results of evaluating "if expr commands endif" statements; entire file/session is enclosed in true (safing us from special case handling) 
-        private Stack<bool> conditionalEvaluationResults = new Stack<bool>();
+        private readonly Stack<bool> conditionalEvaluationResults = new Stack<bool>();
 
         public bool Quitting = false;
         public bool Eof = false;
 
         private bool showIncludes = false;
 
-        GrShell grShell;
-        IGrShellImplForDriver impl;
+        private readonly GrShell grShell;
+        private readonly IGrShellImplForDriver impl;
 
 
         GrShellDriver(GrShell grShell, IGrShellImplForDriver impl)

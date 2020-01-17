@@ -105,9 +105,10 @@ namespace de.unika.ipd.grGen.grShell
         public override string ReadToEnd() { throw new NotImplementedException(); }
         public new static TextReader Synchronized(TextReader reader) { throw new NotImplementedException(); }
 
-        private TextReader wrappedReader;
-        private String from;
-        private String to;
+        private readonly TextReader wrappedReader;
+        private readonly String from;
+        private readonly String to;
+
         private bool firstRead;
         private StringBuilder bufferWithCarry;
         private bool endFound;

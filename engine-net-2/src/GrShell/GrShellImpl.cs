@@ -77,10 +77,10 @@ namespace de.unika.ipd.grGen.grShell
 
     public class ElementDef
     {
-        public String ElemName;
-        public String VarName;
-        public String TypeName;
-        public ArrayList Attributes;
+        public readonly String ElemName;
+        public readonly String VarName;
+        public readonly String TypeName;
+        public readonly ArrayList Attributes;
 
         public ElementDef(String elemName, String varName, String typeName, ArrayList attributes)
         {
@@ -196,30 +196,31 @@ namespace de.unika.ipd.grGen.grShell
         private String backendFilename = null;
         private String[] backendParameters = null;
 
-        private List<ShellGraphProcessingEnvironment> shellProcEnvs = new List<ShellGraphProcessingEnvironment>();
+        private readonly List<ShellGraphProcessingEnvironment> shellProcEnvs = new List<ShellGraphProcessingEnvironment>();
         private ShellGraphProcessingEnvironment curShellProcEnv = null; // one of the shellProcEnvs
 
-        private GrShellSequenceApplierAndDebugger seqApplierAndDebugger;
+        private readonly GrShellSequenceApplierAndDebugger seqApplierAndDebugger;
 
-        private ElementRealizers realizers = new ElementRealizers();
+        private readonly ElementRealizers realizers = new ElementRealizers();
 
         private bool nonDebugNonGuiExitOnError = false;
         private bool silence = false; // node/edge created successfully messages
 
-        private NewGraphOptions newGraphOptions = new NewGraphOptions();
+        private readonly NewGraphOptions newGraphOptions = new NewGraphOptions();
 
-        private TextWriter debugOut = System.Console.Out;
-        private TextWriter errOut = System.Console.Error;
+        private readonly TextWriter debugOut = System.Console.Out;
+        private readonly TextWriter errOut = System.Console.Error;
 
-        static private string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
+        private static readonly string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
 
         private String debugLayout = "Orthogonal";
+
         /// <summary>
         /// Maps layouts to layout option names to their values.
         /// This only reflects the settings made by the user and may even contain illegal entries,
         /// if the options were set before yComp was attached.
         /// </summary>
-        private Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
+        private readonly Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
 
 
         public GrShellImpl()

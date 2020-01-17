@@ -79,13 +79,13 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         // specifies the type of this subrule computation/message
-        public SubruleComputationType type;
+        public readonly SubruleComputationType type;
 
         // the message/name of the computation entered
-        public string message;
+        public readonly string message;
 
         // the additional parameters, transfered into string encoding
-        public List<string> parameters;
+        public readonly List<string> parameters;
 
         // true if this is an entry of an action, added by the debugger as a help, 
         // so the full state is contained on the traces stack
@@ -141,16 +141,18 @@ namespace de.unika.ipd.grGen.grShell
 
     public class SubruleDebuggingConfigurationRule
     {
-        private SubruleDebuggingEvent debuggingEvent;
-        private string messageToMatch;
-        private SubruleMesssageMatchingMode messageMatchingMode;
-        private IAction actionToMatch;
-        private GrGenType typeToMatch;
-        private bool onlyThisType;
-        private string nameToMatch;
-        private SubruleDebuggingDecision decisionOnMatch;
-        private SequenceExpression ifClause;
+        private readonly SubruleDebuggingEvent debuggingEvent;
+        private readonly string messageToMatch;
+        private readonly SubruleMesssageMatchingMode messageMatchingMode;
+        private readonly IAction actionToMatch;
+        private readonly GrGenType typeToMatch;
+        private readonly bool onlyThisType;
+        private readonly string nameToMatch;
+        private readonly SubruleDebuggingDecision decisionOnMatch;
+        private readonly SequenceExpression ifClause;
+
         private bool enabled = true;
+
 
         public SubruleDebuggingConfigurationRule(SubruleDebuggingEvent sde, string message, 
             SubruleMesssageMatchingMode smmm, SubruleDebuggingDecision sdd)
@@ -477,7 +479,7 @@ namespace de.unika.ipd.grGen.grShell
 
     public class SubruleDebuggingConfiguration
     {
-        private List<SubruleDebuggingConfigurationRule> configurationRules;
+        private readonly List<SubruleDebuggingConfigurationRule> configurationRules;
 
         public SubruleDebuggingConfiguration()
         {

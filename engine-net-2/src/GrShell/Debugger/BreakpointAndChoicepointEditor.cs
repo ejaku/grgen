@@ -16,9 +16,9 @@ namespace de.unika.ipd.grGen.grShell
 {
     class BreakpointAndChoicepointEditor
     {
-        IGrShellImplForDebugger grShellImpl;
+        readonly IGrShellImplForDebugger grShellImpl;
 
-        Stack<Sequence> debugSequences = new Stack<Sequence>();
+        readonly Stack<Sequence> debugSequences = new Stack<Sequence>();
 
         public BreakpointAndChoicepointEditor(IGrShellImplForDebugger grShellImpl, Stack<Sequence> debugSequences)
         {

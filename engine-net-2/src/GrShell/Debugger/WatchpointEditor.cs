@@ -17,8 +17,8 @@ namespace de.unika.ipd.grGen.grShell
 {
     class WatchpointEditor
     {
-        ShellGraphProcessingEnvironment shellProcEnv;
-        IGrShellImplForDebugger grShellImpl;
+        readonly ShellGraphProcessingEnvironment shellProcEnv;
+        readonly IGrShellImplForDebugger grShellImpl;
 
         public WatchpointEditor(ShellGraphProcessingEnvironment shellProcEnv, IGrShellImplForDebugger grShellImpl)
         {

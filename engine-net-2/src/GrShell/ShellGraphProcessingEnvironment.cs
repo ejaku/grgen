@@ -16,18 +16,18 @@ namespace de.unika.ipd.grGen.grShell
 {
     public class ShellGraphProcessingEnvironment
     {
-        public IGraphProcessingEnvironment ProcEnv;
+        public readonly IGraphProcessingEnvironment ProcEnv;
 
-        public DumpInfo DumpInfo;
-        public SubruleDebuggingConfiguration SubruleDebugConfig;
+        public readonly DumpInfo DumpInfo;
+        public readonly SubruleDebuggingConfiguration SubruleDebugConfig;
         public VCGFlags VcgFlags = VCGFlags.OrientTopToBottom | VCGFlags.EdgeLabels;
 
-        public String BackendFilename;
-        public String[] BackendParameters;
-        public String ModelFilename;
+        public readonly String BackendFilename;
+        public readonly String[] BackendParameters;
+        public readonly String ModelFilename;
         public String ActionsFilename = null;
 
-        public Dictionary<string, INamedGraph> NameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
+        public readonly Dictionary<string, INamedGraph> NameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
 
 
         public ShellGraphProcessingEnvironment(IGraph graph, String backendFilename, String[] backendParameters, String modelFilename)
@@ -52,20 +52,6 @@ namespace de.unika.ipd.grGen.grShell
             ModelFilename = modelFilename;
             ProcEnv = new LGSPGraphProcessingEnvironment(Graph, null);
             NameToSubgraph.Add(Graph.Name, Graph);
-        }
-
-        public ShellGraphProcessingEnvironment Clone(string name)
-        {
-            string realname = (name == null) ? ProcEnv.Graph.Name + "-clone" : name;
-            ShellGraphProcessingEnvironment result = new ShellGraphProcessingEnvironment(ProcEnv.Graph.Clone(realname),
-                BackendFilename, BackendParameters, ModelFilename);
-            result.ProcEnv.Actions = this.ProcEnv.Actions;
-            result.DumpInfo = this.DumpInfo;
-            result.SubruleDebugConfig = this.SubruleDebugConfig;
-            result.VcgFlags = this.VcgFlags;
-            result.ActionsFilename = this.ActionsFilename;
-            result.ProcEnv.EmitWriter = this.ProcEnv.EmitWriter;
-            return result;
         }
     }
 }

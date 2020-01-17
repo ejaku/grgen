@@ -19,11 +19,11 @@ namespace de.unika.ipd.grGen.grShell
     /// </summary>
     class NodeRealizer : IEquatable<NodeRealizer>
     {
-        public String Name;
-        public GrColor Color;
-        public GrColor BorderColor;
-        public GrColor TextColor;
-        public GrNodeShape Shape;
+        public readonly String Name;
+        public readonly GrColor Color;
+        public readonly GrColor BorderColor;
+        public readonly GrColor TextColor;
+        public readonly GrNodeShape Shape;
 
         public NodeRealizer(String name, GrColor color, GrColor borderColor, GrColor textColor, GrNodeShape shape)
         {
@@ -50,11 +50,11 @@ namespace de.unika.ipd.grGen.grShell
     /// </summary>
     class EdgeRealizer : IEquatable<EdgeRealizer>
     {
-        public String Name;
-        public GrColor Color;
-        public GrColor TextColor;
-        public GrLineStyle LineStyle;
-        public int LineWidth;
+        public readonly String Name;
+        public readonly GrColor Color;
+        public readonly GrColor TextColor;
+        public readonly GrLineStyle LineStyle;
+        public readonly int LineWidth;
 
         public EdgeRealizer(String name, GrColor color, GrColor textColor, int lineWidth, GrLineStyle lineStyle)
         {
@@ -100,12 +100,12 @@ namespace de.unika.ipd.grGen.grShell
         public String RetypedEdgeRealizer { get { return edgeRealizers[(int)ElementMode.Retyped].Name; } }
 
         // the realizers registered to yComp for display during debugging
-        NodeRealizer[] nodeRealizers = new NodeRealizer[5];
-        EdgeRealizer[] edgeRealizers = new EdgeRealizer[5];
+        readonly NodeRealizer[] nodeRealizers = new NodeRealizer[5];
+        readonly EdgeRealizer[] edgeRealizers = new EdgeRealizer[5];
 
         // set with all the realizers registered to yComp
-        Dictionary<NodeRealizer, NodeRealizer> registeredNodeRealizers = new Dictionary<NodeRealizer, NodeRealizer>();
-        Dictionary<EdgeRealizer, EdgeRealizer> registeredEdgeRealizers = new Dictionary<EdgeRealizer, EdgeRealizer>();
+        readonly Dictionary<NodeRealizer, NodeRealizer> registeredNodeRealizers = new Dictionary<NodeRealizer, NodeRealizer>();
+        readonly Dictionary<EdgeRealizer, EdgeRealizer> registeredEdgeRealizers = new Dictionary<EdgeRealizer, EdgeRealizer>();
 
         // next id to use when registering an unknown realizer to yComp
         int nextNodeRealizerID = 0;

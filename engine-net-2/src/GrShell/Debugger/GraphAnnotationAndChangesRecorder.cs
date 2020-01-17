@@ -21,25 +21,25 @@ namespace de.unika.ipd.grGen.grShell
     /// </summary>
     public class GraphAnnotationAndChangesRecorder
     {
-        private Dictionary<INode, String> annotatedNodes = new Dictionary<INode, String>();
-        private Dictionary<IEdge, String> annotatedEdges = new Dictionary<IEdge, String>();
+        private readonly Dictionary<INode, String> annotatedNodes = new Dictionary<INode, String>();
+        private readonly Dictionary<IEdge, String> annotatedEdges = new Dictionary<IEdge, String>();
 
         private IRulePattern curRulePattern = null;
 
         private int nextAddedNodeIndex = 0;
         private int nextAddedEdgeIndex = 0;
 
-        private String[] curAddedNodeNames = null;
-        private String[] curAddedEdgeNames = null;
+        private readonly List<String> curAddedNodeNames = new List<String>();
+        private readonly List<String> curAddedEdgeNames = new List<String>();
 
-        private Dictionary<INode, bool> addedNodes = new Dictionary<INode, bool>();
-        private Dictionary<IEdge, bool> addedEdges = new Dictionary<IEdge, bool>();
+        private readonly Dictionary<INode, bool> addedNodes = new Dictionary<INode, bool>();
+        private readonly Dictionary<IEdge, bool> addedEdges = new Dictionary<IEdge, bool>();
 
-        private List<String> deletedNodes = new List<String>();
-        private List<String> deletedEdges = new List<String>();
+        private readonly List<String> deletedNodes = new List<String>();
+        private readonly List<String> deletedEdges = new List<String>();
 
-        private Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
-        private Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
+        private readonly Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
+        private readonly Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
 
 
         public void AddNodeAnnotation(INode node, String name)
@@ -89,13 +89,15 @@ namespace de.unika.ipd.grGen.grShell
 
         public void SetAddedNodeNames(string[] namesOfNodesAdded)
         {
-            curAddedNodeNames = namesOfNodesAdded;
+            curAddedNodeNames.Clear();
+            curAddedNodeNames.AddRange(namesOfNodesAdded);
             nextAddedNodeIndex = 0;
         }
 
         public void SetAddedEdgeNames(string[] namesOfEdgesAdded)
         {
-            curAddedEdgeNames = namesOfEdgesAdded;
+            curAddedEdgeNames.Clear();
+            curAddedEdgeNames.AddRange(namesOfEdgesAdded);
             nextAddedEdgeIndex = 0;
         }
 

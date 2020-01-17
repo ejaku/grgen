@@ -17,10 +17,10 @@ namespace de.unika.ipd.grGen.grShell
 {
     class VariableOrAttributeAccessParserAndValueFetcher
     {
-        IGrShellImplForDebugger grShellImpl;
-        ShellGraphProcessingEnvironment shellProcEnv;
+        readonly IGrShellImplForDebugger grShellImpl;
+        readonly ShellGraphProcessingEnvironment shellProcEnv;
 
-        Stack<Sequence> debugSequences;
+        readonly Stack<Sequence> debugSequences;
 
         public VariableOrAttributeAccessParserAndValueFetcher(IGrShellImplForDebugger grShellImpl,
             ShellGraphProcessingEnvironment shellProcEnv,

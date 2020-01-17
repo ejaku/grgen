@@ -23,15 +23,15 @@ namespace de.unika.ipd.grGen.grShell
 {
     class Debugger : IUserProxyForSequenceExecution
     {
-        IGrShellImplForDebugger grShellImpl;
+        readonly IGrShellImplForDebugger grShellImpl;
         ShellGraphProcessingEnvironment shellProcEnv;
 
-        ElementRealizers realizers;
-        GraphAnnotationAndChangesRecorder renderRecorder = null;
+        readonly ElementRealizers realizers;
+        readonly GraphAnnotationAndChangesRecorder renderRecorder = null;
         YCompClient ycompClient = null;
         Process viewerProcess = null;
 
-        Stack<Sequence> debugSequences = new Stack<Sequence>();
+        readonly Stack<Sequence> debugSequences = new Stack<Sequence>();
         bool stepMode = true;
         bool dynamicStepMode = false;
         bool skipMode = false;
@@ -51,9 +51,9 @@ namespace de.unika.ipd.grGen.grShell
 
         bool lazyChoice = true;
 
-        LinkedList<Sequence> loopList = new LinkedList<Sequence>();
+        readonly LinkedList<Sequence> loopList = new LinkedList<Sequence>();
 
-        List<SubruleComputation> computationsEnteredStack = new List<SubruleComputation>(); // can't use stack class, too weak
+        readonly List<SubruleComputation> computationsEnteredStack = new List<SubruleComputation>(); // can't use stack class, too weak
 
         public YCompClient YCompClient { get { return ycompClient; } }
         public bool ConnectionLost { get { return ycompClient.ConnectionLost; } }
@@ -258,7 +258,7 @@ namespace de.unika.ipd.grGen.grShell
             skipMode = false;
             lastlyEntered = null;
             recentlyMatched = null;
-            context.Init();
+            context = new PrintSequenceContext();
         }
 
         public void AbortRewriteSequence()

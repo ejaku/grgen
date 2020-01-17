@@ -58,12 +58,13 @@ namespace de.unika.ipd.grGen.grShell
         private Debugger debugger = null;
 
         private bool pendingDebugEnable = false;
-        private IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
+        private readonly IGrShellUI UserInterface = new GrShellConsoleUI(Console.In, Console.Out);
 
         private Sequence curGRS;
         private SequenceRuleCall curRule;
 
-        private IGrShellImplForSequenceApplierAndDebugger impl;
+        private readonly IGrShellImplForSequenceApplierAndDebugger impl;
+
 
         public GrShellSequenceApplierAndDebugger(IGrShellImplForSequenceApplierAndDebugger impl)
         {

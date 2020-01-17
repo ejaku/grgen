@@ -16,7 +16,6 @@ using System.Text;
 using de.unika.ipd.grGen.libGr;
 using System.Net.Sockets;
 using System.Threading;
-using System.IO;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -28,7 +27,7 @@ namespace de.unika.ipd.grGen.grShell
     class YCompStream
     {
         NetworkStream stream;
-        byte[] readBuffer = new byte[4096];
+        readonly byte[] readBuffer = new byte[4096];
         bool closing = false;
 
         public event ConnectionLostHandler OnConnectionLost;

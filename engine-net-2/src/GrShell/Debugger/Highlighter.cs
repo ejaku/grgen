@@ -17,14 +17,14 @@ namespace de.unika.ipd.grGen.grShell
 {
     class Highlighter
     {
-        IGrShellImplForDebugger grShellImpl;
-        ShellGraphProcessingEnvironment shellProcEnv;
+        readonly IGrShellImplForDebugger grShellImpl;
+        readonly ShellGraphProcessingEnvironment shellProcEnv;
 
-        ElementRealizers realizers;
-        GraphAnnotationAndChangesRecorder renderRecorder;
-        YCompClient ycompClient;
+        readonly ElementRealizers realizers;
+        readonly GraphAnnotationAndChangesRecorder renderRecorder;
+        readonly YCompClient ycompClient;
 
-        Stack<Sequence> debugSequences;
+        readonly Stack<Sequence> debugSequences;
 
         public Highlighter(IGrShellImplForDebugger grShellImpl,
             ShellGraphProcessingEnvironment shellProcEnv,

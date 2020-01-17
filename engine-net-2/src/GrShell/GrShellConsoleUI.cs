@@ -28,8 +28,8 @@ namespace de.unika.ipd.grGen.grShell
     /// </summary>
     public class GrShellConsoleUI : IGrShellUI
     {
-        protected TextReader in_;
-        protected TextWriter out_;
+        protected readonly TextReader in_;
+        protected readonly TextWriter out_;
 
         public GrShellConsoleUI(TextReader in_, TextWriter out_)
         {

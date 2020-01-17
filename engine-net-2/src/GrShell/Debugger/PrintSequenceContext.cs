@@ -30,33 +30,15 @@ namespace de.unika.ipd.grGen.grShell
         public int cpPosCounter = -1;
 
         /// <summary> The sequence to be highlighted or null </summary>
-        public Sequence highlightSeq;
+        public Sequence highlightSeq = null;
         /// <summary> The sequence to be highlighted was already successfully matched? </summary>
-        public bool success;
+        public bool success = false;
         /// <summary> The sequence to be highlighted requires a direction choice? </summary>
-        public bool choice;
+        public bool choice = false;
 
         /// <summary> If not null, gives the sequences to choose amongst </summary>
-        public List<Sequence> sequences;
+        public List<Sequence> sequences = null;
         /// <summary> If not null, gives the matches of the sequences to choose amongst </summary>
-        public List<IMatches> matches;
-
-        public PrintSequenceContext()
-        {
-            Init();
-        }
-
-        public void Init()
-        {
-            bpPosCounter = -1;
-
-            cpPosCounter = -1;
-
-            highlightSeq = null;
-            success = false;
-            choice = false;
-
-            sequences = null;
-        }
+        public List<IMatches> matches =  null;
     }
 }

@@ -16,9 +16,9 @@ namespace de.unika.ipd.grGen.grShell
 {
     class MatchMarkerAndAnnotator
     {
-        ElementRealizers realizers;
-        GraphAnnotationAndChangesRecorder renderRecorder = null;
-        YCompClient ycompClient = null;
+        readonly ElementRealizers realizers;
+        readonly GraphAnnotationAndChangesRecorder renderRecorder = null;
+        readonly YCompClient ycompClient = null;
 
 
         public MatchMarkerAndAnnotator(ElementRealizers realizers, GraphAnnotationAndChangesRecorder renderRecorder, YCompClient ycompClient)
