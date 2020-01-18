@@ -192,7 +192,7 @@ namespace de.unika.ipd.grGen.grShell
         delegate void SetNodeDumpColorProc(NodeType type, GrColor color);
         delegate void SetEdgeDumpColorProc(EdgeType type, GrColor color);
 
-        private IBackend curGraphBackend = new LGSPBackend();
+        private IBackend curGraphBackend = LGSPBackend.Instance;
         private String backendFilename = null;
         private String[] backendParameters = null;
 

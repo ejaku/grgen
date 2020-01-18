@@ -5765,7 +5765,7 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             object path = Path.Evaluate(procEnv);
-            return GraphHelper.Import(path, procEnv.Graph);
+            return GraphHelper.Import(path, backend, procEnv.Graph.Model);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

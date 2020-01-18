@@ -82,7 +82,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract IDictionary<String, String> CustomCommandsAndDescriptions { get; }
         public abstract void Custom(params object[] args);
-        public abstract IBackend Backend { get; }
 
         public abstract IGraph Clone(String newName);
         public abstract INamedGraph CloneAndAssignNames();

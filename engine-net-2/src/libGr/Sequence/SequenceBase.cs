@@ -65,6 +65,11 @@ namespace de.unika.ipd.grGen.libGr
         protected static int idSource = 0;
 
         /// <summary>
+        /// the backend to be used on importing (for graph creation)
+        /// </summary>
+        public static IBackend backend;
+
+        /// <summary>
         /// Enumerates all child sequence computation objects
         /// </summary>
         public abstract IEnumerable<SequenceBase> ChildrenBase { get; }

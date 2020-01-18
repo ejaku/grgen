@@ -58,7 +58,7 @@ namespace MovieDatabase
                 Console.WriteLine("Importing " + args[1] + " ...");
 
                 // the libGr search plan backend we'll use
-                LGSPBackend backend = new LGSPBackend();
+                LGSPBackend backend = LGSPBackend.Instance;
 
                 // the graph model we'll use
                 MovieDatabaseModelGraphModel model = new MovieDatabaseModelGraphModel();

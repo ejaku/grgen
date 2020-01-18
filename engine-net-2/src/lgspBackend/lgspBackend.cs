@@ -27,9 +27,12 @@ namespace de.unika.ipd.grGen.lgsp
     {
         private static int modelID = 0;
         private static int graphID = 0;
-        private Dictionary<String, Assembly> loadedAssemblies = new Dictionary<string, Assembly>();
+        private Dictionary<String, Assembly> loadedAssemblies = new Dictionary<string, Assembly>(); // TODO: usage? besides help during debugging
         private bool assemblyHandlerInstalled = false;
         private static char[] dirSepChars = new char[] { '/', '\\' };
+
+        private static LGSPBackend instance;
+        public static LGSPBackend Instance { get { if(instance == null) instance = new LGSPBackend(); return instance; } }
 
         public String Name { get { return "lgspBackend"; } }
 
@@ -42,19 +45,17 @@ namespace de.unika.ipd.grGen.lgsp
 
         public IGraph CreateGraph(IGraphModel graphModel, string graphName, params String[] parameters)
         {
-            String assemblyName = Assembly.GetAssembly(graphModel.GetType()).Location;
-            return new LGSPGraph(this, graphModel, graphName, assemblyName);
+            return new LGSPGraph(graphModel, graphName);
         }
 
         public INamedGraph CreateNamedGraph(IGraphModel graphModel, string graphName, params String[] parameters)
         {
-            String assemblyName = Assembly.GetAssembly(graphModel.GetType()).Location;
             int capacity = 0;
             if(parameters != null)
                 foreach(String parameter in parameters)
                     if(parameter.StartsWith("capacity="))
                         capacity = int.Parse(parameter.Substring("capacity=".Length));
-            return new LGSPNamedGraph(this, graphModel, graphName, assemblyName, capacity);
+            return new LGSPNamedGraph(graphModel, graphName, capacity);
         }
 
         public IGraph CreateGraph(String modelFilename, String graphName, params String[] parameters)
@@ -78,7 +79,6 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPGraph CreateGraph(String modelFilename, String graphName, bool named, params String[] parameters)
         {
             Assembly assembly;
-            String assemblyName;
 
             String extension = Path.GetExtension(modelFilename);
             if(extension.Equals(".cs", StringComparison.OrdinalIgnoreCase))
@@ -103,12 +103,10 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 assembly = compResults.CompiledAssembly;
-                assemblyName = compParams.OutputAssembly;
             }
             else if(extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
             {
                 assembly = Assembly.LoadFrom(modelFilename);
-                assemblyName = modelFilename;
                 AddAssembly(assembly);
             }
             else if(extension.Equals(".gm", StringComparison.OrdinalIgnoreCase))
@@ -159,7 +157,7 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(String parameter in parameters)
                     if(parameter.StartsWith("capacity="))
                         capacity = int.Parse(parameter.Substring("capacity=".Length));
-            return named ? new LGSPNamedGraph(this, graphModel, graphName, assemblyName, capacity) : new LGSPGraph(this, graphModel, graphName, assemblyName);
+            return named ? new LGSPNamedGraph(graphModel, graphName, capacity) : new LGSPGraph(graphModel, graphName);
         }
 
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)

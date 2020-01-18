@@ -334,7 +334,7 @@ namespace de.unika.ipd.grGen.grGen
                 Console.WriteLine("The generated files will be kept in: " + dirname);
 
             if(backend == null)
-                backend = new LGSPBackend();
+                backend = LGSPBackend.Instance;
 
             int ret = 0;
             try

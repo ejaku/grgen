@@ -192,7 +192,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 assembly = Assembly.LoadFrom(actionFilename);
                 assemblyName = actionFilename;
-                if(graph.backend != null) graph.backend.AddAssembly(assembly);          // TODO: still needed??
+                LGSPBackend.Instance.AddAssembly(assembly);          // TODO: still needed??
             }
             else
             {

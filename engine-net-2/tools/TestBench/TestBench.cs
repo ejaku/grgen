@@ -128,7 +128,7 @@ namespace de.unika.ipd.grGen.testBench
 					files.Add(args[i]);
 			}
 
-			LGSPBackend backend = new LGSPBackend();
+			LGSPBackend backend = LGSPBackend.Instance;
 
 			using(StreamWriter logFile = new StreamWriter("summary.log", append))
 			{

@@ -39,6 +39,7 @@ namespace de.unika.ipd.grGen.lgsp
             sequencesManager = new LGSPDeferredSequencesManager();
             SetClearVariables(true);
             FillCustomCommandDescriptions();
+            SequenceBase.backend = LGSPBackend.Instance;
         }
 
         public override void Initialize(LGSPGraph graph, LGSPActions actions)

@@ -4928,12 +4928,12 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Imports and returns the graph within the file specified by its path (model from given graph).
+        /// Imports and returns the graph within the file specified by its path (model as specified).
         /// </summary>
-        public static IGraph Import(object path, IGraph graph)
+        public static IGraph Import(object path, IBackend backend, IGraphModel model)
         {
             IActions actions;
-            return Porter.Import((string)path, graph.Backend, graph.Model, out actions);
+            return Porter.Import((string)path, backend, model, out actions);
         }
 
         /// <summary>

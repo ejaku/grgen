@@ -95,7 +95,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Duplicates a named graph.
-        /// The new graph will use the same model and backend as the other.
+        /// The new graph will use the same model as the other.
         /// </summary>
         /// <param name="newName">Name of the new graph.</param>
         /// <returns>A new graph with the same structure and names as this graph.</returns>

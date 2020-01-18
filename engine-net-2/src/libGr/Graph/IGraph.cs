@@ -436,15 +436,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         void Custom(params object[] args);
 
-        /// <summary>
-        /// The backend that created the graph
-        /// </summary>
-        IBackend Backend { get; }
-
 
         /// <summary>
         /// Duplicates a graph.
-        /// The new graph will use the same model and backend as the other.
+        /// The new graph will use the same model as the other.
         /// </summary>
         /// <param name="newName">Name of the new graph.</param>
         /// <returns>A new graph with the same structure as this graph.</returns>
@@ -458,7 +453,7 @@ namespace de.unika.ipd.grGen.libGr
         INamedGraph CloneAndAssignNames();
 
         /// <summary>
-        /// Creates an empty graph using the same model and backend as the other.
+        /// Creates an empty graph using the same model as the other.
         /// </summary>
         /// <param name="newName">Name of the new graph.</param>
         /// <returns>A new empty graph of the same model.</returns>

@@ -20,7 +20,7 @@ namespace JavaProgramGraphs
         void DoIt()
         {
             // create the LibGr Search Plan backend we want to use
-            LGSPBackend backend = new LGSPBackend();
+            LGSPBackend backend = LGSPBackend.Instance;
 
             // the graph model we'll use
             JavaProgramGraphsGraphModel model = new JavaProgramGraphsGraphModel();

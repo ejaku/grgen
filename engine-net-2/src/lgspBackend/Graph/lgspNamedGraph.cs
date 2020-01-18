@@ -50,19 +50,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Constructs an LGSPNamedGraph object with the given model, backend, and capacity, and an automatically generated name.
-        /// </summary>
-        /// <param name="grmodel">The graph model.</param>
-        /// <param name="backend">The backend.</param>
-        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        public LGSPNamedGraph(IGraphModel grmodel, LGSPBackend backend, int capacity)
-            : base(grmodel, backend)
-        {
-            NameToElem = new Dictionary<String, IGraphElement>(capacity);
-            ElemToName = new Dictionary<IGraphElement, String>(capacity);
-        }
-
-        /// <summary>
         /// Constructs an LGSPNamedGraph object with the given model, name, and capacity.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
@@ -70,36 +57,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         public LGSPNamedGraph(IGraphModel grmodel, String grname, int capacity)
             : base(grmodel, grname)
-        {
-            NameToElem = new Dictionary<String, IGraphElement>(capacity);
-            ElemToName = new Dictionary<IGraphElement, String>(capacity);
-        }
-
-        /// <summary>
-        /// Constructs an LGSPNamedGraph object with the given model, backend, name, and capacity.
-        /// </summary>
-        /// <param name="grmodel">The graph model.</param>
-        /// <param name="backend">The backend.</param>
-        /// <param name="grname">The name for the graph.</param>
-        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        public LGSPNamedGraph(IGraphModel grmodel, LGSPBackend backend, String grname, int capacity)
-            : base(grmodel, backend, grname)
-        {
-            NameToElem = new Dictionary<String, IGraphElement>(capacity);
-            ElemToName = new Dictionary<IGraphElement, String>(capacity);
-        }
-
-        /// <summary>
-        /// Constructs an LGSPNamedGraph object.
-        /// Deprecated.
-        /// </summary>
-        /// <param name="lgspBackend">The responsible backend object.</param>
-        /// <param name="grmodel">The graph model.</param>
-        /// <param name="grname">The name for the graph.</param>
-        /// <param name="modelassemblyname">The name of the model assembly.</param>
-        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        public LGSPNamedGraph(LGSPBackend lgspBackend, IGraphModel grmodel, String grname, String modelassemblyname, int capacity)
-            : base(lgspBackend, grmodel, grname, modelassemblyname)
         {
             NameToElem = new Dictionary<String, IGraphElement>(capacity);
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
@@ -616,7 +573,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override IGraph CreateEmptyEquivalent(String newName)
         {
-            return new LGSPNamedGraph(this.model, this.backend, newName, 0);
+            return new LGSPNamedGraph(this.model, newName, 0);
         }
 
         public INamedGraph CloneNamed(String newName)
