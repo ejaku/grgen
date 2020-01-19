@@ -140,23 +140,23 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The name of the pattern graph
         /// </summary>
-        public String name;
+        public readonly String name;
 
         /// <summary>
         /// Prefix for name from nesting path
         /// </summary>
-        public String pathPrefix;
+        public readonly String pathPrefix;
 
         /// <summary>
         /// null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
         /// </summary>
-        String package;
+        public readonly String package;
 
         /// <summary>
         /// The name of the pattern graph in case of a global type,
         /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
         /// </summary>
-        String packagePrefixedName;
+        public readonly String packagePrefixedName;
 
         /// <summary>
         /// Tells whether the elements from the parent patterns (but not sibling patterns)
@@ -164,18 +164,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// which are normally hom to all. This allows to match paths without a specified end,
         /// eagerly, i.e. as long as a successor exists, even in case of a cycles in the graph.
         /// </summary>
-        public bool isPatternpathLocked;
+        public readonly bool isPatternpathLocked;
 
         /// <summary>
         /// If this pattern graph is a negative or independent nested inside an iterated,
         /// it breaks the iterated instead of only the current iterated case (if true).
         /// </summary>
-        public bool isIterationBreaking;
+        public readonly bool isIterationBreaking;
 
         /// <summary>
         /// An array of all pattern nodes.
         /// </summary>
-        public PatternNode[] nodes;
+        public readonly PatternNode[] nodes;
 
         /// <summary>
         /// An array of all pattern nodes plus the nodes inlined into this pattern.
@@ -191,7 +191,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of all pattern edges.
         /// </summary>
-        public PatternEdge[] edges;
+        public readonly PatternEdge[] edges;
 
         /// <summary>
         /// An array of all pattern edges plus the edges inlined into this pattern.
@@ -207,7 +207,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of all pattern variables.
         /// </summary>
-        public PatternVariable[] variables;
+        public readonly PatternVariable[] variables;
 
         /// <summary>
         /// An array of all pattern variables plus the variables inlined into this pattern.
@@ -303,24 +303,24 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Contains the source node of the pattern edges in this graph if specified.
         /// </summary>
-        public Dictionary<PatternEdge, PatternNode> edgeToSourceNode = new Dictionary<PatternEdge,PatternNode>();
+        public readonly Dictionary<PatternEdge, PatternNode> edgeToSourceNode = new Dictionary<PatternEdge,PatternNode>();
 
         /// <summary>
         /// Contains the source node of the pattern edges in this graph if specified.
         /// Plus the additional information from inlined stuff.
         /// </summary>
-        public Dictionary<PatternEdge, PatternNode> edgeToSourceNodePlusInlined = new Dictionary<PatternEdge, PatternNode>();
+        public readonly Dictionary<PatternEdge, PatternNode> edgeToSourceNodePlusInlined = new Dictionary<PatternEdge, PatternNode>();
 
         /// <summary>
         /// Contains the target node of the pattern edges in this graph if specified.
         /// </summary>
-        public Dictionary<PatternEdge, PatternNode> edgeToTargetNode = new Dictionary<PatternEdge,PatternNode>();
+        public readonly Dictionary<PatternEdge, PatternNode> edgeToTargetNode = new Dictionary<PatternEdge,PatternNode>();
 
         /// <summary>
         /// Contains the target node of the pattern edges in this graph if specified.
         /// Plus the additional information from inlined stuff.
         /// </summary>
-        public Dictionary<PatternEdge, PatternNode> edgeToTargetNodePlusInlined = new Dictionary<PatternEdge, PatternNode>();
+        public readonly Dictionary<PatternEdge, PatternNode> edgeToTargetNodePlusInlined = new Dictionary<PatternEdge, PatternNode>();
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
@@ -363,7 +363,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
         /// </summary>
-        public PatternGraphEmbedding[] embeddedGraphs;
+        public readonly PatternGraphEmbedding[] embeddedGraphs;
 
         /// <summary>
         /// An array of all embedded graphs plus the embedded graphs inlined into this pattern.
@@ -373,7 +373,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of alternatives, each alternative contains in its cases the subpatterns to choose out of.
         /// </summary>
-        public Alternative[] alternatives;
+        public readonly Alternative[] alternatives;
 
         /// <summary>
         /// An array of all alternatives plus the alternatives inlined into this pattern.
@@ -383,7 +383,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of iterateds, each iterated is matched as often as possible within the specified bounds.
         /// </summary>
-        public Iterated[] iterateds;
+        public readonly Iterated[] iterateds;
 
         /// <summary>
         /// An array of all iterateds plus the iterateds inlined into this pattern.
@@ -394,7 +394,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of negative pattern graphs which make the search fail if they get matched
         /// (NACs - Negative Application Conditions).
         /// </summary>
-        public PatternGraph[] negativePatternGraphs;
+        public readonly PatternGraph[] negativePatternGraphs;
 
         /// <summary>
         /// An array of all negative pattern graphs plus the negative pattern graphs inlined into this pattern.
@@ -405,7 +405,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of independent pattern graphs which must get matched in addition to the main pattern
         /// (PACs - Positive Application Conditions).
         /// </summary>
-        public PatternGraph[] independentPatternGraphs;
+        public readonly PatternGraph[] independentPatternGraphs;
 
         /// <summary>
         /// An array of all independent pattern graphs plus the pattern graphs inlined into this pattern.
@@ -420,7 +420,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The conditions used in this pattern graph or it's nested graphs
         /// </summary>
-        public PatternCondition[] Conditions;
+        public readonly PatternCondition[] Conditions;
 
         /// <summary>
         /// An array of all conditions plus the conditions inlined into this pattern.
@@ -430,7 +430,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The yielding assignments used in this pattern graph or it's nested graphs
         /// </summary>
-        public PatternYielding[] Yieldings;
+        public readonly PatternYielding[] Yieldings;
 
         /// <summary>
         /// An array of all yielding assignments plus the yielding assignments inlined into this pattern.
@@ -463,12 +463,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Links to the original pattern graph in case this pattern graph was inlined, otherwise null;
         /// the embeddingGraph of the original pattern graph references the original containing pattern
         /// </summary>
-        public PatternGraph originalPatternGraph;
+        public readonly PatternGraph originalPatternGraph;
 
         /// <summary>
         /// Links to the original subpattern embedding which was inlined in case this (negative or independent) pattern graph was inlined, otherwise null.
         /// </summary>
-        public PatternGraphEmbedding originalSubpatternEmbedding;
+        public readonly PatternGraphEmbedding originalSubpatternEmbedding;
 
         /// <summary>
         /// Copies all the elements in the pattern graph to the XXXPlusInlined attributes.
@@ -941,19 +941,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// Names of the elements which may be null
         /// The following members are ordered along it/generated along this order.
         /// </summary>
-        public String[] maybeNullElementNames;
+        public readonly String[] maybeNullElementNames;
 
         /// <summary>
         /// The schedules for this pattern graph without any nested pattern graphs.
         /// Normally one, but each maybe null action preset causes doubling of schedules.
         /// </summary>
-        public ScheduledSearchPlan[] schedules;
+        public readonly ScheduledSearchPlan[] schedules;
 
         /// <summary>
         /// The schedules for this pattern graph including negatives and independents.
         /// Normally one, but each maybe null action preset causes doubling of schedules.
         /// </summary>
-        public ScheduledSearchPlan[] schedulesIncludingNegativesAndIndependents;
+        public readonly ScheduledSearchPlan[] schedulesIncludingNegativesAndIndependents;
 
         /// <summary>
         /// Larger than 1 if and only if this rule is to be parallelized, giving the branching factor to apply
@@ -979,7 +979,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// For each schedule the availability of the maybe null presets - true if is available, false if not
         /// Empty dictionary if there are no maybe null action preset elements
         /// </summary>
-        public Dictionary<String, bool>[] availabilityOfMaybeNullElements;
+        public readonly Dictionary<String, bool>[] availabilityOfMaybeNullElements;
 
         //////////////////////////////////////////////////////////////////////////////////////////////
         // if you get a null pointer access on one of these members,
@@ -1228,6 +1228,15 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class LGSPMatchingPattern : IMatchingPattern
     {
+        protected LGSPMatchingPattern(string name, GrGenType[] inputs, string[] inputNames, GrGenType[] defs, string[] defNames)
+        {
+            this.name = name;
+            this.inputs = inputs;
+            this.inputNames = inputNames;
+            this.defs = defs;
+            this.defNames = defNames;
+        }
+
         /// <summary>
         /// The main pattern graph.
         /// </summary>
@@ -1261,32 +1270,32 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of GrGen types corresponding to rule parameters.
         /// </summary>
-        public GrGenType[] inputs; // redundant convenience, information already given by/within the PatternElements
+        public readonly GrGenType[] inputs; // redundant convenience, information already given by/within the PatternElements
 
         /// <summary>
         /// Names of the rule parameter elements
         /// </summary>
-        public string[] inputNames;
+        public readonly string[] inputNames;
 
         /// <summary>
         /// An array of GrGen types corresponding to def elments yielded out of this pattern.
         /// </summary>
-        public GrGenType[] defs; // redundant convenience, information already given by/within the PatternElements
+        public readonly GrGenType[] defs; // redundant convenience, information already given by/within the PatternElements
 
         /// <summary>
         /// Names of the def elements yielded out of this pattern.
         /// </summary>
-        public string[] defNames;
+        public readonly string[] defNames;
 
         /// <summary>
         /// The annotations of the matching pattern (test/rule/subpattern)
         /// </summary>
-        public Annotations annotations = new Annotations();
+        public readonly Annotations annotations = new Annotations();
 
         /// <summary>
         /// Our name
         /// </summary>
-        public string name;
+        public readonly string name;
 
         /// <summary>
         /// A count of using occurances of this subpattern
@@ -1299,15 +1308,18 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class LGSPRulePattern : LGSPMatchingPattern, IRulePattern
     {
-        /// <summary>
-        /// An array of GrGen types corresponding to rule return values.
-        /// </summary>
-        public GrGenType[] Outputs { get { return outputs; } }
+        protected LGSPRulePattern(string name, GrGenType[] inputs, string[] inputNames, 
+            GrGenType[] defs, string[] defNames, GrGenType[] outputs, LGSPFilter[] filters)
+            : base(name, inputs, inputNames, defs, defNames)
+        {
+            this.outputs = outputs;
+            this.filters = filters;
+        }
 
         /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
-        public GrGenType[] outputs;
+        public GrGenType[] Outputs { get { return outputs; } }
 
         /// <summary>
         /// An array of the available filters
@@ -1315,9 +1327,14 @@ namespace de.unika.ipd.grGen.lgsp
         public IFilter[] Filters { get { return filters; } }
 
         /// <summary>
+        /// An array of GrGen types corresponding to rule return values.
+        /// </summary>
+        public readonly GrGenType[] outputs;
+
+        /// <summary>
         /// An array of the available filters
         /// </summary>
-        public LGSPFilter[] filters;
+        public readonly LGSPFilter[] filters;
     }
 
     /// <summary>
@@ -1334,15 +1351,15 @@ namespace de.unika.ipd.grGen.lgsp
 
         public String Name { get { return name; } }
 
-        public String name;
-
         public String Package { get { return package; } }
-
-        public String package;
 
         public String PackagePrefixedName { get { return packagePrefixedName; } }
 
-        public String packagePrefixedName;
+        public readonly String name;
+
+        public readonly String package;
+
+        public readonly String packagePrefixedName;
     }
 
     /// <summary>
@@ -1354,13 +1371,11 @@ namespace de.unika.ipd.grGen.lgsp
             : base(name, package, packagePrefixedName)
         {
             this.entities = new List<String>(entities);
-            this.package = package;
-            this.packagePrefixedName = packagePrefixedName;
         }
 
         public List<string> Entities { get { return entities; } }
 
-        private List<string> entities;
+        private readonly List<string> entities;
 
         public String EntitySuffix
         {
@@ -1418,17 +1433,17 @@ namespace de.unika.ipd.grGen.lgsp
         public String[] InputNames { get { return inputNames; } }
 
 
-        public bool isExternal;
+        public readonly bool isExternal;
 
         /// <summary>
         /// An array of GrGen types corresponding to filter parameters.
         /// </summary>
-        public GrGenType[] inputs;
+        public readonly GrGenType[] inputs;
 
         /// <summary>
         /// Names of the filter parameter elements
         /// </summary>
-        public string[] inputNames;
+        public readonly string[] inputNames;
     }
 
     /// <summary>
