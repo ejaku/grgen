@@ -63,17 +63,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Constructs an LGSPNameGraph object without initializing it.
-        /// </summary>
-        /// <param name="grname">The name for the graph.</param>
-        protected LGSPNamedGraph(String grname)
-            : base(grname)
-        {
-            NameToElem = new Dictionary<String, IGraphElement>();
-            ElemToName = new Dictionary<IGraphElement, String>();
-        }
-
-        /// <summary>
         /// Copy constructor.
         /// </summary>
         /// <param name="dataSource">The LGSPNamedGraph object to get the data from</param>

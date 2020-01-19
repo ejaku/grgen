@@ -126,9 +126,9 @@ public class ModelGen extends CSharpBase {
 		sb.append("\n");
 		genGraphModel();
 		sb.append("\n");
-		genGraphIncludingModelClass();
+		genGraphClass();
 		sb.append("\n");
-		genNamedGraphIncludingModelClass();
+		genNamedGraphClass();
 
 		sb.append("}\n");
 
@@ -4181,25 +4181,24 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\tFullyInitializeExternalTypes();\n");
 		sb.append("\t\t}\n\n");
 
-		genGraphModelBody(modelName, true);
+		genGraphModelBody(modelName);
 
 		sb.append("\t}\n");
 	}
 
-	private void genGraphIncludingModelClass() {
+	private void genGraphClass() {
 		String modelName = model.getIdent().toString();
 
 		sb.append("\t//\n");
-		sb.append("\t// IGraph (LGSPGraph) / IGraphModel implementation\n");
+		sb.append("\t// IGraph (LGSPGraph) implementation\n");
 		sb.append("\t//\n");
 
 		sb.append(
-			  "\tpublic class " + modelName + "Graph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel\n"
+			  "\tpublic class " + modelName + "Graph : GRGEN_LGSP.LGSPGraph\n"
 			+ "\t{\n"
-			+ "\t\tpublic " + modelName + "Graph() : base(GetNextGraphName())\n"
+			+ "\t\tpublic " + modelName + "Graph() : base(new " + modelName + "GraphModel(), GetNextGraphName())\n"
 			+ "\t\t{\n"
-			+ "\t\t\tFullyInitializeExternalTypes();\n"
-			+ "\t\t\tInitializeGraph(this);\n"
+			+ "\t\t\tInitializeGraph(model);\n"
 			+ "\t\t}\n\n"
 		);
 
@@ -4221,24 +4220,22 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			}
 		}
 
-		genGraphModelBody(modelName, false);
 		sb.append("\t}\n");
 	}
 
-	private void genNamedGraphIncludingModelClass() {
+	private void genNamedGraphClass() {
 		String modelName = model.getIdent().toString();
 
 		sb.append("\t//\n");
-		sb.append("\t// INamedGraph (LGSPNamedGraph) / IGraphModel implementation\n");
+		sb.append("\t// INamedGraph (LGSPNamedGraph) implementation\n");
 		sb.append("\t//\n");
 
 		sb.append(
-			  "\tpublic class " + modelName + "NamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel\n"
+			  "\tpublic class " + modelName + "NamedGraph : GRGEN_LGSP.LGSPNamedGraph\n"
 			+ "\t{\n"
-			+ "\t\tpublic " + modelName + "NamedGraph() : base(GetNextGraphName())\n"
+			+ "\t\tpublic " + modelName + "NamedGraph() : base(new " + modelName + "GraphModel(), GetNextGraphName(), 0)\n"
 			+ "\t\t{\n"
-			+ "\t\t\tFullyInitializeExternalTypes();\n"
-			+ "\t\t\tInitializeGraph(this);\n"
+			+ "\t\t\tInitializeGraph(model);\n"
 			+ "\t\t}\n\n"
 		);
 
@@ -4260,7 +4257,6 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			}
 		}
 
-		genGraphModelBody(modelName, false);
 		sb.append("\t}\n");
 	}
 
@@ -4314,7 +4310,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		);
 	}
 
-	private void genGraphModelBody(String modelName, boolean inPureGraphModel) {
+	private void genGraphModelBody(String modelName) {
 		sb.append("\t\tprivate " + modelName + "NodeModel nodeModel = new " + modelName + "NodeModel();\n");
 		sb.append("\t\tprivate " + modelName + "EdgeModel edgeModel = new " + modelName + "EdgeModel();\n");
 
@@ -4322,23 +4318,21 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		genEnumAttributeTypes();
 		genValidates();
 		genIndexDescriptions();
-		genIndicesGraphBinding(inPureGraphModel);
+		genIndicesGraphBinding();
 		sb.append("\n");
 		
-		String override = inPureGraphModel ? "override " : "";
-
-		sb.append("\t\tpublic " + override + "string ModelName { get { return \"" + modelName + "\"; } }\n");
+		sb.append("\t\tpublic override string ModelName { get { return \"" + modelName + "\"; } }\n");
 		
-		sb.append("\t\tpublic " + override + "GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }\n");
-		sb.append("\t\tpublic " + override + "GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
 		
-		sb.append("\t\tpublic " + override + "IEnumerable<string> Packages "
+		sb.append("\t\tpublic override IEnumerable<string> Packages "
 				+ "{ get { return packages; } }\n");
-		sb.append("\t\tpublic " + override + "IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes "
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes "
 				+ "{ get { return enumAttributeTypes; } }\n");
-		sb.append("\t\tpublic " + override + "IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo "
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo "
 				+ "{ get { return validateInfos; } }\n");
-		sb.append("\t\tpublic " + override + "IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions "
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions "
 				+ "{ get { return indexDescriptions; } }\n");
 		sb.append("\t\tpublic static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) "
 				+ "{ return indexDescriptions[i]; }\n");
@@ -4349,67 +4343,38 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t\t\treturn indexDescriptions[i];\n");
 		sb.append("\t\t\treturn null;\n");
 		sb.append("\t\t}\n");
-		sb.append("\t\tpublic " + override + "bool GraphElementUniquenessIsEnsured { get { return " + (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
-		sb.append("\t\tpublic " + override + "bool GraphElementsAreAccessibleByUniqueId { get { return " + (model.isUniqueIndexDefined() ? "true" : "false") + "; } }\n");
-		sb.append("\t\tpublic " + override + "int BranchingFactorForEqualsAny { get { return " + model.isoParallel() + "; } }\n");
+		sb.append("\t\tpublic override bool GraphElementUniquenessIsEnsured { get { return " + (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
+		sb.append("\t\tpublic override bool GraphElementsAreAccessibleByUniqueId { get { return " + (model.isUniqueIndexDefined() ? "true" : "false") + "; } }\n");
+		sb.append("\t\tpublic override int BranchingFactorForEqualsAny { get { return " + model.isoParallel() + "; } }\n");
 		sb.append("\n");
         
 		if(model.isEmitClassDefined()) {
-			sb.append("\t\tpublic " + override + "object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\tpublic override object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.Parse(reader, attrType, graph);\n");
 			sb.append("\t\t}\n");
-			sb.append("\t\tpublic " + override + "string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\tpublic override string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.Serialize(attribute, attrType, graph);\n");
 			sb.append("\t\t}\n");
-			sb.append("\t\tpublic " + override + "string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\tpublic override string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);\n");
 			sb.append("\t\t}\n");
-			sb.append("\t\tpublic " + override + "void External(string line, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\tpublic override void External(string line, GRGEN_LIBGR.IGraph graph)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\tAttributeTypeObjectEmitterParser.External(line, graph);\n");
 			sb.append("\t\t}\n");
-		} else {
-			if(!inPureGraphModel) { // the functions are inherited from LGSPGraphModel, which is not available in the graph'n'graph-model-in-one classes (because of the lack of multiple inheritance)
-				sb.append("\t\tpublic object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
-				sb.append("\t\t{\n");
-				sb.append("\t\t\treader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'\n");
-				sb.append("\t\t\treturn null;\n");
-				sb.append("\t\t}\n");
-				sb.append("\t\tpublic string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
-				sb.append("\t\t{\n");
-				sb.append("\t\t\tConsole.WriteLine(\"Warning: Exporting attribute of object type to null\");\n");
-				sb.append("\t\t\treturn \"null\";\n");
-				sb.append("\t\t}\n");
-				sb.append("\t\tpublic string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
-				sb.append("\t\t{\n");
-				sb.append("\t\t\treturn attribute!=null ? attribute.ToString() : \"null\";\n");
-				sb.append("\t\t}\n");
-				sb.append("\t\tpublic void External(string line, GRGEN_LIBGR.IGraph graph)\n");
-				sb.append("\t\t{\n");
-				sb.append("\t\t\tConsole.Write(\"Ignoring: \");\n");
-				sb.append("\t\t\tConsole.WriteLine(line);\n");
-				sb.append("\t\t}\n");
-			}
 		}
 		if(model.isEmitGraphClassDefined()) {
-			sb.append("\t\tpublic " + override + "GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
+			sb.append("\t\tpublic override GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectEmitterParser.AsGraph(attribute, attrType, graph);\n");
 			sb.append("\t\t}\n\n");
-		} else {
-			if(!inPureGraphModel) { // the functions are inherited from LGSPGraphModel, which is not available in the graph'n'graph-model-in-one classes (because of the lack of multiple inheritance)
-				sb.append("\t\tpublic GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
-				sb.append("\t\t{\n");
-				sb.append("\t\t\treturn null;\n");
-				sb.append("\t\t}\n\n");
-			}
 		}
 			
 		genExternalTypes();
-		sb.append("\t\tpublic " + override + "GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }\n\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }\n\n");
 
 		sb.append("\t\tprivate void FullyInitializeExternalTypes()\n");
 		sb.append("\t\t{\n");
@@ -4428,45 +4393,25 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t}\n\n");
 
 		if(model.isEqualClassDefined() && model.isLowerClassDefined()) {
-			sb.append("\t\tpublic " + override + "bool IsEqualClassDefined { get { return true; } }\n");
-			sb.append("\t\tpublic " + override + "bool IsLowerClassDefined { get { return true; } }\n");
-			sb.append("\t\tpublic " + override + "bool IsEqual(object this_, object that)\n");
+			sb.append("\t\tpublic override bool IsEqualClassDefined { get { return true; } }\n");
+			sb.append("\t\tpublic override bool IsLowerClassDefined { get { return true; } }\n");
+			sb.append("\t\tpublic override bool IsEqual(object this_, object that)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
 			sb.append("\t\t}\n");
-			sb.append("\t\tpublic " + override + "bool IsLower(object this_, object that)\n");
+			sb.append("\t\tpublic override bool IsLower(object this_, object that)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectCopierComparer.IsLower(this_, that);\n");
 			sb.append("\t\t}\n\n");
 		} else if(model.isEqualClassDefined()) {
-			sb.append("\t\tpublic " + override + "bool IsEqualClassDefined { get { return true; } }\n");
-			sb.append("\t\tpublic " + override + "bool IsEqual(object this_, object that)\n");
+			sb.append("\t\tpublic override bool IsEqualClassDefined { get { return true; } }\n");
+			sb.append("\t\tpublic override bool IsEqual(object this_, object that)\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
 			sb.append("\t\t}\n");
-			if(!inPureGraphModel) {
-				sb.append("\t\tpublic bool IsLowerClassDefined { get { return false; } }\n");
-				sb.append("\t\tpublic bool IsLower(object this_, object that)\n");
-				sb.append("\t\t{\n");
-				sb.append("\t\t\treturn this_ == that;\n");
-				sb.append("\t\t}\n\n");
-			}
-		} else {
-			if(!inPureGraphModel) {
-				sb.append("\t\tpublic bool IsEqualClassDefined { get { return false; } }\n");
-				sb.append("\t\tpublic bool IsLowerClassDefined { get { return false; } }\n");
-				sb.append("\t\tpublic bool IsEqual(object this_, object that)\n");
-				sb.append("\t\t{\n");
-				sb.append("\t\t\treturn this_ == that;\n");
-				sb.append("\t\t}\n");
-				sb.append("\t\tpublic bool IsLower(object this_, object that)\n");
-				sb.append("\t\t{\n");
-				sb.append("\t\t\treturn this_ == that;\n");
-				sb.append("\t\t}\n\n");
-			}
 		}
 		
-		sb.append("\t\tpublic " + override + "string MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
+		sb.append("\t\tpublic override string MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
 	}
 
 	private void genPackages() {
@@ -4555,9 +4500,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("),\n");
 	}
 
-	private void genIndicesGraphBinding(boolean inPureGraphModel) {
-		String override = inPureGraphModel ? "override " : "";
-		sb.append("\t\tpublic " + override + "void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {\n");
+	private void genIndicesGraphBinding() {
+		sb.append("\t\tpublic override void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {\n");
 		if(model.isUniqueIndexDefined())
 			sb.append("\t\t\tnew GRGEN_LGSP.LGSPUniquenessIndex((GRGEN_LGSP.LGSPGraph)graph); // must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
 		else if(model.isUniqueDefined())
@@ -4565,7 +4509,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t((GRGEN_LGSP.LGSPGraph)graph).indices = new " + model.getIdent() + "IndexSet((GRGEN_LGSP.LGSPGraph)graph);\n");
 		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic " + override + "void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {\n");
+		sb.append("\t\tpublic override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {\n");
 		if(model.isUniqueDefined())
 			sb.append("\t\t\t((GRGEN_LGSP.LGSPGraph)graph).uniquenessEnsurer.FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);\n");
 		sb.append("\t\t\t((" + model.getIdent() + "IndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);\n");

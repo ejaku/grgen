@@ -33,8 +33,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         private String name;
 
-        protected IGraphModel model;
-        internal String modelAssemblyName;
+        protected readonly IGraphModel model;
+        internal readonly String modelAssemblyName;
 
         public IIndexSet indices;
         public LGSPUniquenessEnsurer uniquenessEnsurer; // not null if unique ids for nodes/edges were requested
@@ -179,25 +179,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="grmodel">The graph model.</param>
         /// <param name="grname">The name for the graph.</param>
         public LGSPGraph(IGraphModel grmodel, String grname)
-            : this(grname)
         {
-            InitializeGraph(grmodel);
-            FillCustomCommandDescriptions();
-        }
+            model = grmodel;
+            modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
-        /// <summary>
-        /// Constructs an LGSPGraph object without initializing it.
-        /// </summary>
-        /// <param name="grname">The name for the graph.</param>
-        protected LGSPGraph(String grname)
-        {
             graphID = graphIDSource;
             ++graphIDSource;
             
             name = grname;
 
-            statistics = new LGSPGraphStatistics(this.Model);
+            statistics = new LGSPGraphStatistics(null);
 
+            InitializeGraph(grmodel);
             FillCustomCommandDescriptions();
         }
 
@@ -209,6 +202,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning.</param>
         public LGSPGraph(LGSPGraph dataSource, String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
+            model = dataSource.model;
+            modelAssemblyName = dataSource.modelAssemblyName;
+
             graphID = graphIDSource;
             ++graphIDSource;
             
@@ -224,6 +220,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newName">Name of the copied graph.</param>
         public LGSPGraph(LGSPGraph dataSource, String newName)
         {
+            model = dataSource.model;
+            modelAssemblyName = dataSource.modelAssemblyName;
+
             graphID = graphIDSource;
             ++graphIDSource;
             
@@ -242,14 +241,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// just forget about it if you don't need it.</param>
         private void Copy(LGSPGraph dataSource, String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            model = dataSource.model;
             name = newName;
 
             InitializeGraph();
 
             model.CreateAndBindIndexSet(this);
 
-            modelAssemblyName = dataSource.modelAssemblyName;
             oldToNewMap = new Dictionary<IGraphElement, IGraphElement>();
 
             for(int i = 0; i < dataSource.nodesByTypeHeads.Length; i++)
@@ -292,11 +289,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="grmodel">The model for this graph.</param>
         protected void InitializeGraph(IGraphModel grmodel)
         {
-            model = grmodel;
             if(statistics.graphModel == null)
                 statistics.graphModel = grmodel;
-
-            modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
             InitializeGraph();
 
