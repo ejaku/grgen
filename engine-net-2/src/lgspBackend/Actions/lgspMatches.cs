@@ -23,7 +23,7 @@ namespace de.unika.ipd.grGen.lgsp
         public Nodes_Enumerable(IMatch match) { this.match = match; }
         public IEnumerator<INode> GetEnumerator() { return new Nodes_Enumerator(match); } // KRANKE
         IEnumerator IEnumerable.GetEnumerator() { return new Nodes_Enumerator(match); } // SCHEISSE
-        IMatch match;
+        readonly IMatch match;
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.lgsp
         public INode Current { get { return match.getNodeAt(pos); } } // KRANKE
         object IEnumerator.Current { get { return match.getNodeAt(pos); } } // SCHEISSE
         public void Dispose() { /*empty*/; }
-        IMatch match;
+        readonly IMatch match;
         int pos;
     }
 
@@ -50,7 +50,7 @@ namespace de.unika.ipd.grGen.lgsp
         public Edges_Enumerable(IMatch match) { this.match = match; }
         public IEnumerator<IEdge> GetEnumerator() { return new Edges_Enumerator(match); } // KRANKE
         IEnumerator IEnumerable.GetEnumerator() { return new Edges_Enumerator(match); } // SCHEISSE
-        IMatch match;
+        readonly IMatch match;
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IEdge Current { get { return match.getEdgeAt(pos); } } // KRANKE
         object IEnumerator.Current { get { return match.getEdgeAt(pos); } } // SCHEISSE
         public void Dispose() { /*empty*/; }
-        IMatch match;
+        readonly IMatch match;
         int pos;
     }
 
@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.lgsp
         public Variables_Enumerable(IMatch match) { this.match = match; }
         public IEnumerator<object> GetEnumerator() { return new Variables_Enumerator(match); } // KRANKE
         IEnumerator IEnumerable.GetEnumerator() { return new Variables_Enumerator(match); } // SCHEISSE
-        IMatch match;
+        readonly IMatch match;
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ namespace de.unika.ipd.grGen.lgsp
         public object Current { get { return match.getVariableAt(pos); } } // KRANKE
         object IEnumerator.Current { get { return match.getVariableAt(pos); } } // SCHEISSE
         public void Dispose() { /*empty*/; }
-        IMatch match;
+        readonly IMatch match;
         int pos;
     }
 
@@ -104,7 +104,7 @@ namespace de.unika.ipd.grGen.lgsp
         public EmbeddedGraphs_Enumerable(IMatch match) { this.match = match; }
         public IEnumerator<IMatch> GetEnumerator() { return new EmbeddedGraphs_Enumerator(match); } // KRANKE
         IEnumerator IEnumerable.GetEnumerator() { return new EmbeddedGraphs_Enumerator(match); } // SCHEISSE
-        IMatch match;
+        readonly IMatch match;
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IMatch Current { get { return match.getEmbeddedGraphAt(pos); } } // KRANKE
         object IEnumerator.Current { get { return match.getEmbeddedGraphAt(pos); } } // SCHEISSE
         public void Dispose() { /*empty*/; }
-        IMatch match;
+        readonly IMatch match;
         int pos;
     }
 
@@ -131,7 +131,7 @@ namespace de.unika.ipd.grGen.lgsp
         public Alternatives_Enumerable(IMatch match) { this.match = match; }
         public IEnumerator<IMatch> GetEnumerator() { return new Alternatives_Enumerator(match); } // KRANKE
         IEnumerator IEnumerable.GetEnumerator() { return new Alternatives_Enumerator(match); } // SCHEISSE
-        IMatch match;
+        readonly IMatch match;
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IMatch Current { get { return match.getAlternativeAt(pos); } } // KRANKE
         object IEnumerator.Current { get { return match.getAlternativeAt(pos); } } // SCHEISSE
         public void Dispose() { /*empty*/; }
-        IMatch match;
+        readonly IMatch match;
         int pos;
     }
 
@@ -159,7 +159,7 @@ namespace de.unika.ipd.grGen.lgsp
         public Iterateds_Enumerable(IMatch match) { this.match = match; }
         public IEnumerator<IMatches> GetEnumerator() { return new Iterateds_Enumerator(match); } // KRANKE
         IEnumerator IEnumerable.GetEnumerator() { return new Iterateds_Enumerator(match); } // SCHEISSE
-        IMatch match;
+        readonly IMatch match;
     }
 
     /// <summary>
@@ -174,7 +174,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IMatches Current { get { return match.getIteratedAt(pos); } } // KRANKE
         object IEnumerator.Current { get { return match.getIteratedAt(pos); } } // SCHEISSE
         public void Dispose() { /*empty*/; }
-        IMatch match;
+        readonly IMatch match;
         int pos;
     }
 
@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.lgsp
         public Independents_Enumerable(IMatch match) { this.match = match; }
         public IEnumerator<IMatch> GetEnumerator() { return new Independents_Enumerator(match); } // KRANKE
         IEnumerator IEnumerable.GetEnumerator() { return new Independents_Enumerator(match); } // SCHEISSE
-        IMatch match;
+        readonly IMatch match;
     }
 
     /// <summary>
@@ -201,7 +201,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IMatch Current { get { return match.getIndependentAt(pos); } } // KRANKE
         object IEnumerator.Current { get { return match.getIndependentAt(pos); } } // SCHEISSE
         public void Dispose() { /*empty*/; }
-        IMatch match;
+        readonly IMatch match;
         int pos;
     }
 
@@ -625,7 +625,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// the action object used to generate this LGSPMatchesList object
         /// </summary>
-        public IAction producer;
+        public readonly IAction producer;
 
         /// <summary>
         /// head of list

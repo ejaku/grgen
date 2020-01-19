@@ -61,22 +61,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The type ID of the pattern element.
         /// </summary>
-        public int TypeID;
+        public readonly int TypeID;
 
         /// <summary>
         /// The name of the type interface of the pattern element.
         /// </summary>
-        public String typeName;
+        public readonly String typeName;
 
         /// <summary>
         /// The name of the pattern element.
         /// </summary>
-        public String name;
+        public readonly String name;
 
         /// <summary>
         /// Pure name of the pattern element as specified in the .grg file without any prefixes.
         /// </summary>
-        public String unprefixedName;
+        public readonly String unprefixedName;
 
         /// <summary>
         /// The pattern where this element gets matched (null if rule parameter).
@@ -87,76 +87,76 @@ namespace de.unika.ipd.grGen.lgsp
         /// Iff true the element is only defined in its PointOfDefinition pattern,
         /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
         /// </summary>
-        public bool defToBeYieldedTo;
+        public readonly bool defToBeYieldedTo;
 
         /// <summary>
         /// The initialization expression for the element if some was defined, otherwise null.
         /// </summary>
-        public Expression initialization;
+        public readonly Expression initialization;
 
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public Annotations annotations = new Annotations();
+        public readonly Annotations annotations = new Annotations();
 
         /// <summary>
         /// An array of allowed types for this pattern element.
         /// If it is null, all subtypes of the type specified by typeID (including itself)
         /// are allowed for this pattern element.
         /// </summary>
-        public GrGenType[] AllowedTypes;
+        public readonly GrGenType[] AllowedTypes;
 
         /// <summary>
         /// An array containing a bool for each node/edge type (order defined by the TypeIDs)
         /// which is true iff the corresponding type is allowed for this pattern element.
         /// It should be null if allowedTypes is null or empty or has only one element.
         /// </summary>
-        public bool[] IsAllowedType;
+        public readonly bool[] IsAllowedType;
 
         /// <summary>
         /// Default cost/priority from frontend, user priority if given.
         /// </summary>
-        public float Cost;
+        public readonly float Cost;
 
         /// <summary>
         /// Specifies to which rule parameter this pattern element corresponds.
         /// Only valid if pattern element is handed in as rule parameter.
         /// </summary>
-        public int ParameterIndex;
+        public readonly int ParameterIndex;
 
         /// <summary>
         /// Tells whether this pattern element may be null.
         /// May only be true if pattern element is handed in as rule parameter.
         /// </summary>
-        public bool MaybeNull;
+        public readonly bool MaybeNull;
 
         /// <summary>
         /// If not null this pattern element is to be bound by iterating the given storage
         /// (which may mean trying the single value if it is elementary).
         /// </summary>
-        public StorageAccess Storage;
+        public readonly StorageAccess Storage;
 
         /// <summary>
         /// If not null this pattern element is to be determined by a storage indexed lookup,
         /// with the accessor given here applied as index into the storage given in the Storage field.
         /// </summary>
-        public StorageAccessIndex StorageIndex;
+        public readonly StorageAccessIndex StorageIndex;
 
         /// <summary>
         /// If not null this pattern element is to be determined by an index lookup,
         /// with details specified by the concrete index access type contained in this field.
         /// </summary>
-        public IndexAccess IndexAccess;
+        public readonly IndexAccess IndexAccess;
 
         /// <summary>
         /// If not null this pattern element is to be determined by a name map lookup
         /// </summary>
-        public NameLookup NameLookup;
+        public readonly NameLookup NameLookup;
 
         /// <summary>
         /// If not null this pattern element is to be determined by a unique index lookup
         /// </summary>
-        public UniqueLookup UniqueLookup;
+        public readonly UniqueLookup UniqueLookup;
 
         /// <summary>
         /// If not null this pattern element is to be bound by casting the given ElementBeforeCasting to the pattern element type or causing matching to fail.
@@ -175,12 +175,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Links to the original pattern element in case this element was inlined, otherwise null;
         /// the point of definition of the original element references the original containing pattern
         /// </summary>
-        public PatternElement originalElement;
+        public readonly PatternElement originalElement;
 
         /// <summary>
         /// Links to the original subpattern embedding which was inlined in case this element was inlined, otherwise null.
         /// </summary>
-        public PatternGraphEmbedding originalSubpatternEmbedding;
+        public readonly PatternGraphEmbedding originalSubpatternEmbedding;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Links to the original pattern element in case this element stems from inlining an independent
         /// (those elements exist only in search planning, they are not contained in any pattern).
         /// </summary>
-        public PatternElement OriginalIndependentElement;
+        public readonly PatternElement OriginalIndependentElement;
 
         /// <summary>
         /// This element was declared in an independent pattern, but is now to be matched as preset,
@@ -384,7 +384,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The GrGen type of the pattern node
         /// </summary>
-        public NodeType type;
+        public readonly NodeType type;
 
         /// <summary>
         /// Instantiates a new PatternNode object
@@ -481,12 +481,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The GrGen type of the pattern edge
         /// </summary>
-        public EdgeType type;
+        public readonly EdgeType type;
         
         /// <summary>
         /// Indicates, whether this pattern edge should be matched with a fixed direction or not.
         /// </summary>
-        public bool fixedDirection;
+        public readonly bool fixedDirection;
 
         /// <summary>
         /// Instantiates a new PatternEdge object
@@ -625,17 +625,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The GrGen type of the pattern variable.
         /// </summary>
-        public VarType type;
+        public readonly VarType type;
 
         /// <summary>
         /// The name of the variable.
         /// </summary>
-        public String name;
+        public readonly String name;
         
         /// <summary>
         /// Pure name of the variable as specified in the .grg without any prefixes.
         /// </summary>
-        public String unprefixedName;
+        public readonly String unprefixedName;
 
         /// <summary>
         /// The pattern where this element gets matched (null if rule parameter).
@@ -646,22 +646,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// Iff true the element is only defined in its PointOfDefinition pattern,
         /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
         /// </summary>
-        public bool defToBeYieldedTo;
+        public readonly bool defToBeYieldedTo;
 
         /// <summary>
         /// The initialization expression for the variable if some was defined, otherwise null.
         /// </summary>
-        public Expression initialization;
+        public readonly Expression initialization;
 
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public Annotations annotations = new Annotations();
+        public readonly Annotations annotations = new Annotations();
 
         /// <summary>
         /// Specifies to which rule parameter this variable corresponds.
         /// </summary>
-        public int ParameterIndex;
+        public readonly int ParameterIndex;
 
         /// <summary>
         /// If not null this pattern element is to be bound by assigning the value of the given assignmentSource expression to the variable.
@@ -681,12 +681,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Links to the original pattern variable in case this variable was inlined, otherwise null;
         /// the point of definition of the original variable references the original containing pattern
         /// </summary>
-        public PatternVariable originalVariable;
+        public readonly PatternVariable originalVariable;
 
         /// <summary>
         /// Links to the original subpattern embedding which was inlined in case this variable was inlined, otherwise null.
         /// </summary>
-        public PatternGraphEmbedding originalSubpatternEmbedding;
+        public readonly PatternGraphEmbedding originalSubpatternEmbedding;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -746,12 +746,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The storage is a global variable if not null.
         /// </summary>
-        public GlobalVariableAccess GlobalVariable;
+        public readonly GlobalVariableAccess GlobalVariable;
 
         /// <summary>
         /// The storage is a graph element attribute (qualification) if not null.
         /// </summary>
-        public QualificationAccess Attribute;
+        public readonly QualificationAccess Attribute;
 
 
         public StorageAccess(PatternVariable variable)
@@ -833,12 +833,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The storage index is the given global variable if not null.
         /// </summary>
-        public GlobalVariableAccess GlobalVariable;
+        public readonly GlobalVariableAccess GlobalVariable;
 
         /// <summary>
         /// The storage index is the given graph element attribute (qualification) if not null.
         /// </summary>
-        public QualificationAccess Attribute;
+        public readonly QualificationAccess Attribute;
 
 
         public StorageAccessIndex(PatternElement graphElement)
@@ -932,7 +932,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The index accessed
         /// </summary>
-        public IndexDescription Index;
+        public readonly IndexDescription Index;
 
         /// <summary>
         /// The pattern element that must be bound before the index can be accessed.
@@ -944,7 +944,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Tells whether variables are needed for the expressions used in accessing the index.
         /// This defines a constraint on scheduling.
         /// </summary>
-        public bool VariablesNeeded;
+        public readonly bool VariablesNeeded;
 
         public abstract IndexAccess Copy(string nameSuffix);
 
@@ -1016,9 +1016,9 @@ namespace de.unika.ipd.grGen.lgsp
     public class IndexAccessAscending : IndexAccess
     {
         public Expression From;
-        public bool IncludingFrom;
+        public readonly bool IncludingFrom;
         public Expression To;
-        public bool IncludingTo;
+        public readonly bool IncludingTo;
 
         public IndexAccessAscending(IndexDescription index, 
             PatternElement neededElement, bool variablesNeeded,
@@ -1102,9 +1102,9 @@ namespace de.unika.ipd.grGen.lgsp
     public class IndexAccessDescending : IndexAccess
     {
         public Expression From;
-        public bool IncludingFrom;
+        public readonly bool IncludingFrom;
         public Expression To;
-        public bool IncludingTo;
+        public readonly bool IncludingTo;
 
         public IndexAccessDescending(IndexDescription index, 
             PatternElement neededElement, bool variablesNeeded,
@@ -1197,7 +1197,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Tells whether variables are needed for the expressions used in accessing the index.
         /// This defines a constraint on scheduling.
         /// </summary>
-        public bool VariablesNeeded;
+        public readonly bool VariablesNeeded;
 
         /// <summary>
         /// The expression for computing the key with which the name map will be accessed
@@ -1261,7 +1261,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Tells whether variables are needed for the expressions used in accessing the index.
         /// This defines a constraint on scheduling.
         /// </summary>
-        public bool VariablesNeeded;
+        public readonly bool VariablesNeeded;
 
         /// <summary>
         /// The expression for computing the unique id with which the unique index will be accessed
@@ -1323,7 +1323,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The attribute.
         /// </summary>
-        public AttributeType Attribute;
+        public readonly AttributeType Attribute;
 
         public QualificationAccess(PatternElement owner, AttributeType attribute)
         {
@@ -1345,14 +1345,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Name of the global variable
         /// </summary>
-        public string Name;
+        public readonly string Name;
 
         /// <summary>
         /// Statically declared type of the global variable.
         /// (The one given in the rule file declaration defining how it is to be interpreted,
         /// global variables as such are untyped.)
         /// </summary>
-        public VarType Type;
+        public readonly VarType Type;
 
         /// <summary>
         /// Instantiates a new global variable access to be used in a match from storage construct.
@@ -1379,27 +1379,27 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The condition expression to evaluate
         /// </summary>
-        public Expression ConditionExpression;
+        public readonly Expression ConditionExpression;
 
         /// <summary>
         /// An array of node names needed by this condition.
         /// </summary>
-        public String[] NeededNodes;
+        public readonly String[] NeededNodes;
 
         /// <summary>
         /// An array of edge names needed by this condition.
         /// </summary>
-        public String[] NeededEdges;
+        public readonly String[] NeededEdges;
 
         /// <summary>
         /// An array of variable names needed by this condition.
         /// </summary>
-        public String[] NeededVariables;
+        public readonly String[] NeededVariables;
 
         /// <summary>
         /// An array of variable types (corresponding to the variable names) needed by this condition.
         /// </summary>
-        public VarType[] NeededVariableTypes;
+        public readonly VarType[] NeededVariableTypes;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1476,7 +1476,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The name of the pattern yielding.
         /// </summary>
-        public String Name;
+        public readonly String Name;
         
         /// <summary>
         /// An array of elementary yieldings to execute (e.g. assignments to def variables).
@@ -1486,22 +1486,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of node names needed by this yielding.
         /// </summary>
-        public String[] NeededNodes;
+        public readonly String[] NeededNodes;
 
         /// <summary>
         /// An array of edge names needed by this yielding.
         /// </summary>
-        public String[] NeededEdges;
+        public readonly String[] NeededEdges;
 
         /// <summary>
         /// An array of variable names needed by this yielding.
         /// </summary>
-        public String[] NeededVariables;
+        public readonly String[] NeededVariables;
 
         /// <summary>
         /// An array of variable types (corresponding to the variable names) needed by this yielding.
         /// </summary>
-        public VarType[] NeededVariableTypes;
+        public readonly VarType[] NeededVariableTypes;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1609,51 +1609,51 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The name of the usage of the subpattern.
         /// </summary>
-        public String name;
+        public readonly String name;
 
         /// <summary>
         /// The embedded subpattern.
         /// </summary>
-        public LGSPMatchingPattern matchingPatternOfEmbeddedGraph;
+        public readonly LGSPMatchingPattern matchingPatternOfEmbeddedGraph;
 
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public Annotations annotations = new Annotations();
+        public readonly Annotations annotations = new Annotations();
 
         /// <summary>
         /// An array with the expressions giving the arguments to the subpattern,
         /// that are the pattern variables plus the pattern elements,
         /// with which the subpattern gets connected to the containing pattern.
         /// </summary>
-        public Expression[] connections;
+        public readonly Expression[] connections;
 
         /// <summary>
         /// An array with the output arguments to the subpattern,
         /// that are the pattern variables plus the pattern elements
         /// which the subpattern yields to the containing pattern.
         /// </summary>
-        public String[] yields;
+        public readonly String[] yields;
 
         /// <summary>
         /// An array of names of nodes needed by this subpattern embedding.
         /// </summary>
-        public String[] neededNodes;
+        public readonly String[] neededNodes;
 
         /// <summary>
         /// An array of names of edges needed by this subpattern embedding.
         /// </summary>
-        public String[] neededEdges;
+        public readonly String[] neededEdges;
 
         /// <summary>
         /// An array of names of variable needed by this subpattern embedding.
         /// </summary>
-        public String[] neededVariables;
+        public readonly String[] neededVariables;
 
         /// <summary>
         /// An array of variable types (corresponding to the variable names) needed by this embedding.
         /// </summary>
-        public VarType[] neededVariableTypes;
+        public readonly VarType[] neededVariableTypes;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1668,12 +1668,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Links to the original embedding in case this embedding was inlined, otherwise null.
         /// This tells that this embedding was used in another subpattern which was inlined.
         /// </summary>
-        public PatternGraphEmbedding originalEmbedding;
+        public readonly PatternGraphEmbedding originalEmbedding;
 
         /// <summary>
         /// Links to the original subpattern embedding which was inlined in case this alternative was inlined, otherwise null.
         /// </summary>
-        public PatternGraphEmbedding originalSubpatternEmbedding;
+        public readonly PatternGraphEmbedding originalSubpatternEmbedding;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1767,29 +1767,29 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Name of the alternative.
         /// </summary>
-        public String name;
+        public readonly String name;
 
         /// <summary>
         /// Prefix for name from nesting path.
         /// </summary>
-        public String pathPrefix;
+        public readonly String pathPrefix;
 
         /// <summary>
         /// Array with the alternative cases.
         /// </summary>
-        public PatternGraph[] alternativeCases;
+        public readonly PatternGraph[] alternativeCases;
 
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Links to the original alternative in case this alternative was inlined, otherwise null
         /// </summary>
-        public Alternative originalAlternative;
+        public readonly Alternative originalAlternative;
 
         /// <summary>
         /// Links to the original subpattern embedding which was inlined in case this alternative was inlined, otherwise null.
         /// </summary>
-        public PatternGraphEmbedding originalSubpatternEmbedding;
+        public readonly PatternGraphEmbedding originalSubpatternEmbedding;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1859,29 +1859,29 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         ///The iterated pattern to be matched as often as possible within specified bounds.
         /// </summary>
-        public PatternGraph iteratedPattern;
+        public readonly PatternGraph iteratedPattern;
 
         /// <summary>
         /// How many matches to find so the iterated succeeds.
         /// </summary>
-        public int minMatches;
+        public readonly int minMatches;
 
         /// <summary>
         /// The upper bound to stop matching at, 0 means unlimited.
         /// </summary>
-        public int maxMatches;
+        public readonly int maxMatches;
 
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Links to the original iterated in case this iterated was inlined, otherwise null
         /// </summary>
-        public Iterated originalIterated;
+        public readonly Iterated originalIterated;
 
         /// <summary>
         /// Links to the original subpattern embedding which was inlined in case this iterated was inlined, otherwise null.
         /// </summary>
-        public PatternGraphEmbedding originalSubpatternEmbedding;
+        public readonly PatternGraphEmbedding originalSubpatternEmbedding;
 
         ////////////////////////////////////////////////////////////////////////////
 

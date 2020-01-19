@@ -103,8 +103,8 @@ namespace de.unika.ipd.grGen.expression
 
         public abstract String GetInfixOperator();
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -135,8 +135,8 @@ namespace de.unika.ipd.grGen.expression
 
         public abstract String GetFuncOperatorAndLParen();
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -174,9 +174,9 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        Expression Condition;
-        Expression Left;
-        Expression Right;
+        readonly Expression Condition;
+        readonly Expression Left;
+        readonly Expression Right;
     }
 
     /// <summary>
@@ -409,8 +409,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -445,8 +445,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -481,8 +481,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -517,8 +517,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     // external comparisons
@@ -613,8 +613,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -653,8 +653,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -859,7 +859,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Nested;
         }
 
-        Expression Nested;
+        readonly Expression Nested;
     }
 
     /// <summary>
@@ -888,7 +888,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Nested;
         }
 
-        Expression Nested;
+        readonly Expression Nested;
     }
 
     /// <summary>
@@ -917,7 +917,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Nested;
         }
 
-        Expression Nested;
+        readonly Expression Nested;
     }
 
     /// <summary>
@@ -966,8 +966,8 @@ namespace de.unika.ipd.grGen.expression
             }
         }
 
-        String Type;
-        bool IsDictionary;
+        readonly String Type;
+        readonly bool IsDictionary;
     }
 
     /// <summary>
@@ -1016,9 +1016,9 @@ namespace de.unika.ipd.grGen.expression
             yield return Nested;
         }
 
-        String TypeName;
-        Expression Nested;
-        bool IsContainer;
+        readonly String TypeName;
+        readonly Expression Nested;
+        readonly bool IsContainer;
     }
 
     /// <summary>
@@ -1041,7 +1041,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(Value);
         }
 
-        String Value;
+        readonly String Value;
     }
 
     /// <summary>
@@ -1065,8 +1065,8 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("GRGEN_MODEL.ENUM_" + EnumType + ".@" + EnumItem);
         }
 
-        string EnumType;
-        string EnumItem;
+        readonly string EnumType;
+        readonly string EnumItem;
     }
 
     /// <summary>
@@ -1096,7 +1096,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Path;
         }
 
-        Expression Path;
+        readonly Expression Path;
     }
 
     /// <summary>
@@ -1126,7 +1126,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Path;
         }
 
-        Expression Path;
+        readonly Expression Path;
     }
 
     /// <summary>
@@ -1166,8 +1166,8 @@ namespace de.unika.ipd.grGen.expression
             yield return GraphOrContainer;
         }
 
-        String Type; // if non-null, gives the container type to copy, if null it's a graph
-        Expression GraphOrContainer;
+        readonly String Type; // if non-null, gives the container type to copy, if null it's a graph
+        readonly Expression GraphOrContainer;
     }
 
     /// <summary>
@@ -1190,7 +1190,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("match." + NamesOfEntities.MatchName(Iterated, BuildMatchObjectType.Iteration) + ".Count");
         }
 
-        String Iterated;
+        readonly String Iterated;
     }
 
     /// <summary>
@@ -1215,9 +1215,9 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("((" + OwnerType + ")"+ NamesOfEntities.CandidateVariable(Owner) + ").@" + Member);
         }
 
-        String OwnerType;
-        String Owner;
-        String Member;
+        readonly String OwnerType;
+        readonly String Owner;
+        readonly String Member;
     }
 
     /// <summary>
@@ -1242,9 +1242,9 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.AppendFormat("(({0})((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\"{1}\")).@{2}", OwnerType, Owner, Member);
         }
 
-        String OwnerType;
-        String Owner;
-        String Member;
+        readonly String OwnerType;
+        readonly String Owner;
+        readonly String Member;
     }
 
     /// <summary>
@@ -1270,8 +1270,8 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(").@" + Member);
         }
 
-        Expression Owner;
-        String Member;
+        readonly Expression Owner;
+        readonly String Member;
     }
 
     /// <summary>
@@ -1294,7 +1294,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(NamesOfEntities.CandidateVariable(Entity) + ".lgspType");
         }
 
-        String Entity;
+        readonly String Entity;
     }
 
     /// <summary>
@@ -1324,7 +1324,7 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append(NamesOfEntities.Variable(Entity));
         }
 
-        public String Entity;
+        readonly public String Entity;
         public String MatchEntity;
     }
 
@@ -1349,8 +1349,8 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.AppendFormat("(({0})((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).GetVariableValue(\"{1}\"))", Type, GlobalVariableName);
         }
 
-        public String GlobalVariableName;
-        public String Type;
+        readonly public String GlobalVariableName;
+        readonly public String Type;
     }
 
     /// <summary>
@@ -1384,8 +1384,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Nested;
         }
 
-        Expression Entity;
-        Expression Nested;
+        readonly Expression Entity;
+        readonly Expression Nested;
     }
 
     /// <summary>
@@ -1433,7 +1433,7 @@ namespace de.unika.ipd.grGen.expression
                 yield break;
         }
 
-        Expression Nested;
+        readonly Expression Nested;
     }
 
     /// <summary>
@@ -1463,7 +1463,7 @@ namespace de.unika.ipd.grGen.expression
             yield return StringExpr;
         }
 
-        Expression StringExpr;
+        readonly Expression StringExpr;
     }
 
     /// <summary>
@@ -1493,7 +1493,7 @@ namespace de.unika.ipd.grGen.expression
             yield return StringExpr;
         }
 
-        Expression StringExpr;
+        readonly Expression StringExpr;
     }
 
     /// <summary>
@@ -1523,7 +1523,7 @@ namespace de.unika.ipd.grGen.expression
             yield return StringExpr;
         }
 
-        Expression StringExpr;
+        readonly Expression StringExpr;
     }
 
     /// <summary>
@@ -1573,9 +1573,9 @@ namespace de.unika.ipd.grGen.expression
                 yield return LengthExpr;
         }
 
-        Expression StringExpr;
-        Expression StartExpr;
-        Expression LengthExpr;
+        readonly Expression StringExpr;
+        readonly Expression StartExpr;
+        readonly Expression LengthExpr;
     }
 
     /// <summary>
@@ -1627,9 +1627,9 @@ namespace de.unika.ipd.grGen.expression
                 yield return StartIndexExpr;
         }
 
-        Expression StringExpr;
-        Expression StringToSearchForExpr;
-        Expression StartIndexExpr;
+        readonly Expression StringExpr;
+        readonly Expression StringToSearchForExpr;
+        readonly Expression StartIndexExpr;
     }
 
     /// <summary>
@@ -1681,9 +1681,9 @@ namespace de.unika.ipd.grGen.expression
                 yield return StartIndexExpr;
         }
 
-        Expression StringExpr;
-        Expression StringToSearchForExpr;
-        Expression StartIndexExpr;
+        readonly Expression StringExpr;
+        readonly Expression StringToSearchForExpr;
+        readonly Expression StartIndexExpr;
     }
 
     /// <summary>
@@ -1718,8 +1718,8 @@ namespace de.unika.ipd.grGen.expression
             yield return StringToSearchForExpr;
         }
 
-        Expression StringExpr;
-        Expression StringToSearchForExpr;
+        readonly Expression StringExpr;
+        readonly Expression StringToSearchForExpr;
     }
 
     /// <summary>
@@ -1754,8 +1754,8 @@ namespace de.unika.ipd.grGen.expression
             yield return StringToSearchForExpr;
         }
 
-        Expression StringExpr;
-        Expression StringToSearchForExpr;
+        readonly Expression StringExpr;
+        readonly Expression StringToSearchForExpr;
     }
 
     /// <summary>
@@ -1802,10 +1802,10 @@ namespace de.unika.ipd.grGen.expression
             yield return ReplaceStrExpr;
         }
 
-        Expression StringExpr;
-        Expression StartExpr;
-        Expression LengthExpr;
-        Expression ReplaceStrExpr;
+        readonly Expression StringExpr;
+        readonly Expression StartExpr;
+        readonly Expression LengthExpr;
+        readonly Expression ReplaceStrExpr;
     }
 
     /// <summary>
@@ -1839,8 +1839,8 @@ namespace de.unika.ipd.grGen.expression
             yield return StringToSplitAtExpr;
         }
 
-        Expression StringExpr;
-        Expression StringToSplitAtExpr;
+        readonly Expression StringExpr;
+        readonly Expression StringToSplitAtExpr;
     }
 
     /// <summary>
@@ -1887,10 +1887,10 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
-        public String PackageName;
-        public String FunctionName;
-        public Expression[] Arguments;
-        public String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+        public readonly String PackageName;
+        public readonly String FunctionName;
+        public readonly Expression[] Arguments;
+        public readonly String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
         public bool Parallel;
     }
 
@@ -1940,9 +1940,9 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
-        public String FunctionName;
-        public Expression[] Arguments;
-        public String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+        public readonly String FunctionName;
+        public readonly Expression[] Arguments;
+        public readonly String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
         public bool Parallel;
     }
 
@@ -1986,8 +1986,8 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
-        String OwnerType;
-        String Owner;
+        readonly String OwnerType;
+        readonly String Owner;
         public bool Parallel;
     }
 
@@ -2033,7 +2033,7 @@ namespace de.unika.ipd.grGen.expression
             Parallel = parallel;
         }
 
-        Expression Owner;
+        readonly Expression Owner;
         public bool Parallel;
     }
 
@@ -2119,7 +2119,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2149,7 +2149,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2459,7 +2459,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2489,7 +2489,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2519,7 +2519,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2549,7 +2549,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2579,7 +2579,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2609,7 +2609,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2639,7 +2639,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2669,7 +2669,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2699,7 +2699,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2729,7 +2729,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
     /// <summary>
@@ -2774,8 +2774,8 @@ namespace de.unika.ipd.grGen.expression
             if(Right != null) yield return Right;
         }
 
-        public Expression Left;
-        public Expression Right;
+        public readonly Expression Left;
+        public readonly Expression Right;
     }
 
     /// <summary>
@@ -2826,7 +2826,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        public Expression Left;
-        public Expression Right;
+        public readonly Expression Left;
+        public readonly Expression Right;
     }
 }

@@ -68,10 +68,10 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        String Left;
-        bool IsVar;
-        String TargetType;
-        Expression Right;
+        readonly String Left;
+        readonly bool IsVar;
+        readonly String TargetType;
+        readonly Expression Right;
     }
 
     /// <summary>
@@ -117,11 +117,11 @@ namespace de.unika.ipd.grGen.expression
             yield return Index;
         }
 
-        String Left;
-        Expression Right;
-        String TypeRight;
-        Expression Index;
-        String TypeIndex;
+        readonly String Left;
+        readonly Expression Right;
+        readonly String TypeRight;
+        readonly Expression Index;
+        readonly String TypeIndex;
     }
 
     /// <summary>
@@ -155,8 +155,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        String Left;
-        YieldMethod Right;
+        readonly String Left;
+        readonly YieldMethod Right;
     }
 
     /// <summary>
@@ -190,8 +190,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        String Left;
-        YieldMethod Right;
+        readonly String Left;
+        readonly YieldMethod Right;
     }
 
     /// <summary>
@@ -225,8 +225,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        String Left;
-        YieldMethod Right;
+        readonly String Left;
+        readonly YieldMethod Right;
     }
 
     /// <summary>
@@ -246,8 +246,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected String Left;
-        protected Expression Right;
+        protected readonly String Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -278,7 +278,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(";\n");
         }
 
-        String RightType;
+        readonly String RightType;
     }
 
     /// <summary>
@@ -417,7 +417,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(";\n");
         }
 
-        String ValueType;
+        readonly String ValueType;
     }
 
     /// <summary>
@@ -460,9 +460,9 @@ namespace de.unika.ipd.grGen.expression
             yield return Value;
         }
 
-        Expression Value;
-        String KeyType;
-        String ValueType;
+        readonly Expression Value;
+        readonly String KeyType;
+        readonly String ValueType;
     }
 
     /// <summary>
@@ -522,8 +522,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        Expression Index;
-        String ValueType;
+        readonly Expression Index;
+        readonly String ValueType;
     }
 
     /// <summary>
@@ -583,8 +583,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        Expression Index;
-        String ValueType;
+        readonly Expression Index;
+        readonly String ValueType;
     }
 
     /// <summary>
@@ -718,10 +718,10 @@ namespace de.unika.ipd.grGen.expression
                 yield return statement;
         }
 
-        public String Variable;
-        public String UnprefixedVariable;
-        public String Iterated;
-        Yielding[] Statements;
+        public readonly String Variable;
+        public readonly String UnprefixedVariable;
+        public readonly String Iterated;
+        readonly Yielding[] Statements;
 
         public String IteratedMatchVariable;
     }
@@ -835,16 +835,16 @@ namespace de.unika.ipd.grGen.expression
                 yield return statement;
         }
 
-        public String Variable;
-        public String UnprefixedVariable;
-        public String VariableType;
-        public String Index;
-        public String UnprefixedIndex;
-        public String IndexType;
-        public String Container;
-        public String UnprefixedContainer;
-        public String ContainerType;
-        Yielding[] Statements;
+        public readonly String Variable;
+        public readonly String UnprefixedVariable;
+        public readonly String VariableType;
+        public readonly String Index;
+        public readonly String UnprefixedIndex;
+        public readonly String IndexType;
+        public readonly String Container;
+        public readonly String UnprefixedContainer;
+        public readonly String ContainerType;
+        readonly Yielding[] Statements;
     }
 
     /// <summary>
@@ -907,12 +907,12 @@ namespace de.unika.ipd.grGen.expression
                 yield return statement;
         }
 
-        public String Variable;
-        public String UnprefixedVariable;
-        public String VariableType;
-        public Expression Left;
-        public Expression Right;
-        Yielding[] Statements;
+        public readonly String Variable;
+        public readonly String UnprefixedVariable;
+        public readonly String VariableType;
+        public readonly Expression Left;
+        public readonly Expression Right;
+        readonly Yielding[] Statements;
     }
 
     /// <summary>
@@ -1490,11 +1490,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public String Variable;
-        public String UnprefixedVariable;
-        public String VariableType;
-        public Expression Function;
-        Yielding[] Statements;
+        public readonly String Variable;
+        public readonly String UnprefixedVariable;
+        public readonly String VariableType;
+        public readonly Expression Function;
+        readonly Yielding[] Statements;
         bool Parallel;
         bool Profiling;
     }
@@ -1564,13 +1564,13 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public String IndexSetType;
-        public IndexDescription Index;
-        public String Variable;
-        public String UnprefixedVariable;
-        public String VariableType;
-        public Expression Expr;
-        Yielding[] Statements;
+        public readonly String IndexSetType;
+        public readonly IndexDescription Index;
+        public readonly String Variable;
+        public readonly String UnprefixedVariable;
+        public readonly String VariableType;
+        public readonly Expression Expr;
+        readonly Yielding[] Statements;
         bool Parallel;
         bool Profiling;
     }
@@ -1694,17 +1694,17 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public String IndexSetType;
-        public IndexDescription Index;
-        public String Variable;
-        public String UnprefixedVariable;
-        public String VariableType;
-        public bool Ascending;
-        public bool IncludingFrom;
-        public bool IncludingTo;
-        public Expression From;
-        public Expression To;
-        Yielding[] Statements;
+        public readonly String IndexSetType;
+        public readonly IndexDescription Index;
+        public readonly String Variable;
+        public readonly String UnprefixedVariable;
+        public readonly String VariableType;
+        public readonly bool Ascending;
+        public readonly bool IncludingFrom;
+        public readonly bool IncludingTo;
+        public readonly Expression From;
+        public readonly Expression To;
+        readonly Yielding[] Statements;
         bool Parallel;
         bool Profiling;
     }
@@ -1762,9 +1762,9 @@ namespace de.unika.ipd.grGen.expression
                     yield return statement;
         }
 
-        Expression Condition;
-        Yielding[] TrueCaseStatements;
-        Yielding[] FalseCaseStatements;
+        readonly Expression Condition;
+        readonly Yielding[] TrueCaseStatements;
+        readonly Yielding[] FalseCaseStatements;
     }
 
     /// <summary>
@@ -1803,8 +1803,8 @@ namespace de.unika.ipd.grGen.expression
                 yield return statement;
         }
 
-        Expression SwitchExpression;
-        CaseStatement[] CaseStatements;
+        readonly Expression SwitchExpression;
+        readonly CaseStatement[] CaseStatements;
     }
 
     /// <summary>
@@ -1851,8 +1851,8 @@ namespace de.unika.ipd.grGen.expression
                 yield return statement;
         }
 
-        Expression CaseConstExpression;
-        Yielding[] Statements;
+        readonly Expression CaseConstExpression;
+        readonly Yielding[] Statements;
     }
 
     /// <summary>
@@ -1891,8 +1891,8 @@ namespace de.unika.ipd.grGen.expression
                 yield return statement;
         }
 
-        Expression Condition;
-        Yielding[] LoopedStatements;
+        readonly Expression Condition;
+        readonly Yielding[] LoopedStatements;
     }
 
     /// <summary>
@@ -1931,8 +1931,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Condition;
         }
 
-        Yielding[] LoopedStatements;
-        Expression Condition;
+        readonly Yielding[] LoopedStatements;
+        readonly Expression Condition;
     }
 
     /// <summary>
@@ -1965,7 +1965,7 @@ namespace de.unika.ipd.grGen.expression
                 yield return statement;
         }
 
-        Yielding[] Statements;
+        readonly Yielding[] Statements;
     }
 
     /// <summary>
@@ -2005,9 +2005,9 @@ namespace de.unika.ipd.grGen.expression
                 yield return Initialization;
         }
 
-        String Name;
-        String Type;
-        Expression Initialization;
+        readonly String Name;
+        readonly String Type;
+        readonly Expression Initialization;
     }
 
     /// <summary>
@@ -2095,8 +2095,8 @@ namespace de.unika.ipd.grGen.expression
                 yield return expr;
         }
 
-        Expression[] Values;
-        bool IsDebug;
+        readonly Expression[] Values;
+        readonly bool IsDebug;
     }
 
     /// <summary>
@@ -2137,8 +2137,8 @@ namespace de.unika.ipd.grGen.expression
                 yield return expr;
         }
 
-        Expression Message;
-        Expression[] Values;
+        readonly Expression Message;
+        readonly Expression[] Values;
     }
 
     /// <summary>
@@ -2179,8 +2179,8 @@ namespace de.unika.ipd.grGen.expression
                 yield return expr;
         }
 
-        Expression Message;
-        Expression[] Values;
+        readonly Expression Message;
+        readonly Expression[] Values;
     }
 
     /// <summary>
@@ -2221,8 +2221,8 @@ namespace de.unika.ipd.grGen.expression
                 yield return expr;
         }
 
-        Expression Message;
-        Expression[] Values;
+        readonly Expression Message;
+        readonly Expression[] Values;
     }
 
     /// <summary>
@@ -2263,8 +2263,8 @@ namespace de.unika.ipd.grGen.expression
                 yield return expr;
         }
 
-        Expression Message;
-        Expression[] Values;
+        readonly Expression Message;
+        readonly Expression[] Values;
     }
 
     /// <summary>
@@ -2323,9 +2323,9 @@ namespace de.unika.ipd.grGen.expression
                 yield return sourceName;
         }
 
-        Expression Message;
-        Expression[] Values;
-        Expression[] SourceNames;
+        readonly Expression Message;
+        readonly Expression[] Values;
+        readonly Expression[] SourceNames;
     }
 
     /// <summary>
@@ -2359,6 +2359,6 @@ namespace de.unika.ipd.grGen.expression
             yield return ToRecordExpression;
         }
 
-        Expression ToRecordExpression;
+        readonly Expression ToRecordExpression;
     }
 }

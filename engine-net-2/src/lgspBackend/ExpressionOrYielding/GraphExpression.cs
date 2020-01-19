@@ -46,8 +46,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -81,8 +81,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -116,8 +116,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Right;
         }
 
-        protected Expression Left;
-        protected Expression Right;
+        protected readonly Expression Left;
+        protected readonly Expression Right;
     }
 
     /// <summary>
@@ -140,7 +140,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(NamesOfEntities.CandidateVariable(Entity));
         }
 
-        public String Entity;
+        public readonly String Entity;
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.expression
                 yield return Entity;
         }
 
-        Expression Entity;
+        readonly Expression Entity;
     }
 
     /// <summary>
@@ -231,9 +231,9 @@ namespace de.unika.ipd.grGen.expression
                 yield return Entity;
         }
 
-        Expression Entity;
-        bool IsNode;
-        bool IsGraph;
+        readonly Expression Entity;
+        readonly bool IsNode;
+        readonly bool IsGraph;
     }
 
     /// <summary>
@@ -291,9 +291,9 @@ namespace de.unika.ipd.grGen.expression
             yield return KeyExpr;
         }
 
-        String Target;
-        Expression KeyExpr;
-        String Type;
+        readonly String Target;
+        readonly Expression KeyExpr;
+        readonly String Type;
     }
 
     /// <summary>
@@ -337,7 +337,7 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression NodeType;
+        public readonly Expression NodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -389,8 +389,8 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression EdgeType;
-        public Directedness Directedness;
+        public readonly Expression EdgeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -436,7 +436,7 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression NodeType;
+        public readonly Expression NodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -482,7 +482,7 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression EdgeType;
+        public readonly Expression EdgeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -554,7 +554,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Edge;
         }
 
-        Expression Edge;
+        readonly Expression Edge;
     }
 
     /// <summary>
@@ -584,7 +584,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Edge;
         }
 
-        Expression Edge;
+        readonly Expression Edge;
     }
 
     /// <summary>
@@ -618,8 +618,8 @@ namespace de.unika.ipd.grGen.expression
             yield return Node;
         }
 
-        Expression Edge;
-        Expression Node;
+        readonly Expression Edge;
+        readonly Expression Node;
     }
 
     /// <summary>
@@ -676,8 +676,8 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression Name;
-        Expression NodeType;
+        readonly Expression Name;
+        readonly Expression NodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -736,8 +736,8 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression Name;
-        Expression EdgeType;
+        readonly Expression Name;
+        readonly Expression EdgeType;
         bool Parallel;
         bool Profiling;
     }
@@ -796,8 +796,8 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression Unique;
-        Expression NodeType;
+        readonly Expression Unique;
+        readonly Expression NodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -856,8 +856,8 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression Unique;
-        Expression EdgeType;
+        readonly Expression Unique;
+        readonly Expression EdgeType;
         bool Parallel;
         bool Profiling;
     }
@@ -917,10 +917,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -980,10 +980,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1043,10 +1043,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1100,9 +1100,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1156,9 +1156,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1212,9 +1212,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1268,9 +1268,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1324,9 +1324,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1380,9 +1380,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1436,9 +1436,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1492,9 +1492,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1548,9 +1548,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -1611,10 +1611,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -1675,10 +1675,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -1739,10 +1739,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -1803,10 +1803,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -1867,10 +1867,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -1931,10 +1931,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -1994,10 +1994,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2057,10 +2057,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2120,10 +2120,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2177,9 +2177,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2233,9 +2233,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2289,9 +2289,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2345,9 +2345,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2401,9 +2401,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2457,9 +2457,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2513,9 +2513,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2569,9 +2569,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2625,9 +2625,9 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2691,11 +2691,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2759,11 +2759,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2827,11 +2827,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
-        public Directedness Directedness;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
+        public readonly Directedness Directedness;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2889,10 +2889,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -2950,10 +2950,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3011,10 +3011,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3072,10 +3072,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3133,10 +3133,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3194,10 +3194,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3255,10 +3255,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3316,10 +3316,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3377,10 +3377,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3438,10 +3438,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3499,10 +3499,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3560,10 +3560,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        public Expression Node;
-        public Expression Depth;
-        public Expression IncidentEdgeType;
-        public Expression AdjacentNodeType;
+        public readonly Expression Node;
+        public readonly Expression Depth;
+        public readonly Expression IncidentEdgeType;
+        public readonly Expression AdjacentNodeType;
         public bool Parallel;
         public bool Profiling;
     }
@@ -3624,10 +3624,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -3688,10 +3688,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -3752,10 +3752,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -3816,10 +3816,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -3880,10 +3880,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -3944,10 +3944,10 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4013,11 +4013,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression Depth;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression Depth;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4083,11 +4083,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression Depth;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression Depth;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4153,11 +4153,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndNode;
-        Expression Depth;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndNode;
+        readonly Expression Depth;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4223,11 +4223,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression Depth;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression Depth;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4293,11 +4293,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression Depth;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression Depth;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4363,11 +4363,11 @@ namespace de.unika.ipd.grGen.expression
             Profiling = profiling;
         }
 
-        Expression StartNode;
-        Expression EndEdge;
-        Expression Depth;
-        Expression IncidentEdgeType;
-        Expression AdjacentNodeType;
+        readonly Expression StartNode;
+        readonly Expression EndEdge;
+        readonly Expression Depth;
+        readonly Expression IncidentEdgeType;
+        readonly Expression AdjacentNodeType;
         bool Parallel;
         bool Profiling;
     }
@@ -4399,7 +4399,7 @@ namespace de.unika.ipd.grGen.expression
             yield return NodeSet;
         }
 
-        Expression NodeSet;
+        readonly Expression NodeSet;
     }
 
     /// <summary>
@@ -4441,8 +4441,8 @@ namespace de.unika.ipd.grGen.expression
             yield return EdgeSet;
         }
 
-        Expression EdgeSet;
-        Directedness Directedness;
+        readonly Expression EdgeSet;
+        readonly Directedness Directedness;
     }
 
     /// <summary>
@@ -4488,9 +4488,9 @@ namespace de.unika.ipd.grGen.expression
 
         bool Parallel;
 
-        Expression Subgraph;
-        Expression SubgraphSet;
-        bool IncludingAttributes;
+        readonly Expression Subgraph;
+        readonly Expression SubgraphSet;
+        readonly bool IncludingAttributes;
     }
 
     /// <summary>
@@ -4520,7 +4520,7 @@ namespace de.unika.ipd.grGen.expression
             yield return Expr;
         }
 
-        Expression Expr;
+        readonly Expression Expr;
     }
 
 
@@ -4556,7 +4556,7 @@ namespace de.unika.ipd.grGen.expression
             return this_.AreAttributesEqual(that);
         }
 
-        public IGraphElement this_;
-        public PatternElement thisInPattern;
+        public readonly IGraphElement this_;
+        public readonly PatternElement thisInPattern;
     }
 }
