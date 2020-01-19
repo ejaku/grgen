@@ -1344,10 +1344,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
-            sb.AppendFront("public " + className + "() {\n");
+            sb.AppendFront("public " + className + "()\n");
+            sb.AppendFrontFormat("    : base(" + rulePatternClassName + ".Instance.patternGraph, new object[{0}])\n", rulePattern.Outputs.Length);
+            sb.AppendFront("{\n");
             sb.Indent(); // method body level
             sb.AppendFront("_rulePattern = " + rulePatternClassName + ".Instance;\n");
-            sb.AppendFront("patternGraph = _rulePattern.patternGraph;\n");
             if(rulePattern.patternGraph.branchingFactor < 2)
             {
                 sb.AppendFront("DynamicMatch = myMatch;\n");
@@ -1389,7 +1390,6 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Unindent();
                 sb.AppendFront("}\n");
             }
-            sb.AppendFrontFormat("ReturnArray = new object[{0}];\n", rulePattern.Outputs.Length);
             sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchClassName +", " + matchInterfaceName + ">(this);\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
@@ -1547,7 +1547,9 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
-            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
+            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)\n");
+            sb.AppendFrontFormat("    : base(null)\n");
+            sb.AppendFront("{\n");
             sb.Indent(); // method body level
             sb.AppendFront("actionEnv = actionEnv_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
@@ -1607,12 +1609,13 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
+
             sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
-                + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {\n");
+                + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)\n");
+            sb.AppendFrontFormat("    : base(patternGraphs_)\n");
+            sb.AppendFront("{\n");
             sb.Indent(); // method body level
             sb.AppendFront("actionEnv = actionEnv_; openTasks = openTasks_;\n");
-            // pfadausdruck gebraucht, da das alternative-objekt im pattern graph steckt
-            sb.AppendFront("patternGraphs = patternGraphs_;\n");
             
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
@@ -1676,7 +1679,9 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
-            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
+            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)\n");
+            sb.AppendFrontFormat("    : base(null)\n");
+            sb.AppendFront("{\n");
             sb.Indent(); // method body level
             sb.AppendFront("actionEnv = actionEnv_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
@@ -1781,9 +1786,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
             sb.AppendFront("newTask = freeListHead;\n"); 
             sb.AppendFront("newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;\n");
-            if(isAlternative)
-                sb.AppendFront("newTask.patternGraphs = patternGraphs_;\n");
-            else if(isIterationBreaking)
+            if(isIterationBreaking)
                 sb.AppendFront("newTask.breakIteration = false;\n");
             sb.AppendFront("freeListHead = newTask.next;\n");
             sb.AppendFront("newTask.next = null;\n");

@@ -25,6 +25,12 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class LGSPAction
     {
+        protected LGSPAction(PatternGraph patternGraph, object[] returnArray)
+        {
+            this.patternGraph = patternGraph;
+            this.ReturnArray = returnArray;
+        }
+
         /// <summary>
         /// The LGSPRulePattern object from which this LGSPAction object has been created.
         /// </summary>
@@ -33,13 +39,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The PatternGraph object of the main graph
         /// </summary>
-        public PatternGraph patternGraph;
+        public readonly PatternGraph patternGraph;
 
         /// <summary>
         /// Performance optimization: saves us usage of new for the return array or the return arrays. 
         /// In the object/string-style modify/apply methods of the action interface implementation.
         /// </summary>
-        public object[] ReturnArray;
+        public readonly object[] ReturnArray;
         public List<object[]> ReturnArrayListForAll = new List<object[]>();
         public List<object[]> AvailableReturnArrays = new List<object[]>();
 
@@ -68,15 +74,16 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class LGSPActions : BaseActions
     {
         private LGSPGraph graph;
-        private LGSPMatcherGenerator matcherGenerator;
-        private String modelAssemblyName;
-        private String actionsAssemblyName;
 
-        protected Dictionary<String, LGSPAction> actions = new Dictionary<String, LGSPAction>(); // action names -> action objects, filled by derived classes
+        private readonly LGSPMatcherGenerator matcherGenerator;
+        private readonly String modelAssemblyName;
+        private readonly String actionsAssemblyName;
+
+        protected readonly Dictionary<String, LGSPAction> actions = new Dictionary<String, LGSPAction>(); // action names -> action objects, filled by derived classes
 
         private static int actionID = 0;
 
-        protected Dictionary<String, String> customCommandsToDescriptions;
+        protected readonly Dictionary<String, String> customCommandsToDescriptions;
 
 
         /// <summary>
@@ -91,6 +98,7 @@ namespace de.unika.ipd.grGen.lgsp
             modelAssemblyName = Assembly.GetAssembly(graph.Model.GetType()).Location;
             actionsAssemblyName = Assembly.GetAssembly(this.GetType()).Location;
 
+            customCommandsToDescriptions = new Dictionary<string, string>();
             FillCustomCommandDescriptions();
 
 #if ASSERT_ALL_UNMAPPED_AFTER_MATCH
@@ -325,7 +333,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void FillCustomCommandDescriptions()
         {
-            customCommandsToDescriptions = new Dictionary<string, string>();
             customCommandsToDescriptions.Add("gen_searchplan",
                 "- gen_searchplan: Generates a new searchplan for a given action\n" +
                 "     depending on a previous graph analysis.\n");
@@ -495,6 +502,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class LGSPSubpatternAction
     {
+        protected LGSPSubpatternAction(PatternGraph[] patternGraphs)
+        {
+            this.patternGraphs = patternGraphs;
+        }
+
         /// <summary>
         /// The PatternGraph object from which this matching task object has been created
         /// </summary>
@@ -504,7 +516,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// The PatternGraph objects from which this matching task object has been created
         /// (non-null in case of an alternative, contains the pattern graphs of the alternative cases then)
         /// </summary>
-        protected PatternGraph[] patternGraphs;
+        protected readonly PatternGraph[] patternGraphs;
 
         /// <summary>
         /// The action execution environment which contains the host graph in which to search for matches
