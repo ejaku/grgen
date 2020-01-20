@@ -625,7 +625,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 Console.WriteLine("Reading graph statistics from {0}", statisticsPath);
                 graphStatistics = new LGSPGraphStatistics(model);
-                graphStatistics.Parse(statisticsPath);
+                GraphStatisticsParserSerializer parserSerializer = new GraphStatisticsParserSerializer(graphStatistics);
+                parserSerializer.Parse(statisticsPath);
             }
 
             GenerateAndInsertMatcherSourceCode(model, cc.actionsName, unitName,

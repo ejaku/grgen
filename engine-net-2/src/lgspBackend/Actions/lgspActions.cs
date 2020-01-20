@@ -449,7 +449,8 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             Console.WriteLine("static search plans from " + StatisticsPath);
                             graphStatistics = new LGSPGraphStatistics(graph.Model);
-                            graphStatistics.Parse(StatisticsPath);
+                            GraphStatisticsParserSerializer parserSerializer = new GraphStatisticsParserSerializer(graphStatistics);
+                            parserSerializer.Parse(StatisticsPath);
                         }
                         else
                             Console.WriteLine("static search plans");

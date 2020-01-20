@@ -1814,7 +1814,8 @@ namespace de.unika.ipd.grGen.lgsp
                     if(statistics.nodeCounts == null)
                         throw new ArgumentException("The graph is not analyzed yet.");
 
-                    statistics.Serialize((string)args[2]);
+                    GraphStatisticsParserSerializer parserSerializer = new GraphStatisticsParserSerializer(statistics);
+                    parserSerializer.Serialize((string)args[2]);
 
                     Console.WriteLine("Statistics about graph written to {0}.", args[2]);
                     return;
