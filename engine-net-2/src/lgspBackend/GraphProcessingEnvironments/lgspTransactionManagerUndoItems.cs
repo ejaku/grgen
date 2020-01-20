@@ -40,10 +40,10 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoElemAdded : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public IGraphElement _elem;
-        public String _name; // for ToString only
-        public String _sourceName; // for ToString only
-        public String _targetName; // for ToString only
+        public readonly IGraphElement _elem;
+        public readonly String _name; // for ToString only
+        public readonly String _sourceName; // for ToString only
+        public readonly String _targetName; // for ToString only
 
         public LGSPUndoElemAdded(IGraphElement elem, LGSPGraphProcessingEnvironment procEnv)
         {
@@ -95,10 +95,10 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoElemRemoved : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public IGraphElement _elem;
-        public String _name;
-        public LinkedList<Variable> _vars;
-        public IGraph _graph; // for ToString only
+        public readonly IGraphElement _elem;
+        public readonly String _name;
+        public readonly LinkedList<Variable> _vars;
+        public readonly IGraph _graph; // for ToString only
 
         public LGSPUndoElemRemoved(IGraphElement elem, LGSPGraphProcessingEnvironment procEnv)
         {
@@ -167,13 +167,13 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoAttributeChanged : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public IGraphElement _elem;
-        public AttributeType _attrType;
-        public UndoOperation _undoOperation;
-        public Object _value;
-        public Object _keyOfValue;
-        public String _name; // for ToString only
-        public IGraph _graph; // for ToString only
+        public readonly IGraphElement _elem;
+        public readonly AttributeType _attrType;
+        public readonly UndoOperation _undoOperation;
+        public readonly Object _value;
+        public readonly Object _keyOfValue;
+        public readonly String _name; // for ToString only
+        public readonly IGraph _graph; // for ToString only
 
         public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType,
                 AttributeChangeType changeType, Object newValue, Object keyValue, 
@@ -560,9 +560,9 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoElemRetyped : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public IGraphElement _oldElem;
-        public IGraphElement _newElem;
-        public String _name; // for ToString only
+        public readonly IGraphElement _oldElem;
+        public readonly IGraphElement _newElem;
+        public readonly String _name; // for ToString only
 
         public LGSPUndoElemRetyped(IGraphElement oldElem, IGraphElement newElem, LGSPGraphProcessingEnvironment procEnv)
         {
@@ -632,11 +632,11 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoElemRedirecting : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public LGSPEdge _edge;
-        public LGSPNode _source;
-        public LGSPNode _target;
-        public String _name; // for ToString only
-        public IGraph _graph; // for ToString only
+        public readonly LGSPEdge _edge;
+        public readonly LGSPNode _source;
+        public readonly LGSPNode _target;
+        public readonly String _name; // for ToString only
+        public readonly IGraph _graph; // for ToString only
 
         public LGSPUndoElemRedirecting(LGSPEdge edge, LGSPNode source, LGSPNode target, LGSPGraphProcessingEnvironment procEnv)
         {
@@ -672,7 +672,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoVisitedAlloc : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public int _visitorID;
+        public readonly int _visitorID;
 
         public LGSPUndoVisitedAlloc(int visitorID)
         {
@@ -694,7 +694,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoVisitedFree : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public int _visitorID;
+        public readonly int _visitorID;
         
         public LGSPUndoVisitedFree(int visitorID)
         {
@@ -716,10 +716,10 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoSettingVisited : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public IGraphElement _elem;
-        public int _visitorID;
-        public bool _oldValue;
-        public String _name; // for ToString only
+        public readonly IGraphElement _elem;
+        public readonly int _visitorID;
+        public readonly bool _oldValue;
+        public readonly String _name; // for ToString only
 
         public LGSPUndoSettingVisited(IGraphElement elem, int visitorID, bool oldValue, LGSPGraphProcessingEnvironment procEnv)
         {
@@ -748,7 +748,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoGraphChange : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
-        public IGraph _oldGraph;
+        public readonly IGraph _oldGraph;
 
         public LGSPUndoGraphChange(IGraph oldGraph)
         {

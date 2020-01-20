@@ -44,6 +44,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// For every exec entry a queue is pushed, for every exit popped, to ensure that the exec processing
         /// of a nested rule is not executing the execs of the calling rule.
         /// </summary>
-        private static Stack<Queue<LGSPEmbeddedSequenceClosure>> toBeExecuted;
+        private readonly Stack<Queue<LGSPEmbeddedSequenceClosure>> toBeExecuted;
     }
 }

@@ -22,16 +22,16 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPTransactionManager : ITransactionManager
     {
-        private List<IUndoItem> undoItems = new List<IUndoItem>();
+        private readonly List<IUndoItem> undoItems = new List<IUndoItem>();
         private IEdge currentlyRedirectedEdge;
         private bool recording = false;
         private bool paused = false; // only of interest if recording==true
         private bool reuseOptimizationBackup = false; // old value from graph, to be restored after outermost transaction completed
         private bool undoing = false;
         private bool wasVisitedFreeRecorded = false;
-        private Dictionary<int, bool> visitedAllocationsWhilePaused = new Dictionary<int, bool>();
+        private readonly Dictionary<int, bool> visitedAllocationsWhilePaused = new Dictionary<int, bool>();
         private bool wasGraphChanged = false;
-        private LGSPGraphProcessingEnvironment procEnv;
+        private readonly LGSPGraphProcessingEnvironment procEnv;
 
 #if LOG_TRANSACTION_HANDLING
         private StreamWriter writer;

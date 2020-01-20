@@ -23,7 +23,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The node type of the node.
         /// </summary>
-        public NodeType lgspType;
+        public readonly NodeType lgspType;
 
         /// <summary>
         /// contains some booleans coded as bitvector
@@ -593,7 +593,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The EdgeType of the edge.
         /// </summary>
-        public EdgeType lgspType;
+        public readonly EdgeType lgspType;
 
         /// <summary>
         /// contains some booleans coded as bitvector

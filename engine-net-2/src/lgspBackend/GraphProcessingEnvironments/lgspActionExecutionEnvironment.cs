@@ -18,16 +18,16 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPActionExecutionEnvironment : IActionExecutionEnvironment
     {
-        private PerformanceInfo perfInfo = new PerformanceInfo();
+        private readonly PerformanceInfo perfInfo = new PerformanceInfo();
         private bool highlightingUnderway = false;
         private int maxMatches = 0;
-        private Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
+        private readonly Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
         public LGSPGraph graph { get { return usedGraphs.Peek(); } }
-        protected Stack<LGSPGraph> usedGraphs;
+        protected readonly Stack<LGSPGraph> usedGraphs;
         public LGSPNamedGraph namedGraph { get { return namedGraphOnTop; } }
         protected LGSPNamedGraph namedGraphOnTop;
         public LGSPActions curActions;
-        protected Dictionary<String, String> customCommandsToDescriptions;
+        protected readonly Dictionary<String, String> customCommandsToDescriptions;
 
 
         public LGSPActionExecutionEnvironment(LGSPGraph graph, LGSPActions actions)
@@ -38,6 +38,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.namedGraphOnTop = graph as LGSPNamedGraph;
             this.curActions = actions;
             InitActionsProfile(actions);
+            this.customCommandsToDescriptions = new Dictionary<string, string>();
             FillCustomCommandDescriptions();
         }
 
@@ -106,7 +107,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void FillCustomCommandDescriptions()
         {
-            customCommandsToDescriptions = new Dictionary<string, string>();
             customCommandsToDescriptions.Add("set_max_matches", 
                 "- set_max_matches: Sets the maximum number of matches to be found\n" +
                 "     during matching (for all-bracketed rule calls like [r]).\n");

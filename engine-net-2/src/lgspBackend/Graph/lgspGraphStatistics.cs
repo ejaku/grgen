@@ -24,7 +24,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPGraphStatistics
     {
-        public IGraphModel graphModel;
+        public readonly IGraphModel graphModel;
 
 #if MONO_MULTIDIMARRAY_WORKAROUND
         public int dim0size, dim1size, dim2size;  // dim3size is always 2
@@ -166,138 +166,19 @@ namespace de.unika.ipd.grGen.lgsp
 
                 for(LGSPNode nodeHead = graph.nodesByTypeHeads[nodeType.TypeID], node = nodeHead.lgspTypeNext; node != nodeHead; node = node.lgspTypeNext)
                 {
-                    //
-                    // count outgoing v structures
-                    //
-
-                    for(int i = 0; i < numEdgeTypes; i++)
-                        for(int j = 0; j < numNodeTypes; j++)
-                            outgoingVCount[i, j] = 0;
+                    InitializeOutgoingVStructuresCount(numNodeTypes, numEdgeTypes, outgoingVCount);
 
                     LGSPEdge outhead = node.lgspOuthead;
-                    if(outhead != null)
-                    {
-                        LGSPEdge edge = outhead;
-                        do
-                        {
-                            NodeType targetType = edge.lgspTarget.lgspType;
-                            outCounts[nodeType.TypeID]++;
-                            foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
-                            {
-                                int superTypeID = edgeSuperType.TypeID;
-                                foreach(NodeType targetSuperType in targetType.SuperOrSameTypes)
-                                {
-                                    outgoingVCount[superTypeID, targetSuperType.TypeID]++;
-                                }
-                            }
-                            edge = edge.lgspOutNext;
-                        }
-                        while(edge != outhead);
-                    }
+                    CountOutgoingVStructures(outgoingVCount, nodeType, outhead);
 
-                    //
-                    // count incoming v structures
-                    //
-
-                    for(int i = 0; i < numEdgeTypes; i++)
-                        for(int j = 0; j < numNodeTypes; j++)
-                            incomingVCount[i, j] = 0;
+                    InitializeIncomingVStructuresCount(numNodeTypes, numEdgeTypes, incomingVCount);
 
                     LGSPEdge inhead = node.lgspInhead;
-                    if(inhead != null)
-                    {
-                        LGSPEdge edge = inhead;
-                        do
-                        {
-                            NodeType sourceType = edge.lgspSource.lgspType;
-                            inCounts[nodeType.TypeID]++;
-                            foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
-                            {
-                                int superTypeID = edgeSuperType.TypeID;
-                                foreach(NodeType sourceSuperType in sourceType.superOrSameTypes)
-                                {
-                                    incomingVCount[superTypeID, sourceSuperType.TypeID]++;
-                                }
-                            }
-                            edge = edge.lgspInNext;
-                        }
-                        while(edge != inhead);
-                    }
+                    CountIncomingVStructures(incomingVCount, nodeType, inhead);
 
-                    //
-                    // finalize the counting and collect resulting local v-struct info
-                    //
+                    WriteVStructuresOutgoing(outhead, outgoingVCount, nodeType);
 
-                    if(outhead != null)
-                    {
-                        LGSPEdge edge = outhead;
-                        do
-                        {
-                            NodeType targetType = edge.lgspTarget.lgspType;
-                            int targetTypeID = targetType.TypeID;
-
-                            foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
-                            {
-                                int edgeSuperTypeID = edgeSuperType.TypeID;
-
-                                foreach(NodeType targetSuperType in targetType.superOrSameTypes)
-                                {
-                                    int targetSuperTypeID = targetSuperType.TypeID;
-                                    if(outgoingVCount[edgeSuperTypeID, targetSuperTypeID] > 0)
-                                    {
-//                                        int val = (float) Math.Log(outgoingVCount[edgeSuperTypeID, targetSuperTypeID]);     // > 1 im if
-                                        int val = outgoingVCount[edgeSuperTypeID, targetSuperTypeID];
-                                        foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
-                                        {
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                                            vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + targetSuperTypeID) * 2
-                                                + (int) LGSPDirection.Out] += val;
-#else
-                                            vstructs[nodeSuperType.TypeID, edgeSuperTypeID, targetSuperTypeID, (int) LGSPDirection.Out] += val;
-#endif
-                                        }
-                                        outgoingVCount[edgeSuperTypeID, targetSuperTypeID] = 0;
-                                    }
-                                }
-                            }
-                            edge = edge.lgspOutNext;
-                        }
-                        while(edge != outhead);
-                    }
-
-                    if(inhead != null)
-                    {
-                        LGSPEdge edge = inhead;
-                        do
-                        {
-                            NodeType sourceType = edge.lgspSource.lgspType;
-                            int sourceTypeID = sourceType.TypeID;
-
-                            foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
-                            {
-                                int edgeSuperTypeID = edgeSuperType.TypeID;
-                                foreach(NodeType sourceSuperType in sourceType.superOrSameTypes)
-                                {
-                                    int sourceSuperTypeID = sourceSuperType.TypeID;
-                                    if(incomingVCount[edgeSuperTypeID, sourceSuperTypeID] > 0)
-                                    {
-//                                        int val = (float) Math.Log(incomingVCount[edgeSuperTypeID, sourceSuperTypeID]);     // > 1 im if
-                                        int val = incomingVCount[edgeSuperTypeID, sourceSuperTypeID];
-                                        foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
-#if MONO_MULTIDIMARRAY_WORKAROUND
-                                            vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + sourceSuperTypeID) * 2
-                                                + (int) LGSPDirection.In] += val;
-#else
-                                            vstructs[nodeSuperType.TypeID, edgeSuperTypeID, sourceSuperTypeID, (int) LGSPDirection.In] += val;
-#endif
-                                        incomingVCount[edgeSuperTypeID, sourceSuperTypeID] = 0;
-                                    }
-                                }
-                            }
-                            edge = edge.lgspInNext;
-                        }
-                        while(edge != inhead);
-                    }
+                    WriteVStructuresIncoming(inhead, incomingVCount, nodeType);
                 }
 
                 int numCompatibleNodes = nodeCounts[nodeType.TypeID];
@@ -321,6 +202,142 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        private void InitializeOutgoingVStructuresCount(int numNodeTypes, int numEdgeTypes, int[,] outgoingVCount)
+        {
+            for(int i = 0; i < numEdgeTypes; i++)
+                for(int j = 0; j < numNodeTypes; j++)
+                    outgoingVCount[i, j] = 0;
+        }
+
+        private void CountOutgoingVStructures(int[,] outgoingVCount, NodeType nodeType, LGSPEdge outhead)
+        {
+            if(outhead == null)
+                return;
+
+            LGSPEdge edge = outhead;
+            do
+            {
+                NodeType targetType = edge.lgspTarget.lgspType;
+                outCounts[nodeType.TypeID]++;
+                foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
+                {
+                    int superTypeID = edgeSuperType.TypeID;
+                    foreach(NodeType targetSuperType in targetType.SuperOrSameTypes)
+                    {
+                        outgoingVCount[superTypeID, targetSuperType.TypeID]++;
+                    }
+                }
+                edge = edge.lgspOutNext;
+            }
+            while(edge != outhead);
+        }
+
+        private void InitializeIncomingVStructuresCount(int numNodeTypes, int numEdgeTypes, int[,] incomingVCount)
+        {
+            for(int i = 0; i < numEdgeTypes; i++)
+                for(int j = 0; j < numNodeTypes; j++)
+                    incomingVCount[i, j] = 0;
+        }
+
+        private void CountIncomingVStructures(int[,] incomingVCount, NodeType nodeType, LGSPEdge inhead)
+        {
+            if(inhead == null)
+                return;
+
+            LGSPEdge edge = inhead;
+            do
+            {
+                NodeType sourceType = edge.lgspSource.lgspType;
+                inCounts[nodeType.TypeID]++;
+                foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
+                {
+                    int superTypeID = edgeSuperType.TypeID;
+                    foreach(NodeType sourceSuperType in sourceType.superOrSameTypes)
+                    {
+                        incomingVCount[superTypeID, sourceSuperType.TypeID]++;
+                    }
+                }
+                edge = edge.lgspInNext;
+            }
+            while(edge != inhead);
+        }
+
+        private void WriteVStructuresOutgoing(LGSPEdge outhead, int[,] outgoingVCount, NodeType nodeType)
+        {
+            if(outhead == null)
+                return;
+
+            LGSPEdge edge = outhead;
+            do
+            {
+                NodeType targetType = edge.lgspTarget.lgspType;
+                int targetTypeID = targetType.TypeID;
+
+                foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
+                {
+                    int edgeSuperTypeID = edgeSuperType.TypeID;
+
+                    foreach(NodeType targetSuperType in targetType.superOrSameTypes)
+                    {
+                        int targetSuperTypeID = targetSuperType.TypeID;
+                        if(outgoingVCount[edgeSuperTypeID, targetSuperTypeID] > 0)
+                        {
+                            //                                        int val = (float) Math.Log(outgoingVCount[edgeSuperTypeID, targetSuperTypeID]);     // > 1 im if
+                            int val = outgoingVCount[edgeSuperTypeID, targetSuperTypeID];
+                            foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
+                            {
+#if MONO_MULTIDIMARRAY_WORKAROUND
+                                vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + targetSuperTypeID) * 2
+                                    + (int)LGSPDirection.Out] += val;
+#else
+                                vstructs[nodeSuperType.TypeID, edgeSuperTypeID, targetSuperTypeID, (int) LGSPDirection.Out] += val;
+#endif
+                            }
+                            outgoingVCount[edgeSuperTypeID, targetSuperTypeID] = 0;
+                        }
+                    }
+                }
+                edge = edge.lgspOutNext;
+            }
+            while(edge != outhead);
+        }
+
+        private void WriteVStructuresIncoming(LGSPEdge inhead, int[,] incomingVCount, NodeType nodeType)
+        {
+            if(inhead == null)
+                return;
+
+            LGSPEdge edge = inhead;
+            do
+            {
+                NodeType sourceType = edge.lgspSource.lgspType;
+                int sourceTypeID = sourceType.TypeID;
+
+                foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
+                {
+                    int edgeSuperTypeID = edgeSuperType.TypeID;
+                    foreach(NodeType sourceSuperType in sourceType.superOrSameTypes)
+                    {
+                        int sourceSuperTypeID = sourceSuperType.TypeID;
+                        if(incomingVCount[edgeSuperTypeID, sourceSuperTypeID] > 0)
+                        {
+                            //                                        int val = (float) Math.Log(incomingVCount[edgeSuperTypeID, sourceSuperTypeID]);     // > 1 im if
+                            int val = incomingVCount[edgeSuperTypeID, sourceSuperTypeID];
+                            foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
+#if MONO_MULTIDIMARRAY_WORKAROUND
+                                vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + sourceSuperTypeID) * 2
+                                    + (int)LGSPDirection.In] += val;
+#else
+                                vstructs[nodeSuperType.TypeID, edgeSuperTypeID, sourceSuperTypeID, (int) LGSPDirection.In] += val;
+#endif
+                            incomingVCount[edgeSuperTypeID, sourceSuperTypeID] = 0;
+                        }
+                    }
+                }
+                edge = edge.lgspInNext;
+            }
+            while(edge != inhead);
+        }
 
         // used during parsing of statistics from file, for error output in case of parsing failure
         private int line;

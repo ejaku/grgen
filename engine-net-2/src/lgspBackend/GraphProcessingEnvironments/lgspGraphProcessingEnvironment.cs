@@ -19,8 +19,8 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPGraphProcessingEnvironment : LGSPSubactionAndOutputAdditionEnvironment, IGraphProcessingEnvironment
     {
-        private LGSPTransactionManager transactionManager;
-        public LGSPDeferredSequencesManager sequencesManager;
+        private readonly LGSPTransactionManager transactionManager;
+        public readonly LGSPDeferredSequencesManager sequencesManager;
         
         private bool clearVariables = false;
         private IEdge currentlyRedirectedEdge;
@@ -28,8 +28,8 @@ namespace de.unika.ipd.grGen.lgsp
         private IUserProxyForSequenceExecution userProxy;
         private IUserProxyForSequenceExecution compliantUserProxy = new CompliantUserProxyForSequenceExecution();
 
-        protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
-        protected Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
+        protected readonly Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
+        protected readonly Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
 
 
         public LGSPGraphProcessingEnvironment(LGSPGraph graph, LGSPActions actions)
@@ -222,7 +222,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        List<object[]> emptyList = new List<object[]>();
+        readonly List<object[]> emptyList = new List<object[]>();
 
         public List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches)
         {

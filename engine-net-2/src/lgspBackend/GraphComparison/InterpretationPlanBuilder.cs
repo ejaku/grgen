@@ -8,11 +8,8 @@
 // by Edgar Jakumeit
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -22,13 +19,13 @@ namespace de.unika.ipd.grGen.lgsp
     public class InterpretationPlanBuilder
     {
         // the scheduled search plan to build an interpretation plan for
-        private ScheduledSearchPlan ssp;
+        private readonly ScheduledSearchPlan ssp;
 
         // the search plan graph for determining the pattern element needed for attribute checking
-        private SearchPlanGraph spg;
+        private readonly SearchPlanGraph spg;
 
         // the model over which the patterns are to be searched
-        private IGraphModel model;
+        private readonly IGraphModel model;
 
 
         /// <summary>

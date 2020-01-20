@@ -9,10 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -30,12 +27,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The nodes found, linked to their corresponding pattern nodes in the pattern graph by index
         /// </summary>
-        public INode[] nodes;
+        public readonly INode[] nodes;
 
         /// <summary>
         /// The edges found, linked to their corresponding pattern edges in the pattern graph by index
         /// </summary>
-        public IEdge[] edges;
+        public readonly IEdge[] edges;
     }
 
     /// <summary>
@@ -48,6 +45,12 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class InterpretationPlan
     {
+        public InterpretationPlan()
+        {
+            Id = idOrigin;
+            ++idOrigin;
+        }
+
         /// <summary>
         /// dumps interpretation plan operation (as string) into source builder
         /// to be implemented by concrete subclasses
@@ -114,24 +117,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public InterpretationPlan prev;
 
+        /// <summary>
         /// A unique identifier denoting this interpretation plan operation
         /// </summary>
-        public int Id;
-
-        protected void AssignId()
-        {
-            Id = idOrigin;
-            ++idOrigin;
-        }
+        public readonly int Id;
 
         private static int idOrigin = 0;
     }
 
     /// <summary>
-    /// An interpretation plan operation which matches a node
+    /// An interpretation plan operation that matches a node
     /// </summary>
     public abstract class InterpretationPlanNodeMatcher : InterpretationPlan
     {
+        public InterpretationPlanNodeMatcher(SearchPlanNodeNode planNodeNode)
+            : base()
+        {
+            this.planNodeNode = planNodeNode;
+        }
+
         /// <summary>
         /// The node matched by this interpretation plan operation during execution
         /// </summary>
@@ -140,14 +144,20 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The node representation in the search plan; the elementID - 1 is the index in the nodes array of the pattern graph
         /// </summary>
-        public SearchPlanNodeNode planNodeNode;
+        public readonly SearchPlanNodeNode planNodeNode;
     }
 
     /// <summary>
-    /// An interpretation plan operation which matches an edge
+    /// An interpretation plan operation that matches an edge
     /// </summary>
     public abstract class InterpretationPlanEdgeMatcher : InterpretationPlan
     {
+        public InterpretationPlanEdgeMatcher(SearchPlanEdgeNode planEdgeNode)
+            : base()
+        {
+            this.planEdgeNode = planEdgeNode;
+        }
+
         /// <summary>
         /// The edge matched by this interpretation plan operation during execution
         /// </summary>
@@ -156,14 +166,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The edge representation in the search plan; the elementID - 1 is the index in the edges array of the pattern graph
         /// </summary>
-        public SearchPlanEdgeNode planEdgeNode;
+        public readonly SearchPlanEdgeNode planEdgeNode;
     }
 
     /// <summary>
-    /// An interpretation plan operation which stores a direction decision
+    /// An interpretation plan operation that stores a direction decision
     /// </summary>
     public abstract class InterpretationPlanDirectionVariable : InterpretationPlan
     {
+        public InterpretationPlanDirectionVariable()
+            : base()
+        {
+        }
+
         /// <summary>
         /// The direction decided upon by this interpretation plan operation during execution
         /// </summary>
@@ -171,14 +186,14 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Interpretation plan operation which work as an anchor for an interpretation plan without own functionality
+    /// Interpretation plan operation that works as an anchor for an interpretation plan without own functionality
     /// </summary>
     public class InterpretationPlanStart : InterpretationPlan
     {
         public InterpretationPlanStart(string comparisonMatcherName)
+            : base()
         {
             this.comparisonMatcherName = comparisonMatcherName;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -229,21 +244,20 @@ namespace de.unika.ipd.grGen.lgsp
             return next.Execute(graph, includingAttributes, matches, threadId);
         }
 
-        string comparisonMatcherName;
+        readonly string comparisonMatcherName;
 
         public string ComparisonMatcherName { get { return comparisonMatcherName; } }
     }
 
     /// <summary>
-    /// Interpretation plan operation which looks up a node in the graph
+    /// Interpretation plan operation that looks up a node in the graph
     /// </summary>
     public class InterpretationPlanLookupNode : InterpretationPlanNodeMatcher
     {
         public InterpretationPlanLookupNode(int targetType, SearchPlanNodeNode planNodeNode)
+            : base(planNodeNode)
         {
             this.targetType = targetType;
-            this.planNodeNode = planNodeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -299,19 +313,18 @@ namespace de.unika.ipd.grGen.lgsp
             return matched;
         }
 
-        int targetType;
+        readonly int targetType;
     }
 
     /// <summary>
-    /// Interpretation plan operation which looks up an edge in the graph
+    /// Interpretation plan operation that looks up an edge in the graph
     /// </summary>
     public class InterpretationPlanLookupEdge : InterpretationPlanEdgeMatcher
     {
         public InterpretationPlanLookupEdge(int targetType, SearchPlanEdgeNode planEdgeNode)
+            : base(planEdgeNode)
         {
             this.targetType = targetType;
-            this.planEdgeNode = planEdgeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -371,14 +384,14 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Interpretation plan operation which iterates both directions,
+    /// Interpretation plan operation that iterates both directions,
     /// needed for matching bidirectional edges in both directions
     /// </summary>
     public class InterpretationPlanBothDirections : InterpretationPlanDirectionVariable
     {
         public InterpretationPlanBothDirections()
+            : base()
         {
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -423,17 +436,16 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Interpretation plan operation which retrieves an incoming edge from a source node
+    /// Interpretation plan operation that retrieves an incoming edge from a source node
     /// </summary>
     public class InterpretationPlanIncoming : InterpretationPlanEdgeMatcher
     {
         public InterpretationPlanIncoming(int targetType, InterpretationPlanNodeMatcher source, 
             SearchPlanEdgeNode planEdgeNode)
+            : base(planEdgeNode)
         {
             this.targetType = targetType;
             this.source = source;
-            this.planEdgeNode = planEdgeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -515,22 +527,21 @@ namespace de.unika.ipd.grGen.lgsp
             return matched;
         }
 
-        int targetType;
-        InterpretationPlanNodeMatcher source;
+        readonly int targetType;
+        readonly InterpretationPlanNodeMatcher source;
     }
 
     /// <summary>
-    /// Interpretation plan operation which retrieves an outgoing edge from a source node
+    /// Interpretation plan operation that retrieves an outgoing edge from a source node
     /// </summary>
     public class InterpretationPlanOutgoing : InterpretationPlanEdgeMatcher
     {
         public InterpretationPlanOutgoing(int targetType, InterpretationPlanNodeMatcher source,
             SearchPlanEdgeNode planEdgeNode)
+            : base(planEdgeNode)
         {
             this.targetType = targetType;
             this.source = source;
-            this.planEdgeNode = planEdgeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -612,23 +623,22 @@ namespace de.unika.ipd.grGen.lgsp
             return matched;
         }
 
-        int targetType;
-        InterpretationPlanNodeMatcher source;
+        readonly int targetType;
+        readonly InterpretationPlanNodeMatcher source;
     }
 
     /// <summary>
-    /// Interpretation plan operation which retrieves an edge to be matched bidirectionally from a source node
+    /// Interpretation plan operation that retrieves an edge to be matched bidirectionally from a source node
     /// </summary>
     public class InterpretationPlanIncomingOrOutgoing : InterpretationPlanEdgeMatcher
     {
         public InterpretationPlanIncomingOrOutgoing(int targetType, InterpretationPlanNodeMatcher source,
             InterpretationPlanDirectionVariable directionVariable, SearchPlanEdgeNode planEdgeNode)
+            : base(planEdgeNode)
         {
             this.targetType = targetType;
             this.source = source;
             this.directionVariable = directionVariable;
-            this.planEdgeNode = planEdgeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -710,23 +720,22 @@ namespace de.unika.ipd.grGen.lgsp
             return matched;
         }
 
-        int targetType;
-        InterpretationPlanNodeMatcher source;
-        InterpretationPlanDirectionVariable directionVariable;
+        readonly int targetType;
+        readonly InterpretationPlanNodeMatcher source;
+        readonly InterpretationPlanDirectionVariable directionVariable;
     }
 
     /// <summary>
-    /// Interpretation plan operation which retrieves the target node of an edge
+    /// Interpretation plan operation that retrieves the target node of an edge
     /// </summary>
     public class InterpretationPlanImplicitTarget : InterpretationPlanNodeMatcher
     {
         public InterpretationPlanImplicitTarget(int targetType, InterpretationPlanEdgeMatcher source,
             SearchPlanNodeNode planNodeNode)
+            : base(planNodeNode)
         {
             this.targetType = targetType;
             this.source = source;
-            this.planNodeNode = planNodeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -778,22 +787,21 @@ namespace de.unika.ipd.grGen.lgsp
             return matched;
         }
 
-        int targetType;
-        InterpretationPlanEdgeMatcher source;
+        readonly int targetType;
+        readonly InterpretationPlanEdgeMatcher source;
     }
 
     /// <summary>
-    /// Interpretation plan operation which retrieves the source node of an edge
+    /// Interpretation plan operation that retrieves the source node of an edge
     /// </summary>
     public class InterpretationPlanImplicitSource : InterpretationPlanNodeMatcher
     {
         public InterpretationPlanImplicitSource(int targetType, InterpretationPlanEdgeMatcher source,
             SearchPlanNodeNode planNodeNode)
+            : base(planNodeNode)
         {
             this.targetType = targetType;
             this.source = source;
-            this.planNodeNode = planNodeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -845,24 +853,23 @@ namespace de.unika.ipd.grGen.lgsp
             return matched;
         }
 
-        int targetType;
-        InterpretationPlanEdgeMatcher source;
+        readonly int targetType;
+        readonly InterpretationPlanEdgeMatcher source;
     }
 
     /// <summary>
-    /// Interpretation plan operation which retrieves the source or target node of an edge
+    /// Interpretation plan operation that retrieves the source or target node of an edge
     /// depending on the current direction to be matched
     /// </summary>
     public class InterpretationPlanImplicitSourceOrTarget : InterpretationPlanNodeMatcher
     {
         public InterpretationPlanImplicitSourceOrTarget(int targetType, InterpretationPlanEdgeMatcher source,
             InterpretationPlanDirectionVariable directionVariable, SearchPlanNodeNode planNodeNode)
+            : base(planNodeNode)
         {
             this.targetType = targetType;
             this.source = source;
             this.directionVariable = directionVariable;
-            this.planNodeNode = planNodeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -914,25 +921,24 @@ namespace de.unika.ipd.grGen.lgsp
             return matched;
         }
 
-        int targetType;
-        InterpretationPlanEdgeMatcher source;
-        InterpretationPlanDirectionVariable directionVariable;
+        readonly int targetType;
+        readonly InterpretationPlanEdgeMatcher source;
+        readonly InterpretationPlanDirectionVariable directionVariable;
     }
 
     /// <summary>
-    /// Interpretation plan operation which retrieves the source or target node of an edge
+    /// Interpretation plan operation that retrieves the source or target node of an edge
     /// depending on the other node already matched
     /// </summary>
     public class InterpretationPlanImplicitTheOther : InterpretationPlanNodeMatcher
     {
         public InterpretationPlanImplicitTheOther(int targetType, InterpretationPlanEdgeMatcher source,
             InterpretationPlanNodeMatcher theOther, SearchPlanNodeNode planNodeNode)
+            : base(planNodeNode)
         {
             this.targetType = targetType;
             this.source = source;
             this.theOther = theOther;
-            this.planNodeNode = planNodeNode;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -984,21 +990,21 @@ namespace de.unika.ipd.grGen.lgsp
             return matched;
         }
 
-        int targetType;
-        InterpretationPlanEdgeMatcher source;
-        InterpretationPlanNodeMatcher theOther;
+        readonly int targetType;
+        readonly InterpretationPlanEdgeMatcher source;
+        readonly InterpretationPlanNodeMatcher theOther;
     }
 
     /// <summary>
-    /// Interpretation plan operation which checks the source node of an edge to be identical to a given node
+    /// Interpretation plan operation that checks the source node of an edge to be identical to a given node
     /// </summary>
     public class InterpretationPlanCheckConnectednessSource : InterpretationPlan
     {
         public InterpretationPlanCheckConnectednessSource(InterpretationPlanNodeMatcher node, InterpretationPlanEdgeMatcher edge)
+            : base()
         {
             this.node = node;
             this.edge = edge;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1033,20 +1039,20 @@ namespace de.unika.ipd.grGen.lgsp
                 return false;
         }
 
-        InterpretationPlanNodeMatcher node;
-        InterpretationPlanEdgeMatcher edge;
+        readonly InterpretationPlanNodeMatcher node;
+        readonly InterpretationPlanEdgeMatcher edge;
     }
 
     /// <summary>
-    /// Interpretation plan operation which checks the target node of an edge to be identical to a given node
+    /// Interpretation plan operation that checks the target node of an edge to be identical to a given node
     /// </summary>
     public class InterpretationPlanCheckConnectednessTarget : InterpretationPlan
     {
         public InterpretationPlanCheckConnectednessTarget(InterpretationPlanNodeMatcher node, InterpretationPlanEdgeMatcher edge)
+            : base()
         {
             this.node = node;
             this.edge = edge;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1081,22 +1087,22 @@ namespace de.unika.ipd.grGen.lgsp
                 return false;
         }
 
-        InterpretationPlanNodeMatcher node;
-        InterpretationPlanEdgeMatcher edge;
+        readonly InterpretationPlanNodeMatcher node;
+        readonly InterpretationPlanEdgeMatcher edge;
     }
 
     /// <summary>
-    /// Interpretation plan operation which checks the source or target node of an edge to be identical to a given node,
+    /// Interpretation plan operation that checks the source or target node of an edge to be identical to a given node,
     /// depending on the current direction to be matched
     /// </summary>
     public class InterpretationPlanCheckConnectednessSourceOrTarget : InterpretationPlan
     {
         public InterpretationPlanCheckConnectednessSourceOrTarget(InterpretationPlanNodeMatcher node, InterpretationPlanEdgeMatcher edge, InterpretationPlanDirectionVariable directionVariable)
+            : base()
         {
             this.node = node;
             this.edge = edge;
             this.directionVariable = directionVariable;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1131,23 +1137,23 @@ namespace de.unika.ipd.grGen.lgsp
                 return false;
         }
 
-        InterpretationPlanNodeMatcher node;
-        InterpretationPlanEdgeMatcher edge;
-        InterpretationPlanDirectionVariable directionVariable;
+        readonly InterpretationPlanNodeMatcher node;
+        readonly InterpretationPlanEdgeMatcher edge;
+        readonly InterpretationPlanDirectionVariable directionVariable;
     }
 
     /// <summary>
-    /// Interpretation plan operation which checks the source or target node of an edge to be identical to a given node,
+    /// Interpretation plan operation that checks the source or target node of an edge to be identical to a given node,
     /// depending on the other node already matched
     /// </summary>
     public class InterpretationPlanCheckConnectednessTheOther : InterpretationPlan
     {
         public InterpretationPlanCheckConnectednessTheOther(InterpretationPlanNodeMatcher node, InterpretationPlanEdgeMatcher edge, InterpretationPlanNodeMatcher theOther)
+            : base()
         {
             this.node = node;
             this.edge = edge;
             this.theOther = theOther;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1182,30 +1188,30 @@ namespace de.unika.ipd.grGen.lgsp
                 return false;
         }
 
-        InterpretationPlanNodeMatcher node;
-        InterpretationPlanEdgeMatcher edge;
-        InterpretationPlanNodeMatcher theOther;
+        readonly InterpretationPlanNodeMatcher node;
+        readonly InterpretationPlanEdgeMatcher edge;
+        readonly InterpretationPlanNodeMatcher theOther;
     }
 
     /// <summary>
-    /// Interpretation plan operation which checks the AreAttribuesEqual condition
+    /// Interpretation plan operation that checks the AreAttribuesEqual condition
     /// </summary>
     public class InterpretationPlanCheckCondition : InterpretationPlan
     {
         public InterpretationPlanCheckCondition(expression.AreAttributesEqual condition, InterpretationPlanNodeMatcher nodeMatcher, int indexOfCorrespondingNode)
+            : base()
         {
             this.condition = condition;
             this.nodeMatcher = nodeMatcher;
             this.indexOfCorrespondingElement = indexOfCorrespondingNode;
-            AssignId();
         }
 
         public InterpretationPlanCheckCondition(expression.AreAttributesEqual condition, InterpretationPlanEdgeMatcher edgeMatcher, int indexOfCorrespondingEdge)
+            : base()
         {
             this.condition = condition;
             this.edgeMatcher = edgeMatcher;
             this.indexOfCorrespondingElement = indexOfCorrespondingEdge;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1246,23 +1252,23 @@ namespace de.unika.ipd.grGen.lgsp
                 return false;
         }
 
-        expression.AreAttributesEqual condition;
-        InterpretationPlanNodeMatcher nodeMatcher;
-        InterpretationPlanEdgeMatcher edgeMatcher;
-        int indexOfCorrespondingElement;
+        readonly expression.AreAttributesEqual condition;
+        readonly InterpretationPlanNodeMatcher nodeMatcher;
+        readonly InterpretationPlanEdgeMatcher edgeMatcher;
+        readonly int indexOfCorrespondingElement;
     }
 
     /// <summary>
-    /// Interpretation plan operation which completes a match;
+    /// Interpretation plan operation that completes a match;
     /// no own functionality, it just succeeds when execution reaches it
     /// </summary>
     public class InterpretationPlanMatchComplete : InterpretationPlan
     {
         public InterpretationPlanMatchComplete(int numNodes, int numEdges)
+            : base()
         {
             this.numNodes = numNodes;
             this.numEdges = numEdges;
-            AssignId();
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1344,8 +1350,8 @@ namespace de.unika.ipd.grGen.lgsp
             return true;
         }
 
-        int numNodes;
-        int numEdges;
+        readonly int numNodes;
+        readonly int numEdges;
     }
 }
 
