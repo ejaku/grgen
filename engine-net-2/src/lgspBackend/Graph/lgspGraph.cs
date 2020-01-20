@@ -38,8 +38,8 @@ namespace de.unika.ipd.grGen.lgsp
         protected readonly IGraphModel model;
         internal readonly String modelAssemblyName;
 
-        public IIndexSet indices;
-        public LGSPUniquenessEnsurer uniquenessEnsurer; // not null if unique ids for nodes/edges were requested
+        private IIndexSet indices;
+        private LGSPUniquenessEnsurer uniquenessEnsurer; // not null if unique ids for nodes/edges were requested
 
         // Used as storage space for the name for the SettingAddedEdgeNames event, in case of redirection
         public string[] nameOfSingleElementAdded = new string[1];
@@ -294,7 +294,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             edgesByTypeCounts = new int[model.EdgeModel.Types.Length];
 
-            model.CreateAndBindIndexSet(this);
+            uniquenessEnsurer = (LGSPUniquenessEnsurer)model.CreateUniquenessHandler(this);
+            indices = model.CreateIndexSet(this);
 
             statistics = new LGSPGraphStatistics(model);
 
@@ -352,6 +353,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// The indices associated with the graph.
         /// </summary>
         public override IIndexSet Indices { get { return indices; } }
+
+        /// <summary>
+        /// The uniqueness handler associated with the graph.
+        /// </summary>
+        public override IUniquenessHandler UniquenessHandler { get { return uniquenessEnsurer; } }
 
         /// <summary>
         /// Returns the number of nodes with the exact given node type.

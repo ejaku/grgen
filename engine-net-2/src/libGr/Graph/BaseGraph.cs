@@ -22,6 +22,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract int GraphId { get; }
         public abstract IGraphModel Model { get; }
         public abstract IIndexSet Indices { get; }
+        public abstract IUniquenessHandler UniquenessHandler { get; }
         public abstract bool ReuseOptimization { get; set; }
         public abstract long ChangesCounter{ get; }
 

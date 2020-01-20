@@ -70,10 +70,16 @@ namespace de.unika.ipd.grGen.libGr
         int BranchingFactorForEqualsAny { get; }
 
         /// <summary>
-        /// Called by the graph (generic implementation) to create and bind its index set (generated code).
-        /// Always called by an empty graph just constructed.
+        /// Called by the graph (generic implementation) to create its uniqueness handler (generated code).
+        /// Always called by an empty graph just constructed, the uniqueness handler is then directly bound to the graph.
         /// </summary>
-        void CreateAndBindIndexSet(IGraph graph);
+        IUniquenessHandler CreateUniquenessHandler(IGraph graph);
+
+        /// <summary>
+        /// Called by the graph (generic implementation) to create its index set (generated code).
+        /// Always called by an empty graph just constructed, the index set is then directly bound to the graph.
+        /// </summary>
+        IIndexSet CreateIndexSet(IGraph graph);
 
         /// <summary>
         /// Called on an index set that was created and bound,

@@ -31,7 +31,8 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract bool GraphElementUniquenessIsEnsured { get; }
         public abstract bool GraphElementsAreAccessibleByUniqueId { get; }
         public abstract int BranchingFactorForEqualsAny { get; }
-        public abstract void CreateAndBindIndexSet(IGraph graph);
+        public abstract IUniquenessHandler CreateUniquenessHandler(IGraph graph);
+        public abstract IIndexSet CreateIndexSet(IGraph graph);
         public abstract void FillIndexSetAsClone(IGraph graph, IGraph originalGraph, IDictionary<IGraphElement, IGraphElement> oldToNewMap);
 
         #region Emitting and parsing of attributes of object or a user defined type

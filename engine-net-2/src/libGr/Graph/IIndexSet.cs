@@ -198,4 +198,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IIndex GetIndex(string indexName);
     }
+
+    /// <summary>
+    /// Base class for uniqueness handlers, only needed as a kind of handle on libGr level, to transfer real implementation objects.
+    /// </summary>
+    public interface IUniquenessHandler
+    {
+    }
 }

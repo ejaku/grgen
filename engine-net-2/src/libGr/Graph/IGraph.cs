@@ -210,6 +210,11 @@ namespace de.unika.ipd.grGen.libGr
         IIndexSet Indices { get; }
 
         /// <summary>
+        /// The uniqueness handler associated with the graph.
+        /// </summary>
+        IUniquenessHandler UniquenessHandler { get; }
+
+        /// <summary>
         /// If true (the default case), elements deleted during a rewrite
         /// may be reused in the same rewrite.
         /// As a result new elements may not be discriminable anymore from

@@ -20,7 +20,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// A class ensuring unique ids for nodes and edges with a minimum amount of gaps.
     /// Gets instantiated in case support for unique nodes/edges was declared in the model.
     /// </summary>
-    public class LGSPUniquenessEnsurer
+    public class LGSPUniquenessEnsurer : IUniquenessHandler
     {
         public LGSPUniquenessEnsurer(LGSPGraph graph)
         {
@@ -31,7 +31,6 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("Graph must be empty!");
 
             this.graph = graph;
-            graph.uniquenessEnsurer = this;
             
             // global counter for fetching a new unique id
             nextNewId = 0;
@@ -49,10 +48,8 @@ namespace de.unika.ipd.grGen.lgsp
             graph.OnRetypingEdge += RetypingEdge;
         }
 
-        public virtual void FillAsClone(LGSPGraph originalGraph, IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        public virtual void FillAsClone(LGSPUniquenessEnsurer original, IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            LGSPUniquenessEnsurer original = originalGraph.uniquenessEnsurer;
-
             nextNewId = original.nextNewId;
 
             heap.Clear(); // remove the -1
@@ -270,18 +267,18 @@ namespace de.unika.ipd.grGen.lgsp
             index.Clear();
         }
 
-        public override void FillAsClone(LGSPGraph originalGraph, IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        public override void FillAsClone(LGSPUniquenessEnsurer original, IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            base.FillAsClone(originalGraph, oldToNewMap);
+            base.FillAsClone(original, oldToNewMap);
  
-            LGSPUniquenessIndex original = (LGSPUniquenessIndex)originalGraph.uniquenessEnsurer;
+            LGSPUniquenessIndex originalIndex = (LGSPUniquenessIndex)original;
 
-            if(original.index != null)
+            if(originalIndex.index != null)
             {
-                index = new List<IGraphElement>(original.index.Capacity);
-                for(int i = 0; i < original.index.Count; ++i)
+                index = new List<IGraphElement>(originalIndex.index.Capacity);
+                for(int i = 0; i < originalIndex.index.Count; ++i)
                 {
-                    index.Add(oldToNewMap[original.index[i]]);
+                    index.Add(oldToNewMap[originalIndex.index[i]]);
                 }
             }
         }
