@@ -38,11 +38,13 @@ namespace de.unika.ipd.grGen.lgsp
         protected readonly IGraphModel model;
         internal readonly String modelAssemblyName;
 
-        private IIndexSet indices;
-        private LGSPUniquenessEnsurer uniquenessEnsurer; // not null if unique ids for nodes/edges were requested
+        protected static IDictionary<IGraphElement, IGraphElement> tmpOldToNewMap; // workaround to hide map parameter passing in copy constructor
+
+        private readonly IIndexSet indices;
+        private readonly LGSPUniquenessEnsurer uniquenessEnsurer; // not null if unique ids for nodes/edges were requested
 
         // Used as storage space for the name for the SettingAddedEdgeNames event, in case of redirection
-        public string[] nameOfSingleElementAdded = new string[1];
+        public readonly string[] nameOfSingleElementAdded = new string[1];
 
 
         private bool reuseOptimization = true;
@@ -77,7 +79,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Stores the statistics about the last analyze pass of the graph
         /// </summary>
-        public LGSPGraphStatistics statistics;
+        public readonly LGSPGraphStatistics statistics;
 
         public long changesCounterAtLastAnalyze = -1;
 
@@ -108,36 +110,36 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array containing one head of a doubly-linked ring-list for each node type indexed by the type ID.
         /// </summary>
-        public LGSPNode[] nodesByTypeHeads;
+        public readonly LGSPNode[] nodesByTypeHeads;
 
         /// <summary>
         /// The number of nodes for each node type indexed by the type ID.
         /// </summary>
-        public int[] nodesByTypeCounts;
+        public readonly int[] nodesByTypeCounts;
 
         /// <summary>
         /// An array containing one head of a doubly-linked ring-list for each edge type indexed by the type ID.
         /// </summary>
-        public LGSPEdge[] edgesByTypeHeads;
+        public readonly LGSPEdge[] edgesByTypeHeads;
 
         /// <summary>
         /// The number of edges for each edge type indexed by the type ID.
         /// </summary>
-        public int[] edgesByTypeCounts;
+        public readonly int[] edgesByTypeCounts;
 
 
         /// <summary>
         /// a list with the isomorphy spaces, each contains in a dictionary the elements matched locally 
         /// used in case the is-matched-bits in the graph elements are not sufficient (during non-parallel matching)
         /// </summary>
-        public List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElements
+        public readonly List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElements
             = new List<Dictionary<IGraphElement, IGraphElement>>();
 
         /// <summary>
         /// a list with the isomorphy spaces, each contains in a dictionary the elements matched globally 
         /// used in case the is-matched-bits in the graph elements are not sufficient (during non-parallel matching)
         /// </summary>
-        public List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElementsGlobal
+        public readonly List<Dictionary<IGraphElement, IGraphElement>> inIsoSpaceMatchedElementsGlobal
             = new List<Dictionary<IGraphElement, IGraphElement>>();
 
 
@@ -163,7 +165,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public List<List<Dictionary<IGraphElement, IGraphElement>>> perThreadInIsoSpaceMatchedElementsGlobal;
 
-        protected Dictionary<String, String> customCommandsToDescriptions;
+        protected readonly Dictionary<String, String> customCommandsToDescriptions;
 
 
         /// <summary>
@@ -189,7 +191,10 @@ namespace de.unika.ipd.grGen.lgsp
             NextGraphIdAndName();
             name = grname;
 
-            InitializeGraph();
+            InitializeGraph(out nodesByTypeHeads, out nodesByTypeCounts,
+                out edgesByTypeHeads, out edgesByTypeCounts,
+                out uniquenessEnsurer, out indices,
+                out statistics, out customCommandsToDescriptions);
         }
 
         /// <summary>
@@ -206,37 +211,11 @@ namespace de.unika.ipd.grGen.lgsp
             graphID = GetGraphId();
             NextGraphIdAndName();
             name = newName;
-            
-            Copy(dataSource, out oldToNewMap);
-        }
 
-        /// <summary>
-        /// Copy constructor.
-        /// </summary>
-        /// <param name="dataSource">The LGSPGraph object to get the data from</param>
-        /// <param name="newName">Name of the copied graph.</param>
-        public LGSPGraph(LGSPGraph dataSource, String newName)
-        {
-            model = dataSource.model;
-            modelAssemblyName = dataSource.modelAssemblyName;
-
-            graphID = GetGraphId();
-            NextGraphIdAndName();
-            name = newName;
-            
-            IDictionary<IGraphElement, IGraphElement> oldToNewMap;
-            Copy(dataSource, out oldToNewMap);
-        }
-
-        /// <summary>
-        /// Copy constructor helper.
-        /// </summary>
-        /// <param name="dataSource">The LGSPGraph object to get the data from</param>
-        /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
-        /// just forget about it if you don't need it.</param>
-        private void Copy(LGSPGraph dataSource, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
-        {
-            InitializeGraph();
+            InitializeGraph(out nodesByTypeHeads, out nodesByTypeCounts,
+                out edgesByTypeHeads, out edgesByTypeCounts,
+                out uniquenessEnsurer, out indices,
+                out statistics, out customCommandsToDescriptions);
 
             statistics.Copy(dataSource);
 
@@ -246,7 +225,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 for(LGSPNode head = dataSource.nodesByTypeHeads[i], node = head.lgspTypePrev; node != head; node = node.lgspTypePrev)
                 {
-                    LGSPNode newNode = (LGSPNode) node.Clone();
+                    LGSPNode newNode = (LGSPNode)node.Clone();
                     AddNodeWithoutEvents(newNode, node.lgspType.TypeID);
                     oldToNewMap[node] = newNode;
                 }
@@ -256,7 +235,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 for(LGSPEdge head = dataSource.edgesByTypeHeads[i], edge = head.lgspTypePrev; edge != head; edge = edge.lgspTypePrev)
                 {
-                    LGSPEdge newEdge = (LGSPEdge) edge.Clone((INode) oldToNewMap[edge.lgspSource], (INode) oldToNewMap[edge.lgspTarget]);
+                    LGSPEdge newEdge = (LGSPEdge)edge.Clone((INode)oldToNewMap[edge.lgspSource], (INode)oldToNewMap[edge.lgspTarget]);
                     AddEdgeWithoutEvents(newEdge, newEdge.lgspType.TypeID);
                     oldToNewMap[edge] = newEdge;
                 }
@@ -273,7 +252,21 @@ namespace de.unika.ipd.grGen.lgsp
             model.FillIndexSetAsClone(this, dataSource, oldToNewMap);
         }
 
-        private void InitializeGraph()
+        /// <summary>
+        /// Copy constructor.
+        /// </summary>
+        /// <param name="dataSource">The LGSPGraph object to get the data from</param>
+        /// <param name="newName">Name of the copied graph.</param>
+        public LGSPGraph(LGSPGraph dataSource, String newName)
+            : this(dataSource, newName, out tmpOldToNewMap)
+        {
+            tmpOldToNewMap = null;
+        }
+
+        private void InitializeGraph(out LGSPNode[] nodesByTypeHeads, out int[] nodesByTypeCounts, 
+            out LGSPEdge[] edgesByTypeHeads, out int[] edgesByTypeCounts,
+            out LGSPUniquenessEnsurer uniquenessEnsurer, out IIndexSet indices,
+            out LGSPGraphStatistics statistics, out Dictionary<string, string> customCommandsToDescriptions)
         {
             nodesByTypeHeads = new LGSPNode[model.NodeModel.Types.Length];
             for(int i = 0; i < model.NodeModel.Types.Length; i++)
@@ -299,6 +292,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             statistics = new LGSPGraphStatistics(model);
 
+            customCommandsToDescriptions = new Dictionary<string, string>();
             FillCustomCommandDescriptions();
         }
 
@@ -768,7 +762,24 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Clear()
         {
             ClearingGraph();
-            InitializeGraph();
+
+            for(int i = 0; i < model.NodeModel.Types.Length; i++)
+            {
+                LGSPNode head = nodesByTypeHeads[i];
+                head.lgspTypeNext = head;
+                head.lgspTypePrev = head;
+                nodesByTypeCounts[i] = 0;
+            }
+            for(int i = 0; i < model.EdgeModel.Types.Length; i++)
+            {
+                LGSPEdge head = edgesByTypeHeads[i];
+                head.lgspTypeNext = head;
+                head.lgspTypePrev = head;
+                edgesByTypeCounts[i] = 0;
+            }
+
+            statistics.ResetStatisticalData();
+
             ++changesCounter;
         }
 
@@ -1747,7 +1758,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void FillCustomCommandDescriptions()
         {
-            customCommandsToDescriptions = new Dictionary<string, string>();
             customCommandsToDescriptions.Add("analyze",
                 "- analyze: Analyzes the graph. The generated information can then be\n" +
                 "     used by Actions implementations to optimize the pattern matching.\n");

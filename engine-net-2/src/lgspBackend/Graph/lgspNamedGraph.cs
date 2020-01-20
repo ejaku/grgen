@@ -18,10 +18,8 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPNamedGraph : LGSPGraph, INamedGraph
     {
-        internal Dictionary<String, IGraphElement> NameToElem;
-        internal Dictionary<IGraphElement, String> ElemToName;
-
-        private static IDictionary<IGraphElement, IGraphElement> tmpOldToNewMap; // workaround to hide map parameter passing in copy constructor
+        internal readonly Dictionary<String, IGraphElement> NameToElem;
+        internal readonly Dictionary<IGraphElement, String> ElemToName;
 
         private int nextID = 0;
 
