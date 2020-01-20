@@ -26,9 +26,11 @@ namespace de.unika.ipd.grGen.lgsp
         // counter for ids, used for naming and to determine the age
         private static int graphIDSource = 0;
 
-        protected static String GetNextGraphName() { return "lgspGraph_" + graphIDSource; }
+        protected static String GetGraphName() { return "lgspGraph_" + graphIDSource; }
+        private static int GetGraphId() { return graphIDSource; }
+        private static void NextGraphIdAndName() { ++graphIDSource; }
 
-        public int graphID;
+        private readonly int graphID;
         public override int GraphId { get { return graphID; } }
 
         private String name;
@@ -169,7 +171,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
         public LGSPGraph(IGraphModel grmodel)
-            : this(grmodel, GetNextGraphName())
+            : this(grmodel, GetGraphName())
         {
         }
 
@@ -183,15 +185,11 @@ namespace de.unika.ipd.grGen.lgsp
             model = grmodel;
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
-            graphID = graphIDSource;
-            ++graphIDSource;
-            
+            graphID = GetGraphId();
+            NextGraphIdAndName();
             name = grname;
 
-            statistics = new LGSPGraphStatistics(null);
-
-            InitializeGraph(grmodel);
-            FillCustomCommandDescriptions();
+            InitializeGraph();
         }
 
         /// <summary>
@@ -205,12 +203,11 @@ namespace de.unika.ipd.grGen.lgsp
             model = dataSource.model;
             modelAssemblyName = dataSource.modelAssemblyName;
 
-            graphID = graphIDSource;
-            ++graphIDSource;
+            graphID = GetGraphId();
+            NextGraphIdAndName();
+            name = newName;
             
-            Copy(dataSource, newName, out oldToNewMap);
-
-            FillCustomCommandDescriptions();
+            Copy(dataSource, out oldToNewMap);
         }
 
         /// <summary>
@@ -223,29 +220,25 @@ namespace de.unika.ipd.grGen.lgsp
             model = dataSource.model;
             modelAssemblyName = dataSource.modelAssemblyName;
 
-            graphID = graphIDSource;
-            ++graphIDSource;
+            graphID = GetGraphId();
+            NextGraphIdAndName();
+            name = newName;
             
             IDictionary<IGraphElement, IGraphElement> oldToNewMap;
-            Copy(dataSource, newName, out oldToNewMap);
-
-            FillCustomCommandDescriptions();
+            Copy(dataSource, out oldToNewMap);
         }
 
         /// <summary>
         /// Copy constructor helper.
         /// </summary>
         /// <param name="dataSource">The LGSPGraph object to get the data from</param>
-        /// <param name="newName">Name of the copied graph.</param>
         /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
         /// just forget about it if you don't need it.</param>
-        private void Copy(LGSPGraph dataSource, String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        private void Copy(LGSPGraph dataSource, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            name = newName;
-
             InitializeGraph();
 
-            model.CreateAndBindIndexSet(this);
+            statistics.Copy(dataSource);
 
             oldToNewMap = new Dictionary<IGraphElement, IGraphElement>();
 
@@ -278,23 +271,6 @@ namespace de.unika.ipd.grGen.lgsp
             }*/
 
             model.FillIndexSetAsClone(this, dataSource, oldToNewMap);
-
-            statistics = new LGSPGraphStatistics(this.Model);
-            statistics.Copy(dataSource);
-        }
-
-        /// <summary>
-        /// Initializes the graph with the given model.
-        /// </summary>
-        /// <param name="grmodel">The model for this graph.</param>
-        protected void InitializeGraph(IGraphModel grmodel)
-        {
-            if(statistics.graphModel == null)
-                statistics.graphModel = grmodel;
-
-            InitializeGraph();
-
-            grmodel.CreateAndBindIndexSet(this);
         }
 
         private void InitializeGraph()
@@ -318,8 +294,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
             edgesByTypeCounts = new int[model.EdgeModel.Types.Length];
 
-            if(statistics != null) // may be null when called from Copy/copy-constructor
-               statistics.ResetStatisticalData();
+            model.CreateAndBindIndexSet(this);
+
+            statistics = new LGSPGraphStatistics(model);
+
+            FillCustomCommandDescriptions();
         }
 
         public void EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(int numberOfThreads)

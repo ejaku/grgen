@@ -275,7 +275,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // we build the interpretation plan for the older graph, 
                 // assuming it will survive while the younger one is the candidate for purging
-                if(this_.graphID < that.graphID)
+                if(this_.GraphId < that.GraphId)
                 {
                     BuildInterpretationPlan(this_);
                     lock(that)
@@ -618,7 +618,7 @@ namespace de.unika.ipd.grGen.lgsp
             ScheduledSearchPlan scheduledSearchPlan = SearchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
                 searchPlanGraph, graph.matchingState.patternGraph, false, matcherGen.LazyNegativeIndependentConditionEvaluation);
             InterpretationPlanBuilder builder = new InterpretationPlanBuilder(scheduledSearchPlan, searchPlanGraph, graph.Model);
-            graph.matchingState.interpretationPlan = builder.BuildInterpretationPlan("ComparisonMatcher_" + graph.graphID);
+            graph.matchingState.interpretationPlan = builder.BuildInterpretationPlan("ComparisonMatcher_" + graph.GraphId);
             ++GraphMatchingState.numInterpretationPlans;
             graph.matchingState.changesCounterAtInterpretationPlanBuilding = graph.changesCounterAtLastAnalyze;
             Debug.Assert(graph.changesCounterAtLastAnalyze == graph.ChangesCounter);
@@ -697,9 +697,9 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(LGSPGraph graph in GraphMatchingState.candidatesForCompilation)
             {
                 graph.matchingState.compiledMatcher = (GraphComparisonMatcher)compResults.CompiledAssembly.CreateInstance(
-                    "de.unika.ipd.grGen.lgspComparisonMatchers.ComparisonMatcher_" + graph.graphID);
+                    "de.unika.ipd.grGen.lgspComparisonMatchers.ComparisonMatcher_" + graph.GraphId);
                 if(graph.matchingState.compiledMatcher == null)
-                    throw new ArgumentException("Internal error: Generated assembly does not contain comparison matcher 'ComparisonMatcher_" + graph.graphID + "'!");
+                    throw new ArgumentException("Internal error: Generated assembly does not contain comparison matcher 'ComparisonMatcher_" + graph.GraphId + "'!");
                 ++GraphMatchingState.numCompiledMatchers;
             }
 

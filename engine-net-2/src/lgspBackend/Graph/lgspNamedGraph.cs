@@ -62,6 +62,8 @@ namespace de.unika.ipd.grGen.lgsp
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
         }
 
+        #region Copy Constructors
+
         /// <summary>
         /// Copy constructor.
         /// </summary>
@@ -238,14 +240,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        // todo: remove
-        protected void InitializeVariables()
-        {
-            // Reset variables
-            //ElementMap.Clear();
-            //VariableMap.Clear();
-        }
-
+        #endregion Copy Constructors
 
         public void SetElementName(IGraphElement elem, String name)
         {
@@ -573,7 +568,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override string ToString()
         {
-            return "LGSPNamedGraph " + Name + " id " + graphID + " @ " + ChangesCounter;
+            return "LGSPNamedGraph " + Name + " id " + GraphId + " @ " + ChangesCounter;
         }
     }
 }

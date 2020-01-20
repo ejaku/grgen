@@ -4196,9 +4196,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append(
 			  "\tpublic class " + modelName + "Graph : GRGEN_LGSP.LGSPGraph\n"
 			+ "\t{\n"
-			+ "\t\tpublic " + modelName + "Graph() : base(new " + modelName + "GraphModel(), GetNextGraphName())\n"
+			+ "\t\tpublic " + modelName + "Graph() : base(new " + modelName + "GraphModel(), GetGraphName())\n"
 			+ "\t\t{\n"
-			+ "\t\t\tInitializeGraph(model);\n"
 			+ "\t\t}\n\n"
 		);
 
@@ -4233,9 +4232,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append(
 			  "\tpublic class " + modelName + "NamedGraph : GRGEN_LGSP.LGSPNamedGraph\n"
 			+ "\t{\n"
-			+ "\t\tpublic " + modelName + "NamedGraph() : base(new " + modelName + "GraphModel(), GetNextGraphName(), 0)\n"
+			+ "\t\tpublic " + modelName + "NamedGraph() : base(new " + modelName + "GraphModel(), GetGraphName(), 0)\n"
 			+ "\t\t{\n"
-			+ "\t\t\tInitializeGraph(model);\n"
 			+ "\t\t}\n\n"
 		);
 
