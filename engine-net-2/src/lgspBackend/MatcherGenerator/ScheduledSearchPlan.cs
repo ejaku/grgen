@@ -141,7 +141,7 @@ namespace de.unika.ipd.grGen.lgsp
     [DebuggerDisplay("SearchOperation ({SourceSPNode} -{Type}-> {Element} = {CostToEnd})")]
     public class SearchOperation : IComparable<SearchOperation>, ICloneable
     {
-        public SearchOperationType Type;
+        public readonly SearchOperationType Type;
 
         /// <summary>
         /// If Type is NegativePattern or IndependentPattern, Element is a ScheduledSearchPlan object.
@@ -152,7 +152,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public object Element;
 
-        public SearchPlanNode SourceSPNode; // the source element that must be matched before, this operation depends upon
+        public readonly SearchPlanNode SourceSPNode; // the source element that must be matched before, this operation depends upon
 
         public StorageAccess Storage; // set for storage access
         public StorageAccessIndex StorageIndex; // set for storage access with index
@@ -181,7 +181,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public Object Clone()
         {
-            SearchOperation so = new SearchOperation(Type, Element, SourceSPNode, CostToEnd);
+            return Clone(Type);
+        }
+
+        public Object Clone(SearchOperationType searchOperationType)
+        {
+            // clone the condition as we may need to set the parallelized flag for it, while the original must stay untouched
+            object ElementWithConditionCloned = Element is PatternCondition ? (Element as PatternCondition).Clone() : Element;
+            SearchOperation so = new SearchOperation(searchOperationType, ElementWithConditionCloned, SourceSPNode, CostToEnd);
             so.Isomorphy = (IsomorphyInformation)Isomorphy.Clone();
             so.ConnectednessCheck = (ConnectednessCheck)ConnectednessCheck.Clone();
             so.Storage = Storage;
@@ -190,11 +197,6 @@ namespace de.unika.ipd.grGen.lgsp
             so.NameLookup = NameLookup;
             so.UniqueLookup = UniqueLookup;
             so.Expression = Expression;
-            if(so.Element is PatternCondition)
-            {
-                // clone the condition as we may need to set the parallelized flag for it, while the original must stay untouched
-                so.Element = (so.Element as PatternCondition).Clone();
-            }
             return so;
         }
 
@@ -213,9 +215,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class ScheduledSearchPlan : ICloneable
     {
-        public PatternGraph PatternGraph; // the pattern graph originating this schedule
-        public SearchOperation[] Operations; // the scheduled list of search operations
-        public float Cost; // (needed for scheduling nac-subgraphs into the full graph)
+        public readonly PatternGraph PatternGraph; // the pattern graph originating this schedule
+        public readonly SearchOperation[] Operations; // the scheduled list of search operations
+        public readonly float Cost; // (needed for scheduling nac-subgraphs into the full graph)
         
         public ScheduledSearchPlan(PatternGraph patternGraph, SearchOperation[] ops, float cost)
         {
@@ -224,16 +226,9 @@ namespace de.unika.ipd.grGen.lgsp
             Cost = cost;
         }
 
-        private ScheduledSearchPlan(PatternGraph patternGraph, float cost)
-        {
-            PatternGraph = patternGraph;
-            Cost = cost;
-        }
-
         public Object Clone()
         {
-            ScheduledSearchPlan ssp = new ScheduledSearchPlan(PatternGraph, Cost);
-            ssp.Operations = new SearchOperation[Operations.Length];
+            ScheduledSearchPlan ssp = new ScheduledSearchPlan(PatternGraph, new SearchOperation[Operations.Length], Cost);
             for (int i = 0; i < Operations.Length; ++i)
             {
                 ssp.Operations[i] = (SearchOperation)Operations[i].Clone();

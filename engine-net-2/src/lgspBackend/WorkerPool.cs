@@ -15,7 +15,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// A thread pool of workers for parallelized pattern matching
     /// </summary>
-    public class WorkerPool
+    public static class WorkerPool
     {
         static WorkerPool()
         {

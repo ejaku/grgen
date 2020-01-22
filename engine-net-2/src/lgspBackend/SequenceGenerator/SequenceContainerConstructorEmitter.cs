@@ -14,7 +14,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// The C#-part responsible for emitting the container constructor expressions that appear in an exec statement, in a post-run after generating the sequence.
     /// </summary>
-    public class SequenceContainerConstructorEmitter
+    public static class SequenceContainerConstructorEmitter
     {
         public static void GenerateContainerConstructor(IGraphModel model, SequenceExpressionContainerConstructor cc, SourceBuilder source)
         {

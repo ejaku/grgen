@@ -26,6 +26,21 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class SearchProgram : SearchProgramOperation
     {
+        public SearchProgram(string rulePatternClassName,
+            List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
+            string name,
+            bool parallel,
+            List<string> matchingPatternClassTypeName,
+            List<Dictionary<PatternGraph, bool>> nestedIndependents)
+        {
+            RulePatternClassName = rulePatternClassName;
+            NamesOfPatternGraphsOnPathToEnclosedPatternpath = namesOfPatternGraphsOnPathToEnclosedPatternpath;
+            Name = name;
+            Parallel = parallel;
+            MatchingPatternClassTypeName = matchingPatternClassTypeName;
+            NestedIndependents = nestedIndependents;
+        }
+
         public override bool IsSearchNestingOperation()
         {
             return true; // contains complete nested search program
@@ -67,14 +82,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        protected string RulePatternClassName;
-        protected List<string> NamesOfPatternGraphsOnPathToEnclosedPatternpath;
-        public string Name;
-        public bool Parallel;
+        protected readonly string RulePatternClassName;
+        protected readonly List<string> NamesOfPatternGraphsOnPathToEnclosedPatternpath;
+        public readonly string Name;
+        public readonly bool Parallel;
 
         // List because of potentially nested independents, flattened, and also alternative cases combined in alternative
-        protected List<string> MatchingPatternClassTypeName;
-        protected List<Dictionary<PatternGraph, bool>> NestedIndependents;
+        protected readonly List<string> MatchingPatternClassTypeName;
+        protected readonly List<Dictionary<PatternGraph, bool>> NestedIndependents;
 
         public SearchProgramList OperationsList;
     }
@@ -93,13 +108,9 @@ namespace de.unika.ipd.grGen.lgsp
             List<Dictionary<PatternGraph, bool>> nestedIndependents,
             bool emitProfiling, string packagePrefixedPatternName,
             string[] dispatchConditions, List<string> suffixedMatcherNames, List<string[]> arguments)
+        : base(rulePatternClassName, namesOfPatternGraphsOnPathToEnclosedPatternpath,
+            name, false, matchingPatternClassTypeName, nestedIndependents)
         {
-            RulePatternClassName = rulePatternClassName;
-            NamesOfPatternGraphsOnPathToEnclosedPatternpath =
-                namesOfPatternGraphsOnPathToEnclosedPatternpath;
-            Name = name;
-            Parallel = false;
-
             PatternName = patternName;
             Parameters = "";
             for (int i = 0; i < parameterTypes.Length; ++i)
@@ -108,8 +119,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
             SetupSubpatternMatching = containsSubpatterns;
             WasIndependentInlined = wasIndependentInlined;
-            MatchingPatternClassTypeName = matchingPatternClassTypeName;
-            NestedIndependents = nestedIndependents;
             EmitProfiling = emitProfiling;
             PackagePrefixedPatternName = packagePrefixedPatternName;
 
@@ -279,16 +288,16 @@ namespace de.unika.ipd.grGen.lgsp
             return emittedCounter;
         }
 
-        public string PatternName;
-        public string PackagePrefixedPatternName;
-        public string Parameters;
-        public bool SetupSubpatternMatching;
-        public bool WasIndependentInlined;
-        public bool EmitProfiling;
+        public readonly string PatternName;
+        public readonly string PackagePrefixedPatternName;
+        public readonly string Parameters;
+        public readonly bool SetupSubpatternMatching;
+        public readonly bool WasIndependentInlined;
+        public readonly bool EmitProfiling;
 
-        string[] DispatchConditions;
-        List<string> SuffixedMatcherNames; // for maybe null dispatcher
-        List<string[]> Arguments; // for maybe null dispatcher
+        readonly string[] DispatchConditions;
+        readonly List<string> SuffixedMatcherNames; // for maybe null dispatcher
+        readonly List<string[]> Arguments; // for maybe null dispatcher
     }
 
     /// <summary>
@@ -299,11 +308,9 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgramOfActionParallelizationHead(string rulePatternClassName,
             string patternName, string[] parameterTypes, string[] parameterNames, string name,
             bool emitProfiling, string packagePrefixedPatternName)
+        : base(rulePatternClassName, null,
+            name, true, null, null)
         {
-            RulePatternClassName = rulePatternClassName;
-            Name = name;
-            Parallel = true;
-
             PatternName = patternName;
             Parameters = "";
             for(int i = 0; i < parameterTypes.Length; ++i)
@@ -416,10 +423,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public string PatternName;
-        public string Parameters;
-        public bool EmitProfiling;
-        public string PackagePrefixedPatternName;
+        public readonly string PatternName;
+        public readonly string Parameters;
+        public readonly bool EmitProfiling;
+        public readonly string PackagePrefixedPatternName;
     }
 
     /// <summary>
@@ -434,18 +441,12 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> matchingPatternClassTypeName,
             List<Dictionary<PatternGraph, bool>> nestedIndependents,
             bool emitProfiling, string packagePrefixedPatternName)
+        : base(rulePatternClassName, namesOfPatternGraphsOnPathToEnclosedPatternpath,
+            name, true, matchingPatternClassTypeName, nestedIndependents)
         {
-            RulePatternClassName = rulePatternClassName;
-            NamesOfPatternGraphsOnPathToEnclosedPatternpath =
-                namesOfPatternGraphsOnPathToEnclosedPatternpath;
-            Name = name;
-            Parallel = true;
-
             PatternName = patternName;
             SetupSubpatternMatching = containsSubpatterns;
             WasIndependentInlined = wasIndependentInlined;
-            MatchingPatternClassTypeName = matchingPatternClassTypeName;
-            NestedIndependents = nestedIndependents;
             EmitProfiling = emitProfiling;
             PackagePrefixedPatternName = packagePrefixedPatternName;
         }
@@ -567,11 +568,11 @@ namespace de.unika.ipd.grGen.lgsp
             Debug.Assert(Next == null);
         }
 
-        public string PatternName;
-        public bool SetupSubpatternMatching;
-        public bool WasIndependentInlined;
-        public bool EmitProfiling;
-        public string PackagePrefixedPatternName;
+        public readonly string PatternName;
+        public readonly bool SetupSubpatternMatching;
+        public readonly bool WasIndependentInlined;
+        public readonly bool EmitProfiling;
+        public readonly string PackagePrefixedPatternName;
     }
 
     /// <summary>
@@ -587,16 +588,11 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> matchingPatternClassTypeName,
             List<Dictionary<PatternGraph, bool>> nestedIndependents,
             bool parallel)
+        : base(rulePatternClassName, namesOfPatternGraphsOnPathToEnclosedPatternpath,
+            name, parallel, matchingPatternClassTypeName, nestedIndependents)
         {
-            RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
-            NamesOfPatternGraphsOnPathToEnclosedPatternpath =
-                namesOfPatternGraphsOnPathToEnclosedPatternpath;
-            Name = name;
             WasIndependentInlined = wasIndependentInlined;
-            MatchingPatternClassTypeName = matchingPatternClassTypeName;
-            NestedIndependents = nestedIndependents;
-            Parallel = parallel;
         }
 
         /// <summary>
@@ -688,8 +684,8 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string PatternName;
-        public bool WasIndependentInlined;
+        public readonly string PatternName;
+        public readonly bool WasIndependentInlined;
     }
 
     /// <summary>
@@ -703,14 +699,9 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> matchingPatternClassTypeName,
             List<Dictionary<PatternGraph, bool>> nestedIndependents,
             bool parallel)
+        : base(rulePatternClassName, namesOfPatternGraphsOnPathToEnclosedPatternpath,
+            name, parallel, matchingPatternClassTypeName, nestedIndependents)
         {
-            RulePatternClassName = rulePatternClassName;
-            NamesOfPatternGraphsOnPathToEnclosedPatternpath =
-                namesOfPatternGraphsOnPathToEnclosedPatternpath;
-            Name = name;
-            MatchingPatternClassTypeName = matchingPatternClassTypeName;
-            NestedIndependents = nestedIndependents;
-            Parallel = parallel;
         }
 
         /// <summary>
@@ -795,18 +786,13 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> matchingPatternClassTypeName,
             List<Dictionary<PatternGraph, bool>> nestedIndependents,
             bool parallel)
+        : base(rulePatternClassName, namesOfPatternGraphsOnPathToEnclosedPatternpath,
+            name, parallel, matchingPatternClassTypeName, nestedIndependents)
         {
-            RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
             IterPathPrefix = iterPathPrefix;
             IterPatternName = iterPatternName;
-            NamesOfPatternGraphsOnPathToEnclosedPatternpath =
-                namesOfPatternGraphsOnPathToEnclosedPatternpath;
-            Name = name;
             WasIndependentInlined = wasIndependentInlined;
-            MatchingPatternClassTypeName = matchingPatternClassTypeName;
-            NestedIndependents = nestedIndependents;
-            Parallel = parallel;
         }
 
         /// <summary>
@@ -899,9 +885,9 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string PatternName;
-        public string IterPatternName;
-        public string IterPathPrefix;
-        public bool WasIndependentInlined;
+        public readonly string PatternName;
+        public readonly string IterPatternName;
+        public readonly string IterPathPrefix;
+        public readonly bool WasIndependentInlined;
     }
 }

@@ -1458,7 +1458,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         // ----------------------------------------------------------------
 
-        private List<LGSPMatchingPattern> matchingPatterns;
+        private readonly List<LGSPMatchingPattern> matchingPatterns;
         private int renameId = 0; // an id to ensure that inlined elements of a subpattern are named differently for multiple instances of the inlined pattern
     }
 }

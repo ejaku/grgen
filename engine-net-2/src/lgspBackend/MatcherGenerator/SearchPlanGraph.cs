@@ -19,13 +19,13 @@ namespace de.unika.ipd.grGen.lgsp
     [DebuggerDisplay("SearchPlanNode ({NodeType} {ToString()})")]
     public class SearchPlanNode
     {
-        public PlanNodeType NodeType;
-        public List<SearchPlanEdge> OutgoingEdges = new List<SearchPlanEdge>();
+        public readonly PlanNodeType NodeType;
+        public readonly List<SearchPlanEdge> OutgoingEdges = new List<SearchPlanEdge>();
         public int ElementID;
-        public bool IsPreset;
+        public readonly bool IsPreset;
         public bool Visited; // flag needed in matcher program generation from the scheduled search plan 
 
-        public PatternElement PatternElement;
+        public readonly PatternElement PatternElement;
 
         public SearchPlanNode(String rootName)
         {
@@ -65,11 +65,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// IncomingPatternEdges are the search plan nodes which originate from the incoming pattern edges of the pattern node this node represents
         /// </summary>
-        public List<SearchPlanEdgeNode> IncomingPatternEdges = new List<SearchPlanEdgeNode>();
+        public readonly List<SearchPlanEdgeNode> IncomingPatternEdges = new List<SearchPlanEdgeNode>();
         /// <summary>
         /// OutgoingPatternEdges are the search plan nodes which originate from the outgoing pattern edges of the pattern node this node represents
         /// </summary>
-        public List<SearchPlanEdgeNode> OutgoingPatternEdges = new List<SearchPlanEdgeNode>();
+        public readonly List<SearchPlanEdgeNode> OutgoingPatternEdges = new List<SearchPlanEdgeNode>();
 
         public SearchPlanNodeNode(PlanNode planNode) : base(planNode) { }
 
@@ -92,9 +92,13 @@ namespace de.unika.ipd.grGen.lgsp
     {
         /// <summary>
         /// PatternEdgeSource gives us the search plan node which originated from the source of the pattern edge this node represents
+        /// </summary>
+        public SearchPlanNodeNode PatternEdgeSource;
+
+        /// <summary>
         /// PatternEdgeTarget gives us the search plan node which originated from the target of the pattern edge this node represents
         /// </summary>
-        public SearchPlanNodeNode PatternEdgeSource, PatternEdgeTarget;
+        public SearchPlanNodeNode PatternEdgeTarget;
 
         public SearchPlanEdgeNode(PlanNode planNode, SearchPlanNodeNode patEdgeSrc, SearchPlanNodeNode patEdgeTgt)
             : base(planNode)
@@ -131,10 +135,10 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class SearchPlanEdge : IComparable<SearchPlanEdge>
     {
-        public SearchPlanNode Target;
+        public readonly SearchPlanNode Target;
         public float Cost;
-        public SearchPlanNode Source;
-        public SearchOperationType Type;
+        public readonly SearchPlanNode Source;
+        public readonly SearchOperationType Type;
 
         public float LocalCost; // only used in benchmarking
 
@@ -179,11 +183,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class SearchPlanGraph
     {
-        public SearchPlanNode Root;
-        public SearchPlanNode[] Nodes;
-        public SearchPlanEdge[] Edges;
-        public int NumPresetElements = 0;
-        public int NumIndependentStorageIndexElements = 0;
+        public readonly SearchPlanNode Root;
+        public readonly SearchPlanNode[] Nodes;
+        public readonly SearchPlanEdge[] Edges;
+        public readonly int NumPresetElements = 0;
+        public readonly int NumIndependentStorageIndexElements = 0;
 
         public SearchPlanGraph(SearchPlanNode root, SearchPlanNode[] nodes, SearchPlanEdge[] edges)
         {

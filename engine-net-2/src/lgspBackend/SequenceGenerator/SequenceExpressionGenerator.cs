@@ -20,11 +20,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class SequenceExpressionGenerator
     {
-        IGraphModel model;
+        readonly IGraphModel model;
 
-        SequenceCheckingEnvironment env;
+        readonly SequenceCheckingEnvironment env;
 
-        SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper helper;
 
 
         public SequenceExpressionGenerator(IGraphModel model, SequenceCheckingEnvironment env, SequenceGeneratorHelper helper)

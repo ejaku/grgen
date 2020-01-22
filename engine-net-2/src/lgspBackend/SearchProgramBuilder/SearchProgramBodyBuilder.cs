@@ -151,7 +151,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// helper class to execute queries
         /// </summary>
-        SearchProgramBodyBuilderHelper helper;
+        readonly SearchProgramBodyBuilderHelper helper;
 
         ///////////////////////////////////////////////////////////////////////////////////
 

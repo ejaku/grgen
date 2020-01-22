@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// class for building search program data structure from scheduled search plan
     /// entry point for the different kinds of pattern matchers, delegates to search program body builder for doing real work
     /// </summary>
-    class SearchProgramBuilder
+    static class SearchProgramBuilder
     {
         /// <summary>
         /// Builds search program from scheduled search plan at given index in pattern graph of the action rule pattern

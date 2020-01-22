@@ -37,8 +37,8 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront(VarType + " " + NamesOfEntities.Variable(VarName) + " = (" + VarType + ")" + VarName + ";\n");
         }
 
-        public string VarType;
-        public string VarName;
+        public readonly string VarType;
+        public readonly string VarName;
     }
 
     /// <summary>
@@ -79,10 +79,10 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.Variable(NameOfEntity) + " = " + Initialization + ";\n");
         }
 
-        public EntityType Type;
-        public string TypeOfEntity;
-        public string NameOfEntity;
-        public string Initialization; // only valid if Variable, only not null if initialization given
+        public readonly EntityType Type;
+        public readonly string TypeOfEntity;
+        public readonly string NameOfEntity;
+        public readonly string Initialization; // only valid if Variable, only not null if initialization given
     }
 
     /// <summary>
@@ -117,9 +117,9 @@ namespace de.unika.ipd.grGen.lgsp
                 VariableType, NamesOfEntities.Variable(VariableName), SourceExpression);
         }
 
-        public string VariableName;
-        public string VariableType;
-        public string SourceExpression;
+        public readonly string VariableName;
+        public readonly string VariableType;
+        public readonly string SourceExpression;
     }
 
     /// <summary>
@@ -250,12 +250,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public AdjustListHeadsTypes Type;
-        public string PatternElementName;
-        public bool IsNode; // node|edge - only valid if GraphElements
-        public string StartingPointNodeName; // only valid if IncidentEdges
-        public IncidentEdgeType IncidentType; // only valid if IncidentEdges
-        public bool Parallel;
+        public readonly AdjustListHeadsTypes Type;
+        public readonly string PatternElementName;
+        public readonly bool IsNode; // node|edge - only valid if GraphElements
+        public readonly string StartingPointNodeName; // only valid if IncidentEdges
+        public readonly IncidentEdgeType IncidentType; // only valid if IncidentEdges
+        public readonly bool Parallel;
     }
 
     /// <summary>
@@ -350,11 +350,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public ContinueOperationType Type;
-        public bool ReturnMatches; // only valid if ByReturn
-        public bool InParallelizedBody; // only valid if ByReturn
-        public string LabelName; // only valid if ByGoto
-        public bool ContinueAtParallelizedLoop; // only valid if ByContinue
+        public readonly ContinueOperationType Type;
+        public readonly bool ReturnMatches; // only valid if ByReturn
+        public readonly bool InParallelizedBody; // only valid if ByReturn
+        public readonly string LabelName; // only valid if ByGoto
+        public readonly bool ContinueAtParallelizedLoop; // only valid if ByContinue
     }
 
     /// <summary>
@@ -380,7 +380,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFormat("{0}: ;\n", LabelName);
         }
 
-        public string LabelName;
+        public readonly string LabelName;
         private static int labelId = 0;
     }
 
@@ -544,11 +544,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public RandomizeListHeadsTypes Type;
-        public string PatternElementName;
-        public bool IsNode; // node|edge - only valid if GraphElements
-        public string StartingPointNodeName; // only valid if IncidentEdges
-        public bool IsIncoming; // only valid if IncidentEdges
+        public readonly RandomizeListHeadsTypes Type;
+        public readonly string PatternElementName;
+        public readonly bool IsNode; // node|edge - only valid if GraphElements
+        public readonly string StartingPointNodeName; // only valid if IncidentEdges
+        public readonly bool IsIncoming; // only valid if IncidentEdges
     }
 
     /// <summary>
@@ -585,8 +585,8 @@ namespace de.unika.ipd.grGen.lgsp
                 NamesOfEntities.PatternpathMatch(PatternGraphName), MatchOfNestingPattern);
         }
 
-        string RulePatternClassName;
-        string PatternGraphName;
-        string MatchOfNestingPattern;
+        readonly string RulePatternClassName;
+        readonly string PatternGraphName;
+        readonly string MatchOfNestingPattern;
     }
 }

@@ -18,15 +18,15 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class SequenceComputationGenerator
     {
-        IGraphModel model;
+        readonly IGraphModel model;
 
-        SequenceCheckingEnvironmentCompiled env;
+        readonly SequenceCheckingEnvironmentCompiled env;
 
-        SequenceExpressionGenerator exprGen;
+        readonly SequenceExpressionGenerator exprGen;
 
-        SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper helper;
 
-        bool fireDebugEvents;
+        readonly bool fireDebugEvents;
 
 
         public SequenceComputationGenerator(IGraphModel model, SequenceCheckingEnvironmentCompiled env, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper helper, bool fireDebugEvents)

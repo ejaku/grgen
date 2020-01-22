@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// The C#-part responsible for generating the post-matches filters.
     /// </summary>
-    public class FilterGenerator
+    public static class FilterGenerator
     {
         public static void GenerateFilterStubs(SourceBuilder source, LGSPRulePattern rulePattern)
         {

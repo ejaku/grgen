@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////
 
-        SearchProgramBodyBuilder bodyBuilder;
+        readonly SearchProgramBodyBuilder bodyBuilder;
 
         /// <summary>
         /// type of the program which gets currently built

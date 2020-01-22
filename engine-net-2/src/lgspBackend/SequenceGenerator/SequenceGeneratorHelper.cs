@@ -21,11 +21,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class SequenceGeneratorHelper
     {
-        IGraphModel model;
+        readonly IGraphModel model;
 
-        public ActionsTypeInformation actionsTypeInformation;
+        public readonly ActionsTypeInformation actionsTypeInformation;
 
-        SequenceCheckingEnvironment env;
+        readonly SequenceCheckingEnvironment env;
 
         SequenceExpressionGenerator exprGen;
 

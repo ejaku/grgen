@@ -60,9 +60,9 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("matches.PositionWasFilledFixIt();\n");
         }
 
-        string RulePatternClassName;
-        string PatternName;
-        bool InParallelizedBody;
+        readonly string RulePatternClassName;
+        readonly string PatternName;
+        readonly bool InParallelizedBody;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -110,9 +110,9 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("currentFoundPartialMatch.Push(match);\n");
         }
 
-        string RulePatternClassName;
-        string PatternName;
-        bool IsIteratedNullMatch;
+        readonly string RulePatternClassName;
+        readonly string PatternName;
+        readonly bool IsIteratedNullMatch;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -224,10 +224,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        string RulePatternClassName;
-        string PatternName;
-        bool InParallelizedBody; 
-        PatternAndSubpatternsMatchedType Type;
+        readonly string RulePatternClassName;
+        readonly string PatternName;
+        readonly bool InParallelizedBody;
+        readonly PatternAndSubpatternsMatchedType Type;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -278,8 +278,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public NegativeIndependentPatternMatchedType Type;
-        public string NegativeIndependentNamePrefix;
+        public readonly NegativeIndependentPatternMatchedType Type;
+        public readonly string NegativeIndependentNamePrefix;
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public NegativeIndependentPatternMatchedType Type;
-        public string NegativeIndependentNamePrefix;
+        public readonly NegativeIndependentPatternMatchedType Type;
+        public readonly string NegativeIndependentNamePrefix;
     }
 }

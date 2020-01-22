@@ -45,7 +45,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// type of the program which gets currently built
         /// </summary>
-        private SearchProgramBodyBuilderHelperEnvironment env;
+        private readonly SearchProgramBodyBuilderHelperEnvironment env;
 
         /// <summary>
         /// name says everything

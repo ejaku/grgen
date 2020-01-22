@@ -93,12 +93,12 @@ namespace de.unika.ipd.grGen.lgsp
     [DebuggerDisplay("PlanNode {ToString()}")]
     public class PlanNode : PlanPseudoNode
     {
-        public PlanNodeType NodeType;
-        public List<PlanEdge> IncomingEdges = new List<PlanEdge>();
-        public int ElementID;
-        public bool IsPreset;
+        public readonly PlanNodeType NodeType;
+        public readonly List<PlanEdge> IncomingEdges = new List<PlanEdge>();
+        public readonly int ElementID;
+        public readonly bool IsPreset;
 
-        public PatternElement PatternElement; // the pattern element(node or edge) this plan node represents
+        public readonly PatternElement PatternElement; // the pattern element(node or edge) this plan node represents
 
         /// <summary>
         /// Only valid if this plan node is representing a pattern edge, 
@@ -197,8 +197,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Representative element of the cycle as entry point. Target of cheapest incoming edge.
         /// </summary>
-        public PlanPseudoNode Child;
-        public float minCycleEdgeCost;
+        public readonly PlanPseudoNode Child;
+        public readonly float minCycleEdgeCost;
 
         public PlanSuperNode(PlanPseudoNode cycleNode)
         {
@@ -300,9 +300,9 @@ namespace de.unika.ipd.grGen.lgsp
     [DebuggerDisplay("PlanEdge ({Source} -{Type}-> {Target} = {Cost})")]
     public class PlanEdge
     {
-        public PlanNode Target;
-        public float Cost;
-        public PlanNode Source;
+        public readonly PlanNode Target;
+        public readonly float Cost;
+        public readonly PlanNode Source;
 
         /// <summary>
         /// Cost used by the operation selection.
@@ -311,7 +311,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public float mstCost;
 
-        public SearchOperationType Type;
+        public readonly SearchOperationType Type;
 
         public PlanEdge(SearchOperationType type, PlanNode source, PlanNode target, float cost)
         {
@@ -330,9 +330,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class PlanGraph
     {
-        public PlanNode Root; // the root node of the plan graph
-        public PlanNode[] Nodes; // nodes of the plan graph without the root node, representing pattern elements
-        public PlanEdge[] Edges; // edges of the plan graph, representing search operations
+        public readonly PlanNode Root; // the root node of the plan graph
+        public readonly PlanNode[] Nodes; // nodes of the plan graph without the root node, representing pattern elements
+        public readonly PlanEdge[] Edges; // edges of the plan graph, representing search operations
 
         public PlanGraph(PlanNode root, PlanNode[] nodes, PlanEdge[] edges)
         {

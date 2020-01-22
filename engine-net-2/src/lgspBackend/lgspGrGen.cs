@@ -29,10 +29,10 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPGrGen
     {
-        private Dictionary<String, Assembly> loadedAssemblies = new Dictionary<string, Assembly>();
+        private readonly Dictionary<String, Assembly> loadedAssemblies = new Dictionary<string, Assembly>();
         private bool assemblyHandlerInstalled = false;
 
-        private ProcessSpecFlags flags;
+        private readonly ProcessSpecFlags flags;
 
         /// <summary>
         /// Constructs an LGSPGrGen object.

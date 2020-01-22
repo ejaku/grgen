@@ -641,46 +641,50 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(i == indexToSplitAt)
                 {
-                    SearchOperation cloneHead = (SearchOperation)so.Clone();
-                    headOperations.Add(cloneHead);
-                    SearchOperation cloneBody = (SearchOperation)so.Clone();
-                    cloneBody.Isomorphy.Parallel = true;
-                    bodyOperations.Add(cloneBody);
+                    SearchOperation cloneHead;
+                    SearchOperation cloneBody;
                     switch(so.Type)
                     {
-                        case SearchOperationType.Lookup:
-                            cloneHead.Type = SearchOperationType.SetupParallelLookup;
-                            cloneBody.Type = SearchOperationType.ParallelLookup;
-                            break;
-                        case SearchOperationType.Incident:
-                            cloneHead.Type = SearchOperationType.SetupParallelIncident;
-                            cloneBody.Type = SearchOperationType.ParallelIncident;
-                            break;
-                        case SearchOperationType.Incoming:
-                            cloneHead.Type = SearchOperationType.SetupParallelIncoming;
-                            cloneBody.Type = SearchOperationType.ParallelIncoming;
-                            break;
-                        case SearchOperationType.Outgoing:
-                            cloneHead.Type = SearchOperationType.SetupParallelOutgoing;
-                            cloneBody.Type = SearchOperationType.ParallelOutgoing;
-                            break;
-                        case SearchOperationType.PickFromStorage:
-                            cloneHead.Type = SearchOperationType.SetupParallelPickFromStorage;
-                            cloneBody.Type = SearchOperationType.ParallelPickFromStorage;
-                            break;
-                        case SearchOperationType.PickFromStorageDependent:
-                            cloneHead.Type = SearchOperationType.SetupParallelPickFromStorageDependent;
-                            cloneBody.Type = SearchOperationType.ParallelPickFromStorageDependent;
-                            break;
-                        case SearchOperationType.PickFromIndex:
-                            cloneHead.Type = SearchOperationType.SetupParallelPickFromIndex;
-                            cloneBody.Type = SearchOperationType.ParallelPickFromIndex;
-                            break;
-                        case SearchOperationType.PickFromIndexDependent:
-                            cloneHead.Type = SearchOperationType.SetupParallelPickFromIndexDependent;
-                            cloneBody.Type = SearchOperationType.ParallelPickFromIndexDependent;
-                            break;
+                    case SearchOperationType.Lookup:
+                        cloneHead = (SearchOperation)so.Clone(SearchOperationType.SetupParallelLookup);
+                        cloneBody = (SearchOperation)so.Clone(SearchOperationType.ParallelLookup);
+                        break;
+                    case SearchOperationType.Incident:
+                        cloneHead = (SearchOperation)so.Clone(SearchOperationType.SetupParallelIncident);
+                        cloneBody = (SearchOperation)so.Clone(SearchOperationType.ParallelIncident);
+                        break;
+                    case SearchOperationType.Incoming:
+                        cloneHead = (SearchOperation)so.Clone(SearchOperationType.SetupParallelIncoming);
+                        cloneBody = (SearchOperation)so.Clone(SearchOperationType.ParallelIncoming);
+                        break;
+                    case SearchOperationType.Outgoing:
+                        cloneHead = (SearchOperation)so.Clone(SearchOperationType.SetupParallelOutgoing);
+                        cloneBody = (SearchOperation)so.Clone(SearchOperationType.ParallelOutgoing);
+                        break;
+                    case SearchOperationType.PickFromStorage:
+                        cloneHead = (SearchOperation)so.Clone(SearchOperationType.SetupParallelPickFromStorage);
+                        cloneBody = (SearchOperation)so.Clone(SearchOperationType.ParallelPickFromStorage);
+                        break;
+                    case SearchOperationType.PickFromStorageDependent:
+                        cloneHead = (SearchOperation)so.Clone(SearchOperationType.SetupParallelPickFromStorageDependent);
+                        cloneBody = (SearchOperation)so.Clone(SearchOperationType.ParallelPickFromStorageDependent);
+                        break;
+                    case SearchOperationType.PickFromIndex:
+                        cloneHead = (SearchOperation)so.Clone(SearchOperationType.SetupParallelPickFromIndex);
+                        cloneBody = (SearchOperation)so.Clone(SearchOperationType.ParallelPickFromIndex);
+                        break;
+                    case SearchOperationType.PickFromIndexDependent:
+                        cloneHead = (SearchOperation)so.Clone(SearchOperationType.SetupParallelPickFromIndexDependent);
+                        cloneBody = (SearchOperation)so.Clone(SearchOperationType.ParallelPickFromIndexDependent);
+                        break;
+                    default: // failure, operation at this index cannot be parallelized/parallelization not supported
+                        cloneHead = null;
+                        cloneBody = null;
+                        break;
                     }
+                    headOperations.Add(cloneHead);
+                    cloneBody.Isomorphy.Parallel = true;
+                    bodyOperations.Add(cloneBody);
                 }
                 else
                 {

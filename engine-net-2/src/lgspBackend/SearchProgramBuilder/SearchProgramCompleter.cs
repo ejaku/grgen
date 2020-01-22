@@ -14,12 +14,12 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Class completing search programs
     /// </summary>
-    class SearchProgramCompleter
+    static class SearchProgramCompleter
     {
         /// <summary>
         /// Iterate all search programs to complete check operations within each one
         /// </summary>
-        public void CompleteCheckOperationsInAllSearchPrograms(
+        public static void CompleteCheckOperationsInAllSearchPrograms(
             SearchProgram searchProgram)
         {
             do
@@ -46,7 +46,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// - insert remove isomorphy opertions needed for continuing there
         /// - insert continuing operation itself
         /// </summary>
-        private void CompleteCheckOperations(
+        private static void CompleteCheckOperations(
             SearchProgramOperation currentOperation,
             SearchProgramOperation enclosingSearchProgram, // might be a negative/independent in case these are nested
             AlternativeCaseMatching enclosingAlternativeCase,
@@ -335,7 +335,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// so that next searching starts there - performance optimization
         /// (leave graph in the state of our last visit (searching it))
         /// </summary>
-        private void MoveOutwardsAppendingListHeadAdjustment(
+        private static void MoveOutwardsAppendingListHeadAdjustment(
             CheckContinueMatchingMaximumMatchesReached checkMaximumMatches,
             bool inParallelizedBody)
         {
@@ -410,7 +410,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// appending restore isomorphy for isomorphy written on the way
         /// and final jump to operation to continue at
         /// </summary>
-        private void MoveOutwardsAppendingRemoveIsomorphyAndJump(
+        private static void MoveOutwardsAppendingRemoveIsomorphyAndJump(
             CheckOperation checkOperation,
             string[] neededElementsForCheckOperation,
             SearchProgramOperation outermostOperation,
@@ -575,7 +575,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// appending restore isomorphy for isomorphy written on the way
         /// and final jump to operation right after the independent failed operation of the check partial match by independent
         /// </summary>
-        private void MoveRightAfterCorrespondingIndependentFailedAppendingRemoveIsomorphyAndJump(
+        private static void MoveRightAfterCorrespondingIndependentFailedAppendingRemoveIsomorphyAndJump(
             CheckContinueMatchingOfIndependentSucceeded checkSucceeded,
             CheckPartialMatchByIndependent enclosingIndependent,
             SearchProgram topLevelSearchProgram)
@@ -617,7 +617,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// appending restore isomorphy at insertion point for isomorphy written on the way
         /// returns operation to continue at
         /// </summary>
-        private SearchProgramOperation MoveOutwardsAppendingRemoveIsomorphy(
+        private static SearchProgramOperation MoveOutwardsAppendingRemoveIsomorphy(
             SearchProgramOperation startingPoint,
             ref SearchProgramOperation insertionPoint,
             string[] neededElementsForCheckOperation,

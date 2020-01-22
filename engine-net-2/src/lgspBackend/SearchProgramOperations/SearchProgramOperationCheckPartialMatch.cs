@@ -27,6 +27,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class CheckPartialMatchByNegativeOrIndependent : CheckPartialMatch
     {
+        public CheckPartialMatchByNegativeOrIndependent(string[] neededElements)
+        {
+            NeededElements = neededElements;
+        }
+
         public override bool IsSearchNestingOperation()
         {
             return true;
@@ -37,7 +42,7 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        public string[] NeededElements;
+        public readonly string[] NeededElements;
 
         // search program of the negative/independent pattern
         public SearchProgramList NestedOperationsList;
@@ -49,8 +54,8 @@ namespace de.unika.ipd.grGen.lgsp
     class CheckPartialMatchByNegative : CheckPartialMatchByNegativeOrIndependent
     {
         public CheckPartialMatchByNegative(string[] neededElements)
+            : base(neededElements)
         {
-            NeededElements = neededElements;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -98,8 +103,8 @@ namespace de.unika.ipd.grGen.lgsp
     class CheckPartialMatchByIndependent : CheckPartialMatchByNegativeOrIndependent
     {
         public CheckPartialMatchByIndependent(string[] neededElements)
+            : base(neededElements)
         {
-            NeededElements = neededElements;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -220,10 +225,10 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string ConditionExpression;
-        public string[] NeededElements;
-        public bool[] NeededElementIsNode;
-        public string[] NeededVariables;
+        public readonly string ConditionExpression;
+        public readonly string[] NeededElements;
+        public readonly bool[] NeededElementIsNode;
+        public readonly string[] NeededVariables;
     }
 
     /// <summary>
@@ -266,7 +271,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string NegativeIndependentNamePrefix;
+        public readonly string NegativeIndependentNamePrefix;
     }
 
     /// <summary>
@@ -397,11 +402,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public string RulePatternClassName;
-        public string PatternName;
-        public string[] NeededElements;
-        public string[] MatchObjectPaths;
-        public string[] NeededElementsUnprefixedName;
-        public bool[] NeededElementsIsNode;
+        public readonly string RulePatternClassName;
+        public readonly string PatternName;
+        public readonly string[] NeededElements;
+        public readonly string[] MatchObjectPaths;
+        public readonly string[] NeededElementsUnprefixedName;
+        public readonly bool[] NeededElementsIsNode;
     }
 }

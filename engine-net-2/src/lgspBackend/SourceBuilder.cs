@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class SourceBuilder
     {
-        StringBuilder builder;
+        readonly StringBuilder builder;
         String indentation = "";
 
         /// <summary>

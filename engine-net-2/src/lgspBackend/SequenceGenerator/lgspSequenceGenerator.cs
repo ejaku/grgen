@@ -36,20 +36,20 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPSequenceGenerator
     {
-        IGraphModel model;
+        readonly IGraphModel model;
 
-        SequenceCheckingEnvironmentCompiled env;
+        readonly SequenceCheckingEnvironmentCompiled env;
 
-        NeededEntitiesEmitter neededEntitiesEmitter;
+        readonly NeededEntitiesEmitter neededEntitiesEmitter;
 
-        SequenceGenerator seqGen;
+        readonly SequenceGenerator seqGen;
 
-        SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper helper;
 
-        ActionNames actionNames;
+        readonly ActionNames actionNames;
 
-        bool fireDebugEvents;
-        bool emitProfiling;
+        readonly bool fireDebugEvents;
+        readonly bool emitProfiling;
 
 
         public LGSPSequenceGenerator(IGraphModel model, ActionsTypeInformation actionsTypeInformation,

@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The model for which the matcher functions shall be generated.
         /// </summary>
-        private IGraphModel model;
+        private readonly IGraphModel model;
 
         /// <summary>
         /// If true, the generated matcher functions are commented to improve understanding the source code.
@@ -1075,8 +1075,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // complete pass: complete check operations in all search programs
-            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
-            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgramRoot);
+            SearchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgramRoot);
 
 #if DUMP_SEARCHPROGRAMS
             // dump completed search program for debugging
@@ -1141,8 +1140,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // complete pass: complete check operations in all search programs
-            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
-            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgramRoot);
+            SearchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgramRoot);
 
 #if DUMP_SEARCHPROGRAMS
             // dump completed search program for debugging
@@ -1174,8 +1172,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // complete pass: complete check operations in all search programs
-            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
-            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
+            SearchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
 
 #if DUMP_SEARCHPROGRAMS
             // dump completed search program for debugging
@@ -1210,8 +1207,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // complete pass: complete check operations in all search programs
-            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
-            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
+            SearchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
 
 #if DUMP_SEARCHPROGRAMS
             // dump completed search program for debugging
@@ -1243,8 +1239,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // complete pass: complete check operations in all search programs
-            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
-            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
+            SearchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
 
 #if DUMP_SEARCHPROGRAMS
             // dump completed search program for debugging
@@ -1279,8 +1274,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // complete pass: complete check operations in all search programs
-            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
-            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
+            SearchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
 
 #if DUMP_SEARCHPROGRAMS
             // dump completed search program for debugging

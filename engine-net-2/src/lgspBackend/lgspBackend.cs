@@ -27,9 +27,9 @@ namespace de.unika.ipd.grGen.lgsp
     {
         private static int modelID = 0;
         private static int graphID = 0;
-        private Dictionary<String, Assembly> loadedAssemblies = new Dictionary<string, Assembly>(); // TODO: usage? besides help during debugging
+        private readonly Dictionary<String, Assembly> loadedAssemblies = new Dictionary<string, Assembly>(); // TODO: usage? besides help during debugging
         private bool assemblyHandlerInstalled = false;
-        private static char[] dirSepChars = new char[] { '/', '\\' };
+        private static readonly char[] dirSepChars = new char[] { '/', '\\' };
 
         private static LGSPBackend instance;
         public static LGSPBackend Instance { get { if(instance == null) instance = new LGSPBackend(); return instance; } }

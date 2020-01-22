@@ -17,6 +17,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class CheckCandidate : CheckOperation
     {
+        public CheckCandidate(string patternElementName)
+        {
+            PatternElementName = patternElementName;
+        }
+
         public string PatternElementName;
     }
 
@@ -40,10 +45,10 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string rulePatternTypeNameOrTypeName,
             bool isNode)
+        : base(patternElementName)
         {
             Debug.Assert(type == CheckCandidateForTypeType.ByIsMyType);
             Type = type;
-            PatternElementName = patternElementName;
             TypeName = rulePatternTypeNameOrTypeName;
             IsNode = isNode;
         }
@@ -54,10 +59,10 @@ namespace de.unika.ipd.grGen.lgsp
             string rulePatternTypeNameOrTypeName,
             string isAllowedArrayName,
             bool isNode)
+        : base(patternElementName)
         {
             Debug.Assert(type == CheckCandidateForTypeType.ByIsAllowedType);
             Type = type;
-            PatternElementName = patternElementName;
             RulePatternTypeName = rulePatternTypeNameOrTypeName;
             IsAllowedArrayName = isAllowedArrayName;
             IsNode = isNode;
@@ -68,10 +73,10 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string[] typeIDs,
             bool isNode)
+        : base(patternElementName)
         {
             Debug.Assert(type == CheckCandidateForTypeType.ByTypeID);
             Type = type;
-            PatternElementName = patternElementName;
             TypeIDs = (string[])typeIDs.Clone();
             IsNode = isNode;
         }
@@ -142,12 +147,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public CheckCandidateForTypeType Type;
+        public readonly CheckCandidateForTypeType Type;
 
-        public string RulePatternTypeName; // only valid if ByIsAllowedType
-        public string IsAllowedArrayName; // only valid if ByIsAllowedType
-        public string TypeName; // only valid if ByIsMyType
-        public string[] TypeIDs; // only valid if ByTypeID
+        public readonly string RulePatternTypeName; // only valid if ByIsAllowedType
+        public readonly string IsAllowedArrayName; // only valid if ByIsAllowedType
+        public readonly string TypeName; // only valid if ByIsMyType
+        public readonly string[] TypeIDs; // only valid if ByTypeID
 
         public bool IsNode; // node|edge
     }
@@ -160,8 +165,8 @@ namespace de.unika.ipd.grGen.lgsp
         public CheckCandidateForIdentity(
             string patternElementName,
             string otherPatternElementName)
+        : base(patternElementName)
         {
-            PatternElementName = patternElementName;
             OtherPatternElementName = otherPatternElementName;
         }
 
@@ -196,7 +201,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string OtherPatternElementName;
+        public readonly string OtherPatternElementName;
     }
 
     /// <summary>
@@ -205,6 +210,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckCandidateFailed : CheckCandidate
     {
+        public CheckCandidateFailed()
+            : base(null)
+        {
+        }
+
         public override void Dump(SourceBuilder builder)
         {
             // first dump check
@@ -249,11 +259,10 @@ namespace de.unika.ipd.grGen.lgsp
             string patternNodeName,
             string patternEdgeName,
             CheckCandidateForConnectednessType connectednessType)
+        : base(patternElementName) // pattern element is the candidate to check, either node or edge
         {
             Debug.Assert(connectednessType != CheckCandidateForConnectednessType.TheOther);
 
-            // pattern element is the candidate to check, either node or edge
-            PatternElementName = patternElementName;
             PatternNodeName = patternNodeName;
             PatternEdgeName = patternEdgeName;
             ConnectednessType = connectednessType;
@@ -265,11 +274,10 @@ namespace de.unika.ipd.grGen.lgsp
             string patternEdgeName,
             string theOtherPatternNodeName,
             CheckCandidateForConnectednessType connectednessType)
+        : base(patternElementName) // pattern element is the candidate to check, either node or edge
         {
             Debug.Assert(connectednessType == CheckCandidateForConnectednessType.TheOther);
 
-            // pattern element is the candidate to check, either node or edge
-            PatternElementName = patternElementName;
             PatternNodeName = patternNodeName;
             PatternEdgeName = patternEdgeName;
             TheOtherPatternNodeName = theOtherPatternNodeName;
@@ -332,10 +340,10 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string PatternNodeName;
-        public string PatternEdgeName;
-        public string TheOtherPatternNodeName; // only valid if ConnectednessType==TheOther
-        public CheckCandidateForConnectednessType ConnectednessType;
+        public readonly string PatternNodeName;
+        public readonly string PatternEdgeName;
+        public readonly string TheOtherPatternNodeName; // only valid if ConnectednessType==TheOther
+        public readonly CheckCandidateForConnectednessType ConnectednessType;
     }
 
     /// <summary>
@@ -353,8 +361,8 @@ namespace de.unika.ipd.grGen.lgsp
             bool neverAboveMaxIsoSpace,
             bool parallel,
             bool lockForAllThreads)
+        : base(patternElementName)
         {
-            PatternElementName = patternElementName;
             NamesOfPatternElementsToCheckAgainst = namesOfPatternElementsToCheckAgainst;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
@@ -499,12 +507,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public List<string> NamesOfPatternElementsToCheckAgainst;
-        public string NegativeIndependentNamePrefix; // "" if top-level
-        public bool IsNode; // node|edge
-        public bool NeverAboveMaxIsoSpace;
-        public bool Parallel;
-        public bool LockForAllThreads;
+        public readonly List<string> NamesOfPatternElementsToCheckAgainst;
+        public readonly string NegativeIndependentNamePrefix; // "" if top-level
+        public readonly bool IsNode; // node|edge
+        public readonly bool NeverAboveMaxIsoSpace;
+        public readonly bool Parallel;
+        public readonly bool LockForAllThreads;
     }
 
     /// <summary>
@@ -520,8 +528,8 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode,
             bool neverAboveMaxIsoSpace,
             bool parallel)
+        : base(patternElementName)
         {
-            PatternElementName = patternElementName;
             GloballyHomomorphElements = globallyHomomorphElements;
             IsNode = isNode;
             NeverAboveMaxIsoSpace = neverAboveMaxIsoSpace;
@@ -622,10 +630,10 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public List<string> GloballyHomomorphElements;
-        public bool IsNode; // node|edge
-        public bool NeverAboveMaxIsoSpace;
-        public bool Parallel;
+        public readonly List<string> GloballyHomomorphElements;
+        public readonly bool IsNode; // node|edge
+        public readonly bool NeverAboveMaxIsoSpace;
+        public readonly bool Parallel;
     }
 
     /// <summary>
@@ -639,8 +647,8 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode,
             bool always,
             string lastMatchAtPreviousNestingLevel)
+        : base(patternElementName)
         {
-            PatternElementName = patternElementName;
             IsNode = isNode;
             Always = always;
             LastMatchAtPreviousNestingLevel = lastMatchAtPreviousNestingLevel;
@@ -690,9 +698,9 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public bool IsNode; // node|edge
-        public bool Always; // have a look at searchPatternpath or search always
-        string LastMatchAtPreviousNestingLevel;
+        public readonly bool IsNode; // node|edge
+        public readonly bool Always; // have a look at searchPatternpath or search always
+        readonly string LastMatchAtPreviousNestingLevel;
     }
 
     /// <summary>
@@ -706,8 +714,8 @@ namespace de.unika.ipd.grGen.lgsp
             string storageName,
             string storageKeyTypeName,
             bool isNode)
+        : base(patternElementName)
         {
-            PatternElementName = patternElementName;
             SourcePatternElementName = sourcePatternElementName;
             StorageName = storageName;
             StorageKeyTypeName = storageKeyTypeName;
@@ -756,10 +764,10 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, typeOfVariableContainingCandidate, tempVariableForMapResult);
         }
 
-        public string SourcePatternElementName;
-        public string StorageName;
-        public string StorageKeyTypeName;
-        bool IsNode;
+        public readonly string SourcePatternElementName;
+        public readonly string StorageName;
+        public readonly string StorageKeyTypeName;
+        readonly bool IsNode;
     }
 
     /// <summary>
@@ -770,8 +778,8 @@ namespace de.unika.ipd.grGen.lgsp
         public CheckCandidateMapByName(
             string patternElementName,
             bool isNode)
+        : base(patternElementName)
         {
-            PatternElementName = patternElementName;
             IsNode = isNode;
         }
 
@@ -813,7 +821,7 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, typeOfVariableContainingCandidate, tempVariableForMapResult);
         }
 
-        bool IsNode;
+        readonly bool IsNode;
     }
 
     /// <summary>
@@ -824,8 +832,8 @@ namespace de.unika.ipd.grGen.lgsp
         public CheckCandidateMapByUnique(
             string patternElementName,
             bool isNode)
+        : base(patternElementName)
         {
-            PatternElementName = patternElementName;
             IsNode = isNode;
         }
 
@@ -867,6 +875,6 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, typeOfVariableContainingCandidate, tempVariableForUniqueResult);
         }
 
-        bool IsNode;
+        readonly bool IsNode;
     }
 }

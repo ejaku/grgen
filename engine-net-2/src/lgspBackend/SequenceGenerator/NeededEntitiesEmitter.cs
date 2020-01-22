@@ -18,12 +18,12 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class NeededEntitiesEmitter
     {
-        SequenceComputationGenerator compGen;
+        readonly SequenceComputationGenerator compGen;
 
-        SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper helper;
 
         // set of the used rules (if contained, a variable was created for easy access to them, once)
-		Dictionary<String, object> knownRules = new Dictionary<string, object>();
+        readonly Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
 
         public NeededEntitiesEmitter(SequenceComputationGenerator compGen, SequenceGeneratorHelper helper)

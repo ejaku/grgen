@@ -85,10 +85,10 @@ namespace de.unika.ipd.grGen.lgsp
             return OperationsList;
         }
 
-        public string PathPrefix;
-        public string CaseName;
-        public string RulePatternClassName;
-        public bool WasIndependentInlined;
+        public readonly string PathPrefix;
+        public readonly string CaseName;
+        public readonly string RulePatternClassName;
+        public readonly bool WasIndependentInlined;
 
         public SearchProgramList OperationsList;
     }
@@ -258,10 +258,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public bool SetupSubpatternMatching;
-        public string NegativeIndependentNamePrefix;
-        public bool NeverAboveMaxIsoSpace;
-        public bool Parallel;
+        public readonly bool SetupSubpatternMatching;
+        public readonly string NegativeIndependentNamePrefix;
+        public readonly bool NeverAboveMaxIsoSpace;
+        public readonly bool Parallel;
     }
 
     /// <summary>
@@ -318,7 +318,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("--isoSpace;\n");
         }
 
-        public bool NeverAboveMaxIsoSpace;
-        public bool Parallel;
+        public readonly bool NeverAboveMaxIsoSpace;
+        public readonly bool Parallel;
     }
 }

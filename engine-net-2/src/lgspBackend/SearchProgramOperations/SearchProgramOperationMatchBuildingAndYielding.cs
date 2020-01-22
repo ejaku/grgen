@@ -92,12 +92,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string RulePatternClassName;
-        public string PatternName;
-        public string[] NeededElements;
-        public string[] NeededElementsUnprefixedName;
-        public bool[] NeededElementsIsNode;
-        public bool ParallelizedAction;
+        public readonly string RulePatternClassName;
+        public readonly string PatternName;
+        public readonly string[] NeededElements;
+        public readonly string[] NeededElementsUnprefixedName;
+        public readonly bool[] NeededElementsIsNode;
+        public readonly bool ParallelizedAction;
     }
 
     /// <summary>
@@ -130,10 +130,10 @@ namespace de.unika.ipd.grGen.lgsp
                 MatchName, MatchOfEnclosingPatternName);
         }
 
-        string RulePatternClassName;
-        string PatternName;
-        string MatchName;
-        string MatchOfEnclosingPatternName;
+        readonly string RulePatternClassName;
+        readonly string PatternName;
+        readonly string MatchName;
+        readonly string MatchOfEnclosingPatternName;
     }
 
     /// <summary>
@@ -279,15 +279,15 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public BuildMatchObjectType Type;
-        public string PatternElementType;
-        public string PatternElementUnprefixedName;
-        public string PatternElementName;
-        public string RulePatternClassName;
-        public string MatchClassName;
-        public string PathPrefixForEnum;
-        public string MatchObjectName;
-        public int NumSubpatterns;
+        public readonly BuildMatchObjectType Type;
+        public readonly string PatternElementType;
+        public readonly string PatternElementUnprefixedName;
+        public readonly string PatternElementName;
+        public readonly string RulePatternClassName;
+        public readonly string MatchClassName;
+        public readonly string PathPrefixForEnum;
+        public readonly string MatchObjectName;
+        public readonly int NumSubpatterns;
     }
 
     /// <summary>
@@ -323,10 +323,10 @@ namespace de.unika.ipd.grGen.lgsp
                 targetPatternElement, NestedMatchObjectName, sourcePatternElement);
         }
 
-        EntityType Type;
-        string TargetPatternElementName;
-        string NestedMatchObjectName;
-        string SourcePatternElementUnprefixedName;
+        readonly EntityType Type;
+        readonly string TargetPatternElementName;
+        readonly string NestedMatchObjectName;
+        readonly string SourcePatternElementUnprefixedName;
     }
 
     /// <summary>
@@ -374,7 +374,7 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        string NestedMatchObjectName;
+        readonly string NestedMatchObjectName;
 
         public SearchProgramList NestedOperationsList;
     }
@@ -428,9 +428,9 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        string NestedMatchObjectName;
-        string IteratedMatchTypeName;
-        string HelperMatchName;
+        readonly string NestedMatchObjectName;
+        readonly string IteratedMatchTypeName;
+        readonly string HelperMatchName;
 
         public SearchProgramList NestedOperationsList;
     }
@@ -489,11 +489,11 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        string MatchObjectName;
-        string NestedMatchObjectName;
-        string AlternativeCaseMatchTypeName;
-        string HelperMatchName;
-        bool First;
+        readonly string MatchObjectName;
+        readonly string NestedMatchObjectName;
+        readonly string AlternativeCaseMatchTypeName;
+        readonly string HelperMatchName;
+        readonly bool First;
 
         public SearchProgramList NestedOperationsList;
     }
@@ -518,7 +518,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFrontFormat("{0}", Yielding);
         }
 
-        string Yielding;
+        readonly string Yielding;
     }
 
     /// <summary>
@@ -566,7 +566,7 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        string Name;
+        readonly string Name;
 
         public SearchProgramList NestedOperationsList;
     }
@@ -611,6 +611,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public bool OnlyIfMatchWasFound;
+        public readonly bool OnlyIfMatchWasFound;
     }
 }

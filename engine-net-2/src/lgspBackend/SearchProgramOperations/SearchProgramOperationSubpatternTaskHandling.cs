@@ -186,21 +186,21 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFrontFormat("{0}openTasks.Push({1});\n", NegativeIndependentNamePrefix, variableContainingTask);
         }
 
-        public PushAndPopSubpatternTaskTypes Type;
-        public string SubpatternName; // only valid if Type==Subpattern
-        public string SubpatternElementName; // only valid if Type==Subpattern
-        string PathPrefix; // only valid if Type==Alternative|Iterated
-        string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
-        string RulePatternClassName; // only valid if Type==Alternative|Iterated
-        string PathPrefixInRulePatternClass; // only valid if Type==Alternative
-        string AlternativeNameInRulePatternClass; // only valid if Type==Alternative
-        public string[] ConnectionName;
-        public string[] ArgumentExpressions;
-        public string NegativeIndependentNamePrefix;
-        public string SearchPatternpath;
-        public string MatchOfNestingPattern;
-        public string LastMatchAtPreviousNestingLevel;
-        public bool Parallel;
+        public readonly PushAndPopSubpatternTaskTypes Type;
+        public readonly string SubpatternName; // only valid if Type==Subpattern
+        public readonly string SubpatternElementName; // only valid if Type==Subpattern
+        readonly string PathPrefix; // only valid if Type==Alternative|Iterated
+        readonly string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
+        readonly string RulePatternClassName; // only valid if Type==Alternative|Iterated
+        readonly string PathPrefixInRulePatternClass; // only valid if Type==Alternative
+        readonly string AlternativeNameInRulePatternClass; // only valid if Type==Alternative
+        public readonly string[] ConnectionName;
+        public readonly string[] ArgumentExpressions;
+        public readonly string NegativeIndependentNamePrefix;
+        public readonly string SearchPatternpath;
+        public readonly string MatchOfNestingPattern;
+        public readonly string LastMatchAtPreviousNestingLevel;
+        public readonly bool Parallel;
     }
 
     /// <summary>
@@ -274,13 +274,13 @@ namespace de.unika.ipd.grGen.lgsp
                 typeOfVariableContainingTask, variableContainingTask, parallelizationThreadId);
         }
 
-        public PushAndPopSubpatternTaskTypes Type;
-        public string SubpatternName; // only valid if Type==Subpattern
-        public string SubpatternElementName; // only valid if Type==Subpattern
-        public string PathPrefix; // only valid if Type==Alternative|Iterated
-        public string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
-        public string NegativeIndependentNamePrefix;
-        public bool Parallel;
+        public readonly PushAndPopSubpatternTaskTypes Type;
+        public readonly string SubpatternName; // only valid if Type==Subpattern
+        public readonly string SubpatternElementName; // only valid if Type==Subpattern
+        public readonly string PathPrefix; // only valid if Type==Alternative|Iterated
+        public readonly string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
+        public readonly string NegativeIndependentNamePrefix;
+        public readonly bool Parallel;
     }
 
     /// <summary>
@@ -319,8 +319,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public string NegativeIndependentNamePrefix;
-        public bool Parallelized;
+        public readonly string NegativeIndependentNamePrefix;
+        public readonly bool Parallelized;
     }
 
     /// <summary>
@@ -378,7 +378,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public InitializeFinalizeSubpatternMatchingType Type;
+        public readonly InitializeFinalizeSubpatternMatchingType Type;
     }
 
     /// <summary>
@@ -415,6 +415,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        InitializeFinalizeSubpatternMatchingType Type;
+        readonly InitializeFinalizeSubpatternMatchingType Type;
     }
 }

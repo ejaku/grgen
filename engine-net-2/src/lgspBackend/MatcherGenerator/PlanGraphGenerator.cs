@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Class for generating a plan graph out of a pattern graph.
     /// </summary>
-    public class PlanGraphGenerator
+    public static class PlanGraphGenerator
     {
         /// <summary>
         /// Generate plan graph for given pattern graph with costs from the analyzed host graph.

@@ -18,6 +18,11 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class GetCandidate : SearchProgramOperation
     {
+        public GetCandidate(string patternElementName)
+        {
+            PatternElementName = patternElementName;
+        }
+
         public string PatternElementName;
     }
 
@@ -71,10 +76,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.GraphElements);
             Type = type;
-            PatternElementName = patternElementName;
             IsNode = isNode;
             Parallel = parallel;
             EmitProfiling = emitProfiling;
@@ -93,10 +98,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageElements);
             Type = type;
-            PatternElementName = patternElementName;
             StorageName = storageName;
             IterationType = storageIterationType;
             IsDict = isDict;
@@ -120,10 +125,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
             Type = type;
-            PatternElementName = patternElementName;
             StorageOwnerName = storageOwnerName;
             StorageOwnerTypeName = storageOwnerTypeName;
             StorageAttributeName = storageAttributeName;
@@ -149,10 +154,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
             Type = type;
-            PatternElementName = patternElementName;
             IndexName = indexName;
             IterationType = indexIterationType;
             IndexSetType = indexSetType;
@@ -182,10 +187,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
             Type = type;
-            PatternElementName = patternElementName;
             IndexName = indexName;
             IterationType = indexIterationType;
             IndexSetType = indexSetType;
@@ -211,10 +216,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
             Type = type;
-            PatternElementName = patternElementName;
             StartingPointNodeName = startingPointNodeName;
             EdgeType = edgeType;
             Parallel = parallel;
@@ -621,28 +626,28 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        public GetCandidateByIterationType Type;
-        public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements|IndexElements
-        public bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
-        public string StorageName; // only available if StorageElements
-        public string StorageOwnerName; // only available if StorageAttributeElements
-        public string StorageOwnerTypeName; // only available if StorageAttributeElements
-        public string StorageAttributeName; // only available if StorageAttributeElements
-        public string IterationType; // only available if StorageElements|StorageAttributeElements|IndexElements
-        public string IndexName; // only available if IndexElements
-        public string IndexSetType; // only available if IndexElements
-        public IndexAccessType IndexAccessType; // only available if IndexElements
-        public string IndexEqual; // only available if IndexElements
-        public string IndexFrom; // only available if IndexElements
-        public bool IndexFromIncluded; // only available if IndexElements
-        public string IndexTo; // only available if IndexElements
-        public bool IndexToIncluded; // only available if IndexElements
-        public string StartingPointNodeName; // from pattern - only available if IncidentEdges
-        public IncidentEdgeType EdgeType; // only available if IncidentEdges
-        public bool Parallel;
-        public bool EmitProfiling;
-        public string PackagePrefixedActionName;
-        public bool EmitFirstLoopProfiling;
+        public readonly GetCandidateByIterationType Type;
+        public readonly bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements|IndexElements
+        public readonly bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
+        public readonly string StorageName; // only available if StorageElements
+        public readonly string StorageOwnerName; // only available if StorageAttributeElements
+        public readonly string StorageOwnerTypeName; // only available if StorageAttributeElements
+        public readonly string StorageAttributeName; // only available if StorageAttributeElements
+        public readonly string IterationType; // only available if StorageElements|StorageAttributeElements|IndexElements
+        public readonly string IndexName; // only available if IndexElements
+        public readonly string IndexSetType; // only available if IndexElements
+        public readonly IndexAccessType IndexAccessType; // only available if IndexElements
+        public readonly string IndexEqual; // only available if IndexElements
+        public readonly string IndexFrom; // only available if IndexElements
+        public readonly bool IndexFromIncluded; // only available if IndexElements
+        public readonly string IndexTo; // only available if IndexElements
+        public readonly bool IndexToIncluded; // only available if IndexElements
+        public readonly string StartingPointNodeName; // from pattern - only available if IncidentEdges
+        public readonly IncidentEdgeType EdgeType; // only available if IncidentEdges
+        public readonly bool Parallel;
+        public readonly bool EmitProfiling;
+        public readonly string PackagePrefixedActionName;
+        public readonly bool EmitFirstLoopProfiling;
 
         public SearchProgramList NestedOperationsList;
     }
@@ -660,10 +665,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.GraphElements);
             Type = type;
-            PatternElementName = patternElementName;
             IsNode = isNode;
             EmitProfiling = emitProfiling;
             PackagePrefixedActionName = packagePrefixedActionName;
@@ -680,10 +685,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageElements);
             Type = type;
-            PatternElementName = patternElementName;
             StorageName = storageName;
             IterationType = storageIterationType;
             IsDict = isDict;
@@ -705,10 +710,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
             Type = type;
-            PatternElementName = patternElementName;
             StorageOwnerName = storageOwnerName;
             StorageOwnerTypeName = storageOwnerTypeName;
             StorageAttributeName = storageAttributeName;
@@ -732,10 +737,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
             Type = type;
-            PatternElementName = patternElementName;
             IndexName = indexName;
             IterationType = indexIterationType;
             IndexSetType = indexSetType;
@@ -763,10 +768,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
             Type = type;
-            PatternElementName = patternElementName;
             IndexName = indexName;
             IterationType = indexIterationType;
             IndexSetType = indexSetType;
@@ -790,10 +795,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
             Type = type;
-            PatternElementName = patternElementName;
             StartingPointNodeName = startingPointNodeName;
             EdgeType = edgeType;
             EmitProfiling = emitProfiling;
@@ -1251,27 +1256,27 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        public GetCandidateByIterationType Type;
-        public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
-        public bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
-        public string StorageName; // only available if StorageElements
-        public string StorageOwnerName; // only available if StorageAttributeElements
-        public string StorageOwnerTypeName; // only available if StorageAttributeElements
-        public string StorageAttributeName; // only available if StorageAttributeElements
-        public string IterationType; // only available if StorageElements|StorageAttributeElements
-        public string IndexName; // only available if IndexElements
-        public string IndexSetType; // only available if IndexElements
-        public IndexAccessType IndexAccessType; // only available if IndexElements
-        public string IndexEqual; // only available if IndexElements
-        public string IndexFrom; // only available if IndexElements
-        public bool IndexFromIncluded; // only available if IndexElements
-        public string IndexTo; // only available if IndexElements
-        public bool IndexToIncluded; // only available if IndexElements
-        public string StartingPointNodeName; // from pattern - only available if IncidentEdges
-        public IncidentEdgeType EdgeType; // only available if IncidentEdges
-        public bool EmitProfiling;
-        public string PackagePrefixedActionName;
-        public bool EmitFirstLoopProfiling;
+        public readonly GetCandidateByIterationType Type;
+        public readonly bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
+        public readonly bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
+        public readonly string StorageName; // only available if StorageElements
+        public readonly string StorageOwnerName; // only available if StorageAttributeElements
+        public readonly string StorageOwnerTypeName; // only available if StorageAttributeElements
+        public readonly string StorageAttributeName; // only available if StorageAttributeElements
+        public readonly string IterationType; // only available if StorageElements|StorageAttributeElements
+        public readonly string IndexName; // only available if IndexElements
+        public readonly string IndexSetType; // only available if IndexElements
+        public readonly IndexAccessType IndexAccessType; // only available if IndexElements
+        public readonly string IndexEqual; // only available if IndexElements
+        public readonly string IndexFrom; // only available if IndexElements
+        public readonly bool IndexFromIncluded; // only available if IndexElements
+        public readonly string IndexTo; // only available if IndexElements
+        public readonly bool IndexToIncluded; // only available if IndexElements
+        public readonly string StartingPointNodeName; // from pattern - only available if IncidentEdges
+        public readonly IncidentEdgeType EdgeType; // only available if IncidentEdges
+        public readonly bool EmitProfiling;
+        public readonly string PackagePrefixedActionName;
+        public readonly bool EmitFirstLoopProfiling;
 
         public SearchProgramList NestedOperationsList;
     }
@@ -1294,10 +1299,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.GraphElements);
             Type = type;
-            PatternElementName = patternElementName;
             IsNode = isNode;
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
@@ -1323,10 +1328,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageElements);
             Type = type;
-            PatternElementName = patternElementName;
             StorageName = storageName;
             IterationType = storageIterationType;
             IsDict = isDict;
@@ -1356,10 +1361,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
             Type = type;
-            PatternElementName = patternElementName;
             StorageOwnerName = storageOwnerName;
             StorageOwnerTypeName = storageOwnerTypeName;
             StorageAttributeName = storageAttributeName;
@@ -1391,10 +1396,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
             Type = type;
-            PatternElementName = patternElementName;
             IndexName = indexName;
             IterationType = indexIterationType;
             IndexSetType = indexSetType;
@@ -1430,10 +1435,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IndexElements);
             Type = type;
-            PatternElementName = patternElementName;
             IndexName = indexName;
             IterationType = indexIterationType;
             IndexSetType = indexSetType;
@@ -1466,10 +1471,10 @@ namespace de.unika.ipd.grGen.lgsp
             bool emitProfiling,
             string packagePrefixedActionName,
             bool emitFirstLoopProfiling)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
             Type = type;
-            PatternElementName = patternElementName;
             StartingPointNodeName = startingPointNodeName;
             EdgeType = edgeType;
             RulePatternClassName = rulePatternClassName;
@@ -1993,32 +1998,32 @@ namespace de.unika.ipd.grGen.lgsp
             return null;
         }
 
-        public GetCandidateByIterationType Type;
-        public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
-        public bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
-        public string StorageName; // only available if StorageElements
-        public string StorageOwnerName; // only available if StorageAttributeElements
-        public string StorageOwnerTypeName; // only available if StorageAttributeElements
-        public string StorageAttributeName; // only available if StorageAttributeElements
-        public string IterationType; // only available if StorageElements|StorageAttributeElements
-        public string IndexName; // only available if IndexElements
-        public string IndexSetType; // only available if IndexElements
-        public IndexAccessType IndexAccessType; // only available if IndexElements
-        public string IndexEqual; // only available if IndexElements
-        public string IndexFrom; // only available if IndexElements
-        public bool IndexFromIncluded; // only available if IndexElements
-        public string IndexTo; // only available if IndexElements
-        public bool IndexToIncluded; // only available if IndexElements
-        public string StartingPointNodeName; // from pattern - only available if IncidentEdges
-        public IncidentEdgeType EdgeType; // only available if IncidentEdges
-        public string RulePatternClassName;
-        public string PatternName;
-        public string[] ParameterNames; // the parameters to forward to the normal matcher in case that is to be used because there's only a single iteration
-        public bool EnclosingLoop; // in case of an enclosing loop we can't forward to the normal matcher
-        public bool WasIndependentInlined;
-        public bool EmitProfiling;
-        public string PackagePrefixedActionName;
-        public bool EmitFirstLoopProfiling;
+        public readonly GetCandidateByIterationType Type;
+        public readonly bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
+        public readonly bool IsDict; // Dictionary(set/map)|List/Deque(array/deque) - only available if StorageElements|StorageAttributeElements
+        public readonly string StorageName; // only available if StorageElements
+        public readonly string StorageOwnerName; // only available if StorageAttributeElements
+        public readonly string StorageOwnerTypeName; // only available if StorageAttributeElements
+        public readonly string StorageAttributeName; // only available if StorageAttributeElements
+        public readonly string IterationType; // only available if StorageElements|StorageAttributeElements
+        public readonly string IndexName; // only available if IndexElements
+        public readonly string IndexSetType; // only available if IndexElements
+        public readonly IndexAccessType IndexAccessType; // only available if IndexElements
+        public readonly string IndexEqual; // only available if IndexElements
+        public readonly string IndexFrom; // only available if IndexElements
+        public readonly bool IndexFromIncluded; // only available if IndexElements
+        public readonly string IndexTo; // only available if IndexElements
+        public readonly bool IndexToIncluded; // only available if IndexElements
+        public readonly string StartingPointNodeName; // from pattern - only available if IncidentEdges
+        public readonly IncidentEdgeType EdgeType; // only available if IncidentEdges
+        public readonly string RulePatternClassName;
+        public readonly string PatternName;
+        public readonly string[] ParameterNames; // the parameters to forward to the normal matcher in case that is to be used because there's only a single iteration
+        public readonly bool EnclosingLoop; // in case of an enclosing loop we can't forward to the normal matcher
+        public readonly bool WasIndependentInlined;
+        public readonly bool EmitProfiling;
+        public readonly string PackagePrefixedActionName;
+        public readonly bool EmitFirstLoopProfiling;
     }
 
     /// <summary>
@@ -2063,12 +2068,12 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementTypeName,
             string startingPointEdgeName,
             ImplicitNodeType nodeType)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByDrawingType.NodeFromEdge);
             Debug.Assert(nodeType != ImplicitNodeType.TheOther);
 
             Type = type;
-            PatternElementName = patternElementName;
             PatternElementTypeName = patternElementTypeName;
             StartingPointEdgeName = startingPointEdgeName;
             NodeType = nodeType;
@@ -2081,12 +2086,12 @@ namespace de.unika.ipd.grGen.lgsp
             string startingPointEdgeName,
             string theOtherPatternElementName,
             ImplicitNodeType nodeType)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByDrawingType.NodeFromEdge);
             Debug.Assert(nodeType == ImplicitNodeType.TheOther);
 
             Type = type;
-            PatternElementName = patternElementName;
             PatternElementTypeName = patternElementTypeName;
             StartingPointEdgeName = startingPointEdgeName;
             TheOtherPatternElementName = theOtherPatternElementName;
@@ -2097,13 +2102,13 @@ namespace de.unika.ipd.grGen.lgsp
             GetCandidateByDrawingType type,
             string patternElementName,
             bool isNode)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByDrawingType.FromInputs 
                 || type == GetCandidateByDrawingType.FromSubpatternConnections
                 || type == GetCandidateByDrawingType.FromParallelizationTask);
             
             Type = type;
-            PatternElementName = patternElementName;
             IsNode = isNode;
         }
 
@@ -2111,11 +2116,11 @@ namespace de.unika.ipd.grGen.lgsp
             GetCandidateByDrawingType type,
             string patternElementName,
             string typeName)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByDrawingType.FromParallelizationTaskVar);
 
             Type = type;
-            PatternElementName = patternElementName;
             TypeName = typeName;
         }
 
@@ -2126,11 +2131,11 @@ namespace de.unika.ipd.grGen.lgsp
             string storageName,
             string storageValueTypeName,
             bool isNode)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByDrawingType.MapWithStorage);
 
             Type = type;
-            PatternElementName = patternElementName;
             SourcePatternElementName = sourcePatternElementName;
             StorageName = storageName;
             StorageValueTypeName = storageValueTypeName;
@@ -2142,6 +2147,7 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string source,
             bool isNode)
+        : base(patternElementName)
         {
             Debug.Assert(type == GetCandidateByDrawingType.FromOtherElementForCast 
                 || type == GetCandidateByDrawingType.FromOtherElementForAssign
@@ -2149,7 +2155,6 @@ namespace de.unika.ipd.grGen.lgsp
                 || type == GetCandidateByDrawingType.MapByUnique);
 
             Type = type;
-            PatternElementName = patternElementName;
             if(type == GetCandidateByDrawingType.MapByName || type == GetCandidateByDrawingType.MapByUnique)
                 SourceExpression = source;
             else
@@ -2400,17 +2405,17 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public GetCandidateByDrawingType Type;
-        public string PatternElementTypeName; // only valid if NodeFromEdge
-        public string TheOtherPatternElementName; // only valid if NodeFromEdge and TheOther
-        public string StartingPointEdgeName; // from pattern - only valid if NodeFromEdge
-        ImplicitNodeType NodeType; // only valid if NodeFromEdge
-        public bool IsNode; // node|edge
-        public string SourcePatternElementName; // only valid if MapWithStorage|FromOtherElementForCast|FromOtherElementForAssign
-        public string SourceExpression; // only valid if MapByName
-        public string StorageName; // only valid if MapWithStorage
-        public string StorageValueTypeName; // only valid if MapWithStorage
-        public string TypeName; // only valid if FromParallelizationTaskVar
+        public readonly GetCandidateByDrawingType Type;
+        public readonly string PatternElementTypeName; // only valid if NodeFromEdge
+        public readonly string TheOtherPatternElementName; // only valid if NodeFromEdge and TheOther
+        public readonly string StartingPointEdgeName; // from pattern - only valid if NodeFromEdge
+        readonly ImplicitNodeType NodeType; // only valid if NodeFromEdge
+        public readonly bool IsNode; // node|edge
+        public readonly string SourcePatternElementName; // only valid if MapWithStorage|FromOtherElementForCast|FromOtherElementForAssign
+        public readonly string SourceExpression; // only valid if MapByName
+        public readonly string StorageName; // only valid if MapWithStorage
+        public readonly string StorageValueTypeName; // only valid if MapWithStorage
+        public readonly string TypeName; // only valid if FromParallelizationTaskVar
     }
 
     /// <summary>
@@ -2422,8 +2427,8 @@ namespace de.unika.ipd.grGen.lgsp
         public WriteParallelPreset(
             string patternElementName,
             bool isNode)
+        : base(patternElementName)
         {
-            PatternElementName = patternElementName;
             IsNode = isNode;
         }
 
@@ -2446,7 +2451,7 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingParallelPreset, variableContainingCandidate);
         }
 
-        public bool IsNode; // node|edge
+        public readonly bool IsNode; // node|edge
     }
 
     /// <summary>
@@ -2458,8 +2463,8 @@ namespace de.unika.ipd.grGen.lgsp
         public WriteParallelPresetVar(
             string varName,
             string varType)
+        : base(varName)
         {
-            PatternElementName = varName;
             VarType = varType;
         }
 
@@ -2481,7 +2486,7 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingParallelPreset, variableContainingVariable);
         }
 
-        public string VarType;
+        public readonly string VarType;
     }
 
     /// <summary>
@@ -2543,7 +2548,7 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        public string PatternElementName;
+        public readonly string PatternElementName;
 
         public SearchProgramList NestedOperationsList;
     }

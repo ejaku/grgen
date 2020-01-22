@@ -181,12 +181,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public CheckMaximumMatchesType Type;
-        public bool ListHeadAdjustment;
-        public bool InParallelizedBody;
-        public bool EmitProfiling;
-        public string PackagePrefixedActionName;
-        public bool EmitFirstLoopProfiling;
+        public readonly CheckMaximumMatchesType Type;
+        public readonly bool ListHeadAdjustment;
+        public readonly bool InParallelizedBody;
+        public readonly bool EmitProfiling;
+        public readonly string PackagePrefixedActionName;
+        public readonly bool EmitFirstLoopProfiling;
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ namespace de.unika.ipd.grGen.lgsp
             CheckFailedOperations.Emit(sourceCode);
         }
 
-        public bool IsIterationBreaking;
+        public readonly bool IsIterationBreaking;
     }
 
     /// <summary>
@@ -263,8 +263,8 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         // the independent which failed
-        public CheckPartialMatchByIndependent CheckIndependent;
-        public bool IsIterationBreaking;
+        public readonly CheckPartialMatchByIndependent CheckIndependent;
+        public readonly bool IsIterationBreaking;
     }
 
     /// <summary>
@@ -341,6 +341,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public bool IsIterationBreaking;
+        public readonly bool IsIterationBreaking;
     }
 }

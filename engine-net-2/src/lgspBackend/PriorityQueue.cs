@@ -14,7 +14,7 @@ namespace de.unika.ipd.grGen.lgsp
     // TODO: Implement as heap to improve performance
     public class PriorityQueue<T> : ICollection<T>
     {
-        protected List<T> items = new List<T>();
+        protected readonly List<T> items = new List<T>();
 
         public T DequeueFirst()
         {

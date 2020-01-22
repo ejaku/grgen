@@ -143,12 +143,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public string PatternElementName;
-        public string NegativeIndependentNamePrefix; // "" if top-level
-        public bool IsNode; // node|edge
-        public bool NeverAboveMaxIsoSpace;
-        public bool Parallel;
-        public bool LockForAllThreads;
+        public readonly string PatternElementName;
+        public readonly string NegativeIndependentNamePrefix; // "" if top-level
+        public readonly bool IsNode; // node|edge
+        public readonly bool NeverAboveMaxIsoSpace;
+        public readonly bool Parallel;
+        public readonly bool LockForAllThreads;
     }
 
     /// <summary>
@@ -253,11 +253,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public string PatternElementName;
-        public string NegativeIndependentNamePrefix; // "" if top-level
-        public bool IsNode; // node|edge
-        public bool NeverAboveMaxIsoSpace;
-        public bool Parallel;
+        public readonly string PatternElementName;
+        public readonly string NegativeIndependentNamePrefix; // "" if top-level
+        public readonly bool IsNode; // node|edge
+        public readonly bool NeverAboveMaxIsoSpace;
+        public readonly bool Parallel;
     }
 
     /// <summary>
@@ -296,9 +296,9 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, isMatchedInSomePatternBit);
         }
 
-        public string PatternElementName;
-        public string NegativeIndependentNamePrefix; // "" if top-level
-        public bool IsNode; // node|edge
+        public readonly string PatternElementName;
+        public readonly string NegativeIndependentNamePrefix; // "" if top-level
+        public readonly bool IsNode; // node|edge
     }
 
     /// <summary>
@@ -429,12 +429,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public string PatternElementName;
-        public string NegativeIndependentNamePrefix; // "" if top-level
-        public bool IsNode; // node|edge
-        public bool NeverAboveMaxIsoSpace;
-        public bool Parallel;
-        public bool LockForAllThreads;
+        public readonly string PatternElementName;
+        public readonly string NegativeIndependentNamePrefix; // "" if top-level
+        public readonly bool IsNode; // node|edge
+        public readonly bool NeverAboveMaxIsoSpace;
+        public readonly bool Parallel;
+        public readonly bool LockForAllThreads;
     }
 
     /// <summary>
@@ -534,11 +534,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public string PatternElementName;
-        public string NegativeIndependentNamePrefix; // "" if positive
-        public bool IsNode; // node|edge
-        public bool NeverAboveMaxIsoSpace;
-        public bool Parallel;
+        public readonly string PatternElementName;
+        public readonly string NegativeIndependentNamePrefix; // "" if positive
+        public readonly bool IsNode; // node|edge
+        public readonly bool NeverAboveMaxIsoSpace;
+        public readonly bool Parallel;
     }
 
     /// <summary>
@@ -574,8 +574,8 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, isMatchedInSomePatternBit, variableContainingBackupOfMappedMemberGlobalSome);
         }
 
-        public string PatternElementName;
-        public string NegativeIndependentNamePrefix; // "" if positive
-        public bool IsNode; // node|edge
+        public readonly string PatternElementName;
+        public readonly string NegativeIndependentNamePrefix; // "" if positive
+        public readonly bool IsNode; // node|edge
     }
 }

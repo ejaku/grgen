@@ -15,7 +15,7 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    public class ScheduleDumper
+    public static class ScheduleDumper
     {
         private static String GetDumpName(SearchPlanNode node)
         {

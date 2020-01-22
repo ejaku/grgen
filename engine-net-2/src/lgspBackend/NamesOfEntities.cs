@@ -14,7 +14,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// class determining names of entities in generated source code from pattern element entities
     /// </summary>
-    class NamesOfEntities
+    static class NamesOfEntities
     {
         /// <summary>
         /// Returns name of the candidate variable which will be created within the search program

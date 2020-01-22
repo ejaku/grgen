@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Class for generating a search plan graph out of a plan graph and for creating a schedule out of it.
     /// </summary>
-    public class SearchPlanGraphGeneratorAndScheduler
+    public static class SearchPlanGraphGeneratorAndScheduler
     {
         /// <summary>
         /// Generate search plan graph out of the plan graph,

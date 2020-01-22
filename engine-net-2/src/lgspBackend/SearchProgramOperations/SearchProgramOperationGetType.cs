@@ -124,11 +124,11 @@ namespace de.unika.ipd.grGen.lgsp
             return NestedOperationsList;
         }
 
-        public GetTypeByIterationType Type;
-        public string PatternElementName;
-        public string RulePatternTypeName; // only valid if ExplicitelyGiven
-        public string TypeName; // only valid if AllCompatible
-        public bool IsNode; // node|edge
+        public readonly GetTypeByIterationType Type;
+        public readonly string PatternElementName;
+        public readonly string RulePatternTypeName; // only valid if ExplicitelyGiven
+        public readonly string TypeName; // only valid if AllCompatible
+        public readonly bool IsNode; // node|edge
 
         public SearchProgramList NestedOperationsList;
     }
@@ -167,8 +167,8 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingTypeIDForCandidate, TypeID);
         }
 
-        public string PatternElementName;
-        public string TypeID;
-        public bool IsNode; // node|edge
+        public readonly string PatternElementName;
+        public readonly string TypeID;
+        public readonly bool IsNode; // node|edge
     }
 }
