@@ -20,8 +20,8 @@ namespace de.unika.ipd.grGen.libGr
             this.weight = weight;
         }
 
-        public double sample;
-        public double weight;
+        public readonly double sample;
+        public readonly double weight;
 
         public static int Compare(WeightedSample a, WeightedSample b)
         {
@@ -40,7 +40,7 @@ namespace de.unika.ipd.grGen.libGr
     public class UberEstimator
     {
         private const int BASE = 21;
-        private List<List<WeightedSample>> accumulator; // staged store for estimates/samples, 
+        private readonly List<List<WeightedSample>> accumulator; // staged store for estimates/samples, 
                 // when level k completes, its estimate is added to level k+1, then it is reset
 
         ////////////////////////////////////////////////////////////////////

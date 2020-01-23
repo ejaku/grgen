@@ -146,13 +146,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The node type of this group node type.
         /// </summary>
-        public NodeType NodeType;
+        public readonly NodeType NodeType;
 
         /// <summary>
         /// Groups with lower priorities can be grouped inside groups with higher priorities.
         /// For same priorities the behaviour is undefined.
         /// </summary>
-        public int Priority;
+        public readonly int Priority;
 
         /// <summary>
         /// Initializes a GroupNodeType.
@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// A map from EdgeTypes to NodeTypes to a GroupMode, specifying which connected nodes are grouped into this node.
         /// </summary>
-        private Dictionary<EdgeType, Dictionary<NodeType, GroupMode>> groupEdges = new Dictionary<EdgeType, Dictionary<NodeType, GroupMode>>();
+        private readonly Dictionary<EdgeType, Dictionary<NodeType, GroupMode>> groupEdges = new Dictionary<EdgeType, Dictionary<NodeType, GroupMode>>();
     }
 
     /// <summary>
@@ -251,12 +251,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The attribute to be shown.
         /// </summary>
-        public AttributeType AttributeType;
+        public readonly AttributeType AttributeType;
 
         /// <summary>
         /// Whether this is a short info tag (no attribute name is shown).
         /// </summary>
-        public bool ShortInfoTag;
+        public readonly bool ShortInfoTag;
 
         /// <summary>
         /// Initializes an info tag.
@@ -281,32 +281,32 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         int nextGroupID = 0;
 
-        GrColor[] nodeColors = new GrColor[4];
-        GrColor[] nodeBorderColors = new GrColor[4];
-        GrColor[] nodeTextColors = new GrColor[4];
-        GrNodeShape[] nodeShapes = new GrNodeShape[4];
-        GrColor[] edgeColors = new GrColor[4];
-        GrColor[] edgeTextColors = new GrColor[4];
-        GrLineStyle[] edgeLineStyles = new GrLineStyle[4];
-        int[] edgeThicknesses = new int[4];
+        readonly GrColor[] nodeColors = new GrColor[4];
+        readonly GrColor[] nodeBorderColors = new GrColor[4];
+        readonly GrColor[] nodeTextColors = new GrColor[4];
+        readonly GrNodeShape[] nodeShapes = new GrNodeShape[4];
+        readonly GrColor[] edgeColors = new GrColor[4];
+        readonly GrColor[] edgeTextColors = new GrColor[4];
+        readonly GrLineStyle[] edgeLineStyles = new GrLineStyle[4];
+        readonly int[] edgeThicknesses = new int[4];
 
         bool isExcludedGraph = false;
         int excludeGraphContextDepth = 1;
 
-        Dictionary<NodeType, bool> excludedNodeTypes = new Dictionary<NodeType, bool>();
-        Dictionary<EdgeType, bool> excludedEdgeTypes = new Dictionary<EdgeType, bool>();
-        List<GroupNodeType> groupNodeTypes = new List<GroupNodeType>();
-        Dictionary<NodeType, GroupNodeType> nodeTypeToGroupNodeType = new Dictionary<NodeType, GroupNodeType>();
-        Dictionary<NodeType, GrColor> nodeTypeColors = new Dictionary<NodeType, GrColor>();
-        Dictionary<NodeType, GrColor> nodeTypeBorderColors = new Dictionary<NodeType, GrColor>();
-        Dictionary<NodeType, GrColor> nodeTypeTextColors = new Dictionary<NodeType, GrColor>();
-        Dictionary<NodeType, GrNodeShape> nodeTypeShapes = new Dictionary<NodeType, GrNodeShape>();
-        Dictionary<EdgeType, GrColor> edgeTypeColors = new Dictionary<EdgeType, GrColor>();
-        Dictionary<EdgeType, GrColor> edgeTypeTextColors = new Dictionary<EdgeType, GrColor>();
-        Dictionary<EdgeType, GrLineStyle> edgeTypeLineStyles = new Dictionary<EdgeType, GrLineStyle>();
-        Dictionary<EdgeType, int> edgeTypeThicknesses = new Dictionary<EdgeType, int>();
-        Dictionary<GrGenType, String> elemTypeLabel = new Dictionary<GrGenType, String>();
-        Dictionary<GrGenType, List<InfoTag>> infoTags = new Dictionary<GrGenType, List<InfoTag>>();
+        readonly Dictionary<NodeType, bool> excludedNodeTypes = new Dictionary<NodeType, bool>();
+        readonly Dictionary<EdgeType, bool> excludedEdgeTypes = new Dictionary<EdgeType, bool>();
+        readonly List<GroupNodeType> groupNodeTypes = new List<GroupNodeType>();
+        readonly Dictionary<NodeType, GroupNodeType> nodeTypeToGroupNodeType = new Dictionary<NodeType, GroupNodeType>();
+        readonly Dictionary<NodeType, GrColor> nodeTypeColors = new Dictionary<NodeType, GrColor>();
+        readonly Dictionary<NodeType, GrColor> nodeTypeBorderColors = new Dictionary<NodeType, GrColor>();
+        readonly Dictionary<NodeType, GrColor> nodeTypeTextColors = new Dictionary<NodeType, GrColor>();
+        readonly Dictionary<NodeType, GrNodeShape> nodeTypeShapes = new Dictionary<NodeType, GrNodeShape>();
+        readonly Dictionary<EdgeType, GrColor> edgeTypeColors = new Dictionary<EdgeType, GrColor>();
+        readonly Dictionary<EdgeType, GrColor> edgeTypeTextColors = new Dictionary<EdgeType, GrColor>();
+        readonly Dictionary<EdgeType, GrLineStyle> edgeTypeLineStyles = new Dictionary<EdgeType, GrLineStyle>();
+        readonly Dictionary<EdgeType, int> edgeTypeThicknesses = new Dictionary<EdgeType, int>();
+        readonly Dictionary<GrGenType, String> elemTypeLabel = new Dictionary<GrGenType, String>();
+        readonly Dictionary<GrGenType, List<InfoTag>> infoTags = new Dictionary<GrGenType, List<InfoTag>>();
 
         public IEnumerable<NodeType> ExcludedNodeTypes { get { return excludedNodeTypes.Keys; } }
         public IEnumerable<EdgeType> ExcludedEdgeTypes { get { return excludedEdgeTypes.Keys; } }

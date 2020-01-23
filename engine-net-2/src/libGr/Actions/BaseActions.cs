@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.libGr
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        private Dictionary<String, SequenceDefinition> namesToSequenceDefinitions = new Dictionary<string, SequenceDefinition>();
+        private readonly Dictionary<String, SequenceDefinition> namesToSequenceDefinitions = new Dictionary<string, SequenceDefinition>();
 
         /// <summary>
         /// Register a graph rewrite sequence definition.
@@ -119,7 +119,7 @@ namespace de.unika.ipd.grGen.libGr
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        protected Dictionary<String, FunctionInfo> namesToFunctionDefinitions = new Dictionary<string, FunctionInfo>();
+        protected readonly Dictionary<String, FunctionInfo> namesToFunctionDefinitions = new Dictionary<string, FunctionInfo>();
 
         /// <summary>
         /// Retrieve a function definition.
@@ -170,7 +170,7 @@ namespace de.unika.ipd.grGen.libGr
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         
-        protected Dictionary<String, ProcedureInfo> namesToProcedureDefinitions = new Dictionary<string, ProcedureInfo>();
+        protected readonly Dictionary<String, ProcedureInfo> namesToProcedureDefinitions = new Dictionary<string, ProcedureInfo>();
 
         /// <summary>
         /// Retrieve a procedure definition.

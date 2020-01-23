@@ -150,75 +150,75 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The kind of error.
         /// </summary>
-        public SequenceParserError Kind;
+        public readonly SequenceParserError Kind;
 
         /// <summary>
         /// The type of the definition that caused the error, Unknown if no definition was involved.
         /// </summary>
-        public DefinitionType DefType = DefinitionType.Unknown;
+        public readonly DefinitionType DefType = DefinitionType.Unknown;
 
         /// <summary>
         /// The name of the definition (rule/test/sequence/procedure/function/procedure method/function method).
         /// </summary>
-        public String Name;
+        public readonly String Name;
 
         /// <summary>
         /// The name of the filter which was mis-applied.
         /// </summary>
-        public String FilterName;
+        public readonly String FilterName;
 
         /// <summary>
         /// The name of the entity which does not exist in the pattern of the rule.
         /// </summary>
-        public String EntityName;
+        public readonly String EntityName;
 
         /// <summary>
         /// The associated action instance. If it is null, there was no rule with the name specified in RuleName.
         /// </summary>
-        public IAction Action;
+        public readonly IAction Action;
 
         /// <summary>
         /// The number of inputs or outputs given to the rule.
         /// </summary>
-        public int NumGiven;
+        public readonly int NumGiven;
 
         /// <summary>
         /// The index of a bad parameter or -1 if another error occurred.
         /// </summary>
-        public int BadParamIndex;
+        public readonly int BadParamIndex;
 
         // the members for a type mismatch error
 
         /// <summary>
         /// The variable which caused the type error or the function/operator which caused the type error
         /// </summary>
-        public String VariableOrFunctionName;
+        public readonly String VariableOrFunctionName;
 
         /// <summary>
         /// The expected type or types
         /// </summary>
-        public String ExpectedType;
+        public readonly String ExpectedType;
 
         /// <summary>
         /// The given type
         /// </summary>
-        public String GivenType;
+        public readonly String GivenType;
 
         /// <summary>
         /// The left type given for the operator
         /// </summary>
-        public String LeftType;
+        public readonly String LeftType;
 
         /// <summary>
         /// The right type given for the operator
         /// </summary>
-        public String RightType;
+        public readonly String RightType;
 
         /// <summary>
         /// The sub-expression as string for which the operator given in VariableOrFunctionName 
         /// was not defined for the types given in LeftType and RightType
         /// </summary>
-        public String Expression;
+        public readonly String Expression;
 
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace de.unika.ipd.grGen.libGr
                 Action = ((RuleInvocationInterpreted)invocation).Action;
             NumGiven = numGiven;
             BadParamIndex = badParamIndex;
-            ClassifyDefinitionType(invocation);
+            ClassifyDefinitionType(invocation, out DefType);
         }
 
         /// <summary>
@@ -421,7 +421,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        void ClassifyDefinitionType(Invocation invocation)
+        void ClassifyDefinitionType(Invocation invocation, out DefinitionType DefType)
         {
             if(invocation is RuleInvocation)
                 DefType = DefinitionType.Action;
@@ -431,6 +431,8 @@ namespace de.unika.ipd.grGen.libGr
                 DefType = DefinitionType.Procedure;
             else if(invocation is FunctionInvocation)
                 DefType = DefinitionType.Function;
+            else
+                DefType = DefinitionType.Unknown;
         }
 
         public string DefinitionTypeName

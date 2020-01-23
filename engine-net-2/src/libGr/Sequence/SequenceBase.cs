@@ -19,6 +19,12 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceBase
     {
+        protected SequenceBase()
+        {
+            id = idSource;
+            ++idSource;
+        }
+
         /// <summary>
         /// Checks the sequence /expression for errors utilizing the given checking environment
         /// reports them by exception
@@ -57,7 +63,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// stores the sequence /expression unique id
         /// </summary>
-        protected int id;
+        protected readonly int id;
 
         /// <summary>
         /// the static member used to assign the unique ids to the sequence /expression instances

@@ -25,8 +25,8 @@ namespace de.unika.ipd.grGen.libGr
             this.mainExportContext = mainExportContext;
         }
 
-        public StreamWriter writer;
-        public MainGraphExportContext mainExportContext;
+        public readonly StreamWriter writer;
+        public readonly MainGraphExportContext mainExportContext;
     }
 
     /// <summary>

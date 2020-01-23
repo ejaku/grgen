@@ -69,11 +69,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public String[] ruleNames;
-        public String[] sequenceNames;
-        public String[] procedureNames;
-        public String[] functionNames;
-        public String[] functionOutputTypes;
-        public String[] filterFunctionNames;
+        public readonly String[] ruleNames;
+        public readonly String[] sequenceNames;
+        public readonly String[] procedureNames;
+        public readonly String[] functionNames;
+        public readonly String[] functionOutputTypes;
+        public readonly String[] filterFunctionNames;
     }
 }

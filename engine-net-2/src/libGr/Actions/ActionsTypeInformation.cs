@@ -84,19 +84,19 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public Dictionary<String, List<IFilter>> rulesToFilters;
-        public Dictionary<String, List<String>> filterFunctionsToInputTypes;
-        public Dictionary<String, List<String>> rulesToInputTypes;
-        public Dictionary<String, List<String>> rulesToOutputTypes;
-        public Dictionary<String, List<String>> sequencesToInputTypes;
-        public Dictionary<String, List<String>> sequencesToOutputTypes;
-        public Dictionary<String, List<String>> proceduresToInputTypes;
-        public Dictionary<String, List<String>> proceduresToOutputTypes;
-        public Dictionary<String, bool> proceduresToIsExternal;
-        public Dictionary<String, List<String>> functionsToInputTypes;
-        public Dictionary<String, String> functionsToOutputType;
-        public Dictionary<String, bool> functionsToIsExternal;
-        public Dictionary<String, List<String>> rulesToTopLevelEntities;
-        public Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
+        public readonly Dictionary<String, List<IFilter>> rulesToFilters;
+        public readonly Dictionary<String, List<String>> filterFunctionsToInputTypes;
+        public readonly Dictionary<String, List<String>> rulesToInputTypes;
+        public readonly Dictionary<String, List<String>> rulesToOutputTypes;
+        public readonly Dictionary<String, List<String>> sequencesToInputTypes;
+        public readonly Dictionary<String, List<String>> sequencesToOutputTypes;
+        public readonly Dictionary<String, List<String>> proceduresToInputTypes;
+        public readonly Dictionary<String, List<String>> proceduresToOutputTypes;
+        public readonly Dictionary<String, bool> proceduresToIsExternal;
+        public readonly Dictionary<String, List<String>> functionsToInputTypes;
+        public readonly Dictionary<String, String> functionsToOutputType;
+        public readonly Dictionary<String, bool> functionsToIsExternal;
+        public readonly Dictionary<String, List<String>> rulesToTopLevelEntities;
+        public readonly Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
     }
 }

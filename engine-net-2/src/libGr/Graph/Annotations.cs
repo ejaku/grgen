@@ -46,6 +46,6 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the attribute, use the methods above for access (member only available for post-generation changes)
         /// </summary>
-        public IDictionary<string, string> annotations = new Dictionary<string, string>();
+        public readonly IDictionary<string, string> annotations = new Dictionary<string, string>();
     }
 }

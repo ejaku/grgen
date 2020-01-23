@@ -24,25 +24,25 @@ namespace de.unika.ipd.grGen.libGr
         // LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White,
         // DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac,
         // Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid, LightYellow, YellowGreen
-        static private string[] colors = { "black", "blue", "green", "cyan", "red", "purple", "brown", "dimgray",
+        private static readonly string[] colors = { "black", "blue", "green", "cyan", "red", "purple", "brown", "dimgray",
             "gray", "lightblue", "lightseagreen", "lightcyan", "lightsalmon", "palevioletred", "yellow", "white",
             "darkslateblue", "indianred", "darkgreen", "darkgoldenrod", "darkorchid", "darkturquoise", "gold", "violet",
             "mediumturquoise", "aquamarine", "khaki", "pink", "orange", "orchid", "lightyellow", "yellowgreen"
         };
-        static private string[] orientation = { "TB", "BT", "LR", "RL" };
+        private static readonly string[] orientation = { "TB", "BT", "LR", "RL" };
         // maps by index to GrLineStyle defined in dumpInterface.cs:
         // Continuous, Dotted, Dashed, Invisible
-        static private string[] lineStyles = { "solid", "dotted", "dashed", "invis" };
+        private static readonly string[] lineStyles = { "solid", "dotted", "dashed", "invis" };
         // maps by index to GrNodeShape defined in dumpInterface.cs:
         // Box, Triangle, Circle, Ellipse, Rhomb, Hexagon, 
         // Trapeze, UpTrapeze, LParallelogram, RParallelogram
-        static private string[] nodeShapes = { "box", "triangle", "circle", "ellipse", "diamond", "hexagon",
+        private static readonly string[] nodeShapes = { "box", "triangle", "circle", "ellipse", "diamond", "hexagon",
             "trapezium", "invtrapezium", "parallelogram", "parallelogram" };
 
-        private Dictionary<INode, INode> groupNodesToCharacteristicContainedNode;
-        private Stack<INode> groupNesting;
+        private readonly Dictionary<INode, INode> groupNodesToCharacteristicContainedNode;
+        private readonly Stack<INode> groupNesting;
 
-        private StreamWriter sw;
+        private readonly StreamWriter sw;
         private int indent = 0;
 
         private void Indent()
@@ -330,10 +330,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             sw.WriteLine('}');
             sw.Close();
-            sw = null;
-
-            groupNodesToCharacteristicContainedNode = null;
-            groupNesting = null;
         }
 
         /// <summary>

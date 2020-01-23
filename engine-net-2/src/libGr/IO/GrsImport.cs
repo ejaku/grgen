@@ -81,15 +81,15 @@ namespace de.unika.ipd.grGen.libGr
         IGraphModel model;
         String modelOverride;
         IActions actions;
-        TextReader reader; // the text reader containing the grs contents to import
-        long fileSize; // the size of the grs file, used to initialize the capacity of the name maps of the named graph
+        readonly TextReader reader; // the text reader containing the grs contents to import
+        readonly long fileSize; // the size of the grs file, used to initialize the capacity of the name maps of the named graph
         int line; // the current line reached during parsing/lexing, for error messages
         int column; // the current column reached during parsing/lexing, for error messages
         bool tokenFound; // tells whether a token was matched lately, cleared by the parser when asking for the next one to be delivered
         TokenKind tokenKind; // gives the kind of token matched lately
-        StringBuilder tokenContent; // the buffer with the token matched lately
-        Dictionary<string, INamedGraph> nameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
-        AttributeType intAttrType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
+        readonly StringBuilder tokenContent; // the buffer with the token matched lately
+        readonly Dictionary<string, INamedGraph> nameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
+        readonly AttributeType intAttrType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 
         /// <summary>
         /// Imports the given graph from a file with the given filename.

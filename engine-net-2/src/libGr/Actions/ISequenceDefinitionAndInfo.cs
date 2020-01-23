@@ -75,40 +75,40 @@ namespace de.unika.ipd.grGen.libGr
         /// The names of the needed graph elements of the containing action.
         /// Or the names of the graph elements needed from the calling action in case of a defined sequence.
         /// </summary>
-        public String[] Parameters;
+        public readonly String[] Parameters;
 
         /// <summary>
         /// The types of the needed graph elements of the containing action.
         /// Or the types of the graph elements needed from the calling action in case of a definted sequence.
         /// </summary>
-        public GrGenType[] ParameterTypes;
+        public readonly GrGenType[] ParameterTypes;
 
         /// <summary>
         /// The names of the graph elements of the containing action yielded to.
         /// Or the names of the graph elements returned to the calling action in case of a defined sequence.
         /// </summary>
-        public String[] OutParameters;
+        public readonly String[] OutParameters;
 
         /// <summary>
         /// The types of the graph elements of the containing action yielded to.
         /// Or the types of the graph elements returned to the calling action in case of a defined sequence.
         /// </summary>
-        public GrGenType[] OutParameterTypes;
+        public readonly GrGenType[] OutParameterTypes;
 
         /// <summary>
         /// null if this is a global embedded sequence, otherwise the package the embedded sequence is contained in.
         /// </summary>
-        public string Package;
+        public readonly string Package;
 
         /// <summary>
         /// The XGRS string.
         /// </summary>
-        public String XGRS;
+        public readonly String XGRS;
 
         /// <summary>
         /// The line in the source code on which this sequence appears, printed in case of an error.
         /// </summary>
-        public int LineNr;
+        public readonly int LineNr;
     }
 
     /// <summary>
@@ -144,18 +144,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name the sequence was defined with
         /// </summary>
-        public string Name;
+        public readonly string Name;
 
         /// <summary>
         /// The name of the type in case of a global type,
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
-        public string PackagePrefixedName;
+        public readonly string PackagePrefixedName;
 
         /// <summary>
         /// The annotations of the sequence definition
         /// </summary>
-        public Annotations annotations;
+        public readonly Annotations annotations;
     }
 
     /// <summary>

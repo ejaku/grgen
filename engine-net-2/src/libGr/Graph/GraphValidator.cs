@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
-    public class GraphValidator
+    public static class GraphValidator
     {
         /// <summary>
         /// Checks whether a graph meets its connection assertions.

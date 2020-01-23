@@ -107,9 +107,9 @@ namespace de.unika.ipd.grGen.libGr
         public bool Visited { get { return visited; } set { this.visited = value; } }
 
 
-        private String name;
-        private String prefix;
-        private String type;
+        private readonly String name;
+        private readonly String prefix;
+        private readonly String type;
 
         private object value;
 

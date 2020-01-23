@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class XMIExport : IDisposable
     {
-        XmlTextWriter xmlwriter;
+        readonly XmlTextWriter xmlwriter;
         
         public Dictionary<INode, Set<INode>> contains;
         public Dictionary<INode, INode> containedIn;
@@ -30,6 +30,9 @@ namespace de.unika.ipd.grGen.libGr
             xmlwriter.Formatting = Formatting.Indented;
             xmlwriter.Indentation = 1;
             xmlwriter.WriteStartDocument();
+            contains = new Dictionary<INode, Set<INode>>();
+            containedIn = new Dictionary<INode, INode>();
+            containedVia = new Dictionary<INode, IEdge>();
         }
 
         protected XMIExport(TextWriter streamwriter)
@@ -88,9 +91,6 @@ namespace de.unika.ipd.grGen.libGr
         private void WriteGraph(IGraph graph)
         {
             // Compute the containment hierarchy
-            contains = new Dictionary<INode, Set<INode>>();
-            containedIn = new Dictionary<INode, INode>();
-            containedVia = new Dictionary<INode, IEdge>();
             foreach(EdgeType et in graph.Model.EdgeModel.Types)
             {
                 if(!IsContainmentEdge(et))
@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class OrderingComparer : IComparer<INode>
     {
-        XMIExport exporter;
+        readonly XMIExport exporter;
 
         public OrderingComparer(XMIExport exporter)
         {

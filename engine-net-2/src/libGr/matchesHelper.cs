@@ -12,7 +12,7 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {
-    public class MatchPrinter
+    public static class MatchPrinter
     {
         public static string ToString(IMatch match, IGraph graph)
         {
@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class MatchedElementsValidityChecker
+    public static class MatchedElementsValidityChecker
     {
         public static void Check(IMatch match)
         {

@@ -45,8 +45,8 @@ namespace de.unika.ipd.grGen.libGr
                 inSubgraphCount = 0;
             }
 
-            public String name;
-            public ScopeType scopeType;
+            public readonly String name;
+            public readonly ScopeType scopeType;
             public int forCount;
             public int ifCount;
             public int computationCount;
@@ -198,10 +198,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         // contains the symbols of the current nesting level and the levels it is contained in
-        private Stack<Dictionary<String, SequenceVariable>> scopes;
+        private readonly Stack<Dictionary<String, SequenceVariable>> scopes;
         // contains some information about the current scope and counters for scope name construction
         // i.e. meta data for the scope whose symbol table is available at the same nesting level in the scopes symbol table stack
-        private Stack<ScopeMetaInformation> scopesMeta;
+        private readonly Stack<ScopeMetaInformation> scopesMeta;
 
         // quick access reference to globals scope
         private Dictionary<String, SequenceVariable> globalsScope;
@@ -210,6 +210,6 @@ namespace de.unika.ipd.grGen.libGr
         // due to compatibility reasons as of now names are implicitely declared in global scope if not yet seen,
         // which would render the second case ok; to prevent this we must remember whether a global was implicitely or explicitely declared
         // this handling can be removed when the deprecated implicit-globals feature is removed and all globals must be accessed with :: prefix
-        private Dictionary<SequenceVariable, bool> globalsImplicitlyDeclared;
+        private readonly Dictionary<SequenceVariable, bool> globalsImplicitlyDeclared;
 	}
 }

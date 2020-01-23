@@ -16,7 +16,7 @@ using System.Collections;
 
 namespace de.unika.ipd.grGen.libGr
 {
-    public partial class GraphHelper
+    public static partial class GraphHelper
     {
         /// <summary>
         /// Returns the nodes in the graph of the type given, as set

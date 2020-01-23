@@ -49,18 +49,16 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The type of the sequence computation (e.g. Assignment or MethodCall)
         /// </summary>
-        public SequenceComputationType SequenceComputationType;
+        public readonly SequenceComputationType SequenceComputationType;
 
         /// <summary>
         /// Initializes a new SequenceComputation object with the given sequence computation type.
         /// </summary>
         /// <param name="seqCompType">The sequence computation type.</param>
         public SequenceComputation(SequenceComputationType seqCompType)
+            : base()
         {
             SequenceComputationType = seqCompType;
-
-            id = idSource;
-            ++idSource;
         }
 
         /// <summary>

@@ -76,7 +76,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly Type EnumType;
 
-        private EnumMember[] members;
+        private readonly EnumMember[] members;
 
         /// <summary>
         /// Initializes an EnumAttributeType instance.

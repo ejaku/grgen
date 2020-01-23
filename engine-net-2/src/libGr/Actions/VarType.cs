@@ -22,9 +22,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// A map from .NET types to singleton VarTypes.
         /// </summary>
-        private static Dictionary<Type, VarType> varTypeMap = new Dictionary<Type, VarType>();
+        private static readonly Dictionary<Type, VarType> varTypeMap = new Dictionary<Type, VarType>();
 
-        private Type type;
+        private readonly Type type;
 
         private VarType(Type varType) : base(nextID++)
         {

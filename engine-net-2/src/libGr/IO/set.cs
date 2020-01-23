@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <typeparam name="T">The type of the contained elements.</typeparam>
     public class Set<T> : IEnumerable<T>
     {
-        Dictionary<T, bool> setData;
+        readonly Dictionary<T, bool> setData;
 
         public Set()
         {

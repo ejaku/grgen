@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the filter.
         /// </summary>
-        public String Name;
+        public readonly String Name;
 
         /// <summary>
         /// null if this is a call of a global filter, otherwise the package the call target is contained in.
@@ -38,24 +38,24 @@ namespace de.unika.ipd.grGen.libGr
         /// null if this is a call of a global filter, otherwise the package the call target is contained in.
         /// May be even null for a call of a package target, if done from a context where the package is set.
         /// </summary>
-        public String PrePackage;
+        public readonly String PrePackage;
 
         /// <summary>
         /// The package this invocation is contained in (the calling source, not the filter call target).
         /// Needed to resolve names from the local package accessed without package prefix.
         /// </summary>
-        public String PrePackageContext;
+        public readonly String PrePackageContext;
 
         /// <summary>
         /// The entities the filter is based on, in case of a (def-variable based) auto-generated filter (empty for auto), otherwise null.
         /// </summary>
-        public String[] Entities;
+        public readonly String[] Entities;
 
         /// <summary>
         /// True in case this is the call of an auto-supplied filter.
         /// In this case, there must be exactly one Argument or ArgumentExpression given.
         /// </summary>
-        public bool IsAutoSupplied;
+        public readonly bool IsAutoSupplied;
 
         /// <summary>
         /// An array of expressions used to compute the input arguments for a filter function (or auto-supplied filter).
@@ -65,13 +65,13 @@ namespace de.unika.ipd.grGen.libGr
         /// The sequence parser generates argument expressions for every entry;
         /// they may be omitted by a user assembling an invocation at API level.
         /// </summary>
-        public SequenceExpression[] ArgumentExpressions;
+        public readonly SequenceExpression[] ArgumentExpressions;
 
         /// <summary>
         /// Buffer to store the argument values for the filter function call (or auto-supplied filter call);
         /// used by libGr to avoid unneccessary memory allocations.
         /// </summary>
-        public object[] Arguments;
+        public readonly object[] Arguments;
 
 
         /// <summary>

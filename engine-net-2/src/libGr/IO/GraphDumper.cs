@@ -42,7 +42,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     internal class VirtualNodeType : NodeType
     {
-        public static VirtualNodeType Instance = new VirtualNodeType();
+        public static readonly VirtualNodeType Instance = new VirtualNodeType();
 
         public VirtualNodeType()
             : base(0)
@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     internal class VirtualNode : INode
     {
-        int id;
+        readonly int id;
 
         public VirtualNode(int newID)
         {
@@ -150,15 +150,15 @@ namespace de.unika.ipd.grGen.libGr
 
     internal class DumpContext
     {
-        public IDumper Dumper;
-        public DumpInfo DumpInfo;
-        public Set<INode> MatchedNodes;
-        public Set<INode> MultiMatchedNodes;
-        public Set<IEdge> MatchedEdges;
-        public Set<IEdge> MultiMatchedEdges;
+        public readonly IDumper Dumper;
+        public readonly DumpInfo DumpInfo;
+        public readonly Set<INode> MatchedNodes;
+        public readonly Set<INode> MultiMatchedNodes;
+        public readonly Set<IEdge> MatchedEdges;
+        public readonly Set<IEdge> MultiMatchedEdges;
         public Set<INode> InitialNodes = null;
-        public Set<INode> Nodes = new Set<INode>();
-        public Set<IEdge> ExcludedEdges = new Set<IEdge>();
+        public readonly Set<INode> Nodes = new Set<INode>();
+        public readonly Set<IEdge> ExcludedEdges = new Set<IEdge>();
 
         public DumpContext(IDumper dumper, DumpInfo dumpInfo, Set<INode> matchedNodes, Set<INode> multiMatchedNodes,
             Set<IEdge> matchedEdges, Set<IEdge> multiMatchedEdges)
@@ -179,10 +179,10 @@ namespace de.unika.ipd.grGen.libGr
             groupedNodes = new Set<INode>();
         }
 
-        public Set<INode> groupedNodes;
+        public readonly Set<INode> groupedNodes;
     }
 
-    public class GraphDumper
+    public static class GraphDumper
     {
         /// <summary>
         /// Dumps all attributes in the form "kind owner::name = value" into a String List

@@ -76,18 +76,16 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The type of the sequence (e.g. LazyOr or Transaction)
         /// </summary>
-        public SequenceType SequenceType;
+        public readonly SequenceType SequenceType;
 
         /// <summary>
         /// Initializes a new Sequence object with the given sequence type.
         /// </summary>
         /// <param name="seqType">The sequence type.</param>
         public Sequence(SequenceType seqType)
+            : base()
         {
             SequenceType = seqType;
-
-            id = idSource;
-            ++idSource;
 
             executionState = SequenceExecutionState.NotYet;
         }
@@ -244,9 +242,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Initializes a new instance of the SequenceSpecial class.
         /// </summary>
-        /// <param name="special">The initial value for the "Special" flag.</param>
         /// <param name="seqType">The sequence type.</param>
-        public SequenceSpecial(bool special, SequenceType seqType)
+        /// <param name="special">The initial value for the "Special" flag.</param>
+        public SequenceSpecial(SequenceType seqType, bool special)
             : base(seqType)
         {
             Special = special;
@@ -278,7 +276,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public Sequence Seq;
 
-        public SequenceUnary(Sequence seq, SequenceType seqType) : base(seqType)
+        public SequenceUnary(SequenceType seqType, Sequence seq) : base(seqType)
         {
             Seq = seq;
         }
@@ -332,7 +330,7 @@ namespace de.unika.ipd.grGen.libGr
         public bool Choice { get { return choice; } set { choice = value; } }
         private bool choice;
 
-        public SequenceBinary(Sequence left, Sequence right, bool random, bool choice, SequenceType seqType)
+        public SequenceBinary(SequenceType seqType, Sequence left, Sequence right, bool random, bool choice)
             : base(seqType)
         {
             Left = left;
@@ -396,7 +394,7 @@ namespace de.unika.ipd.grGen.libGr
         public bool Skip { get { return skip; } set { skip = value; } }
         bool skip;
 
-        public SequenceNAry(List<Sequence> sequences, bool choice, SequenceType seqType)
+        public SequenceNAry(SequenceType seqType, List<Sequence> sequences, bool choice)
             : base(seqType)
         {
             Sequences = sequences;
@@ -451,7 +449,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceVariable DestVar;
 
-        public SequenceAssignToVar(SequenceVariable destVar, SequenceType seqType)
+        public SequenceAssignToVar(SequenceType seqType, SequenceVariable destVar)
             : base(seqType)
         {
             DestVar = destVar;
@@ -486,7 +484,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceThenLeft : SequenceBinary
     {
         public SequenceThenLeft(Sequence left, Sequence right, bool random, bool choice)
-            : base(left, right, random, choice, SequenceType.ThenLeft)
+            : base(SequenceType.ThenLeft, left, right, random, choice)
         {
         }
 
@@ -513,7 +511,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceThenRight : SequenceBinary
     {
         public SequenceThenRight(Sequence left, Sequence right, bool random, bool choice)
-            : base(left, right, random, choice, SequenceType.ThenRight)
+            : base(SequenceType.ThenRight, left, right, random, choice)
         {
         }
 
@@ -541,7 +539,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceLazyOr : SequenceBinary
     {
         public SequenceLazyOr(Sequence left, Sequence right, bool random, bool choice)
-            : base(left, right, random, choice, SequenceType.LazyOr)
+            : base(SequenceType.LazyOr, left, right, random, choice)
         {
         }
 
@@ -563,7 +561,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceLazyAnd : SequenceBinary
     {
         public SequenceLazyAnd(Sequence left, Sequence right, bool random, bool choice)
-            : base(left, right, random, choice, SequenceType.LazyAnd)
+            : base(SequenceType.LazyAnd, left, right, random, choice)
         {
         }
 
@@ -585,7 +583,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceStrictOr : SequenceBinary
     {
         public SequenceStrictOr(Sequence left, Sequence right, bool random, bool choice)
-            : base(left, right, random, choice, SequenceType.StrictOr)
+            : base(SequenceType.StrictOr, left, right, random, choice)
         {
         }
 
@@ -607,7 +605,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceXor : SequenceBinary
     {
         public SequenceXor(Sequence left, Sequence right, bool random, bool choice)
-            : base(left, right, random, choice, SequenceType.Xor)
+            : base(SequenceType.Xor, left, right, random, choice)
         {
         }
 
@@ -629,7 +627,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceStrictAnd : SequenceBinary
     {
         public SequenceStrictAnd(Sequence left, Sequence right, bool random, bool choice)
-            : base(left, right, random, choice, SequenceType.StrictAnd)
+            : base(SequenceType.StrictAnd, left, right, random, choice)
         {
         }
 
@@ -650,7 +648,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceNot : SequenceUnary
     {
-        public SequenceNot(Sequence seq) : base(seq, SequenceType.Not) {}
+        public SequenceNot(Sequence seq) : base(SequenceType.Not, seq) {}
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
@@ -665,7 +663,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public long Min;
 
-        public SequenceIterationMin(Sequence seq, long min) : base(seq, SequenceType.IterationMin)
+        public SequenceIterationMin(Sequence seq, long min) : base(SequenceType.IterationMin, seq)
         {
             Min = min;
         }
@@ -691,7 +689,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public long Min, Max;
 
-        public SequenceIterationMinMax(Sequence seq, long min, long max) : base(seq, SequenceType.IterationMinMax)
+        public SequenceIterationMinMax(Sequence seq, long min, long max) : base(SequenceType.IterationMinMax, seq)
         {
             Min = min;
             Max = max;
@@ -746,7 +744,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test, List<FilterCall> filters)
-            : base(special, SequenceType.RuleCall)
+            : this(SequenceType.RuleCall, argExprs, returnVars, subgraph, special, test, filters)
+        {
+        }
+
+        protected SequenceRuleCall(SequenceType seqType, 
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+            bool special, bool test, List<FilterCall> filters)
+            : base(seqType, special)
         {
             InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
             InitializeReturnVariables(returnVars, out ReturnVars);
@@ -1089,9 +1094,8 @@ namespace de.unika.ipd.grGen.libGr
             bool special, bool test, List<FilterCall> filters,
             bool chooseRandom, SequenceVariable varChooseRandom,
             bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
-            : base(argExprs, returnVars, subgraph, special, test, filters)
+            : base(SequenceType.RuleAllCall, argExprs, returnVars, subgraph, special, test, filters)
         {
-            SequenceType = SequenceType.RuleAllCall;
             ChooseRandom = chooseRandom;
             if(chooseRandom)
             {
@@ -1440,9 +1444,8 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceRuleCountAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test, List<FilterCall> filters,
             SequenceVariable countResult)
-            : base(argExprs, returnVars, subgraph, special, test, filters)
+            : base(SequenceType.RuleCountAllCall, argExprs, returnVars, subgraph, special, test, filters)
         {
-            SequenceType = SequenceType.RuleCountAllCall;
             CountResult = countResult;
         }
 
@@ -1658,7 +1661,7 @@ namespace de.unika.ipd.grGen.libGr
         public bool Choice { get { return true; } set { throw new Exception("can't change Choice on SequenceAssignUserInputToVar"); } }
 
         public SequenceAssignUserInputToVar(SequenceVariable destVar, String type)
-            : base(destVar, SequenceType.AssignUserInputToVar)
+            : base(SequenceType.AssignUserInputToVar, destVar)
         {
             Type = type;
         }
@@ -1688,7 +1691,7 @@ namespace de.unika.ipd.grGen.libGr
         private bool choice;
 
         public SequenceAssignRandomIntToVar(SequenceVariable destVar, int number, bool choice)
-            : base(destVar, SequenceType.AssignRandomIntToVar)
+            : base(SequenceType.AssignRandomIntToVar, destVar)
         {
             Number = number;
             this.choice = choice;
@@ -1719,7 +1722,7 @@ namespace de.unika.ipd.grGen.libGr
         private bool choice;
 
         public SequenceAssignRandomDoubleToVar(SequenceVariable destVar, bool choice)
-            : base(destVar, SequenceType.AssignRandomDoubleToVar)
+            : base(SequenceType.AssignRandomDoubleToVar, destVar)
         {
             this.choice = choice;
         }
@@ -1745,9 +1748,8 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceDeclareVariable : SequenceAssignConstToVar
     {
         public SequenceDeclareVariable(SequenceVariable destVar)
-            : base(destVar, null)
+            : base(SequenceType.DeclareVariable, destVar, null)
         {
-            SequenceType = SequenceType.DeclareVariable;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -1763,7 +1765,12 @@ namespace de.unika.ipd.grGen.libGr
         public object Constant;
 
         public SequenceAssignConstToVar(SequenceVariable destVar, object constant)
-            : base(destVar, SequenceType.AssignConstToVar)
+            : this(SequenceType.AssignConstToVar, destVar, constant)
+        {
+        }
+
+        protected SequenceAssignConstToVar(SequenceType seqType, SequenceVariable destVar, object constant)
+            : base(seqType, destVar)
         {
             Constant = constant;
         }
@@ -1798,7 +1805,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceExpression Constructor;
 
         public SequenceAssignContainerConstructorToVar(SequenceVariable destVar, SequenceExpression constructor)
-            : base(destVar, SequenceType.AssignContainerConstructorToVar)
+            : base(SequenceType.AssignContainerConstructorToVar, destVar)
         {
             Constructor = constructor;
         }
@@ -1848,7 +1855,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable Variable;
 
         public SequenceAssignVarToVar(SequenceVariable destVar, SequenceVariable srcVar)
-            : base(destVar, SequenceType.AssignVarToVar)
+            : base(SequenceType.AssignVarToVar, destVar)
         {
             Variable = srcVar;
         }
@@ -1891,13 +1898,13 @@ namespace de.unika.ipd.grGen.libGr
         public Sequence Seq;
 
         public SequenceAssignSequenceResultToVar(SequenceVariable destVar, Sequence sequence)
-            : base(destVar, SequenceType.AssignSequenceResultToVar)
+            : base(SequenceType.AssignSequenceResultToVar, destVar)
         {
             Seq = sequence;
         }
 
         public SequenceAssignSequenceResultToVar(SequenceType seqType, SequenceVariable destVar, Sequence sequence)
-            : base(destVar, seqType)
+            : base(seqType, destVar)
         {
             Seq = sequence;
         }
@@ -2007,7 +2014,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceLazyOrAll : SequenceNAry
     {
         public SequenceLazyOrAll(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.LazyOrAll)
+            : base(SequenceType.LazyOrAll, sequences, choice)
         {
         }
 
@@ -2036,7 +2043,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceLazyAndAll : SequenceNAry
     {
         public SequenceLazyAndAll(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.LazyAndAll)
+            : base(SequenceType.LazyAndAll, sequences, choice)
         {
         }
 
@@ -2065,7 +2072,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceStrictOrAll : SequenceNAry
     {
         public SequenceStrictOrAll(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.StrictOrAll)
+            : base(SequenceType.StrictOrAll, sequences, choice)
         {
         }
 
@@ -2091,7 +2098,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceStrictAndAll : SequenceNAry
     {
         public SequenceStrictAndAll(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.StrictAndAll)
+            : base(SequenceType.StrictAndAll, sequences, choice)
         {
         }
 
@@ -2119,7 +2126,7 @@ namespace de.unika.ipd.grGen.libGr
         public List<double> Numbers;
 
         public SequenceWeightedOne(List<Sequence> sequences, List<double> numbers, bool choice)
-            : base(sequences, choice, SequenceType.WeightedOne)
+            : base(SequenceType.WeightedOne, sequences, choice)
         {
             Numbers = numbers;
             // map individual weights to a sequence of ascending intervals, with end-begin of each interval equalling the weight
@@ -2159,7 +2166,7 @@ namespace de.unika.ipd.grGen.libGr
         bool chooseRandom;
 
         public SequenceSomeFromSet(List<Sequence> sequences, bool chooseRandom, bool choice)
-            : base(sequences, choice, SequenceType.SomeFromSet)
+            : base(SequenceType.SomeFromSet, sequences, choice)
         {
             this.chooseRandom = chooseRandom;
             Matches = new List<IMatches>(Sequences.Count);
@@ -2346,7 +2353,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceTransaction : SequenceUnary
     {
-        public SequenceTransaction(Sequence seq) : base(seq, SequenceType.Transaction)
+        public SequenceTransaction(Sequence seq) : base(SequenceType.Transaction, seq)
         {
         }
 
@@ -2563,7 +2570,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequencePause : SequenceUnary
     {
         public SequencePause(Sequence seq)
-            : base(seq, SequenceType.Pause)
+            : base(SequenceType.Pause, seq)
         {
         }
 
@@ -2673,7 +2680,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceIfThen(Sequence condition, Sequence trueCase,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingIf,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingTrueCase)
-            : base(condition, trueCase, false, false, SequenceType.IfThen)
+            : base(SequenceType.IfThen, condition, trueCase, false, false)
         {
             VariablesFallingOutOfScopeOnLeavingIf = variablesFallingOutOfScopeOnLeavingIf;
             VariablesFallingOutOfScopeOnLeavingTrueCase = variablesFallingOutOfScopeOnLeavingTrueCase;
@@ -2727,7 +2734,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceForContainer(SequenceVariable var, SequenceVariable varDst, SequenceVariable container, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, SequenceType.ForContainer)
+            : base(SequenceType.ForContainer, seq)
         {
             Var = var;
             VarDst = varDst;
@@ -2851,7 +2858,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceForIntegerRange(SequenceVariable var, SequenceExpression left, SequenceExpression right, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, SequenceType.ForIntegerRange)
+            : base(SequenceType.ForIntegerRange, seq)
         {
             Var = var;
             Left = left;
@@ -2941,7 +2948,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceForIndexAccessEquality(SequenceVariable var, String indexName, SequenceExpression expr, 
             Sequence seq, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, SequenceType.ForIndexAccessEquality)
+            : base(SequenceType.ForIndexAccessEquality, seq)
         {
             Var = var;
             IndexName = indexName;
@@ -3032,7 +3039,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceForIndexAccessOrdering(SequenceVariable var, bool ascending, String indexName, 
             SequenceExpression expr, RelOpDirection dir, SequenceExpression expr2, RelOpDirection dir2,
             Sequence seq, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, SequenceType.ForIndexAccessOrdering)
+            : base(SequenceType.ForIndexAccessOrdering, seq)
         {
             Var = var;
             Ascending = ascending;
@@ -3586,10 +3593,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public bool EmitProfiling;
 
-        public SequenceForFunction(SequenceVariable var, SequenceType sequenceType,
+        public SequenceForFunction(SequenceType sequenceType, SequenceVariable var,
             List<SequenceExpression> argExprs, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, sequenceType)
+            : base(sequenceType, seq)
         {
             Var = var;
             ArgExprs = argExprs;
@@ -4555,7 +4562,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceForMatch(SequenceVariable var, Sequence rule, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
-            : base(seq, SequenceType.ForMatch)
+            : base(SequenceType.ForMatch, seq)
         {
             Var = var;
             Rule = (SequenceRuleCall)rule;
@@ -5008,7 +5015,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceSequenceCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special)
-            : base(special, SequenceType.SequenceCall)
+            : base(SequenceType.SequenceCall, special)
         {
             InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
             InitializeReturnVariables(returnVars, out ReturnVars);
@@ -5286,7 +5293,7 @@ namespace de.unika.ipd.grGen.libGr
         public String AttributeName;
 
         public SequenceExecuteInSubgraph(SequenceVariable subgraphVar, String attributeName, Sequence seq)
-            : base(seq, SequenceType.ExecuteInSubgraph)
+            : base(SequenceType.ExecuteInSubgraph, seq)
         {
             SubgraphVar = subgraphVar;
             AttributeName = attributeName;
@@ -5377,7 +5384,7 @@ namespace de.unika.ipd.grGen.libGr
         public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingComputation;
 
         public SequenceBooleanComputation(SequenceComputation comp, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingComputation, bool special)
-            : base(special, SequenceType.BooleanComputation)
+            : base(SequenceType.BooleanComputation, special)
         {
             Computation = comp;
             VariablesFallingOutOfScopeOnLeavingComputation = variablesFallingOutOfScopeOnLeavingComputation;

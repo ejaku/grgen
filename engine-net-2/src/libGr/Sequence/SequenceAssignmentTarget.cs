@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The type of the assignment target (e.g. Variable or IndexedVariable)
         /// </summary>
-        public AssignmentTargetType AssignmentTargetType;
+        public readonly AssignmentTargetType AssignmentTargetType;
 
         /// <summary>
         /// Initializes a new AssignmentTargetType object with the given assignment target type.

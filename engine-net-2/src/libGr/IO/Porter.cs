@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Import and export support for graphs.
     /// </summary>
-    public class Porter
+    public static class Porter
     {
         /// <summary>
         /// Exports the given graph to a file with the given filename.

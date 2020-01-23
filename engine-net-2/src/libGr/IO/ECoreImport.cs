@@ -22,8 +22,8 @@ namespace de.unika.ipd.grGen.libGr
     {
         class RefType
         {
-            public bool Ordered;
-            public String TypeName;
+            public readonly bool Ordered;
+            public readonly String TypeName;
 
             public RefType(bool ordered, String typeName)
             {
@@ -34,19 +34,19 @@ namespace de.unika.ipd.grGen.libGr
 
         class NodeType
         {
-            public List<String> SuperTypes = new List<String>();
-            public Dictionary<String, RefType> RefAttrToRefType = new Dictionary<String, RefType>();
+            public readonly List<String> SuperTypes = new List<String>();
+            public readonly Dictionary<String, RefType> RefAttrToRefType = new Dictionary<String, RefType>();
         }
 
         /// <summary>
         /// map of package prefixed type name to graph node type
         /// </summary>
-        Dictionary<String, NodeType> typeMap = new Dictionary<String, NodeType>();
-        
+        readonly Dictionary<String, NodeType> typeMap = new Dictionary<String, NodeType>();
+
         /// <summary>
         /// enum type definitions
         /// </summary>
-        Dictionary<String, Dictionary<String, int>> enumToLiteralToValue = new Dictionary<String, Dictionary<String, int>>();
+        readonly Dictionary<String, Dictionary<String, int>> enumToLiteralToValue = new Dictionary<String, Dictionary<String, int>>();
 
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace de.unika.ipd.grGen.libGr
         /// map of xmi:id to the graph node it denotes
         /// might be empty for documents which don't use ids to reference elements but paths
         /// </summary>
-        Dictionary<String, INode> nodeMap = new Dictionary<String, INode>();
+        readonly Dictionary<String, INode> nodeMap = new Dictionary<String, INode>();
 
 
         private void ImportGraph(String importFilename)

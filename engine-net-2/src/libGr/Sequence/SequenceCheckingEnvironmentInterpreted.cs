@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.libGr
 
         // the information available if this is an interpreted sequence 
 
-        private IActions actions;
+        private readonly IActions actions;
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.libGr
     /// A class which contains the AreSymmetric function to check to matches of a pattern for being symmetric,
     /// i.e. to be matches of a pattern which is automorph to itself.
     /// </summary>
-    public class SymmetryChecker
+    public static class SymmetryChecker
     {
         /// <summary>
         /// Checks whether the matches are symmetric, 

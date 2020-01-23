@@ -14,7 +14,7 @@ namespace de.unika.ipd.grGen.libGr
 {
     // TODO: all of this string handling is scruffy, there should be some type representation used throughout the entire backend
 
-    public class TypesHelper
+    public static class TypesHelper
     {
         public static String TypeName(GrGenType type)
         {

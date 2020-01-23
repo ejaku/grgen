@@ -107,43 +107,43 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the function.
         /// </summary>
-        public string name;
+        public readonly string name;
 
         /// <summary>
         /// The annotations of the function
         /// </summary>
-        public Annotations annotations = new Annotations();
+        public readonly Annotations annotations = new Annotations();
 
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.
         /// </summary>
-        public string package;
+        public readonly string package;
 
         /// <summary>
         /// The name of the type in case of a global type,
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
-        public string packagePrefixedName;
+        public readonly string packagePrefixedName;
 
         /// <summary>
         /// Names of the function parameters.
         /// </summary>
-        public string[] inputNames;
+        public readonly string[] inputNames;
 
         /// <summary>
         /// The GrGen types of the function parameters.
         /// </summary>
-        public GrGenType[] inputs;
+        public readonly GrGenType[] inputs;
 
         /// <summary>
         /// The GrGen type of the function return value.
         /// </summary>
-        public GrGenType output;
+        public readonly GrGenType output;
 
         /// <summary>
         /// Tells whether the function is an externally defined one or an internal one
         /// </summary>
-        public bool isExternal;
+        public readonly bool isExternal;
 
         /// <summary>
         /// Applies this function with the given action environment on the given graph.

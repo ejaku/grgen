@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class GXLExport : IDisposable
     {
-        XmlTextWriter xmlwriter;
+        readonly XmlTextWriter xmlwriter;
 
         protected GXLExport(XmlTextWriter writer) {
             xmlwriter = writer;
@@ -135,9 +135,9 @@ namespace de.unika.ipd.grGen.libGr
 
         protected struct Attr
         {
-            public String Name;
-            public String Type;
-            public String[] Value;
+            public readonly String Name;
+            public readonly String Type;
+            public readonly String[] Value;
 
             public Attr(String name, String type, String value)
             {

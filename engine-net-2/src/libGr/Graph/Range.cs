@@ -23,12 +23,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The lower bound of the range.
         /// </summary>
-        public int Min;
+        public readonly int Min;
 
         /// <summary>
         /// The upper bound of the range.
         /// </summary>
-        public int Max;
+        public readonly int Max;
 
         /// <summary>
         /// Constructs a Range object.

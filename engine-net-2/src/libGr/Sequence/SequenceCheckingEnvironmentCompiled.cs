@@ -28,9 +28,9 @@ namespace de.unika.ipd.grGen.libGr
 
         // the information available if this is a compiled sequence 
 
-        ActionNames actionNames;
+        readonly ActionNames actionNames;
 
-        ActionsTypeInformation actionsTypeInformation;
+        readonly ActionsTypeInformation actionsTypeInformation;
 
         // returns rule or sequence name to input types dictionary depending on argument
         private Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? actionsTypeInformation.rulesToInputTypes : actionsTypeInformation.sequencesToInputTypes; }
@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         private Dictionary<String, List<String>> toOutputTypes(bool rule) { return rule ? actionsTypeInformation.rulesToOutputTypes : actionsTypeInformation.sequencesToOutputTypes; }
 
         // the model object of the .grg to compile
-        private IGraphModel model;
+        private readonly IGraphModel model;
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 

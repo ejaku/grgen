@@ -78,7 +78,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The type of the sequence expression (e.g. Variable or IsVisited)
         /// </summary>
-        public SequenceExpressionType SequenceExpressionType;
+        public readonly SequenceExpressionType SequenceExpressionType;
 
         /// <summary>
         /// Initializes a new SequenceExpression object with the given sequence expression type.
@@ -88,9 +88,6 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceComputationType.Expression)
         {
             SequenceExpressionType = seqExprType;
-
-            id = idSource;
-            ++idSource;
         }
 
         /// <summary>
@@ -216,8 +213,6 @@ namespace de.unika.ipd.grGen.libGr
             SequenceExpression left, SequenceExpression right)
             : base(seqExprType)
         {
-            SequenceExpressionType = seqExprType;
-
             this.Left = left;
             this.Right = right;
         }

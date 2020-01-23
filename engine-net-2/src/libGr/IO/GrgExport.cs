@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class GRGExport : IDisposable
     {
-        StreamWriter writer;
+        readonly StreamWriter writer;
 
         protected GRGExport(String filename) 
             : this(new StreamWriter(filename))
@@ -35,7 +35,6 @@ namespace de.unika.ipd.grGen.libGr
             if (writer != null)
             {
                 writer.Dispose();
-                writer = null;
             }
         }
 

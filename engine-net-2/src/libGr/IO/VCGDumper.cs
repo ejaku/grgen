@@ -92,22 +92,22 @@ namespace de.unika.ipd.grGen.libGr
         //LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White,
         //DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac,
         //Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid, LightYellow, YellowGreen
-        static private string[] colors = { "black", "blue", "green", "cyan", "red", "purple", "khaki", "darkgrey",
+        private static readonly string[] colors = { "black", "blue", "green", "cyan", "red", "purple", "khaki", "darkgrey",
             "lightgrey", "lightblue", "lightgreen", "lightcyan", "lightred", "lightmagenta", "yellow", "white",
             "darkblue", "darkred", "darkgreen", "darkyellow", "darkmagenta", "darkcyan", "gold", "lilac",
             "turquoise", "aquamarine", "khaki", "pink", "orange", "orchid", "lightyellow", "yellowgreen"
         };
-        static private string[] orientation = { "top_to_bottom", "bottom_to_top", "left_to_right", "right_to_left" };
+        private static readonly string[] orientation = { "top_to_bottom", "bottom_to_top", "left_to_right", "right_to_left" };
         // maps by index to GrLineStyle defined in dumpInterface.cs:
         // Continuous, Dotted, Dashed, Invisible
-        static private string[] lineStyles = { "continuous", "dotted", "dashed", "invisible" };
+        private static readonly string[] lineStyles = { "continuous", "dotted", "dashed", "invisible" };
         // maps by index to GrNodeShape defined in dumpInterface.cs:
         // Box, Triangle, Circle, Ellipse, Rhomb, Hexagon,
         // Trapeze, UpTrapeze, LParallelogram, RParallelogram
-        static private string[] nodeShapes = { "box", "triangle", "circle", "ellipse", "rhomb", "hexagon",
+        private static readonly string[] nodeShapes = { "box", "triangle", "circle", "ellipse", "rhomb", "hexagon",
             "trapeze", "uptrapeze", "lparallelogram", "rparallelogram" };
 
-        private StreamWriter sw;
+        private readonly StreamWriter sw;
         private int indent = 0;
 
         private void Indent()
@@ -357,7 +357,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             sw.WriteLine('}');
             sw.Close();
-            sw = null;
         }
 
         /// <summary>

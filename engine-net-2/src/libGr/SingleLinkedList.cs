@@ -19,8 +19,8 @@ namespace de.unika.ipd.grGen.libGr
     {
         class Node
         {
-            public T Data;
-            public Node Next;
+            public readonly T Data;
+            public readonly Node Next;
 
             public Node(T data, Node next)
             {

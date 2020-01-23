@@ -40,7 +40,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The subgraph to be switched to for rule execution
         /// </summary>
-        public SequenceVariable Subgraph;
+        public readonly SequenceVariable Subgraph;
 
         protected RuleInvocation(SequenceVariable subgraph)
         {
@@ -62,7 +62,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The IAction instance to be used
         /// </summary>
-        public IAction Action;
+        public readonly IAction Action;
 
         public RuleInvocationInterpreted(IAction action,
             SequenceVariable subgraph)
@@ -77,14 +77,15 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class RuleInvocationCompiled : RuleInvocation
     {
-        private String name;
         public override String Name { get { return name; } }
 
-        private String package;
         public override String Package { get { return package; } }
 
-        private String packagePrefixedName;
         public override String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        private readonly String name;
+        private readonly String package;
+        private readonly String packagePrefixedName;
 
         public RuleInvocationCompiled(String name, String package, String packagePrefixedName,
             SequenceVariable subgraph)
@@ -104,7 +105,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The subgraph to be switched to for sequence execution
         /// </summary>
-        public SequenceVariable Subgraph;
+        public readonly SequenceVariable Subgraph;
 
         public SequenceInvocation(SequenceVariable subgraph)
         {
@@ -126,7 +127,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The defined sequence to be used
         /// </summary>
-        public ISequenceDefinition SequenceDef;
+        public readonly ISequenceDefinition SequenceDef;
 
         public SequenceInvocationInterpreted(ISequenceDefinition sequenceDef,
             SequenceVariable subgraph)
@@ -141,14 +142,15 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class SequenceInvocationCompiled : SequenceInvocation
     {
-        private String name;
         public override String Name { get { return name; } }
 
-        private String package;
         public override String Package { get { return package; } }
 
-        private String packagePrefixedName;
         public override String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        private readonly String name;
+        private readonly String package;
+        private readonly String packagePrefixedName;
 
         public SequenceInvocationCompiled(String name, String package, String packagePrefixedName,
             SequenceVariable subgraph)
@@ -184,7 +186,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The procedure to be used
         /// </summary>
-        public IProcedureDefinition ProcedureDef;
+        public readonly IProcedureDefinition ProcedureDef;
 
         public ProcedureInvocationInterpreted(IProcedureDefinition procedureDef)
         {
@@ -197,14 +199,15 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class ProcedureInvocationCompiled : ProcedureInvocation
     {
-        private String name;
         public override String Name { get { return name; } }
 
-        private String package;
         public override String Package { get { return package; } }
 
-        private String packagePrefixedName;
         public override String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        private readonly String name;
+        private readonly String package;
+        private readonly String packagePrefixedName;
 
         public ProcedureInvocationCompiled(String name, String package, String packagePrefixedName)
         {
@@ -219,12 +222,13 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class MethodProcedureInvocation : ProcedureInvocation
     {
-        private String name;
         public override String Name { get { return name; } }
 
         public override String Package { get { return null; } }
 
         public override String PackagePrefixedName { get { return name; } }
+
+        private readonly String name;
 
         public MethodProcedureInvocation(String name)
         {
@@ -256,7 +260,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The function to be used
         /// </summary>
-        public IFunctionDefinition FunctionDef;
+        public readonly IFunctionDefinition FunctionDef;
 
         public FunctionInvocationInterpreted(IFunctionDefinition functionDef)
         {
@@ -269,14 +273,15 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class FunctionInvocationCompiled : FunctionInvocation
     {
-        private String name;
         public override String Name { get { return name; } }
 
-        private String package;
         public override String Package { get { return package; } }
 
-        private String packagePrefixedName;
         public override String PackagePrefixedName { get { return packagePrefixedName; } }
+
+        private readonly String name;
+        private readonly String package;
+        private readonly String packagePrefixedName;
 
         public FunctionInvocationCompiled(String name, String package, String packagePrefixedName)
         {
@@ -291,12 +296,13 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class MethodFunctionInvocation: FunctionInvocation
     {
-        private String name;
         public override String Name { get { return name; } }
 
         public override String Package { get { return null; } }
 
         public override String PackagePrefixedName { get { return name; } }
+
+        private readonly String name;
 
         public MethodFunctionInvocation(String name)
         {

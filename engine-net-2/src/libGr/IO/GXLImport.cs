@@ -18,14 +18,14 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Imports graphs from the GXL format.
     /// </summary>
-    public class GXLImport
+    public static class GXLImport
     {
-        protected static String GetGrGenName(String xlink)
+        private static String GetGrGenName(String xlink)
         {
             return xlink.Substring(xlink.LastIndexOf('#') + 1);
         }
 
-        protected static String GetTypeName(XmlElement elem)
+        private static String GetTypeName(XmlElement elem)
         {
             XmlElement typeelem = elem["type"];
             if(typeelem == null)
@@ -36,7 +36,7 @@ namespace de.unika.ipd.grGen.libGr
             return typename;
         }
 
-        protected static String GetGXLAttr(XmlElement elem, String name, String attrkind)
+        private static String GetGXLAttr(XmlElement elem, String name, String attrkind)
         {
             XmlElement attrelem = (XmlElement) elem.SelectSingleNode("attr[@name='" + name + "']");
             if(attrelem == null)
@@ -217,7 +217,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected class AttributeClass
         {
-            public String Name;
+            public readonly String Name;
             public String Type;
 
             public AttributeClass(String name)
@@ -228,8 +228,8 @@ namespace de.unika.ipd.grGen.libGr
 
         protected class EnumDomain
         {
-            public String Name;
-            public List<EnumMember> Members = new List<EnumMember>();
+            public readonly String Name;
+            public readonly List<EnumMember> Members = new List<EnumMember>();
 
             public EnumDomain(String name)
             {
@@ -239,10 +239,10 @@ namespace de.unika.ipd.grGen.libGr
 
         protected class NodeClass
         {
-            public String Name;
-            public bool IsAbstract;
-            public List<String> SuperClasses = new List<String>();
-            public List<AttributeClass> AttrList = new List<AttributeClass>();
+            public readonly String Name;
+            public readonly bool IsAbstract;
+            public readonly List<String> SuperClasses = new List<String>();
+            public readonly List<AttributeClass> AttrList = new List<AttributeClass>();
 
             public NodeClass(String name, bool isAbstract)
             {
@@ -253,7 +253,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected class EdgeClass : NodeClass
         {
-            public bool IsDirected;
+            public readonly bool IsDirected;
 
             public EdgeClass(String name, bool isAbstract, bool isDirected)
                 : base(name, isAbstract)
@@ -264,9 +264,9 @@ namespace de.unika.ipd.grGen.libGr
 
         protected class Thing
         {
-            public String ID;
-            public ThingKind Kind;
-            public object Value;
+            public readonly String ID;
+            public readonly ThingKind Kind;
+            public readonly object Value;
 
             public Thing(String id, ThingKind kind, object thing)
             {
@@ -351,9 +351,9 @@ namespace de.unika.ipd.grGen.libGr
 
         protected class IDMap : Dictionary<String, Thing>
         {
-            public List<NodeClass>  NodeClasses = new List<NodeClass>();
-            public List<EdgeClass>  EdgeClasses = new List<EdgeClass>();
-            public List<EnumDomain> EnumDomains = new List<EnumDomain>();
+            public readonly List<NodeClass>  NodeClasses = new List<NodeClass>();
+            public readonly List<EdgeClass>  EdgeClasses = new List<EdgeClass>();
+            public readonly List<EnumDomain> EnumDomains = new List<EnumDomain>();
 
             public new Thing this[String key]
             {
@@ -374,7 +374,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected static String ImportModel(XmlElement modelgraph, String modelname)
+        private static String ImportModel(XmlElement modelgraph, String modelname)
         {
             IDMap idmap = new IDMap();
             int nextenumval = 1000;
@@ -523,7 +523,7 @@ namespace de.unika.ipd.grGen.libGr
             return modelfilename;
         }
 
-        protected static String BuildModel(IDMap idmap)
+        private static String BuildModel(IDMap idmap)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -578,7 +578,7 @@ namespace de.unika.ipd.grGen.libGr
             return sb.ToString();
         }
 
-        protected static void BuildInheritance(StringBuilder sb, NodeClass elemclass, String roottype)
+        private static void BuildInheritance(StringBuilder sb, NodeClass elemclass, String roottype)
         {
             bool first = true;
             foreach(String supertype in elemclass.SuperClasses)
@@ -595,7 +595,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected static void BuildBody(StringBuilder sb, NodeClass elemclass)
+        private static void BuildBody(StringBuilder sb, NodeClass elemclass)
         {
             sb.Append("\n{\n");
             foreach(AttributeClass attrclass in elemclass.AttrList)
@@ -609,7 +609,7 @@ namespace de.unika.ipd.grGen.libGr
             sb.Append("}\n");
         }
 
-        protected static void ImportGraph(IGraph graph, XmlDocument doc, XmlElement graphnode)
+        private static void ImportGraph(IGraph graph, XmlDocument doc, XmlElement graphnode)
         {
             IGraphModel model = graph.Model;
             Dictionary<String, INode> nodemap = new Dictionary<string, INode>();

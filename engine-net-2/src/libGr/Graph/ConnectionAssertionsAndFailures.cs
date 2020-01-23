@@ -119,23 +119,23 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The type of error.
         /// </summary>
-        public CAEType CAEType;
+        public readonly CAEType CAEType;
 
         /// <summary>
         /// Specifies the graph element, where the error was found.
         /// </summary>
-        public IGraphElement Elem;
+        public readonly IGraphElement Elem;
 
         /// <summary>
         /// The number of edges found in the graph, if CAEType != CAEType.EdgeNotSpecified.
         /// </summary>
-        public long FoundEdges;
+        public readonly long FoundEdges;
 
         /// <summary>
         /// The corresponding ValidatedInfo object, if CAEType != CAEType.EdgeNotSpecified.
         /// Otherwise it is null.
         /// </summary>
-        public ValidateInfo ValidateInfo;
+        public readonly ValidateInfo ValidateInfo;
 
         /// <summary>
         /// Initializes a ConnectionAssertionError instance.
@@ -146,7 +146,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="valInfo">The corresponding ValidatedInfo object, if CAEType != CAEType.EdgeNotSpecified, otherwise null.</param>
         public ConnectionAssertionError(CAEType caeType, IGraphElement elem, long found, ValidateInfo valInfo)
         {
-            CAEType = caeType; Elem = elem; FoundEdges = found;  ValidateInfo = valInfo;
+            CAEType = caeType;
+            Elem = elem;
+            FoundEdges = found;
+            ValidateInfo = valInfo;
         }
     }
 }

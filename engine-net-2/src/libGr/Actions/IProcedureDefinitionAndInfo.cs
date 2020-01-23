@@ -110,48 +110,48 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the procedure.
         /// </summary>
-        public string name;
+        public readonly string name;
 
         /// <summary>
         /// The annotations of the procedure
         /// </summary>
-        public Annotations annotations;
+        public readonly Annotations annotations;
 
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.
         /// </summary>
-        public string package;
+        public readonly string package;
 
         /// <summary>
         /// The name of the type in case of a global type,
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
-        public string packagePrefixedName;
+        public readonly string packagePrefixedName;
 
         /// <summary>
         /// Names of the procedure parameters.
         /// </summary>
-        public string[] inputNames;
+        public readonly string[] inputNames;
 
         /// <summary>
         /// The GrGen types of the procedure parameters.
         /// </summary>
-        public GrGenType[] inputs;
+        public readonly GrGenType[] inputs;
 
         /// <summary>
         /// The GrGen types of the procedure return values.
         /// </summary>
-        public GrGenType[] outputs;
+        public readonly GrGenType[] outputs;
 
         /// <summary>
         /// Performance optimization: saves us usage of new in implementing the Apply method for returning an array.
         /// </summary>
-        protected object[] ReturnArray;
+        protected readonly object[] ReturnArray;
 
         /// <summary>
         /// Tells whether the procedure is an externally defined one or an internal one
         /// </summary>
-        public bool isExternal;
+        public readonly bool isExternal;
 
         /// <summary>
         /// Applies this procedure with the given action environment on the given graph.

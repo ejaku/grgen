@@ -33,10 +33,10 @@ namespace de.unika.ipd.grGen.libGr
                 this.name = graph.Name;
         }
 
-        public INamedGraph graph;
-        public string name;
+        public readonly INamedGraph graph;
+        public readonly string name;
 
-        public MainGraphExportContext mainGraphContext = null; // points to the main graph context, points to self in the main graph context
+        public readonly MainGraphExportContext mainGraphContext = null; // points to the main graph context, points to self in the main graph context
 
         public string modelPathPrefix = null;
 
@@ -56,8 +56,8 @@ namespace de.unika.ipd.grGen.libGr
 
         // the name used for export may be different from the real graph name
         // here we ensure the uniqueness needed for an export / for getting an importable serialization
-        public Dictionary<INamedGraph, GraphExportContext> graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
-        public Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
+        public readonly Dictionary<INamedGraph, GraphExportContext> graphToContext = new Dictionary<INamedGraph, GraphExportContext>();
+        public readonly Dictionary<string, GraphExportContext> nameToContext = new Dictionary<string, GraphExportContext>();
 
         public bool noNewGraph = false;
         public Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip = null;
@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class GRSExport : IDisposable
     {
-        StreamWriter writer;
+        readonly StreamWriter writer;
 
         protected GRSExport(String filename) 
             : this(new StreamWriter(filename))
@@ -85,7 +85,6 @@ namespace de.unika.ipd.grGen.libGr
             if (writer != null)
             {
                 writer.Dispose();
-                writer = null;
             }
         }
 

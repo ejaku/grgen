@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The annotations of the attribute
         /// </summary>
-        public Annotations annotations = new Annotations();
+        public readonly Annotations annotations = new Annotations();
 
         /// <summary>
         /// Initializes an AttributeType instance.
