@@ -19,10 +19,22 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceBase
     {
+        /// <summary>
+        /// Initializes a new SequenceBase object (sets the id).
+        /// </summary>
         protected SequenceBase()
         {
             id = idSource;
             ++idSource;
+        }
+
+        /// <summary>
+        /// Copy constructor.
+        /// </summary>
+        /// <param name="that">The sequence base to be copied.</param>
+        protected SequenceBase(SequenceBase that)
+        {
+            id = that.id;
         }
 
         /// <summary>
