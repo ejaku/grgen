@@ -919,7 +919,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceExpressionType.Import:
                 {
                     SequenceExpressionImport seqImport = (SequenceExpressionImport)expr;
-                    return "GRGEN_LIBGR.GraphHelper.Import(" + GetSequenceExpression(seqImport.Path, source) + ", graph)";
+                    return "GRGEN_LIBGR.GraphHelper.Import(" + GetSequenceExpression(seqImport.Path, source) + ", GRGEN_LIBGR.SequenceBase.backend, graph.Model)";
                 }
 
                 case SequenceExpressionType.Copy:

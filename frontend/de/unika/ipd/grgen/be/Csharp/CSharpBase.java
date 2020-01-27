@@ -1024,7 +1024,7 @@ public abstract class CSharpBase {
 			ImportExpr ie = (ImportExpr) expr;
         	sb.append("GRGEN_LIBGR.GraphHelper.Import(");
 			genExpression(sb, ie.getPathExpr(), modifyGenerationState);
-			sb.append(", graph)");
+			sb.append(", GRGEN_LIBGR.SequenceBase.backend, graph.Model)");
 		}
 		else if(expr instanceof CopyExpr) {
 			CopyExpr ce = (CopyExpr) expr;
