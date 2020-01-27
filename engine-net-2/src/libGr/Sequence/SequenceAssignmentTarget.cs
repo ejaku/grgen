@@ -101,7 +101,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class AssignmentTargetVar : AssignmentTarget
     {
-        public SequenceVariable DestVar;
+        public readonly SequenceVariable DestVar;
 
         public AssignmentTargetVar(SequenceVariable destVar)
             : base(AssignmentTargetType.Var)
@@ -142,7 +142,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class AssignmentTargetYieldingVar : AssignmentTarget
     {
-        public SequenceVariable DestVar;
+        public readonly SequenceVariable DestVar;
 
         public AssignmentTargetYieldingVar(SequenceVariable destVar)
             : base(AssignmentTargetType.YieldingToVar)
@@ -183,8 +183,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class AssignmentTargetIndexedVar : AssignmentTarget
     {
-        public SequenceVariable DestVar;
-        public SequenceExpression KeyExpression;
+        public readonly SequenceVariable DestVar;
+        public readonly SequenceExpression KeyExpression;
 
         public AssignmentTargetIndexedVar(SequenceVariable destVar, SequenceExpression keyExpr)
             : base(AssignmentTargetType.IndexedVar)
@@ -285,8 +285,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class AssignmentTargetAttribute : AssignmentTarget
     {
-        public SequenceVariable DestVar;
-        public String AttributeName;
+        public readonly SequenceVariable DestVar;
+        public readonly String AttributeName;
 
         public AssignmentTargetAttribute(SequenceVariable destVar, String attributeName)
             : base(AssignmentTargetType.Attribute)
@@ -366,9 +366,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class AssignmentTargetAttributeIndexed : AssignmentTarget
     {
-        public SequenceVariable DestVar;
-        public String AttributeName;
-        public SequenceExpression KeyExpression;
+        public readonly SequenceVariable DestVar;
+        public readonly String AttributeName;
+        public readonly SequenceExpression KeyExpression;
 
         public AssignmentTargetAttributeIndexed(SequenceVariable destVar, String attributeName, SequenceExpression keyExpr)
             : base(AssignmentTargetType.AttributeIndexed)
@@ -503,8 +503,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class AssignmentTargetVisited : AssignmentTarget
     {
-        public SequenceVariable GraphElementVar;
-        public SequenceExpression VisitedFlagExpression;
+        public readonly SequenceVariable GraphElementVar;
+        public readonly SequenceExpression VisitedFlagExpression;
 
         public AssignmentTargetVisited(SequenceVariable graphElementVar, SequenceExpression visitedFlagExpr)
             : base(AssignmentTargetType.Visited)

@@ -141,8 +141,8 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceComputationContainer : SequenceComputation
     {
-        public SequenceVariable Container;
-        public SequenceExpressionAttributeAccess Attribute;
+        public readonly SequenceVariable Container;
+        public readonly SequenceExpressionAttributeAccess Attribute;
 
         public SequenceComputationContainer(SequenceComputationType type, SequenceVariable container)
             : base(type)
@@ -214,8 +214,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationThen : SequenceComputation
     {
-        public SequenceComputation left;
-        public SequenceComputation right;
+        public readonly SequenceComputation left;
+        public readonly SequenceComputation right;
 
         public SequenceComputationThen(SequenceComputation left, SequenceComputation right)
             : base(SequenceComputationType.Then)
@@ -291,8 +291,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationVFree : SequenceComputation
     {
-        public SequenceExpression VisitedFlagExpression;
-        public bool Reset;
+        public readonly SequenceExpression VisitedFlagExpression;
+        public readonly bool Reset;
 
         public SequenceComputationVFree(SequenceExpression visitedFlagExpr, bool reset)
             : base(reset ? SequenceComputationType.VFree : SequenceComputationType.VFreeNonReset)
@@ -346,7 +346,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationVReset : SequenceComputation
     {
-        public SequenceExpression VisitedFlagExpression;
+        public readonly SequenceExpression VisitedFlagExpression;
 
         public SequenceComputationVReset(SequenceExpression visitedFlagExpr)
             : base(SequenceComputationType.VReset)
@@ -395,8 +395,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationContainerAdd : SequenceComputationContainer
     {
-        public SequenceExpression Expr;
-        public SequenceExpression ExprDst;
+        public readonly SequenceExpression Expr;
+        public readonly SequenceExpression ExprDst;
 
         public SequenceComputationContainerAdd(SequenceVariable container, SequenceExpression expr, SequenceExpression exprDst)
             : base(SequenceComputationType.ContainerAdd, container)
@@ -574,7 +574,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationContainerRem : SequenceComputationContainer
     {
-        public SequenceExpression Expr;
+        public readonly SequenceExpression Expr;
 
         public SequenceComputationContainerRem(SequenceVariable container, SequenceExpression expr)
             : base(SequenceComputationType.ContainerRem, container)
@@ -861,8 +861,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationAssignment : SequenceComputation
     {
-        public AssignmentTarget Target;
-        public SequenceComputation SourceValueProvider;
+        public readonly AssignmentTarget Target;
+        public readonly SequenceComputation SourceValueProvider;
 
         public SequenceComputationAssignment(AssignmentTarget tgt, SequenceComputation srcValueProvider)
             : base(SequenceComputationType.Assignment)
@@ -914,7 +914,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationVariableDeclaration : SequenceComputation
     {
-        public SequenceVariable Target;
+        public readonly SequenceVariable Target;
 
         public SequenceComputationVariableDeclaration(SequenceVariable tgt)
             : base(SequenceComputationType.VariableDeclaration)
@@ -953,8 +953,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationDebugAdd : SequenceComputation
     {
-        public List<SequenceExpression> ArgExprs;
-        object[] values;
+        public readonly List<SequenceExpression> ArgExprs;
+        readonly object[] values;
 
         public SequenceComputationDebugAdd(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugAdd)
@@ -1023,8 +1023,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationDebugRem : SequenceComputation
     {
-        public List<SequenceExpression> ArgExprs;
-        object[] values;
+        public readonly List<SequenceExpression> ArgExprs;
+        readonly object[] values;
 
         public SequenceComputationDebugRem(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugRem)
@@ -1093,8 +1093,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationDebugEmit : SequenceComputation
     {
-        public List<SequenceExpression> ArgExprs;
-        object[] values;
+        public readonly List<SequenceExpression> ArgExprs;
+        readonly object[] values;
 
         public SequenceComputationDebugEmit(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugEmit)
@@ -1163,8 +1163,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationDebugHalt : SequenceComputation
     {
-        public List<SequenceExpression> ArgExprs;
-        object[] values;
+        public readonly List<SequenceExpression> ArgExprs;
+        readonly object[] values;
 
         public SequenceComputationDebugHalt(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugHalt)
@@ -1233,7 +1233,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationDebugHighlight : SequenceComputation
     {
-        public List<SequenceExpression> ArgExprs;
+        public readonly List<SequenceExpression> ArgExprs;
 
         public SequenceComputationDebugHighlight(List<SequenceExpression> argExprs)
             : base(SequenceComputationType.DebugHighlight)
@@ -1308,8 +1308,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationEmit : SequenceComputation
     {
-        public List<SequenceExpression> Expressions;
-        public bool IsDebug;
+        public readonly List<SequenceExpression> Expressions;
+        public readonly bool IsDebug;
 
         public SequenceComputationEmit(List<SequenceExpression> exprs, bool isDebug)
             : base(SequenceComputationType.Emit)
@@ -1422,7 +1422,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationRecord : SequenceComputation
     {
-        public SequenceExpression Expression;
+        public readonly SequenceExpression Expression;
 
         public SequenceComputationRecord(SequenceExpression expr)
             : base(SequenceComputationType.Record)
@@ -1506,8 +1506,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationExport : SequenceComputation
     {
-        public SequenceExpression Name;
-        public SequenceExpression Graph;
+        public readonly SequenceExpression Name;
+        public readonly SequenceExpression Graph;
 
         public SequenceComputationExport(SequenceExpression expr1, SequenceExpression expr2)
             : base(SequenceComputationType.Export)
@@ -1559,7 +1559,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationDeleteFile : SequenceComputation
     {
-        public SequenceExpression Name;
+        public readonly SequenceExpression Name;
 
         public SequenceComputationDeleteFile(SequenceExpression expr1)
             : base(SequenceComputationType.DeleteFile)
@@ -1599,9 +1599,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationGraphAdd : SequenceComputation
     {
-        public SequenceExpression Expr;
-        public SequenceExpression ExprSrc;
-        public SequenceExpression ExprDst;
+        public readonly SequenceExpression Expr;
+        public readonly SequenceExpression ExprSrc;
+        public readonly SequenceExpression ExprDst;
 
         public SequenceComputationGraphAdd(SequenceExpression expr, SequenceExpression exprSrc, SequenceExpression exprDst)
             : base(SequenceComputationType.GraphAdd)
@@ -1747,7 +1747,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationGraphRem : SequenceComputation
     {
-        public SequenceExpression Expr;
+        public readonly SequenceExpression Expr;
 
         public SequenceComputationGraphRem(SequenceExpression expr)
             : base(SequenceComputationType.GraphRem)
@@ -1841,8 +1841,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationGraphRetype : SequenceComputation
     {
-        public SequenceExpression ElemExpr;
-        public SequenceExpression TypeExpr;
+        public readonly SequenceExpression ElemExpr;
+        public readonly SequenceExpression TypeExpr;
 
         public SequenceComputationGraphRetype(SequenceExpression elemExpr, SequenceExpression typeExpr)
             : base(SequenceComputationType.GraphRetype)
@@ -1936,9 +1936,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationGraphAddCopy : SequenceComputation
     {
-        public SequenceExpression Expr;
-        public SequenceExpression ExprSrc;
-        public SequenceExpression ExprDst;
+        public readonly SequenceExpression Expr;
+        public readonly SequenceExpression ExprSrc;
+        public readonly SequenceExpression ExprDst;
 
         public SequenceComputationGraphAddCopy(SequenceExpression expr, SequenceExpression exprSrc, SequenceExpression exprDst)
             : base(SequenceComputationType.GraphAddCopy)
@@ -2032,8 +2032,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationGraphMerge : SequenceComputation
     {
-        public SequenceExpression TargetNodeExpr;
-        public SequenceExpression SourceNodeExpr;
+        public readonly SequenceExpression TargetNodeExpr;
+        public readonly SequenceExpression SourceNodeExpr;
 
         public SequenceComputationGraphMerge(SequenceExpression targetNodeExpr, SequenceExpression sourceNodeExpr)
             : base(SequenceComputationType.GraphMerge)
@@ -2097,8 +2097,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationGraphRedirectSource : SequenceComputation
     {
-        public SequenceExpression EdgeExpr;
-        public SequenceExpression SourceNodeExpr;
+        public readonly SequenceExpression EdgeExpr;
+        public readonly SequenceExpression SourceNodeExpr;
 
         public SequenceComputationGraphRedirectSource(SequenceExpression edgeExpr, SequenceExpression sourceNodeExpr)
             : base(SequenceComputationType.GraphRedirectSource)
@@ -2164,8 +2164,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationGraphRedirectTarget : SequenceComputation
     {
-        public SequenceExpression EdgeExpr;
-        public SequenceExpression TargetNodeExpr;
+        public readonly SequenceExpression EdgeExpr;
+        public readonly SequenceExpression TargetNodeExpr;
 
         public SequenceComputationGraphRedirectTarget(SequenceExpression edgeExpr, SequenceExpression targetNodeExpr)
             : base(SequenceComputationType.GraphRedirectTarget)
@@ -2231,9 +2231,9 @@ namespace de.unika.ipd.grGen.libGr
     
     public class SequenceComputationGraphRedirectSourceAndTarget : SequenceComputation
     {
-        public SequenceExpression EdgeExpr;
-        public SequenceExpression SourceNodeExpr;
-        public SequenceExpression TargetNodeExpr;
+        public readonly SequenceExpression EdgeExpr;
+        public readonly SequenceExpression SourceNodeExpr;
+        public readonly SequenceExpression TargetNodeExpr;
 
         public SequenceComputationGraphRedirectSourceAndTarget(SequenceExpression edgeExpr, SequenceExpression sourceNodeExpr, SequenceExpression targetNodeExpr)
             : base(SequenceComputationType.GraphRedirectSourceAndTarget)
@@ -2310,7 +2310,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationInsert : SequenceComputation
     {
-        public SequenceExpression Graph;
+        public readonly SequenceExpression Graph;
 
         public SequenceComputationInsert(SequenceExpression graph)
             : base(SequenceComputationType.Insert)
@@ -2362,8 +2362,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationInsertCopy : SequenceComputation
     {
-        public SequenceExpression Graph;
-        public SequenceExpression RootNode;
+        public readonly SequenceExpression Graph;
+        public readonly SequenceExpression RootNode;
 
         public SequenceComputationInsertCopy(SequenceExpression graph, SequenceExpression rootNode)
             : base(SequenceComputationType.InsertCopy)
@@ -2431,8 +2431,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationInsertInduced : SequenceComputation
     {
-        public SequenceExpression NodeSet;
-        public SequenceExpression RootNode;
+        public readonly SequenceExpression NodeSet;
+        public readonly SequenceExpression RootNode;
 
         public SequenceComputationInsertInduced(SequenceExpression nodeSet, SequenceExpression rootNode)
             : base(SequenceComputationType.InsertInduced)
@@ -2504,8 +2504,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationInsertDefined : SequenceComputation
     {
-        public SequenceExpression EdgeSet;
-        public SequenceExpression RootEdge;
+        public readonly SequenceExpression EdgeSet;
+        public readonly SequenceExpression RootEdge;
 
         public SequenceComputationInsertDefined(SequenceExpression edgeSet, SequenceExpression rootEdge)
             : base(SequenceComputationType.InsertDefined)
@@ -2580,8 +2580,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationBuiltinProcedureCall : SequenceComputation
     {
-        public SequenceComputation BuiltinProcedure;
-        public List<SequenceVariable> ReturnVars;
+        public readonly SequenceComputation BuiltinProcedure;
+        public readonly List<SequenceVariable> ReturnVars;
 
         public SequenceComputationBuiltinProcedureCall(SequenceComputation builtinProcedure, List<SequenceVariable> returnVars)
             : base(SequenceComputationType.BuiltinProcedureCall)
@@ -2679,17 +2679,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// An array of expressions used to compute the input arguments.
         /// </summary>
-        public SequenceExpression[] ArgumentExpressions;
+        public readonly SequenceExpression[] ArgumentExpressions;
 
         /// <summary>
         /// Buffer to store the argument values for the call; used to avoid unneccessary memory allocations.
         /// </summary>
-        public object[] Arguments;
+        public readonly object[] Arguments;
 
         /// <summary>
         /// An array of variables used for the return values. Might be empty if the caller is not interested in available returns values.
         /// </summary>
-        public SequenceVariable[] ReturnVars;
+        public readonly SequenceVariable[] ReturnVars;
 
         public abstract ProcedureInvocation ProcedureInvocation { get; }
         public abstract String NameForProcedureString { get; }
@@ -2771,7 +2771,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The procedure to be used
         /// </summary>
-        public IProcedureDefinition ProcedureDef;
+        public readonly IProcedureDefinition ProcedureDef;
 
         public override ProcedureInvocation ProcedureInvocation
         {
@@ -2820,17 +2820,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the procedure.
         /// </summary>
-        public String Name;
+        public readonly String Name;
 
         /// <summary>
         /// null if this is a call of a global procedure, otherwise the package the call target is contained in.
         /// </summary>
-        public String Package;
+        public readonly String Package;
 
         /// <summary>
         /// The name of the procedure, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
         /// </summary>
-        public String PackagePrefixedName;
+        public readonly String PackagePrefixedName;
 
         public override ProcedureInvocation ProcedureInvocation
         {
@@ -2876,10 +2876,10 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationProcedureMethodCall : SequenceComputationProcedureCall
     {
-        public SequenceExpression TargetExpr;
-        public SequenceVariable TargetVar;
+        public readonly SequenceExpression TargetExpr;
+        public readonly SequenceVariable TargetVar;
 
-        String Name;
+        readonly String Name;
 
         public override ProcedureInvocation ProcedureInvocation
         {

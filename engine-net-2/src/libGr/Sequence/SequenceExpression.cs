@@ -161,7 +161,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceExpressionContainer : SequenceExpression
     {
-        public SequenceExpression ContainerExpr;
+        public readonly SequenceExpression ContainerExpr;
 
         public SequenceExpressionContainer(SequenceExpressionType type, SequenceExpression containerExpr)
             : base(type)
@@ -211,8 +211,8 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceBinaryExpression : SequenceExpression
     {
-        public SequenceExpression Left;
-        public SequenceExpression Right;
+        public readonly SequenceExpression Left;
+        public readonly SequenceExpression Right;
 
         // statically known types of the binary expression
         public string LeftTypeStatic;
@@ -284,9 +284,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionConditional : SequenceExpression
     {
-        public SequenceExpression Condition;
-        public SequenceExpression TrueCase;
-        public SequenceExpression FalseCase;
+        public readonly SequenceExpression Condition;
+        public readonly SequenceExpression TrueCase;
+        public readonly SequenceExpression FalseCase;
 
         public SequenceExpressionConditional(SequenceExpression condition, 
             SequenceExpression trueCase, 
@@ -476,7 +476,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionNot : SequenceExpression
     {
-        public SequenceExpression Operand;
+        public readonly SequenceExpression Operand;
 
         public SequenceExpressionNot(SequenceExpression operand)
             : base(SequenceExpressionType.Not)
@@ -513,8 +513,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCast : SequenceExpression
     {
-        public SequenceExpression Operand;
-        public object TargetType;
+        public readonly SequenceExpression Operand;
+        public readonly object TargetType;
 
         public SequenceExpressionCast(SequenceExpression operand, object targetType)
             : base(SequenceExpressionType.Cast)
@@ -1236,7 +1236,7 @@ namespace de.unika.ipd.grGen.libGr
     
     public class SequenceExpressionVariable : SequenceExpression
     {
-        public SequenceVariable Variable;
+        public readonly SequenceVariable Variable;
 
         public SequenceExpressionVariable(SequenceVariable var)
             : base(SequenceExpressionType.Variable)
@@ -1278,8 +1278,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionThis : SequenceExpression
     {
-        public string RuleOfMatchThis;
-        public string TypeOfGraphElementThis;
+        public readonly string RuleOfMatchThis;
+        public readonly string TypeOfGraphElementThis;
 
         public SequenceExpressionThis(string ruleOfMatchThis, string typeOfGraphElementThis)
             : base(SequenceExpressionType.This)
@@ -1327,8 +1327,8 @@ namespace de.unika.ipd.grGen.libGr
     
     public abstract class SequenceExpressionContainerConstructor : SequenceExpression
     {
-        public String ValueType;
-        public SequenceExpression[] ContainerItems;
+        public readonly String ValueType;
+        public readonly SequenceExpression[] ContainerItems;
 
         public SequenceExpressionContainerConstructor(SequenceExpressionType seqExprType, String valueType, SequenceExpression[] containerItems)
             : base(seqExprType)
@@ -1428,8 +1428,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionMapConstructor : SequenceExpressionContainerConstructor
     {
-        public String KeyType;
-        public SequenceExpression[] MapKeyItems;
+        public readonly String KeyType;
+        public readonly SequenceExpression[] MapKeyItems;
 
         public SequenceExpressionMapConstructor(String keyType, String valueType,
             SequenceExpression[] mapKeyItems, SequenceExpression[] mapValueItems)
@@ -1637,8 +1637,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionSetCopyConstructor : SequenceExpression
     {
-        public String ValueType;
-        public SequenceExpression SetToCopy;
+        public readonly String ValueType;
+        public readonly SequenceExpression SetToCopy;
 
         public SequenceExpressionSetCopyConstructor(String valueType, SequenceExpression setToCopy)
             : base(SequenceExpressionType.SetCopyConstructor)
@@ -1719,7 +1719,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionRandom : SequenceExpression
     {
-        public SequenceExpression UpperBound;
+        public readonly SequenceExpression UpperBound;
 
         public SequenceExpressionRandom(SequenceExpression upperBound)
             : base(SequenceExpressionType.Random)
@@ -1782,7 +1782,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionDef : SequenceExpression
     {
-        public SequenceExpression[] DefVars;
+        public readonly SequenceExpression[] DefVars;
 
         public SequenceExpressionDef(SequenceExpression[] defVars)
             : base(SequenceExpressionType.Def)
@@ -1852,8 +1852,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionIsVisited : SequenceExpression
     {
-        public SequenceVariable GraphElementVar;
-        public SequenceExpression VisitedFlagExpr;
+        public readonly SequenceVariable GraphElementVar;
+        public readonly SequenceExpression VisitedFlagExpr;
 
         public SequenceExpressionIsVisited(SequenceVariable graphElementVar, SequenceExpression visitedFlagExpr)
             : base(SequenceExpressionType.IsVisited)
@@ -1910,8 +1910,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionInContainer : SequenceExpression
     {
-        public SequenceExpression Expr;
-        public SequenceExpression ContainerExpr;
+        public readonly SequenceExpression Expr;
+        public readonly SequenceExpression ContainerExpr;
 
         public SequenceExpressionInContainer(SequenceExpression expr, SequenceExpression container)
             : base(SequenceExpressionType.InContainer)
@@ -2122,8 +2122,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionContainerAccess : SequenceExpression
     {
-        public SequenceExpression ContainerExpr;
-        public SequenceExpression KeyExpr;
+        public readonly SequenceExpression ContainerExpr;
+        public readonly SequenceExpression KeyExpr;
 
         public SequenceExpressionContainerAccess(SequenceExpression containerExpr, SequenceExpression keyExpr)
             : base(SequenceExpressionType.ContainerAccess)
@@ -2248,7 +2248,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionContainerPeek : SequenceExpressionContainer
     {
-        public SequenceExpression KeyExpr;
+        public readonly SequenceExpression KeyExpr;
 
         public SequenceExpressionContainerPeek(SequenceExpression containerExpr, SequenceExpression keyExpr)
             : base(SequenceExpressionType.ContainerPeek, containerExpr)
@@ -2318,7 +2318,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionElementFromGraph : SequenceExpression
     {
-        public String ElementName;
+        public readonly String ElementName;
         public bool EmitProfiling;
 
         public SequenceExpressionElementFromGraph(String elemName)
@@ -2368,8 +2368,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionNodeByName : SequenceExpression
     {
-        public SequenceExpression NodeName;
-        public SequenceExpression NodeType;
+        public readonly SequenceExpression NodeName;
+        public readonly SequenceExpression NodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionNodeByName(SequenceExpression nodeName, SequenceExpression nodeType)
@@ -2467,8 +2467,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionEdgeByName : SequenceExpression
     {
-        public SequenceExpression EdgeName;
-        public SequenceExpression EdgeType;
+        public readonly SequenceExpression EdgeName;
+        public readonly SequenceExpression EdgeType;
         public bool EmitProfiling;
 
         public SequenceExpressionEdgeByName(SequenceExpression edgeName, SequenceExpression edgeType)
@@ -2566,8 +2566,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionNodeByUnique : SequenceExpression
     {
-        public SequenceExpression NodeUniqueId;
-        public SequenceExpression NodeType;
+        public readonly SequenceExpression NodeUniqueId;
+        public readonly SequenceExpression NodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionNodeByUnique(SequenceExpression nodeUniqueId, SequenceExpression nodeType)
@@ -2664,8 +2664,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionEdgeByUnique : SequenceExpression
     {
-        public SequenceExpression EdgeUniqueId;
-        public SequenceExpression EdgeType;
+        public readonly SequenceExpression EdgeUniqueId;
+        public readonly SequenceExpression EdgeType;
         public bool EmitProfiling;
 
         public SequenceExpressionEdgeByUnique(SequenceExpression edgeName, SequenceExpression edgeType)
@@ -2762,7 +2762,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionSource : SequenceExpression
     {
-        public SequenceExpression Edge;
+        public readonly SequenceExpression Edge;
 
         public SequenceExpressionSource(SequenceExpression edge)
             : base(SequenceExpressionType.Source)
@@ -2798,7 +2798,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionTarget : SequenceExpression
     {
-        public SequenceExpression Edge;
+        public readonly SequenceExpression Edge;
 
         public SequenceExpressionTarget(SequenceExpression edge)
             : base(SequenceExpressionType.Target)
@@ -2834,8 +2834,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionOpposite : SequenceExpression
     {
-        public SequenceExpression Edge;
-        public SequenceExpression Node;
+        public readonly SequenceExpression Edge;
+        public readonly SequenceExpression Node;
 
         public SequenceExpressionOpposite(SequenceExpression edge, SequenceExpression node)
             : base(SequenceExpressionType.Opposite)
@@ -2873,9 +2873,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionAttributeAccess : SequenceExpression
     {
-        public SequenceVariable SourceVar;
-        public SequenceExpressionThis SourceThis;
-        public String AttributeName;
+        public readonly SequenceVariable SourceVar;
+        public readonly SequenceExpressionThis SourceThis;
+        public readonly String AttributeName;
 
         public SequenceExpressionAttributeAccess(SequenceVariable sourceVar, String attributeName)
             : base(SequenceExpressionType.GraphElementAttribute)
@@ -2996,9 +2996,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionMatchAccess : SequenceExpression
     {
-        public SequenceVariable SourceVar;
-        public SequenceExpressionThis SourceThis;
-        public String ElementName;
+        public readonly SequenceVariable SourceVar;
+        public readonly SequenceExpressionThis SourceThis;
+        public readonly String ElementName;
 
         public SequenceExpressionMatchAccess(SequenceVariable sourceVar, String elementName)
             : base(SequenceExpressionType.ElementOfMatch)
@@ -3089,7 +3089,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionNodes : SequenceExpression
     {
-        public SequenceExpression NodeType;
+        public readonly SequenceExpression NodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionNodes(SequenceExpression nodeType)
@@ -3229,7 +3229,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionEdges : SequenceExpressionGraphQuery
     {
-        public SequenceExpression EdgeType;
+        public readonly SequenceExpression EdgeType;
         public bool EmitProfiling;
 
         public SequenceExpressionEdges(SequenceExpression edgeType)
@@ -3325,7 +3325,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCountNodes : SequenceExpression
     {
-        public SequenceExpression NodeType;
+        public readonly SequenceExpression NodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionCountNodes(SequenceExpression nodeType)
@@ -3421,7 +3421,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCountEdges : SequenceExpression
     {
-        public SequenceExpression EdgeType;
+        public readonly SequenceExpression EdgeType;
         public bool EmitProfiling;
 
         public SequenceExpressionCountEdges(SequenceExpression edgeType)
@@ -3640,9 +3640,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionAdjacentIncident : SequenceExpressionGraphQuery
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionAdjacentIncident(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -3838,9 +3838,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCountAdjacentIncident : SequenceExpression
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionCountAdjacentIncident(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -4030,9 +4030,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionReachable : SequenceExpressionGraphQuery
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionReachable(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -4228,9 +4228,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCountReachable : SequenceExpression
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionCountReachable(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -4417,10 +4417,10 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionBoundedReachable : SequenceExpressionGraphQuery
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression Depth;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression Depth;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionBoundedReachable(SequenceExpression sourceNode, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -4627,10 +4627,10 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionBoundedReachableWithRemainingDepth : SequenceExpression
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression Depth;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression Depth;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionBoundedReachableWithRemainingDepth(SequenceExpression sourceNode, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -4809,10 +4809,10 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCountBoundedReachable : SequenceExpression
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression Depth;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression Depth;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionCountBoundedReachable(SequenceExpression sourceNode, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -5010,11 +5010,11 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionIsBoundedReachable : SequenceExpression
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression EndElement;
-        public SequenceExpression Depth;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression EndElement;
+        public readonly SequenceExpression Depth;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionIsBoundedReachable(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -5235,10 +5235,10 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionIsAdjacentIncident : SequenceExpression
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression EndElement;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression EndElement;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionIsAdjacentIncident(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -5448,10 +5448,10 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionIsReachable : SequenceExpression
     {
-        public SequenceExpression SourceNode;
-        public SequenceExpression EndElement;
-        public SequenceExpression EdgeType;
-        public SequenceExpression OppositeNodeType;
+        public readonly SequenceExpression SourceNode;
+        public readonly SequenceExpression EndElement;
+        public readonly SequenceExpression EdgeType;
+        public readonly SequenceExpression OppositeNodeType;
         public bool EmitProfiling;
 
         public SequenceExpressionIsReachable(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
@@ -5661,7 +5661,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionInducedSubgraph : SequenceExpression
     {
-        public SequenceExpression NodeSet;
+        public readonly SequenceExpression NodeSet;
 
         public SequenceExpressionInducedSubgraph(SequenceExpression nodeSet)
             : base(SequenceExpressionType.InducedSubgraph)
@@ -5721,7 +5721,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionDefinedSubgraph : SequenceExpression
     {
-        public SequenceExpression EdgeSet;
+        public readonly SequenceExpression EdgeSet;
 
         public SequenceExpressionDefinedSubgraph(SequenceExpression edgeSet)
             : base(SequenceExpressionType.DefinedSubgraph)
@@ -5783,9 +5783,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionEqualsAny : SequenceExpression
     {
-        public SequenceExpression Subgraph;
-        public SequenceExpression SubgraphSet;
-        public bool IncludingAttributes;
+        public readonly SequenceExpression Subgraph;
+        public readonly SequenceExpression SubgraphSet;
+        public readonly bool IncludingAttributes;
 
         public SequenceExpressionEqualsAny(SequenceExpression subgraph, SequenceExpression subgraphSet, bool includingAttributes)
             : base(SequenceExpressionType.EqualsAny)
@@ -5862,7 +5862,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCanonize : SequenceExpression
     {
-        public SequenceExpression Graph;
+        public readonly SequenceExpression Graph;
 
         public SequenceExpressionCanonize(SequenceExpression graph)
             : base(SequenceExpressionType.Canonize)
@@ -5918,7 +5918,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionNameof : SequenceExpression
     {
-        public SequenceExpression NamedEntity;
+        public readonly SequenceExpression NamedEntity;
 
         public SequenceExpressionNameof(SequenceExpression namedEntity)
             : base(SequenceExpressionType.Nameof)
@@ -5980,7 +5980,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionUniqueof : SequenceExpression
     {
-        public SequenceExpression UniquelyIdentifiedEntity;
+        public readonly SequenceExpression UniquelyIdentifiedEntity;
 
         public SequenceExpressionUniqueof(SequenceExpression uniquelyIdentifiedEntity)
             : base(SequenceExpressionType.Uniqueof)
@@ -6042,7 +6042,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionTypeof : SequenceExpression
     {
-        public SequenceExpression Entity;
+        public readonly SequenceExpression Entity;
 
         public SequenceExpressionTypeof(SequenceExpression entity)
             : base(SequenceExpressionType.Typeof)
@@ -6090,7 +6090,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionExistsFile : SequenceExpression
     {
-        public SequenceExpression Path;
+        public readonly SequenceExpression Path;
 
         public SequenceExpressionExistsFile(SequenceExpression path)
             : base(SequenceExpressionType.ExistsFile)
@@ -6146,7 +6146,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionImport : SequenceExpression
     {
-        public SequenceExpression Path;
+        public readonly SequenceExpression Path;
 
         public SequenceExpressionImport(SequenceExpression path)
             : base(SequenceExpressionType.Import)
@@ -6202,7 +6202,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionCopy : SequenceExpression
     {
-        public SequenceExpression ObjectToBeCopied;
+        public readonly SequenceExpression ObjectToBeCopied;
 
         public SequenceExpressionCopy(SequenceExpression objectToBeCopied)
             : base(SequenceExpressionType.Copy)
@@ -6268,12 +6268,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// An array of expressions used to compute the input arguments.
         /// </summary>
-        public SequenceExpression[] ArgumentExpressions;
+        public readonly SequenceExpression[] ArgumentExpressions;
 
         /// <summary>
         /// Buffer to store the argument values for the call; used to avoid unneccessary memory allocations.
         /// </summary>
-        public object[] Arguments;
+        public readonly object[] Arguments;
 
         public abstract FunctionInvocation FunctionInvocation { get; }
         public abstract String NameForFunctionString { get; }
@@ -6343,7 +6343,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The function to be used
         /// </summary>
-        public IFunctionDefinition FunctionDef;
+        public readonly IFunctionDefinition FunctionDef;
 
         public override FunctionInvocation FunctionInvocation
         {
@@ -6392,22 +6392,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the function.
         /// </summary>
-        public String Name;
+        public readonly String Name;
 
         /// <summary>
         /// null if this is a call of a global function, otherwise the package the call target is contained in.
         /// </summary>
-        public String Package;
+        public readonly String Package;
 
         /// <summary>
         /// The name of the function, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
         /// </summary>
-        public String PackagePrefixedName;
+        public readonly String PackagePrefixedName;
 
         /// <summary>
         /// The type returned
         /// </summary>
-        public string ReturnType;
+        public readonly string ReturnType;
 
         public override FunctionInvocation FunctionInvocation
         {
@@ -6457,9 +6457,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionFunctionMethodCall : SequenceExpressionFunctionCall
     {
-        public SequenceExpression TargetExpr;
+        public readonly SequenceExpression TargetExpr;
 
-        String Name;
+        readonly String Name;
 
         public override FunctionInvocation FunctionInvocation
         {

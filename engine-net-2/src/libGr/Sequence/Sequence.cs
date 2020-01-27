@@ -296,7 +296,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceUnary : Sequence
     {
-        public Sequence Seq;
+        public readonly Sequence Seq;
 
         public SequenceUnary(SequenceType seqType, Sequence seq) : base(seqType)
         {
@@ -343,8 +343,8 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceBinary : Sequence, SequenceRandomChoice
     {
-        public Sequence Left;
-        public Sequence Right;
+        public readonly Sequence Left;
+        public readonly Sequence Right;
         public bool Random { get { return random; } set { random = value; } }
         private bool random;
         public bool Choice { get { return choice; } set { choice = value; } }
@@ -407,7 +407,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceNAry : Sequence, SequenceRandomChoice
     {
-        public List<Sequence> Sequences;
+        public readonly List<Sequence> Sequences;
         public virtual bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceNAry"); } }
         public bool Choice { get { return choice; } set { choice = value; } }
         bool choice;
@@ -466,7 +466,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceAssignToVar : Sequence
     {
-        public SequenceVariable DestVar;
+        public readonly SequenceVariable DestVar;
 
         public SequenceAssignToVar(SequenceType seqType, SequenceVariable destVar)
             : base(seqType)
@@ -760,7 +760,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceIterationMin : SequenceUnary
     {
-        public long Min;
+        public readonly long Min;
 
         public SequenceIterationMin(Sequence seq, long min) : base(SequenceType.IterationMin, seq)
         {
@@ -797,7 +797,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceIterationMinMax : SequenceUnary
     {
-        public long Min, Max;
+        public readonly long Min;
+        public readonly long Max;
 
         public SequenceIterationMinMax(Sequence seq, long min, long max) : base(SequenceType.IterationMinMax, seq)
         {
@@ -841,28 +842,28 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// An array of expressions used to compute the input arguments.
         /// </summary>
-        public SequenceExpression[] ArgumentExpressions;
+        public readonly SequenceExpression[] ArgumentExpressions;
 
         /// <summary>
         /// Buffer to store the argument values for the call; used to avoid unneccessary memory allocations.
         /// </summary>
-        public object[] Arguments;
+        public readonly object[] Arguments;
 
         /// <summary>
         /// An array of variables used for the return values. Might be empty if the caller is not interested in available returns values.
         /// </summary>
-        public SequenceVariable[] ReturnVars;
+        public readonly SequenceVariable[] ReturnVars;
 
         /// <summary>
         /// The subgraph to be switched to for rule execution.
         /// </summary>
-        public SequenceVariable Subgraph;
+        public readonly SequenceVariable Subgraph;
 
         public abstract RuleInvocation RuleInvocation { get; }
         public abstract String NameForRuleString { get; }
 
-        public bool Test;
-        public List<FilterCall> Filters;
+        public readonly bool Test;
+        public readonly List<FilterCall> Filters;
 
         public SequenceRuleCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test, List<FilterCall> filters)
@@ -1058,7 +1059,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The IAction instance to be used
         /// </summary>
-        public IAction Action;
+        public readonly IAction Action;
 
         public override RuleInvocation RuleInvocation
         {
@@ -1143,17 +1144,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the rule.
         /// </summary>
-        public String Name;
+        public readonly String Name;
 
         /// <summary>
         /// null if this is a call of a global rule, otherwise the package the call target is contained in.
         /// </summary>
-        public String Package;
+        public readonly String Package;
 
         /// <summary>
         /// The name of the rule, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
         /// </summary>
-        public String PackagePrefixedName;
+        public readonly String PackagePrefixedName;
 
         public override RuleInvocation RuleInvocation
         {
@@ -1217,9 +1218,9 @@ namespace de.unika.ipd.grGen.libGr
     public abstract class SequenceRuleAllCall : SequenceRuleCall, SequenceRandomChoice
     {
         public bool ChooseRandom;
-        public bool MinSpecified;
-        public SequenceVariable MinVarChooseRandom;
-        public SequenceVariable MaxVarChooseRandom;
+        public readonly bool MinSpecified;
+        public readonly SequenceVariable MinVarChooseRandom;
+        public readonly SequenceVariable MaxVarChooseRandom;
         private bool choice;
 
         public SequenceRuleAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
@@ -1384,7 +1385,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The IAction instance to be used
         /// </summary>
-        public IAction Action;
+        public readonly IAction Action;
 
         public override RuleInvocation RuleInvocation
         {
@@ -1510,17 +1511,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the rule.
         /// </summary>
-        public String Name;
+        public readonly String Name;
 
         /// <summary>
         /// null if this is a call of a global rule, otherwise the package the call target is contained in.
         /// </summary>
-        public String Package;
+        public readonly String Package;
 
         /// <summary>
         /// The name of the rule, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
         /// </summary>
-        public String PackagePrefixedName;
+        public readonly String PackagePrefixedName;
 
         public override RuleInvocation RuleInvocation
         {
@@ -1573,7 +1574,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public abstract class SequenceRuleCountAllCall : SequenceRuleCall
     {
-        public SequenceVariable CountResult;
+        public readonly SequenceVariable CountResult;
         
         public SequenceRuleCountAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test, List<FilterCall> filters,
@@ -1644,7 +1645,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The IAction instance to be used
         /// </summary>
-        public IAction Action;
+        public readonly IAction Action;
 
         public override RuleInvocation RuleInvocation
         {
@@ -1718,17 +1719,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the rule.
         /// </summary>
-        public String Name;
+        public readonly String Name;
 
         /// <summary>
         /// null if this is a call of a global rule, otherwise the package the call target is contained in.
         /// </summary>
-        public String Package;
+        public readonly String Package;
 
         /// <summary>
         /// The name of the rule, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
         /// </summary>
-        public String PackagePrefixedName;
+        public readonly String PackagePrefixedName;
 
         public override RuleInvocation RuleInvocation
         {
@@ -1780,7 +1781,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceAssignUserInputToVar : SequenceAssignToVar, SequenceRandomChoice
     {
-        public String Type;
+        public readonly String Type;
 
         public bool Random { get { return false; } set { throw new Exception("can't change Random on SequenceAssignUserInputToVar"); } }
         public bool Choice { get { return true; } set { throw new Exception("can't change Choice on SequenceAssignUserInputToVar"); } }
@@ -1820,7 +1821,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceAssignRandomIntToVar : SequenceAssignToVar, SequenceRandomChoice
     {
-        public int Number;
+        public readonly int Number;
 
         public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceAssignRandomIntToVar"); } }
         public bool Choice { get { return choice; } set { choice = value; } }
@@ -1982,7 +1983,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceAssignContainerConstructorToVar : SequenceAssignToVar
     {
-        public SequenceExpression Constructor;
+        public readonly SequenceExpression Constructor;
 
         public SequenceAssignContainerConstructorToVar(SequenceVariable destVar, SequenceExpression constructor)
             : base(SequenceType.AssignContainerConstructorToVar, destVar)
@@ -2034,7 +2035,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceAssignVarToVar : SequenceAssignToVar
     {
-        public SequenceVariable Variable;
+        public readonly SequenceVariable Variable;
 
         public SequenceAssignVarToVar(SequenceVariable destVar, SequenceVariable srcVar)
             : base(SequenceType.AssignVarToVar, destVar)
@@ -2079,7 +2080,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceAssignSequenceResultToVar : SequenceAssignToVar
     {
-        public Sequence Seq;
+        public readonly Sequence Seq;
 
         public SequenceAssignSequenceResultToVar(SequenceVariable destVar, Sequence sequence)
             : base(SequenceType.AssignSequenceResultToVar, destVar)
@@ -2369,7 +2370,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceWeightedOne : SequenceNAry
     {
-        public List<double> Numbers;
+        public readonly List<double> Numbers;
 
         public SequenceWeightedOne(List<Sequence> sequences, List<double> numbers, bool choice)
             : base(SequenceType.WeightedOne, sequences, choice)
@@ -2418,7 +2419,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class SequenceSomeFromSet : SequenceNAry
     {
-        public List<IMatches> Matches;
+        public readonly List<IMatches> Matches;
         public override bool Random { get { return chooseRandom; } set { chooseRandom = value; } }
         bool chooseRandom;
 
@@ -2663,8 +2664,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceBacktrack : Sequence
     {
-        public SequenceRuleCall Rule;
-        public Sequence Seq;
+        public readonly SequenceRuleCall Rule;
+        public readonly Sequence Seq;
 
         public SequenceBacktrack(Sequence seqRule, Sequence seq) : base(SequenceType.Backtrack)
         {
@@ -2887,9 +2888,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceIfThenElse : Sequence
     {
-        public Sequence Condition;
-        public Sequence TrueCase;
-        public Sequence FalseCase;
+        public readonly Sequence Condition;
+        public readonly Sequence TrueCase;
+        public readonly Sequence FalseCase;
 
         public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingIf;
         public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingTrueCase;
@@ -2973,8 +2974,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceIfThen : SequenceBinary
     {
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingIf;
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingTrueCase;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingIf;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingTrueCase;
 
         public SequenceIfThen(Sequence condition, Sequence trueCase,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingIf,
@@ -3026,11 +3027,11 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceForContainer : SequenceUnary
     {
-        public SequenceVariable Var;
-        public SequenceVariable VarDst;
-        public SequenceVariable Container;
+        public readonly SequenceVariable Var;
+        public readonly SequenceVariable VarDst;
+        public readonly SequenceVariable Container;
 
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
         public SequenceForContainer(SequenceVariable var, SequenceVariable varDst, SequenceVariable container, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
@@ -3152,11 +3153,11 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceForIntegerRange : SequenceUnary
     {
-        public SequenceVariable Var;
-        public SequenceExpression Left;
-        public SequenceExpression Right;
+        public readonly SequenceVariable Var;
+        public readonly SequenceExpression Left;
+        public readonly SequenceExpression Right;
 
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
         public SequenceForIntegerRange(SequenceVariable var, SequenceExpression left, SequenceExpression right, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
@@ -3242,11 +3243,11 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceForIndexAccessEquality : SequenceUnary
     {
-        public SequenceVariable Var;
-        public String IndexName;
-        public SequenceExpression Expr;
+        public readonly SequenceVariable Var;
+        public readonly String IndexName;
+        public readonly SequenceExpression Expr;
 
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
         public bool EmitProfiling;
 
@@ -3331,15 +3332,15 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceForIndexAccessOrdering : SequenceUnary
     {
-        public SequenceVariable Var;
-        public bool Ascending;
-        public String IndexName;
-        public SequenceExpression Expr;
-        public RelOpDirection Direction;
-        public SequenceExpression Expr2;
-        public RelOpDirection Direction2;
+        public readonly SequenceVariable Var;
+        public readonly bool Ascending;
+        public readonly String IndexName;
+        public readonly SequenceExpression Expr;
+        public readonly RelOpDirection Direction;
+        public readonly SequenceExpression Expr2;
+        public readonly RelOpDirection Direction2;
 
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
         public bool EmitProfiling;
 
@@ -3900,10 +3901,10 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceForFunction : SequenceUnary
     {
-        public SequenceVariable Var;
-        public List<SequenceExpression> ArgExprs;
+        public readonly SequenceVariable Var;
+        public readonly List<SequenceExpression> ArgExprs;
 
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
         public bool EmitProfiling;
 
@@ -4872,10 +4873,10 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceForMatch : SequenceUnary
     {
-        public SequenceVariable Var;
-        public SequenceRuleCall Rule;
+        public readonly SequenceVariable Var;
+        public readonly SequenceRuleCall Rule;
 
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
 
         public SequenceForMatch(SequenceVariable var, Sequence rule, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
@@ -5020,8 +5021,8 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceDefinition : Sequence, ISequenceDefinition
     {
-        public String SequenceName;
-        public Annotations SequenceAnnotations;
+        public readonly String SequenceName;
+        public readonly Annotations SequenceAnnotations;
 
         public SequenceDefinition(SequenceType seqType, String sequenceName)
             : base(seqType)
@@ -5072,17 +5073,17 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class SequenceDefinitionInterpreted : SequenceDefinition
     {
-        public SequenceVariable[] InputVariables;
-        public SequenceVariable[] OutputVariables;
-        public object[] ReturnValues;
-        public Sequence Seq;
+        public readonly SequenceVariable[] InputVariables;
+        public readonly SequenceVariable[] OutputVariables;
+        public readonly object[] ReturnValues;
+        public readonly Sequence Seq;
 
         // a cache for copies of sequence definitions, accessed by the name
-        private static Dictionary<String, Stack<SequenceDefinition>> nameToCopies =
+        private static readonly Dictionary<String, Stack<SequenceDefinition>> nameToCopies =
             new Dictionary<string, Stack<SequenceDefinition>>();
 
         // an empty stack to return an iterator if the copies cache does not contain a value for a given name
-        private static Stack<SequenceDefinition> emptyStack =
+        private static readonly Stack<SequenceDefinition> emptyStack =
             new Stack<SequenceDefinition>();
 
         public SequenceDefinitionInterpreted(String sequenceName,
@@ -5278,7 +5279,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceDefinitionCompiled : SequenceDefinition
     {
-        public DefinedSequenceInfo SeqInfo;
+        public readonly DefinedSequenceInfo SeqInfo;
 
         public SequenceDefinitionCompiled(String sequenceName, DefinedSequenceInfo seqInfo)
             : base(SequenceType.SequenceDefinitionCompiled, sequenceName)
@@ -5324,22 +5325,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// An array of expressions used to compute the input arguments.
         /// </summary>
-        public SequenceExpression[] ArgumentExpressions;
+        public readonly SequenceExpression[] ArgumentExpressions;
 
         /// <summary>
         /// Buffer to store the argument values for the call; used to avoid unneccessary memory allocations.
         /// </summary>
-        public object[] Arguments;
+        public readonly object[] Arguments;
 
         /// <summary>
         /// An array of variables used for the return values. Might be empty if the caller is not interested in available returns values.
         /// </summary>
-        public SequenceVariable[] ReturnVars;
+        public readonly SequenceVariable[] ReturnVars;
 
         /// <summary>
         /// The subgraph to be switched to for sequence execution.
         /// </summary>
-        public SequenceVariable Subgraph;
+        public readonly SequenceVariable Subgraph;
 
         public abstract SequenceInvocation SequenceInvocation { get; }
 
@@ -5526,17 +5527,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the sequence.
         /// </summary>
-        public String Name;
+        public readonly String Name;
 
         /// <summary>
         /// null if this is a call of a global sequence, otherwise the package the call target is contained in.
         /// </summary>
-        public String Package;
+        public readonly String Package;
 
         /// <summary>
         /// The name of the sequence, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
         /// </summary>
-        public String PackagePrefixedName;
+        public readonly String PackagePrefixedName;
 
         public override SequenceInvocation SequenceInvocation
         {
@@ -5628,8 +5629,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExecuteInSubgraph : SequenceUnary
     {
-        public SequenceVariable SubgraphVar;
-        public String AttributeName;
+        public readonly SequenceVariable SubgraphVar;
+        public readonly String AttributeName;
 
         public SequenceExecuteInSubgraph(SequenceVariable subgraphVar, String attributeName, Sequence seq)
             : base(SequenceType.ExecuteInSubgraph, seq)
@@ -5721,8 +5722,8 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceBooleanComputation : SequenceSpecial
     {
-        public SequenceComputation Computation;
-        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingComputation;
+        public readonly SequenceComputation Computation;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingComputation;
 
         public SequenceBooleanComputation(SequenceComputation comp, List<SequenceVariable> variablesFallingOutOfScopeOnLeavingComputation, bool special)
             : base(SequenceType.BooleanComputation, special)
