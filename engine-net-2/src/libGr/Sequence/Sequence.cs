@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceType = that.SequenceType;
 
-            executionState = that.executionState;
+            executionState = SequenceExecutionState.NotYet;
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceAssignToVar(SequenceAssignToVar that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that)
         {
-            DestVar = DestVar.Copy(originalToCopy, procEnv);
+            DestVar = that.DestVar.Copy(originalToCopy, procEnv);
         }
 
         protected bool Assign(object value, IGraphProcessingEnvironment procEnv)
@@ -1587,8 +1587,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceRuleCountAllCall(SequenceRuleCountAllCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            if(that.CountResult != null)
-                CountResult = that.CountResult.Copy(originalToCopy, procEnv);
+            CountResult = that.CountResult.Copy(originalToCopy, procEnv);
         }
 
         public override bool Rewrite(IGraphProcessingEnvironment procEnv, IMatches matches, IMatch chosenMatch)
@@ -2006,7 +2005,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceAssignContainerConstructorToVar(SequenceAssignContainerConstructorToVar that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            Constructor = Constructor.CopyExpression(originalToCopy, procEnv);
+            Constructor = that.Constructor.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -2058,7 +2057,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceAssignVarToVar(SequenceAssignVarToVar that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            Variable = Variable.Copy(originalToCopy, procEnv);
+            Variable = that.Variable.Copy(originalToCopy, procEnv);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -2109,7 +2108,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceAssignSequenceResultToVar(SequenceAssignSequenceResultToVar that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            Seq = Seq.Copy(originalToCopy, procEnv);
+            Seq = that.Seq.Copy(originalToCopy, procEnv);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)

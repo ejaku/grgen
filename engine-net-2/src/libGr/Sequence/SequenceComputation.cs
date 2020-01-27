@@ -1527,7 +1527,7 @@ namespace de.unika.ipd.grGen.libGr
             : base(that)
         {
             Name = that.Name.CopyExpression(originalToCopy, procEnv);
-            if(Graph != null)
+            if(that.Graph != null)
                 Graph = that.Graph.CopyExpression(originalToCopy, procEnv);
         }
 

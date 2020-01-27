@@ -1730,7 +1730,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceExpressionRandom(SequenceExpressionRandom that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that)
         {
-            if(UpperBound != null)
+            if(that.UpperBound != null)
                 UpperBound = that.UpperBound.CopyExpression(originalToCopy, procEnv);
         }
 
@@ -2259,7 +2259,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceExpressionContainerPeek(SequenceExpressionContainerPeek that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that, originalToCopy, procEnv)
         {
-            if(KeyExpr != null) KeyExpr = that.KeyExpr.CopyExpression(originalToCopy, procEnv);
+            if(that.KeyExpr != null) KeyExpr = that.KeyExpr.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -5929,7 +5929,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceExpressionNameof(SequenceExpressionNameof that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
           : base(that)
         {
-            if(NamedEntity != null)
+            if(that.NamedEntity != null)
                 NamedEntity = that.NamedEntity.CopyExpression(originalToCopy, procEnv);
         }
 
