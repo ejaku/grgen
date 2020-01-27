@@ -3292,7 +3292,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t{\n");
 		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
-			sb.append("\t\t\t" + indexName + ".FillAsClone((Index" + indexName + "Impl)originalGraph.indices.GetIndex(\"" + indexName + "\"), oldToNewMap);\n");
+			sb.append("\t\t\t" + indexName + ".FillAsClone((Index" + indexName + "Impl)originalGraph.Indices.GetIndex(\"" + indexName + "\"), oldToNewMap);\n");
 		}
 		sb.append("\t\t}\n");
 		

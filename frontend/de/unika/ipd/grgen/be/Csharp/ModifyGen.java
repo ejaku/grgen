@@ -4027,7 +4027,7 @@ public class ModifyGen extends CSharpBase {
 
         sb.append("\t\t\tforeach( " + formatElementInterfaceRef(fiae.getIterationVar().getType()) +
         		" " + formatEntity(fiae.getIterationVar()) + " in ((" +
-        		"GRGEN_MODEL." + model.getIdent() + "IndexSet" + ")graph.indices)." + iae.index.getIdent() +
+        		"GRGEN_MODEL." + model.getIdent() + "IndexSet" + ")graph.Indices)." + iae.index.getIdent() +
         		".Lookup(");
 		genExpression(sb, iae.expr, state);	        
         sb.append(") )");
@@ -4050,7 +4050,7 @@ public class ModifyGen extends CSharpBase {
 
         sb.append("\t\t\tforeach( " + formatElementInterfaceRef(fiao.getIterationVar().getType()) +
         		" " + formatEntity(fiao.getIterationVar()) + " in ((" +
-        		"GRGEN_MODEL." + model.getIdent() + "IndexSet" + ")graph.indices)." + iao.index.getIdent() +
+        		"GRGEN_MODEL." + model.getIdent() + "IndexSet" + ")graph.Indices)." + iao.index.getIdent() +
         		".Lookup");
         if(iao.ascending)
         	sb.append("Ascending");

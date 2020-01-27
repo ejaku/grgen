@@ -1526,7 +1526,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.indices).{3}.Lookup(", 
+            sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.Indices).{3}.Lookup(", 
                 VariableType, NamesOfEntities.Variable(Variable), IndexSetType, Index.Name);
             Expr.Emit(sourceCode);
             sourceCode.Append("))\n");
@@ -1609,7 +1609,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.indices).{3}.Lookup",
+            sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.Indices).{3}.Lookup",
                 VariableType, NamesOfEntities.Variable(Variable), IndexSetType, Index.Name);
 
             if(Ascending)
