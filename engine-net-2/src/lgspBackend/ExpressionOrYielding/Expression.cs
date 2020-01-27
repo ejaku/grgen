@@ -1118,7 +1118,7 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.Import(");
             Path.Emit(sourceCode);
-            sourceCode.Append(", GRGEN_LIBGR.SequenceBase.backend, graph.Model)");
+            sourceCode.Append(", actionEnv.Backend, graph.Model)");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()

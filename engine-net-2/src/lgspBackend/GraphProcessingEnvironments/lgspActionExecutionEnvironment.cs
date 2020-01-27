@@ -68,6 +68,11 @@ namespace de.unika.ipd.grGen.lgsp
             set { curActions = (LGSPActions)value; InitActionsProfile((LGSPActions)value); }
         }
 
+        public IBackend Backend
+        {
+            get { return LGSPBackend.Instance; }
+        }
+
         public void InitActionsProfile(LGSPActions actions)
         {
             if(actions == null)

@@ -68,7 +68,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The actions employed by this graph processing environment
         /// </summary>
         IActions Actions { get; set; }
-        
+
+        /// <summary>
+        /// The backend to be used for graph creation when a graph is imported
+        /// </summary>
+        IBackend Backend { get; }
 
         /// <summary>
         /// PerformanceInfo is used to accumulate information about needed time, found matches and applied rewrites.
