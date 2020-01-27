@@ -120,6 +120,7 @@ namespace de.unika.ipd.grGen.lgsp
             actionsAssemblyName = actionsAsmName;
             matcherGenerator = new LGSPMatcherGenerator(graph.Model);
 
+            customCommandsToDescriptions = new Dictionary<string, string>();
             FillCustomCommandDescriptions();
 
 #if ASSERT_ALL_UNMAPPED_AFTER_MATCH

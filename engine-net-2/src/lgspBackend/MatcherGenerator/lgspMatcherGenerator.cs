@@ -1835,9 +1835,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Indent();
                 sb.AppendFront("newTask = freeListHead_perWorker[threadId];\n");
                 sb.AppendFront("newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;\n");
-                if(isAlternative)
-                    sb.AppendFront("newTask.patternGraphs = patternGraphs_;\n");
-                else if(isIterationBreaking)
+                if(isIterationBreaking)
                     sb.AppendFront("newTask.breakIteration = false;\n");
                 sb.AppendFront("freeListHead_perWorker[threadId] = newTask.next;\n");
                 sb.AppendFront("newTask.next = null;\n");
