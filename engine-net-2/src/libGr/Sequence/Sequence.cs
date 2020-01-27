@@ -978,78 +978,77 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override int Precedence { get { return 8; } }
 
-        public String GetRuleCallString(IGraphProcessingEnvironment procEnv)
+        protected string TestDebugPrefix
         {
-            StringBuilder sb = new StringBuilder();
-            if(Subgraph != null)
-                sb.Append(Subgraph.Name + ".");
-            sb.Append(NameForRuleString);
-            if(ArgumentExpressions.Length > 0)
+            get
             {
-                sb.Append("(");
-                for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                if(Special)
                 {
-                    sb.Append(EmitHelper.ToStringAutomatic(ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph));
-                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
+                    if(Test)
+                        return "%?";
+                    else
+                        return "%";
                 }
-                sb.Append(")");
+                else
+                {
+                    if(Test)
+                        return "?";
+                    else
+                        return "";
+                }
             }
-            for(int i = 0; i < Filters.Count; ++i)
-            {
-                sb.Append("\\").Append(Filters[i]);
-            }
-            return sb.ToString();
         }
 
-        protected String GetRuleString()
+        protected String ReturnAssignmentString
         {
-            StringBuilder sb = new StringBuilder();
-            if(ReturnVars.Length > 0)
+            get
             {
-                sb.Append("(");
-                for(int i = 0; i < ReturnVars.Length; ++i)
+                StringBuilder sb = new StringBuilder();
+                if(ReturnVars.Length > 0)
                 {
-                    sb.Append(ReturnVars[i].Name);
-                    if(i != ReturnVars.Length - 1) sb.Append(",");
+                    sb.Append("(");
+                    for(int i = 0; i < ReturnVars.Length; ++i)
+                    {
+                        sb.Append(ReturnVars[i].Name);
+                        if(i != ReturnVars.Length - 1) sb.Append(",");
+                    }
+                    sb.Append(")=");
                 }
-                sb.Append(")=");
+                return sb.ToString();
             }
-            if(Subgraph != null)
-                sb.Append(Subgraph.Name + ".");
-            sb.Append(NameForRuleString);
-            if(ArgumentExpressions.Length > 0)
+        }
+
+        protected String RuleCallString
+        {
+            get
             {
-                sb.Append("(");
-                for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                StringBuilder sb = new StringBuilder();
+                if(Subgraph != null)
+                    sb.Append(Subgraph.Name + ".");
+                sb.Append(NameForRuleString);
+                if(ArgumentExpressions.Length > 0)
                 {
-                    sb.Append(ArgumentExpressions[i].Symbol);
-                    if(i != ArgumentExpressions.Length - 1) sb.Append(",");
+                    sb.Append("(");
+                    for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                    {
+                        sb.Append(ArgumentExpressions[i].Symbol);
+                        if(i != ArgumentExpressions.Length - 1) sb.Append(",");
+                    }
+                    sb.Append(")");
                 }
-                sb.Append(")");
+                for(int i = 0; i < Filters.Count; ++i)
+                {
+                    sb.Append("\\").Append(Filters[i]);
+                }
+                return sb.ToString();
             }
-            for(int i = 0; i < Filters.Count; ++i)
-            {
-                sb.Append("\\").Append(Filters[i]);
-            }
-            return sb.ToString();
         }
 
         public override string Symbol
         {
             get
             {
-                String prefix;
-                if(Special)
-                {
-                    if(Test) prefix = "%?";
-                    else prefix = "%";
-                }
-                else
-                {
-                    if(Test) prefix = "?";
-                    else prefix = "";
-                }
-                return prefix + GetRuleString();
+                return ReturnAssignmentString + TestDebugPrefix + RuleCallString;
             }
         }
     }
@@ -1343,39 +1342,39 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
-        public override string Symbol
+        private string RandomChoicePrefix
         {
             get
             {
-                String prefix = "";
-				if(ChooseRandom) {
-					prefix = "$";
-                    if(Choice) prefix += "%";
+                StringBuilder sb = new StringBuilder();
+                if(ChooseRandom)
+                {
+                    sb.Append("$");
+                    if(Choice)
+                        sb.Append("%");
                     if(MinSpecified)
                     {
-                        prefix += MinVarChooseRandom.Name + ",";
+                        sb.Append(MinVarChooseRandom.Name + ",");
                         if(MaxVarChooseRandom != null)
-                            prefix += MaxVarChooseRandom.Name;
+                            sb.Append(MaxVarChooseRandom.Name);
                         else
-                            prefix += "*";
+                            sb.Append("*");
                     }
                     else
                     {
                         if(MaxVarChooseRandom != null)
-                            prefix += MaxVarChooseRandom.Name;
+                            sb.Append(MaxVarChooseRandom.Name);
                     }
                 }
-                if(Special)
-                {
-                    if(Test) prefix += "[%?";
-                    else prefix += "[%";
-                }
-                else
-                {
-                    if(Test) prefix += "[?";
-                    else prefix += "[";
-                }
-                return prefix + GetRuleString() + "]";
+                return sb.ToString();
+            }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return ReturnAssignmentString + RandomChoicePrefix + "[" + TestDebugPrefix + RuleCallString + "]";
             }
         }
     }
@@ -1635,18 +1634,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                String prefix = "";
-                if(Special)
-                {
-                    if(Test) prefix += "[%?";
-                    else prefix += "[%";
-                }
-                else
-                {
-                    if(Test) prefix += "[?";
-                    else prefix += "[";
-                }
-                return prefix + GetRuleString() + "]";
+                return ReturnAssignmentString + "count[" + TestDebugPrefix + RuleCallString + "]" + "=>" + CountResult.Name;
             }
         }
     }
