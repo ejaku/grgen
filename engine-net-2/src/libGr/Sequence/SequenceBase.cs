@@ -155,35 +155,40 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(which == -1)
             {
-                IList[] returnVars = null;
-                if(ReturnVars.Length > 0)
-                {
-                    returnVars = new IList[ReturnVars.Length];
-                    for(int i = 0; i < ReturnVars.Length; i++)
-                    {
-                        returnVars[i] = ReturnVars[i].GetVariableValue(procEnv) as IList;
-                        if(returnVars[i] == null)
-                        {
-                            string returnType = TypesHelper.DotNetTypeToXgrsType(Action.RulePattern.Outputs[i]);
-                            Type valueType = ContainerHelper.GetTypeFromNameForContainer(returnType, procEnv.Graph);
-                            returnVars[i] = ContainerHelper.NewList(valueType);
-                            ReturnVars[i].SetVariableValue(returnVars[i], procEnv);
-                        }
-                        else
-                            returnVars[i].Clear();
-                    }
-                }
-                for(int curRetElemNum = 0; curRetElemNum < retElemsList.Count; ++curRetElemNum)
-                {
-                    object[] retElems = retElemsList[curRetElemNum];
-                    for(int i = 0; i < ReturnVars.Length; i++)
-                        returnVars[i].Add(retElems[i]);
-                }
+                FillReturnVariablesFromValues(ReturnVars, Action, procEnv, retElemsList);
             }
             else
             {
                 object[] retElems = retElemsList[0];
                 FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
+            }
+        }
+
+        public static void FillReturnVariablesFromValues(SequenceVariable[] ReturnVars, IAction Action, IGraphProcessingEnvironment procEnv, List<object[]> retElemsList)
+        {
+            IList[] returnVars = null;
+            if(ReturnVars.Length > 0)
+            {
+                returnVars = new IList[ReturnVars.Length];
+                for(int i = 0; i < ReturnVars.Length; i++)
+                {
+                    returnVars[i] = ReturnVars[i].GetVariableValue(procEnv) as IList;
+                    if(returnVars[i] == null)
+                    {
+                        string returnType = TypesHelper.DotNetTypeToXgrsType(Action.RulePattern.Outputs[i]);
+                        Type valueType = ContainerHelper.GetTypeFromNameForContainer(returnType, procEnv.Graph);
+                        returnVars[i] = ContainerHelper.NewList(valueType);
+                        ReturnVars[i].SetVariableValue(returnVars[i], procEnv);
+                    }
+                    else
+                        returnVars[i].Clear();
+                }
+            }
+            for(int curRetElemNum = 0; curRetElemNum < retElemsList.Count; ++curRetElemNum)
+            {
+                object[] retElems = retElemsList[curRetElemNum];
+                for(int i = 0; i < ReturnVars.Length; i++)
+                    returnVars[i].Add(retElems[i]);
             }
         }
 
