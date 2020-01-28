@@ -1218,18 +1218,23 @@ namespace de.unika.ipd.grGen.libGr
             return Constant;
         }
 
+        public static string ConstantAsString(object constant)
+        {
+            if(constant == null)
+                return "null";
+            else if(constant is string)
+                return "\"" + constant.ToString() + "\"";
+            else
+                return constant.ToString();
+        }
+
         public override IEnumerable<SequenceExpression> ChildrenExpression { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol
         {
             get
             {
-                if(Constant == null)
-                    return "null";
-                else if(Constant is string)
-                    return "\"" + Constant.ToString() + "\"";
-                else
-                    return Constant.ToString();
+                return ConstantAsString(Constant);
             }
         }
     }

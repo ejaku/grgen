@@ -134,6 +134,16 @@ namespace de.unika.ipd.grGen.libGr
         /// Only expressions do so, the values returned by plain computations don't bubble up to sequence level, are computation internal only.
         /// </summary>
         public virtual bool ReturnsValue { get { return false; } }
+
+        protected static string Escape(String str)
+        {
+            return str.Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t").Replace("#", "\\#");
+        }
+
+        protected static string Unescape(String str)
+        {
+            return str.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\#", "#");
+        }
     }
 
     /// <summary>
@@ -1345,20 +1355,11 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceComputationType.Emit)
         {
             Expressions = exprs;
-            for(int i = 0; i < Expressions.Count; ++i)
+            foreach(SequenceExpression expr in Expressions)
             {
-                SequenceExpression expr = Expressions[i];
-                if(expr is SequenceExpressionConstant)
-                {
-                    SequenceExpressionConstant constant = (SequenceExpressionConstant)Expressions[i];
-                    if(constant.Constant is string)
-                    {
-                        constant.Constant = ((string)constant.Constant).Replace("\\n", "\n");
-                        constant.Constant = ((string)constant.Constant).Replace("\\r", "\r");
-                        constant.Constant = ((string)constant.Constant).Replace("\\t", "\t");
-                        constant.Constant = ((string)constant.Constant).Replace("\\#", "#");
-                    }
-                }
+                SequenceExpressionConstant exprConst = expr as SequenceExpressionConstant;
+                if(exprConst != null && exprConst.Constant is string)
+                    exprConst.Constant = Unescape((string)exprConst.Constant);
             }
             IsDebug = isDebug;
         }
@@ -1417,32 +1418,18 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append("emitdebug(");
                 else
                     sb.Append("emit(");
-                for(int i = 0; i < Expressions.Count; ++i)
+                bool first = true;
+                foreach(SequenceExpression expr in Expressions)
                 {
-                    if(i != 0)
+                    if(first)
+                        first = false;
+                    else
                         sb.Append(", ");
-                    String oldString = null;
-                    if(Expressions[i] is SequenceExpressionConstant)
-                    {
-                        SequenceExpressionConstant constant = (SequenceExpressionConstant)Expressions[i];
-                        if(constant.Constant is string)
-                        {
-                            oldString = (string)constant.Constant;
-                            constant.Constant = ((string)constant.Constant).Replace("\n", "\\n");
-                            constant.Constant = ((string)constant.Constant).Replace("\r", "\\r");
-                            constant.Constant = ((string)constant.Constant).Replace("\t", "\\t");
-                            constant.Constant = ((string)constant.Constant).Replace("#", "\\#");
-                        }
-                    }
-
-                    if(oldString != null)
-                        sb.Append("\"");
-                    sb.Append(Expressions[i].Symbol);
-                    if(oldString != null)
-                        sb.Append("\"");
-
-                    if(oldString != null)
-                        ((SequenceExpressionConstant)Expressions[i]).Constant = oldString;
+                    SequenceExpressionConstant exprConst = expr as SequenceExpressionConstant;
+                    if(exprConst != null && exprConst.Constant is string)
+                        sb.Append(SequenceExpressionConstant.ConstantAsString(Escape((string)exprConst.Constant)));
+                    else
+                        sb.Append(expr.Symbol);
                 }
                 sb.Append(")");
                 return sb.ToString();
@@ -1458,17 +1445,10 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceComputationType.Record)
         {
             Expression = expr;
-            if(Expression is SequenceExpressionConstant)
-            {
-                SequenceExpressionConstant constant = (SequenceExpressionConstant)Expression;
-                if(constant.Constant is string)
-                {
-                    constant.Constant = ((string)constant.Constant).Replace("\\n", "\n");
-                    constant.Constant = ((string)constant.Constant).Replace("\\r", "\r");
-                    constant.Constant = ((string)constant.Constant).Replace("\\t", "\t");
-                    constant.Constant = ((string)constant.Constant).Replace("\\#", "#");
-                }
-            }
+
+            SequenceExpressionConstant exprConst = Expression as SequenceExpressionConstant;
+            if(exprConst != null && exprConst.Constant is string)
+                exprConst.Constant = Unescape((string)exprConst.Constant);
         }
 
         protected SequenceComputationRecord(SequenceComputationRecord that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -1504,29 +1484,12 @@ namespace de.unika.ipd.grGen.libGr
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("record(");
-                
-                String oldString = null;
-                if(Expression is SequenceExpressionConstant)
-                {
-                    SequenceExpressionConstant constant = (SequenceExpressionConstant)Expression;
-                    if(constant.Constant is string)
-                    {
-                        oldString = (string)constant.Constant;
-                        constant.Constant = ((string)constant.Constant).Replace("\n", "\\n");
-                        constant.Constant = ((string)constant.Constant).Replace("\r", "\\r");
-                        constant.Constant = ((string)constant.Constant).Replace("\t", "\\t");
-                        constant.Constant = ((string)constant.Constant).Replace("#", "\\#");
-                    }
-                }
 
-                if(oldString != null)
-                    sb.Append("\"");
-                sb.Append(Expression.Symbol);
-                if(oldString != null)
-                    sb.Append("\"");
-
-                if(oldString != null)
-                    ((SequenceExpressionConstant)Expression).Constant = oldString;
+                SequenceExpressionConstant exprConst = Expression as SequenceExpressionConstant;
+                if(exprConst != null && exprConst.Constant is string)
+                    sb.Append(SequenceExpressionConstant.ConstantAsString(Escape((string)exprConst.Constant)));
+                else
+                    sb.Append(Expression.Symbol);
 
                 sb.Append(")");
                 return sb.ToString();
