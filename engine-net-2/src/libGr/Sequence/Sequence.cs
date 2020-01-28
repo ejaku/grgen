@@ -3409,6 +3409,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool res = true;
             IAttributeIndex index = (IAttributeIndex)procEnv.Graph.Indices.GetIndex(IndexName);
+            IEnumerable<IGraphElement> enumerator;
             if(Ascending)
             {
                 if(From() != null && To() != null)
@@ -3416,150 +3417,35 @@ namespace de.unika.ipd.grGen.libGr
                     if(IncludingFrom())
                     {
                         if(IncludingTo())
-                        {
-                            bool first = true;
-                            foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
-                            {
-                                if(EmitProfiling)
-                                    ++procEnv.PerformanceInfo.SearchSteps;
-                                if(!first) procEnv.EndOfIteration(true, this);
-                                Var.SetVariableValue(elem, procEnv);
-                                Seq.ResetExecutionState();
-                                res &= Seq.Apply(procEnv);
-                                first = false;
-                            }
-                            procEnv.EndOfIteration(false, this);
-                        }
+                            enumerator = index.LookupElementsAscendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
                         else
-                        {
-                            bool first = true;
-                            foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
-                            {
-                                if(EmitProfiling)
-                                    ++procEnv.PerformanceInfo.SearchSteps;
-                                if(!first) procEnv.EndOfIteration(true, this);
-                                Var.SetVariableValue(elem, procEnv);
-                                Seq.ResetExecutionState();
-                                res &= Seq.Apply(procEnv);
-                                first = false;
-                            }
-                            procEnv.EndOfIteration(false, this);
-                        }
+                            enumerator = index.LookupElementsAscendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
                     }
                     else
                     {
                         if(IncludingTo())
-                        {
-                            bool first = true;
-                            foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
-                            {
-                                if(EmitProfiling)
-                                    ++procEnv.PerformanceInfo.SearchSteps;
-                                if(!first) procEnv.EndOfIteration(true, this);
-                                Var.SetVariableValue(elem, procEnv);
-                                Seq.ResetExecutionState();
-                                res &= Seq.Apply(procEnv);
-                                first = false;
-                            }
-                            procEnv.EndOfIteration(false, this);
-                        }
+                            enumerator = index.LookupElementsAscendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
                         else
-                        {
-                            bool first = true;
-                            foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
-                            {
-                                if(EmitProfiling)
-                                    ++procEnv.PerformanceInfo.SearchSteps;
-                                if(!first) procEnv.EndOfIteration(true, this);
-                                Var.SetVariableValue(elem, procEnv);
-                                Seq.ResetExecutionState();
-                                res &= Seq.Apply(procEnv);
-                                first = false;
-                            }
-                            procEnv.EndOfIteration(false, this);
-                        }
+                            enumerator = index.LookupElementsAscendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
                     }
                 }
                 else if(From() != null)
                 {
                     if(IncludingFrom())
-                    {
-                        bool first = true;
-                        foreach(IGraphElement elem in index.LookupElementsAscendingFromInclusive(From().Evaluate(procEnv)))
-                        {
-                            if(EmitProfiling)
-                                ++procEnv.PerformanceInfo.SearchSteps;
-                            if(!first) procEnv.EndOfIteration(true, this);
-                            Var.SetVariableValue(elem, procEnv);
-                            Seq.ResetExecutionState();
-                            res &= Seq.Apply(procEnv);
-                            first = false;
-                        }
-                        procEnv.EndOfIteration(false, this);
-                    }
+                        enumerator = index.LookupElementsAscendingFromInclusive(From().Evaluate(procEnv));
                     else
-                    {
-                        bool first = true;
-                        foreach(IGraphElement elem in index.LookupElementsAscendingFromExclusive(From().Evaluate(procEnv)))
-                        {
-                            if(EmitProfiling)
-                                ++procEnv.PerformanceInfo.SearchSteps;
-                            if(!first) procEnv.EndOfIteration(true, this);
-                            Var.SetVariableValue(elem, procEnv);
-                            Seq.ResetExecutionState();
-                            res &= Seq.Apply(procEnv);
-                            first = false;
-                        }
-                        procEnv.EndOfIteration(false, this);
-                    }
+                        enumerator = index.LookupElementsAscendingFromExclusive(From().Evaluate(procEnv));
                 }
                 else if(To() != null)
                 {
                     if(IncludingTo())
-                    {
-                        bool first = true;
-                        foreach(IGraphElement elem in index.LookupElementsAscendingToInclusive(To().Evaluate(procEnv)))
-                        {
-                            if(EmitProfiling)
-                                ++procEnv.PerformanceInfo.SearchSteps;
-                            if(!first) procEnv.EndOfIteration(true, this);
-                            Var.SetVariableValue(elem, procEnv);
-                            Seq.ResetExecutionState();
-                            res &= Seq.Apply(procEnv);
-                            first = false;
-                        }
-                        procEnv.EndOfIteration(false, this);
-                    }
+                        enumerator = index.LookupElementsAscendingToInclusive(To().Evaluate(procEnv));
                     else
-                    {
-                        bool first = true;
-                        foreach(IGraphElement elem in index.LookupElementsAscendingToExclusive(To().Evaluate(procEnv)))
-                        {
-                            if(EmitProfiling)
-                                ++procEnv.PerformanceInfo.SearchSteps;
-                            if(!first) procEnv.EndOfIteration(true, this);
-                            Var.SetVariableValue(elem, procEnv);
-                            Seq.ResetExecutionState();
-                            res &= Seq.Apply(procEnv);
-                            first = false;
-                        }
-                        procEnv.EndOfIteration(false, this);
-                    }
+                        enumerator = index.LookupElementsAscendingToExclusive(To().Evaluate(procEnv));
                 }
                 else
                 {
-                    bool first = true;
-                    foreach(IGraphElement elem in index.LookupElementsAscending())
-                    {
-                        if(EmitProfiling)
-                            ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(elem, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    procEnv.EndOfIteration(false, this);
+                    enumerator = index.LookupElementsAscending();
                 }
             }
             else
@@ -3569,152 +3455,52 @@ namespace de.unika.ipd.grGen.libGr
                     if(IncludingFrom())
                     {
                         if(IncludingTo())
-                        {
-                            bool first = true;
-                            foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
-                            {
-                                if(EmitProfiling)
-                                    ++procEnv.PerformanceInfo.SearchSteps;
-                                if(!first) procEnv.EndOfIteration(true, this);
-                                Var.SetVariableValue(elem, procEnv);
-                                Seq.ResetExecutionState();
-                                res &= Seq.Apply(procEnv);
-                                first = false;
-                            }
-                            procEnv.EndOfIteration(false, this);
-                        }
+                            enumerator = index.LookupElementsDescendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
                         else
-                        {
-                            bool first = true;
-                            foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
-                            {
-                                if(EmitProfiling)
-                                    ++procEnv.PerformanceInfo.SearchSteps;
-                                if(!first) procEnv.EndOfIteration(true, this);
-                                Var.SetVariableValue(elem, procEnv);
-                                Seq.ResetExecutionState();
-                                res &= Seq.Apply(procEnv);
-                                first = false;
-                            }
-                            procEnv.EndOfIteration(false, this);
-                        }
+                            enumerator = index.LookupElementsDescendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
                     }
                     else
                     {
                         if(IncludingTo())
-                        {
-                            bool first = true;
-                            foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
-                            {
-                                if(EmitProfiling)
-                                    ++procEnv.PerformanceInfo.SearchSteps;
-                                if(!first) procEnv.EndOfIteration(true, this);
-                                Var.SetVariableValue(elem, procEnv);
-                                Seq.ResetExecutionState();
-                                res &= Seq.Apply(procEnv);
-                                first = false;
-                            }
-                            procEnv.EndOfIteration(false, this);
-                        }
+                            enumerator = index.LookupElementsDescendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
                         else
-                        {
-                            bool first = true;
-                            foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv)))
-                            {
-                                if(EmitProfiling)
-                                    ++procEnv.PerformanceInfo.SearchSteps;
-                                if(!first) procEnv.EndOfIteration(true, this);
-                                Var.SetVariableValue(elem, procEnv);
-                                Seq.ResetExecutionState();
-                                res &= Seq.Apply(procEnv);
-                                first = false;
-                            }
-                            procEnv.EndOfIteration(false, this);
-                        }
+                            enumerator = index.LookupElementsDescendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
                     }
                 }
                 else if(From() != null)
                 {
                     if(IncludingFrom())
-                    {
-                        bool first = true;
-                        foreach(IGraphElement elem in index.LookupElementsDescendingFromInclusive(From().Evaluate(procEnv)))
-                        {
-                            if(EmitProfiling)
-                                ++procEnv.PerformanceInfo.SearchSteps;
-                            if(!first) procEnv.EndOfIteration(true, this);
-                            Var.SetVariableValue(elem, procEnv);
-                            Seq.ResetExecutionState();
-                            res &= Seq.Apply(procEnv);
-                            first = false;
-                        }
-                        procEnv.EndOfIteration(false, this);
-                    }
+                        enumerator = index.LookupElementsDescendingFromInclusive(From().Evaluate(procEnv));
                     else
-                    {
-                        bool first = true;
-                        foreach(IGraphElement elem in index.LookupElementsDescendingFromExclusive(From().Evaluate(procEnv)))
-                        {
-                            if(EmitProfiling)
-                                ++procEnv.PerformanceInfo.SearchSteps;
-                            if(!first) procEnv.EndOfIteration(true, this);
-                            Var.SetVariableValue(elem, procEnv);
-                            Seq.ResetExecutionState();
-                            res &= Seq.Apply(procEnv);
-                            first = false;
-                        }
-                        procEnv.EndOfIteration(false, this);
-                    }
+                        enumerator = index.LookupElementsDescendingFromExclusive(From().Evaluate(procEnv));
                 }
                 else if(To() != null)
                 {
                     if(IncludingTo())
-                    {
-                        bool first = true;
-                        foreach(IGraphElement elem in index.LookupElementsDescendingToInclusive(To().Evaluate(procEnv)))
-                        {
-                            if(EmitProfiling)
-                                ++procEnv.PerformanceInfo.SearchSteps;
-                            if(!first) procEnv.EndOfIteration(true, this);
-                            Var.SetVariableValue(elem, procEnv);
-                            Seq.ResetExecutionState();
-                            res &= Seq.Apply(procEnv);
-                            first = false;
-                        }
-                        procEnv.EndOfIteration(false, this);
-                    }
+                        enumerator = index.LookupElementsDescendingToInclusive(To().Evaluate(procEnv));
                     else
-                    {
-                        bool first = true;
-                        foreach(IGraphElement elem in index.LookupElementsDescendingToExclusive(To().Evaluate(procEnv)))
-                        {
-                            if(EmitProfiling)
-                                ++procEnv.PerformanceInfo.SearchSteps;
-                            if(!first) procEnv.EndOfIteration(true, this);
-                            Var.SetVariableValue(elem, procEnv);
-                            Seq.ResetExecutionState();
-                            res &= Seq.Apply(procEnv);
-                            first = false;
-                        }
-                        procEnv.EndOfIteration(false, this);
-                    }
+                        enumerator = index.LookupElementsDescendingToExclusive(To().Evaluate(procEnv));
                 }
                 else
                 {
-                    bool first = true;
-                    foreach(IGraphElement elem in index.LookupElementsDescending())
-                    {
-                        if(EmitProfiling)
-                            ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(elem, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    procEnv.EndOfIteration(false, this);
+                    enumerator = index.LookupElementsDescending();
                 }
             }
+
+            bool first = true;
+            foreach(IGraphElement elem in enumerator)
+            {
+                if(EmitProfiling)
+                    ++procEnv.PerformanceInfo.SearchSteps;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(elem, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+
             return res;
         }
 
@@ -4077,17 +3863,23 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            if(SequenceType == SequenceType.ForNodes || SequenceType == SequenceType.ForEdges)
+            if(SequenceType == SequenceType.ForNodes)
             {
                 if(EmitProfiling)
-                    return ApplyImplNodesEdgesProfiling(procEnv);
+                    return ApplyImplNodesProfiling(procEnv);
                 else
-                    return ApplyImplNodesEdges(procEnv);
+                    return ApplyImplNodes(procEnv);
             }
+            if(SequenceType == SequenceType.ForEdges)
+            {
+                if(EmitProfiling)
+                    return ApplyImplEdgesProfiling(procEnv);
+                else
+                    return ApplyImplEdges(procEnv);
+            }
+
             if(EmitProfiling)
                 return ApplyImplProfiling(procEnv);
-
-            bool res = true;
             
             INode node = (INode)ArgExprs[0].Evaluate(procEnv);
             int depth = -1;
@@ -4114,267 +3906,366 @@ namespace de.unika.ipd.grGen.libGr
             switch(SequenceType)
             {
                 case SequenceType.ForAdjacentNodes:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.GetCompatibleIncident(edgeType))
-                    {
-                        if(!edge.Opposite(node).InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge.Opposite(node), procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForAdjacentNodes(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForAdjacentNodesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.GetCompatibleIncoming(edgeType))
-                    {
-                        if(!edge.Source.InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge.Source, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForAdjacentNodesViaIncoming(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForAdjacentNodesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.GetCompatibleOutgoing(edgeType))
-                    {
-                        if(!edge.Target.InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge.Target, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForAdjacentNodesViaOutgoing(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForIncidentEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.GetCompatibleIncident(edgeType))
-                    {
-                        if(!edge.Opposite(node).InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForIncidentEdges(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForIncomingEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.GetCompatibleIncoming(edgeType))
-                    {
-                        if(!edge.Source.InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForIncomingEdges(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForOutgoingEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.GetCompatibleOutgoing(edgeType))
-                    {
-                        if(!edge.Target.InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForOutgoingEdges(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableNodes:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.Reachable(node, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForReachableNodes(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableNodesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.ReachableIncoming(node, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForReachableNodesViaIncoming(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableNodesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.ReachableOutgoing(node, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForReachableNodesViaOutgoing(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.ReachableEdges(node, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForReachableEdges(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableEdgesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.ReachableEdgesIncoming(node, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForReachableEdgesViaIncoming(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableEdgesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.ReachableEdgesOutgoing(node, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForReachableEdgesViaOutgoing(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableNodes:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.BoundedReachable(node, depth, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForBoundedReachableNodes(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableNodesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.BoundedReachableIncoming(node, depth, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForBoundedReachableNodesViaIncoming(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableNodesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.BoundedReachableOutgoing(node, depth, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForBoundedReachableNodesViaOutgoing(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.BoundedReachableEdges(node, depth, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForBoundedReachableEdges(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableEdgesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.BoundedReachableEdgesIncoming(node, depth, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForBoundedReachableEdgesViaIncoming(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableEdgesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.BoundedReachableEdgesOutgoing(node, depth, edgeType, nodeType, procEnv.Graph))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplForBoundedReachableEdgesViaOutgoing(procEnv, node, depth, edgeType, nodeType);
+                default:
+                    throw new Exception("Unknown for loop over function type");
             }
+        }
 
+        bool ApplyImplForAdjacentNodes(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.GetCompatibleIncident(edgeType))
+            {
+                if(!edge.Opposite(node).InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge.Opposite(node), procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForAdjacentNodesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.GetCompatibleIncoming(edgeType))
+            {
+                if(!edge.Source.InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge.Source, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForAdjacentNodesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.GetCompatibleOutgoing(edgeType))
+            {
+                if(!edge.Target.InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge.Target, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForIncidentEdges(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.GetCompatibleIncident(edgeType))
+            {
+                if(!edge.Opposite(node).InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForIncomingEdges(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.GetCompatibleIncoming(edgeType))
+            {
+                if(!edge.Source.InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForOutgoingEdges(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.GetCompatibleOutgoing(edgeType))
+            {
+                if(!edge.Target.InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForReachableNodes(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.Reachable(node, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForReachableNodesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.ReachableIncoming(node, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForReachableNodesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.ReachableOutgoing(node, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForReachableEdges(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.ReachableEdges(node, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForReachableEdgesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.ReachableEdgesIncoming(node, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForReachableEdgesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.ReachableEdgesOutgoing(node, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForBoundedReachableNodes(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.BoundedReachable(node, depth, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForBoundedReachableNodesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.BoundedReachableIncoming(node, depth, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForBoundedReachableNodesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.BoundedReachableOutgoing(node, depth, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForBoundedReachableEdges(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.BoundedReachableEdges(node, depth, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForBoundedReachableEdgesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.BoundedReachableEdgesIncoming(node, depth, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplForBoundedReachableEdgesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.BoundedReachableEdgesOutgoing(node, depth, edgeType, nodeType, procEnv.Graph))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
             procEnv.EndOfIteration(false, this);
             return res;
         }
 
         protected bool ApplyImplProfiling(IGraphProcessingEnvironment procEnv)
         {
-            bool res = true;
-
             INode node = (INode)ArgExprs[0].Evaluate(procEnv);
             int depth = -1;
             EdgeType edgeType;
@@ -4400,359 +4291,452 @@ namespace de.unika.ipd.grGen.libGr
             switch(SequenceType)
             {
                 case SequenceType.ForAdjacentNodes:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.Incident)
-                    {
-                        ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!edge.InstanceOf(edgeType))
-                            continue;
-                        if(!edge.Opposite(node).InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge.Opposite(node), procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForAdjacentNodes(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForAdjacentNodesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.Incoming)
-                    {
-                        ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!edge.InstanceOf(edgeType))
-                            continue;
-                        if(!edge.Source.InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge.Source, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForAdjacentNodesViaIncoming(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForAdjacentNodesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.Outgoing)
-                    {
-                        ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!edge.InstanceOf(edgeType))
-                            continue;
-                        if(!edge.Target.InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge.Target, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForAdjacentNodesViaOutgoing(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForIncidentEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.Incident)
-                    {
-                        ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!edge.InstanceOf(edgeType))
-                            continue;
-                        if(!edge.Opposite(node).InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForIncidentEdges(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForIncomingEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.Incoming)
-                    {
-                        ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!edge.InstanceOf(edgeType))
-                            continue;
-                        if(!edge.Source.InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForIncomingEdges(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForOutgoingEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in node.Outgoing)
-                    {
-                        ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!edge.InstanceOf(edgeType))
-                            continue;
-                        if(!edge.Target.InstanceOf(nodeType))
-                            continue;
-
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForOutgoingEdges(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableNodes:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.Reachable(node, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForReachableNodes(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableNodesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.ReachableIncoming(node, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForReachableNodesViaIncoming(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableNodesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.ReachableOutgoing(node, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForReachableNodesViaOutgoing(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.ReachableEdges(node, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForReachableEdges(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableEdgesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.ReachableEdgesIncoming(node, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForReachableEdgesViaIncoming(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForReachableEdgesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.ReachableEdgesOutgoing(node, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForReachableEdgesViaOutgoing(procEnv, node, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableNodes:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.BoundedReachable(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForBoundedReachableNodes(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableNodesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.BoundedReachableIncoming(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForBoundedReachableNodesViaIncoming(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableNodesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(INode iter in GraphHelper.BoundedReachableOutgoing(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(iter, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForBoundedReachableNodesViaOutgoing(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableEdges:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.BoundedReachableEdges(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForBoundedReachableEdges(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableEdgesViaIncoming:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.BoundedReachableEdgesIncoming(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForBoundedReachableEdgesViaIncoming(procEnv, node, depth, edgeType, nodeType);
                 case SequenceType.ForBoundedReachableEdgesViaOutgoing:
-                {
-                    bool first = true;
-                    foreach(IEdge edge in GraphHelper.BoundedReachableEdgesOutgoing(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                    return ApplyImplProfilingForBoundedReachableEdgesViaOutgoing(procEnv, node, depth, edgeType, nodeType);
+                default:
+                    throw new Exception("Unknown for loop over function type (with profiling on)");
             }
+        }
 
+        bool ApplyImplProfilingForAdjacentNodes(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.Incident)
+            {
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(edgeType))
+                    continue;
+                if(!edge.Opposite(node).InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge.Opposite(node), procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
             procEnv.EndOfIteration(false, this);
             return res;
         }
 
-        protected bool ApplyImplNodesEdges(IGraphProcessingEnvironment procEnv)
+        bool ApplyImplProfilingForAdjacentNodesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
         {
             bool res = true;
-
-            switch(SequenceType)
+            bool first = true;
+            foreach(IEdge edge in node.Incoming)
             {
-                case SequenceType.ForNodes:
-                {
-                    NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
-                    bool first = true;
-                    foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(node, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
-                case SequenceType.ForEdges:
-                {
-                    EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
-                    bool first = true;
-                    foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
-                    {
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(edgeType))
+                    continue;
+                if(!edge.Source.InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge.Source, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
             }
-
             procEnv.EndOfIteration(false, this);
             return res;
         }
 
-        protected bool ApplyImplNodesEdgesProfiling(IGraphProcessingEnvironment procEnv)
+        bool ApplyImplProfilingForAdjacentNodesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
         {
             bool res = true;
-
-            switch(SequenceType)
+            bool first = true;
+            foreach(IEdge edge in node.Outgoing)
             {
-                case SequenceType.ForNodes:
-                {
-                    NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
-                    bool first = true;
-                    foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
-                    {
-                        ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(node, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
-                case SequenceType.ForEdges:
-                {
-                    EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
-                    bool first = true;
-                    foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
-                    {
-                        ++procEnv.PerformanceInfo.SearchSteps;
-                        if(!first) procEnv.EndOfIteration(true, this);
-                        Var.SetVariableValue(edge, procEnv);
-                        Seq.ResetExecutionState();
-                        res &= Seq.Apply(procEnv);
-                        first = false;
-                    }
-                    break;
-                }
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(edgeType))
+                    continue;
+                if(!edge.Target.InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge.Target, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
             }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
 
+        bool ApplyImplProfilingForIncidentEdges(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.Incident)
+            {
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(edgeType))
+                    continue;
+                if(!edge.Opposite(node).InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForIncomingEdges(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.Incoming)
+            {
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(edgeType))
+                    continue;
+                if(!edge.Source.InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForOutgoingEdges(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in node.Outgoing)
+            {
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!edge.InstanceOf(edgeType))
+                    continue;
+                if(!edge.Target.InstanceOf(nodeType))
+                    continue;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForReachableNodes(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.Reachable(node, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForReachableNodesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.ReachableIncoming(node, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForReachableNodesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.ReachableOutgoing(node, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForReachableEdges(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.ReachableEdges(node, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForReachableEdgesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.ReachableEdgesIncoming(node, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForReachableEdgesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.ReachableEdgesOutgoing(node, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForBoundedReachableNodes(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.BoundedReachable(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForBoundedReachableNodesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.BoundedReachableIncoming(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForBoundedReachableNodesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(INode iter in GraphHelper.BoundedReachableOutgoing(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(iter, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForBoundedReachableEdges(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.BoundedReachableEdges(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForBoundedReachableEdgesViaIncoming(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.BoundedReachableEdgesIncoming(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        bool ApplyImplProfilingForBoundedReachableEdgesViaOutgoing(IGraphProcessingEnvironment procEnv, INode node, int depth, EdgeType edgeType, NodeType nodeType)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in GraphHelper.BoundedReachableEdgesOutgoing(node, depth, edgeType, nodeType, procEnv.Graph, procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        protected bool ApplyImplNodes(IGraphProcessingEnvironment procEnv)
+        {
+            NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+            bool res = true;
+            bool first = true;
+            foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(node, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        protected bool ApplyImplEdges(IGraphProcessingEnvironment procEnv)
+        {
+            EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        protected bool ApplyImplNodesProfiling(IGraphProcessingEnvironment procEnv)
+        {
+            NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+            bool res = true;
+            bool first = true;
+            foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
+            {
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(node, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        protected bool ApplyImplEdgesProfiling(IGraphProcessingEnvironment procEnv)
+        {
+            EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+            bool res = true;
+            bool first = true;
+            foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
+            {
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(edge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
             procEnv.EndOfIteration(false, this);
             return res;
         }
