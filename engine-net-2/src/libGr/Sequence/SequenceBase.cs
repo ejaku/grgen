@@ -170,7 +170,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ReturnVars.Length > 0)
             {
                 returnVars = new IList[ReturnVars.Length];
-                for(int i = 0; i < ReturnVars.Length; i++)
+                for(int i = 0; i < ReturnVars.Length; ++i)
                 {
                     returnVars[i] = ReturnVars[i].GetVariableValue(procEnv) as IList;
                     if(returnVars[i] == null)
@@ -187,23 +187,29 @@ namespace de.unika.ipd.grGen.libGr
             for(int curRetElemNum = 0; curRetElemNum < retElemsList.Count; ++curRetElemNum)
             {
                 object[] retElems = retElemsList[curRetElemNum];
-                for(int i = 0; i < ReturnVars.Length; i++)
+                for(int i = 0; i < ReturnVars.Length; ++i)
+                {
                     returnVars[i].Add(retElems[i]);
+                }
             }
         }
 
         public static void FillReturnVariablesFromValues(SequenceVariable[] ReturnVars, IGraphProcessingEnvironment procEnv, object[] retElems)
         {
             for(int i = 0; i < ReturnVars.Length; ++i)
+            {
                 ReturnVars[i].SetVariableValue(retElems[i], procEnv);
+            }
         }
 
         public static void InitializeArgumentExpressionsAndArguments(List<SequenceExpression> argExprs,
             out SequenceExpression[] ArgumentExpressions, out object[] Arguments)
         {
             foreach(SequenceExpression argExpr in argExprs)
+            {
                 if(argExpr == null)
                     throw new Exception("Null entry in argument expressions");
+            }
             ArgumentExpressions = argExprs.ToArray();
             Arguments = new object[ArgumentExpressions.Length];
         }
@@ -212,8 +218,10 @@ namespace de.unika.ipd.grGen.libGr
             out SequenceVariable[] ReturnVars)
         {
             foreach(SequenceVariable returnVar in returnVars)
+            {
                 if(returnVar == null)
                     throw new Exception("Null entry in return variables");
+            }
             ReturnVars = returnVars.ToArray();
         }
 
@@ -223,7 +231,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             targetArgumentExpressions = new SequenceExpression[sourceArgumentExpressions.Length];
             for(int i = 0; i < sourceArgumentExpressions.Length; ++i)
+            {
                 targetArgumentExpressions[i] = sourceArgumentExpressions[i].CopyExpression(originalToCopy, procEnv);
+            }
             targetArguments = new object[targetArgumentExpressions.Length];
         }
 
@@ -233,21 +243,27 @@ namespace de.unika.ipd.grGen.libGr
         {
             targetReturnVars = new SequenceVariable[sourceReturnVars.Length];
             for(int i = 0; i < sourceReturnVars.Length; ++i)
+            {
                 targetReturnVars[i] = sourceReturnVars[i].Copy(originalToCopy, procEnv);
+            }
         }
 
         public static void GetLocalVariables(SequenceExpression[] ArgumentExpressions, 
             Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             foreach(SequenceExpression seqExpr in ArgumentExpressions)
+            {
                 seqExpr.GetLocalVariables(variables, containerConstructors);
+            }
         }
 
         public static void GetLocalVariables(SequenceVariable[] ReturnVars, 
             Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             foreach(SequenceVariable seqVar in ReturnVars)
+            {
                 seqVar.GetLocalVariables(variables);
+            }
         }
 
         #endregion helper methods for call input argument and argument expression, as well as return variable handling
