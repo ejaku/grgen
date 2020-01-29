@@ -2762,19 +2762,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new InvalidOperationException("The nodeByName(.) call can only be used with named graphs!");
             INamedGraph namedGraph = (INamedGraph)procEnv.Graph;
 
-            NodeType nodeType = null;
-            if(NodeType != null)
-            {
-                object tmp = NodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to nodeByName is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            NodeType nodeType = GetNodeType(procEnv, NodeType, "nodeByName");
 
             if(EmitProfiling)
                 return GraphHelper.GetNode(namedGraph, (string)NodeName.Evaluate(procEnv), nodeType, procEnv);
@@ -2874,19 +2862,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new InvalidOperationException("The edgeByName(.) call can only be used with named graphs!");
             INamedGraph namedGraph = (INamedGraph)procEnv.Graph;
 
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to edgeByName is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, "edgeByName");
 
             if(EmitProfiling)
                 return GraphHelper.GetEdge(namedGraph, (string)EdgeName.Evaluate(procEnv), edgeType, procEnv);
@@ -2983,19 +2959,7 @@ namespace de.unika.ipd.grGen.libGr
             if(!(procEnv.Graph.Model.GraphElementsAreAccessibleByUniqueId))
                 throw new InvalidOperationException("The nodeByUnique(.) call can only be used on graphs with a node edge unique definition!");
 
-            NodeType nodeType = null;
-            if(NodeType != null)
-            {
-                object tmp = NodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to nodeByUnique is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            NodeType nodeType = GetNodeType(procEnv, NodeType, "nodeByUnique");
 
             if(EmitProfiling)
                 return GraphHelper.GetNode(procEnv.Graph, (int)NodeUniqueId.Evaluate(procEnv), nodeType, procEnv);
@@ -3092,19 +3056,7 @@ namespace de.unika.ipd.grGen.libGr
             if(!(procEnv.Graph.Model.GraphElementsAreAccessibleByUniqueId))
                 throw new InvalidOperationException("The edgeByUnique(.) call can only be used on graphs with a node edge unique definition!");
 
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to edgeByUnique is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, "edgeByUnique");
 
             if(EmitProfiling)
                 return GraphHelper.GetEdge(procEnv.Graph, (int)EdgeUniqueId.Evaluate(procEnv), edgeType, procEnv);
@@ -3573,19 +3525,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            NodeType nodeType = null;
-            if(NodeType != null)
-            {
-                object tmp = NodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            NodeType nodeType = GetNodeType(procEnv, NodeType, FunctionSymbol);
 
             if(EmitProfiling)
                 return GraphHelper.Nodes(procEnv.Graph, nodeType, procEnv);
@@ -3721,19 +3661,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
 
             if(EmitProfiling)
                 return GraphHelper.Edges(procEnv.Graph, edgeType, procEnv);
@@ -3829,19 +3757,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            NodeType nodeType = null;
-            if(NodeType != null)
-            {
-                object tmp = NodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            NodeType nodeType = GetNodeType(procEnv, NodeType, FunctionSymbol);
 
             if(EmitProfiling)
                 return GraphHelper.CountNodes(procEnv.Graph, nodeType, procEnv);
@@ -3937,19 +3853,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
 
             if(EmitProfiling)
                 return GraphHelper.CountEdges(procEnv.Graph, edgeType, procEnv);
@@ -4241,32 +4145,8 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -4444,32 +4324,8 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -4657,32 +4513,8 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -4859,32 +4691,8 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -5078,32 +4886,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
             int depth = (int)Depth.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -5288,32 +5072,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
             int depth = (int)Depth.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -5483,36 +5243,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
             int depth = (int)Depth.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-            {
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            }
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-            {
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
-            }
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -5719,32 +5451,8 @@ namespace de.unika.ipd.grGen.libGr
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
             IGraphElement endElement = (IGraphElement)EndElement.Evaluate(procEnv);
             int depth = (int)Depth.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -5944,32 +5652,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
             IGraphElement endElement = (IGraphElement)EndElement.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {
@@ -6168,32 +5852,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             INode sourceNode = (INode)SourceNode.Evaluate(procEnv);
             IGraphElement endElement = (IGraphElement)EndElement.Evaluate(procEnv);
-            EdgeType edgeType = null;
-            if(EdgeType != null)
-            {
-                object tmp = EdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            NodeType nodeType = null;
-            if(OppositeNodeType != null)
-            {
-                object tmp = OppositeNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+            EdgeType edgeType = GetEdgeType(procEnv, EdgeType, FunctionSymbol);
+            NodeType nodeType = GetNodeType(procEnv, OppositeNodeType, FunctionSymbol);
 
             switch(SequenceExpressionType)
             {

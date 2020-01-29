@@ -141,6 +141,47 @@ namespace de.unika.ipd.grGen.libGr
             PackagePrefixedName = Name;
         }
 
+        protected static NodeType GetNodeType(IGraphProcessingEnvironment procEnv, SequenceExpression nodeTypeExpr, string functionName)
+        {
+            NodeType nodeType = null;
+
+            if(nodeTypeExpr != null) // often adjacent node
+            {
+                object tmp = nodeTypeExpr.Evaluate(procEnv);
+                if(tmp is string)
+                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
+                else if(tmp is NodeType)
+                    nodeType = (NodeType)tmp;
+                if(nodeType == null)
+                    throw new Exception("node type argument to " + functionName + " is not a node type");
+            }
+            else
+                nodeType = procEnv.Graph.Model.NodeModel.RootType;
+
+            return nodeType;
+        }
+
+        protected static EdgeType GetEdgeType(IGraphProcessingEnvironment procEnv, SequenceExpression edgeTypeExpr, string functionName)
+        {
+            EdgeType edgeType = null;
+
+            if(edgeTypeExpr != null) // often incident edge
+            {
+                object tmp = edgeTypeExpr.Evaluate(procEnv);
+                if(tmp is string)
+                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
+                else if(tmp is EdgeType)
+                    edgeType = (EdgeType)tmp;
+                if(edgeType == null)
+                    throw new Exception("edge type argument to " + functionName + " is not an edge type");
+            }
+            else
+                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
+
+            return edgeType;
+        }
+
+
         #region helper methods for call input argument and argument expression, as well as return variable handling
 
         public static void FillArgumentsFromArgumentExpressions(SequenceExpression[] ArgumentExpressions, object[] Arguments, IGraphProcessingEnvironment procEnv)

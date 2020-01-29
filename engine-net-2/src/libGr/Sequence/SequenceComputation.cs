@@ -1113,19 +1113,17 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceComputationDebugAdd : SequenceComputation
+    public abstract class SequenceComputationDebug : SequenceComputation
     {
         public readonly List<SequenceExpression> ArgExprs;
-        readonly object[] values;
 
-        public SequenceComputationDebugAdd(List<SequenceExpression> argExprs)
-            : base(SequenceComputationType.DebugAdd)
+        protected SequenceComputationDebug(SequenceComputationType seqCompType, List<SequenceExpression> argExprs)
+            : base(seqCompType)
         {
             ArgExprs = argExprs;
-            values = new object[ArgExprs.Count - 1];
         }
 
-        protected SequenceComputationDebugAdd(SequenceComputationDebugAdd that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        protected SequenceComputationDebug(SequenceComputationDebug that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that)
         {
             ArgExprs = new List<SequenceExpression>();
@@ -1133,23 +1131,55 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
             }
-            values = new object[ArgExprs.Count - 1];
-        }
-
-        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-        {
-            return new SequenceComputationDebugAdd(this, originalToCopy, procEnv);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             if(ArgExprs.Count == 0)
-                throw new Exception("Debug::add expects at least one parameter (the message at computation entry)");
+                throw new Exception("Debug::(add,rem,emit,halt,highlight) expects at least one parameter (the message at computation entry)");
 
             if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
                 throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
 
             base.Check(env);
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get
+            {
+                for(int i = 0; i < ArgExprs.Count; ++i)
+                {
+                    yield return ArgExprs[i];
+                }
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+    }
+
+    public class SequenceComputationDebugAdd : SequenceComputationDebug
+    {
+        readonly object[] values;
+
+        public SequenceComputationDebugAdd(List<SequenceExpression> argExprs)
+            : base(SequenceComputationType.DebugAdd, argExprs)
+        {
+            values = new object[ArgExprs.Count - 1];
+        }
+
+        protected SequenceComputationDebugAdd(SequenceComputationDebugAdd that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+             values = new object[ArgExprs.Count - 1];
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceComputationDebugAdd(this, originalToCopy, procEnv);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -1181,61 +1211,27 @@ namespace de.unika.ipd.grGen.libGr
                 return sb.ToString();
             }
         }
-
-        public override IEnumerable<SequenceComputation> Children
-        {
-            get
-            {
-                for(int i = 0; i < ArgExprs.Count; ++i)
-                {
-                    yield return ArgExprs[i];
-                }
-            }
-        }
-
-        public override int Precedence
-        {
-            get { return 8; }
-        }
     }
 
-    public class SequenceComputationDebugRem : SequenceComputation
+    public class SequenceComputationDebugRem : SequenceComputationDebug
     {
-        public readonly List<SequenceExpression> ArgExprs;
         readonly object[] values;
 
         public SequenceComputationDebugRem(List<SequenceExpression> argExprs)
-            : base(SequenceComputationType.DebugRem)
+            : base(SequenceComputationType.DebugRem, argExprs)
         {
-            ArgExprs = argExprs;
             values = new object[ArgExprs.Count - 1];
         }
 
         protected SequenceComputationDebugRem(SequenceComputationDebugRem that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-            : base(that)
+            : base(that, originalToCopy, procEnv)
         {
-            ArgExprs = new List<SequenceExpression>();
-            foreach(SequenceExpression seqExpr in that.ArgExprs)
-            {
-                ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
-            }
             values = new object[ArgExprs.Count - 1];
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceComputationDebugRem(this, originalToCopy, procEnv);
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            if(ArgExprs.Count == 0)
-                throw new Exception("Debug::rem expects at least one parameter (the message at computation exit, must be the same as the message at computation entry)");
-
-            if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
-                throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
-
-            base.Check(env);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -1267,61 +1263,27 @@ namespace de.unika.ipd.grGen.libGr
                 return sb.ToString();
             }
         }
-
-        public override IEnumerable<SequenceComputation> Children
-        {
-            get
-            {
-                for(int i = 0; i < ArgExprs.Count; ++i)
-                {
-                    yield return ArgExprs[i];
-                }
-            }
-        }
-
-        public override int Precedence
-        {
-            get { return 8; }
-        }
     }
 
-    public class SequenceComputationDebugEmit : SequenceComputation
+    public class SequenceComputationDebugEmit : SequenceComputationDebug
     {
-        public readonly List<SequenceExpression> ArgExprs;
         readonly object[] values;
 
         public SequenceComputationDebugEmit(List<SequenceExpression> argExprs)
-            : base(SequenceComputationType.DebugEmit)
+            : base(SequenceComputationType.DebugEmit, argExprs)
         {
-            ArgExprs = argExprs;
             values = new object[ArgExprs.Count - 1];
         }
 
         protected SequenceComputationDebugEmit(SequenceComputationDebugEmit that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-            : base(that)
+            : base(that, originalToCopy, procEnv)
         {
-            ArgExprs = new List<SequenceExpression>();
-            foreach(SequenceExpression seqExpr in that.ArgExprs)
-            {
-                ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
-            }
             values = new object[ArgExprs.Count - 1];
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceComputationDebugEmit(this, originalToCopy, procEnv);
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            if(ArgExprs.Count == 0)
-                throw new Exception("Debug::emit expects at least one parameter (the message)");
-
-            if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
-                throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
-
-            base.Check(env);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -1353,60 +1315,27 @@ namespace de.unika.ipd.grGen.libGr
                 return sb.ToString();
             }
         }
-        public override IEnumerable<SequenceComputation> Children
-        {
-            get
-            {
-                for(int i = 0; i < ArgExprs.Count; ++i)
-                {
-                    yield return ArgExprs[i];
-                }
-            }
-        }
-
-        public override int Precedence
-        {
-            get { return 8; }
-        }
     }
 
-    public class SequenceComputationDebugHalt : SequenceComputation
+    public class SequenceComputationDebugHalt : SequenceComputationDebug
     {
-        public readonly List<SequenceExpression> ArgExprs;
         readonly object[] values;
 
         public SequenceComputationDebugHalt(List<SequenceExpression> argExprs)
-            : base(SequenceComputationType.DebugHalt)
+            : base(SequenceComputationType.DebugHalt, argExprs)
         {
-            ArgExprs = argExprs;
             values = new object[ArgExprs.Count - 1];
         }
 
         protected SequenceComputationDebugHalt(SequenceComputationDebugHalt that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-            : base(that)
+            : base(that, originalToCopy, procEnv)
         {
-            ArgExprs = new List<SequenceExpression>();
-            foreach(SequenceExpression seqExpr in that.ArgExprs)
-            {
-                ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
-            }
             values = new object[ArgExprs.Count - 1];
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceComputationDebugHalt(this, originalToCopy, procEnv);
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            if(ArgExprs.Count == 0)
-                throw new Exception("Debug::halt expects at least one parameter (the message)");
-
-            if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
-                throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
-
-            base.Check(env);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -1438,42 +1367,18 @@ namespace de.unika.ipd.grGen.libGr
                 return sb.ToString();
             }
         }
-
-        public override IEnumerable<SequenceComputation> Children
-        {
-            get
-            {
-                for(int i = 0; i < ArgExprs.Count; ++i)
-                {
-                    yield return ArgExprs[i];
-                }
-            }
-        }
-
-        public override int Precedence
-        {
-            get { return 8; }
-        }
     }
 
-    public class SequenceComputationDebugHighlight : SequenceComputation
+    public class SequenceComputationDebugHighlight : SequenceComputationDebug
     {
-        public readonly List<SequenceExpression> ArgExprs;
-
         public SequenceComputationDebugHighlight(List<SequenceExpression> argExprs)
-            : base(SequenceComputationType.DebugHighlight)
+            : base(SequenceComputationType.DebugHighlight, argExprs)
         {
-            ArgExprs = argExprs;
         }
 
         protected SequenceComputationDebugHighlight(SequenceComputationDebugHighlight that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-            : base(that)
+            : base(that, originalToCopy, procEnv)
         {
-            ArgExprs = new List<SequenceExpression>();
-            foreach(SequenceExpression seqExpr in that.ArgExprs)
-            {
-                ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
-            }
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -1483,16 +1388,16 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(ArgExprs.Count == 0 || ArgExprs.Count % 2 == 0)
+            base.Check(env);
+
+            if(ArgExprs.Count % 2 == 0)
                 throw new Exception("Debug::highlight expects an odd number of parameters (message, then series of alternating value to highlight followed by annotation to be displayed)");
 
-            for(int i = 0; i < ArgExprs.Count; ++i)
+            for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 if(i % 2 == 0 && !TypesHelper.IsSameOrSubtype(ArgExprs[i].Type(env), "string", env.Model))
                     throw new SequenceParserException("The " + i + " parameter of " + Symbol, "string type", ArgExprs[i].Type(env));
             }
-
-            base.Check(env);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -1528,22 +1433,6 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(")");
                 return sb.ToString();
             }
-        }
-
-        public override IEnumerable<SequenceComputation> Children
-        {
-            get
-            {
-                for(int i = 0; i < ArgExprs.Count; ++i)
-                {
-                    yield return ArgExprs[i];
-                }
-            }
-        }
-
-        public override int Precedence
-        {
-            get { return 8; }
         }
     }
 

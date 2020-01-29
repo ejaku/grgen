@@ -4316,13 +4316,13 @@ namespace de.unika.ipd.grGen.libGr
                 || SequenceType == SequenceType.ForBoundedReachableEdgesViaOutgoing)
             {
                 depth = (int)ArgExprs[1].Evaluate(procEnv);
-                edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null);
-                nodeType = GetNodeType(procEnv, ArgExprs.Count >= 4 ? ArgExprs[3] : null);
+                edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null, FunctionSymbol + " iteration");
+                nodeType = GetNodeType(procEnv, ArgExprs.Count >= 4 ? ArgExprs[3] : null, FunctionSymbol + " iteration");
             }
             else
             {
-                edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 2 ? ArgExprs[1] : null);
-                nodeType = GetNodeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null);
+                edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 2 ? ArgExprs[1] : null, FunctionSymbol + " iteration");
+                nodeType = GetNodeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null, FunctionSymbol + " iteration");
             }
 
             switch(SequenceType)
@@ -4701,13 +4701,13 @@ namespace de.unika.ipd.grGen.libGr
                 || SequenceType == SequenceType.ForBoundedReachableEdgesViaOutgoing)
             {
                 depth = (int)ArgExprs[1].Evaluate(procEnv);
-                edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null);
-                nodeType = GetNodeType(procEnv, ArgExprs.Count >= 4 ? ArgExprs[3] : null);
+                edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null, FunctionSymbol + " iteration");
+                nodeType = GetNodeType(procEnv, ArgExprs.Count >= 4 ? ArgExprs[3] : null, FunctionSymbol + " iteration");
             }
             else
             {
-                edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 2 ? ArgExprs[1] : null);
-                nodeType = GetNodeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null);
+                edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 2 ? ArgExprs[1] : null, FunctionSymbol + " iteration");
+                nodeType = GetNodeType(procEnv, ArgExprs.Count >= 3 ? ArgExprs[2] : null, FunctionSymbol + " iteration");
             }
 
             switch(SequenceType)
@@ -5091,7 +5091,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected bool ApplyImplNodes(IGraphProcessingEnvironment procEnv)
         {
-            NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+            NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null, FunctionSymbol + " iteration");
             bool res = true;
             bool first = true;
             foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
@@ -5109,7 +5109,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected bool ApplyImplEdges(IGraphProcessingEnvironment procEnv)
         {
-            EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+            EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null, FunctionSymbol + " iteration");
             bool res = true;
             bool first = true;
             foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
@@ -5127,7 +5127,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected bool ApplyImplNodesProfiling(IGraphProcessingEnvironment procEnv)
         {
-            NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+            NodeType nodeType = GetNodeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null, FunctionSymbol + " iteration");
             bool res = true;
             bool first = true;
             foreach(INode node in procEnv.Graph.GetCompatibleNodes(nodeType))
@@ -5146,7 +5146,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected bool ApplyImplEdgesProfiling(IGraphProcessingEnvironment procEnv)
         {
-            EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null);
+            EdgeType edgeType = GetEdgeType(procEnv, ArgExprs.Count >= 1 ? ArgExprs[0] : null, FunctionSymbol + " iteration");
             bool res = true;
             bool first = true;
             foreach(IEdge edge in procEnv.Graph.GetCompatibleEdges(edgeType))
@@ -5161,42 +5161,6 @@ namespace de.unika.ipd.grGen.libGr
             }
             procEnv.EndOfIteration(false, this);
             return res;
-        }
-
-        private EdgeType GetEdgeType(IGraphProcessingEnvironment procEnv, SequenceExpression IncidentEdgeType)
-        {
-            EdgeType edgeType = null;
-            if(IncidentEdgeType != null)
-            {
-                object tmp = IncidentEdgeType.Evaluate(procEnv);
-                if(tmp is string)
-                    edgeType = procEnv.Graph.Model.EdgeModel.GetType((string)tmp);
-                else if(tmp is EdgeType)
-                    edgeType = (EdgeType)tmp;
-                if(edgeType == null)
-                    throw new Exception("edge type argument to " + FunctionSymbol + " iteration is not an edge type");
-            }
-            else
-                edgeType = procEnv.Graph.Model.EdgeModel.RootType;
-            return edgeType;
-        }
-
-        private NodeType GetNodeType(IGraphProcessingEnvironment procEnv, SequenceExpression AdjacentNodeType)
-        {
-            NodeType nodeType = null;
-            if(AdjacentNodeType != null)
-            {
-                object tmp = AdjacentNodeType.Evaluate(procEnv);
-                if(tmp is string)
-                    nodeType = procEnv.Graph.Model.NodeModel.GetType((string)tmp);
-                else if(tmp is NodeType)
-                    nodeType = (NodeType)tmp;
-                if(nodeType == null)
-                    throw new Exception("node type argument to " + FunctionSymbol + " iteration is not a node type");
-            }
-            else
-                nodeType = procEnv.Graph.Model.NodeModel.RootType;
-            return nodeType;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
