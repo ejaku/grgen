@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.libGr
                 return Attribute.Type(env);
         }
 
-        public string CheckAndReturnContainerType(SequenceCheckingEnvironment env)
+        protected string CheckAndReturnContainerType(SequenceCheckingEnvironment env)
         {
             string ContainerType;
             if(Container != null)
@@ -211,7 +211,7 @@ namespace de.unika.ipd.grGen.libGr
             return ContainerType;
         }
 
-        public object ContainerValue(IGraphProcessingEnvironment procEnv, out IGraphElement elem, out AttributeType attrType)
+        protected object ContainerValue(IGraphProcessingEnvironment procEnv, out IGraphElement elem, out AttributeType attrType)
         {
             if(Container != null)
             {
@@ -246,6 +246,66 @@ namespace de.unika.ipd.grGen.libGr
                     return Attribute.Symbol;
             }
         }
+
+        #region helper methods
+
+        protected static void ChangingAttributePutElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object firstValue, object optionalSecondValue)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
+            else
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
+        }
+
+        protected static void ChangingAttributeRemoveElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object valueOrKeyOrIndexToRemove)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+            else
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+        }
+
+        protected static void ChangingSetAttributePutElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object firstValue)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, firstValue, null);
+            else
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, firstValue, null);
+        }
+
+        protected static void ChangingSetAttributeRemoveElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object valueOrKeyOrIndexToRemove)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, valueOrKeyOrIndexToRemove, null);
+            else
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, valueOrKeyOrIndexToRemove, null);
+        }
+
+        protected static void ChangingMapAttributePutElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object firstValue, object optionalSecondValue)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, optionalSecondValue, firstValue);
+            else
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, optionalSecondValue, firstValue);
+        }
+
+        protected static void ChangingMapAttributeRemoveElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object valueOrKeyOrIndexToRemove)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+            else
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
+        }
+
+        protected static void ChangedAttribute(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+            else
+                procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
+        }
+
+        #endregion helper methods
     }
 
 
@@ -557,89 +617,70 @@ namespace de.unika.ipd.grGen.libGr
                 optionalSecondValue = ExprDst.Evaluate(procEnv);
 
             if(container is IList)
-                return ExecuteArray(procEnv, elem, attrType, container, firstValue, optionalSecondValue);
+                return ExecuteArray(procEnv, elem, attrType, (IList)container, firstValue, optionalSecondValue);
             else if(container is IDeque)
-                return ExecuteDeque(procEnv, elem, attrType, container, firstValue, optionalSecondValue);
+                return ExecuteDeque(procEnv, elem, attrType, (IDeque)container, firstValue, optionalSecondValue);
+            else if(ExprDst == null)
+                return ExecuteSet(procEnv, elem, attrType, (IDictionary)container, firstValue, optionalSecondValue);
             else
-                return ExecuteSetMap(procEnv, elem, attrType, container, firstValue, optionalSecondValue);
+                return ExecuteMap(procEnv, elem, attrType, (IDictionary)container, firstValue, optionalSecondValue);
         }
 
-        private object ExecuteArray(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container, object firstValue, object optionalSecondValue)
+        private object ExecuteArray(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IList array, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
-                else
-                    procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
-            }
-            IList array = (IList)container;
+                ChangingAttributePutElement(procEnv, elem, attrType, firstValue, optionalSecondValue);
+
             if(ExprDst == null)
                 array.Add(firstValue);
             else
                 array.Insert((int)optionalSecondValue, firstValue);
+
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
+                ChangedAttribute(procEnv, elem, attrType);
+
             return array;
         }
 
-        private object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container, object firstValue, object optionalSecondValue)
+        private object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDeque deque, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
-                else
-                    procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, firstValue, optionalSecondValue);
-            }
-            IDeque deque = (IDeque)container;
+                ChangingAttributePutElement(procEnv, elem, attrType, firstValue, optionalSecondValue);
+
             if(ExprDst == null)
                 deque.Enqueue(firstValue);
             else
                 deque.EnqueueAt((int)optionalSecondValue, firstValue);
+
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
+                ChangedAttribute(procEnv, elem, attrType);
+
             return deque;
         }
 
-        private object ExecuteSetMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container, object firstValue, object optionalSecondValue)
+        private object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
-            {
-                if(ExprDst != null) // must be map
-                {
-                    if(elem is INode)
-                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, optionalSecondValue, firstValue);
-                    else
-                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, optionalSecondValue, firstValue);
-                }
-                else
-                {
-                    if(elem is INode)
-                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.PutElement, firstValue, null);
-                    else
-                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.PutElement, firstValue, null);
-                }
-            }
-            IDictionary setmap = (IDictionary)container;
+                ChangingSetAttributePutElement(procEnv, elem, attrType, firstValue);
+
             setmap[firstValue] = optionalSecondValue;
+
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
+                ChangedAttribute(procEnv, elem, attrType);
+
+            return setmap;
+        }
+
+        private object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap, object firstValue, object optionalSecondValue)
+        {
+            if(elem != null)
+                ChangingMapAttributePutElement(procEnv, elem, attrType, firstValue, optionalSecondValue);
+
+            setmap[firstValue] = optionalSecondValue;
+
+            if(elem != null)
+                ChangedAttribute(procEnv, elem, attrType);
+
             return setmap;
         }
 
@@ -734,89 +775,70 @@ namespace de.unika.ipd.grGen.libGr
                 valueOrKeyOrIndexToRemove = Expr.Evaluate(procEnv);
 
             if(container is IList)
-                return ExecuteArray(procEnv, elem, attrType, container, valueOrKeyOrIndexToRemove);
+                return ExecuteArray(procEnv, elem, attrType, (IList)container, valueOrKeyOrIndexToRemove);
             else if(container is IDeque)
-                return ExecuteDeque(procEnv, elem, attrType, container, valueOrKeyOrIndexToRemove);
+                return ExecuteDeque(procEnv, elem, attrType, (IDeque)container, valueOrKeyOrIndexToRemove);
+            else if(TypesHelper.ExtractDst(TypesHelper.XgrsTypeOfConstant(container, procEnv.Graph.Model)) == "SetValueType")
+                return ExecuteSet(procEnv, elem, attrType, (IDictionary)container, valueOrKeyOrIndexToRemove);
             else
-                return ExecuteSetMap(procEnv, elem, attrType, container, valueOrKeyOrIndexToRemove);
+                return ExecuteMap(procEnv, elem, attrType, (IDictionary)container, valueOrKeyOrIndexToRemove);
         }
 
-        private object ExecuteArray(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container, object valueOrKeyOrIndexToRemove)
+        private object ExecuteArray(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IList array, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
-                else
-                    procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
-            }
-            IList array = (IList)container;
+                ChangingAttributeRemoveElement(procEnv, elem, attrType, valueOrKeyOrIndexToRemove);
+
             if(Expr == null)
                 array.RemoveAt(array.Count - 1);
             else
                 array.RemoveAt((int)valueOrKeyOrIndexToRemove);
+
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
+                ChangedAttribute(procEnv, elem, attrType);
+
             return array;
         }
 
-        private object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container, object valueOrKeyOrIndexToRemove)
+        private object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDeque deque, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
-                else
-                    procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
-            }
-            IDeque deque = (IDeque)container;
+                ChangingAttributeRemoveElement(procEnv, elem, attrType, valueOrKeyOrIndexToRemove);
+
             if(Expr == null)
                 deque.Dequeue();
             else
                 deque.DequeueAt((int)valueOrKeyOrIndexToRemove);
+
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
+                ChangedAttribute(procEnv, elem, attrType);
+
             return deque;
         }
 
-        private static object ExecuteSetMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container, object valueOrKeyOrIndexToRemove)
+        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
-            {
-                if(TypesHelper.ExtractDst(TypesHelper.AttributeTypeToXgrsType(attrType)) == "SetValueType")
-                {
-                    if(elem is INode)
-                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, valueOrKeyOrIndexToRemove, null);
-                    else
-                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, valueOrKeyOrIndexToRemove, null);
-                }
-                else
-                {
-                    if(elem is INode)
-                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
-                    else
-                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
-                }
-            }
-            IDictionary setmap = (IDictionary)container;
+                ChangingSetAttributeRemoveElement(procEnv, elem, attrType, valueOrKeyOrIndexToRemove);
+
             setmap.Remove(valueOrKeyOrIndexToRemove);
+
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
+                ChangedAttribute(procEnv, elem, attrType);
+
+            return setmap;
+        }
+
+        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap, object valueOrKeyOrIndexToRemove)
+        {
+            if(elem != null)
+                ChangingMapAttributeRemoveElement(procEnv, elem, attrType, valueOrKeyOrIndexToRemove);
+
+            setmap.Remove(valueOrKeyOrIndexToRemove);
+
+            if(elem != null)
+                ChangedAttribute(procEnv, elem, attrType);
+
             return setmap;
         }
 
@@ -885,95 +907,84 @@ namespace de.unika.ipd.grGen.libGr
             object container = ContainerValue(procEnv, out elem, out attrType);
 
             if(container is IList)
-                return ExecuteList(procEnv, elem, attrType, container);
+                return ExecuteList(procEnv, elem, attrType, (IList)container);
             else if(container is IDeque)
-                return ExecuteDeque(procEnv, elem, attrType, container);
+                return ExecuteDeque(procEnv, elem, attrType, (IDeque)container);
+            else if(TypesHelper.ExtractDst(TypesHelper.XgrsTypeOfConstant(container, procEnv.Graph.Model)) == "SetValueType")
+                return ExecuteSet(procEnv, elem, attrType, (IDictionary)container);
             else
-                return ExecuteSetMap(procEnv, elem, attrType, container);
+                return ExecuteMap(procEnv, elem, attrType, (IDictionary)container);
         }
 
-        private static object ExecuteList(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container)
+        private static object ExecuteList(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IList array)
         {
-            IList array = (IList)container;
             if(elem != null)
             {
                 for(int i = array.Count; i >= 0; --i)
                 {
-                    if(elem is INode)
-                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, i);
-                    else
-                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, i);
+                    ChangingAttributeRemoveElement(procEnv, elem, attrType, i);
                 }
             }
+
             array.Clear();
+
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
+                ChangedAttribute(procEnv, elem, attrType);
+
             return array;
         }
 
-        private static object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container)
+        private static object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDeque deque)
         {
-            IDeque deque = (IDeque)container;
             if(elem != null)
             {
                 for(int i = deque.Count; i >= 0; --i)
                 {
-                    if(elem is INode)
-                        procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, i);
-                    else
-                        procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, i);
+                    ChangingAttributeRemoveElement(procEnv, elem, attrType, i);
                 }
             }
+
             deque.Clear();
+
             if(elem != null)
-            {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-            }
+                ChangedAttribute(procEnv, elem, attrType);
+
             return deque;
         }
 
-        private static object ExecuteSetMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object container)
+        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap)
         {
-            IDictionary setmap = (IDictionary)container;
             if(elem != null)
             {
-                if(TypesHelper.ExtractDst(TypesHelper.AttributeTypeToXgrsType(attrType)) == "SetValueType")
+                foreach(DictionaryEntry kvp in setmap)
                 {
-                    foreach(DictionaryEntry kvp in setmap)
-                    {
-                        if(elem is INode)
-                            procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, kvp.Key, null);
-                        else
-                            procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, kvp.Key, null);
-                    }
-                }
-                else
-                {
-                    foreach(DictionaryEntry kvp in setmap)
-                    {
-                        if(elem is INode)
-                            procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.RemoveElement, null, kvp.Key);
-                        else
-                            procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, kvp.Key);
-                    }
+                    ChangingSetAttributeRemoveElement(procEnv, elem, attrType, kvp.Key);
                 }
             }
+
             setmap.Clear();
+
+            if(elem != null)
+                ChangedAttribute(procEnv, elem, attrType);
+
+            return setmap;
+        }
+
+        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap)
+        {
             if(elem != null)
             {
-                if(elem is INode)
-                    procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                foreach(DictionaryEntry kvp in setmap)
+                {
+                    ChangingMapAttributeRemoveElement(procEnv, elem, attrType, kvp.Key);
+                }
             }
+
+            setmap.Clear();
+
+            if(elem != null)
+                ChangedAttribute(procEnv, elem, attrType);
+
             return setmap;
         }
 
