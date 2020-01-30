@@ -1048,7 +1048,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, that.ArgumentExpressions,
                 out ArgumentExpressions, out Arguments);
-            CopyReturnVars(originalToCopy, procEnv, that.ReturnVars,
+            CopyVars(originalToCopy, procEnv, that.ReturnVars,
                 out ReturnVars);
             if(that.Subgraph != null)
                 Subgraph = that.Subgraph.Copy(originalToCopy, procEnv);
@@ -3258,16 +3258,8 @@ namespace de.unika.ipd.grGen.libGr
             Condition = that.Condition.Copy(originalToCopy, procEnv);
             TrueCase = that.TrueCase.Copy(originalToCopy, procEnv);
             FalseCase = that.FalseCase.Copy(originalToCopy, procEnv);
-            VariablesFallingOutOfScopeOnLeavingIf = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingIf.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingIf)
-            {
-                VariablesFallingOutOfScopeOnLeavingIf.Add(var.Copy(originalToCopy, procEnv));
-            }
-            VariablesFallingOutOfScopeOnLeavingTrueCase = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingTrueCase.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingTrueCase)
-            {
-                VariablesFallingOutOfScopeOnLeavingTrueCase.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingIf = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingIf);
+            VariablesFallingOutOfScopeOnLeavingTrueCase = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingTrueCase);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3307,16 +3299,10 @@ namespace de.unika.ipd.grGen.libGr
                 return true;
             if(TrueCase.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingTrueCase)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingTrueCase);
             if(FalseCase.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingIf)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingIf);
             return this == target;
         }
 
@@ -3358,16 +3344,8 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceIfThen(SequenceIfThen that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            VariablesFallingOutOfScopeOnLeavingIf = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingIf.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingIf)
-            {
-                VariablesFallingOutOfScopeOnLeavingIf.Add(var.Copy(originalToCopy, procEnv));
-            }
-            VariablesFallingOutOfScopeOnLeavingTrueCase = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingTrueCase.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingTrueCase)
-            {
-                VariablesFallingOutOfScopeOnLeavingTrueCase.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingIf = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingIf);
+            VariablesFallingOutOfScopeOnLeavingTrueCase = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingTrueCase);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3387,14 +3365,8 @@ namespace de.unika.ipd.grGen.libGr
                 return true;
             if(Right.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingTrueCase)
-            {
-                variables.Remove(seqVar);
-            }
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingIf)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingTrueCase);
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingIf);
             return this == target;
         }
 
@@ -3434,11 +3406,7 @@ namespace de.unika.ipd.grGen.libGr
             if(that.VarDst != null)
                 VarDst = that.VarDst.Copy(originalToCopy, procEnv);
             Container = that.Container.Copy(originalToCopy, procEnv);
-            VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingFor.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingFor = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingFor);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3453,66 +3421,82 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            bool res = true;
             if(Container.GetVariableValue(procEnv) is IList)
-            {
-                IList array = (IList)Container.GetVariableValue(procEnv);
-                bool first = true;
-                for(int i = 0; i < array.Count; ++i)
-                {
-                    if(!first)
-                        procEnv.EndOfIteration(true, this);
-                    if(VarDst != null)
-                    {
-                        Var.SetVariableValue(i, procEnv);
-                        VarDst.SetVariableValue(array[i], procEnv);
-                    }
-                    else
-                        Var.SetVariableValue(array[i], procEnv);
-                    Seq.ResetExecutionState();
-                    res &= Seq.Apply(procEnv);
-                    first = false;
-                }
-                procEnv.EndOfIteration(false, this);
-            }
+                return ApplyImplArray(procEnv, (IList)Container.GetVariableValue(procEnv));
             else if(Container.GetVariableValue(procEnv) is IDeque)
-            {
-                IDeque deque = (IDeque)Container.GetVariableValue(procEnv);
-                bool first = true;
-                for(int i = 0; i < deque.Count; ++i)
-                {
-                    if(!first)
-                        procEnv.EndOfIteration(true, this);
-                    if(VarDst != null)
-                    {
-                        Var.SetVariableValue(i, procEnv);
-                        VarDst.SetVariableValue(deque[i], procEnv);
-                    }
-                    else
-                        Var.SetVariableValue(deque[i], procEnv);
-                    Seq.ResetExecutionState();
-                    res &= Seq.Apply(procEnv);
-                    first = false;
-                }
-                procEnv.EndOfIteration(false, this);
-            }
+                return ApplyImplDeque(procEnv, (IDeque)Container.GetVariableValue(procEnv));
             else
+                return ApplyImplSetMap(procEnv, (IDictionary)Container.GetVariableValue(procEnv));
+        }
+
+        private bool ApplyImplArray(IGraphProcessingEnvironment procEnv, IList array)
+        {
+            bool res = true;
+
+            bool first = true;
+            for(int i = 0; i < array.Count; ++i)
             {
-                IDictionary setmap = (IDictionary)Container.GetVariableValue(procEnv);
-                bool first = true;
-                foreach(DictionaryEntry entry in setmap)
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                if(VarDst != null)
                 {
-                    if(!first)
-                        procEnv.EndOfIteration(true, this);
-                    Var.SetVariableValue(entry.Key, procEnv);
-                    if(VarDst != null)
-                        VarDst.SetVariableValue(entry.Value, procEnv);
-                    Seq.ResetExecutionState();
-                    res &= Seq.Apply(procEnv);
-                    first = false;
+                    Var.SetVariableValue(i, procEnv);
+                    VarDst.SetVariableValue(array[i], procEnv);
                 }
-                procEnv.EndOfIteration(false, this);
+                else
+                    Var.SetVariableValue(array[i], procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
             }
+            procEnv.EndOfIteration(false, this);
+
+            return res;
+        }
+
+        private bool ApplyImplDeque(IGraphProcessingEnvironment procEnv, IDeque deque)
+        {
+            bool res = true;
+
+            bool first = true;
+            for(int i = 0; i < deque.Count; ++i)
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                if(VarDst != null)
+                {
+                    Var.SetVariableValue(i, procEnv);
+                    VarDst.SetVariableValue(deque[i], procEnv);
+                }
+                else
+                    Var.SetVariableValue(deque[i], procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+
+            return res;
+        }
+
+        private bool ApplyImplSetMap(IGraphProcessingEnvironment procEnv, IDictionary setmap)
+        {
+            bool res = true;
+
+            bool first = true;
+            foreach(DictionaryEntry entry in setmap)
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(entry.Key, procEnv);
+                if(VarDst != null)
+                    VarDst.SetVariableValue(entry.Value, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+
             return res;
         }
 
@@ -3524,10 +3508,7 @@ namespace de.unika.ipd.grGen.libGr
                 VarDst.GetLocalVariables(variables);
             if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingFor);
             if(VarDst != null)
                 variables.Remove(VarDst);
             variables.Remove(Var);
@@ -3569,11 +3550,7 @@ namespace de.unika.ipd.grGen.libGr
             Var = that.Var.Copy(originalToCopy, procEnv);
             Left = that.Left.CopyExpression(originalToCopy, procEnv);
             Right = that.Right.CopyExpression(originalToCopy, procEnv);
-            VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingFor.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingFor = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingFor);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3631,10 +3608,7 @@ namespace de.unika.ipd.grGen.libGr
             Right.GetLocalVariables(variables, containerConstructors);
             if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingFor);
             variables.Remove(Var);
             return this == target;
         }
@@ -3675,11 +3649,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Var = that.Var.Copy(originalToCopy, procEnv);
             Expr = that.Expr.CopyExpression(originalToCopy, procEnv);
-            VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingFor.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingFor = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingFor);
             EmitProfiling = that.EmitProfiling;
         }
 
@@ -3727,10 +3697,7 @@ namespace de.unika.ipd.grGen.libGr
             Expr.GetLocalVariables(variables, containerConstructors);
             if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingFor);
             variables.Remove(Var);
             return this == target;
         }
@@ -3790,11 +3757,7 @@ namespace de.unika.ipd.grGen.libGr
             Direction = that.Direction;
             Expr2 = that.Expr2 != null ? that.Expr2.CopyExpression(originalToCopy, procEnv) : null;
             Direction2 = that.Direction2;
-            VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingFor.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingFor = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingFor);
             EmitProfiling = that.EmitProfiling;
         }
 
@@ -3929,10 +3892,7 @@ namespace de.unika.ipd.grGen.libGr
                 Expr2.GetLocalVariables(variables, containerConstructors);
             if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingFor);
             variables.Remove(Var);
             return this == target;
         }
@@ -4139,11 +4099,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
             }
-            VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingFor.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingFor = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingFor);
             EmitProfiling = that.EmitProfiling;
         }
 
@@ -5137,10 +5093,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingFor);
             variables.Remove(Var);
             return this == target;
         }
@@ -5238,11 +5191,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Var = that.Var.Copy(originalToCopy, procEnv);
             Rule = (SequenceRuleCall)that.Rule.Copy(originalToCopy, procEnv);
-            VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingFor.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingFor = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingFor);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -5352,10 +5301,7 @@ namespace de.unika.ipd.grGen.libGr
                 return true;
             if(Seq.GetLocalVariables(variables, containerConstructors, target))
                 return true;
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingFor);
             variables.Remove(Var);
             return this == target;
         }
@@ -5472,16 +5418,10 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceDefinitionInterpreted(SequenceDefinitionInterpreted that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            InputVariables = new SequenceVariable[that.InputVariables.Length];
-            for(int i = 0; i < that.InputVariables.Length; ++i)
-            {
-                InputVariables[i] = that.InputVariables[i].Copy(originalToCopy, procEnv);
-            }
-            OutputVariables = new SequenceVariable[that.OutputVariables.Length];
-            for(int i = 0; i < that.OutputVariables.Length; ++i)
-            {
-                OutputVariables[i] = that.OutputVariables[i].Copy(originalToCopy, procEnv);
-            }
+            CopyVars(originalToCopy, procEnv, that.InputVariables,
+                out InputVariables);
+            CopyVars(originalToCopy, procEnv, that.OutputVariables,
+                out OutputVariables);
             ReturnValues = new object[that.OutputVariables.Length];
             Seq = that.Seq.Copy(originalToCopy, procEnv);
         }
@@ -5750,7 +5690,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, that.ArgumentExpressions,
                 out ArgumentExpressions, out Arguments);
-            CopyReturnVars(originalToCopy, procEnv, that.ReturnVars,
+            CopyVars(originalToCopy, procEnv, that.ReturnVars,
                 out ReturnVars);
             if(that.Subgraph != null)
                 Subgraph = that.Subgraph.Copy(originalToCopy, procEnv);
@@ -6163,11 +6103,7 @@ namespace de.unika.ipd.grGen.libGr
             : base(that)
         {
             Computation = that.Computation.Copy(originalToCopy, procEnv);
-            VariablesFallingOutOfScopeOnLeavingComputation = new List<SequenceVariable>(that.VariablesFallingOutOfScopeOnLeavingComputation.Count);
-            foreach(SequenceVariable var in that.VariablesFallingOutOfScopeOnLeavingComputation)
-            {
-                VariablesFallingOutOfScopeOnLeavingComputation.Add(var.Copy(originalToCopy, procEnv));
-            }
+            VariablesFallingOutOfScopeOnLeavingComputation = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingComputation);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -6193,10 +6129,7 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
             Computation.GetLocalVariables(variables, containerConstructors);
-            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingComputation)
-            {
-                variables.Remove(seqVar);
-            }
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeavingComputation);
             return this == target;
         }
 

@@ -1768,33 +1768,9 @@ namespace de.unika.ipd.grGen.libGr
             if(Expr.Type(env) != "")
             {
                 if(ExprSrc != null)
-                {
-                    string typeString = null;
-                    if(Expr.Type(env) == "string")
-                    {
-                        if(Expr is SequenceExpressionConstant)
-                            typeString = (string)((SequenceExpressionConstant)Expr).Constant;
-                    }
-                    else
-                        typeString = Expr.Type(env);
-                    EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                    if(edgeType == null && typeString != null)
-                        throw new SequenceParserException(Symbol + ", first argument", "edge type or string denoting edge type", typeString);
-                }
+                    CheckEdgeTypeIsKnown(env, Expr, ", first argument");
                 else
-                {
-                    string typeString = null;
-                    if(Expr.Type(env) == "string")
-                    {
-                        if(Expr is SequenceExpressionConstant)
-                            typeString = (string)((SequenceExpressionConstant)Expr).Constant;
-                    }
-                    else
-                        typeString = Expr.Type(env);
-                    NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                    if(nodeType == null && typeString != null)
-                        throw new SequenceParserException(Symbol + ", first argument", "node type or string denoting node type", typeString);
-                }
+                    CheckNodeTypeIsKnown(env, Expr, ", first argument");
             }
             if(ExprSrc != null)
             {
@@ -1819,28 +1795,7 @@ namespace de.unika.ipd.grGen.libGr
             string typeString = "";
 
             if(Expr.Type(env) != "")
-            {
-                if(ExprSrc != null)
-                {
-                    if(Expr.Type(env) == "string")
-                    {
-                        if(Expr is SequenceExpressionConstant)
-                            typeString = (string)((SequenceExpressionConstant)Expr).Constant;
-                    }
-                    else
-                        typeString = Expr.Type(env);
-                }
-                else
-                {
-                    if(Expr.Type(env) == "string")
-                    {
-                        if(Expr is SequenceExpressionConstant)
-                            typeString = (string)((SequenceExpressionConstant)Expr).Constant;
-                    }
-                    else
-                        typeString = Expr.Type(env);
-                }
-            }
+                typeString = GetTypeString(env, Expr);
 
             return typeString;
         }
@@ -2037,21 +1992,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
-            string typeString = null;
-            if(TypeExpr.Type(env) == "string")
-            {
-                if(TypeExpr is SequenceExpressionConstant)
-                    typeString = (string)((SequenceExpressionConstant)TypeExpr).Constant;
-            }
-            else
-                typeString = TypeExpr.Type(env);
-            NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-            if(nodeType == null && typeString != null)
-            {
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "node or edge type or string denoting node or edge type", typeString);
-            }
+            CheckNodeOrEdgeTypeIsKnown(env, TypeExpr, ", second argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -2059,15 +2000,7 @@ namespace de.unika.ipd.grGen.libGr
             string typeString = "";
 
             if(TypeExpr.Type(env) != "")
-            {
-                if(TypeExpr.Type(env) == "string")
-                {
-                    if(TypeExpr is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)TypeExpr).Constant;
-                }
-                else
-                    typeString = TypeExpr.Type(env);
-            }
+                typeString = GetTypeString(env, TypeExpr);
 
             return typeString;
         }
@@ -2995,7 +2928,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, that.ArgumentExpressions,
                 out ArgumentExpressions, out Arguments);
-            CopyReturnVars(originalToCopy, procEnv, that.ReturnVars,
+            CopyVars(originalToCopy, procEnv, that.ReturnVars,
                 out ReturnVars);
             IsExternalProcedureCalled = that.IsExternalProcedureCalled;
         }

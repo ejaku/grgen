@@ -109,10 +109,12 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        #region helper methods
+
         // resolves names that are given without package context but do not reference global names
         // because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language)
         // (i.e. calls of entities from packages, without package prefix are changed to package calls (may occur for entities from the same package))
-        public static void ResolvePackage(String Name, String PrePackage, String PrePackageContext, bool unprefixedNameExists,
+        protected static void ResolvePackage(String Name, String PrePackage, String PrePackageContext, bool unprefixedNameExists,
             out String Package, out String PackagePrefixedName)
         {
             if(PrePackage != null)
@@ -186,14 +188,7 @@ namespace de.unika.ipd.grGen.libGr
             if(typeExpr == null || typeExpr.Type(env) == "")
                 return;
 
-            string typeString = null;
-            if(typeExpr.Type(env) == "string")
-            {
-                if(typeExpr is SequenceExpressionConstant)
-                    typeString = (string)((SequenceExpressionConstant)typeExpr).Constant;
-            }
-            else
-                typeString = typeExpr.Type(env);
+            string typeString = GetTypeString(env, typeExpr);
 
             if(TypesHelper.GetNodeType(typeString, env.Model) == null && typeString != null)
                 throw new SequenceParserException(Symbol + whichArgument, "node type or string denoting node type", typeString);
@@ -204,22 +199,40 @@ namespace de.unika.ipd.grGen.libGr
             if(typeExpr == null || typeExpr.Type(env) == "")
                 return;
 
-            string typeString = null;
-            if(typeExpr.Type(env) == "string")
-            {
-                if(typeExpr is SequenceExpressionConstant)
-                    typeString = (string)((SequenceExpressionConstant)typeExpr).Constant;
-            }
-            else
-                typeString = typeExpr.Type(env);
+            string typeString = GetTypeString(env, typeExpr);
 
             if(TypesHelper.GetEdgeType(typeString, env.Model) == null && typeString != null)
                 throw new SequenceParserException(Symbol + whichArgument, "edge type or string denoting edge type", typeString);
         }
 
-        #region helper methods for call input argument and argument expression, as well as return variable handling
+        protected void CheckNodeOrEdgeTypeIsKnown(SequenceCheckingEnvironment env, SequenceExpression typeExpr, String whichArgument)
+        {
+            if(typeExpr == null || typeExpr.Type(env) == "")
+                return;
 
-        public static void FillArgumentsFromArgumentExpressions(SequenceExpression[] ArgumentExpressions, object[] Arguments, IGraphProcessingEnvironment procEnv)
+            string typeString = GetTypeString(env, typeExpr);
+
+            if(TypesHelper.GetNodeType(typeString, env.Model) == null && typeString != null)
+            {
+                if(TypesHelper.GetEdgeType(typeString, env.Model) == null && typeString != null)
+                    throw new SequenceParserException(Symbol + whichArgument, "node or edge type or string denoting node or edge type", typeString);
+            }
+        }
+
+        protected string GetTypeString(SequenceCheckingEnvironment env, SequenceExpression typeExpr)
+        {
+            if(typeExpr.Type(env) == "string")
+            {
+                if(typeExpr is SequenceExpressionConstant)
+                    return (string)((SequenceExpressionConstant)typeExpr).Constant;
+            }
+            else
+                return typeExpr.Type(env);
+
+            return null;
+        }
+
+        protected static void FillArgumentsFromArgumentExpressions(SequenceExpression[] ArgumentExpressions, object[] Arguments, IGraphProcessingEnvironment procEnv)
         {
             for(int i = 0; i < ArgumentExpressions.Length; ++i)
             {
@@ -227,7 +240,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static void FillReturnVariablesFromValues(SequenceVariable[] ReturnVars, IAction Action, IGraphProcessingEnvironment procEnv, List<object[]> retElemsList, int which)
+        protected static void FillReturnVariablesFromValues(SequenceVariable[] ReturnVars, IAction Action, IGraphProcessingEnvironment procEnv, List<object[]> retElemsList, int which)
         {
             if(which == -1)
             {
@@ -240,7 +253,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static void FillReturnVariablesFromValues(SequenceVariable[] ReturnVars, IAction Action, IGraphProcessingEnvironment procEnv, List<object[]> retElemsList)
+        protected static void FillReturnVariablesFromValues(SequenceVariable[] ReturnVars, IAction Action, IGraphProcessingEnvironment procEnv, List<object[]> retElemsList)
         {
             IList[] returnVars = null;
             if(ReturnVars.Length > 0)
@@ -270,7 +283,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static void FillReturnVariablesFromValues(SequenceVariable[] ReturnVars, IGraphProcessingEnvironment procEnv, object[] retElems)
+        protected static void FillReturnVariablesFromValues(SequenceVariable[] ReturnVars, IGraphProcessingEnvironment procEnv, object[] retElems)
         {
             for(int i = 0; i < ReturnVars.Length; ++i)
             {
@@ -278,7 +291,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static void InitializeArgumentExpressionsAndArguments(List<SequenceExpression> argExprs,
+        protected static void InitializeArgumentExpressionsAndArguments(List<SequenceExpression> argExprs,
             out SequenceExpression[] ArgumentExpressions, out object[] Arguments)
         {
             foreach(SequenceExpression argExpr in argExprs)
@@ -290,7 +303,7 @@ namespace de.unika.ipd.grGen.libGr
             Arguments = new object[ArgumentExpressions.Length];
         }
 
-        public static void InitializeReturnVariables(List<SequenceVariable> returnVars,
+        protected static void InitializeReturnVariables(List<SequenceVariable> returnVars,
             out SequenceVariable[] ReturnVars)
         {
             foreach(SequenceVariable returnVar in returnVars)
@@ -301,7 +314,7 @@ namespace de.unika.ipd.grGen.libGr
             ReturnVars = returnVars.ToArray();
         }
 
-        public static void CopyArgumentExpressionsAndArguments(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv,
+        protected static void CopyArgumentExpressionsAndArguments(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv,
             SequenceExpression[] sourceArgumentExpressions, 
             out SequenceExpression[] targetArgumentExpressions, out object[] targetArguments)
         {
@@ -313,18 +326,30 @@ namespace de.unika.ipd.grGen.libGr
             targetArguments = new object[targetArgumentExpressions.Length];
         }
 
-        public static void CopyReturnVars(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv,
-            SequenceVariable[] sourceReturnVars,
-            out SequenceVariable[] targetReturnVars)
+        // typically used for ReturnVars
+        protected static void CopyVars(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv,
+            SequenceVariable[] sourceVars,
+            out SequenceVariable[] targetVars)
         {
-            targetReturnVars = new SequenceVariable[sourceReturnVars.Length];
-            for(int i = 0; i < sourceReturnVars.Length; ++i)
+            targetVars = new SequenceVariable[sourceVars.Length];
+            for(int i = 0; i < sourceVars.Length; ++i)
             {
-                targetReturnVars[i] = sourceReturnVars[i].Copy(originalToCopy, procEnv);
+                targetVars[i] = sourceVars[i].Copy(originalToCopy, procEnv);
             }
         }
 
-        public static void GetLocalVariables(SequenceExpression[] ArgumentExpressions, 
+        protected static List<SequenceVariable> CopyVars(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv,
+            List<SequenceVariable> sourceVars)
+        {
+            List<SequenceVariable> targetVars = new List<SequenceVariable>(sourceVars.Count);
+            foreach(SequenceVariable sourceVar in sourceVars)
+            {
+                targetVars.Add(sourceVar.Copy(originalToCopy, procEnv));
+            }
+            return targetVars;
+        }
+
+        protected static void GetLocalVariables(SequenceExpression[] ArgumentExpressions, 
             Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             foreach(SequenceExpression seqExpr in ArgumentExpressions)
@@ -333,7 +358,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static void GetLocalVariables(SequenceVariable[] ReturnVars, 
+        protected static void GetLocalVariables(SequenceVariable[] ReturnVars, 
             Dictionary<SequenceVariable, SetValueType> variables, List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             foreach(SequenceVariable seqVar in ReturnVars)
@@ -342,6 +367,14 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        #endregion helper methods for call input argument and argument expression, as well as return variable handling
+        protected static void RemoveVariablesFallingOutOfScope(Dictionary<SequenceVariable, SetValueType> variables, List<SequenceVariable> variablesFallingOutOfScope)
+        {
+            foreach(SequenceVariable seqVar in variablesFallingOutOfScope)
+            {
+                variables.Remove(seqVar);
+            }
+        }
+
+        #endregion helper methods
     }
 }
