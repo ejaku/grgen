@@ -66,398 +66,42 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
 
 				case SequenceType.Not:
-				{
-					SequenceNot seqNot = (SequenceNot) seq;
-					EmitSequence(seqNot.Seq, source);
-					source.AppendFront(compGen.SetResultVar(seqNot, "!"+compGen.GetResultVar(seqNot.Seq)));
+					EmitSequenceNot((SequenceNot)seq, source);
 					break;
-				}
 
 				case SequenceType.LazyOr:
 				case SequenceType.LazyAnd:
                 case SequenceType.IfThen:
-				{
-					SequenceBinary seqBin = (SequenceBinary) seq;
-					if(seqBin.Random)
-					{
-                        Debug.Assert(seq.SequenceType != SequenceType.IfThen);
-
-                        source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
-						source.AppendFront("{\n");
-						source.Indent();
-                        EmitLazyOp(seqBin, source, true);
-						source.Unindent();
-						source.AppendFront("}\n");
-						source.AppendFront("else\n");
-						source.AppendFront("{\n");
-                        source.Indent();
-                        EmitLazyOp(seqBin, source, false);
-						source.Unindent();
-						source.AppendFront("}\n");
-					}
-					else
-					{
-                        EmitLazyOp(seqBin, source, false);
-					}
-					break;
-				}
+                    EmitSequenceBinaryLazy((SequenceBinary)seq, source);
+                    break;
 
                 case SequenceType.ThenLeft:
                 case SequenceType.ThenRight:
 				case SequenceType.StrictAnd:
 				case SequenceType.StrictOr:
 				case SequenceType.Xor:
-				{
-					SequenceBinary seqBin = (SequenceBinary) seq;
-					if(seqBin.Random)
-					{
-                        source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
-						source.AppendFront("{\n");
-						source.Indent();
-						EmitSequence(seqBin.Right, source);
-						EmitSequence(seqBin.Left, source);
-						source.Unindent();
-						source.AppendFront("}\n");
-						source.AppendFront("else\n");
-						source.AppendFront("{\n");
-                        source.Indent();
-						EmitSequence(seqBin.Left, source);
-						EmitSequence(seqBin.Right, source);
-						source.Unindent();
-						source.AppendFront("}\n");
-					}
-					else
-					{
-						EmitSequence(seqBin.Left, source);
-						EmitSequence(seqBin.Right, source);
-					}
-
-                    if(seq.SequenceType==SequenceType.ThenLeft) {
-                        source.AppendFront(compGen.SetResultVar(seq, compGen.GetResultVar(seqBin.Left)));
-                        break;
-                    } else if(seq.SequenceType==SequenceType.ThenRight) {
-                        source.AppendFront(compGen.SetResultVar(seq, compGen.GetResultVar(seqBin.Right)));
-                        break;
-                    }
-
-                    String op;
-				    switch(seq.SequenceType)
-				    {
-					    case SequenceType.StrictAnd: op = "&"; break;
-					    case SequenceType.StrictOr:  op = "|"; break;
-					    case SequenceType.Xor:       op = "^"; break;
-					    default: throw new Exception("Internal error in EmitSequence: Should not have reached this!");
-				    }
-				    source.AppendFront(compGen.SetResultVar(seq, compGen.GetResultVar(seqBin.Left) + " "+op+" " + compGen.GetResultVar(seqBin.Right)));
-					break;
-				}
+                    EmitSequenceBinary((SequenceBinary)seq, source);
+                    break;
 
                 case SequenceType.IfThenElse:
-                {
-                    SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
-
-                    EmitSequence(seqIf.Condition, source);
-
-                    source.AppendFront("if(" + compGen.GetResultVar(seqIf.Condition) + ")");
-                    source.AppendFront("{\n");
-                    source.Indent();
-
-                    EmitSequence(seqIf.TrueCase, source);
-                    source.AppendFront(compGen.SetResultVar(seqIf, compGen.GetResultVar(seqIf.TrueCase)));
-
-                    source.Unindent();
-                    source.AppendFront("}\n");
-                    source.AppendFront("else\n");
-                    source.AppendFront("{\n");
-                    source.Indent();
-
-                    EmitSequence(seqIf.FalseCase, source);
-                    source.AppendFront(compGen.SetResultVar(seqIf, compGen.GetResultVar(seqIf.FalseCase)));
-
-                    source.Unindent();
-                    source.AppendFront("}\n");
-
+                    EmitSequenceIfThenElse((SequenceIfThenElse)seq, source);
                     break;
-                }
 
                 case SequenceType.ForContainer:
-                {
-                    SequenceForContainer seqFor = (SequenceForContainer)seq;
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, "true"));
-
-                    if(seqFor.Container.Type == "")
-                    {
-                        // type not statically known? -> might be Dictionary or List or Deque dynamically, must decide at runtime
-                        source.AppendFront("if(" + helper.GetVar(seqFor.Container) + " is IList) {\n");
-                        source.Indent();
-
-                        source.AppendFront("IList entry_" + seqFor.Id + " = (IList) " + helper.GetVar(seqFor.Container) + ";\n");
-                        source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        if(seqFor.VarDst != null)
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
-                            source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                        }
-                        else
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                        }
-                        EmitSequence(seqFor.Seq, source);
-                        source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-
-                        source.Unindent();
-                        source.AppendFront("} else if(" + helper.GetVar(seqFor.Container) + " is GRGEN_LIBGR.IDeque) {\n");
-                        source.Indent();
-
-                        source.AppendFront("GRGEN_LIBGR.IDeque entry_" + seqFor.Id + " = (GRGEN_LIBGR.IDeque) " + helper.GetVar(seqFor.Container) + ";\n");
-                        source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        if(seqFor.VarDst != null)
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
-                            source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                        }
-                        else
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                        }
-                        EmitSequence(seqFor.Seq, source);
-                        source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-
-                        source.Unindent();
-                        source.AppendFront("} else {\n");
-                        source.Indent();
-
-                        source.AppendFront("foreach(DictionaryEntry entry_" + seqFor.Id + " in (IDictionary)" + helper.GetVar(seqFor.Container) + ")\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
-                        source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
-                        if(seqFor.VarDst != null)
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
-                        }
-                        EmitSequence(seqFor.Seq, source);
-                        source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    else if(seqFor.Container.Type.StartsWith("array"))
-                    {
-                        String arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
-                        source.AppendFrontFormat("List<{0}> entry_{1} = (List<{0}>) " + helper.GetVar(seqFor.Container) + ";\n", arrayValueType, seqFor.Id);
-                        source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
-                        source.AppendFront("{\n");
-                        source.Indent();
-
-                        if(seqFor.VarDst != null)
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
-                            source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                        }
-                        else
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                        }
-
-                        EmitSequence(seqFor.Seq, source);
-
-                        source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    else if(seqFor.Container.Type.StartsWith("deque"))
-                    {
-                        String dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
-                        source.AppendFrontFormat("GRGEN_LIBGR.Deque<{0}> entry_{1} = (GRGEN_LIBGR.Deque<{0}>) " + helper.GetVar(seqFor.Container) + ";\n", dequeValueType, seqFor.Id);
-                        source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
-                        source.AppendFront("{\n");
-                        source.Indent();
-
-                        if(seqFor.VarDst != null)
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
-                            source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                        }
-                        else
-                        {
-                            source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                        }
-
-                        EmitSequence(seqFor.Seq, source);
-
-                        source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-                    else
-                    {
-                        String srcTypeXgrs = TypesHelper.ExtractSrc(seqFor.Container.Type);
-                        String srcType = TypesHelper.XgrsTypeToCSharpType(srcTypeXgrs, model);
-                        String dstTypeXgrs = TypesHelper.ExtractDst(seqFor.Container.Type);
-                        String dstType = TypesHelper.XgrsTypeToCSharpType(dstTypeXgrs, model);
-                        source.AppendFront("foreach(KeyValuePair<" + srcType + "," + dstType + "> entry_" + seqFor.Id + " in " + helper.GetVar(seqFor.Container) + ")\n");
-                        source.AppendFront("{\n");
-                        source.Indent();
-
-                        if(dstTypeXgrs== "SetValueType")
-                            source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
-                        else
-                            source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
-
-                        if (seqFor.VarDst != null)
-                            source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
-
-                        EmitSequence(seqFor.Seq, source);
-
-                        source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                        source.Unindent();
-                        source.AppendFront("}\n");
-                    }
-
+                    EmitSequenceForContainer((SequenceForContainer)seq, source);
                     break;
-                }
 
                 case SequenceType.ForIntegerRange:
-                {
-                    SequenceForIntegerRange seqFor = (SequenceForIntegerRange)seq;
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, "true"));
-
-                    String ascendingVar = "ascending_" + seqFor.Id;
-                    String entryVar = "entry_" + seqFor.Id;
-                    String limitVar = "limit_" + seqFor.Id;
-                    source.AppendFrontFormat("int {0} = (int)({1});\n", entryVar, exprGen.GetSequenceExpression(seqFor.Left, source));
-                    source.AppendFrontFormat("int {0} = (int)({1});\n", limitVar, exprGen.GetSequenceExpression(seqFor.Right, source));
-                    source.AppendFront("bool " + ascendingVar + " = " + entryVar + " <= " + limitVar + ";\n");
-
-                    source.AppendFront("while(" + ascendingVar + " ? " + entryVar + " <= " + limitVar + " : " + entryVar + " >= " + limitVar + ")\n");
-                    source.AppendFront("{\n");
-                    source.Indent();
-
-                    source.AppendFront(helper.SetVar(seqFor.Var, entryVar));
-
-                    EmitSequence(seqFor.Seq, source);
-
-                    source.AppendFront("if(" + ascendingVar + ") ++" + entryVar + "; else --" + entryVar + ";\n");
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-
-                    source.Unindent();
-                    source.AppendFront("}\n");
+                    EmitSequenceForIntegerRange((SequenceForIntegerRange)seq, source);
                     break;
-                }
 
                 case SequenceType.ForIndexAccessEquality:
-                {
-                    SequenceForIndexAccessEquality seqFor = (SequenceForIndexAccessEquality)seq;
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, "true"));
-
-                    String indexVar = "index_" + seqFor.Id;
-                    source.AppendFrontFormat("GRGEN_LIBGR.IAttributeIndex {0} = (GRGEN_LIBGR.IAttributeIndex)procEnv.Graph.Indices.GetIndex(\"{1}\");\n", indexVar, seqFor.IndexName);
-                    String entryVar = "entry_" + seqFor.Id;
-                    source.AppendFrontFormat("foreach(GRGEN_LIBGR.IGraphElement {0} in {1}.LookupElements",
-                        entryVar, indexVar);
-                    source.Append("(");
-                    source.Append(exprGen.GetSequenceExpression(seqFor.Expr, source));
-                    source.Append("))\n");
-                    source.AppendFront("{\n");
-                    source.Indent();
-
-                    if(emitProfiling)
-                        source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
-                    source.AppendFront(helper.SetVar(seqFor.Var, entryVar));
-
-                    EmitSequence(seqFor.Seq, source);
-
-                    source.Unindent();
-                    source.AppendFront("}\n");
+                    EmitSequenceForIndexAccessEquality((SequenceForIndexAccessEquality)seq, source);
                     break;
-                }
 
                 case SequenceType.ForIndexAccessOrdering:
-                {
-                    SequenceForIndexAccessOrdering seqFor = (SequenceForIndexAccessOrdering)seq;
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, "true"));
-
-                    String indexVar = "index_" + seqFor.Id;
-                    source.AppendFrontFormat("GRGEN_LIBGR.IAttributeIndex {0} = (GRGEN_LIBGR.IAttributeIndex)procEnv.Graph.Indices.GetIndex(\"{1}\");\n", indexVar, seqFor.IndexName);
-                    String entryVar = "entry_" + seqFor.Id;
-                    source.AppendFrontFormat("foreach(GRGEN_LIBGR.IGraphElement {0} in {1}.LookupElements",
-                        entryVar, indexVar);
-
-                    if(seqFor.Ascending)
-                        source.Append("Ascending");
-                    else
-                        source.Append("Descending");
-                    if(seqFor.From() != null && seqFor.To() != null)
-                    {
-                        source.Append("From");
-                        if(seqFor.IncludingFrom())
-                            source.Append("Inclusive");
-                        else
-                            source.Append("Exclusive");
-                        source.Append("To");
-                        if(seqFor.IncludingTo())
-                            source.Append("Inclusive");
-                        else
-                            source.Append("Exclusive");
-                        source.Append("(");
-                        source.Append(exprGen.GetSequenceExpression(seqFor.From(), source));
-                        source.Append(", ");
-                        source.Append(exprGen.GetSequenceExpression(seqFor.To(), source));
-                    }
-                    else if(seqFor.From() != null)
-                    {
-                        source.Append("From");
-                        if(seqFor.IncludingFrom())
-                            source.Append("Inclusive");
-                        else
-                            source.Append("Exclusive");
-                        source.Append("(");
-                        source.Append(exprGen.GetSequenceExpression(seqFor.From(), source));
-                    }
-                    else if(seqFor.To() != null)
-                    {
-                        source.Append("To");
-                        if(seqFor.IncludingTo())
-                            source.Append("Inclusive");
-                        else
-                            source.Append("Exclusive");
-                        source.Append("(");
-                        source.Append(exprGen.GetSequenceExpression(seqFor.To(), source));
-                    }
-                    else
-                    {
-                        source.Append("(");
-                    }
-
-                    source.Append("))\n");
-                    source.AppendFront("{\n");
-                    source.Indent();
-
-                    if(emitProfiling)
-                        source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
-                    source.AppendFront(helper.SetVar(seqFor.Var, entryVar));
-
-                    EmitSequence(seqFor.Seq, source);
-
-                    source.Unindent();
-                    source.AppendFront("}\n");
+                    EmitSequenceForIndexAccessOrdering((SequenceForIndexAccessOrdering)seq, source);
                     break;
-                }
 
                 case SequenceType.ForAdjacentNodes:
                 case SequenceType.ForAdjacentNodesViaIncoming:
@@ -471,149 +115,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.ForReachableEdges:
                 case SequenceType.ForReachableEdgesViaIncoming:
                 case SequenceType.ForReachableEdgesViaOutgoing:
-                {
-                    SequenceForFunction seqFor = (SequenceForFunction)seq;
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, "true"));
-
-                    string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
-                    source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
-
-                    SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 2 ? seqFor.ArgExprs[1] : null;
-                    string incidentEdgeTypeExpr = helper.ExtractEdgeType(source, IncidentEdgeType);
-                    SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 3 ? seqFor.ArgExprs[2] : null;
-                    string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
-
-                    string iterationVariable; // valid for incident/adjacent and reachable
-                    string iterationType;
-                    string edgeMethod = null; // only valid for incident/adajcent
-                    string theOther = null; // only valid for incident/adjacent
-                    string reachableMethod = null; // only valid for reachable
-                    switch(seqFor.SequenceType)
-                    {
-                        case SequenceType.ForAdjacentNodes:
-                            edgeMethod = "Incident";
-                            theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
-                            iterationVariable = theOther;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForAdjacentNodesViaIncoming:
-                            edgeMethod = "Incoming";
-                            theOther = "edge_" + seqFor.Id + ".Source";
-                            iterationVariable = theOther;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForAdjacentNodesViaOutgoing:
-                            edgeMethod = "Outgoing";
-                            theOther = "edge_" + seqFor.Id + ".Target";
-                            iterationVariable = theOther;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForIncidentEdges:
-                            edgeMethod = "Incident";
-                            theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        case SequenceType.ForIncomingEdges:
-                            edgeMethod = "Incoming";
-                            theOther = "edge_" + seqFor.Id + ".Source";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        case SequenceType.ForOutgoingEdges:
-                            edgeMethod = "Outgoing";
-                            theOther = "edge_" + seqFor.Id + ".Target";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        case SequenceType.ForReachableNodes:
-                            reachableMethod = "";
-                            iterationVariable = "iter_" + seqFor.Id; ;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForReachableNodesViaIncoming:
-                            reachableMethod = "Incoming";
-                            iterationVariable = "iter_" + seqFor.Id; ;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForReachableNodesViaOutgoing:
-                            reachableMethod = "Outgoing";
-                            iterationVariable = "iter_" + seqFor.Id; ;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForReachableEdges:
-                            reachableMethod = "Edges";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        case SequenceType.ForReachableEdgesViaIncoming:
-                            reachableMethod = "EdgesIncoming";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        case SequenceType.ForReachableEdgesViaOutgoing:
-                            reachableMethod = "EdgesOutgoing";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        default:
-                            edgeMethod = theOther = iterationVariable = iterationType = "INTERNAL ERROR";
-                            break;
-                    }
-
-                    string profilingArgument = emitProfiling ? ", procEnv" : "";
-                    if(seqFor.SequenceType == SequenceType.ForReachableNodes || seqFor.SequenceType == SequenceType.ForReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableNodesViaOutgoing)
-                    {
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
-                            seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
-                    }
-                    else if(seqFor.SequenceType == SequenceType.ForReachableEdges || seqFor.SequenceType == SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
-                    {
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
-                            seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
-                    }
-                    else
-                    {
-                        if(emitProfiling)
-                            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.{1})\n",
-                                seqFor.Id, edgeMethod);
-                        else
-                            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatible{1}({2}))\n",
-                                seqFor.Id, edgeMethod, incidentEdgeTypeExpr);
-                    }
-                    source.AppendFront("{\n");
-                    source.Indent();
-
-                    if(seqFor.SequenceType != SequenceType.ForReachableNodes && seqFor.SequenceType != SequenceType.ForReachableNodesViaIncoming && seqFor.SequenceType != SequenceType.ForReachableNodesViaOutgoing
-                        && seqFor.SequenceType != SequenceType.ForReachableEdges && seqFor.SequenceType != SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType != SequenceType.ForReachableEdgesViaOutgoing)
-                    {
-                        if(emitProfiling)
-                        {
-                            source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
-                            source.AppendFrontFormat("if(!edge_{0}.InstanceOf(", seqFor.Id);
-                            source.Append(incidentEdgeTypeExpr);
-                            source.Append("))\n");
-                            source.AppendFront("\tcontinue;\n");
-                        }
-
-                        // incident/adjacent needs a check for adjacent node, cause only incident edge can be type constrained in the loop
-                        // reachable already allows to iterate exactly the edges of interest
-                        source.AppendFrontFormat("if(!{0}.InstanceOf({1}))\n",
-                            theOther, adjacentNodeTypeExpr);
-                        source.AppendFront("\tcontinue;\n");
-                    }
-
-                    source.AppendFront(helper.SetVar(seqFor.Var, iterationVariable));
-
-                    EmitSequence(seqFor.Seq, source);
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                    source.Unindent();
-                    source.AppendFront("}\n");
-
+                    EmitSequenceForFunction((SequenceForFunction)seq, source);
                     break;
-                }
 
                 case SequenceType.ForBoundedReachableNodes:
                 case SequenceType.ForBoundedReachableNodesViaIncoming:
@@ -621,457 +124,113 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.ForBoundedReachableEdges:
                 case SequenceType.ForBoundedReachableEdgesViaIncoming:
                 case SequenceType.ForBoundedReachableEdgesViaOutgoing:
-                {
-                    SequenceForFunction seqFor = (SequenceForFunction)seq;
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, "true"));
-
-                    string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
-                    source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
-                    string depthExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[1], source);
-                    source.AppendFrontFormat("int depth_{0} = (int)({1});\n", seqFor.Id, depthExpr);
-
-                    SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 3 ? seqFor.ArgExprs[2] : null;
-                    string incidentEdgeTypeExpr = helper.ExtractEdgeType(source, IncidentEdgeType);
-                    SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 4 ? seqFor.ArgExprs[3] : null;
-                    string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
-
-                    string iterationVariable; // valid for incident/adjacent and reachable
-                    string iterationType;
-                    string edgeMethod = null; // only valid for incident/adajcent
-                    string theOther = null; // only valid for incident/adjacent
-                    string reachableMethod = null; // only valid for reachable
-                    switch(seqFor.SequenceType)
-                    {
-                        case SequenceType.ForBoundedReachableNodes:
-                            reachableMethod = "";
-                            iterationVariable = "iter_" + seqFor.Id;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForBoundedReachableNodesViaIncoming:
-                            reachableMethod = "Incoming";
-                            iterationVariable = "iter_" + seqFor.Id;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForBoundedReachableNodesViaOutgoing:
-                            reachableMethod = "Outgoing";
-                            iterationVariable = "iter_" + seqFor.Id;
-                            iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
-                            break;
-                        case SequenceType.ForBoundedReachableEdges:
-                            reachableMethod = "Edges";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        case SequenceType.ForBoundedReachableEdgesViaIncoming:
-                            reachableMethod = "EdgesIncoming";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        case SequenceType.ForBoundedReachableEdgesViaOutgoing:
-                            reachableMethod = "EdgesOutgoing";
-                            iterationVariable = "edge_" + seqFor.Id;
-                            iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
-                            break;
-                        default:
-                            edgeMethod = theOther = iterationVariable = iterationType = "INTERNAL ERROR";
-                            break;
-                    }
-
-                    string profilingArgument = emitProfiling ? ", procEnv" : "";
-                    if(seqFor.SequenceType == SequenceType.ForBoundedReachableNodes || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaOutgoing)
-                    {
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}(node_{0}, depth_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
-                            seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
-                    }
-                    else if(seqFor.SequenceType == SequenceType.ForBoundedReachableEdges || seqFor.SequenceType == SequenceType.ForBoundedReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableEdgesViaOutgoing)
-                    {
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}(node_{0}, depth_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
-                            seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
-                    }
-                    source.AppendFront("{\n");
-                    source.Indent();
-
-                    source.AppendFront(helper.SetVar(seqFor.Var, iterationVariable));
-
-                    EmitSequence(seqFor.Seq, source);
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                    source.Unindent();
-                    source.AppendFront("}\n");
-
+                    EmitSequenceForBoundedReachable((SequenceForFunction)seq, source);
                     break;
-                }
 
                 case SequenceType.ForNodes:
                 case SequenceType.ForEdges:
-                {
-                    SequenceForFunction seqFor = (SequenceForFunction)seq;
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, "true"));
-
-                    if (seqFor.SequenceType == SequenceType.ForNodes)
-                    {
-                        SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
-                        string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode elem_{0} in graph.GetCompatibleNodes({1}))\n", seqFor.Id, adjacentNodeTypeExpr);
-                    }
-                    else
-                    {
-                        SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
-                        string incidentEdgeTypeExpr = helper.ExtractEdgeType(source, IncidentEdgeType);
-                        source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge elem_{0} in graph.GetCompatibleEdges({1}))\n", seqFor.Id, incidentEdgeTypeExpr);
-                    }
-                    source.AppendFront("{\n");
-                    source.Indent();
-                    
-                    if(emitProfiling)
-                        source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
-                    source.AppendFront(helper.SetVar(seqFor.Var, "elem_" + seqFor.Id));
-
-                    EmitSequence(seqFor.Seq, source);
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                    
-                    source.Unindent();
-                    source.AppendFront("}\n");
-
+                    EmitSequenceForNodesEdges((SequenceForFunction)seq, source);
                     break;
-                }
 
                 case SequenceType.ForMatch:
-                {
-                    SequenceForMatch seqFor = (SequenceForMatch)seq;
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, "true"));
-
-                    RuleInvocation ruleInvocation = seqFor.Rule.RuleInvocation;
-                    SequenceExpression[] ArgumentExpressions = seqFor.Rule.ArgumentExpressions;
-                    SequenceVariable[] ReturnVars = seqFor.Rule.ReturnVars;
-                    String specialStr = seqFor.Rule.Special ? "true" : "false";
-                    String parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
-                    String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
-                    String patternName = ruleInvocation.Name;
-                    String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
-                    String matchName = "match_" + seqFor.Id;
-                    String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
-                    String matchesName = "matches_" + seqFor.Id;
-                    source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name)
-                        + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
-                    for(int i=0; i<seqFor.Rule.Filters.Count; ++i)
-                    {
-                        EmitFilterCall(source, seqFor.Rule.Filters[i], patternName, matchesName);
-                    }
-
-                    source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
-                    source.Indent();
-                    source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
-                    source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-                    if(fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
-
-                    String returnParameterDeclarations;
-                    String returnArguments;
-                    String returnAssignments;
-                    String returnParameterDeclarationsAllCall;
-                    String intermediateReturnAssignmentsAllCall;
-                    String returnAssignmentsAllCall;
-                    helper.BuildReturnParameters(ruleInvocation, ReturnVars,
-                        out returnParameterDeclarations, out returnArguments, out returnAssignments,
-                        out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
-
-                    // apply the sequence for every match found
-                    String enumeratorName = "enum_" + seqFor.Id;
-                    source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
-                    source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
-                    source.AppendFront("{\n");
-                    source.Indent();
-                    source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                    source.AppendFront(helper.SetVar(seqFor.Var, matchName));
-
-                    EmitSequence(seqFor.Seq, source);
-
-                    source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                    source.Unindent();
-                    source.AppendFront("}\n");
-
-                    source.Unindent();
-                    source.AppendFront("}\n");
-
+                    EmitSequenceForMatch((SequenceForMatch)seq, source);
                     break;
-                }
 
 				case SequenceType.IterationMin:
-				{
-                    SequenceIterationMin seqMin = (SequenceIterationMin)seq;
-					source.AppendFront("long i_" + seqMin.Id + " = 0;\n");
-					source.AppendFront("while(true)\n");
-					source.AppendFront("{\n");
-					source.Indent();
-					EmitSequence(seqMin.Seq, source);
-					source.AppendFront("if(!" + compGen.GetResultVar(seqMin.Seq) + ") break;\n");
-					source.AppendFront("i_" + seqMin.Id + "++;\n");
-					source.Unindent();
-					source.AppendFront("}\n");
-					source.AppendFront(compGen.SetResultVar(seqMin, "i_" + seqMin.Id + " >= " + seqMin.Min));
-					break;
-				}
+                    EmitSequenceIterationMin((SequenceIterationMin)seq, source);
+                    break;
 
 				case SequenceType.IterationMinMax:
-				{
-                    SequenceIterationMinMax seqMinMax = (SequenceIterationMinMax)seq;
-					source.AppendFront("long i_" + seqMinMax.Id + " = 0;\n");
-					source.AppendFront("for(; i_" + seqMinMax.Id + " < " + seqMinMax.Max + "; i_" + seqMinMax.Id + "++)\n");
-					source.AppendFront("{\n");
-					source.Indent();
-					EmitSequence(seqMinMax.Seq, source);
-                    source.AppendFront("if(!" + compGen.GetResultVar(seqMinMax.Seq) + ") break;\n");
-					source.Unindent();
-					source.AppendFront("}\n");
-					source.AppendFront(compGen.SetResultVar(seqMinMax, "i_" + seqMinMax.Id + " >= " + seqMinMax.Min));
-					break;
-				}
+                    EmitSequenceIterationMinMax((SequenceIterationMinMax)seq, source);
+                    break;
 
                 case SequenceType.DeclareVariable:
-                {
-                    SequenceDeclareVariable seqDeclVar = (SequenceDeclareVariable)seq;
-                    source.AppendFront(helper.SetVar(seqDeclVar.DestVar, TypesHelper.DefaultValueString(seqDeclVar.DestVar.Type, env.Model)));
-                    source.AppendFront(compGen.SetResultVar(seqDeclVar, "true"));
+                    EmitSequenceDeclareVariable((SequenceDeclareVariable)seq, source);
                     break;
-                }
 
 				case SequenceType.AssignConstToVar:
-				{
-					SequenceAssignConstToVar seqToVar = (SequenceAssignConstToVar) seq;
-                    source.AppendFront(helper.SetVar(seqToVar.DestVar, helper.GetConstant(seqToVar.Constant)));
-                    source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+                    EmitSequenceAssignConstToVar((SequenceAssignConstToVar)seq, source);
 					break;
-				}
 
                 case SequenceType.AssignContainerConstructorToVar:
-                {
-                    SequenceAssignContainerConstructorToVar seqToVar = (SequenceAssignContainerConstructorToVar)seq;
-                    source.AppendFront(helper.SetVar(seqToVar.DestVar, exprGen.GetSequenceExpression(seqToVar.Constructor, source)));
-                    source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+                    EmitSequenceAssignContainerConstructorToVar((SequenceAssignContainerConstructorToVar)seq, source);
                     break;
-                }
 
                 case SequenceType.AssignVarToVar:
-                {
-                    SequenceAssignVarToVar seqToVar = (SequenceAssignVarToVar)seq;
-                    source.AppendFront(helper.SetVar(seqToVar.DestVar, helper.GetVar(seqToVar.Variable)));
-                    source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+                    EmitSequenceAssignVarToVar((SequenceAssignVarToVar)seq, source);
                     break;
-                }
 
                 case SequenceType.AssignSequenceResultToVar:
-                {
-                    SequenceAssignSequenceResultToVar seqToVar = (SequenceAssignSequenceResultToVar)seq;
-                    EmitSequence(seqToVar.Seq, source);
-                    source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq)));
-                    source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+                    EmitSequenceAssignSequenceResultToVar((SequenceAssignSequenceResultToVar)seq, source);
                     break;
-                }
 
                 case SequenceType.OrAssignSequenceResultToVar:
-                {
-                    SequenceOrAssignSequenceResultToVar seqToVar = (SequenceOrAssignSequenceResultToVar)seq;
-                    EmitSequence(seqToVar.Seq, source);
-                    source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq) + "|| (bool)" + helper.GetVar(seqToVar.DestVar)));
-                    source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+                    EmitSequenceOrAssignSequenceResultToVar((SequenceOrAssignSequenceResultToVar)seq, source);
                     break;
-                }
 
                 case SequenceType.AndAssignSequenceResultToVar:
-                {
-                    SequenceAndAssignSequenceResultToVar seqToVar = (SequenceAndAssignSequenceResultToVar)seq;
-                    EmitSequence(seqToVar.Seq, source);
-                    source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq) + "&& (bool)" + helper.GetVar(seqToVar.DestVar)));
-                    source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+                    EmitSequenceAndAssignSequenceResultToVar((SequenceAndAssignSequenceResultToVar)seq, source);
                     break;
-                }
 
                 case SequenceType.AssignUserInputToVar:
-                {
                     throw new Exception("Internal Error: the AssignUserInputToVar is interpreted only (no Debugger available at lgsp level)");
-                }
 
                 case SequenceType.AssignRandomIntToVar:
-                {
-                    SequenceAssignRandomIntToVar seqRandomToVar = (SequenceAssignRandomIntToVar)seq;
-                    source.AppendFront(helper.SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.Next(" + seqRandomToVar.Number + ")"));
-                    source.AppendFront(compGen.SetResultVar(seqRandomToVar, "true"));
+                    EmitSequenceAssignRandomIntToVar((SequenceAssignRandomIntToVar)seq, source);
                     break;
-                }
 
                 case SequenceType.AssignRandomDoubleToVar:
-                {
-                    SequenceAssignRandomDoubleToVar seqRandomToVar = (SequenceAssignRandomDoubleToVar)seq;
-                    source.AppendFront(helper.SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.NextDouble()"));
-                    source.AppendFront(compGen.SetResultVar(seqRandomToVar, "true"));
+                    EmitSequenceAssignRandomDoubleToVar((SequenceAssignRandomDoubleToVar)seq, source);
                     break;
-                }
 
                 case SequenceType.LazyOrAll:
-                {
-                    SequenceLazyOrAll seqAll = (SequenceLazyOrAll)seq;
-                    EmitSequenceAll(seqAll, true, true, source);
+                    EmitSequenceAll((SequenceLazyOrAll)seq, true, true, source);
                     break;
-                }
 
                 case SequenceType.LazyAndAll:
-                {
-                    SequenceLazyAndAll seqAll = (SequenceLazyAndAll)seq;
-                    EmitSequenceAll(seqAll, false, true, source);
+                    EmitSequenceAll((SequenceLazyAndAll)seq, false, true, source);
                     break;
-                }
 
                 case SequenceType.StrictOrAll:
-                {
-                    SequenceStrictOrAll seqAll = (SequenceStrictOrAll)seq;
-                    EmitSequenceAll(seqAll, true, false, source);
+                    EmitSequenceAll((SequenceStrictOrAll)seq, true, false, source);
                     break;
-                }
 
                 case SequenceType.StrictAndAll:
-                {
-                    SequenceStrictAndAll seqAll = (SequenceStrictAndAll)seq;
-                    EmitSequenceAll(seqAll, false, false, source);
+                    EmitSequenceAll((SequenceStrictAndAll)seq, false, false, source);
                     break;
-                }
 
                 case SequenceType.WeightedOne:
-                {
-                    SequenceWeightedOne seqWeighted = (SequenceWeightedOne)seq;
-                    EmitSequenceWeighted(seqWeighted, source);
+                    EmitSequenceWeighted((SequenceWeightedOne)seq, source);
                     break;
-                }
 
                 case SequenceType.SomeFromSet:
-                {
-                    SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
-                    EmitSequenceSome(seqSome, source);
+                    EmitSequenceSome((SequenceSomeFromSet)seq, source);
                     break;
-                }
 
 				case SequenceType.Transaction:
-				{
-					SequenceTransaction seqTrans = (SequenceTransaction) seq;
-                    source.AppendFront("int transID_" + seqTrans.Id + " = procEnv.TransactionManager.Start();\n");
-					EmitSequence(seqTrans.Seq, source);
-                    source.AppendFront("if("+ compGen.GetResultVar(seqTrans.Seq) + ") procEnv.TransactionManager.Commit(transID_" + seqTrans.Id + ");\n");
-                    source.AppendFront("else procEnv.TransactionManager.Rollback(transID_" + seqTrans.Id + ");\n");
-                    source.AppendFront(compGen.SetResultVar(seqTrans, compGen.GetResultVar(seqTrans.Seq)));
-					break;
-				}
+                    EmitSequenceTransaction((SequenceTransaction)seq, source);
+                    break;
 
                 case SequenceType.Backtrack:
-                {
-                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
-                    EmitSequenceBacktrack(seqBack, source);
+                    EmitSequenceBacktrack((SequenceBacktrack)seq, source);
                     break;
-                }
 
                 case SequenceType.Pause:
-                {
-                    SequencePause seqPause = (SequencePause)seq;
-                    source.AppendFront("procEnv.TransactionManager.Pause();\n");
-                    EmitSequence(seqPause.Seq, source);
-                    source.AppendFront("procEnv.TransactionManager.Resume();\n");
-                    source.AppendFront(compGen.SetResultVar(seqPause, compGen.GetResultVar(seqPause.Seq)));
+                    EmitSequencePause((SequencePause)seq, source);
                     break;
-                }
 
                 case SequenceType.ExecuteInSubgraph:
-                {
-                    SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
-                    string subgraph;
-                    if(seqExecInSub.AttributeName == null)
-                        subgraph = helper.GetVar(seqExecInSub.SubgraphVar);
-                    else
-                    {
-                        string element = "((GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqExecInSub.SubgraphVar) + ")";
-                        subgraph = element + ".GetAttribute(\"" + seqExecInSub.AttributeName + "\")";
-                    }
-                    source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + subgraph + ");\n");
-                    source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
-                    EmitSequence(seqExecInSub.Seq, source);
-                    source.AppendFront("procEnv.ReturnFromSubgraph();\n");
-                    source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
-                    source.AppendFront(compGen.SetResultVar(seqExecInSub, compGen.GetResultVar(seqExecInSub.Seq)));
+                    EmitSequenceExecuteInSubgraph((SequenceExecuteInSubgraph)seq, source);
                     break;
-                }
 
                 case SequenceType.BooleanComputation:
-                {
-                    SequenceBooleanComputation seqComp = (SequenceBooleanComputation)seq;
-                    compGen.EmitSequenceComputation(seqComp.Computation, source);
-                    if(seqComp.Computation.ReturnsValue)
-                        source.AppendFront(compGen.SetResultVar(seqComp, "!GRGEN_LIBGR.TypesHelper.IsDefaultValue(" + compGen.GetResultVar(seqComp.Computation) + ")"));
-                    else
-                        source.AppendFront(compGen.SetResultVar(seqComp, "true"));
+                    EmitSequenceBooleanComputation((SequenceBooleanComputation)seq, source);
                     break;
-                }
 
 				default:
 					throw new Exception("Unknown sequence type: " + seq.SequenceType);
 			}
 		}
-
-        public String GetSequenceResult(Sequence seq)
-        {
-            return compGen.GetResultVar(seq);
-        }
-
-        private void EmitLazyOp(SequenceBinary seq, SourceBuilder source, bool reversed)
-        {
-            Sequence seqLeft;
-            Sequence seqRight;
-            if(reversed)
-            {
-                Debug.Assert(seq.SequenceType != SequenceType.IfThen);
-                seqLeft = seq.Right;
-                seqRight = seq.Left;
-            }
-            else
-            {
-                seqLeft = seq.Left;
-                seqRight = seq.Right;
-            }
-
-            EmitSequence(seqLeft, source);
-
-            if(seq.SequenceType == SequenceType.LazyOr)
-            {
-                source.AppendFront("if(" + compGen.GetResultVar(seqLeft) + ")\n");
-                source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "true"));
-                source.Unindent();
-            }
-            else if(seq.SequenceType == SequenceType.LazyAnd)
-            {
-                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
-                source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "false"));
-                source.Unindent();
-            }
-            else
-            { //seq.SequenceType==SequenceType.IfThen -- lazy implication
-                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
-                source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "true"));
-                source.Unindent();
-            }
-
-            source.AppendFront("else\n");
-            source.AppendFront("{\n");
-            source.Indent();
-
-            EmitSequence(seqRight, source);
-            source.AppendFront(compGen.SetResultVar(seq, compGen.GetResultVar(seqRight)));
-
-            source.Unindent();
-            source.AppendFront("}\n");
-        }
 
         private void EmitRuleOrRuleAllCall(SequenceRuleCall seqRule, SourceBuilder source)
         {
@@ -1250,33 +409,701 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private void EmitSequenceBacktrack(SequenceBacktrack seq, SourceBuilder source)
+        private void EmitSequenceNot(SequenceNot seqNot, SourceBuilder source)
         {
-            RuleInvocation ruleInvocation = seq.Rule.RuleInvocation;
-            SequenceExpression[] ArgumentExpressions = seq.Rule.ArgumentExpressions;
-            SequenceVariable[] ReturnVars = seq.Rule.ReturnVars;
-            String specialStr = seq.Rule.Special ? "true" : "false";
+            EmitSequence(seqNot.Seq, source);
+            source.AppendFront(compGen.SetResultVar(seqNot, "!" + compGen.GetResultVar(seqNot.Seq)));
+        }
+
+        private void EmitSequenceBinaryLazy(SequenceBinary seqBin, SourceBuilder source)
+        {
+            if(seqBin.Random)
+            {
+                Debug.Assert(seqBin.SequenceType != SequenceType.IfThen);
+
+                source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
+                source.AppendFront("{\n");
+                source.Indent();
+                EmitLazyOp(seqBin, source, true);
+                source.Unindent();
+                source.AppendFront("}\n");
+                source.AppendFront("else\n");
+                source.AppendFront("{\n");
+                source.Indent();
+                EmitLazyOp(seqBin, source, false);
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+            else
+            {
+                EmitLazyOp(seqBin, source, false);
+            }
+        }
+
+        private void EmitLazyOp(SequenceBinary seq, SourceBuilder source, bool reversed)
+        {
+            Sequence seqLeft;
+            Sequence seqRight;
+            if(reversed)
+            {
+                Debug.Assert(seq.SequenceType != SequenceType.IfThen);
+                seqLeft = seq.Right;
+                seqRight = seq.Left;
+            }
+            else
+            {
+                seqLeft = seq.Left;
+                seqRight = seq.Right;
+            }
+
+            EmitSequence(seqLeft, source);
+
+            if(seq.SequenceType == SequenceType.LazyOr)
+            {
+                source.AppendFront("if(" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.Indent();
+                source.AppendFront(compGen.SetResultVar(seq, "true"));
+                source.Unindent();
+            }
+            else if(seq.SequenceType == SequenceType.LazyAnd)
+            {
+                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.Indent();
+                source.AppendFront(compGen.SetResultVar(seq, "false"));
+                source.Unindent();
+            }
+            else
+            { //seq.SequenceType==SequenceType.IfThen -- lazy implication
+                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.Indent();
+                source.AppendFront(compGen.SetResultVar(seq, "true"));
+                source.Unindent();
+            }
+
+            source.AppendFront("else\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            EmitSequence(seqRight, source);
+            source.AppendFront(compGen.SetResultVar(seq, compGen.GetResultVar(seqRight)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceBinary(SequenceBinary seqBin, SourceBuilder source)
+        {
+            if(seqBin.Random)
+            {
+                source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
+                source.AppendFront("{\n");
+                source.Indent();
+                EmitSequence(seqBin.Right, source);
+                EmitSequence(seqBin.Left, source);
+                source.Unindent();
+                source.AppendFront("}\n");
+                source.AppendFront("else\n");
+                source.AppendFront("{\n");
+                source.Indent();
+                EmitSequence(seqBin.Left, source);
+                EmitSequence(seqBin.Right, source);
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+            else
+            {
+                EmitSequence(seqBin.Left, source);
+                EmitSequence(seqBin.Right, source);
+            }
+
+            if(seqBin.SequenceType == SequenceType.ThenLeft)
+            {
+                source.AppendFront(compGen.SetResultVar(seqBin, compGen.GetResultVar(seqBin.Left)));
+                return;
+            }
+            else if(seqBin.SequenceType == SequenceType.ThenRight)
+            {
+                source.AppendFront(compGen.SetResultVar(seqBin, compGen.GetResultVar(seqBin.Right)));
+                return;
+            }
+
+            String op;
+            switch(seqBin.SequenceType)
+            {
+                case SequenceType.StrictAnd: op = "&"; break;
+                case SequenceType.StrictOr: op = "|"; break;
+                case SequenceType.Xor: op = "^"; break;
+                default: throw new Exception("Internal error in EmitSequence: Should not have reached this!");
+            }
+            source.AppendFront(compGen.SetResultVar(seqBin, compGen.GetResultVar(seqBin.Left) + " " + op + " " + compGen.GetResultVar(seqBin.Right)));
+        }
+
+        private void EmitSequenceIfThenElse(SequenceIfThenElse seqIf, SourceBuilder source)
+        {
+            EmitSequence(seqIf.Condition, source);
+
+            source.AppendFront("if(" + compGen.GetResultVar(seqIf.Condition) + ")");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            EmitSequence(seqIf.TrueCase, source);
+            source.AppendFront(compGen.SetResultVar(seqIf, compGen.GetResultVar(seqIf.TrueCase)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFront("else\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            EmitSequence(seqIf.FalseCase, source);
+            source.AppendFront(compGen.SetResultVar(seqIf, compGen.GetResultVar(seqIf.FalseCase)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForContainer(SequenceForContainer seqFor, SourceBuilder source)
+        {
+            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+
+            if(seqFor.Container.Type == "")
+            {
+                // type not statically known? -> might be Dictionary or List or Deque dynamically, must decide at runtime
+                source.AppendFront("if(" + helper.GetVar(seqFor.Container) + " is IList) {\n");
+                source.Indent();
+
+                source.AppendFront("IList entry_" + seqFor.Id + " = (IList) " + helper.GetVar(seqFor.Container) + ";\n");
+                source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+                source.AppendFront("{\n");
+                source.Indent();
+                if(seqFor.VarDst != null)
+                {
+                    source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
+                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                }
+                else
+                {
+                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                }
+                EmitSequence(seqFor.Seq, source);
+                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+                source.Unindent();
+                source.AppendFront("}\n");
+
+                source.Unindent();
+                source.AppendFront("} else if(" + helper.GetVar(seqFor.Container) + " is GRGEN_LIBGR.IDeque) {\n");
+                source.Indent();
+
+                source.AppendFront("GRGEN_LIBGR.IDeque entry_" + seqFor.Id + " = (GRGEN_LIBGR.IDeque) " + helper.GetVar(seqFor.Container) + ";\n");
+                source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+                source.AppendFront("{\n");
+                source.Indent();
+                if(seqFor.VarDst != null)
+                {
+                    source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
+                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                }
+                else
+                {
+                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                }
+                EmitSequence(seqFor.Seq, source);
+                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+                source.Unindent();
+                source.AppendFront("}\n");
+
+                source.Unindent();
+                source.AppendFront("} else {\n");
+                source.Indent();
+
+                source.AppendFront("foreach(DictionaryEntry entry_" + seqFor.Id + " in (IDictionary)" + helper.GetVar(seqFor.Container) + ")\n");
+                source.AppendFront("{\n");
+                source.Indent();
+                source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+                if(seqFor.VarDst != null)
+                {
+                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
+                }
+                EmitSequence(seqFor.Seq, source);
+                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+                source.Unindent();
+                source.AppendFront("}\n");
+
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+            else if(seqFor.Container.Type.StartsWith("array"))
+            {
+                String arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
+                source.AppendFrontFormat("List<{0}> entry_{1} = (List<{0}>) " + helper.GetVar(seqFor.Container) + ";\n", arrayValueType, seqFor.Id);
+                source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+                source.AppendFront("{\n");
+                source.Indent();
+
+                if(seqFor.VarDst != null)
+                {
+                    source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
+                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                }
+                else
+                {
+                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                }
+
+                EmitSequence(seqFor.Seq, source);
+
+                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+            else if(seqFor.Container.Type.StartsWith("deque"))
+            {
+                String dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
+                source.AppendFrontFormat("GRGEN_LIBGR.Deque<{0}> entry_{1} = (GRGEN_LIBGR.Deque<{0}>) " + helper.GetVar(seqFor.Container) + ";\n", dequeValueType, seqFor.Id);
+                source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+                source.AppendFront("{\n");
+                source.Indent();
+
+                if(seqFor.VarDst != null)
+                {
+                    source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
+                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                }
+                else
+                {
+                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+                }
+
+                EmitSequence(seqFor.Seq, source);
+
+                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+            else
+            {
+                String srcTypeXgrs = TypesHelper.ExtractSrc(seqFor.Container.Type);
+                String srcType = TypesHelper.XgrsTypeToCSharpType(srcTypeXgrs, model);
+                String dstTypeXgrs = TypesHelper.ExtractDst(seqFor.Container.Type);
+                String dstType = TypesHelper.XgrsTypeToCSharpType(dstTypeXgrs, model);
+                source.AppendFront("foreach(KeyValuePair<" + srcType + "," + dstType + "> entry_" + seqFor.Id + " in " + helper.GetVar(seqFor.Container) + ")\n");
+                source.AppendFront("{\n");
+                source.Indent();
+
+                if(dstTypeXgrs == "SetValueType")
+                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+                else
+                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+
+                if(seqFor.VarDst != null)
+                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
+
+                EmitSequence(seqFor.Seq, source);
+
+                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+        }
+
+        private void EmitSequenceForIntegerRange(SequenceForIntegerRange seqFor, SourceBuilder source)
+        {
+            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+
+            String ascendingVar = "ascending_" + seqFor.Id;
+            String entryVar = "entry_" + seqFor.Id;
+            String limitVar = "limit_" + seqFor.Id;
+            source.AppendFrontFormat("int {0} = (int)({1});\n", entryVar, exprGen.GetSequenceExpression(seqFor.Left, source));
+            source.AppendFrontFormat("int {0} = (int)({1});\n", limitVar, exprGen.GetSequenceExpression(seqFor.Right, source));
+            source.AppendFront("bool " + ascendingVar + " = " + entryVar + " <= " + limitVar + ";\n");
+
+            source.AppendFront("while(" + ascendingVar + " ? " + entryVar + " <= " + limitVar + " : " + entryVar + " >= " + limitVar + ")\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront(helper.SetVar(seqFor.Var, entryVar));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront("if(" + ascendingVar + ") ++" + entryVar + "; else --" + entryVar + ";\n");
+
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForIndexAccessEquality(SequenceForIndexAccessEquality seqFor, SourceBuilder source)
+        {
+            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+
+            String indexVar = "index_" + seqFor.Id;
+            source.AppendFrontFormat("GRGEN_LIBGR.IAttributeIndex {0} = (GRGEN_LIBGR.IAttributeIndex)procEnv.Graph.Indices.GetIndex(\"{1}\");\n", indexVar, seqFor.IndexName);
+            String entryVar = "entry_" + seqFor.Id;
+            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IGraphElement {0} in {1}.LookupElements",
+                entryVar, indexVar);
+            source.Append("(");
+            source.Append(exprGen.GetSequenceExpression(seqFor.Expr, source));
+            source.Append("))\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(emitProfiling)
+                source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
+            source.AppendFront(helper.SetVar(seqFor.Var, entryVar));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForIndexAccessOrdering(SequenceForIndexAccessOrdering seqFor, SourceBuilder source)
+        {
+            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+
+            String indexVar = "index_" + seqFor.Id;
+            source.AppendFrontFormat("GRGEN_LIBGR.IAttributeIndex {0} = (GRGEN_LIBGR.IAttributeIndex)procEnv.Graph.Indices.GetIndex(\"{1}\");\n", indexVar, seqFor.IndexName);
+            String entryVar = "entry_" + seqFor.Id;
+            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IGraphElement {0} in {1}.LookupElements",
+                entryVar, indexVar);
+
+            if(seqFor.Ascending)
+                source.Append("Ascending");
+            else
+                source.Append("Descending");
+            if(seqFor.From() != null && seqFor.To() != null)
+            {
+                source.Append("From");
+                if(seqFor.IncludingFrom())
+                    source.Append("Inclusive");
+                else
+                    source.Append("Exclusive");
+                source.Append("To");
+                if(seqFor.IncludingTo())
+                    source.Append("Inclusive");
+                else
+                    source.Append("Exclusive");
+                source.Append("(");
+                source.Append(exprGen.GetSequenceExpression(seqFor.From(), source));
+                source.Append(", ");
+                source.Append(exprGen.GetSequenceExpression(seqFor.To(), source));
+            }
+            else if(seqFor.From() != null)
+            {
+                source.Append("From");
+                if(seqFor.IncludingFrom())
+                    source.Append("Inclusive");
+                else
+                    source.Append("Exclusive");
+                source.Append("(");
+                source.Append(exprGen.GetSequenceExpression(seqFor.From(), source));
+            }
+            else if(seqFor.To() != null)
+            {
+                source.Append("To");
+                if(seqFor.IncludingTo())
+                    source.Append("Inclusive");
+                else
+                    source.Append("Exclusive");
+                source.Append("(");
+                source.Append(exprGen.GetSequenceExpression(seqFor.To(), source));
+            }
+            else
+            {
+                source.Append("(");
+            }
+
+            source.Append("))\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(emitProfiling)
+                source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
+            source.AppendFront(helper.SetVar(seqFor.Var, entryVar));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForFunction(SequenceForFunction seqFor, SourceBuilder source)
+        {
+            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+
+            string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
+            source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
+
+            SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 2 ? seqFor.ArgExprs[1] : null;
+            string incidentEdgeTypeExpr = helper.ExtractEdgeType(source, IncidentEdgeType);
+            SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 3 ? seqFor.ArgExprs[2] : null;
+            string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
+
+            string iterationVariable; // valid for incident/adjacent and reachable
+            string iterationType;
+            string edgeMethod = null; // only valid for incident/adajcent
+            string theOther = null; // only valid for incident/adjacent
+            string reachableMethod = null; // only valid for reachable
+            switch(seqFor.SequenceType)
+            {
+                case SequenceType.ForAdjacentNodes:
+                    edgeMethod = "Incident";
+                    theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
+                    iterationVariable = theOther;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForAdjacentNodesViaIncoming:
+                    edgeMethod = "Incoming";
+                    theOther = "edge_" + seqFor.Id + ".Source";
+                    iterationVariable = theOther;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForAdjacentNodesViaOutgoing:
+                    edgeMethod = "Outgoing";
+                    theOther = "edge_" + seqFor.Id + ".Target";
+                    iterationVariable = theOther;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForIncidentEdges:
+                    edgeMethod = "Incident";
+                    theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                case SequenceType.ForIncomingEdges:
+                    edgeMethod = "Incoming";
+                    theOther = "edge_" + seqFor.Id + ".Source";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                case SequenceType.ForOutgoingEdges:
+                    edgeMethod = "Outgoing";
+                    theOther = "edge_" + seqFor.Id + ".Target";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                case SequenceType.ForReachableNodes:
+                    reachableMethod = "";
+                    iterationVariable = "iter_" + seqFor.Id; ;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForReachableNodesViaIncoming:
+                    reachableMethod = "Incoming";
+                    iterationVariable = "iter_" + seqFor.Id; ;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForReachableNodesViaOutgoing:
+                    reachableMethod = "Outgoing";
+                    iterationVariable = "iter_" + seqFor.Id; ;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForReachableEdges:
+                    reachableMethod = "Edges";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                case SequenceType.ForReachableEdgesViaIncoming:
+                    reachableMethod = "EdgesIncoming";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                case SequenceType.ForReachableEdgesViaOutgoing:
+                    reachableMethod = "EdgesOutgoing";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                default:
+                    edgeMethod = theOther = iterationVariable = iterationType = "INTERNAL ERROR";
+                    break;
+            }
+
+            string profilingArgument = emitProfiling ? ", procEnv" : "";
+            if(seqFor.SequenceType == SequenceType.ForReachableNodes || seqFor.SequenceType == SequenceType.ForReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableNodesViaOutgoing)
+            {
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
+                    seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+            }
+            else if(seqFor.SequenceType == SequenceType.ForReachableEdges || seqFor.SequenceType == SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
+            {
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GraphHelper.Reachable{1}(node_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
+                    seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+            }
+            else
+            {
+                if(emitProfiling)
+                    source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.{1})\n",
+                        seqFor.Id, edgeMethod);
+                else
+                    source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatible{1}({2}))\n",
+                        seqFor.Id, edgeMethod, incidentEdgeTypeExpr);
+            }
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(seqFor.SequenceType != SequenceType.ForReachableNodes && seqFor.SequenceType != SequenceType.ForReachableNodesViaIncoming && seqFor.SequenceType != SequenceType.ForReachableNodesViaOutgoing
+                && seqFor.SequenceType != SequenceType.ForReachableEdges && seqFor.SequenceType != SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType != SequenceType.ForReachableEdgesViaOutgoing)
+            {
+                if(emitProfiling)
+                {
+                    source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
+                    source.AppendFrontFormat("if(!edge_{0}.InstanceOf(", seqFor.Id);
+                    source.Append(incidentEdgeTypeExpr);
+                    source.Append("))\n");
+                    source.AppendFront("\tcontinue;\n");
+                }
+
+                // incident/adjacent needs a check for adjacent node, cause only incident edge can be type constrained in the loop
+                // reachable already allows to iterate exactly the edges of interest
+                source.AppendFrontFormat("if(!{0}.InstanceOf({1}))\n",
+                    theOther, adjacentNodeTypeExpr);
+                source.AppendFront("\tcontinue;\n");
+            }
+
+            source.AppendFront(helper.SetVar(seqFor.Var, iterationVariable));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForBoundedReachable(SequenceForFunction seqFor, SourceBuilder source)
+        {
+            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+
+            string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
+            source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
+            string depthExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[1], source);
+            source.AppendFrontFormat("int depth_{0} = (int)({1});\n", seqFor.Id, depthExpr);
+
+            SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 3 ? seqFor.ArgExprs[2] : null;
+            string incidentEdgeTypeExpr = helper.ExtractEdgeType(source, IncidentEdgeType);
+            SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 4 ? seqFor.ArgExprs[3] : null;
+            string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
+
+            string iterationVariable; // valid for incident/adjacent and reachable
+            string iterationType;
+            string edgeMethod = null; // only valid for incident/adajcent
+            string theOther = null; // only valid for incident/adjacent
+            string reachableMethod = null; // only valid for reachable
+            switch(seqFor.SequenceType)
+            {
+                case SequenceType.ForBoundedReachableNodes:
+                    reachableMethod = "";
+                    iterationVariable = "iter_" + seqFor.Id;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForBoundedReachableNodesViaIncoming:
+                    reachableMethod = "Incoming";
+                    iterationVariable = "iter_" + seqFor.Id;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForBoundedReachableNodesViaOutgoing:
+                    reachableMethod = "Outgoing";
+                    iterationVariable = "iter_" + seqFor.Id;
+                    iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                    break;
+                case SequenceType.ForBoundedReachableEdges:
+                    reachableMethod = "Edges";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                case SequenceType.ForBoundedReachableEdgesViaIncoming:
+                    reachableMethod = "EdgesIncoming";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                case SequenceType.ForBoundedReachableEdgesViaOutgoing:
+                    reachableMethod = "EdgesOutgoing";
+                    iterationVariable = "edge_" + seqFor.Id;
+                    iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                    break;
+                default:
+                    edgeMethod = theOther = iterationVariable = iterationType = "INTERNAL ERROR";
+                    break;
+            }
+
+            string profilingArgument = emitProfiling ? ", procEnv" : "";
+            if(seqFor.SequenceType == SequenceType.ForBoundedReachableNodes || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaOutgoing)
+            {
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}(node_{0}, depth_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
+                    seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+            }
+            else if(seqFor.SequenceType == SequenceType.ForBoundedReachableEdges || seqFor.SequenceType == SequenceType.ForBoundedReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableEdgesViaOutgoing)
+            {
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}(node_{0}, depth_{0}, ({2}), ({3}), graph" + profilingArgument + "))\n",
+                    seqFor.Id, reachableMethod, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+            }
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront(helper.SetVar(seqFor.Var, iterationVariable));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
+
+        }
+
+        private void EmitSequenceForNodesEdges(SequenceForFunction seqFor, SourceBuilder source)
+        {
+            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+
+            if(seqFor.SequenceType == SequenceType.ForNodes)
+            {
+                SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
+                string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode elem_{0} in graph.GetCompatibleNodes({1}))\n", seqFor.Id, adjacentNodeTypeExpr);
+            }
+            else
+            {
+                SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
+                string incidentEdgeTypeExpr = helper.ExtractEdgeType(source, IncidentEdgeType);
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge elem_{0} in graph.GetCompatibleEdges({1}))\n", seqFor.Id, incidentEdgeTypeExpr);
+            }
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(emitProfiling)
+                source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
+            source.AppendFront(helper.SetVar(seqFor.Var, "elem_" + seqFor.Id));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForMatch(SequenceForMatch seqFor, SourceBuilder source)
+        {
+            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+
+            RuleInvocation ruleInvocation = seqFor.Rule.RuleInvocation;
+            SequenceExpression[] ArgumentExpressions = seqFor.Rule.ArgumentExpressions;
+            SequenceVariable[] ReturnVars = seqFor.Rule.ReturnVars;
+            String specialStr = seqFor.Rule.Special ? "true" : "false";
             String parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
             String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
             String patternName = ruleInvocation.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
-            String matchName = "match_" + seq.Id;
+            String matchName = "match_" + seqFor.Id;
             String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
-            String matchesName = "matches_" + seq.Id;
+            String matchesName = "matches_" + seqFor.Id;
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name)
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
-            for(int i=0; i<seq.Rule.Filters.Count; ++i)
+            for(int i = 0; i < seqFor.Rule.Filters.Count; ++i)
             {
-                EmitFilterCall(source, seq.Rule.Filters[i], patternName, matchesName);
+                EmitFilterCall(source, seqFor.Rule.Filters[i], patternName, matchesName);
             }
 
-            source.AppendFront("if(" + matchesName + ".Count==0) {\n");
+            source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
             source.Indent();
-            source.AppendFront(compGen.SetResultVar(seq, "false"));
-            source.Unindent();
-            source.AppendFront("} else {\n");
-            source.Indent();
-            source.AppendFront(compGen.SetResultVar(seq, "true")); // shut up compiler
             source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             if(fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
@@ -1291,63 +1118,107 @@ namespace de.unika.ipd.grGen.lgsp
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
-            // apply the rule and the following sequence for every match found,
-            // until the first rule and sequence execution succeeded
-            // rolling back the changes of failing executions until then
-            String enumeratorName = "enum_" + seq.Id;
-            String matchesTriedName = "matchesTried_" + seq.Id;
-            source.AppendFront("int " + matchesTriedName + " = 0;\n");
+            // apply the sequence for every match found
+            String enumeratorName = "enum_" + seqFor.Id;
             source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
             source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-            source.AppendFront("++" + matchesTriedName + ";\n");
+            source.AppendFront(helper.SetVar(seqFor.Var, matchName));
 
-            // start a transaction
-            source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.Start();\n");
-            source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
-            if(fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
-            if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
+            EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
-            if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            if(fireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
 
-            // rule applied, now execute the sequence
-            EmitSequence(seq.Seq, source);
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
 
-            // if sequence execution failed, roll the changes back and try the next match of the rule
-            source.AppendFront("if(!" + compGen.GetResultVar(seq.Seq) + ") {\n");
+        private void EmitSequenceIterationMin(SequenceIterationMin seqMin, SourceBuilder source)
+        {
+            source.AppendFront("long i_" + seqMin.Id + " = 0;\n");
+            source.AppendFront("while(true)\n");
+            source.AppendFront("{\n");
             source.Indent();
-            source.AppendFront("procEnv.TransactionManager.Rollback(transID_" + seq.Id + ");\n");
-            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed_" + seq.Id + ";\n");
+            EmitSequence(seqMin.Seq, source);
+            source.AppendFront("if(!" + compGen.GetResultVar(seqMin.Seq) + ") break;\n");
+            source.AppendFront("i_" + seqMin.Id + "++;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFront(compGen.SetResultVar(seqMin, "i_" + seqMin.Id + " >= " + seqMin.Min));
+        }
 
-            source.AppendFront("if(" + matchesTriedName + " < " + matchesName + ".Count) {\n"); // further match available -> try it
+        private void EmitSequenceIterationMinMax(SequenceIterationMinMax seqMinMax, SourceBuilder source)
+        {
+            source.AppendFront("long i_" + seqMinMax.Id + " = 0;\n");
+            source.AppendFront("for(; i_" + seqMinMax.Id + " < " + seqMinMax.Max + "; i_" + seqMinMax.Id + "++)\n");
+            source.AppendFront("{\n");
             source.Indent();
-            source.AppendFront("continue;\n");
-            source.Unindent();
-            source.AppendFront("} else {\n"); // all matches tried, all failed later on -> end in fail
-            source.Indent();
-            source.AppendFront(compGen.SetResultVar(seq, "false"));
-            source.AppendFront("break;\n");
+            EmitSequence(seqMinMax.Seq, source);
+            source.AppendFront("if(!" + compGen.GetResultVar(seqMinMax.Seq) + ") break;\n");
             source.Unindent();
             source.AppendFront("}\n");
+            source.AppendFront(compGen.SetResultVar(seqMinMax, "i_" + seqMinMax.Id + " >= " + seqMinMax.Min));
+        }
 
-            source.Unindent();
-            source.AppendFront("}\n");
+        private void EmitSequenceDeclareVariable(SequenceDeclareVariable seqDeclVar, SourceBuilder source)
+        {
+            source.AppendFront(helper.SetVar(seqDeclVar.DestVar, TypesHelper.DefaultValueString(seqDeclVar.DestVar.Type, env.Model)));
+            source.AppendFront(compGen.SetResultVar(seqDeclVar, "true"));
+        }
 
-            // if sequence execution succeeded, commit the changes so far and succeed
-            source.AppendFront("procEnv.TransactionManager.Commit(transID_" + seq.Id + ");\n");
-            source.AppendFront(compGen.SetResultVar(seq, "true"));
-            source.AppendFront("break;\n");
+        private void EmitSequenceAssignConstToVar(SequenceAssignConstToVar seqToVar, SourceBuilder source)
+        {
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, helper.GetConstant(seqToVar.Constant)));
+            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+        }
 
-            source.Unindent();
-            source.AppendFront("}\n");
+        private void EmitSequenceAssignContainerConstructorToVar(SequenceAssignContainerConstructorToVar seqToVar, SourceBuilder source)
+        {
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, exprGen.GetSequenceExpression(seqToVar.Constructor, source)));
+            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+        }
 
-            source.Unindent();
-            source.AppendFront("}\n");
+        private void EmitSequenceAssignVarToVar(SequenceAssignVarToVar seqToVar, SourceBuilder source)
+        {
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, helper.GetVar(seqToVar.Variable)));
+            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+        }
+
+        private void EmitSequenceAssignSequenceResultToVar(SequenceAssignSequenceResultToVar seqToVar, SourceBuilder source)
+        {
+            EmitSequence(seqToVar.Seq, source);
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq)));
+            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+        }
+
+        private void EmitSequenceOrAssignSequenceResultToVar(SequenceOrAssignSequenceResultToVar seqToVar, SourceBuilder source)
+        {
+            EmitSequence(seqToVar.Seq, source);
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq) + "|| (bool)" + helper.GetVar(seqToVar.DestVar)));
+            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+        }
+
+        private void EmitSequenceAndAssignSequenceResultToVar(SequenceAndAssignSequenceResultToVar seqToVar, SourceBuilder source)
+        {
+            EmitSequence(seqToVar.Seq, source);
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq) + "&& (bool)" + helper.GetVar(seqToVar.DestVar)));
+            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+        }
+
+        private void EmitSequenceAssignRandomIntToVar(SequenceAssignRandomIntToVar seqRandomToVar, SourceBuilder source)
+        {
+            source.AppendFront(helper.SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.Next(" + seqRandomToVar.Number + ")"));
+            source.AppendFront(compGen.SetResultVar(seqRandomToVar, "true"));
+        }
+
+        private void EmitSequenceAssignRandomDoubleToVar(SequenceAssignRandomDoubleToVar seqRandomToVar, SourceBuilder source)
+        {
+            source.AppendFront(helper.SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.NextDouble()"));
+            source.AppendFront(compGen.SetResultVar(seqRandomToVar, "true"));
         }
 
         private void EmitSequenceAll(SequenceNAry seqAll, bool disjunction, bool lazy, SourceBuilder source)
@@ -1403,7 +1274,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        void EmitSequenceSome(SequenceSomeFromSet seqSome, SourceBuilder source)
+        private void EmitSequenceSome(SequenceSomeFromSet seqSome, SourceBuilder source)
         {
             source.AppendFront(compGen.SetResultVar(seqSome, "false"));
 
@@ -1604,6 +1475,155 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Unindent();
                 source.AppendFront("}\n");
             }
+        }
+
+        private void EmitSequenceTransaction(SequenceTransaction seqTrans, SourceBuilder source)
+        {
+            source.AppendFront("int transID_" + seqTrans.Id + " = procEnv.TransactionManager.Start();\n");
+            EmitSequence(seqTrans.Seq, source);
+            source.AppendFront("if(" + compGen.GetResultVar(seqTrans.Seq) + ") procEnv.TransactionManager.Commit(transID_" + seqTrans.Id + ");\n");
+            source.AppendFront("else procEnv.TransactionManager.Rollback(transID_" + seqTrans.Id + ");\n");
+            source.AppendFront(compGen.SetResultVar(seqTrans, compGen.GetResultVar(seqTrans.Seq)));
+        }
+
+        private void EmitSequenceBacktrack(SequenceBacktrack seq, SourceBuilder source)
+        {
+            RuleInvocation ruleInvocation = seq.Rule.RuleInvocation;
+            SequenceExpression[] ArgumentExpressions = seq.Rule.ArgumentExpressions;
+            SequenceVariable[] ReturnVars = seq.Rule.ReturnVars;
+            String specialStr = seq.Rule.Special ? "true" : "false";
+            String parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
+            String patternName = ruleInvocation.Name;
+            String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+            String matchName = "match_" + seq.Id;
+            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            String matchesName = "matches_" + seq.Id;
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name)
+                + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
+            for(int i=0; i<seq.Rule.Filters.Count; ++i)
+            {
+                EmitFilterCall(source, seq.Rule.Filters[i], patternName, matchesName);
+            }
+
+            source.AppendFront("if(" + matchesName + ".Count==0) {\n");
+            source.Indent();
+            source.AppendFront(compGen.SetResultVar(seq, "false"));
+            source.Unindent();
+            source.AppendFront("} else {\n");
+            source.Indent();
+            source.AppendFront(compGen.SetResultVar(seq, "true")); // shut up compiler
+            source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
+            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+
+            String returnParameterDeclarations;
+            String returnArguments;
+            String returnAssignments;
+            String returnParameterDeclarationsAllCall;
+            String intermediateReturnAssignmentsAllCall;
+            String returnAssignmentsAllCall;
+            helper.BuildReturnParameters(ruleInvocation, ReturnVars,
+                out returnParameterDeclarations, out returnArguments, out returnAssignments,
+                out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
+
+            // apply the rule and the following sequence for every match found,
+            // until the first rule and sequence execution succeeded
+            // rolling back the changes of failing executions until then
+            String enumeratorName = "enum_" + seq.Id;
+            String matchesTriedName = "matchesTried_" + seq.Id;
+            source.AppendFront("int " + matchesTriedName + " = 0;\n");
+            source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
+            source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
+            source.AppendFront("++" + matchesTriedName + ";\n");
+
+            // start a transaction
+            source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.Start();\n");
+            source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
+            if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
+
+            source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+            if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
+            if(fireDebugEvents) source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+
+            // rule applied, now execute the sequence
+            EmitSequence(seq.Seq, source);
+
+            // if sequence execution failed, roll the changes back and try the next match of the rule
+            source.AppendFront("if(!" + compGen.GetResultVar(seq.Seq) + ") {\n");
+            source.Indent();
+            source.AppendFront("procEnv.TransactionManager.Rollback(transID_" + seq.Id + ");\n");
+            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed_" + seq.Id + ";\n");
+
+            source.AppendFront("if(" + matchesTriedName + " < " + matchesName + ".Count) {\n"); // further match available -> try it
+            source.Indent();
+            source.AppendFront("continue;\n");
+            source.Unindent();
+            source.AppendFront("} else {\n"); // all matches tried, all failed later on -> end in fail
+            source.Indent();
+            source.AppendFront(compGen.SetResultVar(seq, "false"));
+            source.AppendFront("break;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            // if sequence execution succeeded, commit the changes so far and succeed
+            source.AppendFront("procEnv.TransactionManager.Commit(transID_" + seq.Id + ");\n");
+            source.AppendFront(compGen.SetResultVar(seq, "true"));
+            source.AppendFront("break;\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequencePause(SequencePause seqPause, SourceBuilder source)
+        {
+            source.AppendFront("procEnv.TransactionManager.Pause();\n");
+            EmitSequence(seqPause.Seq, source);
+            source.AppendFront("procEnv.TransactionManager.Resume();\n");
+            source.AppendFront(compGen.SetResultVar(seqPause, compGen.GetResultVar(seqPause.Seq)));
+        }
+
+        private void EmitSequenceExecuteInSubgraph(SequenceExecuteInSubgraph seqExecInSub, SourceBuilder source)
+        {
+            string subgraph;
+            if(seqExecInSub.AttributeName == null)
+                subgraph = helper.GetVar(seqExecInSub.SubgraphVar);
+            else
+            {
+                string element = "((GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqExecInSub.SubgraphVar) + ")";
+                subgraph = element + ".GetAttribute(\"" + seqExecInSub.AttributeName + "\")";
+            }
+            source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + subgraph + ");\n");
+            source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
+            EmitSequence(seqExecInSub.Seq, source);
+            source.AppendFront("procEnv.ReturnFromSubgraph();\n");
+            source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
+            source.AppendFront(compGen.SetResultVar(seqExecInSub, compGen.GetResultVar(seqExecInSub.Seq)));
+        }
+
+        private void EmitSequenceBooleanComputation(SequenceBooleanComputation seqComp, SourceBuilder source)
+        {
+            compGen.EmitSequenceComputation(seqComp.Computation, source);
+            if(seqComp.Computation.ReturnsValue)
+                source.AppendFront(compGen.SetResultVar(seqComp, "!GRGEN_LIBGR.TypesHelper.IsDefaultValue(" + compGen.GetResultVar(seqComp.Computation) + ")"));
+            else
+                source.AppendFront(compGen.SetResultVar(seqComp, "true"));
+        }
+
+        public String GetSequenceResult(Sequence seq)
+        {
+            return compGen.GetResultVar(seq);
         }
 
         private void EmitFilterCall(SourceBuilder source, FilterCall filterCall, string patternName, string matchesName)
