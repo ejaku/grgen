@@ -212,30 +212,26 @@ namespace de.unika.ipd.grGen.libGr
             if(DestVar.Type == "")
                 return; // we can't check source and destination types if the variable is untyped, only runtime-check possible
 
-            if(TypesHelper.ExtractSrc(DestVar.Type) == null || TypesHelper.ExtractDst(DestVar.Type) == null || TypesHelper.ExtractDst(DestVar.Type) == "SetValueType")
+            if(TypesHelper.ExtractSrc(DestVar.Type) == null 
+                || TypesHelper.ExtractDst(DestVar.Type) == null 
+                || TypesHelper.ExtractDst(DestVar.Type) == "SetValueType")
             {
                 throw new SequenceParserException(Symbol, "map<S,T> or array<T> or deque<T>", DestVar.Type);
             }
             if(DestVar.Type.StartsWith("array"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
-                {
                     throw new SequenceParserException(Symbol, "int", KeyExpression.Type(env));
-                }
             }
             else if(DestVar.Type.StartsWith("deque"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
-                {
                     throw new SequenceParserException(Symbol, "int", KeyExpression.Type(env));
-                }
             }
             else
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), TypesHelper.ExtractSrc(DestVar.Type), env.Model))
-                {
                     throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(DestVar.Type), KeyExpression.Type(env));
-                }
             }
         }
 
@@ -316,14 +312,10 @@ namespace de.unika.ipd.grGen.libGr
 
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
             if(nodeOrEdgeType == null)
-            {
                 throw new SequenceParserException(Symbol, "node or edge type", DestVar.Type);
-            }
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
             if(attributeType == null)
-            {
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
-            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -400,40 +392,32 @@ namespace de.unika.ipd.grGen.libGr
 
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(DestVar.Type, env.Model);
             if(nodeOrEdgeType == null)
-            {
                 throw new SequenceParserException(Symbol, "node or edge type", DestVar.Type);
-            }
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
             if(attributeType == null)
-            {
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
-            }
 
             string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
-            if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == "SetValueType")
+            if(TypesHelper.ExtractSrc(ContainerType) == null
+                || TypesHelper.ExtractDst(ContainerType) == null
+                || TypesHelper.ExtractDst(ContainerType) == "SetValueType")
             {
                 throw new SequenceParserException(Symbol, "map<S,T> or array<T> or deque<T>", DestVar.Type);
             }
             if(ContainerType.StartsWith("array"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
-                {
                     throw new SequenceParserException(Symbol, "int", KeyExpression.Type(env));
-                }
             }
             else if(ContainerType.StartsWith("deque"))
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), "int", env.Model))
-                {
                     throw new SequenceParserException(Symbol, "int", KeyExpression.Type(env));
-                }
             }
             else
             {
                 if(!TypesHelper.IsSameOrSubtype(KeyExpression.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
-                {
                     throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), KeyExpression.Type(env));
-                }
             }
         }
 
@@ -531,13 +515,9 @@ namespace de.unika.ipd.grGen.libGr
 
             GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
             if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
-            {
                 throw new SequenceParserException(Symbol, "node or edge type", GraphElementVar.Type);
-            }
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
-            {
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
-            }
         }
 
         public override string Type(SequenceCheckingEnvironment env)

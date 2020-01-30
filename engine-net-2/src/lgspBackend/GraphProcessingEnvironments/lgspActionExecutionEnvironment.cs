@@ -18,28 +18,54 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPActionExecutionEnvironment : IActionExecutionEnvironment
     {
+        protected readonly Stack<LGSPGraph> usedGraphs;
+        protected LGSPNamedGraph namedGraphOnTop;
+
+        private readonly Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
+        public LGSPActions curActions;
+
         private readonly PerformanceInfo perfInfo = new PerformanceInfo();
         private bool highlightingUnderway = false;
+
         private int maxMatches = 0;
-        private readonly Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
-        public LGSPGraph graph { get { return usedGraphs.Peek(); } }
-        protected readonly Stack<LGSPGraph> usedGraphs;
-        public LGSPNamedGraph namedGraph { get { return namedGraphOnTop; } }
-        protected LGSPNamedGraph namedGraphOnTop;
-        public LGSPActions curActions;
         protected readonly Dictionary<String, String> customCommandsToDescriptions;
 
 
         public LGSPActionExecutionEnvironment(LGSPGraph graph, LGSPActions actions)
         {
-            // TODO: evt. IGraph + BaseActions und dann hier cast auf LGSP, mal gucken was an Schnittstelle besser paﬂt
-            this.usedGraphs = new Stack<LGSPGraph>();
-            this.usedGraphs.Push(graph);
-            this.namedGraphOnTop = graph as LGSPNamedGraph;
-            this.curActions = actions;
+            usedGraphs = new Stack<LGSPGraph>();
+            usedGraphs.Push(graph);
+            namedGraphOnTop = graph as LGSPNamedGraph;
+            curActions = actions;
             InitActionsProfile(actions);
-            this.customCommandsToDescriptions = new Dictionary<string, string>();
+            customCommandsToDescriptions = new Dictionary<string, string>();
             FillCustomCommandDescriptions();
+        }
+
+        public void InitActionsProfile(LGSPActions actions)
+        {
+            if(actions == null)
+                return;
+            if(!actions.Profile)
+                return;
+
+            perfInfo.ActionProfiles.Clear();
+            foreach(IAction action in actions.Actions)
+            {
+                ActionProfile actionProfile = new ActionProfile();
+                int branchingFactor = ((LGSPAction)action).patternGraph.branchingFactor;
+                actionProfile.averagesPerThread = new ProfileAverages[branchingFactor];
+                for(int i = 0; i < branchingFactor; ++i)
+                    actionProfile.averagesPerThread[i] = new ProfileAverages();
+                perfInfo.ActionProfiles.Add(action.PackagePrefixedName, actionProfile);
+            }
+        }
+
+        private void FillCustomCommandDescriptions()
+        {
+            customCommandsToDescriptions.Add("set_max_matches",
+                "- set_max_matches: Sets the maximum number of matches to be found\n" +
+                "     during matching (for all-bracketed rule calls like [r]).\n");
         }
 
         public IGraph Graph
@@ -62,6 +88,9 @@ namespace de.unika.ipd.grGen.lgsp
             get { return namedGraph; }
         }
 
+        public LGSPGraph graph { get { return usedGraphs.Peek(); } }
+        public LGSPNamedGraph namedGraph { get { return namedGraphOnTop; } }
+
         public IActions Actions
         {
             get { return curActions; }
@@ -72,26 +101,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get { return LGSPBackend.Instance; }
         }
-
-        public void InitActionsProfile(LGSPActions actions)
-        {
-            if(actions == null)
-                return;
-            if(!actions.Profile)
-                return;
-
-            perfInfo.ActionProfiles.Clear();
-            foreach(IAction action in actions.Actions)
-            {
-                ActionProfile actionProfile = new ActionProfile();
-                int branchingFactor = ((LGSPAction)action).patternGraph.branchingFactor;
-                actionProfile.averagesPerThread = new ProfileAverages[branchingFactor];
-                for(int i = 0; i < branchingFactor; ++i)
-                    actionProfile.averagesPerThread[i] = new ProfileAverages();
-                perfInfo.ActionProfiles.Add(action.PackagePrefixedName, actionProfile);
-            }
-        }
-        
 
         public PerformanceInfo PerformanceInfo
         {
@@ -108,13 +117,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get { return maxMatches; }
             set { maxMatches = value; }
-        }
-
-        private void FillCustomCommandDescriptions()
-        {
-            customCommandsToDescriptions.Add("set_max_matches", 
-                "- set_max_matches: Sets the maximum number of matches to be found\n" +
-                "     during matching (for all-bracketed rule calls like [r]).\n");
         }
 
         public IDictionary<String, String> CustomCommandsAndDescriptions
