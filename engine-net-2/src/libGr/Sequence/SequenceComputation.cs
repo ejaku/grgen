@@ -297,14 +297,6 @@ namespace de.unika.ipd.grGen.libGr
                 procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.RemoveElement, null, valueOrKeyOrIndexToRemove);
         }
 
-        protected static void ChangedAttribute(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType)
-        {
-            if(elem is INode)
-                procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
-            else
-                procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
-        }
-
         #endregion helper methods
     }
 
@@ -658,30 +650,30 @@ namespace de.unika.ipd.grGen.libGr
             return deque;
         }
 
-        private object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap, object firstValue, object optionalSecondValue)
+        private object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary set, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
                 ChangingSetAttributePutElement(procEnv, elem, attrType, firstValue);
 
-            setmap[firstValue] = optionalSecondValue;
+            set[firstValue] = optionalSecondValue;
 
             if(elem != null)
                 ChangedAttribute(procEnv, elem, attrType);
 
-            return setmap;
+            return set;
         }
 
-        private object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap, object firstValue, object optionalSecondValue)
+        private object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary map, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
                 ChangingMapAttributePutElement(procEnv, elem, attrType, firstValue, optionalSecondValue);
 
-            setmap[firstValue] = optionalSecondValue;
+            map[firstValue] = optionalSecondValue;
 
             if(elem != null)
                 ChangedAttribute(procEnv, elem, attrType);
 
-            return setmap;
+            return map;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -816,30 +808,30 @@ namespace de.unika.ipd.grGen.libGr
             return deque;
         }
 
-        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap, object valueOrKeyOrIndexToRemove)
+        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary set, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
                 ChangingSetAttributeRemoveElement(procEnv, elem, attrType, valueOrKeyOrIndexToRemove);
 
-            setmap.Remove(valueOrKeyOrIndexToRemove);
+            set.Remove(valueOrKeyOrIndexToRemove);
 
             if(elem != null)
                 ChangedAttribute(procEnv, elem, attrType);
 
-            return setmap;
+            return set;
         }
 
-        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap, object valueOrKeyOrIndexToRemove)
+        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary map, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
                 ChangingMapAttributeRemoveElement(procEnv, elem, attrType, valueOrKeyOrIndexToRemove);
 
-            setmap.Remove(valueOrKeyOrIndexToRemove);
+            map.Remove(valueOrKeyOrIndexToRemove);
 
             if(elem != null)
                 ChangedAttribute(procEnv, elem, attrType);
 
-            return setmap;
+            return map;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -952,40 +944,40 @@ namespace de.unika.ipd.grGen.libGr
             return deque;
         }
 
-        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap)
+        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary set)
         {
             if(elem != null)
             {
-                foreach(DictionaryEntry kvp in setmap)
+                foreach(DictionaryEntry kvp in set)
                 {
                     ChangingSetAttributeRemoveElement(procEnv, elem, attrType, kvp.Key);
                 }
             }
 
-            setmap.Clear();
+            set.Clear();
 
             if(elem != null)
                 ChangedAttribute(procEnv, elem, attrType);
 
-            return setmap;
+            return set;
         }
 
-        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary setmap)
+        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary map)
         {
             if(elem != null)
             {
-                foreach(DictionaryEntry kvp in setmap)
+                foreach(DictionaryEntry kvp in map)
                 {
                     ChangingMapAttributeRemoveElement(procEnv, elem, attrType, kvp.Key);
                 }
             }
 
-            setmap.Clear();
+            map.Clear();
 
             if(elem != null)
                 ChangedAttribute(procEnv, elem, attrType);
 
-            return setmap;
+            return map;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -1783,21 +1775,15 @@ namespace de.unika.ipd.grGen.libGr
                 else
                     CheckNodeTypeIsKnown(env, Expr, ", first argument");
             }
-            if(ExprSrc != null)
+            if(ExprSrc != null && ExprSrc.Type(env) != "")
             {
-                if(ExprSrc.Type(env) != "")
-                {
-                    if(!TypesHelper.IsSameOrSubtype(ExprSrc.Type(env), "Node", env.Model))
-                        throw new SequenceParserException(Symbol + "second argument", "node", ExprSrc.Type(env));
-                }
+                if(!TypesHelper.IsSameOrSubtype(ExprSrc.Type(env), "Node", env.Model))
+                    throw new SequenceParserException(Symbol + "second argument", "node", ExprSrc.Type(env));
             }
-            if(ExprDst != null)
+            if(ExprDst != null && ExprDst.Type(env) != "")
             {
-                if(ExprDst.Type(env) != "")
-                {
-                    if(!TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "Node", env.Model))
-                        throw new SequenceParserException(Symbol + "third argument", "node", ExprDst.Type(env));
-                }
+                if(!TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "Node", env.Model))
+                    throw new SequenceParserException(Symbol + "third argument", "node", ExprDst.Type(env));
             }
         }
 
@@ -2094,21 +2080,15 @@ namespace de.unika.ipd.grGen.libGr
                         throw new SequenceParserException(Symbol + "first argument", "node", Expr.Type(env));
                 }
             }
-            if(ExprSrc != null)
+            if(ExprSrc != null && ExprSrc.Type(env) != "")
             {
-                if(ExprSrc.Type(env) != "")
-                {
-                    if(!TypesHelper.IsSameOrSubtype(ExprSrc.Type(env), "Node", env.Model))
-                        throw new SequenceParserException(Symbol + "second argument", "node", ExprSrc.Type(env));
-                }
+                if(!TypesHelper.IsSameOrSubtype(ExprSrc.Type(env), "Node", env.Model))
+                    throw new SequenceParserException(Symbol + "second argument", "node", ExprSrc.Type(env));
             }
-            if(ExprDst != null)
+            if(ExprDst != null && ExprDst.Type(env) != "")
             {
-                if(ExprDst.Type(env) != "")
-                {
-                    if(!TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "Node", env.Model))
-                        throw new SequenceParserException(Symbol + "third argument", "node", ExprDst.Type(env));
-                }
+                if(!TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "Node", env.Model))
+                    throw new SequenceParserException(Symbol + "third argument", "node", ExprDst.Type(env));
             }
         }
 

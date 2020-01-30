@@ -375,6 +375,14 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        protected static void ChangedAttribute(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangedNodeAttribute((INode)elem, attrType);
+            else
+                procEnv.Graph.ChangedEdgeAttribute((IEdge)elem, attrType);
+        }
+
         #endregion helper methods
     }
 }
