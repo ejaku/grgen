@@ -259,6 +259,21 @@ namespace de.unika.ipd.grGen.libGr
             BalancedTypeStatic = that.BalancedTypeStatic;
         }
 
+        protected void BalanceIfStaticallyUnknown(IGraphProcessingEnvironment procEnv, 
+            object leftValue, object rightValue, 
+            ref string balancedType, ref string leftType, ref string rightType)
+        {
+            if(balancedType != "")
+                return;
+
+            leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
+            rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
+            balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
+
+            if(balancedType == "-")
+                throw new SequenceParserException(Operator, leftType, rightType, Symbol);
+        }
+
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
@@ -681,14 +696,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -779,14 +787,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -834,14 +835,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -889,14 +883,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -944,14 +931,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -999,14 +979,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -1062,14 +1035,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -1124,14 +1090,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -1186,14 +1145,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -1248,14 +1200,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -1310,14 +1255,7 @@ namespace de.unika.ipd.grGen.libGr
             string balancedType = BalancedTypeStatic;
             string leftType = LeftTypeStatic;
             string rightType = RightTypeStatic;
-            if(balancedType == "")
-            {
-                leftType = TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model);
-                rightType = TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model);
-                balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, leftType, rightType, procEnv.Graph.Model);
-                if(balancedType == "-")
-                    throw new SequenceParserException(Operator, leftType, rightType, Symbol);
-            }
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
 
             try
             {
@@ -2129,8 +2067,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model);
-            if(GraphElementVar.Type != "" && nodeOrEdgeType == null)
+            if(GraphElementVar.Type != "" && TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model) == null)
                 throw new SequenceParserException(Symbol, "node or edge type", GraphElementVar.Type);
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpr.Type(env), "int", env.Model))
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpr.Type(env));
@@ -2734,21 +2671,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(NodeName.Type(env) != "string")
                     throw new SequenceParserException(Symbol + ", (first) argument", "string", NodeName.Type(env));
             }
-
-            if(NodeType != null && NodeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(NodeType.Type(env) == "string")
-                {
-                    if(NodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)NodeType).Constant;
-                }
-                else
-                    typeString = NodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "node type or string denoting node type", typeString);
-            }
+            CheckNodeTypeIsKnown(env, NodeType, ", second argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -2832,23 +2755,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(EdgeName.Type(env) != "string")
                     throw new SequenceParserException(Symbol + ", (first) argument", "string", EdgeName.Type(env));
             }
-
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                {
-                    typeString = EdgeType.Type(env);
-                }
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", second argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -2932,21 +2839,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(NodeUniqueId.Type(env) != "int")
                     throw new SequenceParserException(Symbol + ", (first) argument", "int", NodeUniqueId.Type(env));
             }
-
-            if(NodeType != null && NodeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(NodeType.Type(env) == "string")
-                {
-                    if(NodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)NodeType).Constant;
-                }
-                else
-                    typeString = NodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "node type or string denoting node type", typeString);
-            }
+            CheckNodeTypeIsKnown(env, NodeType, ", second argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -3029,21 +2922,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(EdgeUniqueId.Type(env) != "int")
                     throw new SequenceParserException(Symbol + ", (first) argument", "int", EdgeUniqueId.Type(env));
             }
-
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", second argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -3474,10 +3353,57 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionNodes : SequenceExpression
+    public abstract class SequenceExpressionGraphQuery : SequenceExpression
+    {
+        public bool EmitProfiling;
+
+        public SequenceExpressionGraphQuery(SequenceExpressionType type)
+            : base(type)
+        {
+        }
+
+        protected SequenceExpressionGraphQuery(SequenceExpressionGraphQuery that)
+          : base(that)
+        {
+            EmitProfiling = that.EmitProfiling;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
+        public static string GetEdgeRootTypeWithDirection(SequenceExpression EdgeType, SequenceCheckingEnvironment env)
+        {
+            if(EdgeType == null)
+                return "AEdge";
+            if(EdgeType.Type(env) == "")
+                return "AEdge";
+
+            string typeString = null;
+            if(EdgeType.Type(env) == "string")
+            {
+                if(EdgeType is SequenceExpressionConstant)
+                    typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
+            }
+            else
+                typeString = EdgeType.Type(env);
+            EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
+            if(edgeType == null)
+                return "AEdge";
+
+            if(edgeType.Directedness == Directedness.Directed)
+                return "Edge";
+            if(edgeType.Directedness == Directedness.Undirected)
+                return "UEdge";
+
+            return "AEdge";
+        }
+    }
+
+    public class SequenceExpressionNodes : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression NodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionNodes(SequenceExpression nodeType)
             : base(SequenceExpressionType.Nodes)
@@ -3490,7 +3416,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(that.NodeType != null)
                 NodeType = that.NodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3502,20 +3427,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            if(NodeType!=null && NodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(NodeType.Type(env) == "string")
-                {
-                    if(NodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)NodeType).Constant;
-                }
-                else
-                    typeString = NodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", argument", "node type or string denoting node type", typeString);
-            }
+            CheckNodeTypeIsKnown(env, NodeType, ", argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -3538,11 +3450,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(NodeType != null)
                 NodeType.GetLocalVariables(variables, containerConstructors);
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -3570,50 +3477,9 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public abstract class SequenceExpressionGraphQuery : SequenceExpression
-    {
-        public SequenceExpressionGraphQuery(SequenceExpressionType type)
-            : base(type)
-        {
-        }
-
-        protected SequenceExpressionGraphQuery(SequenceExpressionGraphQuery that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-          : base(that)
-        {
-        }
-
-        public static string GetEdgeRootTypeWithDirection(SequenceExpression EdgeType, SequenceCheckingEnvironment env)
-        {
-            if (EdgeType == null)
-                return "AEdge";
-            if (EdgeType.Type(env) == "")
-                return "AEdge";
-
-            string typeString = null;
-            if (EdgeType.Type(env) == "string")
-            {
-                if (EdgeType is SequenceExpressionConstant)
-                    typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-            }
-            else
-                typeString = EdgeType.Type(env);
-            EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-            if (edgeType == null)
-                return "AEdge";
-
-            if (edgeType.Directedness == Directedness.Directed)
-                return "Edge";
-            if (edgeType.Directedness == Directedness.Undirected)
-                return "UEdge";
-
-            return "AEdge";
-        }
-    }
-
     public class SequenceExpressionEdges : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression EdgeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionEdges(SequenceExpression edgeType)
             : base(SequenceExpressionType.Edges)
@@ -3622,11 +3488,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         protected SequenceExpressionEdges(SequenceExpressionEdges that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-          : base(that, originalToCopy, procEnv)
+          : base(that)
         {
             if(that.EdgeType != null)
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3638,20 +3503,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            if(EdgeType!=null && EdgeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", argument", "edge type or string denoting edge type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -3674,11 +3526,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(EdgeType != null)
                 EdgeType.GetLocalVariables(variables, containerConstructors);
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -3706,10 +3553,9 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountNodes : SequenceExpression
+    public class SequenceExpressionCountNodes : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression NodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionCountNodes(SequenceExpression nodeType)
             : base(SequenceExpressionType.CountNodes)
@@ -3722,7 +3568,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(that.NodeType != null)
                 NodeType = that.NodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3734,20 +3579,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            if(NodeType != null && NodeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(NodeType.Type(env) == "string")
-                {
-                    if(NodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)NodeType).Constant;
-                }
-                else
-                    typeString = NodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", argument", "node type or string denoting node type", typeString);
-            }
+            CheckNodeTypeIsKnown(env, NodeType, ", argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -3770,11 +3602,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(NodeType != null)
                 NodeType.GetLocalVariables(variables, containerConstructors);
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -3802,10 +3629,9 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountEdges : SequenceExpression
+    public class SequenceExpressionCountEdges : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression EdgeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionCountEdges(SequenceExpression edgeType)
             : base(SequenceExpressionType.CountEdges)
@@ -3818,7 +3644,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(that.EdgeType != null)
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3830,20 +3655,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", argument", "edge type or string denoting edge type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -3866,11 +3678,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(EdgeType != null)
                 EdgeType.GetLocalVariables(variables, containerConstructors);
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -4059,7 +3866,6 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionAdjacentIncident(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -4075,14 +3881,13 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         protected SequenceExpressionAdjacentIncident(SequenceExpressionAdjacentIncident that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-          : base(that, originalToCopy, procEnv)
+          : base(that)
         {
             SourceNode = that.SourceNode.CopyExpression(originalToCopy, procEnv);
             if(that.EdgeType != null)
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -4096,38 +3901,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
-            if(EdgeType!=null && EdgeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", second argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", third argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -4195,11 +3973,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -4240,12 +4013,11 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountAdjacentIncident : SequenceExpression
+    public class SequenceExpressionCountAdjacentIncident : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionCountAdjacentIncident(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -4268,7 +4040,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -4282,38 +4053,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
-            if(EdgeType!=null && EdgeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", second argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", third argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -4374,11 +4118,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -4427,7 +4166,6 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionReachable(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -4443,14 +4181,13 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         protected SequenceExpressionReachable(SequenceExpressionReachable that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-          : base(that, originalToCopy, procEnv)
+          : base(that)
         {
             SourceNode = that.SourceNode.CopyExpression(originalToCopy, procEnv);
             if(that.EdgeType != null)
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -4464,38 +4201,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
-            if(EdgeType!=null && EdgeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", second argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", third argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -4563,11 +4273,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -4607,12 +4312,11 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountReachable : SequenceExpression
+    public class SequenceExpressionCountReachable : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionCountReachable(SequenceExpression sourceNode, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -4635,7 +4339,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -4649,38 +4352,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
-            if(EdgeType!=null && EdgeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", second argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", second argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", third argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -4741,11 +4417,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -4792,7 +4463,6 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceExpression Depth;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionBoundedReachable(SequenceExpression sourceNode, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -4809,7 +4479,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         protected SequenceExpressionBoundedReachable(SequenceExpressionBoundedReachable that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-          : base(that, originalToCopy, procEnv)
+          : base(that)
         {
             SourceNode = that.SourceNode.CopyExpression(originalToCopy, procEnv);
             Depth = that.Depth.CopyExpression(originalToCopy, procEnv);
@@ -4817,7 +4487,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -4831,8 +4500,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
             if(Depth.Type(env) != "")
@@ -4840,34 +4508,8 @@ namespace de.unika.ipd.grGen.libGr
                 if(Depth.Type(env) != "int")
                     throw new SequenceParserException(Symbol + ", second argument", "int type", Depth.Type(env));
             }
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", third argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", fourth argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -4937,11 +4579,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -4982,13 +4619,12 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionBoundedReachableWithRemainingDepth : SequenceExpression
+    public class SequenceExpressionBoundedReachableWithRemainingDepth : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression Depth;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionBoundedReachableWithRemainingDepth(SequenceExpression sourceNode, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -5010,7 +4646,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -5024,8 +4659,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
             if(Depth.Type(env) != "")
@@ -5033,34 +4667,8 @@ namespace de.unika.ipd.grGen.libGr
                 if(Depth.Type(env) != "int")
                     throw new SequenceParserException(Symbol + ", second argument", "int type", Depth.Type(env));
             }
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", third argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", fourth argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -5108,11 +4716,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -5150,13 +4753,12 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountBoundedReachable : SequenceExpression
+    public class SequenceExpressionCountBoundedReachable : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression Depth;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionCountBoundedReachable(SequenceExpression sourceNode, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -5181,7 +4783,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -5195,8 +4796,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
             if(Depth.Type(env) != "")
@@ -5204,34 +4804,8 @@ namespace de.unika.ipd.grGen.libGr
                 if(Depth.Type(env) != "int")
                     throw new SequenceParserException(Symbol + ", second argument", "int type", Depth.Type(env));
             }
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", third argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", fourth argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -5294,11 +4868,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -5339,14 +4908,13 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionIsBoundedReachable : SequenceExpression
+    public class SequenceExpressionIsBoundedReachable : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression EndElement;
         public readonly SequenceExpression Depth;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionIsBoundedReachable(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression depth, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -5373,7 +4941,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -5387,22 +4954,19 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
             if(EndElement.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
                 if(SequenceExpressionType == SequenceExpressionType.IsBoundedReachableNodes || SequenceExpressionType == SequenceExpressionType.IsBoundedReachableNodesViaIncoming || SequenceExpressionType == SequenceExpressionType.IsBoundedReachableNodesViaOutgoing)
                 {
-                    NodeType nodeType = TypesHelper.GetNodeType(EndElement.Type(env), env.Model);
-                    if(nodeType == null)
+                    if(TypesHelper.GetNodeType(EndElement.Type(env), env.Model) == null)
                         throw new SequenceParserException(Symbol + ", second argument", "node type", EndElement.Type(env));
                 }
                 else
                 {
-                    EdgeType edgeType = TypesHelper.GetEdgeType(EndElement.Type(env), env.Model);
-                    if(edgeType == null)
+                    if(TypesHelper.GetEdgeType(EndElement.Type(env), env.Model) == null)
                         throw new SequenceParserException(Symbol + ", second argument", "edge type", EndElement.Type(env));
                 }
             }
@@ -5411,34 +4975,8 @@ namespace de.unika.ipd.grGen.libGr
                 if(Depth.Type(env) != "int")
                     throw new SequenceParserException(Symbol + ", second argument", "int type", Depth.Type(env));
             }
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", third argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", fourth argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -5503,11 +5041,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -5549,13 +5082,12 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionIsAdjacentIncident : SequenceExpression
+    public class SequenceExpressionIsAdjacentIncident : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression EndElement;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionIsAdjacentIncident(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -5580,7 +5112,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -5594,53 +5125,24 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
             if(EndElement.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
                 if(SequenceExpressionType == SequenceExpressionType.IsAdjacentNodes || SequenceExpressionType == SequenceExpressionType.IsAdjacentNodesViaIncoming || SequenceExpressionType == SequenceExpressionType.IsAdjacentNodesViaOutgoing)
                 {
-                    NodeType nodeType = TypesHelper.GetNodeType(EndElement.Type(env), env.Model);
-                    if(nodeType == null)
+                    if(TypesHelper.GetNodeType(EndElement.Type(env), env.Model) == null)
                         throw new SequenceParserException(Symbol + ", second argument", "node type", EndElement.Type(env));
                 }
                 else
                 {
-                    EdgeType edgeType = TypesHelper.GetEdgeType(EndElement.Type(env), env.Model);
-                    if(edgeType == null)
+                    if(TypesHelper.GetEdgeType(EndElement.Type(env), env.Model) == null)
                         throw new SequenceParserException(Symbol + ", second argument", "edge type", EndElement.Type(env));
                 }
             }
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", third argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", fourth argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -5703,11 +5205,6 @@ namespace de.unika.ipd.grGen.libGr
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get
@@ -5749,13 +5246,12 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionIsReachable : SequenceExpression
+    public class SequenceExpressionIsReachable : SequenceExpressionGraphQuery
     {
         public readonly SequenceExpression SourceNode;
         public readonly SequenceExpression EndElement;
         public readonly SequenceExpression EdgeType;
         public readonly SequenceExpression OppositeNodeType;
-        public bool EmitProfiling;
 
         public SequenceExpressionIsReachable(SequenceExpression sourceNode, SequenceExpression endElement, SequenceExpression edgeType, SequenceExpression oppositeNodeType, SequenceExpressionType type)
             : base(type)
@@ -5780,7 +5276,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType = that.EdgeType.CopyExpression(originalToCopy, procEnv);
             if(that.OppositeNodeType != null)
                 OppositeNodeType = that.OppositeNodeType.CopyExpression(originalToCopy, procEnv);
-            EmitProfiling = that.EmitProfiling;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -5794,53 +5289,24 @@ namespace de.unika.ipd.grGen.libGr
 
             if(SourceNode.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                NodeType nodeType = TypesHelper.GetNodeType(SourceNode.Type(env), env.Model);
-                if(nodeType == null)
+                if(TypesHelper.GetNodeType(SourceNode.Type(env), env.Model) == null)
                     throw new SequenceParserException(Symbol+", first argument", "node type", SourceNode.Type(env));
             }
             if(EndElement.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
                 if(SequenceExpressionType == SequenceExpressionType.IsReachableNodes || SequenceExpressionType == SequenceExpressionType.IsReachableNodesViaIncoming || SequenceExpressionType == SequenceExpressionType.IsReachableNodesViaOutgoing)
                 {
-                    NodeType nodeType = TypesHelper.GetNodeType(EndElement.Type(env), env.Model);
-                    if(nodeType == null)
+                    if(TypesHelper.GetNodeType(EndElement.Type(env), env.Model) == null)
                         throw new SequenceParserException(Symbol + ", second argument", "node type", EndElement.Type(env));
                 }
                 else
                 {
-                    EdgeType edgeType = TypesHelper.GetEdgeType(EndElement.Type(env), env.Model);
-                    if(edgeType == null)
+                    if(TypesHelper.GetEdgeType(EndElement.Type(env), env.Model) == null)
                         throw new SequenceParserException(Symbol + ", second argument", "edge type", EndElement.Type(env));
                 }
             }
-            if(EdgeType != null && EdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(EdgeType.Type(env) == "string")
-                {
-                    if(EdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)EdgeType).Constant;
-                }
-                else
-                    typeString = EdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", third argument", "edge type or string denoting edge type", typeString);
-            }
-            if(OppositeNodeType!=null && OppositeNodeType.Type(env)!="")
-            {
-                string typeString = null;
-                if(OppositeNodeType.Type(env) == "string")
-                {
-                    if(OppositeNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)OppositeNodeType).Constant;
-                }
-                else
-                    typeString = OppositeNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + ", fourth argument", "node type or string denoting node type", typeString);
-            }
+            CheckEdgeTypeIsKnown(env, EdgeType, ", third argument");
+            CheckNodeTypeIsKnown(env, OppositeNodeType, ", fourth argument");
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -5901,11 +5367,6 @@ namespace de.unika.ipd.grGen.libGr
                 EdgeType.GetLocalVariables(variables, containerConstructors);
             if(OppositeNodeType != null)
                 OppositeNodeType.GetLocalVariables(variables, containerConstructors);
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            EmitProfiling = profiling;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression

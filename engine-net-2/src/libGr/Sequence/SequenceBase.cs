@@ -181,6 +181,41 @@ namespace de.unika.ipd.grGen.libGr
             return edgeType;
         }
 
+        protected void CheckNodeTypeIsKnown(SequenceCheckingEnvironment env, SequenceExpression typeExpr, String whichArgument)
+        {
+            if(typeExpr == null || typeExpr.Type(env) == "")
+                return;
+
+            string typeString = null;
+            if(typeExpr.Type(env) == "string")
+            {
+                if(typeExpr is SequenceExpressionConstant)
+                    typeString = (string)((SequenceExpressionConstant)typeExpr).Constant;
+            }
+            else
+                typeString = typeExpr.Type(env);
+
+            if(TypesHelper.GetNodeType(typeString, env.Model) == null && typeString != null)
+                throw new SequenceParserException(Symbol + whichArgument, "node type or string denoting node type", typeString);
+        }
+
+        protected void CheckEdgeTypeIsKnown(SequenceCheckingEnvironment env, SequenceExpression typeExpr, String whichArgument)
+        {
+            if(typeExpr == null || typeExpr.Type(env) == "")
+                return;
+
+            string typeString = null;
+            if(typeExpr.Type(env) == "string")
+            {
+                if(typeExpr is SequenceExpressionConstant)
+                    typeString = (string)((SequenceExpressionConstant)typeExpr).Constant;
+            }
+            else
+                typeString = typeExpr.Type(env);
+
+            if(TypesHelper.GetEdgeType(typeString, env.Model) == null && typeString != null)
+                throw new SequenceParserException(Symbol + whichArgument, "edge type or string denoting edge type", typeString);
+        }
 
         #region helper methods for call input argument and argument expression, as well as return variable handling
 

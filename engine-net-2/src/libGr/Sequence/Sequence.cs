@@ -4234,53 +4234,17 @@ namespace de.unika.ipd.grGen.libGr
                     if(!TypesHelper.IsSameOrSubtype(DepthExpr.Type(env), "int", env.Model))
                         throw new SequenceParserException(DepthExpr.Symbol, "int", DepthExpr.Type(env));
 
-                    CheckEdgeType(env, ArgExprs.Count >= 3 ? ArgExprs[2] : null, ", third argument");
-                    CheckNodeType(env, ArgExprs.Count >= 4 ? ArgExprs[3] : null, ", fourth argument");
+                    CheckEdgeTypeIsKnown(env, ArgExprs.Count >= 3 ? ArgExprs[2] : null, ", third argument");
+                    CheckNodeTypeIsKnown(env, ArgExprs.Count >= 4 ? ArgExprs[3] : null, ", fourth argument");
                 }
                 else
                 {
-                    CheckEdgeType(env, ArgExprs.Count >= 2 ? ArgExprs[1] : null, ", second argument");
-                    CheckNodeType(env, ArgExprs.Count >= 3 ? ArgExprs[2] : null, ", third argument");
+                    CheckEdgeTypeIsKnown(env, ArgExprs.Count >= 2 ? ArgExprs[1] : null, ", second argument");
+                    CheckNodeTypeIsKnown(env, ArgExprs.Count >= 3 ? ArgExprs[2] : null, ", third argument");
                 }
             }
 
             base.Check(env);
-        }
-
-        private void CheckNodeType(SequenceCheckingEnvironment env, SequenceExpression AdjacentNodeType, String whichArgument)
-        {
-            if(AdjacentNodeType != null && AdjacentNodeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(AdjacentNodeType.Type(env) == "string")
-                {
-                    if(AdjacentNodeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)AdjacentNodeType).Constant;
-                }
-                else
-                    typeString = AdjacentNodeType.Type(env);
-                NodeType nodeType = TypesHelper.GetNodeType(typeString, env.Model);
-                if(nodeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + whichArgument, "node type or string denoting node type", typeString);
-            }
-        }
-
-        private void CheckEdgeType(SequenceCheckingEnvironment env, SequenceExpression IncidentEdgeType, String whichArgument)
-        {
-            if(IncidentEdgeType != null && IncidentEdgeType.Type(env) != "")
-            {
-                string typeString = null;
-                if(IncidentEdgeType.Type(env) == "string")
-                {
-                    if(IncidentEdgeType is SequenceExpressionConstant)
-                        typeString = (string)((SequenceExpressionConstant)IncidentEdgeType).Constant;
-                }
-                else
-                    typeString = IncidentEdgeType.Type(env);
-                EdgeType edgeType = TypesHelper.GetEdgeType(typeString, env.Model);
-                if(edgeType == null && typeString != null)
-                    throw new SequenceParserException(Symbol + whichArgument, "edge type or string denoting edge type", typeString);
-            }
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
