@@ -229,7 +229,7 @@ namespace de.unika.ipd.grGen.grShell
                     (impl.curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture), result);
                 if(impl.newGraphOptions.Profile)
                     impl.debugOut.WriteLine(" - {0} search steps executed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
+#if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
                 impl.debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
                 impl.debugOut.WriteLine(" - {0} rewrites performed in {1} ms", perfInfo.RewritesPerformed, perfInfo.TotalRewriteTimeMS);
 #if DEBUGACTIONS

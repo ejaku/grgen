@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.libGr
             SearchSteps = 0;
             totalTime = 0;
 
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
+#if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
             localStart = 0;
             totalMatchTime = 0;
             totalRewriteTime = 0;

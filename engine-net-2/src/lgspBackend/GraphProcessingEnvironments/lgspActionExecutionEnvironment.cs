@@ -166,37 +166,91 @@ namespace de.unika.ipd.grGen.lgsp
             actionMapStaticToNewest[staticAction] = newAction;
         }
 
+        public IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters)
+        {
+            int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
+            PerformanceInfo.StartLocal();
+#endif
+            IMatches matches = action.Match(this, curMaxMatches, arguments);
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StopMatch();
+#endif
+            for(int i = 0; i < filters.Count; ++i)
+            {
+                action.Filter(this, matches, filters[i]);
+            }
+
+            Matched(matches, null, special);
+
+            PerformanceInfo.MatchesFound += matches.Count;
+
+            return matches;
+        }
+
+        public IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches, List<FilterCall> filters)
+        {
+            int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StartLocal();
+#endif
+            IMatches matches = action.Match(this, curMaxMatches, arguments);
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StopMatch();
+#endif
+            for(int i = 0; i < filters.Count; ++i)
+            {
+                action.Filter(this, matches, filters[i]);
+            }
+
+            PerformanceInfo.MatchesFound += matches.Count;
+
+            return matches;
+        }
+
         public List<object[]> Replace(IMatches matches, int which)
         {
             List<object[]> returns;
-            object[] retElems = null;
+            object[] retElems;
+
             if(which != -1)
             {
                 if(which < 0 || which >= matches.Count)
                     throw new ArgumentOutOfRangeException("\"which\" is out of range!");
 
                 returns = matches.Producer.Reserve(0); 
+
                 retElems = matches.Producer.Modify(this, matches.GetMatch(which));
+
                 returns.Add(retElems);
-                PerformanceInfo.RewritesPerformed++;
+
+                ++PerformanceInfo.RewritesPerformed;
             }
             else
             {
-                bool first = true;
                 returns = matches.Producer.Reserve(matches.Count);
+
                 int curResultNum = 0;
+                bool first = true;
                 foreach(IMatch match in matches)
                 {
-                    if(first) first = false;
-                    else if(OnRewritingNextMatch != null) OnRewritingNextMatch();
+                    if(first)
+                        first = false;
+                    else if(OnRewritingNextMatch != null)
+                        OnRewritingNextMatch();
+
                     retElems = matches.Producer.Modify(this, match);
+
                     object[] curResult = returns[curResultNum];
-                    for(int i = 0; i < retElems.Length; ++i)
-                        curResult[i] = retElems[i];
-                    PerformanceInfo.RewritesPerformed++;
-                    curResultNum++;
+                    retElems.CopyTo(curResult, 0);
+
+                    ++PerformanceInfo.RewritesPerformed;
+                    ++curResultNum;
                 }
             }
+
             return returns;
         }
 

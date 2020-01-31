@@ -250,8 +250,6 @@ namespace de.unika.ipd.grGen.libGr
         /// the state of executing this sequence, implementation
         /// </summary>
         internal SequenceExecutionState executionState;
-
-        //public static readonly object[] NoElems = new object[] { }; // A singleton object array used when no elements are returned.
     }
 
 
@@ -1072,14 +1070,11 @@ namespace de.unika.ipd.grGen.libGr
 
             procEnv.Finishing(matches, Special);
 
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
+#if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
             procEnv.PerformanceInfo.StartLocal();
 #endif
-            object[] retElems = null;
-            retElems = matches.Producer.Modify(procEnv, match);
-            procEnv.PerformanceInfo.RewritesPerformed++;
-
-            //if(retElems == null) retElems = NoElems;
+            object[] retElems = matches.Producer.Modify(procEnv, match);
+            ++procEnv.PerformanceInfo.RewritesPerformed;
 
             FillReturnVariablesFromValues(ReturnVars, procEnv, retElems);
 
@@ -1106,13 +1101,12 @@ namespace de.unika.ipd.grGen.libGr
                 if(match != matches.First)
                     procEnv.RewritingNextMatch();
                 object[] retElems = matches.Producer.Modify(procEnv, match);
-                //if(retElems == null) retElems = NoElems;
                 object[] curResult = returns[curResultNum];
                 for(int i = 0; i < retElems.Length; ++i)
                 {
                     curResult[i] = retElems[i];
                 }
-                procEnv.PerformanceInfo.RewritesPerformed++;
+                ++procEnv.PerformanceInfo.RewritesPerformed;
                 ++curResultNum;
             }
 
@@ -1277,31 +1271,34 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            int numMatches = 0;
             try
             {
+                int numMatches;
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Applying rule " + GetRuleCallString(procEnv));
 #endif
                 FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
-                List<object[]> retElemsList = procEnv.ApplyRewrite(Action, Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null, Arguments, 0, 1, Special, Test, Filters, out numMatches);
+
+                List<object[]> retElemsList = procEnv.ApplyRewrite(Action,
+                    Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null,
+                    Arguments, 0, 1, Special, Test, Filters, out numMatches);
+
                 if(retElemsList.Count > 0)
                     FillReturnVariablesFromValues(ReturnVars, Action, procEnv, retElemsList, 0);
+#if LOG_SEQUENCE_EXECUTION
+                if(res)
+                {
+                    procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
+                    procEnv.Recorder.Flush();
+                }
+#endif
+                return numMatches > 0;
             }
             catch(NullReferenceException)
             {
                 System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                 throw;
             }
-
-#if LOG_SEQUENCE_EXECUTION
-            if(res)
-            {
-                procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
-                procEnv.Recorder.Flush();
-            }
-#endif
-            return numMatches > 0;
         }
 
         public override IEnumerable<Sequence> Children
@@ -1534,13 +1531,9 @@ namespace de.unika.ipd.grGen.libGr
                 if(chosenMatch != null)
                     match = chosenMatch;
                 object[] retElems = matches.Producer.Modify(procEnv, match);
-                //if(retElems == null) retElems = NoElems;
                 object[] curResult = returns[curResultNum];
-                for(int j = 0; j < retElems.Length; ++j)
-                {
-                    curResult[j] = retElems[j];
-                }
-                procEnv.PerformanceInfo.RewritesPerformed++;
+                retElems.CopyTo(curResult, 0);
+                ++procEnv.PerformanceInfo.RewritesPerformed;
                 ++curResultNum;
             }
 
@@ -1642,84 +1635,52 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            if(!ChooseRandom)
+            try
             {
-                int numMatches = 0;
-                try
+                if(!ChooseRandom)
                 {
+                    int numMatches;
 #if LOG_SEQUENCE_EXECUTION
                     procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
 #endif
                     FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
-                    List<object[]> retElemsList = procEnv.ApplyRewrite(Action, Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null, Arguments, -1, -1, Special, Test, Filters, out numMatches);
+
+                    List<object[]> retElemsList = procEnv.ApplyRewrite(Action,
+                        Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null,
+                        Arguments, -1, -1, Special, Test, Filters, out numMatches);
+
                     if(retElemsList.Count > 0)
                         FillReturnVariablesFromValues(ReturnVars, Action, procEnv, retElemsList, -1);
-                }
-                catch(NullReferenceException)
-                {
-                    System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
-                    throw;
-                }
 #if LOG_SEQUENCE_EXECUTION
-                if(res)
-                {
-                    procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
-                    procEnv.Recorder.Flush();
-                }
-#endif
-                return numMatches > 0;
-            }
-            else
-            {
-                // TODO: Code duplication! Compare with BaseGraph.ApplyRewrite.
-
-                int curMaxMatches = procEnv.MaxMatches;
-
-                object[] parameters;
-                if(ArgumentExpressions.Length > 0)
-                {
-                    parameters = Arguments;
-                    for(int i = 0; i < ArgumentExpressions.Length; ++i)
+                    if(res)
                     {
-                        parameters[i] = ArgumentExpressions[i].Evaluate(procEnv);
+                        procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
+                        procEnv.Recorder.Flush();
                     }
+#endif
+                    return numMatches > 0;
                 }
                 else
-                    parameters = null;
-
-                if(Subgraph != null)
-                    procEnv.SwitchToSubgraph((IGraph)Subgraph.GetVariableValue(procEnv));
-
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-                procEnv.PerformanceInfo.StartLocal();
-#endif
-                IMatches matches;
-                try
                 {
-                    matches = Action.Match(procEnv, curMaxMatches, parameters);
-                    for(int i = 0; i < Filters.Count; ++i)
-                    {
-                        Action.Filter(procEnv, matches, Filters[i]);
-                    }
+                    FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+
+                    if(Subgraph != null)
+                        procEnv.SwitchToSubgraph((IGraph)Subgraph.GetVariableValue(procEnv));
+
+                    IMatches matches = procEnv.Match(Action, Arguments, procEnv.MaxMatches, Special, Filters);
+
+                    bool result = Rewrite(procEnv, matches, null);
+
+                    if(Subgraph != null)
+                        procEnv.ReturnFromSubgraph();
+
+                    return result;
                 }
-                catch(NullReferenceException)
-                {
-                    System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
-                    throw;
-                }
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-                procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
-#endif
-                procEnv.PerformanceInfo.MatchesFound += matches.Count;
-
-                procEnv.Matched(matches, null, Special);
-
-                bool result = Rewrite(procEnv, matches, null);
-
-                if(Subgraph != null)
-                    procEnv.ReturnFromSubgraph();
-
-                return result;
+            }
+            catch(NullReferenceException)
+            {
+                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                throw;
             }
         }
     }
@@ -1906,31 +1867,35 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            int numMatches = 0;
             try
             {
+                int numMatches;
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Applying rule all " + GetRuleCallString(procEnv));
 #endif
                 FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
-                List<object[]> retElemsList = procEnv.ApplyRewrite(Action, Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null, Arguments, -1, -1, Special, Test, Filters, out numMatches);
+
+                List<object[]> retElemsList = procEnv.ApplyRewrite(Action, 
+                    Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null,
+                    Arguments, -1, -1, Special, Test, Filters, out numMatches);
+
                 if(retElemsList.Count > 0)
                     FillReturnVariablesFromValues(ReturnVars, Action, procEnv, retElemsList, -1);
+#if LOG_SEQUENCE_EXECUTION
+                if(res > 0)
+                {
+                    procEnv.Recorder.WriteLine("Matched/Applied " + Symbol + " yielding " + res + " matches");
+                    procEnv.Recorder.Flush();
+                }
+#endif
+                CountResult.SetVariableValue(numMatches, procEnv);
+                return numMatches > 0;
             }
             catch(NullReferenceException)
             {
                 System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                 throw;
             }
-            CountResult.SetVariableValue(numMatches, procEnv);
-#if LOG_SEQUENCE_EXECUTION
-            if(res > 0)
-            {
-                procEnv.Recorder.WriteLine("Matched/Applied " + Symbol + " yielding " + res + " matches");
-                procEnv.Recorder.Flush();
-            }
-#endif
-            return numMatches > 0;
         }
     }
 
@@ -2876,37 +2841,17 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(!(Sequences[i] is SequenceRuleCall))
                     throw new InvalidOperationException("Internal error: some from set containing non-rule sequences");
+
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
                 int maxMatches = 1;
                 if(rule is SequenceRuleAllCall || rule is SequenceRuleCountAllCall)
                     maxMatches = procEnv.MaxMatches;
 
-                object[] parameters;
-                if(rule.ArgumentExpressions.Length > 0)
-                {
-                    parameters = rule.Arguments;
-                    for(int j = 0; j < rule.ArgumentExpressions.Length; ++j)
-                    {
-                        parameters[j] = rule.ArgumentExpressions[j].Evaluate(procEnv);
-                    }
-                }
-                else
-                    parameters = null;
-
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-                procEnv.PerformanceInfo.StartLocal();
-#endif
                 RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)rule.RuleInvocation;
-                IMatches matches = ruleInvocation.Action.Match(procEnv, maxMatches, parameters);
-                for(int j = 0; j < rule.Filters.Count; ++j)
-                {
-                    ruleInvocation.Action.Filter(procEnv, matches, rule.Filters[j]);
-                }
 
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-                procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
-#endif
-                procEnv.PerformanceInfo.MatchesFound += matches.Count;
+                FillArgumentsFromArgumentExpressions(rule.ArgumentExpressions, rule.Arguments, procEnv);
+
+                IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, rule.Arguments, maxMatches, rule.Filters);
 
                 Matches[i] = matches;
             }
@@ -3030,36 +2975,14 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
             // first get all matches of the rule
-            object[] parameters;
-            if(Rule.ArgumentExpressions.Length > 0)
-            {
-                parameters = Rule.Arguments;
-                for(int j = 0; j < Rule.ArgumentExpressions.Length; ++j)
-                {
-                    parameters[j] = Rule.ArgumentExpressions[j].Evaluate(procEnv);
-                }
-            }
-            else
-                parameters = null;
-
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching backtrack all " + Rule.GetRuleCallString(procEnv));
 #endif
-
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-            procEnv.PerformanceInfo.StartLocal();
-#endif
             RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)Rule.RuleInvocation;
-            IMatches matches = ruleInvocation.Action.Match(procEnv, procEnv.MaxMatches, parameters);
-            for(int i = 0; i < Rule.Filters.Count; ++i)
-            {
-                ruleInvocation.Action.Filter(procEnv, matches, Rule.Filters[i]);
-            }
 
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-            procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
-#endif
-            procEnv.PerformanceInfo.MatchesFound += matches.Count;
+            FillArgumentsFromArgumentExpressions(Rule.ArgumentExpressions, Rule.Arguments, procEnv);
+
+            IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, Rule.Arguments, procEnv.MaxMatches, Rule.Filters);
 
             if(matches.Count == 0)
             {
@@ -5219,36 +5142,14 @@ namespace de.unika.ipd.grGen.libGr
             bool res = true;
 
             // first get all matches of the rule
-            object[] parameters;
-            if(Rule.ArgumentExpressions.Length > 0)
-            {
-                parameters = Rule.Arguments;
-                for(int j = 0; j < Rule.ArgumentExpressions.Length; ++j)
-                {
-                    if(Rule.ArgumentExpressions[j] != null)
-                        parameters[j] = Rule.ArgumentExpressions[j].Evaluate(procEnv);
-                }
-            }
-            else
-                parameters = null;
-
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matching for rule " + Rule.GetRuleCallString(procEnv));
 #endif
-
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-            procEnv.PerformanceInfo.StartLocal();
-#endif
             RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)Rule.RuleInvocation;
-            IMatches matches = ruleInvocation.Action.Match(procEnv, procEnv.MaxMatches, parameters);
-            for(int i = 0; i < Rule.Filters.Count; ++i)
-            {
-                ruleInvocation.Action.Filter(procEnv, matches, Rule.Filters[i]);
-            }
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-            procEnv.PerformanceInfo.StopMatch(); // total match time does NOT include listeners anymore
-#endif
-            procEnv.PerformanceInfo.MatchesFound += matches.Count;
+
+            FillArgumentsFromArgumentExpressions(Rule.ArgumentExpressions, Rule.Arguments, procEnv);
+
+            IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, Rule.Arguments, procEnv.MaxMatches, Rule.Filters);
 
             if(matches.Count == 0)
             {
@@ -5308,7 +5209,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children
         {
-            get { yield return Rule; yield return Seq; }
+            get
+            {
+                yield return Rule;
+                yield return Seq;
+            }
         }
 
         public override int Precedence

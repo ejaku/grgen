@@ -31,6 +31,8 @@ namespace de.unika.ipd.grGen.lgsp
         protected readonly Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
         protected readonly Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
 
+        readonly List<object[]> emptyList = new List<object[]>(); // performance optimization (for ApplyRewrite, empty list is only created once)
+
 
         public LGSPGraphProcessingEnvironment(LGSPGraph graph, LGSPActions actions)
             : base(graph, actions)
@@ -221,26 +223,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        readonly List<object[]> emptyList = new List<object[]>();
-
-        public List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches)
+        public List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, 
+            int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches)
         {
-            int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
-
             if(subgraph != null)
                 SwitchToSubgraph(subgraph);
 
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-            PerformanceInfo.StartLocal();
-#endif
-            IMatches matches = action.Match(this, curMaxMatches, arguments);
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
-            PerformanceInfo.StopMatch();
-#endif
-            for(int i=0; i<filters.Count; ++i)
-                action.Filter(this, matches, filters[i]);
+            IMatches matches = Match(action, arguments, localMaxMatches, special, filters);
 
-            Matched(matches, null, special);
             if(matches.Count == 0)
             {
                 if(subgraph != null)
@@ -248,8 +238,6 @@ namespace de.unika.ipd.grGen.lgsp
                 numMatches = 0;
                 return emptyList;
             }
-
-            PerformanceInfo.MatchesFound += matches.Count;
 
             if(test)
             {
@@ -261,7 +249,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             Finishing(matches, special);
 
-#if DEBUGACTIONS || MATCHREWRITEDETAIL
+#if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
             PerformanceInfo.StartLocal();
 #endif
             List<object[]> retElemsList = Replace(matches, which);

@@ -125,6 +125,30 @@ namespace de.unika.ipd.grGen.libGr
         void SetNewestActionVersion(IAction staticAction, IAction newAction);
 
         /// <summary>
+        /// Matches a rewrite rule.
+        /// </summary>
+        /// <param name="action">The rule to invoke</param>
+        /// <param name="arguments">The input arguments</param>
+        /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+        /// depends on MaxMatches)</param>
+        /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
+        /// the application</param>
+        /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
+        /// <returns>A matches object containing the found matches.</returns>
+        IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters);
+
+        /// <summary>
+        /// Matches a rewrite rule, without firing the Matched event (for internal or non-debugger use).
+        /// </summary>
+        /// <param name="action">The rule to invoke</param>
+        /// <param name="arguments">The input arguments</param>
+        /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+        /// depends on MaxMatches)</param>
+        /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
+        /// <returns>A matches object containing the found matches.</returns>
+        IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches, List<FilterCall> filters);
+
+        /// <summary>
         /// Executes the modifications of the according rule to the given match/matches.
         /// Fires OnRewritingNextMatch events before each rewrite except for the first one.
         /// </summary>
