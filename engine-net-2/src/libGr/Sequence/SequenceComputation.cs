@@ -1448,12 +1448,6 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceComputationType.Emit)
         {
             Expressions = exprs;
-            foreach(SequenceExpression expr in Expressions)
-            {
-                SequenceExpressionConstant exprConst = expr as SequenceExpressionConstant;
-                if(exprConst != null && exprConst.Constant is string)
-                    exprConst.Constant = Unescape((string)exprConst.Constant);
-            }
             IsDebug = isDebug;
         }
 
@@ -1479,6 +1473,10 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < Expressions.Count; ++i)
             {
                 value = Expressions[i].Evaluate(procEnv);
+
+                if(value is string)
+                    value = Unescape((string)value);
+
                 if(IsDebug)
                 {
                     if(value != null)
@@ -1536,7 +1534,7 @@ namespace de.unika.ipd.grGen.libGr
                         sb.Append(", ");
                     SequenceExpressionConstant exprConst = expr as SequenceExpressionConstant;
                     if(exprConst != null && exprConst.Constant is string)
-                        sb.Append(SequenceExpressionConstant.ConstantAsString(Escape((string)exprConst.Constant)));
+                        sb.Append(SequenceExpressionConstant.ConstantAsString(exprConst.Constant));
                     else
                         sb.Append(expr.Symbol);
                 }
@@ -1554,10 +1552,6 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceComputationType.Record)
         {
             Expression = expr;
-
-            SequenceExpressionConstant exprConst = Expression as SequenceExpressionConstant;
-            if(exprConst != null && exprConst.Constant is string)
-                exprConst.Constant = Unescape((string)exprConst.Constant);
         }
 
         protected SequenceComputationRecord(SequenceComputationRecord that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -1574,6 +1568,8 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             object value = Expression.Evaluate(procEnv);
+            if(value is string)
+                value = Unescape((string)value);
             if(value != null)
                 procEnv.Recorder.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph));
             return value;
@@ -1604,7 +1600,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 SequenceExpressionConstant exprConst = Expression as SequenceExpressionConstant;
                 if(exprConst != null && exprConst.Constant is string)
-                    sb.Append(SequenceExpressionConstant.ConstantAsString(Escape((string)exprConst.Constant)));
+                    sb.Append(SequenceExpressionConstant.ConstantAsString(exprConst.Constant));
                 else
                     sb.Append(Expression.Symbol);
 
