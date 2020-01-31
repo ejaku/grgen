@@ -54,14 +54,16 @@ namespace de.unika.ipd.grGen.libGr
 
             // locally the match this_ was a permutation of the match that
             // now check globally the nested and subpatterns
-            
+
             // independents don't need to be checked, there is always only one, existence counts
             // (and negatives prevent a match in the first place, we'd never reach this if they would be found)
 
             // alternatives/alternative cases must be in a 1:1 correspondence (equal cases are ensured by the identical pattern check)
             for(int i = 0; i < this_.NumberOfAlternatives; ++i)
+            {
                 if(!AreSymmetric(this_.getAlternativeAt(i), that.getAlternativeAt(i), graph))
                     return false;
+            }
 
             // iterated patterns are all-matches blocker, they are eagerly matched from their inputs on, 
             // with each iterated pattern settling on the first match, not searching for all, even if requested for the action
@@ -94,10 +96,14 @@ namespace de.unika.ipd.grGen.libGr
             int id = graph.AllocateVisitedFlag();
 
             for(int i = 0; i < match.NumberOfNodes; ++i)
+            {
                 graph.SetVisited(match.getNodeAt(i), id, true);
+            }
 
             for(int i = 0; i < match.NumberOfEdges; ++i)
+            {
                 graph.SetVisited(match.getEdgeAt(i), id, true);
+            }
 
             return id;
         }
@@ -112,10 +118,14 @@ namespace de.unika.ipd.grGen.libGr
         private static void Unmark(IMatch match, IGraph graph, int id)
         {
             for(int i = 0; i < match.NumberOfNodes; ++i)
+            {
                 graph.SetVisited(match.getNodeAt(i), id, false);
+            }
 
             for(int i = 0; i < match.NumberOfEdges; ++i)
+            {
                 graph.SetVisited(match.getEdgeAt(i), id, false);
+            }
 
             graph.FreeVisitedFlagNonReset(id);
         }
@@ -129,12 +139,16 @@ namespace de.unika.ipd.grGen.libGr
         private static bool AreAllMarked(IMatch match, IGraph graph, int id)
         {
             for(int i = 0; i < match.NumberOfNodes; ++i)
+            {
                 if(!graph.IsVisited(match.getNodeAt(i), id))
                     return false;
+            }
 
             for(int i = 0; i < match.NumberOfEdges; ++i)
+            {
                 if(!graph.IsVisited(match.getEdgeAt(i), id))
                     return false;
+            }
 
             return true;
         }
@@ -186,11 +200,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             switch(this_.NumberOfEmbeddedGraphs)
             {
-                case 0:
-                    return true;
-                case 1:
-                    return AreSymmetric(this_.getEmbeddedGraphAt(0), that.getEmbeddedGraphAt(0), graph);
-                case 2:
+            case 0:
+                return true;
+            case 1:
+                return AreSymmetric(this_.getEmbeddedGraphAt(0), that.getEmbeddedGraphAt(0), graph);
+            case 2:
                 {
                     if(this_.getEmbeddedGraphAt(0).Pattern != this_.getEmbeddedGraphAt(1).Pattern)
                     {
@@ -205,7 +219,7 @@ namespace de.unika.ipd.grGen.libGr
                             && AreSymmetric(this_.getEmbeddedGraphAt(1), that.getEmbeddedGraphAt(0), graph) );
                     }
                 }
-                default:
+            default:
                 {
                     // compute partition of subpatterns according to type
                     Dictionary<IPatternGraph, List<int>> partitions = new Dictionary<IPatternGraph, List<int>>();
@@ -219,8 +233,10 @@ namespace de.unika.ipd.grGen.libGr
 
                     // the subpatterns of equal type may be permuted, the rest must be in a 1:1 correspondence
                     foreach(KeyValuePair<IPatternGraph, List<int>> kvp in partitions)
+                    {
                         if(!AreSubpatternsSymmetric(this_, that, graph, kvp.Value, 0))
                             return false;
+                    }
 
                     return true;
                 }

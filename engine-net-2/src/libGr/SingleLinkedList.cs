@@ -41,12 +41,13 @@ namespace de.unika.ipd.grGen.libGr
         public void AddFirst(T data)
         {
             root = new Node(data, root);
-            length++;
+            ++length;
         }
 
         public T RemoveFirst()
         {
-            if(root == null) throw new InvalidOperationException("The list is empty!");
+            if(root == null)
+                throw new InvalidOperationException("The list is empty!");
             T data = root.Data;
             root = root.Next;
             length--;
@@ -60,8 +61,10 @@ namespace de.unika.ipd.grGen.libGr
                 if(index < 0 || index >= length)
                     throw new ArgumentOutOfRangeException("Index out of range: " + index);
                 Node cur = root;
-                for(int i=0; i < index; i++)
+                for(int i = 0; i < index; i++)
+                {
                     cur = cur.Next;
+                }
 
                 return cur.Data;
             }

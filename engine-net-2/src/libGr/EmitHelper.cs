@@ -81,29 +81,49 @@ namespace de.unika.ipd.grGen.libGr
 
             if(setmap != null)
             {
-                if (valueType == typeof(SetValueType))
+                if(valueType == typeof(SetValueType))
                 {
                     type = "set<" + keyType.Name + ">";
                     bool first = true;
-                    foreach (DictionaryEntry entry in setmap)
+                    foreach(DictionaryEntry entry in setmap)
                     {
-                        if (first) { sb.Append(ToString(entry.Key, attrValueType, graph)); first = false; }
-                        else { sb.Append(","); sb.Append(ToString(entry.Key, attrValueType, graph)); }
+                        if(first)
+                        {
+                            sb.Append(ToString(entry.Key, attrValueType, graph));
+                            first = false;
+                        }
+                        else
+                        {
+                            sb.Append(",");
+                            sb.Append(ToString(entry.Key, attrValueType, graph));
+                        }
                     }
                 }
                 else
                 {
                     type = "map<" + keyType.Name + "," + valueType.Name + ">";
                     bool first = true;
-                    foreach (DictionaryEntry entry in setmap)
+                    foreach(DictionaryEntry entry in setmap)
                     {
-                        if (first) { sb.Append(ToString(entry.Key, attrKeyType, graph)); sb.Append("->"); sb.Append(ToString(entry.Value, attrValueType, graph)); first = false; }
-                        else { sb.Append(","); sb.Append(ToString(entry.Key, attrKeyType, graph)); sb.Append("->"); sb.Append(ToString(entry.Value, attrValueType, graph)); }
+                        if(first)
+                        {
+                            sb.Append(ToString(entry.Key, attrKeyType, graph));
+                            sb.Append("->");
+                            sb.Append(ToString(entry.Value, attrValueType, graph));
+                            first = false;
+                        }
+                        else
+                        {
+                            sb.Append(",");
+                            sb.Append(ToString(entry.Key, attrKeyType, graph));
+                            sb.Append("->");
+                            sb.Append(ToString(entry.Value, attrValueType, graph));
+                        }
                     }
                 }
-            } else {
-                type = "<INVALID>";
             }
+            else
+                type = "<INVALID>";
 
             sb.Append("}");
             content = sb.ToString();
@@ -134,14 +154,20 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(Object entry in array)
                 {
-                    if(first) { sb.Append(ToString(entry, attrValueType, graph)); first = false; }
-                    else { sb.Append(","); sb.Append(ToString(entry, attrValueType, graph)); }
+                    if(first)
+                    {
+                        sb.Append(ToString(entry, attrValueType, graph));
+                        first = false;
+                    }
+                    else
+                    {
+                        sb.Append(",");
+                        sb.Append(ToString(entry, attrValueType, graph));
+                    }
                 }
             }
             else
-            {
                 type = "<INVALID>";
-            }
 
             sb.Append("]");
             content = sb.ToString();
@@ -172,14 +198,20 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(Object entry in deque)
                 {
-                    if(first) { sb.Append(ToString(entry, attrValueType, graph)); first = false; }
-                    else { sb.Append(","); sb.Append(ToString(entry, attrValueType, graph)); }
+                    if(first)
+                    {
+                        sb.Append(ToString(entry, attrValueType, graph));
+                        first = false;
+                    }
+                    else
+                    {
+                        sb.Append(",");
+                        sb.Append(ToString(entry, attrValueType, graph));
+                    }
                 }
             }
             else
-            {
                 type = "<INVALID>";
-            }
 
             sb.Append("[");
             content = sb.ToString();
@@ -268,8 +300,10 @@ namespace de.unika.ipd.grGen.libGr
                 ContainerHelper.GetListType(array, out valueType);
                 ToString(array, out type, out content, attrType, graph);
                 content += ".add(" + ToString(newValue, attrType.ValueType, graph);
-                if(keyValue != null) content += ", " + keyValue.ToString() + ")";
-                else content += ")";
+                if(keyValue != null)
+                    content += ", " + keyValue.ToString() + ")";
+                else
+                    content += ")";
             }
             else if(changeType == AttributeChangeType.RemoveElement)
             {
@@ -277,8 +311,10 @@ namespace de.unika.ipd.grGen.libGr
                 ContainerHelper.GetListType(array, out valueType);
                 ToString(array, out type, out content, attrType, graph);
                 content += ".rem(";
-                if(keyValue != null) content += keyValue.ToString() + ")";
-                else content += ")";
+                if(keyValue != null)
+                    content += keyValue.ToString() + ")";
+                else
+                    content += ")";
             }
             else if(changeType == AttributeChangeType.AssignElement)
             {
@@ -288,9 +324,7 @@ namespace de.unika.ipd.grGen.libGr
                 content += "[" + keyValue.ToString() + "] = " + ToString(newValue, attrType.ValueType, graph);
             }
             else // changeType==AttributeChangeType.Assign
-            {
                 ToString((IList)newValue, out type, out content, attrType, graph);
-            }
         }
 
         /// <summary>
@@ -324,9 +358,7 @@ namespace de.unika.ipd.grGen.libGr
                 content += ".rem()";
             }
             else // changeType==AttributeChangeType.Assign
-            {
                 ToString((IDeque)newValue, out type, out content, attrType, graph);
-            }
         }
 
         /// <summary>
@@ -372,7 +404,7 @@ namespace de.unika.ipd.grGen.libGr
         public static void ToString(object value, out string type, out string content,
             AttributeType attrType, IGraph graph)
         {
-            if (attrType == null)
+            if(attrType == null)
             {
                 if(value == null)
                 {
@@ -407,9 +439,7 @@ namespace de.unika.ipd.grGen.libGr
                             }
                         }
                         else if(value is IGraphElement)
-                        {
                             type = ((IGraphElement)value).Type.Name;
-                        }
                         break;
                 }
 
@@ -421,7 +451,7 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             Debug.Assert(attrType.Kind != AttributeKind.SetAttr && attrType.Kind != AttributeKind.MapAttr);
-            switch (attrType.Kind)
+            switch(attrType.Kind)
             {
                 case AttributeKind.ByteAttr: type = "sbyte"; break;
                 case AttributeKind.ShortAttr: type = "short"; break;
@@ -461,7 +491,8 @@ namespace de.unika.ipd.grGen.libGr
                 Debug.Assert(attrType.Kind!=AttributeKind.SetAttr && attrType.Kind!=AttributeKind.MapAttr);
                 EnumAttributeType enumAttrType = attrType.EnumType;
                 EnumMember member = enumAttrType[(int)value];
-                if(member!=null) return member.Name;
+                if(member!=null)
+                    return member.Name;
             }
             if(graph!=null && value is Enum)
             {
@@ -471,8 +502,10 @@ namespace de.unika.ipd.grGen.libGr
                     if(value.GetType()==enumAttrType.EnumType)
                     {
                         EnumMember member = enumAttrType[(int)value];
-                        if(member != null) return member.Name;
-                        else break;
+                        if(member != null)
+                            return member.Name;
+                        else
+                            break;
                     }
                 }
             }
@@ -481,16 +514,12 @@ namespace de.unika.ipd.grGen.libGr
             if(attrType!=null && (attrType.Kind==AttributeKind.NodeAttr || attrType.Kind==AttributeKind.EdgeAttr))
             {
                 if(graph!=null && value!=null)
-                {
                     return ((INamedGraph)graph).GetElementName((IGraphElement)value);
-                }
             }
             if(value is IGraphElement)
             {
                 if(graph!=null)
-                {
                     return ((INamedGraph)graph).GetElementName((IGraphElement)value);
-                }
             }
 
             // we return "" for null as null is a valid string denoting the empty string in GrGen (dubious performance optimization)

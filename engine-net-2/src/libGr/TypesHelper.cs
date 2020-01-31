@@ -18,19 +18,21 @@ namespace de.unika.ipd.grGen.libGr
     {
         public static String TypeName(GrGenType type)
         {
-            if (type is VarType)
+            if(type is VarType)
             {
                 Type typeOfVar = ((VarType)type).Type;
-                if (typeOfVar.IsGenericType)
+                if(typeOfVar.IsGenericType)
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.Append(typeOfVar.FullName.Substring(0, typeOfVar.FullName.IndexOf('`')));
                     sb.Append('<');
                     bool first = true;
-                    foreach (Type typeArg in typeOfVar.GetGenericArguments())
+                    foreach(Type typeArg in typeOfVar.GetGenericArguments())
                     {
-                        if (first) first = false;
-                        else sb.Append(", ");
+                        if(first)
+                            first = false;
+                        else
+                            sb.Append(", ");
                         sb.Append(typeArg.FullName);
                     }
                     sb.Append('>');
@@ -41,7 +43,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                switch (type.Name)
+                switch(type.Name)
                 {
                     case "Node": return "GRGEN_LIBGR.INode";
                     case "Edge": return "GRGEN_LIBGR.IDEdge";
@@ -56,12 +58,14 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(NodeType nodeType in model.NodeModel.Types)
             {
-                if(nodeType.PackagePrefixedName == typeName) return nodeType;
+                if(nodeType.PackagePrefixedName == typeName)
+                    return nodeType;
             }
 
             foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
-                if(edgeType.PackagePrefixedName == typeName) return edgeType;
+                if(edgeType.PackagePrefixedName == typeName)
+                    return edgeType;
             }
 
             return null;
@@ -71,7 +75,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(NodeType nodeType in model.NodeModel.Types)
             {
-                if(nodeType.PackagePrefixedName == typeName) return nodeType;
+                if(nodeType.PackagePrefixedName == typeName)
+                    return nodeType;
             }
 
             return null;
@@ -81,7 +86,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
-                if(edgeType.PackagePrefixedName == typeName) return edgeType;
+                if(edgeType.PackagePrefixedName == typeName)
+                    return edgeType;
             }
 
             return null;
@@ -91,7 +97,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
             {
-                if(attrType.PackagePrefixedName == typeName) return attrType;
+                if(attrType.PackagePrefixedName == typeName)
+                    return attrType;
             }
 
             return null;
@@ -99,9 +106,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public static Type GetType(String typeName, IGraphModel model)
         {
-            if (typeName == null) return null;
+            if(typeName == null)
+                return null;
 
-            switch (typeName)
+            switch(typeName)
             {
                 case "boolean": return typeof(bool);
                 case "byte": return typeof(sbyte);
@@ -115,12 +123,13 @@ namespace de.unika.ipd.grGen.libGr
                 case "graph": return typeof(IGraph);
             }
 
-            if (model == null) return null;
+            if(model == null)
+                return null;
 
             // No standard type, so check enums
-            foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
-                if (enumAttrType.PackagePrefixedName == typeName)
+                if(enumAttrType.PackagePrefixedName == typeName)
                     return enumAttrType.EnumType;
             }
 
@@ -129,10 +138,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public static String DotNetTypeToXgrsType(GrGenType type)
         {
-            if (type is VarType)
+            if(type is VarType)
             {
                 Type typeOfVar = ((VarType)type).Type;
-                if (typeOfVar.IsGenericType)
+                if(typeOfVar.IsGenericType)
                 {
                     if(typeOfVar.Name == "Dictionary`2")
                     {
@@ -170,7 +179,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private static String DotNetTypeToXgrsType(String typeName, String fullTypeName)
         {
-            switch (typeName)
+            switch(typeName)
             {
                 case "SByte": return "byte";
                 case "Int16": return "short";
@@ -277,32 +286,31 @@ namespace de.unika.ipd.grGen.libGr
             if(value == null)
                 return true;
 
-            if (value is SByte) {
+            if(value is SByte)
                 return (SByte)value == 0;
-            } else if (value is Int16) {
+            else if(value is Int16)
                 return (Int16)value == 0;
-            } else if (value is Int32) {
+            else if(value is Int32)
                 return (Int32)value == 0;
-            } else if (value is Int64) {
+            else if(value is Int64)
                 return (Int64)value == 0L;
-            } else if (value is Boolean) {
+            else if(value is Boolean)
                 return (Boolean)value == false;
-            } else if (value is Single) {
+            else if(value is Single)
                 return (Single)value == 0.0f;
-            } else if (value is Double) {
+            else if(value is Double)
                 return (Double)value == 0.0;
-            } else if (value is String) {
+            else if(value is String)
                 return (String)value == "";
-            } else if (value is Enum) {
+            else if(value is Enum)
                 return Convert.ToInt32((Enum)value) == 0;
-            }
 
             return false; // object or node/edge or container type that is not null
         }
 
         public static object DefaultValue(String typeName, IGraphModel model)
         {
-            switch (typeName)
+            switch(typeName)
             {
                 case "SByte": return 0;
                 case "Int16": return 0;
@@ -314,7 +322,7 @@ namespace de.unika.ipd.grGen.libGr
                 case "String": return "";
             }
 
-            switch (typeName)
+            switch(typeName)
             {
                 case "byte": return 0;
                 case "short": return 0;
@@ -327,13 +335,14 @@ namespace de.unika.ipd.grGen.libGr
                 case "object": return null;
             }
 
-            if(typeName == "boolean") return false;
+            if(typeName == "boolean")
+                return false;
 
             if(typeName.StartsWith("ENUM_"))
                 typeName = typeName.Substring(5);
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
-                if (enumAttrType.PackagePrefixedName == typeName)
+                if(enumAttrType.PackagePrefixedName == typeName)
                     return Enum.Parse(enumAttrType.EnumType, Enum.GetName(enumAttrType.EnumType, 0));
             }
 
@@ -342,7 +351,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public static String DefaultValueString(String typeName, IGraphModel model)
         {
-            switch (typeName)
+            switch(typeName)
             {
                 case "SByte": return "0";
                 case "Int16": return "0";
@@ -354,7 +363,7 @@ namespace de.unika.ipd.grGen.libGr
                 case "String": return "\"\"";
             }
 
-            switch (typeName)
+            switch(typeName)
             {
                 case "byte": return "0";
                 case "short": return "0";
@@ -367,7 +376,8 @@ namespace de.unika.ipd.grGen.libGr
                 case "object": return "null";
             }
 
-            if(typeName == "boolean") return "false";
+            if(typeName == "boolean")
+                return "false";
 
             if(typeName.StartsWith("GRGEN_MODEL."))
                 typeName = typeName.Substring(12);
@@ -430,14 +440,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public static String ExtractSrc(String genericType)
         {
-            if (genericType == null) return null;
-            if (genericType.StartsWith("set<")) // set<srcType>
+            if(genericType == null) return null;
+            if(genericType.StartsWith("set<")) // set<srcType>
             {
                 genericType = genericType.Substring(4);
                 genericType = genericType.Remove(genericType.Length - 1);
                 return genericType;
             }
-            else if (genericType.StartsWith("map<")) // map<srcType,dstType>
+            else if(genericType.StartsWith("map<")) // map<srcType,dstType>
             {
                 genericType = genericType.Substring(4);
                 genericType = genericType.Remove(genericType.IndexOf(","));
@@ -466,25 +476,20 @@ namespace de.unika.ipd.grGen.libGr
 
         public static String ExtractDst(String genericType)
         {
-            if (genericType == null) return null;
-            if (genericType.StartsWith("set<")) // set<srcType>
-            {
+            if(genericType == null)
+                return null;
+            if(genericType.StartsWith("set<")) // set<srcType>
                 return "SetValueType";
-            }
-            else if (genericType.StartsWith("map<")) // map<srcType,dstType>
+            else if(genericType.StartsWith("map<")) // map<srcType,dstType>
             {
                 genericType = genericType.Substring(genericType.IndexOf(",") + 1);
                 genericType = genericType.Remove(genericType.Length - 1);
                 return genericType;
             }
-            else if (genericType.StartsWith("array<")) // array<srcType>
-            {
+            else if(genericType.StartsWith("array<")) // array<srcType>
                 return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
-            }
-            else if (genericType.StartsWith("deque<")) // deque<srcType>
-            {
+            else if(genericType.StartsWith("deque<")) // deque<srcType>
                 return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
-            }
             return null;
         }
 
@@ -542,7 +547,7 @@ namespace de.unika.ipd.grGen.libGr
 
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
-                if (enumAttrType.PackagePrefixedName == type)
+                if(enumAttrType.PackagePrefixedName == type)
                     return "GRGEN_MODEL." + (enumAttrType.Package!=null ? enumAttrType.Package+"." : "") + "ENUM_" + enumAttrType.Name;
             }
 
@@ -581,40 +586,45 @@ namespace de.unika.ipd.grGen.libGr
 
             if(xgrsTypeSameOrSub.StartsWith("set<"))
             {
-                if(!xgrsTypeBase.StartsWith("set<")) return false;
+                if(!xgrsTypeBase.StartsWith("set<"))
+                    return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
             else if(xgrsTypeSameOrSub.StartsWith("map<"))
             {
-                if(!xgrsTypeBase.StartsWith("map<")) return false;
+                if(!xgrsTypeBase.StartsWith("map<"))
+                    return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase) && ExtractDst(xgrsTypeSameOrSub) == ExtractDst(xgrsTypeBase);
             }
             else if(xgrsTypeSameOrSub.StartsWith("array<"))
             {
-                if(!xgrsTypeBase.StartsWith("array<")) return false;
+                if(!xgrsTypeBase.StartsWith("array<"))
+                    return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
             else if(xgrsTypeSameOrSub.StartsWith("deque<"))
             {
-                if(!xgrsTypeBase.StartsWith("deque<")) return false;
+                if(!xgrsTypeBase.StartsWith("deque<"))
+                    return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
-
             else if(xgrsTypeSameOrSub.StartsWith("match<"))
             {
-                if(!xgrsTypeBase.StartsWith("match<")) return false;
+                if(!xgrsTypeBase.StartsWith("match<"))
+                    return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
-
-            else if(xgrsTypeSameOrSub == "short" || xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "long" 
+            else if(xgrsTypeSameOrSub == "short" || xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "long"
                 || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double"
                 || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "object"
                 || xgrsTypeSameOrSub == "graph")
-                return xgrsTypeSameOrSub==xgrsTypeBase;
-            else if (xgrsTypeSameOrSub == "byte" || xgrsTypeSameOrSub == "sbyte")
+            {
+                return xgrsTypeSameOrSub == xgrsTypeBase;
+            }
+            else if(xgrsTypeSameOrSub == "byte" || xgrsTypeSameOrSub == "sbyte")
                 return xgrsTypeBase == "byte" || xgrsTypeBase == "sbyte";
-            else if (xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean")
-                return xgrsTypeBase=="bool" || xgrsTypeBase=="boolean";
+            else if(xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean")
+                return xgrsTypeBase == "bool" || xgrsTypeBase == "boolean";
 
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
@@ -629,9 +639,7 @@ namespace de.unika.ipd.grGen.libGr
                     foreach(NodeType rightNodeType in model.NodeModel.Types)
                     {
                         if(rightNodeType.PackagePrefixedName == xgrsTypeBase)
-                        {
                             return leftNodeType.IsA(rightNodeType);
-                        }
                     }
                 }
             }
@@ -643,9 +651,7 @@ namespace de.unika.ipd.grGen.libGr
                     foreach(EdgeType rightEdgeType in model.EdgeModel.Types)
                     {
                         if(rightEdgeType.PackagePrefixedName == xgrsTypeBase)
-                        {
                             return leftEdgeType.IsA(rightEdgeType);
-                        }
                     }
                 }
             }
@@ -657,9 +663,7 @@ namespace de.unika.ipd.grGen.libGr
                     foreach(ExternalType rightExternalType in model.ExternalTypes)
                     {
                         if(rightExternalType.Name == xgrsTypeBase)
-                        {
                             return leftExternalType.IsA(rightExternalType);
-                        }
                     }
                 }
             }

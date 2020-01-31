@@ -103,10 +103,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public bool IsEmpty
         {
-            get
-            {
-                return begin == end;
-            }
+            get { return begin == end; }
         }
 
         public void Clear()
@@ -115,15 +112,21 @@ namespace de.unika.ipd.grGen.libGr
 
             if(begin <= end)
             {
-                for(int i = begin; i < end; ++i) 
+                for(int i = begin; i < end; ++i)
+                {
                     buffer[i] = default(T);
+                }
             }
             else
             {
-                for(int i = begin; i < buffer.Length; ++i) 
+                for(int i = begin; i < buffer.Length; ++i)
+                {
                     buffer[i] = default(T);
+                }
                 for(int i = 0; i < end; ++i)
+                {
                     buffer[i] = default(T);
+                }
             }
 
             begin = 0;
@@ -201,9 +204,7 @@ namespace de.unika.ipd.grGen.libGr
             int pos = begin + index;
 
             if(pos < length)
-            {
                 Array.Copy(buffer, begin + 1, buffer, begin, pos - begin);
-            }
             else
             {
                 pos -= length;
@@ -441,15 +442,8 @@ namespace de.unika.ipd.grGen.libGr
 
         object IDeque.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
-
-            set
-            {
-                this[index] = (T)value;
-            }
+            get { return this[index]; }
+            set { this[index] = (T)value; }
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -498,9 +492,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new ArgumentException("array too small");
 
             if(begin <= end)
-            {
                 Array.Copy(buffer, begin, array, index, end - begin);
-            }
             else
             {
                 Array.Copy(buffer, begin, array, index, buffer.Length - 1 - begin);
@@ -523,17 +515,23 @@ namespace de.unika.ipd.grGen.libGr
             if(begin <= end)
             {
                 for(int pos = begin; pos < end; ++pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos - begin;
+                }
             }
             else
             {
                 for(int pos = begin; pos < buffer.Length; ++pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos - begin;
+                }
                 for(int pos = 0; pos < end; ++pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos + buffer.Length - begin;
+                }
             }
 
             return -1;
@@ -552,17 +550,23 @@ namespace de.unika.ipd.grGen.libGr
             if(begin <= end)
             {
                 for(int pos = begin + startIndex; pos < end; ++pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos - begin;
+                }
             }
             else
             {
                 for(int pos = begin + startIndex; pos < buffer.Length; ++pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos - begin;
+                }
                 for(int pos = startIndex > buffer.Length - begin ? startIndex - (buffer.Length - begin) : 0; pos < end; ++pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos + buffer.Length - begin;
+                }
             }
 
             return -1;
@@ -578,17 +582,23 @@ namespace de.unika.ipd.grGen.libGr
             if(begin <= end)
             {
                 for(int pos = end - 1; pos >= begin; --pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos - begin;
+                }
             }
             else
             {
                 for(int pos = end - 1; pos >= 0; --pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos + buffer.Length - begin;
+                }
                 for(int pos = buffer.Length - 1; pos >= begin; --pos)
+                {
                     if(EqualityComparer<T>.Default.Equals(buffer[pos], item))
                         return pos - begin;
+                }
             }
 
             return -1;

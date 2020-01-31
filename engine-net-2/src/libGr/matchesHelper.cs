@@ -91,50 +91,54 @@ namespace de.unika.ipd.grGen.libGr
     {
         public static void Check(IMatch match)
         {
-            for (int i=0; i < match.NumberOfNodes; ++i)
+            for(int i=0; i < match.NumberOfNodes; ++i)
             {
                 if(match.Pattern.Nodes[i].Annotations.ContainsAnnotation("validityCheck"))
+                {
                     if(match.Pattern.Nodes[i].Annotations["validityCheck"].Equals("false"))
                         continue;
+                }
 
                 INode node = match.getNodeAt(i);
-                if (!node.Valid)
+                if(!node.Valid)
                     throw new Exception(GetExceptionMessage("node", match.Pattern.Nodes[i].Name));
             }
 
-            for (int i=0; i < match.NumberOfEdges; ++i)
+            for(int i=0; i < match.NumberOfEdges; ++i)
             {
                 if(match.Pattern.Edges[i].Annotations.ContainsAnnotation("validityCheck"))
+                {
                     if(match.Pattern.Edges[i].Annotations["validityCheck"].Equals("false"))
                         continue;
+                }
 
                 IEdge edge = match.getEdgeAt(i);
-                if (!edge.Valid && edge.Source.Valid && edge.Target.Valid) // an edge that is referenced by not in the graph anymore because its node was deleted is not causing an exception (SPO-like)
+                if(!edge.Valid && edge.Source.Valid && edge.Target.Valid) // an edge that is referenced by not in the graph anymore because its node was deleted is not causing an exception (SPO-like)
                     throw new Exception(GetExceptionMessage("edge", match.Pattern.Edges[i].Name));
             }
 
-            for (int i=0; i < match.NumberOfIndependents; ++i)
+            for(int i=0; i < match.NumberOfIndependents; ++i)
             {
                 IMatch independent = match.getIndependentAt(i);
                 Check(independent);
             }
 
-            for (int i=0; i < match.NumberOfAlternatives; ++i)
+            for(int i=0; i < match.NumberOfAlternatives; ++i)
             {
                 IMatch alternativeCase = match.getAlternativeAt(i);
                 Check(alternativeCase);
             }
 
-            for (int i=0; i < match.NumberOfIterateds; ++i)
+            for(int i=0; i < match.NumberOfIterateds; ++i)
             {
                 IMatches iterated = match.getIteratedAt(i);
-                foreach (IMatch iteratedMatch in iterated)
+                foreach(IMatch iteratedMatch in iterated)
                 {
                     Check(iteratedMatch);
                 }
             }
 
-            for (int i=0; i < match.NumberOfEmbeddedGraphs; ++i)
+            for(int i=0; i < match.NumberOfEmbeddedGraphs; ++i)
             {
                 IMatch subpattern = match.getEmbeddedGraphAt(i);
                 Check(subpattern);

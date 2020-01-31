@@ -26,7 +26,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The casted input dictionary, or null if not a dictionary</returns>
         public static IDictionary GetDictionaryTypes(object dict, out Type keyType, out Type valueType)
         {
-            if (!(dict is IDictionary))
+            if(!(dict is IDictionary))
             {
                 keyType = null;
                 valueType = null;
@@ -127,9 +127,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The type object corresponding to the given string, null if type was not found</returns>
         public static Type GetTypeFromNameForContainer(String typeName, IGraphModel model)
         {
-            if(typeName == null) return null;
+            if(typeName == null)
+                return null;
 
-            switch (typeName)
+            switch(typeName)
             {
                 case "boolean": return typeof(bool);
                 case "byte": return typeof(sbyte);
@@ -143,34 +144,37 @@ namespace de.unika.ipd.grGen.libGr
                 case "graph": return typeof(IGraph);
             }
 
-            if (model == null) return null;
+            if(model == null)
+                return null;
 
             // No standard type, so check enums
-            foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
-                if (enumAttrType.PackagePrefixedName == typeName)
+                if(enumAttrType.PackagePrefixedName == typeName)
                     return enumAttrType.EnumType;
             }
 
             Assembly assembly = Assembly.GetAssembly(model.GetType());
 
             // check node and edge types
-            foreach (NodeType nodeType in model.NodeModel.Types)
+            foreach(NodeType nodeType in model.NodeModel.Types)
             {
-                if (nodeType.PackagePrefixedName == typeName)
+                if(nodeType.PackagePrefixedName == typeName)
                 {
                     Type type = Type.GetType(nodeType.NodeInterfaceName); // available in libGr (INode)?
-                    if (type != null) return type;
+                    if(type != null)
+                        return type;
                     type = Type.GetType(nodeType.NodeInterfaceName + "," + assembly.FullName); // no -> search model assembly
                     return type;
                 }
             }
-            foreach (EdgeType edgeType in model.EdgeModel.Types)
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
-                if (edgeType.PackagePrefixedName == typeName)
+                if(edgeType.PackagePrefixedName == typeName)
                 {
                     Type type = Type.GetType(edgeType.EdgeInterfaceName); // available in libGr (IEdge)?
-                    if (type != null) return type;
+                    if(type != null)
+                        return type;
                     type = Type.GetType(edgeType.EdgeInterfaceName + "," + assembly.FullName); // no -> search model assembly
                     return type;
                 }
@@ -192,7 +196,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public static Dictionary<K, V> FillMap<K, V>(Dictionary<K, V> mapToCopyTo, string keyTypeName, string valueTypeName, object hopefullyMapToCopy, IGraphModel model)
         {
-            if (hopefullyMapToCopy is IDictionary)
+            if(hopefullyMapToCopy is IDictionary)
                 return FillMap(mapToCopyTo, keyTypeName, valueTypeName, (IDictionary)hopefullyMapToCopy, model);
             throw new Exception("Map copy constructor expects map as source.");
         }
@@ -200,17 +204,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<K, V> FillMap<K, V>(Dictionary<K, V> mapToCopyTo, string keyTypeName, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(keyTypeName, model);
-            if (nodeType != null)
-            {
+            if(nodeType != null)
                 FillMapWithKeyNode(mapToCopyTo, nodeType, valueTypeName, mapToCopy, model);
-            }
             else
             {
                 EdgeType edgeType = TypesHelper.GetEdgeType(keyTypeName, model);
-                if (edgeType != null)
-                {
+                if(edgeType != null)
                     FillMapWithKeyEdge(mapToCopyTo, edgeType, valueTypeName, mapToCopy, model);
-                }
                 else
                 {
                     Type varType = TypesHelper.GetType(keyTypeName, model);
@@ -223,17 +223,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<K, V> FillMapWithKeyNode<K, V>(Dictionary<K, V> mapToCopyTo, NodeType keyNodeType, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
-            if (nodeType != null)
-            {
+            if(nodeType != null)
                 FillMapWithKeyNodeValueNode(mapToCopyTo, keyNodeType, nodeType, mapToCopy);
-            }
             else
             {
                 EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
-                if (edgeType != null)
-                {
+                if(edgeType != null)
                     FillMapWithKeyNodeValueEdge(mapToCopyTo, keyNodeType, edgeType, mapToCopy);
-                }
                 else
                 {
                     Type valueType = TypesHelper.GetType(valueTypeName, model);
@@ -246,17 +242,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<K, V> FillMapWithKeyEdge<K, V>(Dictionary<K, V> mapToCopyTo, EdgeType keyEdgeType, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
-            if (nodeType != null)
-            {
+            if(nodeType != null)
                 FillMapWithKeyEdgeValueNode(mapToCopyTo, keyEdgeType, nodeType, mapToCopy);
-            }
             else
             {
                 EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
-                if (edgeType != null)
-                {
+                if(edgeType != null)
                     FillMapWithKeyEdgeValueEdge(mapToCopyTo, keyEdgeType, edgeType, mapToCopy);
-                }
                 else
                 {
                     Type valueType = TypesHelper.GetType(valueTypeName, model);
@@ -269,17 +261,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<K, V> FillMapWithKeyVar<K, V>(Dictionary<K, V> mapToCopyTo, Type keyVarType, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
-            if (nodeType != null)
-            {
+            if(nodeType != null)
                 FillMapWithKeyVarValueNode(mapToCopyTo, keyVarType, nodeType, mapToCopy);
-            }
             else
             {
                 EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
-                if (edgeType != null)
-                {
+                if(edgeType != null)
                     FillMapWithKeyVarValueEdge(mapToCopyTo, keyVarType, edgeType, mapToCopy);
-                }
                 else
                 {
                     Type valueType = TypesHelper.GetType(valueTypeName, model);
@@ -291,17 +279,17 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyNodeValueNode<K, V>(Dictionary<K, V> targetMap, NodeType keyNodeType, NodeType valueNodeType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
                 INode keyNode = entry.Key as INode;
-                if (keyNode == null)
+                if(keyNode == null)
                     continue;
-                if (!keyNode.InstanceOf(keyNodeType))
+                if(!keyNode.InstanceOf(keyNodeType))
                     continue;
                 INode valueNode = entry.Value as INode;
-                if (valueNode == null)
+                if(valueNode == null)
                     continue;
-                if (!valueNode.InstanceOf(valueNodeType))
+                if(!valueNode.InstanceOf(valueNodeType))
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -309,17 +297,17 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyNodeValueEdge<K, V>(Dictionary<K, V> targetMap, NodeType keyNodeType, EdgeType valueEdgeType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
                 INode keyNode = entry.Key as INode;
-                if (keyNode == null)
+                if(keyNode == null)
                     continue;
-                if (!keyNode.InstanceOf(keyNodeType))
+                if(!keyNode.InstanceOf(keyNodeType))
                     continue;
                 IEdge valueEdge = entry.Value as IEdge;
-                if (valueEdge == null)
+                if(valueEdge == null)
                     continue;
-                if (!valueEdge.InstanceOf(valueEdgeType))
+                if(!valueEdge.InstanceOf(valueEdgeType))
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -327,14 +315,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyNodeValueVar<K, V>(Dictionary<K, V> targetMap, NodeType keyNodeType, Type valueVarType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
                 INode keyNode = entry.Key as INode;
-                if (keyNode == null)
+                if(keyNode == null)
                     continue;
-                if (!keyNode.InstanceOf(keyNodeType))
+                if(!keyNode.InstanceOf(keyNodeType))
                     continue;
-                if (entry.Value.GetType() != valueVarType)
+                if(entry.Value.GetType() != valueVarType)
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -342,17 +330,17 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyEdgeValueNode<K, V>(Dictionary<K, V> targetMap, EdgeType keyEdgeType, NodeType valueNodeType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
                 IEdge keyEdge = entry.Key as IEdge;
-                if (keyEdge == null)
+                if(keyEdge == null)
                     continue;
-                if (!keyEdge.InstanceOf(keyEdgeType))
+                if(!keyEdge.InstanceOf(keyEdgeType))
                     continue;
                 INode valueNode = entry.Value as INode;
-                if (valueNode == null)
+                if(valueNode == null)
                     continue;
-                if (!valueNode.InstanceOf(valueNodeType))
+                if(!valueNode.InstanceOf(valueNodeType))
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -360,17 +348,17 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyEdgeValueEdge<K, V>(Dictionary<K, V> targetMap, EdgeType keyEdgeType, EdgeType valueEdgeType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
                 IEdge keyEdge = entry.Key as IEdge;
-                if (keyEdge == null)
+                if(keyEdge == null)
                     continue;
-                if (!keyEdge.InstanceOf(keyEdgeType))
+                if(!keyEdge.InstanceOf(keyEdgeType))
                     continue;
                 IEdge valueEdge = entry.Value as IEdge;
-                if (valueEdge == null)
+                if(valueEdge == null)
                     continue;
-                if (!valueEdge.InstanceOf(valueEdgeType))
+                if(!valueEdge.InstanceOf(valueEdgeType))
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -378,14 +366,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyEdgeValueVar<K, V>(Dictionary<K, V> targetMap, EdgeType keyEdgeType, Type valueVarType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
                 IEdge keyEdge = entry.Key as IEdge;
-                if (keyEdge == null)
+                if(keyEdge == null)
                     continue;
-                if (!keyEdge.InstanceOf(keyEdgeType))
+                if(!keyEdge.InstanceOf(keyEdgeType))
                     continue;
-                if (entry.Value.GetType() != valueVarType)
+                if(entry.Value.GetType() != valueVarType)
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -393,14 +381,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyVarValueNode<K, V>(Dictionary<K, V> targetMap, Type keyVarType, NodeType valueNodeType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
-                if (entry.Key.GetType() != keyVarType)
+                if(entry.Key.GetType() != keyVarType)
                     continue;
                 INode valueNode = entry.Value as INode;
-                if (valueNode == null)
+                if(valueNode == null)
                     continue;
-                if (!valueNode.InstanceOf(valueNodeType))
+                if(!valueNode.InstanceOf(valueNodeType))
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -408,14 +396,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyVarValueEdge<K, V>(Dictionary<K, V> targetMap, Type keyVarType, EdgeType valueEdgeType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
-                if (entry.Key.GetType() != keyVarType)
+                if(entry.Key.GetType() != keyVarType)
                     continue;
                 IEdge valueEdge = entry.Value as IEdge;
-                if (valueEdge == null)
+                if(valueEdge == null)
                     continue;
-                if (!valueEdge.InstanceOf(valueEdgeType))
+                if(!valueEdge.InstanceOf(valueEdgeType))
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -423,11 +411,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillMapWithKeyVarValueVar<K, V>(Dictionary<K, V> targetMap, Type keyVarType, Type valueVarType, IDictionary sourceMap)
         {
-            foreach (DictionaryEntry entry in sourceMap)
+            foreach(DictionaryEntry entry in sourceMap)
             {
-                if (entry.Key.GetType() != keyVarType)
+                if(entry.Key.GetType() != keyVarType)
                     continue;
-                if (entry.Value.GetType() != valueVarType)
+                if(entry.Value.GetType() != valueVarType)
                     continue;
                 targetMap.Add((K)entry.Key, (V)entry.Value);
             }
@@ -435,7 +423,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public static Dictionary<K, SetValueType> FillSet<K>(Dictionary<K, SetValueType> setToCopyTo, string valueTypeName, object hopefullySetToCopy, IGraphModel model)
         {
-            if (hopefullySetToCopy is IDictionary)
+            if(hopefullySetToCopy is IDictionary)
                 return FillSet(setToCopyTo, valueTypeName, (IDictionary)hopefullySetToCopy, model);
             throw new Exception("Set copy constructor expects set as source.");
         }
@@ -443,17 +431,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<K, SetValueType> FillSet<K>(Dictionary<K, SetValueType> setToCopyTo, string valueTypeName, IDictionary setToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
-            if (nodeType != null)
-            {
+            if(nodeType != null)
                 FillSetWithNode(setToCopyTo, nodeType, setToCopy);
-            }
             else
             {
                 EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
-                if (edgeType != null)
-                {
+                if(edgeType != null)
                     FillSetWithEdge(setToCopyTo, edgeType, setToCopy);
-                }
                 else
                 {
                     Type varType = TypesHelper.GetType(valueTypeName, model);
@@ -465,40 +449,40 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillSetWithNode<K>(Dictionary<K, SetValueType> targetSet, NodeType nodeType, IDictionary sourceSet)
         {
-            foreach (DictionaryEntry entry in sourceSet)
+            foreach(DictionaryEntry entry in sourceSet)
             {
                 INode node = entry.Key as INode;
-                if (node == null)
+                if(node == null)
                     continue;
-                if (node.InstanceOf(nodeType))
+                if(node.InstanceOf(nodeType))
                     targetSet.Add((K)entry.Key, (SetValueType)entry.Value);
             }
         }
 
         public static void FillSetWithEdge<K>(Dictionary<K, SetValueType> targetSet, EdgeType edgeType, IDictionary sourceSet)
         {
-            foreach (DictionaryEntry entry in sourceSet)
+            foreach(DictionaryEntry entry in sourceSet)
             {
                 IEdge edge = entry.Key as IEdge;
-                if (edge == null)
+                if(edge == null)
                     continue;
-                if (edge.InstanceOf(edgeType))
+                if(edge.InstanceOf(edgeType))
                     targetSet.Add((K)entry.Key, (SetValueType)entry.Value);
             }
         }
 
         public static void FillSetWithVar<K>(Dictionary<K, SetValueType> targetSet, Type varType, IDictionary sourceSet)
         {
-            foreach (DictionaryEntry entry in sourceSet)
+            foreach(DictionaryEntry entry in sourceSet)
             {
-                if (entry.Key.GetType() == varType)
+                if(entry.Key.GetType() == varType)
                     targetSet.Add((K)entry.Key, (SetValueType)entry.Value);
             }
         }
 
         public static List<K> FillArray<K>(List<K> arrayToCopyTo, string valueTypeName, object hopefullyArrayToCopy, IGraphModel model)
         {
-            if (hopefullyArrayToCopy is IList)
+            if(hopefullyArrayToCopy is IList)
                 return FillArray(arrayToCopyTo, valueTypeName, (IList)hopefullyArrayToCopy, model);
             throw new Exception("Array copy constructor expects array as source.");
         }
@@ -506,17 +490,13 @@ namespace de.unika.ipd.grGen.libGr
         public static List<K> FillArray<K>(List<K> arrayToCopyTo, string valueTypeName, IList arrayToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
-            if (nodeType != null)
-            {
+            if(nodeType != null)
                 FillArrayWithNode(arrayToCopyTo, nodeType, arrayToCopy);
-            }
             else
             {
                 EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
-                if (edgeType != null)
-                {
+                if(edgeType != null)
                     FillArrayWithEdge(arrayToCopyTo, edgeType, arrayToCopy);
-                }
                 else
                 {
                     Type varType = TypesHelper.GetType(valueTypeName, model);
@@ -528,40 +508,40 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillArrayWithNode<K>(List<K> targetArray, NodeType nodeType, IList sourceArray)
         {
-            foreach (object entry in sourceArray)
+            foreach(object entry in sourceArray)
             {
                 INode node = entry as INode;
-                if (node == null)
+                if(node == null)
                     continue;
-                if (node.InstanceOf(nodeType))
+                if(node.InstanceOf(nodeType))
                     targetArray.Add((K)entry);
             }
         }
 
         public static void FillArrayWithEdge<K>(List<K> targetArray, EdgeType edgeType, IList sourceArray)
         {
-            foreach (object entry in sourceArray)
+            foreach(object entry in sourceArray)
             {
                 IEdge edge = entry as IEdge;
-                if (edge == null)
+                if(edge == null)
                     continue;
-                if (edge.InstanceOf(edgeType))
+                if(edge.InstanceOf(edgeType))
                     targetArray.Add((K)entry);
             }
         }
 
         public static void FillArrayWithVar<K>(List<K> targetArray, Type varType, IList sourceArray)
         {
-            foreach (object entry in sourceArray)
+            foreach(object entry in sourceArray)
             {
-                if (entry.GetType() == varType)
+                if(entry.GetType() == varType)
                     targetArray.Add((K)entry);
             }
         }
 
         public static Deque<K> FillDeque<K>(Deque<K> dequeToCopyTo, string valueTypeName, object hopefullyDequeToCopy, IGraphModel model)
         {
-            if (hopefullyDequeToCopy is IDeque)
+            if(hopefullyDequeToCopy is IDeque)
                 return FillDeque(dequeToCopyTo, valueTypeName, (IDeque)hopefullyDequeToCopy, model);
             throw new Exception("Deque copy constructor expects deque as source.");
         }
@@ -569,17 +549,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Deque<K> FillDeque<K>(Deque<K> dequeToCopyTo, string valueTypeName, IDeque dequeToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
-            if (nodeType != null)
-            {
+            if(nodeType != null)
                 FillDequeWithNode(dequeToCopyTo, nodeType, dequeToCopy);
-            }
             else
             {
                 EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
-                if (edgeType != null)
-                {
+                if(edgeType != null)
                     FillDequeWithEdge(dequeToCopyTo, edgeType, dequeToCopy);
-                }
                 else
                 {
                     Type varType = TypesHelper.GetType(valueTypeName, model);
@@ -591,40 +567,40 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillDequeWithNode<K>(Deque<K> targetDeque, NodeType nodeType, IDeque sourceDeque)
         {
-            foreach (object entry in sourceDeque)
+            foreach(object entry in sourceDeque)
             {
                 INode node = entry as INode;
-                if (node == null)
+                if(node == null)
                     continue;
-                if (node.InstanceOf(nodeType))
+                if(node.InstanceOf(nodeType))
                     targetDeque.Add((K)entry);
             }
         }
 
         public static void FillDequeWithEdge<K>(Deque<K> targetDeque, EdgeType edgeType, IDeque sourceDeque)
         {
-            foreach (object entry in sourceDeque)
+            foreach(object entry in sourceDeque)
             {
                 IEdge edge = entry as IEdge;
-                if (edge == null)
+                if(edge == null)
                     continue;
-                if (edge.InstanceOf(edgeType))
+                if(edge.InstanceOf(edgeType))
                     targetDeque.Add((K)entry);
             }
         }
 
         public static void FillDequeWithVar<K>(Deque<K> targetDeque, Type varType, IDeque sourceDeque)
         {
-            foreach (object entry in sourceDeque)
+            foreach(object entry in sourceDeque)
             {
-                if (entry.GetType() == varType)
+                if(entry.GetType() == varType)
                     targetDeque.Add((K)entry);
             }
         }
 
         public static IDictionary FillSet(IDictionary setToCopyTo, string valueTypeName, object hopefullySetToCopy, IGraphModel model)
         {
-            if (hopefullySetToCopy is IDictionary)
+            if(hopefullySetToCopy is IDictionary)
                 return FillSet(setToCopyTo, valueTypeName, (IDictionary)hopefullySetToCopy, model);
             throw new Exception("Set copy constructor expects set as source.");
         }
@@ -632,17 +608,13 @@ namespace de.unika.ipd.grGen.libGr
         public static IDictionary FillSet(IDictionary setToCopyTo, string valueTypeName, IDictionary setToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
-            if (nodeType != null)
-            {
+            if(nodeType != null)
                 FillSetWithNode(setToCopyTo, nodeType, setToCopy);
-            }
             else
             {
                 EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
-                if (edgeType != null)
-                {
+                if(edgeType != null)
                     FillSetWithEdge(setToCopyTo, edgeType, setToCopy);
-                }
                 else
                 {
                     Type varType = TypesHelper.GetType(valueTypeName, model);
@@ -654,33 +626,33 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void FillSetWithNode(IDictionary targetSet, NodeType nodeType, IDictionary sourceSet)
         {
-            foreach (DictionaryEntry entry in sourceSet)
+            foreach(DictionaryEntry entry in sourceSet)
             {
                 INode node = entry.Key as INode;
-                if (node == null)
+                if(node == null)
                     continue;
-                if (node.InstanceOf(nodeType))
+                if(node.InstanceOf(nodeType))
                     targetSet.Add(entry.Key, entry.Value);
             }
         }
 
         public static void FillSetWithEdge(IDictionary targetSet, EdgeType edgeType, IDictionary sourceSet)
         {
-            foreach (DictionaryEntry entry in sourceSet)
+            foreach(DictionaryEntry entry in sourceSet)
             {
                 IEdge edge = entry.Key as IEdge;
-                if (edge == null)
+                if(edge == null)
                     continue;
-                if (edge.InstanceOf(edgeType))
+                if(edge.InstanceOf(edgeType))
                     targetSet.Add(entry.Key, entry.Value);
             }
         }
 
         public static void FillSetWithVar(IDictionary targetSet, Type varType, IDictionary sourceSet)
         {
-            foreach (DictionaryEntry entry in sourceSet)
+            foreach(DictionaryEntry entry in sourceSet)
             {
-                if (entry.Key.GetType() == varType)
+                if(entry.Key.GetType() == varType)
                     targetSet.Add(entry.Key, entry.Value);
             }
         }
@@ -693,7 +665,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The newly created dictionary, null if unsuccessfull</returns>
         public static IDictionary NewDictionary(Type keyType, Type valueType)
         {
-            if (keyType == null || valueType == null) return null;
+            if(keyType == null || valueType == null)
+                return null;
 
             Type genDictType = typeof(Dictionary<,>);
             Type dictType = genDictType.MakeGenericType(keyType, valueType);
@@ -707,7 +680,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The newly created List, null if unsuccessfull</returns>
         public static IList NewList(Type valueType)
         {
-            if(valueType == null) return null;
+            if(valueType == null)
+                return null;
 
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);
@@ -721,7 +695,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The newly created Deque, null if unsuccessfull</returns>
         public static IDeque NewDeque(Type valueType)
         {
-            if(valueType == null) return null;
+            if(valueType == null)
+                return null;
 
             Type genDequeType = typeof(Deque<>);
             Type dequeType = genDequeType.MakeGenericType(valueType);
@@ -739,7 +714,8 @@ namespace de.unika.ipd.grGen.libGr
         /// null if unsuccessfull</returns>
         public static IDictionary NewDictionary(Type keyType, Type valueType, object oldDictionary)
         {
-            if (keyType == null || valueType == null || oldDictionary == null) return null;
+            if(keyType == null || valueType == null || oldDictionary == null)
+                return null;
 
             Type genDictType = typeof(Dictionary<,>);
             Type dictType = genDictType.MakeGenericType(keyType, valueType);
@@ -756,7 +732,8 @@ namespace de.unika.ipd.grGen.libGr
         /// null if unsuccessfull</returns>
         public static IList NewList(Type valueType, object oldList)
         {
-            if(valueType == null || oldList == null) return null;
+            if(valueType == null || oldList == null)
+                return null;
 
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);
@@ -773,7 +750,8 @@ namespace de.unika.ipd.grGen.libGr
         /// null if unsuccessfull</returns>
         public static IDeque NewDeque(Type valueType, object oldDeque)
         {
-            if(valueType == null || oldDeque == null) return null;
+            if(valueType == null || oldDeque == null)
+                return null;
 
             Type genDequeType = typeof(Deque<>);
             Type dequeType = genDequeType.MakeGenericType(valueType);
@@ -828,7 +806,9 @@ namespace de.unika.ipd.grGen.libGr
 
             // Add all elements from b, potentially overwriting those of a.
             foreach(KeyValuePair<K, V> entry in b)
+            {
                 newDict[entry.Key] = entry.Value;
+            }
 
             return newDict;
         }
@@ -851,15 +831,19 @@ namespace de.unika.ipd.grGen.libGr
             if(a.Count <= b.Count)
             {
                 foreach(KeyValuePair<K, V> entry in a)
+                {
                     if(b.ContainsKey(entry.Key))
                         newDict.Add(entry.Key, entry.Value);
+                }
             }
             else
             {
                 V value;
                 foreach(KeyValuePair<K, V> entry in b)
+                {
                     if(a.TryGetValue(entry.Key, out value))
                         newDict.Add(entry.Key, value);
+                }
             }
 
             return newDict;
@@ -880,7 +864,9 @@ namespace de.unika.ipd.grGen.libGr
 
             // Remove all elements contained in b.
             foreach(KeyValuePair<K, W> entry in b)
+            {
                 newDict.Remove(entry.Key);
+            }
 
             return newDict;
         }
@@ -923,12 +909,16 @@ namespace de.unika.ipd.grGen.libGr
             // First determine all elements from a not contained in b
             List<K> toBeRemoved = new List<K>(a.Count);
             foreach(KeyValuePair<K, V> entry in a)
+            {
                 if(!b.ContainsKey(entry.Key))
                     toBeRemoved.Add(entry.Key);
+            }
 
             // Then remove them
             foreach(K key in toBeRemoved)
+            {
                 a.Remove(key);
+            }
 
             return toBeRemoved.Count>0;
         }
@@ -945,7 +935,9 @@ namespace de.unika.ipd.grGen.libGr
 
             // Remove all elements from a contained in b.
             foreach(KeyValuePair<K, W> entry in b)
+            {
                 changed |= a.Remove(entry.Key);
+            }
 
             return changed;
         }
@@ -1090,8 +1082,10 @@ namespace de.unika.ipd.grGen.libGr
             // First determine all elements from a not contained in b
             List<K> toBeRemoved = new List<K>(a.Count);
             foreach(KeyValuePair<K, V> entry in a)
+            {
                 if(!b.ContainsKey(entry.Key))
                     toBeRemoved.Add(entry.Key);
+            }
 
             // Then remove them
             foreach(K key in toBeRemoved)
@@ -1120,8 +1114,10 @@ namespace de.unika.ipd.grGen.libGr
             // First determine all elements from a not contained in b
             List<K> toBeRemoved = new List<K>(a.Count);
             foreach(KeyValuePair<K, V> entry in a)
+            {
                 if(!b.ContainsKey(entry.Key))
                     toBeRemoved.Add(entry.Key);
+            }
 
             // Then remove them
             foreach(K key in toBeRemoved)
@@ -1150,8 +1146,10 @@ namespace de.unika.ipd.grGen.libGr
             // First determine all elements from a not contained in b
             List<K> toBeRemoved = new List<K>(a.Count);
             foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in a)
+            {
                 if(!b.ContainsKey(entry.Key))
                     toBeRemoved.Add(entry.Key);
+            }
 
             // Then remove them
             foreach(K key in toBeRemoved)
@@ -1180,8 +1178,10 @@ namespace de.unika.ipd.grGen.libGr
             // First determine all elements from a not contained in b
             List<K> toBeRemoved = new List<K>(a.Count);
             foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in a)
+            {
                 if(!b.ContainsKey(entry.Key))
                     toBeRemoved.Add(entry.Key);
+            }
 
             // Then remove them
             foreach(K key in toBeRemoved)
@@ -1335,8 +1335,10 @@ namespace de.unika.ipd.grGen.libGr
         public static int IndexOf(IList a, object entry, int startIndex)
         {
             for(int i = startIndex; i < a.Count; ++i)
+            {
                 if(a[i].Equals(entry))
                     return i;
+            }
 
             return -1;
         }
@@ -1538,7 +1540,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 List<string> result = new List<string>();
                 for(int i = 0; i < input.Length; ++i)
+                {
                     result.Add(new string(input[i], 1));
+                }
                 return result;
             }
 
@@ -1839,7 +1843,7 @@ namespace de.unika.ipd.grGen.libGr
                 new Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType>();
 
             // Add all keys of dictionary representing map to new dictionary representing set
-            foreach (K key in map.Keys)
+            foreach(K key in map.Keys)
             {
                 newDict[key] = null;
             }
@@ -1859,7 +1863,7 @@ namespace de.unika.ipd.grGen.libGr
                 new Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType>();
 
             // Add all values of dictionary representing map to new dictionary representing set
-            foreach (V value in map.Values)
+            foreach(V value in map.Values)
             {
                 newDict[value] = null;
             }
@@ -1905,7 +1909,8 @@ namespace de.unika.ipd.grGen.libGr
         public static K Peek<K, V>(Dictionary<K, V> dict, int num)
         {
             Dictionary<K,V>.Enumerator it = dict.GetEnumerator();
-            if(num >= 0) it.MoveNext();
+            if(num >= 0)
+                it.MoveNext();
             for(int i = 0; i < num; ++i)
             {
                 it.MoveNext();
@@ -1926,7 +1931,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 IDictionary dict = (IDictionary)obj;
                 IDictionaryEnumerator it = dict.GetEnumerator();
-                if(num >= 0) it.MoveNext();
+                if(num >= 0)
+                    it.MoveNext();
                 for(int i = 0; i < num; ++i)
                 {
                     it.MoveNext();
@@ -1944,7 +1950,8 @@ namespace de.unika.ipd.grGen.libGr
                 if(num == 0)
                     return deque.Front;
                 IEnumerator it = deque.GetEnumerator();
-                if(num >= 0) it.MoveNext();
+                if(num >= 0)
+                    it.MoveNext();
                 for(int i = 0; i < num; ++i)
                 {
                     it.MoveNext();
@@ -1987,9 +1994,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool Equal<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            if(a.Count!=b.Count) return false;
-            if(LessOrEqual(a, b) && LessOrEqual(b, a)) return true;
-            else return false;
+            if(a.Count!=b.Count)
+                return false;
+            if(LessOrEqual(a, b) && LessOrEqual(b, a))
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -2001,9 +2011,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool EqualIDictionary(IDictionary a, IDictionary b)
         {
-            if(a.Count != b.Count) return false;
-            if(LessOrEqualIDictionary(a, b) && LessOrEqualIDictionary(b, a)) return true;
-            else return false;
+            if(a.Count != b.Count)
+                return false;
+            if(LessOrEqualIDictionary(a, b) && LessOrEqualIDictionary(b, a))
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -2015,16 +2028,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool NotEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            if(a.Count!=b.Count) return true;
-            if(LessOrEqual(a, b) && LessOrEqual(b, a)) return false;
-            else return true;
+            if(a.Count!=b.Count)
+                return true;
+            if(LessOrEqual(a, b) && LessOrEqual(b, a))
+                return false;
+            else
+                return true;
         }
 
         public static bool NotEqualIDictionary(IDictionary a, IDictionary b)
         {
-            if(a.Count != b.Count) return true;
-            if(LessOrEqualIDictionary(a, b) && LessOrEqualIDictionary(b, a)) return false;
-            else return true;
+            if(a.Count != b.Count)
+                return true;
+            if(LessOrEqualIDictionary(a, b) && LessOrEqualIDictionary(b, a))
+                return false;
+            else
+                return true;
         }
 
         /// <summary>
@@ -2036,14 +2055,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool GreaterThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            if(GreaterOrEqual(a, b)) return b.Count!=a.Count;
-            else return false;
+            if(GreaterOrEqual(a, b))
+                return b.Count!=a.Count;
+            else
+                return false;
         }
 
         public static bool GreaterThanIDictionary(IDictionary a, IDictionary b)
         {
-            if(GreaterOrEqualIDictionary(a, b)) return b.Count != a.Count;
-            else return false;
+            if(GreaterOrEqualIDictionary(a, b))
+                return b.Count != a.Count;
+            else
+                return false;
         }
 
         /// <summary>
@@ -2072,14 +2095,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of set/map comparison.</returns>
         public static bool LessThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            if(LessOrEqual(a, b)) return a.Count!=b.Count;
-            else return false;
+            if(LessOrEqual(a, b))
+                return a.Count!=b.Count;
+            else
+                return false;
         }
 
         public static bool LessThanIDictionary(IDictionary a, IDictionary b)
         {
-            if(LessOrEqualIDictionary(a, b)) return a.Count != b.Count;
-            else return false;
+            if(LessOrEqualIDictionary(a, b))
+                return a.Count != b.Count;
+            else
+                return false;
         }
 
         /// <summary>
@@ -2094,8 +2121,10 @@ namespace de.unika.ipd.grGen.libGr
             if(typeof(V) == typeof(de.unika.ipd.grGen.libGr.SetValueType))
             {
                 foreach(KeyValuePair<K, V> entry in a)
+                {
                     if(!b.ContainsKey(entry.Key))
                         return false;
+                }
             }
             else
             {
@@ -2119,8 +2148,10 @@ namespace de.unika.ipd.grGen.libGr
             if(valueType.Name == "SetValueType")
             {
                 foreach(DictionaryEntry entry in a)
+                {
                     if(!b.Contains(entry.Key))
                         return false;
+                }
             }
             else
             {
@@ -2147,16 +2178,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of List comparison.</returns>
         public static bool Equal<V>(List<V> a, List<V> b)
         {
-            if(a.Count != b.Count) return false;
-            if(LessOrEqual(a, b)) return true;
-            else return false;
+            if(a.Count != b.Count)
+                return false;
+            if(LessOrEqual(a, b))
+                return true;
+            else
+                return false;
         }
 
         public static bool EqualIList(IList a, IList b)
         {
-            if(a.Count != b.Count) return false;
-            if(LessOrEqualIList(a, b)) return true;
-            else return false;
+            if(a.Count != b.Count)
+                return false;
+            if(LessOrEqualIList(a, b))
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -2167,16 +2204,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of List comparison.</returns>
         public static bool NotEqual<V>(List<V> a, List<V> b)
         {
-            if(a.Count != b.Count) return true;
-            if(LessOrEqual(a, b)) return false;
-            else return true;
+            if(a.Count != b.Count)
+                return true;
+            if(LessOrEqual(a, b))
+                return false;
+            else
+                return true;
         }
 
         public static bool NotEqualIList(IList a, IList b)
         {
-            if(a.Count != b.Count) return true;
-            if(LessOrEqualIList(a, b)) return false;
-            else return true;
+            if(a.Count != b.Count)
+                return true;
+            if(LessOrEqualIList(a, b))
+                return false;
+            else
+                return true;
         }
 
         /// <summary>
@@ -2188,14 +2231,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of List comparison.</returns>
         public static bool GreaterThan<V>(List<V> a, List<V> b)
         {
-            if(a.Count == b.Count) return false;
-            return GreaterOrEqual(a, b);
+            if(a.Count == b.Count)
+                return false;
+            return
+                GreaterOrEqual(a, b);
         }
 
         public static bool GreaterThanIList(IList a, IList b)
         {
-            if(a.Count == b.Count) return false;
-            return GreaterOrEqualIList(a, b);
+            if(a.Count == b.Count)
+                return false;
+            return
+                GreaterOrEqualIList(a, b);
         }
 
         /// <summary>
@@ -2224,13 +2271,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of List comparison.</returns>
         public static bool LessThan<V>(List<V> a, List<V> b)
         {
-            if(a.Count == b.Count) return false;
+            if(a.Count == b.Count)
+                return false;
             return LessOrEqual(a, b);
         }
 
         public static bool LessThanIList(IList a, IList b)
         {
-            if(a.Count == b.Count) return false;
+            if(a.Count == b.Count)
+                return false;
             return LessOrEqualIList(a, b);
         }
 
@@ -2243,22 +2292,28 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of List comparison.</returns>
         public static bool LessOrEqual<V>(List<V> a, List<V> b)
         {
-            if(a.Count > b.Count) return false;
-            
-            for(int i=0; i<a.Count; ++i)
+            if(a.Count > b.Count)
+                return false;
+
+            for(int i = 0; i < a.Count; ++i)
+            {
                 if(!EqualityComparer<V>.Default.Equals(a[i], b[i]))
                     return false;
+            }
 
             return true;
         }
 
         public static bool LessOrEqualIList(IList a, IList b)
         {
-            if(a.Count > b.Count) return false;
+            if(a.Count > b.Count)
+                return false;
 
             for(int i = 0; i < a.Count; ++i)
+            {
                 if(!Equals(a[i], b[i]))
                     return false;
+            }
             
             return true;
         }
@@ -2274,16 +2329,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of Deque comparison.</returns>
         public static bool Equal<V>(Deque<V> a, Deque<V> b)
         {
-            if(a.Count != b.Count) return false;
-            if(LessOrEqual(a, b)) return true;
-            else return false;
+            if(a.Count != b.Count)
+                return false;
+            if(LessOrEqual(a, b))
+                return true;
+            else
+                return false;
         }
 
         public static bool EqualIDeque(IDeque a, IDeque b)
         {
-            if(a.Count != b.Count) return false;
-            if(LessOrEqualIDeque(a, b)) return true;
-            else return false;
+            if(a.Count != b.Count)
+                return false;
+            if(LessOrEqualIDeque(a, b))
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -2294,16 +2355,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of Deque comparison.</returns>
         public static bool NotEqual<V>(Deque<V> a, Deque<V> b)
         {
-            if(a.Count != b.Count) return true;
-            if(LessOrEqual(a, b)) return false;
-            else return true;
+            if(a.Count != b.Count)
+                return true;
+            if(LessOrEqual(a, b))
+                return false;
+            else
+                return true;
         }
 
         public static bool NotEqualIDeque(IDeque a, IDeque b)
         {
-            if(a.Count != b.Count) return true;
-            if(LessOrEqualIDeque(a, b)) return false;
-            else return true;
+            if(a.Count != b.Count)
+                return true;
+            if(LessOrEqualIDeque(a, b))
+                return false;
+            else
+                return true;
         }
 
         /// <summary>
@@ -2315,13 +2382,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of Deque comparison.</returns>
         public static bool GreaterThan<V>(Deque<V> a, Deque<V> b)
         {
-            if(a.Count == b.Count) return false;
+            if(a.Count == b.Count)
+                return false;
             return GreaterOrEqual(a, b);
         }
 
         public static bool GreaterThanIDeque(IDeque a, IDeque b)
         {
-            if(a.Count == b.Count) return false;
+            if(a.Count == b.Count)
+                return false;
             return GreaterOrEqualIDeque(a, b);
         }
 
@@ -2351,13 +2420,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of Deque comparison.</returns>
         public static bool LessThan<V>(Deque<V> a, Deque<V> b)
         {
-            if(a.Count == b.Count) return false;
+            if(a.Count == b.Count)
+                return false;
             return LessOrEqual(a, b);
         }
 
         public static bool LessThanIDeque(IDeque a, IDeque b)
         {
-            if(a.Count == b.Count) return false;
+            if(a.Count == b.Count)
+                return false;
             return LessOrEqualIDeque(a, b);
         }
 
@@ -2370,22 +2441,28 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>Boolean result of Deque comparison.</returns>
         public static bool LessOrEqual<V>(Deque<V> a, Deque<V> b)
         {
-            if(a.Count > b.Count) return false;
+            if(a.Count > b.Count)
+                return false;
 
             for(int i = 0; i < a.Count; ++i)
+            {
                 if(!EqualityComparer<V>.Default.Equals(a[i], b[i]))
                     return false;
+            }
 
             return true;
         }
 
         public static bool LessOrEqualIDeque(IDeque a, IDeque b)
         {
-            if(a.Count > b.Count) return false;
+            if(a.Count > b.Count)
+                return false;
 
             for(int i = 0; i < a.Count; ++i)
+            {
                 if(!Equals(a[i], b[i]))
                     return false;
+            }
 
             return true;
         }

@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IDEdge, SetValueType> EdgesDirected(IGraph graph, EdgeType edgeType, int threadId)
         {
             Dictionary<IDEdge, SetValueType> edgesSet = new Dictionary<IDEdge, SetValueType>();
-            foreach (IDEdge edge in graph.GetCompatibleEdges(edgeType))
+            foreach(IDEdge edge in graph.GetCompatibleEdges(edgeType))
             {
                 edgesSet[edge] = null;
             }
@@ -85,7 +85,7 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IDEdge, SetValueType> EdgesDirected(IGraph graph, EdgeType edgeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IDEdge, SetValueType> edgesSet = new Dictionary<IDEdge, SetValueType>();
-            foreach (IDEdge edge in graph.GetCompatibleEdges(edgeType))
+            foreach(IDEdge edge in graph.GetCompatibleEdges(edgeType))
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
                 edgesSet[edge] = null;
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IUEdge, SetValueType> EdgesUndirected(IGraph graph, EdgeType edgeType, int threadId)
         {
             Dictionary<IUEdge, SetValueType> edgesSet = new Dictionary<IUEdge, SetValueType>();
-            foreach (IUEdge edge in graph.GetCompatibleEdges(edgeType))
+            foreach(IUEdge edge in graph.GetCompatibleEdges(edgeType))
             {
                 edgesSet[edge] = null;
             }
@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IUEdge, SetValueType> EdgesUndirected(IGraph graph, EdgeType edgeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IUEdge, SetValueType> edgesSet = new Dictionary<IUEdge, SetValueType>();
-            foreach (IUEdge edge in graph.GetCompatibleEdges(edgeType))
+            foreach(IUEdge edge in graph.GetCompatibleEdges(edgeType))
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
                 edgesSet[edge] = null;
@@ -639,17 +639,17 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IDEdge, SetValueType> IncidentDirected(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
         {
             Dictionary<IDEdge, SetValueType> incidentEdgesSet = new Dictionary<IDEdge, SetValueType>();
-            foreach (IDEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IDEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
-            foreach (IDEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IDEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
@@ -659,23 +659,23 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IDEdge, SetValueType> IncidentDirected(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IDEdge, SetValueType> incidentEdgesSet = new Dictionary<IDEdge, SetValueType>();
-            foreach (IDEdge edge in startNode.Outgoing)
+            foreach(IDEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
-            foreach (IDEdge edge in startNode.Incoming)
+            foreach(IDEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
@@ -688,17 +688,17 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IUEdge, SetValueType> IncidentUndirected(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, int threadId)
         {
             Dictionary<IUEdge, SetValueType> incidentEdgesSet = new Dictionary<IUEdge, SetValueType>();
-            foreach (IUEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IUEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
-            foreach (IUEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IUEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
@@ -708,23 +708,23 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IUEdge, SetValueType> IncidentUndirected(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IUEdge, SetValueType> incidentEdgesSet = new Dictionary<IUEdge, SetValueType>();
-            foreach (IUEdge edge in startNode.Outgoing)
+            foreach(IUEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
-            foreach (IUEdge edge in startNode.Incoming)
+            foreach(IUEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
             }
@@ -769,10 +769,10 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IDEdge, SetValueType> OutgoingDirected(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
         {
             Dictionary<IDEdge, SetValueType> outgoingEdgesSet = new Dictionary<IDEdge, SetValueType>();
-            foreach (IDEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IDEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
             }
@@ -782,13 +782,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IDEdge, SetValueType> OutgoingDirected(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IDEdge, SetValueType> outgoingEdgesSet = new Dictionary<IDEdge, SetValueType>();
-            foreach (IDEdge edge in startNode.Outgoing)
+            foreach(IDEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(outgoingEdgeType))
+                if(!edge.InstanceOf(outgoingEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
             }
@@ -801,10 +801,10 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IUEdge, SetValueType> OutgoingUndirected(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, int threadId)
         {
             Dictionary<IUEdge, SetValueType> outgoingEdgesSet = new Dictionary<IUEdge, SetValueType>();
-            foreach (IUEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IUEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
             }
@@ -814,13 +814,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IUEdge, SetValueType> OutgoingUndirected(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IUEdge, SetValueType> outgoingEdgesSet = new Dictionary<IUEdge, SetValueType>();
-            foreach (IUEdge edge in startNode.Outgoing)
+            foreach(IUEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(outgoingEdgeType))
+                if(!edge.InstanceOf(outgoingEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
             }
@@ -865,10 +865,10 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IDEdge, SetValueType> IncomingDirected(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
         {
             Dictionary<IDEdge, SetValueType> incomingEdgesSet = new Dictionary<IDEdge, SetValueType>();
-            foreach (IDEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IDEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
             }
@@ -878,13 +878,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IDEdge, SetValueType> IncomingDirected(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IDEdge, SetValueType> incomingEdgesSet = new Dictionary<IDEdge, SetValueType>();
-            foreach (IDEdge edge in startNode.Incoming)
+            foreach(IDEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incomingEdgeType))
+                if(!edge.InstanceOf(incomingEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
             }
@@ -897,10 +897,10 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IUEdge, SetValueType> IncomingUndirected(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, int threadId)
         {
             Dictionary<IUEdge, SetValueType> incomingEdgesSet = new Dictionary<IUEdge, SetValueType>();
-            foreach (IUEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IUEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
             }
@@ -910,13 +910,13 @@ namespace de.unika.ipd.grGen.libGr
         public static Dictionary<IUEdge, SetValueType> IncomingUndirected(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<IUEdge, SetValueType> incomingEdgesSet = new Dictionary<IUEdge, SetValueType>();
-            foreach (IUEdge edge in startNode.Incoming)
+            foreach(IUEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incomingEdgeType))
+                if(!edge.InstanceOf(incomingEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
             }
@@ -1265,7 +1265,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IDEdge, SetValueType> incidentEdgesSet = new Dictionary<IDEdge, SetValueType>();
             ReachableEdgesDirected(startNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, threadId);
-            foreach (KeyValuePair<IDEdge, SetValueType> kvp in incidentEdgesSet)
+            foreach(KeyValuePair<IDEdge, SetValueType> kvp in incidentEdgesSet)
             {
                 IDEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1278,7 +1278,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IDEdge, SetValueType> incidentEdgesSet = new Dictionary<IDEdge, SetValueType>();
             ReachableEdgesDirected(startNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
-            foreach (KeyValuePair<IDEdge, SetValueType> kvp in incidentEdgesSet)
+            foreach(KeyValuePair<IDEdge, SetValueType> kvp in incidentEdgesSet)
             {
                 IDEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1294,7 +1294,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IUEdge, SetValueType> incidentEdgesSet = new Dictionary<IUEdge, SetValueType>();
             ReachableEdgesUndirected(startNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, threadId);
-            foreach (KeyValuePair<IUEdge, SetValueType> kvp in incidentEdgesSet)
+            foreach(KeyValuePair<IUEdge, SetValueType> kvp in incidentEdgesSet)
             {
                 IUEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1307,7 +1307,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IUEdge, SetValueType> incidentEdgesSet = new Dictionary<IUEdge, SetValueType>();
             ReachableEdgesUndirected(startNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
-            foreach (KeyValuePair<IUEdge, SetValueType> kvp in incidentEdgesSet)
+            foreach(KeyValuePair<IUEdge, SetValueType> kvp in incidentEdgesSet)
             {
                 IUEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1382,24 +1382,24 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void ReachableEdgesDirected(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IDEdge, SetValueType> incidentEdgesSet, IGraph graph, int threadId)
         {
-            foreach (IDEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IDEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesDirected(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, threadId);
             }
-            foreach (IDEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IDEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesDirected(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, threadId);
@@ -1408,30 +1408,30 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdgesDirected(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IDEdge, SetValueType> incidentEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach (IDEdge edge in startNode.Outgoing)
+            foreach(IDEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesDirected(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
             }
-            foreach (IDEdge edge in startNode.Incoming)
+            foreach(IDEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesDirected(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
@@ -1443,24 +1443,24 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void ReachableEdgesUndirected(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IUEdge, SetValueType> incidentEdgesSet, IGraph graph, int threadId)
         {
-            foreach (IUEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
+            foreach(IUEdge edge in startNode.GetCompatibleOutgoing(incidentEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesUndirected(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, threadId);
             }
-            foreach (IUEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
+            foreach(IUEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesUndirected(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, threadId);
@@ -1469,30 +1469,30 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdgesUndirected(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IUEdge, SetValueType> incidentEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach (IUEdge edge in startNode.Outgoing)
+            foreach(IUEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesUndirected(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
             }
-            foreach (IUEdge edge in startNode.Incoming)
+            foreach(IUEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesUndirected(adjacentNode, incidentEdgeType, adjacentNodeType, incidentEdgesSet, graph, actionEnv, threadId);
@@ -1535,7 +1535,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IDEdge, SetValueType> outgoingEdgesSet = new Dictionary<IDEdge, SetValueType>();
             ReachableEdgesOutgoingDirected(startNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, threadId);
-            foreach (KeyValuePair<IDEdge, SetValueType> kvp in outgoingEdgesSet)
+            foreach(KeyValuePair<IDEdge, SetValueType> kvp in outgoingEdgesSet)
             {
                 IDEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1548,7 +1548,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IDEdge, SetValueType> outgoingEdgesSet = new Dictionary<IDEdge, SetValueType>();
             ReachableEdgesOutgoingDirected(startNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, actionEnv, threadId);
-            foreach (KeyValuePair<IDEdge, SetValueType> kvp in outgoingEdgesSet)
+            foreach(KeyValuePair<IDEdge, SetValueType> kvp in outgoingEdgesSet)
             {
                 IDEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1564,7 +1564,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IUEdge, SetValueType> outgoingEdgesSet = new Dictionary<IUEdge, SetValueType>();
             ReachableEdgesOutgoingUndirected(startNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, threadId);
-            foreach (KeyValuePair<IUEdge, SetValueType> kvp in outgoingEdgesSet)
+            foreach(KeyValuePair<IUEdge, SetValueType> kvp in outgoingEdgesSet)
             {
                 IUEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1577,7 +1577,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IUEdge, SetValueType> outgoingEdgesSet = new Dictionary<IUEdge, SetValueType>();
             ReachableEdgesOutgoingUndirected(startNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, actionEnv, threadId);
-            foreach (KeyValuePair<IUEdge, SetValueType> kvp in outgoingEdgesSet)
+            foreach(KeyValuePair<IUEdge, SetValueType> kvp in outgoingEdgesSet)
             {
                 IUEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1627,13 +1627,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void ReachableEdgesOutgoingDirected(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IDEdge, SetValueType> outgoingEdgesSet, IGraph graph, int threadId)
         {
-            foreach (IDEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IDEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesOutgoingDirected(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, threadId);
@@ -1642,16 +1642,16 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdgesOutgoingDirected(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IDEdge, SetValueType> outgoingEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach (IDEdge edge in startNode.Outgoing)
+            foreach(IDEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(outgoingEdgeType))
+                if(!edge.InstanceOf(outgoingEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesOutgoingDirected(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, actionEnv, threadId);
@@ -1663,13 +1663,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void ReachableEdgesOutgoingUndirected(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IUEdge, SetValueType> outgoingEdgesSet, IGraph graph, int threadId)
         {
-            foreach (IUEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
+            foreach(IUEdge edge in startNode.GetCompatibleOutgoing(outgoingEdgeType))
             {
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesOutgoingUndirected(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, threadId);
@@ -1678,16 +1678,16 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdgesOutgoingUndirected(INode startNode, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IUEdge, SetValueType> outgoingEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach (IUEdge edge in startNode.Outgoing)
+            foreach(IUEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(outgoingEdgeType))
+                if(!edge.InstanceOf(outgoingEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesOutgoingUndirected(adjacentNode, outgoingEdgeType, targetNodeType, outgoingEdgesSet, graph, actionEnv, threadId);
@@ -1730,7 +1730,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IDEdge, SetValueType> incomingEdgesSet = new Dictionary<IDEdge, SetValueType>();
             ReachableEdgesIncomingDirected(startNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, threadId);
-            foreach (KeyValuePair<IDEdge, SetValueType> kvp in incomingEdgesSet)
+            foreach(KeyValuePair<IDEdge, SetValueType> kvp in incomingEdgesSet)
             {
                 IDEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1743,7 +1743,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IDEdge, SetValueType> incomingEdgesSet = new Dictionary<IDEdge, SetValueType>();
             ReachableEdgesIncomingDirected(startNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, actionEnv, threadId);
-            foreach (KeyValuePair<IDEdge, SetValueType> kvp in incomingEdgesSet)
+            foreach(KeyValuePair<IDEdge, SetValueType> kvp in incomingEdgesSet)
             {
                 IDEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1759,7 +1759,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IUEdge, SetValueType> incomingEdgesSet = new Dictionary<IUEdge, SetValueType>();
             ReachableEdgesIncomingUndirected(startNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, threadId);
-            foreach (KeyValuePair<IUEdge, SetValueType> kvp in incomingEdgesSet)
+            foreach(KeyValuePair<IUEdge, SetValueType> kvp in incomingEdgesSet)
             {
                 IUEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1772,7 +1772,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<IUEdge, SetValueType> incomingEdgesSet = new Dictionary<IUEdge, SetValueType>();
             ReachableEdgesIncomingUndirected(startNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, actionEnv, threadId);
-            foreach (KeyValuePair<IUEdge, SetValueType> kvp in incomingEdgesSet)
+            foreach(KeyValuePair<IUEdge, SetValueType> kvp in incomingEdgesSet)
             {
                 IUEdge edge = kvp.Key;
                 graph.SetInternallyVisited(edge.Source, false, threadId);
@@ -1822,13 +1822,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void ReachableEdgesIncomingDirected(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IDEdge, SetValueType> incomingEdgesSet, IGraph graph, int threadId)
         {
-            foreach (IDEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IDEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesIncomingDirected(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, threadId);
@@ -1837,16 +1837,16 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdgesIncomingDirected(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IDEdge, SetValueType> incomingEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach (IDEdge edge in startNode.Incoming)
+            foreach(IDEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incomingEdgeType))
+                if(!edge.InstanceOf(incomingEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesIncomingDirected(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, actionEnv, threadId);
@@ -1858,13 +1858,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void ReachableEdgesIncomingUndirected(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IUEdge, SetValueType> incomingEdgesSet, IGraph graph, int threadId)
         {
-            foreach (IUEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
+            foreach(IUEdge edge in startNode.GetCompatibleIncoming(incomingEdgeType))
             {
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesIncomingUndirected(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, threadId);
@@ -1873,16 +1873,16 @@ namespace de.unika.ipd.grGen.libGr
 
         private static void ReachableEdgesIncomingUndirected(INode startNode, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IUEdge, SetValueType> incomingEdgesSet, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            foreach (IUEdge edge in startNode.Incoming)
+            foreach(IUEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incomingEdgeType))
+                if(!edge.InstanceOf(incomingEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
-                if (graph.IsInternallyVisited(adjacentNode, threadId))
+                if(graph.IsInternallyVisited(adjacentNode, threadId))
                     continue;
                 graph.SetInternallyVisited(adjacentNode, true, threadId);
                 ReachableEdgesIncomingUndirected(adjacentNode, incomingEdgeType, sourceNodeType, incomingEdgesSet, graph, actionEnv, threadId);
@@ -1995,7 +1995,9 @@ namespace de.unika.ipd.grGen.libGr
             BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth); // call normal version, is thread safe 
             Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>(adjacentNodesToMinDepth.Count);
             foreach(INode node in adjacentNodesToMinDepth.Keys)
+            {
                 adjacentNodesSet.Add(node, null);
+            }
             return adjacentNodesSet;
         }
 
@@ -2005,7 +2007,9 @@ namespace de.unika.ipd.grGen.libGr
             BoundedReachable(startNode, depth, incidentEdgeType, adjacentNodeType, adjacentNodesToMinDepth, actionEnv, threadId);
             Dictionary<INode, SetValueType> adjacentNodesSet = new Dictionary<INode, SetValueType>(adjacentNodesToMinDepth.Count);
             foreach(INode node in adjacentNodesToMinDepth.Keys)
+            {
                 adjacentNodesSet.Add(node, null);
+            }
             return adjacentNodesSet;
         }
 
@@ -2055,7 +2059,9 @@ namespace de.unika.ipd.grGen.libGr
             BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth); // call normal version, is thread safe
             Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>(targetNodesToMinDepth.Count);
             foreach(INode node in targetNodesToMinDepth.Keys)
+            {
                 targetNodesSet.Add(node, null);
+            }
             return targetNodesSet;
         }
 
@@ -2065,7 +2071,9 @@ namespace de.unika.ipd.grGen.libGr
             BoundedReachableOutgoing(startNode, depth, outgoingEdgeType, targetNodeType, targetNodesToMinDepth, actionEnv, threadId);
             Dictionary<INode, SetValueType> targetNodesSet = new Dictionary<INode, SetValueType>(targetNodesToMinDepth.Count);
             foreach(INode node in targetNodesToMinDepth.Keys)
+            {
                 targetNodesSet.Add(node, null);
+            }
             return targetNodesSet;
         }
 
@@ -2101,7 +2109,9 @@ namespace de.unika.ipd.grGen.libGr
             BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth); // call normal version, is thread safe
             Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>(sourceNodesToMinDepth.Count);
             foreach(INode node in sourceNodesToMinDepth.Keys)
+            {
                 sourceNodesSet.Add(node, null);
+            }
             return sourceNodesSet;
         }
 
@@ -2111,7 +2121,9 @@ namespace de.unika.ipd.grGen.libGr
             BoundedReachableIncoming(startNode, depth, incomingEdgeType, sourceNodeType, sourceNodesToMinDepth, actionEnv, threadId);
             Dictionary<INode, SetValueType> sourceNodesSet = new Dictionary<INode, SetValueType>(sourceNodesToMinDepth.Count);
             foreach(INode node in sourceNodesToMinDepth.Keys)
+            {
                 sourceNodesSet.Add(node, null);
+            }
             return sourceNodesSet;
         }
 
@@ -2347,34 +2359,34 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void BoundedReachableEdgesDirected(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IDEdge, SetValueType> incidentEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            if (depth <= 0)
+            if(depth <= 0)
                 return;
-            foreach (IDEdge edge in startNode.Outgoing)
+            foreach(IDEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
                 int nodeDepth;
-                if (adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesDirected(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
             }
-            foreach (IDEdge edge in startNode.Incoming)
+            foreach(IDEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
                 int nodeDepth;
-                if (adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesDirected(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
@@ -2386,34 +2398,34 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void BoundedReachableEdgesUndirected(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, Dictionary<IUEdge, SetValueType> incidentEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            if (depth <= 0)
+            if(depth <= 0)
                 return;
-            foreach (IUEdge edge in startNode.Outgoing)
+            foreach(IUEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
                 int nodeDepth;
-                if (adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesUndirected(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
             }
-            foreach (IUEdge edge in startNode.Incoming)
+            foreach(IUEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incidentEdgeType))
+                if(!edge.InstanceOf(incidentEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(adjacentNodeType))
+                if(!adjacentNode.InstanceOf(adjacentNodeType))
                     continue;
                 incidentEdgesSet[edge] = null;
                 int nodeDepth;
-                if (adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesUndirected(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, incidentEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
@@ -2506,19 +2518,19 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void BoundedReachableEdgesOutgoingDirected(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IDEdge, SetValueType> outgoingEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            if (depth <= 0)
+            if(depth <= 0)
                 return;
-            foreach (IDEdge edge in startNode.Outgoing)
+            foreach(IDEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(outgoingEdgeType))
+                if(!edge.InstanceOf(outgoingEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
                 int nodeDepth;
-                if (adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesOutgoingDirected(adjacentNode, depth - 1, outgoingEdgeType, targetNodeType, outgoingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
@@ -2530,19 +2542,19 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void BoundedReachableEdgesOutgoingUndirected(INode startNode, int depth, EdgeType outgoingEdgeType, NodeType targetNodeType, Dictionary<IUEdge, SetValueType> outgoingEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            if (depth <= 0)
+            if(depth <= 0)
                 return;
-            foreach (IUEdge edge in startNode.Outgoing)
+            foreach(IUEdge edge in startNode.Outgoing)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(outgoingEdgeType))
+                if(!edge.InstanceOf(outgoingEdgeType))
                     continue;
                 INode adjacentNode = edge.Target;
-                if (!adjacentNode.InstanceOf(targetNodeType))
+                if(!adjacentNode.InstanceOf(targetNodeType))
                     continue;
                 outgoingEdgesSet[edge] = null;
                 int nodeDepth;
-                if (adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesOutgoingUndirected(adjacentNode, depth - 1, outgoingEdgeType, targetNodeType, outgoingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
@@ -2635,19 +2647,19 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void BoundedReachableEdgesIncomingUndirected(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IUEdge, SetValueType> incomingEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            if (depth <= 0)
+            if(depth <= 0)
                 return;
-            foreach (IUEdge edge in startNode.Incoming)
+            foreach(IUEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incomingEdgeType))
+                if(!edge.InstanceOf(incomingEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
                 int nodeDepth;
-                if (adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesIncomingUndirected(adjacentNode, depth - 1, incomingEdgeType, sourceNodeType, incomingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
@@ -2659,19 +2671,19 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void BoundedReachableEdgesIncoming(INode startNode, int depth, EdgeType incomingEdgeType, NodeType sourceNodeType, Dictionary<IEdge, SetValueType> incomingEdgesSet, Dictionary<INode, int> adjacentNodesToMinDepth, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
-            if (depth <= 0)
+            if(depth <= 0)
                 return;
-            foreach (IEdge edge in startNode.Incoming)
+            foreach(IEdge edge in startNode.Incoming)
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
-                if (!edge.InstanceOf(incomingEdgeType))
+                if(!edge.InstanceOf(incomingEdgeType))
                     continue;
                 INode adjacentNode = edge.Source;
-                if (!adjacentNode.InstanceOf(sourceNodeType))
+                if(!adjacentNode.InstanceOf(sourceNodeType))
                     continue;
                 incomingEdgesSet[edge] = null;
                 int nodeDepth;
-                if (adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
+                if(adjacentNodesToMinDepth.TryGetValue(adjacentNode, out nodeDepth) && nodeDepth >= depth - 1)
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 BoundedReachableEdgesIncoming(adjacentNode, depth - 1, incomingEdgeType, sourceNodeType, incomingEdgesSet, adjacentNodesToMinDepth, graph, actionEnv, threadId);
@@ -2753,7 +2765,9 @@ namespace de.unika.ipd.grGen.libGr
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachable(startNode, endNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId);
             for(int i = 0; i < visitedNodes.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedNodes[i], false, threadId);
+            }
             return result;
         }
 
@@ -2762,7 +2776,9 @@ namespace de.unika.ipd.grGen.libGr
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachable(startNode, endNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId);
             for(int i = 0; i < visitedNodes.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedNodes[i], false, threadId);
+            }
             return result;
         }
 
@@ -2867,7 +2883,9 @@ namespace de.unika.ipd.grGen.libGr
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableOutgoing(startNode, endNode, outgoingEdgeType, targetNodeType, graph, visitedNodes, threadId);
             for(int i = 0; i < visitedNodes.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedNodes[i], false, threadId);
+            }
             return result;
         }
 
@@ -2876,7 +2894,9 @@ namespace de.unika.ipd.grGen.libGr
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableOutgoing(startNode, endNode, outgoingEdgeType, targetNodeType, graph, visitedNodes, actionEnv, threadId);
             for(int i = 0; i < visitedNodes.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedNodes[i], false, threadId);
+            }
             return result;
         }
 
@@ -2940,7 +2960,9 @@ namespace de.unika.ipd.grGen.libGr
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableIncoming(startNode, endNode, incomingEdgeType, sourceNodeType, graph, visitedNodes, threadId);
             for(int i = 0; i < visitedNodes.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedNodes[i], false, threadId);
+            }
             return result;
         }
 
@@ -2949,7 +2971,9 @@ namespace de.unika.ipd.grGen.libGr
             List<INode> visitedNodes = new List<INode>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableIncoming(startNode, endNode, incomingEdgeType, sourceNodeType, graph, visitedNodes, actionEnv, threadId);
             for(int i = 0; i < visitedNodes.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedNodes[i], false, threadId);
+            }
             return result;
         }
 
@@ -3231,7 +3255,9 @@ namespace de.unika.ipd.grGen.libGr
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableEdges(startNode, endEdge, incidentEdgeType, adjacentNodeType, graph, visitedElems, threadId);
             for(int i = 0; i < visitedElems.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedElems[i], false, threadId);
+            }
             return result;
         }
 
@@ -3240,7 +3266,9 @@ namespace de.unika.ipd.grGen.libGr
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableEdges(startNode, endEdge, incidentEdgeType, adjacentNodeType, graph, visitedElems, actionEnv, threadId);
             for(int i = 0; i < visitedElems.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedElems[i], false, threadId);
+            }
             return result;
         }
 
@@ -3365,7 +3393,9 @@ namespace de.unika.ipd.grGen.libGr
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableEdgesOutgoing(startNode, endEdge, outgoingEdgeType, targetNodeType, graph, visitedElems, threadId);
             for(int i = 0; i < visitedElems.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedElems[i], false, threadId);
+            }
             return result;
         }
 
@@ -3374,7 +3404,9 @@ namespace de.unika.ipd.grGen.libGr
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableEdgesOutgoing(startNode, endEdge, outgoingEdgeType, targetNodeType, graph, visitedElems, actionEnv, threadId);
             for(int i = 0; i < visitedElems.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedElems[i], false, threadId);
+            }
             return result;
         }
 
@@ -3448,7 +3480,9 @@ namespace de.unika.ipd.grGen.libGr
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableEdgesIncoming(startNode, endEdge, incomingEdgeType, sourceNodeType, graph, visitedElems, threadId);
             for(int i = 0; i < visitedElems.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedElems[i], false, threadId);
+            }
             return result;
         }
 
@@ -3457,7 +3491,9 @@ namespace de.unika.ipd.grGen.libGr
             List<IGraphElement> visitedElems = new List<IGraphElement>((int)Math.Sqrt(graph.NumNodes));
             bool result = IsReachableEdgesIncoming(startNode, endEdge, incomingEdgeType, sourceNodeType, graph, visitedElems, actionEnv, threadId);
             for(int i = 0; i < visitedElems.Count; ++i)
+            {
                 graph.SetInternallyVisited(visitedElems[i], false, threadId);
+            }
             return result;
         }
 
@@ -3871,14 +3907,18 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             foreach(INode node in ReachableRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+            {
                 yield return node;
+            }
         }
 
         public static IEnumerable<INode> Reachable(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             foreach(INode node in ReachableRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+            {
                 yield return node;
+            }
         }
 
         private static IEnumerable<INode> ReachableRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, SetValueType> visitedNodes, int threadId)
@@ -3894,7 +3934,9 @@ namespace de.unika.ipd.grGen.libGr
                 yield return adjacentNode;
 
                 foreach(INode node in ReachableRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                {
                     yield return node;
+                }
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
@@ -3907,7 +3949,9 @@ namespace de.unika.ipd.grGen.libGr
                 yield return adjacentNode;
 
                 foreach(INode node in ReachableRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -3925,7 +3969,9 @@ namespace de.unika.ipd.grGen.libGr
                 yield return adjacentNode;
 
                 foreach(INode node in ReachableRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+                {
                     yield return node;
+                }
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
@@ -3939,7 +3985,9 @@ namespace de.unika.ipd.grGen.libGr
                 yield return adjacentNode;
 
                 foreach(INode node in ReachableRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -3947,14 +3995,18 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             foreach(INode node in ReachableIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+            {
                 yield return node;
+            }
         }
 
         public static IEnumerable<INode> ReachableIncoming(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             foreach(INode node in ReachableIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+            {
                 yield return node;
+            }
         }
 
         private static IEnumerable<INode> ReachableIncomingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, SetValueType> visitedNodes, int threadId)
@@ -3970,7 +4022,9 @@ namespace de.unika.ipd.grGen.libGr
                 yield return adjacentNode;
 
                 foreach(INode node in ReachableIncomingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -3988,7 +4042,9 @@ namespace de.unika.ipd.grGen.libGr
                 yield return adjacentNode;
 
                 foreach(INode node in ReachableIncomingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -3996,14 +4052,18 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             foreach(INode node in ReachableOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+            {
                 yield return node;
+            }
         }
 
         public static IEnumerable<INode> ReachableOutgoing(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             foreach(INode node in ReachableOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+            {
                 yield return node;
+            }
         }
 
         private static IEnumerable<INode> ReachableOutgoingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, SetValueType> visitedNodes, int threadId)
@@ -4019,7 +4079,9 @@ namespace de.unika.ipd.grGen.libGr
                 yield return adjacentNode;
 
                 foreach(INode node in ReachableOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -4037,7 +4099,9 @@ namespace de.unika.ipd.grGen.libGr
                 yield return adjacentNode;
 
                 foreach(INode node in ReachableOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -4048,7 +4112,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+            {
                 yield return edge;
+            }
         }
 
         public static IEnumerable<IEdge> ReachableEdges(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4056,7 +4122,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+            {
                 yield return edge;
+            }
         }
 
         private static IEnumerable<IEdge> ReachableEdgesRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, SetValueType> visitedNodes, int threadId)
@@ -4072,7 +4140,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
@@ -4085,7 +4155,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4103,7 +4175,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
@@ -4117,7 +4191,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4126,7 +4202,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+            {
                 yield return edge;
+            }
         }
 
         public static IEnumerable<IEdge> ReachableEdgesIncoming(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4134,7 +4212,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesIncomingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+            {
                 yield return edge;
+            }
         }
 
         private static IEnumerable<IEdge> ReachableEdgesIncomingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, SetValueType> visitedNodes, int threadId)
@@ -4150,7 +4230,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesIncomingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4168,7 +4250,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesIncomingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4177,7 +4261,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+            {
                 yield return edge;
+            }
         }
 
         public static IEnumerable<IEdge> ReachableEdgesOutgoing(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4185,7 +4271,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<INode, SetValueType> visitedNodes = new Dictionary<INode, SetValueType>((int)Math.Sqrt(graph.NumNodes));
             visitedNodes.Add(startNode, null);
             foreach(IEdge edge in ReachableEdgesOutgoingRec(startNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+            {
                 yield return edge;
+            }
         }
 
         private static IEnumerable<IEdge> ReachableEdgesOutgoingRec(INode startNode, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, SetValueType> visitedNodes, int threadId)
@@ -4201,7 +4289,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4219,7 +4309,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 visitedNodes.Add(adjacentNode, null);
                 foreach(IEdge reachableEdge in ReachableEdgesOutgoingRec(adjacentNode, incidentEdgeType, adjacentNodeType, graph, visitedNodes, actionEnv, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4229,14 +4321,18 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
             foreach(INode node in BoundedReachableRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth)) // call normal version, is thread safe
+            {
                 yield return node;
+            }
         }
 
         public static IEnumerable<INode> BoundedReachable(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
             foreach(INode node in BoundedReachableRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId))
+            {
                 yield return node;
+            }
         }
 
         private static IEnumerable<INode> BoundedReachableRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, int> adjacentNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4256,7 +4352,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(INode node in BoundedReachableRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId))
+                {
                     yield return node;
+                }
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
@@ -4271,7 +4369,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(INode node in BoundedReachableRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, adjacentNodesToMinDepth, actionEnv, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -4279,14 +4379,18 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
             foreach(INode node in BoundedReachableIncomingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, sourceNodesToMinDepth)) // call normal version, is thread safe
+            {
                 yield return node;
+            }
         }
 
         public static IEnumerable<INode> BoundedReachableIncoming(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
             foreach(INode node in BoundedReachableIncomingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, sourceNodesToMinDepth, actionEnv, threadId))
+            {
                 yield return node;
+            }
         }
 
         private static IEnumerable<INode> BoundedReachableIncomingRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, int> sourceNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4306,7 +4410,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 sourceNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(INode node in BoundedReachableIncomingRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, sourceNodesToMinDepth, actionEnv, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -4314,14 +4420,18 @@ namespace de.unika.ipd.grGen.libGr
         {
             Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
             foreach(INode node in BoundedReachableOutgoingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, targetNodesToMinDepth)) // call normal version, is thread safe
+            {
                 yield return node;
+            }
         }
 
         public static IEnumerable<INode> BoundedReachableOutgoing(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
         {
             Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
             foreach(INode node in BoundedReachableOutgoingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, targetNodesToMinDepth, actionEnv, threadId))
+            {
                 yield return node;
+            }
         }
 
         private static IEnumerable<INode> BoundedReachableOutgoingRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<INode, int> targetNodesToMinDepth, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4341,7 +4451,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 targetNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(INode node in BoundedReachableOutgoingRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, targetNodesToMinDepth, actionEnv, threadId))
+                {
                     yield return node;
+                }
             }
         }
 
@@ -4352,7 +4464,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
             Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
             foreach(IEdge edge in BoundedReachableEdgesRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, threadId))
+            {
                 yield return edge;
+            }
         }
 
         public static IEnumerable<IEdge> BoundedReachableEdges(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4360,7 +4474,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
             Dictionary<INode, int> adjacentNodesToMinDepth = new Dictionary<INode, int>();
             foreach(IEdge edge in BoundedReachableEdgesRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, actionEnv, threadId))
+            {
                 yield return edge;
+            }
         }
 
         private static IEnumerable<IEdge> BoundedReachableEdgesRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<IEdge, SetValueType> visitedEdges, Dictionary<INode, int> adjacentNodesToMinDepth, int threadId)
@@ -4382,7 +4498,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(IEdge reachableEdge in BoundedReachableEdgesRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
@@ -4399,7 +4517,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(IEdge reachableEdge in BoundedReachableEdgesRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4423,7 +4543,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(IEdge reachableEdge in BoundedReachableEdgesRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, actionEnv, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
             foreach(IEdge edge in startNode.GetCompatibleIncoming(incidentEdgeType))
             {
@@ -4441,7 +4563,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 adjacentNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(IEdge reachableEdge in BoundedReachableEdgesRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, adjacentNodesToMinDepth, actionEnv, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4450,7 +4574,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
             Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
             foreach(IEdge edge in BoundedReachableEdgesIncomingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, sourceNodesToMinDepth, threadId))
+            {
                 yield return edge;
+            }
         }
 
         public static IEnumerable<IEdge> BoundedReachableEdgesIncoming(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4458,7 +4584,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
             Dictionary<INode, int> sourceNodesToMinDepth = new Dictionary<INode, int>();
             foreach(IEdge edge in BoundedReachableEdgesIncomingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, sourceNodesToMinDepth, actionEnv, threadId))
+            {
                 yield return edge;
+            }
         }
 
         private static IEnumerable<IEdge> BoundedReachableEdgesIncomingRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<IEdge, SetValueType> visitedEdges, Dictionary<INode, int> sourceNodesToMinDepth, int threadId)
@@ -4480,7 +4608,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 sourceNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(IEdge reachableEdge in BoundedReachableEdgesIncomingRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, sourceNodesToMinDepth, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4504,7 +4634,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 sourceNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(IEdge reachableEdge in BoundedReachableEdgesIncomingRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, sourceNodesToMinDepth, actionEnv, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4513,7 +4645,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
             Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
             foreach(IEdge edge in BoundedReachableEdgesOutgoingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, targetNodesToMinDepth, threadId))
+            {
                 yield return edge;
+            }
         }
 
         public static IEnumerable<IEdge> BoundedReachableEdgesOutgoing(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, IActionExecutionEnvironment actionEnv, int threadId)
@@ -4521,7 +4655,9 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<IEdge, SetValueType> visitedEdges = new Dictionary<IEdge, SetValueType>();
             Dictionary<INode, int> targetNodesToMinDepth = new Dictionary<INode, int>();
             foreach(IEdge edge in BoundedReachableEdgesOutgoingRec(startNode, depth, incidentEdgeType, adjacentNodeType, graph, visitedEdges, targetNodesToMinDepth, actionEnv, threadId))
+            {
                 yield return edge;
+            }
         }
 
         private static IEnumerable<IEdge> BoundedReachableEdgesOutgoingRec(INode startNode, int depth, EdgeType incidentEdgeType, NodeType adjacentNodeType, IGraph graph, Dictionary<IEdge, SetValueType> visitedEdges, Dictionary<INode, int> targetNodesToMinDepth, int threadId)
@@ -4543,7 +4679,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 targetNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(IEdge reachableEdge in BoundedReachableEdgesOutgoingRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, targetNodesToMinDepth, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4567,7 +4705,9 @@ namespace de.unika.ipd.grGen.libGr
                     continue;
                 targetNodesToMinDepth[adjacentNode] = depth - 1;
                 foreach(IEdge reachableEdge in BoundedReachableEdgesOutgoingRec(adjacentNode, depth - 1, incidentEdgeType, adjacentNodeType, graph, visitedEdges, targetNodesToMinDepth, actionEnv, threadId))
+                {
                     yield return reachableEdge;
+                }
             }
         }
 
@@ -4584,14 +4724,18 @@ namespace de.unika.ipd.grGen.libGr
             if(includingAttributes)
             {
                 foreach(IGraph graphToCheckAgainst in graphsToCheckAgainst.Keys)
+                {
                     if(candidate.IsIsomorph(graphToCheckAgainst))
                         return true;
+                }
             }
             else
             {
                 foreach(IGraph graphToCheckAgainst in graphsToCheckAgainst.Keys)
+                {
                     if(candidate.HasSameStructure(graphToCheckAgainst))
                         return true;
+                }
             }
             return false;
         }

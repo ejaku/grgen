@@ -44,9 +44,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public int CompareTo(EnumMember other)
         {
-            if (Value > other.Value) return 1;
-            else if (Value < other.Value) return -1;
-            else return 0;
+            if(Value > other.Value)
+                return 1;
+            else if(Value < other.Value)
+                return -1;
+            else
+                return 0;
         }
     }
 
@@ -110,16 +113,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 int lowIndex = 0;
                 int highIndex = members.Length;
-                while (lowIndex < highIndex)
+                while(lowIndex < highIndex)
                 {
                     int midIndex = lowIndex + ((highIndex - lowIndex) / 2);
-                    if (value > members[midIndex].Value)
+                    if(value > members[midIndex].Value)
                         lowIndex = midIndex + 1;
                     else
                         highIndex = midIndex;
                 }
                 // high==low
-                if ((lowIndex < members.Length) && (members[lowIndex].Value == value))
+                if((lowIndex < members.Length) && (members[lowIndex].Value == value))
                     return members[lowIndex];
                 else
                     return null;
