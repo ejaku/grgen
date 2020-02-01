@@ -42,10 +42,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get
             {
-                if (SuperNode == null) return null;
+                if(SuperNode == null)
+                    return null;
                 PlanSuperNode current = SuperNode;
-                while (current.SuperNode != null)
+                while(current.SuperNode != null)
+                {
                     current = current.SuperNode;
+                }
                 return current;
             }
         }
@@ -55,10 +58,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PlanPseudoNode TopNode
         {
-            get
-            {
-                return TopSuperNode ?? this;
-            }
+            get { return TopSuperNode ?? this; }
         }
 
         /// <summary>
@@ -69,19 +69,27 @@ namespace de.unika.ipd.grGen.lgsp
         {
             float epsilon = 0.001f;
             float costDiff = minEdgeCost - newEdgeCost;
-            if (costDiff < -epsilon) return false;
-            if (costDiff > epsilon) return true;
+            if(costDiff < -epsilon)
+                return false;
+            if(costDiff > epsilon)
+                return true;
 
             // Choose equally expensive operations in this order: implicit, non-lookup, edge lookups, node lookups
 
-            if (minEdge.Source.NodeType == PlanNodeType.Edge) return false;      // minEdge is implicit op
-            if (newEdge.Source.NodeType == PlanNodeType.Edge) return true;       // newEdge is implicit op
+            if(minEdge.Source.NodeType == PlanNodeType.Edge)
+                return false;      // minEdge is implicit op
+            if(newEdge.Source.NodeType == PlanNodeType.Edge)
+                return true;       // newEdge is implicit op
 
-            if (minEdge.Source.NodeType != PlanNodeType.Root) return false;      // minEdge is non-lookup op
-            if (newEdge.Source.NodeType != PlanNodeType.Root) return true;       // newEdge is non-lookup op
+            if(minEdge.Source.NodeType != PlanNodeType.Root)
+                return false;      // minEdge is non-lookup op
+            if(newEdge.Source.NodeType != PlanNodeType.Root)
+                return true;       // newEdge is non-lookup op
 
-            if (minEdge.Target.NodeType == PlanNodeType.Edge) return false;      // minEdge is edge lookup
-            if (newEdge.Target.NodeType == PlanNodeType.Edge) return true;       // newEdge is edge lookup
+            if(minEdge.Target.NodeType == PlanNodeType.Edge)
+                return false;      // minEdge is edge lookup
+            if(newEdge.Target.NodeType == PlanNodeType.Edge)
+                return true;       // newEdge is edge lookup
 
             return false;                                                       // minEdge and newEdge are node lookups, keep minEdge
         }
@@ -103,9 +111,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Only valid if this plan node is representing a pattern edge, 
         /// then PatternEdgeSource gives us the plan node made out of the source node of the edge
+        /// </summary>
+        public PlanNode PatternEdgeSource;
+
+        /// <summary>
+        /// Only valid if this plan node is representing a pattern edge, 
         /// then PatternEdgeTarget gives us the plan node made out of the target node of the edge
         /// </summary>
-        public PlanNode PatternEdgeSource, PatternEdgeTarget;
+        public PlanNode PatternEdgeTarget;
 
         /// <summary>
         /// Instantiates a root plan node.
@@ -170,10 +183,11 @@ namespace de.unika.ipd.grGen.lgsp
             minCost = float.MaxValue;
             PlanEdge minEdge = null;
 
-            foreach (PlanEdge edge in IncomingEdges)
+            foreach(PlanEdge edge in IncomingEdges)
             {
-                if (excludeTopNode != null && edge.Source.TopNode == excludeTopNode) continue;
-                if (PreferNewEdge(minEdge, minCost, edge, edge.mstCost))
+                if(excludeTopNode != null && edge.Source.TopNode == excludeTopNode)
+                    continue;
+                if(PreferNewEdge(minEdge, minCost, edge, edge.mstCost))
                 {
                     minCost = edge.mstCost;
                     minEdge = edge;
@@ -210,20 +224,24 @@ namespace de.unika.ipd.grGen.lgsp
             do
             {
                 current.SuperNode = this;
-                if (current.IncomingMSAEdge.mstCost < minCycleEdgeCost)
+                if(current.IncomingMSAEdge.mstCost < minCycleEdgeCost)
                     minCycleEdgeCost = current.IncomingMSAEdge.mstCost;
                 current = current.IncomingMSAEdge.Source;
-                while (current.SuperNode != null && current.SuperNode != this)
+                while(current.SuperNode != null && current.SuperNode != this)
+                {
                     current = current.SuperNode;
+                }
             }
-            while (current != Child);
+            while(current != Child);
 
             // Adjust costs of incoming edges
-            foreach (PlanEdge edge in Incoming)
+            foreach(PlanEdge edge in Incoming)
             {
                 PlanPseudoNode curTarget = edge.Target;
-                while (curTarget.SuperNode != this)
+                while(curTarget.SuperNode != this)
+                {
                     curTarget = curTarget.SuperNode;
+                }
                 edge.mstCost -= curTarget.IncomingMSAEdge.mstCost - minCycleEdgeCost;
             }
 
@@ -231,8 +249,10 @@ namespace de.unika.ipd.grGen.lgsp
             float cost;
             IncomingMSAEdge = GetCheapestIncoming(this, out cost);
             Child = IncomingMSAEdge.Target;
-            while (Child.SuperNode != this)
+            while(Child.SuperNode != this)
+            {
                 Child = Child.SuperNode;
+            }
         }
 
         /// <summary>
@@ -246,16 +266,18 @@ namespace de.unika.ipd.grGen.lgsp
                 do
                 {
                     PlanPseudoNode currentTopSuperNode = current.TopSuperNode;
-                    foreach (PlanEdge edge in current.Incoming)
+                    foreach(PlanEdge edge in current.Incoming)
                     {
-                        if (edge.Source.TopSuperNode != currentTopSuperNode)
+                        if(edge.Source.TopSuperNode != currentTopSuperNode)
                             yield return edge;
                     }
                     current = current.IncomingMSAEdge.Source;
-                    while (current.SuperNode != this)
+                    while(current.SuperNode != this)
+                    {
                         current = current.SuperNode;
+                    }
                 }
-                while (current != Child);
+                while(current != Child);
             }
         }
 
@@ -273,23 +295,27 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 float curCost;
                 PlanEdge curEdge = current.GetCheapestIncoming(excludeTopNode, out curCost);
-                if (curEdge != null)
+                if(curEdge != null)
                 {
                     PlanPseudoNode target = curEdge.Target;
-                    while (target.SuperNode != this)
+                    while(target.SuperNode != this)
+                    {
                         target = target.SuperNode;
+                    }
 
-                    if (PreferNewEdge(minEdge, minCost, curEdge, curCost))
+                    if(PreferNewEdge(minEdge, minCost, curEdge, curCost))
                     {
                         minCost = curCost;
                         minEdge = curEdge;
                     }
                 }
                 current = current.IncomingMSAEdge.Source;
-                while (current.SuperNode != this)
+                while(current.SuperNode != this)
+                {
                     current = current.SuperNode;
+                }
             }
-            while (current != Child);
+            while(current != Child);
             return minEdge;
         }
     }

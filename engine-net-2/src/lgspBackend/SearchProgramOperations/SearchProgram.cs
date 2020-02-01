@@ -56,17 +56,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         protected void GenerateIndependentsMatchObjects(SourceBuilder sourceCode)
         {
-            for (int i=0; i<MatchingPatternClassTypeName.Count; ++i)
+            for(int i=0; i<MatchingPatternClassTypeName.Count; ++i)
             {
-                if (NestedIndependents[i] == null)
+                if(NestedIndependents[i] == null)
                     continue;
 
-                foreach (KeyValuePair<PatternGraph, bool> nestedIndependent in NestedIndependents[i])
+                foreach(KeyValuePair<PatternGraph, bool> nestedIndependent in NestedIndependents[i])
                 {
-                    if (nestedIndependent.Value == false)
+                    if(nestedIndependent.Value == false)
                         continue; // if independent is not nested in iterated with potentially more than one match then matcher-class-based match variables are sufficient, only one match is living at a time
 
-                    if (nestedIndependent.Key.originalPatternGraph != null)
+                    if(nestedIndependent.Key.originalPatternGraph != null)
                     {
                         sourceCode.AppendFrontFormat("{0} {1} = new {0}();\n",
                             nestedIndependent.Key.originalSubpatternEmbedding.matchingPatternOfEmbeddedGraph.GetType().Name + "." + NamesOfEntities.MatchClassName(nestedIndependent.Key.originalPatternGraph.pathPrefix + nestedIndependent.Key.originalPatternGraph.name),
@@ -113,7 +113,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             PatternName = patternName;
             Parameters = "";
-            for (int i = 0; i < parameterTypes.Length; ++i)
+            for(int i = 0; i < parameterTypes.Length; ++i)
             {
                 Parameters += ", " + parameterTypes[i] + " " + parameterNames[i];
             }
@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.lgsp
                 Name, SetupSubpatternMatching ? "with subpattern matching setup\n" : "\n");
 
             // then nested content
-            if (OperationsList != null)
+            if(OperationsList != null)
             {
                 builder.Indent();
                 OperationsList.Dump(builder);
@@ -145,7 +145,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // then next missing preset search subprogram
-            if (Next != null)
+            if(Next != null)
             {
                 Next.Dump(builder);
             }
@@ -200,7 +200,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             GenerateIndependentsMatchObjects(sourceCode);
 
-            if (WasIndependentInlined)
+            if(WasIndependentInlined)
             {
                 sourceCode.AppendFrontFormat("Dictionary<int, {0}> {1} = null;\n",
                     RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName),
@@ -278,7 +278,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if(emittedCounter>0) // first entry are we ourselves, don't call, just nop
                 {
                     sourceCode.AppendFrontFormat("return {0}(actionEnv, maxMatches", SuffixedMatcherNames[emittedCounter]);
-                    foreach(string argument in Arguments[emittedCounter]) {
+                    foreach(string argument in Arguments[emittedCounter])
+                    {
                         sourceCode.AppendFormat(", {0}", argument);                        
                     }
                     sourceCode.Append(");\n");
@@ -339,9 +340,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // then next missing preset search subprogram
             if(Next != null)
-            {
                 Next.Dump(builder);
-            }
         }
 
         /// <summary>
@@ -418,9 +417,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // emit search subprograms
             if(Next != null)
-            {
                 Next.Emit(sourceCode);
-            }
         }
 
         public readonly string PatternName;
@@ -470,9 +467,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // then next missing preset search subprogram
             if(Next != null)
-            {
                 Next.Dump(builder);
-            }
         }
 
         /// <summary>
@@ -529,9 +524,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             if(EmitProfiling)
-            {
                 sourceCode.AppendFront("long searchStepsAtLoopStepBegin;\n");
-            }
 
             OperationsList.Emit(sourceCode);
 
@@ -605,7 +598,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.Append("\n");
 
             // then nested content
-            if (OperationsList != null)
+            if(OperationsList != null)
             {
                 builder.Indent();
                 OperationsList.Dump(builder);
@@ -713,7 +706,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("Search program {0} of alternative case\n", Parallel ? Name + "_parallelized" : Name);
 
             // then nested content
-            if (OperationsList != null)
+            if(OperationsList != null)
             {
                 builder.Indent();
                 OperationsList.Dump(builder);
@@ -805,7 +798,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.Append("\n");
 
             // then nested content
-            if (OperationsList != null)
+            if(OperationsList != null)
             {
                 builder.Indent();
                 OperationsList.Dump(builder);

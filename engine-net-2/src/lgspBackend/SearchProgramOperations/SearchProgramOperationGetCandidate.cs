@@ -232,29 +232,38 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // first dump local content
             builder.AppendFront("GetCandidate ByIteration ");
-            if (Type == GetCandidateByIterationType.GraphElements) {
+            if(Type == GetCandidateByIterationType.GraphElements)
+            {
                 builder.Append("GraphElements ");
                 builder.AppendFormat("on {0} node:{1}\n",
                     PatternElementName, IsNode);
-            } else if(Type == GetCandidateByIterationType.StorageElements) {
+            }
+            else if(Type == GetCandidateByIterationType.StorageElements)
+            {
                 builder.Append("StorageElements ");
                 builder.AppendFormat("on {0} from {1} node:{2} {3}\n",
                     PatternElementName, StorageName, IsNode, IsDict?"Dictionary":"List/Deque");
-            } else if(Type == GetCandidateByIterationType.StorageAttributeElements) {
+            }
+            else if(Type == GetCandidateByIterationType.StorageAttributeElements)
+            {
                 builder.Append("StorageAttributeElements ");
                 builder.AppendFormat("on {0} from {1}.{2} node:{3} {4}\n",
                     PatternElementName, StorageOwnerName, StorageAttributeName, IsNode, IsDict?"Dictionary":"List/Deque");
-            } else if(Type == GetCandidateByIterationType.IndexElements) {
+            }
+            else if(Type == GetCandidateByIterationType.IndexElements)
+            {
                 builder.Append("IndexElements ");
                 builder.AppendFormat("on {0} from {1} node:{2}\n",
                     PatternElementName, IndexName, IsNode);
-            } else { //Type==GetCandidateByIterationType.IncidentEdges
+            }
+            else //Type==GetCandidateByIterationType.IncidentEdges
+            {
                 builder.Append("IncidentEdges ");
                 builder.AppendFormat("on {0} from {1} edge type:{2}\n",
                     PatternElementName, StartingPointNodeName, EdgeType.ToString());
             }
             // then nested content
-            if (NestedOperationsList != null)
+            if(NestedOperationsList != null)
             {
                 builder.Indent();
                 NestedOperationsList.Dump(builder);
@@ -264,7 +273,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (Type == GetCandidateByIterationType.GraphElements)
+            if(Type == GetCandidateByIterationType.GraphElements)
             {
                 // code comments: lookup comment was already emitted with type iteration/drawing
 
@@ -455,13 +464,13 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else //Type==GetCandidateByIterationType.IncidentEdges
             {
-                if (sourceCode.CommentSourceCode)
+                if(sourceCode.CommentSourceCode)
                 {
                     sourceCode.AppendFrontFormat("// Extend {0} {1} from {2} \n",
                             EdgeType.ToString(), PatternElementName, StartingPointNodeName);
                 }
 
-                if (EdgeType != IncidentEdgeType.IncomingOrOutgoing)
+                if(EdgeType != IncidentEdgeType.IncomingOrOutgoing)
                 {
                     // emit declaration of variable containing incident edges list head
                     string variableContainingListHead =
@@ -1661,17 +1670,25 @@ namespace de.unika.ipd.grGen.lgsp
                     String indexFromIncluded = IndexFromIncluded ? "Inclusive" : "Exclusive";
                     String indexToIncluded = IndexToIncluded ? "Inclusive" : "Exclusive";
                     if(IndexFrom != null && IndexTo != null)
+                    {
                         sourceCode.AppendFormat("Lookup{0}From{1}To{2}({3}, {4}))\n",
                             accessType, indexFromIncluded, indexToIncluded, IndexFrom, IndexTo);
+                    }
                     else if(IndexFrom != null)
+                    {
                         sourceCode.AppendFormat("Lookup{0}From{1}({2}))\n",
                             accessType, indexFromIncluded, IndexFrom);
+                    }
                     else if(IndexTo != null)
+                    {
                         sourceCode.AppendFormat("Lookup{0}To{1}({2}))\n",
                             accessType, indexToIncluded, IndexTo);
+                    }
                     else
+                    {
                         sourceCode.AppendFormat("Lookup{0}())\n",
                             accessType);
+                    }
                 }
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -2165,45 +2182,64 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("GetCandidate ByDrawing ");
-            if(Type==GetCandidateByDrawingType.NodeFromEdge) {
+            if(Type==GetCandidateByDrawingType.NodeFromEdge)
+            {
                 builder.Append("NodeFromEdge ");
                 builder.AppendFormat("on {0} of {1} from {2} implicit node type:{3}\n",
                     PatternElementName, PatternElementTypeName, 
                     StartingPointEdgeName, NodeType.ToString());
-            } else if(Type==GetCandidateByDrawingType.MapWithStorage) {
+            }
+            else if(Type==GetCandidateByDrawingType.MapWithStorage)
+            {
                 builder.Append("MapWithStorage ");
                 builder.AppendFormat("on {0} by {1} from {2} node:{3}\n",
                     PatternElementName, SourcePatternElementName, 
                     StorageName, IsNode);
-            } else if(Type==GetCandidateByDrawingType.MapByName) {
+            }
+            else if(Type==GetCandidateByDrawingType.MapByName)
+            {
                 builder.Append("MapByName ");
                 builder.AppendFormat("on {0} from name map by {1} node:{2}\n",
                     PatternElementName, SourceExpression, IsNode);
-            } else if(Type==GetCandidateByDrawingType.MapByUnique) {
+            }
+            else if(Type==GetCandidateByDrawingType.MapByUnique)
+            {
                 builder.Append("MapByUnique ");
                 builder.AppendFormat("on {0} from unique map by {1} node:{2}\n",
                     PatternElementName, SourceExpression, IsNode);
-            } else if(Type==GetCandidateByDrawingType.FromInputs) {
+            }
+            else if(Type==GetCandidateByDrawingType.FromInputs)
+            {
                 builder.Append("FromInputs ");
                 builder.AppendFormat("on {0} node:{1}\n",
                     PatternElementName, IsNode);
-            } else if(Type==GetCandidateByDrawingType.FromSubpatternConnections) {
+            }
+            else if(Type==GetCandidateByDrawingType.FromSubpatternConnections)
+            {
                 builder.Append("FromSubpatternConnections ");
                 builder.AppendFormat("on {0} node:{1}\n",
                     PatternElementName, IsNode);
-            } else if(Type == GetCandidateByDrawingType.FromParallelizationTask) {
+            }
+            else if(Type == GetCandidateByDrawingType.FromParallelizationTask)
+            {
                 builder.Append("FromParallelizationTask ");
                 builder.AppendFormat("on {0} node:{1} \n",
                     PatternElementName, IsNode);
-            } else if(Type == GetCandidateByDrawingType.FromParallelizationTaskVar) {
+            }
+            else if(Type == GetCandidateByDrawingType.FromParallelizationTaskVar)
+            {
                 builder.Append("FromParallelizationTaskVar ");
                 builder.AppendFormat("on {0} \n",
                     PatternElementName);
-            } else if(Type == GetCandidateByDrawingType.FromOtherElementForCast) {
+            }
+            else if(Type == GetCandidateByDrawingType.FromOtherElementForCast)
+            {
                 builder.Append("FromOtherElementForCast ");
                 builder.AppendFormat("on {0} from {1} node:{2}\n",
                     PatternElementName, SourcePatternElementName, IsNode);
-            } else { //if(Type==GetCandidateByDrawingType.FromOtherElementForAssign)
+            }
+            else //if(Type==GetCandidateByDrawingType.FromOtherElementForAssign)
+            {
                 builder.Append("FromOtherElementForAssign ");
                 builder.AppendFormat("on {0} from {1} node:{2}\n",
                     PatternElementName, SourcePatternElementName, IsNode);
@@ -2215,10 +2251,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(Type==GetCandidateByDrawingType.NodeFromEdge)
             {
                 if(sourceCode.CommentSourceCode)
+                {
                     sourceCode.AppendFrontFormat("// Implicit {0} {1} from {2} \n",
                             NodeType.ToString(), PatternElementName, StartingPointEdgeName);
+                }
 
-                if (NodeType == ImplicitNodeType.Source || NodeType == ImplicitNodeType.Target)
+                if(NodeType == ImplicitNodeType.Source || NodeType == ImplicitNodeType.Target)
                 {
                     // emit declaration of variable containing candidate node
                     string variableContainingCandidate =
@@ -2232,7 +2270,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.AppendFormat(" = {0}.{1};\n",
                         variableContainingStartingPointEdge, whichImplicitNode);
                 }
-                else if (NodeType == ImplicitNodeType.SourceOrTarget)
+                else if(NodeType == ImplicitNodeType.SourceOrTarget)
                 {
                     // we've to look at both nodes, we do so by first handling source, then target
                     string directionRunCounter = 
@@ -2264,8 +2302,10 @@ namespace de.unika.ipd.grGen.lgsp
             else if(Type == GetCandidateByDrawingType.MapWithStorage)
             {
                 if(sourceCode.CommentSourceCode)
+                {
                     sourceCode.AppendFrontFormat("// Map {0} by {1}[{2}] \n",
-                        PatternElementName, StorageName, SourcePatternElementName);
+                       PatternElementName, StorageName, SourcePatternElementName);
+                }
 
                 // emit declaration of variable to hold element mapped from storage
                 string typeOfTempVariableForMapResult = StorageValueTypeName;
@@ -2282,8 +2322,10 @@ namespace de.unika.ipd.grGen.lgsp
             else if(Type == GetCandidateByDrawingType.MapByName)
             {
                 if(sourceCode.CommentSourceCode)
+                {
                     sourceCode.AppendFrontFormat("// Map {0} by name map with {1} \n",
-                        PatternElementName, SourceExpression);
+                       PatternElementName, SourceExpression);
+                }
 
                 // emit declaration of variable to hold element mapped by name
                 // emit initialization with element from name map lookup
@@ -2301,8 +2343,10 @@ namespace de.unika.ipd.grGen.lgsp
             else if(Type == GetCandidateByDrawingType.MapByUnique)
             {
                 if(sourceCode.CommentSourceCode)
+                {
                     sourceCode.AppendFrontFormat("// Map {0} by unique index with {1} \n",
-                        PatternElementName, SourceExpression);
+                       PatternElementName, SourceExpression);
+                }
 
                 // emit declaration of variable to hold element mapped by unique id
                 // emit initialization with element from unique map lookup
@@ -2374,8 +2418,10 @@ namespace de.unika.ipd.grGen.lgsp
             else if(Type == GetCandidateByDrawingType.FromOtherElementForCast)
             {
                 if(sourceCode.CommentSourceCode)
-                    sourceCode.AppendFrontFormat("// Element {0} as type cast from other element {1} \n", 
-                        PatternElementName, SourcePatternElementName);
+                {
+                    sourceCode.AppendFrontFormat("// Element {0} as type cast from other element {1} \n",
+                       PatternElementName, SourcePatternElementName);
+                }
 
                 // emit declaration of variable containing candidate node
                 string typeOfVariableContainingCandidate = "GRGEN_LGSP."
@@ -2390,8 +2436,10 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(Type == GetCandidateByDrawingType.FromOtherElementForAssign)
             {
                 if(sourceCode.CommentSourceCode)
-                    sourceCode.AppendFrontFormat("// Element {0} assigned from other element {1} \n", 
-                        PatternElementName, SourcePatternElementName);
+                {
+                    sourceCode.AppendFrontFormat("// Element {0} assigned from other element {1} \n",
+                       PatternElementName, SourcePatternElementName);
+                }
 
                 // emit declaration of variable containing candidate node
                 string typeOfVariableContainingCandidate = "GRGEN_LGSP."
@@ -2505,7 +2553,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("BothDirectionsIteration on {0}\n", PatternElementName);
 
             // then nested content
-            if (NestedOperationsList != null)
+            if(NestedOperationsList != null)
             {
                 builder.Indent();
                 NestedOperationsList.Dump(builder);
@@ -2515,7 +2563,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
+            if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFrontFormat("// both directions of {0}\n", PatternElementName);
 
             // emit loop header of loop iterating both directions of an edge of not fixed direction

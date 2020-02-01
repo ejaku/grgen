@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.lgsp
             continuationPoint = null;
 
             GetCandidateByDrawing nodeFromEdge;
-            if (nodeType == ImplicitNodeType.Source || nodeType == ImplicitNodeType.Target)
+            if(nodeType == ImplicitNodeType.Source || nodeType == ImplicitNodeType.Target)
             {
                 nodeFromEdge = new GetCandidateByDrawing(
                     GetCandidateByDrawingType.NodeFromEdge,
@@ -122,7 +122,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 Debug.Assert(nodeType != ImplicitNodeType.TheOther);
 
-                if (currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
+                if(currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
                 {
                     nodeFromEdge = new GetCandidateByDrawing(
                         GetCandidateByDrawingType.NodeFromEdge,
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else // edge connects to first incident node
                 {
-                    if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
+                    if(edge.PatternEdgeSource == edge.PatternEdgeTarget)
                     {
                         // reflexive edge without direction iteration as we don't want 2 matches 
                         nodeFromEdge = new GetCandidateByDrawing(
@@ -166,7 +166,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            if (continuationPoint == null)
+            if(continuationPoint == null)
                 continuationPoint = insertionPoint;
 
             return insertionPoint;
@@ -182,11 +182,10 @@ namespace de.unika.ipd.grGen.lgsp
             MatchObjectType matchObjectType)
         {
             String matchOfEnclosingPatternName;
-            if(matchObjectType == MatchObjectType.Independent) {
+            if(matchObjectType == MatchObjectType.Independent)
                 matchOfEnclosingPatternName = NamesOfEntities.MatchedIndependentVariable(patternGraph.pathPrefix + patternGraph.name);
-            } else { //if(matchObjectType==MatchObjectType.Normal)
+            else //if(matchObjectType==MatchObjectType.Normal)
                 matchOfEnclosingPatternName = "match";
-            }
 
             for(int i = 0; i < patternGraph.embeddedGraphsPlusInlined.Length; ++i)
             {
@@ -218,16 +217,15 @@ namespace de.unika.ipd.grGen.lgsp
             bool defElements)
         {
             String matchObjectName;
-            if(matchObjectType==MatchObjectType.Independent) {
+            if(matchObjectType==MatchObjectType.Independent)
                 matchObjectName = NamesOfEntities.MatchedIndependentVariable(patternGraph.pathPrefix + patternGraph.name);
-            } else if(matchObjectType==MatchObjectType.Patternpath) {
+            else if(matchObjectType==MatchObjectType.Patternpath)
                 matchObjectName = NamesOfEntities.PatternpathMatch(patternGraph.pathPrefix + patternGraph.name);
-            } else { //if(matchObjectType==MatchObjectType.Normal)
+            else //if(matchObjectType==MatchObjectType.Normal)
                 matchObjectName = "match";
-            }
             String enumPrefix = patternGraph.pathPrefix + patternGraph.name + "_";
 
-            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
                 // in defElements pass only def elements, in non defElements pass only non def elements
                 if(defElements == patternGraph.nodesPlusInlined[i].defToBeYieldedTo)
@@ -254,7 +252,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
             }
-            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
                 // in defElements pass only def elements, in non defElements pass only non def elements
                 if(defElements == patternGraph.edgesPlusInlined[i].defToBeYieldedTo)
@@ -283,11 +281,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // only nodes and edges for patternpath matches
-            if (matchObjectType == MatchObjectType.Patternpath) {
+            if(matchObjectType == MatchObjectType.Patternpath)
                 return insertionPoint;
-            }
 
-            foreach (PatternVariable var in patternGraph.variablesPlusInlined)
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
             {
                 // in defElements pass only def elements, in non defElements pass only non def elements
                 if(defElements == var.defToBeYieldedTo)
@@ -316,11 +313,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // only nodes, edges, variables in defElements pass
-            if(defElements) {
+            if(defElements)
                 return insertionPoint;
-            }
 
-            for (int i = 0; i < patternGraph.embeddedGraphsPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.embeddedGraphsPlusInlined.Length; ++i)
             {
                 if(patternGraph.embeddedGraphsPlusInlined[i].inlined)
                 {
@@ -363,7 +359,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
             }
-            for (int i = 0; i < patternGraph.iteratedsPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.iteratedsPlusInlined.Length; ++i)
             {
                 string inlinedMatchObjectName = null;
                 string unprefixedName = patternGraph.iteratedsPlusInlined[i].iteratedPattern.name;
@@ -390,7 +386,7 @@ namespace de.unika.ipd.grGen.lgsp
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
-            for (int i = 0; i < patternGraph.alternativesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.alternativesPlusInlined.Length; ++i)
             {
                 string inlinedMatchObjectName = null;
                 string unprefixedName = patternGraph.alternativesPlusInlined[i].name;
@@ -417,9 +413,9 @@ namespace de.unika.ipd.grGen.lgsp
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
-            if (patternGraph.nestedIndependents != null)
+            if(patternGraph.nestedIndependents != null)
             {
-                foreach (KeyValuePair<PatternGraph, bool> nestedIndependent in patternGraph.nestedIndependents)
+                foreach(KeyValuePair<PatternGraph, bool> nestedIndependent in patternGraph.nestedIndependents)
                 {
                     string inlinedMatchObjectName = null;
                     string unprefixedName = nestedIndependent.Key.name;
@@ -612,9 +608,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // (read from submatches to local variables, compute in local variables, writing will happen later from local variables to matches)
                     string inlinedMatchObjectName = null;
                     if(independent.originalPatternGraph != null && patternGraph.WasInlinedHere(independent.originalSubpatternEmbedding))
-                    {
                         inlinedMatchObjectName = "match_" + independent.originalSubpatternEmbedding.Name;
-                    }
 
                     String nestedMatchObjectName = NamesOfEntities.MatchedIndependentVariable(independent.pathPrefix + independent.name); ;
 
@@ -838,7 +832,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // first alternatives, so that they get processed last
             // to handle subpatterns in linear order we've to push them in reverse order on the stack
-            for (int i = patternGraph.alternativesPlusInlined.Length - 1; i >= 0; --i)
+            for(int i = patternGraph.alternativesPlusInlined.Length - 1; i >= 0; --i)
             {
                 Alternative alternative = patternGraph.alternativesPlusInlined[i];
 
@@ -847,19 +841,25 @@ namespace de.unika.ipd.grGen.lgsp
                 Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
                 foreach(PatternGraph altCase in alternative.alternativeCases)
                 {
-                    foreach (KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                    foreach(KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                    {
                         neededNodes[neededNode.Key] = neededNode.Value;
-                    foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                    }
+                    foreach(KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                    {
                         neededEdges[neededEdge.Key] = neededEdge.Value;
+                    }
                     foreach(KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                    {
                         neededVariables[neededVariable.Key] = neededVariable.Value;
+                    }
                 }
 
                 int numElements = neededNodes.Count + neededEdges.Count + neededVariables.Count;
                 string[] connectionName = new string[numElements];
                 string[] argumentExpressions = new string[numElements];
                 int j = 0;
-                foreach (KeyValuePair<string, bool> node in neededNodes)
+                foreach(KeyValuePair<string, bool> node in neededNodes)
                 {
                     connectionName[j] = node.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -867,7 +867,7 @@ namespace de.unika.ipd.grGen.lgsp
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
-                foreach (KeyValuePair<string, bool> edge in neededEdges)
+                foreach(KeyValuePair<string, bool> edge in neededEdges)
                 {
                     connectionName[j] = edge.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -915,7 +915,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // then iterated patterns of the pattern
             // to handle iterated in linear order we've to push them in reverse order on the stack
-            for (int i = patternGraph.iteratedsPlusInlined.Length - 1; i >= 0; --i)
+            for(int i = patternGraph.iteratedsPlusInlined.Length - 1; i >= 0; --i)
             {
                 PatternGraph iter = patternGraph.iteratedsPlusInlined[i].iteratedPattern;
 
@@ -923,7 +923,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string[] connectionName = new string[numElements];
                 string[] argumentExpressions = new string[numElements]; 
                 int j = 0;
-                foreach (KeyValuePair<string, bool> node in iter.neededNodes)
+                foreach(KeyValuePair<string, bool> node in iter.neededNodes)
                 {
                     connectionName[j] = node.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -931,7 +931,7 @@ namespace de.unika.ipd.grGen.lgsp
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
-                foreach (KeyValuePair<string, bool> edge in iter.neededEdges)
+                foreach(KeyValuePair<string, bool> edge in iter.neededEdges)
                 {
                     connectionName[j] = edge.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -969,7 +969,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // and finally subpatterns of the pattern
             // to handle subpatterns in linear order we've to push them in reverse order on the stack
-            for (int i = patternGraph.embeddedGraphsPlusInlined.Length - 1; i >= 0; --i)
+            for(int i = patternGraph.embeddedGraphsPlusInlined.Length - 1; i >= 0; --i)
             {
                 PatternGraphEmbedding subpattern = patternGraph.embeddedGraphsPlusInlined[i];
                 if(subpattern.inlined)
@@ -977,7 +977,7 @@ namespace de.unika.ipd.grGen.lgsp
                 Debug.Assert(subpattern.matchingPatternOfEmbeddedGraph.inputNames.Length == subpattern.connections.Length);
                 string[] connectionName = subpattern.matchingPatternOfEmbeddedGraph.inputNames;
                 string[] argumentExpressions = new string[subpattern.connections.Length];
-                for (int j = 0; j < subpattern.connections.Length; ++j)
+                for(int j = 0; j < subpattern.connections.Length; ++j)
                 {
                     SourceBuilder argumentExpression = new SourceBuilder();
                     subpattern.connections[j].Emit(argumentExpression);
@@ -1012,7 +1012,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = env.patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            foreach (PatternGraphEmbedding subpattern in patternGraph.embeddedGraphsPlusInlined)
+            foreach(PatternGraphEmbedding subpattern in patternGraph.embeddedGraphsPlusInlined)
             {
                 if(subpattern.inlined)
                     continue;
@@ -1027,7 +1027,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(popTask);
             }
 
-            foreach (Iterated iterated in patternGraph.iteratedsPlusInlined)
+            foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
@@ -1040,7 +1040,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(popTask);
             }
 
-            foreach (Alternative alternative in patternGraph.alternativesPlusInlined)
+            foreach(Alternative alternative in patternGraph.alternativesPlusInlined)
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
@@ -1184,9 +1184,9 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = env.patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                if (patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
+                if(patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
                     || patternGraph.nodesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
                     if(!patternGraph.nodesPlusInlined[i].defToBeYieldedTo
@@ -1203,9 +1203,9 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
-            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                if (patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
+                if(patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
                     || patternGraph.edgesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
                     if(!patternGraph.edgesPlusInlined[i].defToBeYieldedTo 
@@ -1236,9 +1236,9 @@ namespace de.unika.ipd.grGen.lgsp
             bool isAction = env.programType == SearchProgramType.Action;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                if (patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
+                if(patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
                     || patternGraph.nodesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
                     if(!patternGraph.nodesPlusInlined[i].defToBeYieldedTo)
@@ -1251,9 +1251,9 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
-            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                if (patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
+                if(patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
                     || patternGraph.edgesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
                     if(!patternGraph.edgesPlusInlined[i].defToBeYieldedTo)
@@ -1281,9 +1281,9 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
             // global abandon of all candidate elements (remove isomorphy information)
-            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                if (patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
+                if(patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
                     || patternGraph.nodesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
                     if(!patternGraph.nodesPlusInlined[i].defToBeYieldedTo
@@ -1300,9 +1300,9 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
-            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                if (patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
+                if(patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
                     || patternGraph.edgesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
                     if(!patternGraph.edgesPlusInlined[i].defToBeYieldedTo 
@@ -1334,9 +1334,9 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
             // patternpath abandon of all candidate elements (remove isomorphy information)
-            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
-                if (patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
+                if(patternGraph.nodesPlusInlined[i].PointOfDefinition == patternGraph
                     || patternGraph.nodesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
                     if(!patternGraph.nodesPlusInlined[i].defToBeYieldedTo)
@@ -1349,9 +1349,9 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
-            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
-                if (patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
+                if(patternGraph.edgesPlusInlined[i].PointOfDefinition == patternGraph
                     || patternGraph.edgesPlusInlined[i].PointOfDefinition == null && isAction)
                 {
                     if(!patternGraph.edgesPlusInlined[i].defToBeYieldedTo)
@@ -1389,11 +1389,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- check failed, some subpattern matches found, pattern and subpatterns were matched
             PatternAndSubpatternsMatchedType type = PatternAndSubpatternsMatchedType.SubpatternOrAlternative;
-            if (env.programType == SearchProgramType.Action) {
+            if(env.programType == SearchProgramType.Action)
                 type = PatternAndSubpatternsMatchedType.Action;
-            } else if (env.programType == SearchProgramType.Iterated) {
-                if (isIteratedNullMatch) type = PatternAndSubpatternsMatchedType.IteratedNullMatch;
-                else type = PatternAndSubpatternsMatchedType.Iterated;
+            else if(env.programType == SearchProgramType.Iterated)
+            {
+                if(isIteratedNullMatch)
+                    type = PatternAndSubpatternsMatchedType.IteratedNullMatch;
+                else
+                    type = PatternAndSubpatternsMatchedType.Iterated;
             }
             Debug.Assert(!isIteratedNullMatch || env.programType == SearchProgramType.Iterated);
             string inlinedPatternClassName = env.rulePatternClassName;
@@ -1416,7 +1419,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
-            if (!isIteratedNullMatch)
+            if(!isIteratedNullMatch)
             {
                 insertionPoint = insertInlinedMatchObjectCreation(insertionPoint, 
                     patternGraph, MatchObjectType.Normal);
@@ -1434,7 +1437,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = continuationPointAfterPatternAndSubpatternsMatched;
 
             // ---- create new matches list to search on or copy found matches into own matches list
-            if (env.programType==SearchProgramType.Subpattern 
+            if(env.programType==SearchProgramType.Subpattern 
                 || env.programType==SearchProgramType.AlternativeCase)
             { // not needed for iterated, because if match was found, that's it
                 NewMatchesListForFollowingMatches newMatchesList =
@@ -1469,7 +1472,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new SearchProgramList(checkSubpatternsFound);
             insertionPoint = checkSubpatternsFound.CheckFailedOperations;
 
-            if (env.isNegative)
+            if(env.isNegative)
             {
                 // ---- check failed, some subpattern matches found, negative pattern and subpatterns were matched
                 // build the negative pattern was matched operation
@@ -1491,7 +1494,7 @@ namespace de.unika.ipd.grGen.lgsp
                     negativeIndependentNamePrefix);
                 insertionPoint = insertionPoint.Append(patternMatched);
 
-                if (!env.isNestedInNegative) // no match object needed(/available) if independent is part of negative
+                if(!env.isNestedInNegative) // no match object needed(/available) if independent is part of negative
                 {
                     // ---- fill the match object with the candidates 
                     // ---- which have passed all the checks for being a match
@@ -1580,7 +1583,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = env.patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            if (env.isNegative)
+            if(env.isNegative)
             {
                 // build the negative pattern was matched operation
                 NegativePatternMatched patternMatched = new NegativePatternMatched(
@@ -1600,7 +1603,7 @@ namespace de.unika.ipd.grGen.lgsp
                     negativeIndependentNamePrefix);
                 insertionPoint = insertionPoint.Append(patternMatched);
 
-                if (!env.isNestedInNegative) // no match object needed(/available) if independent is part of negative
+                if(!env.isNestedInNegative) // no match object needed(/available) if independent is part of negative
                 {
                     // fill the match object with the candidates 
                     // which have passed all the checks for being a match
@@ -1725,9 +1728,9 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode = target.NodeType == PlanNodeType.Node;
             ITypeModel typeModel = isNode ? (ITypeModel)env.model.NodeModel : (ITypeModel)env.model.EdgeModel;
 
-            if (target.PatternElement.AllowedTypes == null)
+            if(target.PatternElement.AllowedTypes == null)
             { // the pattern element type and all subtypes are allowed
-                if (typeModel.Types[target.PatternElement.TypeID].HasSubTypes)
+                if(typeModel.Types[target.PatternElement.TypeID].HasSubTypes)
                 { // more than the type itself -> we've to iterate them
                     GetTypeByIteration typeIteration =
                         new GetTypeByIteration(
@@ -1754,7 +1757,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else //(target.PatternElement.AllowedTypes != null)
             { // the allowed types are given explicitely
-                if (target.PatternElement.AllowedTypes.Length != 1)
+                if(target.PatternElement.AllowedTypes.Length != 1)
                 { // more than one allowed type -> we've to iterate them
                     GetTypeByIteration typeIteration =
                         new GetTypeByIteration(
@@ -1793,14 +1796,14 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode = target.NodeType == PlanNodeType.Node;
             ITypeModel typeModel = isNode ? (ITypeModel)env.model.NodeModel : (ITypeModel)env.model.EdgeModel;
 
-            if (target.PatternElement.IsAllowedType != null)
+            if(target.PatternElement.IsAllowedType != null)
             { // the allowed types are given by an array for checking against them
                 Debug.Assert(target.PatternElement.AllowedTypes != null);
 
-                if (target.PatternElement.AllowedTypes.Length <= MAXIMUM_NUMBER_OF_TYPES_TO_CHECK_BY_TYPE_ID)
+                if(target.PatternElement.AllowedTypes.Length <= MAXIMUM_NUMBER_OF_TYPES_TO_CHECK_BY_TYPE_ID)
                 {
                     string[] typeIDs = new string[target.PatternElement.AllowedTypes.Length];
-                    for (int i = 0; i < target.PatternElement.AllowedTypes.Length; ++i)
+                    for(int i = 0; i < target.PatternElement.AllowedTypes.Length; ++i)
                     {
                         typeIDs[i] = target.PatternElement.AllowedTypes[i].TypeID.ToString();
                     }
@@ -1836,18 +1839,18 @@ namespace de.unika.ipd.grGen.lgsp
                 return insertionPoint;
             }
 
-            if (target.PatternElement.AllowedTypes == null)
+            if(target.PatternElement.AllowedTypes == null)
             { // the pattern element type and all subtypes are allowed
                 GrGenType targetType = typeModel.Types[target.PatternElement.TypeID];
-                if (targetType == typeModel.RootType)
+                if(targetType == typeModel.RootType)
                 { // every type matches the root type == element type -> no check needed
                     return insertionPoint;
                 }
 
-                if (targetType.subOrSameGrGenTypes.Length <= MAXIMUM_NUMBER_OF_TYPES_TO_CHECK_BY_TYPE_ID)
+                if(targetType.subOrSameGrGenTypes.Length <= MAXIMUM_NUMBER_OF_TYPES_TO_CHECK_BY_TYPE_ID)
                 { // the target type has no sub types, it must be exactly this type
                     string[] typeIDs = new string[targetType.subOrSameGrGenTypes.Length];
-                    for (int i = 0; i < targetType.subOrSameGrGenTypes.Length; ++i)
+                    for(int i = 0; i < targetType.subOrSameGrGenTypes.Length; ++i)
                     {
                         typeIDs[i] = targetType.subOrSameGrGenTypes[i].TypeID.ToString();
                     }
@@ -1878,7 +1881,7 @@ namespace de.unika.ipd.grGen.lgsp
             // if there are multiple ones, is allowed types must have been not null before
             Debug.Assert(target.PatternElement.AllowedTypes.Length > 1, "More than one allowed type");
 
-            if (target.PatternElement.AllowedTypes.Length == 0)
+            if(target.PatternElement.AllowedTypes.Length == 0)
             { // no type allowed
                 CheckCandidateFailed checkFailed = new CheckCandidateFailed();
                 insertionPoint = insertionPoint.Append(checkFailed);
@@ -1917,9 +1920,9 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation localContinuationPoint;
 
             // check for edges required by the pattern to be incident to the given node
-            foreach (SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
+            foreach(SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
             {
-                if (((PatternEdge)edge.PatternElement).fixedDirection
+                if(((PatternEdge)edge.PatternElement).fixedDirection
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(
@@ -1929,13 +1932,13 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(
                         insertionPoint, node, edge, connectednessCheck, out localContinuationPoint);
-                    if (localContinuationPoint != insertionPoint && continuationPoint == null)
+                    if(localContinuationPoint != insertionPoint && continuationPoint == null)
                         continuationPoint = localContinuationPoint;
                 }
             }
-            foreach (SearchPlanEdgeNode edge in node.IncomingPatternEdges)
+            foreach(SearchPlanEdgeNode edge in node.IncomingPatternEdges)
             {
-                if (((PatternEdge)edge.PatternElement).fixedDirection
+                if(((PatternEdge)edge.PatternElement).fixedDirection
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(
@@ -1945,12 +1948,12 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(
                         insertionPoint, node, edge, connectednessCheck, out localContinuationPoint);
-                    if (localContinuationPoint != insertionPoint && continuationPoint == null)
+                    if(localContinuationPoint != insertionPoint && continuationPoint == null)
                         continuationPoint = localContinuationPoint;
                 }
             }
 
-            if (continuationPoint == null)
+            if(continuationPoint == null)
                 continuationPoint = insertionPoint;
 
             return insertionPoint;
@@ -1977,12 +1980,12 @@ namespace de.unika.ipd.grGen.lgsp
             // check for edges required by the pattern to be incident to the given node
             // only if the node was not taken from the given originating edge
             //   with the exception of reflexive edges, as these won't get checked thereafter
-            foreach (SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
+            foreach(SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
             {
-                if (((PatternEdge)edge.PatternElement).fixedDirection
+                if(((PatternEdge)edge.PatternElement).fixedDirection
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
-                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                    if(edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(
                             insertionPoint, node, edge, CheckCandidateForConnectednessType.Source, connectednessCheck);
@@ -1990,21 +1993,21 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                    if(edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(
                             insertionPoint, node, edge, connectednessCheck, out localContinuationPoint);
-                        if (localContinuationPoint != insertionPoint && continuationPoint == null)
+                        if(localContinuationPoint != insertionPoint && continuationPoint == null)
                             continuationPoint = localContinuationPoint;
                     }
                 }
             }
-            foreach (SearchPlanEdgeNode edge in node.IncomingPatternEdges)
+            foreach(SearchPlanEdgeNode edge in node.IncomingPatternEdges)
             {
-                if (((PatternEdge)edge.PatternElement).fixedDirection
+                if(((PatternEdge)edge.PatternElement).fixedDirection
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
-                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                    if(edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(
                             insertionPoint, node, edge, CheckCandidateForConnectednessType.Target, connectednessCheck);
@@ -2012,17 +2015,17 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                    if(edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(
                             insertionPoint, node, edge, connectednessCheck, out localContinuationPoint);
-                        if (localContinuationPoint != insertionPoint && continuationPoint == null)
+                        if(localContinuationPoint != insertionPoint && continuationPoint == null)
                             continuationPoint = localContinuationPoint;
                     }
                 }
             }
 
-            if (continuationPoint == null)
+            if(continuationPoint == null)
                 continuationPoint = insertionPoint;
 
             return insertionPoint;
@@ -2044,7 +2047,7 @@ namespace de.unika.ipd.grGen.lgsp
             // check whether the pattern edges which must be incident to the candidate node (according to the pattern)
             // are really incident to it
             // only if edge is already matched by now (signaled by visited)
-            if (edge.Visited)
+            if(edge.Visited)
             {
                 CheckCandidateForConnectedness checkConnectedness =
                     new CheckCandidateForConnectedness(
@@ -2082,7 +2085,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check whether the pattern edges which must be incident to the candidate node (according to the pattern)
             // are really incident to it
-            if (currentNodeIsFirstIncidentNodeOfEdge(currentNode, edge))
+            if(currentNodeIsFirstIncidentNodeOfEdge(currentNode, edge))
             {
                 BothDirectionsIteration directionsIteration =
                     new BothDirectionsIteration(edge.PatternElement.Name);
@@ -2101,7 +2104,7 @@ namespace de.unika.ipd.grGen.lgsp
                 connectednessCheck.PatternNodeName = currentNode.PatternElement.UnprefixedName;
                 connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
             }
-            if (currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
+            if(currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
             {
                 CheckCandidateForConnectedness checkConnectedness =
                     new CheckCandidateForConnectedness(
@@ -2118,7 +2121,7 @@ namespace de.unika.ipd.grGen.lgsp
                 connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
             }
 
-            if (continuationPoint == null)
+            if(continuationPoint == null)
                 continuationPoint = insertionPoint;
 
             return insertionPoint;
@@ -2139,15 +2142,15 @@ namespace de.unika.ipd.grGen.lgsp
         {
             continuationPoint = null;
 
-            if (((PatternEdge)edge.PatternElement).fixedDirection)
+            if(((PatternEdge)edge.PatternElement).fixedDirection)
             {
                 // don't need to check if the edge is not required by the pattern to be incident to some given node
-                if (edge.PatternEdgeSource != null)
+                if(edge.PatternEdgeSource != null)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
                         insertionPoint, edge, CheckCandidateForConnectednessType.Source, connectednessCheck);
                 }
-                if (edge.PatternEdgeTarget != null)
+                if(edge.PatternEdgeTarget != null)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
                         insertionPoint, edge, CheckCandidateForConnectednessType.Target, connectednessCheck);
@@ -2159,7 +2162,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint, edge, false, connectednessCheck, out continuationPoint);
             }
 
-            if (continuationPoint == null)
+            if(continuationPoint == null)
                 continuationPoint = insertionPoint;
 
             return insertionPoint;
@@ -2179,22 +2182,22 @@ namespace de.unika.ipd.grGen.lgsp
         {
             continuationPoint = null;
 
-            if (((PatternEdge)edge.PatternElement).fixedDirection)
+            if(((PatternEdge)edge.PatternElement).fixedDirection)
             {
                 // don't need to check if the edge is not required by the pattern to be incident to some given node
                 // or if the edge was taken from the given originating node
-                if (edge.PatternEdgeSource != null)
+                if(edge.PatternEdgeSource != null)
                 {
-                    if (!(!edgeIncomingAtOriginatingNode
+                    if(!(!edgeIncomingAtOriginatingNode
                             && edge.PatternEdgeSource == originatingNode))
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
                             insertionPoint, edge, CheckCandidateForConnectednessType.Source, connectednessCheck);
                     }
                 }
-                if (edge.PatternEdgeTarget != null)
+                if(edge.PatternEdgeTarget != null)
                 {
-                    if (!(edgeIncomingAtOriginatingNode
+                    if(!(edgeIncomingAtOriginatingNode
                             && edge.PatternEdgeTarget == originatingNode))
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(
@@ -2208,7 +2211,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint, edge, true, connectednessCheck, out continuationPoint);
             }
 
-            if (continuationPoint == null)
+            if(continuationPoint == null)
                 continuationPoint = insertionPoint;
 
             return insertionPoint;
@@ -2230,7 +2233,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode nodeRequiringCheck = 
                 connectednessType == CheckCandidateForConnectednessType.Source ?
                     edge.PatternEdgeSource : edge.PatternEdgeTarget;
-            if (nodeRequiringCheck.Visited)
+            if(nodeRequiringCheck.Visited)
             {
                 CheckCandidateForConnectedness checkConnectedness =
                     new CheckCandidateForConnectedness(
@@ -2266,10 +2269,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check whether source/target-nodes of the candidate edge
             // are the same as the already found nodes to which the edge must be incident
-            if (!edgeDeterminationContainsFirstNodeLoop && currentEdgeConnectsToFirstIncidentNode(edge))
+            if(!edgeDeterminationContainsFirstNodeLoop && currentEdgeConnectsToFirstIncidentNode(edge))
             {
                 // due to currentEdgeConnectsToFirstIncidentNode: at least on incident node available
-                if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
+                if(edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
                     // reflexive edge without direction iteration as we don't want 2 matches 
                     SearchPlanNodeNode nodeRequiringFirstNodeLoop = edge.PatternEdgeSource != null ?
@@ -2309,7 +2312,7 @@ namespace de.unika.ipd.grGen.lgsp
                     connectednessCheck.PatternEdgeName = edge.PatternElement.UnprefixedName;
                 }
             }
-            if (currentEdgeConnectsToSecondIncidentNode(edge))
+            if(currentEdgeConnectsToSecondIncidentNode(edge))
             {
                 // due to currentEdgeConnectsToSecondIncidentNode: both incident node available
                 CheckCandidateForConnectedness checkConnectedness =
@@ -2340,14 +2343,16 @@ namespace de.unika.ipd.grGen.lgsp
         {
             string negativeIndependentNamePrefix = "";
             PatternGraph[] nestingPatterns = env.patternGraphWithNestingPatterns.ToArray(); // holy shit! no sets, no backward iterators, no direct access to stack ... c# data structures suck
-            if (nestingPatterns[nestingPatterns.Length - 1] == patternGraph) return "";
-            for (int i = nestingPatterns.Length - 2; i >= 0; --i) // skip first = top level pattern; stack dumped in reverse ^^
+            if(nestingPatterns[nestingPatterns.Length - 1] == patternGraph)
+                return "";
+            for(int i = nestingPatterns.Length - 2; i >= 0; --i) // skip first = top level pattern; stack dumped in reverse ^^
             {
                 negativeIndependentNamePrefix += nestingPatterns[i].name;
-                if (nestingPatterns[i] == patternGraph) break; ;
+                if(nestingPatterns[i] == patternGraph)
+                    break; ;
             }
 
-            if (negativeIndependentNamePrefix != "") {
+            if(negativeIndependentNamePrefix != "") {
                 negativeIndependentNamePrefix += "_";
             }
 
@@ -2365,9 +2370,10 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentNode.Visited);
             Debug.Assert(!((PatternEdge)edge.PatternElement).fixedDirection);
 
-            if (!edge.Visited) return false;
+            if(!edge.Visited)
+                return false;
 
-            if (currentNode == edge.PatternEdgeSource)
+            if(currentNode == edge.PatternEdgeSource)
                 return edge.PatternEdgeTarget==null || !edge.PatternEdgeTarget.Visited;
             else
                 return edge.PatternEdgeSource==null || !edge.PatternEdgeSource.Visited;
@@ -2384,12 +2390,13 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentNode.Visited);
             Debug.Assert(!((PatternEdge)edge.PatternElement).fixedDirection);
 
-            if (!edge.Visited) return false;
-
-            if (edge.PatternEdgeSource == null || edge.PatternEdgeTarget == null)
+            if(!edge.Visited)
                 return false;
 
-            if (currentNode == edge.PatternEdgeSource)
+            if(edge.PatternEdgeSource == null || edge.PatternEdgeTarget == null)
+                return false;
+
+            if(currentNode == edge.PatternEdgeSource)
                 return edge.PatternEdgeTarget.Visited;
             else
                 return edge.PatternEdgeSource.Visited;
@@ -2404,12 +2411,12 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentEdge.Visited);
             Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
 
-            if (currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited
+            if(currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited
                 && (currentEdge.PatternEdgeTarget == null || !currentEdge.PatternEdgeTarget.Visited))
             {
                 return true;
             }
-            if (currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited
+            if(currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited
                 && (currentEdge.PatternEdgeSource == null || !currentEdge.PatternEdgeSource.Visited))
             {
                 return true;
@@ -2427,9 +2434,9 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentEdge.Visited);
             Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
 
-            if (currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited)
+            if(currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited)
                 return true;
-            if (currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited)
+            if(currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited)
                 return true;
 
             return false;
@@ -2444,10 +2451,10 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentEdge.Visited);
             Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
 
-            if (currentEdge.PatternEdgeSource == null || currentEdge.PatternEdgeTarget == null)
+            if(currentEdge.PatternEdgeSource == null || currentEdge.PatternEdgeTarget == null)
                 return false;
 
-            if (currentEdge.PatternEdgeSource.Visited && currentEdge.PatternEdgeTarget.Visited)
+            if(currentEdge.PatternEdgeSource.Visited && currentEdge.PatternEdgeTarget.Visited)
                 return true;
 
             return false;
@@ -2459,24 +2466,21 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public string getCurrentMatchOfNestingPattern()
         {
-            if (env.patternGraphWithNestingPatterns.Count == 1)
+            if(env.patternGraphWithNestingPatterns.Count == 1)
             {
                 if(env.programType == SearchProgramType.Subpattern || env.programType == SearchProgramType.AlternativeCase || env.programType == SearchProgramType.Iterated)
-                {
                     return "matchOfNestingPattern";
-                } else {
+                else
                     return "null";
-                }
             }
             else // patternGraphWithNestingPatterns.Count > 1
             {
                 int i = 0;
-                foreach (PatternGraph patternGraph in env.patternGraphWithNestingPatterns)
+                foreach(PatternGraph patternGraph in env.patternGraphWithNestingPatterns)
                 {
                     ++i;
-                    if (i == 2) {
+                    if(i == 2)
                         return NamesOfEntities.PatternpathMatch(patternGraph.pathPrefix + patternGraph.name);
-                    }
                 }
                 return "null"; // shut up warning
             }
@@ -2488,24 +2492,21 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public string getCurrentLastMatchAtPreviousNestingLevel()
         {
-            if (env.patternGraphWithNestingPatterns.Count == 1)
+            if(env.patternGraphWithNestingPatterns.Count == 1)
             {
                 if(env.programType == SearchProgramType.Subpattern || env.programType == SearchProgramType.AlternativeCase || env.programType == SearchProgramType.Iterated)
-                {
                     return "lastMatchAtPreviousNestingLevel";
-                } else {
+                else
                     return "null";
-                }
             }
             else // patternGraphWithNestingPatterns.Count > 1
             {
                 int i = 0;
-                foreach (PatternGraph patternGraph in env.patternGraphWithNestingPatterns)
+                foreach(PatternGraph patternGraph in env.patternGraphWithNestingPatterns)
                 {
                     ++i;
-                    if (i == 2) {
+                    if(i == 2)
                         return NamesOfEntities.PatternpathMatch(patternGraph.pathPrefix + patternGraph.name);
-                    }
                 }
                 return "null"; // shut up warning
             }

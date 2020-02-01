@@ -23,6 +23,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPTransactionManager : ITransactionManager
     {
         private readonly List<IUndoItem> undoItems = new List<IUndoItem>();
+
         private IEdge currentlyRedirectedEdge;
         private bool recording = false;
         private bool paused = false; // only of interest if recording==true
@@ -210,52 +211,78 @@ namespace de.unika.ipd.grGen.lgsp
                 IUndoItem lastItem = undoItems[undoItems.Count - 1];
 #if LOG_TRANSACTION_HANDLING
                 writer.Write(new String(' ', transactionLevel) + "rolling back " + undoItems.Count + " - ");
-                if(lastItem is LGSPUndoTransactionStarted) {
+                if(lastItem is LGSPUndoTransactionStarted)
                     writer.WriteLine("TransactionStarted");
-                } else if(lastItem is LGSPUndoElemAdded) {
+                else if(lastItem is LGSPUndoElemAdded)
+                {
                     LGSPUndoElemAdded item = (LGSPUndoElemAdded)lastItem;
-                    if(item._elem is INode) {
+                    if(item._elem is INode)
+                    {
                         INode node = (INode)item._elem;
                         writer.WriteLine("ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
-                    } else {
+                    }
+                    else
+                    {
                         IEdge edge = (IEdge)item._elem;
                         writer.WriteLine("ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + " ->" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
                     }
-                } else if(lastItem is LGSPUndoElemRemoved) {
+                }
+                else if(lastItem is LGSPUndoElemRemoved)
+                {
                     LGSPUndoElemRemoved item = (LGSPUndoElemRemoved)lastItem;
-                    if(item._elem is INode) {
+                    if(item._elem is INode)
+                    {
                         INode node = (INode)item._elem;
                         writer.WriteLine("RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
-                    } else {
+                    }
+                    else
+                    {
                         IEdge edge = (IEdge)item._elem;
                         writer.WriteLine("RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
                     }
-                } else if(lastItem is LGSPUndoAttributeChanged) {
+                }
+                else if(lastItem is LGSPUndoAttributeChanged)
+                {
                     LGSPUndoAttributeChanged item = (LGSPUndoAttributeChanged)lastItem;
                     writer.WriteLine("ChangingElementAttribute: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
-                } else if(lastItem is LGSPUndoElemRetyped) {
+                }
+                else if(lastItem is LGSPUndoElemRetyped)
+                {
                     LGSPUndoElemRetyped item = (LGSPUndoElemRetyped)lastItem;
                     writer.WriteLine("RetypingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._newElem) + ":" + item._newElem.Type.Name + "<" + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._oldElem) + ":" + item._oldElem.Type.Name + ">");
-                } else if(lastItem is LGSPUndoElemRedirecting) {
+                }
+                else if(lastItem is LGSPUndoElemRedirecting)
+                {
                     LGSPUndoElemRedirecting item = (LGSPUndoElemRedirecting)lastItem;
                     writer.WriteLine("RedirectingEdge: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._edge) + " before undoing removal");
-                } else if(lastItem is LGSPUndoVisitedAlloc) {
+                }
+                else if(lastItem is LGSPUndoVisitedAlloc)
+                {
                     LGSPUndoVisitedAlloc item = (LGSPUndoVisitedAlloc)lastItem;
                     writer.WriteLine("VisitedAlloc: " + item._visitorID);
-                } else if(lastItem is LGSPUndoVisitedFree) {
+                }
+                else if(lastItem is LGSPUndoVisitedFree)
+                {
                     LGSPUndoVisitedFree item = (LGSPUndoVisitedFree)lastItem;
                     writer.WriteLine("VisitedFree: " + item._visitorID);
-                } else if(lastItem is LGSPUndoSettingVisited) {
+                }
+                else if(lastItem is LGSPUndoSettingVisited)
+                {
                     LGSPUndoSettingVisited item = (LGSPUndoSettingVisited)lastItem;
                     writer.WriteLine("SettingVisited: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(item._elem) + ".visited[" + item._visitorID + "]");
-                } else if(lastItem is LGSPUndoGraphChange) {
+                }
+                else if(lastItem is LGSPUndoGraphChange)
+                {
                     LGSPUndoGraphChange item = (LGSPUndoGraphChange)lastItem;
                     writer.WriteLine("GraphChange: to previous " + item._oldGraph.Name);
                 }
 #endif
-                if(wasGraphChanged) {
-                    if(lastItem is LGSPUndoGraphChange) {
-                        if(undoItems.Count - 2 >= 0 && undoItems[undoItems.Count - 2] is LGSPUndoGraphChange) {
+                if(wasGraphChanged)
+                {
+                    if(lastItem is LGSPUndoGraphChange)
+                    {
+                        if(undoItems.Count - 2 >= 0 && undoItems[undoItems.Count - 2] is LGSPUndoGraphChange)
+                        {
                             undoItems.RemoveAt(undoItems.Count - 1);
                             continue; // skip graph change without effect to preceeding graph change
                         }
@@ -295,10 +322,13 @@ namespace de.unika.ipd.grGen.lgsp
                 undoItems.Add(new LGSPUndoElemAdded(elem, procEnv));
 
 #if LOG_TRANSACTION_HANDLING
-            if(elem is INode) {
+            if(elem is INode)
+            {
                 INode node = (INode)elem;
                 writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
-            } else {
+            }
+            else
+            {
                 IEdge edge = (IEdge)elem;
                 writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "ElementAdded: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
             }
@@ -308,10 +338,13 @@ namespace de.unika.ipd.grGen.lgsp
         public void RemovingElement(IGraphElement elem)
         {
 #if LOG_TRANSACTION_HANDLING
-            if(elem is INode) {
+            if(elem is INode)
+            {
                 INode node = (INode)elem;
                 writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(node) + ":" + node.Type.Name);
-            } else {
+            }
+            else
+            {
                 IEdge edge = (IEdge)elem;
                 writer.WriteLine((paused ? "" : new String(' ', transactionLevel)) + "RemovingElement: " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Source) + " -" + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge) + ":" + edge.Type.Name + "-> " + ((LGSPNamedGraph)procEnv.graph).GetElementName(edge.Target));
             }
@@ -431,9 +464,7 @@ namespace de.unika.ipd.grGen.lgsp
         public void ExternalTypeChanged(IUndoItem item)
         {
             if(recording && !paused && !undoing)
-            {
                 undoItems.Add(item);
-            }
         }
 
         public override string ToString()

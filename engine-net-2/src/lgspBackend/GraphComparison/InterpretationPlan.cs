@@ -246,7 +246,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         readonly string comparisonMatcherName;
 
-        public string ComparisonMatcherName { get { return comparisonMatcherName; } }
+        public string ComparisonMatcherName
+        {
+            get { return comparisonMatcherName; }
+        }
     }
 
     /// <summary>
@@ -356,7 +359,7 @@ namespace de.unika.ipd.grGen.lgsp
                 edge = candidate;
                 matched |= next.Execute(graph, includingAttributes, matches);
                 candidate.lgspFlags &= ~((uint)LGSPElemFlags.IS_MATCHED);
-                if(matches==null &&  matched)
+                if(matches==null && matched)
                     return true;
             }
             return matched;

@@ -33,7 +33,7 @@ using IEdgeList = System.Collections.Generic.List<de.unika.ipd.grGen.libGr.IEdge
 
 namespace de.unika.ipd.grGen.lgsp
 {
-	enum CoEdgeTypeOffsets{Undirected,Tail,Head}
+	enum CoEdgeTypeOffsets { Undirected, Tail, Head }
 
 	class CoNode
 	{
@@ -43,17 +43,18 @@ namespace de.unika.ipd.grGen.lgsp
 		public CoNode ()
 		{
 			Parent = null;
-			Neighbors = new List<int> ();
+			Neighbors = new List<int>();
 		}
 
-		public CoNode (INode parent) : this()
+		public CoNode (INode parent)
+            : this()
 		{
 			Parent = parent;
 		}
 	}
 
 
-	sealed public class SimpleGraphCanonizer:GraphCanonizer
+	sealed public class SimpleGraphCanonizer : GraphCanonizer
 	{
 		Dictionary<IGraphElement, string> elementTypeNameMap;
 
@@ -87,19 +88,19 @@ namespace de.unika.ipd.grGen.lgsp
 
 		public SimpleGraphCanonizer ()
 		{
-
 		}
 
 		//Stolen from GXLExport.cs
 		private string CanonizeElement (IGraphElement elem)
 		{
-				List<String> attributes = new List<String> ();
-			foreach (AttributeType attrType in elem.Type.AttributeTypes) {
-				object value = elem.GetAttribute (attrType.Name);
+			List<String> attributes = new List<String>();
+			foreach(AttributeType attrType in elem.Type.AttributeTypes)
+            {
+				object value = elem.GetAttribute(attrType.Name);
 				
 				String valType;
-				String valuestr = (value == null) ? "" : value.ToString ();
-				switch (attrType.Kind) {
+				String valuestr = (value == null) ? "" : value.ToString();
+				switch(attrType.Kind) {
 				case AttributeKind.BooleanAttr:
 					valType = "bool";
 					valuestr = ((bool)value) ? "true" : "false";
@@ -121,7 +122,7 @@ namespace de.unika.ipd.grGen.lgsp
 				// TODO: This does not allow differentiating between empty and null strings
 				case AttributeKind.StringAttr:
 					valType = "string";
-					valuestr= "\"" + valuestr + "\"";
+					valuestr = "\"" + valuestr + "\"";
 					break;
 					
 				case AttributeKind.EnumAttr:
@@ -132,27 +133,28 @@ namespace de.unika.ipd.grGen.lgsp
 					throw new Exception ("Unsupported attribute value type: \"" + attrType.Kind + "\"");
 				}
 
-				attributes.Add (attrType.Name + ":" + valType + ":" + valuestr);
+				attributes.Add(attrType.Name + ":" + valType + ":" + valuestr);
 			}
 
-			attributes.Sort ((x,y) => x.CompareTo (y));
+			attributes.Sort((x,y) => x.CompareTo(y));
 	
 			string elemTypeName = null;
-			string elemClassName = elem.GetType ().Name;
+			string elemClassName = elem.GetType().Name;
 
-			if (elem is INode) {
+			if(elem is INode)
 				elemTypeName = "Node";
-			} else if (elem is IEdge) {
+			else if(elem is IEdge)
 				elemTypeName = "Edge";
-			} else {
+			else
 				elemTypeName = "Unsupported Graph Element Type";
-			}
 
-			StringBuilder sb = new StringBuilder (elemClassName + ":" + elemTypeName);
+			StringBuilder sb = new StringBuilder(elemClassName + ":" + elemTypeName);
 
-			if (attributes.Count > 0) {
+			if(attributes.Count > 0)
+            {
 				sb.Append (",");
-				for (int i=0; i< (attributes.Count-1); i++) {
+				for(int i = 0; i< (attributes.Count-1); ++i)
+                {
 					sb.Append (attributes [i] + ",");
 				}
 			}
@@ -169,25 +171,26 @@ namespace de.unika.ipd.grGen.lgsp
 			//Don't need arbitary, correct?
 			StringBuilder sb = new StringBuilder();
 
-			List<string> outgoing = new List<string> ();
-			List<string> undirected = new List<string> ();
-			List<string> incoming = new List<string> ();
+			List<string> outgoing = new List<string>();
+			List<string> undirected = new List<string>();
+			List<string> incoming = new List<string>();
 
-			foreach (var e in edges) {
-				if( e.Type.Directedness==Directedness.Directed) {
-					if(e.Source==fromNode) {
-						outgoing.Add(elementTypeNameMap[e]);
-					} else {
-						incoming.Add(elementTypeNameMap[e]);
-					}
-				} else if( e.Type.Directedness==Directedness.Undirected) {
-					undirected.Add(elementTypeNameMap[e]);
-				}
+			foreach(var e in edges)
+            {
+                if(e.Type.Directedness == Directedness.Directed)
+                {
+                    if(e.Source == fromNode)
+                        outgoing.Add(elementTypeNameMap[e]);
+                    else
+                        incoming.Add(elementTypeNameMap[e]);
+                }
+                else if(e.Type.Directedness == Directedness.Undirected)
+                    undirected.Add(elementTypeNameMap[e]);
 			}
 
-			outgoing.Sort ();
-			undirected.Sort ();
-			incoming.Sort ();
+			outgoing.Sort();
+			undirected.Sort();
+			incoming.Sort();
 
 			foreach(var es in outgoing)
 				sb.Append("|-(" + es + ")->|");
@@ -198,132 +201,141 @@ namespace de.unika.ipd.grGen.lgsp
 			foreach(var es in incoming)
 				sb.Append("|<-(" + es + ")-|");
 
-
 			return sb.ToString();
 		}
+
 		/// <summary>
 		/// Canonize a graph
 		/// </summary>
 		/// <param name="graph">The graph to canonize.</param>
 		public string Canonize (LGSPGraph graph)
 		{
-			elementTypeNameMap = new Dictionary<IGraphElement, string> ();
+			elementTypeNameMap = new Dictionary<IGraphElement, string>();
 			//List of virtual nodes
-			coNodes = new List<CoNode> ();
-			nodeToCoNodeIndexMap = new Dictionary<INode, int> ();
+			coNodes = new List<CoNode>();
+			nodeToCoNodeIndexMap = new Dictionary<INode, int>();
 
-			typeNames = new List<string> ();
-			edgeTypeNames = new List<string> ();
+			typeNames = new List<string>();
+			edgeTypeNames = new List<string>();
 
 			//Build virtual node(s) for each node and edge
 			//Build the vNode -> typeID Map (2 entries for every directed edge class)
 
-			foreach (var n in graph.Nodes) {
-				string nodeTypeString = CanonizeElement (n);
-				elementTypeNameMap [n] = nodeTypeString;
-				if (!typeNames.Contains (nodeTypeString)) {
-					typeNames.Add (nodeTypeString);
-				}
+			foreach(var n in graph.Nodes)
+            {
+				string nodeTypeString = CanonizeElement(n);
+				elementTypeNameMap[n] = nodeTypeString;
+				if(!typeNames.Contains (nodeTypeString))
+					typeNames.Add(nodeTypeString);
 
-				CoNode con = new CoNode (n);
-				nodeToCoNodeIndexMap [n] = coNodes.Count;
+				CoNode con = new CoNode(n);
+				nodeToCoNodeIndexMap[n] = coNodes.Count;
 
-				coNodes.Add (con);
+				coNodes.Add(con);
 			}
 
-			foreach (var e in graph.Edges) {
-				string edgeTypeString = CanonizeElement (e);
-				elementTypeNameMap [e] = edgeTypeString;
-				if (!edgeTypeNames.Contains (edgeTypeString)) {
+			foreach(var e in graph.Edges)
+            {
+				string edgeTypeString = CanonizeElement(e);
+				elementTypeNameMap[e] = edgeTypeString;
+				if(!edgeTypeNames.Contains (edgeTypeString))
 					edgeTypeNames.Add (edgeTypeString);
-				}
 			}
 
-			typeNames.Sort ();
-			edgeTypeNames.Sort ();
+			typeNames.Sort();
+			edgeTypeNames.Sort();
 
-			typeNameIDMap = new Dictionary<string, long> ();
-			edgeTypeNameIDMap = new Dictionary<string, long> ();
+			typeNameIDMap = new Dictionary<string, long>();
+			edgeTypeNameIDMap = new Dictionary<string, long>();
 
-			for (int i=0; i<typeNames.Count; i++) {
-				string typeName = typeNames [i];
-				typeNameIDMap [typeName] = (long)i;
+			for(int i = 0; i<typeNames.Count; ++i)
+            {
+				string typeName = typeNames[i];
+				typeNameIDMap[typeName] = (long)i;
 			}
 		
 			{
 				//increment by 3, types reserved for undirected, tail, head
 				int index = 0;
 
-				for (int i=0; i<edgeTypeNames.Count; i++) {
-					string edgeTypeName = edgeTypeNames [i];
-					edgeTypeNameIDMap [edgeTypeName] = index;
+				for(int i = 0; i<edgeTypeNames.Count; ++i)
+                {
+					string edgeTypeName = edgeTypeNames[i];
+					edgeTypeNameIDMap[edgeTypeName] = index;
 					index += 3;
 				}
 			}
 
-			coNodeTypeIDs = coNodes.ConvertAll (x => 0L);
+			coNodeTypeIDs = coNodes.ConvertAll(x => 0L);
 
-			foreach (var n in graph.Nodes) {
-				int index = nodeToCoNodeIndexMap [n];
-				string typeName = elementTypeNameMap [n];
-				coNodeTypeIDs [index] = (typeNameIDMap [typeName]);
+			foreach(var n in graph.Nodes)
+            {
+				int index = nodeToCoNodeIndexMap[n];
+				string typeName = elementTypeNameMap[n];
+				coNodeTypeIDs[index] = (typeNameIDMap[typeName]);
 			}
 
-			nodeNeighborMap = new Dictionary<INode, Dictionary<INode, IEdgeList>> ();
+			nodeNeighborMap = new Dictionary<INode, Dictionary<INode, IEdgeList>>();
 
 			//Fill in neighbormap
-			foreach (var curNode in graph.Nodes) {
-				Dictionary<INode, IEdgeList> neighborMap = new Dictionary<INode, IEdgeList> ();
-				foreach (var e in curNode.Incident) {
-					INode toNode = e.Opposite (curNode);
-					if (!neighborMap.ContainsKey (toNode)) {
-						neighborMap [toNode] = new IEdgeList ();
-					}
-					if (!neighborMap [toNode].Contains (e)) {
+			foreach(var curNode in graph.Nodes)
+            {
+				Dictionary<INode, IEdgeList> neighborMap = new Dictionary<INode, IEdgeList>();
+				foreach(var e in curNode.Incident)
+                {
+					INode toNode = e.Opposite(curNode);
+					if(!neighborMap.ContainsKey (toNode))
+						neighborMap [toNode] = new IEdgeList();
+					if(!neighborMap [toNode].Contains (e))
 						neighborMap [toNode].Add (e);
-					}
 				}
-				nodeNeighborMap [curNode] = neighborMap;
+				nodeNeighborMap[curNode] = neighborMap;
 			}
 
 			//Now every coNode corresponing to an INode has a correct typeID associated with it ...
 			//There is a disjoint set of IDs (starting at 0) reserved in the edgeTypeNameIDMap
-			edgeCoNodeTypeIDs = new List<long> ();
-			Dictionary<INode, bool> visitedNodeSet = new Dictionary<INode, bool> ();
-			connectedComponents = new List<List<int>> ();
+			edgeCoNodeTypeIDs = new List<long>();
+			Dictionary<INode, bool> visitedNodeSet = new Dictionary<INode, bool>();
+			connectedComponents = new List<List<int>>();
 
 			//Partition into connected components
-			foreach (var n in graph.Nodes) {
-				if (!visitedNodeSet.ContainsKey (n)) {
-					visitedNodeSet [n] = true;
-					List<int> connectedComponent = new List<int> ();
-					BuildConnectedComponent (n, visitedNodeSet, connectedComponent);
+			foreach(var n in graph.Nodes)
+            {
+				if(!visitedNodeSet.ContainsKey(n))
+                {
+					visitedNodeSet[n] = true;
+					List<int> connectedComponent = new List<int>();
+					BuildConnectedComponent(n, visitedNodeSet, connectedComponent);
 					BuildCoNodes(connectedComponent);
-					connectedComponents.Add (connectedComponent);
+					connectedComponents.Add(connectedComponent);
 				}
 			}
 
 
-			if (edgeCoNodeTypeIDs.Count != 0) {
-				PartialRankOrderList (edgeCoNodeTypeIDs);
-				for (int i=0; i<edgeCoNodeTypeIDs.Count; i++) {
-					edgeCoNodeTypeIDs [i] += (long)typeNames.Count;
+			if(edgeCoNodeTypeIDs.Count != 0)
+            {
+				PartialRankOrderList(edgeCoNodeTypeIDs);
+				for(int i = 0; i<edgeCoNodeTypeIDs.Count; ++i)
+                {
+					edgeCoNodeTypeIDs[i] += (long)typeNames.Count;
 				}
 			}
 			//Concat the edgeTypeIDs (built in RecurisveCoNodeBuild) to coNodeTypeIDs
 			coNodeTypeIDs.AddRange(edgeCoNodeTypeIDs);
-			List<String> connectedComponentStrings = new List<String> (connectedComponents.Count);
+			List<String> connectedComponentStrings = new List<String>(connectedComponents.Count);
 
-			foreach (var connectedComponent in connectedComponents) {
-				connectedComponentStrings.Add (CanonizeConnectedComponent (connectedComponent));
+			foreach(var connectedComponent in connectedComponents)
+            {
+				connectedComponentStrings.Add(CanonizeConnectedComponent (connectedComponent));
 			}
 
-			connectedComponentStrings.Sort ();
+			connectedComponentStrings.Sort();
 
-			StringBuilder sb = new StringBuilder ();
+			StringBuilder sb = new StringBuilder();
 
-			for (int i=0; i<(connectedComponentStrings.Count-1); i++) {
-				sb.Append (connectedComponentStrings[i] + ".");
+			for(int i = 0; i<(connectedComponentStrings.Count-1); ++i)
+            {
+				sb.Append(connectedComponentStrings[i] + ".");
 			}
 
 			sb.Append(connectedComponentStrings[connectedComponentStrings.Count-1]);
@@ -331,82 +343,87 @@ namespace de.unika.ipd.grGen.lgsp
 		}
 
 
-		private string CanonizeConnectedComponent (List<int> connectedComponent)
+		private string CanonizeConnectedComponent(List<int> connectedComponent)
 		{
 			curConnectedComponenet = connectedComponent;
 
-			nodeSymmIDs = curConnectedComponenet.ConvertAll (x => coNodeTypeIDs [x]);
-			curCoIndexer = new Dictionary<int, int> ();
+			nodeSymmIDs = curConnectedComponenet.ConvertAll(x => coNodeTypeIDs[x]);
+			curCoIndexer = new Dictionary<int, int>();
 	
-			for (int i=0; i< curConnectedComponenet.Count; i++) {	
-				curCoIndexer [curConnectedComponenet [i]] = i;
+			for(int i = 0; i < curConnectedComponenet.Count; ++i)
+            {	
+				curCoIndexer[curConnectedComponenet[i]] = i;
 			}
 	
-			PartialRankOrderList (nodeSymmIDs);  
-			nodeSymmIDs = StabilizeSymmIDs (nodeSymmIDs);
+			PartialRankOrderList(nodeSymmIDs);  
+			nodeSymmIDs = StabilizeSymmIDs(nodeSymmIDs);
 
-			nodeTraversalOrder = nodeSymmIDs.ConvertAll (x => (int)x);
+			nodeTraversalOrder = nodeSymmIDs.ConvertAll(x => (int)x);
 		
-			SetNodeTraversalOrder ();
+			SetNodeTraversalOrder();
 		
 			int lowestOrderIndex = nodeTraversalOrder.IndexOf(0);
-			lowestOrderNode = coNodes [curConnectedComponenet [lowestOrderIndex]].Parent;
+			lowestOrderNode = coNodes[curConnectedComponenet[lowestOrderIndex]].Parent;
 
-			FindClosures ();
+			FindClosures();
 			
 			String canonicalString = BuildCanonicalString();
 			
 			return canonicalString;
 		}
 
-		public void BuildConnectedComponent (INode curNode, Dictionary<INode, bool>  visitedNodeSet, List<int> connectedComponent)
+		public void BuildConnectedComponent(INode curNode, Dictionary<INode, bool>  visitedNodeSet, List<int> connectedComponent)
 		{
-			int curIndex = nodeToCoNodeIndexMap [curNode];
-			connectedComponent.Add (curIndex);
+			int curIndex = nodeToCoNodeIndexMap[curNode];
+			connectedComponent.Add(curIndex);
 
-			Dictionary<INode, IEdgeList> neighborMap = nodeNeighborMap [curNode];
+			Dictionary<INode, IEdgeList> neighborMap = nodeNeighborMap[curNode];
 
-			foreach (var pair in neighborMap) {
+			foreach(var pair in neighborMap)
+            {
 				INode toNode = pair.Key;
 				
-				if(visitedNodeSet.ContainsKey(toNode)) {
+				if(visitedNodeSet.ContainsKey(toNode))
 					continue;
-				} else {
+				else
+                {
 					visitedNodeSet[toNode]=true;
 					BuildConnectedComponent(toNode,visitedNodeSet, connectedComponent);
 				}
 			}
 		}
 
-		private void BuildCoNodes (List<int> connectedComponent)
+		private void BuildCoNodes(List<int> connectedComponent)
 		{
 			int nNodes = connectedComponent.Count;
 			
-			for(int i=0; i<nNodes; i++) {
-				int curIndex=connectedComponent[i];
+			for(int i = 0; i<nNodes; ++i)
+            {
+				int curIndex = connectedComponent[i];
 				CoNode cur = coNodes[curIndex];
 				INode curNode = cur.Parent;
 
-				for(int j=i; j<nNodes; j++) {
+				for(int j = i; j<nNodes; ++j)
+                {
 					int toIndex = connectedComponent[j];
 				
 					CoNode to = coNodes[toIndex];
 					INode toNode = to.Parent;
 					
-					if(!nodeNeighborMap[curNode].ContainsKey(toNode)) {
+					if(!nodeNeighborMap[curNode].ContainsKey(toNode))
 						continue;
-					}
 
 					IEdgeList edges = nodeNeighborMap[curNode][toNode];
 					bool compositeEdgeIsDirected = false;
 					
-					foreach(var e in edges) {
-						if(e.Type.Directedness == Directedness.Directed) {
-							compositeEdgeIsDirected=true;
-						}
+					foreach(var e in edges)
+                    {
+						if(e.Type.Directedness == Directedness.Directed)
+							compositeEdgeIsDirected = true;
 					}
 					
-					if(compositeEdgeIsDirected) {
+					if(compositeEdgeIsDirected)
+                    {
 						//create two coNodes
 						CoNode nearCur = new CoNode();
 						CoNode nearTo = new CoNode();
@@ -423,41 +440,48 @@ namespace de.unika.ipd.grGen.lgsp
 						long nearCurTypeID = 1L;
 						long nearToTypeID = 1L;
 						
-						foreach(var e in edges) {
+						foreach(var e in edges)
+                        {
 							int baseEdgeTypeID = (int) edgeTypeNameIDMap[elementTypeNameMap[e]];
 							
-							if(e.Type.Directedness==Directedness.Directed) {
-								if(e.Source==curNode) {
+							if(e.Type.Directedness==Directedness.Directed)
+                            {
+								if(e.Source==curNode)
+                                {
 									nearCurTypeID *= GetPrime(baseEdgeTypeID +(int)CoEdgeTypeOffsets.Head);
 									nearToTypeID *= GetPrime(baseEdgeTypeID + (int)CoEdgeTypeOffsets.Tail);
-								} else if(e.Target==curNode) {
+								}
+                                else if(e.Target==curNode)
+                                {
 									nearCurTypeID *= GetPrime(baseEdgeTypeID + (int)CoEdgeTypeOffsets.Tail);
 									nearToTypeID *= GetPrime(baseEdgeTypeID + (int)CoEdgeTypeOffsets.Head);
 								}
-							} else if (e.Type.Directedness==Directedness.Undirected) {
+							}
+                            else if(e.Type.Directedness==Directedness.Undirected)
+                            {
 								long edgePrime = GetPrime(baseEdgeTypeID);
 								nearCurTypeID *= edgePrime;
 								nearToTypeID *= edgePrime;
 							}
-							else {
+							else
 								throw new Exception ("Unsupported directedness type");
-							}
 						}
 						//fill in typeids
 						edgeCoNodeTypeIDs.Add(nearCurTypeID);
 						edgeCoNodeTypeIDs.Add(nearToTypeID);
 						
 						//fill in neighbor lists
-						cur.Neighbors.Add (nearCurIndex);
-						nearCur.Neighbors.Add (curIndex);
+						cur.Neighbors.Add(nearCurIndex);
+						nearCur.Neighbors.Add(curIndex);
 						
-						nearCur.Neighbors.Add (nearToIndex);
-						nearTo.Neighbors.Add (nearCurIndex);
+						nearCur.Neighbors.Add(nearToIndex);
+						nearTo.Neighbors.Add(nearCurIndex);
 						
-						nearTo.Neighbors.Add (toIndex);
-						to.Neighbors.Add (nearToIndex);
-					
-					} else {
+						nearTo.Neighbors.Add(toIndex);
+						to.Neighbors.Add(nearToIndex);
+					}
+                    else
+                    {
 						//create just one coNode representing the undirected edge
 						CoNode middle = new CoNode();
 						
@@ -468,7 +492,8 @@ namespace de.unika.ipd.grGen.lgsp
 						
 						long ueTypeID = 1L;
 						
-						foreach(var e in edges) {
+						foreach(var e in edges)
+                        {
 							long baseEdgeTypeID = GetPrime((int) edgeTypeNameIDMap[elementTypeNameMap[e]]);
 							ueTypeID *= baseEdgeTypeID;
 						}
@@ -487,14 +512,15 @@ namespace de.unika.ipd.grGen.lgsp
 		}
 
 		
-		private void PartialRankOrderList (List<long> list)
+		private void PartialRankOrderList(List<long> list)
 		{
-			List<Pair<long,int>> rankList = new List<Pair<long, int>> ();
+			List<Pair<long,int>> rankList = new List<Pair<long, int>>();
 				
 			{
 				int index = 0;
-				foreach (var i in list) {		
-					rankList.Add (new Pair<long,int>(i, index));
+				foreach(var i in list)
+                {		
+					rankList.Add(new Pair<long,int>(i, index));
 					++index;
 				}
 			}
@@ -502,19 +528,18 @@ namespace de.unika.ipd.grGen.lgsp
 			rankList.Sort((x,y) => x.fst.CompareTo(y.fst));
 
 			{
-				int index=0;
-				long old=rankList[0].fst;
+				int index = 0;
+				long old = rankList[0].fst;
 
-				for(int i=0; i<rankList.Count; i++)
+				for(int i = 0; i<rankList.Count; ++i)
 				{
 					Pair<long,int> pair = rankList[i];
 
-					if(old!=pair.fst) {
+					if(old!=pair.fst)
 						index++;
-					}
 
 					old = pair.fst;
-					list [pair.snd] = index;
+					list[pair.snd] = index;
 				}
 			}
 		}
@@ -522,29 +547,35 @@ namespace de.unika.ipd.grGen.lgsp
 
 		private List<long> StabilizeSymmIDs (List<long> inputNodeSymmIDs)
 		{
-			while (true) {
-				List<long> newNodeSymmIDs = inputNodeSymmIDs.ConvertAll (x => GetPrime ((int) x));
+			while(true)
+            {
+				List<long> newNodeSymmIDs = inputNodeSymmIDs.ConvertAll(x => GetPrime ((int) x));
 				newNodeSymmIDs = NeighborProduct (newNodeSymmIDs);
-				newNodeSymmIDs=BreakRankTies(inputNodeSymmIDs,newNodeSymmIDs);
-				bool stabilized=true;
-				for(int i=0; i<inputNodeSymmIDs.Count; i++) if(inputNodeSymmIDs[i] != newNodeSymmIDs[i]) stabilized = false;
-				if(stabilized) {
+				newNodeSymmIDs = BreakRankTies(inputNodeSymmIDs,newNodeSymmIDs);
+				bool stabilized = true;
+                for(int i = 0; i < inputNodeSymmIDs.Count; ++i)
+                {
+                    if(inputNodeSymmIDs[i] != newNodeSymmIDs[i])
+                        stabilized = false;
+                }
+				if(stabilized)
 					return newNodeSymmIDs;
-				}
-				inputNodeSymmIDs=newNodeSymmIDs;
+				inputNodeSymmIDs = newNodeSymmIDs;
 			}
 		}
 
 
-		private List<long> NeighborProduct (List<long> inputNodeSymmIDs)
+		private List<long> NeighborProduct(List<long> inputNodeSymmIDs)
 		{
-			List<long> newNodeSymmIDs = new List<long> (inputNodeSymmIDs);
+			List<long> newNodeSymmIDs = new List<long>(inputNodeSymmIDs);
 
-			for(int i=0; i<inputNodeSymmIDs.Count; i++) {
+			for(int i = 0; i<inputNodeSymmIDs.Count; ++i)
+            {
 				long product = 1L;
 				List<int> neighborIndexes = coNodes[curConnectedComponenet[i]].Neighbors;
 				
-				for(int j=0; j<neighborIndexes.Count; j++) {
+				for(int j = 0; j<neighborIndexes.Count; ++j)
+                {
 					long nodeToSymmID = inputNodeSymmIDs[curCoIndexer[neighborIndexes[j]]];
 					product *= nodeToSymmID;
 				}
@@ -555,40 +586,47 @@ namespace de.unika.ipd.grGen.lgsp
 		}
 
 	
-		private List<long> BreakRankTies (List<long> oldNodeSymmIDs, List<long> newNodeSymmIDs)
+		private List<long> BreakRankTies(List<long> oldNodeSymmIDs, List<long> newNodeSymmIDs)
 		{
-			List<long> tieBrokenSymmIDs = new List<long> (oldNodeSymmIDs);
+			List<long> tieBrokenSymmIDs = new List<long>(oldNodeSymmIDs);
 
 			//would be much prettier with tuples
-			List<Pair<long,int>> sortedMap = new List<Pair<long, int>> ();
+			List<Pair<long,int>> sortedMap = new List<Pair<long, int>>();
 
-			for (int i=0; i<oldNodeSymmIDs.Count; i++) {
-				sortedMap.Add (new Pair<long, int> (oldNodeSymmIDs [i], i));
+			for(int i = 0; i<oldNodeSymmIDs.Count; ++i)
+            {
+				sortedMap.Add(new Pair<long, int>(oldNodeSymmIDs [i], i));
 			}
 
-			sortedMap.Sort ((x,y) =>
+			sortedMap.Sort((x,y) =>
 			                {
-								int result = x.fst.CompareTo (y.fst);
+								int result = x.fst.CompareTo(y.fst);
 								return (result!=0) ? result : newNodeSymmIDs[x.snd].CompareTo(newNodeSymmIDs[y.snd]);
 							});
 
-			long lastOldID = -1, lastNewID = -1, recountID = -1;
+			long lastOldID = -1;
+            long lastNewID = -1;
+            long recountID = -1;
 
-			for (int i=0; i<sortedMap.Count; i++) {
-				int ti = sortedMap [i].snd;
+            for(int i = 0; i<sortedMap.Count; ++i)
+            {
+				int ti = sortedMap[i].snd;
 
-				long oldID = oldNodeSymmIDs [ti];
-				long newID = newNodeSymmIDs [ti];
+				long oldID = oldNodeSymmIDs[ti];
+				long newID = newNodeSymmIDs[ti];
 
-				if (oldID != lastOldID) {
+				if(oldID != lastOldID)
+                {
 					lastOldID = oldID;
 					lastNewID = newID;
 					++recountID;
-				} else if (newID != lastNewID) {
+				}
+                else if(newID != lastNewID)
+                {
 					lastNewID = newID;
 					++recountID;
 				}
-				tieBrokenSymmIDs [ti] = recountID;
+				tieBrokenSymmIDs[ti] = recountID;
 			}
 
 			return tieBrokenSymmIDs;	
@@ -597,32 +635,35 @@ namespace de.unika.ipd.grGen.lgsp
 
 		private long GetPrime (int i)
 		{
-			if (i < primes.Count) {
+			if(i < primes.Count)
 				return primes [i];
-			}
-			else {
+			else
+            {
 				FindPrimesTo (i+1);
 				return primes [i];
 			}
 		}
 
 
-		static private void FindPrimesTo (int i)
+		static private void FindPrimesTo(int i)
 		{
-			long nextPrime = primes [primes.Count - 1] + 1;
-			while (primes.Count < i) {
+			long nextPrime = primes[primes.Count - 1] + 1;
+			while(primes.Count < i)
+            {
 				long primeLimit = nextPrime * nextPrime;
 				bool isPrime = true;
-				foreach (var prime in primes) {
-					if (prime > primeLimit)
+				foreach(var prime in primes)
+                {
+					if(prime > primeLimit)
 						break;
-					if (nextPrime % prime == 0) {	
+					if(nextPrime % prime == 0)
+                    {	
 						isPrime = false;
 						break;
 					}
 				}
 
-				if (isPrime)
+				if(isPrime)
 					primes.Add (nextPrime);
 
 				++nextPrime;
@@ -630,122 +671,130 @@ namespace de.unika.ipd.grGen.lgsp
 		}
 
 		//nodeTraversalOrder should be set to nodeSymmIDs to start with
-		private void SetNodeTraversalOrder ()
+		private void SetNodeTraversalOrder()
 		{
-			while (true) {
-
+			while(true)
+            {
 				int pos = FindIndexOfLowestTraversalOrderTie(nodeTraversalOrder);
 			
-				if(pos == -1) {
+				if(pos == -1)
 					return;
-				}
 				
-				for(int i=0; i<nodeTraversalOrder.Count; i++)
-					nodeTraversalOrder[i]=nodeTraversalOrder[i]*2+1;	//why do we 2x here instead of +1?
+				for(int i = 0; i<nodeTraversalOrder.Count; ++i)
+					nodeTraversalOrder[i] = nodeTraversalOrder[i]*2+1;	//why do we 2x here instead of +1?
 				
-				nodeTraversalOrder[pos]=nodeTraversalOrder[pos]-1;
+				nodeTraversalOrder[pos] = nodeTraversalOrder[pos]-1;
 				
-				nodeTraversalOrder=StabilizeSymmIDs(nodeTraversalOrder.ConvertAll(x => (long) x)).ConvertAll (x => (int) x);
+				nodeTraversalOrder = StabilizeSymmIDs(nodeTraversalOrder.ConvertAll(x => (long) x)).ConvertAll (x => (int) x);
 			}
 		}
 		
 		
-		private int FindIndexOfLowestTraversalOrderTie (List<int> traversalOrder)
+		private int FindIndexOfLowestTraversalOrderTie(List<int> traversalOrder)
 		{
-			List<Pair<int,int>> stableOrder = new List<Pair<int, int>> (traversalOrder.Count);
-			for (int i=0; i<traversalOrder.Count; i++) {
-				stableOrder.Add (new Pair<int, int> (traversalOrder [i], i));
+			List<Pair<int,int>> stableOrder = new List<Pair<int, int>>(traversalOrder.Count);
+			for(int i = 0; i<traversalOrder.Count; ++i)
+            {
+				stableOrder.Add(new Pair<int, int>(traversalOrder [i], i));
 			}
 
-			stableOrder.Sort ((x,y) => x.fst.CompareTo (y.fst));
+			stableOrder.Sort((x,y) => x.fst.CompareTo(y.fst));
 
 			int lowestTieValue = stableOrder[0].fst;
-			for (int i=1; i<stableOrder.Count; i++) {
-				if (stableOrder [i].fst == lowestTieValue) {
-					return stableOrder [i - 1].snd;
-				}
-				lowestTieValue = stableOrder [i].fst;
+			for(int i = 1; i<stableOrder.Count; ++i)
+            {
+				if(stableOrder[i].fst == lowestTieValue)
+					return stableOrder[i - 1].snd;
+				lowestTieValue = stableOrder[i].fst;
 			}
 
 			return -1;
 		}
 
 
-		private void FindClosures ()
+		private void FindClosures()
 		{	
-			closureNodes = new Dictionary<INode, int> ();
+			closureNodes = new Dictionary<INode, int>();
 
 			INode prevNode = null;
 			INode startNode = lowestOrderNode;
-			Dictionary<INode,bool> visitedNodeSet = new Dictionary<INode, bool> ();
+			Dictionary<INode,bool> visitedNodeSet = new Dictionary<INode, bool>();
 
-			sortedNodeNeighborMap = new Dictionary<INode, List<Pair<INode,List<IEdge>>>> ();
+			sortedNodeNeighborMap = new Dictionary<INode, List<Pair<INode,List<IEdge>>>>();
 
 			FindClosures(prevNode, startNode, visitedNodeSet);
 		}
 
 
-		private void FindClosures (INode prevNode, INode curNode, Dictionary<INode, bool> visitedNodeSet)
+		private void FindClosures(INode prevNode, INode curNode, Dictionary<INode, bool> visitedNodeSet)
 		{
-			visitedNodeSet [curNode] = true;
+			visitedNodeSet[curNode] = true;
 
-			Dictionary<INode, IEdgeList> neighborMap = nodeNeighborMap [curNode];
-			List<INode> neighborNodes = new List<INode> (neighborMap.Keys);
+			Dictionary<INode, IEdgeList> neighborMap = nodeNeighborMap[curNode];
+			List<INode> neighborNodes = new List<INode>(neighborMap.Keys);
 
-			List<int> neighborCoNodes = new List<int> (coNodes [nodeToCoNodeIndexMap [curNode]].Neighbors);
-			neighborCoNodes.Sort ();
+			List<int> neighborCoNodes = new List<int>(coNodes[nodeToCoNodeIndexMap[curNode]].Neighbors);
+			neighborCoNodes.Sort();
 
-			neighborNodes.Sort ((x,y) => (nodeTraversalOrder [curCoIndexer [nodeToCoNodeIndexMap [x]]].CompareTo (nodeTraversalOrder [curCoIndexer [nodeToCoNodeIndexMap [y]]])));
-			List<Pair<INode, IEdgeList>> neighborList = neighborNodes.ConvertAll (x => new Pair<INode, IEdgeList> (x, neighborMap [x]));
+			neighborNodes.Sort((x,y) => (nodeTraversalOrder[curCoIndexer[nodeToCoNodeIndexMap[x]]].CompareTo(nodeTraversalOrder[curCoIndexer[nodeToCoNodeIndexMap[y]]])));
+			List<Pair<INode, IEdgeList>> neighborList = neighborNodes.ConvertAll(x => new Pair<INode, IEdgeList>(x, neighborMap[x]));
 
-			if (prevNode != null) {
+			if(prevNode != null)
+            {
 				int prevIndex = 0;
 
-				for (int i=0; i< neighborList.Count; i++) {
-					if (neighborList [i].fst == prevNode) {
+				for(int i = 0; i < neighborList.Count; ++i)
+                {
+					if(neighborList[i].fst == prevNode)
+                    {
 						prevIndex = i;
 						break;
 					}
 				}
 
-				neighborList.RemoveAt (prevIndex);
+				neighborList.RemoveAt(prevIndex);
 			}
 
-			Dictionary<int,bool> pruneIndexSet = new Dictionary<int, bool> ();
+			Dictionary<int,bool> pruneIndexSet = new Dictionary<int, bool>();
 
-			for (int i=0; i<neighborList.Count; i++) {
-				INode toNode = neighborList [i].fst;
+			for(int i = 0; i<neighborList.Count; ++i)
+            {
+				INode toNode = neighborList[i].fst;
 
-				if (closureNodes.ContainsKey (curNode)) {
+				if(closureNodes.ContainsKey (curNode))
+                {
 					pruneIndexSet[i]=true;
 					continue;
-				} else if (visitedNodeSet.ContainsKey (toNode) && (!closureNodes.ContainsKey (toNode))) {
+				}
+                else if(visitedNodeSet.ContainsKey(toNode) && (!closureNodes.ContainsKey (toNode)))
+                {
 					closureNodes [toNode] = 0;
 					continue;
-				} else if (!visitedNodeSet.ContainsKey (toNode)) {
+				}
+                else if(!visitedNodeSet.ContainsKey(toNode))
+                {
 					FindClosures (curNode, toNode, visitedNodeSet);
 					continue;
-				} else {
-					continue;
 				}
+                else
+					continue;
 			}
 
-			List<Pair<INode, IEdgeList>> newNeighborList = new List<Pair<INode, IEdgeList>> ();
+			List<Pair<INode, IEdgeList>> newNeighborList = new List<Pair<INode, IEdgeList>>();
 
-			for (int i=0; i< neighborList.Count; i++) {
-				if(!pruneIndexSet.ContainsKey(i)) {
-					newNeighborList.Add (neighborList[i]);
-				}
+			for(int i = 0; i< neighborList.Count; ++i)
+            {
+				if(!pruneIndexSet.ContainsKey(i))
+					newNeighborList.Add(neighborList[i]);
 			}
 			 
-			sortedNodeNeighborMap [curNode] = newNeighborList;
-
+			sortedNodeNeighborMap[curNode] = newNeighborList;
 		}
 
-		private string BuildCanonicalString ()
+		private string BuildCanonicalString()
 		{
 			INode startNode = lowestOrderNode;
-			Dictionary<INode,bool> visitedNodeSet = new Dictionary<INode, bool> ();
+			Dictionary<INode,bool> visitedNodeSet = new Dictionary<INode, bool>();
 		
 			StringBuilder sb = new StringBuilder();
 			BuildCanonicalString(startNode, sb, visitedNodeSet);
@@ -754,63 +803,67 @@ namespace de.unika.ipd.grGen.lgsp
 		}
 		
 		
-		private void BuildCanonicalString (INode curNode, StringBuilder sb, Dictionary<INode,bool> visitedNodeSet)
+		private void BuildCanonicalString(INode curNode, StringBuilder sb, Dictionary<INode,bool> visitedNodeSet)
 		{
-			visitedNodeSet [curNode] = true;
+			visitedNodeSet[curNode] = true;
 
 			sb.Append ("(");
 		
-			if (closureNodes.ContainsKey (curNode)) {
+			if(closureNodes.ContainsKey(curNode))
+            {
 				bool isDeclaration = false;
-				if (closureNodes [curNode] == 0) {
-					curClosure++;
-					closureNodes [curNode] = curClosure;
+				if(closureNodes[curNode] == 0)
+                {
+					++curClosure;
+					closureNodes[curNode] = curClosure;
 					isDeclaration = true;
 				}
 
-				if(isDeclaration) {
+				if(isDeclaration)
 				  sb.Append (elementTypeNameMap [curNode] + "," + closureNodes [curNode]);
-				}
-				else {
+				else
+                {
 					sb.Append (closureNodes [curNode] + ")");
 					return;
 				}
 
-			} else {
-				sb.Append (elementTypeNameMap [curNode]);
 			}
+            else
+				sb.Append(elementTypeNameMap[curNode]);
 			sb.Append (")");
 
-			List<Pair<INode,List<IEdge>>> sortedNeighborList = sortedNodeNeighborMap [curNode];
+			List<Pair<INode,List<IEdge>>> sortedNeighborList = sortedNodeNeighborMap[curNode];
 
-			if (sortedNeighborList.Count > 1) {
-				for (int i=0; i<sortedNeighborList.Count-1; i++) {
-					INode toNode = sortedNeighborList [i].fst;
+			if(sortedNeighborList.Count > 1)
+            {
+				for(int i = 0; i<sortedNeighborList.Count-1; ++i)
+                {
+					INode toNode = sortedNeighborList[i].fst;
 
-					if (visitedNodeSet.ContainsKey(toNode) && !closureNodes.ContainsKey(toNode)) {
+					if(visitedNodeSet.ContainsKey(toNode) && !closureNodes.ContainsKey(toNode))
 						continue;
-					}
 
-					IEdgeList edgeList = sortedNeighborList [i].snd;
+					IEdgeList edgeList = sortedNeighborList[i].snd;
 
-					sb.Append ("{" + CanonizeEdgeList (curNode, edgeList));
+					sb.Append("{" + CanonizeEdgeList (curNode, edgeList));
 
-					BuildCanonicalString (toNode, sb, visitedNodeSet);
+					BuildCanonicalString(toNode, sb, visitedNodeSet);
 
-					sb.Append ("}");
+					sb.Append("}");
 				}
 			}
 
-			if (sortedNeighborList.Count > 0) {
-				INode lastToNode = sortedNeighborList [sortedNeighborList.Count - 1].fst;
+			if(sortedNeighborList.Count > 0)
+            {
+				INode lastToNode = sortedNeighborList[sortedNeighborList.Count - 1].fst;
 
-				IEdgeList lastEdgeList = sortedNeighborList [sortedNeighborList.Count - 1].snd;
-				sb.Append (CanonizeEdgeList (curNode, lastEdgeList));
-				BuildCanonicalString (lastToNode, sb, visitedNodeSet);
+				IEdgeList lastEdgeList = sortedNeighborList[sortedNeighborList.Count - 1].snd;
+				sb.Append(CanonizeEdgeList(curNode, lastEdgeList));
+				BuildCanonicalString(lastToNode, sb, visitedNodeSet);
 			}
 		}
 
-		static private List<long> primes=new List<long>() {
+		static private List<long> primes = new List<long>() {
 			2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
 			43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
 			101, 103, 107, 109, 113, 127, 131, 137, 139, 149,
@@ -855,8 +908,8 @@ namespace de.unika.ipd.grGen.lgsp
 			2477, 2503, 2521, 2531, 2539, 2543, 2549, 2551,
 			2557, 2579, 2591, 2593, 2609, 2617, 2621, 2633,
 			2647, 2657, 2659, 2663, 2671, 2677, 2683, 2687,
-			2689, 2693, 2699, 2707, 2711, 2713};
-
+			2689, 2693, 2699, 2707, 2711, 2713
+        };
 	}
 }
 

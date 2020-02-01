@@ -34,7 +34,9 @@ namespace de.unika.ipd.grGen.lgsp
         public void ExecuteDeferredSequencesThenExitRuleModify(LGSPGraphProcessingEnvironment procEnv)
         {
             while(toBeExecuted.Peek().Count > 0)
+            {
                 toBeExecuted.Peek().Dequeue().exec(procEnv);
+            }
             toBeExecuted.Pop();
         }
 

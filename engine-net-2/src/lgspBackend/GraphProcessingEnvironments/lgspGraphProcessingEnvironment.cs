@@ -56,7 +56,9 @@ namespace de.unika.ipd.grGen.lgsp
             if((lgspNode.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[lgspNode])
+                {
                     VariableMap.Remove(var.Name);
+                }
                 ElementMap.Remove(lgspNode);
                 lgspNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
             }
@@ -74,7 +76,9 @@ namespace de.unika.ipd.grGen.lgsp
             if((lgspEdge.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[lgspEdge])
+                {
                     VariableMap.Remove(var.Name);
+                }
                 ElementMap.Remove(lgspEdge);
                 lgspEdge.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
             }
@@ -88,7 +92,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 LinkedList<Variable> varList = ElementMap[oldLgspNode];
                 foreach(Variable var in varList)
+                {
                     var.Value = newLgspNode;
+                }
                 ElementMap.Remove(oldLgspNode);
                 ElementMap[newLgspNode] = varList;
                 oldLgspNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
@@ -104,7 +110,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 LinkedList<Variable> varList = ElementMap[oldLgspEdge];
                 foreach(Variable var in varList)
+                {
                     var.Value = newLgspEdge;
+                }
                 ElementMap.Remove(oldLgspEdge);
                 ElementMap[newLgspEdge] = varList;
                 oldLgspEdge.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
@@ -125,7 +133,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if((lgspNode.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
                 {
                     foreach(Variable var in ElementMap[lgspNode])
+                    {
                         VariableMap.Remove(var.Name);
+                    }
                     ElementMap.Remove(lgspNode);
                     lgspNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
                 }
@@ -137,7 +147,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if((lgspEdge.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
                 {
                     foreach(Variable var in ElementMap[lgspEdge])
+                    {
                         VariableMap.Remove(var.Name);
+                    }
                     ElementMap.Remove(lgspEdge);
                     lgspEdge.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
                 }
@@ -279,7 +291,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Variable var;
             VariableMap.TryGetValue(varName, out var);
-            if(var == null) return null;
+            if(var == null)
+                return null;
             return var.Value;
         }
 
@@ -331,7 +344,8 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(elem);
 
                 LGSPNode oldNode = elem as LGSPNode;
-                if(oldNode != null) oldNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
+                if(oldNode != null)
+                    oldNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
                 else
                 {
                     LGSPEdge oldEdge = (LGSPEdge)elem;
@@ -342,14 +356,16 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void SetVariableValue(String varName, object val)
         {
-            if(varName == null) return;
+            if(varName == null)
+                return;
 
             Variable var;
             VariableMap.TryGetValue(varName, out var);
 
             if(var != null)
             {
-                if(var.Value == val) return;     // Variable already set to this element?
+                if(var.Value == val) // Variable already set to this element?
+                    return;
                 if(var.Value is IGraphElement)
                     DetachVariableFromElement(var);
 
@@ -362,14 +378,16 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                if(val == null) return;
+                if(val == null)
+                    return;
 
                 var = new Variable(varName, val);
                 VariableMap[varName] = var;
             }
 
             IGraphElement elem = val as IGraphElement;
-            if(elem == null) return;
+            if(elem == null)
+                return;
 
             LinkedList<Variable> newVarList;
             if(!ElementMap.TryGetValue(elem, out newVarList))
@@ -394,7 +412,9 @@ namespace de.unika.ipd.grGen.lgsp
             get
             {
                 foreach(Variable var in VariableMap.Values)
+                {
                     yield return var;
+                }
             }
         }
 
@@ -629,19 +649,22 @@ namespace de.unika.ipd.grGen.lgsp
         public void EnteringSequence(Sequence seq)
         {
             EnterSequenceHandler handler = OnEntereringSequence;
-            if(handler != null) handler(seq);
+            if(handler != null)
+                handler(seq);
         }
 
         public void ExitingSequence(Sequence seq)
         {
             ExitSequenceHandler handler = OnExitingSequence;
-            if(handler != null) handler(seq);
+            if(handler != null)
+                handler(seq);
         }
 
         public void EndOfIteration(bool continueLoop, Sequence seq)
         {
             EndOfIterationHandler handler = OnEndOfIteration;
-            if(handler != null) handler(continueLoop, seq);
+            if(handler != null)
+                handler(continueLoop, seq);
         }
 
         #endregion Events

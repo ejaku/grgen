@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation ii = new IsomorphyInformation();
             ii.CheckIsMatchedBit = CheckIsMatchedBit;
             ii.SetIsMatchedBit = SetIsMatchedBit;
-            if (PatternElementsToCheckAgainst != null)
+            if(PatternElementsToCheckAgainst != null)
             {
                 ii.PatternElementsToCheckAgainst = new List<SearchPlanNode>(PatternElementsToCheckAgainst.Count);
                 for(int i=0; i<PatternElementsToCheckAgainst.Count; ++i)
@@ -68,10 +68,10 @@ namespace de.unika.ipd.grGen.lgsp
                     ii.PatternElementsToCheckAgainst.Add(PatternElementsToCheckAgainst[i]);
                 }
             }
-            if (GloballyHomomorphPatternElements != null)
+            if(GloballyHomomorphPatternElements != null)
             {
                 ii.GloballyHomomorphPatternElements = new List<SearchPlanNode>(GloballyHomomorphPatternElements.Count);
-                for (int i = 0; i < GloballyHomomorphPatternElements.Count; ++i)
+                for(int i = 0; i < GloballyHomomorphPatternElements.Count; ++i)
                 {
                     ii.GloballyHomomorphPatternElements.Add(GloballyHomomorphPatternElements[i]);
                 }
@@ -84,13 +84,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         public List<string> PatternElementsToCheckAgainstAsListOfStrings()
         {
-            if (PatternElementsToCheckAgainst == null) 
-            {
+            if(PatternElementsToCheckAgainst == null) 
                 return null;
-            }
 
             List<string> result = new List<string>(PatternElementsToCheckAgainst.Count);
-            foreach (SearchPlanNode spn in PatternElementsToCheckAgainst)
+            foreach(SearchPlanNode spn in PatternElementsToCheckAgainst)
             {
                 result.Add(spn.PatternElement.Name);
             }
@@ -100,13 +98,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         public List<string> GloballyHomomorphPatternElementsAsListOfStrings()
         {
-            if (GloballyHomomorphPatternElements == null)
-            {
+            if(GloballyHomomorphPatternElements == null)
                 return null;
-            }
 
             List<string> result = new List<string>(GloballyHomomorphPatternElements.Count);
-            foreach (SearchPlanNode spn in GloballyHomomorphPatternElements)
+            foreach(SearchPlanNode spn in GloballyHomomorphPatternElements)
             {
                 result.Add(spn.PatternElement.Name);
             }
@@ -203,9 +199,12 @@ namespace de.unika.ipd.grGen.lgsp
         public int CompareTo(SearchOperation other)
         {
             float diff = CostToEnd - other.CostToEnd;
-            if (diff < 0) return -1;
-            else if (diff > 0) return 1;
-            else return 0;
+            if(diff < 0)
+                return -1;
+            else if(diff > 0)
+                return 1;
+            else
+                return 0;
         }
     }
 
@@ -229,7 +228,7 @@ namespace de.unika.ipd.grGen.lgsp
         public Object Clone()
         {
             ScheduledSearchPlan ssp = new ScheduledSearchPlan(PatternGraph, new SearchOperation[Operations.Length], Cost);
-            for (int i = 0; i < Operations.Length; ++i)
+            for(int i = 0; i < Operations.Length; ++i)
             {
                 ssp.Operations[i] = (SearchOperation)Operations[i].Clone();
             }

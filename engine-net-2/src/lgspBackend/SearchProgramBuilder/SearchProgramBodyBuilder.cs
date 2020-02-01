@@ -610,7 +610,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = helper.decideOnAndInsertCheckType(insertionPoint, target);
 
             // check candidate for isomorphy 
-            if (isomorphy.CheckIsMatchedBit)
+            if(isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
@@ -625,7 +625,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // accept candidate (write isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             {
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
@@ -652,7 +652,7 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // abandon candidate (restore isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
@@ -697,7 +697,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for isomorphy 
-            if (isomorphy.CheckIsMatchedBit)
+            if(isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
@@ -712,7 +712,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // accept candidate (write isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             {
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
@@ -739,7 +739,7 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // abandon candidate (restore isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
@@ -839,9 +839,7 @@ namespace de.unika.ipd.grGen.lgsp
                         initializationExpression = builder.ToString();
                     }
                     else
-                    {
                         initializationExpression = "null";
-                    }
                     insertionPoint = insertionPoint.Append(
                         new DeclareDefElement(EntityType.Node, "GRGEN_LGSP.LGSPNode", node.Name, initializationExpression)
                     );
@@ -858,9 +856,7 @@ namespace de.unika.ipd.grGen.lgsp
                         initializationExpression = builder.ToString();
                     }
                     else
-                    {
                         initializationExpression = "null";
-                    }
                     insertionPoint = insertionPoint.Append(
                         new DeclareDefElement(EntityType.Edge, "GRGEN_LGSP.LGSPEdge", edge.Name, initializationExpression)
                     );
@@ -928,7 +924,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check connectedness of candidate
             SearchProgramOperation continuationPointAfterConnectednessCheck;
-            if (isNode)
+            if(isNode)
             {
                 insertionPoint = helper.decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
                     insertionPoint, (SearchPlanNodeNode)target, connectednessCheck, out continuationPointAfterConnectednessCheck);
@@ -940,7 +936,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for isomorphy 
-            if (isomorphy.CheckIsMatchedBit)
+            if(isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
@@ -955,7 +951,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for global isomorphy 
-            if (programType==SearchProgramType.Subpattern 
+            if(programType==SearchProgramType.Subpattern 
                 || programType==SearchProgramType.AlternativeCase
                 || programType==SearchProgramType.Iterated)
             {
@@ -973,7 +969,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if (patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
+            if(patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
                     new CheckCandidateForIsomorphyPatternPath(
@@ -985,7 +981,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // accept candidate (write isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             {
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
@@ -1012,7 +1008,7 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // abandon candidate (restore isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
@@ -1031,7 +1027,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // everything nested within type iteration built by now
             // continue at the end of the list handed in
-            if (insertionPointAfterTypeIteration != continuationPointAfterTypeIteration)
+            if(insertionPointAfterTypeIteration != continuationPointAfterTypeIteration)
             {
                 // if type was drawn then the if is not entered (insertion point==continuation point)
                 // thus we continue at the continuation point of the candidate iteration
@@ -1062,9 +1058,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             // iterate available storage elements
             string iterationType;
-            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<"
-                + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
-                + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
+            if(isDict)
+            {
+                iterationType = "System.Collections.Generic.KeyValuePair<"
+                    + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
+                    + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
+            }
             else
                 iterationType = TypesHelper.GetStorageKeyTypeName(storage.Variable.type);
             GetCandidateByIteration elementsIteration =
@@ -1221,6 +1220,7 @@ namespace de.unika.ipd.grGen.lgsp
             // iterate available storage elements
             string iterationType;
             if(isDict)
+            {
                 if(storage.Attribute.Attribute.Kind == AttributeKind.SetAttr)
                 {
                     iterationType = "System.Collections.Generic.KeyValuePair<"
@@ -1233,6 +1233,7 @@ namespace de.unika.ipd.grGen.lgsp
                         + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.KeyType.GetKindName(), model) + ","
                         + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ">";
                 }
+            }
             else
                 iterationType = TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model);
  
@@ -2334,7 +2335,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation continuationPoint;
             insertionPoint = helper.insertImplicitNodeFromEdge(insertionPoint, source, target, nodeType,
                 out continuationPoint);
-            if (continuationPoint == insertionPoint)
+            if(continuationPoint == insertionPoint)
                 continuationPoint = null;
 
             // check type of candidate
@@ -2343,18 +2344,20 @@ namespace de.unika.ipd.grGen.lgsp
             // check connectedness of candidate
             SearchProgramOperation continuationPointAfterConnectednessCheck;
             SearchPlanNodeNode otherNodeOfOriginatingEdge = null;
-            if (nodeType == ImplicitNodeType.Source) otherNodeOfOriginatingEdge = source.PatternEdgeTarget;
-            if (nodeType == ImplicitNodeType.Target) otherNodeOfOriginatingEdge = source.PatternEdgeSource;
-            if (source.PatternEdgeTarget == source.PatternEdgeSource) // reflexive sign needed in unfixed direction case, too
+            if(nodeType == ImplicitNodeType.Source)
+                otherNodeOfOriginatingEdge = source.PatternEdgeTarget;
+            if(nodeType == ImplicitNodeType.Target)
+                otherNodeOfOriginatingEdge = source.PatternEdgeSource;
+            if(source.PatternEdgeTarget == source.PatternEdgeSource) // reflexive sign needed in unfixed direction case, too
                 otherNodeOfOriginatingEdge = source.PatternEdgeSource;
             insertionPoint = helper.decideOnAndInsertCheckConnectednessOfImplicitNodeFromEdge(
                 insertionPoint, target, source, otherNodeOfOriginatingEdge, connectednessCheck, out continuationPointAfterConnectednessCheck);
-            if (continuationPoint == null && continuationPointAfterConnectednessCheck != insertionPoint)
+            if(continuationPoint == null && continuationPointAfterConnectednessCheck != insertionPoint)
                 continuationPoint = continuationPointAfterConnectednessCheck;
 
             // check candidate for isomorphy 
             string negativeIndependentNamePrefix = helper.NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
-            if (isomorphy.CheckIsMatchedBit)
+            if(isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
@@ -2369,7 +2372,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for global isomorphy 
-            if (programType == SearchProgramType.Subpattern 
+            if(programType == SearchProgramType.Subpattern 
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
@@ -2399,7 +2402,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // accept candidate (write isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             {
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
@@ -2426,7 +2429,7 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // abandon candidate (restore isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
@@ -2439,7 +2442,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
-            if (continuationPoint != null)
+            if(continuationPoint != null)
                 insertionPoint = continuationPoint;
 
             return insertionPoint;
@@ -2546,7 +2549,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check candidate for isomorphy 
             string negativeIndependentNamePrefix = helper.NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
-            if (isomorphy.CheckIsMatchedBit)
+            if(isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
@@ -2561,7 +2564,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for global isomorphy 
-            if (programType == SearchProgramType.Subpattern
+            if(programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
@@ -2591,7 +2594,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // accept candidate (write isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             {
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
@@ -2618,7 +2621,7 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // abandon candidate (restore isomorphy information)
-            if (isomorphy.SetIsMatchedBit)
+            if(isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
@@ -2669,7 +2672,8 @@ namespace de.unika.ipd.grGen.lgsp
             bool parallelizedBak = parallelized;
             parallelized &= patternGraphWithNestingPatterns.Peek().parallelizedSchedule != null; // the neg within a parallelized head may be non-parallelized
             int indexOfScheduleBak = indexOfSchedule;
-            if(parallelized) indexOfSchedule = 0; // the neg of a parallelized body at index 1 is still only at index 0
+            if(parallelized)
+                indexOfSchedule = 0; // the neg of a parallelized body at index 1 is still only at index 0
 
             string negativeIndependentNamePrefix = helper.NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool negativeContainsSubpatterns = negativePatternGraph.embeddedGraphsPlusInlined.Length >= 1
@@ -2742,7 +2746,8 @@ namespace de.unika.ipd.grGen.lgsp
             bool parallelizedBak = parallelized;
             parallelized &= patternGraphWithNestingPatterns.Peek().parallelizedSchedule != null; // the idpt within a parallelized head may be non-parallelized
             int indexOfScheduleBak = indexOfSchedule;
-            if(parallelized) indexOfSchedule = 0; // the idpt of a parallelized body at index 1 is still only at index 0
+            if(parallelized)
+                indexOfSchedule = 0; // the idpt of a parallelized body at index 1 is still only at index 0
 
             string independentNamePrefix = helper.NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool independentContainsSubpatterns = independentPatternGraph.embeddedGraphsPlusInlined.Length >= 1
@@ -2841,9 +2846,7 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(SearchOperation op in negativePatternGraph.schedulesIncludingNegativesAndIndependents[0].Operations)
             {
                 if(op.Type == SearchOperationType.NegIdptPreset)
-                {
                     ++numberOfNeededElements;
-                }
             }
             string[] neededElements = new string[numberOfNeededElements];
             int i = 0;
@@ -3266,9 +3269,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             // iterate available storage elements
             string iterationType;
-            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<"
-                + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
-                + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
+            if(isDict)
+            {
+                iterationType = "System.Collections.Generic.KeyValuePair<"
+                  + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
+                  + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
+            }
             else
                 iterationType = TypesHelper.GetStorageKeyTypeName(storage.Variable.type);
 
@@ -3309,9 +3315,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             // iterate available storage elements
             string iterationType;
-            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<"
-                + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
-                + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
+            if(isDict)
+            {
+                iterationType = "System.Collections.Generic.KeyValuePair<"
+                    + TypesHelper.GetStorageKeyTypeName(storage.Variable.type) + ","
+                    + TypesHelper.GetStorageValueTypeName(storage.Variable.type) + ">";
+            }
             else
                 iterationType = TypesHelper.GetStorageKeyTypeName(storage.Variable.type);
             GetCandidateByIterationParallel elementsIteration =
@@ -3431,6 +3440,7 @@ namespace de.unika.ipd.grGen.lgsp
             // iterate available storage elements
             string iterationType;
             if(isDict)
+            {
                 if(storage.Attribute.Attribute.Kind == AttributeKind.SetAttr)
                 {
                     iterationType = "System.Collections.Generic.KeyValuePair<"
@@ -3443,6 +3453,7 @@ namespace de.unika.ipd.grGen.lgsp
                         + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.KeyType.GetKindName(), model) + ","
                         + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ">";
                 }
+            }
             else
                 iterationType = TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model);
 
@@ -3487,6 +3498,7 @@ namespace de.unika.ipd.grGen.lgsp
             // iterate available storage elements
             string iterationType;
             if(isDict)
+            {
                 if(storage.Attribute.Attribute.Kind == AttributeKind.SetAttr)
                 {
                     iterationType = "System.Collections.Generic.KeyValuePair<"
@@ -3499,6 +3511,7 @@ namespace de.unika.ipd.grGen.lgsp
                         + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.KeyType.GetKindName(), model) + ","
                         + TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model) + ">";
                 }
+            }
             else
                 iterationType = TypesHelper.XgrsTypeToCSharpType(storage.Attribute.Attribute.ValueType.GetKindName(), model);
 
@@ -4139,8 +4152,10 @@ namespace de.unika.ipd.grGen.lgsp
                 || programType == SearchProgramType.Iterated;
             bool existsNonInlinedSubpattern = false;
             foreach(PatternGraphEmbedding sub in patternGraph.embeddedGraphsPlusInlined)
+            {
                 if(!sub.inlined)
                     existsNonInlinedSubpattern = true;
+            }
             bool containsSubpatterns = existsNonInlinedSubpattern
                 || patternGraph.alternativesPlusInlined.Length >= 1
                 || patternGraph.iteratedsPlusInlined.Length >= 1;

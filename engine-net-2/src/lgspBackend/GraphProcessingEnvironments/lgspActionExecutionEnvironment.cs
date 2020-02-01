@@ -56,7 +56,9 @@ namespace de.unika.ipd.grGen.lgsp
                 int branchingFactor = ((LGSPAction)action).patternGraph.branchingFactor;
                 actionProfile.averagesPerThread = new ProfileAverages[branchingFactor];
                 for(int i = 0; i < branchingFactor; ++i)
+                {
                     actionProfile.averagesPerThread[i] = new ProfileAverages();
+                }
                 perfInfo.ActionProfiles.Add(action.PackagePrefixedName, actionProfile);
             }
         }
@@ -71,7 +73,8 @@ namespace de.unika.ipd.grGen.lgsp
         public IGraph Graph
         {
             get { return graph; }
-            set {
+            set
+            {
                 if(usedGraphs.Count != 1)
                     throw new Exception("Can't replace graph while a subgraph is used by an action/sequence!");
                 else
@@ -88,13 +91,23 @@ namespace de.unika.ipd.grGen.lgsp
             get { return namedGraph; }
         }
 
-        public LGSPGraph graph { get { return usedGraphs.Peek(); } }
-        public LGSPNamedGraph namedGraph { get { return namedGraphOnTop; } }
+        public LGSPGraph graph
+        {
+            get { return usedGraphs.Peek(); }
+        }
+        public LGSPNamedGraph namedGraph
+        {
+            get { return namedGraphOnTop; }
+        }
 
         public IActions Actions
         {
             get { return curActions; }
-            set { curActions = (LGSPActions)value; InitActionsProfile((LGSPActions)value); }
+            set
+            {
+                curActions = (LGSPActions)value;
+                InitActionsProfile((LGSPActions)value);
+            }
         }
 
         public IBackend Backend
@@ -267,25 +280,29 @@ namespace de.unika.ipd.grGen.lgsp
         public void Matched(IMatches matches, IMatch match, bool special)
         {
             AfterMatchHandler handler = OnMatched;
-            if(handler != null) handler(matches, match, special);
+            if(handler != null)
+                handler(matches, match, special);
         }
 
         public void Finishing(IMatches matches, bool special)
         {
             BeforeFinishHandler handler = OnFinishing;
-            if(handler != null) handler(matches, special);
+            if(handler != null)
+                handler(matches, special);
         }
 
         public void RewritingNextMatch()
         {
             RewriteNextMatchHandler handler = OnRewritingNextMatch;
-            if(handler != null) handler();
+            if(handler != null)
+                handler();
         }
 
         public void Finished(IMatches matches, bool special)
         {
             AfterFinishHandler handler = OnFinished;
-            if(handler != null) handler(matches, special);
+            if(handler != null)
+                handler(matches, special);
         }
 
         #endregion Events

@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.lgsp
             // whereas the operations returning no value are emitted as statements
             switch(seqComp.SequenceComputationType)
             {
-                case SequenceComputationType.Then:
+            case SequenceComputationType.Then:
                 {
                     SequenceComputationThen seqThen = (SequenceComputationThen)seqComp;
                     EmitSequenceComputation(seqThen.left, source);
@@ -86,7 +86,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
                 
-                case SequenceComputationType.Assignment:
+            case SequenceComputationType.Assignment:
                 {
                     SequenceComputationAssignment seqAssign = (SequenceComputationAssignment)seqComp;
                     if(seqAssign.SourceValueProvider is SequenceComputationAssignment)
@@ -104,7 +104,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.VariableDeclaration:
+            case SequenceComputationType.VariableDeclaration:
                 {
                     SequenceComputationVariableDeclaration seqVarDecl = (SequenceComputationVariableDeclaration)seqComp;
                     source.AppendFront(helper.SetVar(seqVarDecl.Target, TypesHelper.DefaultValueString(seqVarDecl.Target.Type, model)));
@@ -112,7 +112,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.ContainerAdd:
+            case SequenceComputationType.ContainerAdd:
                 {
                     SequenceComputationContainerAdd seqAdd = (SequenceComputationContainerAdd)seqComp;
 
@@ -396,7 +396,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.ContainerRem:
+            case SequenceComputationType.ContainerRem:
                 {
                     SequenceComputationContainerRem seqDel = (SequenceComputationContainerRem)seqComp;
 
@@ -669,7 +669,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.ContainerClear:
+            case SequenceComputationType.ContainerClear:
                 {
                     SequenceComputationContainerClear seqClear = (SequenceComputationContainerClear)seqComp;
 
@@ -870,12 +870,12 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.VAlloc:
+            case SequenceComputationType.VAlloc:
                     source.Append("graph.AllocateVisitedFlag()");
                     break;
 
-                case SequenceComputationType.VFree:
-                case SequenceComputationType.VFreeNonReset:
+            case SequenceComputationType.VFree:
+            case SequenceComputationType.VFreeNonReset:
                 {
                     SequenceComputationVFree seqVFree = (SequenceComputationVFree)seqComp;
                     if(seqVFree.Reset)
@@ -886,7 +886,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.VReset:
+            case SequenceComputationType.VReset:
                 {
                     SequenceComputationVReset seqVReset = (SequenceComputationVReset)seqComp;
                     source.AppendFront("graph.ResetVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVReset.VisitedFlagExpression, source) + ");\n");
@@ -894,7 +894,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.DebugAdd:
+            case SequenceComputationType.DebugAdd:
                 {
                     SequenceComputationDebugAdd seqDebug = (SequenceComputationDebugAdd)seqComp;
                     source.AppendFront("procEnv.DebugEntering(");
@@ -911,7 +911,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.DebugRem:
+            case SequenceComputationType.DebugRem:
                 {
                     SequenceComputationDebugRem seqDebug = (SequenceComputationDebugRem)seqComp;
                     source.AppendFront("procEnv.DebugExiting(");
@@ -928,7 +928,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.DebugEmit:
+            case SequenceComputationType.DebugEmit:
                 {
                     SequenceComputationDebugEmit seqDebug = (SequenceComputationDebugEmit)seqComp;
                     source.AppendFront("procEnv.DebugEmitting(");
@@ -945,7 +945,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.DebugHalt:
+            case SequenceComputationType.DebugHalt:
                 {
                     SequenceComputationDebugHalt seqDebug = (SequenceComputationDebugHalt)seqComp;
                     source.AppendFront("procEnv.DebugHalting(");
@@ -962,7 +962,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.DebugHighlight:
+            case SequenceComputationType.DebugHighlight:
                 {
                     SequenceComputationDebugHighlight seqDebug = (SequenceComputationDebugHighlight)seqComp;
                     source.AppendFront("List<object> values = new List<object>();\n");
@@ -979,7 +979,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.Emit:
+            case SequenceComputationType.Emit:
                 {
                     SequenceComputationEmit seqEmit = (SequenceComputationEmit)seqComp;
                     bool declarationEmitted = false;
@@ -989,7 +989,8 @@ namespace de.unika.ipd.grGen.lgsp
                         if(!(seqEmit.Expressions[i] is SequenceExpressionConstant))
                         {
                             string emitVal = "emitval_" + seqEmit.Id;
-                            if(!declarationEmitted) {
+                            if(!declarationEmitted)
+                            {
                                 source.AppendFront("object " + emitVal + ";\n");
                                 declarationEmitted = true;
                             }
@@ -1027,7 +1028,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.Record:
+            case SequenceComputationType.Record:
                 {
                     SequenceComputationRecord seqRec = (SequenceComputationRecord)seqComp;
                     if(!(seqRec.Expression is SequenceExpressionConstant))
@@ -1064,7 +1065,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.Export:
+            case SequenceComputationType.Export:
                 {
                     SequenceComputationExport seqExp = (SequenceComputationExport)seqComp;
                     string expFileName = "expfilename_" + seqExp.Id;
@@ -1085,7 +1086,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.DeleteFile:
+            case SequenceComputationType.DeleteFile:
                 {
                     SequenceComputationDeleteFile seqDelFile = (SequenceComputationDeleteFile)seqComp;
                     string delFileName = "delfilename_" + seqDelFile.Id;
@@ -1095,7 +1096,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.GraphAdd:
+            case SequenceComputationType.GraphAdd:
                 {
                     SequenceComputationGraphAdd seqAdd = (SequenceComputationGraphAdd)seqComp;
                     if(seqAdd.ExprSrc == null)
@@ -1113,7 +1114,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
                 
-                case SequenceComputationType.GraphRem:
+            case SequenceComputationType.GraphRem:
                 {
                     SequenceComputationGraphRem seqRem = (SequenceComputationGraphRem)seqComp;
                     string remVal = "remval_" + seqRem.Id;
@@ -1145,7 +1146,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.GraphClear:
+            case SequenceComputationType.GraphClear:
                 {
                     SequenceComputationGraphClear seqClr = (SequenceComputationGraphClear)seqComp;
                     source.AppendFront("graph.Clear();\n");
@@ -1153,7 +1154,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.GraphRetype:
+            case SequenceComputationType.GraphRetype:
                 {
                     SequenceComputationGraphRetype seqRetype = (SequenceComputationGraphRetype)seqComp;
                     string typeExpr = exprGen.GetSequenceExpression(seqRetype.TypeExpr, source);
@@ -1162,7 +1163,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.GraphAddCopy:
+            case SequenceComputationType.GraphAddCopy:
                 {
                     SequenceComputationGraphAddCopy seqAddCopy = (SequenceComputationGraphAddCopy)seqComp;
                     if(seqAddCopy.ExprSrc == null)
@@ -1180,7 +1181,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.GraphMerge:
+            case SequenceComputationType.GraphMerge:
                 {
                     SequenceComputationGraphMerge seqMrg = (SequenceComputationGraphMerge)seqComp;
                     string tgtNodeExpr = exprGen.GetSequenceExpression(seqMrg.TargetNodeExpr, source);
@@ -1190,7 +1191,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
                 
-                case SequenceComputationType.GraphRedirectSource:
+            case SequenceComputationType.GraphRedirectSource:
                 {
                     SequenceComputationGraphRedirectSource seqRedir = (SequenceComputationGraphRedirectSource)seqComp;
                     string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
@@ -1200,7 +1201,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.GraphRedirectTarget:
+            case SequenceComputationType.GraphRedirectTarget:
                 {
                     SequenceComputationGraphRedirectTarget seqRedir = (SequenceComputationGraphRedirectTarget)seqComp;
                     string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
@@ -1210,7 +1211,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.GraphRedirectSourceAndTarget:
+            case SequenceComputationType.GraphRedirectSourceAndTarget:
                 {
                     SequenceComputationGraphRedirectSourceAndTarget seqRedir = (SequenceComputationGraphRedirectSourceAndTarget)seqComp;
                     string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
@@ -1221,7 +1222,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.Insert:
+            case SequenceComputationType.Insert:
                 {
                     SequenceComputationInsert seqIns = (SequenceComputationInsert)seqComp;
                     string graphExpr = exprGen.GetSequenceExpression(seqIns.Graph, source);
@@ -1230,7 +1231,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.InsertCopy:
+            case SequenceComputationType.InsertCopy:
                 {
                     SequenceComputationInsertCopy seqInsCopy = (SequenceComputationInsertCopy)seqComp;
                     string graphExpr = exprGen.GetSequenceExpression(seqInsCopy.Graph, source);
@@ -1239,35 +1240,35 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.InsertInduced:
+            case SequenceComputationType.InsertInduced:
                 {
                     SequenceComputationInsertInduced seqInsInd = (SequenceComputationInsertInduced)seqComp;
                     source.Append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsInd.NodeSet, source) + ", (GRGEN_LIBGR.INode)" + exprGen.GetSequenceExpression(seqInsInd.RootNode, source) + ", graph)");
                     break;
                 }
 
-                case SequenceComputationType.InsertDefined:
+            case SequenceComputationType.InsertDefined:
                 {
                     SequenceComputationInsertDefined seqInsDef = (SequenceComputationInsertDefined)seqComp;
                     if(seqInsDef.EdgeSet.Type(env)=="set<Edge>")
                         source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedDirected((IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IDEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
-                    else if (seqInsDef.EdgeSet.Type(env) == "set<UEdge>")
+                    else if(seqInsDef.EdgeSet.Type(env) == "set<UEdge>")
                         source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedUndirected((IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IUEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
-                    else if (seqInsDef.EdgeSet.Type(env) == "set<AEdge>")
+                    else if(seqInsDef.EdgeSet.Type(env) == "set<AEdge>")
                         source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
                     else
                         source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
                     break;
                 }
 
-                case SequenceComputationType.Expression:
+            case SequenceComputationType.Expression:
                 {
                     SequenceExpression seqExpr = (SequenceExpression)seqComp;
                     source.AppendFront(SetResultVar(seqExpr, exprGen.GetSequenceExpression(seqExpr, source)));
                     break;
                 }
 
-                case SequenceComputationType.BuiltinProcedureCall:
+            case SequenceComputationType.BuiltinProcedureCall:
                 {
                     SequenceComputationBuiltinProcedureCall seqCall = (SequenceComputationBuiltinProcedureCall)seqComp;
                     SourceBuilder sb = new SourceBuilder();
@@ -1285,7 +1286,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.ProcedureCall:
+            case SequenceComputationType.ProcedureCall:
                 {
                     SequenceComputationProcedureCall seqCall = (SequenceComputationProcedureCall)seqComp;
 
@@ -1314,7 +1315,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.ProcedureMethodCall:
+            case SequenceComputationType.ProcedureMethodCall:
                 {
                     SequenceComputationProcedureMethodCall seqCall = (SequenceComputationProcedureMethodCall)seqComp;
                     String type = seqCall.TargetExpr != null ? seqCall.TargetExpr.Type(env) : seqCall.TargetVar.Type;
@@ -1331,8 +1332,10 @@ namespace de.unika.ipd.grGen.lgsp
                         source.Append("\"" + seqCall.ProcedureInvocation.Name + "\"");
                         source.Append(helper.BuildParametersInObject(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
                         source.Append(");\n");
-                        for(int i = 0; i < seqCall.ReturnVars.Length; i++)
+                        for(int i = 0; i < seqCall.ReturnVars.Length; ++i)
+                        {
                             source.Append(helper.SetVar(seqCall.ReturnVars[i], tmpVarName));
+                        }
                     }
                     else
                     {
@@ -1362,8 +1365,8 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-				default:
-					throw new Exception("Unknown sequence computation type: " + seqComp.SequenceComputationType);
+			default:
+				throw new Exception("Unknown sequence computation type: " + seqComp.SequenceComputationType);
 			}
 		}
 
@@ -1371,7 +1374,7 @@ namespace de.unika.ipd.grGen.lgsp
 		{
 			switch(tgt.AssignmentTargetType)
 			{
-                case AssignmentTargetType.YieldingToVar:
+            case AssignmentTargetType.YieldingToVar:
                 {
                     AssignmentTargetYieldingVar tgtYield = (AssignmentTargetYieldingVar)tgt;
                     source.AppendFront(helper.SetVar(tgtYield.DestVar, sourceValueComputation));
@@ -1379,7 +1382,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case AssignmentTargetType.Visited:
+            case AssignmentTargetType.Visited:
                 {
                     AssignmentTargetVisited tgtVisitedFlag = (AssignmentTargetVisited)tgt;
                     source.AppendFront("bool visval_"+tgtVisitedFlag.Id+" = (bool)"+sourceValueComputation+";\n");
@@ -1389,7 +1392,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case AssignmentTargetType.IndexedVar:
+            case AssignmentTargetType.IndexedVar:
                 {
                     AssignmentTargetIndexedVar tgtIndexedVar = (AssignmentTargetIndexedVar)tgt;
                     string container = "container_" + tgtIndexedVar.Id;
@@ -1484,7 +1487,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case AssignmentTargetType.Var:
+            case AssignmentTargetType.Var:
 				{
                     AssignmentTargetVar tgtVar = (AssignmentTargetVar)tgt;
                     source.AppendFront(helper.SetVar(tgtVar.DestVar, sourceValueComputation));
@@ -1492,7 +1495,7 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
-                case AssignmentTargetType.Attribute:
+            case AssignmentTargetType.Attribute:
                 {
                     AssignmentTargetAttribute tgtAttr = (AssignmentTargetAttribute)tgt;
                     source.AppendFront("object value_" + tgtAttr.Id + " = " + sourceValueComputation + ";\n");
@@ -1515,7 +1518,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case AssignmentTargetType.AttributeIndexed:
+            case AssignmentTargetType.AttributeIndexed:
                 {
                     AssignmentTargetAttributeIndexed tgtAttrIndexedVar = (AssignmentTargetAttributeIndexed)tgt;
                     string value = "value_" + tgtAttrIndexedVar.Id;
@@ -1633,8 +1636,8 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-				default:
-					throw new Exception("Unknown assignment target type: " + tgt.AssignmentTargetType);
+			default:
+				throw new Exception("Unknown assignment target type: " + tgt.AssignmentTargetType);
 			}
 		}
 

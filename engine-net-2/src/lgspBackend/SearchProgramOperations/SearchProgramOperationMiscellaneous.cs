@@ -167,11 +167,14 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("AdjustListHeads ");
-            if(Type==AdjustListHeadsTypes.GraphElements) {
+            if(Type==AdjustListHeadsTypes.GraphElements)
+            {
                 builder.Append("GraphElements ");
                 builder.AppendFormat("on {0} node:{1} {2}\n",
                     PatternElementName, IsNode, Parallel ? "Parallel " : "");
-            } else { // Type==AdjustListHeadsTypes.IncidentEdges
+            }
+            else // Type==AdjustListHeadsTypes.IncidentEdges
+            {
                 builder.Append("IncidentEdges ");
                 builder.AppendFormat("on {0} from:{1} incident type:{2} {3}\n",
                     PatternElementName, StartingPointNodeName, IncidentType.ToString(), Parallel ? "Parallel " : "");
@@ -180,44 +183,58 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (Type == AdjustListHeadsTypes.GraphElements)
+            if(Type == AdjustListHeadsTypes.GraphElements)
             {
                 if(Parallel)
                 {
                     if(IsNode)
+                    {
                         sourceCode.AppendFrontFormat("moveHeadAfterNodes[threadId].Add({0});\n",
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                     else
+                    {
                         sourceCode.AppendFrontFormat("moveHeadAfterEdges[threadId].Add({0});\n",
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                 }
                 else
+                {
                     sourceCode.AppendFrontFormat("graph.MoveHeadAfter({0});\n",
                          NamesOfEntities.CandidateVariable(PatternElementName));
+                }
             }
             else //Type == AdjustListHeadsTypes.IncidentEdges
             {
-                if (IncidentType == IncidentEdgeType.Incoming)
+                if(IncidentType == IncidentEdgeType.Incoming)
                 {
                     if(Parallel)
+                    {
                         sourceCode.AppendFrontFormat("moveInHeadAfter[threadId].Add(new KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>({0}, {1}));\n",
                             NamesOfEntities.CandidateVariable(StartingPointNodeName),
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                     else
+                    {
                         sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
                             NamesOfEntities.CandidateVariable(StartingPointNodeName),
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                 }
-                else if (IncidentType == IncidentEdgeType.Outgoing)
+                else if(IncidentType == IncidentEdgeType.Outgoing)
                 {
                     if(Parallel)
+                    {
                         sourceCode.AppendFrontFormat("moveOutHeadAfter[threadId].Add(new KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>({0}, {1}));\n",
                             NamesOfEntities.CandidateVariable(StartingPointNodeName),
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                     else
+                    {
                         sourceCode.AppendFrontFormat("{0}.MoveOutHeadAfter({1});\n",
                             NamesOfEntities.CandidateVariable(StartingPointNodeName),
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                 }
                 else // IncidentType == IncidentEdgeType.IncomingOrOutgoing
                 {
@@ -226,24 +243,32 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Append(" {\n");
                     sourceCode.Indent();
                     if(Parallel)
+                    {
                         sourceCode.AppendFrontFormat("moveInHeadAfter[threadId].Add(new KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>({0}, {1}));\n",
                             NamesOfEntities.CandidateVariable(StartingPointNodeName),
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                     else
+                    {
                         sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
                             NamesOfEntities.CandidateVariable(StartingPointNodeName),
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                     sourceCode.Unindent();
                     sourceCode.AppendFront("} else {\n");
                     sourceCode.Indent();
                     if(Parallel)
+                    {
                         sourceCode.AppendFrontFormat("moveOutHeadAfter[threadId].Add(new KeyValuePair<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPEdge>({0}, {1}));\n",
                             NamesOfEntities.CandidateVariable(StartingPointNodeName),
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                     else
+                    {
                         sourceCode.AppendFrontFormat("{0}.MoveOutHeadAfter({1});\n",
                             NamesOfEntities.CandidateVariable(StartingPointNodeName),
                             NamesOfEntities.CandidateVariable(PatternElementName));
+                    }
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
                 }
@@ -302,14 +327,17 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("ContinueOperation ");
-            if(Type==ContinueOperationType.ByReturn) {
+            if(Type==ContinueOperationType.ByReturn)
+            {
                 builder.Append("ByReturn ");
                 if(InParallelizedBody)
-                builder.Append("InParallelizedBody ");
+                    builder.Append("InParallelizedBody ");
                 builder.AppendFormat("return matches:{0}\n", ReturnMatches);
-            } else if(Type==ContinueOperationType.ByContinue) {
+            }
+            else if(Type==ContinueOperationType.ByContinue)
                 builder.AppendFormat("ByContinue {0}\n", ContinueAtParallelizedLoop ? "AtParallelizedLoop" : "");
-            } else { // Type==ContinueOperationType.ByGoto
+            else // Type==ContinueOperationType.ByGoto
+            { 
                 builder.Append("ByGoto ");
                 builder.AppendFormat("{0}\n", LabelName);
             }
@@ -331,9 +359,7 @@ namespace de.unika.ipd.grGen.lgsp
                         sourceCode.AppendFront("return matches;\n");
                     }
                     else
-                    {
                         sourceCode.AppendFront("return;\n");
-                    }
                 }
             }
             else if(Type == ContinueOperationType.ByContinue)
@@ -345,9 +371,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("continue;\n");
             }
             else //Type == ContinueOperationType.ByGoto
-            {
                 sourceCode.AppendFrontFormat("goto {0};\n", LabelName);
-            }
         }
 
         public readonly ContinueOperationType Type;
@@ -425,14 +449,14 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("RandomizeListHeads ");
-            if (Type == RandomizeListHeadsTypes.GraphElements)
+            if(Type == RandomizeListHeadsTypes.GraphElements)
             {
                 builder.Append("GraphElements ");
                 builder.AppendFormat("on {0} node:{1}\n",
                     PatternElementName, IsNode);
             }
-            else
-            { // Type==RandomizeListHeadsTypes.IncidentEdges
+            else // Type==RandomizeListHeadsTypes.IncidentEdges
+            {
                 builder.Append("IncidentEdges ");
                 builder.AppendFormat("on {0} from:{1} incoming:{2}\n",
                     PatternElementName, StartingPointNodeName, IsIncoming);
@@ -443,7 +467,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // --- move list head from current position to random position ---
 
-            if (Type == RandomizeListHeadsTypes.GraphElements)
+            if(Type == RandomizeListHeadsTypes.GraphElements)
             {
                 // emit declaration of variable containing random position to move list head to
                 string variableContainingRandomPosition =
@@ -523,7 +547,7 @@ namespace de.unika.ipd.grGen.lgsp
                     memberOfEdgeContainingNextEdge);
                 // iteration left, edge is the one at the requested random position
                 // move list head after edge at random position, 
-                if (IsIncoming)
+                if(IsIncoming)
                 {
                     sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
                         variableContainingStartingPointNode,

@@ -41,7 +41,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             switch(expr.SequenceExpressionType)
             {
-                case SequenceExpressionType.Conditional:
+            case SequenceExpressionType.Conditional:
                 {
                     SequenceExpressionConditional seqCond = (SequenceExpressionConditional)expr;
                     return "( (bool)" + GetSequenceExpression(seqCond.Condition, source)
@@ -49,37 +49,37 @@ namespace de.unika.ipd.grGen.lgsp
                         + " : (object)" + GetSequenceExpression(seqCond.FalseCase, source) + " )";
                 }
 
-                case SequenceExpressionType.LazyOr:
+            case SequenceExpressionType.LazyOr:
                 {
                     SequenceExpressionLazyOr seq = (SequenceExpressionLazyOr)expr;
                     return "((bool)" + GetSequenceExpression(seq.Left, source) + " || (bool)" + GetSequenceExpression(seq.Right, source) + ")";
                 }
 
-                case SequenceExpressionType.LazyAnd:
+            case SequenceExpressionType.LazyAnd:
                 {
                     SequenceExpressionLazyAnd seq = (SequenceExpressionLazyAnd)expr;
                     return "((bool)" + GetSequenceExpression(seq.Left, source) + " && (bool)" + GetSequenceExpression(seq.Right, source) + ")";
                 }
                 
-                case SequenceExpressionType.StrictOr:
+            case SequenceExpressionType.StrictOr:
                 {
                     SequenceExpressionStrictOr seq = (SequenceExpressionStrictOr)expr;
                     return "((bool)" + GetSequenceExpression(seq.Left, source) + " | (bool)" + GetSequenceExpression(seq.Right, source) + ")";
                 }
                 
-                case SequenceExpressionType.StrictXor:
+            case SequenceExpressionType.StrictXor:
                 {
                     SequenceExpressionStrictXor seq = (SequenceExpressionStrictXor)expr;
                     return "((bool)" + GetSequenceExpression(seq.Left, source) + " ^ (bool)" + GetSequenceExpression(seq.Right, source) + ")";
                 }
                 
-                case SequenceExpressionType.StrictAnd:
+            case SequenceExpressionType.StrictAnd:
                 {
                     SequenceExpressionStrictAnd seq = (SequenceExpressionStrictAnd)expr;
                     return "((bool)" + GetSequenceExpression(seq.Left, source) + " & (bool)" + GetSequenceExpression(seq.Right, source) + ")";
                 }
 
-                case SequenceExpressionType.Equal:
+            case SequenceExpressionType.Equal:
                 {
                     SequenceExpressionEqual seq = (SequenceExpressionEqual)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -89,13 +89,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.EqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.EqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Equal, " + leftType + ", " + rightType + ", graph.Model), "
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.StructuralEqual:
+            case SequenceExpressionType.StructuralEqual:
                 {
                     SequenceExpressionStructuralEqual seq = (SequenceExpressionStructuralEqual)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -103,7 +105,7 @@ namespace de.unika.ipd.grGen.lgsp
                     return SequenceExpressionGeneratorHelper.StructuralEqualStatic(leftExpr, rightExpr);
                 }
 
-                case SequenceExpressionType.NotEqual:
+            case SequenceExpressionType.NotEqual:
                 {
                     SequenceExpressionNotEqual seq = (SequenceExpressionNotEqual)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -113,13 +115,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.NotEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.NotEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.NotEqual, " + leftType + ", " + rightType + ", graph.Model), "
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.Lower:
+            case SequenceExpressionType.Lower:
                 {
                     SequenceExpressionLower seq = (SequenceExpressionLower)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -129,13 +133,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.LowerStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.LowerObjects("
-                            + leftExpr + ", " + rightExpr + ", "
-                            + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Lower, " + leftType + ", " + rightType + ", graph.Model),"
-                            + leftType + ", " + rightType + ", graph)";
+                        + leftExpr + ", " + rightExpr + ", "
+                        + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Lower, " + leftType + ", " + rightType + ", graph.Model),"
+                        + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.Greater:
+            case SequenceExpressionType.Greater:
                 {
                     SequenceExpressionGreater seq = (SequenceExpressionGreater)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -145,13 +151,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.GreaterStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.GreaterObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Greater, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.LowerEqual:
+            case SequenceExpressionType.LowerEqual:
                 {
                     SequenceExpressionLowerEqual seq = (SequenceExpressionLowerEqual)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -161,13 +169,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.LowerEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.LowerEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.LowerEqual, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.GreaterEqual:
+            case SequenceExpressionType.GreaterEqual:
                 {
                     SequenceExpressionGreaterEqual seq = (SequenceExpressionGreaterEqual)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -177,13 +187,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.GreaterEqualStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.GreaterEqualObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.GreaterEqual, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.Plus:
+            case SequenceExpressionType.Plus:
                 {
                     SequenceExpressionPlus seq = (SequenceExpressionPlus)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -193,13 +205,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.PlusStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.PlusObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Plus, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.Minus:
+            case SequenceExpressionType.Minus:
                 {
                     SequenceExpressionMinus seq = (SequenceExpressionMinus)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -209,13 +223,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.MinusStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.MinusObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Minus, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.Mul:
+            case SequenceExpressionType.Mul:
                 {
                     SequenceExpressionMul seq = (SequenceExpressionMul)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -225,13 +241,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.MulStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.MulObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Mul, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.Div:
+            case SequenceExpressionType.Div:
                 {
                     SequenceExpressionDiv seq = (SequenceExpressionDiv)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -241,13 +259,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.DivStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.DivObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Div, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.Mod:
+            case SequenceExpressionType.Mod:
                 {
                     SequenceExpressionMod seq = (SequenceExpressionMod)expr;
                     string leftExpr = GetSequenceExpression(seq.Left, source);
@@ -257,19 +277,21 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.BalancedTypeStatic != "")
                         return SequenceExpressionGeneratorHelper.ModStatic(leftExpr, rightExpr, seq.BalancedTypeStatic, seq.LeftTypeStatic, seq.RightTypeStatic, model);
                     else
+                    {
                         return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.ModObjects("
                             + leftExpr + ", " + rightExpr + ", "
                             + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.Mod, " + leftType + ", " + rightType + ", graph.Model),"
                             + leftType + ", " + rightType + ", graph)";
+                    }
                 }
 
-                case SequenceExpressionType.Not:
+            case SequenceExpressionType.Not:
                 {
                     SequenceExpressionNot seqNot = (SequenceExpressionNot)expr;
                     return "!" + "((bool)" + GetSequenceExpression(seqNot.Operand, source) + ")";
                 }
 
-                case SequenceExpressionType.Cast:
+            case SequenceExpressionType.Cast:
                 {
                     SequenceExpressionCast seqCast = (SequenceExpressionCast)expr;
                     string targetType = "UNSUPPORTED TYPE CAST";
@@ -281,22 +303,24 @@ namespace de.unika.ipd.grGen.lgsp
                     return "((" + targetType + ")" + GetSequenceExpression(seqCast.Operand, source) + ")";
                 }
 
-                case SequenceExpressionType.Def:
+            case SequenceExpressionType.Def:
                 {
                     SequenceExpressionDef seqDef = (SequenceExpressionDef)expr;
                     String condition = "(";
                     bool isFirst = true;
                     foreach(SequenceExpression var in seqDef.DefVars)
                     {
-                        if(isFirst) isFirst = false;
-                        else condition += " && ";
+                        if(isFirst)
+                            isFirst = false;
+                        else
+                            condition += " && ";
                         condition += GetSequenceExpression(var, source) + "!=null";
                     }
                     condition += ")";
                     return condition;
                 }
 
-                case SequenceExpressionType.InContainer:
+            case SequenceExpressionType.InContainer:
                 {
                     SequenceExpressionInContainer seqIn = (SequenceExpressionInContainer)expr;
 
@@ -366,7 +390,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.IsVisited:
+            case SequenceExpressionType.IsVisited:
                 {
                     SequenceExpressionIsVisited seqIsVisited = (SequenceExpressionIsVisited)expr;
                     return "graph.IsVisited("
@@ -375,7 +399,7 @@ namespace de.unika.ipd.grGen.lgsp
                         + ")";
                 }
 
-                case SequenceExpressionType.Nodes:
+            case SequenceExpressionType.Nodes:
                 {
                     SequenceExpressionNodes seqNodes = (SequenceExpressionNodes)expr;
                     string nodeType = helper.ExtractNodeType(source, seqNodes.NodeType);
@@ -383,7 +407,7 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_LIBGR.GraphHelper.Nodes(graph, (GRGEN_LIBGR.NodeType)" + nodeType + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.Edges:
+            case SequenceExpressionType.Edges:
                 {
                     SequenceExpressionEdges seqEdges = (SequenceExpressionEdges)expr;
                     string edgeType = helper.ExtractEdgeType(source, seqEdges.EdgeType);
@@ -393,7 +417,7 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_LIBGR.GraphHelper.Edges" + directedness + "(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.CountNodes:
+            case SequenceExpressionType.CountNodes:
                 {
                     SequenceExpressionCountNodes seqNodes = (SequenceExpressionCountNodes)expr;
                     string nodeType = helper.ExtractNodeType(source, seqNodes.NodeType);
@@ -401,7 +425,7 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_LIBGR.GraphHelper.CountNodes(graph, (GRGEN_LIBGR.NodeType)" + nodeType + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.CountEdges:
+            case SequenceExpressionType.CountEdges:
                 {
                     SequenceExpressionCountEdges seqEdges = (SequenceExpressionCountEdges)expr;
                     string edgeType = helper.ExtractEdgeType(source, seqEdges.EdgeType);
@@ -409,30 +433,30 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_LIBGR.GraphHelper.CountEdges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.Now:
+            case SequenceExpressionType.Now:
                 {
                     SequenceExpressionNow seqNow = (SequenceExpressionNow)expr;
                     return "DateTime.UtcNow.ToFileTime()";
                 }
 
-                case SequenceExpressionType.Empty:
+            case SequenceExpressionType.Empty:
                 {
                     SequenceExpressionEmpty seqEmpty = (SequenceExpressionEmpty)expr;
                     return "(graph.NumNodes+graph.NumEdges==0)";
                 }
 
-                case SequenceExpressionType.Size:
+            case SequenceExpressionType.Size:
                 {
                     SequenceExpressionSize seqSize = (SequenceExpressionSize)expr;
                     return "(graph.NumNodes+graph.NumEdges)";
                 }
 
-                case SequenceExpressionType.AdjacentNodes:
-                case SequenceExpressionType.AdjacentNodesViaIncoming:
-                case SequenceExpressionType.AdjacentNodesViaOutgoing:
-                case SequenceExpressionType.IncidentEdges:
-                case SequenceExpressionType.IncomingEdges:
-                case SequenceExpressionType.OutgoingEdges:
+            case SequenceExpressionType.AdjacentNodes:
+            case SequenceExpressionType.AdjacentNodesViaIncoming:
+            case SequenceExpressionType.AdjacentNodesViaOutgoing:
+            case SequenceExpressionType.IncidentEdges:
+            case SequenceExpressionType.IncomingEdges:
+            case SequenceExpressionType.OutgoingEdges:
                 {
                     SequenceExpressionAdjacentIncident seqAdjInc = (SequenceExpressionAdjacentIncident)expr;
                     string sourceNode = GetSequenceExpression(seqAdjInc.SourceNode, source);
@@ -442,32 +466,32 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqAdjInc.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.AdjacentNodes:
-                            function = "Adjacent"; break;
-                        case SequenceExpressionType.AdjacentNodesViaIncoming:
-                            function = "AdjacentIncoming"; break;
-                        case SequenceExpressionType.AdjacentNodesViaOutgoing:
-                            function = "AdjacentOutgoing"; break;
-                        case SequenceExpressionType.IncidentEdges:
-                            function = "Incident" + directedness; break;
-                        case SequenceExpressionType.IncomingEdges:
-                            function = "Incoming" + directedness; break;
-                        case SequenceExpressionType.OutgoingEdges:
-                            function = "Outgoing" + directedness; break;
-                        default:
-                            function = "INTERNAL ERROR"; break;
+                    case SequenceExpressionType.AdjacentNodes:
+                        function = "Adjacent"; break;
+                    case SequenceExpressionType.AdjacentNodesViaIncoming:
+                        function = "AdjacentIncoming"; break;
+                    case SequenceExpressionType.AdjacentNodesViaOutgoing:
+                        function = "AdjacentOutgoing"; break;
+                    case SequenceExpressionType.IncidentEdges:
+                        function = "Incident" + directedness; break;
+                    case SequenceExpressionType.IncomingEdges:
+                        function = "Incoming" + directedness; break;
+                    case SequenceExpressionType.OutgoingEdges:
+                        function = "Outgoing" + directedness; break;
+                    default:
+                        function = "INTERNAL ERROR"; break;
                     }
                     string profilingArgument = seqAdjInc.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode
                         + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.CountAdjacentNodes:
-                case SequenceExpressionType.CountAdjacentNodesViaIncoming:
-                case SequenceExpressionType.CountAdjacentNodesViaOutgoing:
-                case SequenceExpressionType.CountIncidentEdges:
-                case SequenceExpressionType.CountIncomingEdges:
-                case SequenceExpressionType.CountOutgoingEdges:
+            case SequenceExpressionType.CountAdjacentNodes:
+            case SequenceExpressionType.CountAdjacentNodesViaIncoming:
+            case SequenceExpressionType.CountAdjacentNodesViaOutgoing:
+            case SequenceExpressionType.CountIncidentEdges:
+            case SequenceExpressionType.CountIncomingEdges:
+            case SequenceExpressionType.CountOutgoingEdges:
                 {
                     SequenceExpressionCountAdjacentIncident seqCntAdjInc = (SequenceExpressionCountAdjacentIncident)expr;
                     string sourceNode = GetSequenceExpression(seqCntAdjInc.SourceNode, source);
@@ -476,20 +500,20 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqCntAdjInc.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.CountAdjacentNodes:
-                            function = "CountAdjacent"; break;
-                        case SequenceExpressionType.CountAdjacentNodesViaIncoming:
-                            function = "CountAdjacentIncoming"; break;
-                        case SequenceExpressionType.CountAdjacentNodesViaOutgoing:
-                            function = "CountAdjacentOutgoing"; break;
-                        case SequenceExpressionType.CountIncidentEdges:
-                            function = "CountIncident"; break;
-                        case SequenceExpressionType.CountIncomingEdges:
-                            function = "CountIncoming"; break;
-                        case SequenceExpressionType.CountOutgoingEdges:
-                            function = "CountOutgoing"; break;
-                        default:
-                            function = "INTERNAL ERROR"; break;
+                    case SequenceExpressionType.CountAdjacentNodes:
+                        function = "CountAdjacent"; break;
+                    case SequenceExpressionType.CountAdjacentNodesViaIncoming:
+                        function = "CountAdjacentIncoming"; break;
+                    case SequenceExpressionType.CountAdjacentNodesViaOutgoing:
+                        function = "CountAdjacentOutgoing"; break;
+                    case SequenceExpressionType.CountIncidentEdges:
+                        function = "CountIncident"; break;
+                    case SequenceExpressionType.CountIncomingEdges:
+                        function = "CountIncoming"; break;
+                    case SequenceExpressionType.CountOutgoingEdges:
+                        function = "CountOutgoing"; break;
+                    default:
+                        function = "INTERNAL ERROR"; break;
                     }
                     string profilingArgument = seqCntAdjInc.EmitProfiling ? ", procEnv" : "";
                     if(seqCntAdjInc.SequenceExpressionType == SequenceExpressionType.CountAdjacentNodes
@@ -506,12 +530,12 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.ReachableNodes:
-                case SequenceExpressionType.ReachableNodesViaIncoming:
-                case SequenceExpressionType.ReachableNodesViaOutgoing:
-                case SequenceExpressionType.ReachableEdges:
-                case SequenceExpressionType.ReachableEdgesViaIncoming:
-                case SequenceExpressionType.ReachableEdgesViaOutgoing:
+            case SequenceExpressionType.ReachableNodes:
+            case SequenceExpressionType.ReachableNodesViaIncoming:
+            case SequenceExpressionType.ReachableNodesViaOutgoing:
+            case SequenceExpressionType.ReachableEdges:
+            case SequenceExpressionType.ReachableEdgesViaIncoming:
+            case SequenceExpressionType.ReachableEdgesViaOutgoing:
                 {
                     SequenceExpressionReachable seqReach = (SequenceExpressionReachable)expr;
                     string sourceNode = GetSequenceExpression(seqReach.SourceNode, source);
@@ -521,20 +545,20 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqReach.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.ReachableNodes:
-                            function = "Reachable"; break;
-                        case SequenceExpressionType.ReachableNodesViaIncoming:
-                            function = "ReachableIncoming"; break;
-                        case SequenceExpressionType.ReachableNodesViaOutgoing:
-                            function = "ReachableOutgoing"; break;
-                        case SequenceExpressionType.ReachableEdges:
-                            function = "ReachableEdges" + directedness; break;
-                        case SequenceExpressionType.ReachableEdgesViaIncoming:
-                            function = "ReachableEdgesIncoming" + directedness; break;
-                        case SequenceExpressionType.ReachableEdgesViaOutgoing:
-                            function = "ReachableEdgesOutgoing" + directedness; break;
-                        default:
-                            function = "INTERNAL ERROR"; break;
+                    case SequenceExpressionType.ReachableNodes:
+                        function = "Reachable"; break;
+                    case SequenceExpressionType.ReachableNodesViaIncoming:
+                        function = "ReachableIncoming"; break;
+                    case SequenceExpressionType.ReachableNodesViaOutgoing:
+                        function = "ReachableOutgoing"; break;
+                    case SequenceExpressionType.ReachableEdges:
+                        function = "ReachableEdges" + directedness; break;
+                    case SequenceExpressionType.ReachableEdgesViaIncoming:
+                        function = "ReachableEdgesIncoming" + directedness; break;
+                    case SequenceExpressionType.ReachableEdgesViaOutgoing:
+                        function = "ReachableEdgesOutgoing" + directedness; break;
+                    default:
+                        function = "INTERNAL ERROR"; break;
                     }
                     string profilingArgument = seqReach.EmitProfiling ? ", procEnv" : "";
                     if(seqReach.SequenceExpressionType == SequenceExpressionType.ReachableNodes
@@ -551,12 +575,12 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.CountReachableNodes:
-                case SequenceExpressionType.CountReachableNodesViaIncoming:
-                case SequenceExpressionType.CountReachableNodesViaOutgoing:
-                case SequenceExpressionType.CountReachableEdges:
-                case SequenceExpressionType.CountReachableEdgesViaIncoming:
-                case SequenceExpressionType.CountReachableEdgesViaOutgoing:
+            case SequenceExpressionType.CountReachableNodes:
+            case SequenceExpressionType.CountReachableNodesViaIncoming:
+            case SequenceExpressionType.CountReachableNodesViaOutgoing:
+            case SequenceExpressionType.CountReachableEdges:
+            case SequenceExpressionType.CountReachableEdgesViaIncoming:
+            case SequenceExpressionType.CountReachableEdgesViaOutgoing:
                 {
                     SequenceExpressionCountReachable seqCntReach = (SequenceExpressionCountReachable)expr;
                     string sourceNode = GetSequenceExpression(seqCntReach.SourceNode, source);
@@ -565,20 +589,20 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqCntReach.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.CountReachableNodes:
-                            function = "CountReachable"; break;
-                        case SequenceExpressionType.CountReachableNodesViaIncoming:
-                            function = "CountReachableIncoming"; break;
-                        case SequenceExpressionType.CountReachableNodesViaOutgoing:
-                            function = "CountReachableOutgoing"; break;
-                        case SequenceExpressionType.CountReachableEdges:
-                            function = "CountReachableEdges"; break;
-                        case SequenceExpressionType.CountReachableEdgesViaIncoming:
-                            function = "CountReachableEdgesIncoming"; break;
-                        case SequenceExpressionType.CountReachableEdgesViaOutgoing:
-                            function = "CountReachableEdgesOutgoing"; break;
-                        default:
-                            function = "INTERNAL ERROR"; break;
+                    case SequenceExpressionType.CountReachableNodes:
+                        function = "CountReachable"; break;
+                    case SequenceExpressionType.CountReachableNodesViaIncoming:
+                        function = "CountReachableIncoming"; break;
+                    case SequenceExpressionType.CountReachableNodesViaOutgoing:
+                        function = "CountReachableOutgoing"; break;
+                    case SequenceExpressionType.CountReachableEdges:
+                        function = "CountReachableEdges"; break;
+                    case SequenceExpressionType.CountReachableEdgesViaIncoming:
+                        function = "CountReachableEdgesIncoming"; break;
+                    case SequenceExpressionType.CountReachableEdgesViaOutgoing:
+                        function = "CountReachableEdgesOutgoing"; break;
+                    default:
+                        function = "INTERNAL ERROR"; break;
                     }
                     string profilingArgument = seqCntReach.EmitProfiling ? ", procEnv" : "";
                     if(seqCntReach.SequenceExpressionType == SequenceExpressionType.CountReachableNodes
@@ -595,12 +619,12 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.BoundedReachableNodes:
-                case SequenceExpressionType.BoundedReachableNodesViaIncoming:
-                case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
-                case SequenceExpressionType.BoundedReachableEdges:
-                case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
-                case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
+            case SequenceExpressionType.BoundedReachableNodes:
+            case SequenceExpressionType.BoundedReachableNodesViaIncoming:
+            case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
+            case SequenceExpressionType.BoundedReachableEdges:
+            case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
+            case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
                 {
                     SequenceExpressionBoundedReachable seqBoundReach = (SequenceExpressionBoundedReachable)expr;
                     string sourceNode = GetSequenceExpression(seqBoundReach.SourceNode, source);
@@ -611,20 +635,20 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqBoundReach.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.BoundedReachableNodes:
-                            function = "BoundedReachable"; break;
-                        case SequenceExpressionType.BoundedReachableNodesViaIncoming:
-                            function = "BoundedReachableIncoming"; break;
-                        case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
-                            function = "BoundedReachableOutgoing"; break;
-                        case SequenceExpressionType.BoundedReachableEdges:
-                            function = "BoundedReachableEdges" + directedness; break;
-                        case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
-                            function = "BoundedReachableEdgesIncoming" + directedness; break;
-                        case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
-                            function = "BoundedReachableEdgesOutgoing" + directedness; break;
-                        default:
-                            function = "INTERNAL ERROR"; break;
+                    case SequenceExpressionType.BoundedReachableNodes:
+                        function = "BoundedReachable"; break;
+                    case SequenceExpressionType.BoundedReachableNodesViaIncoming:
+                        function = "BoundedReachableIncoming"; break;
+                    case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
+                        function = "BoundedReachableOutgoing"; break;
+                    case SequenceExpressionType.BoundedReachableEdges:
+                        function = "BoundedReachableEdges" + directedness; break;
+                    case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
+                        function = "BoundedReachableEdgesIncoming" + directedness; break;
+                    case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
+                        function = "BoundedReachableEdgesOutgoing" + directedness; break;
+                    default:
+                        function = "INTERNAL ERROR"; break;
                     }
                     string profilingArgument = seqBoundReach.EmitProfiling ? ", procEnv" : "";
                     if(seqBoundReach.SequenceExpressionType == SequenceExpressionType.BoundedReachableNodes
@@ -641,9 +665,9 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
-                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
-                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
+            case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
+            case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
+            case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
                 {
                     SequenceExpressionBoundedReachableWithRemainingDepth seqBoundReach = (SequenceExpressionBoundedReachableWithRemainingDepth)expr;
                     string sourceNode = GetSequenceExpression(seqBoundReach.SourceNode, source);
@@ -653,26 +677,26 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqBoundReach.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
-                            function = "BoundedReachableWithRemainingDepth"; break;
-                        case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
-                            function = "BoundedReachableWithRemainingDepthIncoming"; break;
-                        case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
-                            function = "BoundedReachableWithRemainingDepthOutgoing"; break;
-                        default:
-                            function = "INTERNAL ERROR"; break;
+                    case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
+                        function = "BoundedReachableWithRemainingDepth"; break;
+                    case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
+                        function = "BoundedReachableWithRemainingDepthIncoming"; break;
+                    case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
+                        function = "BoundedReachableWithRemainingDepthOutgoing"; break;
+                    default:
+                        function = "INTERNAL ERROR"; break;
                     }
                     string profilingArgument = seqBoundReach.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode + ", (int)" + depth
                         + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.CountBoundedReachableNodes:
-                case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
-                case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:
-                case SequenceExpressionType.CountBoundedReachableEdges:
-                case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
-                case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
+            case SequenceExpressionType.CountBoundedReachableNodes:
+            case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
+            case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:
+            case SequenceExpressionType.CountBoundedReachableEdges:
+            case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
+            case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
                 {
                     SequenceExpressionCountBoundedReachable seqCntBoundReach = (SequenceExpressionCountBoundedReachable)expr;
                     string sourceNode = GetSequenceExpression(seqCntBoundReach.SourceNode, source);
@@ -682,20 +706,20 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqCntBoundReach.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.CountBoundedReachableNodes:
-                            function = "CountBoundedReachable"; break;
-                        case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
-                            function = "CountBoundedReachableIncoming"; break;
-                        case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:
-                            function = "CountBoundedReachableOutgoing"; break;
-                        case SequenceExpressionType.CountBoundedReachableEdges:
-                            function = "CountBoundedReachableEdges"; break;
-                        case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
-                            function = "CountBoundedReachableEdgesIncoming"; break;
-                        case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
-                            function = "CountBoundedReachableEdgesOutgoing"; break;
-                        default:
-                            function = "INTERNAL ERROR"; break;
+                    case SequenceExpressionType.CountBoundedReachableNodes:
+                        function = "CountBoundedReachable"; break;
+                    case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
+                        function = "CountBoundedReachableIncoming"; break;
+                    case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:
+                        function = "CountBoundedReachableOutgoing"; break;
+                    case SequenceExpressionType.CountBoundedReachableEdges:
+                        function = "CountBoundedReachableEdges"; break;
+                    case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
+                        function = "CountBoundedReachableEdgesIncoming"; break;
+                    case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
+                        function = "CountBoundedReachableEdgesOutgoing"; break;
+                    default:
+                        function = "INTERNAL ERROR"; break;
                     }
                     string profilingArgument = seqCntBoundReach.EmitProfiling ? ", procEnv" : "";
                     if(seqCntBoundReach.SequenceExpressionType == SequenceExpressionType.CountBoundedReachableNodes
@@ -712,12 +736,12 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.IsAdjacentNodes:
-                case SequenceExpressionType.IsAdjacentNodesViaIncoming:
-                case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
-                case SequenceExpressionType.IsIncidentEdges:
-                case SequenceExpressionType.IsIncomingEdges:
-                case SequenceExpressionType.IsOutgoingEdges:
+            case SequenceExpressionType.IsAdjacentNodes:
+            case SequenceExpressionType.IsAdjacentNodesViaIncoming:
+            case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
+            case SequenceExpressionType.IsIncidentEdges:
+            case SequenceExpressionType.IsIncomingEdges:
+            case SequenceExpressionType.IsOutgoingEdges:
                 {
                     SequenceExpressionIsAdjacentIncident seqIsAdjInc = (SequenceExpressionIsAdjacentIncident)expr;
                     string sourceNode = GetSequenceExpression(seqIsAdjInc.SourceNode, source);
@@ -728,46 +752,46 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqIsAdjInc.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.IsAdjacentNodes:
-                            function = "IsAdjacent";
-                            endElementType = "(GRGEN_LIBGR.INode)";
-                            break;
-                        case SequenceExpressionType.IsAdjacentNodesViaIncoming:
-                            function = "IsAdjacentIncoming";
-                            endElementType = "(GRGEN_LIBGR.INode)";
-                            break;
-                        case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
-                            function = "IsAdjacentOutgoing";
-                            endElementType = "(GRGEN_LIBGR.INode)";
-                            break;
-                        case SequenceExpressionType.IsIncidentEdges:
-                            function = "IsIncident";
-                            endElementType = "(GRGEN_LIBGR.IEdge)";
-                            break;
-                        case SequenceExpressionType.IsIncomingEdges:
-                            function = "IsIncoming";
-                            endElementType = "(GRGEN_LIBGR.IEdge)";
-                            break;
-                        case SequenceExpressionType.IsOutgoingEdges:
-                            function = "IsOutgoing";
-                            endElementType = "(GRGEN_LIBGR.IEdge)";
-                            break;
-                        default:
-                            function = "INTERNAL ERROR";
-                            endElementType = "INTERNAL ERROR";
-                            break;
+                    case SequenceExpressionType.IsAdjacentNodes:
+                        function = "IsAdjacent";
+                        endElementType = "(GRGEN_LIBGR.INode)";
+                        break;
+                    case SequenceExpressionType.IsAdjacentNodesViaIncoming:
+                        function = "IsAdjacentIncoming";
+                        endElementType = "(GRGEN_LIBGR.INode)";
+                        break;
+                    case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
+                        function = "IsAdjacentOutgoing";
+                        endElementType = "(GRGEN_LIBGR.INode)";
+                        break;
+                    case SequenceExpressionType.IsIncidentEdges:
+                        function = "IsIncident";
+                        endElementType = "(GRGEN_LIBGR.IEdge)";
+                        break;
+                    case SequenceExpressionType.IsIncomingEdges:
+                        function = "IsIncoming";
+                        endElementType = "(GRGEN_LIBGR.IEdge)";
+                        break;
+                    case SequenceExpressionType.IsOutgoingEdges:
+                        function = "IsOutgoing";
+                        endElementType = "(GRGEN_LIBGR.IEdge)";
+                        break;
+                    default:
+                        function = "INTERNAL ERROR";
+                        endElementType = "INTERNAL ERROR";
+                        break;
                     }
                     string profilingArgument = seqIsAdjInc.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper." + function + "((GRGEN_LIBGR.INode)" + sourceNode + ", " + endElementType + " " + endElement
                         + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.IsReachableNodes:
-                case SequenceExpressionType.IsReachableNodesViaIncoming:
-                case SequenceExpressionType.IsReachableNodesViaOutgoing:
-                case SequenceExpressionType.IsReachableEdges:
-                case SequenceExpressionType.IsReachableEdgesViaIncoming:
-                case SequenceExpressionType.IsReachableEdgesViaOutgoing:
+            case SequenceExpressionType.IsReachableNodes:
+            case SequenceExpressionType.IsReachableNodesViaIncoming:
+            case SequenceExpressionType.IsReachableNodesViaOutgoing:
+            case SequenceExpressionType.IsReachableEdges:
+            case SequenceExpressionType.IsReachableEdgesViaIncoming:
+            case SequenceExpressionType.IsReachableEdgesViaOutgoing:
                 {
                     SequenceExpressionIsReachable seqIsReach = (SequenceExpressionIsReachable)expr;
                     string sourceNode = GetSequenceExpression(seqIsReach.SourceNode, source);
@@ -778,46 +802,46 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqIsReach.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.IsReachableNodes:
-                            function = "IsReachable";
-                            endElementType = "(GRGEN_LIBGR.INode)";
-                            break;
-                        case SequenceExpressionType.IsReachableNodesViaIncoming:
-                            function = "IsReachableIncoming";
-                            endElementType = "(GRGEN_LIBGR.INode)";
-                            break;
-                        case SequenceExpressionType.IsReachableNodesViaOutgoing:
-                            function = "IsReachableOutgoing";
-                            endElementType = "(GRGEN_LIBGR.INode)";
-                            break;
-                        case SequenceExpressionType.IsReachableEdges:
-                            function = "IsReachableEdges";
-                            endElementType = "(GRGEN_LIBGR.IEdge)";
-                            break;
-                        case SequenceExpressionType.IsReachableEdgesViaIncoming:
-                            function = "IsReachableEdgesIncoming";
-                            endElementType = "(GRGEN_LIBGR.IEdge)";
-                            break;
-                        case SequenceExpressionType.IsReachableEdgesViaOutgoing:
-                            function = "IsReachableEdgesOutgoing";
-                            endElementType = "(GRGEN_LIBGR.IEdge)";
-                            break;
-                        default:
-                            function = "INTERNAL ERROR";
-                            endElementType = "INTERNAL ERROR";
-                            break;
+                    case SequenceExpressionType.IsReachableNodes:
+                        function = "IsReachable";
+                        endElementType = "(GRGEN_LIBGR.INode)";
+                        break;
+                    case SequenceExpressionType.IsReachableNodesViaIncoming:
+                        function = "IsReachableIncoming";
+                        endElementType = "(GRGEN_LIBGR.INode)";
+                        break;
+                    case SequenceExpressionType.IsReachableNodesViaOutgoing:
+                        function = "IsReachableOutgoing";
+                        endElementType = "(GRGEN_LIBGR.INode)";
+                        break;
+                    case SequenceExpressionType.IsReachableEdges:
+                        function = "IsReachableEdges";
+                        endElementType = "(GRGEN_LIBGR.IEdge)";
+                        break;
+                    case SequenceExpressionType.IsReachableEdgesViaIncoming:
+                        function = "IsReachableEdgesIncoming";
+                        endElementType = "(GRGEN_LIBGR.IEdge)";
+                        break;
+                    case SequenceExpressionType.IsReachableEdgesViaOutgoing:
+                        function = "IsReachableEdgesOutgoing";
+                        endElementType = "(GRGEN_LIBGR.IEdge)";
+                        break;
+                    default:
+                        function = "INTERNAL ERROR";
+                        endElementType = "INTERNAL ERROR";
+                        break;
                     }
                     string profilingArgument = seqIsReach.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper." + function + "(graph, (GRGEN_LIBGR.INode)" + sourceNode + ", " + endElementType + " " + endElement
                         + ", (GRGEN_LIBGR.EdgeType)" + incidentEdgeType + ", (GRGEN_LIBGR.NodeType)" + adjacentNodeType + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.IsBoundedReachableNodes:
-                case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
-                case SequenceExpressionType.IsBoundedReachableNodesViaOutgoing:
-                case SequenceExpressionType.IsBoundedReachableEdges:
-                case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
-                case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
+            case SequenceExpressionType.IsBoundedReachableNodes:
+            case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
+            case SequenceExpressionType.IsBoundedReachableNodesViaOutgoing:
+            case SequenceExpressionType.IsBoundedReachableEdges:
+            case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
+            case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
                 {
                     SequenceExpressionIsBoundedReachable seqIsBoundReach = (SequenceExpressionIsBoundedReachable)expr;
                     string sourceNode = GetSequenceExpression(seqIsBoundReach.SourceNode, source);
@@ -828,20 +852,20 @@ namespace de.unika.ipd.grGen.lgsp
                     string function;
                     switch(seqIsBoundReach.SequenceExpressionType)
                     {
-                        case SequenceExpressionType.IsBoundedReachableNodes:
-                            function = "IsBoundedReachable"; break;
-                        case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
-                            function = "IsBoundedReachableIncoming"; break;
-                        case SequenceExpressionType.IsBoundedReachableNodesViaOutgoing:
-                            function = "IsBoundedReachableOutgoing"; break;
-                        case SequenceExpressionType.IsBoundedReachableEdges:
-                            function = "IsBoundedReachableEdges"; break;
-                        case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
-                            function = "IsBoundedReachableEdgesIncoming"; break;
-                        case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
-                            function = "IsBoundedReachableEdgesOutgoing"; break;
-                        default:
-                            function = "INTERNAL ERROR"; break;
+                    case SequenceExpressionType.IsBoundedReachableNodes:
+                        function = "IsBoundedReachable"; break;
+                    case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
+                        function = "IsBoundedReachableIncoming"; break;
+                    case SequenceExpressionType.IsBoundedReachableNodesViaOutgoing:
+                        function = "IsBoundedReachableOutgoing"; break;
+                    case SequenceExpressionType.IsBoundedReachableEdges:
+                        function = "IsBoundedReachableEdges"; break;
+                    case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
+                        function = "IsBoundedReachableEdgesIncoming"; break;
+                    case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
+                        function = "IsBoundedReachableEdgesOutgoing"; break;
+                    default:
+                        function = "INTERNAL ERROR"; break;
                     }
                     string profilingArgument = seqIsBoundReach.EmitProfiling ? ", procEnv" : "";
                     if(seqIsBoundReach.SequenceExpressionType == SequenceExpressionType.IsBoundedReachableNodes
@@ -858,26 +882,26 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.InducedSubgraph:
+            case SequenceExpressionType.InducedSubgraph:
                 {
                     SequenceExpressionInducedSubgraph seqInduced = (SequenceExpressionInducedSubgraph)expr;
                     return "GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqInduced.NodeSet, source) + ", graph)";
                 }
 
-                case SequenceExpressionType.DefinedSubgraph:
+            case SequenceExpressionType.DefinedSubgraph:
                 {
                     SequenceExpressionDefinedSubgraph seqDefined = (SequenceExpressionDefinedSubgraph)expr;
-                    if (seqDefined.EdgeSet.Type(env) == "set<Edge>")
+                    if(seqDefined.EdgeSet.Type(env) == "set<Edge>")
                         return "GRGEN_LIBGR.GraphHelper.DefinedSubgraphDirected((IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
-                    else if (seqDefined.EdgeSet.Type(env) == "set<UEdge>")
+                    else if(seqDefined.EdgeSet.Type(env) == "set<UEdge>")
                         return "GRGEN_LIBGR.GraphHelper.DefinedSubgraphUndirected((IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
-                    else if (seqDefined.EdgeSet.Type(env) == "set<AEdge>")
+                    else if(seqDefined.EdgeSet.Type(env) == "set<AEdge>")
                         return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
                     else
                         return "GRGEN_LIBGR.GraphHelper.DefinedSubgraph((IDictionary)" + GetSequenceExpression(seqDefined.EdgeSet, source) + ", graph)";
                 }
 
-                case SequenceExpressionType.EqualsAny:
+            case SequenceExpressionType.EqualsAny:
                 {
                     SequenceExpressionEqualsAny seqEqualsAny = (SequenceExpressionEqualsAny)expr;
                     if(seqEqualsAny.IncludingAttributes)
@@ -886,7 +910,7 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.GraphHelper.EqualsAny((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqEqualsAny.Subgraph, source) + ", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqEqualsAny.SubgraphSet, source) + ", false)";
                 }
 
-                case SequenceExpressionType.Nameof:
+            case SequenceExpressionType.Nameof:
                 {
                     SequenceExpressionNameof seqNameof = (SequenceExpressionNameof)expr;
                     if(seqNameof.NamedEntity != null)
@@ -895,7 +919,7 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.GraphHelper.Nameof(null, graph)";
                 }
 
-                case SequenceExpressionType.Uniqueof:
+            case SequenceExpressionType.Uniqueof:
                 {
                     SequenceExpressionUniqueof seqUniqueof = (SequenceExpressionUniqueof)expr;
                     if(seqUniqueof.UniquelyIdentifiedEntity != null)
@@ -904,61 +928,70 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.GraphHelper.Uniqueof(null, graph)";
                 }
 
-                case SequenceExpressionType.Typeof:
+            case SequenceExpressionType.Typeof:
                 {
                     SequenceExpressionTypeof seqTypeof = (SequenceExpressionTypeof)expr;
                     return "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + GetSequenceExpression(seqTypeof.Entity, source) + ", graph.Model)";
                 }
 
-                case SequenceExpressionType.ExistsFile:
+            case SequenceExpressionType.ExistsFile:
                 {
                     SequenceExpressionExistsFile seqExistsFile = (SequenceExpressionExistsFile)expr;
                     return "System.IO.File.Exists((string)" + GetSequenceExpression(seqExistsFile.Path, source) + ")";
                 }
 
-                case SequenceExpressionType.Import:
+            case SequenceExpressionType.Import:
                 {
                     SequenceExpressionImport seqImport = (SequenceExpressionImport)expr;
                     return "GRGEN_LIBGR.GraphHelper.Import(" + GetSequenceExpression(seqImport.Path, source) + ", procEnv.Backend, graph.Model)";
                 }
 
-                case SequenceExpressionType.Copy:
+            case SequenceExpressionType.Copy:
                 {
                     SequenceExpressionCopy seqCopy = (SequenceExpressionCopy)expr;
-                    if(seqCopy.ObjectToBeCopied.Type(env)=="graph")
+                    if(seqCopy.ObjectToBeCopied.Type(env) == "graph")
                         return "GRGEN_LIBGR.GraphHelper.Copy((GRGEN_LIBGR.IGraph)(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "))";
                     else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("set<"))
-                        return "new " + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) 
-                            + "((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
-                            + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "))";
-                    else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("map<"))
-                        return "new " + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) 
-                            + "((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
-                            + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "))";
-                    else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("array<"))
-                        return "new " + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) 
-                            + "((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
-                            + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "))";
-                    else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("deque<"))
+                    {
                         return "new " + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model)
                             + "((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
                             + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "))";
-                    else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("match<")) {
+                    }
+                    else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("map<"))
+                    {
+                        return "new " + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model)
+                            + "((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
+                            + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "))";
+                    }
+                    else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("array<"))
+                    {
+                        return "new " + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model)
+                            + "((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
+                            + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "))";
+                    }
+                    else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("deque<"))
+                    {
+                        return "new " + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model)
+                            + "((" + TypesHelper.XgrsTypeToCSharpType(seqCopy.ObjectToBeCopied.Type(env), model) + ")"
+                            + "(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + "))";
+                    }
+                    else if(seqCopy.ObjectToBeCopied.Type(env).StartsWith("match<"))
+                    {
                         string rulePatternClassName = "Rule_" + TypesHelper.ExtractSrc(seqCopy.ObjectToBeCopied.Type(env));
-                        string matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqCopy.ObjectToBeCopied.Type(env)));                     
+                        string matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqCopy.ObjectToBeCopied.Type(env)));
                         return "((" + matchInterfaceName + ")(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ").Clone())";
                     }
                     else //if(seqCopy.ObjectToBeCopied.Type(env) == "")
                         return "GRGEN_LIBGR.TypesHelper.Clone(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ")";
                 }
 
-                case SequenceExpressionType.Canonize:
+            case SequenceExpressionType.Canonize:
                 {
                     SequenceExpressionCanonize seqCanonize = (SequenceExpressionCanonize)expr;
                     return "((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqCanonize.Graph, source) + ").Canonize()";
                 }
 
-                case SequenceExpressionType.Random:
+            case SequenceExpressionType.Random:
                 {
                     SequenceExpressionRandom seqRandom = (SequenceExpressionRandom)expr;
                     if(seqRandom.UpperBound != null)
@@ -967,7 +1000,7 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.Sequence.randomGenerator.NextDouble()";
                 }
 
-                case SequenceExpressionType.ContainerSize:
+            case SequenceExpressionType.ContainerSize:
                 {
                     SequenceExpressionContainerSize seqContainerSize = (SequenceExpressionContainerSize)expr;
 
@@ -1017,7 +1050,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.ContainerEmpty:
+            case SequenceExpressionType.ContainerEmpty:
                 {
                     SequenceExpressionContainerEmpty seqContainerEmpty = (SequenceExpressionContainerEmpty)expr;
                     
@@ -1067,7 +1100,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.ContainerAccess:
+            case SequenceExpressionType.ContainerAccess:
                 {
                     SequenceExpressionContainerAccess seqContainerAccess = (SequenceExpressionContainerAccess)expr; // todo: dst type unknownTypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type)
                     string container;
@@ -1103,13 +1136,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                         string array = "((System.Collections.IList)" + containerVar + ")";
                         if(!TypesHelper.IsSameOrSubtype(seqContainerAccess.KeyExpr.Type(env), "int", model))
-                        {
                             sb.AppendFront(array + "[-1]");
-                        }
                         else
-                        {
                             sb.AppendFront(array + "[(int)" + sourceExpr + "]");
-                        }
 
                         sb.AppendFront(" : ");
 
@@ -1117,13 +1146,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                         string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
                         if(!TypesHelper.IsSameOrSubtype(seqContainerAccess.KeyExpr.Type(env), "int", model))
-                        {
                             sb.AppendFront(deque + "[-1]");
-                        }
                         else
-                        {
                             sb.AppendFront(deque + "[(int)" + sourceExpr + "]");
-                        }
 
                         sb.AppendFront(" : ");
 
@@ -1155,7 +1180,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.ContainerPeek:
+            case SequenceExpressionType.ContainerPeek:
                 {
                     SequenceExpressionContainerPeek seqContainerPeek = (SequenceExpressionContainerPeek)expr;
 
@@ -1164,52 +1189,38 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seqContainerPeek.KeyExpr != null)
                     {
                         if(seqContainerPeek.ContainerType(env) == "")
-                        {
                             return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
-                        }
                         else if(seqContainerPeek.ContainerType(env).StartsWith("array"))
-                        {
                             return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
-                        }
                         else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
-                        {
                             return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
-                        }
                         else // statically known set/map/deque
-                        {
                             return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
-                        }
                     }
                     else
                     {
                         if(seqContainerPeek.ContainerType(env).StartsWith("array"))
-                        {
                             return container + "[" + container + ".Count - 1]";
-                        }
                         else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
-                        {
                             return container + "[0]";
-                        }
                         else
-                        {
                             return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ")";
-                        }
                     }
                 }
 
-                case SequenceExpressionType.Constant:
+            case SequenceExpressionType.Constant:
                 {
                     SequenceExpressionConstant seqConst = (SequenceExpressionConstant)expr;
                     return helper.GetConstant(seqConst.Constant);
                 }
 
-                case SequenceExpressionType.This:
+            case SequenceExpressionType.This:
                 {
                     SequenceExpressionThis seqThis = (SequenceExpressionThis)expr;
                     return "graph";
                 }
 
-                case SequenceExpressionType.SetCopyConstructor:
+            case SequenceExpressionType.SetCopyConstructor:
                 {
                     SequenceExpressionSetCopyConstructor seqConstr = (SequenceExpressionSetCopyConstructor)expr;
                     StringBuilder sb = new StringBuilder();
@@ -1225,9 +1236,9 @@ namespace de.unika.ipd.grGen.lgsp
                     return sb.ToString();
                 }
 
-                case SequenceExpressionType.SetConstructor:
-                case SequenceExpressionType.ArrayConstructor:
-                case SequenceExpressionType.DequeConstructor:
+            case SequenceExpressionType.SetConstructor:
+            case SequenceExpressionType.ArrayConstructor:
+            case SequenceExpressionType.DequeConstructor:
                 {
                     SequenceExpressionContainerConstructor seqConstr = (SequenceExpressionContainerConstructor)expr;
                     StringBuilder sb = new StringBuilder();
@@ -1248,7 +1259,7 @@ namespace de.unika.ipd.grGen.lgsp
                     return sb.ToString();
                 }
 
-                case SequenceExpressionType.MapConstructor:
+            case SequenceExpressionType.MapConstructor:
                 {
                     SequenceExpressionMapConstructor seqConstr = (SequenceExpressionMapConstructor)expr;
                     StringBuilder sb = new StringBuilder();
@@ -1275,13 +1286,13 @@ namespace de.unika.ipd.grGen.lgsp
                     return sb.ToString();
                 }
 
-                case SequenceExpressionType.GraphElementAttribute:
+            case SequenceExpressionType.GraphElementAttribute:
                 {
                     SequenceExpressionAttributeAccess seqAttr = (SequenceExpressionAttributeAccess)expr;
                     string element = "((GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqAttr.SourceVar) + ")";
                     string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
                     string type = seqAttr.Type(env);
-                    if (type == ""
+                    if(type == ""
                             || type.StartsWith("set<") || type.StartsWith("map<")
                             || type.StartsWith("array<") || type.StartsWith("deque<"))
                     {
@@ -1293,7 +1304,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                case SequenceExpressionType.ElementOfMatch:
+            case SequenceExpressionType.ElementOfMatch:
                 {
                     SequenceExpressionMatchAccess seqMA = (SequenceExpressionMatchAccess)expr;
                     String rulePatternClassName = "Rule_" + TypesHelper.ExtractSrc(seqMA.SourceVar.Type);
@@ -1307,14 +1318,14 @@ namespace de.unika.ipd.grGen.lgsp
                         return match + ".var_" + seqMA.ElementName;
                 }
 
-                case SequenceExpressionType.ElementFromGraph:
+            case SequenceExpressionType.ElementFromGraph:
                 {
                     SequenceExpressionElementFromGraph seqFromGraph = (SequenceExpressionElementFromGraph)expr;
                     string profilingArgument = seqFromGraph.EmitProfiling ? ", procEnv" : "";
                     return "GRGEN_LIBGR.GraphHelper.GetGraphElement((GRGEN_LIBGR.INamedGraph)graph, \"" + seqFromGraph.ElementName + "\"" + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.NodeByName:
+            case SequenceExpressionType.NodeByName:
                 {
                     SequenceExpressionNodeByName seqNodeByName = (SequenceExpressionNodeByName)expr;
                     string profilingArgument = seqNodeByName.EmitProfiling ? ", procEnv" : "";
@@ -1325,64 +1336,64 @@ namespace de.unika.ipd.grGen.lgsp
                         return "GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqNodeByName.NodeName, source) + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.EdgeByName:
+            case SequenceExpressionType.EdgeByName:
                 {
                     SequenceExpressionEdgeByName seqEdgeByName = (SequenceExpressionEdgeByName)expr;
                     string profilingArgument = seqEdgeByName.EmitProfiling ? ", procEnv" : "";
                     string edgeType = seqEdgeByName.EdgeType != null ? helper.ExtractEdgeType(source, seqEdgeByName.EdgeType) : null;
-                    if (edgeType != null)
+                    if(edgeType != null)
                         return "GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqEdgeByName.EdgeName, source) + ", " + edgeType + profilingArgument + ")";
                     else
                         return "GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqEdgeByName.EdgeName, source) + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.NodeByUnique:
+            case SequenceExpressionType.NodeByUnique:
                 {
                     SequenceExpressionNodeByUnique seqNodeByUnique = (SequenceExpressionNodeByUnique)expr;
                     string profilingArgument = seqNodeByUnique.EmitProfiling ? ", procEnv" : "";
                     string nodeType = seqNodeByUnique.NodeType != null ? helper.ExtractNodeType(source, seqNodeByUnique.NodeType) : null;
-                    if (nodeType != null)
+                    if(nodeType != null)
                         return "GRGEN_LIBGR.GraphHelper.GetNode(graph, (int)" + GetSequenceExpression(seqNodeByUnique.NodeUniqueId, source) + ", " + nodeType + profilingArgument + ")";
                     else
                         return "GRGEN_LIBGR.GraphHelper.GetNode(graph, (int)" + GetSequenceExpression(seqNodeByUnique.NodeUniqueId, source) + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.EdgeByUnique:
+            case SequenceExpressionType.EdgeByUnique:
                 {
                     SequenceExpressionEdgeByUnique seqEdgeByUnique = (SequenceExpressionEdgeByUnique)expr;
                     string profilingArgument = seqEdgeByUnique.EmitProfiling ? ", procEnv" : "";
                     string edgeType = seqEdgeByUnique.EdgeType != null ? helper.ExtractEdgeType(source, seqEdgeByUnique.EdgeType) : null;
-                    if (edgeType != null)
+                    if(edgeType != null)
                         return "GRGEN_LIBGR.GraphHelper.GetEdge(graph, (int)" + GetSequenceExpression(seqEdgeByUnique.EdgeUniqueId, source) + ", " + edgeType + profilingArgument + ")";
                     else
                         return "GRGEN_LIBGR.GraphHelper.GetEdge(graph, (int)" + GetSequenceExpression(seqEdgeByUnique.EdgeUniqueId, source) + profilingArgument + ")";
                 }
 
-                case SequenceExpressionType.Source:
+            case SequenceExpressionType.Source:
                 {
                     SequenceExpressionSource seqSrc = (SequenceExpressionSource)expr;
                     return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqSrc.Edge, source) + ").Source";
                 }
 
-                case SequenceExpressionType.Target:
+            case SequenceExpressionType.Target:
                 {
                     SequenceExpressionTarget seqTgt = (SequenceExpressionTarget)expr;
                     return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqTgt.Edge, source) + ").Target";
                 }
 
-                case SequenceExpressionType.Opposite:
+            case SequenceExpressionType.Opposite:
                 {
                     SequenceExpressionOpposite seqOpp = (SequenceExpressionOpposite)expr;
                     return "((GRGEN_LIBGR.IEdge)" + GetSequenceExpression(seqOpp.Edge, source) + ").Opposite((GRGEN_LIBGR.INode)(" + GetSequenceExpression(seqOpp.Node, source) + "))";
                 }
 
-                case SequenceExpressionType.Variable:
+            case SequenceExpressionType.Variable:
                 {
                     SequenceExpressionVariable seqVar = (SequenceExpressionVariable)expr;
                     return helper.GetVar(seqVar.Variable);
                 }
 
-                case SequenceExpressionType.FunctionCall:
+            case SequenceExpressionType.FunctionCall:
                 {
                     SequenceExpressionFunctionCall seqFuncCall = (SequenceExpressionFunctionCall)expr;
                     StringBuilder sb = new StringBuilder();
@@ -1397,7 +1408,7 @@ namespace de.unika.ipd.grGen.lgsp
                     return sb.ToString();
                 }
 
-                case SequenceExpressionType.FunctionMethodCall:
+            case SequenceExpressionType.FunctionMethodCall:
                 {
                     SequenceExpressionFunctionMethodCall seqFuncCall = (SequenceExpressionFunctionMethodCall)expr;
                     StringBuilder sb = new StringBuilder();
@@ -1425,8 +1436,8 @@ namespace de.unika.ipd.grGen.lgsp
                     return sb.ToString();
                 }
 
-                default:
-                    throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
+            default:
+                throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
             }
         }
 

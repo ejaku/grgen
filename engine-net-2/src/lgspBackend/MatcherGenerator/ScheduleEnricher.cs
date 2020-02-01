@@ -31,9 +31,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // no operation -> nothing which could be homomorph
             if(ssp.Operations.Length == 0)
-            {
                 return;
-            }
 
             // iterate operations of the search plan to append homomorphy checks
             for(int i = 0; i < ssp.Operations.Length; ++i)
@@ -122,11 +120,13 @@ namespace de.unika.ipd.grGen.lgsp
             GrGenType[] types;
             bool[,] hom;
 
-            if(spn_j.NodeType == PlanNodeType.Node) {
+            if(spn_j.NodeType == PlanNodeType.Node)
+            {
                 types = model.NodeModel.Types;
                 hom = ssp.PatternGraph.homomorphicNodes;
             }
-            else { // (spn_j.NodeType == PlanNodeType.Edge)
+            else // (spn_j.NodeType == PlanNodeType.Edge)
+            {
                 types = model.EdgeModel.Types;
                 hom = ssp.PatternGraph.homomorphicEdges;
             }
@@ -151,9 +151,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                 SearchPlanNode spn_i = (SearchPlanNode)ssp.Operations[i].Element;
 
-                // don't compare nodes with edges
                 if(spn_i.NodeType != spn_j.NodeType)
                 {
+                    // don't compare nodes with edges
                     continue;
                 }
 
@@ -176,9 +176,9 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                // don't check elements if their types are disjoint
                 if(disjoint)
                 {
+                    // don't check elements if their types are disjoint
                     continue;
                 }
 
@@ -195,9 +195,8 @@ namespace de.unika.ipd.grGen.lgsp
                 // otherwise the generated matcher code has to check 
                 // that pattern element j doesn't get bound to the same graph element
                 // the pattern element i is already bound to 
-                if(ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst == null) {
+                if(ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst == null)
                     ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = new List<SearchPlanNode>();
-                }
                 ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst.Add(spn_i);
 
                 // if spn_j might get matched to the same host graph element as spn_i and this is not allowed
@@ -220,9 +219,7 @@ namespace de.unika.ipd.grGen.lgsp
             // the pattern elements to check against are only needed 
             // if spn_j is allowed to be homomorph to some elements but must be isomorph to some others
             if(ssp.Operations[j].Isomorphy.CheckIsMatchedBit && !homomorphyPossibleAndAllowed)
-            {
                 ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = null;
-            }
         }
 
         /// <summary>
@@ -252,12 +249,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             bool[,] homGlobal;
-            if(spn_j.NodeType == PlanNodeType.Node) {
+            if(spn_j.NodeType == PlanNodeType.Node)
                 homGlobal = ssp.PatternGraph.homomorphicNodesGlobal;
-            }
-            else { // (spn_j.NodeType == PlanNodeType.Edge)
+            else // (spn_j.NodeType == PlanNodeType.Edge)
                 homGlobal = ssp.PatternGraph.homomorphicEdgesGlobal;
-            }
 
             // iterate through the operations before our position
             for(int i = 0; i < j; ++i)
@@ -276,9 +271,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                 SearchPlanNode spn_i = (SearchPlanNode)ssp.Operations[i].Element;
 
-                // don't compare nodes with edges
                 if(spn_i.NodeType != spn_j.NodeType)
                 {
+                    // don't compare nodes with edges
                     continue;
                 }
 
@@ -294,9 +289,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(homGlobal[spn_j.ElementID - 1, spn_i.ElementID - 1])
                 {
                     if(ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements == null)
-                    {
                         ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements = new List<SearchPlanNode>();
-                    }
                     ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements.Add(spn_i);
                 }
             }
@@ -356,7 +349,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             List<SearchOperation> operations = new List<SearchOperation>();
             for(int i = 0; i < patternGraph.schedules[index].Operations.Length; ++i)
+            {
                 operations.Add(patternGraph.schedules[index].Operations[i]);
+            }
 
             // nested patterns on the way to an enclosed patternpath modifier 
             // must get matched after all local nodes and edges, because they require 
@@ -389,9 +384,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 
                     if(lazyNegativeIndependentConditionEvaluation)
-                    {
                         break;
-                    }
 
                     if(op.Type == SearchOperationType.LockLocalElementsForPatternpath
                         || op.Type == SearchOperationType.DefToBeYieldedTo)
@@ -419,7 +412,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                 // update costs of operations before best position
                 for(int j = 0; j < bestFitIndex; ++j)
+                {
                     operations[j].CostToEnd += negSchedule.Cost;
+                }
             }
 
             // iterate over all independent scheduled search plans (TODO: order?)
@@ -445,9 +440,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 
                     if(lazyNegativeIndependentConditionEvaluation)
-                    {
                         break;
-                    }
 
                     if(op.Type == SearchOperationType.LockLocalElementsForPatternpath
                         || op.Type == SearchOperationType.DefToBeYieldedTo)
@@ -482,7 +475,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                 // update costs of operations before best position
                 for(int j = 0; j < bestFitIndex; ++j)
+                {
                     operations[j].CostToEnd += idptSchedule.Cost;
+                }
             }
 
             InsertInlinedIndependentCheckForDuplicateMatch(operations);
@@ -553,9 +548,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
             else
-            {
                 Parallelize(matchingPattern);
-            }
         }
 
         /// <summary>
@@ -608,35 +601,35 @@ namespace de.unika.ipd.grGen.lgsp
                     headOperations.Add(clone);
                     switch(so.Type)
                     {
-                            // the target binding looping operations can't appear in the header, so we don't treat them here
-                            // the non-target binding operations are completely handled by just adding them, happended already above
-                            // the target binding non-looping operations are handled below,
-                            // by parallel preset writing in the header and reading in the body
-                            // with exception of def, its declaration and initializion is just re-executed in the body
-                            // some presets can't appear in an action header, they are thus not taken care of
-                        case SearchOperationType.ActionPreset:
-                        case SearchOperationType.MapWithStorage:
-                        case SearchOperationType.MapWithStorageDependent:
-                        case SearchOperationType.Cast:
-                        case SearchOperationType.Assign:
-                        case SearchOperationType.Identity:
-                        case SearchOperationType.ImplicitSource:
-                        case SearchOperationType.ImplicitTarget:
-                        case SearchOperationType.Implicit:
-                            headOperations.Add(new SearchOperation(SearchOperationType.WriteParallelPreset,
-                                (SearchPlanNode)so.Element, so.SourceSPNode, 0));
-                            bodyOperations.Add(new SearchOperation(SearchOperationType.ParallelPreset, 
-                                (SearchPlanNode)so.Element, so.SourceSPNode, 0));
-                            break;
-                        case SearchOperationType.AssignVar:
-                            headOperations.Add(new SearchOperation(SearchOperationType.WriteParallelPresetVar,
-                                (PatternVariable)so.Element, so.SourceSPNode, 0));
-                            bodyOperations.Add(new SearchOperation(SearchOperationType.ParallelPresetVar,
-                                (PatternVariable)so.Element, so.SourceSPNode, 0));
-                            break;
-                        case SearchOperationType.DefToBeYieldedTo:
-                            bodyOperations.Add((SearchOperation)so.Clone());
-                            break;
+                        // the target binding looping operations can't appear in the header, so we don't treat them here
+                        // the non-target binding operations are completely handled by just adding them, happended already above
+                        // the target binding non-looping operations are handled below,
+                        // by parallel preset writing in the header and reading in the body
+                        // with exception of def, its declaration and initializion is just re-executed in the body
+                        // some presets can't appear in an action header, they are thus not taken care of
+                    case SearchOperationType.ActionPreset:
+                    case SearchOperationType.MapWithStorage:
+                    case SearchOperationType.MapWithStorageDependent:
+                    case SearchOperationType.Cast:
+                    case SearchOperationType.Assign:
+                    case SearchOperationType.Identity:
+                    case SearchOperationType.ImplicitSource:
+                    case SearchOperationType.ImplicitTarget:
+                    case SearchOperationType.Implicit:
+                        headOperations.Add(new SearchOperation(SearchOperationType.WriteParallelPreset,
+                            (SearchPlanNode)so.Element, so.SourceSPNode, 0));
+                        bodyOperations.Add(new SearchOperation(SearchOperationType.ParallelPreset, 
+                            (SearchPlanNode)so.Element, so.SourceSPNode, 0));
+                        break;
+                    case SearchOperationType.AssignVar:
+                        headOperations.Add(new SearchOperation(SearchOperationType.WriteParallelPresetVar,
+                            (PatternVariable)so.Element, so.SourceSPNode, 0));
+                        bodyOperations.Add(new SearchOperation(SearchOperationType.ParallelPresetVar,
+                            (PatternVariable)so.Element, so.SourceSPNode, 0));
+                        break;
+                    case SearchOperationType.DefToBeYieldedTo:
+                        bodyOperations.Add((SearchOperation)so.Clone());
+                        break;
                     }                    
                 }
                 else if(i == indexToSplitAt)

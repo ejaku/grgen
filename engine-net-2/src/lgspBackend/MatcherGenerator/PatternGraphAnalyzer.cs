@@ -92,7 +92,7 @@ namespace de.unika.ipd.grGen.lgsp
                     maxIsoSpaceChanged |= ComputeMaxIsoSpace(matchingPattern.patternGraph, inlined);
                 }
             } // until nothing changes because transitive closure was found
-            while (maxIsoSpaceChanged);
+            while(maxIsoSpaceChanged);
 
             // parallelization occurs only after inlining
             if(inlined)
@@ -124,7 +124,7 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraph.nestedIndependents = null; // at inlined pass reset values from pass before (nop when used first)
             
             PatternGraph[] independentPatternGraphs = inlined ? patternGraph.independentPatternGraphsPlusInlined : patternGraph.independentPatternGraphs;
-            foreach (PatternGraph idpt in independentPatternGraphs)
+            foreach(PatternGraph idpt in independentPatternGraphs)
             {
                 if(!nestedInNegative)
                 {
@@ -147,9 +147,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             // alternative cases represent new annotation point
             Alternative[] alternatives = inlined ? patternGraph.alternativesPlusInlined : patternGraph.alternatives;
-            foreach (Alternative alt in alternatives)
+            foreach(Alternative alt in alternatives)
             {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(PatternGraph altCase in alt.alternativeCases)
                 {
                     AnnotateIndependentsAtNestingPattern(altCase, inlined, false, false);
                 }
@@ -157,7 +157,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // iterateds represent new annotation point
             Iterated[] iterateds = inlined ? patternGraph.iteratedsPlusInlined : patternGraph.iterateds;
-            foreach (Iterated iter in iterateds)
+            foreach(Iterated iter in iterateds)
             {
                 AnnotateIndependentsAtNestingPattern(iter.iteratedPattern, inlined, false, iter.maxMatches==0 || iter.maxMatches>1);
             }
@@ -168,66 +168,94 @@ namespace de.unika.ipd.grGen.lgsp
             if(inlined)
             {
                 foreach(PatternNode node in patternGraph.nodesPlusInlined)
+                {
                     if(node.DefToBeYieldedTo)
                     {
                         patternGraph.isDefEntityExistingPlusInlined = true;
                         if(node.pointOfDefinition != patternGraph)
                             patternGraph.isNonLocalDefEntityExistingPlusInlined = true;
                     }
+                }
                 foreach(PatternEdge edge in patternGraph.edgesPlusInlined)
+                {
                     if(edge.DefToBeYieldedTo)
                     {
                         patternGraph.isDefEntityExistingPlusInlined = true;
                         if(edge.pointOfDefinition != patternGraph)
                             patternGraph.isNonLocalDefEntityExistingPlusInlined = true;
                     }
+                }
                 foreach(PatternVariable var in patternGraph.variablesPlusInlined)
+                {
                     if(var.DefToBeYieldedTo)
                     {
                         patternGraph.isDefEntityExistingPlusInlined = true;
                         if(var.pointOfDefinition != patternGraph)
                             patternGraph.isNonLocalDefEntityExistingPlusInlined = true;
                     }
+                }
 
                 foreach(Alternative alternative in patternGraph.alternativesPlusInlined)
+                {
                     foreach(PatternGraph alternativeCase in alternative.alternativeCases)
+                    {
                         SetDefEntityExistanceAndNonLocalDefEntityExistance(alternativeCase, true);
+                    }
+                }
                 foreach(Iterated iterated in patternGraph.iteratedsPlusInlined)
+                {
                     SetDefEntityExistanceAndNonLocalDefEntityExistance(iterated.iteratedPattern, true);
+                }
                 foreach(PatternGraph independent in patternGraph.independentPatternGraphsPlusInlined)
+                {
                     SetDefEntityExistanceAndNonLocalDefEntityExistance(independent, true);
+                }
             }
             else
             {
                 foreach(PatternNode node in patternGraph.nodes)
+                {
                     if(node.DefToBeYieldedTo)
                     {
                         patternGraph.isDefEntityExisting = true;
                         if(node.pointOfDefinition != patternGraph)
                             patternGraph.isNonLocalDefEntityExisting = true;
                     }
+                }
                 foreach(PatternEdge edge in patternGraph.edges)
+                {
                     if(edge.DefToBeYieldedTo)
                     {
                         patternGraph.isDefEntityExisting = true;
                         if(edge.pointOfDefinition != patternGraph)
                             patternGraph.isNonLocalDefEntityExisting = true;
                     }
+                }
                 foreach(PatternVariable var in patternGraph.variables)
+                {
                     if(var.DefToBeYieldedTo)
                     {
                         patternGraph.isDefEntityExisting = true;
                         if(var.pointOfDefinition != patternGraph)
                             patternGraph.isNonLocalDefEntityExisting = true;
                     }
+                }
 
                 foreach(Alternative alternative in patternGraph.alternatives)
+                {
                     foreach(PatternGraph alternativeCase in alternative.alternativeCases)
+                    {
                         SetDefEntityExistanceAndNonLocalDefEntityExistance(alternativeCase, false);
+                    }
+                }
                 foreach(Iterated iterated in patternGraph.iterateds)
+                {
                     SetDefEntityExistanceAndNonLocalDefEntityExistance(iterated.iteratedPattern, false);
+                }
                 foreach(PatternGraph independent in patternGraph.independentPatternGraphs)
+                {
                     SetDefEntityExistanceAndNonLocalDefEntityExistance(independent, false);
+                }
             }
         }
 
@@ -252,7 +280,7 @@ namespace de.unika.ipd.grGen.lgsp
             Alternative[] alternatives = inlined ? patternGraph.alternativesPlusInlined : patternGraph.alternatives;
             foreach(Alternative alt in alternatives)
             {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(PatternGraph altCase in alt.alternativeCases)
                 {
                     CalculateNeededElements(altCase, inlined);
                 }
@@ -270,99 +298,152 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraph.neededVariables = new Dictionary<String, GrGenType>();
 
             // b) it adds the needed elements of the nested patterns (just computed)
-            foreach (PatternGraph neg in negativePatternGraphs)
+            foreach(PatternGraph neg in negativePatternGraphs)
             {
-                foreach (KeyValuePair<string, bool> neededNode in neg.neededNodes)
-                    patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
-                foreach (KeyValuePair<string, bool> neededEdge in neg.neededEdges)
-                    patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
-                foreach (KeyValuePair<string, GrGenType> neededVariable in neg.neededVariables)
-                    patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
-            }
-            foreach (PatternGraph idpt in independentPatternGraphs)
-            {
-                foreach (KeyValuePair<string, bool> neededNode in idpt.neededNodes)
-                    patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
-                foreach (KeyValuePair<string, bool> neededEdge in idpt.neededEdges)
-                    patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
-                foreach (KeyValuePair<string, GrGenType> neededVariable in idpt.neededVariables)
-                    patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
-            }
-            foreach (Alternative alt in alternatives)
-            {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(KeyValuePair<string, bool> neededNode in neg.neededNodes)
                 {
-                    foreach (KeyValuePair<string, bool> neededNode in altCase.neededNodes)
-                        patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
-                    foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
-                        patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
-                    foreach (KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
-                        patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
+                    patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
+                }
+                foreach(KeyValuePair<string, bool> neededEdge in neg.neededEdges)
+                {
+                    patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
+                }
+                foreach(KeyValuePair<string, GrGenType> neededVariable in neg.neededVariables)
+                {
+                    patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
                 }
             }
-            foreach (Iterated iter in iterateds)
+            foreach(PatternGraph idpt in independentPatternGraphs)
             {
-                foreach (KeyValuePair<string, bool> neededNode in iter.iteratedPattern.neededNodes)
+                foreach(KeyValuePair<string, bool> neededNode in idpt.neededNodes)
+                {
                     patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
-                foreach (KeyValuePair<string, bool> neededEdge in iter.iteratedPattern.neededEdges)
+                }
+                foreach(KeyValuePair<string, bool> neededEdge in idpt.neededEdges)
+                {
                     patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
-                foreach (KeyValuePair<string, GrGenType> neededVariable in iter.iteratedPattern.neededVariables)
+                }
+                foreach(KeyValuePair<string, GrGenType> neededVariable in idpt.neededVariables)
+                {
                     patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
+                }
+            }
+            foreach(Alternative alt in alternatives)
+            {
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    foreach(KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                    {
+                        patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
+                    }
+                    foreach(KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                    {
+                        patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
+                    }
+                    foreach(KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                    {
+                        patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
+                    }
+                }
+            }
+            foreach(Iterated iter in iterateds)
+            {
+                foreach(KeyValuePair<string, bool> neededNode in iter.iteratedPattern.neededNodes)
+                {
+                    patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
+                }
+                foreach(KeyValuePair<string, bool> neededEdge in iter.iteratedPattern.neededEdges)
+                {
+                    patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
+                }
+                foreach(KeyValuePair<string, GrGenType> neededVariable in iter.iteratedPattern.neededVariables)
+                {
+                    patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
+                }
             }
 
             // c) it adds it's own locally needed elements
             //    - in conditions
             PatternCondition[] Conditions = inlined ? patternGraph.ConditionsPlusInlined : patternGraph.Conditions;
-            foreach (PatternCondition cond in Conditions)
+            foreach(PatternCondition cond in Conditions)
             {
-                foreach (String neededNode in cond.NeededNodes)
+                foreach(String neededNode in cond.NeededNodes)
+                {
                     patternGraph.neededNodes[neededNode] = true;
-                foreach (String neededEdge in cond.NeededEdges)
+                }
+                foreach(String neededEdge in cond.NeededEdges)
+                {
                     patternGraph.neededEdges[neededEdge] = true;
-                for (int i = 0; i < cond.NeededVariables.Length; ++i) {
+                }
+                for(int i = 0; i < cond.NeededVariables.Length; ++i)
+                {
                     patternGraph.neededVariables[cond.NeededVariables[i]] = cond.NeededVariableTypes[i];
                 }
             }
             //    - in the pattern (if not def to be yielded, they are not needed top down)
             PatternNode[] nodes = inlined ? patternGraph.nodesPlusInlined : patternGraph.nodes;
-            foreach (PatternNode node in nodes)
-                if (node.PointOfDefinition != patternGraph)
-                    if (!node.DefToBeYieldedTo)
+            foreach(PatternNode node in nodes)
+            {
+                if(node.PointOfDefinition != patternGraph)
+                {
+                    if(!node.DefToBeYieldedTo)
                         patternGraph.neededNodes[node.name] = true;
+                }
+            }
             PatternEdge[] edges = inlined ? patternGraph.edgesPlusInlined : patternGraph.edges;
             foreach(PatternEdge edge in edges)
-                if (edge.PointOfDefinition != patternGraph)
+            {
+                if(edge.PointOfDefinition != patternGraph)
+                {
                     if(!edge.DefToBeYieldedTo)
                         patternGraph.neededEdges[edge.name] = true;
+                }
+            }
             PatternVariable[] variables = inlined ? patternGraph.variablesPlusInlined : patternGraph.variables;
             foreach(PatternVariable variable in variables)
-                if (variable.PointOfDefinition != patternGraph)
+            {
+                if(variable.PointOfDefinition != patternGraph)
+                {
                     if(!variable.DefToBeYieldedTo)
                         patternGraph.neededVariables[variable.name] = variable.type;
+                }
+            }
             //    - as subpattern connections
             PatternGraphEmbedding[] embeddedGraphs = inlined ? patternGraph.embeddedGraphsPlusInlined : patternGraph.embeddedGraphs;
-            foreach (PatternGraphEmbedding sub in embeddedGraphs)
+            foreach(PatternGraphEmbedding sub in embeddedGraphs)
             {
                 if(sub.inlined) // skip inlined embeddings
                     continue;
-                foreach (String neededNode in sub.neededNodes)
+                foreach(String neededNode in sub.neededNodes)
+                {
                     patternGraph.neededNodes[neededNode] = true;
-                foreach (String neededEdge in sub.neededEdges)
+                }
+                foreach(String neededEdge in sub.neededEdges)
+                {
                     patternGraph.neededEdges[neededEdge] = true;
-                for (int i = 0; i < sub.neededVariables.Length; ++i)
+                }
+                for(int i = 0; i < sub.neededVariables.Length; ++i)
+                {
                     patternGraph.neededVariables[sub.neededVariables[i]] = sub.neededVariableTypes[i];
+                }
             }
 
             // d) it filters out the elements needed (by the nested patterns) which are defined locally
-            foreach (PatternNode node in nodes)
-                if (node.PointOfDefinition == patternGraph)
+            foreach(PatternNode node in nodes)
+            {
+                if(node.PointOfDefinition == patternGraph)
                     patternGraph.neededNodes.Remove(node.name);
-            foreach (PatternEdge edge in edges)
-                if (edge.PointOfDefinition == patternGraph)
+            }
+            foreach(PatternEdge edge in edges)
+            {
+                if(edge.PointOfDefinition == patternGraph)
                     patternGraph.neededEdges.Remove(edge.name);
-            foreach (PatternVariable variable in variables)
-                if (variable.PointOfDefinition == patternGraph)
+            }
+            foreach(PatternVariable variable in variables)
+            {
+                if(variable.PointOfDefinition == patternGraph)
                     patternGraph.neededVariables.Remove(variable.name);
+            }
         }
 
         /// <summary>
@@ -393,7 +474,7 @@ namespace de.unika.ipd.grGen.lgsp
             // we're on a path from an enclosing patternpath? -> the subpatterns we call are too
             if(patternGraph.isPatternGraphOnPathFromEnclosingPatternpath)
             {
-                foreach (PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
+                foreach(PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
                 {
                     PatternGraph embeddedPatternGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
                     if(!embeddedPatternGraph.isPatternGraphOnPathFromEnclosingPatternpath)
@@ -404,23 +485,23 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
             {
                 changed |= ComputePatternGraphsOnPathFromEnclosingPatternpath(neg, isOnPathFromEnclosingPatternpath);
             }
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
                 changed |= ComputePatternGraphsOnPathFromEnclosingPatternpath(idpt, isOnPathFromEnclosingPatternpath);
             }
 
-            foreach (Alternative alt in patternGraph.alternatives)
+            foreach(Alternative alt in patternGraph.alternatives)
             {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(PatternGraph altCase in alt.alternativeCases)
                 {
                     changed |= ComputePatternGraphsOnPathFromEnclosingPatternpath(altCase, isOnPathFromEnclosingPatternpath);
                 }
             }
-            foreach (Iterated iter in patternGraph.iterateds)
+            foreach(Iterated iter in patternGraph.iterateds)
             {
                 changed |= ComputePatternGraphsOnPathFromEnclosingPatternpath(iter.iteratedPattern, isOnPathFromEnclosingPatternpath);
             }
@@ -441,20 +522,20 @@ namespace de.unika.ipd.grGen.lgsp
             // is computed locally and propagated upwards
             patternGraph.patternGraphsOnPathToEnclosedPatternpath = new List<string>();
 
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
             {
                 ComputePatternGraphsOnPathToEnclosedPatternpath(neg);
                 patternGraph.patternGraphsOnPathToEnclosedPatternpath.AddRange(neg.patternGraphsOnPathToEnclosedPatternpath);
             }
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
                 ComputePatternGraphsOnPathToEnclosedPatternpath(idpt);
                 patternGraph.patternGraphsOnPathToEnclosedPatternpath.AddRange(idpt.patternGraphsOnPathToEnclosedPatternpath);
             }
 
-            foreach (Alternative alt in patternGraph.alternatives)
+            foreach(Alternative alt in patternGraph.alternatives)
             {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(PatternGraph altCase in alt.alternativeCases)
                 {
                     ComputePatternGraphsOnPathToEnclosedPatternpath(altCase);
                     AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
@@ -462,7 +543,7 @@ namespace de.unika.ipd.grGen.lgsp
                         altCase.patternGraphsOnPathToEnclosedPatternpath);
                 }
             }
-            foreach (Iterated iter in patternGraph.iterateds)
+            foreach(Iterated iter in patternGraph.iterateds)
             {
                 ComputePatternGraphsOnPathToEnclosedPatternpath(iter.iteratedPattern);
                 AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
@@ -473,7 +554,7 @@ namespace de.unika.ipd.grGen.lgsp
             // one of the nested patterns was found to be on a path
             // to a pattern with patternpath modifier -> so we are/may be too
             // or we are locally because we contain a patternpath modifier
-            if (patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count != 0
+            if(patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count != 0
                 || patternGraph.isPatternpathLocked)
             {
                 // add the current pattern graph to the list in the top level pattern graph
@@ -493,20 +574,20 @@ namespace de.unika.ipd.grGen.lgsp
             // on ascending the who-is-on-path-to-enclosed-patternpath information from subpattern usage
             // is addded locally and propagated upwards
 
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
             {
                 AddSubpatternInformationToPatternpathInformation(neg);
                 AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath, neg.patternGraphsOnPathToEnclosedPatternpath);
             }
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
                 AddSubpatternInformationToPatternpathInformation(idpt);
                 AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath, idpt.patternGraphsOnPathToEnclosedPatternpath);
             }
 
-            foreach (Alternative alt in patternGraph.alternatives)
+            foreach(Alternative alt in patternGraph.alternatives)
             {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(PatternGraph altCase in alt.alternativeCases)
                 {
                     AddSubpatternInformationToPatternpathInformation(altCase);
                     AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
@@ -514,7 +595,7 @@ namespace de.unika.ipd.grGen.lgsp
                         altCase.patternGraphsOnPathToEnclosedPatternpath);
                 }
             }
-            foreach (Iterated iter in patternGraph.iterateds)
+            foreach(Iterated iter in patternGraph.iterateds)
             {
                 AddSubpatternInformationToPatternpathInformation(iter.iteratedPattern);
                 AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
@@ -522,14 +603,14 @@ namespace de.unika.ipd.grGen.lgsp
                     iter.iteratedPattern.patternGraphsOnPathToEnclosedPatternpath);
             }
 
-            foreach (PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
+            foreach(PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
             {
                 PatternGraph embeddedPatternGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
                 AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                     patternGraph.pathPrefix + patternGraph.name,
                     embeddedPatternGraph.patternGraphsOnPathToEnclosedPatternpath);
 
-                foreach (LGSPMatchingPattern calledMatchingPattern in embeddedPatternGraph.usedSubpatterns.Keys)
+                foreach(LGSPMatchingPattern calledMatchingPattern in embeddedPatternGraph.usedSubpatterns.Keys)
                 {
                     if(calledMatchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count > 0)
                     {
@@ -542,7 +623,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // one of the used subpatterns was found to be on a path
             // to a pattern with patternpath modifier -> so we are/may be too
-            if (patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count != 0)
+            if(patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count != 0)
             {
                 AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                     patternGraph.pathPrefix + patternGraph.name);
@@ -586,7 +667,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // step 1 intra pattern
             // initialize used subpatterns in pattern graph with all locally used subpatterns - top level or nested
-            foreach (LGSPMatchingPattern matchingPattern in matchingPatterns)
+            foreach(LGSPMatchingPattern matchingPattern in matchingPatterns)
             {
                 matchingPattern.patternGraph.usedSubpatterns =
                     new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
@@ -600,12 +681,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // for every subpattern used, add all the subpatterns used by these ones to current one
                 subpatternsUsedChanged = false;
-                foreach (LGSPMatchingPattern matchingPattern in matchingPatterns)
+                foreach(LGSPMatchingPattern matchingPattern in matchingPatterns)
                 {
                     subpatternsUsedChanged |= AddSubpatternsOfSubpatternsUsed(matchingPattern);
                 }
             } // until nothing changes because transitive closure is found
-            while (subpatternsUsedChanged);
+            while(subpatternsUsedChanged);
         }
 
         /// <summary>
@@ -618,7 +699,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // all directly used subpatterns
             PatternGraphEmbedding[] embeddedGraphs = inlined ? patternGraph.embeddedGraphsPlusInlined : patternGraph.embeddedGraphs;
-            for (int i = 0; i < embeddedGraphs.Length; ++i)
+            for(int i = 0; i < embeddedGraphs.Length; ++i)
             {
                 if(embeddedGraphs[i].inlined) // skip inlined embeddings
                     continue;
@@ -627,7 +708,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // all nested subpattern usages from nested negatives, independents, alternatives, iterateds
             PatternGraph[] negativePatternGraphs = inlined ? patternGraph.negativePatternGraphsPlusInlined : patternGraph.negativePatternGraphs;
-            foreach (PatternGraph neg in negativePatternGraphs)
+            foreach(PatternGraph neg in negativePatternGraphs)
             {
                 ComputeSubpatternsUsedLocally(neg, topLevelMatchingPattern, inlined);
             }
@@ -639,7 +720,7 @@ namespace de.unika.ipd.grGen.lgsp
             Alternative[] alternatives = inlined ? patternGraph.alternativesPlusInlined : patternGraph.alternatives;
             foreach(Alternative alt in alternatives)
             {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(PatternGraph altCase in alt.alternativeCases)
                 {
                     ComputeSubpatternsUsedLocally(altCase, topLevelMatchingPattern, inlined);
                 }
@@ -661,13 +742,13 @@ namespace de.unika.ipd.grGen.lgsp
             bool usedSubpatternsChanged = false;
 
         restart:
-            foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern
+            foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern
                 in matchingPattern.patternGraph.usedSubpatterns)
             {
-                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpatternOfUsedSubpattern
+                foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpatternOfUsedSubpattern
                     in usedSubpattern.Key.patternGraph.usedSubpatterns)
                 {
-                    if (!matchingPattern.patternGraph.usedSubpatterns.ContainsKey(usedSubpatternOfUsedSubpattern.Key))
+                    if(!matchingPattern.patternGraph.usedSubpatterns.ContainsKey(usedSubpatternOfUsedSubpattern.Key))
                     {
                         matchingPattern.patternGraph.usedSubpatterns.Add(
                             usedSubpatternOfUsedSubpattern.Key, usedSubpatternOfUsedSubpattern.Value);
@@ -826,11 +907,15 @@ namespace de.unika.ipd.grGen.lgsp
         public static bool ContainsMaybeNullElement(PatternGraph patternGraph)
         {
             foreach(PatternNode node in patternGraph.nodes)
+            {
                 if(node.MaybeNull)
                     return true;
+            }
             foreach(PatternEdge edge in patternGraph.edges)
+            {
                 if(edge.MaybeNull)
                     return true;
+            }
             return false;
         }
 
@@ -878,8 +963,10 @@ namespace de.unika.ipd.grGen.lgsp
             if(patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count > 0)
                 return;
             foreach(PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
+            {
                 if(embedding.matchingPatternOfEmbeddedGraph.patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count > 0)
                     return;
+            }
 
             // for each subpattern used/embedded decide whether to inline or not
             // for the ones to inline do the inlining by adding the original content of the subpattern 
@@ -997,14 +1084,22 @@ namespace de.unika.ipd.grGen.lgsp
 
             bool connected = true;
             foreach(KeyValuePair<PatternNode, PatternNode> node in nodes)
+            {
                 connected &= node.Key.visited;
+            }
             foreach(KeyValuePair<PatternEdge, PatternEdge> edge in edges)
+            {
                 connected &= edge.Key.visited;
+            }
 
             foreach(KeyValuePair<PatternNode, PatternNode> node in nodes)
+            {
                 node.Key.visited = false;
+            }
             foreach(KeyValuePair<PatternEdge, PatternEdge> edge in edges)
+            {
                 edge.Key.visited = false;
+            }
 
             return connected;
         }
@@ -1035,11 +1130,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             int numHandedIn = 0;
             foreach(PatternNode node in patternGraph.nodes)
+            {
                 if(node.ParameterIndex != -1 || node.pointOfDefinition != patternGraph)
                     ++numHandedIn;
+            }
             foreach(PatternEdge edge in patternGraph.edges)
+            {
                 if(edge.ParameterIndex != -1 || edge.pointOfDefinition != patternGraph)
                     ++numHandedIn;
+            }
 
             if(numHandedIn == patternGraph.nodes.Length + patternGraph.edges.Length)
                 return false; // all handed in? -> nothing to search locally, no selectivity problem
@@ -1109,9 +1208,13 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraph.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy, variableToCopy);
 
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in embeddedGraph.edgeToSourceNode)
+            {
                 patternGraph.edgeToSourceNodePlusInlined.Add(edgeToCopy[edgeAndSource.Key], nodeToCopy[edgeAndSource.Value]);
+            }
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in embeddedGraph.edgeToTargetNode)
+            {
                 patternGraph.edgeToTargetNodePlusInlined.Add(edgeToCopy[edgeAndTarget.Key], nodeToCopy[edgeAndTarget.Value]);
+            }
 
             if(embeddedGraph.nodes.Length > 0)
             {
@@ -1399,8 +1502,10 @@ namespace de.unika.ipd.grGen.lgsp
         private static PatternNode getParameterNode(PatternNode[] nodes, int parameterIndex)
         {
             foreach(PatternNode node in nodes)
+            {
                 if(node.ParameterIndex == parameterIndex)
                     return node;
+            }
 
             return null;
         }
@@ -1408,8 +1513,10 @@ namespace de.unika.ipd.grGen.lgsp
         private static PatternEdge getParameterEdge(PatternEdge[] edges, int parameterIndex)
         {
             foreach(PatternEdge edge in edges)
+            {
                 if(edge.ParameterIndex == parameterIndex)
                     return edge;
+            }
 
             return null;
         }
@@ -1425,23 +1532,39 @@ namespace de.unika.ipd.grGen.lgsp
 
             // copy-write left-upper part from original matrix
             for(int i = 0; i < numOld; ++i)
+            {
                 for(int j = 0; j < numOld; ++j)
+                {
                     newHom[i, j] = homOriginal[i, j];
+                }
+            }
 
             // copy-write right-lower part from extension matrix
             for(int i = 0; i < numNew; ++i)
+            {
                 for(int j = 0; j < numNew; ++j)
+                {
                     newHom[numOld + i, numOld + j] = homExtension[i, j];
+                }
+            }
 
             // fill-write left-lower part with false, so old and new elments are iso 
             for(int i = 0; i < numOld; ++i)
+            {
                 for(int j = 0; j < numNew; ++j)
+                {
                     newHom[i, numOld + j] = false;
+                }
+            }
 
             // fill-write right-upper part with false, so old and new elements are iso
             for(int i = 0; i < numNew; ++i)
+            {
                 for(int j = 0; j < numOld; ++j)
+                {
                     newHom[numOld + i, j] = false;
+                }
+            }
 
             return newHom;
         }
@@ -1452,7 +1575,9 @@ namespace de.unika.ipd.grGen.lgsp
             bool[] newTotallyHom = new bool[totallyHomOriginal.Length + extensionLength];
             totallyHomOriginal.CopyTo(newTotallyHom, 0);
             for(int i = 0; i < extensionLength; ++i)
+            {
                 newTotallyHom[totallyHomOriginal.Length + i] = totallyHomExtension[i];
+            }
             return newTotallyHom;
         }
 

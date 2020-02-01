@@ -71,7 +71,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public readonly List<SearchPlanEdgeNode> OutgoingPatternEdges = new List<SearchPlanEdgeNode>();
 
-        public SearchPlanNodeNode(PlanNode planNode) : base(planNode) { }
+        public SearchPlanNodeNode(PlanNode planNode)
+            : base(planNode)
+        {
+        }
 
         public SearchPlanNodeNode(PlanNodeType nodeType, int elemID, bool isPreset, PatternElement patternElem)
             : base(nodeType, elemID, isPreset, patternElem) { }
@@ -154,27 +157,38 @@ namespace de.unika.ipd.grGen.lgsp
         public int CompareTo(SearchPlanEdge other)
         {
             // Schedule implicit ops as early as possible
-            if (Type == SearchOperationType.ImplicitSource || Type == SearchOperationType.ImplicitTarget) return -1;
-            if (other.Type == SearchOperationType.ImplicitSource || other.Type == SearchOperationType.ImplicitTarget) return 1;
+            if(Type == SearchOperationType.ImplicitSource || Type == SearchOperationType.ImplicitTarget)
+                return -1;
+            if(other.Type == SearchOperationType.ImplicitSource || other.Type == SearchOperationType.ImplicitTarget)
+                return 1;
 
             float epsilon = 0.001f;
             float diff = Cost - other.Cost;
-            if (diff < -epsilon) return -1;
-            else if (diff > epsilon) return 1;
+            if(diff < -epsilon)
+                return -1;
+            else if(diff > epsilon)
+                return 1;
 
             // Choose equally expensive operations in this order: incoming/outgoing, edge lookup, node lookup
 
-            if (Type == SearchOperationType.Incoming || Type == SearchOperationType.Outgoing) return -1;
-            if (other.Type == SearchOperationType.Incoming || other.Type == SearchOperationType.Outgoing) return 1;
+            if(Type == SearchOperationType.Incoming || Type == SearchOperationType.Outgoing)
+                return -1;
+            if(other.Type == SearchOperationType.Incoming || other.Type == SearchOperationType.Outgoing)
+                return 1;
 
-            if (Type == SearchOperationType.Lookup && Target.NodeType == PlanNodeType.Edge) return -1;
-            if (other.Type == SearchOperationType.Lookup && other.Target.NodeType == PlanNodeType.Edge) return 1;
+            if(Type == SearchOperationType.Lookup && Target.NodeType == PlanNodeType.Edge)
+                return -1;
+            if(other.Type == SearchOperationType.Lookup && other.Target.NodeType == PlanNodeType.Edge)
+                return 1;
 
             // Both are node lookups...
 
-            if (diff < 0) return -1;
-            else if (diff > 0) return 1;
-            else return 0;
+            if(diff < 0)
+                return -1;
+            else if(diff > 0)
+                return 1;
+            else
+                return 0;
         }
     }
 
@@ -195,16 +209,22 @@ namespace de.unika.ipd.grGen.lgsp
             Nodes = nodes;
             Edges = edges;
             NumPresetElements = 0;
-            foreach (SearchPlanNode node in nodes)
-                if (node.IsPreset)
+            foreach(SearchPlanNode node in nodes)
+            {
+                if(node.IsPreset)
                     ++NumPresetElements;
-            foreach (SearchPlanEdge edge in edges)
-                if (edge.Type == SearchOperationType.PickFromStorage 
-                    || edge.Type == SearchOperationType.MapWithStorage
-                    || edge.Type == SearchOperationType.PickFromIndex
-                    || edge.Type == SearchOperationType.PickByName
-                    || edge.Type == SearchOperationType.PickByUnique)
+            }
+            foreach(SearchPlanEdge edge in edges)
+            {
+                if(edge.Type == SearchOperationType.PickFromStorage
+                   || edge.Type == SearchOperationType.MapWithStorage
+                   || edge.Type == SearchOperationType.PickFromIndex
+                   || edge.Type == SearchOperationType.PickByName
+                   || edge.Type == SearchOperationType.PickByUnique)
+                {
                     ++NumIndependentStorageIndexElements;
+                }
+            }
         }
     }
 }

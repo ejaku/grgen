@@ -217,7 +217,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             string matchName = NamesOfEntities.MatchName(PatternElementUnprefixedName, Type);
-            if (Type == BuildMatchObjectType.Node || Type == BuildMatchObjectType.Edge)
+            if(Type == BuildMatchObjectType.Node || Type == BuildMatchObjectType.Edge)
             {
                 string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
                 sourceCode.AppendFrontFormat("{0}._{1} = {2};\n",
@@ -267,7 +267,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0}._{1}.SetMatchOfEnclosingPattern({0});\n",
                     MatchObjectName, matchName);
             }
-            else //if (Type == BuildMatchObjectType.Independent)
+            else //if(Type == BuildMatchObjectType.Independent)
             {
                 sourceCode.AppendFrontFormat("{0}._{1} = {2};\n",
                     MatchObjectName, matchName, NamesOfEntities.MatchedIndependentVariable(PatternElementName));
@@ -398,7 +398,7 @@ namespace de.unika.ipd.grGen.lgsp
                 NestedMatchObjectName, IteratedMatchTypeName);
 
             // then nested content
-            if (NestedOperationsList != null)
+            if(NestedOperationsList != null)
             {
                 builder.Indent();
                 NestedOperationsList.Dump(builder);
@@ -457,7 +457,7 @@ namespace de.unika.ipd.grGen.lgsp
                 MatchObjectName, NestedMatchObjectName, AlternativeCaseMatchTypeName, First ? "first" : "");
 
             // then nested content
-            if (NestedOperationsList != null)
+            if(NestedOperationsList != null)
             {
                 builder.Indent();
                 NestedOperationsList.Dump(builder);
@@ -589,7 +589,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (OnlyIfMatchWasFound)
+            if(OnlyIfMatchWasFound)
             {
                 sourceCode.AppendFront("if(matchesList.Count>0) {\n");
                 sourceCode.Indent();
@@ -604,7 +604,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("    matchesList.Clear();\n");
             sourceCode.AppendFront("}\n");
 
-            if (OnlyIfMatchWasFound)
+            if(OnlyIfMatchWasFound)
             {
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");

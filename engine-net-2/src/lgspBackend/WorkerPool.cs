@@ -43,14 +43,18 @@ namespace de.unika.ipd.grGen.lgsp
             AutoResetEvent[] oldExecuteParallelTask = executeParallelTask;
             executeParallelTask = new AutoResetEvent[newNumThreads];
             oldExecuteParallelTask.CopyTo(executeParallelTask, 0);
-            for(int i=oldNumThreads; i<newNumThreads; ++i)
+            for(int i = oldNumThreads; i < newNumThreads; ++i)
+            {
                 executeParallelTask[i] = new AutoResetEvent(false);
+            }
 
             ManualResetEvent[] oldParallelTaskExecuted = parallelTaskExecuted;
             parallelTaskExecuted = new ManualResetEvent[newNumThreads];
             oldParallelTaskExecuted.CopyTo(parallelTaskExecuted, 0);
             for(int i = oldNumThreads; i < newNumThreads; ++i)
+            {
                 parallelTaskExecuted[i] = new ManualResetEvent(false);
+            }
 
             Thread[] oldWorkerThreads = workerThreads;
             workerThreads = new Thread[newNumThreads];
@@ -63,8 +67,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             for(int i = oldNumThreads; i < newNumThreads; ++i)
             {
-                while(!workerThreads[i].IsAlive) 
+                while(!workerThreads[i].IsAlive)
+                {
                     Thread.Sleep(1);
+                }
             }
 
             return newNumThreads;
@@ -94,10 +100,14 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("Too much work for the available number of worker threads.");
 
             threadsStarted = numThreads;
-            for(int i=0; i<threadsStarted; ++i)
-            	executeParallelTask[i].Set();
-            for(int i=threadsStarted; i<workerThreads.Length; ++i)
-            	parallelTaskExecuted[i].Set();
+            for(int i = 0; i < threadsStarted; ++i)
+            {
+                executeParallelTask[i].Set();
+            }
+            for(int i = threadsStarted; i < workerThreads.Length; ++i)
+            {
+                parallelTaskExecuted[i].Set();
+            }
         }
 
         /// <summary>
@@ -106,8 +116,10 @@ namespace de.unika.ipd.grGen.lgsp
         public static void WaitForWorkDone()
         {
             ManualResetEvent.WaitAll(parallelTaskExecuted);
-            for(int i=0; i<workerThreads.Length; ++i)
-            	parallelTaskExecuted[i].Reset();
+            for(int i = 0; i < workerThreads.Length; ++i)
+            {
+                parallelTaskExecuted[i].Reset();
+            }
         }
 
         private static void Work()

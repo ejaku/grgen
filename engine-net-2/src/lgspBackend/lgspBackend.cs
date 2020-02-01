@@ -52,9 +52,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             int capacity = 0;
             if(parameters != null)
+            {
                 foreach(String parameter in parameters)
+                {
                     if(parameter.StartsWith("capacity="))
                         capacity = int.Parse(parameter.Substring("capacity=".Length));
+                }
+            }
             return new LGSPNamedGraph(graphModel, graphName, capacity);
         }
 
@@ -98,7 +102,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String errorMsg = compResults.Errors.Count + " Errors:";
                     foreach(CompilerError error in compResults.Errors)
+                    {
                         errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
+                    }
                     throw new ArgumentException("Illegal model C# source code: " + errorMsg);
                 }
 
@@ -126,7 +132,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 foreach(Type type in assembly.GetTypes())
                 {
-                    if(!type.IsClass || type.IsNotPublic) continue;
+                    if(!type.IsClass || type.IsNotPublic)
+                        continue;
                     if(type.GetInterface("IGraphModel") != null && type.GetInterface("IGraph") == null)
                     {
                         if(modelType != null)
@@ -142,21 +149,26 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String errorMsg = "";
                 foreach(Exception ex in e.LoaderExceptions)
+                {
                     errorMsg += "- " + ex.Message + Environment.NewLine;
-                if(errorMsg.Length == 0) errorMsg = e.Message;
+                }
+                if(errorMsg.Length == 0)
+                    errorMsg = e.Message;
                 throw new ArgumentException(errorMsg);
             }
             if(modelType == null)
-            {
                 throw new ArgumentException("The given model does not contain an IGraphModel implementation!");
-            }
 
             IGraphModel graphModel = (IGraphModel)Activator.CreateInstance(modelType);
             int capacity = 0;
             if(parameters != null)
+            {
                 foreach(String parameter in parameters)
+                {
                     if(parameter.StartsWith("capacity="))
                         capacity = int.Parse(parameter.Substring("capacity=".Length));
+                }
+            }
             return named ? new LGSPNamedGraph(graphModel, graphName, capacity) : new LGSPGraph(graphModel, graphName);
         }
 
@@ -196,7 +208,8 @@ namespace de.unika.ipd.grGen.lgsp
                 while(true)
                 {
                     curChar = charStream.ReadChar();
-                    if(foundStar && curChar == '/') break;
+                    if(foundStar && curChar == '/')
+                        break;
                     foundStar = curChar == '*';
                 }
             }
@@ -277,8 +290,10 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 curChar = charStream.ReadChar();
                 if(!(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z'
-						|| curChar >= '0' && curChar <= '9' || curChar == '_' || curChar == '#'))
+                        || curChar >= '0' && curChar <= '9' || curChar == '_' || curChar == '#'))
+                {
                     break;
+                }
                 sb.Append(curChar);
             }
             charStream.Backup(1);
@@ -368,8 +383,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         private String GetPrintable(char ch)
         {
-            if(ch >= (char) 32) return ch.ToString();
-            else return "\\" + Convert.ToString(ch, 8);
+            if(ch >= (char) 32)
+                return ch.ToString();
+            else
+                return "\\" + Convert.ToString(ch, 8);
         }
 
         // scans through a grg on the search for model usages and rule file inclusions
@@ -427,10 +444,13 @@ namespace de.unika.ipd.grGen.lgsp
                             GetNeededFiles(basePath, basePath + modelName + ".gm", neededFiles, processedModelFiles);
                             IgnoreSpace(charStream);
                             curChar = charStream.ReadChar();
-                            if(curChar == ';') break;
+                            if(curChar == ';')
+                                break;
                             if(curChar != ',')
+                            {
                                 throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar)
                                     + "' in '" + grgFilename + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+                            }
                         }
                     }
                     else if(needSemicolon)
@@ -451,15 +471,19 @@ namespace de.unika.ipd.grGen.lgsp
 							neededFiles.Add(includedGRG);
                             GetNeededFiles(basePath, includedGRG, neededFiles, processedActionFiles, processedModelFiles);
 						}
-                        else if(curChar == '\\') charStream.ReadChar();			// skip escape sequences
-						else if(curChar == '/') IgnoreComment(charStream);
+                        else if(curChar == '\\')
+                            charStream.ReadChar();			// skip escape sequences
+						else if(curChar == '/')
+                            IgnoreComment(charStream);
 						else if(curChar == '"')
 						{
 							while(true)
 							{
 								curChar = charStream.ReadChar();
-								if(curChar == '"') break;
-								else if(curChar == '\\') charStream.ReadChar();		// skip escape sequence
+								if(curChar == '"')
+                                    break;
+								else if(curChar == '\\')
+                                    charStream.ReadChar();		// skip escape sequence
 							}
 						}
                         else if(curChar == '#' && MatchString(charStream, "using"))
@@ -478,10 +502,13 @@ namespace de.unika.ipd.grGen.lgsp
                                 GetNeededFiles(basePath, basePath + modelName + ".gm", neededFiles, processedModelFiles);
                                 IgnoreSpace(charStream);
                                 curChar = charStream.ReadChar();
-                                if(curChar == ';') break;
+                                if(curChar == ';')
+                                    break;
                                 if(curChar != ',')
+                                {
                                     throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar)
                                         + "' in '" + grgFilename + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+                                }
                             }
                         }
                     }
@@ -525,10 +552,13 @@ namespace de.unika.ipd.grGen.lgsp
                             GetNeededFiles(basePath, basePath + usedModelName + ".gm", neededFiles, processedModelFiles);
                             IgnoreSpace(charStream);
                             curChar = charStream.ReadChar();
-                            if(curChar == ';') break;
+                            if(curChar == ';')
+                                break;
                             if(curChar != ',')
+                            {
                                 throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar)
                                     + "' in '" + basePath + modelName + ".gm" + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+                            }
                         }
                     }
 
@@ -537,15 +567,19 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         curChar = charStream.ReadChar();
  
-                        if(curChar == '\\') charStream.ReadChar();			// skip escape sequences
-                        else if(curChar == '/') IgnoreComment(charStream);
+                        if(curChar == '\\')
+                            charStream.ReadChar();			// skip escape sequences
+                        else if(curChar == '/')
+                            IgnoreComment(charStream);
                         else if(curChar == '"')
                         {
                             while(true)
                             {
                                 curChar = charStream.ReadChar();
-                                if(curChar == '"') break;
-                                else if(curChar == '\\') charStream.ReadChar();		// skip escape sequence
+                                if(curChar == '"')
+                                    break;
+                                else if(curChar == '\\')
+                                    charStream.ReadChar();		// skip escape sequence
                             }
                         }
                         else if(MatchString(charStream, "#using"))
@@ -564,10 +598,13 @@ namespace de.unika.ipd.grGen.lgsp
                                 GetNeededFiles(basePath, basePath + usedModelName + ".gm", neededFiles, processedModelFiles);
                                 IgnoreSpace(charStream);
                                 curChar = charStream.ReadChar();
-                                if(curChar == ';') break;
+                                if(curChar == ';')
+                                    break;
                                 if(curChar != ',')
+                                {
                                     throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar)
                                         + "' in '" + basePath + modelName + ".gm" + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+                                }
                             }
                         }
                     }
@@ -605,8 +642,10 @@ namespace de.unika.ipd.grGen.lgsp
             path = FixDirectorySeparators(path);
 
             int index = path.LastIndexOf(Path.DirectorySeparatorChar);
-            if(index == -1) return "";
-            else return path.Substring(0, index + 1);
+            if(index == -1)
+                return "";
+            else
+                return path.Substring(0, index + 1);
         }
 
         /// <summary>
@@ -616,9 +655,11 @@ namespace de.unika.ipd.grGen.lgsp
         {
             String basename = filename;
             int index = basename.LastIndexOfAny(dirSepChars);
-            if(index != -1) basename = basename.Substring(index + 1);
+            if(index != -1)
+                basename = basename.Substring(index + 1);
             index = basename.IndexOf('.');
-            if(index != -1) basename = basename.Substring(0, index);
+            if(index != -1)
+                basename = basename.Substring(0, index);
             return basename;
         }
 

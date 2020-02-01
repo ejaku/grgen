@@ -63,13 +63,13 @@ namespace de.unika.ipd.grGen.lgsp
             Debug.Assert(CheckFailedOperations == null, "check negative without direct check failed code");
             // first dump local content
             builder.AppendFront("CheckPartialMatch ByNegative with ");
-            foreach (string neededElement in NeededElements)
+            foreach(string neededElement in NeededElements)
             {
                 builder.AppendFormat("{0} ", neededElement);
             }
             builder.Append("\n");
             // then nested content
-            if (NestedOperationsList != null)
+            if(NestedOperationsList != null)
             {
                 builder.Indent();
                 NestedOperationsList.Dump(builder);
@@ -112,13 +112,13 @@ namespace de.unika.ipd.grGen.lgsp
             Debug.Assert(CheckFailedOperations == null, "check independent without direct check failed code");
             // first dump local content
             builder.AppendFront("CheckPartialMatch ByIndependent with ");
-            foreach (string neededElement in NeededElements)
+            foreach(string neededElement in NeededElements)
             {
                 builder.AppendFormat("{0} ", neededElement);
             }
             builder.Append("\n");
             // then nested content
-            if (NestedOperationsList != null)
+            if(NestedOperationsList != null)
             {
                 builder.Indent();
                 NestedOperationsList.Dump(builder);
@@ -128,7 +128,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
+            if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// IndependentPattern \n");
             // currently needed because of multiple idptMapped backup variables with same name
             // todo: assign names to independents, mangle that name in, then remove block again
@@ -166,13 +166,13 @@ namespace de.unika.ipd.grGen.lgsp
             int i = 0;
             NeededElements = new string[neededNodes.Length + neededEdges.Length];
             NeededElementIsNode = new bool[neededNodes.Length + neededEdges.Length];
-            foreach (string neededNode in neededNodes)
+            foreach(string neededNode in neededNodes)
             {
                 NeededElements[i] = neededNode;
                 NeededElementIsNode[i] = true;
                 ++i;
             }
-            foreach (string neededEdge in neededEdges)
+            foreach(string neededEdge in neededEdges)
             {
                 NeededElements[i] = neededEdge;
                 NeededElementIsNode[i] = false;
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             builder.Append("\n");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -247,7 +247,7 @@ namespace de.unika.ipd.grGen.lgsp
             // first dump check
             builder.AppendFront("CheckPartialMatch ForSubpatternsFound\n");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -257,7 +257,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
+            if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// Check whether subpatterns were found \n");
 
             // emit decision

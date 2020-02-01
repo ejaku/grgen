@@ -95,25 +95,23 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            if(Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+            if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
                 builder.AppendFront("PushSubpatternTask Subpattern ");
-            } else if(Type == PushAndPopSubpatternTaskTypes.Alternative) {
+            else if(Type == PushAndPopSubpatternTaskTypes.Alternative)
                 builder.AppendFront("PushSubpatternTask Alternative ");
-            } else { // Type==PushAndPopSubpatternTaskTypes.Iterated
+            else // Type==PushAndPopSubpatternTaskTypes.Iterated
                 builder.AppendFront("PushSubpatternTask Iterated ");
-            }
 
-            if(Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+            if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
                 builder.AppendFormat("{0} of {1} ", SubpatternElementName, SubpatternName);
-            } else {
+            else
                 builder.AppendFormat("{0}/{1} ", PathPrefix, AlternativeOrIteratedName);
-            }
 
             if(Parallel)
                 builder.Append("Parallel ");
 
             builder.Append("with ");
-            for (int i = 0; i < ConnectionName.Length; ++i)
+            for(int i = 0; i < ConnectionName.Length; ++i)
             {
                 builder.AppendFormat("{0} <- {1} ",
                     ConnectionName[i], ArgumentExpressions[i]);
@@ -123,19 +121,18 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode) {
-                if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+            if(sourceCode.CommentSourceCode) {
+                if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
                     sourceCode.AppendFrontFormat("// Push subpattern matching task for {0}\n", SubpatternElementName);
-                } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+                else if(Type == PushAndPopSubpatternTaskTypes.Alternative)
                     sourceCode.AppendFrontFormat("// Push alternative matching task for {0}\n", PathPrefix + AlternativeOrIteratedName);
-                } else { // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
+                else // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
                     sourceCode.AppendFrontFormat("// Push iterated matching task for {0}\n", PathPrefix + AlternativeOrIteratedName);
-                }
             }
 
             string variableContainingTask;
             string parallelizationThreadId = Parallel ? ", threadId" : "";
-            if (Type == PushAndPopSubpatternTaskTypes.Subpattern)
+            if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
             {
                 // create matching task for subpattern
                 variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
@@ -143,7 +140,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks{3});\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, parallelizationThreadId);
             }
-            else if (Type == PushAndPopSubpatternTaskTypes.Alternative)
+            else if(Type == PushAndPopSubpatternTaskTypes.Alternative)
             {
                 // create matching task for alternative
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
@@ -168,7 +165,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             
             // fill in connections
-            for (int i = 0; i < ConnectionName.Length; ++i)
+            for(int i = 0; i < ConnectionName.Length; ++i)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} = {2};\n",
                     variableContainingTask, ConnectionName[i], ArgumentExpressions[i]);
@@ -216,13 +213,18 @@ namespace de.unika.ipd.grGen.lgsp
         {
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             Type = type;
-            if (type == PushAndPopSubpatternTaskTypes.Subpattern) {
+            if(type == PushAndPopSubpatternTaskTypes.Subpattern)
+            {
                 SubpatternName = subpatternOrAlternativeOrIteratedName;
                 SubpatternElementName = subpatternElementNameOrPathPrefix;
-            } else if (type == PushAndPopSubpatternTaskTypes.Alternative) {
+            }
+            else if(type == PushAndPopSubpatternTaskTypes.Alternative)
+            {
                 AlternativeOrIteratedName = subpatternOrAlternativeOrIteratedName;
                 PathPrefix = subpatternElementNameOrPathPrefix;
-            } else { // if (type == PushAndPopSubpatternTaskTypes.Iterated)
+            }
+            else // if(type == PushAndPopSubpatternTaskTypes.Iterated)
+            {
                 AlternativeOrIteratedName = subpatternOrAlternativeOrIteratedName;
                 PathPrefix = subpatternElementNameOrPathPrefix;
             }
@@ -231,13 +233,18 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+            if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
+            {
                 builder.AppendFrontFormat("PopSubpatternTask Subpattern {0} {1}\n",
                     SubpatternElementName, Parallel ? "Parallel" : "");
-            } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+            }
+            else if(Type == PushAndPopSubpatternTaskTypes.Alternative)
+            {
                 builder.AppendFrontFormat("PopSubpatternTask Alternative {0} {1}\n",
                     AlternativeOrIteratedName, Parallel ? "Parallel" : "");
-            } else { // Type==PushAndPopSubpatternTaskTypes.Iterated
+            }
+            else // Type==PushAndPopSubpatternTaskTypes.Iterated
+            {
                 builder.AppendFrontFormat("PopSubpatternTask Iterated {0} {1}\n",
                     AlternativeOrIteratedName, Parallel ? "Parallel" : "");
             }
@@ -245,27 +252,31 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode) {
-                if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+            if(sourceCode.CommentSourceCode) {
+                if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
                     sourceCode.AppendFrontFormat("// Pop subpattern matching task for {0}\n", SubpatternElementName);
-                } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+                else if(Type == PushAndPopSubpatternTaskTypes.Alternative)
                     sourceCode.AppendFrontFormat("// Pop alternative matching task for {0}\n", PathPrefix + AlternativeOrIteratedName);
-                } else { // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
+                else // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
                     sourceCode.AppendFrontFormat("// Pop iterated matching task for {0}\n", PathPrefix + AlternativeOrIteratedName);
-                }
             }
 
             sourceCode.AppendFrontFormat("{0}openTasks.Pop();\n", NegativeIndependentNamePrefix);
 
             string variableContainingTask;
             string typeOfVariableContainingTask;
-            if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+            if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
+            {
                 variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
                 typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false, false);
-            } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+            }
+            else if(Type == PushAndPopSubpatternTaskTypes.Alternative)
+            {
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
                 typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, true, false);
-            } else { // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
+            }
+            else // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
+            {
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
                 typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, false, true);
             }
@@ -301,9 +312,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
-                sourceCode.AppendFrontFormat("// Match subpatterns {0}\n", 
-                    NegativeIndependentNamePrefix!="" ? "of "+NegativeIndependentNamePrefix : "");
+            if(sourceCode.CommentSourceCode)
+            {
+                sourceCode.AppendFrontFormat("// Match subpatterns {0}\n",
+                    NegativeIndependentNamePrefix != "" ? "of " + NegativeIndependentNamePrefix : "");
+            }
 
             if(Parallelized)
             {
@@ -345,7 +358,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            switch (Type)
+            switch(Type)
             {
             case InitializeFinalizeSubpatternMatchingType.Normal:
                 builder.AppendFront("InitializeSubpatternMatching Normal\n");
@@ -361,16 +374,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (Type != InitializeFinalizeSubpatternMatchingType.Iteration)
-            {
+            if(Type != InitializeFinalizeSubpatternMatchingType.Iteration)
                 sourceCode.AppendFront("openTasks.Pop();\n");
-            }
-            if (Type != InitializeFinalizeSubpatternMatchingType.EndOfIteration)
+            if(Type != InitializeFinalizeSubpatternMatchingType.EndOfIteration)
             {
                 sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;\n");
                 sourceCode.AppendFront("if(matchesList.Count!=0) throw new ApplicationException(); //debug assert\n");
 
-                if (Type == InitializeFinalizeSubpatternMatchingType.Iteration)
+                if(Type == InitializeFinalizeSubpatternMatchingType.Iteration)
                 {
                     sourceCode.AppendFront("// if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object\n");
                     sourceCode.AppendFront("if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;\n");
@@ -393,7 +404,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            switch (Type)
+            switch(Type)
             {
             case InitializeFinalizeSubpatternMatchingType.Normal:
                 builder.AppendFront("FinalizeSubpatternMatching Normal\n");
@@ -409,10 +420,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (Type != InitializeFinalizeSubpatternMatchingType.Iteration)
-            {
+            if(Type != InitializeFinalizeSubpatternMatchingType.Iteration)
                 sourceCode.AppendFrontFormat("openTasks.Push(this);\n");
-            }
         }
 
         readonly InitializeFinalizeSubpatternMatchingType Type;

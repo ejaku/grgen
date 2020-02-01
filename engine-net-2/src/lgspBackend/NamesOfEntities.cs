@@ -166,9 +166,12 @@ namespace de.unika.ipd.grGen.lgsp
         public static string TypeOfTaskVariable(string subpatternName, bool isAlternative, bool isIterated)
         {
             Debug.Assert(!(isAlternative && isIterated));
-            if(isAlternative) return "AlternativeAction_" + subpatternName;
-            if(isIterated) return "IteratedAction_" + subpatternName;
-            return "PatternAction_" + subpatternName;
+            if(isAlternative)
+                return "AlternativeAction_" + subpatternName;
+            if(isIterated)
+                return "IteratedAction_" + subpatternName;
+            return
+                "PatternAction_" + subpatternName;
         }
 
         /// <summary>
@@ -225,17 +228,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public static string MatchName(string unprefixedElementName, BuildMatchObjectType matchPart)
         {
-            switch (matchPart)
+            switch(matchPart)
             {
-                case BuildMatchObjectType.Node: return "node_" + unprefixedElementName;
-                case BuildMatchObjectType.Edge: return "edge_" + unprefixedElementName;
-                case BuildMatchObjectType.Variable: return "var_" + unprefixedElementName;
-                case BuildMatchObjectType.Subpattern: return unprefixedElementName;
-                case BuildMatchObjectType.InlinedSubpattern: return unprefixedElementName;
-                case BuildMatchObjectType.Iteration: return unprefixedElementName;
-                case BuildMatchObjectType.Alternative: return unprefixedElementName;
-                case BuildMatchObjectType.Independent: return unprefixedElementName;
-                default: return "INTERNAL ERROR";
+            case BuildMatchObjectType.Node: return "node_" + unprefixedElementName;
+            case BuildMatchObjectType.Edge: return "edge_" + unprefixedElementName;
+            case BuildMatchObjectType.Variable: return "var_" + unprefixedElementName;
+            case BuildMatchObjectType.Subpattern: return unprefixedElementName;
+            case BuildMatchObjectType.InlinedSubpattern: return unprefixedElementName;
+            case BuildMatchObjectType.Iteration: return unprefixedElementName;
+            case BuildMatchObjectType.Alternative: return unprefixedElementName;
+            case BuildMatchObjectType.Independent: return unprefixedElementName;
+            default: return "INTERNAL ERROR";
             }
         }
 
@@ -246,10 +249,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             switch(type)
             {
-                case EntityType.Node: return "node_" + unprefixedElementName;
-                case EntityType.Edge: return "edge_" + unprefixedElementName;
-                case EntityType.Variable: return "var_" + unprefixedElementName;
-                default: return "INTERNAL ERROR";
+            case EntityType.Node: return "node_" + unprefixedElementName;
+            case EntityType.Edge: return "edge_" + unprefixedElementName;
+            case EntityType.Variable: return "var_" + unprefixedElementName;
+            default: return "INTERNAL ERROR";
             }
         }
 
@@ -294,10 +297,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             switch(type)
             {
-                case EntityType.Node: return "Node";
-                case EntityType.Edge: return "Edge";
-                case EntityType.Variable: return "Variable";
-                default: return "INTERNAL ERROR";
+            case EntityType.Node: return "Node";
+            case EntityType.Edge: return "Edge";
+            case EntityType.Variable: return "Variable";
+            default: return "INTERNAL ERROR";
             }
         }
 

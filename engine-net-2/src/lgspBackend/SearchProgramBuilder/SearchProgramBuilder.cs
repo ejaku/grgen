@@ -253,11 +253,11 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath = new List<string>();
             List<string> matchingPatternClassTypeNames = new List<string>();
             List<Dictionary<PatternGraph, bool>> nestedIndependents = new List<Dictionary<PatternGraph, bool>>();
-            for (int i = 0; i < alternative.alternativeCases.Length; ++i)
+            for(int i = 0; i < alternative.alternativeCases.Length; ++i)
             {
                 PatternGraph altCase = alternative.alternativeCases[i];
 
-                foreach (String name in altCase.patternGraphsOnPathToEnclosedPatternpath)
+                foreach(String name in altCase.patternGraphsOnPathToEnclosedPatternpath)
                 {
                     if(!namesOfPatternGraphsOnPathToEnclosedPatternpath.Contains(name))
                         namesOfPatternGraphsOnPathToEnclosedPatternpath.Add(name);
@@ -282,7 +282,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertionPoint.Append(initialize);
 
             // build alternative matching search programs, one per case
-            for (int i=0; i<alternative.alternativeCases.Length; ++i)
+            for(int i=0; i<alternative.alternativeCases.Length; ++i)
             {
                 PatternGraph altCase = alternative.alternativeCases[i];
                 ScheduledSearchPlan scheduledSearchPlan = altCase.schedulesIncludingNegativesAndIndependents[0];
@@ -449,7 +449,7 @@ namespace de.unika.ipd.grGen.lgsp
             matchingPatternClassTypeNames.Add(matchingPattern.GetType().Name);
             nestedIndependents.Add(patternGraph.nestedIndependents);
 
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
             {
                 ExtractNestedIndependents(matchingPatternClassTypeNames, nestedIndependents, matchingPattern, idpt);
             }

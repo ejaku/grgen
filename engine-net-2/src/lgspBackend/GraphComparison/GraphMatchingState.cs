@@ -43,9 +43,13 @@ namespace de.unika.ipd.grGen.lgsp
             if(numGraphsComparedAtLeastOnce == 1)
             {
                 foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+                {
                     writer.WriteLine(nodeType.TypeID + " is node type " + nodeType.Name);
+                }
                 foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+                {
                     writer.WriteLine(edgeType.TypeID + " is edge type " + edgeType.Name);
+                }
                 writer.Flush();
             }
 #endif
@@ -96,7 +100,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             int count = 0;
             for(int i = 0; i < candidatesForCompilation.Count; ++i)
+            {
                 count += candidatesForCompilation[i].matchingState.numMatchings;
+            }
             return count;
         }
 
@@ -342,7 +348,10 @@ namespace de.unika.ipd.grGen.lgsp
         // Not for normal use!
         public void IsIsomorph()
         {
-            while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0) Thread.SpinWait(10); //lock parallel enumeration with iteration lock
+            while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0)
+            {
+                Thread.SpinWait(10); //lock parallel enumeration with iteration lock
+            }
             while(!wasIso && graphsToCheckAgainstIterator.MoveNext())
             {
                 LGSPGraph that = (LGSPGraph)graphsToCheckAgainstIterator.Current.Key;
@@ -351,7 +360,10 @@ namespace de.unika.ipd.grGen.lgsp
                 if(IsIsomorph(graphToCheck, that, includingAttributes_, WorkerPool.ThreadId))
                     wasIso = true;
 
-                while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0) Thread.SpinWait(10); //lock parallel enumeration with iteration lock
+                while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0)
+                {
+                    Thread.SpinWait(10); //lock parallel enumeration with iteration lock
+                }
             }
             Interlocked.Exchange(ref iterationLock, 0); //unlock parallel enumeration with iteration lock
         }
@@ -665,7 +677,9 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
 
             foreach(LGSPGraph graph in GraphMatchingState.candidatesForCompilation)
+            {
                 ((InterpretationPlanStart)graph.matchingState.interpretationPlan).Emit(sourceCode);
+            }
 
             sourceCode.Append("}");
 
@@ -689,7 +703,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String errorMsg = compResults.Errors.Count + " Errors:";
                 foreach(CompilerError error in compResults.Errors)
+                {
                     errorMsg += Environment.NewLine + "Line: " + error.Line + " - " + error.ErrorText;
+                }
                 throw new ArgumentException("Internal error: Illegal C# source code produced for graph comparison: " + errorMsg);
             }
 

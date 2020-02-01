@@ -72,9 +72,15 @@ namespace de.unika.ipd.grGen.lgsp
 
         public abstract ExternalType[] ExternalTypes { get; }
 
-        public virtual bool IsEqualClassDefined { get { return false; } }
+        public virtual bool IsEqualClassDefined
+        {
+            get { return false; }
+        }
 
-        public virtual bool IsLowerClassDefined { get { return false; } }
+        public virtual bool IsLowerClassDefined
+        {
+            get { return false; }
+        }
 
         public virtual bool IsEqual(object this_, object that)
         {

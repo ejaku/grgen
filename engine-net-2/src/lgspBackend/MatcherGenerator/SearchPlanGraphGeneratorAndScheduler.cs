@@ -101,7 +101,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.Target.IsPreset && edge.Type != SearchOperationType.DefToBeYieldedTo)
                 {
                     foreach(SearchPlanEdge edgeOutgoingFromPresetElement in edge.Target.OutgoingEdges)
+                    {
                         activeEdges.Add(edgeOutgoingFromPresetElement);
+                    }
 
                     // note: here a normal preset is converted into a neg/idpt preset operation if in negative/independent pattern
                     SearchOperation newOp = new SearchOperation(
@@ -144,7 +146,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.Type == SearchOperationType.MapWithStorage)
                 {
                     foreach(SearchPlanEdge edgeOutgoingFromPickedElement in edge.Target.OutgoingEdges)
+                    {
                         activeEdges.Add(edgeOutgoingFromPickedElement);
+                    }
 
                     SearchOperation newOp = new SearchOperation(edge.Type,
                         edge.Target, spGraph.Root, 0);
@@ -158,7 +162,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.Type == SearchOperationType.PickFromStorage)
                 {
                     foreach(SearchPlanEdge edgeOutgoingFromPickedElement in edge.Target.OutgoingEdges)
+                    {
                         activeEdges.Add(edgeOutgoingFromPickedElement);
+                    }
 
                     SearchOperation newOp = new SearchOperation(edge.Type,
                         edge.Target, spGraph.Root, 0);
@@ -171,7 +177,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.Type == SearchOperationType.PickFromIndex)
                 {
                     foreach(SearchPlanEdge edgeOutgoingFromPickedElement in edge.Target.OutgoingEdges)
+                    {
                         activeEdges.Add(edgeOutgoingFromPickedElement);
+                    }
 
                     SearchOperation newOp = new SearchOperation(edge.Type,
                         edge.Target, spGraph.Root, 0);
@@ -184,7 +192,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.Type == SearchOperationType.PickByName)
                 {
                     foreach(SearchPlanEdge edgeOutgoingFromPickedElement in edge.Target.OutgoingEdges)
+                    {
                         activeEdges.Add(edgeOutgoingFromPickedElement);
+                    }
 
                     SearchOperation newOp = new SearchOperation(edge.Type,
                         edge.Target, spGraph.Root, 0);
@@ -197,7 +207,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.Type == SearchOperationType.PickByUnique)
                 {
                     foreach(SearchPlanEdge edgeOutgoingFromPickedElement in edge.Target.OutgoingEdges)
+                    {
                         activeEdges.Add(edgeOutgoingFromPickedElement);
+                    }
 
                     SearchOperation newOp = new SearchOperation(edge.Type,
                         edge.Target, spGraph.Root, 0);
@@ -243,7 +255,9 @@ namespace de.unika.ipd.grGen.lgsp
                 newOp.UniqueLookup = minEdge.Target.PatternElement.UniqueLookup;
 
                 foreach(SearchOperation op in operations)
+                {
                     op.CostToEnd += minEdge.Cost;
+                }
 
                 operations.Add(newOp);
             }
@@ -289,7 +303,9 @@ namespace de.unika.ipd.grGen.lgsp
                 IsOperationAnInlinedIndependentElement(operations[operations.Count - 1]))
             {
                 foreach(SearchOperation op in operations)
+                {
                     op.CostToEnd -= operations[operations.Count - 1].CostToEnd;
+                }
 
                 operations.RemoveAt(operations.Count-1);
             }
@@ -298,8 +314,10 @@ namespace de.unika.ipd.grGen.lgsp
         public static bool IsOperationAnInlinedIndependentElement(SearchOperation so)
         {
             if(so.Element is SearchPlanNode)
+            {
                 if(((SearchPlanNode)so.Element).PatternElement.OriginalIndependentElement != null)
                     return true;
+            }
 
             return false;
         }
@@ -350,11 +368,17 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 neededElements[i] = new Dictionary<string, bool>();
                 foreach(String neededNode in conditions[i].NeededNodes)
+                {
                     neededElements[i][neededNode] = true;
+                }
                 foreach(String neededEdge in conditions[i].NeededEdges)
+                {
                     neededElements[i][neededEdge] = true;
+                }
                 foreach(String neededVariable in conditions[i].NeededVariables)
+                {
                     neededElements[i][neededVariable] = true;
+                }
             }
 
             // iterate over all conditions
@@ -377,9 +401,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 
                     if(lazyNegativeIndependentConditionEvaluation)
-                    {
                         break;
-                    }
 
                     if(op.Type == SearchOperationType.AssignVar)
                     {
@@ -432,9 +454,13 @@ namespace de.unika.ipd.grGen.lgsp
 
                 neededElements[curInlParamVar] = new Dictionary<string, bool>();
                 foreach(String neededNode in var.AssignmentDependencies.neededNodes)
+                {
                     neededElements[curInlParamVar][neededNode] = true;
+                }
                 foreach(String neededEdge in var.AssignmentDependencies.neededEdges)
+                {
                     neededElements[curInlParamVar][neededEdge] = true;
+                }
                 inlinedParameterVariables[curInlParamVar] = var;
                 
                 ++curInlParamVar;

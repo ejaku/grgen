@@ -52,13 +52,9 @@ namespace de.unika.ipd.grGen.lgsp
         public string GetVar(SequenceVariable seqVar)
         {
             if(seqVar.Type == "")
-            {
                 return "procEnv.GetVariableValue(\"" + seqVar.PureName + "\")";
-            }
             else
-            {
                 return "var_" + seqVar.Prefix + seqVar.PureName;
-            }
         }
 
         /// <summary>
@@ -68,9 +64,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string SetVar(SequenceVariable seqVar, String valueToWrite)
         {
             if(seqVar.Type == "")
-            {
                 return "procEnv.SetVariableValue(\"" + seqVar.PureName + "\", " + valueToWrite + ");\n";
-            }
             else
             {
                 String cast = "(" + TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model) + ")";
@@ -95,9 +89,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return sb.ToString();
             }
             else
-            {
                 return "";
-            }
         }
 
         public string GetUniqueId()
@@ -225,7 +217,7 @@ namespace de.unika.ipd.grGen.lgsp
             outParameterDeclarations = "";
             outArguments = "";
             outAssignments = "";
-            for(int i = 0; i < actionsTypeInformation.sequencesToOutputTypes[invocation.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.sequencesToOutputTypes[invocation.PackagePrefixedName].Count; ++i)
             {
                 String varName;
                 if(ReturnVars.Length != 0)
@@ -257,7 +249,7 @@ namespace de.unika.ipd.grGen.lgsp
             StringBuilder sbIntermediateReturnAssignmentsAllCall = new StringBuilder();
             StringBuilder sbReturnAssignmentsAllCall = new StringBuilder();
 
-            for(int i = 0; i < actionsTypeInformation.rulesToOutputTypes[invocation.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.rulesToOutputTypes[invocation.PackagePrefixedName].Count; ++i)
             {
                 String varName;
                 if(ReturnVars.Length != 0)
@@ -322,7 +314,7 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int i = 0; i < actionsTypeInformation.proceduresToOutputTypes[invocation.PackagePrefixedName].Count; i++)
+            for(int i = 0; i < actionsTypeInformation.proceduresToOutputTypes[invocation.PackagePrefixedName].Count; ++i)
             {
                 String varName;
                 if(ReturnVars.Length != 0)
@@ -347,7 +339,7 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for(int i = 0; i < ownerType.GetProcedureMethod(invocation.Name).Outputs.Length; i++)
+            for(int i = 0; i < ownerType.GetProcedureMethod(invocation.Name).Outputs.Length; ++i)
             {
                 String varName;
                 if(ReturnVars.Length != 0)
@@ -419,9 +411,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string GetConstant(object constant)
         {
             if(constant is bool)
-            {
                 return (bool)constant == true ? "true" : "false";
-            }
             else if(constant is Enum)
             {
                 Enum enumConst = (Enum)constant;
@@ -451,37 +441,21 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.ContainerHelper.NewDeque(" + dequeValueType + ")";
             }
             else if(constant is string)
-            {
                 return "\"" + constant.ToString() + "\"";
-            }
             else if(constant is float)
-            {
                 return ((float)constant).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
-            }
             else if(constant is double)
-            {
                 return "((double)" + ((double)constant).ToString(System.Globalization.CultureInfo.InvariantCulture) + ")";
-            }
             else if(constant is sbyte)
-            {
                 return "((sbyte)" + constant.ToString() + ")";
-            }
             else if(constant is short)
-            {
                 return "((short)" + constant.ToString() + ")";
-            }
             else if(constant is long)
-            {
                 return "((long)" + constant.ToString() + ")";
-            }
             else if(constant is NodeType)
-            {
                 return "(GRGEN_LIBGR.TypesHelper.GetNodeType(\"" + constant + "\", graph.Model))";
-            }
             else if(constant is EdgeType)
-            {
                 return "(GRGEN_LIBGR.TypesHelper.GetEdgeType(\"" + constant + "\", graph.Model))";
-            }
             else
             {
                 if(constant == null)

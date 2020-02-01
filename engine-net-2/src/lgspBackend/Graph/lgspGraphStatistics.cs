@@ -161,7 +161,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // Calculate nodeCounts
                 foreach(NodeType superType in nodeType.SuperOrSameTypes)
+                {
                     nodeCounts[superType.TypeID] += graph.nodesByTypeCounts[nodeType.TypeID];
+                }
 
                 for(LGSPNode nodeHead = graph.nodesByTypeHeads[nodeType.TypeID], node = nodeHead.lgspTypeNext; node != nodeHead; node = node.lgspTypeNext)
                 {
@@ -197,15 +199,21 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
             {
                 foreach(EdgeType superType in edgeType.superOrSameTypes)
+                {
                     edgeCounts[superType.TypeID] += graph.edgesByTypeCounts[edgeType.TypeID];
+                }
             }
         }
 
         private void InitializeOutgoingVStructuresCount(int numNodeTypes, int numEdgeTypes, int[,] outgoingVCount)
         {
             for(int i = 0; i < numEdgeTypes; i++)
+            {
                 for(int j = 0; j < numNodeTypes; j++)
+                {
                     outgoingVCount[i, j] = 0;
+                }
+            }
         }
 
         private void CountOutgoingVStructures(int[,] outgoingVCount, NodeType nodeType, LGSPEdge outhead)
@@ -234,8 +242,12 @@ namespace de.unika.ipd.grGen.lgsp
         private void InitializeIncomingVStructuresCount(int numNodeTypes, int numEdgeTypes, int[,] incomingVCount)
         {
             for(int i = 0; i < numEdgeTypes; i++)
+            {
                 for(int j = 0; j < numNodeTypes; j++)
+                {
                     incomingVCount[i, j] = 0;
+                }
+            }
         }
 
         private void CountIncomingVStructures(int[,] incomingVCount, NodeType nodeType, LGSPEdge inhead)
@@ -281,7 +293,7 @@ namespace de.unika.ipd.grGen.lgsp
                         int targetSuperTypeID = targetSuperType.TypeID;
                         if(outgoingVCount[edgeSuperTypeID, targetSuperTypeID] > 0)
                         {
-                            //                                        int val = (float) Math.Log(outgoingVCount[edgeSuperTypeID, targetSuperTypeID]);     // > 1 im if
+                            // int val = (float) Math.Log(outgoingVCount[edgeSuperTypeID, targetSuperTypeID]);     // > 1 im if
                             int val = outgoingVCount[edgeSuperTypeID, targetSuperTypeID];
                             foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
                             {
@@ -320,15 +332,17 @@ namespace de.unika.ipd.grGen.lgsp
                         int sourceSuperTypeID = sourceSuperType.TypeID;
                         if(incomingVCount[edgeSuperTypeID, sourceSuperTypeID] > 0)
                         {
-                            //                                        int val = (float) Math.Log(incomingVCount[edgeSuperTypeID, sourceSuperTypeID]);     // > 1 im if
+                            // int val = (float) Math.Log(incomingVCount[edgeSuperTypeID, sourceSuperTypeID]);     // > 1 im if
                             int val = incomingVCount[edgeSuperTypeID, sourceSuperTypeID];
                             foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
+                            {
 #if MONO_MULTIDIMARRAY_WORKAROUND
                                 vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + sourceSuperTypeID) * 2
                                     + (int)LGSPDirection.In] += val;
 #else
                                 vstructs[nodeSuperType.TypeID, edgeSuperTypeID, sourceSuperTypeID, (int) LGSPDirection.In] += val;
 #endif
+                            }
                             incomingVCount[edgeSuperTypeID, sourceSuperTypeID] = 0;
                         }
                     }

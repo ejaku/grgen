@@ -496,8 +496,10 @@ namespace de.unika.ipd.grGen.lgsp
                 if(source != null)
                 {
                     int targetTypeID;
-                    if(target != null) targetTypeID = target.TypeID;
-                    else targetTypeID = model.NodeModel.RootType.TypeID;
+                    if(target != null)
+                        targetTypeID = target.TypeID;
+                    else
+                        targetTypeID = model.NodeModel.RootType.TypeID;
                     // cost of walking along edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
                     float normCost = graphStatistics.vstructs[((source.TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
@@ -509,9 +511,8 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 #else
                     float normCost = graph.statistics.vstructs[source.TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.Out];
-                    if (!edge.fixedDirection) {
+                    if(!edge.fixedDirection)
                         normCost += graph.statistics.vstructs[source.TypeID, edge.TypeID, targetTypeID, (int) LGSPDirection.In];
-                    }
 #endif
                     if(graphStatistics.nodeCounts[source.TypeID] != 0)
                         normCost /= graphStatistics.nodeCounts[source.TypeID];
@@ -528,8 +529,10 @@ namespace de.unika.ipd.grGen.lgsp
                 if(target != null)
                 {
                     int sourceTypeID;
-                    if(source != null) sourceTypeID = source.TypeID;
-                    else sourceTypeID = model.NodeModel.RootType.TypeID;
+                    if(source != null)
+                        sourceTypeID = source.TypeID;
+                    else
+                        sourceTypeID = model.NodeModel.RootType.TypeID;
                     // cost of walking in opposite direction of edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
                     float revCost = graphStatistics.vstructs[((target.TypeID * graphStatistics.dim1size + edge.TypeID) * graphStatistics.dim2size
@@ -541,9 +544,8 @@ namespace de.unika.ipd.grGen.lgsp
                     }
 #else
                     float revCost = graph.statistics.vstructs[target.TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.In];
-                    if (!edge.fixedDirection) {
+                    if(!edge.fixedDirection)
                         revCost += graph.statistics.vstructs[target.TypeID, edge.TypeID, sourceTypeID, (int) LGSPDirection.Out];
-                    }
 #endif
                     if(graphStatistics.nodeCounts[target.TypeID] != 0)
                         revCost /= graphStatistics.nodeCounts[target.TypeID];
@@ -1277,7 +1279,9 @@ namespace de.unika.ipd.grGen.lgsp
             // nodes not already looked at
             Dictionary<PlanNode, bool> leftNodes = new Dictionary<PlanNode, bool>(planGraph.Nodes.Length);
             foreach(PlanNode node in planGraph.Nodes)
+            {
                 leftNodes.Add(node, true);
+            }
 
             // epoch = search run
             Dictionary<PlanPseudoNode, bool> epoch = new Dictionary<PlanPseudoNode, bool>();
@@ -1297,7 +1301,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     // next node in search run
                     epoch.Add(curNode, true);
-                    if(curNode is PlanNode) leftNodes.Remove((PlanNode) curNode);
+                    if(curNode is PlanNode)
+                        leftNodes.Remove((PlanNode) curNode);
 
                     // cheapest incoming edge of current node
                     float cost;
@@ -1336,12 +1341,16 @@ exitSecondLoop: ;
             /*no, not equivalent:
             foreach(PlanSuperNode superNode in superNodeStack)
                 superNode.Child.IncomingMSAEdge = superNode.IncomingMSAEdge;*/
-            foreach (PlanSuperNode superNode in superNodeStack)
+            foreach(PlanSuperNode superNode in superNodeStack)
             {
                 PlanPseudoNode curNode = superNode.IncomingMSAEdge.Target;
-                while (curNode.SuperNode != superNode) curNode = curNode.SuperNode;
+                while(curNode.SuperNode != superNode)
+                {
+                    curNode = curNode.SuperNode;
+                }
                 curNode.IncomingMSAEdge = superNode.IncomingMSAEdge;
-                if(curNode.IncomingMSAEdge == null) throw new Exception();
+                if(curNode.IncomingMSAEdge == null)
+                    throw new Exception();
             }
 
             if(dumpSearchPlan)

@@ -59,10 +59,8 @@ namespace de.unika.ipd.grGen.lgsp
             Debug.Assert(newElement.Previous == null, "Insert only of single unconnected element (previous)");
             Debug.Assert(newElement.Next == null, "Insert only of single unconnected element (next)");
             
-            if (Next == null)
-            {
+            if(Next == null)
                 return Append(newElement);
-            }
 
             SearchProgramOperation Successor = Next;
             Next = newElement;
@@ -109,7 +107,7 @@ namespace de.unika.ipd.grGen.lgsp
                 nestedOperation = potentiallyNestingOperation;
                 potentiallyNestingOperation = nestedOperation.Previous;
             }
-            while (!potentiallyNestingOperation.IsSearchNestingOperation() 
+            while(!potentiallyNestingOperation.IsSearchNestingOperation() 
                 || potentiallyNestingOperation.GetNestedSearchOperationsList()!=nestedOperation);
 
             return potentiallyNestingOperation;
@@ -136,7 +134,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // depth first walk over nested search program lists
             // walk current list here, recursive descent within local dump-methods
-            while (currentOperation != null)
+            while(currentOperation != null)
             {
                 currentOperation.Dump(builder);
                 currentOperation = currentOperation.Next;
@@ -149,7 +147,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // depth first walk over nested search program lists
             // walk current list here, recursive descent within local Emit-methods
-            while (currentOperation != null)
+            while(currentOperation != null)
             {
                 currentOperation.Emit(sourceCode);
                 currentOperation = currentOperation.Next;

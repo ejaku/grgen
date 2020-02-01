@@ -29,7 +29,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("AlternativeCaseMatching {0}{1}\n", PathPrefix, CaseName);
 
             // then nested content
-            if (OperationsList != null)
+            if(OperationsList != null)
             {
                 builder.Indent();
                 OperationsList.Dump(builder);
@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
+            if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFrontFormat("// Alternative case {0}{1} \n", PathPrefix, CaseName);
 
             sourceCode.AppendFront("do {\n");
@@ -110,7 +110,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("IteratedMatchingDummyLoopPreventingReturn \n");
 
             // then nested content
-            if (NestedOperationsList != null)
+            if(NestedOperationsList != null)
             {
                 builder.Indent();
                 NestedOperationsList.Dump(builder);
@@ -120,7 +120,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
+            if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// dummy loop for iterated matching return prevention\n");
 
             // open loop

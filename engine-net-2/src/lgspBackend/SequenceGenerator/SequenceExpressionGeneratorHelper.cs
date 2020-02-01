@@ -23,57 +23,31 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int, node and edges are handled via reference equality
             if(balancedType == "int")
-            {
                 return "((int)"+leftValue+" == "+"(int)"+rightValue+")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)"+leftValue+" == "+"(long)"+rightValue+")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)"+leftValue+" == "+"(float)"+rightValue+")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)"+leftValue+" == "+"(double)"+rightValue+")";
-            }
             else if(balancedType == "boolean")
-            {
                 return "((bool)"+leftValue+" == "+"(bool)"+rightValue+")";
-            }
             else if(balancedType == "string")
-            {
                 return "((string)"+leftValue+" == "+"(string)"+rightValue+")";
-            }
             else if(balancedType == "graph")
-            {
                 return "GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)" + leftValue + ", (GRGEN_LIBGR.IGraph)" + rightValue + ")";
-            }
             else if(balancedType.StartsWith("set<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.EqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("map<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.EqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("array<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.EqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("deque<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.EqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            }
             else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
-            {
                 return "graph.Model.IsEqual((object)"+leftValue+", (object)"+rightValue+")";
-            }
             else
-            {
                 return "Object.Equals("+leftValue+", "+rightValue+")";
-            }
         }
 
         public static string NotEqualStatic(string leftValue, string rightValue,
@@ -82,57 +56,31 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int, node and edges are handled via reference equality
             if(balancedType == "int")
-            {
                 return "((int)"+leftValue+" != "+"(int)"+rightValue+")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)"+leftValue+" != "+"(long)"+rightValue+")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)"+leftValue+" != "+"(float)"+rightValue+")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)"+leftValue+" != "+"(double)"+rightValue+")";
-            }
             else if(balancedType == "boolean")
-            {
                 return "((bool)"+leftValue+" != "+"(bool)"+rightValue+")";
-            }
             else if(balancedType == "string")
-            {
                 return "((string)"+leftValue+" != "+"(string)"+rightValue+")";
-            }
             else if(balancedType == "graph")
-            {
                 return "!GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)" + leftValue + ", (GRGEN_LIBGR.IGraph)" + rightValue + ")";
-            }
             else if(balancedType.StartsWith("set<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("map<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("array<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("deque<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.NotEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            }
             else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
-            {
                 return "!graph.Model.IsEqual((object)" + leftValue + ", (object)" + rightValue + ")";
-            }
             else
-            {
                 return "!Object.Equals("+leftValue+", "+rightValue+")";
-            }
         }
 
         public static string LowerStatic(string leftValue, string rightValue,
@@ -141,41 +89,23 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)"+leftValue+" < "+"(int)"+rightValue+")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)"+leftValue+" < "+"(long)"+rightValue+")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)"+leftValue+" < "+"(float)"+rightValue+")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)"+leftValue+" < "+"(double)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("set<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.LessThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("map<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.LessThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("array<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.LessThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("deque<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.LessThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            }
             else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
-            {
                 return "graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")";
-            }
 
             return null;
         }
@@ -186,37 +116,21 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)"+leftValue+" > "+"(int)"+rightValue+")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)"+leftValue+" > "+"(long)"+rightValue+")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)"+leftValue+" > "+"(float)"+rightValue+")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)"+leftValue+" > "+"(double)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("set<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("map<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("array<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanIList((IList)"+leftValue+", (IList)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("deque<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterThanDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            }
             else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
             {
                 return "(!graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")"
@@ -232,37 +146,21 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)"+leftValue+" <= "+"(int)"+rightValue+")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)"+leftValue+" <= "+"(long)"+rightValue+")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)"+leftValue+" <= "+"(float)"+rightValue+")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)"+leftValue+" <= "+"(double)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("set<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("map<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("array<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("deque<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.LessOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            }
             else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
             {
                 return "(graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")"
@@ -278,41 +176,23 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)"+leftValue+" >= "+"(int)"+rightValue+")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)"+leftValue+" >= "+"(long)"+rightValue+")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)"+leftValue+" >= "+"(float)"+rightValue+")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)"+leftValue+" >= "+"(double)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("set<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("map<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIDictionary((IDictionary)"+leftValue+", (IDictionary)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("array<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualIList((IList)"+leftValue+", (IList)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("deque<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.GreaterOrEqualDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            }
             else if(TypesHelper.IsExternalTypeIncludingObjectType(balancedType, model))
-            {
                 return "!graph.Model.IsLower((object)" + leftValue + ", (object)" + rightValue + ")";
-            }
 
             return null;
         }
@@ -328,21 +208,13 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)"+leftValue+" + "+"(int)"+rightValue+")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)"+leftValue+" + "+"(long)"+rightValue+")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)"+leftValue+" + "+"(float)"+rightValue+")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)"+leftValue+" + "+"(double)"+rightValue+")";
-            }
             else if(balancedType == "string")
             {
                 if(leftType == "string")
@@ -377,13 +249,9 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
             else if(balancedType.StartsWith("array<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.ConcatenateIList((IList)"+leftValue+", (IList)"+rightValue+")";
-            }
             else if(balancedType.StartsWith("deque<"))
-            {
                 return "GRGEN_LIBGR.ContainerHelper.ConcatenateDeque((Deque)" + leftValue + ", (Deque)" + rightValue + ")";
-            }
 
             return null;
         }
@@ -394,21 +262,13 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)" + leftValue + " - " + "(int)" + rightValue + ")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)" + leftValue + " - " + "(long)" + rightValue + ")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)" + leftValue + " - " + "(float)" + rightValue + ")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)" + leftValue + " - " + "(double)" + rightValue + ")";
-            }
 
             return null;
         }
@@ -419,21 +279,13 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)" + leftValue + " * " + "(int)" + rightValue + ")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)" + leftValue + " * " + "(long)" + rightValue + ")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)" + leftValue + " * " + "(float)" + rightValue + ")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)" + leftValue + " * " + "(double)" + rightValue + ")";
-            }
 
             return null;
         }
@@ -444,21 +296,13 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)" + leftValue + " / " + "(int)" + rightValue + ")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)" + leftValue + " / " + "(long)" + rightValue + ")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)" + leftValue + " / " + "(float)" + rightValue + ")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)" + leftValue + " / " + "(double)" + rightValue + ")";
-            }
 
             return null;
         }
@@ -469,21 +313,13 @@ namespace de.unika.ipd.grGen.lgsp
             // byte and short are only used for storing, no computations are done with them
             // enums are handled via int
             if(balancedType == "int")
-            {
                 return "((int)" + leftValue + " % " + "(int)" + rightValue + ")";
-            }
             else if(balancedType == "long")
-            {
                 return "((long)" + leftValue + " % " + "(long)" + rightValue + ")";
-            }
             else if(balancedType == "float")
-            {
                 return "((float)" + leftValue + " % " + "(float)" + rightValue + ")";
-            }
             else if(balancedType == "double")
-            {
                 return "((double)" + leftValue + " % " + "(double)" + rightValue + ")";
-            }
 
             return null;
         }

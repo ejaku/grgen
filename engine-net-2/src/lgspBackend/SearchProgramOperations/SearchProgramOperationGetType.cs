@@ -40,11 +40,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Type = type;
             PatternElementName = patternElementName;
-            if (type == GetTypeByIterationType.ExplicitelyGiven) {
+            if(type == GetTypeByIterationType.ExplicitelyGiven)
                 TypeName = rulePatternTypeNameOrTypeName;
-            } else { // type == GetTypeByIterationType.AllCompatible
+            else // type == GetTypeByIterationType.AllCompatible
                 RulePatternTypeName = rulePatternTypeNameOrTypeName;
-            }
             IsNode = isNode;
         }
 
@@ -52,17 +51,20 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // first dump local content
             builder.AppendFront("GetType ByIteration ");
-            if(Type==GetTypeByIterationType.ExplicitelyGiven) {
+            if(Type==GetTypeByIterationType.ExplicitelyGiven)
+            {
                 builder.Append("ExplicitelyGiven ");
                 builder.AppendFormat("on {0} in {1} node:{2}\n", 
                     PatternElementName, TypeName, IsNode);
-            } else { // Type==GetTypeByIterationType.AllCompatible
+            }
+            else // Type==GetTypeByIterationType.AllCompatible
+            {
                 builder.Append("AllCompatible ");
                 builder.AppendFormat("on {0} in {1} node:{2}\n",
                     PatternElementName, RulePatternTypeName, IsNode);
             }
             // then nested content
-            if (NestedOperationsList != null)
+            if(NestedOperationsList != null)
             {
                 builder.Indent();
                 NestedOperationsList.Dump(builder);
@@ -82,7 +84,7 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingTypeForCandidate = 
                 NamesOfEntities.TypeForCandidateVariable(PatternElementName);
             string containerWithAvailableTypes;
-            if (Type == GetTypeByIterationType.ExplicitelyGiven)
+            if(Type == GetTypeByIterationType.ExplicitelyGiven)
             {
                 containerWithAvailableTypes = TypeName
                     + "." + PatternElementName + "_AllowedTypes";

@@ -36,7 +36,7 @@ namespace de.unika.ipd.grGen.lgsp
         public int uniqueId;
 
         /// <summary>
-        /// Previous and next node in the list containing all the nodes of one type.
+        /// Previous node in the list containing all the nodes of one type.
         /// The node is not part of a graph, iff typePrev is null.
         /// If typePrev is null and typeNext is not null, this node has been retyped and typeNext
         /// points to the new node.
@@ -44,7 +44,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
         /// "hom + retype + delete + return".
         /// </summary>
-        public LGSPNode lgspTypePrev, lgspTypeNext;
+        public LGSPNode lgspTypePrev;
+
+        /// <summary>
+        /// Next node in the list containing all the nodes of one type.
+        /// See comment for lgspTypePrev (this node has been retyped if typeNext is not null but typePrev is null).
+        /// </summary>
+        public LGSPNode lgspTypeNext;
 
         /// <summary>
         /// Entry node into the outgoing edges list - not of type edge head, real edge or null
@@ -110,7 +116,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType)
         {
-            if(lgspOuthead == null) yield break;
+            if(lgspOuthead == null)
+                yield break;
             LGSPEdge cur = lgspOuthead.lgspOutNext;
             LGSPEdge next;
             while(lgspOuthead != null && cur != lgspOuthead)
@@ -129,7 +136,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType)
         {
-            if(lgspInhead == null) yield break;
+            if(lgspInhead == null)
+                yield break;
             LGSPEdge cur = lgspInhead.lgspInNext;
             LGSPEdge next;
             while(lgspInhead != null && cur != lgspInhead)
@@ -184,7 +192,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType)
         {
-            if(lgspOuthead == null) yield break;
+            if(lgspOuthead == null)
+                yield break;
             LGSPEdge cur = lgspOuthead.lgspOutNext;
             LGSPEdge next;
             while(lgspOuthead != null && cur != lgspOuthead)
@@ -203,7 +212,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType)
         {
-            if(lgspInhead == null) yield break;
+            if(lgspInhead == null)
+                yield break;
             LGSPEdge cur = lgspInhead.lgspInNext;
             LGSPEdge next;
             while(lgspInhead != null && cur != lgspInhead)
@@ -260,7 +270,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get
             {
-                if(lgspOuthead == null) yield break;
+                if(lgspOuthead == null)
+                    yield break;
                 LGSPEdge cur = lgspOuthead.lgspOutNext;
                 LGSPEdge next;
                 while(lgspOuthead != null && cur != lgspOuthead)
@@ -281,7 +292,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get
             {
-                if(lgspInhead == null) yield break;
+                if(lgspInhead == null)
+                    yield break;
                 LGSPEdge cur = lgspInhead.lgspInNext;
                 LGSPEdge next;
                 while(lgspInhead != null && cur != lgspInhead)
@@ -332,8 +344,16 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        internal bool HasOutgoing { [DebuggerStepThrough] get { return lgspOuthead != null; } }
-        internal bool HasIncoming { [DebuggerStepThrough] get { return lgspInhead != null; } }
+        internal bool HasOutgoing
+        {
+            [DebuggerStepThrough]
+            get { return lgspOuthead != null; }
+        }
+        internal bool HasIncoming
+        {
+            [DebuggerStepThrough]
+            get { return lgspInhead != null; }
+        }
 
         internal void AddOutgoing(LGSPEdge edge)
         {
@@ -422,12 +442,20 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The NodeType of the node.
         /// </summary>
-        public NodeType Type { [DebuggerStepThrough] get { return lgspType; } }
+        public NodeType Type
+        {
+            [DebuggerStepThrough]
+            get { return lgspType; }
+        }
 
         /// <summary>
         /// The GrGenType of the node.
         /// </summary>
-        GrGenType IGraphElement.Type { [DebuggerStepThrough] get { return lgspType; } }
+        GrGenType IGraphElement.Type
+        {
+            [DebuggerStepThrough]
+            get { return lgspType; }
+        }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type.
@@ -453,14 +481,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public object this[string attrName]
         {
-            get
-            {
-                return GetAttribute(attrName);
-            }
-            set
-            {
-                SetAttribute(attrName, value);
-            }
+            get { return GetAttribute(attrName); }
+            set { SetAttribute(attrName, value); }
         }
 
         /// <summary>
@@ -541,7 +563,10 @@ namespace de.unika.ipd.grGen.lgsp
     [DebuggerDisplay("LGSPNodeHead")]
     public class LGSPNodeHead : LGSPNode
     {
-        public LGSPNodeHead() : base(null) { }
+        public LGSPNodeHead()
+            : base(null)
+        {
+        }
 
         public override object GetAttribute(string attrName)
         {
@@ -606,30 +631,51 @@ namespace de.unika.ipd.grGen.lgsp
         public int uniqueId;
 
         /// <summary>
-        /// Previous and next edge in the list containing all the edges of one type.
-        /// The node is not part of a graph, iff typePrev is null.
-        /// If typePrev is null and typeNext is not null, this node has been retyped and typeNext
-        /// points to the new node.
+        /// Previous edge in the list containing all the edges of one type.
+        /// The edge is not part of a graph, iff typePrev is null.
+        /// If typePrev is null and typeNext is not null, this edge has been retyped and typeNext
+        /// points to the new edge.
         /// These special cases are neccessary to handle the following situations:
         /// "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
         /// "hom + retype + delete + return".
         /// </summary>
-        public LGSPEdge lgspTypeNext, lgspTypePrev;
+        public LGSPEdge lgspTypePrev;
 
         /// <summary>
-        /// source and target nodes of this edge
+        /// Next edge in the list containing all the edges of one type.
+        /// See comment for lgspTypePrev (this edge has been retyped if typeNext is not null but typePrev is null).
         /// </summary>
-        public LGSPNode lgspSource, lgspTarget;
+        public LGSPEdge lgspTypeNext;
 
         /// <summary>
-        /// previous and next edge in the incoming list of the target node containing all of it's incoming edges
+        /// source node of this edge
         /// </summary>
-        public LGSPEdge lgspInNext, lgspInPrev;
+        public LGSPNode lgspSource;
 
         /// <summary>
-        /// previous and next edge in the outgoing list of the source node containing all of it's outgoing edges
+        /// target node of this edge
         /// </summary>
-        public LGSPEdge lgspOutNext, lgspOutPrev;
+        public LGSPNode lgspTarget;
+
+        /// <summary>
+        /// previous edge in the incoming list of the target node containing all of its incoming edges
+        /// </summary>
+        public LGSPEdge lgspInPrev;
+
+        /// <summary>
+        /// next edge in the incoming list of the target node containing all of its incoming edges
+        /// </summary>
+        public LGSPEdge lgspInNext;
+
+        /// <summary>
+        /// previous edge in the outgoing list of the source node containing all of its outgoing edges
+        /// </summary>
+        public LGSPEdge lgspOutPrev;
+
+        /// <summary>
+        /// next edge in the outgoing list of the source node containing all of its outgoing edges
+        /// </summary>
+        public LGSPEdge lgspOutNext;
 
         /// <summary>
         /// Instantiates an LGSPEdge object.
@@ -696,12 +742,20 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The source node of the edge.
         /// </summary>
-        public INode Source { [DebuggerStepThrough] get { return lgspSource; } }
+        public INode Source
+        {
+            [DebuggerStepThrough]
+            get { return lgspSource; }
+        }
 
         /// <summary>
         /// The target node of the edge.
         /// </summary>
-        public INode Target { [DebuggerStepThrough] get { return lgspTarget; } }
+        public INode Target
+        {
+            [DebuggerStepThrough]
+            get { return lgspTarget; }
+        }
 
         /// <summary>
         /// Retrieves the other incident node of this edge.
@@ -711,19 +765,29 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The other node of this edge.</returns>
         public INode Opposite(INode sourceOrTarget)
         {
-            if(sourceOrTarget == lgspSource) return lgspTarget;
-            else return lgspSource;
+            if(sourceOrTarget == lgspSource)
+                return lgspTarget;
+            else
+                return lgspSource;
         }
 
         /// <summary>
         /// The EdgeType of the edge.
         /// </summary>
-        public EdgeType Type { [DebuggerStepThrough] get { return lgspType; } }
+        public EdgeType Type
+        {
+            [DebuggerStepThrough]
+            get { return lgspType; }
+        }
 
         /// <summary>
         /// The GrGenType of the edge.
         /// </summary>
-        GrGenType IGraphElement.Type { [DebuggerStepThrough] get { return lgspType; } }
+        GrGenType IGraphElement.Type
+        {
+            [DebuggerStepThrough]
+            get { return lgspType; }
+        }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type
@@ -749,14 +813,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public object this[string attrName]
         {
-            get
-            {
-                return GetAttribute(attrName);
-            }
-            set
-            {
-                SetAttribute(attrName, value);
-            }
+            get { return GetAttribute(attrName); }
+            set { SetAttribute(attrName, value); }
         }
 
         /// <summary>
@@ -839,7 +897,10 @@ namespace de.unika.ipd.grGen.lgsp
     [DebuggerDisplay("LGSPEdgeHead")]
     public class LGSPEdgeHead : LGSPEdge
     {
-        public LGSPEdgeHead() : base(null, null, null) { }
+        public LGSPEdgeHead()
+            : base(null, null, null)
+        {
+        }
 
         public override object GetAttribute(string attrName)
         {

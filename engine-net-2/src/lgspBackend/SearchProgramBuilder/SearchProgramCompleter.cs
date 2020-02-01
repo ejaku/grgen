@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.lgsp
                     searchProgram);
                 searchProgram = searchProgram.Next as SearchProgram;
             }
-            while (searchProgram != null);
+            while(searchProgram != null);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
@@ -60,10 +60,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             // complete check operations by inserting failure code
             // find them in depth first search of search program
-            while (currentOperation != null)
+            while(currentOperation != null)
             {
                 //////////////////////////////////////////////////////////
-                if (currentOperation is CheckCandidate)
+                if(currentOperation is CheckCandidate)
                 //////////////////////////////////////////////////////////
                 {
                     CheckCandidate checkCandidate =
@@ -79,10 +79,10 @@ namespace de.unika.ipd.grGen.lgsp
                         topLevelSearchProgram);
                 }
                 //////////////////////////////////////////////////////////
-                else if (currentOperation is CheckPartialMatch)
+                else if(currentOperation is CheckPartialMatch)
                 //////////////////////////////////////////////////////////
                 {
-                    if (currentOperation is CheckPartialMatchByCondition)
+                    if(currentOperation is CheckPartialMatchByCondition)
                     {
                         CheckPartialMatchByCondition checkCondition =
                             (CheckPartialMatchByCondition)currentOperation;
@@ -116,22 +116,22 @@ namespace de.unika.ipd.grGen.lgsp
                         CompleteCheckOperations(
                             checkNegativeOrIndependent.NestedOperationsList,
                             enclosingCheckNegativeOrIndependent ?? enclosingSearchProgram,
-                            enclosingCheckNegativeOrIndependent!=null ? null : enclosingAlternativeCase,
+                            enclosingCheckNegativeOrIndependent != null ? null : enclosingAlternativeCase,
                             checkNegativeOrIndependent,
                             topLevelSearchProgram);
                     }
-                    else if (currentOperation is CheckPartialMatchForSubpatternsFound)
+                    else if(currentOperation is CheckPartialMatchForSubpatternsFound)
                     {
                         CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
                             (CheckPartialMatchForSubpatternsFound)currentOperation;
 
-                        if (enclosingCheckNegativeOrIndependent == null)
+                        if(enclosingCheckNegativeOrIndependent == null)
                         {
                             // determine insertion point within check failed operations
                             // to append the nested check maximum matches
                             SearchProgramOperation insertionPoint =
                                 checkSubpatternsFound.CheckFailedOperations;
-                            while (insertionPoint.Next != null)
+                            while(insertionPoint.Next != null)
                             {
                                 insertionPoint = insertionPoint.Next;
                             }
@@ -139,13 +139,14 @@ namespace de.unika.ipd.grGen.lgsp
                             // append nested check maximum matches
                             CheckMaximumMatchesType checkMaxMatchesType = CheckMaximumMatchesType.Action;
                             if(enclosingSearchProgram is SearchProgramOfSubpattern
-                                || enclosingSearchProgram is SearchProgramOfAlternative) {
+                                || enclosingSearchProgram is SearchProgramOfAlternative)
+                            {
                                 checkMaxMatchesType = CheckMaximumMatchesType.Subpattern;
-                            } else if(enclosingSearchProgram is SearchProgramOfIterated) {
-                                checkMaxMatchesType = CheckMaximumMatchesType.Iterated;
                             }
+                            else if(enclosingSearchProgram is SearchProgramOfIterated)
+                                checkMaxMatchesType = CheckMaximumMatchesType.Iterated;
                             CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                                new CheckContinueMatchingMaximumMatchesReached(checkMaxMatchesType, false, 
+                                new CheckContinueMatchingMaximumMatchesReached(checkMaxMatchesType, false,
                                     enclosingSearchProgram is SearchProgramOfActionParallelizationBody);
                             insertionPoint.Append(checkMaximumMatches);
 
@@ -170,23 +171,20 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         Debug.Assert(false, "unknown check partial match operation");
                     }
-
                 }
                 //////////////////////////////////////////////////////////
-                else if (currentOperation is CheckContinueMatching)
+                else if(currentOperation is CheckContinueMatching)
                 //////////////////////////////////////////////////////////
                 {
-                    if (currentOperation is CheckContinueMatchingMaximumMatchesReached)
+                    if(currentOperation is CheckContinueMatchingMaximumMatchesReached)
                     {
                         CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
                             (CheckContinueMatchingMaximumMatchesReached)currentOperation;
                         checkMaximumMatches.CheckFailedOperations =
                             new SearchProgramList(checkMaximumMatches);
 
-                        if (checkMaximumMatches.ListHeadAdjustment)
-                        {
+                        if(checkMaximumMatches.ListHeadAdjustment)
                             MoveOutwardsAppendingListHeadAdjustment(checkMaximumMatches, checkMaximumMatches.InParallelizedBody);
-                        }
 
                         string[] neededElementsForCheckOperation = new string[0];
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
@@ -195,7 +193,7 @@ namespace de.unika.ipd.grGen.lgsp
                             enclosingSearchProgram,
                             topLevelSearchProgram);
                     }
-                    else if (currentOperation is CheckContinueMatchingOfNegativeFailed)
+                    else if(currentOperation is CheckContinueMatchingOfNegativeFailed)
                     {
                         CheckContinueMatchingOfNegativeFailed checkFailed =
                             (CheckContinueMatchingOfNegativeFailed)currentOperation;
@@ -219,7 +217,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 topLevelSearchProgram);
                         }
                     }
-                    else if (currentOperation is CheckContinueMatchingOfIndependentSucceeded)
+                    else if(currentOperation is CheckContinueMatchingOfIndependentSucceeded)
                     {
                         CheckContinueMatchingOfIndependentSucceeded checkSucceeded =
                             (CheckContinueMatchingOfIndependentSucceeded)currentOperation;
@@ -230,7 +228,7 @@ namespace de.unika.ipd.grGen.lgsp
                             (CheckPartialMatchByIndependent)enclosingCheckNegativeOrIndependent,
                             topLevelSearchProgram);
                     }
-                    else if (currentOperation is CheckContinueMatchingOfIndependentFailed)
+                    else if(currentOperation is CheckContinueMatchingOfIndependentFailed)
                     {
                         CheckContinueMatchingOfIndependentFailed checkFailed =
                             (CheckContinueMatchingOfIndependentFailed)currentOperation;
@@ -254,7 +252,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 topLevelSearchProgram);
                         }
                     }
-                    else if (currentOperation is CheckContinueMatchingTasksLeft)
+                    else if(currentOperation is CheckContinueMatchingTasksLeft)
                     {
                         CheckContinueMatchingTasksLeft tasksLeft =
                             (CheckContinueMatchingTasksLeft)currentOperation;
@@ -263,7 +261,7 @@ namespace de.unika.ipd.grGen.lgsp
                         // to append the nested check maximum matches
                         SearchProgramOperation insertionPoint =
                             tasksLeft.CheckFailedOperations;
-                        while (insertionPoint.Next != null)
+                        while(insertionPoint.Next != null)
                         {
                             insertionPoint = insertionPoint.Next;
                         }
@@ -290,7 +288,7 @@ namespace de.unika.ipd.grGen.lgsp
                             enclosingCheckNegativeOrIndependent,
                             topLevelSearchProgram);
                     }
-                    else if (currentOperation is CheckContinueMatchingIteratedPatternNonNullMatchFound)
+                    else if(currentOperation is CheckContinueMatchingIteratedPatternNonNullMatchFound)
                     {
                         // was built completely, nothing to complete
                     }
@@ -300,7 +298,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
                 //////////////////////////////////////////////////////////
-                else if (currentOperation is AlternativeCaseMatching)
+                else if(currentOperation is AlternativeCaseMatching)
                 //////////////////////////////////////////////////////////
                 {
                     // depth first
@@ -312,7 +310,7 @@ namespace de.unika.ipd.grGen.lgsp
                         topLevelSearchProgram);
                 }
                 //////////////////////////////////////////////////////////
-                else if (currentOperation.IsSearchNestingOperation())
+                else if(currentOperation.IsSearchNestingOperation())
                 //////////////////////////////////////////////////////////
                 {
                     // depth first
@@ -402,7 +400,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 op = op.Previous;
             }
-            while (op != null);
+            while(op != null);
         }
 
         /// <summary>
@@ -419,16 +417,16 @@ namespace de.unika.ipd.grGen.lgsp
             // insertion point for candidate failed operations
             SearchProgramOperation insertionPoint =
                 checkOperation.CheckFailedOperations;
-            while (insertionPoint.Next != null)
+            while(insertionPoint.Next != null)
             {
                 insertionPoint = insertionPoint.Next;
             }
 
             // set outermost to iterated matching dummy loop if iterated
-            if (outermostOperation is SearchProgramOfIterated)
+            if(outermostOperation is SearchProgramOfIterated)
             {
                 SearchProgramOperation cur = checkOperation;
-                while (!(cur is IteratedMatchingDummyLoop))
+                while(!(cur is IteratedMatchingDummyLoop))
                 {
                     cur = cur.Previous;
                 }
@@ -442,12 +440,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             // continue at top nesting level -> return
             SearchProgramOperation op = continuationPoint;
-            while (!(op is SearchProgram))
+            while(!(op is SearchProgram))
             {
                 op = op.Previous;
             }
             SearchProgram searchProgramRoot = op as SearchProgram;
-            if (continuationPoint == searchProgramRoot)
+            if(continuationPoint == searchProgramRoot)
             {
                 ContinueOperation continueByReturn =
                     new ContinueOperation(
@@ -466,9 +464,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 op = op.Previous;
             }
-            while (!op.IsSearchNestingOperation());
+            while(!op.IsSearchNestingOperation());
             SearchProgramOperation directlyEnclosingOperation = op;
-            if (continuationPoint == directlyEnclosingOperation
+            if(continuationPoint == directlyEnclosingOperation
                 // (check negative/independent is enclosing, but not a loop, thus continue wouldn't work) 
                 && !(directlyEnclosingOperation is CheckPartialMatchByNegative)
                 && !(directlyEnclosingOperation is CheckPartialMatchByIndependent)
@@ -488,12 +486,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             // if our continuation point is a candidate iteration
             // -> append label at the end of the loop body of the candidate iteration loop
-            if (continuationPoint is GetCandidateByIteration)
+            if(continuationPoint is GetCandidateByIteration)
             {
                 GetCandidateByIteration candidateIteration =
                     continuationPoint as GetCandidateByIteration;
                 op = candidateIteration.NestedOperationsList;
-                while (op.Next != null)
+                while(op.Next != null)
                 {
                     op = op.Next;
                 }
@@ -503,7 +501,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             // if our continuation point is a candidate iteration parallel
             // -> append label at the end of the loop body of the candidate iteration loop
-            else if (continuationPoint is GetCandidateByIterationParallel)
+            else if(continuationPoint is GetCandidateByIterationParallel)
             {
                 GetCandidateByIterationParallel candidateIteration =
                     continuationPoint as GetCandidateByIterationParallel;
@@ -518,12 +516,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
             // if our continuation point is a both directions iteration
             // -> append label at the end of the loop body of the both directions iteration loop
-            else if (continuationPoint is BothDirectionsIteration)
+            else if(continuationPoint is BothDirectionsIteration)
             {
                 BothDirectionsIteration bothDirections =
                     continuationPoint as BothDirectionsIteration;
                 op = bothDirections.NestedOperationsList;
-                while (op.Next != null)
+                while(op.Next != null)
                 {
                     op = op.Next;
                 }
@@ -533,12 +531,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
             // if our continuation point is an alternative case
             // -> append label at the end of the alternative case operations
-            else if (continuationPoint is AlternativeCaseMatching)
+            else if(continuationPoint is AlternativeCaseMatching)
             {
                 AlternativeCaseMatching alternativeCase =
                     continuationPoint as AlternativeCaseMatching;
                 op = alternativeCase.OperationsList;
-                while (op.Next != null)
+                while(op.Next != null)
                 {
                     op = op.Next;
                 }
@@ -548,7 +546,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             // if our continuation point is the dummy loop of an iterated operation
             // -> we just jump to the label maxMatchesIterReached directly after the loop
-            else if (continuationPoint is IteratedMatchingDummyLoop)
+            else if(continuationPoint is IteratedMatchingDummyLoop)
             {
                 gotoLabelName = "maxMatchesIterReached";
             }
@@ -583,7 +581,7 @@ namespace de.unika.ipd.grGen.lgsp
             // insertion point for candidate failed operations
             SearchProgramOperation insertionPoint =
                 checkSucceeded.CheckFailedOperations;
-            while (insertionPoint.Next != null) // needed?
+            while(insertionPoint.Next != null) // needed?
             {
                 insertionPoint = insertionPoint.Next;
             }
@@ -594,7 +592,7 @@ namespace de.unika.ipd.grGen.lgsp
                 checkSucceeded, ref insertionPoint, neededElements, enclosingIndependent, topLevelSearchProgram);
 
             // move to check failed operation of check independent operation
-            while (!(continuationPoint is CheckContinueMatchingOfIndependentFailed))
+            while(!(continuationPoint is CheckContinueMatchingOfIndependentFailed))
             {
                 continuationPoint = continuationPoint.Next;
             }
@@ -635,7 +633,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 // insert code to clean up isomorphy information written by candidate acceptance
                 // in between the operation to continue and the check operation
-                if (op is AcceptCandidate)
+                if(op is AcceptCandidate)
                 {
                     AcceptCandidate writeIsomorphy =
                         op as AcceptCandidate;
@@ -651,7 +649,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 // insert code to clean up isomorphy information written by global candidate acceptance
                 // in between the operation to continue and the check operation
-                if (op is AcceptCandidateGlobal)
+                if(op is AcceptCandidateGlobal)
                 {
                     AcceptCandidateGlobal writeIsomorphy =
                         op as AcceptCandidateGlobal;
@@ -666,7 +664,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 // insert code to clean up isomorphy information written by patternpath candidate acceptance
                 // in between the operation to continue and the check operation
-                if (op is AcceptCandidatePatternpath)
+                if(op is AcceptCandidatePatternpath)
                 {
                     AcceptCandidatePatternpath writeIsomorphy =
                         op as AcceptCandidatePatternpath;
@@ -678,7 +676,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint = insertionPoint.Append(removeIsomorphy);
                 }
                 // insert code to remove iterated pattern acceptance
-                if (op is AcceptIterated)
+                if(op is AcceptIterated)
                 {
                     AcceptIterated acceptIterated =
                         op as AcceptIterated;
@@ -687,7 +685,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint = insertionPoint.Append(abandonIterated);
                 }
                 // insert code to undo subpattern matching initialization if we leave the subpattern matching method
-                if (op is InitializeSubpatternMatching)
+                if(op is InitializeSubpatternMatching)
                 {
                     InitializeSubpatternMatching initialize =
                         op as InitializeSubpatternMatching;
@@ -696,7 +694,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint = insertionPoint.Append(finalize);
                 }
                 // insert code to undo negative/independent matching initialization if we leave the negative/independent matching method
-                if (op is InitializeNegativeIndependentMatching)
+                if(op is InitializeNegativeIndependentMatching)
                 {
                     InitializeNegativeIndependentMatching initialize =
                         op as InitializeNegativeIndependentMatching;
@@ -712,17 +710,17 @@ namespace de.unika.ipd.grGen.lgsp
                 // after or at the point of a get element operation
                 // of some dominating element the check depends on
                 // (or the outermost operation if no iteration is found until it is reached)
-                if (op is GetCandidate || op is BothDirectionsIteration)
+                if(op is GetCandidate || op is BothDirectionsIteration)
                 {
-                    if (creationPointOfDominatingElementFound == false)
+                    if(creationPointOfDominatingElementFound == false)
                     {
-                        if (neededElementsForCheckOperation != null)
+                        if(neededElementsForCheckOperation != null)
                         {
-                            foreach (string dominating in neededElementsForCheckOperation)
+                            foreach(string dominating in neededElementsForCheckOperation)
                             {
                                 GetCandidate getCandidate = op as GetCandidate;
                                 BothDirectionsIteration bothDirections = op as BothDirectionsIteration;
-                                if (getCandidate!=null && getCandidate.PatternElementName == dominating
+                                if(getCandidate!=null && getCandidate.PatternElementName == dominating
                                     || bothDirections!=null && bothDirections.PatternElementName == dominating)
                                 {
                                     creationPointOfDominatingElementFound = true;
@@ -740,13 +738,11 @@ namespace de.unika.ipd.grGen.lgsp
                             iterationReached = false;
                         }
                     }
-                    if (op is GetCandidateByIteration || op is GetCandidateByIterationParallel || op is BothDirectionsIteration)
-                    {
+                    if(op is GetCandidateByIteration || op is GetCandidateByIterationParallel || op is BothDirectionsIteration)
                         iterationReached = true;
-                    }
                 }
             }
-            while (!(creationPointOfDominatingElementFound && iterationReached)
+            while(!(creationPointOfDominatingElementFound && iterationReached)
                     && op != outermostOperation);
 
             return op;

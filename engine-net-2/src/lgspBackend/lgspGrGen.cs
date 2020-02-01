@@ -109,7 +109,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     Console.Error.WriteLine("Illegal model C# source code: " + compResults.Errors.Count + " Errors:");
                     foreach(CompilerError error in compResults.Errors)
+                    {
                         Console.Error.WriteLine("Line: " + error.Line + " - " + error.ErrorText + " @ " + error.FileName);
+                    }
                     return false;
                 }
             }
@@ -134,7 +136,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 foreach(Type type in modelAssembly.GetTypes())
                 {
-                    if(!type.IsClass || type.IsNotPublic) continue;
+                    if(!type.IsClass || type.IsNotPublic)
+                        continue;
                     if(type.GetInterface("IGraphModel") != null && type.GetInterface("IGraph") == null)
                     {
                         if(modelType != null)
@@ -179,13 +182,17 @@ namespace de.unika.ipd.grGen.lgsp
                     LGSPMatcherGenerator.SetNeedForProfiling(patternGraph);
                 PlanGraph planGraph;
                 if(graphStatistics != null)
-                    planGraph = PlanGraphGenerator.GeneratePlanGraph(matcherGen.GetModel(), graphStatistics, patternGraph, 
+                {
+                    planGraph = PlanGraphGenerator.GeneratePlanGraph(matcherGen.GetModel(), graphStatistics, patternGraph,
                         isNegativeOrIndependent, isSubpatternLike, matcherGen.InlineIndependents,
                         ScheduleEnricher.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
+                }
                 else
+                {
                     planGraph = PlanGraphGenerator.GenerateStaticPlanGraph(patternGraph,
-                        isNegativeOrIndependent, isSubpatternLike, matcherGen.InlineIndependents,
-                        ScheduleEnricher.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
+                       isNegativeOrIndependent, isSubpatternLike, matcherGen.InlineIndependents,
+                       ScheduleEnricher.ExtractOwnElements(nestingScheduledSearchPlan, patternGraph));
+                }
                 PlanGraphGenerator.MarkMinimumSpanningArborescence(planGraph, patternGraph.name, matcherGen.DumpSearchPlan);
                 SearchPlanGraph searchPlanGraph = SearchPlanGraphGeneratorAndScheduler.GenerateSearchPlanGraph(planGraph);
                 ScheduledSearchPlan scheduledSearchPlan = SearchPlanGraphGeneratorAndScheduler.ScheduleSearchPlan(
@@ -251,7 +258,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(!delayCtrlC)
                 {
-                    if(grGenJava == null || grGenJava.HasExited) return;
+                    if(grGenJava == null || grGenJava.HasExited)
+                        return;
 
                     Console.Error.WriteLine("Aborting...");
                     System.Threading.Thread.Sleep(100);     // a short delay to make sure the process is correctly started
@@ -267,8 +275,10 @@ namespace de.unika.ipd.grGen.lgsp
             String javaString = null;
             try
             {
-                if(Environment.OSVersion.Platform == PlatformID.Unix) javaString = "java";
-                else javaString = "javaw";
+                if(Environment.OSVersion.Platform == PlatformID.Unix)
+                    javaString = "java";
+                else
+                    javaString = "javaw";
 
                 String execStr = "-Xss1M -Xmx1024M -jar \"" + binPath + "grgen.jar\" "
                     + "-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
@@ -288,7 +298,8 @@ namespace de.unika.ipd.grGen.lgsp
                     grGenJava = Process.Start(startInfo);
 
                     delayCtrlC = false;
-                    if(ctrlCPressed) ctrlCHandler(null, null);
+                    if(ctrlCPressed)
+                        ctrlCHandler(null, null);
 
                     grGenJava.WaitForExit();
                 }
@@ -312,7 +323,8 @@ namespace de.unika.ipd.grGen.lgsp
             if(ctrlCPressed)
                 return false;
 
-            bool noError = true, doneFound = false;
+            bool noError = true;
+            bool doneFound = false;
             using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
             {
                 String frontStr = "  generating the ";
@@ -369,19 +381,53 @@ namespace de.unika.ipd.grGen.lgsp
                 _externalAssemblies = externalAssemblies;
             }
 
-            public String specFile { get { return _specFile; } }
-            public String destDir { get { return _destDir; } }
-            public String tmpDir { get { return _tmpDir; } }
-            public String[] externalAssemblies { get { return _externalAssemblies; } }
+            public String specFile
+            {
+                get { return _specFile; }
+            }
+            public String destDir
+            {
+                get { return _destDir; }
+            }
+            public String tmpDir
+            {
+                get { return _tmpDir; }
+            }
+            public String[] externalAssemblies
+            {
+                get { return _externalAssemblies; }
+            }
 
-            public String modelFilename { get { return _modelFilename; } set { _modelFilename = value; } }
-            public String modelStubFilename { get { return _modelStubFilename; } set { _modelStubFilename = value; } }
-            public String modelAssemblyName { get { return _modelAssemblyName; } set { _modelAssemblyName = value; } }
-            public Assembly modelAssembly { get { return _modelAssembly; } set { _modelAssembly = value; } }
+            public String modelFilename
+            {
+                get { return _modelFilename; }
+                set { _modelFilename = value; }
+            }
+            public String modelStubFilename
+            {
+                get { return _modelStubFilename; }
+                set { _modelStubFilename = value; }
+            }
+            public String modelAssemblyName
+            {
+                get { return _modelAssemblyName; }
+                set { _modelAssemblyName = value; }
+            }
+            public Assembly modelAssembly
+            {
+                get { return _modelAssembly; }
+                set { _modelAssembly = value; }
+            }
 
-            public String actionsName { get { return _actionsName; } }
-            public String actionsFilename { get { return _actionsFilename; } 
-                set { 
+            public String actionsName
+            {
+                get { return _actionsName; }
+            }
+            public String actionsFilename
+            {
+                get { return _actionsFilename; } 
+                set
+                { 
                     _actionsFilename = value;
                     _actionsName = Path.GetFileNameWithoutExtension(_actionsFilename); 
                     _actionsName = _actionsName.Substring(0, _actionsName.Length - 13); // remove "_intermediate" suffix
@@ -389,11 +435,25 @@ namespace de.unika.ipd.grGen.lgsp
                     _actionsOutputFilename = _tmpDir + Path.DirectorySeparatorChar + _actionsName + ".cs";
                 }
             }
-            public String actionsOutputFilename { get { return _actionsOutputFilename; } }
-            public String baseName { get { return _baseName; } }
+            public String actionsOutputFilename
+            {
+                get { return _actionsOutputFilename; }
+            }
+            public String baseName
+            {
+                get { return _baseName; }
+            }
 
-            public String externalActionsExtensionFilename { get { return _externalActionsExtensionFilename; } set { _externalActionsExtensionFilename = value; } }
-            public String externalActionsExtensionOutputFilename { get { return _externalActionsExtensionOutputFilename; } set { _externalActionsExtensionOutputFilename = value; } }
+            public String externalActionsExtensionFilename
+            {
+                get { return _externalActionsExtensionFilename; }
+                set { _externalActionsExtensionFilename = value; }
+            }
+            public String externalActionsExtensionOutputFilename
+            {
+                get { return _externalActionsExtensionOutputFilename; }
+                set { _externalActionsExtensionOutputFilename = value; }
+            }
 
 
             private String _specFile;
@@ -513,7 +573,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String errorMsg = compResultsWarmup.Errors.Count + " Errors:";
                     foreach(CompilerError error in compResultsWarmup.Errors)
+                    {
                         errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
+                    }
                     Console.Error.WriteLine("Illegal actions C# input source code: " + errorMsg);
                     return ErrorType.GrGenNetError;
                 }
@@ -617,8 +679,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             String unitName;
             int lastDot = actionsNamespace.LastIndexOf(".");
-            if(lastDot == -1) unitName = "";
-            else unitName = actionsNamespace.Substring(lastDot + 8);  // skip ".Action_"
+            if(lastDot == -1)
+                unitName = "";
+            else
+                unitName = actionsNamespace.Substring(lastDot + 8);  // skip ".Action_"
 
             LGSPGraphStatistics graphStatistics = null;
             if(statisticsPath != null)
@@ -687,7 +751,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String errorMsg = compResults.Errors.Count + " Errors:";
                 foreach(CompilerError error in compResults.Errors)
+                {
                     errorMsg += String.Format("\r\n{0} at line {1} of {2}: {3}", error.IsWarning ? "Warning" : "ERROR", error.Line, error.FileName, error.ErrorText);
+                }
                 Console.Error.WriteLine("Illegal generated actions C# source code (or erroneous programmed extension), " + errorMsg);
                 return ErrorType.GrGenNetError;
             }
@@ -707,11 +773,16 @@ namespace de.unika.ipd.grGen.lgsp
             AnalyzeAndInlineMatchingPatterns((flags & ProcessSpecFlags.Noinline) == 0, ruleAndMatchingPatterns);
 
             LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
-            if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
-            if((flags & ProcessSpecFlags.CompileWithDebug) != 0) matcherGen.EmitDebugValidityChecks = true;
-            if((flags & ProcessSpecFlags.LazyNIC) != 0) matcherGen.LazyNegativeIndependentConditionEvaluation = true;
-            if((flags & ProcessSpecFlags.Noinline) != 0) matcherGen.InlineIndependents = false;
-            if((flags & ProcessSpecFlags.Profile) != 0) matcherGen.Profile = true;
+            if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
+                matcherGen.CommentSourceCode = true;
+            if((flags & ProcessSpecFlags.CompileWithDebug) != 0)
+                matcherGen.EmitDebugValidityChecks = true;
+            if((flags & ProcessSpecFlags.LazyNIC) != 0)
+                matcherGen.LazyNegativeIndependentConditionEvaluation = true;
+            if((flags & ProcessSpecFlags.Noinline) != 0)
+                matcherGen.InlineIndependents = false;
+            if((flags & ProcessSpecFlags.Profile) != 0)
+                matcherGen.Profile = true;
 
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
             {
@@ -763,21 +834,21 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
 #if DUMP_PATTERNS
-                        // dump patterns for debugging - first original version without inlining
-                        SourceBuilder builder = new SourceBuilder(true);
-                        matchingPattern.patternGraph.DumpOriginal(builder);
-                        StreamWriter writer = new StreamWriter(matchingPattern.name + "_pattern_dump.txt");
-                        writer.Write(builder.ToString());
+                    // dump patterns for debugging - first original version without inlining
+                    SourceBuilder builder = new SourceBuilder(true);
+                    matchingPattern.patternGraph.DumpOriginal(builder);
+                    StreamWriter writer = new StreamWriter(matchingPattern.name + "_pattern_dump.txt");
+                    writer.Write(builder.ToString());
 #endif
 
                     analyzer.InlineSubpatternUsages(matchingPattern.patternGraph);
 
 #if DUMP_PATTERNS
-                        // - then inlined version
-                        builder = new SourceBuilder(true);
-                        matchingPattern.patternGraph.DumpInlined(builder);
-                        writer.Write(builder.ToString());
-                        writer.Close();
+                    // - then inlined version
+                    builder = new SourceBuilder(true);
+                    matchingPattern.patternGraph.DumpInlined(builder);
+                    writer.Write(builder.ToString());
+                    writer.Close();
 #endif
                 }
             }
@@ -785,7 +856,9 @@ namespace de.unika.ipd.grGen.lgsp
             // hardcore/ugly parameterization for inlined case, working on inlined members in inlined pass, and original members on original pass
             // working with accessors encapsulating the inlined versions and the original version behind a common interface to keep the analyze code without case distinctions gets terribly extensive
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+            {
                 matchingPattern.patternGraph.maxIsoSpace = 0; // reset of max iso space for computation of max iso space of inlined patterns
+            }
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
             {
                 analyzer.AnalyzeNestingOfPatternGraph(matchingPattern.patternGraph, true);
@@ -1004,9 +1077,11 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
             {
                 if(matchingPattern is LGSPRulePattern) // normal rule
+                {
                     endSource.AppendFrontFormat("public {1}IAction_{0} @{2};\n",
                         matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package),
                         TypesHelper.PackagePrefixedNameUnderscore(matchingPattern.PatternGraph.Package, matchingPattern.PatternGraph.Name));
+                }
             }
             endSource.AppendFront("\n");
 
@@ -1046,21 +1121,24 @@ namespace de.unika.ipd.grGen.lgsp
                     return ErrorType.GrGenJavaError;
                 }
 
-                if(genModelFiles.Count == 1) cc.modelFilename = genModelFiles[0];
+                if(genModelFiles.Count == 1)
+                    cc.modelFilename = genModelFiles[0];
                 else if(genModelFiles.Count > 1)
                 {
                     Console.Error.WriteLine("Multiple models are not supported by ProcessSpecification, yet!");
                     return ErrorType.GrGenNetError;
                 }
 
-                if(genModelStubFiles.Count == 1) cc.modelStubFilename = genModelStubFiles[0];
+                if(genModelStubFiles.Count == 1)
+                    cc.modelStubFilename = genModelStubFiles[0];
                 else if(genModelStubFiles.Count > 1)
                 {
                     Console.Error.WriteLine("Multiple model stubs are not supported by ProcessSpecification, yet!");
                     return ErrorType.GrGenNetError;
                 }
 
-                if(genActionsFiles.Count == 1) cc.actionsFilename = genActionsFiles[0];
+                if(genActionsFiles.Count == 1)
+                    cc.actionsFilename = genActionsFiles[0];
                 else if(genActionsFiles.Count > 1)
                 {
                     Console.Error.WriteLine("Multiple action sets are not supported by ProcessSpecification, yet!");
@@ -1334,7 +1412,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(Type type in initialAssembly.GetTypes())
             {
-                if(!type.IsClass || type.IsNotPublic) continue;
+                if(!type.IsClass || type.IsNotPublic)
+                    continue;
                 if(type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
                     actionTypes.Add(TypesHelper.GetPackagePrefixedNameFromFullTypeName(type.FullName), type);
                 if(type.Name == "Procedures")
@@ -1344,7 +1423,8 @@ namespace de.unika.ipd.grGen.lgsp
             ruleAndMatchingPatterns = null;
             foreach(Type type in initialAssembly.GetTypes())
             {
-                if(!type.IsClass || type.IsNotPublic) continue;
+                if(!type.IsClass || type.IsNotPublic)
+                    continue;
                 if(type.BaseType == typeof(LGSPRuleAndMatchingPatterns))
                 {
                     ruleAndMatchingPatterns = (LGSPRuleAndMatchingPatterns)Activator.CreateInstance(type);
@@ -1418,7 +1498,7 @@ namespace de.unika.ipd.grGen.lgsp
             do
             {
                 dirname = specDir + "tmpgrgen" + id + "";
-                id++;
+                ++id;
             }
             while(Directory.Exists(dirname));
             try

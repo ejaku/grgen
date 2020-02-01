@@ -50,22 +50,22 @@ namespace de.unika.ipd.grGen.lgsp
 
 			switch(seq.SequenceType)
 			{
-                case SequenceType.AssignUserInputToVar:
-                case SequenceType.AssignRandomIntToVar:
-                case SequenceType.AssignRandomDoubleToVar:
-                case SequenceType.DeclareVariable:
-                case SequenceType.AssignConstToVar:
-                case SequenceType.AssignContainerConstructorToVar:
-                case SequenceType.AssignVarToVar:
+            case SequenceType.AssignUserInputToVar:
+            case SequenceType.AssignRandomIntToVar:
+            case SequenceType.AssignRandomDoubleToVar:
+            case SequenceType.DeclareVariable:
+            case SequenceType.AssignConstToVar:
+            case SequenceType.AssignContainerConstructorToVar:
+            case SequenceType.AssignVarToVar:
                 {
 					SequenceAssignToVar toVar = (SequenceAssignToVar) seq;
                     EmitVarIfNew(toVar.DestVar, source);
 					break;
 				}
 
-                case SequenceType.AssignSequenceResultToVar:
-                case SequenceType.OrAssignSequenceResultToVar:
-                case SequenceType.AndAssignSequenceResultToVar:
+            case SequenceType.AssignSequenceResultToVar:
+            case SequenceType.OrAssignSequenceResultToVar:
+            case SequenceType.AndAssignSequenceResultToVar:
                 {
 					SequenceAssignSequenceResultToVar seqToVar = (SequenceAssignSequenceResultToVar) seq;
                     EmitVarIfNew(seqToVar.DestVar, source);
@@ -73,9 +73,9 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
-				case SequenceType.RuleCall:
-				case SequenceType.RuleAllCall:
-                case SequenceType.RuleCountAllCall:
+			case SequenceType.RuleCall:
+			case SequenceType.RuleAllCall:
+            case SequenceType.RuleCountAllCall:
                 {
 					SequenceRuleCall seqRule = (SequenceRuleCall) seq;
 					String ruleName = seqRule.RuleInvocation.PackagePrefixedName;
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
-                case SequenceType.SequenceCall:
+            case SequenceType.SequenceCall:
                 {
                     SequenceSequenceCall seqSeq = (SequenceSequenceCall)seq;
                     // no handling for the input arguments seqSeq.ArgumentExpressions or the optional Subgraph needed 
@@ -111,16 +111,17 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.ForContainer:
+            case SequenceType.ForContainer:
                 {
                     SequenceForContainer seqFor = (SequenceForContainer)seq;
                     EmitVarIfNew(seqFor.Var, source);
-                    if (seqFor.VarDst != null) EmitVarIfNew(seqFor.VarDst, source);
+                    if(seqFor.VarDst != null)
+                        EmitVarIfNew(seqFor.VarDst, source);
                     EmitNeededVarAndRuleEntities(seqFor.Seq, source);
                     break;
                 }
 
-                case SequenceType.ForIntegerRange:
+            case SequenceType.ForIntegerRange:
                 {
                     SequenceForIntegerRange seqFor = (SequenceForIntegerRange)seq;
                     EmitVarIfNew(seqFor.Var, source);
@@ -128,7 +129,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.ForIndexAccessEquality:
+            case SequenceType.ForIndexAccessEquality:
                 {
                     SequenceForIndexAccessEquality seqFor = (SequenceForIndexAccessEquality)seq;
                     EmitVarIfNew(seqFor.Var, source);
@@ -136,7 +137,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.ForIndexAccessOrdering:
+            case SequenceType.ForIndexAccessOrdering:
                 {
                     SequenceForIndexAccessOrdering seqFor = (SequenceForIndexAccessOrdering)seq;
                     EmitVarIfNew(seqFor.Var, source);
@@ -144,26 +145,26 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.ForAdjacentNodes:
-                case SequenceType.ForAdjacentNodesViaIncoming:
-                case SequenceType.ForAdjacentNodesViaOutgoing:
-                case SequenceType.ForIncidentEdges:
-                case SequenceType.ForIncomingEdges:
-                case SequenceType.ForOutgoingEdges:
-                case SequenceType.ForReachableNodes:
-                case SequenceType.ForReachableNodesViaIncoming:
-                case SequenceType.ForReachableNodesViaOutgoing:
-                case SequenceType.ForReachableEdges:
-                case SequenceType.ForReachableEdgesViaIncoming:
-                case SequenceType.ForReachableEdgesViaOutgoing:
-                case SequenceType.ForBoundedReachableNodes:
-                case SequenceType.ForBoundedReachableNodesViaIncoming:
-                case SequenceType.ForBoundedReachableNodesViaOutgoing:
-                case SequenceType.ForBoundedReachableEdges:
-                case SequenceType.ForBoundedReachableEdgesViaIncoming:
-                case SequenceType.ForBoundedReachableEdgesViaOutgoing:
-                case SequenceType.ForNodes:
-                case SequenceType.ForEdges:
+            case SequenceType.ForAdjacentNodes:
+            case SequenceType.ForAdjacentNodesViaIncoming:
+            case SequenceType.ForAdjacentNodesViaOutgoing:
+            case SequenceType.ForIncidentEdges:
+            case SequenceType.ForIncomingEdges:
+            case SequenceType.ForOutgoingEdges:
+            case SequenceType.ForReachableNodes:
+            case SequenceType.ForReachableNodesViaIncoming:
+            case SequenceType.ForReachableNodesViaOutgoing:
+            case SequenceType.ForReachableEdges:
+            case SequenceType.ForReachableEdgesViaIncoming:
+            case SequenceType.ForReachableEdgesViaOutgoing:
+            case SequenceType.ForBoundedReachableNodes:
+            case SequenceType.ForBoundedReachableNodesViaIncoming:
+            case SequenceType.ForBoundedReachableNodesViaOutgoing:
+            case SequenceType.ForBoundedReachableEdges:
+            case SequenceType.ForBoundedReachableEdgesViaIncoming:
+            case SequenceType.ForBoundedReachableEdgesViaOutgoing:
+            case SequenceType.ForNodes:
+            case SequenceType.ForEdges:
                 {
                     SequenceForFunction seqFor = (SequenceForFunction)seq;
                     EmitVarIfNew(seqFor.Var, source);
@@ -171,7 +172,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.ForMatch:
+            case SequenceType.ForMatch:
                 {
                     SequenceForMatch seqFor = (SequenceForMatch)seq;
                     EmitVarIfNew(seqFor.Var, source);
@@ -180,17 +181,19 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.BooleanComputation:
+            case SequenceType.BooleanComputation:
                 {
                     SequenceBooleanComputation seqBoolComp = (SequenceBooleanComputation)seq;
                     EmitNeededVarEntities(seqBoolComp.Computation, source);
                     break;
                 }
 
-				default:
-					foreach(Sequence childSeq in seq.Children)
-						EmitNeededVarAndRuleEntities(childSeq, source);
-					break;
+			default:
+				foreach(Sequence childSeq in seq.Children)
+				{
+					EmitNeededVarAndRuleEntities(childSeq, source);
+				}
+				break;
 			}
 		}
 
@@ -216,7 +219,7 @@ namespace de.unika.ipd.grGen.lgsp
             
             switch(seqComp.SequenceComputationType)
 			{
-                case SequenceComputationType.Assignment:
+            case SequenceComputationType.Assignment:
 				{
 					SequenceComputationAssignment assign = (SequenceComputationAssignment)seqComp;
                     EmitNeededVarEntities(assign.Target, source);
@@ -225,7 +228,7 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
-                case SequenceComputationType.ProcedureCall:
+            case SequenceComputationType.ProcedureCall:
                 {
                     SequenceComputationProcedureCall seqProc = (SequenceComputationProcedureCall)seqComp;
                     // no handling for the input arguments seqProc.ArgumentExpressions needed 
@@ -237,7 +240,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceComputationType.BuiltinProcedureCall:
+            case SequenceComputationType.BuiltinProcedureCall:
                 {
                     SequenceComputationBuiltinProcedureCall seqProc = (SequenceComputationBuiltinProcedureCall)seqComp;
                     // no handling for the input arguments seqProc.ArgumentExpressions needed 
@@ -249,10 +252,12 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-				default:
-					foreach(SequenceComputation childSeqComp in seqComp.Children)
-						EmitNeededVarEntities(childSeqComp, source);
-					break;
+			default:
+				foreach(SequenceComputation childSeqComp in seqComp.Children)
+				{
+					EmitNeededVarEntities(childSeqComp, source);
+				}
+				break;
 			}
 		}
 
@@ -266,21 +271,21 @@ namespace de.unika.ipd.grGen.lgsp
 
             switch(tgt.AssignmentTargetType)
 			{
-				case AssignmentTargetType.Var:
+			case AssignmentTargetType.Var:
 				{
 					AssignmentTargetVar var = (AssignmentTargetVar)tgt;
                     EmitVarIfNew(var.DestVar, source);
 					break;
 				}
-                case AssignmentTargetType.YieldingToVar:
+            case AssignmentTargetType.YieldingToVar:
                 {
                     AssignmentTargetYieldingVar var = (AssignmentTargetYieldingVar)tgt;
                     EmitVarIfNew(var.DestVar, source);
                     break;
                 }
 
-				default:
-					break;
+			default:
+				break;
 			}
 		}
     }

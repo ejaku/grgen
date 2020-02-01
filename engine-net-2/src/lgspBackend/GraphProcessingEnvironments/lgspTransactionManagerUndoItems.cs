@@ -70,8 +70,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void DoUndo(IGraphProcessingEnvironment procEnv)
         {
-            if(_elem is INode) procEnv.Graph.Remove((INode) _elem);
-            else procEnv.Graph.Remove((IEdge) _elem);
+            if(_elem is INode)
+                procEnv.Graph.Remove((INode) _elem);
+            else
+                procEnv.Graph.Remove((IEdge) _elem);
         }
 
         public override string ToString()
@@ -221,7 +223,8 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else // Assign
                 {
-                    Type keyType, valueType;
+                    Type keyType;
+                    Type valueType;
                     IDictionary dict = ContainerHelper.GetDictionaryTypes(
                         _elem.GetAttribute(_attrType.Name), out keyType, out valueType);
                     IDictionary clonedDict = ContainerHelper.NewDictionary(keyType, valueType, dict);
@@ -467,11 +470,11 @@ namespace de.unika.ipd.grGen.lgsp
             AttributeChangeType changeType;
             switch(_undoOperation)
             {
-                case UndoOperation.Assign: changeType = AttributeChangeType.Assign; break;
-                case UndoOperation.PutElement: changeType = AttributeChangeType.PutElement; break;
-                case UndoOperation.RemoveElement: changeType = AttributeChangeType.RemoveElement; break;
-                case UndoOperation.AssignElement: changeType = AttributeChangeType.AssignElement; break;
-                default: throw new Exception("Internal error during transaction handling");
+            case UndoOperation.Assign: changeType = AttributeChangeType.Assign; break;
+            case UndoOperation.PutElement: changeType = AttributeChangeType.PutElement; break;
+            case UndoOperation.RemoveElement: changeType = AttributeChangeType.RemoveElement; break;
+            case UndoOperation.AssignElement: changeType = AttributeChangeType.AssignElement; break;
+            default: throw new Exception("Internal error during transaction handling");
             }
 
             LGSPNode node = _elem as LGSPNode;

@@ -142,44 +142,68 @@ namespace de.unika.ipd.grGen.lgsp
 
             bool[,] homNodes = new bool[numNodes, numNodes];
             for(int i = 0; i < numNodes; ++i)
+            {
                 for(int j = 0; j < numNodes; ++j)
+                {
                     homNodes[i, j] = false;
+                }
+            }
 
             bool[,] homEdges = new bool[numEdges, numEdges];
             for(int i = 0; i < numEdges; ++i)
+            {
                 for(int j = 0; j < numEdges; ++j)
+                {
                     homEdges[i, j] = false;
+                }
+            }
             
             bool[,] homNodesGlobal = new bool[numNodes, numNodes];
             for(int i = 0; i < numNodes; ++i)
+            {
                 for(int j = 0; j < numNodes; ++j)
+                {
                     homNodesGlobal[i, j] = false;
+                }
+            }
 
             bool[,] homEdgesGlobal = new bool[numEdges, numEdges];
             for(int i = 0; i < numEdges; ++i)
+            {
                 for(int j = 0; j < numEdges; ++j)
+                {
                     homEdgesGlobal[i, j] = false;
+                }
+            }
 
             bool[] totallyHomNodes = new bool[numNodes];
             for(int i = 0; i < numNodes; ++i)
+            {
                 totallyHomNodes[i] = false;
+            }
 
             bool[] totallyHomEdges = new bool[numEdges];
             for(int i = 0; i < numEdges; ++i)
+            {
                 totallyHomEdges[i] = false;
+            }
 
             List<PatternCondition> pcs = new List<PatternCondition>();
             for(int i = 0; i < numNodes; ++i)
             {
                 if(nodes[i].Type.NumAttributes > 0)
+                {
                     pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingNodes[i], nodes[i]),
                         new string[] { nodes[i].name }, new string[] { }, new string[] { }, new VarType[] { }));
+                }
             }
             for(int i = 0; i < numEdges; ++i)
             {
                 if(edges[i].Type.NumAttributes > 0)
+                {
                     pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingEdges[i], edges[i]),
                         new string[] { }, new string[] { edges[i].name }, new string[] { }, new VarType[] { }));
+                }
             }
             PatternCondition[] patternConditions = pcs.ToArray();
 
@@ -196,9 +220,13 @@ namespace de.unika.ipd.grGen.lgsp
                 totallyHomNodes, totallyHomEdges
             );
             foreach(PatternNode node in nodes)
+            {
                 node.pointOfDefinition = patternGraph;
+            }
             foreach(PatternEdge edge in edges)
+            {
                 edge.pointOfDefinition = patternGraph;
+            }
             patternGraph.correspondingNodes = correspondingNodes;
             patternGraph.correspondingEdges = correspondingEdges;
 
@@ -403,7 +431,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
  
             String inParameters = "";
-            for(int i=0; i<matchingPattern.Inputs.Length; ++i) {
+            for(int i=0; i<matchingPattern.Inputs.Length; ++i)
+            {
                 inParameters += ", " + TypesHelper.TypeName(matchingPattern.Inputs[i]) + " " + matchingPattern.InputNames[i];
             }
             String matchingPatternClassName = matchingPattern.GetType().Name;
@@ -638,7 +667,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
             sb.AppendFrontFormat("{0}\n", outIntermediateLocalsAll);
             sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{0});\n", intermediateLocalArgumentsAll);
-            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
                 sb.AppendFrontFormat("output_{0}.Add(output_local_{0});\n", i);
             }
             sb.Unindent();
@@ -666,7 +696,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
             sb.AppendFrontFormat("{0}\n", outIntermediateLocalsAll);
             sb.AppendFrontFormat("_rulePattern.Modify((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, match{0});\n", intermediateLocalArgumentsAll);
-            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
                 sb.AppendFrontFormat("output_{0}.Add(output_local_{0});\n", i);
             }
             sb.Unindent();
@@ -742,7 +773,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
             sb.AppendFrontFormat("{0}\n", outLocals);
             sb.AppendFrontFormat("Modify(actionEnv, ({0})match{1});\n", matchType, outArguments);
-            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
@@ -767,7 +799,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFront("ReturnArrayListForAll.Add(AvailableReturnArrays[i]);\n");
-            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
                 sb.AppendFrontFormat("ReturnArrayListForAll[i][{0}] = output_list_{0}[i];\n", i);
             }
             sb.Unindent();
@@ -785,7 +818,8 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.AppendFrontFormat("if(Apply(actionEnv{0})) ", refArguments);
                 sb.Append("{\n");
                 sb.Indent();
-                for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+                {
                     sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
                 }
                 sb.AppendFront("return ReturnArray;\n");
@@ -805,7 +839,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFrontFormat("if(Apply(actionEnv{0}{1})) ", inArgumentsFromArray, refArguments);
             sb.Append("{\n");
             sb.Indent();
-            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
@@ -833,7 +868,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("List<object[]> GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IActionExecutionEnvironment actionEnv)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            if(matchingPattern.Inputs.Length == 0) {
+            if(matchingPattern.Inputs.Length == 0)
+            {
                 for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
                 {
                     sb.AppendFront("output_list_");
@@ -847,7 +883,8 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.AppendFront("{\n");
                 sb.Indent();
                 sb.AppendFront("ReturnArrayListForAll.Add(AvailableReturnArrays[i]);\n");
-                for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+                {
                     sb.AppendFrontFormat("ReturnArrayListForAll[i][{0}] = output_list_{0}[i];\n", i);
                 }
                 sb.Unindent();
@@ -875,7 +912,8 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFront("ReturnArrayListForAll.Add(AvailableReturnArrays[i]);\n");
-            for(int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+            for(int i = 0; i < matchingPattern.Outputs.Length; ++i)
+            {
                 sb.AppendFrontFormat("ReturnArrayListForAll[i][{0}] = output_list_{0}[i];\n", i);
             }
             sb.Unindent();
@@ -1054,8 +1092,10 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SearchProgram sp = SearchProgramBuilder.BuildSearchProgram(model,
                         (LGSPRulePattern)matchingPattern, i, null, false, Profile);
-                    if(i==0) searchProgramRoot = searchProgramListEnd = sp;
-                    else searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
+                    if(i == 0)
+                        searchProgramRoot = searchProgramListEnd = sp;
+                    else
+                        searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
                 }
                 else
                 {
@@ -1120,8 +1160,10 @@ namespace de.unika.ipd.grGen.lgsp
                 if(matchingPattern is LGSPRulePattern)
                 {
                     SearchProgram sp = SearchProgramBuilder.BuildSearchProgram(model, (LGSPRulePattern)matchingPattern, i, null, true, Profile);
-                    if(i == 0) searchProgramRoot = searchProgramListEnd = sp;
-                    else searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
+                    if(i == 0)
+                        searchProgramRoot = searchProgramListEnd = sp;
+                    else
+                        searchProgramListEnd = (SearchProgram)searchProgramListEnd.Append(sp);
                 }
                 else
                 {
@@ -2044,7 +2086,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String errorMsg = compResults.Errors.Count + " Errors:";
                 foreach(CompilerError error in compResults.Errors)
+                {
                     errorMsg += Environment.NewLine + "Line: " + error.Line + " - " + error.ErrorText;
+                }
                 throw new ArgumentException("Illegal dynamic C# source code produced for actions \"" + action.Name + "\": " + errorMsg);
             }
 
@@ -2061,7 +2105,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void FillInStaticSearchPlans(LGSPGraphStatistics graphStatistics, bool inlineIndependents, params LGSPAction[] actions)
         {
-            if(actions.Length == 0) throw new ArgumentException("No actions provided!");
+            if(actions.Length == 0)
+                throw new ArgumentException("No actions provided!");
 
             // use domain of dictionary as set with rulepatterns of the subpatterns of the actions, get them from pattern graph
             Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns 
@@ -2107,7 +2152,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPAction[] GenerateActions(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, 
             params LGSPAction[] actions)
         {
-            if(actions.Length == 0) throw new ArgumentException("No actions provided!");
+            if(actions.Length == 0)
+                throw new ArgumentException("No actions provided!");
 
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].rulePattern.GetType().Namespace);
@@ -2171,7 +2217,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String errorMsg = compResults.Errors.Count + " Errors:";
                 foreach(CompilerError error in compResults.Errors)
+                {
                     errorMsg += Environment.NewLine + "Line: " + error.Line + " - " + error.ErrorText;
+                }
                 throw new ArgumentException("Internal error: Illegal dynamic C# source code produced: " + errorMsg);
             }
 
@@ -2182,8 +2230,10 @@ namespace de.unika.ipd.grGen.lgsp
                 newActions[i] = (LGSPAction) compResults.CompiledAssembly.CreateInstance(
                     "de.unika.ipd.grGen.lgspActions.DynAction_" + actions[i].Name);
                 if(newActions[i] == null)
+                {
                     throw new ArgumentException("Internal error: Generated assembly does not contain action '"
                         + actions[i].Name + "'!");
+                }
             }
             return newActions;
         }

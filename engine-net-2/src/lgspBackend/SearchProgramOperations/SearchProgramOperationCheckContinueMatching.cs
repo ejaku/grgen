@@ -33,7 +33,7 @@ namespace de.unika.ipd.grGen.lgsp
             // first dump check
             builder.AppendFront("CheckContinueMatching TasksLeft\n");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -43,7 +43,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
+            if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// Check whether there are subpattern matching tasks left to execute\n");
 
             sourceCode.AppendFront("if(openTasks.Count==0)\n");
@@ -101,19 +101,20 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             // first dump check
-            if (Type == CheckMaximumMatchesType.Action) {
+            if(Type == CheckMaximumMatchesType.Action)
                 builder.AppendFront("CheckContinueMatching MaximumMatchesReached at Action level ");
-            } else if (Type == CheckMaximumMatchesType.Subpattern) {
+            else if(Type == CheckMaximumMatchesType.Subpattern)
                 builder.AppendFront("CheckContinueMatching MaximumMatchesReached at Subpattern level ");
-            } else if (Type == CheckMaximumMatchesType.Iterated) {
+            else if(Type == CheckMaximumMatchesType.Iterated)
                 builder.AppendFront("CheckContinueMatching MaximumMatchesReached if Iterated ");
-            }
-            if (ListHeadAdjustment) builder.Append("ListHeadAdjustment ");
-            if (InParallelizedBody) builder.Append("InParallelizedBody ");
+            if(ListHeadAdjustment)
+                builder.Append("ListHeadAdjustment ");
+            if(InParallelizedBody)
+                builder.Append("InParallelizedBody ");
             builder.Append("\n");
 
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -123,19 +124,20 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
+            if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// if enough matches were found, we leave\n");
 
-            if (Type == CheckMaximumMatchesType.Action) {
+            if(Type == CheckMaximumMatchesType.Action)
+            {
                 if(InParallelizedBody)
                     sourceCode.AppendFront("if(maxMatches > 0 && parallelTaskMatches[threadId].Count >= maxMatches)\n");
                 else
                     sourceCode.AppendFront("if(maxMatches > 0 && matches.Count >= maxMatches)\n");
-            } else if (Type == CheckMaximumMatchesType.Subpattern) {
-                sourceCode.AppendFront("if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)\n");
-            } else if (Type == CheckMaximumMatchesType.Iterated) {
-                sourceCode.AppendFront("if(true) // as soon as there's a match, it's enough for iterated\n");
             }
+            else if(Type == CheckMaximumMatchesType.Subpattern)
+                sourceCode.AppendFront("if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)\n");
+            else if(Type == CheckMaximumMatchesType.Iterated)
+                sourceCode.AppendFront("if(true) // as soon as there's a match, it's enough for iterated\n");
     
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
@@ -208,7 +210,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.Append(IsIterationBreaking ? "IterationBreaking\n" : "\n");
 
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -246,7 +248,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("CheckContinueMatching OfIndependentFailed ");
             builder.Append(IsIterationBreaking ? "IterationBreaking\n" : "\n");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -283,7 +285,7 @@ namespace de.unika.ipd.grGen.lgsp
             // first dump check
             builder.AppendFront("CheckContinueMatching OfIndependentSucceeded \n");
             // then operations for case check failed .. wording a bit rotten
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -314,7 +316,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("CheckContinueMatching IteratedPatternFound {0}\n",
                 IsIterationBreaking ? "IterationBreaking" : "");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -324,7 +326,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
+            if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// Check whether the iterated pattern null match was found\n");
 
             sourceCode.Append("maxMatchesIterReached:\n");

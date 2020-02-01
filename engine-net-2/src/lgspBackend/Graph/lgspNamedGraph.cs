@@ -206,15 +206,19 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 AttributeType attrType = node.Type.GetAttributeType(nameAttributeName);
                 if(attrType == null)
+                {
                     throw new ArgumentException(String.Format(
                         "Illegal name attribute for node of type {0}!", node.Type.Name));
+                }
                 if(attrType.Kind != AttributeKind.StringAttr)
                     throw new ArgumentException("Name attribute is not a string attribute in type {0}!", node.Type.Name);
-
                 String name = (String) node.GetAttribute(nameAttributeName);
                 if(NameToElem.ContainsKey(name))
+                {
                     throw new ArgumentException(String.Format(
-                        "The name attributes do not contain unique names (\"{0}\" found twice)!",name));
+                        "The name attributes do not contain unique names (\"{0}\" found twice)!", name));
+                }
+
                 NameToElem[name] = node;
                 ElemToName[node] = name;
             }
@@ -223,16 +227,20 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 AttributeType attrType = edge.Type.GetAttributeType(nameAttributeName);
                 if(attrType == null)
+                {
                     throw new ArgumentException(String.Format(
                         "Illegal name attribute for edge of type {0}!", edge.Type.Name));
+                }
                 if(attrType.Kind != AttributeKind.StringAttr)
+                {
                     throw new ArgumentException("Name attribute is not a string attribute in edge type {0}!",
                         edge.Type.Name);
-
+                }
                 String name = (String) edge.GetAttribute(nameAttributeName);
                 if(NameToElem.ContainsKey(name))
                     throw new ArgumentException(String.Format(
                         "The name attributes do not contain unique names (\"{0}\" found twice)!", name));
+
                 NameToElem[name] = edge;
                 ElemToName[edge] = name;
             }
@@ -244,6 +252,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(DifferentElementWithName(elem, name))
                 throw new Exception("The name \"" + name + "\" is already in use!");
+
             String oldName;
             if(ElemToName.TryGetValue(elem, out oldName))
                 NameToElem.Remove(oldName);
@@ -256,7 +265,7 @@ namespace de.unika.ipd.grGen.lgsp
             Console.WriteLine("Set node prefix name {0}, {1}", element, prefix);
             String name = prefix;
             int curr = 0;
-            while (DifferentElementWithName(element, name))
+            while(DifferentElementWithName(element, name))
             {
                 ++curr;
                 name = prefix + curr;
@@ -291,21 +300,24 @@ namespace de.unika.ipd.grGen.lgsp
         public IGraphElement GetGraphElement(String name)
         {
             IGraphElement elem;
-            if(!NameToElem.TryGetValue(name, out elem)) return null;
+            if(!NameToElem.TryGetValue(name, out elem))
+                return null;
             return elem;
         }
 
         public INode GetNode(String name)
         {
             IGraphElement elem;
-            if(!NameToElem.TryGetValue(name, out elem)) return null;
+            if(!NameToElem.TryGetValue(name, out elem))
+                return null;
             return elem as INode;
         }
 
         public IEdge GetEdge(String name)
         {
             IGraphElement elem;
-            if(!NameToElem.TryGetValue(name, out elem)) return null;
+            if(!NameToElem.TryGetValue(name, out elem))
+                return null;
             return elem as IEdge;
         }
 

@@ -84,7 +84,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private void BuildInterpretationPlan(InterpretationPlan insertionPoint, int index)
         {
-            if (index >= ssp.Operations.Length)
+            if(index >= ssp.Operations.Length)
             { // end of scheduled search plan reached, stop recursive iteration
                 buildMatchComplete(insertionPoint);
                 return;
@@ -222,9 +222,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check connectedness of candidate
             SearchPlanNodeNode otherNodeOfOriginatingEdge = null;
-            if (nodeType == ImplicitNodeType.Source) otherNodeOfOriginatingEdge = source.PatternEdgeTarget;
-            if (nodeType == ImplicitNodeType.Target) otherNodeOfOriginatingEdge = source.PatternEdgeSource;
-            if (source.PatternEdgeTarget == source.PatternEdgeSource) // reflexive sign needed in unfixed direction case, too
+            if(nodeType == ImplicitNodeType.Source)
+                otherNodeOfOriginatingEdge = source.PatternEdgeTarget;
+            if(nodeType == ImplicitNodeType.Target)
+                otherNodeOfOriginatingEdge = source.PatternEdgeSource;
+            if(source.PatternEdgeTarget == source.PatternEdgeSource) // reflexive sign needed in unfixed direction case, too
                 otherNodeOfOriginatingEdge = source.PatternEdgeSource;
             insertionPoint = decideOnAndInsertCheckConnectednessOfImplicitNodeFromEdge(insertionPoint,
                 target, source, otherNodeOfOriginatingEdge);
@@ -325,7 +327,7 @@ namespace de.unika.ipd.grGen.lgsp
             ImplicitNodeType nodeType)
         {
             int targetType = currentNode.PatternElement.TypeID;
-            if (nodeType == ImplicitNodeType.Source)
+            if(nodeType == ImplicitNodeType.Source)
             {
                 currentNode.nodeMatcher = new InterpretationPlanImplicitSource(targetType, edge.edgeMatcher,
                     currentNode);
@@ -339,7 +341,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 Debug.Assert(nodeType != ImplicitNodeType.TheOther);
 
-                if (currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
+                if(currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
                 {
                     currentNode.nodeMatcher = new InterpretationPlanImplicitTheOther(targetType, edge.edgeMatcher,
                         edge.PatternEdgeSource == currentNode ? edge.PatternEdgeTarget.nodeMatcher : edge.PatternEdgeSource.nodeMatcher,
@@ -347,7 +349,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else // edge connects to first incident node
                 {
-                    if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
+                    if(edge.PatternEdgeSource == edge.PatternEdgeTarget)
                     {
                         // reflexive edge without direction iteration as we don't want 2 matches 
                         currentNode.nodeMatcher = new InterpretationPlanImplicitSource(targetType, edge.edgeMatcher,
@@ -381,7 +383,7 @@ namespace de.unika.ipd.grGen.lgsp
             IncidentEdgeType incidentType)
         {
             int targetType = currentEdge.PatternElement.TypeID;
-            if (incidentType == IncidentEdgeType.Incoming)
+            if(incidentType == IncidentEdgeType.Incoming)
             {
                 currentEdge.edgeMatcher = new InterpretationPlanIncoming(targetType, node.nodeMatcher,
                     currentEdge);
@@ -393,7 +395,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else // IncidentEdgeType.IncomingOrOutgoing
             {
-                if (currentEdge.PatternEdgeSource == currentEdge.PatternEdgeTarget)
+                if(currentEdge.PatternEdgeSource == currentEdge.PatternEdgeTarget)
                 {
                     // reflexive edge without direction iteration as we don't want 2 matches 
                     currentEdge.edgeMatcher = new InterpretationPlanIncoming(targetType, node.nodeMatcher,
@@ -425,9 +427,9 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode node)
         {
             // check for edges required by the pattern to be incident to the given node
-            foreach (SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
+            foreach(SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
             {
-                if (((PatternEdge)edge.PatternElement).fixedDirection
+                if(((PatternEdge)edge.PatternElement).fixedDirection
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(insertionPoint,
@@ -439,9 +441,9 @@ namespace de.unika.ipd.grGen.lgsp
                         node, edge);
                 }
             }
-            foreach (SearchPlanEdgeNode edge in node.IncomingPatternEdges)
+            foreach(SearchPlanEdgeNode edge in node.IncomingPatternEdges)
             {
-                if (((PatternEdge)edge.PatternElement).fixedDirection
+                if(((PatternEdge)edge.PatternElement).fixedDirection
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(insertionPoint,
@@ -471,12 +473,12 @@ namespace de.unika.ipd.grGen.lgsp
             // check for edges required by the pattern to be incident to the given node
             // only if the node was not taken from the given originating edge
             //   with the exception of reflexive edges, as these won't get checked thereafter
-            foreach (SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
+            foreach(SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
             {
-                if (((PatternEdge)edge.PatternElement).fixedDirection
+                if(((PatternEdge)edge.PatternElement).fixedDirection
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
-                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                    if(edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(insertionPoint,
                             node, edge, CheckCandidateForConnectednessType.Source);
@@ -484,19 +486,19 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                    if(edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(insertionPoint,
                             node, edge);
                     }
                 }
             }
-            foreach (SearchPlanEdgeNode edge in node.IncomingPatternEdges)
+            foreach(SearchPlanEdgeNode edge in node.IncomingPatternEdges)
             {
-                if (((PatternEdge)edge.PatternElement).fixedDirection
+                if(((PatternEdge)edge.PatternElement).fixedDirection
                     || edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
-                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                    if(edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFixedDirection(insertionPoint,
                             node, edge, CheckCandidateForConnectednessType.Target);
@@ -504,7 +506,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                    if(edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfNodeBothDirections(insertionPoint,
                             node, edge);
@@ -531,7 +533,7 @@ namespace de.unika.ipd.grGen.lgsp
             // check whether the pattern edges which must be incident to the candidate node (according to the pattern)
             // are really incident to it
             // only if edge is already matched by now (signaled by visited)
-            if (edge.Visited)
+            if(edge.Visited)
             {
                 if(connectednessType == CheckCandidateForConnectednessType.Source)
                 {
@@ -564,7 +566,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check whether the pattern edges which must be incident to the candidate node (according to the pattern)
             // are really incident to it
-            if (currentNodeIsFirstIncidentNodeOfEdge(currentNode, edge))
+            if(currentNodeIsFirstIncidentNodeOfEdge(currentNode, edge))
             {
                 edge.directionVariable = new InterpretationPlanBothDirections();
                 insertionPoint.next = edge.directionVariable;
@@ -573,7 +575,7 @@ namespace de.unika.ipd.grGen.lgsp
                         currentNode.nodeMatcher, edge.edgeMatcher, edge.directionVariable);
                 insertionPoint = insertionPoint.next;
             }
-            if (currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
+            if(currentNodeIsSecondIncidentNodeOfEdge(currentNode, edge))
             {
                 insertionPoint.next = new InterpretationPlanCheckConnectednessTheOther(
                         currentNode.nodeMatcher, edge.edgeMatcher,
@@ -593,15 +595,15 @@ namespace de.unika.ipd.grGen.lgsp
             InterpretationPlan insertionPoint,
             SearchPlanEdgeNode edge)
         {
-            if (((PatternEdge)edge.PatternElement).fixedDirection)
+            if(((PatternEdge)edge.PatternElement).fixedDirection)
             {
                 // don't need to check if the edge is not required by the pattern to be incident to some given node
-                if (edge.PatternEdgeSource != null)
+                if(edge.PatternEdgeSource != null)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(insertionPoint,
                         edge, CheckCandidateForConnectednessType.Source);
                 }
-                if (edge.PatternEdgeTarget != null)
+                if(edge.PatternEdgeTarget != null)
                 {
                     insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(insertionPoint,
                         edge, CheckCandidateForConnectednessType.Target);
@@ -627,22 +629,22 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode originatingNode,
             bool edgeIncomingAtOriginatingNode)
         {
-            if (((PatternEdge)edge.PatternElement).fixedDirection)
+            if(((PatternEdge)edge.PatternElement).fixedDirection)
             {
                 // don't need to check if the edge is not required by the pattern to be incident to some given node
                 // or if the edge was taken from the given originating node
-                if (edge.PatternEdgeSource != null)
+                if(edge.PatternEdgeSource != null)
                 {
-                    if (!(!edgeIncomingAtOriginatingNode
+                    if(!(!edgeIncomingAtOriginatingNode
                             && edge.PatternEdgeSource == originatingNode))
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(insertionPoint,
                             edge, CheckCandidateForConnectednessType.Source);
                     }
                 }
-                if (edge.PatternEdgeTarget != null)
+                if(edge.PatternEdgeTarget != null)
                 {
-                    if (!(edgeIncomingAtOriginatingNode
+                    if(!(edgeIncomingAtOriginatingNode
                             && edge.PatternEdgeTarget == originatingNode))
                     {
                         insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFixedDirection(insertionPoint,
@@ -677,7 +679,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode nodeRequiringCheck = 
                 connectednessType == CheckCandidateForConnectednessType.Source ?
                     edge.PatternEdgeSource : edge.PatternEdgeTarget;
-            if (nodeRequiringCheck.Visited)
+            if(nodeRequiringCheck.Visited)
             {
                 if(connectednessType == CheckCandidateForConnectednessType.Source)
                 {
@@ -708,13 +710,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // check whether source/target-nodes of the candidate edge
             // are the same as the already found nodes to which the edge must be incident
-            if (!edgeDeterminationContainsFirstNodeLoop && currentEdgeConnectsToFirstIncidentNode(edge))
+            if(!edgeDeterminationContainsFirstNodeLoop && currentEdgeConnectsToFirstIncidentNode(edge))
             {
                 SearchPlanNodeNode nodeRequiringFirstNodeLoop = edge.PatternEdgeSource != null ?
                     edge.PatternEdgeSource : edge.PatternEdgeTarget;
 
                 // due to currentEdgeConnectsToFirstIncidentNode: at least on incident node available
-                if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
+                if(edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
                     // reflexive edge without direction iteration as we don't want 2 matches 
                     insertionPoint.next = new InterpretationPlanCheckConnectednessSource(
@@ -731,7 +733,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint = insertionPoint.next;
                 }
             }
-            if (currentEdgeConnectsToSecondIncidentNode(edge))
+            if(currentEdgeConnectsToSecondIncidentNode(edge))
             {
                 // due to currentEdgeConnectsToSecondIncidentNode: both incident node available
                 insertionPoint.next = new InterpretationPlanCheckConnectednessTheOther(
@@ -755,9 +757,10 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentNode.Visited);
             Debug.Assert(!((PatternEdge)edge.PatternElement).fixedDirection);
 
-            if (!edge.Visited) return false;
+            if(!edge.Visited)
+                return false;
 
-            if (currentNode == edge.PatternEdgeSource)
+            if(currentNode == edge.PatternEdgeSource)
                 return edge.PatternEdgeTarget==null || !edge.PatternEdgeTarget.Visited;
             else
                 return edge.PatternEdgeSource==null || !edge.PatternEdgeSource.Visited;
@@ -774,12 +777,13 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentNode.Visited);
             Debug.Assert(!((PatternEdge)edge.PatternElement).fixedDirection);
 
-            if (!edge.Visited) return false;
-
-            if (edge.PatternEdgeSource == null || edge.PatternEdgeTarget == null)
+            if(!edge.Visited)
                 return false;
 
-            if (currentNode == edge.PatternEdgeSource)
+            if(edge.PatternEdgeSource == null || edge.PatternEdgeTarget == null)
+                return false;
+
+            if(currentNode == edge.PatternEdgeSource)
                 return edge.PatternEdgeTarget.Visited;
             else
                 return edge.PatternEdgeSource.Visited;
@@ -794,12 +798,12 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentEdge.Visited);
             Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
 
-            if (currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited
+            if(currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited
                 && (currentEdge.PatternEdgeTarget == null || !currentEdge.PatternEdgeTarget.Visited))
             {
                 return true;
             }
-            if (currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited
+            if(currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited
                 && (currentEdge.PatternEdgeSource == null || !currentEdge.PatternEdgeSource.Visited))
             {
                 return true;
@@ -817,9 +821,9 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentEdge.Visited);
             Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
 
-            if (currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited)
+            if(currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited)
                 return true;
-            if (currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited)
+            if(currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited)
                 return true;
 
             return false;
@@ -834,10 +838,10 @@ namespace de.unika.ipd.grGen.lgsp
             //Debug.Assert(!currentEdge.Visited);
             Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
 
-            if (currentEdge.PatternEdgeSource == null || currentEdge.PatternEdgeTarget == null)
+            if(currentEdge.PatternEdgeSource == null || currentEdge.PatternEdgeTarget == null)
                 return false;
 
-            if (currentEdge.PatternEdgeSource.Visited && currentEdge.PatternEdgeTarget.Visited)
+            if(currentEdge.PatternEdgeSource.Visited && currentEdge.PatternEdgeTarget.Visited)
                 return true;
 
             return false;

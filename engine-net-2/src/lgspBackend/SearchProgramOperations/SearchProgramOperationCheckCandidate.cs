@@ -85,22 +85,27 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // first dump check
             builder.AppendFront("CheckCandidate ForType ");
-            if (Type == CheckCandidateForTypeType.ByIsAllowedType) {
+            if(Type == CheckCandidateForTypeType.ByIsAllowedType)
+            {
                 builder.Append("ByIsAllowedType ");
                 builder.AppendFormat("on {0} in {1} node:{2}\n",
                     PatternElementName, RulePatternTypeName, IsNode);
-            } else if (Type == CheckCandidateForTypeType.ByIsMyType) {
+            }
+            else if(Type == CheckCandidateForTypeType.ByIsMyType)
+            {
                 builder.Append("ByIsMyType ");
                 builder.AppendFormat("on {0} in {1} node:{2}\n",
                     PatternElementName, TypeName, IsNode);
-            } else { // Type == CheckCandidateForTypeType.ByTypeID
+            }
+            else // Type == CheckCandidateForTypeType.ByTypeID
+            {
                 builder.Append("ByTypeID ");
                 builder.AppendFormat("on {0} ids:{1} node:{2}\n",
                     PatternElementName, string.Join(",", TypeIDs), IsNode);
             }
             
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -112,7 +117,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // emit check decision
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            if (Type == CheckCandidateForTypeType.ByIsAllowedType)
+            if(Type == CheckCandidateForTypeType.ByIsAllowedType)
             {
                 string isAllowedTypeArrayMemberOfRulePattern =
                     IsAllowedArrayName + "_IsAllowedType";
@@ -120,7 +125,7 @@ namespace de.unika.ipd.grGen.lgsp
                     RulePatternTypeName, isAllowedTypeArrayMemberOfRulePattern,
                     variableContainingCandidate);
             }
-            else if (Type == CheckCandidateForTypeType.ByIsMyType)
+            else if(Type == CheckCandidateForTypeType.ByIsMyType)
             {
                 sourceCode.AppendFrontFormat("if(!{0}.isMyType[{1}.lgspType.TypeID]) ",
                     TypeName, variableContainingCandidate);
@@ -129,10 +134,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 sourceCode.AppendFront("if(");
                 bool first = true;
-                foreach (string typeID in TypeIDs)
+                foreach(string typeID in TypeIDs)
                 {
-                    if (first) first = false;
-                    else sourceCode.Append(" && ");
+                    if(first)
+                        first = false;
+                    else
+                        sourceCode.Append(" && ");
 
                     sourceCode.AppendFormat("{0}.lgspType.TypeID!={1}",
                         variableContainingCandidate, typeID);
@@ -177,7 +184,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFormat("by {0} == {1}\n", PatternElementName, OtherPatternElementName);
             
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -220,7 +227,7 @@ namespace de.unika.ipd.grGen.lgsp
             // first dump check
             builder.AppendFront("CheckCandidate Failed \n");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -291,7 +298,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFormat("{0}=={1}.{2}\n",
                 PatternNodeName, PatternEdgeName, ConnectednessType.ToString());
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -301,14 +308,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (ConnectednessType == CheckCandidateForConnectednessType.Source)
+            if(ConnectednessType == CheckCandidateForConnectednessType.Source)
             {
                 // emit check decision for is candidate connected to already found partial match, i.e. edge source equals node
                 sourceCode.AppendFrontFormat("if({0}.lgspSource != {1}) ",
                     NamesOfEntities.CandidateVariable(PatternEdgeName),
                     NamesOfEntities.CandidateVariable(PatternNodeName));
             }
-            else if (ConnectednessType == CheckCandidateForConnectednessType.Target)
+            else if(ConnectednessType == CheckCandidateForConnectednessType.Target)
             {
                 // emit check decision for is candidate connected to already found partial match, i.e. edge target equals node
                 sourceCode.AppendFrontFormat("if({0}.lgspTarget != {1}) ",
@@ -377,10 +384,10 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("CheckCandidate ForIsomorphy ");
             builder.AppendFormat("on {0} negNamePrefix:{1} node:{2} ",
                 PatternElementName, NegativeIndependentNamePrefix, IsNode);
-            if (NamesOfPatternElementsToCheckAgainst != null)
+            if(NamesOfPatternElementsToCheckAgainst != null)
             {
                 builder.Append("against ");
-                foreach (string name in NamesOfPatternElementsToCheckAgainst)
+                foreach(string name in NamesOfPatternElementsToCheckAgainst)
                 {
                     builder.AppendFormat("{0} ", name);
                 }
@@ -389,7 +396,7 @@ namespace de.unika.ipd.grGen.lgsp
                 Parallel, LockForAllThreads);
             builder.Append("\n");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -409,17 +416,19 @@ namespace de.unika.ipd.grGen.lgsp
             if(Parallel)
             {
                 if(!NeverAboveMaxIsoSpace)
-                {
                     sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE ? ");
-                }
 
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED << isoSpace";
                 if(LockForAllThreads)
+                {
                     sourceCode.AppendFormat("( flagsPerElement0[{0}.uniqueId] & {1} ) != 0",
                         variableContainingCandidate, isMatchedBit);
+                }
                 else
+                {
                     sourceCode.AppendFormat("( flagsPerElement[{0}.uniqueId] & {1} ) != 0",
                         variableContainingCandidate, isMatchedBit);
+                }
 
                 if(!NeverAboveMaxIsoSpace)
                 {
@@ -434,9 +443,7 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 if(!NeverAboveMaxIsoSpace)
-                {
                     sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
-                }
 
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << isoSpace";
                 sourceCode.AppendFormat("({0}.lgspFlags & {1}) != 0", variableContainingCandidate, isMatchedBit);
@@ -454,14 +461,14 @@ namespace de.unika.ipd.grGen.lgsp
             // otherwise homomorphy to certain elements is allowed, 
             // so we only fail if the graph element is matched to one of the not allowed elements,
             // given in NamesOfPatternElementsToCheckAgainst 
-            if (NamesOfPatternElementsToCheckAgainst != null)
+            if(NamesOfPatternElementsToCheckAgainst != null)
             {
                 Debug.Assert(NamesOfPatternElementsToCheckAgainst.Count > 0);
 
                 sourceCode.Append("\n");
                 sourceCode.Indent();
 
-                if (NamesOfPatternElementsToCheckAgainst.Count == 1)
+                if(NamesOfPatternElementsToCheckAgainst.Count == 1)
                 {
                     string name = NamesOfPatternElementsToCheckAgainst[0];
                     sourceCode.AppendFrontFormat("&& {0}=={1}\n", variableContainingCandidate,
@@ -470,9 +477,9 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     bool first = true;
-                    foreach (string name in NamesOfPatternElementsToCheckAgainst)
+                    foreach(string name in NamesOfPatternElementsToCheckAgainst)
                     {
-                        if (first)
+                        if(first)
                         {
                             sourceCode.AppendFrontFormat("&& ({0}=={1}\n", variableContainingCandidate,
                                 NamesOfEntities.CandidateVariable(name));
@@ -542,17 +549,17 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("CheckCandidate ForIsomorphyGlobal ");
             builder.AppendFormat("on {0} node:{1} ",
                 PatternElementName, IsNode);
-            if (GloballyHomomorphElements != null)
+            if(GloballyHomomorphElements != null)
             {
                 builder.Append("but accept if ");
-                foreach (string name in GloballyHomomorphElements)
+                foreach(string name in GloballyHomomorphElements)
                 {
                     builder.AppendFormat("{0} ", name);
                 }
             }
             builder.Append("\n");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -572,9 +579,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(Parallel)
             {
                 if(!NeverAboveMaxIsoSpace)
-                {
                     sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE ? ");
-                }
 
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
                 sourceCode.AppendFormat("( flagsPerElementGlobal[{0}.uniqueId] & {1} ) == {1}",
@@ -592,9 +597,7 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 if(!NeverAboveMaxIsoSpace)
-                {
                     sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlags.MAX_ISO_SPACE ? ");
-                }
 
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
                 sourceCode.AppendFormat("({0}.lgspFlags & {1})=={1}",
@@ -609,12 +612,12 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            if (GloballyHomomorphElements != null)
+            if(GloballyHomomorphElements != null)
             {
                 // don't fail if candidate was globally matched by an element
                 // it is allowed to be globally homomorph to 
                 // (element from alternative case declared to be non-isomorph to element from enclosing pattern)
-                foreach (string name in GloballyHomomorphElements)
+                foreach(string name in GloballyHomomorphElements)
                 {
                     sourceCode.AppendFormat(" && {0}!={1}",
                         variableContainingCandidate, NamesOfEntities.CandidateVariable(name));
@@ -662,7 +665,7 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternElementName, IsNode, LastMatchAtPreviousNestingLevel);
             builder.Append("\n");
             // then operations for case check failed
-            if (CheckFailedOperations != null)
+            if(CheckFailedOperations != null)
             {
                 builder.Indent();
                 CheckFailedOperations.Dump(builder);
@@ -681,9 +684,8 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             string isMatchedBySomeBit = "(uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
 
-            if (!Always) {
+            if(!Always)
                 sourceCode.Append("searchPatternpath && ");
-            }
 
             sourceCode.AppendFormat("({0}.lgspFlags & {1})=={1} && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched({0}, {2})",
                 variableContainingCandidate, isMatchedBySomeBit, LastMatchAtPreviousNestingLevel);

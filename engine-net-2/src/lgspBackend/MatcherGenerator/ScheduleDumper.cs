@@ -19,19 +19,26 @@ namespace de.unika.ipd.grGen.lgsp
     {
         private static String GetDumpName(SearchPlanNode node)
         {
-            if(node.NodeType == PlanNodeType.Root) return "root";
-            else if(node.NodeType == PlanNodeType.Node) return "node_" + node.PatternElement.Name;
-            else return "edge_" + node.PatternElement.Name;
+            if(node.NodeType == PlanNodeType.Root)
+                return "root";
+            else if(node.NodeType == PlanNodeType.Node)
+                return "node_" + node.PatternElement.Name;
+            else
+                return "edge_" + node.PatternElement.Name;
         }
 
         private static void DumpNode(StreamWriter sw, SearchPlanNode node)
         {
             if(node.NodeType == PlanNodeType.Edge)
+            {
                 sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\" shape:ellipse}}",
                     GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
+            }
             else
+            {
                 sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\"}}",
                     GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
+            }
         }
 
         private static void DumpEdge(StreamWriter sw, SearchOperationType opType, SearchPlanNode source, SearchPlanNode target, float cost, bool markRed)
@@ -80,35 +87,35 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 switch(op.Type)
                 {
-                    case SearchOperationType.Lookup:
-                    case SearchOperationType.Incoming:
-                    case SearchOperationType.Outgoing:
-                    case SearchOperationType.ImplicitSource:
-                    case SearchOperationType.ImplicitTarget:
+                case SearchOperationType.Lookup:
+                case SearchOperationType.Incoming:
+                case SearchOperationType.Outgoing:
+                case SearchOperationType.ImplicitSource:
+                case SearchOperationType.ImplicitTarget:
+                    {
+                        SearchPlanNode spnode = (SearchPlanNode)op.Element;
+                        DumpNode(sw, spnode);
+                        SearchPlanNode src;
+                        switch(op.Type)
                         {
-                            SearchPlanNode spnode = (SearchPlanNode)op.Element;
-                            DumpNode(sw, spnode);
-                            SearchPlanNode src;
-                            switch(op.Type)
-                            {
-                                case SearchOperationType.Lookup:
-                                case SearchOperationType.ActionPreset:
-                                case SearchOperationType.NegIdptPreset:
-                                    src = root;
-                                    break;
-                                default:
-                                    src = op.SourceSPNode;
-                                    break;
-                            }
-                            DumpEdge(sw, op.Type, src, spnode, op.CostToEnd, false);
+                        case SearchOperationType.Lookup:
+                        case SearchOperationType.ActionPreset:
+                        case SearchOperationType.NegIdptPreset:
+                            src = root;
+                            break;
+                        default:
+                            src = op.SourceSPNode;
                             break;
                         }
-                    case SearchOperationType.Condition:
-                        sw.WriteLine("node:{title:\"Condition\" label:\"CONDITION\"}\n");
+                        DumpEdge(sw, op.Type, src, spnode, op.CostToEnd, false);
                         break;
-                    case SearchOperationType.NegativePattern:
-                        sw.WriteLine("node:{title:\"NAC\" label:\"NAC\"}\n");
-                        break;
+                    }
+                case SearchOperationType.Condition:
+                    sw.WriteLine("node:{title:\"Condition\" label:\"CONDITION\"}\n");
+                    break;
+                case SearchOperationType.NegativePattern:
+                    sw.WriteLine("node:{title:\"NAC\" label:\"NAC\"}\n");
+                    break;
                 }
             }
         }

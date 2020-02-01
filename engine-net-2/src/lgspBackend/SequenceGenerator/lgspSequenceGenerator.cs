@@ -83,11 +83,11 @@ namespace de.unika.ipd.grGen.lgsp
             SourceBuilder source, int lineNr)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
-            for (int i = 0; i < paramNames.Length; i++)
+            for(int i = 0; i < paramNames.Length; ++i)
             {
                 varDecls.Add(paramNames[i], TypesHelper.DotNetTypeToXgrsType(paramTypes[i]));
             }
-            for(int i = 0; i < defToBeYieldedToNames.Length; i++)
+            for(int i = 0; i < defToBeYieldedToNames.Length; ++i)
             {
                 varDecls.Add(defToBeYieldedToNames[i], TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]));
             }
@@ -122,12 +122,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Append("\n");
             source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
-			for(int i = 0; i < paramNames.Length; i++)
+			for(int i = 0; i < paramNames.Length; ++i)
 			{
 				source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(paramTypes[i]), model) + " var_");
 				source.Append(paramNames[i]);
 			}
-            for(int i = 0; i < defToBeYieldedToTypes.Length; i++)
+            for(int i = 0; i < defToBeYieldedToTypes.Length; ++i)
             {
                 source.Append(", ref " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]), model) + " var_");
                 source.Append(defToBeYieldedToNames[i]);
@@ -143,7 +143,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(fireDebugEvents)
             {
-                source.AppendFrontFormat("procEnv.DebugEntering(\"{0}\", \"{1}\");\n", InjectExec(xgrsName), xgrsStr.Replace("\\", "\\\\").Replace("\"", "\\\""));
+                source.AppendFrontFormat("procEnv.DebugEntering(\"{0}\", \"{1}\");\n", 
+                    InjectExec(xgrsName), xgrsStr.Replace("\\", "\\\\").Replace("\"", "\\\""));
             }
 
             neededEntitiesEmitter.EmitNeededVarAndRuleEntities(seq, source);
@@ -152,7 +153,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(fireDebugEvents)
             {
-                source.AppendFrontFormat("procEnv.DebugExiting(\"{0}\");\n", InjectExec(xgrsName));
+                source.AppendFrontFormat("procEnv.DebugExiting(\"{0}\");\n",
+                    InjectExec(xgrsName));
             }
 
             source.AppendFront("return " + seqGen.GetSequenceResult(seq) + ";\n");
