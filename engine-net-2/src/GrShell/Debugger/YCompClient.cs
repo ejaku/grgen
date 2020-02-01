@@ -59,13 +59,15 @@ namespace de.unika.ipd.grGen.grShell
             catch(Exception)
             {
                 stream = null;
-                if(closing) return;
+                if(closing)
+                    return;
 #if DUMP_COMMANDS_TO_YCOMP
                 dumpWriter.Write("connection lost!\n");
                 dumpWriter.Flush();
 #endif
                 ConnectionLostHandler handler = OnConnectionLost;
-                if(handler != null) handler();
+                if(handler != null)
+                    handler();
             }
         }
 
@@ -92,7 +94,8 @@ namespace de.unika.ipd.grGen.grShell
             {
                 stream = null;
                 ConnectionLostHandler handler = OnConnectionLost;
-                if(handler != null) handler();
+                if(handler != null)
+                    handler();
                 return null;
             }
         }
@@ -104,7 +107,8 @@ namespace de.unika.ipd.grGen.grShell
                 if(stream == null)
                 {
                     ConnectionLostHandler handler = OnConnectionLost;
-                    if(handler != null) handler();
+                    if(handler != null)
+                        handler();
                     return false;
                 }
 
@@ -116,14 +120,22 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     stream = null;
                     ConnectionLostHandler handler = OnConnectionLost;
-                    if(handler != null) handler();
+                    if(handler != null)
+                        handler();
                     return false;
                 }
             }
         }
 
-        public bool IsStreamOpen { get { return stream != null; } }
-        public bool Closing { get { return closing; } set { closing = value; } }
+        public bool IsStreamOpen
+        {
+            get { return stream != null; }
+        }
+        public bool Closing
+        {
+            get { return closing; }
+            set { closing = value; }
+        }
     }
 
 
@@ -192,7 +204,8 @@ namespace de.unika.ipd.grGen.grShell
                     ycompClient = null;
                     Thread.Sleep(1000);
                 }
-            } while(ycompClient == null && Environment.TickCount - startTime < connectionTimeout);
+            }
+            while(ycompClient == null && Environment.TickCount - startTime < connectionTimeout);
 
             if(ycompClient == null)
                 throw new Exception("Connection timeout!");
@@ -225,12 +238,20 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// If non-null, overrides the type dependend node realizer (setter used from debugger for added nodes, other realizers are given directly at methods called by debugger)
         /// </summary>
-        public String NodeRealizerOverride { get { return nodeRealizerOverride; } set { nodeRealizerOverride = value; } }
+        public String NodeRealizerOverride
+        {
+            get { return nodeRealizerOverride; }
+            set { nodeRealizerOverride = value; }
+        }
 
         /// <summary>
         /// If non-null, overrides the type dependend edge realizer (setter used from debugger for added edges, other realizers are given directly at methods called by debugger)
         /// </summary>
-        public String EdgeRealizerOverride { get { return edgeRealizerOverride; } set { edgeRealizerOverride = value; } }
+        public String EdgeRealizerOverride
+        {
+            get { return edgeRealizerOverride; }
+            set { edgeRealizerOverride = value; }
+        }
 
         public INamedGraph Graph 
         { 
@@ -245,10 +266,19 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         public event ConnectionLostHandler OnConnectionLost
-        { add { ycompStream.OnConnectionLost += value; } remove { ycompStream.OnConnectionLost -= value; } }
+        {
+            add { ycompStream.OnConnectionLost += value; }
+            remove { ycompStream.OnConnectionLost -= value; }
+        }
 
-        public bool CommandAvailable { get { return ycompStream.Ready; } }
-        public bool ConnectionLost { get { return !ycompStream.IsStreamOpen; } }
+        public bool CommandAvailable
+        {
+            get { return ycompStream.Ready; }
+        }
+        public bool ConnectionLost
+        {
+            get { return !ycompStream.IsStreamOpen; }
+        }
 
         public String ReadCommand()
         {
@@ -328,7 +358,8 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public void UpdateDisplay()
         {
-            if(isLayoutDirty) ForceLayout();
+            if(isLayoutDirty)
+                ForceLayout();
             else if(isDirty)
             {
                 ycompStream.Write("show\n");
@@ -347,7 +378,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void AddNode(INode node)
         {
-            if(IsNodeExcluded(node)) return;
+            if(IsNodeExcluded(node))
+                return;
 
             String nrName = nodeRealizerOverride ?? realizers.GetNodeRealizer(node.Type, dumpInfo);
 
@@ -379,7 +411,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void AddEdge(IEdge edge)
         {
-            if(IsEdgeExcluded(edge)) return;
+            if(IsEdgeExcluded(edge))
+                return;
 
             String edgeRealizerName = edgeRealizerOverride ?? realizers.GetEdgeRealizer(edge.Type, dumpInfo);
 
@@ -392,16 +425,19 @@ namespace de.unika.ipd.grGen.grShell
                 GroupNodeType srcGroupNodeType = dumpInfo.GetGroupNodeType(edge.Source.Type);
                 GroupNodeType tgtGroupNodeType = dumpInfo.GetGroupNodeType(edge.Target.Type);
                 INode groupNodeFirst = null, groupNodeSecond = null;
-                if(tgtGroupNodeType != null) groupNodeFirst = edge.Target;
+                if(tgtGroupNodeType != null)
+                    groupNodeFirst = edge.Target;
                 if(srcGroupNodeType != null)
                 {
-                    if(groupNodeFirst == null) groupNodeFirst = edge.Source;
+                    if(groupNodeFirst == null)
+                        groupNodeFirst = edge.Source;
                     else if(srcGroupNodeType.Priority > tgtGroupNodeType.Priority)
                     {
                         groupNodeSecond = groupNodeFirst;
                         groupNodeFirst = edge.Source;
                     }
-                    else groupNodeSecond = edge.Source;
+                    else
+                        groupNodeSecond = edge.Source;
                 }
 
                 GroupMode grpMode = GroupMode.None;
@@ -465,9 +501,13 @@ namespace de.unika.ipd.grGen.grShell
             // add all neighbours of elements to graph and excludedGraphElementsIncluded (1-level direct context by default, maybe overriden by user)
             Set<INode> nodesIncluded = new Set<INode>(); // second variable needed to prevent disturbing iteration
             foreach(INode node in nodesIncludedWhileGraphExcluded.Keys)
+            {
                 nodesIncluded.Add(node);
+            }
             for(int i = 0; i < dumpInfo.GetExcludeGraphContextDepth(); ++i)
+            {
                 AddDirectNeighboursOfNeededGraphElements(nodesIncluded);
+            }
 
             // add all parents of elements to graph and excludedGraphElementsIncluded (n-level nesting)
             AddParentsOfNeededGraphElements(nodesIncluded);
@@ -484,8 +524,10 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
             foreach(INode node in nodesIncludedWhileGraphExcluded.Keys)
+            {
                 if(!nodesIncluded.Contains(node))
                     nodesIncluded.Add(node);
+            }
         }
 
         private void AddParentsOfNeededGraphElements(Set<INode> latelyAddedNodes)
@@ -559,17 +601,19 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="annotation">The annotation string or null, if the annotation is to be removed</param>
         public void AnnotateElement(IGraphElement elem, String annotation)
         {
-            if (elem is INode)
+            if(elem is INode)
             {
                 INode node = (INode)elem;
-                if (IsNodeExcluded(node)) return;
+                if(IsNodeExcluded(node))
+                    return;
                 ycompStream.Write("setNodeLabel \"n" + graph.GetElementName(elem) + "\" \""
                     + (annotation == null ? "" : "<<" + annotation + ">>\\n") + GetElemLabel(elem) + "\"\n");
             }
             else
             {
                 IEdge edge = (IEdge)elem;
-                if (IsEdgeExcluded(edge)) return;
+                if(IsEdgeExcluded(edge))
+                    return;
                 ycompStream.Write("setEdgeLabel \"e" + graph.GetElementName(elem) + "\" \""
                     + (annotation == null ? "" : "<<" + annotation + ">>\\n") + GetElemLabel(elem) + "\"\n");
             }
@@ -582,9 +626,11 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public void ChangeNode(INode node, String realizer)
         {
-            if(IsNodeExcluded(node)) return;
+            if(IsNodeExcluded(node))
+                return;
 
-            if(realizer == null) realizer = realizers.GetNodeRealizer(node.Type, dumpInfo);
+            if(realizer == null)
+                realizer = realizers.GetNodeRealizer(node.Type, dumpInfo);
             String name = graph.GetElementName(node);
             ycompStream.Write("changeNode \"n" + name + "\" \"" + realizer + "\"\n");
             isDirty = true;
@@ -596,10 +642,13 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public void ChangeEdge(IEdge edge, String realizer)
         {
-            if(IsEdgeExcluded(edge)) return;
-            if(hiddenEdges.ContainsKey(edge)) return;
+            if(IsEdgeExcluded(edge))
+                return;
+            if(hiddenEdges.ContainsKey(edge))
+                return;
 
-            if(realizer == null) realizer = realizers.GetEdgeRealizer(edge.Type, dumpInfo);
+            if(realizer == null)
+                realizer = realizers.GetEdgeRealizer(edge.Type, dumpInfo);
             String name = graph.GetElementName(edge);
             ycompStream.Write("changeEdge \"e" + name + "\" \"" + realizer + "\"\n");
             isDirty = true;
@@ -607,7 +656,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ChangeNodeAttribute(INode node, AttributeType attrType)
         {
-            if (IsNodeExcluded(node)) return;
+            if(IsNodeExcluded(node))
+                return;
 
             String attrTypeString;
             String attrValueString;
@@ -617,15 +667,19 @@ namespace de.unika.ipd.grGen.grShell
             ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                     + attrTypeString + "\" \"" + attrValueString + "\"\n");
             if(dumpInfo.GetTypeInfoTag(node.Type, attrType) != null)
+            {
                 ycompStream.Write("setNodeLabel \"n" + name + "\" \""
                     + GetElemLabelWithChangedAttr(node, attrType, attrValueString) + "\"\n");
+            }
             isDirty = true;
         }
 
         public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType)
         {
-            if (IsEdgeExcluded(edge)) return;
-            if (hiddenEdges.ContainsKey(edge)) return;
+            if(IsEdgeExcluded(edge))
+                return;
+            if(hiddenEdges.ContainsKey(edge))
+                return;
 
             String attrTypeString;
             String attrValueString;
@@ -635,7 +689,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompStream.Write("changeEdgeAttr \"e" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                     + attrTypeString + "\" \"" + attrValueString + "\"\n");
             List<InfoTag> infotags = dumpInfo.GetTypeInfoTags(edge.Type);
-            if (dumpInfo.GetTypeInfoTag(edge.Type, attrType) != null)
+            if(dumpInfo.GetTypeInfoTag(edge.Type, attrType) != null)
                 ycompStream.Write("setEdgeLabel \"e" + name + "\" \""
                     + GetElemLabelWithChangedAttr(edge, attrType, attrValueString) + "\"\n");
             isDirty = true;
@@ -651,13 +705,16 @@ namespace de.unika.ipd.grGen.grShell
             if(isNode)
             {
                 INode oldNode = (INode) oldElem;
-                if(IsNodeExcluded(oldNode)) return;
+                if(IsNodeExcluded(oldNode))
+                    return;
             }
             else
             {
                 IEdge oldEdge = (IEdge) oldElem;
-                if(IsEdgeExcluded(oldEdge)) return;
-                if(hiddenEdges.ContainsKey(oldEdge)) return;       // TODO: Update group relation
+                if(IsEdgeExcluded(oldEdge))
+                    return;
+                if(hiddenEdges.ContainsKey(oldEdge))
+                    return;       // TODO: Update group relation
             }
 
             String elemKind = isNode ? "Node" : "Edge";
@@ -715,7 +772,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void DeleteNode(INode node)
         {
-            if(IsNodeExcluded(node)) return;
+            if(IsNodeExcluded(node))
+                return;
 
             DeleteNode(graph.GetElementName(node));
         }
@@ -735,7 +793,8 @@ namespace de.unika.ipd.grGen.grShell
 
             if(hiddenEdges.ContainsKey(edge))
                 hiddenEdges.Remove(edge);
-            if(IsEdgeExcluded(edge)) return;
+            if(IsEdgeExcluded(edge))
+                return;
 
             DeleteEdge(graph.GetElementName(edge));
         }
@@ -783,21 +842,27 @@ namespace de.unika.ipd.grGen.grShell
 
         void OnNodeTypeAppearanceChanged(NodeType type)
         {
-            if(dumpInfo.IsExcludedNodeType(type)) return;
+            if(dumpInfo.IsExcludedNodeType(type))
+                return;
 
             String nr = realizers.GetNodeRealizer(type, dumpInfo);
             foreach(INode node in graph.GetExactNodes(type))
+            {
                 ChangeNode(node, nr);
+            }
             isDirty = true;
         }
 
         void OnEdgeTypeAppearanceChanged(EdgeType type)
         {
-            if(dumpInfo.IsExcludedEdgeType(type)) return;
+            if(dumpInfo.IsExcludedEdgeType(type))
+                return;
 
             String er = realizers.GetEdgeRealizer(type, dumpInfo);
             foreach(IEdge edge in graph.GetExactEdges(type))
+            {
                 ChangeEdge(edge, er);
+            }
             isDirty = true;
         }
 
@@ -805,18 +870,23 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(type.IsNodeType)
             {
-                if(dumpInfo.IsExcludedNodeType((NodeType) type)) return;
+                if(dumpInfo.IsExcludedNodeType((NodeType) type))
+                    return;
 
-                foreach(INode node in graph.GetExactNodes((NodeType) type))
+                foreach(INode node in graph.GetExactNodes((NodeType)type))
+                {
                     ycompStream.Write("setNodeLabel \"n" + dumpInfo.GetElementName(node) + "\" \"" + GetElemLabel(node) + "\"\n");
+                }
             }
             else
             {
-                if(dumpInfo.IsExcludedEdgeType((EdgeType) type)) return;
+                if(dumpInfo.IsExcludedEdgeType((EdgeType) type))
+                    return;
 
                 foreach(IEdge edge in graph.GetExactEdges((EdgeType) type))
                 {
-                    if(IsEdgeExcluded(edge)) return; // additionally checks incident nodes
+                    if(IsEdgeExcluded(edge))
+                        return; // additionally checks incident nodes
 
                     ycompStream.Write("setEdgeLabel \"e" + dumpInfo.GetElementName(edge) + "\" \"" + GetElemLabel(edge) + "\"\n");
                 }
@@ -868,8 +938,10 @@ namespace de.unika.ipd.grGen.grShell
                     string attrValueString;
                     EncodeAttr(infoTag.AttributeType, elem, out attrTypeString, out attrValueString);
 
-                    if(!first) label += "\\n";
-                    else first = false;
+                    if(!first)
+                        label += "\\n";
+                    else
+                        first = false;
 
                     if(!infoTag.ShortInfoTag)
                         label += infoTag.AttributeType.Name + " = ";
@@ -898,15 +970,18 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     string attrValueString;
 
-                    if (infoTag.AttributeType == changedAttrType) {
+                    if(infoTag.AttributeType == changedAttrType)
                         attrValueString = newValue;
-                    } else {
+                    else
+                    {
                         string attrTypeString;
                         EncodeAttr(infoTag.AttributeType, elem, out attrTypeString, out attrValueString);
                     }
 
-                    if(!first) label += "\\n";
-                    else first = false;
+                    if(!first)
+                        label += "\\n";
+                    else
+                        first = false;
 
                     if(!infoTag.ShortInfoTag)
                         label += infoTag.AttributeType.Name + " = ";
@@ -919,7 +994,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void EncodeAttr(AttributeType attrType, IGraphElement elem, out String attrTypeString, out String attrValueString)
         {
-            if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
                 EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
@@ -943,7 +1018,8 @@ namespace de.unika.ipd.grGen.grShell
 
         private String Encode(String str)
         {
-            if(str == null) return "";
+            if(str == null)
+                return "";
 
             StringBuilder sb = new StringBuilder(str);
             sb.Replace("  ", " &nbsp;");

@@ -131,12 +131,12 @@ namespace de.unika.ipd.grGen.grShell
                     impl.debugOut.WriteLine("Including " + filename);
 
                 TextReader reader = null;
-                if (filename.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
+                if(filename.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
                     FileStream filereader = new FileStream(filename, FileMode.Open,  FileAccess.Read);
                     reader = new StreamReader(new GZipStream(filereader, CompressionMode.Decompress));
-                } else {
-                    reader = new StreamReader(filename);
                 }
+                else
+                    reader = new StreamReader(filename);
                 if(from != null || to != null)
                     reader = new FromToReader(reader, from, to);
 
@@ -246,13 +246,9 @@ namespace de.unika.ipd.grGen.grShell
                         i++;
                     }
                     else if(args[i] == "-N")
-                    {
                         nonDebugNonGuiExitOnError = true;
-                    }
                     else if(args[i] == "-SI")
-                    {
                         showIncludes = true;
-                    }
                     else if(args[i] == "--help")
                     {
                         Console.WriteLine("Displays help");

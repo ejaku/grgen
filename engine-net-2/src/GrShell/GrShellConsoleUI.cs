@@ -40,9 +40,8 @@ namespace de.unika.ipd.grGen.grShell
         public string ReadOrEofErr()
         {
             string result = this.in_.ReadLine();
-            if (result == null) {
+            if(result == null)
                 throw new EOFException();
-            }
             return result;
         }
 
@@ -54,15 +53,18 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool ShowMsgAskForYesNo(string msg)
         {
-            while (true)
+            while(true)
             {
                 this.out_.Write(msg + " [y(es)/n(o)] ");
                 string result = ReadOrEofErr();
-                if (result.Equals("y", StringComparison.InvariantCultureIgnoreCase) ||
-                    result.Equals("yes", StringComparison.InvariantCultureIgnoreCase)) {
+                if(result.Equals("y", StringComparison.InvariantCultureIgnoreCase) ||
+                    result.Equals("yes", StringComparison.InvariantCultureIgnoreCase))
+                {
                     return true;
-                } else if (result.Equals("n", StringComparison.InvariantCultureIgnoreCase) ||
-                    result.Equals("no", StringComparison.InvariantCultureIgnoreCase)) {
+                }
+                else if(result.Equals("n", StringComparison.InvariantCultureIgnoreCase) ||
+                    result.Equals("no", StringComparison.InvariantCultureIgnoreCase))
+                {
                     return false;
                 }
             }

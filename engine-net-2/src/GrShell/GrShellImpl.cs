@@ -145,33 +145,102 @@ namespace de.unika.ipd.grGen.grShell
     public class GrShellImpl : IGrShellImplForDriver, IGrShellImplForSequenceApplierAndDebugger, IGrShellImplForDebugger
     {
         // view on GrShellImpl from GrShellDriver
-        void IGrShellImplForDriver.QuitDebugMode() { QuitDebugMode(); }
-        bool IGrShellImplForDriver.Evaluate(SequenceExpression if_) { return Evaluate(if_); }
-        void IGrShellImplForDriver.Cleanup() { Cleanup(); }
-        bool IGrShellImplForDriver.nonDebugNonGuiExitOnError { set { nonDebugNonGuiExitOnError = value; } }
-        TextWriter IGrShellImplForDriver.debugOut { get { return debugOut; } }
-        TextWriter IGrShellImplForDriver.errOut { get { return errOut; } }
+        void IGrShellImplForDriver.QuitDebugMode()
+        {
+            QuitDebugMode();
+        }
+        bool IGrShellImplForDriver.Evaluate(SequenceExpression if_)
+        {
+            return Evaluate(if_);
+        }
+        void IGrShellImplForDriver.Cleanup()
+        {
+            Cleanup();
+        }
+        bool IGrShellImplForDriver.nonDebugNonGuiExitOnError
+        {
+            set { nonDebugNonGuiExitOnError = value; }
+        }
+        TextWriter IGrShellImplForDriver.debugOut
+        {
+            get { return debugOut; }
+        }
+        TextWriter IGrShellImplForDriver.errOut
+        {
+            get { return errOut; }
+        }
 
         // view on GrShellImpl from GrShellSequenceApplierAndDebugger
-        bool IGrShellImplForSequenceApplierAndDebugger.ActionsExists() { return ActionsExists(); }
-        GrShellImpl IGrShellImplForSequenceApplierAndDebugger.GetGrShellImpl() { return this; }
-        ShellGraphProcessingEnvironment IGrShellImplForSequenceApplierAndDebugger.curShellProcEnv { get { return curShellProcEnv; } }
-        TextWriter IGrShellImplForSequenceApplierAndDebugger.debugOut { get { return debugOut; } }
-        TextWriter IGrShellImplForSequenceApplierAndDebugger.errOut { get { return errOut; } }
-        NewGraphOptions IGrShellImplForSequenceApplierAndDebugger.newGraphOptions { get { return newGraphOptions; } }
-        bool IGrShellImplForSequenceApplierAndDebugger.nonDebugNonGuiExitOnError { get { return nonDebugNonGuiExitOnError; } }
-        String IGrShellImplForSequenceApplierAndDebugger.debugLayout { get { return debugLayout; } }
-        Dictionary<String, Dictionary<String, String>> IGrShellImplForSequenceApplierAndDebugger.debugLayoutOptions { get { return debugLayoutOptions; } }
+        bool IGrShellImplForSequenceApplierAndDebugger.ActionsExists()
+        {
+            return ActionsExists();
+        }
+        GrShellImpl IGrShellImplForSequenceApplierAndDebugger.GetGrShellImpl()
+        {
+            return this;
+        }
+        ShellGraphProcessingEnvironment IGrShellImplForSequenceApplierAndDebugger.curShellProcEnv
+        {
+            get { return curShellProcEnv; }
+        }
+        TextWriter IGrShellImplForSequenceApplierAndDebugger.debugOut
+        {
+            get { return debugOut; }
+        }
+        TextWriter IGrShellImplForSequenceApplierAndDebugger.errOut
+        {
+            get { return errOut; }
+        }
+        NewGraphOptions IGrShellImplForSequenceApplierAndDebugger.newGraphOptions
+        {
+            get { return newGraphOptions; }
+        }
+        bool IGrShellImplForSequenceApplierAndDebugger.nonDebugNonGuiExitOnError
+        {
+            get { return nonDebugNonGuiExitOnError; }
+        }
+        String IGrShellImplForSequenceApplierAndDebugger.debugLayout
+        {
+            get { return debugLayout; }
+        }
+        Dictionary<String, Dictionary<String, String>> IGrShellImplForSequenceApplierAndDebugger.debugLayoutOptions
+        {
+            get { return debugLayoutOptions; }
+        }
 
         // view on GrShellImpl from Debugger
-        void IGrShellImplForDebugger.Cancel() { seqApplierAndDebugger.Cancel(); }
-        ConsoleKeyInfo IGrShellImplForDebugger.ReadKeyWithCancel() { return seqApplierAndDebugger.ReadKeyWithCancel(); }
-        object IGrShellImplForDebugger.Askfor(String typeName) { return Askfor(typeName); }
-        GrGenType IGrShellImplForDebugger.GetGraphElementType(String typeName) { return GetGraphElementType(typeName); }
-        void IGrShellImplForDebugger.HandleSequenceParserException(SequenceParserException ex) { HandleSequenceParserException(ex); }
-        string IGrShellImplForDebugger.ShowGraphWith(String programName, String arguments, bool keep) { return ShowGraphWith(programName, arguments, keep); }
-        ShellGraphProcessingEnvironment IGrShellImplForDebugger.CurrentShellProcEnv { get { return curShellProcEnv; } }
-        ElementRealizers IGrShellImplForDebugger.realizers { get { return realizers; } }
+        void IGrShellImplForDebugger.Cancel()
+        {
+            seqApplierAndDebugger.Cancel();
+        }
+        ConsoleKeyInfo IGrShellImplForDebugger.ReadKeyWithCancel()
+        {
+            return seqApplierAndDebugger.ReadKeyWithCancel();
+        }
+        object IGrShellImplForDebugger.Askfor(String typeName)
+        {
+            return Askfor(typeName);
+        }
+        GrGenType IGrShellImplForDebugger.GetGraphElementType(String typeName)
+        {
+            return GetGraphElementType(typeName);
+        }
+        void IGrShellImplForDebugger.HandleSequenceParserException(SequenceParserException ex)
+        {
+            HandleSequenceParserException(ex);
+        }
+        string IGrShellImplForDebugger.ShowGraphWith(String programName, String arguments, bool keep)
+        {
+            return ShowGraphWith(programName, arguments, keep);
+        }
+        ShellGraphProcessingEnvironment IGrShellImplForDebugger.CurrentShellProcEnv
+        {
+            get { return curShellProcEnv; }
+        }
+        ElementRealizers IGrShellImplForDebugger.realizers
+        {
+            get { return realizers; }
+        }
 
         internal class ShowGraphParam
         {
@@ -262,7 +331,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             get
             {
-                if(!GraphExists()) return null;
+                if(!GraphExists())
+                    return null;
                 return curShellProcEnv.ProcEnv.NamedGraph;
             }
         }
@@ -271,7 +341,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             get
             {
-                if (!ActionsExists()) return null;
+                if(!ActionsExists())
+                    return null;
                 return curShellProcEnv.ProcEnv.Actions;
             }
         }
@@ -279,8 +350,10 @@ namespace de.unika.ipd.grGen.grShell
         public ShellGraphProcessingEnvironment GetShellGraphProcEnv(String graphName)
         {
             foreach(ShellGraphProcessingEnvironment shellGraph in shellProcEnvs)
+            {
                 if(shellGraph.ProcEnv.NamedGraph.Name == graphName)
                     return shellGraph;
+            }
 
             errOut.WriteLine("Unknown graph: \"{0}\"", graphName);
             return null;
@@ -296,7 +369,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void External(String lineContentForExternalType)
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
             curShellProcEnv.ProcEnv.Graph.Model.External(lineContentForExternalType, curShellProcEnv.ProcEnv.Graph);
         }
 
@@ -334,7 +408,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public object GetVarValue(String varName)
         {
-            if(!GraphExists()) return null;
+            if(!GraphExists())
+                return null;
             object val = curShellProcEnv.ProcEnv.GetVariableValue(varName);
             if(val == null)
             {
@@ -346,13 +421,15 @@ namespace de.unika.ipd.grGen.grShell
 
         public void SetVariable(String varName, object elem)
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
             curShellProcEnv.ProcEnv.SetVariableValue(varName, elem);
         }
 
         public void SetVariableIndexed(String varName, object value, object index)
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
 
             object var = GetVarValue(varName);
             if(var == null)
@@ -381,7 +458,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public IGraphElement GetElemByVar(String varName)
         {
-            if(!GraphExists()) return null;
+            if(!GraphExists())
+                return null;
             object elem = curShellProcEnv.ProcEnv.GetVariableValue(varName);
             if(elem == null)
             {
@@ -393,12 +471,13 @@ namespace de.unika.ipd.grGen.grShell
                 errOut.WriteLine("\"{0}\" is not a graph element!", varName);
                 return null;
             }
-            return (IGraphElement) elem;
+            return (IGraphElement)elem;
         }
 
         public IGraphElement GetElemByName(String elemName)
         {
-            if(!GraphExists()) return null;
+            if(!GraphExists())
+                return null;
             IGraphElement elem = curShellProcEnv.ProcEnv.NamedGraph.GetGraphElement(elemName);
             if(elem == null)
             {
@@ -411,49 +490,53 @@ namespace de.unika.ipd.grGen.grShell
         public INode GetNodeByVar(String varName)
         {
             IGraphElement elem = GetElemByVar(varName);
-            if(elem == null) return null;
+            if(elem == null)
+                return null;
             if(!(elem is INode))
             {
                 errOut.WriteLine("\"{0}\" is not a node!", varName);
                 return null;
             }
-            return (INode) elem;
+            return (INode)elem;
         }
 
         public INode GetNodeByName(String elemName)
         {
             IGraphElement elem = GetElemByName(elemName);
-            if(elem == null) return null;
+            if(elem == null)
+                return null;
             if(!(elem is INode))
             {
                 errOut.WriteLine("\"{0}\" is not a node!", elemName);
                 return null;
             }
-            return (INode) elem;
+            return (INode)elem;
         }
 
         public IEdge GetEdgeByVar(String varName)
         {
             IGraphElement elem = GetElemByVar(varName);
-            if(elem == null) return null;
+            if(elem == null)
+                return null;
             if(!(elem is IEdge))
             {
                 errOut.WriteLine("\"{0}\" is not an edge!", varName);
                 return null;
             }
-            return (IEdge) elem;
+            return (IEdge)elem;
         }
 
         public IEdge GetEdgeByName(String elemName)
         {
             IGraphElement elem = GetElemByName(elemName);
-            if(elem == null) return null;
+            if(elem == null)
+                return null;
             if(!(elem is IEdge))
             {
                 errOut.WriteLine("\"{0}\" is not an edge!", elemName);
                 return null;
             }
-            return (IEdge) elem;
+            return (IEdge)elem;
         }
 
         #endregion get graph element
@@ -462,26 +545,31 @@ namespace de.unika.ipd.grGen.grShell
 
         public object GetElementAttribute(IGraphElement elem, String attributeName)
         {
-            if(elem == null) return null;
+            if(elem == null)
+                return null;
 
             AttributeType attrType = GetElementAttributeType(elem, attributeName);
-            if(attrType == null) return null;
+            if(attrType == null)
+                return null;
 
             return elem.GetAttribute(attributeName);
         }
 
         public void SetElementAttribute(IGraphElement elem, Param param)
         {
-            if(elem == null) return;
+            if(elem == null)
+                return;
             ArrayList attributes = new ArrayList();
             attributes.Add(param);
-            if(!CheckAttributes(elem.Type, attributes)) return;
+            if(!CheckAttributes(elem.Type, attributes))
+                return;
             SetAttributes(elem, attributes);
         }
 
         public void SetElementAttributeIndexed(IGraphElement elem, String attrName, String val, object index)
         {
-            if(elem == null) return;
+            if(elem == null)
+                return;
 
             GrGenType type = elem.Type;
             AttributeType attrType = type.GetAttributeType(attrName);
@@ -549,9 +637,11 @@ namespace de.unika.ipd.grGen.grShell
 
         private object GetAttribute(IGraphElement elem, String attrName)
         {
-            if(elem == null) return null;
+            if(elem == null)
+                return null;
             AttributeType attrType = GetElementAttributeType(elem, attrName);
-            if(attrType == null) return null;
+            if(attrType == null)
+                return null;
             return elem.GetAttribute(attrName);
         }
 
@@ -563,7 +653,8 @@ namespace de.unika.ipd.grGen.grShell
 
             if(attr is IDictionary)
             {
-                Type keyType, valueType;
+                Type keyType;
+                Type valueType;
                 IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if(dict == null)
                 {
@@ -648,9 +739,7 @@ namespace de.unika.ipd.grGen.grShell
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else
-            {
                 errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a deque.");
-            }
         }
 
         public void IndexedContainerAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
@@ -661,7 +750,8 @@ namespace de.unika.ipd.grGen.grShell
 
             if(attr is IDictionary)
             {
-                Type keyType, valueType;
+                Type keyType;
+                Type valueType;
                 IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if(dict == null)
                 {
@@ -756,9 +846,7 @@ namespace de.unika.ipd.grGen.grShell
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else
-            {
                 errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a map nor an array nor a deque.");
-            }
         }
 
         public void ContainerRemove(IGraphElement elem, String attrName, object keyObj)
@@ -769,7 +857,8 @@ namespace de.unika.ipd.grGen.grShell
 
             if(attr is IDictionary)
             {
-                Type keyType, valueType;
+                Type keyType;
+                Type valueType;
                 IDictionary dict = ContainerHelper.GetDictionaryTypes(attr, out keyType, out valueType);
                 if(dict == null)
                 {
@@ -856,9 +945,7 @@ namespace de.unika.ipd.grGen.grShell
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
             }
             else
-            {
                 errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a container.");
-            }
         }
 
         #endregion container add/remove
@@ -867,7 +954,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public NodeType GetNodeType(String typeName)
         {
-            if(!GraphExists()) return null;
+            if(!GraphExists())
+                return null;
             NodeType type = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.GetType(typeName);
             if(type == null)
             {
@@ -879,7 +967,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public EdgeType GetEdgeType(String typeName)
         {
-            if(!GraphExists()) return null;
+            if(!GraphExists())
+                return null;
             EdgeType type = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType(typeName);
             if(type == null)
             {
@@ -891,7 +980,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public GrGenType GetGraphElementType(String typeName)
         {
-            if(!GraphExists()) return null;
+            if(!GraphExists())
+                return null;
             GrGenType type = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.GetType(typeName);
             if(type != null)
                 return type;
@@ -904,7 +994,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void NodeTypeIsA(INode node1, INode node2)
         {
-            if(node1 == null || node2 == null) return;
+            if(node1 == null || node2 == null)
+                return;
 
             NodeType type1 = node1.Type;
             NodeType type2 = node2.Type;
@@ -915,7 +1006,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void EdgeTypeIsA(IEdge edge1, IEdge edge2)
         {
-            if(edge1 == null || edge2 == null) return;
+            if(edge1 == null || edge2 == null)
+                return;
 
             EdgeType type1 = edge1.Type;
             EdgeType type2 = edge2.Type;
@@ -934,65 +1026,65 @@ namespace de.unika.ipd.grGen.grShell
             {
                 switch(commands[0])
                 {
-                    case "new":
-                        HelpNew(commands);
-                        return;
+                case "new":
+                    HelpNew(commands);
+                    return;
 
-                    case "select":
-                        HelpSelect(commands);
-                        return;
+                case "select":
+                    HelpSelect(commands);
+                    return;
 
-                    case "delete":
-                        HelpDelete(commands);
-                        return;
+                case "delete":
+                    HelpDelete(commands);
+                    return;
 
-                    case "retype":
-                        HelpRetype(commands);
-                        return;
+                case "retype":
+                    HelpRetype(commands);
+                    return;
 
-                    case "redirect":
-                        HelpRedirect(commands);
-                        return;
+                case "redirect":
+                    HelpRedirect(commands);
+                    return;
 
-                    case "show":
-                        HelpShow(commands);
-                        return;
+                case "show":
+                    HelpShow(commands);
+                    return;
 
-                    case "debug":
-                        HelpDebug(commands);
-                        return;
+                case "debug":
+                    HelpDebug(commands);
+                    return;
 
-                    case "dump":
-                        HelpDump(commands);
-                        return;
+                case "dump":
+                    HelpDump(commands);
+                    return;
 
-                    case "custom":
-                        HelpCustom(commands);
-                        return;
+                case "custom":
+                    HelpCustom(commands);
+                    return;
 
-                    case "validate":
-                        HelpValidate(commands);
-                        return;
+                case "validate":
+                    HelpValidate(commands);
+                    return;
 
-                    case "import":
-                        HelpImport(commands);
-                        return;
+                case "import":
+                    HelpImport(commands);
+                    return;
 
-                    case "export":
-                        HelpExport(commands);
-                        return;
+                case "export":
+                    HelpExport(commands);
+                    return;
 
-                    case "record":
-                        HelpRecord(commands);
-                        return;
+                case "record":
+                    HelpRecord(commands);
+                    return;
 
-                    case "replay":
-                        HelpReplay(commands);
-                        return;
+                case "replay":
+                    HelpReplay(commands);
+                    return;
 
-                    default:
-                        debugOut.WriteLine("No further help available.\n");
-                        break;
+                default:
+                    debugOut.WriteLine("No further help available.\n");
+                    break;
                 }
             }
 
@@ -1063,9 +1155,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpNew(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("\nList of available commands for \"new\":\n"
                 + " - new graph <filename> [<graphname>]\n"
@@ -1107,9 +1197,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpSelect(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("\nList of available commands for \"select\":\n"
                 + " - select backend <dllname> [<paramlist>]\n"
@@ -1124,9 +1212,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpDelete(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("\nList of available commands for \"delete\":\n"
                 + " - delete node <node>\n"
@@ -1140,9 +1226,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpRetype(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("\nList of available commands for \"retype\":\n"
                 + " - retype node<type>\n"
@@ -1153,10 +1237,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void HelpRedirect(List<String> commands)
         {
-            if (commands.Count > 1)
-            {
+            if(commands.Count > 1)
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("\nList of available commands for \"redirect\":\n"
                 + " - redirect <edge> (source|target) <node>\n"
@@ -1170,9 +1252,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpShow(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("\nList of available commands for \"show\":\n"
                 + " - show (nodes|edges) [[only] <type>]\n"
@@ -1210,9 +1290,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpDebug(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             // Not mentioned: debug grs
 
@@ -1235,9 +1313,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpDump(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("\nList of available commands for \"dump\":\n"
                 + " - dump graph <filename>\n"
@@ -1284,17 +1360,17 @@ namespace de.unika.ipd.grGen.grShell
             {
                 switch(commands[1])
                 {
-                    case "graph":
-                        CustomGraph(new List<String>());
-                        return;
+                case "graph":
+                    CustomGraph(new List<String>());
+                    return;
 
-                    case "actions":
-                        CustomActions(new List<String>());
-                        return;
+                case "actions":
+                    CustomActions(new List<String>());
+                    return;
 
-                    default:
-                        debugOut.WriteLine("\nNo further help available.");
-                        break;
+                default:
+                    debugOut.WriteLine("\nNo further help available.");
+                    break;
                 }
             }
 
@@ -1308,9 +1384,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpValidate(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("List of available commands for \"validate\":\n"
                 + " - validate [exitonfailure] (exec | xgrs) <xgrs>\n"
@@ -1327,9 +1401,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpImport(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("List of available commands for \"import\":\n"
                 + " - import <filename> [<modeloverride>]\n"
@@ -1349,9 +1421,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpExport(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("List of available commands for \"export\":\n"
                 + " - export <filename>\n"
@@ -1367,9 +1437,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpRecord(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("List of available commands for \"record\":\n"
                 + " - record <filename> [start|stop]\n"
@@ -1384,9 +1452,7 @@ namespace de.unika.ipd.grGen.grShell
         public void HelpReplay(List<String> commands)
         {
             if(commands.Count > 1)
-            {
                 debugOut.WriteLine("\nNo further help available.");
-            }
 
             debugOut.WriteLine("List of available commands for \"replay\":\n"
                 + " - replay <filename> [from <linetext>] [to <linetext>]\n"
@@ -1508,7 +1574,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool NewGraph(String specFilename, String graphName, bool forceRebuild)
         {
-            if(!BackendExists()) return false;
+            if(!BackendExists())
+                return false;
 
             // replace wrong directory separator chars by the right ones
             if(Path.DirectorySeparatorChar != '\\')
@@ -1552,9 +1619,11 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("The specification file \"" + specFilename + "\" or \"" + ruleFilename + "\" or \"" + gmFilename + "\" does not exist!");
                             return false;
                         }
-                        else specFilename = gmFilename;
+                        else
+                            specFilename = gmFilename;
                     }
-                    else specFilename = ruleFilename;
+                    else
+                        specFilename = ruleFilename;
                 }
 
                 if(specFilename.EndsWith(".gm", StringComparison.OrdinalIgnoreCase))
@@ -1563,10 +1632,14 @@ namespace de.unika.ipd.grGen.grShell
                     try
                     {
                         ProcessSpecFlags flags = newGraphOptions.KeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
-                        if(newGraphOptions.LazyNIC) flags |= ProcessSpecFlags.LazyNIC;
-                        if(newGraphOptions.Noinline) flags |= ProcessSpecFlags.Noinline;
-                        if(newGraphOptions.Profile) flags |= ProcessSpecFlags.Profile;
-                        if(forceRebuild) flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
+                        if(newGraphOptions.LazyNIC)
+                            flags |= ProcessSpecFlags.LazyNIC;
+                        if(newGraphOptions.Noinline)
+                            flags |= ProcessSpecFlags.Noinline;
+                        if(newGraphOptions.Profile)
+                            flags |= ProcessSpecFlags.Profile;
+                        if(forceRebuild)
+                            flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
                         graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, null,
                             flags, newGraphOptions.ExternalAssembliesReferenced, 0);
                     }
@@ -1596,10 +1669,14 @@ namespace de.unika.ipd.grGen.grShell
                     try
                     {
                         ProcessSpecFlags flags = newGraphOptions.KeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
-                        if(newGraphOptions.LazyNIC) flags |= ProcessSpecFlags.LazyNIC;
-                        if(newGraphOptions.Noinline) flags |= ProcessSpecFlags.Noinline;
-                        if(newGraphOptions.Profile) flags |= ProcessSpecFlags.Profile;
-                        if(forceRebuild) flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
+                        if(newGraphOptions.LazyNIC)
+                            flags |= ProcessSpecFlags.LazyNIC;
+                        if(newGraphOptions.Noinline)
+                            flags |= ProcessSpecFlags.Noinline;
+                        if(newGraphOptions.Profile)
+                            flags |= ProcessSpecFlags.Profile;
+                        if(forceRebuild)
+                            flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
                         curGraphBackend.CreateNamedFromSpec(specFilename, graphName, newGraphOptions.Statistics,
                             flags, newGraphOptions.ExternalAssembliesReferenced, 0,
                             out graph, out actions);
@@ -1691,10 +1768,12 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!shellGraphSpecified)
             {
-                if(!GraphExists()) return;
+                if(!GraphExists())
+                    return;
                 shellGraphProcEnv = curShellProcEnv;
             }
-            else if(shellGraphProcEnv == null) return;
+            else if(shellGraphProcEnv == null)
+                return;
 
             shellGraphProcEnv.ProcEnv.Graph.Clear();
         }
@@ -1703,10 +1782,12 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!shellGraphSpecified)
             {
-                if(!GraphExists()) return false;
+                if(!GraphExists())
+                    return false;
                 shellGraphProcEnv = curShellProcEnv;
             }
-            else if(shellGraphProcEnv == null) return false;
+            else if(shellGraphProcEnv == null)
+                return false;
 
             seqApplierAndDebugger.DisableDebuggerAfterDeletionAsNeeded(shellGraphProcEnv);
 
@@ -1723,7 +1804,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public INode NewNode(ElementDef elemDef)
         {
-            if(!GraphExists()) return null;
+            if(!GraphExists())
+                return null;
 
             NodeType nodeType;
             if(elemDef.TypeName != null)
@@ -1740,9 +1822,11 @@ namespace de.unika.ipd.grGen.grShell
                     return null;
                 }
             }
-            else nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
+            else
+                nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
 
-            if(elemDef.Attributes != null && !CheckAttributes(nodeType, elemDef.Attributes)) return null;
+            if(elemDef.Attributes != null && !CheckAttributes(nodeType, elemDef.Attributes))
+                return null;
 
             INode node;
             try
@@ -1771,17 +1855,16 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
-            if (!silence)
-            {
+            if(!silence)
                 debugOut.WriteLine("New node \"{0}\" of type \"{1}\" has been created.", curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), node.Type.PackagePrefixedName);
-            }
 
             return node;
         }
 
         public IEdge NewEdge(ElementDef elemDef, INode node1, INode node2, bool directed)
         {
-            if(node1 == null || node2 == null) return null;
+            if(node1 == null || node2 == null)
+                return null;
 
             EdgeType edgeType;
             if(elemDef.TypeName != null)
@@ -1800,11 +1883,14 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                if (directed) edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType("Edge");
-                else edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType("UEdge");
+                if(directed)
+                    edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType("Edge");
+                else
+                    edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType("UEdge");
             }
 
-            if(elemDef.Attributes != null && !CheckAttributes(edgeType, elemDef.Attributes)) return null;
+            if(elemDef.Attributes != null && !CheckAttributes(edgeType, elemDef.Attributes))
+                return null;
 
             IEdge edge;
             try
@@ -1833,7 +1919,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
-            if (!silence)
+            if(!silence)
             {
                 if(directed)
                     debugOut.WriteLine("New edge \"{0}\" of type \"{1}\" has been created from \"{2}\" to \"{3}\".", curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge), edge.Type.PackagePrefixedName, curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node1), curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node2));
@@ -1849,7 +1935,7 @@ namespace de.unika.ipd.grGen.grShell
             object value = null;
             switch(attrKind)
             {
-                case AttributeKind.BooleanAttr:
+            case AttributeKind.BooleanAttr:
                 {
                     bool val;
                     if(valueString.Equals("true", StringComparison.OrdinalIgnoreCase))
@@ -1864,12 +1950,12 @@ namespace de.unika.ipd.grGen.grShell
                     value = val;
                     break;
                 }
-                case AttributeKind.ByteAttr:
+            case AttributeKind.ByteAttr:
                 {
                     sbyte val;
-                    if (valueString.StartsWith("0x"))
+                    if(valueString.StartsWith("0x"))
                     {
-                        if (!SByte.TryParse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber,
+                        if(!SByte.TryParse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber,
                             System.Globalization.CultureInfo.InvariantCulture, out val))
                         {
                             errOut.WriteLine("Attribute {0} must be a byte (signed)!", attribute);
@@ -1878,7 +1964,7 @@ namespace de.unika.ipd.grGen.grShell
                         value = val;
                         break;
                     }
-                    if (!SByte.TryParse(RemoveTypeSuffix(valueString), out val))
+                    if(!SByte.TryParse(RemoveTypeSuffix(valueString), out val))
                     {
                         errOut.WriteLine("Attribute {0} must be a byte (signed)!", attribute);
                         throw new Exception("Unknown byte literal" + valueString);
@@ -1886,12 +1972,12 @@ namespace de.unika.ipd.grGen.grShell
                     value = val;
                     break;
                 }
-                case AttributeKind.ShortAttr:
+            case AttributeKind.ShortAttr:
                 {
                     short val;
-                    if (valueString.StartsWith("0x"))
+                    if(valueString.StartsWith("0x"))
                     {
-                        if (!Int16.TryParse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber,
+                        if(!Int16.TryParse(RemoveTypeSuffix(valueString.Substring("0x".Length)), System.Globalization.NumberStyles.HexNumber,
                             System.Globalization.CultureInfo.InvariantCulture, out val))
                         {
                             errOut.WriteLine("Attribute {0} must be a short!", attribute);
@@ -1900,7 +1986,7 @@ namespace de.unika.ipd.grGen.grShell
                         value = val;
                         break;
                     }
-                    if (!Int16.TryParse(RemoveTypeSuffix(valueString), out val))
+                    if(!Int16.TryParse(RemoveTypeSuffix(valueString), out val))
                     {
                         errOut.WriteLine("Attribute {0} must be a short!", attribute);
                         throw new Exception("Unknown short literal" + valueString);
@@ -1908,12 +1994,12 @@ namespace de.unika.ipd.grGen.grShell
                     value = val;
                     break;
                 }
-                case AttributeKind.IntegerAttr:
+            case AttributeKind.IntegerAttr:
                 {
                     int val;
-                    if (valueString.StartsWith("0x"))
+                    if(valueString.StartsWith("0x"))
                     {
-                        if (!Int32.TryParse(valueString.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber,
+                        if(!Int32.TryParse(valueString.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber,
                             System.Globalization.CultureInfo.InvariantCulture, out val))
                         {
                             errOut.WriteLine("Attribute {0} must be an integer!", attribute);
@@ -1922,7 +2008,7 @@ namespace de.unika.ipd.grGen.grShell
                         value = val;
                         break;
                     }
-                    if (!Int32.TryParse(valueString, out val))
+                    if(!Int32.TryParse(valueString, out val))
                     {
                         errOut.WriteLine("Attribute {0} must be an integer!", attribute);
                         throw new Exception("Unknown integer literal" + valueString);
@@ -1930,7 +2016,7 @@ namespace de.unika.ipd.grGen.grShell
                     value = val;
                     break;
                 }
-                case AttributeKind.LongAttr:
+            case AttributeKind.LongAttr:
                 {
                     long val;
                     if(valueString.StartsWith("0x"))
@@ -1952,10 +2038,10 @@ namespace de.unika.ipd.grGen.grShell
                     value = val;
                     break;
                 }
-                case AttributeKind.StringAttr:
+            case AttributeKind.StringAttr:
                     value = valueString;
                     break;
-                case AttributeKind.FloatAttr:
+            case AttributeKind.FloatAttr:
                 {
                     float val;
                     if(!Single.TryParse(valueString.Substring(0, valueString.Length-1), // cut f suffix
@@ -1968,7 +2054,7 @@ namespace de.unika.ipd.grGen.grShell
                     value = val;
                     break;
                 }
-                case AttributeKind.DoubleAttr:
+            case AttributeKind.DoubleAttr:
                 {
                     double val;
                     if(valueString[valueString.Length-1] == 'd') // cut d suffix if given
@@ -1982,7 +2068,7 @@ namespace de.unika.ipd.grGen.grShell
                     value = val;
                     break;
                 }
-                case AttributeKind.ObjectAttr:
+            case AttributeKind.ObjectAttr:
                 {
                     if(valueString == "null")
                         value = null;
@@ -1991,7 +2077,7 @@ namespace de.unika.ipd.grGen.grShell
                             new StringReader(valueString), null, curShellProcEnv.ProcEnv.Graph);
                     break;
                 }
-                case AttributeKind.GraphAttr:
+            case AttributeKind.GraphAttr:
                 {
                     if(valueString == "null")
                         value = null;
@@ -2007,7 +2093,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     break;
                 }
-                case AttributeKind.NodeAttr:
+            case AttributeKind.NodeAttr:
                 {
                     if(valueString[0] == '@' && valueString[1] == '(' && valueString[valueString.Length - 1] == ')')
                     {
@@ -2022,7 +2108,7 @@ namespace de.unika.ipd.grGen.grShell
                         value = GetNodeByVar(valueString);
                     break;
                 }
-                case AttributeKind.EdgeAttr:
+            case AttributeKind.EdgeAttr:
                 {
                     if(valueString[0] == '@' && valueString[1] == '(' && valueString[valueString.Length - 1] == ')')
                     {
@@ -2043,10 +2129,12 @@ namespace de.unika.ipd.grGen.grShell
 
         public String RemoveTypeSuffix(String value)
         {
-            if (value.EndsWith("y") || value.EndsWith("Y")
+            if(value.EndsWith("y") || value.EndsWith("Y")
                 || value.EndsWith("s") || value.EndsWith("S")
                 || value.EndsWith("l") || value.EndsWith("L"))
+            {
                 return value.Substring(0, value.Length - 1);
+            }
             else
                 return value;
         }
@@ -2059,19 +2147,13 @@ namespace de.unika.ipd.grGen.grShell
                 try
                 {
                     if(valueString.IndexOf("::") != -1)
-                    {
                         valueString = valueString.Substring(valueString.IndexOf("::") + "::".Length);
-                    }
 
                     int val;
                     if(Int32.TryParse(valueString, out val))
-                    {
                         value = Enum.ToObject(attrType.EnumType.EnumType, val);
-                    }
                     else
-                    {
                         value = Enum.Parse(attrType.EnumType.EnumType, valueString);
-                    }
                 }
                 catch(Exception)
                 {
@@ -2080,14 +2162,14 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     errOut.WriteLine("Attribute {0} must be one of the following values:", attribute);
                     foreach(EnumMember member in attrType.EnumType.Members)
+                    {
                         errOut.WriteLine(" - {0} = {1}", member.Name, member.Value);
+                    }
                     throw new Exception("Unknown enum member");
                 }
             }
             else
-            {
                 value = ParseAttributeValue(attrType.Kind, valueString, attribute);
-            }
             return value;
         }
 
@@ -2110,7 +2192,8 @@ namespace de.unika.ipd.grGen.grShell
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
-                        if(par.Value!="set") {
+                        if(par.Value!="set")
+                        {
                             errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
                             throw new Exception("Set literal expected");
                         }
@@ -2124,7 +2207,8 @@ namespace de.unika.ipd.grGen.grShell
                         value = setmap;
                         break;
                     case AttributeKind.MapAttr:
-                        if(par.Value!="map") {
+                        if(par.Value!="map")
+                        {
                             errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
                             throw new Exception("Map literal expected");
                         }
@@ -2141,7 +2225,8 @@ namespace de.unika.ipd.grGen.grShell
                         value = setmap;
                         break;
                     case AttributeKind.ArrayAttr:
-                        if(par.Value!="array") {
+                        if(par.Value!="array")
+                        {
                             errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
                             throw new Exception("Array literal expected");
                         }
@@ -2199,7 +2284,8 @@ namespace de.unika.ipd.grGen.grShell
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
-                        if(par.Value!="set") {
+                        if(par.Value!="set")
+                        {
                             errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
                             throw new Exception("Set literal expected");
                         }
@@ -2213,7 +2299,8 @@ namespace de.unika.ipd.grGen.grShell
                         value = setmap;
                         break;
                     case AttributeKind.MapAttr:
-                        if(par.Value!="map") {
+                        if(par.Value!="map")
+                        {
                             errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
                             throw new Exception("Map literal expected");
                         }
@@ -2230,7 +2317,8 @@ namespace de.unika.ipd.grGen.grShell
                         value = setmap;
                         break;
                     case AttributeKind.ArrayAttr:
-                        if(par.Value!="array") {
+                        if(par.Value!="array")
+                        {
                             errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
                             throw new Exception("Array literal expected");
                         }
@@ -2267,7 +2355,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeChangeType changeType = AttributeChangeType.Assign;
-                if (elem is INode)
+                if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
@@ -2286,7 +2374,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool Remove(INode node)
         {
-            if(node == null) return false;
+            if(node == null)
+                return false;
 
             string name = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node); // get name before remove
 
@@ -2302,32 +2391,30 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             if(!silence)
-            {
                 debugOut.WriteLine("Node \"{0}\" of type \"{1}\" has been deleted.", name, node.Type.PackagePrefixedName);
-            }
 
             return true;
         }
 
         public bool Remove(IEdge edge)
         {
-            if(edge == null) return false;
+            if(edge == null)
+                return false;
 
             string name = curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge); // get name before remove
 
             curShellProcEnv.ProcEnv.NamedGraph.Remove(edge);
 
             if(!silence)
-            {
                 debugOut.WriteLine("Edge \"{0}\" of type \"{1}\" has been deleted.", name, edge.Type.PackagePrefixedName);
-            }
 
             return true;
         }
 
         public INode Retype(INode node, String newType)
         {
-            if(node == null || newType == null) return null;
+            if(node == null || newType == null)
+                return null;
 
             try
             {
@@ -2346,9 +2433,8 @@ namespace de.unika.ipd.grGen.grShell
                 String oldType = node.Type.PackagePrefixedName;
                 node = curShellProcEnv.ProcEnv.NamedGraph.Retype(node, nodeType);
                 if(!silence)
-                {
                     debugOut.WriteLine("Node \"{0}\" has been retyped from \"{1}\" to \"{2}\".", curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), oldType, node.Type.PackagePrefixedName);
-                }
+
                 return node;
             }
             catch(ArgumentException e)
@@ -2360,7 +2446,9 @@ namespace de.unika.ipd.grGen.grShell
 
         public IEdge Retype(IEdge edge, String newType)
         {
-            if(edge == null || newType == null) return null;
+            if(edge == null || newType == null)
+                return null;
+
             try
             {
                 EdgeType edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType(newType);
@@ -2378,9 +2466,8 @@ namespace de.unika.ipd.grGen.grShell
                 String oldType = edge.Type.PackagePrefixedName;
                 edge = curShellProcEnv.ProcEnv.NamedGraph.Retype(edge, edgeType);
                 if(!silence)
-                {
                     debugOut.WriteLine("Edge \"{0}\" has been retyped from \"{1}\" to \"{2}\".", curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge), oldType, edge.Type.PackagePrefixedName);
-                }
+
                 return edge;
             }
             catch(ArgumentException e)
@@ -2392,7 +2479,9 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool Redirect(IEdge edge, String direction, INode node)
         {
-            if(!GraphExists()) return false;
+            if(!GraphExists())
+                return false;
+
             if(edge == null)
             {
                 errOut.WriteLine("No edge given to redirect command");
@@ -2460,7 +2549,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ShowNodeTypes()
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
 
             if(curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.Types.Length == 0)
             {
@@ -2470,55 +2560,60 @@ namespace de.unika.ipd.grGen.grShell
             {
                 debugOut.WriteLine("Node types:");
                 foreach(NodeType type in curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.Types)
+                {
                     debugOut.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
+                }
             }
         }
 
         public void ShowEdgeTypes()
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
 
             if(curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.Types.Length == 0)
-            {
                 errOut.WriteLine("This model has no edge types!");
-            }
             else
             {
                 debugOut.WriteLine("Edge types:");
                 foreach(EdgeType type in curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.Types)
+                {
                     debugOut.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
+                }
             }
         }
 
         public void ShowSuperTypes(GrGenType elemType, bool isNode)
         {
-            if(elemType == null) return;
+            if(elemType == null)
+                return;
 
             if(!elemType.SuperTypes.GetEnumerator().MoveNext())
-            {
                 errOut.WriteLine((isNode ? "Node" : "Edge") + " type \"" + elemType.PackagePrefixedName + "\" has no super types!");
-            }
             else
             {
                 debugOut.WriteLine("Super types of " + (isNode ? "node" : "edge") + " type \"" + elemType.PackagePrefixedName + "\":");
                 foreach(GrGenType type in elemType.SuperTypes)
+                {
                     debugOut.WriteLine(" - \"" + type.PackagePrefixedName + "\"");
+                }
             }
         }
 
         public void ShowSubTypes(GrGenType elemType, bool isNode)
         {
-            if(elemType == null) return;
+            if(elemType == null)
+                return;
 
             if(!elemType.SuperTypes.GetEnumerator().MoveNext())
-            {
                 errOut.WriteLine((isNode ? "Node" : "Edge") + " type \"" + elemType.PackagePrefixedName + "\" has no super types!");
-            }
             else
             {
                 debugOut.WriteLine("Sub types of " + (isNode ? "node" : "edge") + " type \"{0}\":", elemType.PackagePrefixedName);
                 foreach(GrGenType type in elemType.SubTypes)
+                {
                     debugOut.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
+                }
             }
         }
 
@@ -2531,7 +2626,8 @@ namespace de.unika.ipd.grGen.grShell
             bool first = true;
             foreach(AttributeType attrType in attrTypes)
             {
-                if(onlyType != null && attrType.OwnerType != onlyType) continue;
+                if(onlyType != null && attrType.OwnerType != onlyType)
+                    continue;
 
                 if(first)
                 {
@@ -2605,7 +2701,8 @@ namespace de.unika.ipd.grGen.grShell
 
         private bool ShowElements<T>(IEnumerable<T> elements) where T : IGraphElement
         {
-            if(!elements.GetEnumerator().MoveNext()) return false;
+            if(!elements.GetEnumerator().MoveNext())
+                return false;
 
             debugOut.WriteLine("{0,-20} {1}", "name", "type");
             foreach(IGraphElement elem in elements)
@@ -2620,7 +2717,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(nodeType == null)
             {
-                if(!GraphExists()) return;
+                if(!GraphExists())
+                    return;
                 nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
             }
 
@@ -2634,7 +2732,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(edgeType == null)
             {
-                if(!GraphExists()) return;
+                if(!GraphExists())
+                    return;
                 edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.RootType;
             }
 
@@ -2648,7 +2747,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(nodeType == null)
             {
-                if(!GraphExists()) return;
+                if(!GraphExists())
+                    return;
                 nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
             }
             if(only)
@@ -2663,7 +2763,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(edgeType == null)
             {
-                if(!GraphExists()) return;
+                if(!GraphExists())
+                    return;
                 edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.RootType;
             }
             if(only)
@@ -2682,8 +2783,10 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
             debugOut.WriteLine("Graphs:");
-            for(int i = 0; i < shellProcEnvs.Count; i++)
+            for(int i = 0; i < shellProcEnvs.Count; ++i)
+            {
                 debugOut.WriteLine(" - \"" + shellProcEnvs[i].ProcEnv.Graph.Name + "\" (" + i + ")");
+            }
         }
 
         private AttributeType GetElementAttributeType(IGraphElement elem, String attributeName)
@@ -2700,7 +2803,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ShowElementAttributes(IGraphElement elem)
         {
-            if(elem == null) return;
+            if(elem == null)
+                return;
             if(elem.Type.NumAttributes == 0)
             {
                 errOut.WriteLine("{0} \"{1}\" of type \"{2}\" does not have any attributes!", (elem is INode) ? "Node" : "Edge",
@@ -2710,16 +2814,20 @@ namespace de.unika.ipd.grGen.grShell
             debugOut.WriteLine("All attributes for {0} \"{1}\" of type \"{2}\":", (elem is INode) ? "node" : "edge",
                 curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
             foreach(AttributeType attrType in elem.Type.AttributeTypes)
+            {
                 debugOut.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.PackagePrefixedName,
                     attrType.Name, EmitHelper.ToStringAutomatic(elem.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph));
+            }
         }
 
         public void ShowElementAttribute(IGraphElement elem, String attributeName)
         {
-            if(elem == null) return;
+            if(elem == null)
+                return;
 
             AttributeType attrType = GetElementAttributeType(elem, attributeName);
-            if(attrType == null) return;
+            if(attrType == null)
+                return;
 
             debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"");
             debugOut.Write(EmitHelper.ToStringAutomatic(elem.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph));
@@ -2782,13 +2890,13 @@ namespace de.unika.ipd.grGen.grShell
 
         public string ShowGraphWith(String programName, String arguments, bool keep)
         {
-            if(!GraphExists()) return "";
-            if(nonDebugNonGuiExitOnError) return "";
+            if(!GraphExists())
+                return "";
+            if(nonDebugNonGuiExitOnError)
+                return "";
 
             if(IsDotExecutable(programName))
-            {
                 return ShowGraphWithDot(programName, arguments, keep);
-            }
 
             String filename = GetUniqueFilename("tmpgraph", "vcg");
 
@@ -2844,7 +2952,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ShowActions()
         {
-            if(!ActionsExists()) return;
+            if(!ActionsExists())
+                return;
 
             if(!curShellProcEnv.ProcEnv.Actions.Actions.GetEnumerator().MoveNext())
             {
@@ -2862,8 +2971,10 @@ namespace de.unika.ipd.grGen.grShell
                     bool isFirst = true;
                     foreach(GrGenType inType in action.RulePattern.Inputs)
                     {
-                        if(!isFirst) debugOut.Write(", ");
-                        else isFirst = false;
+                        if(!isFirst)
+                            debugOut.Write(", ");
+                        else
+                            isFirst = false;
                         debugOut.Write(inType.PackagePrefixedName);
                     }
                     debugOut.Write(")");
@@ -2875,8 +2986,10 @@ namespace de.unika.ipd.grGen.grShell
                     bool isFirst = true;
                     foreach(GrGenType outType in action.RulePattern.Outputs)
                     {
-                        if(!isFirst) debugOut.Write(", ");
-                        else isFirst = false;
+                        if(!isFirst)
+                            debugOut.Write(", ");
+                        else
+                            isFirst = false;
                         debugOut.Write(outType.PackagePrefixedName);
                     }
                     debugOut.Write(")");
@@ -2887,7 +3000,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ShowProfile(string action)
         {
-            if(!ActionsExists()) return;
+            if(!ActionsExists())
+                return;
 
             if(action != null)
             {
@@ -2967,23 +3081,24 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ShowBackend()
         {
-            if(!BackendExists()) return;
+            if(!BackendExists())
+                return;
 
             debugOut.WriteLine("Backend name: {0}", curGraphBackend.Name);
             if(!curGraphBackend.ArgumentNames.GetEnumerator().MoveNext())
-            {
                 errOut.WriteLine("This backend has no arguments.");
-            }
 
             debugOut.WriteLine("Arguments:");
             foreach(String str in curGraphBackend.ArgumentNames)
+            {
                 debugOut.WriteLine(" - {0}", str);
+            }
         }
 
         public void ShowVar(String name)
         {
             object val = GetVarValue(name);
-            if (val != null)
+            if(val != null)
             {
                 string type;
                 string content;
@@ -3229,7 +3344,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void DumpGraph(String filename)
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
 
             try
             {
@@ -3263,7 +3379,9 @@ namespace de.unika.ipd.grGen.grShell
 showavail:
             debugOut.WriteLine("\nAvailable colors are:");
             foreach(String name in Enum.GetNames(typeof(GrColor)))
+            {
                 debugOut.WriteLine(" - {0}", name);
+            }
             debugOut.WriteLine();
             return null;
         }
@@ -3289,7 +3407,9 @@ showavail:
 showavail:
             debugOut.WriteLine("\nAvailable node shapes are:");
             foreach(String name in Enum.GetNames(typeof(GrNodeShape)))
+            {
                 debugOut.WriteLine(" - {0}", name);
+            }
             debugOut.WriteLine();
             return null;
         }
@@ -3321,21 +3441,26 @@ showavail:
 showavail:
             debugOut.WriteLine("\nAvailable line styles are:");
             foreach(String name in Enum.GetNames(typeof(GrLineStyle)))
+            {
                 debugOut.WriteLine(" - {0}", name);
+            }
             debugOut.WriteLine();
             return null;
         }
 
         public bool SetDumpLabel(GrGenType type, String label, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
 
             if(only)
                 curShellProcEnv.DumpInfo.SetElemTypeLabel(type, label);
             else
             {
                 foreach(GrGenType subType in type.SubOrSameTypes)
+                {
                     curShellProcEnv.DumpInfo.SetElemTypeLabel(subType, label);
+                }
             }
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
@@ -3346,14 +3471,17 @@ showavail:
         private bool SetDumpColor(NodeType type, String colorName, bool only, SetNodeDumpColorProc setDumpColorProc)
         {
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
+            if(color == null)
+                return false;
 
             if(only)
                 setDumpColorProc(type, (GrColor) color);
             else
             {
                 foreach(NodeType subType in type.SubOrSameTypes)
-                    setDumpColorProc(subType, (GrColor) color);
+                {
+                    setDumpColorProc(subType, (GrColor)color);
+                }
             }
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
@@ -3371,7 +3499,9 @@ showavail:
             else
             {
                 foreach(EdgeType subType in type.SubOrSameTypes)
-                    setDumpColorProc(subType, (GrColor) color);
+                {
+                    setDumpColorProc(subType, (GrColor)color);
+                }
             }
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
@@ -3381,35 +3511,42 @@ showavail:
 
         public bool SetDumpNodeTypeColor(NodeType type, String colorName, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
             return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeColor);
         }
 
         public bool SetDumpNodeTypeBorderColor(NodeType type, String colorName, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
             return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeBorderColor);
         }
 
         public bool SetDumpNodeTypeTextColor(NodeType type, String colorName, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
             return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetNodeTypeTextColor);
         }
 
         public bool SetDumpNodeTypeShape(NodeType type, String shapeName, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
 
             GrNodeShape? shape = ParseGrNodeShape(shapeName);
-            if(shape == null) return false;
+            if(shape == null)
+                return false;
 
             if(only)
                 curShellProcEnv.DumpInfo.SetNodeTypeShape(type, (GrNodeShape) shape);
             else
             {
                 foreach(NodeType subType in type.SubOrSameTypes)
-                    curShellProcEnv.DumpInfo.SetNodeTypeShape(subType, (GrNodeShape) shape);
+                {
+                    curShellProcEnv.DumpInfo.SetNodeTypeShape(subType, (GrNodeShape)shape);
+                }
             }
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
@@ -3419,19 +3556,22 @@ showavail:
 
         public bool SetDumpEdgeTypeColor(EdgeType type, String colorName, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
             return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetEdgeTypeColor);
         }
 
         public bool SetDumpEdgeTypeTextColor(EdgeType type, String colorName, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
             return SetDumpColor(type, colorName, only, curShellProcEnv.DumpInfo.SetEdgeTypeTextColor);
         }
 
         public bool SetDumpEdgeTypeThickness(EdgeType type, int thickness, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
             if(thickness < 1 || thickness > 5)
             {
                 errOut.WriteLine("Edge thickness must be in [1..5]");
@@ -3443,7 +3583,9 @@ showavail:
             else
             {
                 foreach(EdgeType subType in type.SubOrSameTypes)
+                {
                     curShellProcEnv.DumpInfo.SetEdgeTypeThickness(subType, thickness);
+                }
             }
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
@@ -3453,16 +3595,20 @@ showavail:
 
         public bool SetDumpEdgeTypeLineStyle(EdgeType type, String styleName, bool only)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
             GrLineStyle? style = ParseGrLineStyle(styleName);
-            if(style == null) return false;
+            if(style == null)
+                return false;
 
             if(only)
                 curShellProcEnv.DumpInfo.SetEdgeTypeLineStyle(type, (GrLineStyle)style);
             else
             {
                 foreach(EdgeType subType in type.SubOrSameTypes)
+                {
                     curShellProcEnv.DumpInfo.SetEdgeTypeLineStyle(subType, (GrLineStyle)style);
+                }
             }
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
@@ -3484,26 +3630,36 @@ showavail:
 
         public bool AddDumpExcludeNodeType(NodeType nodeType, bool only)
         {
-            if(nodeType == null) return false;
+            if(nodeType == null)
+                return false;
 
             if(only)
                 curShellProcEnv.DumpInfo.ExcludeNodeType(nodeType);
             else
+            {
                 foreach(NodeType subType in nodeType.SubOrSameTypes)
+                {
                     curShellProcEnv.DumpInfo.ExcludeNodeType(subType);
+                }
+            }
 
             return true;
         }
 
         public bool AddDumpExcludeEdgeType(EdgeType edgeType, bool only)
         {
-            if(edgeType == null) return false;
+            if(edgeType == null)
+                return false;
 
             if(only)
                 curShellProcEnv.DumpInfo.ExcludeEdgeType(edgeType);
             else
+            {
                 foreach(EdgeType subType in edgeType.SubOrSameTypes)
+                {
                     curShellProcEnv.DumpInfo.ExcludeEdgeType(subType);
+                }
+            }
 
             return true;
         }
@@ -3511,7 +3667,8 @@ showavail:
         public bool AddDumpGroupNodesBy(NodeType nodeType, bool exactNodeType, EdgeType edgeType, bool exactEdgeType,
                 NodeType adjNodeType, bool exactAdjNodeType, GroupMode groupMode)
         {
-            if(nodeType == null || edgeType == null || adjNodeType == null) return false;
+            if(nodeType == null || edgeType == null || adjNodeType == null)
+                return false;
 
             curShellProcEnv.DumpInfo.AddOrExtendGroupNodeType(nodeType, exactNodeType, edgeType, exactEdgeType,
                 adjNodeType, exactAdjNodeType, groupMode);
@@ -3521,7 +3678,8 @@ showavail:
 
         public bool AddDumpInfoTag(GrGenType type, String attrName, bool only, bool isshort)
         {
-            if(type == null) return false;
+            if(type == null)
+                return false;
 
             AttributeType attrType = type.GetAttributeType(attrName);
             if(attrType == null)
@@ -3534,8 +3692,12 @@ showavail:
             if(only)
                 curShellProcEnv.DumpInfo.AddTypeInfoTag(type, infoTag);
             else
+            {
                 foreach(GrGenType subtype in type.SubOrSameTypes)
+                {
                     curShellProcEnv.DumpInfo.AddTypeInfoTag(subtype, infoTag);
+                }
+            }
 
             seqApplierAndDebugger.UpdateDebuggerDisplayAsNeeded();
 
@@ -3544,7 +3706,8 @@ showavail:
 
         public void DumpReset()
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
 
             curShellProcEnv.DumpInfo.Reset();
             realizers.ReSetElementRealizers();
@@ -3831,16 +3994,16 @@ showavail:
         {
             switch(comparison)
             {
-                case "equals":
-                    return SubruleMesssageMatchingMode.Equals;
-                case "startsWith":
-                    return SubruleMesssageMatchingMode.StartsWith;
-                case "endsWith":
-                    return SubruleMesssageMatchingMode.EndsWith;
-                case "contains":
-                    return SubruleMesssageMatchingMode.Contains;
-                default:
-                    return SubruleMesssageMatchingMode.Undefined;
+            case "equals":
+                return SubruleMesssageMatchingMode.Equals;
+            case "startsWith":
+                return SubruleMesssageMatchingMode.StartsWith;
+            case "endsWith":
+                return SubruleMesssageMatchingMode.EndsWith;
+            case "contains":
+                return SubruleMesssageMatchingMode.Contains;
+            default:
+                return SubruleMesssageMatchingMode.Undefined;
             }
         }
 
@@ -3861,7 +4024,9 @@ showavail:
                     errOut.WriteLine("\"" + layout + "\" is not a valid layout name!");
                 debugOut.WriteLine("Available layouts:");
                 foreach(String layoutName in YCompClient.AvailableLayouts)
+                {
                     debugOut.WriteLine(" - " + layoutName);
+                }
                 debugOut.WriteLine("Current layout: " + debugLayout);
                 return;
             }
@@ -3900,30 +4065,32 @@ showavail:
 
             switch(optionValue.ToLower())
             {
-                case "top_to_bottom":
-                    curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientTopToBottom;
-                    break;
-                case "bottom_to_top":
-                    curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientBottomToTop;
-                    break;
-                case "left_to_right":
-                    curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientLeftToRight;
-                    break;
-                case "right_to_left":
-                    curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientRightToLeft;
-                    break;
-                default:
-                    Debug.Assert(false, "Unknown orientation: " + optionValue);
-                    break;
+            case "top_to_bottom":
+                curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientTopToBottom;
+                break;
+            case "bottom_to_top":
+                curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientBottomToTop;
+                break;
+            case "left_to_right":
+                curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientLeftToRight;
+                break;
+            case "right_to_left":
+                curShellProcEnv.VcgFlags = curShellProcEnv.VcgFlags & ~VCGFlags.OrientMask | VCGFlags.OrientRightToLeft;
+                break;
+            default:
+                Debug.Assert(false, "Unknown orientation: " + optionValue);
+                break;
             }
         }
 
         public bool SetDebugNodeModeColor(String modeName, String colorName)
         {
             ElementMode? mode = ParseElementMode(modeName);
-            if(mode == null) return false;
+            if(mode == null)
+                return false;
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
+            if(color == null)
+                return false;
 
             realizers.ChangeNodeColor((ElementMode)mode, (GrColor)color);
 
@@ -3935,9 +4102,11 @@ showavail:
         public bool SetDebugNodeModeBorderColor(String modeName, String colorName)
         {
             ElementMode? mode = ParseElementMode(modeName);
-            if(mode == null) return false;
+            if(mode == null)
+                return false;
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
+            if(color == null)
+                return false;
 
             realizers.ChangeNodeBorderColor((ElementMode)mode, (GrColor)color);
 
@@ -3949,9 +4118,11 @@ showavail:
         public bool SetDebugNodeModeTextColor(String modeName, String colorName)
         {
             ElementMode? mode = ParseElementMode(modeName);
-            if(mode == null) return false;
+            if(mode == null)
+                return false;
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
+            if(color == null)
+                return false;
 
             realizers.ChangeNodeTextColor((ElementMode)mode, (GrColor)color);
 
@@ -3963,9 +4134,11 @@ showavail:
         public bool SetDebugNodeModeShape(String modeName, String shapeName)
         {
             ElementMode? mode = ParseElementMode(modeName);
-            if(mode == null) return false;
+            if(mode == null)
+                return false;
             GrNodeShape? shape = ParseGrNodeShape(shapeName);
-            if(shape == null) return false;
+            if(shape == null)
+                return false;
 
             realizers.ChangeNodeShape((ElementMode)mode, (GrNodeShape)shape);
 
@@ -3977,9 +4150,11 @@ showavail:
         public bool SetDebugEdgeModeColor(String modeName, String colorName)
         {
             ElementMode? mode = ParseElementMode(modeName);
-            if(mode == null) return false;
+            if(mode == null)
+                return false;
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
+            if(color == null)
+                return false;
 
             realizers.ChangeEdgeColor((ElementMode)mode, (GrColor)color);
 
@@ -3991,9 +4166,11 @@ showavail:
         public bool SetDebugEdgeModeTextColor(String modeName, String colorName)
         {
             ElementMode? mode = ParseElementMode(modeName);
-            if(mode == null) return false;
+            if(mode == null)
+                return false;
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
+            if(color == null)
+                return false;
 
             realizers.ChangeEdgeTextColor((ElementMode)mode, (GrColor)color);
 
@@ -4005,7 +4182,8 @@ showavail:
         public bool SetDebugEdgeModeThickness(String modeName, int thickness)
         {
             ElementMode? mode = ParseElementMode(modeName);
-            if(mode == null) return false;
+            if(mode == null)
+                return false;
             if(thickness < 1 || thickness > 5)
             {
                 errOut.WriteLine("Edge thickness must be in [1..5]");
@@ -4022,9 +4200,11 @@ showavail:
         public bool SetDebugEdgeModeStyle(String modeName, String styleName)
         {
             ElementMode? mode = ParseElementMode(modeName);
-            if(mode == null) return false;
+            if(mode == null)
+                return false;
             GrLineStyle? style = ParseGrLineStyle(styleName);
-            if(style == null) return false;
+            if(style == null)
+                return false;
 
             realizers.ChangeEdgeStyle((ElementMode)mode, (GrLineStyle)style);
 
@@ -4051,10 +4231,12 @@ showavail:
             }
             return mode;
 
-            showavail:
+showavail:
             debugOut.WriteLine("\nAvailable modes are:");
             foreach(String name in Enum.GetNames(typeof(ElementMode)))
+            {
                 debugOut.WriteLine(" - {0}", name);
+            }
             debugOut.WriteLine();
             return null;
         }
@@ -4065,13 +4247,16 @@ showavail:
 
         private String StringToTextToken(String str)
         {
-            if(str.IndexOf('\"') != -1) return "\'" + str + "\'";
-            else return "\"" + str + "\"";
+            if(str.IndexOf('\"') != -1)
+                return "\'" + str + "\'";
+            else
+                return "\"" + str + "\"";
         }
 
         public void SaveGraph(String filename)
         {
-            if(!GraphExists()) return;
+            if(!GraphExists())
+                return;
 
             FileStream file = null;
             StreamWriter sw;
@@ -4083,7 +4268,8 @@ showavail:
             catch(IOException e)
             {
                 errOut.WriteLine("Unable to create file \"{0}\": ", e.Message);
-                if(file != null) file.Close();
+                if(file != null)
+                    file.Close();
                 return;
             }
             try
@@ -4134,31 +4320,47 @@ showavail:
                 // save dump information
 
                 foreach(KeyValuePair<NodeType, GrColor> nodeTypeColor in curShellProcEnv.DumpInfo.NodeTypeColors)
+                {
                     sw.WriteLine("dump set node only {0} color {1}", nodeTypeColor.Key.PackagePrefixedName, nodeTypeColor.Value);
+                }
 
                 foreach(KeyValuePair<NodeType, GrColor> nodeTypeBorderColor in curShellProcEnv.DumpInfo.NodeTypeBorderColors)
+                {
                     sw.WriteLine("dump set node only {0} bordercolor {1}", nodeTypeBorderColor.Key.PackagePrefixedName, nodeTypeBorderColor.Value);
+                }
 
                 foreach(KeyValuePair<NodeType, GrColor> nodeTypeTextColor in curShellProcEnv.DumpInfo.NodeTypeTextColors)
+                {
                     sw.WriteLine("dump set node only {0} textcolor {1}", nodeTypeTextColor.Key.PackagePrefixedName, nodeTypeTextColor.Value);
+                }
 
                 foreach(KeyValuePair<NodeType, GrNodeShape> nodeTypeShape in curShellProcEnv.DumpInfo.NodeTypeShapes)
+                {
                     sw.WriteLine("dump set node only {0} shape {1}", nodeTypeShape.Key.PackagePrefixedName, nodeTypeShape.Value);
+                }
 
                 foreach(KeyValuePair<EdgeType, GrColor> edgeTypeColor in curShellProcEnv.DumpInfo.EdgeTypeColors)
+                {
                     sw.WriteLine("dump set edge only {0} color {1}", edgeTypeColor.Key.PackagePrefixedName, edgeTypeColor.Value);
+                }
 
                 foreach(KeyValuePair<EdgeType, GrColor> edgeTypeTextColor in curShellProcEnv.DumpInfo.EdgeTypeTextColors)
+                {
                     sw.WriteLine("dump set edge only {0} textcolor {1}", edgeTypeTextColor.Key.PackagePrefixedName, edgeTypeTextColor.Value);
+                }
 
                 if((curShellProcEnv.VcgFlags & VCGFlags.EdgeLabels) == 0)
                     sw.WriteLine("dump set edge labels off");
 
                 foreach(NodeType excludedNodeType in curShellProcEnv.DumpInfo.ExcludedNodeTypes)
+                {
                     sw.WriteLine("dump add node only " + excludedNodeType.PackagePrefixedName + " exclude");
+                }
 
                 foreach(EdgeType excludedEdgeType in curShellProcEnv.DumpInfo.ExcludedEdgeTypes)
+                {
                     sw.WriteLine("dump add edge only " + excludedEdgeType.PackagePrefixedName + " exclude");
+                }
 
                 foreach(GroupNodeType groupNodeType in curShellProcEnv.DumpInfo.GroupNodeTypes)
                 {
@@ -4169,11 +4371,11 @@ showavail:
                             String groupModeStr;
                             switch(nkvp.Value & GroupMode.GroupAllNodes)
                             {
-                                case GroupMode.None:               groupModeStr = "no";       break;
-                                case GroupMode.GroupIncomingNodes: groupModeStr = "incoming"; break;
-                                case GroupMode.GroupOutgoingNodes: groupModeStr = "outgoing"; break;
-                                case GroupMode.GroupAllNodes:      groupModeStr = "any";      break;
-                                default: groupModeStr = "This case does not exist by definition..."; break;
+                            case GroupMode.None:               groupModeStr = "no";       break;
+                            case GroupMode.GroupIncomingNodes: groupModeStr = "incoming"; break;
+                            case GroupMode.GroupOutgoingNodes: groupModeStr = "outgoing"; break;
+                            case GroupMode.GroupAllNodes:      groupModeStr = "any";      break;
+                            default: groupModeStr = "This case does not exist by definition..."; break;
                             }
                             sw.WriteLine("dump add node only " + groupNodeType.NodeType.PackagePrefixedName
                                 + " group by " + ((nkvp.Value & GroupMode.Hidden) != 0 ? "hidden " : "") + groupModeStr
@@ -4185,8 +4387,10 @@ showavail:
                 foreach(KeyValuePair<GrGenType, List<InfoTag>> infoTagPair in curShellProcEnv.DumpInfo.InfoTags)
                 {
                     String kind;
-                    if(infoTagPair.Key.IsNodeType) kind = "node";
-                    else kind = "edge";
+                    if(infoTagPair.Key.IsNodeType)
+                        kind = "node";
+                    else
+                        kind = "edge";
 
                     foreach(InfoTag infoTag in infoTagPair.Value)
                     {
@@ -4201,7 +4405,9 @@ showavail:
                     {
                         sw.WriteLine("debug set layout " + layoutOptions.Key);
                         foreach(KeyValuePair<String, String> option in layoutOptions.Value)
+                        {
                             sw.WriteLine("debug set layout option " + option.Key + " " + option.Value);
+                        }
                     }
                     sw.WriteLine("debug set layout " + debugLayout);
                 }
@@ -4220,7 +4426,8 @@ showavail:
 
         public bool Export(List<String> filenameParameters)
         {
-            if(!GraphExists()) return false;
+            if(!GraphExists())
+                return false;
 
             try
             {
@@ -4239,7 +4446,8 @@ showavail:
 
         public bool Import(List<String> filenameParameters)
         {
-            if(!BackendExists()) return false;
+            if(!BackendExists())
+                return false;
 
             if(newGraphOptions.ExternalAssembliesReferenced.Count > 0 || newGraphOptions.Statistics != null
                 || newGraphOptions.KeepDebug || newGraphOptions.LazyNIC || newGraphOptions.Noinline || newGraphOptions.Profile)
@@ -4271,7 +4479,8 @@ showavail:
                 seqApplierAndDebugger.ChangeDebuggerGraphAsNeeded(curShellProcEnv);
 
                 INamedGraph importedNamedGraph = (INamedGraph)curShellProcEnv.ProcEnv.NamedGraph;
-                if(actions!=null) ((BaseActions)actions).Graph = importedNamedGraph;
+                if(actions!=null)
+                    ((BaseActions)actions).Graph = importedNamedGraph;
                 debugOut.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");
                 debugOut.WriteLine("shell graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
                 curShellProcEnv.ProcEnv.Actions = actions;
@@ -4310,42 +4519,59 @@ showavail:
 
             Dictionary<INode, INode> oldToNewNodeMap = new Dictionary<INode, INode>();
 
-            foreach (INode node in graph.Nodes)
+            foreach(INode node in graph.Nodes)
             {
                 NodeType typ = node_model.GetType(node.Type.PackagePrefixedName);
                 INode newNode = CurrentGraph.AddNode(typ);
 
                 String name = null;
-                if (namedGraph != null) name = namedGraph.GetElementName(node);
-                if (name != null) CurrentGraph.SetElementPrefixName(newNode, name);
+                if(namedGraph != null)
+                    name = namedGraph.GetElementName(node);
+                if(name != null)
+                    CurrentGraph.SetElementPrefixName(newNode, name);
 
-                foreach (AttributeType attr in typ.AttributeTypes)
+                foreach(AttributeType attr in typ.AttributeTypes)
                 {
-                    try { newNode.SetAttribute(attr.Name, node.GetAttribute(attr.Name)); }
-                    catch { errOut.WriteLine("failed to copy attribute {0}", attr.Name); }
+                    try
+                    {
+                        newNode.SetAttribute(attr.Name, node.GetAttribute(attr.Name));
+                    }
+                    catch
+                    {
+                        errOut.WriteLine("failed to copy attribute {0}", attr.Name);
+                    }
                 }
                 oldToNewNodeMap[node] = newNode;
             }
 
-            foreach (IEdge edge in graph.Edges)
+            foreach(IEdge edge in graph.Edges)
             {
                 EdgeType typ = edge_model.GetType(edge.Type.PackagePrefixedName);
                 INode newSource = oldToNewNodeMap[edge.Source];
                 INode newTarget = oldToNewNodeMap[edge.Target];
-                if ((newSource == null) || (newTarget == null)) {
+                if((newSource == null) || (newTarget == null))
+                {
                     errOut.WriteLine("failed to retrieve the new node equivalent from the dictionary!!");
                     return false;
                 }
                 IEdge newEdge = CurrentGraph.AddEdge(typ, newSource, newTarget);
 
                 String name = null;
-                if (namedGraph != null) name = namedGraph.GetElementName(edge);
-                if (name != null) CurrentGraph.SetElementPrefixName(newEdge, name);
+                if(namedGraph != null)
+                    name = namedGraph.GetElementName(edge);
+                if(name != null)
+                    CurrentGraph.SetElementPrefixName(newEdge, name);
 
-                foreach (AttributeType attr in typ.AttributeTypes)
+                foreach(AttributeType attr in typ.AttributeTypes)
                 {
-                    try { newEdge.SetAttribute(attr.Name, edge.GetAttribute(attr.Name)); }
-                    catch { errOut.WriteLine("failed to copy attribute {0}", attr.Name); }
+                    try
+                    {
+                        newEdge.SetAttribute(attr.Name, edge.GetAttribute(attr.Name));
+                    }
+                    catch
+                    {
+                        errOut.WriteLine("failed to copy attribute {0}", attr.Name);
+                    }
                 }
             }
 
@@ -4355,7 +4581,8 @@ showavail:
 
         public bool Record(String filename, bool actionSpecified, bool start)
         {
-            if(!GraphExists()) return false;
+            if(!GraphExists())
+                return false;
 
             try
             {
@@ -4389,7 +4616,8 @@ showavail:
 
         public bool RecordFlush()
         {
-            if(!GraphExists()) return false;
+            if(!GraphExists())
+                return false;
 
             curShellProcEnv.ProcEnv.Recorder.Flush();
             
@@ -4398,18 +4626,23 @@ showavail:
 
         public bool Replay(String filename, String from, String to, GrShellDriver driver)
         {
-            if(!GraphExists()) return false;
+            if(!GraphExists())
+                return false;
 
             debugOut.Write("Replaying \"" + filename + "\"");
-            if(from != null) debugOut.Write(" from \"" + from + "\"");
-            if(to != null) debugOut.Write(" to \"" + to + "\"");
+            if(from != null)
+                debugOut.Write(" from \"" + from + "\"");
+            if(to != null)
+                debugOut.Write(" to \"" + to + "\"");
             debugOut.WriteLine("..");
 
             if(driver.Include(filename, from, to))
             {
                 debugOut.Write("..replaying \"" + filename + "\"");
-                if(from != null) debugOut.Write(" from \"" + from + "\"");
-                if(to != null) debugOut.Write(" to \"" + to + "\"");
+                if(from != null)
+                    debugOut.Write(" from \"" + from + "\"");
+                if(to != null)
+                    debugOut.Write(" to \"" + to + "\"");
                 debugOut.WriteLine(" ended");
                 return true;
             }
@@ -4426,9 +4659,9 @@ showavail:
 
         private bool PrintValidateCulprits<T>(IEnumerable<T> elems, bool first) where T : IGraphElement
         {
-            foreach (IGraphElement elem in elems)
+            foreach(IGraphElement elem in elems)
             {
-                if (!first)
+                if(!first)
                     debugOut.Write(',');
                 else
                     first = false;
@@ -4476,7 +4709,8 @@ showavail:
 
         public bool Validate(bool strict, bool onlySpecified)
         {
-            if(!GraphExists()) return false;
+            if(!GraphExists())
+                return false;
 
             ValidationMode mode = ValidationMode.OnlyMultiplicitiesOfMatchingTypes;
             if(strict) mode = onlySpecified ? ValidationMode.StrictOnlySpecified : ValidationMode.Strict;
@@ -4499,9 +4733,9 @@ showavail:
         private void PrintValidateError(ConnectionAssertionError error)
         {
             ValidateInfo valInfo = error.ValidateInfo;
-            switch (error.CAEType)
+            switch(error.CAEType)
             {
-                case CAEType.EdgeNotSpecified:
+            case CAEType.EdgeNotSpecified:
                 {
                     IEdge edge = (IEdge)error.Elem;
                     errOut.WriteLine("  CAE: {0} \"{1}\" -- {2} \"{3}\" {6} {4} \"{5}\" not specified",
@@ -4511,63 +4745,71 @@ showavail:
                         edge.Type.Directedness==Directedness.Directed ? "-->" : "--");
                     break;
                 }
-                case CAEType.NodeTooFewSources:
+            case CAEType.NodeTooFewSources:
                 {
                     INode node = (INode)error.Elem;
                     errOut.Write("  CAE: {0} \"{1}\" [{2}<{3}] -- {4} ", valInfo.SourceType.PackagePrefixedName,
                         curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges,
                         valInfo.SourceLower, valInfo.EdgeType.PackagePrefixedName);
                     bool first = PrintValidateCulprits(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), true);
-                    if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
+                    if(valInfo.EdgeType.Directedness!=Directedness.Directed)
+                    {
                         PrintValidateCulprits(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), first);
                         errOut.WriteLine(" -- {0}", valInfo.TargetType.PackagePrefixedName);
-                    } else {
-                        errOut.WriteLine(" --> {0}", valInfo.TargetType.PackagePrefixedName);
                     }
+                    else
+                        errOut.WriteLine(" --> {0}", valInfo.TargetType.PackagePrefixedName);
                     break;
                 }
-                case CAEType.NodeTooManySources:
+            case CAEType.NodeTooManySources:
                 {
                     INode node = (INode)error.Elem;
                     errOut.Write("  CAE: {0} \"{1}\" [{2}>{3}] -- {4} ", valInfo.SourceType.PackagePrefixedName,
                         curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges,
                         valInfo.SourceUpper, valInfo.EdgeType.PackagePrefixedName);
                     bool first = PrintValidateCulprits(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), true);
-                    if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
+                    if(valInfo.EdgeType.Directedness!=Directedness.Directed)
+                    {
                         PrintValidateCulprits(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), first);
                         errOut.WriteLine(" -- {0}", valInfo.TargetType.PackagePrefixedName);
-                    } else {
-                        errOut.WriteLine(" --> {0}", valInfo.TargetType.PackagePrefixedName);
                     }
+                    else
+                        errOut.WriteLine(" --> {0}", valInfo.TargetType.PackagePrefixedName);
                     break;
                 }
-                case CAEType.NodeTooFewTargets:
+            case CAEType.NodeTooFewTargets:
                 {
                     INode node = (INode)error.Elem;
                     errOut.Write("  CAE: {0} -- {1} ", valInfo.SourceType.PackagePrefixedName,
                              valInfo.EdgeType.PackagePrefixedName);
                     bool first = PrintValidateCulprits(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), true);
-                    if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
+                    if(valInfo.EdgeType.Directedness!=Directedness.Directed)
+                    {
                         PrintValidateCulprits(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), first);
                         errOut.WriteLine(" -- {0} \"{1}\" [{2}<{3}]", valInfo.TargetType.PackagePrefixedName,
                             curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges, valInfo.TargetLower);
-                    } else {
+                    }
+                    else
+                    {
                         errOut.WriteLine(" --> {0} \"{1}\" [{2}<{3}]", valInfo.TargetType.PackagePrefixedName,
                             curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges, valInfo.TargetLower);
                     }
                     break;
                 }
-                case CAEType.NodeTooManyTargets:
+            case CAEType.NodeTooManyTargets:
                 {
                     INode node = (INode)error.Elem;
                     errOut.Write("  CAE: {0} -- {1} ", valInfo.SourceType.PackagePrefixedName,
                         valInfo.EdgeType.PackagePrefixedName);
                     bool first = PrintValidateCulprits(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), true);
-                    if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
+                    if(valInfo.EdgeType.Directedness!=Directedness.Directed)
+                    {
                         PrintValidateCulprits(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), first);
                         errOut.WriteLine(" -- {0} \"{1}\" [{2}>{3}]", valInfo.TargetType.PackagePrefixedName,
                             curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges, valInfo.TargetUpper);
-                    } else {
+                    }
+                    else
+                    {
                         errOut.WriteLine(" --> {0} \"{1}\" [{2}>{3}]", valInfo.TargetType.PackagePrefixedName,
                             curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node), error.FoundEdges, valInfo.TargetUpper);
                     }
@@ -4578,29 +4820,33 @@ showavail:
 
         private IEnumerable<IEdge> OutgoingEdgeToNodeOfType(INode node, EdgeType edgeType, NodeType targetNodeType)
         {
-            foreach (IEdge outEdge in node.GetExactOutgoing(edgeType))
+            foreach(IEdge outEdge in node.GetExactOutgoing(edgeType))
             {
-                if (!outEdge.Target.Type.IsA(targetNodeType)) continue;
+                if(!outEdge.Target.Type.IsA(targetNodeType))
+                    continue;
                 yield return outEdge;
             }
         }
 
         private IEnumerable<IEdge> IncomingEdgeFromNodeOfType(INode node, EdgeType edgeType, NodeType sourceNodeType)
         {
-            foreach (IEdge inEdge in node.GetExactIncoming(edgeType))
+            foreach(IEdge inEdge in node.GetExactIncoming(edgeType))
             {
-                if (!inEdge.Source.Type.IsA(sourceNodeType)) continue;
+                if(!inEdge.Source.Type.IsA(sourceNodeType))
+                    continue;
                 yield return inEdge;
             }
         }
 
         private bool ValidateWithSequence(Sequence seq)
         {
-            if(!GraphExists()) return false;
-            if(!ActionsExists()) return false;
+            if(!GraphExists())
+                return false;
+            if(!ActionsExists())
+                return false;
 
             bool valid = curShellProcEnv.ProcEnv.ValidateWithSequence(seq);
-            if (valid)
+            if(valid)
                 debugOut.WriteLine("The graph is valid with respect to the given sequence.");
             else
                 errOut.WriteLine("The graph is NOT valid with respect to the given sequence!");
@@ -4623,7 +4869,8 @@ showavail:
                 Type backendType = null;
                 foreach(Type type in assembly.GetTypes())
                 {
-                    if(!type.IsClass || type.IsNotPublic) continue;
+                    if(!type.IsClass || type.IsNotPublic)
+                        continue;
                     if(type.GetInterface("IBackend") != null)
                     {
                         if(backendType != null)
@@ -4659,7 +4906,8 @@ showavail:
 
         public bool SelectActions(String actionFilename)
         {
-            if(!GraphExists()) return false;
+            if(!GraphExists())
+                return false;
 
             // replace wrong directory separator chars by the right ones
             if(Path.DirectorySeparatorChar != '\\')
@@ -4773,8 +5021,10 @@ showavail:
             set
             {
                 silence = value;
-                if(silence) errOut.WriteLine("Disabled \"new node/edge created successfully\"-messages");
-                else errOut.WriteLine("Enabled \"new node/edge created successfully\"-messages");
+                if(silence)
+                    errOut.WriteLine("Disabled \"new node/edge created successfully\"-messages");
+                else
+                    errOut.WriteLine("Enabled \"new node/edge created successfully\"-messages");
             }
         }
 
@@ -4793,7 +5043,8 @@ showavail:
 
         public bool RedirectEmit(String filename)
         {
-            if(!GraphExists()) return false;
+            if(!GraphExists())
+                return false;
 
             if(curShellProcEnv.ProcEnv.EmitWriter != Console.Out)
                 curShellProcEnv.ProcEnv.EmitWriter.Close();
