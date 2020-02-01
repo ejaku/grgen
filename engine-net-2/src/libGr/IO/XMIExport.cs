@@ -156,7 +156,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(contains.ContainsKey(node)
                     && contains[node].Contains(edge.Target))
+                {
                     continue;
+                }
                 xmlwriter.WriteAttributeString(XmiReferenceFromGrGenEdge(edge.Type.Name, node), edge.Target.GetHashCode().ToString());
             }
 
@@ -180,21 +182,21 @@ namespace de.unika.ipd.grGen.libGr
                 String valuestr = (value == null) ? "" : value.ToString();
                 switch(attrType.Kind)
                 {
-                    case AttributeKind.BooleanAttr:
-                    case AttributeKind.DoubleAttr:
-                    case AttributeKind.FloatAttr:
-                    case AttributeKind.ByteAttr:
-                    case AttributeKind.ShortAttr:
-                    case AttributeKind.IntegerAttr:
-                    case AttributeKind.LongAttr:
-                    case AttributeKind.StringAttr:
-                        xmlwriter.WriteAttributeString(RemoveGrGenPrefix(attrType.Name), valuestr);
-                        break;
-                    case AttributeKind.EnumAttr:
-                        xmlwriter.WriteAttributeString(RemoveGrGenPrefix(attrType.Name), RemoveGrGenPrefix(valuestr));
-                        break;
-                    default:
-                        throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
+                case AttributeKind.BooleanAttr:
+                case AttributeKind.DoubleAttr:
+                case AttributeKind.FloatAttr:
+                case AttributeKind.ByteAttr:
+                case AttributeKind.ShortAttr:
+                case AttributeKind.IntegerAttr:
+                case AttributeKind.LongAttr:
+                case AttributeKind.StringAttr:
+                    xmlwriter.WriteAttributeString(RemoveGrGenPrefix(attrType.Name), valuestr);
+                    break;
+                case AttributeKind.EnumAttr:
+                    xmlwriter.WriteAttributeString(RemoveGrGenPrefix(attrType.Name), RemoveGrGenPrefix(valuestr));
+                    break;
+                default:
+                    throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
                 }
             }
         }
@@ -232,9 +234,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public void Dispose()
         {
-            if (xmlwriter != null) {
+            if(xmlwriter != null)
                 xmlwriter.Close();
-            }
         }
     }
 

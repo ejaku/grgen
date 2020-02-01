@@ -34,23 +34,24 @@ namespace de.unika.ipd.grGen.libGr
         {
             String first = ListGet(filenameParameters, 0);
             StreamWriter writer = null;
-            if (first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
+            if(first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase))
+            {
                 FileStream filewriter = new FileStream(first, FileMode.OpenOrCreate,  FileAccess.Write);
                 writer = new StreamWriter(new GZipStream(filewriter, CompressionMode.Compress));
                 first = first.Substring(0, first.Length - 3);
-            } else {
-                writer = new StreamWriter(first);
             }
+            else
+                writer = new StreamWriter(first);
 
             using(writer)
             {
                 if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                {
                     GXLExport.Export(graph, writer);
-                }
                 else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                     || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+                {
                     throw new NotSupportedException("File format requires an export of a named graph");
+                }
                 else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
                     throw new NotSupportedException("File format requires an export of a named graph");
                 else
@@ -83,16 +84,12 @@ namespace de.unika.ipd.grGen.libGr
                 first = first.Substring(0, first.Length - 3);
             }
             else
-            {
                 writer = new StreamWriter(first);
-            }
 
             using(writer)
             {
                 if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                {
                     GXLExport.Export(graph, writer);
-                }
                 else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                     || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -118,13 +115,9 @@ namespace de.unika.ipd.grGen.libGr
                     GRSExport.Export(graph, writer, noNewGraph, typesToAttributesToSkip.Count > 0 ? typesToAttributesToSkip : null);
                 }
                 else if(first.EndsWith(".xmi", StringComparison.InvariantCultureIgnoreCase))
-                {
                     XMIExport.Export(graph, writer);
-                }
                 else if(first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase))
-                {
                     GRGExport.Export(graph, writer);
-                }
                 else
                     throw new NotSupportedException("File format not supported");
             }
@@ -150,13 +143,14 @@ namespace de.unika.ipd.grGen.libGr
             FileInfo fi = new FileInfo(first);
             long fileSize = fi.Length;
             StreamReader reader = null;
-            if (first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
+            if(first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase))
+            {
                 FileStream filereader = new FileStream(first, FileMode.Open,  FileAccess.Read);
                 reader = new StreamReader(new GZipStream(filereader, CompressionMode.Decompress));
                 first = first.Substring(0, first.Length - 3);
-            } else {
-                reader = new StreamReader(first);
             }
+            else
+                reader = new StreamReader(first);
 
             using(reader)
             {
@@ -164,7 +158,9 @@ namespace de.unika.ipd.grGen.libGr
                     return GXLImport.Import(reader, ListGet(filenameParameters, 1), backend, out actions);
                 else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                             || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+                {
                     return GRSImport.Import(reader, fileSize, ListGet(filenameParameters, 1), backend, out actions);
+                }
                 else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
                 {
                     List<String> ecores = new List<String>();
@@ -173,7 +169,8 @@ namespace de.unika.ipd.grGen.libGr
                     bool noPackageNamePrefix = false;
                     foreach(String filename in filenameParameters)
                     {
-                        if(filename.EndsWith(".ecore")) ecores.Add(filename);
+                        if(filename.EndsWith(".ecore"))
+                            ecores.Add(filename);
                         else if(filename.EndsWith(".grg"))
                         {
                             if(grg != null)
@@ -187,9 +184,7 @@ namespace de.unika.ipd.grGen.libGr
                             xmi = filename;
                         }
                         else if(filename == "nopackagenameprefix")
-                        {
                             noPackageNamePrefix = true;
-                        }
                     }
                     return ECoreImport.Import(backend, ecores, grg, xmi, noPackageNamePrefix, out actions);
                 }
@@ -216,9 +211,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(importFilename.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
                 return GXLImport.Import(importFilename, backend, graphModel, out actions);
-            else if (importFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
-                        || importFilename.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+            else if(importFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+                    || importFilename.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+            {
                 return GRSImport.Import(importFilename, backend, graphModel, out actions);
+            }
             else
                 throw new NotSupportedException("File format not supported");
         }

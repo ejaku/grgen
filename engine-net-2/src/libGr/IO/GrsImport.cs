@@ -207,29 +207,29 @@ namespace de.unika.ipd.grGen.libGr
             {
                 switch(LookaheadToken())
                 {
-                    case TokenKind.NEW:
-                        ParseNewGraphElementCommand();
-                        break;
-                    case TokenKind.DELETE:
-                        ParseDeleteGraphElementCommand();
-                        break;
-                    case TokenKind.RETYPE:
-                        ParseRetypeGraphElementCommand();
-                        break;
-                    case TokenKind.ADD:
-                        ParseNewSubgraphCommand();
-                        break;
-                    case TokenKind.IN:
-                        ParseSwitchToSubgraph();
-                        break;
-                    case TokenKind.EXTERNAL:
-                        ParseExternalAttributeChange();
-                        break;
-                    case TokenKind.AT:
-                        ParseDeferredAttributeAssignment();
-                        break;
-                    default:
-                        throw GetSyntaxException("syntax error", "new command, or delete command, or retype command, or external attribute change, or deferred attribute assignment (assignment proper, or container element assignment, or container add, or container rem)");
+                case TokenKind.NEW:
+                    ParseNewGraphElementCommand();
+                    break;
+                case TokenKind.DELETE:
+                    ParseDeleteGraphElementCommand();
+                    break;
+                case TokenKind.RETYPE:
+                    ParseRetypeGraphElementCommand();
+                    break;
+                case TokenKind.ADD:
+                    ParseNewSubgraphCommand();
+                    break;
+                case TokenKind.IN:
+                    ParseSwitchToSubgraph();
+                    break;
+                case TokenKind.EXTERNAL:
+                    ParseExternalAttributeChange();
+                    break;
+                case TokenKind.AT:
+                    ParseDeferredAttributeAssignment();
+                    break;
+                default:
+                    throw GetSyntaxException("syntax error", "new command, or delete command, or retype command, or external attribute change, or deferred attribute assignment (assignment proper, or container element assignment, or container add, or container rem)");
                 }
             }
         }
@@ -595,8 +595,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             string typeName = ParseTypeText();
             NodeType nodeType = graph.Model.NodeModel.GetType(typeName);
-            if(nodeType == null) throw new Exception("Unknown node type: \"" + typeName + "\"");
-            if(nodeType.IsAbstract) throw new Exception("Abstract node type \"" + typeName + "\" may not be instantiated!");
+            if(nodeType == null)
+                throw new Exception("Unknown node type: \"" + typeName + "\"");
+            if(nodeType.IsAbstract)
+                throw new Exception("Abstract node type \"" + typeName + "\" may not be instantiated!");
             return nodeType;
         }
 
@@ -604,8 +606,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             string typeName = ParseTypeText();
             EdgeType edgeType = graph.Model.EdgeModel.GetType(typeName);
-            if(edgeType == null) throw new Exception("Unknown edge type: \"" + typeName + "\"");
-            if(edgeType.IsAbstract) throw new Exception("Abstract edge type \"" + typeName + "\" may not be instantiated!");
+            if(edgeType == null)
+                throw new Exception("Unknown edge type: \"" + typeName + "\"");
+            if(edgeType.IsAbstract)
+                throw new Exception("Abstract edge type \"" + typeName + "\" may not be instantiated!");
             return edgeType;
         }
 
@@ -629,8 +633,10 @@ namespace de.unika.ipd.grGen.libGr
             string typeName = ParseTypeText();
             
             NodeType nodeType = graph.Model.NodeModel.GetType(typeName);
-            if(nodeType == null) throw new Exception("Unknown node type: \"" + typeName + "\"");
-            if(nodeType.IsAbstract) throw new Exception("Abstract node type \"" + typeName + "\" may not be instantiated!");
+            if(nodeType == null)
+                throw new Exception("Unknown node type: \"" + typeName + "\"");
+            if(nodeType.IsAbstract)
+                throw new Exception("Abstract node type \"" + typeName + "\" may not be instantiated!");
             
             Match(TokenKind.LPARENTHESIS);
             Match(TokenKind.DOLLAR);
@@ -661,8 +667,10 @@ namespace de.unika.ipd.grGen.libGr
             string typeName = ParseTypeText();
 
             edgeType = graph.Model.EdgeModel.GetType(typeName);
-            if(edgeType == null) throw new Exception("Unknown edge type: \"" + typeName + "\"");
-            if(edgeType.IsAbstract) throw new Exception("Abstract edge type \"" + typeName + "\" may not be instantiated!");
+            if(edgeType == null)
+                throw new Exception("Unknown edge type: \"" + typeName + "\"");
+            if(edgeType.IsAbstract)
+                throw new Exception("Abstract edge type \"" + typeName + "\" may not be instantiated!");
             
             Match(TokenKind.LPARENTHESIS);
             Match(TokenKind.DOLLAR);
@@ -858,39 +866,39 @@ namespace de.unika.ipd.grGen.libGr
         {
             switch(attrType.Kind)
             {
-                case AttributeKind.ByteAttr:
-                    return ParseByteValue();
-                case AttributeKind.ShortAttr:
-                    return ParseShortValue();
-                case AttributeKind.IntegerAttr:
-                    return ParseIntValue();
-                case AttributeKind.LongAttr:
-                    return ParseLongValue();
-                case AttributeKind.BooleanAttr:
-                    return ParseBooleanValue();
-                case AttributeKind.StringAttr:
-                    return ParseStringValue();
-                case AttributeKind.EnumAttr:
-                    return ParseEnumValue(attrType.EnumType);
-                case AttributeKind.FloatAttr:
-                    return ParseFloatValue();
-                case AttributeKind.DoubleAttr:
-                    return ParseDoubleValue();
-                case AttributeKind.ObjectAttr:
-                    return ParseObjectValue(attrType);
-                case AttributeKind.GraphAttr:
-                    return ParseGraphValue();
-                case AttributeKind.NodeAttr:
-                    return ParseNodeValue(attrType.PackagePrefixedTypeName);
-                case AttributeKind.EdgeAttr:
-                    return ParseEdgeValue(attrType.PackagePrefixedTypeName);
-                case AttributeKind.MapAttr:
-                case AttributeKind.SetAttr:
-                case AttributeKind.ArrayAttr:
-                case AttributeKind.DequeAttr:
-                    throw new Exception("Internal error, non-simple value in simple value parsing");
-                default:
-                    throw new Exception("Unsupported attribute type " + attrType.ToString());
+            case AttributeKind.ByteAttr:
+                return ParseByteValue();
+            case AttributeKind.ShortAttr:
+                return ParseShortValue();
+            case AttributeKind.IntegerAttr:
+                return ParseIntValue();
+            case AttributeKind.LongAttr:
+                return ParseLongValue();
+            case AttributeKind.BooleanAttr:
+                return ParseBooleanValue();
+            case AttributeKind.StringAttr:
+                return ParseStringValue();
+            case AttributeKind.EnumAttr:
+                return ParseEnumValue(attrType.EnumType);
+            case AttributeKind.FloatAttr:
+                return ParseFloatValue();
+            case AttributeKind.DoubleAttr:
+                return ParseDoubleValue();
+            case AttributeKind.ObjectAttr:
+                return ParseObjectValue(attrType);
+            case AttributeKind.GraphAttr:
+                return ParseGraphValue();
+            case AttributeKind.NodeAttr:
+                return ParseNodeValue(attrType.PackagePrefixedTypeName);
+            case AttributeKind.EdgeAttr:
+                return ParseEdgeValue(attrType.PackagePrefixedTypeName);
+            case AttributeKind.MapAttr:
+            case AttributeKind.SetAttr:
+            case AttributeKind.ArrayAttr:
+            case AttributeKind.DequeAttr:
+                throw new Exception("Internal error, non-simple value in simple value parsing");
+            default:
+                throw new Exception("Unsupported attribute type " + attrType.ToString());
             }
         }
 
@@ -1052,7 +1060,7 @@ namespace de.unika.ipd.grGen.libGr
         private INode ParseNodeValue(string typeName)
         {
             String nodeName;
-            if (LookaheadToken() == TokenKind.AT)
+            if(LookaheadToken() == TokenKind.AT)
             {
                 Match(TokenKind.AT);
                 Match(TokenKind.LPARENTHESIS);
@@ -1067,7 +1075,7 @@ namespace de.unika.ipd.grGen.libGr
         private IEdge ParseEdgeValue(string typeName)
         {
             String edgeName;
-            if (LookaheadToken() == TokenKind.AT)
+            if(LookaheadToken() == TokenKind.AT)
             {
                 Match(TokenKind.AT);
                 Match(TokenKind.LPARENTHESIS);
@@ -1152,10 +1160,14 @@ namespace de.unika.ipd.grGen.libGr
                 tokenKind = TokenKind.NUMBER_BYTE;
                 if(tokenContent.Length == 4 && (tokenContent[0] == 't' || tokenContent[0] == 'T')
                     && tokenContent[1] == 'r' && tokenContent[2] == 'u' && tokenContent[3] == 'e')
+                {
                     tokenKind = TokenKind.TRUE;
+                }
                 else if(tokenContent.Length == 5 && (tokenContent[0] == 'f' || tokenContent[0] == 'F')
                     && tokenContent[1] == 'a' && tokenContent[2] == 'l' && tokenContent[3] == 's' && tokenContent[4] == 'e')
+                {
                     tokenKind = TokenKind.FALSE;
+                }
             }
         }
 
@@ -1183,83 +1195,83 @@ namespace de.unika.ipd.grGen.libGr
         {
             switch(kind)
             {
-                case TokenKind.DOUBLECOLON:
-                    throw GetSyntaxException("Syntax error", "::");
-                case TokenKind.DOLLAR:
-                    throw GetSyntaxException("Syntax error", "$");
-                case TokenKind.EQUAL:
-                    throw GetSyntaxException("Syntax error", "=");
-                case TokenKind.COMMA:
-                    throw GetSyntaxException("Syntax error", ",");
-                case TokenKind.ARROW:
-                    throw GetSyntaxException("Syntax error", "->");
-                case TokenKind.MINUS:
-                    throw GetSyntaxException("Syntax error", "-");
-                case TokenKind.LPARENTHESIS:
-                    throw GetSyntaxException("Syntax error", "(");
-                case TokenKind.RPARENTHESIS:
-                    throw GetSyntaxException("Syntax error", ")");
-                case TokenKind.AT:
-                    throw GetSyntaxException("Syntax error", "@");
-                case TokenKind.LANGLE:
-                    throw GetSyntaxException("Syntax error", "<");
-                case TokenKind.RANGLE:
-                    throw GetSyntaxException("Syntax error", ">");
-                case TokenKind.LBRACE:
-                    throw GetSyntaxException("Syntax error", "{");
-                case TokenKind.RBRACE:
-                    throw GetSyntaxException("Syntax error", "}");
-                case TokenKind.LBOXBRACKET:
-                    throw GetSyntaxException("Syntax error", "[");
-                case TokenKind.RBOXBRACKET:
-                    throw GetSyntaxException("Syntax error", "]");
-                case TokenKind.NUMBER:
-                case TokenKind.NUMBER_BYTE:
-                case TokenKind.NUMBER_SHORT:
-                case TokenKind.NUMBER_LONG:
-                    throw GetSyntaxException("Syntax error", "number");
-                case TokenKind.HEXNUMBER:
-                case TokenKind.HEXNUMBER_BYTE:
-                case TokenKind.HEXNUMBER_SHORT:
-                case TokenKind.HEXNUMBER_LONG:
-                    throw GetSyntaxException("Syntax error", "number in hex notation");
-                case TokenKind.NUMFLOAT:
-                case TokenKind.NUMDOUBLE:
-                    throw GetSyntaxException("Syntax error", "floating point number");
-                case TokenKind.DOUBLEQUOTEDTEXT:
-                    throw GetSyntaxException("Syntax error", "double quoted text");
-                case TokenKind.SINGLEQUOTEDTEXT:
-                    throw GetSyntaxException("Syntax error", "single quoted text");
-                case TokenKind.IDENT:
-                    throw GetSyntaxException("Syntax error", "identifier");
-                case TokenKind.FALSE:
-                    throw GetSyntaxException("Syntax error", "false");
-                case TokenKind.GRAPH:
-                    throw GetSyntaxException("Syntax error", "graph");
-                case TokenKind.NEW:
-                    throw GetSyntaxException("Syntax error", "new");
-                case TokenKind.DELETE:
-                    throw GetSyntaxException("Syntax error", "delete");
-                case TokenKind.RETYPE:
-                    throw GetSyntaxException("Syntax error", "retype");
-                case TokenKind.EXTERNAL:
-                    throw GetSyntaxException("Syntax error", "external");
-                case TokenKind.NODE:
-                    throw GetSyntaxException("Syntax error", "node");
-                case TokenKind.EDGE:
-                    throw GetSyntaxException("Syntax error", "edge");
-                case TokenKind.NULL:
-                    throw GetSyntaxException("Syntax error", "null");
-                case TokenKind.TRUE:
-                    throw GetSyntaxException("Syntax error", "true");
-                case TokenKind.SET:
-                    throw GetSyntaxException("Syntax error", "set");
-                case TokenKind.MAP:
-                    throw GetSyntaxException("Syntax error", "map");
-                case TokenKind.ARRAY:
-                    throw GetSyntaxException("Syntax error", "array");
-                case TokenKind.DEQUE:
-                    throw GetSyntaxException("Syntax error", "deque");
+            case TokenKind.DOUBLECOLON:
+                throw GetSyntaxException("Syntax error", "::");
+            case TokenKind.DOLLAR:
+                throw GetSyntaxException("Syntax error", "$");
+            case TokenKind.EQUAL:
+                throw GetSyntaxException("Syntax error", "=");
+            case TokenKind.COMMA:
+                throw GetSyntaxException("Syntax error", ",");
+            case TokenKind.ARROW:
+                throw GetSyntaxException("Syntax error", "->");
+            case TokenKind.MINUS:
+                throw GetSyntaxException("Syntax error", "-");
+            case TokenKind.LPARENTHESIS:
+                throw GetSyntaxException("Syntax error", "(");
+            case TokenKind.RPARENTHESIS:
+                throw GetSyntaxException("Syntax error", ")");
+            case TokenKind.AT:
+                throw GetSyntaxException("Syntax error", "@");
+            case TokenKind.LANGLE:
+                throw GetSyntaxException("Syntax error", "<");
+            case TokenKind.RANGLE:
+                throw GetSyntaxException("Syntax error", ">");
+            case TokenKind.LBRACE:
+                throw GetSyntaxException("Syntax error", "{");
+            case TokenKind.RBRACE:
+                throw GetSyntaxException("Syntax error", "}");
+            case TokenKind.LBOXBRACKET:
+                throw GetSyntaxException("Syntax error", "[");
+            case TokenKind.RBOXBRACKET:
+                throw GetSyntaxException("Syntax error", "]");
+            case TokenKind.NUMBER:
+            case TokenKind.NUMBER_BYTE:
+            case TokenKind.NUMBER_SHORT:
+            case TokenKind.NUMBER_LONG:
+                throw GetSyntaxException("Syntax error", "number");
+            case TokenKind.HEXNUMBER:
+            case TokenKind.HEXNUMBER_BYTE:
+            case TokenKind.HEXNUMBER_SHORT:
+            case TokenKind.HEXNUMBER_LONG:
+                throw GetSyntaxException("Syntax error", "number in hex notation");
+            case TokenKind.NUMFLOAT:
+            case TokenKind.NUMDOUBLE:
+                throw GetSyntaxException("Syntax error", "floating point number");
+            case TokenKind.DOUBLEQUOTEDTEXT:
+                throw GetSyntaxException("Syntax error", "double quoted text");
+            case TokenKind.SINGLEQUOTEDTEXT:
+                throw GetSyntaxException("Syntax error", "single quoted text");
+            case TokenKind.IDENT:
+                throw GetSyntaxException("Syntax error", "identifier");
+            case TokenKind.FALSE:
+                throw GetSyntaxException("Syntax error", "false");
+            case TokenKind.GRAPH:
+                throw GetSyntaxException("Syntax error", "graph");
+            case TokenKind.NEW:
+                throw GetSyntaxException("Syntax error", "new");
+            case TokenKind.DELETE:
+                throw GetSyntaxException("Syntax error", "delete");
+            case TokenKind.RETYPE:
+                throw GetSyntaxException("Syntax error", "retype");
+            case TokenKind.EXTERNAL:
+                throw GetSyntaxException("Syntax error", "external");
+            case TokenKind.NODE:
+                throw GetSyntaxException("Syntax error", "node");
+            case TokenKind.EDGE:
+                throw GetSyntaxException("Syntax error", "edge");
+            case TokenKind.NULL:
+                throw GetSyntaxException("Syntax error", "null");
+            case TokenKind.TRUE:
+                throw GetSyntaxException("Syntax error", "true");
+            case TokenKind.SET:
+                throw GetSyntaxException("Syntax error", "set");
+            case TokenKind.MAP:
+                throw GetSyntaxException("Syntax error", "map");
+            case TokenKind.ARRAY:
+                throw GetSyntaxException("Syntax error", "array");
+            case TokenKind.DEQUE:
+                throw GetSyntaxException("Syntax error", "deque");
             }
         }
 
@@ -1358,20 +1370,20 @@ namespace de.unika.ipd.grGen.libGr
 
                 switch(Lookahead())
                 {
-                    case '-':
-                    case '.':
-                    case ',':
-                    case ':':
-                    case '/':
-                    case '\\':
-                    case '(':
-                    case ')':
-                        EatChar();
-                        break;
-                    default:
-                        string path = tokenContent.ToString();
-                        EatToken();
-                        return path;
+                case '-':
+                case '.':
+                case ',':
+                case ':':
+                case '/':
+                case '\\':
+                case '(':
+                case ')':
+                    EatChar();
+                    break;
+                default:
+                    string path = tokenContent.ToString();
+                    EatToken();
+                    return path;
                 }
             }
         }
@@ -1516,7 +1528,7 @@ namespace de.unika.ipd.grGen.libGr
                     EatCharWithoutIngesting();
                     while(Lookahead() != '\'' && Lookahead() != '\0')
                     {
-                        if (Lookahead() == '\\')
+                        if(Lookahead() == '\\')
                             EatCharWithoutIngesting();
                         EatChar();
                     }
@@ -1547,13 +1559,17 @@ namespace de.unika.ipd.grGen.libGr
                     if(tokenContent.Length == 3
                         && tokenContent[1] == 'd'
                         && tokenContent[2] == 'd')
+                    {
                         return FoundToken(TokenKind.ADD);
+                    }
                     else if(tokenContent.Length == 5
                         && tokenContent[1] == 'r'
                         && tokenContent[2] == 'r'
                         && tokenContent[3] == 'a'
                         && tokenContent[4] == 'y')
+                    {
                         return FoundToken(TokenKind.ARRAY);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'd':
@@ -1562,14 +1578,18 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[2] == 'q'
                         && tokenContent[3] == 'u'
                         && tokenContent[4] == 'e')
+                    {
                         return FoundToken(TokenKind.DEQUE);
+                    }
                     else if(tokenContent.Length == 6
                         && tokenContent[1] == 'e'
                         && tokenContent[2] == 'l'
                         && tokenContent[3] == 'e'
                         && tokenContent[4] == 't'
                         && tokenContent[5] == 'e')
+                    {
                         return FoundToken(TokenKind.DELETE);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'e':
@@ -1577,7 +1597,9 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[1] == 'd'
                         && tokenContent[2] == 'g'
                         && tokenContent[3] == 'e')
+                    {
                         return FoundToken(TokenKind.EDGE);
+                    }
                     else if(tokenContent.Length == 8
                         && tokenContent[1] == 'x'
                         && tokenContent[2] == 't'
@@ -1586,7 +1608,9 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[5] == 'n'
                         && tokenContent[6] == 'a'
                         && tokenContent[7] == 'l')
+                    {
                         return FoundToken(TokenKind.EDGE);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'f':
@@ -1596,7 +1620,9 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[2] == 'l'
                         && tokenContent[3] == 's'
                         && tokenContent[4] == 'e')
+                    {
                         return FoundToken(TokenKind.FALSE);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'g':
@@ -1605,58 +1631,76 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[2] == 'a'
                         && tokenContent[3] == 'p'
                         && tokenContent[4] == 'h')
+                    {
                         return FoundToken(TokenKind.GRAPH);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'i':
                     if(tokenContent.Length == 2
                         && tokenContent[1] == 'n')
+                    {
                         return FoundToken(TokenKind.IN);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'm':
                     if(tokenContent.Length == 3
                         && tokenContent[1] == 'a'
                         && tokenContent[2] == 'p')
+                    {
                         return FoundToken(TokenKind.MAP);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'n':
                     if(tokenContent.Length == 3
                         && tokenContent[1] == 'e'
                         && tokenContent[2] == 'w')
+                    {
                         return FoundToken(TokenKind.NEW);
+                    }
                     else if(tokenContent.Length == 4
                         && tokenContent[1] == 'u'
                         && tokenContent[2] == 'l'
                         && tokenContent[3] == 'l')
+                    {
                         return FoundToken(TokenKind.NULL);
+                    }
                     else if(tokenContent.Length == 4
                         && tokenContent[1] == 'o'
                         && tokenContent[2] == 'd'
                         && tokenContent[3] == 'e')
+                    {
                         return FoundToken(TokenKind.NODE);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 'r':
                     if(tokenContent.Length == 3
                         && tokenContent[1] == 'e'
                         && tokenContent[2] == 'm')
+                    {
                         return FoundToken(TokenKind.REM);
+                    }
                     else if(tokenContent.Length == 6
                         && tokenContent[1] == 'e'
                         && tokenContent[2] == 't'
                         && tokenContent[3] == 'y'
                         && tokenContent[4] == 'p'
                         && tokenContent[5] == 'e')
+                    {
                         return FoundToken(TokenKind.RETYPE);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 's':
                     if(tokenContent.Length == 3
                         && tokenContent[1] == 'e'
                         && tokenContent[2] == 't')
+                    {
                         return FoundToken(TokenKind.SET);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 case 't':
@@ -1665,7 +1709,9 @@ namespace de.unika.ipd.grGen.libGr
                         && tokenContent[1] == 'r'
                         && tokenContent[2] == 'u'
                         && tokenContent[3] == 'e')
+                    {
                         return FoundToken(TokenKind.TRUE);
+                    }
                     else
                         return FoundToken(TokenKind.IDENT);
                 default:
@@ -1696,38 +1742,38 @@ namespace de.unika.ipd.grGen.libGr
 
                 switch(Lookahead())
                 {
-                    case '.':
-                        return TokenizeFloatingPointNumber();
+                case '.':
+                    return TokenizeFloatingPointNumber();
 
-                    case 'e':
-                    case 'E':
-                        return TokenizeFloatingPointNumber();
+                case 'e':
+                case 'E':
+                    return TokenizeFloatingPointNumber();
 
-                    case 'y':
-                    case 'Y':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.NUMBER_BYTE);
+                case 'y':
+                case 'Y':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.NUMBER_BYTE);
 
-                    case 's':
-                    case 'S':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.NUMBER_SHORT);
+                case 's':
+                case 'S':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.NUMBER_SHORT);
 
-                    case 'l':
-                    case 'L':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.NUMBER_LONG);
+                case 'l':
+                case 'L':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.NUMBER_LONG);
 
-                    case 'f':
-                    case 'F':
-                        return TokenizeFloatingPointNumber();
+                case 'f':
+                case 'F':
+                    return TokenizeFloatingPointNumber();
 
-                    case 'd':
-                    case 'D':
-                        return TokenizeFloatingPointNumber();
+                case 'd':
+                case 'D':
+                    return TokenizeFloatingPointNumber();
 
-                    default:
-                        return FoundToken(TokenKind.NUMBER);
+                default:
+                    return FoundToken(TokenKind.NUMBER);
                 }
             }
         }
@@ -1749,38 +1795,38 @@ namespace de.unika.ipd.grGen.libGr
 
                 switch(Lookahead())
                 {
-                    case 'a':
-                    case 'b':
-                    case 'c':
-                    case 'd':
-                    case 'e':
-                    case 'f':
-                    case 'A':
-                    case 'B':
-                    case 'C':
-                    case 'D':
-                    case 'E':
-                    case 'F':
-                        EatChar();
-                        break;
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                    EatChar();
+                    break;
 
-                    case 'y':
-                    case 'Y':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.HEXNUMBER_BYTE);
+                case 'y':
+                case 'Y':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.HEXNUMBER_BYTE);
 
-                    case 's':
-                    case 'S':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.HEXNUMBER_SHORT);
+                case 's':
+                case 'S':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.HEXNUMBER_SHORT);
 
-                    case 'l':
-                    case 'L':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.HEXNUMBER_LONG);
+                case 'l':
+                case 'L':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.HEXNUMBER_LONG);
 
-                    default:
-                        return FoundToken(TokenKind.HEXNUMBER);
+                default:
+                    return FoundToken(TokenKind.HEXNUMBER);
                 }
             }
         }
@@ -1799,27 +1845,27 @@ namespace de.unika.ipd.grGen.libGr
 
                 switch(Lookahead())
                 {
-                    case '.':
-                        EatChar();
-                        break;
+                case '.':
+                    EatChar();
+                    break;
 
-                    case 'e':
-                    case 'E':
-                        EatChar();
-                        return TokenizeFloatingPointNumberExponent();
+                case 'e':
+                case 'E':
+                    EatChar();
+                    return TokenizeFloatingPointNumberExponent();
 
-                    case 'f':
-                    case 'F':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.NUMFLOAT);
+                case 'f':
+                case 'F':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.NUMFLOAT);
 
-                    case 'd':
-                    case 'D':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.NUMDOUBLE);
+                case 'd':
+                case 'D':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.NUMDOUBLE);
 
-                    default:
-                        return FoundToken(TokenKind.NUMDOUBLE);
+                default:
+                    return FoundToken(TokenKind.NUMDOUBLE);
                 }
             }
         }
@@ -1844,18 +1890,18 @@ namespace de.unika.ipd.grGen.libGr
 
                 switch(Lookahead())
                 {
-                    case 'f':
-                    case 'F':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.NUMFLOAT);
+                case 'f':
+                case 'F':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.NUMFLOAT);
 
-                    case 'd':
-                    case 'D':
-                        EatCharWithoutIngesting();
-                        return FoundToken(TokenKind.NUMDOUBLE);
+                case 'd':
+                case 'D':
+                    EatCharWithoutIngesting();
+                    return FoundToken(TokenKind.NUMDOUBLE);
 
-                    default:
-                        return FoundToken(TokenKind.NUMDOUBLE);
+                default:
+                    return FoundToken(TokenKind.NUMDOUBLE);
                 }
             }
         }
@@ -1866,35 +1912,35 @@ namespace de.unika.ipd.grGen.libGr
             {
                 switch(Lookahead())
                 {
-                    case ' ':
-                    case '\t':
-                        EatCharWithoutIngesting();
-                        break;
+                case ' ':
+                case '\t':
+                    EatCharWithoutIngesting();
+                    break;
 
-                    case '\r':
+                case '\r':
+                    EatCharWithoutIngesting();
+                    if(Lookahead() == '\n')
                         EatCharWithoutIngesting();
-                        if(Lookahead() == '\n')
-                            EatCharWithoutIngesting();
-                        ++line;
-                        column = 0;
-                        break;
+                    ++line;
+                    column = 0;
+                    break;
 
-                    case '\n':
+                case '\n':
+                    EatCharWithoutIngesting();
+                    ++line;
+                    column = 0;
+                    break;
+
+                case '#':
+                    EatCharWithoutIngesting();
+                    while(Lookahead() != '\n' && Lookahead() != '\r' && Lookahead() != '\0')
+                    {
                         EatCharWithoutIngesting();
-                        ++line;
-                        column = 0;
-                        break;
+                    }
+                    break;
 
-                    case '#':
-                        EatCharWithoutIngesting();
-                        while(Lookahead() != '\n' && Lookahead() != '\r' && Lookahead() != '\0')
-                        {
-                            EatCharWithoutIngesting();
-                        }
-                        break;
-
-                    default:
-                        return;
+                default:
+                    return;
                 }
             }
         }
@@ -1958,7 +2004,8 @@ namespace de.unika.ipd.grGen.libGr
                 return null;
 
             IGraphElement elem = graph.GetGraphElement(elemName);
-            if(elem == null) throw new Exception("Unknown graph element " + elemName);
+            if(elem == null)
+                throw new Exception("Unknown graph element " + elemName);
             return elem;
         }
 

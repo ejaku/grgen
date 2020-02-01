@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public void Dispose()
         {
-            if (writer != null)
+            if(writer != null)
             {
                 writer.Dispose();
             }
@@ -117,7 +117,8 @@ namespace de.unika.ipd.grGen.libGr
                         {
                             object value = node.GetAttribute(attrType.Name);
                             // TODO: Add support for null values, as the default initializers could assign non-null values!
-                            if(value != null) {
+                            if(value != null)
+                            {
                                 EmitAttributeInitialization(node, attrType, value, graph, "=", sw);
                                 EmitAttributeInitialization(node, attrType, value, graph, "==", sw2);
                             }
@@ -160,7 +161,8 @@ namespace de.unika.ipd.grGen.libGr
                             {
                                 object value = edge.GetAttribute(attrType.Name);
                                 // TODO: Add support for null values, as the default initializers could assign non-null values!
-                                if(value != null) {
+                                if(value != null)
+                                {
                                     EmitAttributeInitialization(edge, attrType, value, graph, "=", sw);
                                     EmitAttributeInitialization(edge, attrType, value, graph, "==", sw2);
                                 }
@@ -215,8 +217,13 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(DictionaryEntry entry in set)
                 {
-                    if(first) { sw.Write(ToString(entry.Key, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(entry.Key, attrType.ValueType, graph)); }
+                    if(first)
+                    {
+                        sw.Write(ToString(entry.Key, attrType.ValueType, graph));
+                        first = false;
+                    }
+                    else
+                        sw.Write("," + ToString(entry.Key, attrType.ValueType, graph));
                 }
                 sw.Write("}");
             }
@@ -227,11 +234,17 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(DictionaryEntry entry in map)
                 {
-                    if(first) { sw.Write(ToString(entry.Key, attrType.KeyType, graph)
-                        + "->" + ToString(entry.Value, attrType.ValueType, graph)); first = false;
+                    if(first)
+                    {
+                        sw.Write(ToString(entry.Key, attrType.KeyType, graph)
+                            + "->" + ToString(entry.Value, attrType.ValueType, graph));
+                        first = false;
                     }
-                    else { sw.Write("," + ToString(entry.Key, attrType.KeyType, graph)
-                        + "->" + ToString(entry.Value, attrType.ValueType, graph)); }
+                    else
+                    {
+                        sw.Write("," + ToString(entry.Key, attrType.KeyType, graph)
+                            + "->" + ToString(entry.Value, attrType.ValueType, graph));
+                    }
                 }
                 sw.Write("}");
             }
@@ -242,8 +255,13 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(object entry in array)
                 {
-                    if(first) { sw.Write(ToString(entry, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(entry, attrType.ValueType, graph)); }
+                    if(first)
+                    {
+                        sw.Write(ToString(entry, attrType.ValueType, graph));
+                        first = false;
+                    }
+                    else
+                        sw.Write("," + ToString(entry, attrType.ValueType, graph));
                 }
                 sw.Write("]");
             }
@@ -254,8 +272,13 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(object entry in deque)
                 {
-                    if(first) { sw.Write(ToString(entry, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(entry, attrType.ValueType, graph)); }
+                    if(first)
+                    {
+                        sw.Write(ToString(entry, attrType.ValueType, graph));
+                        first = false;
+                    }
+                    else
+                        sw.Write("," + ToString(entry, attrType.ValueType, graph));
                 }
                 sw.Write("[");
             }

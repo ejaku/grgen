@@ -37,7 +37,10 @@ namespace de.unika.ipd.grGen.libGr
             setData = new Dictionary<T, bool>(other.setData);
         }
 
-        public int Count { get { return setData.Count; } }
+        public int Count
+        {
+            get { return setData.Count; }
+        }
 
         public void Add(T elem)
         {
@@ -47,7 +50,9 @@ namespace de.unika.ipd.grGen.libGr
         public void Add(IEnumerable<T> i)
         {
             foreach(T elem in i)
+            {
                 setData[elem] = true;
+            }
         }
 
         public bool Remove(T elem)
@@ -58,7 +63,9 @@ namespace de.unika.ipd.grGen.libGr
         public void Remove(Set<T> other)
         {
             foreach(T elem in other)
+            {
                 setData.Remove(elem);
+            }
         }
 
         public void Clear()
@@ -74,7 +81,9 @@ namespace de.unika.ipd.grGen.libGr
         public IEnumerator<T> GetEnumerator()
         {
             foreach(KeyValuePair<T, bool> elem in setData)
+            {
                 yield return elem.Key;
+            }
         }
 
         IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -87,7 +96,9 @@ namespace de.unika.ipd.grGen.libGr
             T[] array = new T[setData.Count];
             int i = 0;
             foreach(KeyValuePair<T, bool> elem in setData)
+            {
                 array[i++] = elem.Key;
+            }
             return array;
         }
     }

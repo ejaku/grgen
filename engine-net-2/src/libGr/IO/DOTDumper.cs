@@ -58,7 +58,9 @@ namespace de.unika.ipd.grGen.libGr
         private void WriteIndentation()
         {
             for(int i = 0; i < indent; ++i)
+            {
                 sw.Write(' ');
+            }
         }
 
         private void WriteLine(String format, params object[] arg)
@@ -173,11 +175,16 @@ namespace de.unika.ipd.grGen.libGr
             WriteIndentation();
             sw.Write("n{0} [", node.GetHashCode());
 
-            if(label != null) sw.Write(" label=\"{0}\"", label);
-            if(textColor != GrColor.Default) sw.Write(" fontcolor=" + GetColor(textColor));
-            if(nodeColor != GrColor.Default) sw.Write(" fillcolor=" + GetColor(nodeColor) + " style=filled");
-            if(borderColor != textColor) sw.Write(" color=" + GetColor(borderColor));
-            if(nodeShape != GrNodeShape.Default) sw.Write(" shape=" + GetNodeShape(nodeShape));
+            if(label != null)
+                sw.Write(" label=\"{0}\"", label);
+            if(textColor != GrColor.Default)
+                sw.Write(" fontcolor=" + GetColor(textColor));
+            if(nodeColor != GrColor.Default)
+                sw.Write(" fillcolor=" + GetColor(nodeColor) + " style=filled");
+            if(borderColor != textColor)
+                sw.Write(" color=" + GetColor(borderColor));
+            if(nodeShape != GrNodeShape.Default)
+                sw.Write(" shape=" + GetNodeShape(nodeShape));
             if(attributes != null)
             {
                 sw.Write(" tooltip=\"");
@@ -244,15 +251,23 @@ namespace de.unika.ipd.grGen.libGr
                 attrStr = attrStrBuilder.ToString();
             }
 
-            if(srcNodeOrCharNodeFromGroupIfGroupNode != srcNode) sw.Write(" ltail=cluster" + srcNode.GetHashCode());
-            if(tgtNodeOrNodeFromGroupIfGroupNode != tgtNode) sw.Write(" lhead=cluster" + tgtNode.GetHashCode());
+            if(srcNodeOrCharNodeFromGroupIfGroupNode != srcNode)
+                sw.Write(" ltail=cluster" + srcNode.GetHashCode());
+            if(tgtNodeOrNodeFromGroupIfGroupNode != tgtNode)
+                sw.Write(" lhead=cluster" + tgtNode.GetHashCode());
 
-            if(label != null) sw.Write(" label=\"" + label + "\"");
-            if(attrStr != "") sw.Write(" tooltip=\"" + attrStr + "\"");
-            if(textColor != GrColor.Default) sw.Write(" fontcolor=" + GetColor(textColor));
-            if(edgeColor != GrColor.Default) sw.Write(" color=" + GetColor(edgeColor));
-            if(lineStyle != GrLineStyle.Default) sw.Write(" style=" + GetLineStyle(lineStyle));
-            if(thickness != 1) sw.Write(" thickness=" + thickness + ".0");
+            if(label != null)
+                sw.Write(" label=\"" + label + "\"");
+            if(attrStr != "")
+                sw.Write(" tooltip=\"" + attrStr + "\"");
+            if(textColor != GrColor.Default)
+                sw.Write(" fontcolor=" + GetColor(textColor));
+            if(edgeColor != GrColor.Default)
+                sw.Write(" color=" + GetColor(edgeColor));
+            if(lineStyle != GrLineStyle.Default)
+                sw.Write(" style=" + GetLineStyle(lineStyle));
+            if(thickness != 1)
+                sw.Write(" thickness=" + thickness + ".0");
 
             sw.WriteLine(']');
         }
@@ -275,9 +290,12 @@ namespace de.unika.ipd.grGen.libGr
             WriteIndentation();
             sw.Write("subgraph cluster{0} {{", node.GetHashCode());
 
-            if(label != null) sw.Write(" label=\"{0}\";", label);
-            if(textColor != GrColor.Default) sw.Write(" fontcolor=" + GetColor(textColor) + ";");
-            if(subgraphColor != textColor) sw.Write(" fillcolor=" + GetColor(subgraphColor) + "; style=filled;");
+            if(label != null)
+                sw.Write(" label=\"{0}\";", label);
+            if(textColor != GrColor.Default)
+                sw.Write(" fontcolor=" + GetColor(textColor) + ";");
+            if(subgraphColor != textColor)
+                sw.Write(" fillcolor=" + GetColor(subgraphColor) + "; style=filled;");
             if(attributes != null)
             {
                 sw.Write(" tooltip=\"");

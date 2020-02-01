@@ -112,8 +112,10 @@ namespace de.unika.ipd.grGen.libGr
 
         private void Indent()
         {
-            for(int i = 0; i < indent; i++)
+            for(int i = 0; i < indent; ++i)
+            {
                 sw.Write(' ');
+            }
         }
 
         private void WriteLine(String format, params object[] arg)
@@ -137,8 +139,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The VCG string representation of <c>color</c>.</returns>
         public static String GetColor(GrColor color)
         {
-            if((uint) color >= colors.Length) return colors[0];
-            else return colors[(int) color];
+            if((uint) color >= colors.Length)
+                return colors[0];
+            else
+                return colors[(int) color];
         }
 
         /// <summary>
@@ -148,8 +152,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The VCG string representation of <c>style</c>.</returns>
         public static String GetLineStyle(GrLineStyle style)
         {
-            if((uint) style >= lineStyles.Length) return lineStyles[0];
-            else return lineStyles[(int) style];
+            if((uint) style >= lineStyles.Length)
+                return lineStyles[0];
+            else
+                return lineStyles[(int) style];
         }
 
         /// <summary>
@@ -159,8 +165,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The VCG string representation of <c>shape</c>.</returns>
         public static String GetNodeShape(GrNodeShape shape)
         {
-            if((uint) shape >= nodeShapes.Length) return nodeShapes[0];
-            else return nodeShapes[(int) shape];
+            if((uint) shape >= nodeShapes.Length)
+                return nodeShapes[0];
+            else
+                return nodeShapes[(int) shape];
         }
 
         /// <summary>
@@ -186,7 +194,7 @@ namespace de.unika.ipd.grGen.libGr
             sw = new StreamWriter(filename, false);
 
             WriteLine("graph:{{");
-            indent++;
+            ++indent;
             WriteLine("infoname 1: \"Attributes\"");
             WriteLine("display_edge_labels: {0}", (flags & VCGFlags.EdgeLabels) != 0 ? "yes" : "no");
             WriteLine("layoutalgorithm: normal //$ \"{0}\"", layouter);
@@ -208,7 +216,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="filename">Destination file.</param>
         /// <exception cref="IOException">Thrown when the destination cannot be created.</exception>
-        public VCGDumper(String filename) : this(filename, VCGFlags.OrientBottomToTop, "Orthogonal") { }
+        public VCGDumper(String filename) : this(filename, VCGFlags.OrientBottomToTop, "Orthogonal")
+        {
+        }
 
         /// <summary>
         /// Dump a node to the VCG graph.
@@ -228,19 +238,25 @@ namespace de.unika.ipd.grGen.libGr
         {
             Indent();
             sw.Write("node:{{title:\"n{0}\"", node.GetHashCode());
-            if(label != null) sw.Write(" label:\"{0}\"", label);
-            if(textColor != GrColor.Default) sw.Write(" textcolor:" + GetColor(textColor));
-            if(nodeColor != GrColor.Default) sw.Write(" color:" + GetColor(nodeColor));
-            if(borderColor != textColor) sw.Write(" bordercolor:" + GetColor(borderColor));
-            if(nodeShape != GrNodeShape.Default) sw.Write(" shape:" + GetNodeShape(nodeShape));
+            if(label != null)
+                sw.Write(" label:\"{0}\"", label);
+            if(textColor != GrColor.Default)
+                sw.Write(" textcolor:" + GetColor(textColor));
+            if(nodeColor != GrColor.Default)
+                sw.Write(" color:" + GetColor(nodeColor));
+            if(borderColor != textColor)
+                sw.Write(" bordercolor:" + GetColor(borderColor));
+            if(nodeShape != GrNodeShape.Default)
+                sw.Write(" shape:" + GetNodeShape(nodeShape));
             if(attributes != null)
             {
                 sw.Write(" info1: \"");
                 bool first = true;
-                indent++;
+                ++indent;
                 foreach(String attr in attributes)
                 {
-                    if(first) first = false;
+                    if(first)
+                        first = false;
                     else
                     {
                         sw.WriteLine();
@@ -248,7 +264,7 @@ namespace de.unika.ipd.grGen.libGr
                     }
                     sw.Write(EncodeString(attr));
                 }
-                indent--;
+                --indent;
                 sw.Write('\"');
             }
             sw.WriteLine('}');
@@ -279,26 +295,30 @@ namespace de.unika.ipd.grGen.libGr
             {
                 StringBuilder attrStrBuilder = new StringBuilder("\nAttributes:");
                 bool first = true;
-//                indent++;
+//              ++indent;
                 foreach(String attr in attributes)
                 {
-                    if(first) first = false;
+                    if(first)
+                        first = false;
                     else
-                    {
                         attrStrBuilder.Append('\n');
-                    }
                     attrStrBuilder.Append(EncodeString(attr));
                 }
-//                indent--;
-//                sw.Write('\"');
+//              --indent;
+//              sw.Write('\"');
                 attrStr = attrStrBuilder.ToString();
             }
 
-            if(label != null) sw.Write(" label:\"" + label + attrStr + "\"");
-            if(textColor != GrColor.Default) sw.Write(" textcolor:" + GetColor(textColor));
-            if(edgeColor != GrColor.Default) sw.Write(" color:" + GetColor(edgeColor));
-            if(lineStyle != GrLineStyle.Default) sw.Write(" linestyle:" + GetLineStyle(lineStyle));
-            if(thickness != 1) sw.Write(" thickness:" + thickness);
+            if(label != null)
+                sw.Write(" label:\"" + label + attrStr + "\"");
+            if(textColor != GrColor.Default)
+                sw.Write(" textcolor:" + GetColor(textColor));
+            if(edgeColor != GrColor.Default)
+                sw.Write(" color:" + GetColor(edgeColor));
+            if(lineStyle != GrLineStyle.Default)
+                sw.Write(" linestyle:" + GetLineStyle(lineStyle));
+            if(thickness != 1)
+                sw.Write(" thickness:" + thickness);
             sw.WriteLine('}');
         }
 
@@ -316,17 +336,21 @@ namespace de.unika.ipd.grGen.libGr
         {
             Indent();
             sw.Write("graph:{{title:\"n{0}\"", node.GetHashCode());
-            if(label != null) sw.Write(" label:\"{0}\" status:clustered", label);
-            if(textColor != GrColor.Default) sw.Write(" textcolor:" + GetColor(textColor));
-            if(subgraphColor != textColor) sw.Write(" color:" + GetColor(subgraphColor));
+            if(label != null)
+                sw.Write(" label:\"{0}\" status:clustered", label);
+            if(textColor != GrColor.Default)
+                sw.Write(" textcolor:" + GetColor(textColor));
+            if(subgraphColor != textColor)
+                sw.Write(" color:" + GetColor(subgraphColor));
             if(attributes != null)
             {
                 sw.Write(" info1: \"");
                 bool first = true;
-                indent++;
+                ++indent;
                 foreach(String attr in attributes)
                 {
-                    if(first) first = false;
+                    if(first)
+                        first = false;
                     else
                     {
                         sw.WriteLine();
@@ -334,11 +358,11 @@ namespace de.unika.ipd.grGen.libGr
                     }
                     sw.Write(EncodeString(attr));
                 }
-                indent--;
+                --indent;
                 sw.Write('\"');
             }
             sw.WriteLine();
-            indent++;
+            ++indent;
         }
 
         /// <summary>
@@ -346,7 +370,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public void FinishSubgraph()
         {
-            indent--;
+            --indent;
             WriteLine("}}");
         }
 
@@ -365,7 +389,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public void Dispose()
         {
-            if (sw != null) FinishDump();
+            if(sw != null)
+                FinishDump();
         }
     }
 }

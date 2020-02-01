@@ -82,10 +82,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public void Dispose()
         {
-            if (writer != null)
-            {
+            if(writer != null)
                 writer.Dispose();
-            }
         }
 
         /// <summary>
@@ -214,7 +212,7 @@ restart:
         {
             bool subgraphAdded = false;
 
-            if (context.modelPathPrefix != null)
+            if(context.modelPathPrefix != null)
             {
                 if(!mainGraphContext.noNewGraph)
                     sw.WriteLine("new graph \"" + context.modelPathPrefix + context.graph.Model.ModelName + "\" \"" + context.name + "\"");
@@ -247,7 +245,7 @@ restart:
                     EmitAttributeInitialization(mainGraphContext, attrType, value, context.graph, sw);
                 }
                 sw.WriteLine(")");
-                numNodes++;
+                ++numNodes;
             }
             if(context.modelPathPrefix != null)
                 sw.WriteLine("# total number of nodes: {0}", numNodes);
@@ -287,7 +285,7 @@ restart:
                         }
                     }
                     sw.WriteLine(") -> @(\"{0}\")", context.graph.GetElementName(edge.Target));
-                    numEdges++;
+                    ++numEdges;
                 }
             }
             if(context.modelPathPrefix != null)
@@ -490,8 +488,13 @@ restart:
                 bool first = true;
                 foreach(DictionaryEntry entry in set)
                 {
-                    if(first) { sw.Write(ToString(mainGraphContext, entry.Key, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(mainGraphContext, entry.Key, attrType.ValueType, graph)); }
+                    if(first)
+                    {
+                        sw.Write(ToString(mainGraphContext, entry.Key, attrType.ValueType, graph));
+                        first = false;
+                    }
+                    else
+                        sw.Write("," + ToString(mainGraphContext, entry.Key, attrType.ValueType, graph));
                 }
                 sw.Write("}");
             }
@@ -502,11 +505,17 @@ restart:
                 bool first = true;
                 foreach(DictionaryEntry entry in map)
                 {
-                    if(first) { sw.Write(ToString(mainGraphContext, entry.Key, attrType.KeyType, graph)
-                        + "->" + ToString(mainGraphContext, entry.Value, attrType.ValueType, graph)); first = false;
+                    if(first)
+                    {
+                        sw.Write(ToString(mainGraphContext, entry.Key, attrType.KeyType, graph)
+                            + "->" + ToString(mainGraphContext, entry.Value, attrType.ValueType, graph));
+                        first = false;
                     }
-                    else { sw.Write("," + ToString(mainGraphContext, entry.Key, attrType.KeyType, graph)
-                        + "->" + ToString(mainGraphContext, entry.Value, attrType.ValueType, graph)); }
+                    else
+                    {
+                        sw.Write("," + ToString(mainGraphContext, entry.Key, attrType.KeyType, graph)
+                            + "->" + ToString(mainGraphContext, entry.Value, attrType.ValueType, graph));
+                    }
                 }
                 sw.Write("}");
             }
@@ -517,8 +526,13 @@ restart:
                 bool first = true;
                 foreach(object entry in array)
                 {
-                    if(first) { sw.Write(ToString(mainGraphContext, entry, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph)); }
+                    if(first)
+                    {
+                        sw.Write(ToString(mainGraphContext, entry, attrType.ValueType, graph));
+                        first = false;
+                    }
+                    else
+                        sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph));
                 }
                 sw.Write("]");
             }
@@ -529,15 +543,18 @@ restart:
                 bool first = true;
                 foreach(object entry in deque)
                 {
-                    if(first) { sw.Write(ToString(mainGraphContext, entry, attrType.ValueType, graph)); first = false; }
-                    else { sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph)); }
+                    if(first)
+                    {
+                        sw.Write(ToString(mainGraphContext, entry, attrType.ValueType, graph));
+                        first = false;
+                    }
+                    else
+                        sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph));
                 }
                 sw.Write("[");
             }
             else
-            {
                 sw.Write("{0}", ToString(mainGraphContext, value, attrType, graph));
-            }
         }
 
         /// <summary>
@@ -589,7 +606,7 @@ restart:
 
         private static bool IsAttributeToBeSkipped(MainGraphExportContext mainGraphContext, AttributeType attrType)
         {
-            if (mainGraphContext.typesToAttributesToSkip != null
+            if(mainGraphContext.typesToAttributesToSkip != null
                 && mainGraphContext.typesToAttributesToSkip.ContainsKey(attrType.OwnerType.PackagePrefixedName)
                 && mainGraphContext.typesToAttributesToSkip[attrType.OwnerType.PackagePrefixedName].ContainsKey(attrType.Name))
             {
@@ -603,8 +620,9 @@ restart:
         {
             if(attrType.Kind == AttributeKind.NodeAttr
                 || attrType.Kind == AttributeKind.EdgeAttr)
+            {
                 return true;
-
+            }
             if(attrType.Kind == AttributeKind.SetAttr
                 || attrType.Kind == AttributeKind.MapAttr
                 || attrType.Kind == AttributeKind.ArrayAttr
@@ -612,13 +630,17 @@ restart:
             {
                 if(attrType.ValueType.Kind == AttributeKind.NodeAttr
                     || attrType.ValueType.Kind == AttributeKind.EdgeAttr)
+                {
                     return true;
+                }
             }
             if(attrType.Kind == AttributeKind.MapAttr)
             {
                 if(attrType.KeyType.Kind == AttributeKind.NodeAttr
                     || attrType.KeyType.Kind == AttributeKind.EdgeAttr)
+                {
                     return true;
+                }
             }
             return false;
         }

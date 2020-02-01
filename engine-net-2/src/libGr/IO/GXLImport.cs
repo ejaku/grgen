@@ -126,7 +126,8 @@ namespace de.unika.ipd.grGen.libGr
                 XmlElement modelgraph = (XmlElement) modelnode.ParentNode;
                 modelfilename = ImportModel(modelgraph, modelname);
             }
-            else modelfilename = modelOverride;
+            else
+                modelfilename = modelOverride;
 
             IGraph graph;
             String graphname = graphelem.GetAttribute("id");
@@ -178,7 +179,7 @@ namespace de.unika.ipd.grGen.libGr
             doc.Load(inStream);
 
             XmlElement gxlelem = doc["gxl"];
-            if (gxlelem == null)
+            if(gxlelem == null)
                 throw new Exception("The document has no gxl element.");
 
             XmlElement graphelem = null;
@@ -186,14 +187,14 @@ namespace de.unika.ipd.grGen.libGr
             foreach (XmlElement curgraphnode in gxlelem.GetElementsByTagName("graph"))
             {
                 graphtype = GetTypeName(curgraphnode);
-                if (!graphtype.EndsWith("gxl-1.0.gxl#gxl-1.0"))
+                if(!graphtype.EndsWith("gxl-1.0.gxl#gxl-1.0"))
                 {
-                    if (graphelem != null)
+                    if(graphelem != null)
                         throw new Exception("More than one instance graph included (not yet supported)!");
                     graphelem = curgraphnode;
                 }
             }
-            if (graphelem == null)
+            if(graphelem == null)
                 throw new Exception("No non-meta graph found!");
 
             String graphname = graphelem.GetAttribute("id");
@@ -392,64 +393,60 @@ namespace de.unika.ipd.grGen.libGr
                 nodetype = nodetype.Substring(hashchar + 1);
                 switch(nodetype)
                 {
-                    case "Bool":
-                        idmap[id] = new Thing(id, ThingKind.Domain, "boolean");
-                        break;
+                case "Bool":
+                    idmap[id] = new Thing(id, ThingKind.Domain, "boolean");
+                    break;
 
-                    case "Int":
-                        idmap[id] = new Thing(id, ThingKind.Domain, "int");
-                        break;
+                case "Int":
+                    idmap[id] = new Thing(id, ThingKind.Domain, "int");
+                    break;
 
-                    case "Float":
-                        idmap[id] = new Thing(id, ThingKind.Domain, "double");
-                        break;
+                case "Float":
+                    idmap[id] = new Thing(id, ThingKind.Domain, "double");
+                    break;
 
-                    case "String":
-                        idmap[id] = new Thing(id, ThingKind.Domain, "string");
-                        break;
+                case "String":
+                    idmap[id] = new Thing(id, ThingKind.Domain, "string");
+                    break;
 
-                    case "Enum":
+                case "Enum":
                     {
                         String name;
-                        if(id.StartsWith("DM_enum_")) name = id.Substring(8);
-                        else name = id;
+                        if(id.StartsWith("DM_enum_"))
+                            name = id.Substring(8);
+                        else
+                            name = id;
                         idmap[id] = new Thing(id, ThingKind.EnumDomain, new EnumDomain(name));
                         break;
                     }
 
-                    case "EnumVal":
+                case "EnumVal":
                     {
                         int val;
                         if(id.StartsWith("EV_"))
                         {
                             int ind = id.IndexOf('_', 4);
                             if(id[3] == '_')
-                            {
                                 val = -int.Parse(id.Substring(4, ind - 4));
-                            }
                             else
-                            {
                                 val = int.Parse(id.Substring(3, ind - 3));
-                            }
                         }
                         else
-                        {
                             val = nextenumval++;
-                        }
 
                         String name = GetGXLAttr(nodeelem, "value", "string");
                         idmap[id] = new Thing(id, ThingKind.EnumValue, new EnumMember(val, name));
                         break;
                     }
 
-                    case "AttributeClass":
+                case "AttributeClass":
                     {
                         String name = GetGXLAttr(nodeelem, "name", "string");
                         idmap[id] = new Thing(id, ThingKind.AttributeClass, new AttributeClass(name));
                         break;
                     }
 
-                    case "NodeClass":
+                case "NodeClass":
                     {
                         String name = GetGXLAttr(nodeelem, "name", "string");
                         bool isabstract = GetGXLAttr(nodeelem, "isabstract", "bool") == "true";
@@ -457,7 +454,7 @@ namespace de.unika.ipd.grGen.libGr
                         break;
                     }
 
-                    case "EdgeClass":
+                case "EdgeClass":
                     {
                         String name = GetGXLAttr(nodeelem, "name", "string");
                         bool isabstract = GetGXLAttr(nodeelem, "isabstract", "bool") == "true";
@@ -483,7 +480,7 @@ namespace de.unika.ipd.grGen.libGr
                 edgetype = edgetype.Substring(hashchar + 1);
                 switch(edgetype)
                 {
-                    case "hasDomain":
+                case "hasDomain":
                     {
                         AttributeClass attrClass = idmap[fromid].AttributeClass;
                         String         attrKind  = idmap[toid].AttributeKind;
@@ -491,7 +488,7 @@ namespace de.unika.ipd.grGen.libGr
                         break;
                     }
 
-                    case "containsValue":
+                case "containsValue":
                     {
                         EnumDomain enumDomain = idmap[fromid].EnumDomain;
                         EnumMember enumMember = idmap[toid].EnumValue;
@@ -499,14 +496,14 @@ namespace de.unika.ipd.grGen.libGr
                         break;
                     }
 
-                    case "isA":
+                case "isA":
                     {
                         NodeClass nodeClass = idmap[fromid].NodeOrEdgeClass;
                         nodeClass.SuperClasses.Add(toid);
                         break;
                     }
 
-                    case "hasAttribute":
+                case "hasAttribute":
                     {
                         NodeClass nodeClass = idmap[fromid].NodeOrEdgeClass;
                         AttributeClass attrClass = idmap[toid].AttributeClass;
@@ -534,8 +531,10 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(EnumMember enummember in enumdomain.Members)
                 {
-                    if(first) first = false;
-                    else sb.Append(", ");
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(", ");
                     sb.Append(enummember.Name + "=" + enummember.Value);
                 }
                 sb.Append(" }\n");
@@ -583,14 +582,16 @@ namespace de.unika.ipd.grGen.libGr
             bool first = true;
             foreach(String supertype in elemclass.SuperClasses)
             {
-                if(supertype == roottype) continue;
+                if(supertype == roottype)
+                    continue;
 
                 if(first)
                 {
                     sb.Append(" extends ");
                     first = false;
                 }
-                else sb.Append(", ");
+                else
+                    sb.Append(", ");
                 sb.Append(supertype);
             }
         }
@@ -671,9 +672,7 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         int val;
                         if(Int32.TryParse(attrval, out val))
-                        {
                             value = val;
-                        }
                         else
                         {
                             foreach(EnumMember member in attrType.EnumType.Members)
@@ -688,7 +687,9 @@ namespace de.unika.ipd.grGen.libGr
                             {
                                 String errorText = "Attribute \"" + attrname + "\" must be one of the following values:";
                                 foreach(EnumMember member in attrType.EnumType.Members)
+                                {
                                     errorText += " - " + member.Name + " = " + member.Value;
+                                }
                                 throw new Exception(errorText);
                             }
                         }
@@ -707,7 +708,7 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.ShortAttr:
                     {
                         short val;
-                        if (!Int16.TryParse(attrval, out val))
+                        if(!Int16.TryParse(attrval, out val))
                             throw new Exception("Attribute \"" + attrname + "\" must be a short!");
                         value = val;
                         break;
@@ -716,7 +717,7 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.IntegerAttr:
                     {
                         int val;
-                        if (!Int32.TryParse(attrval, out val))
+                        if(!Int32.TryParse(attrval, out val))
                             throw new Exception("Attribute \"" + attrname + "\" must be an integer!");
                         value = val;
                         break;
@@ -725,7 +726,7 @@ namespace de.unika.ipd.grGen.libGr
                     case AttributeKind.LongAttr:
                     {
                         long val;
-                        if (!Int64.TryParse(attrval, out val))
+                        if(!Int64.TryParse(attrval, out val))
                             throw new Exception("Attribute \"" + attrname + "\" must be a long!");
                         value = val;
                         break;

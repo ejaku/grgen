@@ -200,7 +200,8 @@ namespace de.unika.ipd.grGen.libGr
                 Dictionary<NodeType, GroupMode> groupEdge;
                 if(!groupEdges.TryGetValue(subEdgeType, out groupEdge))
                 {
-                    if(groupMode == GroupMode.None) return;
+                    if(groupMode == GroupMode.None)
+                        return;
                     groupEdge = new Dictionary<NodeType, GroupMode>();
                     groupEdges[subEdgeType] = groupEdge;
                 }
@@ -212,10 +213,12 @@ namespace de.unika.ipd.grGen.libGr
                     else
                         groupEdge[subNodeType] = groupMode;
 
-                    if(exactAdjNodeType) break;     // don't change group modes for subtypes of adjNodeType
+                    if(exactAdjNodeType)
+                        break;     // don't change group modes for subtypes of adjNodeType
                 }
 
-                if(exactEdgeType) break;        // don't change group modes for subtypes of edgeType
+                if(exactEdgeType)
+                    break;        // don't change group modes for subtypes of edgeType
             }
         }
 
@@ -308,23 +311,62 @@ namespace de.unika.ipd.grGen.libGr
         readonly Dictionary<GrGenType, String> elemTypeLabel = new Dictionary<GrGenType, String>();
         readonly Dictionary<GrGenType, List<InfoTag>> infoTags = new Dictionary<GrGenType, List<InfoTag>>();
 
-        public IEnumerable<NodeType> ExcludedNodeTypes { get { return excludedNodeTypes.Keys; } }
-        public IEnumerable<EdgeType> ExcludedEdgeTypes { get { return excludedEdgeTypes.Keys; } }
-        public IEnumerable<GroupNodeType> GroupNodeTypes { get { return groupNodeTypes; } }
+        public IEnumerable<NodeType> ExcludedNodeTypes
+        {
+            get { return excludedNodeTypes.Keys; }
+        }
+        public IEnumerable<EdgeType> ExcludedEdgeTypes
+        {
+            get { return excludedEdgeTypes.Keys; }
+        }
+        public IEnumerable<GroupNodeType> GroupNodeTypes
+        {
+            get { return groupNodeTypes; }
+        }
 
-        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeColors { get { return nodeTypeColors; } }
-        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeBorderColors { get { return nodeTypeBorderColors; } }
-        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeTextColors { get { return nodeTypeTextColors; } }
-        public IEnumerable<KeyValuePair<NodeType, GrNodeShape>> NodeTypeShapes { get { return nodeTypeShapes; } }
-        public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeColors { get { return edgeTypeColors; } }
-        public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeTextColors { get { return edgeTypeTextColors; } }
-        public IEnumerable<KeyValuePair<EdgeType, GrLineStyle>> EdgeTypeLineStyles { get { return edgeTypeLineStyles; } }
-        public IEnumerable<KeyValuePair<EdgeType, int>> EdgeTypeThicknesses { get { return edgeTypeThicknesses; } }
+        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeColors
+        {
+            get { return nodeTypeColors; }
+        }
+        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeBorderColors
+        {
+            get { return nodeTypeBorderColors; }
+        }
+        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeTextColors
+        {
+            get { return nodeTypeTextColors; }
+        }
+        public IEnumerable<KeyValuePair<NodeType, GrNodeShape>> NodeTypeShapes
+        {
+            get { return nodeTypeShapes; }
+        }
+        public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeColors
+        {
+            get { return edgeTypeColors; }
+        }
+        public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeTextColors
+        {
+            get { return edgeTypeTextColors; }
+        }
+        public IEnumerable<KeyValuePair<EdgeType, GrLineStyle>> EdgeTypeLineStyles
+        {
+            get { return edgeTypeLineStyles; }
+        }
+        public IEnumerable<KeyValuePair<EdgeType, int>> EdgeTypeThicknesses
+        {
+            get { return edgeTypeThicknesses; }
+        }
 
-        public IEnumerable<KeyValuePair<GrGenType, List<InfoTag>>> InfoTags { get { return infoTags; } }
+        public IEnumerable<KeyValuePair<GrGenType, List<InfoTag>>> InfoTags
+        {
+            get { return infoTags; }
+        }
 
         private ElementNameGetter elementNameGetter;
-        public ElementNameGetter ElementNameGetter { set { elementNameGetter = value; } }
+        public ElementNameGetter ElementNameGetter
+        {
+            set { elementNameGetter = value; }
+        }
 
         public event NodeTypeAppearanceChangedHandler OnNodeTypeAppearanceChanged;
         public event EdgeTypeAppearanceChangedHandler OnEdgeTypeAppearanceChanged;
@@ -333,19 +375,22 @@ namespace de.unika.ipd.grGen.libGr
         private void NodeTypeAppearanceChanged(NodeType type)
         {
             NodeTypeAppearanceChangedHandler handler = OnNodeTypeAppearanceChanged;
-            if(handler != null) handler(type);
+            if(handler != null)
+                handler(type);
         }
 
         private void EdgeTypeAppearanceChanged(EdgeType type)
         {
             EdgeTypeAppearanceChangedHandler handler = OnEdgeTypeAppearanceChanged;
-            if(handler != null) handler(type);
+            if(handler != null)
+                handler(type);
         }
 
         private void TypeInfotagsChanged(GrGenType type)
         {
             TypeInfotagsChangedHandler handler = OnTypeInfotagsChanged;
-            if (handler != null) handler(type);
+            if(handler != null)
+                handler(type);
         }
 
         public DumpInfo(ElementNameGetter nameGetter)
@@ -446,7 +491,8 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 groupNodeType.SetEdgeGroupMode(edgeType, exactEdgeType, incNodeType, exactIncNodeType, groupMode);
 
-                if(exactNodeType) break;  // don't change group modes for any subtypes
+                if(exactNodeType)
+                    break;  // don't change group modes for any subtypes
             }
         }
 
@@ -662,8 +708,10 @@ namespace de.unika.ipd.grGen.libGr
         public List<InfoTag> GetTypeInfoTags(GrGenType type)
         {
             List<InfoTag> typeInfoTags;
-            if(!infoTags.TryGetValue(type, out typeInfoTags)) return null;
-            else return typeInfoTags;
+            if(!infoTags.TryGetValue(type, out typeInfoTags))
+                return null;
+            else
+                return typeInfoTags;
         }
 
         /// <summary>
@@ -695,7 +743,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 foreach(InfoTag infotag in typeInfoTags)
                 {
-                    if(infotag.AttributeType == attrType) return infotag;
+                    if(infotag.AttributeType == attrType)
+                        return infotag;
                 }
             }
             return null;

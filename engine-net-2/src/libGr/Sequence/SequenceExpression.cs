@@ -1822,9 +1822,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            if (SetToCopy.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            if(SetToCopy.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
-                if (!SetToCopy.Type(env).StartsWith("set<"))
+                if(!SetToCopy.Type(env).StartsWith("set<"))
                     throw new SequenceParserException(Symbol + ", argument", "set type", SetToCopy.Type(env));
 
                 // TODO: check ValueType with compatibility with value type of SetToCopy

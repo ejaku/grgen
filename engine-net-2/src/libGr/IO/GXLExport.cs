@@ -21,7 +21,8 @@ namespace de.unika.ipd.grGen.libGr
     {
         readonly XmlTextWriter xmlwriter;
 
-        protected GXLExport(XmlTextWriter writer) {
+        protected GXLExport(XmlTextWriter writer)
+        {
             xmlwriter = writer;
             xmlwriter.Formatting = Formatting.Indented;
             xmlwriter.Indentation = 1;
@@ -93,17 +94,17 @@ namespace de.unika.ipd.grGen.libGr
         {
             switch(kind)
             {
-                case AttributeKind.BooleanAttr: return "DM_bool";
-                case AttributeKind.DoubleAttr: return "DM_double";
-                case AttributeKind.FloatAttr: return "DM_float";
-                case AttributeKind.ByteAttr: return "DM_byte";
-                case AttributeKind.ShortAttr: return "DM_short";
-                case AttributeKind.IntegerAttr: return "DM_int";
-                case AttributeKind.LongAttr: return "DM_long";
-                case AttributeKind.StringAttr: return "DM_string";
-                case AttributeKind.EnumAttr: return "DM_enum_" + enumAttrType.Name;
-                default:
-                    throw new Exception("Unsupported attribute value type: \"" + kind + "\"");
+            case AttributeKind.BooleanAttr: return "DM_bool";
+            case AttributeKind.DoubleAttr: return "DM_double";
+            case AttributeKind.FloatAttr: return "DM_float";
+            case AttributeKind.ByteAttr: return "DM_byte";
+            case AttributeKind.ShortAttr: return "DM_short";
+            case AttributeKind.IntegerAttr: return "DM_int";
+            case AttributeKind.LongAttr: return "DM_long";
+            case AttributeKind.StringAttr: return "DM_string";
+            case AttributeKind.EnumAttr: return "DM_enum_" + enumAttrType.Name;
+            default:
+                throw new Exception("Unsupported attribute value type: \"" + kind + "\"");
             }
         }
 
@@ -166,16 +167,14 @@ namespace de.unika.ipd.grGen.libGr
             foreach(Attr attr in attrs) {
                 xmlwriter.WriteStartElement("attr");
                 xmlwriter.WriteAttributeString("name", attr.Name);
-                if(attr.Value.Length > 1) {
+                if(attr.Value.Length > 1)
                     xmlwriter.WriteStartElement("tup");
-                }
                 foreach(string value in attr.Value)
                 {
                     xmlwriter.WriteElementString(attr.Type, value);
                 }
-                if(attr.Value.Length > 1) {
+                if(attr.Value.Length > 1)
                     xmlwriter.WriteEndElement();
-                }
                 xmlwriter.WriteEndElement();
             }
         }
@@ -188,8 +187,10 @@ namespace de.unika.ipd.grGen.libGr
             foreach(EnumMember member in enumType.Members)
             {
                 String memberid = "EV_";
-                if((int) member.Value < 0) memberid += "_" + (-member.Value);
-                else memberid += member.Value.ToString();
+                if((int) member.Value < 0)
+                    memberid += "_" + (-member.Value);
+                else
+                    memberid += member.Value.ToString();
                 memberid += "_" + member.Name;
                 WriteGXLNode(memberid, "EnumVal", new Attr("value", "string", member.Name));
                 WriteGXLEdge(enumid, memberid, "containsValue");
@@ -205,16 +206,16 @@ namespace de.unika.ipd.grGen.libGr
             xmlwriter.WriteEndElement();
         }
 
-        protected void WriteGXLNode(String id, String gxlname, params Attr[] attrs) {
+        protected void WriteGXLNode(String id, String gxlname, params Attr[] attrs)
+        {
             WriteNode(id, "http://www.gupro.de/GXL/gxl-1.0.gxl#" + gxlname, attrs);
         }
 
         protected void WriteEdge(String id, String fromid, String toid, String typename, Attr[] attrs)
         {
             xmlwriter.WriteStartElement("edge");
-            if (id != null) {
+            if(id != null)
                 xmlwriter.WriteAttributeString("id", id);
-            }
             xmlwriter.WriteAttributeString("from", fromid);
             xmlwriter.WriteAttributeString("to", toid);
             WriteTypeElement(typename);
@@ -261,7 +262,9 @@ namespace de.unika.ipd.grGen.libGr
             WriteGXLNode(GetDomainID(AttributeKind.StringAttr),  "String");
 
             foreach(EnumAttributeType enumType in graph.Model.EnumAttributeTypes)
+            {
                 WriteEnumType(enumType);
+            }
 
             WriteAttrTypes(graph.Model.NodeModel);
             WriteAttrTypes(graph.Model.EdgeModel);
@@ -282,7 +285,9 @@ namespace de.unika.ipd.grGen.libGr
                 WriteGXLEdge(modelnodeid, nodetypeid, "contains");
 
                 foreach(NodeType subtype in nodetype.DirectSubTypes)
+                {
                     WriteGXLEdge(GetElemTypeID(subtype), nodetypeid, "isA");
+                }
             }
 
             foreach(EdgeType edgetype in graph.Model.EdgeModel.Types)
@@ -303,7 +308,9 @@ namespace de.unika.ipd.grGen.libGr
                 }
 
                 foreach(EdgeType subtype in edgetype.DirectSubTypes)
+                {
                     WriteGXLEdge(GetElemTypeID(subtype), edgetypeid, "isA");
+                }
 
                 // TODO: Use limits from "connect" statements
                 WriteGXLEdge(edgetypeid, rootnodeid, "from",
@@ -319,40 +326,45 @@ namespace de.unika.ipd.grGen.libGr
         protected List<Attr> GetAttributes(IGraphElement elem)
         {
             List<Attr> attrs = new List<Attr>();
-            foreach(AttributeType attrType in elem.Type.AttributeTypes) {
+            foreach(AttributeType attrType in elem.Type.AttributeTypes)
+            {
                 object value = elem.GetAttribute(attrType.Name);
 
                 String valType;
                 String valuestr = (value == null) ? "" : value.ToString();
                 switch(attrType.Kind)
                 {
-                    case AttributeKind.BooleanAttr:
-                        valType = "bool";
-                        valuestr = ((bool)value) ? "true" : "false";
-                        break;
+                case AttributeKind.BooleanAttr:
+                    valType = "bool";
+                    valuestr = ((bool)value) ? "true" : "false";
+                    break;
 
-                    case AttributeKind.DoubleAttr:
-                    case AttributeKind.FloatAttr:
-                        valType = "double";
-                        if(value is float)
-                            valuestr = ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
-                        else
-                            valuestr = ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
-                        break;
+                case AttributeKind.DoubleAttr:
+                case AttributeKind.FloatAttr:
+                    valType = "double";
+                    if(value is float)
+                        valuestr = ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    else
+                        valuestr = ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    break;
 
-                    case AttributeKind.ByteAttr:
-                    case AttributeKind.ShortAttr:
-                    case AttributeKind.IntegerAttr:
-                    case AttributeKind.LongAttr:
-                        valType = "int"; break;
+                case AttributeKind.ByteAttr:
+                case AttributeKind.ShortAttr:
+                case AttributeKind.IntegerAttr:
+                case AttributeKind.LongAttr:
+                    valType = "int"; break;
 
-                    // TODO: This does not allow differentiating between empty and null strings
-                    case AttributeKind.StringAttr: valType = "string"; break;
+                // TODO: This does not allow differentiating between empty and null strings
+                case AttributeKind.StringAttr:
+                    valType = "string";
+                    break;
 
-                    case AttributeKind.EnumAttr: valType = "enum"; break;
+                case AttributeKind.EnumAttr:
+                    valType = "enum";
+                    break;
 
-                    default:
-                        throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
+                default:
+                    throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
                 }
                 attrs.Add(new Attr(attrType.Name, valType, valuestr));
             }
@@ -385,9 +397,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public void Dispose()
         {
-            if (xmlwriter != null) {
+            if(xmlwriter != null)
                 xmlwriter.Close();
-            }
         }
     }
 }

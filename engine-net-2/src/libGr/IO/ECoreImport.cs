@@ -97,23 +97,29 @@ namespace de.unika.ipd.grGen.libGr
             {
                 grgFilename = "";
                 foreach(String ecoreFilename in ecoreFilenames)
+                {
                     grgFilename += ecoreFilename.Substring(0, ecoreFilename.LastIndexOf('.')) + "_";
+                }
                 grgFilename += "_ecore.grg";
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("// Automatically generated\n// Do not change, changes will be lost!\n\nusing ");
 
                 DateTime grgTime;
-                if(!File.Exists(grgFilename)) grgTime = DateTime.MinValue;
-                else grgTime = File.GetLastWriteTime(grgFilename);
+                if(!File.Exists(grgFilename))
+                    grgTime = DateTime.MinValue;
+                else
+                    grgTime = File.GetLastWriteTime(grgFilename);
 
                 bool mustWriteGrg = false;
 
                 bool first = true;
                 foreach(String ecore in ecoreFilenames)
                 {
-                    if(first) first = false;
-                    else sb.Append(", ");
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(", ");
                     sb.Append(ecore.Substring(0, ecore.LastIndexOf('.')) + "__ecore");
 
                     if(File.GetLastWriteTime(ecore) > grgTime)
@@ -228,7 +234,8 @@ namespace de.unika.ipd.grGen.libGr
             default:
                 {
                     XmlElement packageNode = package;
-                    if(xmielem != null) {
+                    if(xmielem != null)
+                    {
                         int rootIndex = int.Parse(fullXmiTypeName.Substring(slashPosBeforeLastSlashPos+1, lastSlashPos-(slashPosBeforeLastSlashPos+1)));
                         packageNode = (XmlElement)xmielem.ChildNodes[rootIndex];
                     }
@@ -267,8 +274,10 @@ namespace de.unika.ipd.grGen.libGr
                 first = true;
                 foreach(String superType in superTypePaths)
                 {
-                    if(first) first = false;
-                    else sb.Append(", ");
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(", ");
 
                     String name = GetGrGenTypeName(superType, xmielem, package, ":");
                     nodeType.SuperTypes.Add(name);
@@ -304,8 +313,10 @@ namespace de.unika.ipd.grGen.libGr
 
                 sb.Append("\t\t_" + attrName + " : " + GrGenTypeNameFromXmi(attrType) + ";\n");
             }
-            if(first) sb.Append(";\n\n");
-            else sb.Append("\t}\n\n");
+            if(first)
+                sb.Append(";\n\n");
+            else
+                sb.Append("\t}\n\n");
 
             // Then iterate over all ecore:EReference structural features modelled as edge types
             foreach(XmlElement item in classifier.GetElementsByTagName("eStructuralFeatures"))
@@ -342,8 +353,10 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<String, int> literalToValue = new Dictionary<String, int>();
             foreach(XmlElement item in classifier.GetElementsByTagName("eLiterals"))
             {
-                if(first) first = false;
-                else sb.Append(",\n");
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",\n");
 
                 String name = item.GetAttribute("name");
                 String value = item.GetAttribute("value");
@@ -477,7 +490,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 while(reader.Read())
                 {
-                    if(reader.NodeType != XmlNodeType.Element) continue;
+                    if(reader.NodeType != XmlNodeType.Element)
+                        continue;
 
                     ParseNodeSecondPass(reader, root, reader.Name);
                 }
@@ -489,12 +503,14 @@ namespace de.unika.ipd.grGen.libGr
             NodeType nodeType = typeMap[parentTypeName];
 
             RefType refType;
-            if(nodeType.RefAttrToRefType.TryGetValue(tagName, out refType)) return refType;
+            if(nodeType.RefAttrToRefType.TryGetValue(tagName, out refType))
+                return refType;
 
             foreach(String superType in nodeType.SuperTypes)
             {
                 refType = FindRefType(superType, tagName);
-                if(refType != null) return refType;
+                if(refType != null)
+                    return refType;
             }
             return null;
         }
@@ -502,8 +518,10 @@ namespace de.unika.ipd.grGen.libGr
         private String FindRefTypeName(String parentTypeName, String tagName)
         {
             RefType refType = FindRefType(parentTypeName, tagName);
-            if(refType == null) return null;
-            else return refType.TypeName;
+            if(refType == null)
+                return null;
+            else
+                return refType.TypeName;
         }
 
         private bool IsRefOrdered(String parentTypeName, String tagName)
@@ -515,12 +533,14 @@ namespace de.unika.ipd.grGen.libGr
         {
             NodeType nodeType = typeMap[parentTypeName];
 
-            if(nodeType.RefAttrToRefType.ContainsKey(tagName)) return parentTypeName;
+            if(nodeType.RefAttrToRefType.ContainsKey(tagName))
+                return parentTypeName;
 
             foreach(String superType in nodeType.SuperTypes)
             {
                 String containingType = FindContainingTypeName(superType, tagName);
-                if(containingType != null) return containingType;
+                if(containingType != null)
+                    return containingType;
             }
             return null;
         }
@@ -545,9 +565,7 @@ namespace de.unika.ipd.grGen.libGr
                 String part = addressParts[i];
                 int index;
                 if(part.Length == 0)
-                {
                     continue;
-                }
                 else if(part.StartsWith("@"))
                 {
                     String element = part.Substring(1);
@@ -574,17 +592,17 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
                 else if(int.TryParse(part, out index))
-                {
                     curPos = curPos.children[index];
-                }
                 else
                 {
                     foreach(XMLTree child in curPos.children)
+                    {
                         if(child.elementName == part)
                         {
                             curPos = child;
                             break;
                         }
+                    }
                 }
                 if(oldCurPos == curPos)
                     throw new Exception("Can't find address " + name + ", stop at part " + part);
@@ -602,8 +620,10 @@ namespace de.unika.ipd.grGen.libGr
 
             while(reader.Read())
             {
-                if(reader.NodeType == XmlNodeType.EndElement) break; // reached end of current nesting level
-                if(reader.NodeType != XmlNodeType.Element) continue;
+                if(reader.NodeType == XmlNodeType.EndElement)
+                    break; // reached end of current nesting level
+                if(reader.NodeType != XmlNodeType.Element)
+                    continue;
 
                 bool emptyElem = reader.IsEmptyElement; // retard API designer
                 String tagName = reader.Name;
@@ -671,8 +691,10 @@ namespace de.unika.ipd.grGen.libGr
             int index = 0;
             while(reader.Read())
             {
-                if(reader.NodeType == XmlNodeType.EndElement) break;
-                if(reader.NodeType != XmlNodeType.Element) continue;
+                if(reader.NodeType == XmlNodeType.EndElement)
+                    break;
+                if(reader.NodeType != XmlNodeType.Element)
+                    continue;
 
                 bool emptyElem = reader.IsEmptyElement; // retard API designer
                 String tagName = reader.Name;
@@ -708,7 +730,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private void HandleAttributes(XmlTextReader reader, String curTypeName, INode curNode)
         {
-            for(int attrIndex = 0; attrIndex < reader.AttributeCount; attrIndex++)
+            for(int attrIndex = 0; attrIndex < reader.AttributeCount; ++attrIndex)
             {
                 reader.MoveToAttribute(attrIndex);
 
@@ -734,13 +756,15 @@ namespace de.unika.ipd.grGen.libGr
                         {
                             IEdge parentEdge = graph.AddEdge(edgeModel.GetType(grgenRefEdgeTypeName), curNode, GetNode(destNodeName));
                             parentEdge.SetAttribute("ordering", i);
-                            i++;
+                            ++i;
                         }
                     }
                     else
                     {
                         foreach(String destNodeName in destNodeNames)
+                        {
                             graph.AddEdge(edgeModel.GetType(grgenRefEdgeTypeName), curNode, GetNode(destNodeName));
+                        }
                     }
                 }
                 else
@@ -772,15 +796,17 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     // TODO: there might be literals without values, we must cope with them
                     int val;
-                    if(Int32.TryParse(attrval, out val)) value = val;
-                    else value = enumToLiteralToValue[XmiFromGrGenTypeName(attrType.EnumType.PackagePrefixedName)][attrval];
+                    if(Int32.TryParse(attrval, out val))
+                        value = val;
+                    else
+                                value = enumToLiteralToValue[XmiFromGrGenTypeName(attrType.EnumType.PackagePrefixedName)][attrval];
                     break;
                 }
 
                 case AttributeKind.ByteAttr:
                 {
                     sbyte val;
-                    if (!SByte.TryParse(attrval, out val))
+                    if(!SByte.TryParse(attrval, out val))
                         throw new Exception("Attribute \"" + attrname + "\" must be an signed byte!");
                     value = val;
                     break;
@@ -789,7 +815,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.ShortAttr:
                 {
                     short val;
-                    if (!Int16.TryParse(attrval, out val))
+                    if(!Int16.TryParse(attrval, out val))
                         throw new Exception("Attribute \"" + attrname + "\" must be a short!");
                     value = val;
                     break;
@@ -798,7 +824,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.IntegerAttr:
                 {
                     int val;
-                    if (!Int32.TryParse(attrval, out val))
+                    if(!Int32.TryParse(attrval, out val))
                         val = Int32.MinValue; // bullshit hack to be able to import TTC reengineering case XMI/ecore; if you really want to use XMI/ecore you maybe want to exchange the un/commented parts
                         //throw new Exception("Attribute \"" + attrname + "\" must be an int!");
                     value = val;
@@ -823,7 +849,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     float val;
                     if(!Single.TryParse(attrval, System.Globalization.NumberStyles.Float,
-                                System.Globalization.CultureInfo.InvariantCulture, out val))
+                            System.Globalization.CultureInfo.InvariantCulture, out val))
                         throw new Exception("Attribute \"" + attrname + "\" must be a floating point number!");
                     value = val;
                     break;
@@ -833,7 +859,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     double val;
                     if(!Double.TryParse(attrval, System.Globalization.NumberStyles.Float,
-                                System.Globalization.CultureInfo.InvariantCulture, out val))
+                            System.Globalization.CultureInfo.InvariantCulture, out val))
                         throw new Exception("Attribute \"" + attrname + "\" must be a floating point number!");
                     value = val;
                     break;

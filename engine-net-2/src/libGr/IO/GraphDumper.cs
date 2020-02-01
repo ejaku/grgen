@@ -51,25 +51,100 @@ namespace de.unika.ipd.grGen.libGr
                 = new NodeType[] { this };
         }
 
-        public override string Name { get { return "__VirtualType__"; } }
-        public override string Package { get { return null; } }
-        public override string PackagePrefixedName { get { return "__VirtualType__"; } }
-        public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
-        public override String NodeClassName { get { return "de.unika.ipd.grGen.libGr.VirtualNode"; } }
-        public override bool IsA(int typeID) { throw new NotImplementedException(); }
-        public override bool IsMyType(int typeID) { throw new NotImplementedException(); }
-        public override bool IsA(GrGenType other) { return other is VirtualNodeType; }
-        public override bool IsAbstract { get { return true; } }
-        public override bool IsConst { get { return true; } }
-        public override int NumAttributes { get { return 0; } }
-        public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-        public override AttributeType GetAttributeType(String name) { return null; }
-        public override int NumFunctionMethods { get { return 0; } }
-        public override IEnumerable<IFunctionDefinition> FunctionMethods { get { yield break; } }
-        public override IFunctionDefinition GetFunctionMethod(String name) { return null; }
-        public override int NumProcedureMethods { get { return 0; } }
-        public override IEnumerable<IProcedureDefinition> ProcedureMethods { get { yield break;} }
-        public override IProcedureDefinition GetProcedureMethod(String name) { return null; }
+        public override string Name
+        {
+            get { return "__VirtualType__"; }
+        }
+
+        public override string Package
+        {
+            get { return null; }
+        }
+
+        public override string PackagePrefixedName
+        {
+            get { return "__VirtualType__"; }
+        }
+
+        public override String NodeInterfaceName
+        {
+            get { return "de.unika.ipd.grGen.libGr.INode"; }
+        }
+
+        public override String NodeClassName
+        {
+            get { return "de.unika.ipd.grGen.libGr.VirtualNode"; }
+        }
+
+        public override bool IsA(int typeID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsMyType(int typeID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsA(GrGenType other)
+        {
+            return other is VirtualNodeType;
+        }
+
+        public override bool IsAbstract
+        {
+            get { return true; }
+        }
+
+        public override bool IsConst
+        {
+            get { return true; }
+        }
+
+        public override int NumAttributes
+        {
+            get { return 0; }
+        }
+
+        public override IEnumerable<AttributeType> AttributeTypes
+        {
+            get { yield break; }
+        }
+
+        public override AttributeType GetAttributeType(String name)
+        {
+            return null;
+        }
+
+        public override int NumFunctionMethods
+        {
+            get { return 0; }
+        }
+
+        public override IEnumerable<IFunctionDefinition> FunctionMethods
+        {
+            get { yield break; }
+        }
+
+        public override IFunctionDefinition GetFunctionMethod(String name)
+        {
+            return null;
+        }
+
+        public override int NumProcedureMethods
+        {
+            get { return 0; }
+        }
+
+        public override IEnumerable<IProcedureDefinition> ProcedureMethods
+        {
+            get { yield break;}
+        }
+
+        public override IProcedureDefinition GetProcedureMethod(String name)
+        {
+            return null;
+        }
 
         public override INode CreateNode()
         {
@@ -81,7 +156,10 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override Annotations Annotations { get { return new Annotations(); } }
+        public override Annotations Annotations
+        {
+            get { return new Annotations(); }
+        }
     }
 
     /// <summary>
@@ -96,56 +174,132 @@ namespace de.unika.ipd.grGen.libGr
             id = newID;
         }
 
-        public int ID { get { return id; } }
-        public NodeType Type { get { return VirtualNodeType.Instance; } }
-        GrGenType IGraphElement.Type { get { return VirtualNodeType.Instance; } }
-        public bool InstanceOf(GrGenType type) { return type is VirtualNodeType; }
-        public int GetUniqueId() { return 0; }
+        public int ID
+        {
+            get { return id; }
+        }
+
+        public NodeType Type
+        {
+            get { return VirtualNodeType.Instance; }
+        }
+
+        GrGenType IGraphElement.Type
+        {
+            get { return VirtualNodeType.Instance; }
+        }
+
+        public bool InstanceOf(GrGenType type)
+        {
+            return type is VirtualNodeType;
+        }
+
+        public int GetUniqueId()
+        {
+            return 0;
+        }
 
         public object this[string attrName]
         {
             get { return GetAttribute(attrName); }
             set { SetAttribute(attrName, value); }
         }
+
         public object GetAttribute(String attrName)
-        { throw new NotImplementedException("Get attribute not supported on virtual node!"); }
+        {
+            throw new NotImplementedException("Get attribute not supported on virtual node!");
+        }
+
         public void SetAttribute(String attrName, object value)
-        { throw new NotImplementedException("Set attribute not supported on virtual node!"); }
+        {
+            throw new NotImplementedException("Set attribute not supported on virtual node!");
+        }
 
         // TODO: Do we need to support this for other dumpers???
-        public IEnumerable<IEdge> Outgoing { get { yield break; } }
-        public IEnumerable<IEdge> Incoming { get { yield break; } }
-        public IEnumerable<IEdge> Incident { get { yield break; } }
-        public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType) { yield break; }
-        public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType) { yield break; }
-        public IEnumerable<IEdge> GetCompatibleIncident(EdgeType edgeType) { yield break; }
-        public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType) { yield break; }
-        public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType) { yield break; }
-        public IEnumerable<IEdge> GetExactIncident(EdgeType edgeType) { yield break; }
+        public IEnumerable<IEdge> Outgoing
+        {
+            get { yield break; }
+        }
+
+        public IEnumerable<IEdge> Incoming
+        {
+            get { yield break; }
+        }
+
+        public IEnumerable<IEdge> Incident
+        {
+            get { yield break; }
+        }
+
+        public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType)
+        {
+            yield break;
+        }
+
+        public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType)
+        {
+            yield break;
+        }
+
+        public IEnumerable<IEdge> GetCompatibleIncident(EdgeType edgeType)
+        {
+            yield break;
+        }
+
+        public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType)
+        {
+            yield break;
+        }
+
+        public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType)
+        {
+            yield break;
+        }
+
+        public IEnumerable<IEdge> GetExactIncident(EdgeType edgeType)
+        {
+            yield break;
+        }
 
         public INode Clone()
-        { throw new NotImplementedException("The method or operation is not implemented."); }
+        {
+            throw new NotImplementedException("The method or operation is not implemented.");
+        }
 
         public bool AreAttributesEqual(IGraphElement that)
-        { throw new NotImplementedException("The method or operation is not implemented."); }
+        {
+            throw new NotImplementedException("The method or operation is not implemented.");
+        }
 
         public void ResetAllAttributes()
-        { throw new NotImplementedException("The method or operation is not implemented."); }
+        {
+            throw new NotImplementedException("The method or operation is not implemented.");
+        }
 
         public INode ReplacedByNode
-        { get { throw new NotImplementedException("The method or operation is not implemented."); } }
+        {
+            get { throw new NotImplementedException("The method or operation is not implemented."); }
+        }
 
         public bool Valid
-        { get { throw new NotImplementedException("The method or operation is not implemented."); } }
+        {
+            get { throw new NotImplementedException("The method or operation is not implemented."); }
+        }
 
 		public IGraphElement ReplacedByElement
-		{ get { throw new NotImplementedException("The method or operation is not implemented."); } }
+		{
+            get { throw new NotImplementedException("The method or operation is not implemented."); }
+        }
 
         public object ApplyFunctionMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
-		{ throw new NotImplementedException("The method or operation is not implemented."); }
+		{
+            throw new NotImplementedException("The method or operation is not implemented.");
+        }
 
         public object[] ApplyProcedureMethod(IActionExecutionEnvironment actionEnv, IGraph graph, string name, object[] arguments)
-		{ throw new NotImplementedException("The method or operation is not implemented."); }
+		{
+            throw new NotImplementedException("The method or operation is not implemented.");
+        }
     }
 
     internal class DumpContext
@@ -219,10 +373,13 @@ namespace de.unika.ipd.grGen.libGr
                 foreach(InfoTag infoTag in infoTagTypes)
                 {
                     object attr = elem.GetAttribute(infoTag.AttributeType.Name);
-                    if(attr == null) continue;
+                    if(attr == null)
+                        continue;
 
-                    if(!first) label += "\n";
-                    else first = false;
+                    if(!first)
+                        label += "\n";
+                    else
+                        first = false;
 
                     if(infoTag.ShortInfoTag)
                         label += attr.ToString();
@@ -297,20 +454,24 @@ namespace de.unika.ipd.grGen.libGr
                     int j = 1;
                     foreach(INode node in match.Nodes)
                     {
-                        dumper.DumpEdge(virtNode, node, String.Format("node {0}", j++), null,
+                        dumper.DumpEdge(virtNode, node, String.Format("node {0}", ++j), null,
                             vedgeTextColor, vedgeColor, vedgeLineStyle, vedgeThickness);
 
-                        if(matchedNodes.Contains(node)) multiMatchedNodes.Add(node);
-                        else matchedNodes.Add(node);
+                        if(matchedNodes.Contains(node))
+                            multiMatchedNodes.Add(node);
+                        else
+                            matchedNodes.Add(node);
                     }
 
                     // Collect matched edges
                     foreach(IEdge edge in match.Edges)
                     {
-                        if(matchedEdges.Contains(edge)) multiMatchedEdges.Add(edge);
-                        else matchedEdges.Add(edge);
+                        if(matchedEdges.Contains(edge))
+                            multiMatchedEdges.Add(edge);
+                        else
+                            matchedEdges.Add(edge);
                     }
-                    i++;
+                    ++i;
                 }
 
                 if(which == DumpMatchSpecial.OnlyMatches)
@@ -375,9 +536,12 @@ namespace de.unika.ipd.grGen.libGr
             // dumping only outgoing ensures every edge is dumped only once
             foreach(IEdge edge in node.Outgoing)        // TODO: This is probably wrong for group nodes grouped by outgoing edges
             {
-                if(dc.DumpInfo.IsExcludedEdgeType(edge.Type)) continue;
-                if(dc.ExcludedEdges.Contains(edge)) continue;
-                if(!dc.InitialNodes.Contains(edge.Target)) continue;
+                if(dc.DumpInfo.IsExcludedEdgeType(edge.Type))
+                    continue;
+                if(dc.ExcludedEdges.Contains(edge))
+                    continue;
+                if(!dc.InitialNodes.Contains(edge.Target))
+                    continue;
 
                 GrColor color;
                 GrColor textColor;
@@ -459,9 +623,7 @@ namespace de.unika.ipd.grGen.libGr
                     DumpEdgesFromNode(node, dc);
                 }
                 else
-                {
                     DumpNodeAndEdges(node, dc);
-                }
             }
 
             dc.Dumper.FinishSubgraph();
@@ -482,31 +644,41 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     if(nodes.Contains(node))
                     {
-                        if(!groupNodes.ContainsKey(node)) groupNodes.Add(node, new DumpGroupNode()); // todo: is the if needed?
+                        if(!groupNodes.ContainsKey(node))
+                            groupNodes.Add(node, new DumpGroupNode()); // todo: is the if needed?
                         nodes.Remove(node);
                     }
 
-                    if(dc.DumpInfo.IsExcludedNodeType(node.Type)) continue;
+                    if(dc.DumpInfo.IsExcludedNodeType(node.Type))
+                        continue;
 
                     foreach(IEdge edge in node.Incoming)
                     {
                         GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
-                        if((grpMode & GroupMode.GroupIncomingNodes) == 0) continue;
-                        if(!dc.Nodes.Contains(edge.Source)) continue;
+                        if((grpMode & GroupMode.GroupIncomingNodes) == 0)
+                            continue;
+                        if(!dc.Nodes.Contains(edge.Source))
+                            continue;
                         groupNodes[node].groupedNodes.Add(edge.Source);
-                        if(!containedIn.ContainsKey(edge.Source)) containedIn.Add(edge.Source, node); // crashes without if in case of multiple containment due to dump misspecification by user
+                        if(!containedIn.ContainsKey(edge.Source))
+                            containedIn.Add(edge.Source, node); // crashes without if in case of multiple containment due to dump misspecification by user
                         groupedNodes.Add(edge.Source);
-                        if((grpMode & GroupMode.Hidden) != 0) dc.ExcludedEdges.Add(edge);
+                        if((grpMode & GroupMode.Hidden) != 0)
+                            dc.ExcludedEdges.Add(edge);
                     }
                     foreach(IEdge edge in node.Outgoing)
                     {
                         GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
-                        if((grpMode & GroupMode.GroupOutgoingNodes) == 0) continue;
-                        if(!dc.Nodes.Contains(edge.Target)) continue;
+                        if((grpMode & GroupMode.GroupOutgoingNodes) == 0)
+                            continue;
+                        if(!dc.Nodes.Contains(edge.Target))
+                            continue;
                         groupNodes[node].groupedNodes.Add(edge.Target);
-                        if(!containedIn.ContainsKey(edge.Target)) containedIn.Add(edge.Target, node); // crashes without if in case of multiple containment due to dump misspecification by user
+                        if(!containedIn.ContainsKey(edge.Target))
+                            containedIn.Add(edge.Target, node); // crashes without if in case of multiple containment due to dump misspecification by user
                         groupedNodes.Add(edge.Target);
-                        if((grpMode & GroupMode.Hidden) != 0) dc.ExcludedEdges.Add(edge);
+                        if((grpMode & GroupMode.Hidden) != 0)
+                            dc.ExcludedEdges.Add(edge);
                     }
                 }
             }
@@ -559,7 +731,8 @@ namespace de.unika.ipd.grGen.libGr
 
             foreach(NodeType nodeType in graph.Model.NodeModel.Types)
             {
-                if(dumpInfo.IsExcludedNodeType(nodeType)) continue;
+                if(dumpInfo.IsExcludedNodeType(nodeType))
+                    continue;
                 dc.Nodes.Add(graph.GetExactNodes(nodeType));
             }
 

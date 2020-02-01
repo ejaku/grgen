@@ -72,29 +72,29 @@ namespace de.unika.ipd.grGen.libGr
             String scopeName;
             switch (scopeType)
             {
-                case ScopeType.For:
-                    scopeName = "for" + scopesMeta.Peek().forCount;
-                    ++scopesMeta.Peek().forCount;
-                    break;
-                case ScopeType.If:
-                    scopeName = "if" + scopesMeta.Peek().ifCount;
-                    ++scopesMeta.Peek().ifCount;
-                    break;
-                case ScopeType.IfThenPart:
-                    scopeName = "thenpart";
-                    break;
-                case ScopeType.Computation:
-                    scopeName = "computation" + scopesMeta.Peek().computationCount;
-                    ++scopesMeta.Peek().computationCount;
-                    break;
-                case ScopeType.InSubgraph:
-                    scopeName = "insubgraph" + scopesMeta.Peek().inSubgraphCount;
-                    ++scopesMeta.Peek().inSubgraphCount;
-                    break;
-                default:
-                    Debug.Assert(false); // only first scopes can be of type Globals and Sequence
-                    scopeName = "";
-                    break;
+            case ScopeType.For:
+                scopeName = "for" + scopesMeta.Peek().forCount;
+                ++scopesMeta.Peek().forCount;
+                break;
+            case ScopeType.If:
+                scopeName = "if" + scopesMeta.Peek().ifCount;
+                ++scopesMeta.Peek().ifCount;
+                break;
+            case ScopeType.IfThenPart:
+                scopeName = "thenpart";
+                break;
+            case ScopeType.Computation:
+                scopeName = "computation" + scopesMeta.Peek().computationCount;
+                ++scopesMeta.Peek().computationCount;
+                break;
+            case ScopeType.InSubgraph:
+                scopeName = "insubgraph" + scopesMeta.Peek().inSubgraphCount;
+                ++scopesMeta.Peek().inSubgraphCount;
+                break;
+            default:
+                Debug.Assert(false); // only first scopes can be of type Globals and Sequence
+                scopeName = "";
+                break;
             }
 
             scopesMeta.Push(new ScopeMetaInformation(scopeName, scopeType));
@@ -110,7 +110,7 @@ namespace de.unika.ipd.grGen.libGr
             scopes.Push(globalsScope);
 
             Dictionary<String, SequenceVariable> sequenceScope = new Dictionary<String, SequenceVariable>();
-            if (predefinedVariables != null)
+            if(predefinedVariables != null)
             {
                 foreach (KeyValuePair<String, String> predefinedVariable in predefinedVariables)
                 {
@@ -130,7 +130,9 @@ namespace de.unika.ipd.grGen.libGr
 		public void PopScope(List<SequenceVariable> seqVarsDefinedInThisScope)
 		{
             foreach(SequenceVariable seqVar in scopes.Peek().Values)
+            {
                 seqVarsDefinedInThisScope.Add(seqVar);
+            }
 
 			scopes.Pop();
             scopesMeta.Pop();
@@ -143,9 +145,7 @@ namespace de.unika.ipd.grGen.libGr
 			foreach(Dictionary<String, SequenceVariable> scope in scopes)
 			{
 				if(scope.ContainsKey(name))
-				{
 					return scope[name];
-				}
 			}
 
 			return null;
@@ -156,9 +156,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable LookupDefineGlobal(String name)
         {
             if(globalsScope.ContainsKey(name))
-            {
                 return globalsScope[name];
-            }
 
             SequenceVariable newVar = new SequenceVariable(name, "", "");
             globalsScope.Add(name, newVar);
