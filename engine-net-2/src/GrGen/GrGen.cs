@@ -47,7 +47,8 @@ namespace de.unika.ipd.grGen.grGen
                 Type backendType = null;
                 foreach(Type type in assembly.GetTypes())
                 {
-                    if(!type.IsClass || type.IsNotPublic) continue;
+                    if(!type.IsClass || type.IsNotPublic)
+                        continue;
                     if(type.GetInterface("IBackend") != null)
                     {
                         if(backendType != null)
@@ -63,7 +64,7 @@ namespace de.unika.ipd.grGen.grGen
                     Console.Error.WriteLine("The given backend doesn't contain an IBackend implementation!");
                     return null;
                 }
-                return (IBackend) Activator.CreateInstance(backendType);
+                return (IBackend)Activator.CreateInstance(backendType);
             }
             catch(Exception ex)
             {
@@ -119,7 +120,7 @@ namespace de.unika.ipd.grGen.grGen
                             break;
 
                         case "-r":
-                            if (i + 1 >= args.Length)
+                            if(i + 1 >= args.Length)
                             {
                                 Console.Error.WriteLine("Missing parameter for -r option!");
                                 specFile = null;         // show usage
@@ -305,7 +306,8 @@ namespace de.unika.ipd.grGen.grGen
                 }
             }
 
-            if(destDir == null) destDir = specDir;
+            if(destDir == null)
+                destDir = specDir;
 
             if(dirname == null)
             {
