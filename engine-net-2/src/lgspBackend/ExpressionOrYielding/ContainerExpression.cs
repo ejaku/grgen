@@ -19,7 +19,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_BIT_OR : BinFuncOperator
     {
-        public DICT_BIT_OR(Expression left, Expression right) : base(left, right) { }
+        public DICT_BIT_OR(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -37,7 +40,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_BIT_AND : BinFuncOperator
     {
-        public DICT_BIT_AND(Expression left, Expression right) : base(left, right) { }
+        public DICT_BIT_AND(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -55,7 +61,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_EXCEPT : BinFuncOperator
     {
-        public DICT_EXCEPT(Expression left, Expression right) : base(left, right) { }
+        public DICT_EXCEPT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -77,7 +86,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_EQ : BinFuncOperator
     {
-        public DICT_EQ(Expression left, Expression right) : base(left, right) { }
+        public DICT_EQ(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -95,7 +107,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_NE : BinFuncOperator
     {
-        public DICT_NE(Expression left, Expression right) : base(left, right) { }
+        public DICT_NE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -113,7 +128,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_LT : BinFuncOperator
     {
-        public DICT_LT(Expression left, Expression right) : base(left, right) { }
+        public DICT_LT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -131,7 +149,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_LE : BinFuncOperator
     {
-        public DICT_LE(Expression left, Expression right) : base(left, right) { }
+        public DICT_LE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -149,7 +170,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_GT : BinFuncOperator
     {
-        public DICT_GT(Expression left, Expression right) : base(left, right) { }
+        public DICT_GT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -167,7 +191,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DICT_GE : BinFuncOperator
     {
-        public DICT_GE(Expression left, Expression right) : base(left, right) { }
+        public DICT_GE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -185,7 +212,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LIST_EQ : BinFuncOperator
     {
-        public LIST_EQ(Expression left, Expression right) : base(left, right) { }
+        public LIST_EQ(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -203,7 +233,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LIST_NE : BinFuncOperator
     {
-        public LIST_NE(Expression left, Expression right) : base(left, right) { }
+        public LIST_NE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -221,7 +254,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LIST_LT : BinFuncOperator
     {
-        public LIST_LT(Expression left, Expression right) : base(left, right) { }
+        public LIST_LT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -239,7 +275,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LIST_LE : BinFuncOperator
     {
-        public LIST_LE(Expression left, Expression right) : base(left, right) { }
+        public LIST_LE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -257,7 +296,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LIST_GT : BinFuncOperator
     {
-        public LIST_GT(Expression left, Expression right) : base(left, right) { }
+        public LIST_GT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -275,7 +317,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LIST_GE : BinFuncOperator
     {
-        public LIST_GE(Expression left, Expression right) : base(left, right) { }
+        public LIST_GE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -293,7 +338,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DEQUE_EQ : BinFuncOperator
     {
-        public DEQUE_EQ(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_EQ(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -311,7 +359,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DEQUE_NE : BinFuncOperator
     {
-        public DEQUE_NE(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_NE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -329,7 +380,9 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DEQUE_LT : BinFuncOperator
     {
-        public DEQUE_LT(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_LT(Expression left, Expression right) : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -347,7 +400,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DEQUE_LE : BinFuncOperator
     {
-        public DEQUE_LE(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_LE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -365,7 +421,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DEQUE_GT : BinFuncOperator
     {
-        public DEQUE_GT(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_GT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -383,7 +442,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DEQUE_GE : BinFuncOperator
     {
-        public DEQUE_GE(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_GE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -401,7 +463,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LIST_ADD : BinFuncOperator
     {
-        public LIST_ADD(Expression left, Expression right) : base(left, right) { }
+        public LIST_ADD(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -419,7 +484,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DEQUE_ADD : BinFuncOperator
     {
-        public DEQUE_ADD(Expression left, Expression right) : base(left, right) { }
+        public DEQUE_ADD(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -956,7 +1024,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Target;
-            if(Number!=null) yield return Number;
+            if(Number!=null)
+                yield return Number;
             else yield break;
         }
 
@@ -1616,7 +1685,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Target;
-            if(Number!=null) yield return Number;
+            if(Number!=null)
+                yield return Number;
             else yield break;
         }
 
@@ -1971,13 +2041,15 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(ClassName + ".fill_" + MapName + "(");
-            if(First!=null) First.Emit(sourceCode);
+            if(First!=null)
+                First.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(First!=null) yield return First;
+            if(First!=null)
+                yield return First;
         }
 
         readonly String ClassName;
@@ -2100,7 +2172,8 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(ClassName + ".fill_" + SetName + "(");
-            if(First!=null) First.Emit(sourceCode);
+            if(First!=null)
+                First.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
@@ -2139,7 +2212,7 @@ namespace de.unika.ipd.grGen.expression
             if(ValueType!=null)
                 sourceCode.Append(")");
 
-            if (Next != null)
+            if(Next != null)
             {
                 sourceCode.Append(", ");
                 Next.Emit(sourceCode);
@@ -2149,7 +2222,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Value;
-            if(Next!=null) yield return Next;
+            if(Next!=null)
+                yield return Next;
         }
 
         readonly Expression Value;
@@ -2212,13 +2286,15 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(ClassName + ".fill_" + ArrayName + "(");
-            if(First!=null) First.Emit(sourceCode);
+            if(First!=null)
+                First.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(First!=null) yield return First;
+            if(First!=null)
+                yield return First;
         }
 
         readonly String ClassName;
@@ -2261,7 +2337,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Value;
-            if(Next!=null) yield return Next;
+            if(Next!=null)
+                yield return Next;
         }
 
         readonly Expression Value;
@@ -2324,13 +2401,15 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(ClassName + ".fill_" + DequeName + "(");
-            if(First!=null) First.Emit(sourceCode);
+            if(First!=null)
+                First.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(First!=null) yield return First;
+            if(First!=null)
+                yield return First;
         }
 
         readonly String ClassName;
@@ -2373,7 +2452,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Value;
-            if(Next!=null) yield return Next;
+            if(Next!=null)
+                yield return Next;
         }
 
         readonly Expression Value;

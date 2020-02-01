@@ -57,13 +57,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.
         /// </summary>
-        public string Package { get { return patternGraph.Package; } }
+        public string Package
+        {
+            get { return patternGraph.Package; }
+        }
 
         /// <summary>
         /// The name of the type in case of a global type,
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
-        public string PackagePrefixedName { get { return patternGraph.PackagePrefixedName; } }
+        public string PackagePrefixedName
+        {
+            get { return patternGraph.PackagePrefixedName; }
+        }
     }
 
 
@@ -190,7 +196,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String errorMsg = compResults.Errors.Count + " Errors:";
                     foreach(CompilerError error in compResults.Errors)
+                    {
                         errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
+                    }
                     throw new ArgumentException("Illegal actions C# source code: " + errorMsg);
                 }
 
@@ -213,7 +221,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 foreach(Type type in assembly.GetTypes())
                 {
-                    if(!type.IsClass || type.IsNotPublic) continue;
+                    if(!type.IsClass || type.IsNotPublic)
+                        continue;
                     if(type.BaseType == typeof(LGSPActions))
                     {
                         if(actionsType != null)
@@ -229,8 +238,11 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String errorMsg = "";
                 foreach(Exception ex in e.LoaderExceptions)
+                {
                     errorMsg += "- " + ex.Message + Environment.NewLine;
-                if(errorMsg.Length == 0) errorMsg = e.Message;
+                }
+                if(errorMsg.Length == 0)
+                    errorMsg = e.Message;
                 throw new ArgumentException(errorMsg);
             }
             if(actionsType == null)
@@ -247,7 +259,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The associated graph.
         /// </summary>
-        public override IGraph Graph { get { return graph; } set { graph = (LGSPGraph) value; } }
+        public override IGraph Graph
+        {
+            get { return graph; }
+            set { graph = (LGSPGraph) value; }
+        }
 
         /// <summary>
         /// The statistics file used for generating the matchers, null if none was used.
@@ -297,8 +313,10 @@ namespace de.unika.ipd.grGen.lgsp
             matcherGenerator.Profile = Profile;
             LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                 actionsAssemblyName, oldActions);
-            for(int i = 0; i < oldActions.Length; i++)
+            for(int i = 0; i < oldActions.Length; ++i)
+            {
                 actions[oldActions[i].Name] = newActions[i];
+            }
 
             return newActions;
         }
@@ -351,10 +369,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override IDictionary<String, String> CustomCommandsAndDescriptions
         {
-            get
-            {
-                return customCommandsToDescriptions;
-            }
+            get { return customCommandsToDescriptions; }
         }
 
         /// <summary>
@@ -391,8 +406,10 @@ namespace de.unika.ipd.grGen.lgsp
                         {
                             oldActions[i] = (LGSPAction)GetAction((String)args[i + 1]);
                             if(oldActions[i] == null)
+                            {
                                 throw new ArgumentException("'" + (String)args[i + 1] + "' is not the name of an action!\n"
                                     + "Please use 'show actions' to get a list of the available names.");
+                            }
                         }
                     }
 
@@ -407,7 +424,8 @@ namespace de.unika.ipd.grGen.lgsp
                     for(int i = 0; i < oldActions.Length; i++)
                     {
                         actions[oldActions[i].Name] = newActions[i];
-                        if(i != 0) Console.Write(", ");
+                        if(i != 0)
+                            Console.Write(", ");
                         Console.Write("'" + oldActions[i].Name + "'");
                     }
                     Console.WriteLine(" generated in " + (stopticks - startticks) + " ms.");
@@ -416,8 +434,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             case "dump_sourcecode":
                 if(args.Length != 2)
+                {
                     throw new ArgumentException("Usage: dump_sourcecode <bool>\n"
-                            + "If <bool> == true, C# files will be dumped for new searchplans.");
+                        + "If <bool> == true, C# files will be dumped for new searchplans.");
+                }
 
                 if(!bool.TryParse((String) args[1], out matcherGenerator.DumpDynSourceCode))
                     throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
@@ -425,8 +445,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             case "dump_searchplan":
                 if(args.Length != 2)
+                {
                     throw new ArgumentException("Usage: dump_searchplan <bool>\n"
-                            + "If <bool> == true, VCG and TXT files will be dumped for new searchplans.");
+                        + "If <bool> == true, VCG and TXT files will be dumped for new searchplans.");
+                }
 
                 if(!bool.TryParse((String) args[1], out matcherGenerator.DumpSearchPlan))
                     throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
@@ -435,13 +457,16 @@ namespace de.unika.ipd.grGen.lgsp
             case "explain":
                 {
                     if(args.Length != 2)
+                    {
                         throw new ArgumentException("Usage: explain <name>\n"
-                                + "Explains the searchplan of the given action.");
-
+                            + "Explains the searchplan of the given action.");
+                    }
                     LGSPAction action = (LGSPAction)GetAction((String)args[1]);
                     if(action == null)
+                    {
                         throw new ArgumentException("'" + (String)args[1] + "' is not the name of an action!\n"
                             + "Please use 'show actions' to get a list of the available names.");
+                    }
 
                     if(action.patternGraph.schedules[0] == null)
                     {
@@ -477,10 +502,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Enumerates all actions managed by this LGSPActions instance.
         /// </summary>
-        public override IEnumerable<IAction> Actions { get {
-            foreach(IAction action in actions.Values)
-                yield return action;
-        } }
+        public override IEnumerable<IAction> Actions
+        {
+            get
+            {
+                foreach(IAction action in actions.Values)
+                {
+                    yield return action;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the action with the given name.
@@ -490,7 +521,8 @@ namespace de.unika.ipd.grGen.lgsp
         public override IAction GetAction(string name)
         {
             LGSPAction action;
-            if(!actions.TryGetValue(name, out action)) return null;
+            if(!actions.TryGetValue(name, out action))
+                return null;
             return (IAction)action;
         }
     }
@@ -551,7 +583,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.
         /// Takes care of search state as given by found partial matches, isoSpace to search in
-        /// and maximum number of matches to search for (zero = find all matches)
+        /// and maximum number of matches to search for(zero = find all matches)
         /// (and open tasks via this).
         /// </summary>
         public abstract void myMatch(List<Stack<IMatch>> foundPartialMatches, int maxMatches, int isoSpace);
@@ -580,14 +612,12 @@ namespace de.unika.ipd.grGen.lgsp
             // move through matches stack backwards to starting rule,
             // check if node is already matched somewhere on the derivation path
             IMatch match = lastMatchAtPreviousNestingLevel;
-            while (match != null)
+            while(match != null)
             {
-                for (int i = 0; i < match.NumberOfNodes; ++i)
+                for(int i = 0; i < match.NumberOfNodes; ++i)
                 {
-                    if (match.getNodeAt(i) == node)
-                    {
+                    if(match.getNodeAt(i) == node)
                         return true;
-                    }
                 }
                 match = match.MatchOfEnclosingPattern;
             }
@@ -601,14 +631,12 @@ namespace de.unika.ipd.grGen.lgsp
             // move through matches stack backwards to starting rule,
             // check if edge is already matched somewhere on the derivation path
             IMatch match = lastMatchAtPreviousNestingLevel;
-            while (match != null)
+            while(match != null)
             {
-                for (int i = 0; i < match.NumberOfEdges; ++i)
+                for(int i = 0; i < match.NumberOfEdges; ++i)
                 {
-                    if (match.getEdgeAt(i) == edge)
-                    {
+                    if(match.getEdgeAt(i) == edge)
                         return true;
-                    }
                 }
                 match = match.MatchOfEnclosingPattern;
             }

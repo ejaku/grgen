@@ -163,7 +163,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (Entity != null)
+            if(Entity != null)
             {
                 sourceCode.Append("GRGEN_LIBGR.GraphHelper.Nameof(");
                 Entity.Emit(sourceCode);
@@ -663,7 +663,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Name;
-            if(NodeType != null) yield return NodeType;
+            if(NodeType != null)
+                yield return NodeType;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -723,7 +724,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Name;
-            if(EdgeType != null) yield return EdgeType;
+            if(EdgeType != null)
+                yield return EdgeType;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -783,7 +785,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Unique;
-            if(NodeType != null) yield return NodeType;
+            if(NodeType != null)
+                yield return NodeType;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -843,7 +846,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Unique;
-            if(EdgeType != null) yield return EdgeType;
+            if(EdgeType != null)
+                yield return EdgeType;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -4421,16 +4425,16 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.GraphHelper.DefinedSubgraph");
-            if (Directedness == Directedness.Directed)
+            if(Directedness == Directedness.Directed)
                 sourceCode.Append("Directed");
-            if (Directedness == Directedness.Undirected)
+            if(Directedness == Directedness.Undirected)
                 sourceCode.Append("Undirected");
             sourceCode.Append("(");
-            if (Directedness == Directedness.Directed)
+            if(Directedness == Directedness.Directed)
                 sourceCode.Append("(IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)");
-            if (Directedness == Directedness.Undirected)
+            if(Directedness == Directedness.Undirected)
                 sourceCode.Append("(IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)");
-            if (Directedness == Directedness.Arbitrary)
+            if(Directedness == Directedness.Arbitrary)
                 sourceCode.Append("(IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)");
             EdgeSet.Emit(sourceCode);
             sourceCode.Append(", graph)");

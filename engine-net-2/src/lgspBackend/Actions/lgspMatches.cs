@@ -20,9 +20,21 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Nodes_Enumerable : IEnumerable<INode>
     {
-        public Nodes_Enumerable(IMatch match) { this.match = match; }
-        public IEnumerator<INode> GetEnumerator() { return new Nodes_Enumerator(match); } // KRANKE
-        IEnumerator IEnumerable.GetEnumerator() { return new Nodes_Enumerator(match); } // SCHEISSE
+        public Nodes_Enumerable(IMatch match)
+        {
+            this.match = match;
+        }
+
+        public IEnumerator<INode> GetEnumerator()
+        {
+            return new Nodes_Enumerator(match);
+        } // KRANKE
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new Nodes_Enumerator(match);
+        } // SCHEISSE
+
         readonly IMatch match;
     }
 
@@ -31,12 +43,38 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Nodes_Enumerator : IEnumerator<INode>
     {
-        public Nodes_Enumerator(IMatch match) { this.match = match; pos = -1; }
-        public void Reset() { pos = -1; }
-        public bool MoveNext() { ++pos; return pos<match.NumberOfNodes; }
-        public INode Current { get { return match.getNodeAt(pos); } } // KRANKE
-        object IEnumerator.Current { get { return match.getNodeAt(pos); } } // SCHEISSE
-        public void Dispose() { /*empty*/; }
+        public Nodes_Enumerator(IMatch match)
+        {
+            this.match = match;
+            pos = -1;
+        }
+
+        public void Reset()
+        {
+            pos = -1;
+        }
+
+        public bool MoveNext()
+        {
+            ++pos;
+            return pos<match.NumberOfNodes;
+        }
+
+        public INode Current
+        {
+            get { return match.getNodeAt(pos); }
+        } // KRANKE
+
+        object IEnumerator.Current
+        {
+            get { return match.getNodeAt(pos); }
+        } // SCHEISSE
+
+        public void Dispose()
+        {
+            /*empty*/;
+        }
+
         readonly IMatch match;
         int pos;
     }
@@ -47,9 +85,21 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Edges_Enumerable : IEnumerable<IEdge>
     {
-        public Edges_Enumerable(IMatch match) { this.match = match; }
-        public IEnumerator<IEdge> GetEnumerator() { return new Edges_Enumerator(match); } // KRANKE
-        IEnumerator IEnumerable.GetEnumerator() { return new Edges_Enumerator(match); } // SCHEISSE
+        public Edges_Enumerable(IMatch match)
+        {
+            this.match = match;
+        }
+
+        public IEnumerator<IEdge> GetEnumerator()
+        {
+            return new Edges_Enumerator(match);
+        } // KRANKE
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new Edges_Enumerator(match);
+        } // SCHEISSE
+
         readonly IMatch match;
     }
 
@@ -58,12 +108,38 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Edges_Enumerator : IEnumerator<IEdge>
     {
-        public Edges_Enumerator(IMatch match) { this.match = match; pos = -1; }
-        public void Reset() { pos = -1; }
-        public bool MoveNext() { ++pos; return pos<match.NumberOfEdges; }
-        public IEdge Current { get { return match.getEdgeAt(pos); } } // KRANKE
-        object IEnumerator.Current { get { return match.getEdgeAt(pos); } } // SCHEISSE
-        public void Dispose() { /*empty*/; }
+        public Edges_Enumerator(IMatch match)
+        {
+            this.match = match;
+            pos = -1;
+        }
+
+        public void Reset()
+        {
+            pos = -1;
+        }
+
+        public bool MoveNext()
+        {
+            ++pos;
+            return pos<match.NumberOfEdges;
+        }
+
+        public IEdge Current
+        {
+            get { return match.getEdgeAt(pos); }
+        } // KRANKE
+
+        object IEnumerator.Current
+        {
+            get { return match.getEdgeAt(pos); }
+        } // SCHEISSE
+
+        public void Dispose()
+        { 
+            /*empty*/;
+        }
+
         readonly IMatch match;
         int pos;
     }
@@ -74,9 +150,21 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Variables_Enumerable : IEnumerable<object>
     {
-        public Variables_Enumerable(IMatch match) { this.match = match; }
-        public IEnumerator<object> GetEnumerator() { return new Variables_Enumerator(match); } // KRANKE
-        IEnumerator IEnumerable.GetEnumerator() { return new Variables_Enumerator(match); } // SCHEISSE
+        public Variables_Enumerable(IMatch match)
+        {
+            this.match = match;
+        }
+
+        public IEnumerator<object> GetEnumerator()
+        {
+            return new Variables_Enumerator(match);
+        } // KRANKE
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new Variables_Enumerator(match);
+        } // SCHEISSE
+
         readonly IMatch match;
     }
 
@@ -85,12 +173,38 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Variables_Enumerator : IEnumerator<object>
     {
-        public Variables_Enumerator(IMatch match) { this.match = match; pos = -1; }
-        public void Reset() { pos = -1; }
-        public bool MoveNext() { ++pos; return pos<match.NumberOfVariables; }
-        public object Current { get { return match.getVariableAt(pos); } } // KRANKE
-        object IEnumerator.Current { get { return match.getVariableAt(pos); } } // SCHEISSE
-        public void Dispose() { /*empty*/; }
+        public Variables_Enumerator(IMatch match)
+        {
+            this.match = match;
+            pos = -1;
+        }
+
+        public void Reset()
+        {
+            pos = -1;
+        }
+
+        public bool MoveNext()
+        {
+            ++pos;
+            return pos<match.NumberOfVariables;
+        }
+
+        public object Current
+        {
+            get { return match.getVariableAt(pos); }
+        } // KRANKE
+
+        object IEnumerator.Current
+        {
+            get { return match.getVariableAt(pos); }
+        } // SCHEISSE
+
+        public void Dispose()
+        { 
+            /*empty*/;
+        }
+
         readonly IMatch match;
         int pos;
     }
@@ -101,9 +215,21 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class EmbeddedGraphs_Enumerable : IEnumerable<IMatch>
     {
-        public EmbeddedGraphs_Enumerable(IMatch match) { this.match = match; }
-        public IEnumerator<IMatch> GetEnumerator() { return new EmbeddedGraphs_Enumerator(match); } // KRANKE
-        IEnumerator IEnumerable.GetEnumerator() { return new EmbeddedGraphs_Enumerator(match); } // SCHEISSE
+        public EmbeddedGraphs_Enumerable(IMatch match)
+        {
+            this.match = match;
+        }
+
+        public IEnumerator<IMatch> GetEnumerator()
+        {
+            return new EmbeddedGraphs_Enumerator(match);
+        } // KRANKE
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new EmbeddedGraphs_Enumerator(match);
+        } // SCHEISSE
+
         readonly IMatch match;
     }
 
@@ -112,12 +238,38 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class EmbeddedGraphs_Enumerator : IEnumerator<IMatch>
     {
-        public EmbeddedGraphs_Enumerator(IMatch match) { this.match = match; pos = -1; }
-        public void Reset() { pos = -1; }
-        public bool MoveNext() { ++pos; return pos<match.NumberOfEmbeddedGraphs; }
-        public IMatch Current { get { return match.getEmbeddedGraphAt(pos); } } // KRANKE
-        object IEnumerator.Current { get { return match.getEmbeddedGraphAt(pos); } } // SCHEISSE
-        public void Dispose() { /*empty*/; }
+        public EmbeddedGraphs_Enumerator(IMatch match)
+        {
+            this.match = match;
+            pos = -1;
+        }
+
+        public void Reset()
+        {
+            pos = -1;
+        }
+
+        public bool MoveNext()
+        {
+            ++pos;
+            return pos<match.NumberOfEmbeddedGraphs;
+        }
+
+        public IMatch Current
+        {
+            get { return match.getEmbeddedGraphAt(pos); }
+        } // KRANKE
+
+        object IEnumerator.Current
+        {
+            get { return match.getEmbeddedGraphAt(pos); }
+        } // SCHEISSE
+
+        public void Dispose()
+        {
+            /*empty*/;
+        }
+
         readonly IMatch match;
         int pos;
     }
@@ -128,9 +280,21 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Alternatives_Enumerable : IEnumerable<IMatch>
     {
-        public Alternatives_Enumerable(IMatch match) { this.match = match; }
-        public IEnumerator<IMatch> GetEnumerator() { return new Alternatives_Enumerator(match); } // KRANKE
-        IEnumerator IEnumerable.GetEnumerator() { return new Alternatives_Enumerator(match); } // SCHEISSE
+        public Alternatives_Enumerable(IMatch match)
+        {
+            this.match = match;
+        }
+
+        public IEnumerator<IMatch> GetEnumerator()
+        {
+            return new Alternatives_Enumerator(match);
+        } // KRANKE
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new Alternatives_Enumerator(match);
+        } // SCHEISSE
+
         readonly IMatch match;
     }
 
@@ -139,12 +303,38 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Alternatives_Enumerator : IEnumerator<IMatch>
     {
-        public Alternatives_Enumerator(IMatch match) { this.match = match; pos = -1; }
-        public void Reset() { pos = -1; }
-        public bool MoveNext() { ++pos; return pos<match.NumberOfAlternatives; }
-        public IMatch Current { get { return match.getAlternativeAt(pos); } } // KRANKE
-        object IEnumerator.Current { get { return match.getAlternativeAt(pos); } } // SCHEISSE
-        public void Dispose() { /*empty*/; }
+        public Alternatives_Enumerator(IMatch match)
+        {
+            this.match = match;
+            pos = -1;
+        }
+
+        public void Reset()
+        {
+            pos = -1;
+        }
+
+        public bool MoveNext()
+        {
+            ++pos;
+            return pos<match.NumberOfAlternatives;
+        }
+
+        public IMatch Current
+        {
+            get { return match.getAlternativeAt(pos); }
+        } // KRANKE
+
+        object IEnumerator.Current
+        {
+            get { return match.getAlternativeAt(pos); }
+        } // SCHEISSE
+
+        public void Dispose()
+        {
+            /*empty*/;
+        }
+
         readonly IMatch match;
         int pos;
     }
@@ -156,9 +346,21 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Iterateds_Enumerable : IEnumerable<IMatches>
     {
-        public Iterateds_Enumerable(IMatch match) { this.match = match; }
-        public IEnumerator<IMatches> GetEnumerator() { return new Iterateds_Enumerator(match); } // KRANKE
-        IEnumerator IEnumerable.GetEnumerator() { return new Iterateds_Enumerator(match); } // SCHEISSE
+        public Iterateds_Enumerable(IMatch match)
+        {
+            this.match = match;
+        }
+
+        public IEnumerator<IMatches> GetEnumerator()
+        {
+            return new Iterateds_Enumerator(match);
+        } // KRANKE
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new Iterateds_Enumerator(match);
+        } // SCHEISSE
+
         readonly IMatch match;
     }
 
@@ -168,12 +370,38 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Iterateds_Enumerator : IEnumerator<IMatches>
     {
-        public Iterateds_Enumerator(IMatch match) { this.match = match; pos = -1; }
-        public void Reset() { pos = -1; }
-        public bool MoveNext() { ++pos; return pos < match.NumberOfIterateds; }
-        public IMatches Current { get { return match.getIteratedAt(pos); } } // KRANKE
-        object IEnumerator.Current { get { return match.getIteratedAt(pos); } } // SCHEISSE
-        public void Dispose() { /*empty*/; }
+        public Iterateds_Enumerator(IMatch match)
+        {
+            this.match = match;
+            pos = -1;
+        }
+
+        public void Reset()
+        {
+            pos = -1;
+        }
+
+        public bool MoveNext()
+        {
+            ++pos;
+            return pos < match.NumberOfIterateds;
+        }
+
+        public IMatches Current
+        {
+            get { return match.getIteratedAt(pos); }
+        } // KRANKE
+
+        object IEnumerator.Current
+        {
+            get { return match.getIteratedAt(pos); }
+        } // SCHEISSE
+
+        public void Dispose()
+        {
+            /*empty*/;
+        }
+
         readonly IMatch match;
         int pos;
     }
@@ -184,9 +412,21 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Independents_Enumerable : IEnumerable<IMatch>
     {
-        public Independents_Enumerable(IMatch match) { this.match = match; }
-        public IEnumerator<IMatch> GetEnumerator() { return new Independents_Enumerator(match); } // KRANKE
-        IEnumerator IEnumerable.GetEnumerator() { return new Independents_Enumerator(match); } // SCHEISSE
+        public Independents_Enumerable(IMatch match)
+        {
+            this.match = match;
+        }
+
+        public IEnumerator<IMatch> GetEnumerator()
+        {
+            return new Independents_Enumerator(match);
+        } // KRANKE
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new Independents_Enumerator(match);
+        } // SCHEISSE
+
         readonly IMatch match;
     }
 
@@ -195,12 +435,38 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class Independents_Enumerator : IEnumerator<IMatch>
     {
-        public Independents_Enumerator(IMatch match) { this.match = match; pos = -1; }
-        public void Reset() { pos = -1; }
-        public bool MoveNext() { ++pos; return pos < match.NumberOfIndependents; }
-        public IMatch Current { get { return match.getIndependentAt(pos); } } // KRANKE
-        object IEnumerator.Current { get { return match.getIndependentAt(pos); } } // SCHEISSE
-        public void Dispose() { /*empty*/; }
+        public Independents_Enumerator(IMatch match)
+        {
+            this.match = match;
+            pos = -1;
+        }
+
+        public void Reset()
+        {
+            pos = -1;
+        }
+
+        public bool MoveNext()
+        {
+            ++pos;
+            return pos < match.NumberOfIndependents;
+        }
+
+        public IMatch Current
+        {
+            get { return match.getIndependentAt(pos); }
+        } // KRANKE
+
+        object IEnumerator.Current
+        {
+            get { return match.getIndependentAt(pos); }
+        } // SCHEISSE
+
+        public void Dispose()
+        {
+            /*empty*/;
+        }
+
         readonly IMatch match;
         int pos;
     }
@@ -245,19 +511,27 @@ namespace de.unika.ipd.grGen.lgsp
         public IEnumerator<MatchInterface> GetEnumeratorExact()
         {
             Match cur = root;
-            for (int i = 0; i < count; i++, cur = cur.next)
+            for(int i = 0; i < count; ++i, cur = cur.next)
+            {
                 yield return cur;
+            }
         }
 
         /// <summary>
         /// Returns the first match of exact type (null if no match exists).
         /// </summary>
-        public MatchInterface FirstExact { get { return count > 0 ? root : null; } }
+        public MatchInterface FirstExact
+        {
+            get { return count > 0 ? root : null; }
+        }
 
         /// <summary>
         /// Returns the first match of exact type (null if no match exists).
         /// </summary>
-        public Match FirstImplementation { get { return count > 0 ? root : null; } }
+        public Match FirstImplementation
+        {
+            get { return count > 0 ? root : null; }
+        }
 
         /// <summary>
         /// Returns the match of exact type with the given index. Invalid indices cause an exception.
@@ -265,10 +539,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public MatchInterface GetMatchExact(int index)
         {
-            if (index < 0 || index >= count)
+            if(index < 0 || index >= count)
                 throw new IndexOutOfRangeException("Index out of range: " + index);
             Match cur = root;
-            for (int i = 0; i < index; i++, cur = cur.next) ;
+            for(int i = 0; i < index; ++i, cur = cur.next)
+            {
+            }
             return cur;
         }
 
@@ -280,12 +556,16 @@ namespace de.unika.ipd.grGen.lgsp
             if(index < 0 || index >= count)
                 throw new IndexOutOfRangeException("Index out of range: " + index);
             Match cur = root, prev = null;
-            for(int i = 0; i < index; i++, prev = cur, cur = cur.next) ;
-            if(prev == null) root = cur.next;
-            else prev.next = cur.next;
+            for(int i = 0; i < index; ++i, prev = cur, cur = cur.next)
+            {
+            }
+            if(prev == null)
+                root = cur.next;
+            else
+                prev.next = cur.next;
             cur.next = last.next;
             last.next = cur;
-            count--;
+            --count;
             return cur;
         }
 
@@ -295,8 +575,10 @@ namespace de.unika.ipd.grGen.lgsp
         public IEnumerator<IMatch> GetEnumerator()
         {
             Match cur = root;
-            for (int i = 0; i < count; i++, cur = cur.next)
+            for(int i = 0; i < count; ++i, cur = cur.next)
+            {
                 yield return cur;
+            }
         }
 
         /// <summary>
@@ -310,12 +592,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The action object used to generate this LGSPMatchesList object
         /// </summary>
-        public IAction Producer { get { return producer; } }
+        public IAction Producer
+        {
+            get { return producer; }
+        }
 
         /// <summary>
         /// The number of matches in this list.
         /// </summary>
-        public int Count { get { return count; } }
+        public int Count
+        {
+            get { return count; }
+        }
 
         /// <summary>
         /// Returns the match with the given index. Invalid indices cause an exception.
@@ -335,15 +623,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// <exception cref="System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
         public IMatch RemoveMatch(int index)
         {
-            if (index < 0 || index >= count)
+            if(index < 0 || index >= count)
                 throw new IndexOutOfRangeException("Index out of range: " + index);
             Match cur = root, prev = null;
-            for (int i = 0; i < index; i++, prev = cur, cur = cur.next) ;
-            if (prev == null) root = cur.next;
-            else prev.next = cur.next;
+            for(int i = 0; i < index; ++i, prev = cur, cur = cur.next)
+            {
+            }
+            if(prev == null)
+                root = cur.next;
+            else
+                prev.next = cur.next;
             cur.next = last.next;
             last.next = cur;
-            count--;
+            --count;
             return cur;
         }
 
@@ -363,7 +655,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="producer">The action object used to generate this LGSPMatchesList object; null if this is the matches list of an iteration</param>
         public LGSPMatchesList(IAction producer)
         {
-            if (producer != null) {
+            if(producer != null)
+            {
                 this.producer = producer;
                 last = root = new Match();
             }
@@ -402,8 +695,8 @@ namespace de.unika.ipd.grGen.lgsp
         public void PositionWasFilledFixIt()
         {
             Debug.Assert(producer != null);
-            count++;
-            if (last.next == null)
+            ++count;
+            if(last.next == null)
                 last.next = new Match();
             last = last.next;
         }
@@ -415,9 +708,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Debug.Assert(producer == null);
             Debug.Assert(match != null);
-            if (root == null) {
+            if(root == null)
                 last = root = match;
-            } else {
+            else
+            {
                 last.next = match;
                 last = match;
             }
@@ -440,12 +734,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The first match of this list.
         /// </summary>
-        public IMatch First { get { return count > 0 ? root : null; } }
+        public IMatch First
+        {
+            get { return count > 0 ? root : null; }
+        }
 
         /// <summary>
         /// The root element of the list.
         /// </summary>
-        public Match Root { get { return root; } }
+        public Match Root
+        {
+            get { return root; }
+        }
 
         /// <summary>
         /// remove all filled and committed elements from the list
@@ -466,10 +766,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get
             {
-                if (index < 0 || index >= count)
+                if(index < 0 || index >= count)
                     throw new IndexOutOfRangeException("Index out of range: " + index);
                 Match cur = root;
-                for (int i = 0; i < index; i++, cur = cur.next) ;
+                for(int i = 0; i < index; ++i, cur = cur.next)
+                {
+                }
                 return cur;
             }
         }
@@ -483,7 +785,9 @@ namespace de.unika.ipd.grGen.lgsp
             array.Clear();
             Match cur = root;
             for(int i = 0; i < count; i++, cur = cur.next)
+            {
                 array.Add(cur);
+            }
             return array;
         }
 
@@ -496,7 +800,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // forget about the matches currently stored in the matches list which were handed out in ToList, keeping the "free tail" remaining
             for(int i = 0; i < count; ++i)
+            {
                 root = root.next;
+            }
             count = 0;
 
             // that's it if the array is empty
@@ -504,8 +810,10 @@ namespace de.unika.ipd.grGen.lgsp
                 return;
             int startIndex = 0;
             for(; startIndex < array.Count; ++startIndex) // fast forward to first non-null entry
+            {
                 if(array[startIndex] != null)
                     break;
+            }
             if(startIndex >= array.Count) // only null-entries were in array
                 return;
 

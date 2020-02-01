@@ -184,7 +184,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LOG_OR : BinInfixOperator
     {
-        public LOG_OR(Expression left, Expression right) : base(left, right) { }
+        public LOG_OR(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -202,7 +205,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LOG_AND : BinInfixOperator
     {
-        public LOG_AND(Expression left, Expression right) : base(left, right) { }
+        public LOG_AND(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -220,7 +226,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class BIT_OR : BinInfixOperator
     {
-        public BIT_OR(Expression left, Expression right) : base(left, right) { }
+        public BIT_OR(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -238,7 +247,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class BIT_XOR : BinInfixOperator
     {
-        public BIT_XOR(Expression left, Expression right) : base(left, right) { }
+        public BIT_XOR(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -256,7 +268,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class BIT_AND : BinInfixOperator
     {
-        public BIT_AND(Expression left, Expression right) : base(left, right) { }
+        public BIT_AND(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -274,7 +289,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EQ : BinInfixOperator
     {
-        public EQ(Expression left, Expression right) : base(left, right) { }
+        public EQ(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -292,7 +310,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class NE : BinInfixOperator
     {
-        public NE(Expression left, Expression right) : base(left, right) { }
+        public NE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -310,7 +331,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LT : BinInfixOperator
     {
-        public LT(Expression left, Expression right) : base(left, right) { }
+        public LT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -328,7 +352,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class LE : BinInfixOperator
     {
-        public LE(Expression left, Expression right) : base(left, right) { }
+        public LE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -346,7 +373,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class GT : BinInfixOperator
     {
-        public GT(Expression left, Expression right) : base(left, right) { }
+        public GT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -364,7 +394,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class GE : BinInfixOperator
     {
-        public GE(Expression left, Expression right) : base(left, right) { }
+        public GE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -528,7 +561,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EXTERNAL_EQ : BinFuncOperator
     {
-        public EXTERNAL_EQ(Expression left, Expression right) : base(left, right) { }
+        public EXTERNAL_EQ(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -546,7 +582,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EXTERNAL_NE : BinFuncOperator
     {
-        public EXTERNAL_NE(Expression left, Expression right) : base(left, right) { }
+        public EXTERNAL_NE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -564,7 +603,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EXTERNAL_LT : BinFuncOperator
     {
-        public EXTERNAL_LT(Expression left, Expression right) : base(left, right) { }
+        public EXTERNAL_LT(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -662,7 +704,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class EXTERNAL_GE : BinFuncOperator
     {
-        public EXTERNAL_GE(Expression left, Expression right) : base(left, right) { }
+        public EXTERNAL_GE(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -684,7 +729,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class SHL : BinInfixOperator
     {
-        public SHL(Expression left, Expression right) : base(left, right) { }
+        public SHL(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -702,7 +750,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class SHR : BinInfixOperator
     {
-        public SHR(Expression left, Expression right) : base(left, right) { }
+        public SHR(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -720,7 +771,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class BIT_SHR : BinInfixOperator
     {
-        public BIT_SHR(Expression left, Expression right) : base(left, right) { }
+        public BIT_SHR(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -747,7 +801,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ADD : BinInfixOperator
     {
-        public ADD(Expression left, Expression right) : base(left, right) { }
+        public ADD(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -765,7 +822,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class SUB : BinInfixOperator
     {
-        public SUB(Expression left, Expression right) : base(left, right) { }
+        public SUB(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -783,7 +843,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class MUL : BinInfixOperator
     {
-        public MUL(Expression left, Expression right) : base(left, right) { }
+        public MUL(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -801,7 +864,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class DIV : BinInfixOperator
     {
-        public DIV(Expression left, Expression right) : base(left, right) { }
+        public DIV(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -820,7 +886,10 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class MOD : BinInfixOperator
     {
-        public MOD(Expression left, Expression right) : base(left, right) { }
+        public MOD(Expression left, Expression right)
+            : base(left, right)
+        {
+        }
 
         public override Expression Copy(string renameSuffix)
         {
@@ -989,7 +1058,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (TypeName == "string")
+            if(TypeName == "string")
             {
                 if(IsContainer)
                 {
@@ -1859,7 +1928,10 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             Expression[] newArguments = new Expression[Arguments.Length];
-            for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            for(int i = 0; i < Arguments.Length; ++i)
+            {
+                newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            }
             return new FunctionInvocation(PackageName, FunctionName, newArguments, (String[])ArgumentTypes.Clone());
         }
 
@@ -1870,7 +1942,8 @@ namespace de.unika.ipd.grGen.expression
             {
                 sourceCode.Append(", ");
                 Expression argument = Arguments[i];
-                if(ArgumentTypes[i] != null) sourceCode.Append("(" + ArgumentTypes[i] + ")");
+                if(ArgumentTypes[i] != null)
+                    sourceCode.Append("(" + ArgumentTypes[i] + ")");
                 argument.Emit(sourceCode);
             }
             sourceCode.Append(")");
@@ -1879,7 +1952,9 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             foreach(Expression argument in Arguments)
+            {
                 yield return argument;
+            }
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -1909,7 +1984,10 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             Expression[] newArguments = new Expression[Arguments.Length];
-            for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            for(int i = 0; i < Arguments.Length; ++i)
+            {
+                newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            }
             return new ExternalFunctionInvocation(FunctionName, newArguments, (String[])ArgumentTypes.Clone());
         }
 
@@ -1932,7 +2010,9 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             foreach(Expression argument in Arguments)
+            {
                 yield return argument;
+            }
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -1961,7 +2041,10 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             Expression[] newArguments = new Expression[Arguments.Length];
-            for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            for(int i = 0; i < Arguments.Length; ++i)
+            {
+                newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            }
             return new FunctionMethodInvocation(OwnerType, Owner + renameSuffix, FunctionName, newArguments, (String[])ArgumentTypes.Clone());
         }
 
@@ -1973,7 +2056,8 @@ namespace de.unika.ipd.grGen.expression
             {
                 sourceCode.Append(", ");
                 Expression argument = Arguments[i];
-                if(ArgumentTypes[i] != null) sourceCode.Append("(" + ArgumentTypes[i] + ")");
+                if(ArgumentTypes[i] != null)
+                    sourceCode.Append("(" + ArgumentTypes[i] + ")");
                 argument.Emit(sourceCode);
             }
             if(Parallel)
@@ -2005,7 +2089,10 @@ namespace de.unika.ipd.grGen.expression
         public override Expression Copy(string renameSuffix)
         {
             Expression[] newArguments = new Expression[Arguments.Length];
-            for(int i = 0; i < Arguments.Length; ++i) newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            for(int i = 0; i < Arguments.Length; ++i)
+            {
+                newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            }
             return new ExternalFunctionMethodInvocation(Owner.Copy(renameSuffix), FunctionName, newArguments, (String[])ArgumentTypes.Clone());
         }
 
@@ -2771,7 +2858,8 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             yield return Left;
-            if(Right != null) yield return Right;
+            if(Right != null)
+                yield return Right;
         }
 
         public readonly Expression Left;
@@ -2822,7 +2910,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(Left != null) yield return Left;
+            if(Left != null)
+                yield return Left;
             yield return Right;
         }
 

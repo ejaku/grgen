@@ -261,15 +261,15 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (Iterated iter in matchingPattern.patternGraph.iteratedsPlusInlined)
+            foreach(Iterated iter in matchingPattern.patternGraph.iteratedsPlusInlined)
             {
                 GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
             }
-            foreach (PatternGraph neg in matchingPattern.patternGraph.negativePatternGraphsPlusInlined)
+            foreach(PatternGraph neg in matchingPattern.patternGraph.negativePatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
             }
-            foreach (PatternGraph idpt in matchingPattern.patternGraph.independentPatternGraphsPlusInlined)
+            foreach(PatternGraph idpt in matchingPattern.patternGraph.independentPatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
             }
@@ -296,22 +296,22 @@ namespace de.unika.ipd.grGen.lgsp
             GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
 
             // handle alternatives or iterateds nested in the alternative cases
-            foreach (PatternGraph altCase in alt.alternativeCases)
+            foreach(PatternGraph altCase in alt.alternativeCases)
             {
                 // nested inside the alternatives,iterateds,negatives,independents
-                foreach (Alternative nestedAlt in altCase.alternativesPlusInlined)
+                foreach(Alternative nestedAlt in altCase.alternativesPlusInlined)
                 {
                     GenerateActionAndMatcherOfAlternative(sb, matchingPattern, nestedAlt, isInitialStatic);
                 }
-                foreach (Iterated iter in altCase.iteratedsPlusInlined)
+                foreach(Iterated iter in altCase.iteratedsPlusInlined)
                 {
                     GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
                 }
-                foreach (PatternGraph neg in altCase.negativePatternGraphsPlusInlined)
+                foreach(PatternGraph neg in altCase.negativePatternGraphsPlusInlined)
                 {
                     GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
                 }
-                foreach (PatternGraph idpt in altCase.independentPatternGraphsPlusInlined)
+                foreach(PatternGraph idpt in altCase.independentPatternGraphsPlusInlined)
                 {
                     GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
                 }
@@ -340,19 +340,19 @@ namespace de.unika.ipd.grGen.lgsp
 
             // finally generate matcher source for all the nested alternatives or iterateds of the iterated pattern graph
             // nested inside the alternatives,iterateds,negatives,independents
-            foreach (Alternative alt in iter.alternativesPlusInlined)
+            foreach(Alternative alt in iter.alternativesPlusInlined)
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (Iterated nestedIter in iter.iteratedsPlusInlined)
+            foreach(Iterated nestedIter in iter.iteratedsPlusInlined)
             {
                 GenerateActionAndMatcherOfIterated(sb, matchingPattern, nestedIter.iteratedPattern, isInitialStatic);
             }
-            foreach (PatternGraph neg in iter.negativePatternGraphsPlusInlined)
+            foreach(PatternGraph neg in iter.negativePatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
             }
-            foreach (PatternGraph idpt in iter.independentPatternGraphsPlusInlined)
+            foreach(PatternGraph idpt in iter.independentPatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
             }
@@ -368,19 +368,19 @@ namespace de.unika.ipd.grGen.lgsp
             // nothing to do locally ..
 
             // .. just move on to the nested alternatives or iterateds
-            foreach (Alternative alt in negOrIdpt.alternativesPlusInlined)
+            foreach(Alternative alt in negOrIdpt.alternativesPlusInlined)
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (Iterated iter in negOrIdpt.iteratedsPlusInlined)
+            foreach(Iterated iter in negOrIdpt.iteratedsPlusInlined)
             {
                 GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
             }
-            foreach (PatternGraph nestedNeg in negOrIdpt.negativePatternGraphsPlusInlined)
+            foreach(PatternGraph nestedNeg in negOrIdpt.negativePatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, nestedNeg, isInitialStatic);
             }
-            foreach (PatternGraph nestedIdpt in negOrIdpt.independentPatternGraphsPlusInlined)
+            foreach(PatternGraph nestedIdpt in negOrIdpt.independentPatternGraphsPlusInlined)
             {
                 GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, nestedIdpt, isInitialStatic);
             }
@@ -567,7 +567,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // implementation of exact action interface
 
-            sb.AppendFront("/// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>\n");
+            sb.AppendFront("/// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for(zero=unlimited), and rule parameters; returning found matches). </summary>\n");
             sb.AppendFrontFormat("public delegate {0} MatchInvoker(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches{1});\n", matchesType, inParameters);
 
             sb.AppendFront("/// <summary> A delegate pointing to the current matcher program for this rule. </summary>\n");
@@ -591,16 +591,16 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent();
 
-            if (EmitDebugValidityChecks)
+            if(EmitDebugValidityChecks)
             {
                 // throw a source-level early exception instead of an internal NPE in case a parameter is null (that is not explicitly allowed to be null)
-                for (int i = 0; i < matchingPattern.Inputs.Length; ++i)
+                for(int i = 0; i < matchingPattern.Inputs.Length; ++i)
                 {
                     String inputName = matchingPattern.InputNames[i];
-                    if (Array.IndexOf(matchingPattern.patternGraph.maybeNullElementNames, inputName) != -1)
+                    if(Array.IndexOf(matchingPattern.patternGraph.maybeNullElementNames, inputName) != -1)
                         continue;
                     GrGenType inputType = matchingPattern.Inputs[i];
-                    if (inputType is NodeType || inputType is EdgeType
+                    if(inputType is NodeType || inputType is EdgeType
                         /*|| inputType is VarType && (inputType as VarType).Type.IsGenericType*/)
                     {
                         sb.AppendFrontFormat("if({0}==null) throw new ArgumentNullException(\"{0}\", \"The graph element handed in is null. Common causes are uninitialized variables, or the automatic null-ing of graph global variables upon graph element removal.\");\n", inputName);
@@ -617,7 +617,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent();
 
-            if (EmitDebugValidityChecks)
+            if(EmitDebugValidityChecks)
             {
                 bool validityCheckDisabled = false;
                 if(matchingPattern.annotations.ContainsAnnotation("validityCheck"))
@@ -1041,7 +1041,7 @@ namespace de.unika.ipd.grGen.lgsp
 #if DUMP_SCHEDULED_SEARCH_PLAN
                 StreamWriter sspwriter = new StreamWriter(matchingPattern.name + i + "_ssp_dump.txt");
                 float prevCostToEnd = scheduledSearchPlan.Operations.Length > 0 ? scheduledSearchPlan.Operations[0].CostToEnd : 0f;
-                foreach (SearchOperation so in scheduledSearchPlan.Operations)
+                foreach(SearchOperation so in scheduledSearchPlan.Operations)
                 {
                     sspwriter.Write(SearchOpToString(so) + " ; " + so.CostToEnd + " (+" + (prevCostToEnd-so.CostToEnd) + ")" + "\n");
                     prevCostToEnd = so.CostToEnd;
@@ -1393,7 +1393,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
             sb.AppendFront("private GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + "> matches;\n\n");
 
-            if (isInitialStatic)
+            if(isInitialStatic)
             {
                 sb.AppendFront("public static " + className + " Instance { get { return instance; } set { instance = value; } }\n");
                 sb.AppendFront("private static " + className + " instance = new " + className + "();\n");
@@ -1553,23 +1553,23 @@ namespace de.unika.ipd.grGen.lgsp
 
             GenerateTasksMemoryPool(sb, className, false, false, matchingPattern.patternGraph.branchingFactor);
 
-            for (int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
                 PatternNode node = patternGraph.nodesPlusInlined[i];
-                if (node.PointOfDefinition == null)
+                if(node.PointOfDefinition == null)
                 {
                     sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.name + ";\n");
                 }
             }
-            for (int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
-                if (edge.PointOfDefinition == null)
+                if(edge.PointOfDefinition == null)
                 {
                     sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.name + ";\n");
                 }
             }
-            for (int i = 0; i < patternGraph.variablesPlusInlined.Length; ++i)
+            for(int i = 0; i < patternGraph.variablesPlusInlined.Length; ++i)
             {
                 PatternVariable variable = patternGraph.variablesPlusInlined[i];
                 sb.AppendFront("public " +TypesHelper.TypeName(variable.type) + " " + variable.name + ";\n");
@@ -1619,29 +1619,29 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<string, bool> neededNodes = new Dictionary<string,bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
             Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
-            foreach (PatternGraph altCase in alternative.alternativeCases)
+            foreach(PatternGraph altCase in alternative.alternativeCases)
             {
-                foreach (KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                foreach(KeyValuePair<string, bool> neededNode in altCase.neededNodes)
                     neededNodes[neededNode.Key] = neededNode.Value;
-                foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                foreach(KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
                     neededEdges[neededEdge.Key] = neededEdge.Value;
-                foreach (KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                foreach(KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
                     neededVariables[neededVariable.Key] = neededVariable.Value;
             }
-            foreach (KeyValuePair<string, bool> node in neededNodes)
+            foreach(KeyValuePair<string, bool> node in neededNodes)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
             }
-            foreach (KeyValuePair<string, bool> edge in neededEdges)
+            foreach(KeyValuePair<string, bool> edge in neededEdges)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
             }
-            foreach (KeyValuePair<string, GrGenType> variable in neededVariables)
+            foreach(KeyValuePair<string, GrGenType> variable in neededVariables)
             {
                 sb.AppendFront("public " + TypesHelper.TypeName(variable.Value) + " " + variable.Key + ";\n");
             }
     
-            foreach (PatternGraph altCase in alternative.alternativeCases)
+            foreach(PatternGraph altCase in alternative.alternativeCases)
             {
                 GenerateIndependentsMatchObjects(sb, matchingPattern, altCase);
             }
@@ -1680,8 +1680,10 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("actionEnv = actionEnv_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
             int index = -1;
-            for (int i=0; i<iter.embeddingGraph.iteratedsPlusInlined.Length; ++i) {
-                if (iter.embeddingGraph.iteratedsPlusInlined[i].iteratedPattern == iter) index = i;
+            for(int i=0; i<iter.embeddingGraph.iteratedsPlusInlined.Length; ++i)
+            {
+                if(iter.embeddingGraph.iteratedsPlusInlined[i].iteratedPattern == iter)
+                    index = i;
             }
             sb.AppendFrontFormat("minMatchesIter = {0};\n", iter.embeddingGraph.iteratedsPlusInlined[index].minMatches);
             sb.AppendFrontFormat("maxMatchesIter = {0};\n", iter.embeddingGraph.iteratedsPlusInlined[index].maxMatches);
@@ -1704,21 +1706,27 @@ namespace de.unika.ipd.grGen.lgsp
             Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
             Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
-            foreach (KeyValuePair<string, bool> neededNode in iter.neededNodes)
+            foreach(KeyValuePair<string, bool> neededNode in iter.neededNodes)
+            {
                 neededNodes[neededNode.Key] = neededNode.Value;
-            foreach (KeyValuePair<string, bool> neededEdge in iter.neededEdges)
+            }
+            foreach(KeyValuePair<string, bool> neededEdge in iter.neededEdges)
+            {
                 neededEdges[neededEdge.Key] = neededEdge.Value;
-            foreach (KeyValuePair<string, GrGenType> neededVariable in iter.neededVariables)
+            }
+            foreach(KeyValuePair<string, GrGenType> neededVariable in iter.neededVariables)
+            {
                 neededVariables[neededVariable.Key] = neededVariable.Value;
-            foreach (KeyValuePair<string, bool> node in neededNodes)
+            }
+            foreach(KeyValuePair<string, bool> node in neededNodes)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
             }
-            foreach (KeyValuePair<string, bool> edge in neededEdges)
+            foreach(KeyValuePair<string, bool> edge in neededEdges)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
             }
-            foreach (KeyValuePair<string, GrGenType> variable in neededVariables)
+            foreach(KeyValuePair<string, GrGenType> variable in neededVariables)
             {
                 sb.AppendFront("public " + TypesHelper.TypeName(variable.Value) + " " + variable.Key + ";\n");
             }
@@ -1734,14 +1742,14 @@ namespace de.unika.ipd.grGen.lgsp
         private void GenerateIndependentsMatchObjects(SourceBuilder sb,
             LGSPMatchingPattern matchingPatternClass, PatternGraph patternGraph)
         {
-            if (patternGraph.nestedIndependents != null)
+            if(patternGraph.nestedIndependents != null)
             {
-                foreach (KeyValuePair<PatternGraph, bool> nestedIndependent in patternGraph.nestedIndependents)
+                foreach(KeyValuePair<PatternGraph, bool> nestedIndependent in patternGraph.nestedIndependents)
                 {
-                    if (nestedIndependent.Value == true)
+                    if(nestedIndependent.Value == true)
                         continue; // if independent is nested in iterated with potentially more than one match we need stack-based match variables for the multiple matches living at a time
 
-                    if (nestedIndependent.Key.originalPatternGraph != null)
+                    if(nestedIndependent.Key.originalPatternGraph != null)
                     {
                         sb.AppendFrontFormat("private {0} {1} = new {0}();",
                             nestedIndependent.Key.originalSubpatternEmbedding.matchingPatternOfEmbeddedGraph.GetType().Name + "." + NamesOfEntities.MatchClassName(nestedIndependent.Key.originalPatternGraph.pathPrefix + nestedIndependent.Key.originalPatternGraph.name),
@@ -1756,7 +1764,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphsPlusInlined)
             {
                 GenerateIndependentsMatchObjects(sb, matchingPatternClass, idpt);
             }
@@ -1929,7 +1937,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach(Alternative alt in patternGraph.alternativesPlusInlined)
                 {
-                    foreach (PatternGraph altCase in alt.alternativeCases)
+                    foreach(PatternGraph altCase in alt.alternativeCases)
                     {
                         GenerateScheduledSearchPlans(altCase, graph,
                             true, false, null);
@@ -2107,9 +2115,9 @@ namespace de.unika.ipd.grGen.lgsp
             // use domain of dictionary as set with rulepatterns of the subpatterns of the actions, get them from pattern graph
             Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns 
                 = new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
-            foreach (LGSPAction action in actions)
+            foreach(LGSPAction action in actions)
             {
-                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern 
+                foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern 
                     in action.rulePattern.patternGraph.usedSubpatterns)
                 {
                     subpatternMatchingPatterns[usedSubpattern.Key] = usedSubpattern.Value;
@@ -2117,7 +2125,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // generate code for subpatterns
-            foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)
+            foreach(KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)
             {
                 LGSPMatchingPattern smp = subpatternMatchingPattern.Key;
 

@@ -9,10 +9,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 using de.unika.ipd.grGen.libGr;
-using System.Diagnostics;
 using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.expression
@@ -315,7 +313,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(Right != null) yield return Right;
+            if(Right != null)
+                yield return Right;
             yield break;
         }
     }
@@ -356,7 +355,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(Right != null) yield return Right;
+            if(Right != null)
+                yield return Right;
             yield break;
         }
     }
@@ -518,7 +518,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(Index != null) yield return Index;
+            if(Index != null)
+                yield return Index;
             yield return Right;
         }
 
@@ -579,7 +580,8 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            if(Index != null) yield return Index;
+            if(Index != null)
+                yield return Index;
             yield return Right;
         }
 
@@ -683,7 +685,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
+            {
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            }
             return new IteratedAccumulationYield(Variable + renameSuffix, UnprefixedVariable + renameSuffix, Iterated, statementsCopy);
         }
 
@@ -692,15 +696,15 @@ namespace de.unika.ipd.grGen.expression
             // traverses the yielding and expression tree, if it visits a reference to the iteration variable
             // it switches it from a normal variable reference into a iteration variable reference
             foreach(ExpressionOrYielding eoy in curr)
+            {
                 ReplaceVariableByIterationVariable(eoy);
+            }
 
             if(curr is VariableExpression)
             {
                 VariableExpression ve = (VariableExpression)curr;
                 if(ve.Entity == Variable)
-                {
                     ve.MatchEntity = IteratedMatchVariable;
-                }
             }
         }
 
@@ -709,13 +713,17 @@ namespace de.unika.ipd.grGen.expression
             //sourceCode.Append(NamesOfEntities.Variable(Variable) + " ");
             //sourceCode.Append(IteratedMatchVariable);
             foreach(Yielding statement in Statements)
+            {
                 statement.Emit(sourceCode);
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             foreach(Yielding statement in Statements)
+            {
                 yield return statement;
+            }
         }
 
         public readonly String Variable;
@@ -760,7 +768,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
+            {
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            }
             if(Index != null)
                 return new ContainerAccumulationYield(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, Index + renameSuffix, UnprefixedIndex + renameSuffix, IndexType, Container, UnprefixedContainer + renameSuffix, ContainerType, statementsCopy);
             else
@@ -823,7 +833,9 @@ namespace de.unika.ipd.grGen.expression
             }
 
             foreach(Yielding statement in Statements)
+            {
                 statement.Emit(sourceCode);
+            }
 
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
@@ -832,7 +844,9 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             foreach(Yielding statement in Statements)
+            {
                 yield return statement;
+            }
         }
 
         public readonly String Variable;
@@ -867,7 +881,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
+            {
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            }
             return new IntegerRangeIterationYield(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, Left, Right, statementsCopy);
         }
 
@@ -891,7 +907,9 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = " + entryVar + ";\n");
 
             foreach(Yielding statement in Statements)
+            {
                 statement.Emit(sourceCode);
+            }
 
             sourceCode.AppendFront("if(" + ascendingVar + ") ++" + entryVar + "; else --" + entryVar + ";\n");
 
@@ -904,7 +922,9 @@ namespace de.unika.ipd.grGen.expression
             yield return Left;
             yield return Right;
             foreach(Yielding statement in Statements)
+            {
                 yield return statement;
+            }
         }
 
         public readonly String Variable;
@@ -933,7 +953,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
+            {
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            }
             return new ForFunction(Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, Function.Copy(renameSuffix), statementsCopy);
         }
 
@@ -1467,7 +1489,9 @@ namespace de.unika.ipd.grGen.expression
             }
 
             foreach(Yielding statement in Statements)
+            {
                 statement.Emit(sourceCode);
+            }
 
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
@@ -1477,7 +1501,9 @@ namespace de.unika.ipd.grGen.expression
         {
             // the Function is not an independent child, it's just simpler/more consistent to reuse some parts of it here
             foreach(Yielding statement in Statements)
+            {
                 yield return statement;
+            }
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -1519,7 +1545,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
+            {
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            }
             return new ForIndexAccessEquality(IndexSetType, Index, Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, 
                 Expr.Copy(renameSuffix), statementsCopy);
         }
@@ -1542,7 +1570,9 @@ namespace de.unika.ipd.grGen.expression
             }
 
             foreach(Yielding statement in Statements)
+            {
                 statement.Emit(sourceCode);
+            }
 
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
@@ -1551,7 +1581,9 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             foreach(Yielding statement in Statements)
+            {
                 yield return statement;
+            }
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -1601,7 +1633,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
+            {
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            }
             return new ForIndexAccessOrdering(IndexSetType, Index, Variable + renameSuffix, UnprefixedVariable + renameSuffix, VariableType, 
                 Ascending, IncludingFrom, IncludingTo, From!=null ? From.Copy(renameSuffix) : null, To!=null ? To.Copy(renameSuffix) : null, 
                 statementsCopy);
@@ -1671,7 +1705,9 @@ namespace de.unika.ipd.grGen.expression
             }
 
             foreach(Yielding statement in Statements)
+            {
                 statement.Emit(sourceCode);
+            }
 
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
@@ -1681,7 +1717,9 @@ namespace de.unika.ipd.grGen.expression
         {
             // the Function is not an independent child, it's just simpler/more consistent to reuse some parts of it here
             foreach(Yielding statement in Statements)
+            {
                 yield return statement;
+            }
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -1725,13 +1763,17 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] trueCaseStatementsCopy = new Yielding[TrueCaseStatements.Length];
             for(int i = 0; i < TrueCaseStatements.Length; ++i)
+            {
                 trueCaseStatementsCopy[i] = TrueCaseStatements[i].Copy(renameSuffix);
+            }
             Yielding[] falseCaseStatementsCopy = null;
             if(FalseCaseStatements != null)
             {
                 falseCaseStatementsCopy = new Yielding[FalseCaseStatements.Length];
                 for(int i = 0; i < FalseCaseStatements.Length; ++i)
+                {
                     falseCaseStatementsCopy[i] = FalseCaseStatements[i].Copy(renameSuffix);
+                }
             }
             return new ConditionStatement(Condition.Copy(renameSuffix), trueCaseStatementsCopy, falseCaseStatementsCopy);
         }
@@ -1742,12 +1784,17 @@ namespace de.unika.ipd.grGen.expression
             Condition.Emit(sourceCode);
             sourceCode.Append(") {\n");
             foreach(Yielding statement in TrueCaseStatements)
+            {
                 statement.Emit(sourceCode);
+            }
+
             if(FalseCaseStatements != null)
             {
                 sourceCode.AppendFront("} else {\n");
                 foreach(Yielding statement in FalseCaseStatements)
+                {
                     statement.Emit(sourceCode);
+                }
             }
             sourceCode.AppendFront("}\n");
         }
@@ -1756,10 +1803,16 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Condition;
             foreach(Yielding statement in TrueCaseStatements)
+            {
                 yield return statement;
-            if(FalseCaseStatements!=null)
+            }
+            if(FalseCaseStatements != null)
+            {
                 foreach(Yielding statement in FalseCaseStatements)
+                {
                     yield return statement;
+                }
+            }
         }
 
         readonly Expression Condition;
@@ -1782,7 +1835,9 @@ namespace de.unika.ipd.grGen.expression
         {
             CaseStatement[] caseStatementsCopy = new CaseStatement[CaseStatements.Length];
             for(int i = 0; i < CaseStatements.Length; ++i)
+            {
                 caseStatementsCopy[i] = (CaseStatement)CaseStatements[i].Copy(renameSuffix);
+            }
             return new SwitchStatement(SwitchExpression.Copy(renameSuffix), caseStatementsCopy);
         }
 
@@ -1792,7 +1847,9 @@ namespace de.unika.ipd.grGen.expression
             SwitchExpression.Emit(sourceCode);
             sourceCode.Append(") {\n");
             foreach(CaseStatement statement in CaseStatements)
+            {
                 statement.Emit(sourceCode);
+            }
             sourceCode.AppendFront("}\n");
         }
 
@@ -1800,7 +1857,9 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return SwitchExpression;
             foreach(Yielding statement in CaseStatements)
+            {
                 yield return statement;
+            }
         }
 
         readonly Expression SwitchExpression;
@@ -1822,7 +1881,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
+            {
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            }
             return new CaseStatement(CaseConstExpression!=null ? CaseConstExpression.Copy(renameSuffix) : null, statementsCopy);
         }
 
@@ -1838,7 +1899,9 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.AppendFront("default: ");
             sourceCode.Append("{\n");
             foreach(Yielding statement in Statements)
+            {
                 statement.Emit(sourceCode);
+            }
             sourceCode.AppendFront("break;\n");
             sourceCode.AppendFront("}\n");
         }
@@ -1848,7 +1911,9 @@ namespace de.unika.ipd.grGen.expression
             if(CaseConstExpression!=null)
                 yield return CaseConstExpression;
             foreach(Yielding statement in Statements)
+            {
                 yield return statement;
+            }
         }
 
         readonly Expression CaseConstExpression;
@@ -1870,7 +1935,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] loopedStatementsCopy = new Yielding[LoopedStatements.Length];
             for(int i = 0; i < LoopedStatements.Length; ++i)
+            {
                 loopedStatementsCopy[i] = LoopedStatements[i].Copy(renameSuffix);
+            }
             return new WhileStatement(Condition.Copy(renameSuffix), loopedStatementsCopy);
         }
 
@@ -1880,7 +1947,9 @@ namespace de.unika.ipd.grGen.expression
             Condition.Emit(sourceCode);
             sourceCode.Append(") {\n");
             foreach(Yielding statement in LoopedStatements)
+            {
                 statement.Emit(sourceCode);
+            }
             sourceCode.AppendFront("}\n");
         }
 
@@ -1888,7 +1957,9 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Condition;
             foreach(Yielding statement in LoopedStatements)
+            {
                 yield return statement;
+            }
         }
 
         readonly Expression Condition;
@@ -1910,7 +1981,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] loopedStatementsCopy = new Yielding[LoopedStatements.Length];
             for(int i = 0; i < LoopedStatements.Length; ++i)
+            {
                 loopedStatementsCopy[i] = LoopedStatements[i].Copy(renameSuffix);
+            }
             return new WhileStatement(Condition.Copy(renameSuffix), loopedStatementsCopy);
         }
 
@@ -1918,7 +1991,9 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.AppendFront("do {\n");
             foreach(Yielding statement in LoopedStatements)
+            {
                 statement.Emit(sourceCode);
+            }
             sourceCode.AppendFront("} while(");
             Condition.Emit(sourceCode);
             sourceCode.Append(");\n");
@@ -1927,7 +2002,9 @@ namespace de.unika.ipd.grGen.expression
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             foreach(Yielding statement in LoopedStatements)
+            {
                 yield return statement;
+            }
             yield return Condition;
         }
 
@@ -1949,20 +2026,26 @@ namespace de.unika.ipd.grGen.expression
         {
             Yielding[] statementsCopy = new Yielding[Statements.Length];
             for(int i = 0; i < Statements.Length; ++i)
+            {
                 statementsCopy[i] = Statements[i].Copy(renameSuffix);
+            }
             return new MultiStatement(statementsCopy);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             foreach(Yielding statement in Statements)
+            {
                 statement.Emit(sourceCode);
+            }
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             foreach(Yielding statement in Statements)
+            {
                 yield return statement;
+            }
         }
 
         readonly Yielding[] Statements;
@@ -2068,8 +2151,10 @@ namespace de.unika.ipd.grGen.expression
         public override Yielding Copy(string renameSuffix)
         {
             Expression[] valuesCopy = new Expression[Values.Length];
-            for (int i = 0; i < Values.Length; ++i)
+            for(int i = 0; i < Values.Length; ++i)
+            {
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
+            }
             return new EmitStatement(valuesCopy, IsDebug);
         }
 
@@ -2077,7 +2162,7 @@ namespace de.unika.ipd.grGen.expression
         {
             String emitVar = "emit_value_" + fetchId().ToString();
             sourceCode.AppendFront("object " + emitVar + ";\n");
-            foreach (Expression value in Values)
+            foreach(Expression value in Values)
             {
                 sourceCode.AppendFront(emitVar + " = ");
                 value.Emit(sourceCode);
@@ -2091,8 +2176,10 @@ namespace de.unika.ipd.grGen.expression
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            foreach (Expression expr in Values)
+            foreach(Expression expr in Values)
+            {
                 yield return expr;
+            }
         }
 
         readonly Expression[] Values;
@@ -2114,7 +2201,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
+            {
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
+            }
             return new DebugAddStatement(Message.Copy(renameSuffix), valuesCopy);
         }
 
@@ -2134,7 +2223,9 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Message;
             foreach(Expression expr in Values)
+            {
                 yield return expr;
+            }
         }
 
         readonly Expression Message;
@@ -2156,7 +2247,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
+            {
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
+            }
             return new DebugRemStatement(Message.Copy(renameSuffix), valuesCopy);
         }
 
@@ -2176,7 +2269,9 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Message;
             foreach(Expression expr in Values)
+            {
                 yield return expr;
+            }
         }
 
         readonly Expression Message;
@@ -2198,7 +2293,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
+            {
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
+            }
             return new DebugEmitStatement(Message.Copy(renameSuffix), valuesCopy);
         }
 
@@ -2218,7 +2315,9 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Message;
             foreach(Expression expr in Values)
+            {
                 yield return expr;
+            }
         }
 
         readonly Expression Message;
@@ -2240,7 +2339,9 @@ namespace de.unika.ipd.grGen.expression
         {
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
+            {
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
+            }
             return new DebugHaltStatement(Message.Copy(renameSuffix), valuesCopy);
         }
 
@@ -2260,7 +2361,9 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Message;
             foreach(Expression expr in Values)
+            {
                 yield return expr;
+            }
         }
 
         readonly Expression Message;
@@ -2283,10 +2386,14 @@ namespace de.unika.ipd.grGen.expression
         {
             Expression[] valuesCopy = new Expression[Values.Length];
             for(int i = 0; i < Values.Length; ++i)
+            {
                 valuesCopy[i] = Values[i].Copy(renameSuffix);
+            }
             Expression[] sourceNamesCopy = new Expression[SourceNames.Length];
             for(int i = 0; i < SourceNames.Length; ++i)
+            {
                 sourceNamesCopy[i] = SourceNames[i].Copy(renameSuffix);
+            }
             return new DebugHighlightStatement(Message.Copy(renameSuffix), valuesCopy, sourceNamesCopy);
         }
 
@@ -2318,9 +2425,13 @@ namespace de.unika.ipd.grGen.expression
         {
             yield return Message;
             foreach(Expression expr in Values)
+            {
                 yield return expr;
+            }
             foreach(Expression sourceName in SourceNames)
+            {
                 yield return sourceName;
+            }
         }
 
         readonly Expression Message;

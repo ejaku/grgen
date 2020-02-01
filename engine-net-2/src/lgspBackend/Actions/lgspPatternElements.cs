@@ -23,38 +23,59 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The name of the pattern element.
         /// </summary>
-        public String Name { get { return name; } }
+        public String Name
+        {
+            get { return name; }
+        }
 
         /// <summary>
         /// The pure name of the pattern element as specified in the .grg without any prefixes.
         /// </summary>
-        public String UnprefixedName { get { return unprefixedName; } }
+        public String UnprefixedName
+        {
+            get { return unprefixedName; }
+        }
 
         /// <summary>
         /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
-        public IPatternGraph PointOfDefinition { get { return pointOfDefinition; } }
+        public IPatternGraph PointOfDefinition
+        {
+            get { return pointOfDefinition; }
+        }
 
         /// <summary>
         /// Iff true the element is only defined in its PointOfDefinition pattern,
         /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
         /// </summary>
-        public bool DefToBeYieldedTo { get { return defToBeYieldedTo; } }
+        public bool DefToBeYieldedTo
+        {
+            get { return defToBeYieldedTo; }
+        }
 
         /// <summary>
         /// The initialization expression for the element if some was defined, otherwise null.
         /// </summary>
-        public Expression Initialization { get { return initialization; } }
+        public Expression Initialization
+        {
+            get { return initialization; }
+        }
 
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public Annotations Annotations { get { return annotations; } }
+        public Annotations Annotations
+        {
+            get { return annotations; }
+        }
 
         /// <summary>
         /// The GrGen type of the pattern element, fake implementation overriden in subclasses
         /// </summary>
-        GrGenType IPatternElement.Type { get { throw new NotImplementedException(); } }
+        GrGenType IPatternElement.Type
+        {
+            get { throw new NotImplementedException(); }
+        }
         
         ////////////////////////////////////////////////////////////////////////////
 
@@ -360,17 +381,11 @@ namespace de.unika.ipd.grGen.lgsp
                     return StorageIndex.GraphElement; // need the graph element
             }
             if(IndexAccess != null)
-            {
                 return IndexAccess.NeededElement;
-            }
             if(NameLookup != null)
-            {
                 return NameLookup.NeededElement;
-            }
             if(UniqueLookup != null)
-            {
                 return UniqueLookup.NeededElement;
-            }
 
             return null; // only local variables or global variables required
         }
@@ -454,8 +469,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The GrGen type of the pattern node.
         /// </summary>
-        public NodeType Type { get { return type; } }
-        GrGenType IPatternElement.Type { get { return type; } }
+        public NodeType Type
+        {
+            get { return type; }
+        }
+        GrGenType IPatternElement.Type
+        {
+            get { return type; }
+        }
 
         /// <summary>
         /// Converts this instance into a string representation.
@@ -470,7 +491,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Links to the original pattern node in case this node was inlined, otherwise null;
         /// the point of definition of the original node references the original containing pattern
         /// </summary>
-        public PatternNode originalNode { get { return (PatternNode)originalElement; } }
+        public PatternNode originalNode
+        {
+            get { return (PatternNode)originalElement; }
+        }
     }
 
     /// <summary>
@@ -561,8 +585,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The GrGen type of the pattern edge.
         /// </summary>
-        public EdgeType Type { get { return type; } }
-        GrGenType IPatternElement.Type { get { return type; } }
+        public EdgeType Type
+        {
+            get { return type; }
+        }
+        GrGenType IPatternElement.Type
+        {
+            get { return type; }
+        }
 
         /// <summary>
         /// Converts this instance into a string representation.
@@ -580,7 +610,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Links to the original pattern edge in case this edge was inlined, otherwise null;
         /// the point of definition of the original edge references the original containing pattern
         /// </summary>
-        public PatternEdge originalEdge { get { return (PatternEdge)originalElement; } }
+        public PatternEdge originalEdge
+        {
+            get { return (PatternEdge)originalElement; }
+        }
     }
 
     /// <summary>
@@ -591,34 +624,55 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The name of the variable.
         /// </summary>
-        public String Name { get { return name; } }
+        public String Name
+        {
+            get { return name; }
+        }
 
         /// <summary>
         /// The pure name of the pattern element as specified in the .grg without any prefixes.
         /// </summary>
-        public String UnprefixedName { get { return unprefixedName; } }
+        public String UnprefixedName
+        {
+            get { return unprefixedName; }
+        }
 
         /// <summary>
         /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
-        public IPatternGraph PointOfDefinition { get { return pointOfDefinition; } }
+        public IPatternGraph PointOfDefinition
+        {
+            get { return pointOfDefinition; }
+        }
 
         /// <summary>
         /// Iff true the element is only defined in its PointOfDefinition pattern,
         /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
         /// </summary>
-        public bool DefToBeYieldedTo { get { return defToBeYieldedTo; } }
+        public bool DefToBeYieldedTo
+        {
+            get { return defToBeYieldedTo; }
+        }
 
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public Annotations Annotations { get { return annotations; } }
+        public Annotations Annotations
+        {
+            get { return annotations; }
+        }
 
         /// <summary>
         /// The GrGen type of the pattern variable.
         /// </summary>
-        public VarType Type { get { return type; } }
-        GrGenType IPatternElement.Type { get { return type; } }
+        public VarType Type
+        {
+            get { return type; }
+        }
+        GrGenType IPatternElement.Type
+        {
+            get { return type; }
+        }
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1446,13 +1500,19 @@ namespace de.unika.ipd.grGen.lgsp
             ConditionExpression = (Expression)original.ConditionExpression.Copy(renameSuffix);
             NeededNodes = new String[original.NeededNodes.Length];
             for(int i = 0; i < original.NeededNodes.Length; ++i)
+            {
                 NeededNodes[i] = original.NeededNodes[i] + renameSuffix;
+            }
             NeededEdges = new String[original.NeededEdges.Length];
             for(int i = 0; i < original.NeededEdges.Length; ++i)
+            {
                 NeededEdges[i] = original.NeededEdges[i] + renameSuffix;
+            }
             NeededVariables = new String[original.NeededVariables.Length];
             for(int i = 0; i < original.NeededVariables.Length; ++i)
+            {
                 NeededVariables[i] = original.NeededVariables[i] + renameSuffix;
+            }
             NeededVariableTypes = (VarType[])original.NeededVariableTypes.Clone();
         }
 
@@ -1550,16 +1610,24 @@ namespace de.unika.ipd.grGen.lgsp
             Name = original.Name + renameSuffix;
             ElementaryYieldings = new Yielding[original.ElementaryYieldings.Length];
             for(int i = 0; i < original.ElementaryYieldings.Length; ++i)
+            {
                 ElementaryYieldings[i] = original.ElementaryYieldings[i].Copy(renameSuffix);
+            }
             NeededNodes = new String[original.NeededNodes.Length];
             for(int i = 0; i < original.NeededNodes.Length; ++i)
+            {
                 NeededNodes[i] = original.NeededNodes[i] + renameSuffix;
+            }
             NeededEdges = new String[original.NeededEdges.Length];
             for(int i = 0; i < original.NeededEdges.Length; ++i)
+            {
                 NeededEdges[i] = original.NeededEdges[i] + renameSuffix;
+            }
             NeededVariables = new String[original.NeededVariables.Length];
             for(int i = 0; i < original.NeededVariables.Length; ++i)
+            {
                 NeededVariables[i] = original.NeededVariables[i] + renameSuffix;
+            }
             NeededVariableTypes = (VarType[])original.NeededVariableTypes.Clone();
         }
 
@@ -1589,17 +1657,26 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The name of the usage of the subpattern.
         /// </summary>
-        public String Name { get { return name; } }
+        public String Name
+        {
+            get { return name; }
+        }
 
         /// <summary>
         /// The embedded subpattern.
         /// </summary>
-        public IPatternGraph EmbeddedGraph { get { return matchingPatternOfEmbeddedGraph.patternGraph; } }
+        public IPatternGraph EmbeddedGraph
+        {
+            get { return matchingPatternOfEmbeddedGraph.patternGraph; }
+        }
 
         /// <summary>
         /// The annotations of the pattern element
         /// </summary>
-        public Annotations Annotations { get { return annotations; } }
+        public Annotations Annotations
+        {
+            get { return annotations; }
+        }
 
         /// <summary>
         /// The pattern where this complex subpattern element gets matched.
@@ -1762,7 +1839,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Array with the alternative cases.
         /// </summary>
-        public IPatternGraph[] AlternativeCases { get { return alternativeCases; } }
+        public IPatternGraph[] AlternativeCases
+        {
+            get { return alternativeCases; }
+        }
 
         /// <summary>
         /// Name of the alternative.
@@ -1844,17 +1924,26 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         ///The iterated pattern to be matched as often as possible within specified bounds.
         /// </summary>
-        public IPatternGraph IteratedPattern { get { return iteratedPattern; } }
+        public IPatternGraph IteratedPattern
+        {
+            get { return iteratedPattern; }
+        }
 
         /// <summary>
         /// How many matches to find so the iterated succeeds.
         /// </summary>
-        public int MinMatches { get { return minMatches; } }
+        public int MinMatches
+        {
+            get { return minMatches; }
+        }
 
         /// <summary>
         /// The upper bound to stop matching at, 0 means unlimited/as often as possible.
         /// </summary>
-        public int MaxMatches { get { return maxMatches; } }
+        public int MaxMatches
+        {
+            get { return maxMatches; }
+        }
 
         /// <summary>
         ///The iterated pattern to be matched as often as possible within specified bounds.

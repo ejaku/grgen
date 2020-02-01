@@ -29,33 +29,51 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The name of the pattern graph
         /// </summary>
-        public String Name { get { return name; } }
+        public String Name
+        {
+            get { return name; }
+        }
 
         /// <summary>
         /// null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
         /// </summary>
-        public String Package { get { return package; } }
+        public String Package
+        {
+            get { return package; }
+        }
 
         /// <summary>
         /// The name of the pattern graph in case of a global type,
         /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
         /// </summary>
-        public String PackagePrefixedName { get { return packagePrefixedName; } }
+        public String PackagePrefixedName
+        {
+            get { return packagePrefixedName; }
+        }
 
         /// <summary>
         /// An array of all pattern nodes.
         /// </summary>        
-        public IPatternNode[] Nodes { get { return nodes; } }
+        public IPatternNode[] Nodes
+        {
+            get { return nodes; }
+        }
 
         /// <summary>
         /// An array of all pattern edges.
         /// </summary>
-        public IPatternEdge[] Edges { get { return edges; } }
+        public IPatternEdge[] Edges
+        {
+            get { return edges; }
+        }
 
         /// <summary>
         /// An array of all pattern variables.
         /// </summary>
-        public IPatternVariable[] Variables { get { return variables; } }
+        public IPatternVariable[] Variables
+        {
+            get { return variables; }
+        }
 
         /// <summary>
         /// Returns the source pattern node of the given edge, null if edge dangles to the left
@@ -76,66 +94,102 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
         /// </summary>
-        public bool[,] HomomorphicNodes { get { return homomorphicNodes; } }
+        public bool[,] HomomorphicNodes
+        {
+            get { return homomorphicNodes; }
+        }
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
         /// </summary>
-        public bool[,] HomomorphicEdges { get { return homomorphicEdges; } }
+        public bool[,] HomomorphicEdges
+        {
+            get { return homomorphicEdges; }
+        }
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
         /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases, iterateds).
         /// </summary>
-        public bool[,] HomomorphicNodesGlobal { get { return homomorphicNodesGlobal; } }
+        public bool[,] HomomorphicNodesGlobal
+        {
+            get { return homomorphicNodesGlobal; }
+        }
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
         /// i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
         /// </summary>
-        public bool[,] HomomorphicEdgesGlobal { get { return homomorphicEdgesGlobal; } }
+        public bool[,] HomomorphicEdgesGlobal
+        {
+            get { return homomorphicEdgesGlobal; }
+        }
 
         /// <summary>
         /// A one-dimensional array telling which pattern node is to be matched non-isomorphic against any other node.
         /// </summary>
-        public bool[] TotallyHomomorphicNodes { get { return totallyHomomorphicNodes; } }
+        public bool[] TotallyHomomorphicNodes
+        {
+            get { return totallyHomomorphicNodes; }
+        }
 
         /// <summary>
         /// A one-dimensional array telling which pattern edge is to be matched non-isomorphic against any other edge.
         /// </summary>
-        public bool[] TotallyHomomorphicEdges { get { return totallyHomomorphicEdges; } }
+        public bool[] TotallyHomomorphicEdges
+        {
+            get { return totallyHomomorphicEdges; }
+        }
 
         /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
         /// </summary>
-        public IPatternGraphEmbedding[] EmbeddedGraphs { get { return embeddedGraphs; } }
+        public IPatternGraphEmbedding[] EmbeddedGraphs
+        {
+            get { return embeddedGraphs; }
+        }
 
         /// <summary>
         /// An array of alternatives, each alternative contains in its cases the subpatterns to choose out of.
         /// </summary>
-        public IAlternative[] Alternatives { get { return alternatives; } }
+        public IAlternative[] Alternatives
+        {
+            get { return alternatives; }
+        }
 
         /// <summary>
         /// An array of iterateds, each iterated is matched as often as possible within the specified bounds.
         /// </summary>
-        public IIterated[] Iterateds { get { return iterateds;  } }
+        public IIterated[] Iterateds
+        {
+            get { return iterateds; }
+        }
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
         /// (NACs - Negative Application Conditions).
         /// </summary>
-        public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
+        public IPatternGraph[] NegativePatternGraphs
+        {
+            get { return negativePatternGraphs; }
+        }
 
         /// <summary>
         /// An array of independent pattern graphs which must get matched in addition to the main pattern
         /// (PACs - Positive Application Conditions).
         /// </summary>
-        public IPatternGraph[] IndependentPatternGraphs { get { return independentPatternGraphs; } }
+        public IPatternGraph[] IndependentPatternGraphs
+        {
+            get { return independentPatternGraphs; }
+        }
 
         /// <summary>
         /// The pattern graph which contains this pattern graph, null if this is a top-level-graph
         /// </summary>
-        public IPatternGraph EmbeddingGraph { get { return embeddingGraph; } }
+        public IPatternGraph EmbeddingGraph
+        {
+            get { return embeddingGraph; }
+        }
 
         /// <summary>
         /// The name of the pattern graph
@@ -219,12 +273,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternNode GetSource(PatternEdge edge)
         {
-            if (edgeToSourceNode.ContainsKey(edge))
-            {
+            if(edgeToSourceNode.ContainsKey(edge))
                 return edgeToSourceNode[edge];
-            }
 
-            if (edge.PointOfDefinition != this
+            if(edge.PointOfDefinition != this
                 && embeddingGraph != null)
             {
                 return embeddingGraph.GetSource(edge);
@@ -239,12 +291,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternNode GetSourcePlusInlined(PatternEdge edge)
         {
-            if (edgeToSourceNodePlusInlined.ContainsKey(edge))
-            {
+            if(edgeToSourceNodePlusInlined.ContainsKey(edge))
                 return edgeToSourceNodePlusInlined[edge];
-            }
 
-            if (edge.PointOfDefinition != this
+            if(edge.PointOfDefinition != this
                 && embeddingGraph != null)
             {
                 return embeddingGraph.GetSourcePlusInlined(edge);
@@ -258,12 +308,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternNode GetTarget(PatternEdge edge)
         {
-            if (edgeToTargetNode.ContainsKey(edge))
-            {
+            if(edgeToTargetNode.ContainsKey(edge))
                 return edgeToTargetNode[edge];
-            }
 
-            if (edge.PointOfDefinition != this
+            if(edge.PointOfDefinition != this
                 && embeddingGraph != null)
             {
                 return embeddingGraph.GetTarget(edge);
@@ -279,9 +327,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternNode GetTargetPlusInlined(PatternEdge edge)
         {
             if(edgeToTargetNodePlusInlined.ContainsKey(edge))
-            {
                 return edgeToTargetNodePlusInlined[edge];
-            }
 
             if(edge.PointOfDefinition != this
                 && embeddingGraph != null)
@@ -295,8 +341,10 @@ namespace de.unika.ipd.grGen.lgsp
         public bool IsRefEntityExisting()
         {
             for(int i = 0; i < variables.Length; ++i)
+            {
                 if(TypesHelper.IsRefType(variables[i].type))
                     return true;
+            }
             return false;
         }
 
@@ -486,10 +534,14 @@ namespace de.unika.ipd.grGen.lgsp
             variablesPlusInlined = (PatternVariable[])variables.Clone();
             edgeToSourceNodePlusInlined.Clear();
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in edgeToSourceNode)
+            {
                 edgeToSourceNodePlusInlined.Add(edgeAndSource.Key, edgeAndSource.Value);
+            }
             edgeToTargetNodePlusInlined.Clear();
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in edgeToTargetNode)
+            {
                 edgeToTargetNodePlusInlined.Add(edgeAndTarget.Key, edgeAndTarget.Value);
+            }
 
             // alternative,iterated,negative,independent als referenz übernommen,
             // existieren nur einmal, deren elemente werden geinlined
@@ -525,13 +577,19 @@ namespace de.unika.ipd.grGen.lgsp
             // changes should be visible top-down, but not for siblings or parents, so we add to/use clones 
             Dictionary<PatternNode, PatternNode> nodeToCopy = new Dictionary<PatternNode,PatternNode>(nodeToCopy_.Count);
             foreach(KeyValuePair<PatternNode, PatternNode> kvp in nodeToCopy_)
+            {
                 nodeToCopy.Add(kvp.Key, kvp.Value);
+            }
             Dictionary<PatternEdge, PatternEdge> edgeToCopy = new Dictionary<PatternEdge,PatternEdge>(edgeToCopy_.Count);
             foreach(KeyValuePair<PatternEdge, PatternEdge> kvp in edgeToCopy_)
+            {
                 edgeToCopy.Add(kvp.Key, kvp.Value);
+            }
             Dictionary<PatternVariable, PatternVariable> variableToCopy = new Dictionary<PatternVariable, PatternVariable>(variableToCopy_.Count);
             foreach(KeyValuePair<PatternVariable, PatternVariable> kvp in variableToCopy_)
+            {
                 variableToCopy.Add(kvp.Key, kvp.Value);
+            }
 
             name = original.name + nameSuffix + "_in_" + inlinedSubpatternEmbedding.PointOfDefinition.pathPrefix + inlinedSubpatternEmbedding.PointOfDefinition.name;
             package = original.package;
@@ -547,9 +605,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PatternNode node = original.nodes[i];
                 if(nodeToCopy.ContainsKey(node))
-                {
                     nodesPlusInlined[i] = nodeToCopy[node];
-                }
                 else
                 {
                     PatternNode newNode = new PatternNode(node, inlinedSubpatternEmbedding, this, nameSuffix);
@@ -564,9 +620,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PatternEdge edge = original.edges[i];
                 if(edgeToCopy.ContainsKey(edge))
-                {
                     edgesPlusInlined[i] = edgeToCopy[edge];
-                }
                 else
                 {
                     PatternEdge newEdge = new PatternEdge(edge, inlinedSubpatternEmbedding, this, nameSuffix);
@@ -581,9 +635,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PatternVariable variable = original.variables[i];
                 if(variableToCopy.ContainsKey(variable))
-                {
                     variablesPlusInlined[i] = variableToCopy[variable];
-                }
                 else
                 {
                     PatternVariable newVariable = new PatternVariable(variable, inlinedSubpatternEmbedding, this, nameSuffix);
@@ -596,13 +648,21 @@ namespace de.unika.ipd.grGen.lgsp
 
 
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in original.edgeToSourceNode)
+            {
                 edgeToSourceNode.Add(edgeAndSource.Key, edgeAndSource.Value);
+            }
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in original.edgeToTargetNode)
+            {
                 edgeToTargetNode.Add(edgeAndTarget.Key, edgeAndTarget.Value);
+            }
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndSource in original.edgeToSourceNode)
+            {
                 edgeToSourceNodePlusInlined.Add(edgeToCopy[edgeAndSource.Key], nodeToCopy[edgeAndSource.Value]);
+            }
             foreach(KeyValuePair<PatternEdge, PatternNode> edgeAndTarget in original.edgeToTargetNode)
+            {
                 edgeToTargetNodePlusInlined.Add(edgeToCopy[edgeAndTarget.Key], nodeToCopy[edgeAndTarget.Value]);
+            }
 
             homomorphicNodes = (bool[,])original.homomorphicNodes.Clone();
             homomorphicEdges = (bool[,])original.homomorphicEdges.Clone();
@@ -828,19 +888,20 @@ namespace de.unika.ipd.grGen.lgsp
             // create schedule arrays; normally only one schedule per pattern graph,
             // but each maybe null parameter causes a doubling of the number of schedules
             List<PatternElement> elements = new List<PatternElement>();
-            foreach(PatternNode node in nodes) {
-                if(node.MaybeNull) {
+            foreach(PatternNode node in nodes)
+            {
+                if(node.MaybeNull)
                     elements.Add(node);
-                }
             }
-            foreach(PatternEdge edge in edges) {
-                if(edge.MaybeNull) {
+            foreach(PatternEdge edge in edges)
+            {
+                if(edge.MaybeNull)
                     elements.Add(edge);
-                }
             } 
 
             maybeNullElementNames = new String[elements.Count];
-            for(int i=0; i<elements.Count; ++i) {
+            for(int i=0; i<elements.Count; ++i)
+            {
                 maybeNullElementNames[i] = elements[i].Name;
             }
             int numCombinations = (int)Math.Pow(2, elements.Count);
@@ -875,15 +936,13 @@ namespace de.unika.ipd.grGen.lgsp
             // for the not available elements, set them to not preset, i.e. pointOfDefintion == patternGraph
             foreach(KeyValuePair<string,bool> elemIsAvail in availabilityOfMaybeNullElements[availabilityIndex])
             {
-                if(elemIsAvail.Value) {
+                if(elemIsAvail.Value)
                     continue;
-                }
 
                 foreach(PatternNode node in nodes)
                 {
-                    if(node.Name!=elemIsAvail.Key) {
+                    if(node.Name!=elemIsAvail.Key)
                         continue;
-                    }
 
                     Debug.Assert(node.pointOfDefinition==null);
                     node.pointOfDefinition = this;
@@ -891,9 +950,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach(PatternEdge edge in edges)
                 {
-                    if(edge.Name!=elemIsAvail.Key) {
+                    if(edge.Name!=elemIsAvail.Key)
                         continue;
-                    }
 
                     Debug.Assert(edge.pointOfDefinition==null);
                     edge.pointOfDefinition = this;
@@ -906,15 +964,13 @@ namespace de.unika.ipd.grGen.lgsp
             // revert the not available elements set to not preset again to preset, i.e. pointOfDefintion == null
             foreach(KeyValuePair<string,bool> elemIsAvail in availabilityOfMaybeNullElements[availabilityIndex])
             {
-                if(elemIsAvail.Value) {
+                if(elemIsAvail.Value)
                     continue;
-                }
 
                 foreach(PatternNode node in nodes)
                 {
-                    if(node.Name!=elemIsAvail.Key) {
+                    if(node.Name!=elemIsAvail.Key)
                         continue;
-                    }
 
                     Debug.Assert(node.pointOfDefinition==this);
                     node.pointOfDefinition = null;
@@ -922,9 +978,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                 foreach(PatternEdge edge in edges)
                 {
-                    if(edge.Name!=elemIsAvail.Key) {
+                    if(edge.Name!=elemIsAvail.Key)
                         continue;
-                    }
 
                     Debug.Assert(edge.pointOfDefinition==this);
                     edge.pointOfDefinition = null;
@@ -1052,9 +1107,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < embeddedGraphsPlusInlined.Length; ++i)
             {
                 if(embeddedGraphsPlusInlined[i] == embedding)
-                {
                     return true;
-                }
             }
             return false;
         }
@@ -1065,11 +1118,17 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
 
             foreach(PatternNode node in nodesPlusInlined)
+            {
                 sb.AppendFrontFormat("{0}: {1}, pod: {2}\n", GetObjectId(node), node.name, GetObjectId(node.pointOfDefinition));
+            }
             foreach(PatternEdge edge in edgesPlusInlined)
+            {
                 sb.AppendFrontFormat("{0}: {1}, pod: {2}\n", GetObjectId(edge), edge.name, GetObjectId(edge.pointOfDefinition));
+            }
             foreach(PatternVariable var in variablesPlusInlined)
+            {
                 sb.AppendFrontFormat("{0}: {1}, pod: {2}\n", GetObjectId(var), var.name, GetObjectId(var.pointOfDefinition));
+            }
 
             foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
             {
@@ -1110,11 +1169,17 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
 
             foreach(PatternNode node in nodesPlusInlined)
+            {
                 sb.AppendFrontFormat("{0}: {1}, pod: {2}, ori: {3}, ori-embed: {4}\n", GetObjectId(node), node.name, GetObjectId(node.pointOfDefinition), GetObjectId(node.originalNode), GetObjectId(node.originalSubpatternEmbedding));
+            }
             foreach(PatternEdge edge in edgesPlusInlined)
+            {
                 sb.AppendFrontFormat("{0}: {1}, pod: {2}, ori: {3}, ori-embed: {4}\n", GetObjectId(edge), edge.name, GetObjectId(edge.pointOfDefinition), GetObjectId(edge.originalEdge), GetObjectId(edge.originalSubpatternEmbedding));
+            }
             foreach(PatternVariable var in variablesPlusInlined)
+            {
                 sb.AppendFrontFormat("{0}: {1}, pod: {2}, ori: {3}, ori-embed: {4}\n", GetObjectId(var), var.name, GetObjectId(var.pointOfDefinition), GetObjectId(var.originalVariable), GetObjectId(var.originalSubpatternEmbedding));
+            }
 
             foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
             {
@@ -1178,7 +1243,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
+            {
                 sb.AppendFrontFormat("subpattern usage {0}:{1}\n", sub.name, sub.EmbeddedGraph.Name);
+            }
 
             foreach(Alternative alt in alternativesPlusInlined)
             {
@@ -1202,7 +1269,9 @@ namespace de.unika.ipd.grGen.lgsp
         public void ExplainNested(SourceBuilder sb, IGraphModel model)
         {
             foreach(PatternGraphEmbedding sub in embeddedGraphsPlusInlined)
+            {
                 sb.AppendFrontFormat("subpattern usage {0}:{1}\n", sub.name, sub.EmbeddedGraph.Name);
+            }
 
             foreach(Alternative alt in alternativesPlusInlined)
             {
@@ -1240,27 +1309,42 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The main pattern graph.
         /// </summary>
-        public IPatternGraph PatternGraph { get { return patternGraph; } }
+        public IPatternGraph PatternGraph
+        {
+            get { return patternGraph; }
+        }
 
         /// <summary>
         /// An array of GrGen types corresponding to rule parameters.
         /// </summary>
-        public GrGenType[] Inputs { get { return inputs; } }
+        public GrGenType[] Inputs
+        {
+            get { return inputs; }
+        }
 
         /// <summary>
         /// An array of the names corresponding to rule parameters.
         /// </summary>
-        public String[] InputNames { get { return inputNames; } }
+        public String[] InputNames
+        {
+            get { return inputNames; }
+        }
 
         /// <summary>
         /// An array of the names of the def elements yielded out of this pattern.
         /// </summary>
-        public String[] DefNames { get { return defNames; } }
+        public String[] DefNames
+        {
+            get { return defNames; }
+        }
 
         /// <summary>
         /// The annotations of the matching pattern (test/rule/subpattern)
         /// </summary>
-        public Annotations Annotations { get { return annotations; } }
+        public Annotations Annotations
+        {
+            get { return annotations; }
+        }
 
         /// <summary>
         /// The main pattern graph.
@@ -1319,12 +1403,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
-        public GrGenType[] Outputs { get { return outputs; } }
+        public GrGenType[] Outputs
+        {
+            get { return outputs; }
+        }
 
         /// <summary>
         /// An array of the available filters
         /// </summary>
-        public IFilter[] Filters { get { return filters; } }
+        public IFilter[] Filters
+        {
+            get { return filters; }
+        }
 
         /// <summary>
         /// An array of GrGen types corresponding to rule return values.
@@ -1349,11 +1439,20 @@ namespace de.unika.ipd.grGen.lgsp
             this.packagePrefixedName = packagePrefixedName;
         }
 
-        public String Name { get { return name; } }
+        public String Name
+        {
+            get { return name; }
+        }
 
-        public String Package { get { return package; } }
+        public String Package
+        {
+            get { return package; }
+        }
 
-        public String PackagePrefixedName { get { return packagePrefixedName; } }
+        public String PackagePrefixedName
+        {
+            get { return packagePrefixedName; }
+        }
 
         public readonly String name;
 
@@ -1373,7 +1472,10 @@ namespace de.unika.ipd.grGen.lgsp
             this.entities = new List<String>(entities);
         }
 
-        public List<string> Entities { get { return entities; } }
+        public List<string> Entities
+        {
+            get { return entities; }
+        }
 
         private readonly List<string> entities;
 
@@ -1420,17 +1522,26 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 
-        public bool IsExternal { get { return isExternal; } }
+        public bool IsExternal
+        {
+            get { return isExternal; }
+        }
 
         /// <summary>
         /// An array of GrGen types corresponding to filter parameters.
         /// </summary>
-        public GrGenType[] Inputs { get { return inputs; } }
+        public GrGenType[] Inputs
+        {
+            get { return inputs; }
+        }
 
         /// <summary>
         /// An array of the names corresponding to filter parameters.
         /// </summary>
-        public String[] InputNames { get { return inputNames; } }
+        public String[] InputNames
+        {
+            get { return inputNames; }
+        }
 
 
         public readonly bool isExternal;
