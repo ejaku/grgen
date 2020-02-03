@@ -116,25 +116,17 @@ namespace de.unika.ipd.grGen.grShell
         bool ActionsExists();
         GrShellImpl GetGrShellImpl();
         ShellGraphProcessingEnvironment curShellProcEnv { get; }
+        ElementRealizers realizers { get; }
         TextWriter debugOut { get; }
         TextWriter errOut { get; }
         NewGraphOptions newGraphOptions { get; }
         bool nonDebugNonGuiExitOnError { get; }
         String debugLayout { get; }
         Dictionary<String, Dictionary<String, String>> debugLayoutOptions { get; }
-    }
-
-    public interface IGrShellImplForDebugger
-    {
-        void Cancel();
-        ConsoleKeyInfo ReadKeyWithCancel();
-        object Askfor(String typeName);
         GrGenType GetGraphElementType(String typeName);
         void HandleSequenceParserException(SequenceParserException ex);
         string ShowGraphWith(String programName, String arguments, bool keep);
         IGraphElement GetElemByName(String elemName);
-        ShellGraphProcessingEnvironment CurrentShellProcEnv { get; }
-        ElementRealizers realizers { get; }
     }
 
     /// <summary>
@@ -142,7 +134,7 @@ namespace de.unika.ipd.grGen.grShell
     /// Public methods are called by the GrShell command line parser (which is called by the GrShellDriver),
     /// other classes access this shell main-functionality class via dedicated/limited interfaces/views.
     /// </summary>
-    public class GrShellImpl : IGrShellImplForDriver, IGrShellImplForSequenceApplierAndDebugger, IGrShellImplForDebugger
+    public class GrShellImpl : IGrShellImplForDriver, IGrShellImplForSequenceApplierAndDebugger
     {
         // view on GrShellImpl from GrShellDriver
         void IGrShellImplForDriver.QuitDebugMode()
@@ -183,6 +175,10 @@ namespace de.unika.ipd.grGen.grShell
         {
             get { return curShellProcEnv; }
         }
+        ElementRealizers IGrShellImplForSequenceApplierAndDebugger.realizers
+        {
+            get { return realizers; }
+        }
         TextWriter IGrShellImplForSequenceApplierAndDebugger.debugOut
         {
             get { return debugOut; }
@@ -207,39 +203,17 @@ namespace de.unika.ipd.grGen.grShell
         {
             get { return debugLayoutOptions; }
         }
-
-        // view on GrShellImpl from Debugger
-        void IGrShellImplForDebugger.Cancel()
-        {
-            seqApplierAndDebugger.Cancel();
-        }
-        ConsoleKeyInfo IGrShellImplForDebugger.ReadKeyWithCancel()
-        {
-            return seqApplierAndDebugger.ReadKeyWithCancel();
-        }
-        object IGrShellImplForDebugger.Askfor(String typeName)
-        {
-            return Askfor(typeName);
-        }
-        GrGenType IGrShellImplForDebugger.GetGraphElementType(String typeName)
+        GrGenType IGrShellImplForSequenceApplierAndDebugger.GetGraphElementType(String typeName)
         {
             return GetGraphElementType(typeName);
         }
-        void IGrShellImplForDebugger.HandleSequenceParserException(SequenceParserException ex)
+        void IGrShellImplForSequenceApplierAndDebugger.HandleSequenceParserException(SequenceParserException ex)
         {
             HandleSequenceParserException(ex);
         }
-        string IGrShellImplForDebugger.ShowGraphWith(String programName, String arguments, bool keep)
+        string IGrShellImplForSequenceApplierAndDebugger.ShowGraphWith(String programName, String arguments, bool keep)
         {
             return ShowGraphWith(programName, arguments, keep);
-        }
-        ShellGraphProcessingEnvironment IGrShellImplForDebugger.CurrentShellProcEnv
-        {
-            get { return curShellProcEnv; }
-        }
-        ElementRealizers IGrShellImplForDebugger.realizers
-        {
-            get { return realizers; }
         }
 
         internal class ShowGraphParam

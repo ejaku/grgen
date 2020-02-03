@@ -16,13 +16,13 @@ namespace de.unika.ipd.grGen.grShell
 {
     class BreakpointAndChoicepointEditor
     {
-        readonly IGrShellImplForDebugger grShellImpl;
+        readonly IDebuggerEnvironment env;
 
         readonly Stack<Sequence> debugSequences = new Stack<Sequence>();
 
-        public BreakpointAndChoicepointEditor(IGrShellImplForDebugger grShellImpl, Stack<Sequence> debugSequences)
+        public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, Stack<Sequence> debugSequences)
         {
-            this.grShellImpl = grShellImpl;
+            this.env = env;
             this.debugSequences = debugSequences;
         }
 
@@ -78,7 +78,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch (key.KeyChar)
                 {
                 case '0':

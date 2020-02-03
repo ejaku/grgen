@@ -23,11 +23,11 @@ namespace de.unika.ipd.grGen.grShell
 {
     class Debugger : IUserProxyForSequenceExecution
     {
-        readonly IGrShellImplForDebugger grShellImpl;
+        readonly IDebuggerEnvironment env;
         ShellGraphProcessingEnvironment shellProcEnv;
 
         readonly ElementRealizers realizers;
-        readonly GraphAnnotationAndChangesRecorder renderRecorder = null;
+        readonly GraphAnnotationAndChangesRecorder renderRecorder;
         YCompClient ycompClient = null;
         Process viewerProcess = null;
 
@@ -82,29 +82,25 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public Debugger(IGrShellImplForDebugger grShellImpl)
-            : this(grShellImpl, "Orthogonal", null)
-        {
-        }
-
-        public Debugger(IGrShellImplForDebugger grShellImpl, String debugLayout)
-            : this(grShellImpl, debugLayout, null)
-        {
-        }
-
         /// <summary>
-        /// Initializes a new Debugger instance using the given layout and options.
-        /// Any invalid options will be removed from layoutOptions.
+        /// Initializes a new Debugger instance using the given environments, and layout as well as layout options.
+        /// All invalid options will be removed from layoutOptions.
         /// </summary>
-        /// <param name="grShellImpl">An GrShellImpl instance.</param>
-        /// <param name="debugLayout">The name of the layout to be used.</param>
+        /// <param name="env">The environment to be used by the debugger
+        /// (regular implementation by the shell sequence applier and debugger).</param>
+        /// <param name="shellProcEnv">The shell graph processing environment to be used by the debugger
+        /// (the graph processing environment extended by shell specific data).</param>
+        /// <param name="realizers">The element realizers to be used by the debugger.</param>
+        /// <param name="debugLayout">The name of the layout to be used.
+        /// If null, Orthogonal is used.</param>
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
-        public Debugger(IGrShellImplForDebugger grShellImpl, String debugLayout, Dictionary<String, String> layoutOptions)
+        public Debugger(IDebuggerEnvironment env, ShellGraphProcessingEnvironment shellProcEnv, 
+            ElementRealizers realizers, String debugLayout, Dictionary<String, String> layoutOptions)
         {
-            this.grShellImpl = grShellImpl;
-            this.shellProcEnv = grShellImpl.CurrentShellProcEnv;
-            this.realizers = grShellImpl.realizers;
+            this.env = env;
+            this.shellProcEnv = shellProcEnv;
+            this.realizers = realizers;
 
             this.context = new PrintSequenceContext();
 
@@ -127,7 +123,7 @@ namespace de.unika.ipd.grGen.grShell
 
             try
             {
-                ycompClient = new YCompClient(shellProcEnv.ProcEnv.NamedGraph, debugLayout, 20000, ycompPort, 
+                ycompClient = new YCompClient(shellProcEnv.ProcEnv.NamedGraph, debugLayout ?? "Orthogonal", 20000, ycompPort, 
                     shellProcEnv.DumpInfo, realizers);
             }
             catch(Exception ex)
@@ -361,7 +357,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             while(true)
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 's':
@@ -399,7 +395,7 @@ namespace de.unika.ipd.grGen.grShell
                     return false;
                 case 'b':
                     {
-                        BreakpointAndChoicepointEditor breakpointEditor = new BreakpointAndChoicepointEditor(grShellImpl, debugSequences);
+                        BreakpointAndChoicepointEditor breakpointEditor = new BreakpointAndChoicepointEditor(env, debugSequences);
                         breakpointEditor.HandleToggleBreakpoints();
                         context.highlightSeq = seq;
                         context.success = false;
@@ -409,13 +405,13 @@ namespace de.unika.ipd.grGen.grShell
                     }
                 case 'w':
                     {
-                        WatchpointEditor watchpointEditor = new WatchpointEditor(shellProcEnv, grShellImpl);
+                        WatchpointEditor watchpointEditor = new WatchpointEditor(shellProcEnv, env);
                         watchpointEditor.HandleWatchpoints();
                         break;
                     }
                 case 'c':
                     {
-                        BreakpointAndChoicepointEditor choicepointEditor = new BreakpointAndChoicepointEditor(grShellImpl, debugSequences);
+                        BreakpointAndChoicepointEditor choicepointEditor = new BreakpointAndChoicepointEditor(env, debugSequences);
                         choicepointEditor.HandleToggleChoicepoints();
                         context.highlightSeq = seq;
                         context.success = false;
@@ -427,7 +423,7 @@ namespace de.unika.ipd.grGen.grShell
                     HandleToggleLazyChoice();
                     break;
                 case 'a':
-                    grShellImpl.Cancel();
+                    env.Cancel();
                     return false;                               // never reached
                 case 'n':
                     stepMode = false;
@@ -492,7 +488,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void HandleDump()
         {
-            string filename = grShellImpl.ShowGraphWith("ycomp", "", false);
+            string filename = env.ShowGraphWith("ycomp", "", false);
             Console.WriteLine("Showing dumped graph " + filename + " with ycomp");
 
             String undoLog = shellProcEnv.ProcEnv.TransactionManager.ToString();
@@ -509,7 +505,7 @@ namespace de.unika.ipd.grGen.grShell
         private void HandleAsGraph(Sequence seq)
         {
             VariableOrAttributeAccessParserAndValueFetcher parserFetcher = new VariableOrAttributeAccessParserAndValueFetcher(
-                grShellImpl, shellProcEnv, debugSequences);
+                env, shellProcEnv, debugSequences);
             object toBeShownAsGraph;
             AttributeType attrType;
             bool abort = parserFetcher.FetchObjectToBeShownAsGraph(seq, out toBeShownAsGraph, out attrType);
@@ -542,7 +538,7 @@ namespace de.unika.ipd.grGen.grShell
             UploadGraph(graph);
 
             Console.WriteLine("...press any key to continue...");
-            grShellImpl.ReadKeyWithCancel();
+            env.ReadKeyWithCancel();
 
             Console.WriteLine("...return to normal graph.");
             ycompClient.ClearGraph();
@@ -557,7 +553,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
             String str = Console.ReadLine();
-            Highlighter highlighter = new Highlighter(grShellImpl, shellProcEnv, realizers, renderRecorder, ycompClient, debugSequences);
+            Highlighter highlighter = new Highlighter(env, shellProcEnv, realizers, renderRecorder, ycompClient, debugSequences);
             List<object> values;
             List<string> annotations;
             highlighter.ComputeHighlight(seq, str, out values, out annotations);
@@ -566,7 +562,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void HandleHighlight(List<object> originalValues, List<string> sourceNames)
         {
-            Highlighter highlighter = new Highlighter(grShellImpl, shellProcEnv, realizers, renderRecorder, ycompClient, debugSequences);
+            Highlighter highlighter = new Highlighter(env, shellProcEnv, realizers, renderRecorder, ycompClient, debugSequences);
             highlighter.DoHighlight(originalValues, sourceNames);
         }
 
@@ -684,7 +680,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine();
             context.choice = false;
 
-            return UserChoiceMenu.ChooseDirection(context, grShellImpl, direction, seq);
+            return UserChoiceMenu.ChooseDirection(context, env, direction, seq);
         }
 
         /// <summary>
@@ -708,7 +704,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.choice = false;
                 context.sequences = null;
 
-                bool commit = UserChoiceMenu.ChooseSequence(grShellImpl, ref seqToExecute, sequences, seq);
+                bool commit = UserChoiceMenu.ChooseSequence(env, ref seqToExecute, sequences, seq);
                 if(commit)
                     return seqToExecute;
             } while(true);
@@ -735,7 +731,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.choice = false;
                 context.sequences = null;
 
-                bool commit = UserChoiceMenu.ChoosePoint(grShellImpl, ref pointToExecute, seq);
+                bool commit = UserChoiceMenu.ChoosePoint(env, ref pointToExecute, seq);
                 if(commit)
                     break;
             } while(true);
@@ -782,7 +778,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.sequences = null;
                 context.matches = null;
 
-                bool commit = UserChoiceMenu.ChooseMatch(grShellImpl, ref totalMatchToExecute, seq);
+                bool commit = UserChoiceMenu.ChooseMatch(env, ref totalMatchToExecute, seq);
                 matchMarkerAndAnnotator.Unmark(rule, match, seq);
                 if(commit)
                     break;
@@ -835,7 +831,7 @@ namespace de.unika.ipd.grGen.grShell
 
                 Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
 
-                bool commit = UserChoiceMenu.ChooseMatch(grShellImpl, matchToApply, matches, numFurtherMatchesToApply, seq, out newMatchToRewrite);
+                bool commit = UserChoiceMenu.ChooseMatch(env, matchToApply, matches, numFurtherMatchesToApply, seq, out newMatchToRewrite);
                 if(commit)
                 {
                     matchMarkerAndAnnotator.MarkMatch(matches.GetMatch(matchToApply), null, null);
@@ -933,7 +929,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine();
             context.choice = false;
 
-            return UserChoiceMenu.ChooseValue(grShellImpl, type, seq);
+            return UserChoiceMenu.ChooseValue(env, type, seq);
         }
 
         #endregion Possible user choices during sequence execution
@@ -1237,7 +1233,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to apply rewrite...");
-            grShellImpl.ReadKeyWithCancel();
+            env.ReadKeyWithCancel();
 
             if(match!=null)
                 matchMarkerAndAnnotator.MarkMatch(match, null, null);
@@ -1674,11 +1670,11 @@ namespace de.unika.ipd.grGen.grShell
             {
                 PrintDebugInstructions(isBottomUpBreak);
 
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'a':
-                    grShellImpl.Cancel();
+                    env.Cancel();
                     return;                               // never reached
                 case 's':
                     if(isBottomUpBreak && !stepMode)
@@ -1807,7 +1803,7 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugOnConnectionLost()
         {
             Console.WriteLine("Connection to yComp lost!");
-            grShellImpl.Cancel();
+            env.Cancel();
         }
 
         /// <summary>

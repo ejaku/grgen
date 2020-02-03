@@ -16,14 +16,14 @@ namespace de.unika.ipd.grGen.grShell
 {
     static class UserChoiceMenu
     {
-        public static int ChooseDirection(PrintSequenceContext context, IGrShellImplForDebugger grShellImpl, int direction, Sequence seq)
+        public static int ChooseDirection(PrintSequenceContext context, IDebuggerEnvironment env, int direction, Sequence seq)
         {
             WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
             Console.Write(" (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
 
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'l':
@@ -53,11 +53,11 @@ namespace de.unika.ipd.grGen.grShell
                                 + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained sequences.");
         }
 
-        public static bool ChooseSequence(IGrShellImplForDebugger grShellImpl, ref int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
+        public static bool ChooseSequence(IDebuggerEnvironment env, ref int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
         {
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -116,11 +116,11 @@ namespace de.unika.ipd.grGen.grShell
                                 + " Press (s) or (n) to commit to the pre-selected sequence and continue.");
         }
 
-        public static bool ChoosePoint(IGrShellImplForDebugger grShellImpl, ref double pointToExecute, SequenceWeightedOne seq)
+        public static bool ChoosePoint(IDebuggerEnvironment env, ref double pointToExecute, SequenceWeightedOne seq)
         {
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'e':
@@ -159,11 +159,11 @@ namespace de.unika.ipd.grGen.grShell
                                 + " Press (s) or (n) to commit to the pre-selected match and continue.");
         }
 
-        public static bool ChooseMatch(IGrShellImplForDebugger grShellImpl, ref int totalMatchToExecute, SequenceSomeFromSet seq)
+        public static bool ChooseMatch(IDebuggerEnvironment env, ref int totalMatchToExecute, SequenceSomeFromSet seq)
         {
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -218,13 +218,13 @@ namespace de.unika.ipd.grGen.grShell
                                 + " Press (s) or (n) to commit to the currently shown match and continue.");
         }
 
-        public static bool ChooseMatch(IGrShellImplForDebugger grShellImpl, int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq, out int newMatchToRewrite)
+        public static bool ChooseMatch(IDebuggerEnvironment env, int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq, out int newMatchToRewrite)
         {
             newMatchToRewrite = matchToApply;
 
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -318,16 +318,16 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        public static object ChooseValue(IGrShellImplForDebugger grShellImpl, string type, Sequence seq)
+        public static object ChooseValue(IDebuggerEnvironment env, string type, Sequence seq)
         {
-            object value = grShellImpl.Askfor(type);
+            object value = env.Askfor(type);
 
             while(value == null) // bad input case
             {
                 Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
 
 read_again:
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'a':
@@ -335,7 +335,7 @@ read_again:
                     return null;
                 case 'r':
                     Console.WriteLine();
-                    value = grShellImpl.Askfor(type);
+                    value = env.Askfor(type);
                     break;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key

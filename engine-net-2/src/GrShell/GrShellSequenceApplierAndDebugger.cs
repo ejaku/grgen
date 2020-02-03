@@ -47,11 +47,52 @@ namespace de.unika.ipd.grGen.grShell
         IActionExecutionEnvironment actionEnv;
     }
 
+    public interface IDebuggerEnvironment
+    {
+        void Cancel();
+        ConsoleKeyInfo ReadKeyWithCancel();
+        object Askfor(String typeName);
+        GrGenType GetGraphElementType(String typeName);
+        void HandleSequenceParserException(SequenceParserException ex);
+        string ShowGraphWith(String programName, String arguments, bool keep);
+        IGraphElement GetElemByName(String elemName);
+    }
+
     /// <summary>
     /// GrShellImpl part that controls applying the sequences and the debugger.
     /// </summary>
-    public class GrShellSequenceApplierAndDebugger
+    public class GrShellSequenceApplierAndDebugger : IDebuggerEnvironment
     {
+        // view on GrShellSequenceApplierAndDebugger from Debugger
+        void IDebuggerEnvironment.Cancel()
+        {
+            Cancel();
+        }
+        ConsoleKeyInfo IDebuggerEnvironment.ReadKeyWithCancel()
+        {
+            return ReadKeyWithCancel();
+        }
+        object IDebuggerEnvironment.Askfor(String typeName)
+        {
+            return Askfor(typeName);
+        }
+        GrGenType IDebuggerEnvironment.GetGraphElementType(String typeName)
+        {
+            return impl.GetGraphElementType(typeName);
+        }
+        void IDebuggerEnvironment.HandleSequenceParserException(SequenceParserException ex)
+        {
+            impl.HandleSequenceParserException(ex);
+        }
+        string IDebuggerEnvironment.ShowGraphWith(String programName, String arguments, bool keep)
+        {
+            return impl.ShowGraphWith(programName, arguments, keep);
+        }
+        IGraphElement IDebuggerEnvironment.GetElemByName(String elemName)
+        {
+            return impl.GetElemByName(elemName);
+        }
+
         private bool silenceExec = false; // print match statistics during sequence execution on timer
         private bool cancelSequence = false;
 
@@ -436,7 +477,7 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    debugger = new Debugger(impl.GetGrShellImpl(), impl.debugLayout, optMap);
+                    debugger = new Debugger(this, impl.curShellProcEnv, impl.realizers, impl.debugLayout, optMap);
                     impl.curShellProcEnv.ProcEnv.UserProxy = debugger;
                 }
                 catch(Exception ex)

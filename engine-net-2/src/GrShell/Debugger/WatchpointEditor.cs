@@ -18,12 +18,12 @@ namespace de.unika.ipd.grGen.grShell
     class WatchpointEditor
     {
         readonly ShellGraphProcessingEnvironment shellProcEnv;
-        readonly IGrShellImplForDebugger grShellImpl;
+        readonly IDebuggerEnvironment env;
 
-        public WatchpointEditor(ShellGraphProcessingEnvironment shellProcEnv, IGrShellImplForDebugger grShellImpl)
+        public WatchpointEditor(ShellGraphProcessingEnvironment shellProcEnv, IDebuggerEnvironment env)
         {
             this.shellProcEnv = shellProcEnv;
-            this.grShellImpl = grShellImpl;
+            this.env = env;
         }
 
         public void HandleWatchpoints()
@@ -41,7 +41,7 @@ namespace de.unika.ipd.grGen.grShell
             while(true)
             {
                 int num = -1;
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'e':
@@ -255,7 +255,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -321,7 +321,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -418,7 +418,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -489,7 +489,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                 }
 
-                graphElementType = grShellImpl.GetGraphElementType(graphElementTypeName);
+                graphElementType = env.GetGraphElementType(graphElementTypeName);
                 if(graphElementType == null)
                     Console.WriteLine("Unknown graph element type: " + graphElementTypeName);
                 else
@@ -508,7 +508,7 @@ namespace de.unika.ipd.grGen.grShell
 
             while(true)
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -542,7 +542,7 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                ConsoleKeyInfo key = grShellImpl.ReadKeyWithCancel();
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case '0':
@@ -616,7 +616,7 @@ namespace de.unika.ipd.grGen.grShell
                 catch(SequenceParserException ex)
                 {
                     Console.WriteLine("Unable to parse sequence expression");
-                    grShellImpl.HandleSequenceParserException(ex);
+                    env.HandleSequenceParserException(ex);
                 }
                 catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
                 {

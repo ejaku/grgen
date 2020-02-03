@@ -17,16 +17,16 @@ namespace de.unika.ipd.grGen.grShell
 {
     class VariableOrAttributeAccessParserAndValueFetcher
     {
-        readonly IGrShellImplForDebugger grShellImpl;
+        readonly IDebuggerEnvironment env;
         readonly ShellGraphProcessingEnvironment shellProcEnv;
 
         readonly Stack<Sequence> debugSequences;
 
-        public VariableOrAttributeAccessParserAndValueFetcher(IGrShellImplForDebugger grShellImpl,
+        public VariableOrAttributeAccessParserAndValueFetcher(IDebuggerEnvironment env,
             ShellGraphProcessingEnvironment shellProcEnv,
             Stack<Sequence> debugSequences)
         {
-            this.grShellImpl = grShellImpl;
+            this.env = env;
             this.shellProcEnv = shellProcEnv;
             this.debugSequences = debugSequences;
         }
@@ -142,11 +142,11 @@ namespace de.unika.ipd.grGen.grShell
             if(str[pos++] != ')')
                 return null;
             if(pos == str.Length)
-                return grShellImpl.GetElemByName(sb.ToString());
+                return env.GetElemByName(sb.ToString());
             if(str[pos++] != '.')
                 return null;
             attribute = str.Substring(pos);
-            return grShellImpl.GetElemByName(sb.ToString());
+            return env.GetElemByName(sb.ToString());
         }
 
         private object ParseVariable(string str, Sequence seq, out string attribute)

@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.grShell
 {
     class Highlighter
     {
-        readonly IGrShellImplForDebugger grShellImpl;
+        readonly IDebuggerEnvironment env;
         readonly ShellGraphProcessingEnvironment shellProcEnv;
 
         readonly ElementRealizers realizers;
@@ -26,7 +26,7 @@ namespace de.unika.ipd.grGen.grShell
 
         readonly Stack<Sequence> debugSequences;
 
-        public Highlighter(IGrShellImplForDebugger grShellImpl,
+        public Highlighter(IDebuggerEnvironment env,
             ShellGraphProcessingEnvironment shellProcEnv,
             ElementRealizers realizers,
             GraphAnnotationAndChangesRecorder renderRecorder,
@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.grShell
             Stack<Sequence> debugSequences
         )
         {
-            this.grShellImpl = grShellImpl;
+            this.env = env;
             this.shellProcEnv = shellProcEnv;
             this.realizers = realizers;
             this.renderRecorder = renderRecorder;
@@ -139,7 +139,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to continue...");
-            grShellImpl.ReadKeyWithCancel();
+            env.ReadKeyWithCancel();
 
             for(int i = 0; i < sources.Count; ++i)
             {
