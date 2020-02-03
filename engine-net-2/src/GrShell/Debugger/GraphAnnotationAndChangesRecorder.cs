@@ -111,13 +111,23 @@ namespace de.unika.ipd.grGen.grShell
         public String AddedNode(INode node)
         {
             addedNodes[node] = true;
-            return curAddedNodeNames[nextAddedNodeIndex++];
+            if(nextAddedNodeIndex < curAddedNodeNames.Count)
+                return curAddedNodeNames[nextAddedNodeIndex++];
+            else if(curRulePattern != null)
+                return "added by " + curRulePattern.PatternGraph.Name;
+            else
+                return "newly added";
         }
 
         public String AddedEdge(IEdge edge)
         {
             addedEdges[edge] = true;
-            return curAddedEdgeNames[nextAddedEdgeIndex++];
+            if(nextAddedEdgeIndex < curAddedEdgeNames.Count)
+                return curAddedEdgeNames[nextAddedEdgeIndex++];
+            else if(curRulePattern != null)
+                return "added by " + curRulePattern.PatternGraph.Name;
+            else
+                return "newly added";
         }
 
         public void DeletedNode(String nodeName)
@@ -172,6 +182,7 @@ namespace de.unika.ipd.grGen.grShell
             deletedNodes.Clear();
         }
 
+        // applies changes recorded so far, leaving a graph without visible changes behind (e.g. no annotations)
         public void ApplyChanges(YCompClient ycompClient)
         {
             foreach(INode node in addedNodes.Keys)
