@@ -450,11 +450,17 @@ namespace de.unika.ipd.grGen.lgsp
                     IList array = (IList)_elem.GetAttribute(_attrType.Name);
                     array[(int)_keyOfValue] = _value;
                 }
-                else //if(_attrType.Kind == AttributeKind.DequeAttr)
+                else if(_attrType.Kind == AttributeKind.DequeAttr)
                 {
                     ChangingElementAttribute(procEnv_);
                     IDeque deque = (IDeque)_elem.GetAttribute(_attrType.Name);
                     deque[(int)_keyOfValue] = _value;
+                }
+                else //if(_attrType.Kind == AttributeKind.MapAttr)
+                {
+                    ChangingElementAttribute(procEnv_);
+                    IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
+                    dict[_keyOfValue] = _value;
                 }
             }
             else if(_undoOperation == UndoOperation.Assign)
