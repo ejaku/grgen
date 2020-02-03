@@ -100,12 +100,20 @@ namespace de.unika.ipd.grGen.libGr
 
         #region helper methods
 
-        protected static void ChangingAttributeAssignElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object firstValue, object optionalSecondValue)
+        protected static void ChangingAttributeAssign(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object value)
         {
             if(elem is INode)
-                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.Assign, firstValue, optionalSecondValue);
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.Assign, value, null);
             else
-                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.Assign, firstValue, optionalSecondValue);
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.Assign, value, null);
+        }
+
+        protected static void ChangingAttributeAssignElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object value, object key)
+        {
+            if(elem is INode)
+                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.AssignElement, value, key);
+            else
+                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.AssignElement, value, key);
         }
 
         #endregion helper methods
@@ -348,7 +356,7 @@ namespace de.unika.ipd.grGen.libGr
             value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
                 elem, AttributeName, value, out attrType);
 
-            ChangingAttributeAssignElement(procEnv, elem, attrType, value, null);
+            ChangingAttributeAssign(procEnv, elem, attrType, value);
 
             elem.SetAttribute(AttributeName, value);
 
