@@ -36,6 +36,21 @@ rule transform2 {
 	}
 }
 
+rule transform3 {
+	a:N;
+	if{ "foo" in a.setVal; }
+	
+	modify {
+		eval {
+			a.setVal.rem("foo");
+			
+			a.mapVal3["hui"] = "bar";
+			a.arrayVal2[1] = "bar";
+			a.dequeVal2[1] = "bar";
+		}
+	}
+}
+
 test fail {
 	a:N;
 	if{ "foo" in a.setVal; }

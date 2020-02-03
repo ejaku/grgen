@@ -86,4 +86,30 @@ n2.arrayVal
 n1.dequeVal
 n2.dequeVal
 
+clear graph
+
+new n1:N
+n1.setVal
+n1.mapVal3
+n1.arrayVal2
+n1.dequeVal2
+xgrs < transform3 && fail > 
+n1.setVal
+n1.mapVal3
+n1.arrayVal2
+n1.dequeVal2
+
+clear graph
+
+new n1:N
+n1.setVal
+n1.mapVal3
+n1.arrayVal2
+n1.dequeVal2
+xgrs transform3* && fail 
+n1.setVal
+n1.mapVal3
+n1.arrayVal2
+n1.dequeVal2
+
 quit
