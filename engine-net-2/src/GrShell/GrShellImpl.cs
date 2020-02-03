@@ -584,6 +584,7 @@ namespace de.unika.ipd.grGen.grShell
                 curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, index);
             else
                 curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
+
             if(attr is IList)
             {
                 IList array = (IList)attr;
@@ -596,9 +597,10 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                IDictionary setmap = (IDictionary)attr;
-                setmap[index] = value;
+                IDictionary map = (IDictionary)attr;
+                map[index] = value;
             }
+
             if(elem is INode)
                 curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
             else
@@ -647,12 +649,15 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
+
                 AttributeChangeType changeType = AttributeChangeType.PutElement;
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+
                 dict[keyObj] = null;
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -674,12 +679,15 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
+
                 AttributeChangeType changeType = AttributeChangeType.PutElement;
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+
                 array.Add(keyObj);
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -701,12 +709,15 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
+
                 AttributeChangeType changeType = AttributeChangeType.PutElement;
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+
                 deque.Enqueue(keyObj);
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -744,12 +755,15 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
+
                 AttributeChangeType changeType = AttributeChangeType.PutElement;
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, valueObj, keyObj);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, valueObj, keyObj);
+
                 dict[keyObj] = valueObj;
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -776,12 +790,15 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
+
                 AttributeChangeType changeType = AttributeChangeType.PutElement;
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
+
                 array.Insert((int)valueObj, keyObj);
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -808,12 +825,15 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
+
                 AttributeChangeType changeType = AttributeChangeType.PutElement;
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
+
                 deque.EnqueueAt((int)valueObj, keyObj);
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -847,12 +867,15 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
                 bool isSet = attrType.Kind == AttributeKind.SetAttr; // otherwise map
+
                 AttributeChangeType changeType = AttributeChangeType.RemoveElement;
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
+
                 dict.Remove(keyObj);
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -874,15 +897,18 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
+
                 AttributeChangeType changeType = AttributeChangeType.RemoveElement;
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
+
                 if(keyObj != null)
                     array.RemoveAt((int)keyObj);
                 else
                     array.RemoveAt(array.Count - 1);
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -909,10 +935,12 @@ namespace de.unika.ipd.grGen.grShell
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
+
                 if(keyObj != null)
                     deque.DequeueAt((int)keyObj);
                 else
                     deque.Dequeue();
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -2047,8 +2075,10 @@ namespace de.unika.ipd.grGen.grShell
                     if(valueString == "null")
                         value = null;
                     else
+                    {
                         value = curShellProcEnv.ProcEnv.Graph.Model.Parse(
                             new StringReader(valueString), null, curShellProcEnv.ProcEnv.Graph);
+                    }
                     break;
                 }
             case AttributeKind.GraphAttr:
@@ -2333,7 +2363,9 @@ namespace de.unika.ipd.grGen.grShell
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
                 else
                     curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
+
                 elem.SetAttribute(par.Key, value);
+
                 if(elem is INode)
                     curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
                 else
@@ -2527,9 +2559,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             if(curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.Types.Length == 0)
-            {
                 errOut.WriteLine("This model has no node types!");
-            }
             else
             {
                 debugOut.WriteLine("Node types:");
@@ -2612,18 +2642,18 @@ namespace de.unika.ipd.grGen.grShell
                 String kind;
                 switch(attrType.Kind)
                 {
-                    case AttributeKind.ByteAttr: kind = "byte"; break;
-                    case AttributeKind.ShortAttr: kind = "short"; break;
-                    case AttributeKind.IntegerAttr: kind = "int"; break;
-                    case AttributeKind.LongAttr: kind = "long"; break;
-                    case AttributeKind.BooleanAttr: kind = "boolean"; break;
-                    case AttributeKind.StringAttr: kind = "string"; break;
-                    case AttributeKind.EnumAttr: kind = attrType.EnumType.PackagePrefixedName; break;
-                    case AttributeKind.FloatAttr: kind = "float"; break;
-                    case AttributeKind.DoubleAttr: kind = "double"; break;
-                    case AttributeKind.ObjectAttr: kind = "object"; break;
-                    case AttributeKind.GraphAttr: kind = "graph"; break;
-                    default: kind = "<INVALID>"; break;
+                case AttributeKind.ByteAttr: kind = "byte"; break;
+                case AttributeKind.ShortAttr: kind = "short"; break;
+                case AttributeKind.IntegerAttr: kind = "int"; break;
+                case AttributeKind.LongAttr: kind = "long"; break;
+                case AttributeKind.BooleanAttr: kind = "boolean"; break;
+                case AttributeKind.StringAttr: kind = "string"; break;
+                case AttributeKind.EnumAttr: kind = attrType.EnumType.PackagePrefixedName; break;
+                case AttributeKind.FloatAttr: kind = "float"; break;
+                case AttributeKind.DoubleAttr: kind = "double"; break;
+                case AttributeKind.ObjectAttr: kind = "object"; break;
+                case AttributeKind.GraphAttr: kind = "graph"; break;
+                default: kind = "<INVALID>"; break;
                 }
                 debugOut.WriteLine(" - {0,-24} {1}::{2}", kind, attrType.OwnerType.PackagePrefixedName, attrType.Name);
             }
@@ -2726,11 +2756,15 @@ namespace de.unika.ipd.grGen.grShell
                 nodeType = curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.RootType;
             }
             if(only)
+            {
                 debugOut.WriteLine("Number of nodes of the type \"" + nodeType.PackagePrefixedName + "\": "
                     + curShellProcEnv.ProcEnv.NamedGraph.GetNumExactNodes(nodeType));
+            }
             else
+            {
                 debugOut.WriteLine("Number of nodes compatible to type \"" + nodeType.PackagePrefixedName + "\": "
                     + curShellProcEnv.ProcEnv.NamedGraph.GetNumCompatibleNodes(nodeType));
+            }
         }
 
         public void ShowNumEdges(EdgeType edgeType, bool only)
@@ -2742,11 +2776,15 @@ namespace de.unika.ipd.grGen.grShell
                 edgeType = curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.RootType;
             }
             if(only)
+            {
                 debugOut.WriteLine("Number of edges of the type \"" + edgeType.PackagePrefixedName + "\": "
                     + curShellProcEnv.ProcEnv.NamedGraph.GetNumExactEdges(edgeType));
+            }
             else
+            {
                 debugOut.WriteLine("Number of edges compatible to type \"" + edgeType.PackagePrefixedName + "\": "
                     + curShellProcEnv.ProcEnv.NamedGraph.GetNumCompatibleEdges(edgeType));
+            }
         }
 
         public void ShowGraphs()
@@ -3466,7 +3504,8 @@ showavail:
         private bool SetDumpColor(EdgeType type, String colorName, bool only, SetEdgeDumpColorProc setDumpColorProc)
         {
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return false;
+            if(color == null)
+                return false;
 
             if(only)
                 setDumpColorProc(type, (GrColor) color);
@@ -3702,17 +3741,14 @@ showavail:
                 debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
                 return;
             }
-            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
-                SubruleDebuggingEvent.Add,
-                message,
-                mode,
-                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
-                );
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            SubruleDebuggingConfigurationRule configurationRule = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Add, message, mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(!break_)
             {
                 debugOut.Write("Notice: a Debug::add command continues by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
@@ -3725,17 +3761,14 @@ showavail:
                 debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
                 return;
             }
-            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
-                SubruleDebuggingEvent.Rem,
-                message,
-                mode,
-                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
-                );
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            SubruleDebuggingConfigurationRule configurationRule = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Rem, message, mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(!break_)
             {
                 debugOut.Write("Notice: a Debug::rem command continues by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
@@ -3748,17 +3781,14 @@ showavail:
                 debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
                 return;
             }
-            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
-                SubruleDebuggingEvent.Emit,
-                message,
-                mode,
-                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
-                );
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            SubruleDebuggingConfigurationRule configurationRule = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Emit, message, mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(!break_)
             {
                 debugOut.Write("Notice: a Debug::emit command continues by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
@@ -3771,17 +3801,14 @@ showavail:
                 debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
                 return;
             }
-            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
-                SubruleDebuggingEvent.Halt,
-                message,
-                mode,
-                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
-                );
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            SubruleDebuggingConfigurationRule configurationRule = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Halt, message, mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(break_)
             {
                 debugOut.Write("Notice: a Debug::halt command causes a break by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
@@ -3794,17 +3821,14 @@ showavail:
                 debugOut.WriteLine("Available are: equals, startsWith, endsWith, contains");
                 return;
             }
-            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
-                SubruleDebuggingEvent.Highlight,
-                message,
-                mode,
-                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue
-                );
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            SubruleDebuggingConfigurationRule configurationRule = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Highlight, message, mode,
+                break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(break_)
             {
                 debugOut.Write("Notice: a Debug::highlight causes a break by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
@@ -3815,26 +3839,22 @@ showavail:
                 errOut.WriteLine("Action unknown: " + actionname);
                 return;
             }
-            SubruleDebuggingConfigurationRule cr = new SubruleDebuggingConfigurationRule(
-                SubruleDebuggingEvent.Match,
-                curShellProcEnv.ProcEnv.Actions.GetAction(actionname),
+            SubruleDebuggingConfigurationRule configurationRule = new SubruleDebuggingConfigurationRule(
+                SubruleDebuggingEvent.Match, curShellProcEnv.ProcEnv.Actions.GetAction(actionname),
                 break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                if_
-                );
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+                if_);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
         }
 
         public void DebugOnNew(GrGenType graphElemType, bool only, string elemName, bool break_, SequenceExpression if_)
         {
-            SubruleDebuggingConfigurationRule cr;
+            SubruleDebuggingConfigurationRule configurationRule;
             if(elemName != null)
             {
-                cr = new SubruleDebuggingConfigurationRule(
-                    SubruleDebuggingEvent.New,
-                    elemName,
+                configurationRule = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.New, elemName,
                     break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                    if_
-                    );
+                    if_);
             }
             else
             {
@@ -3843,33 +3863,28 @@ showavail:
                     errOut.WriteLine("Unknown graph element type");
                     return;
                 }
-                cr = new SubruleDebuggingConfigurationRule(
-                    SubruleDebuggingEvent.New,
-                    graphElemType,
-                    only,
+                configurationRule = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.New, graphElemType, only,
                     break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                    if_
-                    );
+                    if_);
             }
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(!break_)
             {
                 debugOut.Write("Notice: a new node/edge continues by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
         public void DebugOnDelete(GrGenType graphElemType, bool only, string elemName, bool break_, SequenceExpression if_)
         {
-            SubruleDebuggingConfigurationRule cr;
+            SubruleDebuggingConfigurationRule configurationRule;
             if(elemName != null)
             {
-                cr = new SubruleDebuggingConfigurationRule(
-                    SubruleDebuggingEvent.Delete,
-                    elemName,
+                configurationRule = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.Delete, elemName,
                     break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                    if_
-                    );
+                    if_);
             }
             else
             {
@@ -3878,33 +3893,28 @@ showavail:
                     errOut.WriteLine("Unknown graph element type");
                     return;
                 }
-                cr = new SubruleDebuggingConfigurationRule(
-                    SubruleDebuggingEvent.Delete,
-                    graphElemType,
-                    only,
+                configurationRule = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.Delete, graphElemType, only,
                     break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                    if_
-                    );
+                    if_);
             }
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(!break_)
             {
                 debugOut.Write("Notice: a delete node/edge continues by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
         public void DebugOnRetype(GrGenType graphElemType, bool only, string elemName, bool break_, SequenceExpression if_)
         {
-            SubruleDebuggingConfigurationRule cr;
+            SubruleDebuggingConfigurationRule configurationRule;
             if(elemName != null)
             {
-                cr = new SubruleDebuggingConfigurationRule(
-                    SubruleDebuggingEvent.Retype,
-                    elemName,
+                configurationRule = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.Retype, elemName,
                     break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                    if_
-                    );
+                    if_);
             }
             else
             {
@@ -3913,33 +3923,28 @@ showavail:
                     errOut.WriteLine("Unknown graph element type");
                     return;
                 }
-                cr = new SubruleDebuggingConfigurationRule(
-                    SubruleDebuggingEvent.Retype,
-                    graphElemType,
-                    only,
+                configurationRule = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.Retype, graphElemType, only,
                     break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                    if_
-                    );
+                    if_);
             }
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(!break_)
             {
                 debugOut.Write("Notice: a retype node/edge continues by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
         public void DebugOnSetAttributes(GrGenType graphElemType, bool only, string elemName, bool break_, SequenceExpression if_)
         {
-            SubruleDebuggingConfigurationRule cr;
+            SubruleDebuggingConfigurationRule configurationRule;
             if(elemName != null)
             {
-                cr = new SubruleDebuggingConfigurationRule(
-                    SubruleDebuggingEvent.SetAttributes,
-                    elemName,
+                configurationRule = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.SetAttributes, elemName,
                     break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                    if_
-                    );
+                    if_);
             }
             else
             {
@@ -3948,19 +3953,16 @@ showavail:
                     errOut.WriteLine("Unknown graph element type");
                     return;
                 }
-                cr = new SubruleDebuggingConfigurationRule(
-                    SubruleDebuggingEvent.SetAttributes,
-                    graphElemType,
-                    only,
+                configurationRule = new SubruleDebuggingConfigurationRule(
+                    SubruleDebuggingEvent.SetAttributes, graphElemType, only,
                     break_ ? SubruleDebuggingDecision.Break : SubruleDebuggingDecision.Continue,
-                    if_
-                    );
+                    if_);
             }
-            curShellProcEnv.SubruleDebugConfig.Add(cr);
+            curShellProcEnv.SubruleDebugConfig.Add(configurationRule);
             if(!break_)
             {
                 debugOut.Write("Notice: an attribute assignment to a node/edge continues by default -- ");
-                debugOut.WriteLine(cr.ToString());
+                debugOut.WriteLine(configurationRule.ToString());
             }
         }
 
@@ -5004,10 +5006,7 @@ showavail:
 
         public bool SilenceExec
         {
-            set
-            {
-                seqApplierAndDebugger.SilenceExec = value;
-            }
+            set { seqApplierAndDebugger.SilenceExec = value; }
         }
 
         public void SetRandomSeed(int seed)

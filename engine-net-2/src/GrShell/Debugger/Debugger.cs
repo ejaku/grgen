@@ -55,8 +55,14 @@ namespace de.unika.ipd.grGen.grShell
 
         readonly List<SubruleComputation> computationsEnteredStack = new List<SubruleComputation>(); // can't use stack class, too weak
 
-        public YCompClient YCompClient { get { return ycompClient; } }
-        public bool ConnectionLost { get { return ycompClient.ConnectionLost; } }
+        public YCompClient YCompClient
+        {
+            get { return ycompClient; }
+        }
+        public bool ConnectionLost
+        {
+            get { return ycompClient.ConnectionLost; }
+        }
 
         private bool notifyOnConnectionLost;
         public bool NotifyOnConnectionLost
@@ -108,9 +114,8 @@ namespace de.unika.ipd.grGen.grShell
 
             int ycompPort = GetFreeTCPPort();
             if(ycompPort < 0)
-            {
                 throw new Exception("Didn't find a free TCP port in the range 4242-4251!");
-            }
+
             try
             {
                 viewerProcess = Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
@@ -151,7 +156,9 @@ namespace de.unika.ipd.grGen.grShell
                     if(illegalOptions != null)
                     {
                         foreach(String illegalOption in illegalOptions)
+                        {
                             layoutOptions.Remove(illegalOption);
+                        }
                     }
                 }
 
@@ -173,9 +180,13 @@ namespace de.unika.ipd.grGen.grShell
         private void UploadGraph(INamedGraph graph)
         {
             foreach(INode node in graph.Nodes)
+            {
                 ycompClient.AddNode(node);
+            }
             foreach(IEdge edge in graph.Edges)
+            {
                 ycompClient.AddEdge(edge);
+            }
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
         }
@@ -186,7 +197,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <returns>A free TCP port or -1, if they are all occupied</returns>
         private int GetFreeTCPPort()
         {
-            for(int i = 4242; i < 4252; i++)
+            for(int i = 4242; i < 4252; ++i)
             {
                 try
                 {
@@ -707,7 +718,8 @@ namespace de.unika.ipd.grGen.grShell
                 bool commit = UserChoiceMenu.ChooseSequence(env, ref seqToExecute, sequences, seq);
                 if(commit)
                     return seqToExecute;
-            } while(true);
+            }
+            while(true);
         }
 
         /// <summary>
@@ -734,7 +746,8 @@ namespace de.unika.ipd.grGen.grShell
                 bool commit = UserChoiceMenu.ChoosePoint(env, ref pointToExecute, seq);
                 if(commit)
                     break;
-            } while(true);
+            }
+            while(true);
 
             return pointToExecute;
         }
@@ -762,7 +775,8 @@ namespace de.unika.ipd.grGen.grShell
 
             do
             {
-                int rule; int match;
+                int rule;
+                int match;
                 seq.FromTotalMatch(totalMatchToExecute, out rule, out match);
                 matchMarkerAndAnnotator.Mark(rule, match, seq);
                 ycompClient.UpdateDisplay();
@@ -782,7 +796,8 @@ namespace de.unika.ipd.grGen.grShell
                 matchMarkerAndAnnotator.Unmark(rule, match, seq);
                 if(commit)
                     break;
-            } while(true);
+            }
+            while(true);
 
             return totalMatchToExecute;
         }
@@ -840,7 +855,8 @@ namespace de.unika.ipd.grGen.grShell
                     ycompClient.Sync();
                     return newMatchToRewrite;
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         /// <summary>
@@ -949,7 +965,9 @@ namespace de.unika.ipd.grGen.grShell
             }
             AddNeededGraphElements(match.EmbeddedGraphs);
             foreach(IMatches iteratedsMatches in match.Iterateds)
+            {
                 AddNeededGraphElements(iteratedsMatches);
+            }
             AddNeededGraphElements(match.Alternatives);
             AddNeededGraphElements(match.Independents);
         }
@@ -970,9 +988,11 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugNodeAdded(INode node)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New, 
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New,
                 node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+            {
                 InternalHalt(cr, node);
+            }
 
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
@@ -992,7 +1012,9 @@ namespace de.unika.ipd.grGen.grShell
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New,
                 edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+            {
                 InternalHalt(cr, edge);
+            }
 
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
@@ -1010,9 +1032,11 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugDeletingNode(INode node)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete, 
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete,
                 node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+            {
                 InternalHalt(cr, node);
+            }
 
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
@@ -1037,9 +1061,11 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugDeletingEdge(IEdge edge)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete, 
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete,
                 edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+            {
                 InternalHalt(cr, edge);
+            }
 
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
@@ -1077,7 +1103,9 @@ namespace de.unika.ipd.grGen.grShell
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
                 node, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+            {
                 InternalHalt(cr, node, attrType.Name);
+            }
         }
 
         private void DebugChangedEdgeAttribute(IEdge edge, AttributeType attrType)
@@ -1088,15 +1116,19 @@ namespace de.unika.ipd.grGen.grShell
             SubruleDebuggingConfigurationRule cr;
             if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
                 edge, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+            {
                 InternalHalt(cr, edge, attrType.Name);
+            }
         }
 
         private void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Retype, 
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Retype,
                 oldElem, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+            {
                 InternalHalt(cr, oldElem);
+            }
 
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
@@ -1158,7 +1190,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(recordMode)
                 {
                     DebugFinished(null, false);
-                    matchDepth++;
+                    ++matchDepth;
                     renderRecorder.RemoveAllAnnotations();
                 }
                 return;
@@ -1189,7 +1221,7 @@ namespace de.unika.ipd.grGen.grShell
             if(recordMode)
             {
                 DebugFinished(null, false);
-                matchDepth++;
+                ++matchDepth;
                 if(outOfDetailedMode)
                 {
                     renderRecorder.RemoveAllAnnotations();
@@ -1206,9 +1238,7 @@ namespace de.unika.ipd.grGen.grShell
             if(ycompClient.dumpInfo.IsExcludedGraph())
             {
                 if(!recordMode)
-                {
                     ycompClient.ClearGraph();
-                }
 
                 // add all elements from match to graph and excludedGraphElementsIncluded
                 if(match != null)
@@ -1301,9 +1331,7 @@ namespace de.unika.ipd.grGen.grShell
 
             // Entering a loop?
             if(IsLoop(seq))
-            {
                 loopList.AddFirst(seq);
-            }
 
             // Entering a subsequence called?
             if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
@@ -1323,9 +1351,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             if(!stepMode)
-            {
                 return;
-            }
 
             if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
                 || seq.SequenceType == SequenceType.RuleCountAllCall || seq.SequenceType == SequenceType.SequenceCall
@@ -1347,14 +1373,10 @@ namespace de.unika.ipd.grGen.grShell
             skipMode = false;
 
             if(seq == curStepSequence)
-            {
                 stepMode = true;
-            }
 
             if(IsLoop(seq))
-            {
                 loopList.RemoveFirst();
-            }
 
             if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
             {
@@ -1433,10 +1455,12 @@ namespace de.unika.ipd.grGen.grShell
                     if(seqBack.Seq.ExecutionState == SequenceExecutionState.Success)
                         text = "Success ";
                     else
+                    {
                         if(continueLoop)
                             text = "Backtracking ";
                         else
                             text = "Backtracking possibilities exhausted, fail ";
+                    }
                     WorkaroundManager.Workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
@@ -1554,9 +1578,11 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugEmit(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Emit, 
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Emit,
                 message, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Break)
+            {
                 InternalHalt(cr, message, values);
+            }
 
             SubruleComputation emit = new SubruleComputation(shellProcEnv.ProcEnv.NamedGraph,
                 SubruleComputationType.Emit, message, values);
@@ -1568,9 +1594,11 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugHalt(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Halt, 
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Halt,
                 message, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Continue)
+            {
                 return;
+            }
 
             Console.Write("Halting: " + message);
             for(int i = 0; i < values.Length; ++i)
@@ -1617,9 +1645,11 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugHighlight(string message, List<object> values, List<string> sourceNames)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Highlight, 
+            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Highlight,
                 message, shellProcEnv.ProcEnv, out cr) == SubruleDebuggingDecision.Continue)
+            {
                 return;
+            }
 
             Console.Write("Highlighting: " + message);
             if(sourceNames.Count > 0)
@@ -1729,7 +1759,8 @@ namespace de.unika.ipd.grGen.grShell
                 default:
                     return;
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         private void PrintDebugInstructions(bool isBottomUpBreak)
