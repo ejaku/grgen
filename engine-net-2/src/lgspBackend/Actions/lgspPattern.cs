@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Normally null. In case this is a pattern created from a graph,
         /// an array of all nodes which created the pattern nodes in nodes, coupled by position.
         /// </summary>
-        public INode[] correspondingNodes;
+        public readonly INode[] correspondingNodes;
 
         /// <summary>
         /// An array of all pattern edges.
@@ -256,7 +256,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Normally null. In case this is a pattern created from a graph,
         /// an array of all edges which created the pattern edges in edges, coupled by position.
         /// </summary>
-        public IEdge[] correspondingEdges;
+        public readonly IEdge[] correspondingEdges;
 
         /// <summary>
         /// An array of all pattern variables.
@@ -372,39 +372,39 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
-        /// Including the additional information from inlined stuff.
+        /// Including the additional information from inlined stuff (is extended during inlining).
         /// </summary>
         public bool[,] homomorphicNodes;
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
-        /// Including the additional information from inlined stuff.
+        /// Including the additional information from inlined stuff (is extended during inlining).
         /// </summary>
         public bool[,] homomorphicEdges;
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
         /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases, iterateds).
-        /// Including the additional information from inlined stuff.
+        /// Including the additional information from inlined stuff (is extended during inlining).
         /// </summary>
         public bool[,] homomorphicNodesGlobal;
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
         /// i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
-        /// Including the additional information from inlined stuff.
+        /// Including the additional information from inlined stuff (is extended during inlining).
         /// </summary>
         public bool[,] homomorphicEdgesGlobal;
 
         /// <summary>
         /// An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.
-        /// Including the additional information from inlined stuff.
+        /// Including the additional information from inlined stuff (is extended during inlining).
         /// </summary>
         public bool[] totallyHomomorphicNodes;
 
         /// <summary>
         /// An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.
-        /// Including the additional information from inlined stuff.
+        /// Including the additional information from inlined stuff (is extended during inlining).
         /// </summary>
         public bool[] totallyHomomorphicEdges;
         
@@ -673,6 +673,11 @@ namespace de.unika.ipd.grGen.lgsp
             totallyHomomorphicNodes = (bool[])original.totallyHomomorphicNodes.Clone();
             totallyHomomorphicEdges = (bool[])original.totallyHomomorphicEdges.Clone();
 
+            // pattern graphs created from graphs for equality comparison are not expected to be copied
+            Debug.Assert(original.correspondingNodes == null);
+            correspondingNodes = null;
+            Debug.Assert(original.correspondingEdges == null);
+            correspondingEdges = null;
 
             Conditions = (PatternCondition[])original.Conditions.Clone();
             ConditionsPlusInlined = new PatternCondition[original.Conditions.Length];
@@ -885,6 +890,9 @@ namespace de.unika.ipd.grGen.lgsp
             this.totallyHomomorphicNodes = totallyHomomorphicNodes;
             this.totallyHomomorphicEdges = totallyHomomorphicEdges;
 
+            this.correspondingNodes = null;
+            this.correspondingEdges = null;
+
             // create schedule arrays; normally only one schedule per pattern graph,
             // but each maybe null parameter causes a doubling of the number of schedules
             List<PatternElement> elements = new List<PatternElement>();
@@ -929,6 +937,68 @@ namespace de.unika.ipd.grGen.lgsp
                 ++availabilityIndex;
             }
             return availabilityIndex;
+        }
+
+        /// <summary>
+        /// Constructs a PatternGraph object (when it is to be constructed from a graph object, for graph equality checking).
+        /// </summary>
+        /// <param name="name">The name of the pattern graph.</param>
+        /// <param name="nodes">An array of all pattern nodes.</param>
+        /// <param name="edges">An array of all pattern edges.</param>
+        /// <param name="conditions">The conditions used in this pattern graph.</param>
+        /// <param name="homomorphicNodes">A two-dimensional array describing which pattern node may
+        /// be matched non-isomorphic to which pattern node.</param>
+        /// <param name="homomorphicEdges">A two-dimensional array describing which pattern edge may
+        /// be matched non-isomorphic to which pattern edge.</param>
+        /// <param name="homomorphicNodesGlobal">A two-dimensional array describing which pattern node
+        /// may be matched non-isomorphic to which pattern node globally, i.e. the nodes are contained
+        /// in different, but locally nested patterns (alternative cases, iterateds).</param>
+        /// <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
+        /// may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
+        /// in different, but locally nested patterns (alternative cases, iterateds).</param>
+        /// <param name="totallyHomomorphicNodes">An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.</param>
+        /// <param name="totallyHomomorphicEdges">An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.</param>
+        /// <param name="correspondingNodes">An array of all nodes which created the pattern nodes, coupled by position.</param>
+        /// <param name="correspondingEdges">An array of all edges which created the pattern edges, coupled by position.</param>
+        public PatternGraph(String name,
+            PatternNode[] nodes, PatternEdge[] edges,
+            PatternCondition[] conditions,
+            bool[,] homomorphicNodes, bool[,] homomorphicEdges,
+            bool[,] homomorphicNodesGlobal, bool[,] homomorphicEdgesGlobal,
+            bool[] totallyHomomorphicNodes, bool[] totallyHomomorphicEdges,
+            INode[] correspondingNodes, IEdge[] correspondingEdges)
+        {
+            this.name = name;
+            this.pathPrefix = "";
+            this.package = null;
+            this.packagePrefixedName = name;
+            this.isPatternpathLocked = false;
+            this.isIterationBreaking = false;
+            this.nodes = nodes;
+            this.edges = edges;
+            this.variables = new PatternVariable[0];
+            this.embeddedGraphs = new PatternGraphEmbedding[0];
+            this.alternatives = new Alternative[0];
+            this.iterateds = new Iterated[0];
+            this.negativePatternGraphs = new PatternGraph[0];
+            this.independentPatternGraphs = new PatternGraph[0];
+            this.Conditions = conditions;
+            this.Yieldings = new PatternYielding[0];
+            this.homomorphicNodes = homomorphicNodes;
+            this.homomorphicEdges = homomorphicEdges;
+            this.homomorphicNodesGlobal = homomorphicNodesGlobal;
+            this.homomorphicEdgesGlobal = homomorphicEdgesGlobal;
+            this.totallyHomomorphicNodes = totallyHomomorphicNodes;
+            this.totallyHomomorphicEdges = totallyHomomorphicEdges;
+
+            this.correspondingNodes = correspondingNodes;
+            this.correspondingEdges = correspondingEdges;
+
+            maybeNullElementNames = new String[0];
+            schedules = new ScheduledSearchPlan[1];
+            schedulesIncludingNegativesAndIndependents = new ScheduledSearchPlan[1];
+            availabilityOfMaybeNullElements = new Dictionary<String, bool>[1];
+            availabilityOfMaybeNullElements[0] = new Dictionary<String, bool>();
         }
 
         public void AdaptToMaybeNull(int availabilityIndex)

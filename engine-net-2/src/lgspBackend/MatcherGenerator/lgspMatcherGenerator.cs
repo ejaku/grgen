@@ -208,16 +208,13 @@ namespace de.unika.ipd.grGen.lgsp
             PatternCondition[] patternConditions = pcs.ToArray();
 
             PatternGraph patternGraph = new PatternGraph(
-                graph.Name, "",
-                null, graph.Name,
-                false, false,
-                nodes, edges, new PatternVariable[0],
-                new PatternGraphEmbedding[0], new Alternative[0], new Iterated[0],
-                new PatternGraph[0], new PatternGraph[0],
-                patternConditions, new PatternYielding[0],
+                graph.Name,
+                nodes, edges,
+                patternConditions,
                 homNodes, homEdges,
                 homNodesGlobal, homEdgesGlobal,
-                totallyHomNodes, totallyHomEdges
+                totallyHomNodes, totallyHomEdges,
+                correspondingNodes, correspondingEdges
             );
             foreach(PatternNode node in nodes)
             {
@@ -227,8 +224,6 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 edge.pointOfDefinition = patternGraph;
             }
-            patternGraph.correspondingNodes = correspondingNodes;
-            patternGraph.correspondingEdges = correspondingEdges;
 
             foreach(IEdge edge in graph.Edges)
             {
