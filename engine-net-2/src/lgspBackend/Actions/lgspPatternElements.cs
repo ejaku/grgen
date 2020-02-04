@@ -1460,12 +1460,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Links to the original pattern condition in case this condition was inlined, otherwise null
         /// </summary>
-        public PatternCondition originalCondition;
+        public readonly PatternCondition originalCondition;
 
         /// <summary>
         /// Links to the original subpattern embedding which was inlined in case this condition was inlined, otherwise null.
         /// </summary>
-        public PatternGraphEmbedding originalSubpatternEmbedding;
+        public readonly PatternGraphEmbedding originalSubpatternEmbedding;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1517,13 +1517,29 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Constructs a PatternCondition object, for parallelization.
+        /// </summary>
+        private PatternCondition(Expression conditionExpression,
+            String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes,
+            PatternCondition originalCondition, PatternGraphEmbedding originalSubpatternEmbedding)
+        {
+            ConditionExpression = conditionExpression;
+            NeededNodes = neededNodes;
+            NeededEdges = neededEdges;
+            NeededVariables = neededVariables;
+            NeededVariableTypes = neededVariableTypes;
+            this.originalCondition = originalCondition;
+            this.originalSubpatternEmbedding = originalSubpatternEmbedding;
+        }
+
+        /// <summary>
         /// Instantiates a new PatternCondition object as a copy from the original condition; for parallelization.
         /// </summary>
         public Object Clone()
         {
-            PatternCondition condition = new PatternCondition(ConditionExpression.Copy(""), NeededNodes, NeededEdges, NeededVariables, NeededVariableTypes);
-            condition.originalCondition = originalCondition;
-            condition.originalSubpatternEmbedding = originalSubpatternEmbedding;
+            PatternCondition condition = new PatternCondition(ConditionExpression.Copy(""), 
+                NeededNodes, NeededEdges, NeededVariables, NeededVariableTypes,
+                originalCondition, originalSubpatternEmbedding);
             return condition;
         }
     }
@@ -1541,7 +1557,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of elementary yieldings to execute (e.g. assignments to def variables).
         /// </summary>
-        public Yielding[] ElementaryYieldings;
+        public readonly Yielding[] ElementaryYieldings;
 
         /// <summary>
         /// An array of node names needed by this yielding.
@@ -1568,12 +1584,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Links to the original pattern yielding in case this yielding was inlined, otherwise null
         /// </summary>
-        public PatternYielding originalYielding;
+        public readonly PatternYielding originalYielding;
 
         /// <summary>
         /// Links to the original subpattern embedding which was inlined in case this yielding was inlined, otherwise null.
         /// </summary>
-        public PatternGraphEmbedding originalSubpatternEmbedding;
+        public readonly PatternGraphEmbedding originalSubpatternEmbedding;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1632,18 +1648,35 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Constructs a PatternYielding object, for parallelization.
+        /// </summary>
+        private PatternYielding(String name, Yielding[] elementaryYieldings,
+            String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes,
+            PatternYielding originalYielding, PatternGraphEmbedding originalSubpatternEmbedding)
+        {
+            Name = name;
+            ElementaryYieldings = elementaryYieldings;
+            NeededNodes = neededNodes;
+            NeededEdges = neededEdges;
+            NeededVariables = neededVariables;
+            NeededVariableTypes = neededVariableTypes;
+            this.originalYielding = originalYielding;
+            this.originalSubpatternEmbedding = originalSubpatternEmbedding;
+        }
+
+        /// <summary>
         /// Instantiates a new PatternYielding object as a copy from the original yielding; for parallelization.
         /// </summary>
         public Object Clone()
         {
-            PatternYielding yielding = new PatternYielding(Name, null, NeededNodes, NeededEdges, NeededVariables, NeededVariableTypes);
-            yielding.originalYielding = originalYielding;
-            yielding.originalSubpatternEmbedding = originalSubpatternEmbedding;
-            yielding.ElementaryYieldings = new Yielding[ElementaryYieldings.Length];
+            Yielding[] elementaryYieldings = new Yielding[ElementaryYieldings.Length];
             for(int i = 0; i < ElementaryYieldings.Length; ++i)
             {
-                yielding.ElementaryYieldings[i] = ElementaryYieldings[i].Copy("");
+                elementaryYieldings[i] = ElementaryYieldings[i].Copy("");
             }
+            PatternYielding yielding = new PatternYielding(Name, elementaryYieldings, 
+                NeededNodes, NeededEdges, NeededVariables, NeededVariableTypes,
+                originalYielding, originalSubpatternEmbedding);
             return yielding;
         }
     }
