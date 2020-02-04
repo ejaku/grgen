@@ -42,7 +42,6 @@ namespace de.unika.ipd.grGen.grShell
 
             switch(seq.SequenceType)
             {
-            // Binary
             case SequenceType.ThenLeft:
             case SequenceType.ThenRight:
             case SequenceType.LazyOr:
@@ -50,178 +49,41 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.StrictOr:
             case SequenceType.Xor:
             case SequenceType.StrictAnd:
-                {
-                    SequenceBinary seqBin = (SequenceBinary)seq;
-
-                    if(context.cpPosCounter >= 0 && seqBin.Random)
-                    {
-                        int cpPosCounter = context.cpPosCounter;
-                        ++context.cpPosCounter;
-                        PrintSequence(seqBin.Left, seq, context);
-                        PrintChoice(seqBin, context);
-                        Console.Write(seq.Symbol + " ");
-                        PrintSequence(seqBin.Right, seq, context);
-                        break;
-                    }
-
-                    if(seqBin == context.highlightSeq && context.choice)
-                    {
-                        WorkaroundManager.Workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
-                        PrintSequence(seqBin.Left, seq, context);
-                        WorkaroundManager.Workaround.PrintHighlighted("(l) " + seq.Symbol + " (r)", HighlightingMode.Choicepoint);
-                        PrintSequence(seqBin.Right, seq, context);
-                        WorkaroundManager.Workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
-                        break;
-                    }
-
-                    PrintSequence(seqBin.Left, seq, context);
-                    Console.Write(" " + seq.Symbol + " ");
-                    PrintSequence(seqBin.Right, seq, context);
-                    break;
-                }
+                PrintSequenceBinary((SequenceBinary)seq, parent, context);
+                break;
             case SequenceType.IfThen:
-                {
-                    SequenceIfThen seqIfThen = (SequenceIfThen)seq;
-                    Console.Write("if{");
-                    PrintSequence(seqIfThen.Left, seq, context);
-                    Console.Write(";");
-                    PrintSequence(seqIfThen.Right, seq, context);
-                    Console.Write("}");
-                    break;
-                }
-
-            // Unary
+                PrintSequenceIfThen((SequenceIfThen)seq, parent, context);
+                break;
             case SequenceType.Not:
-                {
-                    SequenceNot seqNot = (SequenceNot)seq;
-                    Console.Write(seq.Symbol);
-                    PrintSequence(seqNot.Seq, seq, context);
-                    break;
-                }
+                PrintSequenceNot((SequenceNot)seq, parent, context);
+                break;
             case SequenceType.IterationMin:
-                {
-                    SequenceIterationMin seqMin = (SequenceIterationMin)seq;
-                    PrintSequence(seqMin.Seq, seq, context);
-                    Console.Write("[" + seqMin.Min + ":*]");
-                    break;
-                }
+                PrintSequenceIterationMin((SequenceIterationMin)seq, parent, context);
+                break;
             case SequenceType.IterationMinMax:
-                {
-                    SequenceIterationMinMax seqMinMax = (SequenceIterationMinMax)seq;
-                    PrintSequence(seqMinMax.Seq, seq, context);
-                    Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
-                    break;
-                }
+                PrintSequenceIterationMinMax((SequenceIterationMinMax)seq, parent, context);
+                break;
             case SequenceType.Transaction:
-                {
-                    SequenceTransaction seqTrans = (SequenceTransaction)seq;
-                    Console.Write("<");
-                    PrintSequence(seqTrans.Seq, seq, context);
-                    Console.Write(">");
-                    break;
-                }
+                PrintSequenceTransaction((SequenceTransaction)seq, parent, context);
+                break;
             case SequenceType.Backtrack:
-                {
-                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
-                    Console.Write("<<");
-                    PrintSequence(seqBack.Rule, seq, context);
-                    Console.Write(";;");
-                    PrintSequence(seqBack.Seq, seq, context);
-                    Console.Write(">>");
-                    break;
-                }
+                PrintSequenceBacktrack((SequenceBacktrack)seq, parent, context);
+                break;
             case SequenceType.Pause:
-                {
-                    SequencePause seqPause = (SequencePause)seq;
-                    Console.Write("/");
-                    PrintSequence(seqPause.Seq, seq, context);
-                    Console.Write("/");
-                    break;
-                }
+                PrintSequencePause((SequencePause)seq, parent, context);
+                break;
             case SequenceType.ForContainer:
-                {
-                    SequenceForContainer seqFor = (SequenceForContainer)seq;
-                    Console.Write("for{");
-                    Console.Write(seqFor.Var.Name);
-                    if(seqFor.VarDst != null)
-                        Console.Write("->" + seqFor.VarDst.Name);
-                    Console.Write(" in " + seqFor.Container.Name);
-                    Console.Write("; ");
-                    PrintSequence(seqFor.Seq, seq, context);
-                    Console.Write("}");
-                    break;
-                }
+                PrintSequenceForContainer((SequenceForContainer)seq, parent, context);
+                break;
             case SequenceType.ForIntegerRange:
-                {
-                    SequenceForIntegerRange seqFor = (SequenceForIntegerRange)seq;
-                    Console.Write("for{");
-                    Console.Write(seqFor.Var.Name);
-                    Console.Write(" in [");
-                    Console.Write(seqFor.Left.Symbol);
-                    Console.Write(":");
-                    Console.Write(seqFor.Right.Symbol);
-                    Console.Write("]; ");
-                    PrintSequence(seqFor.Seq, seq, context);
-                    Console.Write("}");
-                    break;
-                }
+                PrintSequenceForIntegerRange((SequenceForIntegerRange)seq, parent, context);
+                break;
             case SequenceType.ForIndexAccessEquality:
-                {
-                    SequenceForIndexAccessEquality seqFor = (SequenceForIndexAccessEquality)seq;
-                    Console.Write("for{");
-                    Console.Write(seqFor.Var.Name);
-                    Console.Write(" in {");
-                    Console.Write(seqFor.IndexName);
-                    Console.Write("==");
-                    Console.Write(seqFor.Expr.Symbol);
-                    Console.Write("}; ");
-                    PrintSequence(seqFor.Seq, seq, context);
-                    Console.Write("}");
-                    break;
-                }
+                PrintSequenceForIndexAccessEquality((SequenceForIndexAccessEquality)seq, parent, context);
+                break;
             case SequenceType.ForIndexAccessOrdering:
-                {
-                    SequenceForIndexAccessOrdering seqFor = (SequenceForIndexAccessOrdering)seq;
-                    Console.Write("for{");
-                    Console.Write(seqFor.Var.Name);
-                    Console.Write(" in {");
-                    if(seqFor.Ascending)
-                        Console.Write("ascending");
-                    else
-                        Console.Write("descending");
-                    Console.Write("(");
-                    if(seqFor.From() != null && seqFor.To() != null)
-                    {
-                        Console.Write(seqFor.IndexName);
-                        Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                        Console.Write(seqFor.Expr.Symbol);
-                        Console.Write(",");
-                        Console.Write(seqFor.IndexName);
-                        Console.Write(seqFor.DirectionAsString(seqFor.Direction2));
-                        Console.Write(seqFor.Expr2.Symbol);
-                    }
-                    else if(seqFor.From() != null)
-                    {
-                        Console.Write(seqFor.IndexName);
-                        Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                        Console.Write(seqFor.Expr.Symbol);
-                    }
-                    else if(seqFor.To() != null)
-                    {
-                        Console.Write(seqFor.IndexName);
-                        Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                        Console.Write(seqFor.Expr.Symbol);
-                    }
-                    else
-                    {
-                        Console.Write(seqFor.IndexName);
-                    }
-                    Console.Write(")");
-                    Console.Write("}; ");
-                    PrintSequence(seqFor.Seq, seq, context);
-                    Console.Write("}");
-                    break;
-                }
+                PrintSequenceForIndexAccessOrdering((SequenceForIndexAccessOrdering)seq, parent, context);
+                break;
             case SequenceType.ForAdjacentNodes:
             case SequenceType.ForAdjacentNodesViaIncoming:
             case SequenceType.ForAdjacentNodesViaOutgoing:
@@ -242,397 +104,558 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.ForBoundedReachableEdgesViaOutgoing:
             case SequenceType.ForNodes:
             case SequenceType.ForEdges:
-                {
-                    SequenceForFunction seqFor = (SequenceForFunction)seq;
-                    Console.Write("for{");
-                    Console.Write(seqFor.Var.Name);
-                    Console.Write(" in ");
-                    Console.Write(seqFor.FunctionSymbol + ";");
-                    PrintSequence(seqFor.Seq, seq, context);
-                    Console.Write("}");
-                    break;
-                }
+                PrintSequenceForFunction((SequenceForFunction)seq, parent, context);
+                break;
             case SequenceType.ForMatch:
-                {
-                    SequenceForMatch seqFor = (SequenceForMatch)seq;
-                    Console.Write("for{");
-                    Console.Write(seqFor.Var.Name);
-                    Console.Write(" in [?");
-                    PrintSequence(seqFor.Rule, seq, context);
-                    Console.Write("]; ");
-                    PrintSequence(seqFor.Seq, seq, context);
-                    Console.Write("}");
-                    break;
-                }
+                PrintSequenceForMatch((SequenceForMatch)seq, parent, context);
+                break;
             case SequenceType.ExecuteInSubgraph:
-                {
-                    SequenceExecuteInSubgraph seqExecInSub = (SequenceExecuteInSubgraph)seq;
-                    Console.Write("in ");
-                    Console.Write(seqExecInSub.SubgraphVar.Name);
-                    if(seqExecInSub.AttributeName != null)
-                        Console.Write("." + seqExecInSub.AttributeName);
-                    Console.Write(" {");
-                    PrintSequence(seqExecInSub.Seq, seq, context);
-                    Console.Write("}");
-                    break;
-                }
-
-            // Ternary
+                PrintSequenceExecuteInSubgraph((SequenceExecuteInSubgraph)seq, parent, context);
+                break;
             case SequenceType.IfThenElse:
-                {
-                    SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
-                    Console.Write("if{");
-                    PrintSequence(seqIf.Condition, seq, context);
-                    Console.Write(";");
-                    PrintSequence(seqIf.TrueCase, seq, context);
-                    Console.Write(";");
-                    PrintSequence(seqIf.FalseCase, seq, context);
-                    Console.Write("}");
-                    break;
-                }
-
-            // n-ary
+                PrintSequenceIfThenElse((SequenceIfThenElse)seq, parent, context);
+                break;
             case SequenceType.LazyOrAll:
             case SequenceType.LazyAndAll:
             case SequenceType.StrictOrAll:
             case SequenceType.StrictAndAll:
-                {
-                    SequenceNAry seqN = (SequenceNAry)seq;
-
-                    if(context.cpPosCounter >= 0)
-                    {
-                        PrintChoice(seqN, context);
-                        ++context.cpPosCounter;
-                        Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
-                        bool first = true;
-                        foreach(Sequence seqChild in seqN.Children)
-                        {
-                            if(!first)
-                                Console.Write(", ");
-                            PrintSequence(seqChild, seqN, context);
-                            first = false;
-                        }
-                        Console.Write(")");
-                        break;
-                    }
-
-                    bool highlight = false;
-                    foreach(Sequence seqChild in seqN.Children)
-                    {
-                        if(seqChild == context.highlightSeq)
-                            highlight = true;
-                    }
-                    if(highlight && context.choice)
-                    {
-                        WorkaroundManager.Workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
-                        bool first = true;
-                        foreach(Sequence seqChild in seqN.Children)
-                        {
-                            if(!first)
-                                Console.Write(", ");
-                            if(seqChild == context.highlightSeq)
-                                WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
-                            if(context.sequences != null)
-                            {
-                                for(int i = 0; i < context.sequences.Count; ++i)
-                                {
-                                    if(seqChild == context.sequences[i])
-                                        WorkaroundManager.Workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
-                                }
-                            }
-
-                            Sequence highlightSeqBackup = context.highlightSeq;
-                            context.highlightSeq = null; // we already highlighted here
-                            PrintSequence(seqChild, seqN, context);
-                            context.highlightSeq = highlightSeqBackup;
-
-                            if(seqChild == context.highlightSeq)
-                                WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                            first = false;
-                        }
-                        WorkaroundManager.Workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
-                        break;
-                    }
-
-                    Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
-                    PrintChildren(seqN, context);
-                    Console.Write(")");
-                    break;
-                }
-
+                PrintSequenceNAry((SequenceNAry)seq, parent, context);
+                break;
             case SequenceType.WeightedOne:
-                {
-                    SequenceWeightedOne seqWeighted = (SequenceWeightedOne)seq;
-
-                    if(context.cpPosCounter >= 0)
-                    {
-                        PrintChoice(seqWeighted, context);
-                        ++context.cpPosCounter;
-                        Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
-                        bool first = true;
-                        for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
-                        {
-                            if(first)
-                                Console.Write("0.00 ");
-                            else
-                                Console.Write(" ");
-                            PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
-                            Console.Write(" ");
-                            Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
-                            first = false;
-                        }
-                        Console.Write(")");
-                        break;
-                    }
-
-                    bool highlight = false;
-                    foreach(Sequence seqChild in seqWeighted.Children)
-                    {
-                        if(seqChild == context.highlightSeq)
-                            highlight = true;
-                    }
-                    if(highlight && context.choice)
-                    {
-                        WorkaroundManager.Workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
-                        bool first = true;
-                        for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
-                        {
-                            if(first)
-                                Console.Write("0.00 ");
-                            else
-                                Console.Write(" ");
-                            if(seqWeighted.Sequences[i] == context.highlightSeq)
-                                WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
-
-                            Sequence highlightSeqBackup = context.highlightSeq;
-                            context.highlightSeq = null; // we already highlighted here
-                            PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
-                            context.highlightSeq = highlightSeqBackup;
-
-                            if(seqWeighted.Sequences[i] == context.highlightSeq)
-                                WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                            Console.Write(" ");
-                            Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
-                            first = false;
-                        }
-                        WorkaroundManager.Workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
-                        break;
-                    }
-
-                    Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
-                    bool ffs = true;
-                    for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
-                    {
-                        if(ffs)
-                            Console.Write("0.00 ");
-                        else
-                            Console.Write(" ");
-                        PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
-                        Console.Write(" ");
-                        Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
-                        ffs = false;
-                    }
-                    Console.Write(")");
-                    break;
-                }
-
+                PrintSequenceWeightedOne((SequenceWeightedOne)seq, parent, context);
+                break;
             case SequenceType.SomeFromSet:
-                {
-                    SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
-
-                    if(context.cpPosCounter >= 0
-                        && seqSome.Random)
-                    {
-                        PrintChoice(seqSome, context);
-                        ++context.cpPosCounter;
-                        Console.Write(seqSome.Choice ? "$%{<" : "${<");
-                        bool first = true;
-                        foreach(Sequence seqChild in seqSome.Children)
-                        {
-                            if(!first)
-                                Console.Write(", ");
-                            int cpPosCounterBackup = context.cpPosCounter;
-                            context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
-                            PrintSequence(seqChild, seqSome, context);
-                            context.cpPosCounter = cpPosCounterBackup;
-                            first = false;
-                        }
-                        Console.Write(")}");
-                        break;
-                    }
-
-                    bool highlight = false;
-                    foreach(Sequence seqChild in seqSome.Children)
-                    {
-                        if(seqChild == context.highlightSeq)
-                            highlight = true;
-                    }
-                    if(highlight && context.choice)
-                    {
-                        WorkaroundManager.Workaround.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);
-                        bool first = true;
-                        int numCurTotalMatch = 0;
-                        foreach(Sequence seqChild in seqSome.Children)
-                        {
-                            if(!first)
-                                Console.Write(", ");
-                            if(seqChild == context.highlightSeq)
-                                WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
-                            if(context.sequences != null)
-                            {
-                                for(int i = 0; i < context.sequences.Count; ++i)
-                                {
-                                    if(seqChild == context.sequences[i] && context.matches[i].Count > 0)
-                                    {
-                                        PrintListOfMatchesNumbers(context, ref numCurTotalMatch, seqSome.IsNonRandomRuleAllCall(i) ? 1 : context.matches[i].Count);
-                                    }
-                                }
-                            }
-
-                            Sequence highlightSeqBackup = context.highlightSeq;
-                            context.highlightSeq = null; // we already highlighted here
-                            PrintSequence(seqChild, seqSome, context);
-                            context.highlightSeq = highlightSeqBackup;
-
-                            if(seqChild == context.highlightSeq)
-                                WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                            first = false;
-                        }
-                        WorkaroundManager.Workaround.PrintHighlighted(">}", HighlightingMode.Choicepoint);
-                        break;
-                    }
-
-                    bool succesBackup = context.success;
-                    if(highlight)
-                        context.success = true;
-                    Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<");
-                    PrintChildren(seqSome, context);
-                    Console.Write(">}");
-                    context.success = succesBackup;
-                    break;
-                }
-
-            // Breakpointable atoms
+                PrintSequenceSomeFromSet((SequenceSomeFromSet)seq, parent, context);
+                break;
             case SequenceType.SequenceCall:
             case SequenceType.RuleCall:
             case SequenceType.RuleAllCall:
             case SequenceType.RuleCountAllCall:
             case SequenceType.BooleanComputation:
-                {
-                    if(context.bpPosCounter >= 0)
-                    {
-                        PrintBreak((SequenceSpecial)seq, context);
-                        Console.Write(seq.Symbol);
-                        ++context.bpPosCounter;
-                        break;
-                    }
-
-                    if(context.cpPosCounter >= 0 && seq is SequenceRandomChoice
-                        && ((SequenceRandomChoice)seq).Random)
-                    {
-                        PrintChoice((SequenceRandomChoice)seq, context);
-                        Console.Write(seq.Symbol);
-                        ++context.cpPosCounter;
-                        break;
-                    }
-
-                    HighlightingMode mode = HighlightingMode.None;
-                    if(seq == context.highlightSeq)
-                    {
-                        if(context.choice)
-                            mode |= HighlightingMode.Choicepoint;
-                        else if(context.success)
-                            mode |= HighlightingMode.FocusSucces;
-                        else
-                            mode |= HighlightingMode.Focus;
-                    }
-                    if(seq.ExecutionState == SequenceExecutionState.Success)
-                        mode |= HighlightingMode.LastSuccess;
-                    if(seq.ExecutionState == SequenceExecutionState.Fail)
-                        mode |= HighlightingMode.LastFail;
-                    if(context.sequences != null && context.sequences.Contains(seq))
-                    {
-                        if(context.matches != null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
-                            mode |= HighlightingMode.FocusSucces;
-                    }
-                    WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, mode);
-                    break;
-                }
-
-            // Unary assignment
+                PrintSequenceBreakpointable((Sequence)seq, parent, context);
+                break;
             case SequenceType.AssignSequenceResultToVar:
             case SequenceType.OrAssignSequenceResultToVar:
             case SequenceType.AndAssignSequenceResultToVar:
-                {
-                    SequenceAssignSequenceResultToVar seqAss = (SequenceAssignSequenceResultToVar)seq;
-                    Console.Write("(");
-                    PrintSequence(seqAss.Seq, seq, context);
-                    if(seq.SequenceType == SequenceType.OrAssignSequenceResultToVar)
-                        Console.Write("|>");
-                    else if(seq.SequenceType == SequenceType.AndAssignSequenceResultToVar)
-                        Console.Write("&>");
-                    else //if(seq.SequenceType==SequenceType.AssignSequenceResultToVar)
-                        Console.Write("=>");
-                    Console.Write(seqAss.DestVar.Name);
-                    Console.Write(")");
-                    break;
-                }
-
-            // Choice highlightable user assignments
+                PrintSequenceAssignSequenceResultToVar((SequenceAssignSequenceResultToVar)seq, parent, context);
+                break;
             case SequenceType.AssignUserInputToVar:
             case SequenceType.AssignRandomIntToVar:
             case SequenceType.AssignRandomDoubleToVar:
-                {
-                    if(context.cpPosCounter >= 0 
-                        && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
-                    {
-                        PrintChoice((SequenceRandomChoice)seq, context);
-                        Console.Write(seq.Symbol);
-                        ++context.cpPosCounter;
-                        break;
-                    }
-
-                    if(seq == context.highlightSeq && context.choice)
-                        WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
-                    else
-                        Console.Write(seq.Symbol);
-                    break;
-                }
-
+                PrintSequenceAssignChoiceHighlightable((Sequence)seq, parent, context);
+                break;
             case SequenceType.SequenceDefinitionInterpreted:
-                {
-                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seq;
-                    HighlightingMode mode = HighlightingMode.None;
-                    if(seqDef.ExecutionState == SequenceExecutionState.Success)
-                        mode = HighlightingMode.LastSuccess;
-                    if(seqDef.ExecutionState == SequenceExecutionState.Fail)
-                        mode = HighlightingMode.LastFail;
-                    WorkaroundManager.Workaround.PrintHighlighted(seqDef.Symbol + ": ", mode);
-                    PrintSequence(seqDef.Seq, seqDef.Seq, context);
-                    break;
-                }
-
+                PrintSequenceDefinitionInterpreted((SequenceDefinitionInterpreted)seq, parent, context);
+                break;
             // Atoms (assignments)
             case SequenceType.AssignVarToVar:
             case SequenceType.AssignConstToVar:
             case SequenceType.AssignContainerConstructorToVar:
             case SequenceType.DeclareVariable:
-                {
-                    Console.Write(seq.Symbol);
-                    break;
-                }
-
+                Console.Write(seq.Symbol);
+                break;
             default:
-                {
-                    Debug.Assert(false);
-                    Console.Write("<UNKNOWN_SEQUENCE_TYPE>");
-                    break;
-                }
+                Debug.Assert(false);
+                Console.Write("<UNKNOWN_SEQUENCE_TYPE>");
+                break;
             }
 
             // print parentheses, if neccessary
             if(parent != null && seq.Precedence < parent.Precedence)
                 Console.Write(")");
+        }
+
+        private static void PrintSequenceBinary(SequenceBinary seqBin, Sequence parent, PrintSequenceContext context)
+        {
+            if(context.cpPosCounter >= 0 && seqBin.Random)
+            {
+                int cpPosCounter = context.cpPosCounter;
+                ++context.cpPosCounter;
+                PrintSequence(seqBin.Left, seqBin, context);
+                PrintChoice(seqBin, context);
+                Console.Write(seqBin.Symbol + " ");
+                PrintSequence(seqBin.Right, seqBin, context);
+                return;
+            }
+
+            if(seqBin == context.highlightSeq && context.choice)
+            {
+                WorkaroundManager.Workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
+                PrintSequence(seqBin.Left, seqBin, context);
+                WorkaroundManager.Workaround.PrintHighlighted("(l) " + seqBin.Symbol + " (r)", HighlightingMode.Choicepoint);
+                PrintSequence(seqBin.Right, seqBin, context);
+                WorkaroundManager.Workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
+                return;
+            }
+
+            PrintSequence(seqBin.Left, seqBin, context);
+            Console.Write(" " + seqBin.Symbol + " ");
+            PrintSequence(seqBin.Right, seqBin, context);
+        }
+
+        private static void PrintSequenceIfThen(SequenceIfThen seqIfThen, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("if{");
+            PrintSequence(seqIfThen.Left, seqIfThen, context);
+            Console.Write(";");
+            PrintSequence(seqIfThen.Right, seqIfThen, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceNot(SequenceNot seqNot, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write(seqNot.Symbol);
+            PrintSequence(seqNot.Seq, seqNot, context);
+        }
+
+        private static void PrintSequenceIterationMin(SequenceIterationMin seqMin, Sequence parent, PrintSequenceContext context)
+        {
+            PrintSequence(seqMin.Seq, seqMin, context);
+            Console.Write("[" + seqMin.Min + ":*]");
+        }
+
+        private static void PrintSequenceIterationMinMax(SequenceIterationMinMax seqMinMax, Sequence parent, PrintSequenceContext context)
+        {
+            PrintSequence(seqMinMax.Seq, seqMinMax, context);
+            Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
+        }
+
+        private static void PrintSequenceTransaction(SequenceTransaction seqTrans, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("<");
+            PrintSequence(seqTrans.Seq, seqTrans, context);
+            Console.Write(">");
+        }
+
+        private static void PrintSequenceBacktrack(SequenceBacktrack seqBack, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("<<");
+            PrintSequence(seqBack.Rule, seqBack, context);
+            Console.Write(";;");
+            PrintSequence(seqBack.Seq, seqBack, context);
+            Console.Write(">>");
+        }
+
+        private static void PrintSequencePause(SequencePause seqPause, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("/");
+            PrintSequence(seqPause.Seq, seqPause, context);
+            Console.Write("/");
+        }
+
+        private static void PrintSequenceForContainer(SequenceForContainer seqFor, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("for{");
+            Console.Write(seqFor.Var.Name);
+            if(seqFor.VarDst != null)
+                Console.Write("->" + seqFor.VarDst.Name);
+            Console.Write(" in " + seqFor.Container.Name);
+            Console.Write("; ");
+            PrintSequence(seqFor.Seq, seqFor, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceForIntegerRange(SequenceForIntegerRange seqFor, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("for{");
+            Console.Write(seqFor.Var.Name);
+            Console.Write(" in [");
+            Console.Write(seqFor.Left.Symbol);
+            Console.Write(":");
+            Console.Write(seqFor.Right.Symbol);
+            Console.Write("]; ");
+            PrintSequence(seqFor.Seq, seqFor, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceForIndexAccessEquality(SequenceForIndexAccessEquality seqFor, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("for{");
+            Console.Write(seqFor.Var.Name);
+            Console.Write(" in {");
+            Console.Write(seqFor.IndexName);
+            Console.Write("==");
+            Console.Write(seqFor.Expr.Symbol);
+            Console.Write("}; ");
+            PrintSequence(seqFor.Seq, seqFor, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceForIndexAccessOrdering(SequenceForIndexAccessOrdering seqFor, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("for{");
+            Console.Write(seqFor.Var.Name);
+            Console.Write(" in {");
+            if(seqFor.Ascending)
+                Console.Write("ascending");
+            else
+                Console.Write("descending");
+            Console.Write("(");
+            if(seqFor.From() != null && seqFor.To() != null)
+            {
+                Console.Write(seqFor.IndexName);
+                Console.Write(seqFor.DirectionAsString(seqFor.Direction));
+                Console.Write(seqFor.Expr.Symbol);
+                Console.Write(",");
+                Console.Write(seqFor.IndexName);
+                Console.Write(seqFor.DirectionAsString(seqFor.Direction2));
+                Console.Write(seqFor.Expr2.Symbol);
+            }
+            else if(seqFor.From() != null)
+            {
+                Console.Write(seqFor.IndexName);
+                Console.Write(seqFor.DirectionAsString(seqFor.Direction));
+                Console.Write(seqFor.Expr.Symbol);
+            }
+            else if(seqFor.To() != null)
+            {
+                Console.Write(seqFor.IndexName);
+                Console.Write(seqFor.DirectionAsString(seqFor.Direction));
+                Console.Write(seqFor.Expr.Symbol);
+            }
+            else
+            {
+                Console.Write(seqFor.IndexName);
+            }
+            Console.Write(")");
+            Console.Write("}; ");
+            PrintSequence(seqFor.Seq, seqFor, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceForFunction(SequenceForFunction seqFor, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("for{");
+            Console.Write(seqFor.Var.Name);
+            Console.Write(" in ");
+            Console.Write(seqFor.FunctionSymbol + ";");
+            PrintSequence(seqFor.Seq, seqFor, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceForMatch(SequenceForMatch seqFor, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("for{");
+            Console.Write(seqFor.Var.Name);
+            Console.Write(" in [?");
+            PrintSequence(seqFor.Rule, seqFor, context);
+            Console.Write("]; ");
+            PrintSequence(seqFor.Seq, seqFor, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceExecuteInSubgraph(SequenceExecuteInSubgraph seqExecInSub, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("in ");
+            Console.Write(seqExecInSub.SubgraphVar.Name);
+            if(seqExecInSub.AttributeName != null)
+                Console.Write("." + seqExecInSub.AttributeName);
+            Console.Write(" {");
+            PrintSequence(seqExecInSub.Seq, seqExecInSub, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceIfThenElse(SequenceIfThenElse seqIf, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("if{");
+            PrintSequence(seqIf.Condition, seqIf, context);
+            Console.Write(";");
+            PrintSequence(seqIf.TrueCase, seqIf, context);
+            Console.Write(";");
+            PrintSequence(seqIf.FalseCase, seqIf, context);
+            Console.Write("}");
+        }
+
+        private static void PrintSequenceNAry(SequenceNAry seqN, Sequence parent, PrintSequenceContext context)
+        {
+            if(context.cpPosCounter >= 0)
+            {
+                PrintChoice(seqN, context);
+                ++context.cpPosCounter;
+                Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
+                bool first = true;
+                foreach(Sequence seqChild in seqN.Children)
+                {
+                    if(!first)
+                        Console.Write(", ");
+                    PrintSequence(seqChild, seqN, context);
+                    first = false;
+                }
+                Console.Write(")");
+                return;
+            }
+
+            bool highlight = false;
+            foreach(Sequence seqChild in seqN.Children)
+            {
+                if(seqChild == context.highlightSeq)
+                    highlight = true;
+            }
+            if(highlight && context.choice)
+            {
+                WorkaroundManager.Workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
+                bool first = true;
+                foreach(Sequence seqChild in seqN.Children)
+                {
+                    if(!first)
+                        Console.Write(", ");
+                    if(seqChild == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                    if(context.sequences != null)
+                    {
+                        for(int i = 0; i < context.sequences.Count; ++i)
+                        {
+                            if(seqChild == context.sequences[i])
+                                WorkaroundManager.Workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
+                        }
+                    }
+
+                    Sequence highlightSeqBackup = context.highlightSeq;
+                    context.highlightSeq = null; // we already highlighted here
+                    PrintSequence(seqChild, seqN, context);
+                    context.highlightSeq = highlightSeqBackup;
+
+                    if(seqChild == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                    first = false;
+                }
+                WorkaroundManager.Workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                return;
+            }
+
+            Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
+            PrintChildren(seqN, context);
+            Console.Write(")");
+        }
+
+        private static void PrintSequenceWeightedOne(SequenceWeightedOne seqWeighted, Sequence parent, PrintSequenceContext context)
+        {
+            if(context.cpPosCounter >= 0)
+            {
+                PrintChoice(seqWeighted, context);
+                ++context.cpPosCounter;
+                Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
+                bool first = true;
+                for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+                {
+                    if(first)
+                        Console.Write("0.00 ");
+                    else
+                        Console.Write(" ");
+                    PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                    Console.Write(" ");
+                    Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                    first = false;
+                }
+                Console.Write(")");
+                return;
+            }
+
+            bool highlight = false;
+            foreach(Sequence seqChild in seqWeighted.Children)
+            {
+                if(seqChild == context.highlightSeq)
+                    highlight = true;
+            }
+            if(highlight && context.choice)
+            {
+                WorkaroundManager.Workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
+                bool first = true;
+                for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+                {
+                    if(first)
+                        Console.Write("0.00 ");
+                    else
+                        Console.Write(" ");
+                    if(seqWeighted.Sequences[i] == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+
+                    Sequence highlightSeqBackup = context.highlightSeq;
+                    context.highlightSeq = null; // we already highlighted here
+                    PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                    context.highlightSeq = highlightSeqBackup;
+
+                    if(seqWeighted.Sequences[i] == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                    Console.Write(" ");
+                    Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                    first = false;
+                }
+                WorkaroundManager.Workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                return;
+            }
+
+            Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
+            bool ffs = true;
+            for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
+            {
+                if(ffs)
+                    Console.Write("0.00 ");
+                else
+                    Console.Write(" ");
+                PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                Console.Write(" ");
+                Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                ffs = false;
+            }
+            Console.Write(")");
+        }
+
+        private static void PrintSequenceSomeFromSet(SequenceSomeFromSet seqSome, Sequence parent, PrintSequenceContext context)
+        {
+            if(context.cpPosCounter >= 0
+                && seqSome.Random)
+            {
+                PrintChoice(seqSome, context);
+                ++context.cpPosCounter;
+                Console.Write(seqSome.Choice ? "$%{<" : "${<");
+                bool first = true;
+                foreach(Sequence seqChild in seqSome.Children)
+                {
+                    if(!first)
+                        Console.Write(", ");
+                    int cpPosCounterBackup = context.cpPosCounter;
+                    context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
+                    PrintSequence(seqChild, seqSome, context);
+                    context.cpPosCounter = cpPosCounterBackup;
+                    first = false;
+                }
+                Console.Write(")}");
+                return;
+            }
+
+            bool highlight = false;
+            foreach(Sequence seqChild in seqSome.Children)
+            {
+                if(seqChild == context.highlightSeq)
+                    highlight = true;
+            }
+            if(highlight && context.choice)
+            {
+                WorkaroundManager.Workaround.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);
+                bool first = true;
+                int numCurTotalMatch = 0;
+                foreach(Sequence seqChild in seqSome.Children)
+                {
+                    if(!first)
+                        Console.Write(", ");
+                    if(seqChild == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                    if(context.sequences != null)
+                    {
+                        for(int i = 0; i < context.sequences.Count; ++i)
+                        {
+                            if(seqChild == context.sequences[i] && context.matches[i].Count > 0)
+                            {
+                                PrintListOfMatchesNumbers(context, ref numCurTotalMatch, seqSome.IsNonRandomRuleAllCall(i) ? 1 : context.matches[i].Count);
+                            }
+                        }
+                    }
+
+                    Sequence highlightSeqBackup = context.highlightSeq;
+                    context.highlightSeq = null; // we already highlighted here
+                    PrintSequence(seqChild, seqSome, context);
+                    context.highlightSeq = highlightSeqBackup;
+
+                    if(seqChild == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                    first = false;
+                }
+                WorkaroundManager.Workaround.PrintHighlighted(">}", HighlightingMode.Choicepoint);
+                return;
+            }
+
+            bool succesBackup = context.success;
+            if(highlight)
+                context.success = true;
+            Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<");
+            PrintChildren(seqSome, context);
+            Console.Write(">}");
+            context.success = succesBackup;
+        }
+
+        private static void PrintSequenceBreakpointable(Sequence seq, Sequence parent, PrintSequenceContext context)
+        {
+            if(context.bpPosCounter >= 0)
+            {
+                PrintBreak((SequenceSpecial)seq, context);
+                Console.Write(seq.Symbol);
+                ++context.bpPosCounter;
+                return;
+            }
+
+            if(context.cpPosCounter >= 0 && seq is SequenceRandomChoice
+                && ((SequenceRandomChoice)seq).Random)
+            {
+                PrintChoice((SequenceRandomChoice)seq, context);
+                Console.Write(seq.Symbol);
+                ++context.cpPosCounter;
+                return;
+            }
+
+            HighlightingMode mode = HighlightingMode.None;
+            if(seq == context.highlightSeq)
+            {
+                if(context.choice)
+                    mode |= HighlightingMode.Choicepoint;
+                else if(context.success)
+                    mode |= HighlightingMode.FocusSucces;
+                else
+                    mode |= HighlightingMode.Focus;
+            }
+            if(seq.ExecutionState == SequenceExecutionState.Success)
+                mode |= HighlightingMode.LastSuccess;
+            if(seq.ExecutionState == SequenceExecutionState.Fail)
+                mode |= HighlightingMode.LastFail;
+            if(context.sequences != null && context.sequences.Contains(seq))
+            {
+                if(context.matches != null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
+                    mode |= HighlightingMode.FocusSucces;
+            }
+            WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, mode);
+        }
+
+        private static void PrintSequenceAssignSequenceResultToVar(SequenceAssignSequenceResultToVar seqAss, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("(");
+            PrintSequence(seqAss.Seq, seqAss, context);
+            if(seqAss.SequenceType == SequenceType.OrAssignSequenceResultToVar)
+                Console.Write("|>");
+            else if(seqAss.SequenceType == SequenceType.AndAssignSequenceResultToVar)
+                Console.Write("&>");
+            else //if(seqAss.SequenceType==SequenceType.AssignSequenceResultToVar)
+                Console.Write("=>");
+            Console.Write(seqAss.DestVar.Name);
+            Console.Write(")");
+        }
+
+        // Choice highlightable user assignments
+        private static void PrintSequenceAssignChoiceHighlightable(Sequence seq, Sequence parent, PrintSequenceContext context)
+        {
+            if(context.cpPosCounter >= 0
+                && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
+            {
+                PrintChoice((SequenceRandomChoice)seq, context);
+                Console.Write(seq.Symbol);
+                ++context.cpPosCounter;
+                return;
+            }
+
+            if(seq == context.highlightSeq && context.choice)
+                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
+            else
+                Console.Write(seq.Symbol);
+        }
+
+        private static void PrintSequenceDefinitionInterpreted(SequenceDefinitionInterpreted seqDef, Sequence parent, PrintSequenceContext context)
+        {
+            HighlightingMode mode = HighlightingMode.None;
+            if(seqDef.ExecutionState == SequenceExecutionState.Success)
+                mode = HighlightingMode.LastSuccess;
+            if(seqDef.ExecutionState == SequenceExecutionState.Fail)
+                mode = HighlightingMode.LastFail;
+            WorkaroundManager.Workaround.PrintHighlighted(seqDef.Symbol + ": ", mode);
+            PrintSequence(seqDef.Seq, seqDef.Seq, context);
         }
 
         private static void PrintChildren(Sequence seq, PrintSequenceContext context)
