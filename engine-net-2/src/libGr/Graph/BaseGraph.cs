@@ -149,8 +149,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="node">The added node.</param>
         public void NodeAdded(INode node)
         {
-            NodeAddedHandler nodeAdded = OnNodeAdded;
-            if(nodeAdded != null) nodeAdded(node);
+            if(OnNodeAdded != null)
+                OnNodeAdded(node);
         }
 
         /// <summary>
@@ -159,8 +159,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="edge">The added edge.</param>
         public void EdgeAdded(IEdge edge)
         {
-            EdgeAddedHandler edgeAdded = OnEdgeAdded;
-            if(edgeAdded != null) edgeAdded(edge);
+            if(OnEdgeAdded != null)
+                OnEdgeAdded(edge);
         }
 
         /// <summary>
@@ -169,8 +169,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="node">The node to be removed.</param>
         public void RemovingNode(INode node)
         {
-            RemovingNodeHandler removingNode = OnRemovingNode;
-            if(removingNode != null) removingNode(node);
+            if(OnRemovingNode != null)
+                OnRemovingNode(node);
         }
 
         /// <summary>
@@ -179,8 +179,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="edge">The edge to be removed.</param>
         public void RemovingEdge(IEdge edge)
         {
-            RemovingEdgeHandler removingEdge = OnRemovingEdge;
-            if(removingEdge != null) removingEdge(edge);
+            if(OnRemovingEdge != null)
+                OnRemovingEdge(edge);
         }
 
         /// <summary>
@@ -189,8 +189,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="node">The node whose edges are to be removed.</param>
         public void RemovingEdges(INode node)
         {
-            RemovingEdgesHandler removingEdges = OnRemovingEdges;
-            if(removingEdges != null) removingEdges(node);
+            if(OnRemovingEdges != null)
+                OnRemovingEdges(node);
         }
 
         /// <summary>
@@ -198,38 +198,34 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public void ClearingGraph()
         {
-            ClearingGraphHandler clearingGraph = OnClearingGraph;
-            if(clearingGraph != null) clearingGraph();
+            if(OnClearingGraph != null)
+                OnClearingGraph();
         }
 
         public void ChangingNodeAttribute(INode node, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            ChangingNodeAttributeHandler changingElemAttr = OnChangingNodeAttribute;
-            if(changingElemAttr != null)
-                changingElemAttr(node, attrType, changeType, newValue, keyValue);
+            if(OnChangingNodeAttribute != null)
+                OnChangingNodeAttribute(node, attrType, changeType, newValue, keyValue);
         }
 
         public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            ChangingEdgeAttributeHandler changingElemAttr = OnChangingEdgeAttribute;
-            if(changingElemAttr != null)
-                changingElemAttr(edge, attrType, changeType, newValue, keyValue);
+            if(OnChangingEdgeAttribute != null)
+                OnChangingEdgeAttribute(edge, attrType, changeType, newValue, keyValue);
         }
 
         public void ChangedNodeAttribute(INode node, AttributeType attrType)
         {
-            ChangedNodeAttributeHandler changedElemAttr = OnChangedNodeAttribute;
-            if(changedElemAttr != null)
-                changedElemAttr(node, attrType);
+            if(OnChangedNodeAttribute != null)
+                OnChangedNodeAttribute(node, attrType);
         }
 
         public void ChangedEdgeAttribute(IEdge edge, AttributeType attrType)
         {
-            ChangedEdgeAttributeHandler changedElemAttr = OnChangedEdgeAttribute;
-            if(changedElemAttr != null)
-                changedElemAttr(edge, attrType);
+            if(OnChangedEdgeAttribute != null)
+                OnChangedEdgeAttribute(edge, attrType);
         }
 
         /// <summary>
@@ -239,8 +235,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newNode">The new node with the common attributes, but without any incident edges assigned, yet.</param>
         public void RetypingNode(INode oldNode, INode newNode)
         {
-            RetypingNodeHandler retypingNode = OnRetypingNode;
-            if(retypingNode != null) retypingNode(oldNode, newNode);
+            if(OnRetypingNode != null)
+                OnRetypingNode(oldNode, newNode);
         }
 
         /// <summary>
@@ -250,8 +246,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
         public void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
-            RetypingEdgeHandler retypingEdge = OnRetypingEdge;
-            if(retypingEdge != null) retypingEdge(oldEdge, newEdge);
+            if(OnRetypingEdge != null)
+                OnRetypingEdge(oldEdge, newEdge);
         }
 
         /// <summary>
@@ -261,8 +257,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
         public void RedirectingEdge(IEdge edge)
         {
-            RedirectingEdgeHandler redirectingEdge = OnRedirectingEdge;
-            if(redirectingEdge != null) redirectingEdge(edge);
+            if(OnRedirectingEdge != null)
+                OnRedirectingEdge(edge);
         }
 
         /// <summary>
@@ -271,8 +267,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="visitorID">The allocated visitorID.</param>
         public void VisitedAlloc(int visitorID)
         {
-            VisitedAllocHandler visitedAlloc = OnVisitedAlloc;
-            if(visitedAlloc != null) visitedAlloc(visitorID);
+            if(OnVisitedAlloc != null)
+                OnVisitedAlloc(visitorID);
         }
 
         /// <summary>
@@ -281,8 +277,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="visitorID">The freed visitorID.</param>
         public void VisitedFree(int visitorID)
         {
-            VisitedFreeHandler visitedFree = OnVisitedFree;
-            if(visitedFree != null) visitedFree(visitorID);
+            if(OnVisitedFree != null)
+                OnVisitedFree(visitorID);
         }
 
         /// <summary>
@@ -293,20 +289,20 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newValue">The new value.</param>
         public void SettingVisited(IGraphElement elem, int visitorID, bool newValue)
         {
-            SettingVisitedHandler setVisited = OnSettingVisited;
-            if(setVisited != null) setVisited(elem, visitorID, newValue);
+            if(OnSettingVisited != null)
+                OnSettingVisited(elem, visitorID, newValue);
         }
 
         public void SettingAddedNodeNames(String[] addedNodeNames)
         {
-            SettingAddedElementNamesHandler handler = OnSettingAddedNodeNames;
-            if(handler != null) handler(addedNodeNames);
+            if(OnSettingAddedNodeNames != null)
+                OnSettingAddedNodeNames(addedNodeNames);
         }
 
         public void SettingAddedEdgeNames(String[] addedEdgeNames)
         {
-            SettingAddedElementNamesHandler handler = OnSettingAddedEdgeNames;
-            if(handler != null) handler(addedEdgeNames);
+            if(OnSettingAddedEdgeNames != null)
+                OnSettingAddedEdgeNames(addedEdgeNames);
         }
 
 

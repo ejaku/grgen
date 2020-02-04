@@ -82,16 +82,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void SwitchingToSubgraph(IGraph graph)
         {
-            SwitchToSubgraphHandler handler = OnSwitchingToSubgraph;
-            if(handler != null)
-                handler(graph);
+            if(OnSwitchingToSubgraph != null)
+                OnSwitchingToSubgraph(graph);
         }
 
         private void ReturnedFromSubgraph(IGraph graph)
         {
-            ReturnFromSubgraphHandler handler = OnReturnedFromSubgraph;
-            if(handler != null)
-                handler(graph);
+            if(OnReturnedFromSubgraph != null)
+                OnReturnedFromSubgraph(graph);
         }
 
         public event DebugEnterHandler OnDebugEnter;
@@ -102,37 +100,32 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void DebugEntering(string message, params object[] values)
         {
-            DebugEnterHandler handler = OnDebugEnter;
-            if(handler != null)
-                handler(message, values);
+            if(OnDebugEnter != null)
+                OnDebugEnter(message, values);
         }
 
         public void DebugExiting(string message, params object[] values)
         {
-            DebugExitHandler handler = OnDebugExit;
-            if(handler != null)
-                handler(message, values);
+            if(OnDebugExit != null)
+                OnDebugExit(message, values);
         }
 
         public void DebugEmitting(string message, params object[] values)
         {
-            DebugEmitHandler handler = OnDebugEmit;
-            if(handler != null)
-                handler(message, values);
+            if(OnDebugEmit != null)
+                OnDebugEmit(message, values);
         }
 
         public void DebugHalting(string message, params object[] values)
         {
-            DebugHaltHandler handler = OnDebugHalt;
-            if(handler != null)
-                handler(message, values);
+            if(OnDebugHalt != null)
+                OnDebugHalt(message, values);
         }
 
         public void DebugHighlighting(string message, List<object> values, List<string> annotations)
         {
-            DebugHighlightHandler handler = OnDebugHighlight;
-            if(handler != null)
-                handler(message, values, annotations);
+            if(OnDebugHighlight != null)
+                OnDebugHighlight(message, values, annotations);
         }
 
         #endregion Events

@@ -279,30 +279,26 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void Matched(IMatches matches, IMatch match, bool special)
         {
-            AfterMatchHandler handler = OnMatched;
-            if(handler != null)
-                handler(matches, match, special);
+            if(OnMatched != null)
+                OnMatched(matches, match, special);
         }
 
         public void Finishing(IMatches matches, bool special)
         {
-            BeforeFinishHandler handler = OnFinishing;
-            if(handler != null)
-                handler(matches, special);
+            if(OnFinishing != null)
+                OnFinishing(matches, special);
         }
 
         public void RewritingNextMatch()
         {
-            RewriteNextMatchHandler handler = OnRewritingNextMatch;
-            if(handler != null)
-                handler();
+            if(OnRewritingNextMatch != null)
+                OnRewritingNextMatch();
         }
 
         public void Finished(IMatches matches, bool special)
         {
-            AfterFinishHandler handler = OnFinished;
-            if(handler != null)
-                handler(matches, special);
+            if(OnFinished != null)
+                OnFinished(matches, special);
         }
 
         #endregion Events

@@ -480,7 +480,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The newly created node.</returns>
         public LGSPNode AddLGSPNode(NodeType nodeType, String varName)
         {
-            //            LGSPNode node = new LGSPNode(nodeType);
             LGSPNode node = (LGSPNode)nodeType.CreateNode();
             graph.AddNodeWithoutEvents(node, nodeType.TypeID);
             SetVariableValue(varName, node);
@@ -537,7 +536,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The newly created edge.</returns>
         public LGSPEdge AddEdge(EdgeType edgeType, LGSPNode source, LGSPNode target, String varName)
         {
-            //            LGSPEdge edge = new LGSPEdge(edgeType, source, target);
             LGSPEdge edge = (LGSPEdge)edgeType.CreateEdge(source, target);
             graph.AddEdgeWithoutEvents(edge, edgeType.TypeID);
             SetVariableValue(varName, edge);
@@ -648,23 +646,20 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EnteringSequence(Sequence seq)
         {
-            EnterSequenceHandler handler = OnEntereringSequence;
-            if(handler != null)
-                handler(seq);
+            if(OnEntereringSequence != null)
+                OnEntereringSequence(seq);
         }
 
         public void ExitingSequence(Sequence seq)
         {
-            ExitSequenceHandler handler = OnExitingSequence;
-            if(handler != null)
-                handler(seq);
+            if(OnExitingSequence != null)
+                OnExitingSequence(seq);
         }
 
         public void EndOfIteration(bool continueLoop, Sequence seq)
         {
-            EndOfIterationHandler handler = OnEndOfIteration;
-            if(handler != null)
-                handler(continueLoop, seq);
+            if(OnEndOfIteration != null)
+                OnEndOfIteration(continueLoop, seq);
         }
 
         #endregion Events
