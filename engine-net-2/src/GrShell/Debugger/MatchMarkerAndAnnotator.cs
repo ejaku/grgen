@@ -68,7 +68,9 @@ namespace de.unika.ipd.grGen.grShell
             }
             MarkMatches(match.EmbeddedGraphs, nodeRealizerName, edgeRealizerName);
             foreach(IMatches iteratedsMatches in match.Iterateds)
+            {
                 MarkMatches(iteratedsMatches, nodeRealizerName, edgeRealizerName);
+            }
             MarkMatches(match.Alternatives, nodeRealizerName, edgeRealizerName);
             MarkMatches(match.Independents, nodeRealizerName, edgeRealizerName);
         }
@@ -192,19 +194,26 @@ namespace de.unika.ipd.grGen.grShell
             foreach(IMatches matches in iteratedsMatches)
             {
                 String name;
-                if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0) {
+                if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0)
+                {
                     name = "(.)*";
                     if(numIterated > 1)
                         name += "'" + i;
-                } else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1) {
+                }
+                else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1)
+                {
                     name = "(.)?";
                     if(numOptional > 1)
                         name += "'" + i;
-                } else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0) {
+                }
+                else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0)
+                {
                     name = "(.)+";
                     if(numMultiple > 1)
                         name += "'" + i;
-                } else {
+                }
+                else
+                {
                     name = "(.)[" + pattern.Iterateds[i].MinMatches + ":" + pattern.Iterateds[i].MaxMatches + "]";
                     if(numOther > 1)
                         name += "'" + i;

@@ -119,9 +119,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DoHighlight(List<object> sources, List<string> annotations)
         {
             if(ycompClient.dumpInfo.IsExcludedGraph())
-            {
                 ycompClient.ClearGraph();
-            }
 
             for(int i = 0; i < sources.Count; ++i)
             {
@@ -252,11 +250,15 @@ namespace de.unika.ipd.grGen.grShell
                 if(allocatedVisitedFlags.Contains((int)value))
                 {
                     foreach(INode node in shellProcEnv.ProcEnv.NamedGraph.Nodes)
+                    {
                         if(shellProcEnv.ProcEnv.NamedGraph.IsVisited(node, (int)value))
                             HighlightNode(node, "visited[" + name + "]", addAnnotation);
+                    }
                     foreach(IEdge edge in shellProcEnv.ProcEnv.NamedGraph.Edges)
+                    {
                         if(shellProcEnv.ProcEnv.NamedGraph.IsVisited(edge, (int)value))
                             HighlightEdge(edge, "visited[" + name + "]", addAnnotation);
+                    }
                 }
                 else
                 {

@@ -318,8 +318,10 @@ namespace de.unika.ipd.grGen.grShell
 
                     bool highlight = false;
                     foreach(Sequence seqChild in seqN.Children)
+                    {
                         if(seqChild == context.highlightSeq)
                             highlight = true;
+                    }
                     if(highlight && context.choice)
                     {
                         WorkaroundManager.Workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
@@ -385,8 +387,10 @@ namespace de.unika.ipd.grGen.grShell
 
                     bool highlight = false;
                     foreach(Sequence seqChild in seqWeighted.Children)
+                    {
                         if(seqChild == context.highlightSeq)
                             highlight = true;
+                    }
                     if(highlight && context.choice)
                     {
                         WorkaroundManager.Workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
@@ -459,9 +463,10 @@ namespace de.unika.ipd.grGen.grShell
 
                     bool highlight = false;
                     foreach(Sequence seqChild in seqSome.Children)
+                    {
                         if(seqChild == context.highlightSeq)
                             highlight = true;
-
+                    }
                     if(highlight && context.choice)
                     {
                         WorkaroundManager.Workaround.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);

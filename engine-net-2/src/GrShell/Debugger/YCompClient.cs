@@ -65,9 +65,8 @@ namespace de.unika.ipd.grGen.grShell
                 dumpWriter.Write("connection lost!\n");
                 dumpWriter.Flush();
 #endif
-                ConnectionLostHandler handler = OnConnectionLost;
-                if(handler != null)
-                    handler();
+                if(OnConnectionLost != null)
+                    OnConnectionLost();
             }
         }
 
@@ -93,9 +92,8 @@ namespace de.unika.ipd.grGen.grShell
             catch(Exception)
             {
                 stream = null;
-                ConnectionLostHandler handler = OnConnectionLost;
-                if(handler != null)
-                    handler();
+                if(OnConnectionLost != null)
+                    OnConnectionLost();
                 return null;
             }
         }
@@ -106,9 +104,8 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if(stream == null)
                 {
-                    ConnectionLostHandler handler = OnConnectionLost;
-                    if(handler != null)
-                        handler();
+                    if(OnConnectionLost != null)
+                        OnConnectionLost();
                     return false;
                 }
 
@@ -119,9 +116,8 @@ namespace de.unika.ipd.grGen.grShell
                 catch(Exception)
                 {
                     stream = null;
-                    ConnectionLostHandler handler = OnConnectionLost;
-                    if(handler != null)
-                        handler();
+                    if(OnConnectionLost != null)
+                        OnConnectionLost();
                     return false;
                 }
             }

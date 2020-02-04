@@ -221,7 +221,7 @@ namespace de.unika.ipd.grGen.grShell
             showIncludes = false;
             errorCode = 0; // 0==success, the return value
 
-            for(int i = 0; i < args.Length; i++)
+            for(int i = 0; i < args.Length; ++i)
             {
                 if(args[i][0] == '-')
                 {
@@ -243,7 +243,7 @@ namespace de.unika.ipd.grGen.grShell
                         }
                         command = args[i + 1];
                         Console.WriteLine("Will execute: \"" + command + "\"");
-                        i++;
+                        ++i;
                     }
                     else if(args[i] == "-N")
                         nonDebugNonGuiExitOnError = true;

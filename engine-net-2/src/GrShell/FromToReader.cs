@@ -98,12 +98,30 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public override int Peek() { throw new NotImplementedException(); }
-        public override int Read() { throw new NotImplementedException(); }
-        public override int ReadBlock(char[] buffer, int index, int count) { throw new NotImplementedException(); }
-        public override string ReadLine() { throw new NotImplementedException(); }
-        public override string ReadToEnd() { throw new NotImplementedException(); }
-        public new static TextReader Synchronized(TextReader reader) { throw new NotImplementedException(); }
+        public override int Peek()
+        {
+            throw new NotImplementedException();
+        }
+        public override int Read()
+        {
+            throw new NotImplementedException();
+        }
+        public override int ReadBlock(char[] buffer, int index, int count)
+        {
+            throw new NotImplementedException();
+        }
+        public override string ReadLine()
+        {
+            throw new NotImplementedException();
+        }
+        public override string ReadToEnd()
+        {
+            throw new NotImplementedException();
+        }
+        public new static TextReader Synchronized(TextReader reader)
+        {
+            throw new NotImplementedException();
+        }
 
         private readonly TextReader wrappedReader;
         private readonly String from;

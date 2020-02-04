@@ -216,14 +216,16 @@ namespace de.unika.ipd.grGen.grShell
 
         private bool ContainsSpecial(Sequence seq)
         {
-            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall) 
+            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
                 && ((SequenceRuleCall)seq).Special)
+            {
                 return true;
-
+            }
             foreach(Sequence child in seq.Children)
+            {
                 if(ContainsSpecial(child))
                     return true;
-
+            }
             return false;
         }
 
@@ -246,7 +248,8 @@ namespace de.unika.ipd.grGen.grShell
                 impl.curShellProcEnv.ProcEnv.OnExitingSequence += DumpOnExitingSequence;
                 installedDumpHandlers = true;
             }
-            else impl.curShellProcEnv.ProcEnv.OnEntereringSequence += NormalEnteringSequenceHandler;
+            else
+                impl.curShellProcEnv.ProcEnv.OnEntereringSequence += NormalEnteringSequenceHandler;
 
             curGRS = seq;
             curRule = null;
@@ -257,7 +260,8 @@ namespace de.unika.ipd.grGen.grShell
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
             StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
             Timer timer = null;
-            if(!debug && !silenceExec) timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
+            if(!debug && !silenceExec)
+                timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
 
             try
             {
@@ -315,7 +319,8 @@ namespace de.unika.ipd.grGen.grShell
                 impl.curShellProcEnv.ProcEnv.OnEntereringSequence -= DumpOnEntereringSequence;
                 impl.curShellProcEnv.ProcEnv.OnExitingSequence -= DumpOnExitingSequence;
             }
-            else impl.curShellProcEnv.ProcEnv.OnEntereringSequence -= NormalEnteringSequenceHandler;
+            else
+                impl.curShellProcEnv.ProcEnv.OnEntereringSequence -= NormalEnteringSequenceHandler;
         }
 
 #if DEBUGACTIONS
@@ -323,20 +328,20 @@ namespace de.unika.ipd.grGen.grShell
         {
             switch(seq.OperandClass)
             {
-                case Sequence.OperandType.Concat:
-                    ShowSequenceDetails(seq.LeftOperand, perfInfo);
-                    ShowSequenceDetails(seq.RightOperand, perfInfo);
-                    break;
-                case Sequence.OperandType.Star:
-                case Sequence.OperandType.Max:
-                    ShowSequenceDetails(seq.LeftOperand, perfInfo);
-                    break;
-                case Sequence.OperandType.Rule:
-                case Sequence.OperandType.RuleAll:
-                    debugOut.WriteLine(" - {0,-18}: Matches = {1,6}  Match = {2,6} ms  Rewrite = {3,6} ms",
-                        ((IAction) seq.Value).Name, seq.GetTotalApplied(),
-                        perfInfo.TimeDiffToMS(seq.GetTotalMatchTime()), perfInfo.TimeDiffToMS(seq.GetTotalRewriteTime()));
-                    break;
+            case Sequence.OperandType.Concat:
+                ShowSequenceDetails(seq.LeftOperand, perfInfo);
+                ShowSequenceDetails(seq.RightOperand, perfInfo);
+                break;
+            case Sequence.OperandType.Star:
+            case Sequence.OperandType.Max:
+                ShowSequenceDetails(seq.LeftOperand, perfInfo);
+                break;
+            case Sequence.OperandType.Rule:
+            case Sequence.OperandType.RuleAll:
+                debugOut.WriteLine(" - {0,-18}: Matches = {1,6}  Match = {2,6} ms  Rewrite = {3,6} ms",
+                    ((IAction) seq.Value).Name, seq.GetTotalApplied(),
+                    perfInfo.TimeDiffToMS(seq.GetTotalMatchTime()), perfInfo.TimeDiffToMS(seq.GetTotalRewriteTime()));
+                break;
             }
         }
 #endif
@@ -404,11 +409,15 @@ namespace de.unika.ipd.grGen.grShell
         private void DumpMatch(IMatch match, String indentation)
         {
             int i = 0;
-            foreach (INode node in match.Nodes)
+            foreach(INode node in match.Nodes)
+            {
                 impl.debugOut.WriteLine(indentation + match.Pattern.Nodes[i++].UnprefixedName + ": " + impl.curShellProcEnv.ProcEnv.NamedGraph.GetElementName(node));
+            }
             int j = 0;
-            foreach (IEdge edge in match.Edges)
+            foreach(IEdge edge in match.Edges)
+            {
                 impl.debugOut.WriteLine(indentation + match.Pattern.Edges[j++].UnprefixedName + ": " + impl.curShellProcEnv.ProcEnv.NamedGraph.GetElementName(edge));
+            }
 
             foreach(IMatch nestedMatch in match.EmbeddedGraphs)
             {
@@ -538,16 +547,15 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 debugModeActivated = true;
             }
-            else debugModeActivated = false;
+            else
+                debugModeActivated = false;
 
             ApplyRewriteSequence(seq, true);
 
             if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
             {
                 if(UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?"))
-                {
                     SetDebugMode(false);
-                }
             }
         }
 

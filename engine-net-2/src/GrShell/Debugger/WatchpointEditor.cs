@@ -105,7 +105,8 @@ namespace de.unika.ipd.grGen.grShell
                     return num;
                 }
                 Console.WriteLine("You must enter a valid integer number!");
-            } while(true);
+            }
+            while(true);
         }
 
         private void EditWatchpoint(int num)
@@ -223,9 +224,7 @@ namespace de.unika.ipd.grGen.grShell
                 return new SubruleDebuggingConfigurationRule(sde, message, smmm, sdd);
             }
             else if(sde == SubruleDebuggingEvent.Match)
-            {
                 return new SubruleDebuggingConfigurationRule(sde, action, sdd, ifClause);
-            }
             else if(sde == SubruleDebuggingEvent.New || sde == SubruleDebuggingEvent.Delete
                 || sde == SubruleDebuggingEvent.Retype || sde == SubruleDebuggingEvent.SetAttributes)
             {
@@ -282,9 +281,7 @@ namespace de.unika.ipd.grGen.grShell
                     return SubruleDebuggingEvent.Undefined;
                 default:
                     if(key.KeyChar == 'k' && cr != null)
-                    {
                         return cr.DebuggingEvent;
-                    }
                     else
                     {
                         Console.WriteLine("Illegal choice (Key = " + key.Key
@@ -292,7 +289,8 @@ namespace de.unika.ipd.grGen.grShell
                         break;
                     }
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         private SubruleMesssageMatchingMode DetermineMessageAndMessageMatchingMode(SubruleDebuggingConfigurationRule cr, out string message)
@@ -336,9 +334,7 @@ namespace de.unika.ipd.grGen.grShell
                     return SubruleMesssageMatchingMode.Undefined;
                 default:
                     if(key.KeyChar == 'k' && cr != null)
-                    {
                         return cr.MessageMatchingMode;
-                    }
                     else
                     {
                         Console.WriteLine("Illegal choice (Key = " + key.Key
@@ -346,7 +342,8 @@ namespace de.unika.ipd.grGen.grShell
                         break;
                     }
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         private IAction DetermineAction(SubruleDebuggingConfigurationRule cr)
@@ -363,9 +360,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(actionName.Length == 0)
                 {
                     if(cr != null)
-                    {
                         return cr.ActionToMatch;
-                    }
                     else
                         return null;
                 }
@@ -375,7 +370,8 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("Unknown action: " + actionName);
                 else
                     return action;
-            } while(true);
+            }
+            while(true);
         }
 
         private bool DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr, 
@@ -430,7 +426,9 @@ namespace de.unika.ipd.grGen.grShell
                 default:
                     if(key.KeyChar == 'k' && cr != null)
                     {
-                        return cr.NameToMatch != null ? SubruleDebuggingMatchGraphElementMode.ByName : SubruleDebuggingMatchGraphElementMode.ByType;
+                        return cr.NameToMatch != null ?
+                            SubruleDebuggingMatchGraphElementMode.ByName :
+                            SubruleDebuggingMatchGraphElementMode.ByType;
                     }
                     else
                     {
@@ -439,7 +437,8 @@ namespace de.unika.ipd.grGen.grShell
                         break;
                     }
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         private bool DetermineMatchGraphElementByName(SubruleDebuggingConfigurationRule cr,
@@ -520,7 +519,9 @@ namespace de.unika.ipd.grGen.grShell
                 default:
                     if(key.KeyChar == 'k' && cr != null)
                     {
-                        return cr.OnlyThisType ? SubruleDebuggingMatchGraphElementByTypeMode.OnlyType : SubruleDebuggingMatchGraphElementByTypeMode.IncludingSubtypes;
+                        return cr.OnlyThisType ? 
+                            SubruleDebuggingMatchGraphElementByTypeMode.OnlyType :
+                            SubruleDebuggingMatchGraphElementByTypeMode.IncludingSubtypes;
                     }
                     else
                     {
@@ -553,9 +554,7 @@ namespace de.unika.ipd.grGen.grShell
                     return SubruleDebuggingDecision.Undefined;
                 default:
                     if(key.KeyChar == 'k' && cr != null)
-                    {
                         return cr.DecisionOnMatch;
-                    }
                     else
                     {
                         Console.WriteLine("Illegal choice (Key = " + key.Key
@@ -563,7 +562,8 @@ namespace de.unika.ipd.grGen.grShell
                         break;
                     }
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         private SequenceExpression DetermineCondition(SubruleDebuggingConfigurationRule cr, 
@@ -626,7 +626,8 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     Console.WriteLine("Unable to parse sequence expression : " + ex);
                 }
-            } while(true);
+            }
+            while(true);
         }
     }
 }

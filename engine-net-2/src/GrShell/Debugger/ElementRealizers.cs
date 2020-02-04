@@ -87,17 +87,47 @@ namespace de.unika.ipd.grGen.grShell
     public class ElementRealizers
     {
         // the ids of the realizers registered to yComp for display during debugging
-        public String NormalNodeRealizer { get { return nodeRealizers[(int)ElementMode.Normal].Name; } }
-        public String MatchedNodeRealizer { get { return nodeRealizers[(int)ElementMode.Matched].Name; } }
-        public String NewNodeRealizer { get { return nodeRealizers[(int)ElementMode.Created].Name; } }
-        public String DeletedNodeRealizer { get { return nodeRealizers[(int)ElementMode.Deleted].Name; } }
-        public String RetypedNodeRealizer { get { return nodeRealizers[(int)ElementMode.Retyped].Name; } }
+        public String NormalNodeRealizer
+        {
+            get { return nodeRealizers[(int)ElementMode.Normal].Name; }
+        }
+        public String MatchedNodeRealizer
+        {
+            get { return nodeRealizers[(int)ElementMode.Matched].Name; }
+        }
+        public String NewNodeRealizer
+        {
+            get { return nodeRealizers[(int)ElementMode.Created].Name; }
+        }
+        public String DeletedNodeRealizer
+        {
+            get { return nodeRealizers[(int)ElementMode.Deleted].Name; }
+        }
+        public String RetypedNodeRealizer
+        {
+            get { return nodeRealizers[(int)ElementMode.Retyped].Name; }
+        }
 
-        public String NormalEdgeRealizer { get { return edgeRealizers[(int)ElementMode.Normal].Name; } }
-        public String MatchedEdgeRealizer { get { return edgeRealizers[(int)ElementMode.Matched].Name; } }
-        public String NewEdgeRealizer { get { return edgeRealizers[(int)ElementMode.Created].Name; } }
-        public String DeletedEdgeRealizer { get { return edgeRealizers[(int)ElementMode.Deleted].Name; } }
-        public String RetypedEdgeRealizer { get { return edgeRealizers[(int)ElementMode.Retyped].Name; } }
+        public String NormalEdgeRealizer
+        {
+            get { return edgeRealizers[(int)ElementMode.Normal].Name; }
+        }
+        public String MatchedEdgeRealizer
+        {
+            get { return edgeRealizers[(int)ElementMode.Matched].Name; }
+        }
+        public String NewEdgeRealizer
+        {
+            get { return edgeRealizers[(int)ElementMode.Created].Name; }
+        }
+        public String DeletedEdgeRealizer
+        {
+            get { return edgeRealizers[(int)ElementMode.Deleted].Name; }
+        }
+        public String RetypedEdgeRealizer
+        {
+            get { return edgeRealizers[(int)ElementMode.Retyped].Name; }
+        }
 
         // the realizers registered to yComp for display during debugging
         readonly NodeRealizer[] nodeRealizers = new NodeRealizer[5];
@@ -270,7 +300,7 @@ namespace de.unika.ipd.grGen.grShell
                         + VCGDumper.GetNodeShape(shape) + "\"\n");
                 }
                 registeredNodeRealizers.Add(newNr, newNr);
-                nextNodeRealizerID++;
+                ++nextNodeRealizerID;
                 nr = newNr;
             }
             return nr;
@@ -292,7 +322,7 @@ namespace de.unika.ipd.grGen.grShell
                         + VCGDumper.GetLineStyle(newEr.LineStyle) + "\"\n");
                 }
                 registeredEdgeRealizers.Add(newEr, newEr);
-                nextEdgeRealizerID++;
+                ++nextEdgeRealizerID;
                 er = newEr;
             }
             return er;

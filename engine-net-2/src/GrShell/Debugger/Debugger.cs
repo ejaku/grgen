@@ -1779,9 +1779,7 @@ namespace de.unika.ipd.grGen.grShell
                         {
                             Console.Write("(u)p from current entry, ");
                             if(TargetStackLevelForOutInDetailedMode() > 0)
-                            {
                                 Console.Write("(o)ut of detail debugging entry we are nested in, ");
-                            }
                         }
                     }
                 }

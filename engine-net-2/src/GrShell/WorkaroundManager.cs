@@ -103,18 +103,21 @@ namespace de.unika.ipd.grGen.grShell
                 if(lineBuffer != null)
                 {
                     num = lineBuffer.Length - curLineBufferPos;
-                    if(num > count) num = count;
+                    if(num > count)
+                        num = count;
                     Array.ConstrainedCopy(lineBuffer, curLineBufferPos, buffer, index, num);
                     curLineBufferPos += num;
-                    if(curLineBufferPos == lineBuffer.Length) lineBuffer = null;
+                    if(curLineBufferPos == lineBuffer.Length)
+                        lineBuffer = null;
                     index += num;
                     count -= num;
-                    if(count == 0) return num;
+                    if(count == 0)
+                        return num;
                 }
                 String line = Console.ReadLine() + Environment.NewLine;
-                //                lineBuffer = line.ToCharArray();
+                //lineBuffer = line.ToCharArray();
                 int realChars = 0;
-                for(int i = 0; i < line.Length; i++)
+                for(int i = 0; i < line.Length; ++i)
                 {
                     if(line[i] != 0)                                // not special key code? (e.g. for arrow keys)
                     {
@@ -126,12 +129,12 @@ namespace de.unika.ipd.grGen.grShell
                                 continue;   // -> i++ => i += 4
                             }
                         }
-                        realChars++;
+                        ++realChars;
                     }
                 }
 
                 lineBuffer = new char[realChars];
-                for(int i = 0, j = 0; i < line.Length; i++)
+                for(int i = 0, j = 0; i < line.Length; ++i)
                 {
                     if(line[i] != 0)                                // not special key code? (e.g. for arrow keys)
                     {
@@ -149,16 +152,21 @@ namespace de.unika.ipd.grGen.grShell
 
                 curLineBufferPos = 0;
                 num = lineBuffer.Length;
-                if(num > count) num = count;
+                if(num > count)
+                    num = count;
                 Array.ConstrainedCopy(lineBuffer, 0, buffer, index, num);
                 curLineBufferPos += num;
-                if(curLineBufferPos == lineBuffer.Length) lineBuffer = null;
+                if(curLineBufferPos == lineBuffer.Length)
+                    lineBuffer = null;
                 return num;
             }
         }
 
         private TextReader pIn = new MonoWorkaroundConsoleTextReader();
-        public TextReader In { get { return pIn; } }
+        public TextReader In
+        {
+            get { return pIn; }
+        }
 
         public abstract ConsoleKeyInfo ReadKey(bool intercept);
         public virtual ConsoleKeyInfo ReadKeyWithControlCAsInput()
@@ -268,20 +276,20 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleKeyInfo key = Console.ReadKey(intercept);
                 switch(key.Key)
                 {
-                    case (ConsoleKey) 16:           // shift
-                    case (ConsoleKey) 17:           // control
-                    case (ConsoleKey) 18:           // alt
-                    case (ConsoleKey) 20:           // caps lock
-                    case (ConsoleKey) 30676:        // context menu
-                        Console.ReadKey(true);      // catch second wrong key event
-                        break;
+                case (ConsoleKey) 16:           // shift
+                case (ConsoleKey) 17:           // control
+                case (ConsoleKey) 18:           // alt
+                case (ConsoleKey) 20:           // caps lock
+                case (ConsoleKey) 30676:        // context menu
+                    Console.ReadKey(true);      // catch second wrong key event
+                    break;
 
-                    case (ConsoleKey) 22:           // get(?) focus
-                    case (ConsoleKey) 23:           // loose(?) focus
-                        break;
-                    default:
-                        Console.ReadKey(true);      // catch wrong key event
-                        return key;
+                case (ConsoleKey) 22:           // get(?) focus
+                case (ConsoleKey) 23:           // loose(?) focus
+                    break;
+                default:
+                    Console.ReadKey(true);      // catch wrong key event
+                    return key;
                 }
             }
         }
@@ -332,7 +340,10 @@ namespace de.unika.ipd.grGen.grShell
             Console.BackgroundColor = oldBackgroundColor;
         }
 
-        public TextReader In { get { return Console.In; } }
+        public TextReader In
+        {
+            get { return Console.In; }
+        }
 
         public virtual ConsoleKeyInfo ReadKey(bool intercept)
         {

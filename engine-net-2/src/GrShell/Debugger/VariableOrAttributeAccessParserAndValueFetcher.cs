@@ -118,7 +118,8 @@ namespace de.unika.ipd.grGen.grShell
                         return false;
                     }
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         private IGraphElement ParseAccessByName(string str, out string attribute)

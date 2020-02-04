@@ -41,7 +41,8 @@ namespace de.unika.ipd.grGen.grShell
                         + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
                     break;
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         public static void ChooseSequencePrintHeader(PrintSequenceContext context, int seqToExecute)
@@ -105,7 +106,8 @@ namespace de.unika.ipd.grGen.grShell
                         + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
                     break;
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         public static void ChoosePointPrintHeader(PrintSequenceContext context, double pointToExecute)
@@ -148,7 +150,8 @@ namespace de.unika.ipd.grGen.grShell
                         + ")! Only (e)nter number and (s)/(n) to commit and continue allowed! ");
                     break;
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         public static void ChooseMatchSomeFromSetPrintHeader(PrintSequenceContext context, int totalMatchToExecute)
@@ -207,7 +210,8 @@ namespace de.unika.ipd.grGen.grShell
                         + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
                     break;
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         public static void ChooseMatchPrintHeader(PrintSequenceContext context, int numFurtherMatchesToApply)
@@ -268,7 +272,8 @@ namespace de.unika.ipd.grGen.grShell
                         + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
                     break;
                 }
-            } while(true);
+            }
+            while(true);
         }
 
         public static int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
@@ -291,7 +296,8 @@ namespace de.unika.ipd.grGen.grShell
                     return num;
                 }
                 Console.WriteLine("You must enter a valid integer number!");
-            } while(true);
+            }
+            while(true);
         }
 
         public static double ChooseRandomNumber(double randomNumber, Sequence seq)
@@ -315,7 +321,8 @@ namespace de.unika.ipd.grGen.grShell
                     return num;
                 }
                 Console.WriteLine("You must enter a valid double number!");
-            } while(true);
+            }
+            while(true);
         }
 
         public static object ChooseValue(IDebuggerEnvironment env, string type, Sequence seq)

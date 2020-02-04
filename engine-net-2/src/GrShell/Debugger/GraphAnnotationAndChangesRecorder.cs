@@ -77,9 +77,13 @@ namespace de.unika.ipd.grGen.grShell
         public void AnnotateGraphElements(YCompClient ycompClient)
         {
             foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
+            {
                 ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
+            }
             foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
+            {
                 ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
+            }
         }
 
         public void SetCurrentRule(IRulePattern curRulePattern)
@@ -197,19 +201,31 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             foreach(String edgeName in deletedEdges)
+            {
                 ycompClient.DeleteEdge(edgeName);
+            }
             foreach(String nodeName in deletedNodes)
+            {
                 ycompClient.DeleteNode(nodeName);
+            }
 
             foreach(INode node in retypedNodes.Keys)
+            {
                 ycompClient.ChangeNode(node, null);
+            }
             foreach(IEdge edge in retypedEdges.Keys)
+            {
                 ycompClient.ChangeEdge(edge, null);
+            }
 
             foreach(INode node in annotatedNodes.Keys)
+            {
                 ycompClient.AnnotateElement(node, null);
+            }
             foreach(IEdge edge in annotatedEdges.Keys)
+            {
                 ycompClient.AnnotateElement(edge, null);
+            }
         }
     }
 }

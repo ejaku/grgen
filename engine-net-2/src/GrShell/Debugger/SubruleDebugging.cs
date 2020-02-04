@@ -53,11 +53,11 @@ namespace de.unika.ipd.grGen.grShell
                 sb.Append("(");
             switch(type)
             {
-                case SubruleComputationType.Entry: sb.Append("Entry "); break;
-                case SubruleComputationType.Exit: sb.Append("Exit "); break;
-                case SubruleComputationType.Emit: sb.Append("Emit "); break;
-                case SubruleComputationType.Halt: sb.Append("Halt "); break;
-                case SubruleComputationType.Highlight: sb.Append("Highlight "); break;
+            case SubruleComputationType.Entry: sb.Append("Entry "); break;
+            case SubruleComputationType.Exit: sb.Append("Exit "); break;
+            case SubruleComputationType.Emit: sb.Append("Emit "); break;
+            case SubruleComputationType.Halt: sb.Append("Halt "); break;
+            case SubruleComputationType.Highlight: sb.Append("Highlight "); break;
             }
             sb.Append(message);
             for(int i = 0; i < parameters.Count; ++i)
@@ -191,16 +191,47 @@ namespace de.unika.ipd.grGen.grShell
             this.ifClause = ifClause;
         }
 
-        public SubruleDebuggingEvent DebuggingEvent { get { return debuggingEvent; } }
-        public string MessageToMatch { get { return messageToMatch; } }
-        public SubruleMesssageMatchingMode MessageMatchingMode { get { return messageMatchingMode; } }
-        public IAction ActionToMatch { get { return actionToMatch; } }
-        public GrGenType TypeToMatch { get { return typeToMatch; } }
-        public bool OnlyThisType { get { return onlyThisType; } }
-        public string NameToMatch { get { return nameToMatch; } }
-        public SubruleDebuggingDecision DecisionOnMatch { get { return decisionOnMatch; } }
-        public SequenceExpression IfClause { get { return ifClause; } }
-        public bool Enabled { get { return enabled; } set { enabled = value; } }
+        public SubruleDebuggingEvent DebuggingEvent
+        {
+            get { return debuggingEvent; }
+        }
+        public string MessageToMatch
+        {
+            get { return messageToMatch; }
+        }
+        public SubruleMesssageMatchingMode MessageMatchingMode
+        {
+            get { return messageMatchingMode; }
+        }
+        public IAction ActionToMatch
+        {
+            get { return actionToMatch; }
+        }
+        public GrGenType TypeToMatch
+        {
+            get { return typeToMatch; }
+        }
+        public bool OnlyThisType
+        {
+            get { return onlyThisType; }
+        }
+        public string NameToMatch
+        {
+            get { return nameToMatch; }
+        }
+        public SubruleDebuggingDecision DecisionOnMatch
+        {
+            get { return decisionOnMatch; }
+        }
+        public SequenceExpression IfClause
+        {
+            get { return ifClause; }
+        }
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; }
+        }
 
         public SubruleDebuggingDecision Decide(SubruleDebuggingEvent sde, object data, IGraphProcessingEnvironment procEnv)
         {
@@ -211,104 +242,104 @@ namespace de.unika.ipd.grGen.grShell
 
             switch(sde)
             {
-                case SubruleDebuggingEvent.Add:
-                case SubruleDebuggingEvent.Rem:
-                case SubruleDebuggingEvent.Emit:
-                case SubruleDebuggingEvent.Halt:
-                case SubruleDebuggingEvent.Highlight:
+            case SubruleDebuggingEvent.Add:
+            case SubruleDebuggingEvent.Rem:
+            case SubruleDebuggingEvent.Emit:
+            case SubruleDebuggingEvent.Halt:
+            case SubruleDebuggingEvent.Highlight:
+                {
+                    string message = (string)data;
+                    switch(messageMatchingMode)
                     {
-                        string message = (string)data;
-                        switch(messageMatchingMode)
-                        {
-                            case SubruleMesssageMatchingMode.Equals:
-                                if(message == messageToMatch)
-                                    return decisionOnMatch;
-                                break;
-                            case SubruleMesssageMatchingMode.StartsWith:
-                                if(message.StartsWith(messageToMatch))
-                                    return decisionOnMatch;
-                                break;
-                            case SubruleMesssageMatchingMode.EndsWith:
-                                if(message.EndsWith(messageToMatch))
-                                    return decisionOnMatch;
-                                break;
-                            case SubruleMesssageMatchingMode.Contains:
-                                if(message.Contains(messageToMatch))
-                                    return decisionOnMatch;
-                                break;
-                            default:
-                                throw new Exception("INTERNAL FAILURE: unkonwn message matching mode");
-                        }
+                    case SubruleMesssageMatchingMode.Equals:
+                        if(message == messageToMatch)
+                            return decisionOnMatch;
+                        break;
+                    case SubruleMesssageMatchingMode.StartsWith:
+                        if(message.StartsWith(messageToMatch))
+                            return decisionOnMatch;
+                        break;
+                    case SubruleMesssageMatchingMode.EndsWith:
+                        if(message.EndsWith(messageToMatch))
+                            return decisionOnMatch;
+                        break;
+                    case SubruleMesssageMatchingMode.Contains:
+                        if(message.Contains(messageToMatch))
+                            return decisionOnMatch;
+                        break;
+                    default:
+                        throw new Exception("INTERNAL FAILURE: unkonwn message matching mode");
                     }
-                    return SubruleDebuggingDecision.Undefined;
+                }
+                return SubruleDebuggingDecision.Undefined;
 
-                case SubruleDebuggingEvent.Match:
+            case SubruleDebuggingEvent.Match:
+                {
+                    IMatches matches = (IMatches)data;
+                    if(matches.Producer == actionToMatch)
                     {
-                        IMatches matches = (IMatches)data;
-                        if(matches.Producer == actionToMatch)
+                        if(ifClause != null)
                         {
-                            if(ifClause != null)
+                            object oldThis = procEnv.GetVariableValue("this");
+                            bool result = false;
+                            foreach(IMatch match in matches)
                             {
-                                object oldThis = procEnv.GetVariableValue("this");
-                                bool result = false;
-                                foreach(IMatch match in matches)
+                                procEnv.SetVariableValue("this", match);
+                                if((bool)ifClause.Evaluate(procEnv))
                                 {
-                                    procEnv.SetVariableValue("this", match);
-                                    if((bool)ifClause.Evaluate(procEnv))
-                                    {
-                                        result = true;
-                                        break;
-                                    }
+                                    result = true;
+                                    break;
                                 }
-                                procEnv.SetVariableValue("this", oldThis);
-                                if(result)
-                                    return decisionOnMatch;
                             }
-                            else
+                            procEnv.SetVariableValue("this", oldThis);
+                            if(result)
                                 return decisionOnMatch;
                         }
-                        return SubruleDebuggingDecision.Undefined;
+                        else
+                            return decisionOnMatch;
                     }
+                    return SubruleDebuggingDecision.Undefined;
+                }
 
-                case SubruleDebuggingEvent.New:
-                case SubruleDebuggingEvent.Delete:
-                case SubruleDebuggingEvent.Retype:
-                case SubruleDebuggingEvent.SetAttributes:
+            case SubruleDebuggingEvent.New:
+            case SubruleDebuggingEvent.Delete:
+            case SubruleDebuggingEvent.Retype:
+            case SubruleDebuggingEvent.SetAttributes:
+                {
+                    IGraphElement elem = (IGraphElement)data;
+                    if(nameToMatch != null)
                     {
-                        IGraphElement elem = (IGraphElement)data;
-                        if(nameToMatch != null)
+                        if(procEnv.NamedGraph.GetElementName(elem) == nameToMatch)
                         {
-                            if(procEnv.NamedGraph.GetElementName(elem) == nameToMatch)
-                            {
-                                if(If(elem, procEnv))
-                                    return decisionOnMatch;
-                            }
+                            if(If(elem, procEnv))
+                                return decisionOnMatch;
                         }
-                        if(typeToMatch != null)
+                    }
+                    if(typeToMatch != null)
+                    {
+                        if(elem.Type is NodeType && typeToMatch is NodeType && elem.Type.IsA(typeToMatch)
+                            || elem.Type is EdgeType && typeToMatch is EdgeType && elem.Type.IsA(typeToMatch))
                         {
-                            if(elem.Type is NodeType && typeToMatch is NodeType && elem.Type.IsA(typeToMatch)
-                                || elem.Type is EdgeType && typeToMatch is EdgeType && elem.Type.IsA(typeToMatch))
+                            if(onlyThisType)
                             {
-                                if(onlyThisType)
-                                {
-                                    if(typeToMatch.IsA(elem.Type))
-                                    {
-                                        if(If(elem, procEnv))
-                                            return decisionOnMatch;
-                                    }
-                                }
-                                else
+                                if(typeToMatch.IsA(elem.Type))
                                 {
                                     if(If(elem, procEnv))
                                         return decisionOnMatch;
                                 }
                             }
+                            else
+                            {
+                                if(If(elem, procEnv))
+                                    return decisionOnMatch;
+                            }
                         }
-                        return SubruleDebuggingDecision.Undefined;
                     }
-
-                default:
                     return SubruleDebuggingDecision.Undefined;
+                }
+
+            default:
+                return SubruleDebuggingDecision.Undefined;
             }
         }
 
@@ -334,47 +365,47 @@ namespace de.unika.ipd.grGen.grShell
 
             switch(debuggingEvent)
             {
-                case SubruleDebuggingEvent.Add:
-                case SubruleDebuggingEvent.Rem:
-                case SubruleDebuggingEvent.Emit:
-                case SubruleDebuggingEvent.Halt:
-                case SubruleDebuggingEvent.Highlight:
+            case SubruleDebuggingEvent.Add:
+            case SubruleDebuggingEvent.Rem:
+            case SubruleDebuggingEvent.Emit:
+            case SubruleDebuggingEvent.Halt:
+            case SubruleDebuggingEvent.Highlight:
+                {
+                    string message = (string)data;
+                    sb.Append("\"");
+                    sb.Append(message);
+                    sb.Append("\"");
+                    for(int i = 0; i < additionalData.Length; ++i)
                     {
-                        string message = (string)data;
-                        sb.Append("\"");
-                        sb.Append(message);
-                        sb.Append("\"");
-                        for(int i = 0; i < additionalData.Length; ++i)
-                        {
-                            sb.Append(" ");
-                            sb.Append(EmitHelper.Clip(EmitHelper.ToStringAutomatic(additionalData[i], graph), 120));
-                        }
-                        break;
+                        sb.Append(" ");
+                        sb.Append(EmitHelper.Clip(EmitHelper.ToStringAutomatic(additionalData[i], graph), 120));
                     }
-                case SubruleDebuggingEvent.Match:
+                    break;
+                }
+            case SubruleDebuggingEvent.Match:
+                {
+                    IMatches matches = (IMatches)data;
+                    sb.Append(matches.Producer.PackagePrefixedName);
+                    break;
+                }
+            case SubruleDebuggingEvent.New:
+            case SubruleDebuggingEvent.Delete:
+            case SubruleDebuggingEvent.Retype:
+            case SubruleDebuggingEvent.SetAttributes:
+                {
+                    IGraphElement elem = (IGraphElement)data;
+                    sb.Append(graph.GetElementName(elem));
+                    sb.Append(":");
+                    sb.Append(elem.Type.Name);
+                    if(additionalData.Length > 0)
                     {
-                        IMatches matches = (IMatches)data;
-                        sb.Append(matches.Producer.PackagePrefixedName);
-                        break;
+                        sb.Append("."); // the attribute name
+                        sb.Append((string)additionalData[0]);
                     }
-                case SubruleDebuggingEvent.New:
-                case SubruleDebuggingEvent.Delete:
-                case SubruleDebuggingEvent.Retype:
-                case SubruleDebuggingEvent.SetAttributes:
-                    {
-                        IGraphElement elem = (IGraphElement)data;
-                        sb.Append(graph.GetElementName(elem));
-                        sb.Append(":");
-                        sb.Append(elem.Type.Name);
-                        if(additionalData.Length > 0)
-                        {
-                            sb.Append("."); // the attribute name
-                            sb.Append((string)additionalData[0]);
-                        }
-                        break;
-                    }
-                default:
-                    return "INTERNAL FAILURE, unknown SubruleDebuggingConfigurationRule";
+                    break;
+                }
+            default:
+                return "INTERNAL FAILURE, unknown SubruleDebuggingConfigurationRule";
             }
 
             sb.Append(" triggers ");
@@ -393,46 +424,46 @@ namespace de.unika.ipd.grGen.grShell
             sb.Append(" ");
             switch(debuggingEvent)
             {
-                case SubruleDebuggingEvent.Add: 
-                case SubruleDebuggingEvent.Rem: 
-                case SubruleDebuggingEvent.Emit: 
-                case SubruleDebuggingEvent.Halt: 
-                case SubruleDebuggingEvent.Highlight: 
+            case SubruleDebuggingEvent.Add: 
+            case SubruleDebuggingEvent.Rem: 
+            case SubruleDebuggingEvent.Emit: 
+            case SubruleDebuggingEvent.Halt: 
+            case SubruleDebuggingEvent.Highlight: 
+                {
+                    sb.Append(ToString(messageMatchingMode));
+                    sb.Append("(\"");
+                    sb.Append(messageToMatch);
+                    sb.Append("\") ");
+                    break;
+                }
+            case SubruleDebuggingEvent.Match: 
+                {
+                    sb.Append(actionToMatch.PackagePrefixedName);
+                    sb.Append(" ");
+                    break;
+                }
+            case SubruleDebuggingEvent.New: 
+            case SubruleDebuggingEvent.Delete: 
+            case SubruleDebuggingEvent.Retype: 
+            case SubruleDebuggingEvent.SetAttributes: 
+                {
+                    if(nameToMatch != null)
                     {
-                        sb.Append(ToString(messageMatchingMode));
-                        sb.Append("(\"");
-                        sb.Append(messageToMatch);
-                        sb.Append("\") ");
-                        break;
+                        sb.Append("@(");
+                        sb.Append(nameToMatch);
+                        sb.Append(") ");
                     }
-                case SubruleDebuggingEvent.Match: 
+                    else
                     {
-                        sb.Append(actionToMatch.PackagePrefixedName);
+                        if(onlyThisType)
+                            sb.Append("only ");
+                        sb.Append(typeToMatch.PackagePrefixedName);
                         sb.Append(" ");
-                        break;
                     }
-                case SubruleDebuggingEvent.New: 
-                case SubruleDebuggingEvent.Delete: 
-                case SubruleDebuggingEvent.Retype: 
-                case SubruleDebuggingEvent.SetAttributes: 
-                    {
-                        if(nameToMatch != null)
-                        {
-                            sb.Append("@(");
-                            sb.Append(nameToMatch);
-                            sb.Append(") ");
-                        }
-                        else
-                        {
-                            if(onlyThisType)
-                                sb.Append("only ");
-                            sb.Append(typeToMatch.PackagePrefixedName);
-                            sb.Append(" ");
-                        }
-                        break;
-                    }
-                default:
-                    return "INTERNAL FAILURE, unknown SubruleDebuggingConfigurationRule";
+                    break;
+                }
+            default:
+                return "INTERNAL FAILURE, unknown SubruleDebuggingConfigurationRule";
             }
 
             if(decisionOnMatch == SubruleDebuggingDecision.Break)
@@ -450,17 +481,17 @@ namespace de.unika.ipd.grGen.grShell
         {
             switch(evt)
             {
-                case SubruleDebuggingEvent.Add: return "add";
-                case SubruleDebuggingEvent.Rem: return "rem";
-                case SubruleDebuggingEvent.Emit: return "emit";
-                case SubruleDebuggingEvent.Halt: return "halt";
-                case SubruleDebuggingEvent.Highlight: return "highlight";
-                case SubruleDebuggingEvent.Match: return "match";
-                case SubruleDebuggingEvent.New: return "new";
-                case SubruleDebuggingEvent.Delete: return "delete";
-                case SubruleDebuggingEvent.Retype: return "retype";
-                case SubruleDebuggingEvent.SetAttributes: return "set attributes";
-                default: return "INTERNAL FAILURE, unknown SubruleDebuggingEvent";
+            case SubruleDebuggingEvent.Add: return "add";
+            case SubruleDebuggingEvent.Rem: return "rem";
+            case SubruleDebuggingEvent.Emit: return "emit";
+            case SubruleDebuggingEvent.Halt: return "halt";
+            case SubruleDebuggingEvent.Highlight: return "highlight";
+            case SubruleDebuggingEvent.Match: return "match";
+            case SubruleDebuggingEvent.New: return "new";
+            case SubruleDebuggingEvent.Delete: return "delete";
+            case SubruleDebuggingEvent.Retype: return "retype";
+            case SubruleDebuggingEvent.SetAttributes: return "set attributes";
+            default: return "INTERNAL FAILURE, unknown SubruleDebuggingEvent";
             }
         }
 
@@ -468,11 +499,11 @@ namespace de.unika.ipd.grGen.grShell
         {
             switch(mode)
             {
-                case SubruleMesssageMatchingMode.Equals: return "equals";
-                case SubruleMesssageMatchingMode.StartsWith: return "startsWith";
-                case SubruleMesssageMatchingMode.EndsWith: return "endsWith";
-                case SubruleMesssageMatchingMode.Contains: return "contains";
-                default: return "INTERNAL FAILURE, unknown SubruleMesssageMatchingMode";
+            case SubruleMesssageMatchingMode.Equals: return "equals";
+            case SubruleMesssageMatchingMode.StartsWith: return "startsWith";
+            case SubruleMesssageMatchingMode.EndsWith: return "endsWith";
+            case SubruleMesssageMatchingMode.Contains: return "contains";
+            default: return "INTERNAL FAILURE, unknown SubruleMesssageMatchingMode";
             }
         }
     }
@@ -486,7 +517,10 @@ namespace de.unika.ipd.grGen.grShell
             configurationRules = new List<SubruleDebuggingConfigurationRule>();
         }
 
-        public List<SubruleDebuggingConfigurationRule> ConfigurationRules { get { return configurationRules; } }
+        public List<SubruleDebuggingConfigurationRule> ConfigurationRules
+        {
+            get { return configurationRules; }
+        }
 
         public void Replace(int index, SubruleDebuggingConfigurationRule rule)
         {
