@@ -290,7 +290,6 @@ namespace de.unika.ipd.grGen.lgsp
                 name = GetNextName();
                 NameToElem[name] = elem;
                 ElemToName[elem] = name;
-                //                throw new Exception((elem is INode ? "Node" : "Edge") + " of type \"" + elem.Type.Name + "\" has no name!");
             }
             return name;
         }
@@ -377,7 +376,6 @@ namespace de.unika.ipd.grGen.lgsp
             if(elemName == null)
                 elemName = GetNextName();
 
-            //            LGSPNode node = new LGSPNode(nodeType);
             LGSPNode node = (LGSPNode)nodeType.CreateNode();
             AddNodeWithoutEvents(node, nodeType.TypeID);
 
@@ -443,7 +441,6 @@ namespace de.unika.ipd.grGen.lgsp
             if(elemName == null)
                 elemName = GetNextName();
 
-            //            LGSPEdge edge = new LGSPEdge(edgeType, source, target);
             LGSPEdge edge = (LGSPEdge)edgeType.CreateEdge(source, target);
             AddEdgeWithoutEvents(edge, edgeType.TypeID);
 

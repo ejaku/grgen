@@ -410,7 +410,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        // generate the exact action interface
+        /// generate the exact action interface
         /// </summary>
         void GenerateActionInterface(SourceBuilder sb, LGSPRulePattern matchingPattern)
         {
@@ -484,8 +484,8 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        // generate implementation of the exact action interface,
-        // delegate calls of the inexact action interface IAction to the exact action interface
+        /// generate implementation of the exact action interface,
+        /// delegate calls of the inexact action interface IAction to the exact action interface
         /// </summary>
         void GenerateActionImplementation(SourceBuilder sb, LGSPRulePattern matchingPattern)
         {
