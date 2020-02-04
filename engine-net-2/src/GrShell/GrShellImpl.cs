@@ -2115,84 +2115,10 @@ namespace de.unika.ipd.grGen.grShell
             foreach(Param par in attributes)
             {
                 AttributeType attrType = type.GetAttributeType(par.Key);
-                object value = null;
+
                 try
                 {
-                    if(attrType == null)
-                    {
-                        errOut.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", type.PackagePrefixedName, par.Key);
-                        return false;
-                    }
-                    IDictionary setmap = null;
-                    IList array = null;
-                    IDeque deque = null;
-                    switch(attrType.Kind)
-                    {
-                    case AttributeKind.SetAttr:
-                        if(par.Value!="set")
-                        {
-                            errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
-                            throw new Exception("Set literal expected");
-                        }
-                        setmap = ContainerHelper.NewDictionary(
-                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph),
-                            typeof(de.unika.ipd.grGen.libGr.SetValueType));
-                        foreach(object val in par.Values)
-                        {
-                            setmap[ParseAttributeValue(attrType.ValueType, (String)val, par.Key)] = null;
-                        }
-                        value = setmap;
-                        break;
-                    case AttributeKind.MapAttr:
-                        if(par.Value!="map")
-                        {
-                            errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
-                            throw new Exception("Map literal expected");
-                        }
-                        setmap = ContainerHelper.NewDictionary(
-                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph),
-                            ContainerHelper.GetTypeFromNameForContainer(par.TgtType, curShellProcEnv.ProcEnv.NamedGraph));
-                        IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
-                        foreach(object val in par.Values)
-                        {
-                            tgtValEnum.MoveNext();
-                            setmap[ParseAttributeValue(attrType.KeyType, (String)val, par.Key)] =
-                                ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key);
-                        }
-                        value = setmap;
-                        break;
-                    case AttributeKind.ArrayAttr:
-                        if(par.Value!="array")
-                        {
-                            errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
-                            throw new Exception("Array literal expected");
-                        }
-                        array = ContainerHelper.NewList(
-                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph));
-                        foreach(object val in par.Values)
-                        {
-                            array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
-                        }
-                        value = array;
-                        break;
-                    case AttributeKind.DequeAttr:
-                        if(par.Value != "deque")
-                        {
-                            errOut.WriteLine("Attribute \"{0}\" must be a deque constructor!", par.Key);
-                            throw new Exception("Deque literal expected");
-                        }
-                        deque = ContainerHelper.NewDeque(
-                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph));
-                        foreach(object val in par.Values)
-                        {
-                            deque.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
-                        }
-                        value = deque;
-                        break;
-                    default:
-                        value = ParseAttributeValue(attrType, par.Value, par.Key);
-                        break;
-                    }
+                    GetCheckAttributes(par, type, attributes);
                 }
                 catch(Exception)
                 {
@@ -2207,84 +2133,11 @@ namespace de.unika.ipd.grGen.grShell
             foreach(Param par in attributes)
             {
                 AttributeType attrType = elem.Type.GetAttributeType(par.Key);
-                object value = null;
+
+                object value;
                 try
                 {
-                    if(attrType == null)
-                    {
-                        errOut.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", elem.Type.PackagePrefixedName, par.Key);
-                        return false;
-                    }
-                    IDictionary setmap = null;
-                    IList array = null;
-                    IDeque deque = null;
-                    switch(attrType.Kind)
-                    {
-                    case AttributeKind.SetAttr:
-                        if(par.Value!="set")
-                        {
-                            errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
-                            throw new Exception("Set literal expected");
-                        }
-                        setmap = ContainerHelper.NewDictionary(
-                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph),
-                            typeof(de.unika.ipd.grGen.libGr.SetValueType));
-                        foreach(object val in par.Values)
-                        {
-                            setmap[ParseAttributeValue(attrType.ValueType, (String)val, par.Key)] = null;
-                        }
-                        value = setmap;
-                        break;
-                    case AttributeKind.MapAttr:
-                        if(par.Value!="map")
-                        {
-                            errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
-                            throw new Exception("Map literal expected");
-                        }
-                        setmap = ContainerHelper.NewDictionary(
-                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph),
-                            ContainerHelper.GetTypeFromNameForContainer(par.TgtType, curShellProcEnv.ProcEnv.NamedGraph));
-                        IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
-                        foreach(object val in par.Values)
-                        {
-                            tgtValEnum.MoveNext();
-                            setmap[ParseAttributeValue(attrType.KeyType, (String)val, par.Key)] =
-                                ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key);
-                        }
-                        value = setmap;
-                        break;
-                    case AttributeKind.ArrayAttr:
-                        if(par.Value!="array")
-                        {
-                            errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
-                            throw new Exception("Array literal expected");
-                        }
-                        array = ContainerHelper.NewList(
-                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph));
-                        foreach(object val in par.Values)
-                        {
-                            array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
-                        }
-                        value = array;
-                        break;
-                    case AttributeKind.DequeAttr:
-                        if(par.Value != "deque")
-                        {
-                            errOut.WriteLine("Attribute \"{0}\" must be a deque constructor!", par.Key);
-                            throw new Exception("Deque literal expected");
-                        }
-                        deque = ContainerHelper.NewDeque(
-                            ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph));
-                        foreach(object val in par.Values)
-                        {
-                            deque.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
-                        }
-                        value = deque;
-                        break;
-                    default:
-                        value = ParseAttributeValue(attrType, par.Value, par.Key);
-                        break;
-                    }
+                    value = GetCheckAttributes(par, elem.Type, attributes);
                 }
                 catch(Exception)
                 {
@@ -2298,6 +2151,90 @@ namespace de.unika.ipd.grGen.grShell
                 BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             return true;
+        }
+
+        private object GetCheckAttributes(Param par, GrGenType type, ArrayList attributes)
+        {
+            AttributeType attrType = type.GetAttributeType(par.Key);
+            if(attrType == null)
+            {
+                errOut.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", type.PackagePrefixedName, par.Key);
+                throw new Exception("Attribute unknown"); ;
+            }
+
+            object value = null;
+            IDictionary setmap = null;
+            IList array = null;
+            IDeque deque = null;
+            switch(attrType.Kind)
+            {
+            case AttributeKind.SetAttr:
+                if(par.Value != "set")
+                {
+                    errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
+                    throw new Exception("Set literal expected");
+                }
+                setmap = ContainerHelper.NewDictionary(
+                    ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph),
+                    typeof(de.unika.ipd.grGen.libGr.SetValueType));
+                foreach(object val in par.Values)
+                {
+                    setmap[ParseAttributeValue(attrType.ValueType, (String)val, par.Key)] = null;
+                }
+                value = setmap;
+                break;
+            case AttributeKind.MapAttr:
+                if(par.Value != "map")
+                {
+                    errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
+                    throw new Exception("Map literal expected");
+                }
+                setmap = ContainerHelper.NewDictionary(
+                    ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph),
+                    ContainerHelper.GetTypeFromNameForContainer(par.TgtType, curShellProcEnv.ProcEnv.NamedGraph));
+                IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
+                foreach(object val in par.Values)
+                {
+                    tgtValEnum.MoveNext();
+                    setmap[ParseAttributeValue(attrType.KeyType, (String)val, par.Key)] =
+                        ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key);
+                }
+                value = setmap;
+                break;
+            case AttributeKind.ArrayAttr:
+                if(par.Value != "array")
+                {
+                    errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
+                    throw new Exception("Array literal expected");
+                }
+                array = ContainerHelper.NewList(
+                    ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph));
+                foreach(object val in par.Values)
+                {
+                    array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                }
+                value = array;
+                break;
+            case AttributeKind.DequeAttr:
+                if(par.Value != "deque")
+                {
+                    errOut.WriteLine("Attribute \"{0}\" must be a deque constructor!", par.Key);
+                    throw new Exception("Deque literal expected");
+                }
+                deque = ContainerHelper.NewDeque(
+                    ContainerHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph));
+                foreach(object val in par.Values)
+                {
+                    deque.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                }
+                value = deque;
+                break;
+            default:
+                value = ParseAttributeValue(attrType, par.Value, par.Key);
+                break;
+            }
+
+            return value;
         }
 
         #endregion "new" graph element commands
