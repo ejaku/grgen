@@ -96,27 +96,6 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override sealed int Precedence { get { return 9; } } // irrelevant, always top prio
-
-
-        #region helper methods
-
-        protected static void ChangingAttributeAssign(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object value)
-        {
-            if(elem is INode)
-                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.Assign, value, null);
-            else
-                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.Assign, value, null);
-        }
-
-        protected static void ChangingAttributeAssignElement(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, object value, object key)
-        {
-            if(elem is INode)
-                procEnv.Graph.ChangingNodeAttribute((INode)elem, attrType, AttributeChangeType.AssignElement, value, key);
-            else
-                procEnv.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, AttributeChangeType.AssignElement, value, key);
-        }
-
-        #endregion helper methods
     }
 
 
@@ -356,11 +335,11 @@ namespace de.unika.ipd.grGen.libGr
             value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
                 elem, AttributeName, value, out attrType);
 
-            ChangingAttributeAssign(procEnv, elem, attrType, value);
+            BaseGraph.ChangingAttributeAssign(procEnv.Graph, elem, attrType, value);
 
             elem.SetAttribute(AttributeName, value);
 
-            ChangedAttribute(procEnv, elem, attrType);
+            BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -463,7 +442,7 @@ namespace de.unika.ipd.grGen.libGr
             object key = KeyExpression.Evaluate(procEnv);
             AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
 
-            ChangingAttributeAssignElement(procEnv, elem, attrType, value, key);
+            BaseGraph.ChangingAttributeAssignElement(procEnv.Graph, elem, attrType, value, key);
 
             if(container is IList)
             {
@@ -481,7 +460,7 @@ namespace de.unika.ipd.grGen.libGr
                 map[key] = value;
             }
 
-            ChangedAttribute(procEnv, elem, attrType);
+            BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

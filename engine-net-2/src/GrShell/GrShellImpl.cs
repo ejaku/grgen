@@ -579,11 +579,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            AttributeChangeType changeType = AttributeChangeType.AssignElement;
-            if(elem is INode)
-                curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, index);
-            else
-                curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
+            BaseGraph.ChangingAttributeAssignElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, value, index);
 
             if(attr is IList)
             {
@@ -601,10 +597,7 @@ namespace de.unika.ipd.grGen.grShell
                 map[index] = value;
             }
 
-            if(elem is INode)
-                curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-            else
-                curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+            BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
         }
 
         #endregion get/set attribute
@@ -650,18 +643,11 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
 
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                BaseGraph.ChangingSetAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
 
                 dict[keyObj] = null;
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else if(attr is IList)
             {
@@ -680,18 +666,11 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
 
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, null);
 
                 array.Add(keyObj);
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else if(attr is IDeque)
             {
@@ -710,18 +689,11 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
 
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, null);
 
                 deque.Enqueue(keyObj);
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else
                 errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a set nor an array nor a deque.");
@@ -756,18 +728,11 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
 
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, valueObj, keyObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, valueObj, keyObj);
+                BaseGraph.ChangingMapAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, valueObj);
 
                 dict[keyObj] = valueObj;
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else if(attr is IList)
             {
@@ -791,18 +756,11 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
 
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
+                BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, valueObj);
 
                 array.Insert((int)valueObj, keyObj);
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else if(attr is IDeque)
             {
@@ -826,18 +784,11 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
 
-                AttributeChangeType changeType = AttributeChangeType.PutElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
+                BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj, valueObj);
 
                 deque.EnqueueAt((int)valueObj, keyObj);
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else
                 errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is neither a map nor an array nor a deque.");
@@ -866,20 +817,15 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                bool isSet = attrType.Kind == AttributeKind.SetAttr; // otherwise map
 
-                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
+                if(attrType.Kind == AttributeKind.SetAttr)
+                    BaseGraph.ChangingSetAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
                 else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
+                    BaseGraph.ChangingMapAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
 
                 dict.Remove(keyObj);
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else if(attr is IList)
             {
@@ -898,21 +844,14 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
 
-                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
+                BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
 
                 if(keyObj != null)
                     array.RemoveAt((int)keyObj);
                 else
                     array.RemoveAt(array.Count - 1);
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else if(attr is IDeque)
             {
@@ -930,21 +869,15 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 AttributeType attrType = elem.Type.GetAttributeType(attrName);
-                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
+
+                BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, keyObj);
 
                 if(keyObj != null)
                     deque.DequeueAt((int)keyObj);
                 else
                     deque.Dequeue();
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             else
                 errOut.WriteLine(curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem) + "." + attrName + " is not a container.");
@@ -2358,18 +2291,11 @@ namespace de.unika.ipd.grGen.grShell
                     return false;
                 }
 
-                AttributeChangeType changeType = AttributeChangeType.Assign;
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
+                BaseGraph.ChangingAttributeAssign(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType, value);
 
                 elem.SetAttribute(par.Key, value);
 
-                if(elem is INode)
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedNodeAttribute((INode)elem, attrType);
-                else
-                    curShellProcEnv.ProcEnv.NamedGraph.ChangedEdgeAttribute((IEdge)elem, attrType);
+                BaseGraph.ChangedAttribute(curShellProcEnv.ProcEnv.NamedGraph, elem, attrType);
             }
             return true;
         }
