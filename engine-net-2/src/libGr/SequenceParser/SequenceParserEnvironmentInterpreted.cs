@@ -21,7 +21,10 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         /// The rules and sequences used in the specification, set if parsing an xgrs to be interpreted
         /// </summary>
         private readonly IActions actions;
-        public IActions Actions { get { return actions; } }
+        public IActions Actions
+        {
+            get { return actions; }
+        }
 
 
         /// <summary>
@@ -29,7 +32,8 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         /// Used for the interpreted xgrs.
         /// </summary>
         /// <param name="actions">The IActions object containing the known actions.</param>
-        public SequenceParserEnvironmentInterpreted(IActions actions) : base(actions.Graph.Model)
+        public SequenceParserEnvironmentInterpreted(IActions actions)
+            : base(actions.Graph.Model)
         {
             this.actions = actions;
         }
@@ -37,9 +41,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override bool IsSequenceName(String ruleOrSequenceName, String package)
         {
-            if(package != null) {
+            if(package != null)
+            {
                 return actions.GetSequenceDefinition(package + "::" + ruleOrSequenceName) != null;
-            } else {
+            }
+            else
+            {
                 ISequenceDefinition seqDef = actions.GetSequenceDefinition(ruleOrSequenceName);
                 if(seqDef != null)
                     return true;
@@ -52,11 +59,14 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             bool special)
         {
             ISequenceDefinition sequenceDef = null;
-            if(packagePrefix != null) {
+            if(packagePrefix != null)
+            {
                 sequenceDef = actions.GetSequenceDefinition(packagePrefix + "::" + sequenceName);
                 if(sequenceDef == null)
                     throw new Exception("Unknown sequence: " + packagePrefix + "::" + sequenceName);
-            } else {
+            }
+            else
+            {
                 sequenceDef = actions.GetSequenceDefinition(sequenceName);
                 if(sequenceDef == null)
                     throw new Exception("Unknown sequence: " + sequenceName);
@@ -75,11 +85,14 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             bool special, bool test, List<FilterCall> filters)
         {
             IAction action = null;
-            if(packagePrefix != null) {
+            if(packagePrefix != null)
+            {
                 action = actions.GetAction(packagePrefix + "::" + ruleName);
                 if(action == null)
                     throw new Exception("Unknown rule: " + packagePrefix + "::" + ruleName);
-            } else {
+            }
+            else
+            {
                 action = actions.GetAction(ruleName);
                 if(action == null)
                     throw new Exception("Unknown rule: " + ruleName);
@@ -150,13 +163,13 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         public override bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage)
         {
             IAction action = null;
-            if(actionPackage != null) {
+            if(actionPackage != null)
                 action = actions.GetAction(actionPackage + "::" + ruleName);
-            } else {
+            else
                 action = actions.GetAction(ruleName);
-            }
 
-            if(package != null) {
+            if(package != null)
+            {
                 foreach(IFilter filterFunc in action.RulePattern.Filters)
                 {
                     if(filterFunc.PackagePrefixedName == filterFunctionName)
@@ -165,7 +178,9 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         return true;
                 }
                 return false;
-            } else {
+            }
+            else
+            {
                 foreach(IFilter filterFunc in action.RulePattern.Filters)
                 {
                     if(filterFunc.PackagePrefixedName == filterFunctionName)
@@ -178,9 +193,10 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override bool IsProcedureName(String procedureName, String package)
         {
-            if(package != null) {
+            if(package != null)
                 return actions.GetProcedureDefinition(package + "::" + procedureName) != null;
-            } else {
+            else
+            {
                 IProcedureDefinition procInfo = actions.GetProcedureDefinition(procedureName);
                 return procInfo != null;
             }
@@ -195,11 +211,10 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
         {
             IProcedureDefinition procedureDef = null;
-            if(packagePrefix != null) {
+            if(packagePrefix != null)
                 procedureDef = actions.GetProcedureDefinition(packagePrefix + "::" + procedureName);
-            } else {
+            else
                 procedureDef = actions.GetProcedureDefinition(procedureName);
-            }
     
             return new SequenceComputationProcedureCallInterpreted(procedureDef, 
                 argExprs, returnVars);
@@ -208,9 +223,10 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override bool IsFunctionName(String functionName, String package)
         {
-            if(package != null) {
+            if(package != null)
                 return actions.GetFunctionDefinition(package + "::" + functionName) != null;
-            } else {
+            else
+            {
                 IFunctionDefinition funcInfo = actions.GetFunctionDefinition(functionName);
                 return funcInfo != null;
             }
@@ -225,11 +241,10 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             List<SequenceExpression> argExprs)
         {
             IFunctionDefinition functionDef = null;
-            if(packagePrefix != null) {
+            if(packagePrefix != null)
                 functionDef = actions.GetFunctionDefinition(packagePrefix + "::" + functionName);
-            } else {
+            else
                 functionDef = actions.GetFunctionDefinition(functionName);
-            }
 
             return new SequenceExpressionFunctionCallInterpreted(functionDef, argExprs);
         }

@@ -20,13 +20,19 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         /// Gives the rule of the match this stands for in the if clause of the debug match event.
         /// </summary>
         private readonly string ruleOfMatchThis;
-        public override string RuleOfMatchThis { get { return ruleOfMatchThis; } }
+        public override string RuleOfMatchThis
+        {
+            get { return ruleOfMatchThis; }
+        }
 
         /// <summary>
         /// Gives the graph element type of the graph element this stands for in the if clause of the debug new/delete/retype/set-attributes event.
         /// </summary>
         private readonly string typeOfGraphElementThis;
-        public override string TypeOfGraphElementThis { get { return typeOfGraphElementThis; } }
+        public override string TypeOfGraphElementThis
+        {
+            get { return typeOfGraphElementThis; }
+        }
 
 
         /// <summary>

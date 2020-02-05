@@ -513,66 +513,66 @@ namespace de.unika.ipd.grGen.lgsp
 
             switch(ex.Kind)
             {
-                case SequenceParserError.BadNumberOfParameters:
-                    if(helper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGiven)
-                        Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    else
-                        goto default;
-                    break;
+            case SequenceParserError.BadNumberOfParameters:
+                if(helper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGiven)
+                    Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
+                else
+                    goto default;
+                break;
 
-                case SequenceParserError.BadNumberOfReturnParameters:
-                    if(helper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGiven)
-                        Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    else
-                        goto default;
-                    break;
+            case SequenceParserError.BadNumberOfReturnParameters:
+                if(helper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGiven)
+                    Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
+                else
+                    goto default;
+                break;
 
-                case SequenceParserError.BadParameter:
-                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    break;
+            case SequenceParserError.BadParameter:
+                Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
+                break;
 
-                case SequenceParserError.BadReturnParameter:
-                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                    break;
+            case SequenceParserError.BadReturnParameter:
+                Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
+                break;
 
-                case SequenceParserError.FilterError:
-                    Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule " + ex.Name + "!");
-                    return;
+            case SequenceParserError.FilterError:
+                Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule " + ex.Name + "!");
+                return;
 
-                case SequenceParserError.FilterParameterError:
-                    Console.Error.WriteLine("Filter parameter mismatch for filter \"" + ex.FilterName + "\" applied to \"" + ex.Name + "\"!");
-                    return;
+            case SequenceParserError.FilterParameterError:
+                Console.Error.WriteLine("Filter parameter mismatch for filter \"" + ex.FilterName + "\" applied to \"" + ex.Name + "\"!");
+                return;
 
-                case SequenceParserError.OperatorNotFound:
-                    Console.Error.WriteLine("Operator not found/arguments not of correct type: " + ex.Expression);
-                    return;
+            case SequenceParserError.OperatorNotFound:
+                Console.Error.WriteLine("Operator not found/arguments not of correct type: " + ex.Expression);
+                return;
 
-                case SequenceParserError.RuleNameUsedByVariable:
-                    Console.Error.WriteLine("The name of the variable conflicts with the name of action/sequence \"" + ex.Name + "\"!");
-                    return;
+            case SequenceParserError.RuleNameUsedByVariable:
+                Console.Error.WriteLine("The name of the variable conflicts with the name of action/sequence \"" + ex.Name + "\"!");
+                return;
 
-                case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
-                    Console.Error.WriteLine("The variable \"" + ex.Name + "\" may neither receive parameters nor return values!");
-                    return;
+            case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
+                Console.Error.WriteLine("The variable \"" + ex.Name + "\" may neither receive parameters nor return values!");
+                return;
 
-                case SequenceParserError.UnknownAttribute:
-                    Console.WriteLine("Unknown attribute \"" + ex.Name + "\"!");
-                    return;
+            case SequenceParserError.UnknownAttribute:
+                Console.WriteLine("Unknown attribute \"" + ex.Name + "\"!");
+                return;
 
-                case SequenceParserError.UnknownProcedure:
-                    Console.WriteLine("Unknown procedure \"" + ex.Name + "\"!");
-                    return;
+            case SequenceParserError.UnknownProcedure:
+                Console.WriteLine("Unknown procedure \"" + ex.Name + "\"!");
+                return;
 
-                case SequenceParserError.UnknownFunction:
-                    Console.WriteLine("Unknown function \"" + ex.Name + "\"!");
-                    return;
+            case SequenceParserError.UnknownFunction:
+                Console.WriteLine("Unknown function \"" + ex.Name + "\"!");
+                return;
 
-                case SequenceParserError.TypeMismatch:
-                    Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
-                    return;
+            case SequenceParserError.TypeMismatch:
+                Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
+                return;
 
-                default:
-                    throw new ArgumentException("Invalid error kind: " + ex.Kind);
+            default:
+                throw new ArgumentException("Invalid error kind: " + ex.Kind);
             }
 
             if(helper.actionsTypeInformation.rulesToInputTypes.ContainsKey(ex.Name))

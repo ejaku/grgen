@@ -63,7 +63,7 @@ namespace GenerateGraphs
         {
             List<Element> elements = new List<Element>(); 
 
-            for (int i = 0; i < 2; ++i)
+            for(int i = 0; i < 2; ++i)
             {
                 GenerateGraph_DNAChains(elements, i.ToString());
                 GenerateGraph_DNAChainsCorrupt(elements);
@@ -84,15 +84,13 @@ namespace GenerateGraphs
             vtml.WriteLine("import beispiel.metamodel;");
             vtml.WriteLine();
 
-            foreach (Element element in elements)
+            foreach(Element element in elements)
             {
-                if (element.src == null || element.tgt == null)
-                {
+                if(element.src == null || element.tgt == null)
                     vtml.WriteLine(element.type + "(" + element.name + "); //" + element.comment);
-                }
                 else
                 {
-                    if (element.type == BINDING)
+                    if(element.type == BINDING)
                         vtml.WriteLine(NODE + "." + element.type + "(" + element.name + ", " + element.src.name + ", " + element.tgt.name + ");");
                     else //edge.type == PHOSPHATE_GROUP
                         vtml.WriteLine(SUGAR + "." + element.type + "(" + element.name + ", " + element.src.name + ", " + element.tgt.name + ");");
@@ -125,18 +123,15 @@ namespace GenerateGraphs
             int i = 0;
             grs.WriteLine("silence on");
             grs.WriteLine("echo \"creating elements\"");
-            foreach (Element element in elements)
+            foreach(Element element in elements)
             {
-                if (element.src == null || element.tgt == null)
-                {
+                if(element.src == null || element.tgt == null)
                     grs.WriteLine("new " + element.name + ":" + element.type + " #" + element.comment);
-                }
                 else
-                {
                     grs.WriteLine("new " + element.src.name + " -" + element.name + ":" + element.type + "-> " + element.tgt.name);
-                }
                 ++i;
-                if (i % 1000 == 0) grs.WriteLine("echo \"" + i.ToString() + " elements created\"");
+                if(i % 1000 == 0)
+                    grs.WriteLine("echo \"" + i.ToString() + " elements created\"");
             }
             grs.WriteLine("echo \"done: " + i.ToString() + " elements created\"");
         }
@@ -187,19 +182,20 @@ namespace GenerateGraphs
             n[10] = new Element(getNodeName(), DESOXYRIBOSE);
             n[10 + 1] = new Element(getNodeName(), ADENIN);
 
-            for (int i = 0; i < 6*2; ++i)
+            for(int i = 0; i < 6*2; ++i)
             {
                 elements.Add(n[i]);
             }
 
             Element currNode = null;
             Element nucleotideNode = null;
-            for (int i = 0; i < 6*2; i+=2)
+            for(int i = 0; i < 6*2; i+=2)
             {
                 currNode = n[i];
                 nucleotideNode = n[i+1];
                 elements.Add(new Element(getEdgeName(), BINDING, currNode, nucleotideNode));
-                if (prevNode != null) elements.Add(new Element(getEdgeName(), PHOSPHATE_GROUP, prevNode, currNode));
+                if(prevNode != null)
+                    elements.Add(new Element(getEdgeName(), PHOSPHATE_GROUP, prevNode, currNode));
                 prevNode = currNode;
             }
 
@@ -212,18 +208,23 @@ namespace GenerateGraphs
             Element currNode = null;
             Element currNucleotideNode = null;
             Element prevNucleotideNode = null;
-            for (int i = 1; i <= length; ++i)
+            for(int i = 1; i <= length; ++i)
             {
                 currNode = new Element(getNodeName(), DESOXYRIBOSE);
                 currNucleotideNode = new Element(getNodeName(), drawAminoAcid());
-                while(currNucleotideNode.type==ADENIN && prevNucleotideNode!=null && prevNucleotideNode.type==THYMIN) 
+                while(currNucleotideNode.type == ADENIN && prevNucleotideNode != null && prevNucleotideNode.type == THYMIN)
+                {
                     currNucleotideNode.type = drawAminoAcid();
-                if(i==1) currNode.comment = currNucleotideNode.comment = comment + "/first of " + length.ToString();
-                if(i==length) currNode.comment = currNucleotideNode.comment = comment + "/last of " + length.ToString();
+                }
+                if(i==1)
+                    currNode.comment = currNucleotideNode.comment = comment + "/first of " + length.ToString();
+                if(i==length)
+                    currNode.comment = currNucleotideNode.comment = comment + "/last of " + length.ToString();
                 elements.Add(currNode);
                 elements.Add(currNucleotideNode);
                 elements.Add(new Element(getEdgeName(), BINDING, currNode, currNucleotideNode));
-                if (prevNode != null) elements.Add(new Element(getEdgeName(), PHOSPHATE_GROUP, prevNode, currNode));
+                if(prevNode != null)
+                    elements.Add(new Element(getEdgeName(), PHOSPHATE_GROUP, prevNode, currNode));
                 prevNode = currNode;
                 prevNucleotideNode = currNucleotideNode;
             }
@@ -242,14 +243,19 @@ namespace GenerateGraphs
             {
                 currNode = new Element(getNodeName(), DESOXYRIBOSE);
                 currNucleotideNode = new Element(getNodeName(), drawMaybeCorruptAminoAcid());
-                while(currNucleotideNode.type==ADENIN && prevNucleotideNode!=null && prevNucleotideNode.type==THYMIN)
+                while(currNucleotideNode.type == ADENIN && prevNucleotideNode != null && prevNucleotideNode.type == THYMIN)
+                {
                     currNucleotideNode.type = drawAminoAcid();
-                if (currNucleotideNode.type == URACIL || currNucleotideNode.type == HYDROXYGUANIN) isCorrupt = true;
-                if(i==length && !isCorrupt) currNucleotideNode.type = URACIL;
+                }
+                if(currNucleotideNode.type == URACIL || currNucleotideNode.type == HYDROXYGUANIN)
+                    isCorrupt = true;
+                if(i==length && !isCorrupt)
+                    currNucleotideNode.type = URACIL;
                 elements.Add(currNode);
                 elements.Add(currNucleotideNode);
                 elements.Add(new Element(getEdgeName(), BINDING, currNode, currNucleotideNode));
-                if (prevNode != null) elements.Add(new Element(getEdgeName(), PHOSPHATE_GROUP, prevNode, currNode));
+                if(prevNode != null)
+                    elements.Add(new Element(getEdgeName(), PHOSPHATE_GROUP, prevNode, currNode));
                 prevNode = currNode;
                 prevNucleotideNode = currNucleotideNode;
             }
@@ -317,19 +323,20 @@ namespace GenerateGraphs
             n[23*2] = new Element(getNodeName(), DESOXYRIBOSE);
             n[23*2+1] = new Element(getNodeName(), ADENIN);
 
-            for (int i = 0; i < 24*2; ++i)
+            for(int i = 0; i < 24*2; ++i)
             {
                 elements.Add(n[i]);
             }
 
             Element currNode = null;
             Element nucleotideNode = null;
-            for (int i = 0; i < 24*2; i+=2)
+            for(int i = 0; i < 24*2; i+=2)
             {
                 currNode = n[i];
                 nucleotideNode = n[i+1];
                 elements.Add(new Element(getEdgeName(), BINDING, currNode, nucleotideNode));
-                if (prevNode != null) elements.Add(new Element(getEdgeName(), PHOSPHATE_GROUP, prevNode, currNode));
+                if(prevNode != null)
+                    elements.Add(new Element(getEdgeName(), PHOSPHATE_GROUP, prevNode, currNode));
                 prevNode = currNode;
             }
 
@@ -355,20 +362,20 @@ namespace GenerateGraphs
         private static string drawAminoAcid()
         {
             int index = random.Next(4);
-            if (index == 0) return ADENIN;
-            if (index == 1) return CYTOSIN;
-            if (index == 2) return GUANIN;
+            if(index == 0)return ADENIN;
+            if(index == 1) return CYTOSIN;
+            if(index == 2) return GUANIN;
             return THYMIN;
         }
 
         private static string drawMaybeCorruptAminoAcid()
         {
             int index = random.Next(34);
-            if (index >= 0 && index <= 7) return ADENIN;
-            if (index >= 8 && index <= 15) return CYTOSIN;
-            if (index >= 16 && index <= 23) return GUANIN;
-            if (index >= 24 && index <= 31) return THYMIN;
-            if (index == 32) return URACIL;
+            if(index >= 0 && index <= 7) return ADENIN;
+            if(index >= 8 && index <= 15) return CYTOSIN;
+            if(index >= 16 && index <= 23) return GUANIN;
+            if(index >= 24 && index <= 31) return THYMIN;
+            if(index == 32) return URACIL;
             return HYDROXYGUANIN;
         }
 

@@ -3928,38 +3928,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.AdjacentNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.Adjacent(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.Adjacent(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.AdjacentNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.AdjacentIncoming(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.AdjacentIncoming(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.AdjacentNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.AdjacentOutgoing(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.AdjacentOutgoing(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.IncidentEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.Incident(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.Incident(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.IncomingEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.Incoming(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.Incoming(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.OutgoingEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.Outgoing(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.Outgoing(sourceNode, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.AdjacentNodes:
+                if(EmitProfiling)
+                    return GraphHelper.Adjacent(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.Adjacent(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.AdjacentNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.AdjacentIncoming(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.AdjacentIncoming(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.AdjacentNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.AdjacentOutgoing(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.AdjacentOutgoing(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.IncidentEdges:
+                if(EmitProfiling)
+                    return GraphHelper.Incident(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.Incident(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.IncomingEdges:
+                if(EmitProfiling)
+                    return GraphHelper.Incoming(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.Incoming(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.OutgoingEdges:
+                if(EmitProfiling)
+                    return GraphHelper.Outgoing(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.Outgoing(sourceNode, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -4073,38 +4073,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.CountAdjacentNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.CountAdjacent(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountAdjacent(procEnv.Graph, sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountAdjacentNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.CountAdjacentIncoming(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountAdjacentIncoming(procEnv.Graph, sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountAdjacentNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.CountAdjacentOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountAdjacentOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountIncidentEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.CountIncident(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountIncident(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountIncomingEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.CountIncoming(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountIncoming(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountOutgoingEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.CountOutgoing(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountOutgoing(sourceNode, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.CountAdjacentNodes:
+                if(EmitProfiling)
+                    return GraphHelper.CountAdjacent(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountAdjacent(procEnv.Graph, sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountAdjacentNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.CountAdjacentIncoming(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountAdjacentIncoming(procEnv.Graph, sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountAdjacentNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.CountAdjacentOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountAdjacentOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountIncidentEdges:
+                if(EmitProfiling)
+                    return GraphHelper.CountIncident(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountIncident(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountIncomingEdges:
+                if(EmitProfiling)
+                    return GraphHelper.CountIncoming(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountIncoming(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountOutgoingEdges:
+                if(EmitProfiling)
+                    return GraphHelper.CountOutgoing(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountOutgoing(sourceNode, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -4228,38 +4228,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.ReachableNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.Reachable(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.Reachable(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.ReachableNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.ReachableIncoming(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.ReachableIncoming(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.ReachableNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.ReachableOutgoing(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.ReachableOutgoing(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.ReachableEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.ReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.ReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.ReachableEdgesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.ReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.ReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.ReachableEdgesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.ReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.ReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.ReachableNodes:
+                if(EmitProfiling)
+                    return GraphHelper.Reachable(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.Reachable(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.ReachableNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.ReachableIncoming(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.ReachableIncoming(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.ReachableNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.ReachableOutgoing(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.ReachableOutgoing(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.ReachableEdges:
+                if(EmitProfiling)
+                    return GraphHelper.ReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.ReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.ReachableEdgesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.ReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.ReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.ReachableEdgesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.ReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.ReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -4372,38 +4372,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.CountReachableNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.CountReachable(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountReachable(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountReachableNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.CountReachableIncoming(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountReachableIncoming(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountReachableNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.CountReachableOutgoing(sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountReachableOutgoing(sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountReachableEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.CountReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountReachableEdgesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.CountReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType);
-                case SequenceExpressionType.CountReachableEdgesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.CountReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.CountReachableNodes:
+                if(EmitProfiling)
+                    return GraphHelper.CountReachable(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountReachable(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountReachableNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.CountReachableIncoming(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountReachableIncoming(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountReachableNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.CountReachableOutgoing(sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountReachableOutgoing(sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountReachableEdges:
+                if(EmitProfiling)
+                    return GraphHelper.CountReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountReachableEdges(procEnv.Graph, sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountReachableEdgesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.CountReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountReachableEdgesIncoming(procEnv.Graph, sourceNode, edgeType, nodeType);
+            case SequenceExpressionType.CountReachableEdgesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.CountReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountReachableEdgesOutgoing(procEnv.Graph, sourceNode, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -4533,38 +4533,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.BoundedReachableNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachable(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachable(sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.BoundedReachableNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachableIncoming(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachableIncoming(sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachableOutgoing(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachableOutgoing(sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.BoundedReachableEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachableEdges(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachableEdges(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.BoundedReachableNodes:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachable(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachable(sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.BoundedReachableNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachableIncoming(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachableIncoming(sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.BoundedReachableNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachableOutgoing(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachableOutgoing(sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.BoundedReachableEdges:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachableEdges(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachableEdges(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -4685,23 +4685,23 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachableWithRemainingDepth(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachableWithRemainingDepth(sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachableWithRemainingDepthIncoming(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachableWithRemainingDepthIncoming(sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.BoundedReachableWithRemainingDepthOutgoing(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.BoundedReachableWithRemainingDepthOutgoing(sourceNode, depth, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachableWithRemainingDepth(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachableWithRemainingDepth(sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachableWithRemainingDepthIncoming(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachableWithRemainingDepthIncoming(sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.BoundedReachableWithRemainingDepthOutgoing(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.BoundedReachableWithRemainingDepthOutgoing(sourceNode, depth, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -4822,38 +4822,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.CountBoundedReachableNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.CountBoundedReachable(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountBoundedReachable(sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.CountBoundedReachableIncoming(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountBoundedReachableIncoming(sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.CountBoundedReachableOutgoing(sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountBoundedReachableOutgoing(sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.CountBoundedReachableEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.CountBoundedReachableEdges(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountBoundedReachableEdges(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.CountBoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountBoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
-                case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.CountBoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.CountBoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.CountBoundedReachableNodes:
+                if(EmitProfiling)
+                    return GraphHelper.CountBoundedReachable(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountBoundedReachable(sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.CountBoundedReachableIncoming(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountBoundedReachableIncoming(sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.CountBoundedReachableNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.CountBoundedReachableOutgoing(sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountBoundedReachableOutgoing(sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.CountBoundedReachableEdges:
+                if(EmitProfiling)
+                    return GraphHelper.CountBoundedReachableEdges(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountBoundedReachableEdges(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.CountBoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountBoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
+            case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.CountBoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.CountBoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, depth, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -4994,38 +4994,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.IsBoundedReachableNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.IsBoundedReachable(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsBoundedReachable(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType);
-                case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.IsBoundedReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsBoundedReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType);
-                case SequenceExpressionType.IsBoundedReachableNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.IsBoundedReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsBoundedReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType);
-                case SequenceExpressionType.IsBoundedReachableEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.IsBoundedReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsBoundedReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType);
-                case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.IsBoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsBoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType);
-                case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.IsBoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsBoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.IsBoundedReachableNodes:
+                if(EmitProfiling)
+                    return GraphHelper.IsBoundedReachable(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsBoundedReachable(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType);
+            case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.IsBoundedReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsBoundedReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType);
+            case SequenceExpressionType.IsBoundedReachableNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.IsBoundedReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsBoundedReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, depth, edgeType, nodeType);
+            case SequenceExpressionType.IsBoundedReachableEdges:
+                if(EmitProfiling)
+                    return GraphHelper.IsBoundedReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsBoundedReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType);
+            case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.IsBoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsBoundedReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType);
+            case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.IsBoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsBoundedReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, depth, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -5159,38 +5159,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.IsAdjacentNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.IsAdjacent(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsAdjacent(sourceNode, (INode)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsAdjacentNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.IsAdjacentIncoming(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsAdjacentIncoming(sourceNode, (INode)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.IsAdjacentOutgoing(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsAdjacentOutgoing(sourceNode, (INode)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsIncidentEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.IsIncident(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsIncident(sourceNode, (IEdge)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsIncomingEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.IsIncoming(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsIncoming(sourceNode, (IEdge)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsOutgoingEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.IsOutgoing(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsOutgoing(sourceNode, (IEdge)endElement, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.IsAdjacentNodes:
+                if(EmitProfiling)
+                    return GraphHelper.IsAdjacent(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsAdjacent(sourceNode, (INode)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsAdjacentNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.IsAdjacentIncoming(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsAdjacentIncoming(sourceNode, (INode)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsAdjacentNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.IsAdjacentOutgoing(sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsAdjacentOutgoing(sourceNode, (INode)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsIncidentEdges:
+                if(EmitProfiling)
+                    return GraphHelper.IsIncident(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsIncident(sourceNode, (IEdge)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsIncomingEdges:
+                if(EmitProfiling)
+                    return GraphHelper.IsIncoming(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsIncoming(sourceNode, (IEdge)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsOutgoingEdges:
+                if(EmitProfiling)
+                    return GraphHelper.IsOutgoing(sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsOutgoing(sourceNode, (IEdge)endElement, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 
@@ -5323,38 +5323,38 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(SequenceExpressionType)
             {
-                case SequenceExpressionType.IsReachableNodes:
-                    if(EmitProfiling)
-                        return GraphHelper.IsReachable(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsReachable(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsReachableNodesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.IsReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsReachableNodesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.IsReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsReachableEdges:
-                    if(EmitProfiling)
-                        return GraphHelper.IsReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsReachableEdgesViaIncoming:
-                    if(EmitProfiling)
-                        return GraphHelper.IsReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
-                case SequenceExpressionType.IsReachableEdgesViaOutgoing:
-                    if(EmitProfiling)
-                        return GraphHelper.IsReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
-                    else
-                        return GraphHelper.IsReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
-                default:
-                    return null; // internal failure
+            case SequenceExpressionType.IsReachableNodes:
+                if(EmitProfiling)
+                    return GraphHelper.IsReachable(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsReachable(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsReachableNodesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.IsReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsReachableIncoming(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsReachableNodesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.IsReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsReachableOutgoing(procEnv.Graph, sourceNode, (INode)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsReachableEdges:
+                if(EmitProfiling)
+                    return GraphHelper.IsReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsReachableEdges(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsReachableEdgesViaIncoming:
+                if(EmitProfiling)
+                    return GraphHelper.IsReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsReachableEdgesIncoming(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+            case SequenceExpressionType.IsReachableEdgesViaOutgoing:
+                if(EmitProfiling)
+                    return GraphHelper.IsReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType, procEnv);
+                else
+                    return GraphHelper.IsReachableEdgesOutgoing(procEnv.Graph, sourceNode, (IEdge)endElement, edgeType, nodeType);
+            default:
+                return null; // internal failure
             }
         }
 

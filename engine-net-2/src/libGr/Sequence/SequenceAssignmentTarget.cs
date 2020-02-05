@@ -95,7 +95,10 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error! AssignmentTarget executed as SequenceComputation.");
         }
 
-        public override sealed int Precedence { get { return 9; } } // irrelevant, always top prio
+        public override sealed int Precedence
+        {
+            get { return 9; } // irrelevant, always top prio
+        }
     }
 
 
@@ -136,8 +139,15 @@ namespace de.unika.ipd.grGen.libGr
             DestVar.GetLocalVariables(variables);
         }
 
-        public override string Symbol { get { return DestVar.Name; } }
-        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override string Symbol
+        {
+            get { return DestVar.Name; }
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get { yield break; }
+        }
     }
 
     public class AssignmentTargetYieldingVar : AssignmentTarget
@@ -177,8 +187,15 @@ namespace de.unika.ipd.grGen.libGr
             DestVar.GetLocalVariables(variables);
         }
 
-        public override string Symbol { get { return "yield " + DestVar.Name; } }
-        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override string Symbol
+        {
+            get { return "yield " + DestVar.Name; }
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get { yield break; }
+        }
     }
 
     public class AssignmentTargetIndexedVar : AssignmentTarget
@@ -275,8 +292,15 @@ namespace de.unika.ipd.grGen.libGr
             KeyExpression.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override string Symbol { get { return DestVar.Name + "[" + KeyExpression.Symbol + "]"; } }
-        public override IEnumerable<SequenceComputation> Children { get { yield return KeyExpression; } }
+        public override string Symbol
+        {
+            get { return DestVar.Name + "[" + KeyExpression.Symbol + "]"; }
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get { yield return KeyExpression; }
+        }
     }
 
     public class AssignmentTargetAttribute : AssignmentTarget
@@ -348,8 +372,15 @@ namespace de.unika.ipd.grGen.libGr
             DestVar.GetLocalVariables(variables);
         }
 
-        public override string Symbol { get { return DestVar.Name + "." + AttributeName; } }
-        public override IEnumerable<SequenceComputation> Children { get { yield break; } }
+        public override string Symbol
+        {
+            get { return DestVar.Name + "." + AttributeName; }
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get { yield break; }
+        }
     }
 
     public class AssignmentTargetAttributeIndexed : AssignmentTarget
@@ -470,8 +501,15 @@ namespace de.unika.ipd.grGen.libGr
             KeyExpression.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override string Symbol { get { return DestVar.Name + "." + AttributeName + "[" + KeyExpression.Symbol + "]"; } }
-        public override IEnumerable<SequenceComputation> Children { get { yield return KeyExpression; } }
+        public override string Symbol
+        {
+            get { return DestVar.Name + "." + AttributeName + "[" + KeyExpression.Symbol + "]"; }
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get { yield return KeyExpression; }
+        }
     }
 
     public class AssignmentTargetVisited : AssignmentTarget
@@ -528,7 +566,14 @@ namespace de.unika.ipd.grGen.libGr
             VisitedFlagExpression.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override string Symbol { get { return GraphElementVar.Name + ".visited[" + VisitedFlagExpression.Symbol + "]"; } }
-        public override IEnumerable<SequenceComputation> Children { get { yield return VisitedFlagExpression; } }
+        public override string Symbol
+        {
+            get { return GraphElementVar.Name + ".visited[" + VisitedFlagExpression.Symbol + "]"; }
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get { yield return VisitedFlagExpression; }
+        }
     }
 }

@@ -49,7 +49,9 @@ namespace gxl2grs
 
             XmlElement root = doc.DocumentElement; // gxl node
             foreach(XmlNode commentNode in root.SelectNodes("//comment()"))
+            {
                 commentNode.ParentNode.RemoveChild(commentNode);
+            }
 
             XmlNode graph = null;
 
@@ -82,14 +84,10 @@ namespace gxl2grs
 
                 foreach(XmlNode element in graph.ChildNodes)
                 {
-                    if (element.Name == "node")
-                    {
+                    if(element.Name == "node")
                         processNode(element, grs);
-                    }
-                    else if (element.Name == "edge")
-                    {
+                    else if(element.Name == "edge")
                         processEdge(element, grs);
-                    }
                 }
             }
             return 0;
@@ -100,28 +98,25 @@ namespace gxl2grs
             String name = node.Attributes["id"].Value;
             String type = "";
             List<String> attributes = new List<String>();
-            foreach (XmlNode typeNAttr in node.ChildNodes)
+            foreach(XmlNode typeNAttr in node.ChildNodes)
             {
-                if (typeNAttr.Name == "type")
+                if(typeNAttr.Name == "type")
                 {
                     char[] separators = new char[] { '#' };
                     string[] pathAndType = typeNAttr.Attributes[0].Value.Split(separators);
                     bool onlyType = pathAndType.Length==1;
                     type = pathAndType[onlyType ? 0 : 1];
                 }
-                else if (typeNAttr.Name == "attr")
+                else if(typeNAttr.Name == "attr")
                 {
                     String attrName = typeNAttr.Attributes["name"].Value;
-                    if (attrName == "isfinal") attrName = "isFinal"; // case insensitive input file or error? 
+                    if(attrName == "isfinal")
+                        attrName = "isFinal"; // case insensitive input file or error? 
                     String attrValue = "";
-                    if (typeNAttr.ChildNodes[0].Name == "string")
-                    {
+                    if(typeNAttr.ChildNodes[0].Name == "string")
                         attrValue = "\"" + typeNAttr.ChildNodes[0].InnerText +"\"";
-                    }
                     else
-                    {
                         attrValue = typeNAttr.ChildNodes[0].InnerText;
-                    }
                     attributes.Add(attrName + "=" + attrValue);
                 }
             }
@@ -132,10 +127,12 @@ namespace gxl2grs
             {
                 grs.Write("(");
                 bool first = true;
-                foreach (String attribute in attributes)
+                foreach(String attribute in attributes)
                 {
-                    if (first) first = false;
-                    else grs.Write(",");
+                    if(first)
+                        first = false;
+                    else
+                        grs.Write(",");
                     grs.Write(attribute);
                 }
                 grs.Write(")");
@@ -150,29 +147,27 @@ namespace gxl2grs
             String to = edge.Attributes["to"].Value;
             String type = "";
             List<String> attributes = new List<String>();
-            foreach (XmlNode typeNAttr in edge.ChildNodes)
+            foreach(XmlNode typeNAttr in edge.ChildNodes)
             {
-                if (typeNAttr.Name == "type")
+                if(typeNAttr.Name == "type")
                 {
                     char[] separators = new char[] { '#' };
                     string[] pathAndType = typeNAttr.Attributes[0].Value.Split(separators);
                     bool onlyType = pathAndType.Length == 1;
                     type = pathAndType[onlyType ? 0 : 1];
-                    if (type == "extends") type = "extends_"; // extends is keyword in gm, can't use as type
-                    if (type == "type") type = "type_"; // type is keyword in .grs, can't use as type
+                    if(type == "extends")
+                        type = "extends_"; // extends is keyword in gm, can't use as type
+                    if(type == "type")
+                        type = "type_"; // type is keyword in .grs, can't use as type
                 }
-                else if (typeNAttr.Name == "attr")
+                else if(typeNAttr.Name == "attr")
                 {
                     String attrName = typeNAttr.Attributes[0].Value;
                     String attrValue = "";
-                    if (typeNAttr.ChildNodes[0].Name == "string")
-                    {
+                    if(typeNAttr.ChildNodes[0].Name == "string")
                         attrValue = "\"" + typeNAttr.ChildNodes[0].InnerText + "\"";
-                    }
                     else
-                    {
                         attrValue = typeNAttr.ChildNodes[0].InnerText;
-                    }
                     attributes.Add(attrName + "=" + attrValue);
                 }
             }
@@ -182,10 +177,12 @@ namespace gxl2grs
             {
                 grs.Write("(");
                 bool first = true;
-                foreach (String attribute in attributes)
+                foreach(String attribute in attributes)
                 {
-                    if (first) first = false;
-                    else grs.Write(",");
+                    if(first)
+                        first = false;
+                    else
+                        grs.Write(",");
                     grs.Write(attribute);
                 }
                 grs.Write(")");

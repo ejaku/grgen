@@ -22,14 +22,20 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         /// The names of the different kinds of action used in the specification, set if parsing an xgrs to be compiled
         /// </summary>
         private readonly ActionNames actionNames;
-        public ActionNames ActionNames { get { return actionNames; } }
+        public ActionNames ActionNames
+        {
+            get { return actionNames; }
+        }
 
         /// <summary>
         /// The name of the package the sequence is contained in (defining some context), null if it is not contained in a package.
         /// Also null in case of an interpreted sequence, only compiled sequences may appear within a package.
         /// </summary>
         private readonly String packageContext;
-        public override String PackageContext { get { return packageContext; } }
+        public override String PackageContext
+        {
+            get { return packageContext; }
+        }
 
 
         /// <summary>
@@ -39,7 +45,8 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         /// <param name="packageContext">The name of the package the sequence is contained in (defining some context), null if it is not contained in a package.</param>
         /// <param name="actionNames">Contains the names of the different kinds of actions used in the specification.</param>
         /// <param name="model">The model used in the specification.</param>
-        public SequenceParserEnvironmentCompiled(String packageContext, ActionNames actionNames, IGraphModel model) : base(model)
+        public SequenceParserEnvironmentCompiled(String packageContext, ActionNames actionNames, IGraphModel model)
+            : base(model)
         {
             this.actionNames = actionNames;
             this.packageContext = packageContext;
@@ -48,14 +55,17 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override bool IsSequenceName(String ruleOrSequenceName, String package)
         {
-            if(package != null) {
+            if(package != null)
+            {
                 foreach(String sequenceName in actionNames.sequenceNames)
                 {
                     if(sequenceName == package + "::" + ruleOrSequenceName)
                         return true;
                 }
                 return false;
-            } else {
+            }
+            else
+            {
                 foreach(String sequenceName in actionNames.sequenceNames)
                 {
                     if(sequenceName == ruleOrSequenceName)
@@ -123,7 +133,8 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage)
         {
-            if(package != null) {
+            if(package != null)
+            {
                 foreach(String funcName in actionNames.filterFunctionNames)
                 {
                     if(funcName == filterFunctionName)
@@ -132,7 +143,9 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         return true;
                 }
                 return false;
-            } else {
+            }
+            else
+            {
                 foreach(String funcName in actionNames.filterFunctionNames)
                 {
                     if(funcName == filterFunctionName)
@@ -147,14 +160,17 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override bool IsProcedureName(String procedureName, String package)
         {
-            if(package != null) {
+            if(package != null)
+            {
                 foreach(String procName in actionNames.procedureNames)
                 {
                     if(procName == package + "::" + procedureName)
                         return true;
                 }
                 return false;
-            } else {
+            }
+            else
+            {
                 foreach(String procName in actionNames.procedureNames)
                 {
                     if(procName == procedureName)
@@ -192,14 +208,17 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override bool IsFunctionName(String functionName, String package)
         {
-            if(package != null) {
+            if(package != null)
+            {
                 foreach(String funcName in actionNames.functionNames)
                 {
                     if(funcName == package + "::" + functionName)
                         return true;
                 }
                 return false;
-            } else {
+            }
+            else
+            {
                 foreach(String funcName in actionNames.functionNames)
                 {
                     if(funcName == functionName)
@@ -230,9 +249,11 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             List<SequenceExpression> argExprs)
         {
             String returnType = null;
-            for(int i=0; i<actionNames.functionNames.Length; ++i)
+            for(int i = 0; i < actionNames.functionNames.Length; ++i)
+            {
                 if(actionNames.functionNames[i] == functionName)
                     returnType = actionNames.functionOutputTypes[i];
+            }
 
             return new SequenceExpressionFunctionCallCompiled(functionName, packagePrefix, packageContext,
                 Array.IndexOf(actionNames.functionNames, functionName) != -1,

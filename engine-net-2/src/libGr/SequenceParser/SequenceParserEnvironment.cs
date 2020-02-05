@@ -21,25 +21,37 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         /// The model used in the specification
         /// </summary>
         private readonly IGraphModel model;
-        public IGraphModel Model { get { return model; } }
+        public IGraphModel Model
+        {
+            get { return model; }
+        }
 
         /// <summary>
         /// The name of the package the sequence is contained in (defining some context), null if it is not contained in a package. 
         /// Also null in case of an interpreted sequence, only compiled sequences may appear within a package.
         /// </summary>
-        public virtual String PackageContext { get { return null; } }
+        public virtual String PackageContext
+        {
+            get { return null; }
+        }
 
         /// <summary>
         /// Gives the rule of the match this stands for in the if clause of the debug match event.
         /// Null if the context is not the one of a debug event condition.
         /// </summary>
-        public virtual string RuleOfMatchThis { get { return null; } }
+        public virtual string RuleOfMatchThis
+        {
+            get { return null; }
+        }
 
         /// <summary>
         /// Gives the graph element type of the graph element this stands for in the if clause of the debug new/delete/retype/set-attributes event.
         /// Null if the context is not the one of a debug event condition.
         /// </summary>
-        public virtual string TypeOfGraphElementThis { get { return null; } }
+        public virtual string TypeOfGraphElementThis
+        {
+            get { return null; }
+        }
 
 
         protected SequenceParserEnvironment(IGraphModel model)

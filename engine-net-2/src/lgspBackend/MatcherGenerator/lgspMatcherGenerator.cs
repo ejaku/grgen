@@ -262,7 +262,8 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgram searchProgramParallelized = GenerateParallelizedSearchProgramAsNeeded(matchingPattern);
 
             // emit matcher class head, body, tail; body is source code representing search program
-            if(matchingPattern is LGSPRulePattern) {
+            if(matchingPattern is LGSPRulePattern)
+            {
                 GenerateActionInterface(sb, (LGSPRulePattern)matchingPattern); // generate the exact action interface
                 GenerateMatcherClassHeadAction(sb, (LGSPRulePattern)matchingPattern, isInitialStatic, searchProgram);
                 searchProgram.Emit(sb);
@@ -270,7 +271,9 @@ namespace de.unika.ipd.grGen.lgsp
                     searchProgramParallelized.Emit(sb);
                 GenerateActionImplementation(sb, (LGSPRulePattern)matchingPattern);
                 GenerateMatcherClassTail(sb, matchingPattern.PatternGraph.Package != null);
-            } else {
+            }
+            else
+            {
                 GenerateMatcherClassHeadSubpattern(sb, matchingPattern, isInitialStatic);
                 searchProgram.Emit(sb);
                 if(searchProgramParallelized != null)
@@ -1594,17 +1597,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PatternNode node = patternGraph.nodesPlusInlined[i];
                 if(node.PointOfDefinition == null)
-                {
                     sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.name + ";\n");
-                }
             }
             for(int i = 0; i < patternGraph.edgesPlusInlined.Length; ++i)
             {
                 PatternEdge edge = patternGraph.edgesPlusInlined[i];
                 if(edge.PointOfDefinition == null)
-                {
                     sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.name + ";\n");
-                }
             }
             for(int i = 0; i < patternGraph.variablesPlusInlined.Length; ++i)
             {
@@ -1659,11 +1658,17 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(PatternGraph altCase in alternative.alternativeCases)
             {
                 foreach(KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                {
                     neededNodes[neededNode.Key] = neededNode.Value;
+                }
                 foreach(KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                {
                     neededEdges[neededEdge.Key] = neededEdge.Value;
+                }
                 foreach(KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                {
                     neededVariables[neededVariable.Key] = neededVariable.Value;
+                }
             }
             foreach(KeyValuePair<string, bool> node in neededNodes)
             {
@@ -1814,11 +1819,15 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // getNewTask method handing out new task from pool or creating task if pool is empty
             if(isAlternative)
+            {
                 sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
                     + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {\n");
+            }
             else
+            {
                 sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
                     + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
+            }
             sb.Indent();
             sb.AppendFront(className + " newTask;\n");
             sb.AppendFront("if(numFreeTasks>0) {\n");
@@ -1869,11 +1878,15 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // getNewTask method handing out new task from pool or creating task if pool is empty
                 if(isAlternative)
+                {
                     sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
                         + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_, int threadId) {\n");
+                }
                 else
+                {
                     sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, "
                         + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, int threadId) {\n");
+                }
                 sb.Indent();
                 sb.AppendFront(className + " newTask;\n");
                 sb.AppendFront("if(numFreeTasks_perWorker[threadId]>0) {\n");

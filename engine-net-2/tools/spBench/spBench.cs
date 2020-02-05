@@ -58,7 +58,7 @@ namespace spBench
         public float SPCostSum;
 
         /// <summary>
-        /// Time needed for (takeRule; releaseRule; giveRule){N}
+        /// Time needed for(takeRule; releaseRule; giveRule){N}
         /// </summary>
         public int Time;
 
@@ -105,11 +105,14 @@ namespace spBench
 
         public bool Equals(SearchPlanID other)
         {
-            if(other == null) return false;
-            if(idList.Count != other.idList.Count) return false;
-            for(int i = 0; i < idList.Count; i++)
+            if(other == null)
+                return false;
+            if(idList.Count != other.idList.Count)
+                return false;
+            for(int i = 0; i < idList.Count; ++i)
             {
-                if(idList[i] != other.idList[i]) return false;
+                if(idList[i] != other.idList[i])
+                    return false;
             }
             return true;
         }
@@ -377,9 +380,12 @@ namespace spBench
 
         private String GetDumpName(SearchPlanNode node)
         {
-            if(node.NodeType == PlanNodeType.Root) return "root";
-            else if(node.NodeType == PlanNodeType.Node) return "node_" + node.PatternElement.Name;
-            else return "edge_" + node.PatternElement.Name;
+            if(node.NodeType == PlanNodeType.Root)
+                return "root";
+            else if(node.NodeType == PlanNodeType.Node)
+                return "node_" + node.PatternElement.Name;
+            else
+                return "edge_" + node.PatternElement.Name;
         }
 
         public void DumpSearchPlanGraph(SearchPlanGraph splanGraph, String dumpname, String namesuffix)
@@ -407,11 +413,15 @@ namespace spBench
         private void DumpNode(StreamWriter sw, SearchPlanNode node)
         {
             if(node.NodeType == PlanNodeType.Edge)
+            {
                 sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\" shape:ellipse}}",
                     GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
+            }
             else
+            {
                 sw.WriteLine("node:{{title:\"{0}\" label:\"{1} : {2}\"}}",
                     GetDumpName(node), node.PatternElement.TypeID, node.PatternElement.Name);
+            }
         }
 
         private void DumpEdge(StreamWriter sw, SearchPlanEdge edge, bool markRed)
@@ -456,7 +466,7 @@ namespace spBench
                     nodes[i].Visited = false;       // inverted logic. Marked as already visited by the search plan enumerator
                 else
                     nodes[i].Visited = true;        // inverted logic needed, as for the matcher generator all elements must be not be "visited" at startup
-                i++;
+                ++i;
             }
             i = 0;
             foreach(PlanEdge edge in planGraph.Edges)
@@ -464,11 +474,12 @@ namespace spBench
                 edges[i] = new SearchPlanEdge(edge.Type, planMap[edge.Source], planMap[edge.Target], edge.Cost);
                 planMap[edge.Source].OutgoingEdges.Add(edges[i]);
 //                if(negGraph && edge.Type == PlanEdgeType.NegPreset) planMap[edge.Target].Visited = false;       // inverted logic
-                i++;
+                ++i;
             }
             foreach(PlanNode node in planGraph.Nodes)
             {
-                if(node.NodeType != PlanNodeType.Edge) continue;
+                if(node.NodeType != PlanNodeType.Edge)
+                    continue;
                 SearchPlanEdgeNode spedgenode = (SearchPlanEdgeNode) planMap[node];
                 spedgenode.PatternEdgeSource = (SearchPlanNodeNode) planMap[node.PatternEdgeSource];
                 spedgenode.PatternEdgeTarget = (SearchPlanNodeNode) planMap[node.PatternEdgeTarget];
@@ -488,7 +499,7 @@ namespace spBench
             NegSPGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
             NegRemainingNeededElements = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
             NegEdges = new SearchPlanEdge[patternGraph.negativePatternGraphs.Length];
-            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
+            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
                 PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
                 NegPatternGraphs[i] = negPatternGraph;
@@ -512,7 +523,7 @@ namespace spBench
             ElemToNegs = new Dictionary<String, List<int>>();
             foreach(PatternNode node in patternGraph.Nodes)
             {
-                for(int i = 0; i < NegSPGraphs.Length; i++)
+                for(int i = 0; i < NegSPGraphs.Length; ++i)
                 {
                     if(NegRemainingNeededElements[i].ContainsKey(node.Name))
                     {
@@ -529,7 +540,7 @@ namespace spBench
             }
             foreach(PatternEdge edge in patternGraph.Edges)
             {
-                for(int i = 0; i < NegSPGraphs.Length; i++)
+                for(int i = 0; i < NegSPGraphs.Length; ++i)
                 {
                     if(NegRemainingNeededElements[i].ContainsKey(edge.Name))
                     {
@@ -547,8 +558,10 @@ namespace spBench
 
             NegVisited = new bool[NegSPGraphs.Length];      // all elements initialized to false
             NegNumNeededElements = new int[NegSPGraphs.Length];
-            for(int i = 0; i < NegSPGraphs.Length; i++)
+            for(int i = 0; i < NegSPGraphs.Length; ++i)
+            {
                 NegNumNeededElements[i] = NegRemainingNeededElements[i].Count;
+            }
         }
 
         /// <summary>
@@ -559,31 +572,41 @@ namespace spBench
             PatternGraph patternGraph = Action.rulePattern.patternGraph;
             CondNeededElementVisitedArray = CalcNeededCondElementsArray(patternGraph);
             NumCondsRemainingNeededElements = new int[patternGraph.Conditions.Length];
-            for(int i = 0; i < patternGraph.Conditions.Length; i++)
+            for(int i = 0; i < patternGraph.Conditions.Length; ++i)
+            {
                 NumCondsRemainingNeededElements[i] = CondNeededElementVisitedArray[i].Count;
+            }
 
             NegCondNeededNegElementVisitedArray = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length][];
-            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
+            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
+            {
                 NegCondNeededNegElementVisitedArray[i] = CalcNeededCondElementsArray(patternGraph.negativePatternGraphs[i]);
+            }
 
             ElemToConds = CalcCondElementMap(patternGraph, CondNeededElementVisitedArray, false);
             ElemToNegCondsArray = new Dictionary<String, List<int>>[patternGraph.negativePatternGraphs.Length];
-            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
+            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
+            {
                 ElemToNegCondsArray[i] = CalcCondElementMap(patternGraph.negativePatternGraphs[i],
                     NegCondNeededNegElementVisitedArray[i], true);
+            }
         }
 
         private Dictionary<String, bool>[] CalcNeededCondElementsArray(PatternGraph patternGraph)
         {
             Dictionary<String, bool>[] neededElemsArray = new Dictionary<String, bool>[patternGraph.Conditions.Length];
-            for(int i = 0; i < patternGraph.Conditions.Length; i++)
+            for(int i = 0; i < patternGraph.Conditions.Length; ++i)
             {
                 PatternCondition cond = patternGraph.Conditions[i];
                 neededElemsArray[i] = new Dictionary<String, bool>();
                 foreach(String nodeName in cond.NeededNodes)
+                {
                     neededElemsArray[i].Add(nodeName, false);
+                }
                 foreach(String edgeName in cond.NeededEdges)
+                {
                     neededElemsArray[i].Add(edgeName, false);
+                }
             }
             return neededElemsArray;
         }
@@ -594,13 +617,13 @@ namespace spBench
             Dictionary<String, List<int>> elemToCond = new Dictionary<String, List<int>>();
             foreach(PatternNode node in patternGraph.Nodes)
             {
-                if (node.PointOfDefinition == null
+                if(node.PointOfDefinition == null
                     || isNegPattern && node.PointOfDefinition != patternGraph)
                 {
                     continue;
                 }
 
-                for(int i = 0; i < patternGraph.Conditions.Length; i++)
+                for(int i = 0; i < patternGraph.Conditions.Length; ++i)
                 {
                     if(neededElemDicts[i].ContainsKey(node.Name))
                     {
@@ -613,13 +636,13 @@ namespace spBench
             }
             foreach(PatternEdge edge in patternGraph.Edges)
             {
-                if (edge.PointOfDefinition == null
+                if(edge.PointOfDefinition == null
                     || isNegPattern && edge.PointOfDefinition != patternGraph)
                 {
                     continue;
                 }
 
-                for(int i = 0; i < patternGraph.Conditions.Length; i++)
+                for(int i = 0; i < patternGraph.Conditions.Length; ++i)
                 {
                     if(neededElemDicts[i].ContainsKey(edge.Name))
                     {
@@ -663,8 +686,10 @@ namespace spBench
             LGSPSSP = lgspSSP;
             NegCondNeededNegElementVisitedArray = negCondNeededNegElementVisitedArray;
             NumNegCondRemainingNeededNegElements = new int[NegCondNeededNegElementVisitedArray.Length];
-            for(int i = 0; i < NegCondNeededNegElementVisitedArray.Length; i++)
+            for(int i = 0; i < NegCondNeededNegElementVisitedArray.Length; ++i)
+            {
                 NumNegCondRemainingNeededNegElements[i] = NegCondNeededNegElementVisitedArray[i].Count;
+            }
             ElemToNegConds = elemToNegConds;
             NextLGSPIndex = nextLGSPIndex;
             Context = context;
@@ -706,7 +731,8 @@ namespace spBench
                 if(procEnv.PerformanceInfo.MatchesFound != foundMatches)
                     Console.WriteLine("INTERNAL ERROR: Expected " + foundMatches + " matches, but found " + procEnv.PerformanceInfo.MatchesFound);
             }
-            else foundMatches = procEnv.PerformanceInfo.MatchesFound;
+            else
+                foundMatches = procEnv.PerformanceInfo.MatchesFound;
             return (int)(procEnv.PerformanceInfo.TimeNeeded/1000); // sec -> ms
         }
 
@@ -730,7 +756,9 @@ namespace spBench
                 BenchObject benchObject = (BenchObject) param;
                 benchObject.Time += BenchmarkActionOnce(benchObject.Graph, benchObject.Actions);
             }
-            catch(TargetInvocationException) { }
+            catch(TargetInvocationException)
+            {
+            }
         }
 
         static int num = 0;
@@ -760,7 +788,9 @@ namespace spBench
                 {
                     // TODO: Consider AllowedTypes!!
 
-                    float localcost, splitcost, implcost;
+                    float localcost;
+                    float splitcost;
+                    float implcost;
                     if(op.Type == SearchOperationType.Incoming)
                     {
                         SearchPlanEdgeNode edge = (SearchPlanEdgeNode) op.Element;
@@ -768,11 +798,13 @@ namespace spBench
                         SearchPlanNodeNode tgt = (SearchPlanNodeNode) op.SourceSPNode;
 
                         int numTgtNodes = ctx.Graph.statistics.nodeCounts[tgt.PatternElement.TypeID];
-                        if(numTgtNodes == 0) numTgtNodes = 1;
+                        if(numTgtNodes == 0)
+                            numTgtNodes = 1;
 
                         float vstructVal = ctx.Graph.statistics.vstructs[(((tgt.PatternElement.TypeID * ctx.Graph.statistics.dim1size)
                             + edge.PatternElement.TypeID) * ctx.Graph.statistics.dim2size + src.PatternElement.TypeID) * 2 + (int)LGSPDirection.In];
-                        if(vstructVal < EPSILON) vstructVal = 1;
+                        if(vstructVal < EPSILON)
+                            vstructVal = 1;
 
                         localcost = ctx.Graph.statistics.meanInDegree[tgt.PatternElement.TypeID];
                         splitcost = vstructVal / numTgtNodes;
@@ -789,7 +821,8 @@ namespace spBench
 
                         float vstructVal = ctx.Graph.statistics.vstructs[(((src.PatternElement.TypeID * ctx.Graph.statistics.dim1size)
                             + edge.PatternElement.TypeID) * ctx.Graph.statistics.dim2size + tgt.PatternElement.TypeID) * 2 + (int)LGSPDirection.Out];
-                        if(vstructVal < EPSILON) vstructVal = 1;
+                        if(vstructVal < EPSILON)
+                            vstructVal = 1;
 
                         localcost = ctx.Graph.statistics.meanOutDegree[src.PatternElement.TypeID];
                         splitcost = vstructVal / numSrcNodes;
@@ -873,20 +906,20 @@ namespace spBench
             SearchPlanNode tgt = op.Element as SearchPlanNode;
             switch(op.Type)
             {
-                case SearchOperationType.Outgoing: typeStr = src.PatternElement.Name + "-" + tgt.PatternElement.Name + "->"; break;
-                case SearchOperationType.Incoming: typeStr = src.PatternElement.Name + "<-" + tgt.PatternElement.Name + "-"; break;
-                case SearchOperationType.ImplicitSource: typeStr = "<-" + src.PatternElement.Name + "-" + tgt.PatternElement.Name; break;
-                case SearchOperationType.ImplicitTarget: typeStr = "-" + src.PatternElement.Name + "->" + tgt.PatternElement.Name; break;
-                case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
-                case SearchOperationType.ActionPreset: typeStr = "p" + tgt.PatternElement.Name; break;
-                case SearchOperationType.NegIdptPreset: typeStr = "np" + tgt.PatternElement.Name; break;
-                case SearchOperationType.Condition:
-                    typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
-                        + String.Join(",", ((PatternCondition) op.Element).NeededEdges) + ")";
-                    break;
-                case SearchOperationType.NegativePattern:
-                    typeStr = " !(" + ScheduleToString(((ScheduledSearchPlan) op.Element).Operations) + " )";
-                    break;
+            case SearchOperationType.Outgoing: typeStr = src.PatternElement.Name + "-" + tgt.PatternElement.Name + "->"; break;
+            case SearchOperationType.Incoming: typeStr = src.PatternElement.Name + "<-" + tgt.PatternElement.Name + "-"; break;
+            case SearchOperationType.ImplicitSource: typeStr = "<-" + src.PatternElement.Name + "-" + tgt.PatternElement.Name; break;
+            case SearchOperationType.ImplicitTarget: typeStr = "-" + src.PatternElement.Name + "->" + tgt.PatternElement.Name; break;
+            case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
+            case SearchOperationType.ActionPreset: typeStr = "p" + tgt.PatternElement.Name; break;
+            case SearchOperationType.NegIdptPreset: typeStr = "np" + tgt.PatternElement.Name; break;
+            case SearchOperationType.Condition:
+                typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
+                    + String.Join(",", ((PatternCondition) op.Element).NeededEdges) + ")";
+                break;
+            case SearchOperationType.NegativePattern:
+                typeStr = " !(" + ScheduleToString(((ScheduledSearchPlan) op.Element).Operations) + " )";
+                break;
             }
             return typeStr;
         }
@@ -896,7 +929,9 @@ namespace spBench
             StringBuilder str = new StringBuilder();
 
             foreach(SearchOperation searchOp in schedule)
+            {
                 str.Append(' ').Append(SearchOpToString(searchOp));
+            }
 
             return str.ToString();
         }
@@ -920,14 +955,23 @@ namespace spBench
             SearchOperation[] ops = new SearchOperation[ctx.Schedule.Count];
             int opind = 0;
             foreach(SearchOperation op in ctx.Schedule)
+            {
                 ops[opind++] = new SearchOperation(op.Type, op.Element, op.SourceSPNode, op.CostToEnd);
+            }
 
-            float costflat, costbatz, spcostproduct, spcostimplproduct, spcostsum;
+            float costflat;
+            float costbatz;
+            float spcostproduct;
+            float spcostimplproduct;
+            float spcostsum;
             CalcScheduleCost(ctx, ops, out costflat, out costbatz, out spcostproduct, out spcostimplproduct, out spcostsum);
 
             String scheduleStr = ScheduleToString(ctx.Schedule);
             Console.Write(scheduleStr);
-            for(int j = scheduleStr.Length; j < 50; j++) Console.Write(' ');
+            for(int j = scheduleStr.Length; j < 50; ++j)
+            {
+                Console.Write(' ');
+            }
             Console.Write(" => C_Flat(P) = {0,9:N4} C(P) = {1,9:N4} C*(S) = {2,9:N4} C_Impl*(S) = {3,9:N4} C+(S) = {4,9:N4}",
                 costflat, costbatz, spcostproduct, spcostimplproduct, spcostsum);
 
@@ -963,7 +1007,7 @@ namespace spBench
                 ctx.Actions.ReplaceAction(ctx.Action.Name, newAction);
                 BenchObject benchObject = new BenchObject(ctx.Graph, ctx.Actions);
                 int i;
-                for(i = 0; i < BenchTimes; i++)
+                for(i = 0; i < BenchTimes; ++i)
                 {
                     Thread benchThread = new Thread(new ParameterizedThreadStart(BenchmarkAction));
                     benchThread.Start(benchObject);
@@ -974,23 +1018,32 @@ namespace spBench
                         break;
                     }
                 }
-                if(i == BenchTimes) benchObject.Time /= BenchTimes;
+                if(i == BenchTimes)
+                    benchObject.Time /= BenchTimes;
 
                 time = benchObject.Time;
             }
-            else time = -1;
+            else
+                time = -1;
 
             Console.WriteLine(" time = {0,5} ms", time);
             ctx.Results.Add(new SearchPlanResult((SearchPlanID) ctx.SearchPlanID.Clone(), costflat, costbatz, spcostproduct, spcostimplproduct, spcostsum, time));
 
-            if(costflat > ctx.MaxCostFlat) ctx.MaxCostFlat = costflat;
-            if(costbatz > ctx.MaxCostBatz) ctx.MaxCostBatz = costbatz;
-            if(spcostproduct > ctx.MaxSPCostProduct) ctx.MaxSPCostProduct = spcostproduct;
-            if(spcostsum > ctx.MaxSPCostSum) ctx.MaxSPCostSum = spcostsum;
-            if(time > ctx.MaxTime) ctx.MaxTime = time;
+            if(costflat > ctx.MaxCostFlat)
+                ctx.MaxCostFlat = costflat;
+            if(costbatz > ctx.MaxCostBatz)
+                ctx.MaxCostBatz = costbatz;
+            if(spcostproduct > ctx.MaxSPCostProduct)
+                ctx.MaxSPCostProduct = spcostproduct;
+            if(spcostsum > ctx.MaxSPCostSum)
+                ctx.MaxSPCostSum = spcostsum;
+            if(time > ctx.MaxTime)
+                ctx.MaxTime = time;
 
             foreach(SearchPlanNode node in ctx.SearchPlanGraph.Nodes)
+            {
                 node.Visited = false;
+            }
 
             foreach(SearchPlanGraph sp in ctx.NegSPGraphs)
             {
@@ -1016,11 +1069,11 @@ namespace spBench
                 {
                     switch(curOp.Type)
                     {
-                        case SearchOperationType.Lookup:
-                        case SearchOperationType.Incoming:
-                        case SearchOperationType.Outgoing:
-                        case SearchOperationType.ImplicitSource:
-                        case SearchOperationType.ImplicitTarget:
+                    case SearchOperationType.Lookup:
+                    case SearchOperationType.Incoming:
+                    case SearchOperationType.Outgoing:
+                    case SearchOperationType.ImplicitSource:
+                    case SearchOperationType.ImplicitTarget:
                         {
                             SearchPlanNode curOpElem = (SearchPlanNode) curOp.Element;
                             SearchPlanNode lgspOpElem = (SearchPlanNode) lgspOp.Element;
@@ -1028,13 +1081,13 @@ namespace spBench
                                 newLGSPIndex = curLGSPIndex + 1;
                             break;
                         }
-                        case SearchOperationType.NegativePattern:     // check in RecursiveIncludeNegativePattern
+                    case SearchOperationType.NegativePattern:     // check in RecursiveIncludeNegativePattern
                         {
                             newLGSPIndex = curLGSPIndex;
                             negLGSPSSP = (ScheduledSearchPlan) lgspOp.Element;
                             break;
                         }
-                        case SearchOperationType.Condition:
+                    case SearchOperationType.Condition:
                         {
                             PatternCondition curCond = (PatternCondition) curOp.Element;
                             PatternCondition lgspCond = (PatternCondition) lgspOp.Element;
@@ -1043,8 +1096,8 @@ namespace spBench
                             break;
                         }
                         
-                        // case SearchOperationType.Preset:     already taken out at the begining
-                        // case SearchOperationType.NegPreset:  skipped at begining of negative pattern
+                    // case SearchOperationType.Preset:     already taken out at the begining
+                    // case SearchOperationType.NegPreset:  skipped at begining of negative pattern
                     }
                 }
             }
@@ -1100,17 +1153,19 @@ namespace spBench
             {
                 List<SearchPlanEdge> availableEdges = new List<SearchPlanEdge>(oldAvailEdges);
                 availableEdges.Remove(nextEdge);
-                negCtx.VisitedElements++;
+                ++negCtx.VisitedElements;
 
                 foreach(SearchPlanEdge outEdge in curNode.OutgoingEdges)
                 {
-                    if(!outEdge.Target.Visited) continue;
+                    if(!outEdge.Target.Visited)
+                        continue;
                     availableEdges.Add(outEdge);
                 }
 
-                for(int i = 0; i < availableEdges.Count; i++)
+                for(int i = 0; i < availableEdges.Count; ++i)
                 {
-                    if(!availableEdges[i].Target.Visited) continue;                 // inverted logic
+                    if(!availableEdges[i].Target.Visited)
+                        continue;                 // inverted logic
                     negCtx.Context.SearchPlanID.SetNextDecision(i);
 
                     SearchOperation newOp = new SearchOperation(availableEdges[i].Type, availableEdges[i].Target,
@@ -1136,7 +1191,7 @@ namespace spBench
                         // curNode was last needed element for condition => remove Condition operation
                         negCtx.Schedule.RemoveLast();
                     }
-                    negCtx.NumNegCondRemainingNeededNegElements[condIndex]++;
+                    ++negCtx.NumNegCondRemainingNeededNegElements[condIndex];
                 }
             }
 
@@ -1171,7 +1226,7 @@ namespace spBench
 
             if(ctx.NumVisitedElements + 1 == ctx.NumElements)
             {
-                num++;
+                ++num;
                 SearchPlanFinished(ctx);
                 if(nextLGSPIndex >= 0)
                 {
@@ -1183,7 +1238,7 @@ namespace spBench
             {
                 List<SearchPlanEdge> availableEdges = new List<SearchPlanEdge>(oldAvailEdges);
                 availableEdges.Remove(nextEdge);
-                ctx.NumVisitedElements++;
+                ++ctx.NumVisitedElements;
 
                 // Check whether negative searchplans become reachable because of curNode
                 List<int> relatedNegs;
@@ -1195,9 +1250,10 @@ namespace spBench
                     }
 
                     // check negative patterns available
-                    for(int i = 0; i < ctx.NegSPGraphs.Length; i++)
+                    for(int i = 0; i < ctx.NegSPGraphs.Length; ++i)
                     {
-                        if(ctx.NegVisited[i]) continue;
+                        if(ctx.NegVisited[i])
+                            continue;
                         if(ctx.NegRemainingNeededElements[i].Count == 0)
                         {
                             availableEdges.Add(ctx.NegEdges[i]);
@@ -1209,7 +1265,8 @@ namespace spBench
                 // Add searchplan edges reachable from curNode to ready set
                 foreach(SearchPlanEdge outEdge in curNode.OutgoingEdges)
                 {
-                    if(!outEdge.Target.Visited) continue;               // inverted logic
+                    if(!outEdge.Target.Visited)
+                        continue;               // inverted logic
                     availableEdges.Add(outEdge);
                 }
 
@@ -1226,9 +1283,10 @@ namespace spBench
                     }
                 }
 
-                for(int i = 0; i < availableEdges.Count; i++)
+                for(int i = 0; i < availableEdges.Count; ++i)
                 {
-                    if(!availableEdges[i].Target.Visited) continue;     // inverted logic
+                    if(!availableEdges[i].Target.Visited)
+                        continue;     // inverted logic
 
                     if(forcedImplicitAvailable && availableEdges[i].Type != SearchOperationType.ImplicitSource
                             && availableEdges[i].Type != SearchOperationType.ImplicitTarget)
@@ -1236,8 +1294,9 @@ namespace spBench
 
                     if(availableEdges[i].Type == SearchOperationType.Lookup)
                     {
-                        if(allowedLookups != -1 && numLookups >= allowedLookups) continue;
-                        numLookups++;
+                        if(allowedLookups != -1 && numLookups >= allowedLookups)
+                            continue;
+                        ++numLookups;
                     }
                     ctx.SearchPlanID.SetNextDecision(i);
 
@@ -1259,7 +1318,8 @@ namespace spBench
 
                         foreach(SearchPlanEdge rootEdge in negCtx.SP.Root.OutgoingEdges)
                         {
-                            if(rootEdge.Type != SearchOperationType.NegIdptPreset) continue;
+                            if(rootEdge.Type != SearchOperationType.NegIdptPreset)
+                                continue;
                             foreach(SearchPlanEdge outEdge in rootEdge.Target.OutgoingEdges)
                             {
                                 negAvailEdges.Add(outEdge);
@@ -1271,7 +1331,9 @@ namespace spBench
                         {
                             while(nextNegLGSPIndex < negLGSPSSP.Operations.Length
                                     && negLGSPSSP.Operations[nextNegLGSPIndex].Type == SearchOperationType.NegIdptPreset)
-                                nextNegLGSPIndex++;
+                            {
+                                ++nextNegLGSPIndex;
+                            }
                         }
 
                         RecursiveIncludeNegativePattern(negCtx, availableEdges[i], negAvailEdges, nextNegLGSPIndex);
@@ -1301,9 +1363,10 @@ namespace spBench
                     }
 
                     // check negative patterns visited but not available anymore
-                    for(int i = 0; i < ctx.NegSPGraphs.Length; i++)
+                    for(int i = 0; i < ctx.NegSPGraphs.Length; ++i)
                     {
-                        if(!ctx.NegVisited[i]) continue;
+                        if(!ctx.NegVisited[i])
+                            continue;
                         if(ctx.NegRemainingNeededElements[i].Count != 0)
                             ctx.NegVisited[i] = false;
                     }
@@ -1321,7 +1384,7 @@ namespace spBench
                         // curNode was last needed element for condition => remove Condition operation
                         ctx.Schedule.RemoveLast();
                     }
-                    ctx.NumCondsRemainingNeededElements[condIndex]++;
+                    ++ctx.NumCondsRemainingNeededElements[condIndex];
                 }
             }
             curNode.Visited = true;                                 // inverted logic
@@ -1338,113 +1401,121 @@ namespace spBench
             bool error = false;
             List<String> ruleNamesForGenSP = new List<String>();
 
-            for(int i = 0; i < args.Length && !error; i++)
+            for(int i = 0; i < args.Length && !error; ++i)
             {
                 if(args[i][0] == '-')
                 {
                     switch(args[i])
                     {
-                        case "-nobench": noBench = true; break;
-                        case "-count": noBench = justCount = true; break;
-                        case "-maxlookups":
-                            if(i + 1 >= args.Length)
-                            {
-                                error = true;
-                                Console.WriteLine("No <n> specified for -maxlookups!");
-                                break;
-                            }
-                            if(!int.TryParse(args[++i], out allowedLookups))
-                            {
-                                error = true;
-                                Console.WriteLine("<n> must be an integer for -maxlookups!");
-                                break;
-                            }
-                            break;
-                        case "-forceimplicit": forceImplicit = true; break;
-                        case "-initgrs":
-                            if(i + 1 >= args.Length)
-                            {
-                                error = true;
-                                Console.WriteLine("No xgrs specified for -initgrs!");
-                                break;
-                            }
-                            initGRS = args[++i];
-                            break;
-                        case "-gensp":
-                        {
-                            if(i + 1 >= args.Length)
-                            {
-                                error = true;
-                                Console.WriteLine("No rules specified for -gensp!");
-                                break;
-                            }
-                            String genSPRuleStr = args[++i];
-                            foreach(String name in genSPRuleStr.Split(' '))
-                                ruleNamesForGenSP.Add(name);
-                            break;
-                        }    
-                        case "-benchgrs":
-                            if(i + 1 >= args.Length)
-                            {
-                                error = true;
-                                Console.WriteLine("No xgrs specified for -benchgrs!");
-                                break;
-                            }
-                            benchGRS = args[++i];
-                            break;
-                        case "-reuse":
-                            if(i + 1 >= args.Length)
-                            {
-                                error = true;
-                                Console.WriteLine("No file specified for -reuse!");
-                                break;
-                            }
-                            reuseResFile = args[++i];
-                            if(!File.Exists(reuseResFile))
-                            {
-                                error = true;
-                                Console.WriteLine("Old result file \"" + reuseResFile + "\" does not exist!");
-                            }
+                    case "-nobench":
                             noBench = true;
-                            break;     
-                        case "-timeout":
-                            if(!int.TryParse(args[++i], out BenchTimeout))
-                            {
-                                error = true;
-                                Console.WriteLine("<n> must be an integer for -timeout!");
-                                break;
-                            }
                             break;
-                        case "-times":
-                            if(!int.TryParse(args[++i], out BenchTimes))
-                            {
-                                error = true;
-                                Console.WriteLine("<n> must be an integer for -times!");
-                                break;
-                            }
+                    case "-count":
+                            noBench = justCount = true;
                             break;
-                        case "-N":
-                            if(i + 1 >= args.Length)
-                            {
-                                error = true;
-                                Console.WriteLine("No argument specified for -N!");
-                                break;
-                            }
-                            replaceN = args[++i];
-                            break;
-                        case "-M":
-                            if(i + 1 >= args.Length)
-                            {
-                                error = true;
-                                Console.WriteLine("No argument specified for -M!");
-                                break;
-                            }
-                            replaceM = args[++i];
-                            break;
-                        default:
+                    case "-maxlookups":
+                        if(i + 1 >= args.Length)
+                        {
                             error = true;
-                            Console.WriteLine("Illegal option: " + args[i]);
+                            Console.WriteLine("No <n> specified for -maxlookups!");
                             break;
+                        }
+                        if(!int.TryParse(args[++i], out allowedLookups))
+                        {
+                            error = true;
+                            Console.WriteLine("<n> must be an integer for -maxlookups!");
+                            break;
+                        }
+                        break;
+                    case "-forceimplicit":
+                        forceImplicit = true;
+                        break;
+                    case "-initgrs":
+                        if(i + 1 >= args.Length)
+                        {
+                            error = true;
+                            Console.WriteLine("No xgrs specified for -initgrs!");
+                            break;
+                        }
+                        initGRS = args[++i];
+                        break;
+                    case "-gensp":
+                    {
+                        if(i + 1 >= args.Length)
+                        {
+                            error = true;
+                            Console.WriteLine("No rules specified for -gensp!");
+                            break;
+                        }
+                        String genSPRuleStr = args[++i];
+                        foreach(String name in genSPRuleStr.Split(' '))
+                        {
+                            ruleNamesForGenSP.Add(name);
+                        }
+                        break;
+                    }    
+                    case "-benchgrs":
+                        if(i + 1 >= args.Length)
+                        {
+                            error = true;
+                            Console.WriteLine("No xgrs specified for -benchgrs!");
+                            break;
+                        }
+                        benchGRS = args[++i];
+                        break;
+                    case "-reuse":
+                        if(i + 1 >= args.Length)
+                        {
+                            error = true;
+                            Console.WriteLine("No file specified for -reuse!");
+                            break;
+                        }
+                        reuseResFile = args[++i];
+                        if(!File.Exists(reuseResFile))
+                        {
+                            error = true;
+                            Console.WriteLine("Old result file \"" + reuseResFile + "\" does not exist!");
+                        }
+                        noBench = true;
+                        break;     
+                    case "-timeout":
+                        if(!int.TryParse(args[++i], out BenchTimeout))
+                        {
+                            error = true;
+                            Console.WriteLine("<n> must be an integer for -timeout!");
+                            break;
+                        }
+                        break;
+                    case "-times":
+                        if(!int.TryParse(args[++i], out BenchTimes))
+                        {
+                            error = true;
+                            Console.WriteLine("<n> must be an integer for -times!");
+                            break;
+                        }
+                        break;
+                    case "-N":
+                        if(i + 1 >= args.Length)
+                        {
+                            error = true;
+                            Console.WriteLine("No argument specified for -N!");
+                            break;
+                        }
+                        replaceN = args[++i];
+                        break;
+                    case "-M":
+                        if(i + 1 >= args.Length)
+                        {
+                            error = true;
+                            Console.WriteLine("No argument specified for -M!");
+                            break;
+                        }
+                        replaceM = args[++i];
+                        break;
+                    default:
+                        error = true;
+                        Console.WriteLine("Illegal option: " + args[i]);
+                        break;
                     }                   
                 }
                 else if(grgFile == null)
@@ -1474,7 +1545,8 @@ namespace spBench
                 Console.WriteLine("<oldresfile> may not have the same name as the output file!");
             }
 
-            if(grgFile == null || testActionName == null) error = true;
+            if(grgFile == null || testActionName == null)
+                error = true;
 
             if(error)
             {
@@ -1508,13 +1580,17 @@ namespace spBench
 
             if(replaceN != null)
             {
-                if(initGRS != null) initGRS = initGRS.Replace("$N$", replaceN);
-                if(benchGRS != null) benchGRS = benchGRS.Replace("$N$", replaceN);
+                if(initGRS != null)
+                    initGRS = initGRS.Replace("$N$", replaceN);
+                if(benchGRS != null)
+                    benchGRS = benchGRS.Replace("$N$", replaceN);
             }
             if(replaceM != null)
             {
-                if(initGRS != null) initGRS = initGRS.Replace("$M$", replaceM);
-                if(benchGRS != null) benchGRS = benchGRS.Replace("$M$", replaceM);
+                if(initGRS != null)
+                    initGRS = initGRS.Replace("$M$", replaceM);
+                if(benchGRS != null)
+                    benchGRS = benchGRS.Replace("$M$", replaceM);
             }
 
             LGSPGraph graph;
@@ -1560,14 +1636,17 @@ namespace spBench
             // First add all preset operations in the same order as LGSPBackend
             foreach(SearchPlanNode node in ctx.SearchPlanGraph.Nodes)
             {
-                if(!node.IsPreset) continue;
+                if(!node.IsPreset)
+                    continue;
 
                 foreach(SearchPlanEdge edge in node.OutgoingEdges)
+                {
                     availEdges.Add(edge);
+                }
 
                 SearchOperation newOp = new SearchOperation(SearchOperationType.ActionPreset, node, ctx.SearchPlanGraph.Root, 0);
                 ctx.Schedule.AddLast(newOp);
-                ctx.NumVisitedElements++;
+                ++ctx.NumVisitedElements;
             }
 
             RecursiveGenAllSearchPlans(ctx, new SearchPlanEdge(SearchOperationType.ActionPreset, ctx.SearchPlanGraph.Root, ctx.SearchPlanGraph.Root, 0),
@@ -1592,7 +1671,8 @@ namespace spBench
                             return;
                         }
                         int time = int.Parse(parts[parts.Length - 1]);
-                        if(time > ctx.MaxTime) ctx.MaxTime = time;
+                        if(time > ctx.MaxTime)
+                            ctx.MaxTime = time;
                         ctx.Results[i++].Time = time;
                     }
                 }
@@ -1601,26 +1681,20 @@ namespace spBench
             using(StreamWriter writer = new StreamWriter(resultFile))
             {
                 writer.WriteLine("planid;cflatvp;cbatzvp;cprodvs;cimplprodvs;csumvs;time");
-                for(int i = 0; i < ctx.Results.Count; i++)
+                for(int i = 0; i < ctx.Results.Count; ++i)
                 {
                     SearchPlanResult res = ctx.Results[i];
                     writer.WriteLine((i + 1) + ";" + res.CostFlat.ToString("G20") + ";" + res.CostBatz.ToString("G20") + ";" + res.SPCostProduct.ToString("G20")
                         + ";" + res.SPCostImplProduct.ToString("G20") + ";" + res.SPCostSum.ToString("G20") + ";" + res.Time);
 
                     if(res.ID.Equals(ctx.LGSPSPID))
-                    {
                         Console.WriteLine("Number of searchplan chosen by LGSPBackend: " + (i + 1));
-                    }
                 }
             }
             if(ctx.LGSPSPID == null)
-            {
                 Console.WriteLine("Original LGSP Searchplan not found! Searchplan is: " + ScheduleToString(ctx.LGSPSSP.Operations));
-            }
             else
-            {
                 Console.WriteLine("Searchplan chosen by LGSPBackend: " + ScheduleToString(ctx.LGSPSSP.Operations));
-            }
 
             foreach(SearchOperation op in ctx.LGSPSSP.Operations)
             {
@@ -1646,13 +1720,15 @@ namespace spBench
             Color spCostProductCol = Color.Blue;
             Color spCostSumCol = Color.Purple;
             Color dashCol = Color.LightGray;
-            for(int i = 0; i < results.Length; i++)
+            for(int i = 0; i < results.Length; ++i)
             {
                 SearchPlanResult res = results[i];
                 if(res.ID.Equals(ctx.LGSPSPID))
                 {
-                    for(int y = 0; y < height; y++)
+                    for(int y = 0; y < height; ++y)
+                    {
                         if((y & 2) != 0) bitmap.SetPixel(i, y, dashCol);
+                    }
                 }
                 bitmap.SetPixel(i, height - Math.Max((int) (timeScale * Math.Log10(res.Time)), 0), timeCol);
                 bitmap.SetPixel(i, height - (int) (costScale * res.CostFlat), costCol);

@@ -70,7 +70,7 @@ namespace de.unika.ipd.grGen.libGr
             scopes.Push(new Dictionary<String, SequenceVariable>());
 
             String scopeName;
-            switch (scopeType)
+            switch(scopeType)
             {
             case ScopeType.For:
                 scopeName = "for" + scopesMeta.Peek().forCount;
@@ -112,7 +112,7 @@ namespace de.unika.ipd.grGen.libGr
             Dictionary<String, SequenceVariable> sequenceScope = new Dictionary<String, SequenceVariable>();
             if(predefinedVariables != null)
             {
-                foreach (KeyValuePair<String, String> predefinedVariable in predefinedVariables)
+                foreach(KeyValuePair<String, String> predefinedVariable in predefinedVariables)
                 {
                     String name = predefinedVariable.Key;
                     String type = predefinedVariable.Value;
@@ -180,7 +180,7 @@ namespace de.unika.ipd.grGen.libGr
             string prefix = "";
             ScopeMetaInformation[] scopesMeta = this.scopesMeta.ToArray(); // holy shit! no sets, no backward iterators, no direct access to stack,
                                                                         // size sometimes called length, sometimes count ... c# data structures suck
-            for (int i = scopesMeta.Length - 1; i >= 0; --i) // stack dumped in reverse ^^
+            for(int i = scopesMeta.Length - 1; i >= 0; --i) // stack dumped in reverse ^^
             {
                 prefix += scopesMeta[i].name;
             }
