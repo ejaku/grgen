@@ -110,7 +110,7 @@ modloop:for(Model model : unit.getModels()) {
 		}
 		ActionsBearer bearer = new ComposedActionsBearer(unit);
 		for(Rule actionRule : bearer.getActionRules()) {
-			if(actionRule.getAnnotations().containsKey("parallelize")) { // comment out to parallelize everything as possible, for testing
+			if(actionRule.getAnnotations().containsKey("parallelize")) { // comment out to parallelize everything as possible, for testing (in case an action exists) - don't forget "uncomment to parallelize everything as possible, for testing"
 				unit.toBeParallelizedActionIsExisting();
 				forceUnique = true;
 			}

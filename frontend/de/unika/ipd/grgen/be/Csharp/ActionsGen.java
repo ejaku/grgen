@@ -60,10 +60,10 @@ public class ActionsGen extends CSharpBase {
 				+ "using System.Collections.Generic;\n"
 				+ "using System.Collections;\n"
 				+ "using System.Text;\n"
-                + "using System.Threading;\n"
-                + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
-                + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
-                + "using GRGEN_EXPR = de.unika.ipd.grGen.expression;\n"
+				+ "using System.Threading;\n"
+				+ "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
+				+ "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
+				+ "using GRGEN_EXPR = de.unika.ipd.grGen.expression;\n"
 				+ "using GRGEN_MODEL = de.unika.ipd.grGen.Model_" + be.unit.getActionsGraphModelName() + ";\n"
 				+ "using GRGEN_ACTIONS = de.unika.ipd.grGen.Action_" + be.unit.getUnitName() + ";\n"
 				+ "\n"
@@ -415,7 +415,7 @@ public class ActionsGen extends CSharpBase {
 		genStaticConstructor(sb, className, staticInitializers);
 
 		genMatch(sb, actionRule.getPattern(), className, actionRule.getAnnotations().containsKey("parallelize"));
-		//genMatch(sb, actionRule.getPattern(), className, true); // comment out to parallelize everything as possible, for testing
+		//genMatch(sb, actionRule.getPattern(), className, true); // uncomment to parallelize everything as possible, for testing - don't forget "comment out to parallelize everything as possible, for testing"
 
 		sb.append("\t}\n");
 		sb.append("\n");
@@ -1176,7 +1176,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t{\n");
 		addAnnotations(sb, action, "annotations");
 		//if(!action.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as possible, for testing
-		//	sb.append("\t\t\tannotations.Add(\"parallelize\", \"2\");\n"); // don't forget "comment out to parallelize everything as possible, for testing"
+		//	sb.append("\t\t\tannotations.annotations.Add(\"parallelize\", \"2\");\n"); // don't forget "comment out to parallelize everything as possible, for testing"
 		sb.append("\t\t}\n");
 
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
