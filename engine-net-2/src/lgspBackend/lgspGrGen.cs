@@ -38,7 +38,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs an LGSPGrGen object.
         /// </summary>
         /// <param name="flags">Flags specifying how the specification should be processed.</param>
-        public LGSPGrGen(ProcessSpecFlags flags)
+        private LGSPGrGen(ProcessSpecFlags flags)
         {
             this.flags = flags;
         }
@@ -48,7 +48,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="path">The original path string potentially with wrong chars</param>
         /// <returns>The corrected path string</returns>
-        static String FixDirectorySeparators(String path)
+        private static String FixDirectorySeparators(String path)
         {
             if(Path.DirectorySeparatorChar != '\\')
                 path = path.Replace('\\', Path.DirectorySeparatorChar);
@@ -57,14 +57,14 @@ namespace de.unika.ipd.grGen.lgsp
             return path;
         }
 
-        Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             Assembly assembly;
             loadedAssemblies.TryGetValue(args.Name, out assembly);
             return assembly;
         }
 
-        void AddAssembly(Assembly assembly)
+        private void AddAssembly(Assembly assembly)
         {
             loadedAssemblies.Add(assembly.FullName, assembly);
             if(!assemblyHandlerInstalled)
@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        bool ProcessModel(CompileConfiguration cc)
+        private bool ProcessModel(CompileConfiguration cc)
         {
             String modelName = Path.GetFileNameWithoutExtension(cc.modelFilename);
             String modelExtension = Path.GetExtension(cc.modelFilename);
@@ -129,7 +129,7 @@ namespace de.unika.ipd.grGen.lgsp
             return true;
         }
 
-        IGraphModel GetGraphModel(Assembly modelAssembly)
+        private IGraphModel GetGraphModel(Assembly modelAssembly)
         {
             Type modelType = null;
             try
@@ -230,7 +230,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public static bool ExecuteGrGenJava(String tmpDir, ProcessSpecFlags flags,
+        private static bool ExecuteGrGenJava(String tmpDir, ProcessSpecFlags flags,
             out List<String> genModelFiles, out List<String> genModelStubFiles,
             out List<String> genActionsFiles, params String[] sourceFiles)
         {
@@ -475,7 +475,7 @@ namespace de.unika.ipd.grGen.lgsp
             private String _externalActionsExtensionOutputFilename;
         }
 
-        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String statisticsPath, String[] externalAssemblies)
+        private ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String statisticsPath, String[] externalAssemblies)
         {
             Console.WriteLine("Building libraries...");
 
@@ -1112,8 +1112,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if((flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseNoExistingFiles)
             {
-                List<String> genModelFiles, genModelStubFiles, genActionsFiles;
-
+                List<String> genModelFiles;
+                List<String> genModelStubFiles;
+                List<String> genActionsFiles;
                 if(!ExecuteGrGenJava(cc.tmpDir, flags,
                     out genModelFiles, out genModelStubFiles,
                     out genActionsFiles, cc.specFile))
@@ -1375,25 +1376,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public static bool IsGeneratedFilter(string filter, IRulePattern rulePattern)
-        {
-            if(filter.IndexOf('_')!=-1)
-            {
-                string filterBase = filter.Substring(0, filter.IndexOf('_'));
-                string filterVariable = filter.Substring(filter.IndexOf('_') + 1);
-                if(filterBase=="orderAscendingBy" || filterBase=="orderDescendingBy"
-                    || filterBase=="groupBy" || filterBase=="keepSameAsFirst"
-                    || filterBase=="keepSameAsLast" || filterBase=="keepOneForEach")
-                {
-                    if(IsFilterVariable(filterVariable, rulePattern))
-                        return true;
-                }
-            }
-            if(filter == "auto")
-                return true;
-            return false;
-        }
-
         private static bool IsFilterVariable(string variable, IRulePattern rulePattern)
         {
             foreach(IPatternVariable patternVariable in rulePattern.PatternGraph.Variables)
@@ -1455,6 +1437,7 @@ namespace de.unika.ipd.grGen.lgsp
                 Console.WriteLine(ex);
                 throw ex;
             }
+
             if(ret != ErrorType.NoError)
             {
                 if(ret == ErrorType.GrGenJavaError && File.Exists(intermediateDir + Path.DirectorySeparatorChar + "printOutput.txt"))
