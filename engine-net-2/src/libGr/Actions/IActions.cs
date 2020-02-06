@@ -101,6 +101,11 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
+        /// Debugging helper. Fails in a debug build with an assertion.
+        /// </summary>
+        void FailAssertion();
+
+        /// <summary>
         /// An MD5 hash of the used IGraphModel.
         /// </summary>
         String ModelMD5Hash { get; }

@@ -176,6 +176,11 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
+        /// Debugging helper. Fails in a debug build with an assertion.
+        /// </summary>
+        void FailAssertion();
+
+        /// <summary>
         /// An MD5 hash sum of the model.
         /// </summary>
         String MD5Hash { get; }

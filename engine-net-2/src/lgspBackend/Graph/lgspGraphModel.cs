@@ -95,6 +95,7 @@ namespace de.unika.ipd.grGen.lgsp
         #endregion Comparison of attributes of object or user defined type, external types in general
 
 
+        public abstract void FailAssertion();
         public abstract String MD5Hash { get; }
     }
 }

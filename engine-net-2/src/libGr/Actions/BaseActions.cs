@@ -220,7 +220,8 @@ namespace de.unika.ipd.grGen.libGr
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+        
+        public abstract void FailAssertion();
         public abstract String ModelMD5Hash { get; }
 
         public abstract IDictionary<String, String> CustomCommandsAndDescriptions { get; }

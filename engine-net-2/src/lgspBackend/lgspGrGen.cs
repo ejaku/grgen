@@ -83,7 +83,7 @@ namespace de.unika.ipd.grGen.lgsp
             CompilerParameters compParams;
             SetupCompiler(null, out compiler, out compParams);
             compParams.ReferencedAssemblies.AddRange(cc.externalAssemblies);
-            compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
+            compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug /define:DEBUG" : "/optimize";
             compParams.OutputAssembly = cc.destDir + "lgsp-" + modelName + ".dll";
 
             CompilerResults compResults;
@@ -712,7 +712,7 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.ReferencedAssemblies.AddRange(cc.externalAssemblies); 
             compParams.GenerateInMemory = false;
             compParams.IncludeDebugInformation = (flags & ProcessSpecFlags.CompileWithDebug) != 0;
-            compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
+            compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug /define:DEBUG" : "/optimize";
             compParams.TreatWarningsAsErrors = false;
             compParams.OutputAssembly = cc.destDir + "lgsp-" + cc.actionsName + ".dll";
 
@@ -1102,6 +1102,7 @@ namespace de.unika.ipd.grGen.lgsp
             endSource.AppendFront("public override bool LazyNIC { get { return " + (lazyNIC ? "true" : "false") + "; } }\n");
             endSource.AppendFront("public override bool InlineIndependents { get { return " + (inlineIndependents ? "true" : "false") + "; } }\n");
             endSource.AppendFront("public override bool Profile { get { return " + (profile ? "true" : "false") + "; } }\n\n");
+            endSource.AppendFront("public override void FailAssertion() { Debug.Assert(false); }\n");
             endSource.AppendFront("public override string ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");
             endSource.Unindent();
             endSource.AppendFront("}\n");
