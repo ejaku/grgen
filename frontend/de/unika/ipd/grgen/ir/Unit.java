@@ -56,8 +56,6 @@ public class Unit extends IR implements ActionsBearer {
 	/** The source filename of this unit. */
 	private String filename;
 	
-	private boolean isToBeParallelizedActionExisting = false;
-
 	
 	public Unit(String unitName, String filename) {
 		super("unit");
@@ -157,14 +155,6 @@ public class Unit extends IR implements ActionsBearer {
 		return filename;
 	}
 
-	public void toBeParallelizedActionIsExisting() {
-		isToBeParallelizedActionExisting = true;
-	}
-
-	public boolean isToBeParallelizedActionExisting() {
-		return isToBeParallelizedActionExisting;
-	}
-
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("models", models.iterator());
@@ -216,11 +206,13 @@ public class Unit extends IR implements ActionsBearer {
 
 	public void postPatchIR() {
 		for(Model model : models) {
+//			model.forceFunctionsParallel(); // comment out to parallelize everything as far as possible, for testing - don't forget "uncomment to parallelize everything as far as possible, for testing"
 			postPatchIR(model);
 			for(PackageType pt : model.getPackages()) {
 				postPatchIR(pt);
 			}
 		}
+		postPatchIR(new ComposedActionsBearer(this));
 	}
 
 	public static void postPatchIR(NodeEdgeEnumBearer bearer) {
@@ -232,6 +224,13 @@ public class Unit extends IR implements ActionsBearer {
 		}
 		for(InheritanceType type : bearer.getEdgeTypes()) {
 			type.getAllMembers(); // checks overwriting of attributes
+		}
+	}
+
+	public static void postPatchIR(ActionsBearer bearer) {
+		for(Rule actionRule : bearer.getActionRules()) {
+//			if(!actionRule.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as far as possible, for testing
+//				actionRule.getAnnotations().put("parallelize", 2); // don't forget "comment out to parallelize everything as far as possible, for testing"
 		}
 	}
 
@@ -500,6 +499,22 @@ public class Unit extends IR implements ActionsBearer {
 		}
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.setDependencyLevelOfInterElementDependencies();
+		}
+	}
+	
+	public void checkForParallelizedModelIfParallelizedActionExists()
+	{
+		checkForParallelizedModelIfParallelizedActionExists(new ComposedActionsBearer(this), getActionsGraphModel());
+	}
+	
+	public static void checkForParallelizedModelIfParallelizedActionExists(ActionsBearer bearer, Model model)
+	{
+		if(!model.areFunctionsParallel()) {
+			for(Rule actionRule : bearer.getActionRules()) {
+				if(actionRule.getAnnotations().containsKey("parallelize")) {
+					error.error(actionRule.getIdent().getCoords(), "Parallelized matching is requested from the action " + actionRule.getIdent() + ", but parallelization is not requested in the model \"for function[parallelize=true];\".");
+				}
+			}
 		}
 	}
 }

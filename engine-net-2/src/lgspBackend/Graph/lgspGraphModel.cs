@@ -30,6 +30,7 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IEnumerable<IndexDescription> IndexDescriptions { get; }
         public abstract bool GraphElementUniquenessIsEnsured { get; }
         public abstract bool GraphElementsAreAccessibleByUniqueId { get; }
+        public abstract bool AreFunctionsParallelized { get; }
         public abstract int BranchingFactorForEqualsAny { get; }
         public abstract IUniquenessHandler CreateUniquenessHandler(IGraph graph);
         public abstract IIndexSet CreateIndexSet(IGraph graph);

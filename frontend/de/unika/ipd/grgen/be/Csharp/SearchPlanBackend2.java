@@ -19,12 +19,9 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.ir.ActionsBearer;
-import de.unika.ipd.grgen.ir.ComposedActionsBearer;
 import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.Model;
-import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Unit;
 
@@ -103,17 +100,12 @@ modloop:for(Model model : unit.getModels()) {
 		for(Model model : unit.getModels()) {
 			if(model.isUniqueIndexDefined())
 				forceUnique = true;
+			if(model.areFunctionsParallel())
+				forceUnique = true;
 			if(model.isoParallel() > 0)
 				forceUnique = true;
 			for(@SuppressWarnings("unused") Index index : model.getIndices())
 				forceUnique = true;
-		}
-		ActionsBearer bearer = new ComposedActionsBearer(unit);
-		for(Rule actionRule : bearer.getActionRules()) {
-			if(actionRule.getAnnotations().containsKey("parallelize")) { // comment out to parallelize everything as possible, for testing (in case an action exists) - don't forget "uncomment to parallelize everything as possible, for testing"
-				unit.toBeParallelizedActionIsExisting();
-				forceUnique = true;
-			}
 		}
 
 		// Generate graph models for all top level models

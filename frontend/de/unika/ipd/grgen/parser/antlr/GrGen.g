@@ -238,7 +238,7 @@ textActions returns [ UnitNode main = null ]
 				boolean isEqualClassDefined = false;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isEqualClassDefined |= modelChild.IsEqualClassDefined();
-				}				
+				}
 				boolean isLowerClassDefined = false;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isLowerClassDefined |= modelChild.IsLowerClassDefined();
@@ -246,11 +246,15 @@ textActions returns [ UnitNode main = null ]
 				boolean isUniqueDefined = false;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isUniqueDefined |= modelChild.IsUniqueDefined();
-				}				
+				}
 				boolean isUniqueIndexDefined = false;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isUniqueIndexDefined |= modelChild.IsUniqueIndexDefined();
-				}				
+				}
+				boolean areFunctionsParallel = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					areFunctionsParallel |= modelChild.AreFunctionsParallel();
+				}
 				int isoParallel = 0;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isoParallel = Math.max(isoParallel, modelChild.IsoParallel());
@@ -261,7 +265,7 @@ textActions returns [ UnitNode main = null ]
 						isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined, 
 						isEqualClassDefined, isLowerClassDefined,
 						isUniqueDefined, isUniqueIndexDefined,
-						isoParallel);
+						areFunctionsParallel, isoParallel);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -1896,7 +1900,7 @@ textTypes returns [ ModelNode model = null ]
 				$specialClasses.isEmitClassDefined, $specialClasses.isEmitGraphClassDefined, $specialClasses.isCopyClassDefined, 
 				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined,
 				$specialClasses.isUniqueDefined, $specialClasses.isUniqueIndexDefined,
-				$specialClasses.isoParallel);
+				$specialClasses.areFunctionsParallel, $specialClasses.isoParallel);
 		}
 	;
 
@@ -1906,7 +1910,7 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 		returns [ boolean isEmitClassDefined = false, boolean isEmitGraphClassDefined = false, boolean isCopyClassDefined = false, 
 				  boolean isEqualClassDefined = false, boolean isLowerClassDefined = false,
 				  boolean isUniqueDefined = false, boolean isUniqueIndexDefined = false,
-				  int isoParallel = 0;]
+				  boolean areFunctionsParallel = false, int isoParallel = 0;]
 	@init{
 		boolean graphFound = false;
 	}
@@ -1917,30 +1921,44 @@ typeDecls [ CollectNode<IdentNode> types, CollectNode<IdentNode> packages,
 	  |
 		externalFunctionOrProcedureDecl[externalFuncs, externalProcs]
 	  |
-	    NODE EDGE i=IDENT SEMI { if(!i.getText().equals("unique")) reportError(getCoords(i), "malformed \"node edge unique;\""); else $isUniqueDefined = true; }
+		NODE EDGE i=IDENT SEMI { if(!i.getText().equals("unique")) reportError(getCoords(i), "malformed \"node edge unique;\""); else $isUniqueDefined = true; }
 	  |
-	    EXTERNAL EMIT (i=IDENT { if(!i.getText().equals("graph")) reportError(getCoords(i), "malformed \"external emit graph class;\""); else graphFound = true;} )? c=CLASS SEMI { if(graphFound) $isEmitGraphClassDefined = true; else $isEmitClassDefined = true; }
+		EXTERNAL EMIT (i=IDENT { if(!i.getText().equals("graph")) reportError(getCoords(i), "malformed \"external emit graph class;\""); else graphFound = true;} )? c=CLASS SEMI { if(graphFound) $isEmitGraphClassDefined = true; else $isEmitClassDefined = true; }
 	  |
-	    EXTERNAL COPY c=CLASS SEMI { $isCopyClassDefined = true; }
+		EXTERNAL COPY c=CLASS SEMI { $isCopyClassDefined = true; }
 	  |
-	    EXTERNAL EQUAL c=CLASS SEMI { $isEqualClassDefined = true; }
+		EXTERNAL EQUAL c=CLASS SEMI { $isEqualClassDefined = true; }
 	  |
-	    EXTERNAL LT c=CLASS SEMI { $isLowerClassDefined = true; }
+		EXTERNAL LT c=CLASS SEMI { $isLowerClassDefined = true; }
 	  |
 		res = indexDecl[indices] { $isUniqueIndexDefined = res; }
 	  |
-	    FOR i=IDENT LBRACK j=IDENT ASSIGN con=constant RBRACK
+		FOR i=IDENT LBRACK j=IDENT ASSIGN con=constant RBRACK
 				{
 					if(!i.getText().equals("equalsAny"))
 						reportError(getCoords(i), "malformed \"for equalsAny[parallelize=k];\"");
 					else if(!j.getText().equals("parallelize"))
 						reportError(getCoords(j), "malformed \"for equalsAny[parallelize=k];\"");
 					else {
-						Object ip = ((ConstNode) con).getValue();
-						if(!(ip instanceof Integer))
+						Object icon = ((ConstNode) con).getValue();
+						if(!(icon instanceof Integer))
 							reportError(getCoords(i), "\"for equalsAny[parallelize=k];\" requires an integer constant");
 						else
-							$isoParallel = (Integer)ip;
+							$isoParallel = (Integer)icon;
+					}
+				}
+			SEMI
+	  |
+		FOR i=FUNCTION LBRACK j=IDENT ASSIGN con=constant RBRACK
+				{
+					if(!j.getText().equals("parallelize"))
+						reportError(getCoords(j), "malformed \"for function[parallelize=true];\"");
+					else {
+						Object bcon = ((ConstNode) con).getValue();
+						if(!(bcon instanceof Boolean))
+							reportError(getCoords(i), "\"for function[parallelize=true];\" requires a boolean constant");
+						else
+							$areFunctionsParallel = (Boolean)bcon;
 					}
 				}
 			SEMI

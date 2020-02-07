@@ -426,7 +426,7 @@ public class ModelGen extends CSharpBase {
 			}
 			sb.append(");\n");
 			
-			if(be.unit.isToBeParallelizedActionExisting()) {
+			if(model.areFunctionsParallel()) {
 				sb.append("\t\t" + formatType(fm.getReturnType()) + " ");
 				sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
 				for(Entity inParam : fm.getParameters()) {
@@ -1400,7 +1400,7 @@ deque_init_loop:
 			}
 			sb.append("\t\t}\n");
 
-			if(be.unit.isToBeParallelizedActionExisting())
+			if(model.areFunctionsParallel())
 			{
 				sb.append("\t\tpublic " + formatType(fm.getReturnType()) + " ");
 				sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
@@ -4344,6 +4344,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override bool GraphElementUniquenessIsEnsured { get { return " + (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
 		sb.append("\t\tpublic override bool GraphElementsAreAccessibleByUniqueId { get { return " + (model.isUniqueIndexDefined() ? "true" : "false") + "; } }\n");
+		sb.append("\t\tpublic override bool AreFunctionsParallelized { get { return " + model.areFunctionsParallel() + "; } }\n");
 		sb.append("\t\tpublic override int BranchingFactorForEqualsAny { get { return " + model.isoParallel() + "; } }\n");
 		sb.append("\n");
         
@@ -4840,7 +4841,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			}
 			sb.append(");\n");
 
-			if(be.unit.isToBeParallelizedActionExisting())
+			if(model.areFunctionsParallel())
 			{
 				sb.append("\t\t//public " + formatType(efm.getReturnType()) + " ");
 				sb.append(efm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph");
@@ -5009,7 +5010,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			}
 			sb.append(");\n");
 
-			if(be.unit.isToBeParallelizedActionExisting())
+			if(model.areFunctionsParallel())
 			{
 				sb.append("\t\t//public static " + formatType(returnType) + " " + ef.getName() + "(GRGEN_LIBGR.IActionExecutionEnvironment, GRGEN_LIBGR.IGraph");
 				for(Type paramType : ef.getParameterTypes()) {

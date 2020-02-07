@@ -56,6 +56,7 @@ public class ModelNode extends DeclNode {
 	private boolean isLowerClassDefined;
 	private boolean isUniqueDefined;
 	private boolean isUniqueIndexDefined;
+	private boolean areFunctionsParallel;
 	private int isoParallel;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> packages, CollectNode<IdentNode> decls, 
@@ -64,7 +65,7 @@ public class ModelNode extends DeclNode {
 			boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
 			boolean isUniqueDefined, boolean isUniqueIndexDefined,
-			int isoParallel) {
+			boolean areFunctionsParallel, int isoParallel) {
 		super(id, modelType);
 
 		this.packagesUnresolved = packages;
@@ -86,6 +87,7 @@ public class ModelNode extends DeclNode {
 		this.isLowerClassDefined = isLowerClassDefined;
 		this.isUniqueDefined = isUniqueDefined;
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
+		this.areFunctionsParallel = areFunctionsParallel;
 		this.isoParallel = isoParallel;
 	}
 
@@ -194,6 +196,10 @@ public class ModelNode extends DeclNode {
 		return isUniqueIndexDefined;
 	}
 
+	public boolean AreFunctionsParallel() {
+		return areFunctionsParallel;
+	}
+	
 	public int IsoParallel() {
 		return isoParallel;
 	}
@@ -234,7 +240,7 @@ public class ModelNode extends DeclNode {
 				isEmitGraphClassDefined, isCopyClassDefined, 
 				isEqualClassDefined, isLowerClassDefined, 
 				isUniqueDefined, isUniqueIndexDefined,
-				isoParallel);
+				areFunctionsParallel, isoParallel);
 		for(ModelNode model : usedModels.getChildren())
 			res.addUsedModel(model.getModel());
 		for(TypeDeclNode typeDecl : packages.getChildren()) {

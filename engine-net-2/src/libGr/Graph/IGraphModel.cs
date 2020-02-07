@@ -64,6 +64,13 @@ namespace de.unika.ipd.grGen.libGr
         bool GraphElementsAreAccessibleByUniqueId { get; }
 
         /// <summary>
+        /// If true, function methods (and functions from the actions based on this model) are also available in a parallelized version, 
+        /// and external functions and function methods of external classes are expected to be also available in a parallelized version
+        /// (and graph element uniqueness is ensured).
+        /// </summary>
+        bool AreFunctionsParallelized { get; }
+
+        /// <summary>
         /// Tells about the number of threads to use for the equalsAny and equalsAnyStructurally functions
         /// The normal non-parallel isomorphy comparison functions are used if this value is below 2
         /// </summary>

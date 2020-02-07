@@ -613,6 +613,7 @@ public class Main extends Base implements Sys {
 		irUnit.resolvePatternLockedModifier();
 		irUnit.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern();
 		irUnit.checkForRhsElementsUsedOnLhs();
+		irUnit.checkForParallelizedModelIfParallelizedActionExists();
 		buildIR += System.currentTimeMillis();
 
 		GraphDumperFactory factory = new VCGDumperFactory(this);

@@ -43,6 +43,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private boolean isLowerClassDefined;
 	private boolean isUniqueDefined;
 	private boolean isUniqueIndexDefined;
+	private boolean areFunctionsParallel;
 	private int isoParallel;
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
@@ -51,7 +52,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined, 
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
 			boolean isUniqueDefined, boolean isUniqueIndexDefined,
-			int isoParallel) {
+			boolean areFunctionsParallel, int isoParallel) {
 		super("model", ident);
 		
 		this.isEmitClassDefined = isEmitClassDefined;
@@ -61,6 +62,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 		this.isLowerClassDefined = isLowerClassDefined;
 		this.isUniqueDefined = isUniqueDefined;
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
+		this.areFunctionsParallel = areFunctionsParallel;
 		this.isoParallel = isoParallel;
 	}
 
@@ -206,6 +208,14 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 
 	public boolean isUniqueIndexDefined() {
 		return isUniqueIndexDefined;
+	}
+
+	public void forceFunctionsParallel() {
+		areFunctionsParallel = true;
+	}
+	
+	public boolean areFunctionsParallel() {
+		return areFunctionsParallel;
 	}
 
 	public int isoParallel() {
