@@ -1,3 +1,5 @@
+#using "Std"
+
 test t1
 {
 	n:Node;

@@ -1,3 +1,5 @@
+#using "Std.gm"
+
 pattern p {
 	n1:Node; n2:Node; n3:Node;
 	independent {

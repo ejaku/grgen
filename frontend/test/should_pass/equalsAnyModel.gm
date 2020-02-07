@@ -1,1 +1,2 @@
 for equalsAny[parallelize=2];
+for function[parallelize=true];

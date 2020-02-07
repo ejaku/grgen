@@ -1,2 +1,4 @@
+for function[parallelize=true];
+
 node class P;
 node class M;
