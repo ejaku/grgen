@@ -36,6 +36,13 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             return;
         }
 
+        // may be employed by parallelized pattern matchers
+
+        public string fn(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, string var_ss, int threadId)
+        {
+            return ehe;
+        }
+
         public string ehe;
     }
 	
@@ -65,6 +72,18 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             _out_param_0 = var_ss;
             _out_param_1 = var_oo;
             return;
+        }
+
+        // may be employed by parallelized pattern matchers, only needed in case they are called from such one
+
+        public OwnPownHome fn2(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, OwnPownHome var_oo, int threadId)
+        {
+            return var_oo;
+        }
+
+        public string fn3(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_, int threadId)
+        {
+            return ehe;
         }
 
         public string aha;
@@ -358,6 +377,68 @@ namespace de.unika.ipd.grGen.expression
         }
 
         public static GRGEN_MODEL.OwnPownHome ownPownHome(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph)
+        {
+            GRGEN_MODEL.OwnPownHome oph = new GRGEN_MODEL.OwnPownHome();
+            oph.ehe = "hahaha";
+            oph.aha = "lalala";
+            return oph;
+        }
+
+        // may be employed by parallelized pattern matchers, only needed in case they are called from such one
+
+        public static bool foo(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int a, double b, GRGEN_MODEL.ENUM_Enu c, string d, int threadId)
+        {
+            return true;
+        }
+
+        public static object bar(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object a, object b, int threadId)
+        {
+            return a ?? b ?? null;
+        }
+
+        public static bool isnull(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object a, int threadId)
+        {
+            return a == null;
+        }
+
+        public static bool bla(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IN a, GRGEN_MODEL.IE b, int threadId)
+        {
+            return a.b;
+        }
+
+        public static GRGEN_MODEL.IN blo(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode a, GRGEN_LIBGR.IEdge b, int threadId)
+        {
+            return ((GRGEN_MODEL.ExternalAttributeEvaluationGraph)graph).CreateNodeN();
+        }
+
+        public static GRGEN_MODEL.OwnPown har(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.Own a, GRGEN_MODEL.OwnPown b, int threadId)
+        {
+            return a != null ? (a.muh() ? (GRGEN_MODEL.OwnPown)a : b) : null;
+        }
+
+        public static bool hur(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.OwnPown a, int threadId)
+        {
+            return a != null ? a.ehe == null : true;
+        }
+
+        public static bool hurdur(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.OwnPownHome a, int threadId)
+        {
+            return a != null ? a.aha == null : true;
+        }
+
+        public static GRGEN_MODEL.Own own(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int threadId)
+        {
+            return new GRGEN_MODEL.Own();
+        }
+
+        public static GRGEN_MODEL.OwnPown ownPown(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int threadId)
+        {
+            GRGEN_MODEL.OwnPown op = new GRGEN_MODEL.OwnPown();
+            op.ehe = "hahaha";
+            return op;
+        }
+
+        public static GRGEN_MODEL.OwnPownHome ownPownHome(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, int threadId)
         {
             GRGEN_MODEL.OwnPownHome oph = new GRGEN_MODEL.OwnPownHome();
             oph.ehe = "hahaha";
