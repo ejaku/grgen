@@ -307,11 +307,12 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EnsureSufficientIsomorphySpacesForParallelizedMatchingAreAvailable(int numberOfThreads)
         {
-            if(uniquenessEnsurer == null)
+            if(!model.AreFunctionsParallelized && !(model.BranchingFactorForEqualsAny > 1))
             {
-                System.Console.Error.WriteLine("A parallelized matcher requires a uniqueness constraint to be in place (this may be applied manually with the \"node edge unique;\" declaration, but is also applied automatically in case a parallelized matcher exists, or an index was declared).");
-                System.Console.Error.WriteLine("The model does not implement the uniqueness constraint - it seems it was overwritten by a model from a generation run without a parallelized action (or unique declaration or an index declaration).");
-                throw new NotImplementedException("Uniqueness ensurer not available in the model.");
+                System.Console.Error.WriteLine("A parallelized matcher or graph comparison function requires a parallelized model (declared by \"for function[parallelize=true];\" for parallelized matchers (requiring functions) or \"for equalsAny[parallelize=2];\" (or higher constant) for graph comparison functions).");
+                System.Console.Error.WriteLine("(In case of the former: the (external) functions and function methods are then available in versions supporting parallel execution.)");
+                System.Console.Error.WriteLine("The model does not support parallelization - it seems it was overwritten by a model from a generation run without parallelization.");
+                throw new NotImplementedException("Parallelized matching not supported.");
             }
 
             // we assume that all perThread members are initialized the same
