@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Jan 12 22:27:34 CET 2020
+// Generated from "test.grg" on Fri Feb 07 19:18:50 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -46,16 +47,15 @@ namespace de.unika.ipd.grGen.Action_test
 
 
 		private Rule_testRule()
+			: base("testRule",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "testRule";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -450,11 +450,11 @@ namespace de.unika.ipd.grGen.Action_test
     
     public class Action_testRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_testRule
     {
-        public Action_testRule() {
+        public Action_testRule()
+            : base(Rule_testRule.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_testRule.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule, Rule_testRule.IMatch_testRule>(this);
         }
 
@@ -770,6 +770,7 @@ namespace de.unika.ipd.grGen.Action_test
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
     }
 }

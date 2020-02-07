@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jan 12 22:15:24 CET 2020
+// Generated from "..\..\tests\TNT\TNT.grg" on Fri Feb 07 19:19:29 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -63,14 +64,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_BenzolRing()
+			: base("BenzolRing",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "BenzolRing";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -585,14 +585,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_BenzolRingC123456Exposed()
+			: base("BenzolRingC123456Exposed",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "BenzolRingC123456Exposed_node_c1", "BenzolRingC123456Exposed_node_c2", "BenzolRingC123456Exposed_node_c3", "BenzolRingC123456Exposed_node_c4", "BenzolRingC123456Exposed_node_c5", "BenzolRingC123456Exposed_node_c6", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "BenzolRingC123456Exposed";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "BenzolRingC123456Exposed_node_c1", "BenzolRingC123456Exposed_node_c2", "BenzolRingC123456Exposed_node_c3", "BenzolRingC123456Exposed_node_c4", "BenzolRingC123456Exposed_node_c5", "BenzolRingC123456Exposed_node_c6", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -1083,14 +1082,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_BenzolRingC1Exposed()
+			: base("BenzolRingC1Exposed",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "BenzolRingC1Exposed_node_c1", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "BenzolRingC1Exposed";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "BenzolRingC1Exposed_node_c1", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -1623,14 +1621,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_BenzolRingC1ExposedNotC6Nitro()
+			: base("BenzolRingC1ExposedNotC6Nitro",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "BenzolRingC1ExposedNotC6Nitro_node_c1", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "BenzolRingC1ExposedNotC6Nitro";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "BenzolRingC1ExposedNotC6Nitro_node_c1", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -2406,14 +2403,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_Oxygen()
+			: base("Oxygen",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Oxygen";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -2732,14 +2728,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_Hydrogen()
+			: base("Hydrogen",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "Hydrogen_node_anchor", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Hydrogen";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "Hydrogen_node_anchor", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -3042,14 +3037,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_Hydroxyl()
+			: base("Hydroxyl",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "Hydroxyl_node_anchor", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Hydroxyl";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "Hydroxyl_node_anchor", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -3391,14 +3385,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_Methyl()
+			: base("Methyl",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "Methyl_node_anchor", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Methyl";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "Methyl_node_anchor", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -3798,14 +3791,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_Nitro()
+			: base("Nitro",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "Nitro_node_anchor", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Nitro";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "Nitro_node_anchor", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -4166,14 +4158,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_TriNitro()
+			: base("TriNitro",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "TriNitro_node_c2", "TriNitro_node_c4", "TriNitro_node_c6", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "TriNitro";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "TriNitro_node_c2", "TriNitro_node_c4", "TriNitro_node_c6", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -4515,14 +4506,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Pattern_ToluolCoreThenTriNitro()
+			: base("ToluolCoreThenTriNitro",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, },
+			new string[] { "ToluolCoreThenTriNitro_node_c1", "ToluolCoreThenTriNitro_node_c2", "ToluolCoreThenTriNitro_node_c3", "ToluolCoreThenTriNitro_node_c4", "ToluolCoreThenTriNitro_node_c5", "ToluolCoreThenTriNitro_node_c6", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ToluolCoreThenTriNitro";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, };
-			inputNames = new string[] { "ToluolCoreThenTriNitro_node_c1", "ToluolCoreThenTriNitro_node_c2", "ToluolCoreThenTriNitro_node_c3", "ToluolCoreThenTriNitro_node_c4", "ToluolCoreThenTriNitro_node_c5", "ToluolCoreThenTriNitro_node_c6", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -4903,16 +4893,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_BenzolRing()
+			: base("BenzolRing",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "BenzolRing";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -5177,16 +5166,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_TNTTotallyFolded()
+			: base("TNTTotallyFolded",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "TNTTotallyFolded";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -5615,16 +5603,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_TNTChain()
+			: base("TNTChain",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "TNTChain";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -5978,16 +5965,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_ToluolCore()
+			: base("ToluolCore",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "ToluolCore";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -6271,16 +6257,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_ToluolCoreNotC6Nitro()
+			: base("ToluolCoreNotC6Nitro",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "ToluolCoreNotC6Nitro";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -6574,16 +6559,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_Toluol()
+			: base("Toluol",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "Toluol";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -7030,16 +7014,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_TNT()
+			: base("TNT",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "TNT";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -7646,16 +7629,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_TNTUnfolded()
+			: base("TNTUnfolded",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "TNTUnfolded";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -8444,16 +8426,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_createTNT()
+			: base("createTNT",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createTNT";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -8772,16 +8753,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_DNT()
+			: base("DNT",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "DNT";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -9380,16 +9360,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_DNTUnfolded()
+			: base("DNTUnfolded",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "DNTUnfolded";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10130,16 +10109,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_createDNT()
+			: base("createDNT",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createDNT";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10454,16 +10432,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_TNB()
+			: base("TNB",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "TNB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11058,16 +11035,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_TNBUnfolded()
+			: base("TNBUnfolded",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "TNBUnfolded";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11784,16 +11760,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_createTNB()
+			: base("createTNB",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createTNB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -12078,16 +12053,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_keepBenzolRingPattern()
+			: base("keepBenzolRingPattern",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "keepBenzolRingPattern";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -12346,16 +12320,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_createBenzolRingPattern()
+			: base("createBenzolRingPattern",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createBenzolRingPattern";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -12602,16 +12575,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_deleteBenzolRingPattern()
+			: base("deleteBenzolRingPattern",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "deleteBenzolRingPattern";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -12871,16 +12843,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		private Rule_deleteInModifyBenzolRingPattern()
+			: base("deleteInModifyBenzolRingPattern",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "deleteInModifyBenzolRingPattern";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -13238,7 +13209,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 
     public class PatternAction_BenzolRing : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_BenzolRing(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_BenzolRing(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_BenzolRing.Instance.patternGraph;
         }
@@ -13808,7 +13781,9 @@ namespace de.unika.ipd.grGen.Action_TNT
     
     public class PatternAction_BenzolRingC123456Exposed : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_BenzolRingC123456Exposed(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_BenzolRingC123456Exposed(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_BenzolRingC123456Exposed.Instance.patternGraph;
         }
@@ -14259,7 +14234,9 @@ namespace de.unika.ipd.grGen.Action_TNT
     
     public class PatternAction_BenzolRingC1Exposed : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_BenzolRingC1Exposed(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_BenzolRingC1Exposed(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_BenzolRingC1Exposed.Instance.patternGraph;
         }
@@ -14814,7 +14791,9 @@ namespace de.unika.ipd.grGen.Action_TNT
     
     public class PatternAction_BenzolRingC1ExposedNotC6Nitro : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_BenzolRingC1ExposedNotC6Nitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_BenzolRingC1ExposedNotC6Nitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_BenzolRingC1ExposedNotC6Nitro.Instance.patternGraph;
         }
@@ -15491,7 +15470,9 @@ label0: ;
     
     public class PatternAction_Oxygen : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Oxygen(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Oxygen(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Oxygen.Instance.patternGraph;
         }
@@ -15687,7 +15668,9 @@ label0: ;
     
     public class PatternAction_Hydrogen : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Hydrogen(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Hydrogen(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Hydrogen.Instance.patternGraph;
         }
@@ -15823,7 +15806,9 @@ label0: ;
     
     public class PatternAction_Hydroxyl : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Hydroxyl(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Hydroxyl(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Hydroxyl.Instance.patternGraph;
         }
@@ -16013,7 +15998,9 @@ label0: ;
     
     public class PatternAction_Methyl : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Methyl(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Methyl(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Methyl.Instance.patternGraph;
         }
@@ -16337,7 +16324,9 @@ label0: ;
     
     public class PatternAction_Nitro : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Nitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Nitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Nitro.Instance.patternGraph;
         }
@@ -16591,7 +16580,9 @@ label0: ;
     
     public class PatternAction_TriNitro : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_TriNitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_TriNitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_TriNitro.Instance.patternGraph;
         }
@@ -17287,7 +17278,9 @@ label0: ;
     
     public class PatternAction_ToluolCoreThenTriNitro : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ToluolCoreThenTriNitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ToluolCoreThenTriNitro(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ToluolCoreThenTriNitro.Instance.patternGraph;
         }
@@ -17837,11 +17830,11 @@ label0: ;
     
     public class Action_BenzolRing : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_BenzolRing
     {
-        public Action_BenzolRing() {
+        public Action_BenzolRing()
+            : base(Rule_BenzolRing.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_BenzolRing.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_BenzolRing.Match_BenzolRing, Rule_BenzolRing.IMatch_BenzolRing>(this);
         }
 
@@ -18109,11 +18102,11 @@ label0: ;
     
     public class Action_TNTTotallyFolded : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNTTotallyFolded
     {
-        public Action_TNTTotallyFolded() {
+        public Action_TNTTotallyFolded()
+            : base(Rule_TNTTotallyFolded.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_TNTTotallyFolded.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_TNTTotallyFolded.Match_TNTTotallyFolded, Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>(this);
         }
 
@@ -19373,11 +19366,11 @@ label0: ;
     
     public class Action_TNTChain : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNTChain
     {
-        public Action_TNTChain() {
+        public Action_TNTChain()
+            : base(Rule_TNTChain.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_TNTChain.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_TNTChain.Match_TNTChain, Rule_TNTChain.IMatch_TNTChain>(this);
         }
 
@@ -20181,11 +20174,11 @@ label0: ;
     
     public class Action_ToluolCore : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ToluolCore
     {
-        public Action_ToluolCore() {
+        public Action_ToluolCore()
+            : base(Rule_ToluolCore.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_ToluolCore.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ToluolCore.Match_ToluolCore, Rule_ToluolCore.IMatch_ToluolCore>(this);
         }
 
@@ -20914,11 +20907,11 @@ label0: ;
     
     public class Action_ToluolCoreNotC6Nitro : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ToluolCoreNotC6Nitro
     {
-        public Action_ToluolCoreNotC6Nitro() {
+        public Action_ToluolCoreNotC6Nitro()
+            : base(Rule_ToluolCoreNotC6Nitro.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_ToluolCoreNotC6Nitro.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ToluolCoreNotC6Nitro.Match_ToluolCoreNotC6Nitro, Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>(this);
         }
 
@@ -21741,11 +21734,11 @@ label3: ;
     
     public class Action_Toluol : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_Toluol
     {
-        public Action_Toluol() {
+        public Action_Toluol()
+            : base(Rule_Toluol.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_Toluol.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_Toluol.Match_Toluol, Rule_Toluol.IMatch_Toluol>(this);
         }
 
@@ -22779,11 +22772,11 @@ label3: ;
     
     public class Action_TNT : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNT
     {
-        public Action_TNT() {
+        public Action_TNT()
+            : base(Rule_TNT.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_TNT.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_TNT.Match_TNT, Rule_TNT.IMatch_TNT>(this);
         }
 
@@ -23984,11 +23977,11 @@ label3: ;
     
     public class Action_TNTUnfolded : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNTUnfolded
     {
-        public Action_TNTUnfolded() {
+        public Action_TNTUnfolded()
+            : base(Rule_TNTUnfolded.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_TNTUnfolded.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_TNTUnfolded.Match_TNTUnfolded, Rule_TNTUnfolded.IMatch_TNTUnfolded>(this);
         }
 
@@ -25119,11 +25112,11 @@ label3: ;
     
     public class Action_createTNT : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createTNT
     {
-        public Action_createTNT() {
+        public Action_createTNT()
+            : base(Rule_createTNT.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createTNT.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createTNT.Match_createTNT, Rule_createTNT.IMatch_createTNT>(this);
         }
 
@@ -25366,11 +25359,11 @@ label3: ;
     
     public class Action_DNT : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_DNT
     {
-        public Action_DNT() {
+        public Action_DNT()
+            : base(Rule_DNT.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_DNT.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_DNT.Match_DNT, Rule_DNT.IMatch_DNT>(this);
         }
 
@@ -26489,11 +26482,11 @@ label3: ;
     
     public class Action_DNTUnfolded : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_DNTUnfolded
     {
-        public Action_DNTUnfolded() {
+        public Action_DNTUnfolded()
+            : base(Rule_DNTUnfolded.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_DNTUnfolded.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_DNTUnfolded.Match_DNTUnfolded, Rule_DNTUnfolded.IMatch_DNTUnfolded>(this);
         }
 
@@ -27542,11 +27535,11 @@ label3: ;
     
     public class Action_createDNT : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createDNT
     {
-        public Action_createDNT() {
+        public Action_createDNT()
+            : base(Rule_createDNT.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createDNT.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createDNT.Match_createDNT, Rule_createDNT.IMatch_createDNT>(this);
         }
 
@@ -27789,11 +27782,11 @@ label3: ;
     
     public class Action_TNB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNB
     {
-        public Action_TNB() {
+        public Action_TNB()
+            : base(Rule_TNB.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_TNB.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_TNB.Match_TNB, Rule_TNB.IMatch_TNB>(this);
         }
 
@@ -28871,11 +28864,11 @@ label3: ;
     
     public class Action_TNBUnfolded : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNBUnfolded
     {
-        public Action_TNBUnfolded() {
+        public Action_TNBUnfolded()
+            : base(Rule_TNBUnfolded.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_TNBUnfolded.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_TNBUnfolded.Match_TNBUnfolded, Rule_TNBUnfolded.IMatch_TNBUnfolded>(this);
         }
 
@@ -29883,11 +29876,11 @@ label3: ;
     
     public class Action_createTNB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createTNB
     {
-        public Action_createTNB() {
+        public Action_createTNB()
+            : base(Rule_createTNB.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createTNB.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createTNB.Match_createTNB, Rule_createTNB.IMatch_createTNB>(this);
         }
 
@@ -30130,11 +30123,11 @@ label3: ;
     
     public class Action_keepBenzolRingPattern : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_keepBenzolRingPattern
     {
-        public Action_keepBenzolRingPattern() {
+        public Action_keepBenzolRingPattern()
+            : base(Rule_keepBenzolRingPattern.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_keepBenzolRingPattern.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_keepBenzolRingPattern.Match_keepBenzolRingPattern, Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>(this);
         }
 
@@ -30402,11 +30395,11 @@ label3: ;
     
     public class Action_createBenzolRingPattern : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createBenzolRingPattern
     {
-        public Action_createBenzolRingPattern() {
+        public Action_createBenzolRingPattern()
+            : base(Rule_createBenzolRingPattern.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createBenzolRingPattern.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createBenzolRingPattern.Match_createBenzolRingPattern, Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>(this);
         }
 
@@ -30649,11 +30642,11 @@ label3: ;
     
     public class Action_deleteBenzolRingPattern : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_deleteBenzolRingPattern
     {
-        public Action_deleteBenzolRingPattern() {
+        public Action_deleteBenzolRingPattern()
+            : base(Rule_deleteBenzolRingPattern.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_deleteBenzolRingPattern.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_deleteBenzolRingPattern.Match_deleteBenzolRingPattern, Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>(this);
         }
 
@@ -30921,11 +30914,11 @@ label3: ;
     
     public class Action_deleteInModifyBenzolRingPattern : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_deleteInModifyBenzolRingPattern
     {
-        public Action_deleteInModifyBenzolRingPattern() {
+        public Action_deleteInModifyBenzolRingPattern()
+            : base(Rule_deleteInModifyBenzolRingPattern.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_deleteInModifyBenzolRingPattern.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_deleteInModifyBenzolRingPattern.Match_deleteInModifyBenzolRingPattern, Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>(this);
         }
 
@@ -31472,6 +31465,7 @@ label3: ;
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
     }
 }

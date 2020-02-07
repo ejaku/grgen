@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Jan 12 22:15:20 CET 2020
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Fri Feb 07 19:19:23 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -50,14 +51,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Subclasses()
+			: base("Subclasses",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, },
+			new string[] { "Subclasses_node_c", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Subclasses";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, };
-			inputNames = new string[] { "Subclasses_node_c", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -613,14 +613,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Subclass()
+			: base("Subclass",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, },
+			new string[] { "Subclass_node_sub", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Subclass";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, };
-			inputNames = new string[] { "Subclass_node_sub", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -925,14 +924,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Features()
+			: base("Features",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, },
+			new string[] { "Features_node_c", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Features";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, };
-			inputNames = new string[] { "Features_node_c", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -1518,14 +1516,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_FeaturePattern()
+			: base("FeaturePattern",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, },
+			new string[] { "FeaturePattern_node_c", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "FeaturePattern";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, };
-			inputNames = new string[] { "FeaturePattern_node_c", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -2876,14 +2873,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Parameters()
+			: base("Parameters",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, },
+			new string[] { "Parameters_node_b", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Parameters";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, };
-			inputNames = new string[] { "Parameters_node_b", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -3439,14 +3435,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Parameter()
+			: base("Parameter",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, },
+			new string[] { "Parameter_node_b", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Parameter";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, };
-			inputNames = new string[] { "Parameter_node_b", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -4253,14 +4248,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Statements()
+			: base("Statements",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, },
+			new string[] { "Statements_node_b", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Statements";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, };
-			inputNames = new string[] { "Statements_node_b", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -4837,14 +4831,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Statement()
+			: base("Statement",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, },
+			new string[] { "Statement_node_b", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Statement";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, };
-			inputNames = new string[] { "Statement_node_b", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -5980,14 +5973,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Expressions()
+			: base("Expressions",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Expression.typeVar, },
+			new string[] { "Expressions_node_e", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Expressions";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Expression.typeVar, };
-			inputNames = new string[] { "Expressions_node_e", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -6543,14 +6535,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_ExpressionPattern()
+			: base("ExpressionPattern",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Expression.typeVar, },
+			new string[] { "ExpressionPattern_node_e", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ExpressionPattern";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Expression.typeVar, };
-			inputNames = new string[] { "ExpressionPattern_node_e", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -7381,14 +7372,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Bodies()
+			: base("Bodies",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodSignature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, },
+			new string[] { "Bodies_node_m5", "Bodies_node_c1", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Bodies";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodSignature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
-			inputNames = new string[] { "Bodies_node_m5", "Bodies_node_c1", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -7984,14 +7974,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Pattern_Body()
+			: base("Body",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodSignature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, },
+			new string[] { "Body_node_m5", "Body_node_c1", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Body";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodSignature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
-			inputNames = new string[] { "Body_node_m5", "Body_node_c1", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -8397,16 +8386,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_createProgramGraphExample()
+			: base("createProgramGraphExample",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createProgramGraphExample";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -8714,16 +8702,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_createProgramGraphPullUp()
+			: base("createProgramGraphPullUp",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createProgramGraphPullUp";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -9032,16 +9019,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_pullUpMethod()
+			: base("pullUpMethod",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, },
+			new string[] { "pullUpMethod_node_c1", "pullUpMethod_node_b4", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "pullUpMethod";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, };
-			inputNames = new string[] { "pullUpMethod_node_c1", "pullUpMethod_node_b4", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -9397,16 +9383,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_matchAll()
+			: base("matchAll",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, },
+			new string[] { "matchAll_node_c1", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "matchAll";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, };
-			inputNames = new string[] { "matchAll_node_c1", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -9676,16 +9661,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_InsertHelperEdgesForNestedLayout()
+			: base("InsertHelperEdgesForNestedLayout",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "InsertHelperEdgesForNestedLayout";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10070,16 +10054,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_LinkMethodBodyToContainedEntity()
+			: base("LinkMethodBodyToContainedEntity",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "LinkMethodBodyToContainedEntity";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10626,16 +10609,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_LinkMethodBodyToContainedExpressionTransitive()
+			: base("LinkMethodBodyToContainedExpressionTransitive",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "LinkMethodBodyToContainedExpressionTransitive";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11192,16 +11174,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_RemoveMethodBodyContainsBetweenExpressions()
+			: base("RemoveMethodBodyContainsBetweenExpressions",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "RemoveMethodBodyContainsBetweenExpressions";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11494,16 +11475,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
 
 		private Rule_RetypeClassContainment()
+			: base("RetypeClassContainment",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "RetypeClassContainment";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11870,7 +11850,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 
     public class PatternAction_Subclasses : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Subclasses(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Subclasses(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Subclasses.Instance.patternGraph;
         }
@@ -11966,7 +11948,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
     
     public class IteratedAction_Subclasses_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Subclasses_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Subclasses_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Subclasses.Instance.patternGraph;
             minMatchesIter = 0;
@@ -12161,7 +12145,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Subclass : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Subclass.Instance.patternGraph;
         }
@@ -12294,7 +12280,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Features_iter_0_inlined__sub0_1_in_Subclass : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Features_iter_0_inlined__sub0_1_in_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Features_iter_0_inlined__sub0_1_in_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Subclass.Instance.patternGraph;
             minMatchesIter = 0;
@@ -12424,7 +12412,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Subclasses_iter_0_inlined__sub1_2_in_Subclass : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Subclasses_iter_0_inlined__sub1_2_in_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Subclasses_iter_0_inlined__sub1_2_in_Subclass(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Subclass.Instance.patternGraph;
             minMatchesIter = 0;
@@ -12598,7 +12588,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Features : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Features(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Features(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Features.Instance.patternGraph;
         }
@@ -12694,7 +12686,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Features_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Features_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Features_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Features.Instance.patternGraph;
             minMatchesIter = 0;
@@ -12833,9 +12827,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_Features_iter_0_alt_0_inlined__sub0_3_in_Features_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Features_iter_0_alt_0_inlined__sub0_3_in_Features_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Features_iter_0_alt_0_inlined__sub0_3_in_Features_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Features_iter_0_alt_0_inlined__sub0_3_in_Features_iter_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -12843,7 +12838,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -13283,7 +13277,9 @@ maxMatchesIterReached:
     
     public class PatternAction_FeaturePattern : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_FeaturePattern(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_FeaturePattern(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_FeaturePattern.Instance.patternGraph;
         }
@@ -13374,9 +13370,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_FeaturePattern_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_FeaturePattern_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_FeaturePattern_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_FeaturePattern_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -13384,7 +13381,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -13852,7 +13848,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Parameters_iter_0_inlined__sub0_4_in_FeaturePattern_alt_0_MethodBody : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Parameters_iter_0_inlined__sub0_4_in_FeaturePattern_alt_0_MethodBody(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Parameters_iter_0_inlined__sub0_4_in_FeaturePattern_alt_0_MethodBody(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_FeaturePattern.Instance.patternGraph;
             minMatchesIter = 0;
@@ -13982,7 +13980,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Statements_iter_0_inlined__sub1_5_in_FeaturePattern_alt_0_MethodBody : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Statements_iter_0_inlined__sub1_5_in_FeaturePattern_alt_0_MethodBody(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Statements_iter_0_inlined__sub1_5_in_FeaturePattern_alt_0_MethodBody(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_FeaturePattern.Instance.patternGraph;
             minMatchesIter = 0;
@@ -14112,7 +14112,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Parameters : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Parameters(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Parameters(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Parameters.Instance.patternGraph;
         }
@@ -14208,7 +14210,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Parameters_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Parameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Parameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Parameters.Instance.patternGraph;
             minMatchesIter = 0;
@@ -14347,9 +14351,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_Parameters_iter_0_alt_0_inlined__sub0_6_in_Parameters_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Parameters_iter_0_alt_0_inlined__sub0_6_in_Parameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Parameters_iter_0_alt_0_inlined__sub0_6_in_Parameters_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Parameters_iter_0_alt_0_inlined__sub0_6_in_Parameters_iter_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14357,7 +14362,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -14589,7 +14593,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Parameter : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Parameter(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Parameter(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Parameter.Instance.patternGraph;
         }
@@ -14680,9 +14686,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_Parameter_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Parameter_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Parameter_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Parameter_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14690,7 +14697,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -14922,7 +14928,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Statements : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Statements(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Statements(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Statements.Instance.patternGraph;
         }
@@ -15018,7 +15026,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Statements_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Statements_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Statements_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Statements.Instance.patternGraph;
             minMatchesIter = 0;
@@ -15157,9 +15167,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_Statements_iter_0_alt_0_inlined__sub0_7_in_Statements_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Statements_iter_0_alt_0_inlined__sub0_7_in_Statements_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Statements_iter_0_alt_0_inlined__sub0_7_in_Statements_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Statements_iter_0_alt_0_inlined__sub0_7_in_Statements_iter_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15167,7 +15178,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -15561,7 +15571,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Statement : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Statement(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Statement(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Statement.Instance.patternGraph;
         }
@@ -15652,9 +15664,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_Statement_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Statement_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Statement_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Statement_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15662,7 +15675,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -16141,9 +16153,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_Statement_alt_0_Assignment_alt_0_inlined__sub0_8_in_Statement_alt_0_Assignment : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Statement_alt_0_Assignment_alt_0_inlined__sub0_8_in_Statement_alt_0_Assignment(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Statement_alt_0_Assignment_alt_0_inlined__sub0_8_in_Statement_alt_0_Assignment(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Statement_alt_0_Assignment_alt_0_inlined__sub0_8_in_Statement_alt_0_Assignment getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -16151,7 +16164,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -16344,7 +16356,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Expressions_iter_0_inlined__sub0_9_in_Statement_alt_0_Call : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Expressions_iter_0_inlined__sub0_9_in_Statement_alt_0_Call(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Expressions_iter_0_inlined__sub0_9_in_Statement_alt_0_Call(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Statement.Instance.patternGraph;
             minMatchesIter = 0;
@@ -16474,7 +16488,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Expressions : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Expressions(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Expressions(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Expressions.Instance.patternGraph;
         }
@@ -16570,7 +16586,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Expressions_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Expressions_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Expressions_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Expressions.Instance.patternGraph;
             minMatchesIter = 0;
@@ -16753,9 +16771,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_Expressions_iter_0_alt_0_inlined__sub0_10_in_Expressions_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Expressions_iter_0_alt_0_inlined__sub0_10_in_Expressions_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Expressions_iter_0_alt_0_inlined__sub0_10_in_Expressions_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Expressions_iter_0_alt_0_inlined__sub0_10_in_Expressions_iter_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -16763,7 +16782,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -16956,7 +16974,9 @@ maxMatchesIterReached:
     
     public class PatternAction_ExpressionPattern : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ExpressionPattern(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ExpressionPattern(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ExpressionPattern.Instance.patternGraph;
         }
@@ -17090,9 +17110,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_ExpressionPattern_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ExpressionPattern_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ExpressionPattern_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ExpressionPattern_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -17100,7 +17121,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -17307,7 +17327,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Expressions_iter_0_inlined__sub0_11_in_ExpressionPattern_alt_0_Call : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Expressions_iter_0_inlined__sub0_11_in_ExpressionPattern_alt_0_Call(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Expressions_iter_0_inlined__sub0_11_in_ExpressionPattern_alt_0_Call(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ExpressionPattern.Instance.patternGraph;
             minMatchesIter = 0;
@@ -17437,7 +17459,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Bodies : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Bodies(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Bodies(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Bodies.Instance.patternGraph;
         }
@@ -17538,7 +17562,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Bodies_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Bodies_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Bodies_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Bodies.Instance.patternGraph;
             minMatchesIter = 0;
@@ -17826,7 +17852,9 @@ maxMatchesIterReached:
     
     public class PatternAction_Body : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Body.Instance.patternGraph;
         }
@@ -18083,7 +18111,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Parameters_iter_0_inlined_p_13_in_Body : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Parameters_iter_0_inlined_p_13_in_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Parameters_iter_0_inlined_p_13_in_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Body.Instance.patternGraph;
             minMatchesIter = 0;
@@ -18213,7 +18243,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Statements_iter_0_inlined_s_14_in_Body : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Statements_iter_0_inlined_s_14_in_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Statements_iter_0_inlined_s_14_in_Body(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Body.Instance.patternGraph;
             minMatchesIter = 0;
@@ -18366,11 +18398,11 @@ maxMatchesIterReached:
     
     public class Action_createProgramGraphExample : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createProgramGraphExample
     {
-        public Action_createProgramGraphExample() {
+        public Action_createProgramGraphExample()
+            : base(Rule_createProgramGraphExample.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createProgramGraphExample.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphExample.Match_createProgramGraphExample, Rule_createProgramGraphExample.IMatch_createProgramGraphExample>(this);
         }
 
@@ -18613,11 +18645,11 @@ maxMatchesIterReached:
     
     public class Action_createProgramGraphPullUp : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createProgramGraphPullUp
     {
-        public Action_createProgramGraphPullUp() {
+        public Action_createProgramGraphPullUp()
+            : base(Rule_createProgramGraphPullUp.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_createProgramGraphPullUp.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphPullUp.Match_createProgramGraphPullUp, Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp>(this);
         }
 
@@ -18884,11 +18916,11 @@ maxMatchesIterReached:
     
     public class Action_pullUpMethod : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_pullUpMethod
     {
-        public Action_pullUpMethod() {
+        public Action_pullUpMethod()
+            : base(Rule_pullUpMethod.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_pullUpMethod.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_pullUpMethod.Match_pullUpMethod, Rule_pullUpMethod.IMatch_pullUpMethod>(this);
         }
 
@@ -19277,7 +19309,9 @@ maxMatchesIterReached:
     
     public class IteratedAction_Bodies_iter_0_inlined_bs_15_in_pullUpMethod : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_Bodies_iter_0_inlined_bs_15_in_pullUpMethod(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_Bodies_iter_0_inlined_bs_15_in_pullUpMethod(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Rule_pullUpMethod.Instance.patternGraph;
             minMatchesIter = 0;
@@ -19435,11 +19469,11 @@ maxMatchesIterReached:
     
     public class Action_matchAll : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_matchAll
     {
-        public Action_matchAll() {
+        public Action_matchAll()
+            : base(Rule_matchAll.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_matchAll.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_matchAll.Match_matchAll, Rule_matchAll.IMatch_matchAll>(this);
         }
 
@@ -19730,11 +19764,11 @@ maxMatchesIterReached:
     
     public class Action_InsertHelperEdgesForNestedLayout : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_InsertHelperEdgesForNestedLayout
     {
-        public Action_InsertHelperEdgesForNestedLayout() {
+        public Action_InsertHelperEdgesForNestedLayout()
+            : base(Rule_InsertHelperEdgesForNestedLayout.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_InsertHelperEdgesForNestedLayout.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_InsertHelperEdgesForNestedLayout.Match_InsertHelperEdgesForNestedLayout, Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout>(this);
         }
 
@@ -19977,11 +20011,11 @@ maxMatchesIterReached:
     
     public class Action_LinkMethodBodyToContainedEntity : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_LinkMethodBodyToContainedEntity
     {
-        public Action_LinkMethodBodyToContainedEntity() {
+        public Action_LinkMethodBodyToContainedEntity()
+            : base(Rule_LinkMethodBodyToContainedEntity.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_LinkMethodBodyToContainedEntity.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedEntity.Match_LinkMethodBodyToContainedEntity, Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>(this);
         }
 
@@ -20295,11 +20329,11 @@ label1: ;
     
     public class Action_LinkMethodBodyToContainedExpressionTransitive : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_LinkMethodBodyToContainedExpressionTransitive
     {
-        public Action_LinkMethodBodyToContainedExpressionTransitive() {
+        public Action_LinkMethodBodyToContainedExpressionTransitive()
+            : base(Rule_LinkMethodBodyToContainedExpressionTransitive.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_LinkMethodBodyToContainedExpressionTransitive.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedExpressionTransitive.Match_LinkMethodBodyToContainedExpressionTransitive, Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>(this);
         }
 
@@ -20634,11 +20668,11 @@ label3: ;
     
     public class Action_RemoveMethodBodyContainsBetweenExpressions : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_RemoveMethodBodyContainsBetweenExpressions
     {
-        public Action_RemoveMethodBodyContainsBetweenExpressions() {
+        public Action_RemoveMethodBodyContainsBetweenExpressions()
+            : base(Rule_RemoveMethodBodyContainsBetweenExpressions.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_RemoveMethodBodyContainsBetweenExpressions.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_RemoveMethodBodyContainsBetweenExpressions.Match_RemoveMethodBodyContainsBetweenExpressions, Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>(this);
         }
 
@@ -20911,11 +20945,11 @@ label3: ;
     
     public class Action_RetypeClassContainment : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_RetypeClassContainment
     {
-        public Action_RetypeClassContainment() {
+        public Action_RetypeClassContainment()
+            : base(Rule_RetypeClassContainment.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_RetypeClassContainment.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_RetypeClassContainment.Match_RetypeClassContainment, Rule_RetypeClassContainment.IMatch_RetypeClassContainment>(this);
         }
 
@@ -21374,6 +21408,7 @@ label3: ;
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
     }
 }

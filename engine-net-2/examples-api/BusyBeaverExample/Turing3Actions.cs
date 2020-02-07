@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jan 12 22:15:04 CET 2020
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Fri Feb 07 19:18:48 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -44,16 +45,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 		private Rule_readZeroRule()
+			: base("readZeroRule",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, },
+			new string[] { "readZeroRule_node_s", "readZeroRule_node_bp", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "readZeroRule";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			inputNames = new string[] { "readZeroRule_node_s", "readZeroRule_node_bp", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -372,16 +372,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 		private Rule_readOneRule()
+			: base("readOneRule",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, },
+			new string[] { "readOneRule_node_s", "readOneRule_node_bp", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "readOneRule";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			inputNames = new string[] { "readOneRule_node_s", "readOneRule_node_bp", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -713,16 +712,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 		private Rule_ensureMoveLeftValidRule()
+			: base("ensureMoveLeftValidRule",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, },
+			new string[] { "ensureMoveLeftValidRule_node_wv", "ensureMoveLeftValidRule_node_bp", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "ensureMoveLeftValidRule";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			inputNames = new string[] { "ensureMoveLeftValidRule_node_wv", "ensureMoveLeftValidRule_node_bp", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1282,16 +1280,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 		private Rule_ensureMoveRightValidRule()
+			: base("ensureMoveRightValidRule",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, },
+			new string[] { "ensureMoveRightValidRule_node_wv", "ensureMoveRightValidRule_node_bp", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "ensureMoveRightValidRule";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			inputNames = new string[] { "ensureMoveRightValidRule_node_wv", "ensureMoveRightValidRule_node_bp", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1841,16 +1838,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 		private Rule_moveLeftRule()
+			: base("moveLeftRule",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, },
+			new string[] { "moveLeftRule_node_wv", "moveLeftRule_node_bp", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "moveLeftRule";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			inputNames = new string[] { "moveLeftRule_node_wv", "moveLeftRule_node_bp", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -2186,16 +2182,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 		private Rule_moveRightRule()
+			: base("moveRightRule",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, },
+			new string[] { "moveRightRule_node_wv", "moveRightRule_node_bp", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "moveRightRule";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			inputNames = new string[] { "moveRightRule_node_wv", "moveRightRule_node_bp", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -2521,16 +2516,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 		private Rule_countZeros()
+			: base("countZeros",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "countZeros";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -2794,16 +2788,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 		private Rule_countOnes()
+			: base("countOnes",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "countOnes";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -3142,11 +3135,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
     
     public class Action_readZeroRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_readZeroRule
     {
-        public Action_readZeroRule() {
+        public Action_readZeroRule()
+            : base(Rule_readZeroRule.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_readZeroRule.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_readZeroRule.Match_readZeroRule, Rule_readZeroRule.IMatch_readZeroRule>(this);
         }
 
@@ -3424,11 +3417,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
     
     public class Action_readOneRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_readOneRule
     {
-        public Action_readOneRule() {
+        public Action_readOneRule()
+            : base(Rule_readOneRule.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_readOneRule.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_readOneRule.Match_readOneRule, Rule_readOneRule.IMatch_readOneRule>(this);
         }
 
@@ -3706,11 +3699,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
     
     public class Action_ensureMoveLeftValidRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ensureMoveLeftValidRule
     {
-        public Action_ensureMoveLeftValidRule() {
+        public Action_ensureMoveLeftValidRule()
+            : base(Rule_ensureMoveLeftValidRule.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_ensureMoveLeftValidRule.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule, Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>(this);
         }
 
@@ -4010,11 +4003,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
     
     public class Action_ensureMoveRightValidRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ensureMoveRightValidRule
     {
-        public Action_ensureMoveRightValidRule() {
+        public Action_ensureMoveRightValidRule()
+            : base(Rule_ensureMoveRightValidRule.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_ensureMoveRightValidRule.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule, Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>(this);
         }
 
@@ -4314,11 +4307,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
     
     public class Action_moveLeftRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_moveLeftRule
     {
-        public Action_moveLeftRule() {
+        public Action_moveLeftRule()
+            : base(Rule_moveLeftRule.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_moveLeftRule.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_moveLeftRule.Match_moveLeftRule, Rule_moveLeftRule.IMatch_moveLeftRule>(this);
         }
 
@@ -4631,11 +4624,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
     
     public class Action_moveRightRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_moveRightRule
     {
-        public Action_moveRightRule() {
+        public Action_moveRightRule()
+            : base(Rule_moveRightRule.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_moveRightRule.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_moveRightRule.Match_moveRightRule, Rule_moveRightRule.IMatch_moveRightRule>(this);
         }
 
@@ -4948,11 +4941,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
     
     public class Action_countZeros : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_countZeros
     {
-        public Action_countZeros() {
+        public Action_countZeros()
+            : base(Rule_countZeros.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_countZeros.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_countZeros.Match_countZeros, Rule_countZeros.IMatch_countZeros>(this);
         }
 
@@ -5206,11 +5199,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
     
     public class Action_countOnes : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_countOnes
     {
-        public Action_countOnes() {
+        public Action_countOnes()
+            : base(Rule_countOnes.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_countOnes.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_countOnes.Match_countOnes, Rule_countOnes.IMatch_countOnes>(this);
         }
 
@@ -5556,6 +5549,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
     }
 }

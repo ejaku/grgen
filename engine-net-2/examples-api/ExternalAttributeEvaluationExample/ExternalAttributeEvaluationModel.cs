@@ -1,10 +1,11 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jan 12 22:15:07 CET 2020
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Fri Feb 07 19:18:54 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -3548,11 +3549,14 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};
-		public override void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
-			((GRGEN_LGSP.LGSPGraph)graph).indices = new ExternalAttributeEvaluationIndexSet((GRGEN_LGSP.LGSPGraph)graph);
+		public override GRGEN_LIBGR.IUniquenessHandler CreateUniquenessHandler(GRGEN_LIBGR.IGraph graph) {
+			return null;
+		}
+		public override GRGEN_LIBGR.IIndexSet CreateIndexSet(GRGEN_LIBGR.IGraph graph) {
+			return new ExternalAttributeEvaluationIndexSet((GRGEN_LGSP.LGSPGraph)graph);
 		}
 		public override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((ExternalAttributeEvaluationIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
+			((ExternalAttributeEvaluationIndexSet)graph.Indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
 		}
 
 		public override string ModelName { get { return "ExternalAttributeEvaluation"; } }
@@ -3572,6 +3576,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 		public override bool GraphElementUniquenessIsEnsured { get { return false; } }
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
+		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
 
 		public override object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
@@ -3621,18 +3626,17 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			return AttributeTypeObjectCopierComparer.IsLower(this_, that);
 		}
 
+		public override void FailAssertion() { Debug.Assert(false); }
 		public override string MD5Hash { get { return "c31b4a83d7adddb9205f28026a0414cd"; } }
 	}
 
 	//
-	// IGraph (LGSPGraph) / IGraphModel implementation
+	// IGraph (LGSPGraph) implementation
 	//
-	public class ExternalAttributeEvaluationGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class ExternalAttributeEvaluationGraph : GRGEN_LGSP.LGSPGraph
 	{
-		public ExternalAttributeEvaluationGraph() : base(GetNextGraphName())
+		public ExternalAttributeEvaluationGraph() : base(new ExternalAttributeEvaluationGraphModel(), GetGraphName())
 		{
-			FullyInitializeExternalTypes();
-			InitializeGraph(this);
 		}
 
 		public GRGEN_MODEL.@Node CreateNodeNode()
@@ -3665,102 +3669,15 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			return @GRGEN_MODEL.@E.CreateEdge(this, source, target);
 		}
 
-		private ExternalAttributeEvaluationNodeModel nodeModel = new ExternalAttributeEvaluationNodeModel();
-		private ExternalAttributeEvaluationEdgeModel edgeModel = new ExternalAttributeEvaluationEdgeModel();
-		private string[] packages = {
-		};
-		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
-			GRGEN_MODEL.Enums.@Enu,
-		};
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-		};
-		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
-		};
-		public void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
-			((GRGEN_LGSP.LGSPGraph)graph).indices = new ExternalAttributeEvaluationIndexSet((GRGEN_LGSP.LGSPGraph)graph);
-		}
-		public void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((ExternalAttributeEvaluationIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
-		}
-
-		public string ModelName { get { return "ExternalAttributeEvaluation"; } }
-		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
-		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<string> Packages { get { return packages; } }
-		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
-		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
-		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
- 		{
-			for(int i=0; i<indexDescriptions.Length; ++i)
-				if(indexDescriptions[i].Name==indexName)
-					return indexDescriptions[i];
-			return null;
-		}
-		public bool GraphElementUniquenessIsEnsured { get { return false; } }
-		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
-		public int BranchingFactorForEqualsAny { get { return 0; } }
-
-		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return AttributeTypeObjectEmitterParser.Parse(reader, attrType, graph);
-		}
-		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return AttributeTypeObjectEmitterParser.Serialize(attribute, attrType, graph);
-		}
-		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);
-		}
-		public void External(string line, GRGEN_LIBGR.IGraph graph)
-		{
-			AttributeTypeObjectEmitterParser.External(line, graph);
-		}
-		public GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return AttributeTypeObjectEmitterParser.AsGraph(attribute, attrType, graph);
-		}
-
-		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
-		public static GRGEN_LIBGR.ExternalType externalType_Own = new ExternalType_Own();
-		public static GRGEN_LIBGR.ExternalType externalType_OwnPown = new ExternalType_OwnPown();
-		public static GRGEN_LIBGR.ExternalType externalType_OwnPownHome = new ExternalType_OwnPownHome();
-		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object, externalType_Own, externalType_OwnPown, externalType_OwnPownHome };
-		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
-
-		private void FullyInitializeExternalTypes()
-		{
-			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
-			externalType_Own.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_object } );
-			externalType_OwnPown.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_Own, } );
-			externalType_OwnPownHome.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_OwnPown, } );
-		}
-
-		public bool IsEqualClassDefined { get { return true; } }
-		public bool IsLowerClassDefined { get { return true; } }
-		public bool IsEqual(object this_, object that)
-		{
-			return AttributeTypeObjectCopierComparer.IsEqual(this_, that);
-		}
-		public bool IsLower(object this_, object that)
-		{
-			return AttributeTypeObjectCopierComparer.IsLower(this_, that);
-		}
-
-		public string MD5Hash { get { return "c31b4a83d7adddb9205f28026a0414cd"; } }
 	}
 
 	//
-	// INamedGraph (LGSPNamedGraph) / IGraphModel implementation
+	// INamedGraph (LGSPNamedGraph) implementation
 	//
-	public class ExternalAttributeEvaluationNamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
+	public class ExternalAttributeEvaluationNamedGraph : GRGEN_LGSP.LGSPNamedGraph
 	{
-		public ExternalAttributeEvaluationNamedGraph() : base(GetNextGraphName())
+		public ExternalAttributeEvaluationNamedGraph() : base(new ExternalAttributeEvaluationGraphModel(), GetGraphName(), 0)
 		{
-			FullyInitializeExternalTypes();
-			InitializeGraph(this);
 		}
 
 		public GRGEN_MODEL.@Node CreateNodeNode()
@@ -3823,90 +3740,5 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 			return @GRGEN_MODEL.@E.CreateEdge(this, source, target, edgeName);
 		}
 
-		private ExternalAttributeEvaluationNodeModel nodeModel = new ExternalAttributeEvaluationNodeModel();
-		private ExternalAttributeEvaluationEdgeModel edgeModel = new ExternalAttributeEvaluationEdgeModel();
-		private string[] packages = {
-		};
-		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
-			GRGEN_MODEL.Enums.@Enu,
-		};
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-		};
-		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
-		};
-		public void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
-			((GRGEN_LGSP.LGSPGraph)graph).indices = new ExternalAttributeEvaluationIndexSet((GRGEN_LGSP.LGSPGraph)graph);
-		}
-		public void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((ExternalAttributeEvaluationIndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
-		}
-
-		public string ModelName { get { return "ExternalAttributeEvaluation"; } }
-		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
-		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<string> Packages { get { return packages; } }
-		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
-		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
-		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
- 		{
-			for(int i=0; i<indexDescriptions.Length; ++i)
-				if(indexDescriptions[i].Name==indexName)
-					return indexDescriptions[i];
-			return null;
-		}
-		public bool GraphElementUniquenessIsEnsured { get { return false; } }
-		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
-		public int BranchingFactorForEqualsAny { get { return 0; } }
-
-		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return AttributeTypeObjectEmitterParser.Parse(reader, attrType, graph);
-		}
-		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return AttributeTypeObjectEmitterParser.Serialize(attribute, attrType, graph);
-		}
-		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);
-		}
-		public void External(string line, GRGEN_LIBGR.IGraph graph)
-		{
-			AttributeTypeObjectEmitterParser.External(line, graph);
-		}
-		public GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return AttributeTypeObjectEmitterParser.AsGraph(attribute, attrType, graph);
-		}
-
-		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
-		public static GRGEN_LIBGR.ExternalType externalType_Own = new ExternalType_Own();
-		public static GRGEN_LIBGR.ExternalType externalType_OwnPown = new ExternalType_OwnPown();
-		public static GRGEN_LIBGR.ExternalType externalType_OwnPownHome = new ExternalType_OwnPownHome();
-		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object, externalType_Own, externalType_OwnPown, externalType_OwnPownHome };
-		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
-
-		private void FullyInitializeExternalTypes()
-		{
-			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
-			externalType_Own.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_object } );
-			externalType_OwnPown.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_Own, } );
-			externalType_OwnPownHome.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { externalType_OwnPown, } );
-		}
-
-		public bool IsEqualClassDefined { get { return true; } }
-		public bool IsLowerClassDefined { get { return true; } }
-		public bool IsEqual(object this_, object that)
-		{
-			return AttributeTypeObjectCopierComparer.IsEqual(this_, that);
-		}
-		public bool IsLower(object this_, object that)
-		{
-			return AttributeTypeObjectCopierComparer.IsLower(this_, that);
-		}
-
-		public string MD5Hash { get { return "c31b4a83d7adddb9205f28026a0414cd"; } }
 	}
 }

@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jan 12 22:15:02 CET 2020
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Fri Feb 07 19:18:45 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -35,16 +36,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_InitWorld()
+			: base("InitWorld",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "InitWorld";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -370,16 +370,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_TakeFood()
+			: base("TakeFood",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "TakeFood_node_curAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "TakeFood";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "TakeFood_node_curAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -692,16 +691,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_GoHome()
+			: base("GoHome",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "GoHome_node_curAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "GoHome";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "GoHome_node_curAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1033,16 +1031,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_DropFood()
+			: base("DropFood",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "DropFood_node_curAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "DropFood";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "DropFood_node_curAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1354,16 +1351,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_SearchAlongPheromones()
+			: base("SearchAlongPheromones",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "SearchAlongPheromones_node_curAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "SearchAlongPheromones";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "SearchAlongPheromones_node_curAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1690,16 +1686,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_SearchAimless()
+			: base("SearchAimless",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "SearchAimless_node_curAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "SearchAimless";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "SearchAimless_node_curAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -2029,16 +2024,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_ReachedEndOfWorld()
+			: base("ReachedEndOfWorld",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "ReachedEndOfWorld_node_curAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "ReachedEndOfWorld";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "ReachedEndOfWorld_node_curAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -2564,16 +2558,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_ReachedEndOfWorldAnywhere()
+			: base("ReachedEndOfWorldAnywhere",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "ReachedEndOfWorldAnywhere";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -3089,16 +3082,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_GrowFoodIfEqual()
+			: base("GrowFoodIfEqual",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_LIBGR.VarType.GetVarType(typeof(int)), },
+			new string[] { "GrowFoodIfEqual_node_n", "GrowFoodIfEqual_var_val", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "GrowFoodIfEqual";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
-			inputNames = new string[] { "GrowFoodIfEqual_node_n", "GrowFoodIfEqual_var_val", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -3403,16 +3395,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_GrowWorldFirstAtCorner()
+			: base("GrowWorldFirstAtCorner",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new string[] { "GrowWorldFirstAtCorner_node_cur", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "GrowWorldFirstAtCorner";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			inputNames = new string[] { "GrowWorldFirstAtCorner_node_cur", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -3508,30 +3499,49 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
             procEnv.DebugEntering("GrowWorldFirstAtCorner.exec_0", "GrowFoodIfEqual(outer1,-2) || GrowFoodIfEqual(outer2,-1) || GrowFoodIfEqual(outer3,0)");
-            bool res_16;
             bool res_10;
-            bool res_4;
+            bool res_6;
+            bool res_2;
             Action_GrowFoodIfEqual rule_GrowFoodIfEqual = Action_GrowFoodIfEqual.Instance;
+            bool res_5;
             bool res_9;
-            bool res_15;
-            GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_4 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer1, (int)-2);
-            procEnv.Matched(matches_4, null, false);
-            if(matches_4.Count==0) {
-                res_4 = (bool)(false);
+            GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_2 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer1, (int)-2);
+            procEnv.Matched(matches_2, null, false);
+            if(matches_2.Count==0) {
+                res_2 = (bool)(false);
             } else {
-                res_4 = (bool)(true);
-                procEnv.PerformanceInfo.MatchesFound += matches_4.Count;
-                procEnv.Finishing(matches_4, false);
-                Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_4 = matches_4.FirstExact;
-                rule_GrowFoodIfEqual.Modify(procEnv, match_4);
+                res_2 = (bool)(true);
+                procEnv.PerformanceInfo.MatchesFound += matches_2.Count;
+                procEnv.Finishing(matches_2, false);
+                Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_2 = matches_2.FirstExact;
+                rule_GrowFoodIfEqual.Modify(procEnv, match_2);
                 procEnv.PerformanceInfo.RewritesPerformed++;
-                procEnv.Finished(matches_4, false);
+                procEnv.Finished(matches_2, false);
             }
-            if(res_4)
+            if(res_2)
+                res_6 = (bool)(true);
+            else
+            {
+                GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_5 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer2, (int)-1);
+                procEnv.Matched(matches_5, null, false);
+                if(matches_5.Count==0) {
+                    res_5 = (bool)(false);
+                } else {
+                    res_5 = (bool)(true);
+                    procEnv.PerformanceInfo.MatchesFound += matches_5.Count;
+                    procEnv.Finishing(matches_5, false);
+                    Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_5 = matches_5.FirstExact;
+                    rule_GrowFoodIfEqual.Modify(procEnv, match_5);
+                    procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.Finished(matches_5, false);
+                }
+                res_6 = (bool)(res_5);
+            }
+            if(res_6)
                 res_10 = (bool)(true);
             else
             {
-                GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_9 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer2, (int)-1);
+                GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_9 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer3, (int)0);
                 procEnv.Matched(matches_9, null, false);
                 if(matches_9.Count==0) {
                     res_9 = (bool)(false);
@@ -3546,27 +3556,8 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                 }
                 res_10 = (bool)(res_9);
             }
-            if(res_10)
-                res_16 = (bool)(true);
-            else
-            {
-                GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_15 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer3, (int)0);
-                procEnv.Matched(matches_15, null, false);
-                if(matches_15.Count==0) {
-                    res_15 = (bool)(false);
-                } else {
-                    res_15 = (bool)(true);
-                    procEnv.PerformanceInfo.MatchesFound += matches_15.Count;
-                    procEnv.Finishing(matches_15, false);
-                    Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_15 = matches_15.FirstExact;
-                    rule_GrowFoodIfEqual.Modify(procEnv, match_15);
-                    procEnv.PerformanceInfo.RewritesPerformed++;
-                    procEnv.Finished(matches_15, false);
-                }
-                res_16 = (bool)(res_15);
-            }
             procEnv.DebugExiting("GrowWorldFirstAtCorner.exec_0");
-            return res_16;
+            return res_10;
         }
 
 		static Rule_GrowWorldFirstAtCorner() {
@@ -3805,16 +3796,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_GrowWorldFirstNotAtCorner()
+			: base("GrowWorldFirstNotAtCorner",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new string[] { "GrowWorldFirstNotAtCorner_node_cur", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "GrowWorldFirstNotAtCorner";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			inputNames = new string[] { "GrowWorldFirstNotAtCorner_node_cur", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -3904,23 +3894,23 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
             procEnv.DebugEntering("GrowWorldFirstNotAtCorner.exec_0", "GrowFoodIfEqual(outer,0)");
-            bool res_21;
+            bool res_13;
             Action_GrowFoodIfEqual rule_GrowFoodIfEqual = Action_GrowFoodIfEqual.Instance;
-            GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_21 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer, (int)0);
-            procEnv.Matched(matches_21, null, false);
-            if(matches_21.Count==0) {
-                res_21 = (bool)(false);
+            GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_13 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer, (int)0);
+            procEnv.Matched(matches_13, null, false);
+            if(matches_13.Count==0) {
+                res_13 = (bool)(false);
             } else {
-                res_21 = (bool)(true);
-                procEnv.PerformanceInfo.MatchesFound += matches_21.Count;
-                procEnv.Finishing(matches_21, false);
-                Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_21 = matches_21.FirstExact;
-                rule_GrowFoodIfEqual.Modify(procEnv, match_21);
+                res_13 = (bool)(true);
+                procEnv.PerformanceInfo.MatchesFound += matches_13.Count;
+                procEnv.Finishing(matches_13, false);
+                Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_13 = matches_13.FirstExact;
+                rule_GrowFoodIfEqual.Modify(procEnv, match_13);
                 procEnv.PerformanceInfo.RewritesPerformed++;
-                procEnv.Finished(matches_21, false);
+                procEnv.Finished(matches_13, false);
             }
             procEnv.DebugExiting("GrowWorldFirstNotAtCorner.exec_0");
-            return res_21;
+            return res_13;
         }
 
 		static Rule_GrowWorldFirstNotAtCorner() {
@@ -4173,16 +4163,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_GrowWorldNextAtCorner()
+			: base("GrowWorldNextAtCorner",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new string[] { "GrowWorldNextAtCorner_node_cur", "GrowWorldNextAtCorner_node_curOuter", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "GrowWorldNextAtCorner";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			inputNames = new string[] { "GrowWorldNextAtCorner_node_cur", "GrowWorldNextAtCorner_node_curOuter", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -4323,65 +4312,65 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
             procEnv.DebugEntering("GrowWorldNextAtCorner.exec_0", "GrowFoodIfEqual(outer1,-2) || GrowFoodIfEqual(outer2,-1) || GrowFoodIfEqual(outer3,0)");
-            bool res_38;
-            bool res_32;
-            bool res_26;
+            bool res_24;
+            bool res_20;
+            bool res_16;
             Action_GrowFoodIfEqual rule_GrowFoodIfEqual = Action_GrowFoodIfEqual.Instance;
-            bool res_31;
-            bool res_37;
-            GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_26 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer1, (int)-2);
-            procEnv.Matched(matches_26, null, false);
-            if(matches_26.Count==0) {
-                res_26 = (bool)(false);
+            bool res_19;
+            bool res_23;
+            GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_16 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer1, (int)-2);
+            procEnv.Matched(matches_16, null, false);
+            if(matches_16.Count==0) {
+                res_16 = (bool)(false);
             } else {
-                res_26 = (bool)(true);
-                procEnv.PerformanceInfo.MatchesFound += matches_26.Count;
-                procEnv.Finishing(matches_26, false);
-                Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_26 = matches_26.FirstExact;
-                rule_GrowFoodIfEqual.Modify(procEnv, match_26);
+                res_16 = (bool)(true);
+                procEnv.PerformanceInfo.MatchesFound += matches_16.Count;
+                procEnv.Finishing(matches_16, false);
+                Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_16 = matches_16.FirstExact;
+                rule_GrowFoodIfEqual.Modify(procEnv, match_16);
                 procEnv.PerformanceInfo.RewritesPerformed++;
-                procEnv.Finished(matches_26, false);
+                procEnv.Finished(matches_16, false);
             }
-            if(res_26)
-                res_32 = (bool)(true);
+            if(res_16)
+                res_20 = (bool)(true);
             else
             {
-                GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_31 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer2, (int)-1);
-                procEnv.Matched(matches_31, null, false);
-                if(matches_31.Count==0) {
-                    res_31 = (bool)(false);
+                GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_19 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer2, (int)-1);
+                procEnv.Matched(matches_19, null, false);
+                if(matches_19.Count==0) {
+                    res_19 = (bool)(false);
                 } else {
-                    res_31 = (bool)(true);
-                    procEnv.PerformanceInfo.MatchesFound += matches_31.Count;
-                    procEnv.Finishing(matches_31, false);
-                    Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_31 = matches_31.FirstExact;
-                    rule_GrowFoodIfEqual.Modify(procEnv, match_31);
+                    res_19 = (bool)(true);
+                    procEnv.PerformanceInfo.MatchesFound += matches_19.Count;
+                    procEnv.Finishing(matches_19, false);
+                    Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_19 = matches_19.FirstExact;
+                    rule_GrowFoodIfEqual.Modify(procEnv, match_19);
                     procEnv.PerformanceInfo.RewritesPerformed++;
-                    procEnv.Finished(matches_31, false);
+                    procEnv.Finished(matches_19, false);
                 }
-                res_32 = (bool)(res_31);
+                res_20 = (bool)(res_19);
             }
-            if(res_32)
-                res_38 = (bool)(true);
+            if(res_20)
+                res_24 = (bool)(true);
             else
             {
-                GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_37 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer3, (int)0);
-                procEnv.Matched(matches_37, null, false);
-                if(matches_37.Count==0) {
-                    res_37 = (bool)(false);
+                GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_23 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer3, (int)0);
+                procEnv.Matched(matches_23, null, false);
+                if(matches_23.Count==0) {
+                    res_23 = (bool)(false);
                 } else {
-                    res_37 = (bool)(true);
-                    procEnv.PerformanceInfo.MatchesFound += matches_37.Count;
-                    procEnv.Finishing(matches_37, false);
-                    Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_37 = matches_37.FirstExact;
-                    rule_GrowFoodIfEqual.Modify(procEnv, match_37);
+                    res_23 = (bool)(true);
+                    procEnv.PerformanceInfo.MatchesFound += matches_23.Count;
+                    procEnv.Finishing(matches_23, false);
+                    Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_23 = matches_23.FirstExact;
+                    rule_GrowFoodIfEqual.Modify(procEnv, match_23);
                     procEnv.PerformanceInfo.RewritesPerformed++;
-                    procEnv.Finished(matches_37, false);
+                    procEnv.Finished(matches_23, false);
                 }
-                res_38 = (bool)(res_37);
+                res_24 = (bool)(res_23);
             }
             procEnv.DebugExiting("GrowWorldNextAtCorner.exec_0");
-            return res_38;
+            return res_24;
         }
 
 		static Rule_GrowWorldNextAtCorner() {
@@ -4829,16 +4818,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_GrowWorldNextNotAtCorner()
+			: base("GrowWorldNextNotAtCorner",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new string[] { "GrowWorldNextNotAtCorner_node_cur", "GrowWorldNextNotAtCorner_node_curOuter", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "GrowWorldNextNotAtCorner";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			inputNames = new string[] { "GrowWorldNextNotAtCorner_node_cur", "GrowWorldNextNotAtCorner_node_curOuter", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -4973,23 +4961,23 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
             procEnv.DebugEntering("GrowWorldNextNotAtCorner.exec_0", "GrowFoodIfEqual(outer,0)");
-            bool res_43;
+            bool res_27;
             Action_GrowFoodIfEqual rule_GrowFoodIfEqual = Action_GrowFoodIfEqual.Instance;
-            GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_43 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer, (int)0);
-            procEnv.Matched(matches_43, null, false);
-            if(matches_43.Count==0) {
-                res_43 = (bool)(false);
+            GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches_27 = rule_GrowFoodIfEqual.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_outer, (int)0);
+            procEnv.Matched(matches_27, null, false);
+            if(matches_27.Count==0) {
+                res_27 = (bool)(false);
             } else {
-                res_43 = (bool)(true);
-                procEnv.PerformanceInfo.MatchesFound += matches_43.Count;
-                procEnv.Finishing(matches_43, false);
-                Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_43 = matches_43.FirstExact;
-                rule_GrowFoodIfEqual.Modify(procEnv, match_43);
+                res_27 = (bool)(true);
+                procEnv.PerformanceInfo.MatchesFound += matches_27.Count;
+                procEnv.Finishing(matches_27, false);
+                Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match_27 = matches_27.FirstExact;
+                rule_GrowFoodIfEqual.Modify(procEnv, match_27);
                 procEnv.PerformanceInfo.RewritesPerformed++;
-                procEnv.Finished(matches_43, false);
+                procEnv.Finished(matches_27, false);
             }
             procEnv.DebugExiting("GrowWorldNextNotAtCorner.exec_0");
-            return res_43;
+            return res_27;
         }
 
 		static Rule_GrowWorldNextNotAtCorner() {
@@ -5422,16 +5410,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_GrowWorldEnd()
+			: base("GrowWorldEnd",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, },
+			new string[] { "GrowWorldEnd_node_cur", "GrowWorldEnd_node_curOuter", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "GrowWorldEnd";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
-			inputNames = new string[] { "GrowWorldEnd_node_cur", "GrowWorldEnd_node_curOuter", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -5734,16 +5721,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_GetNextAnt()
+			: base("GetNextAnt",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "GetNextAnt_node_curAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "GetNextAnt";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "GetNextAnt_node_curAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -6031,16 +6017,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_Food2Ant()
+			: base("Food2Ant",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "Food2Ant_node_lastAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "Food2Ant";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "Food2Ant_node_lastAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -6329,16 +6314,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_EvaporateWorld()
+			: base("EvaporateWorld",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "EvaporateWorld";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -6607,16 +6591,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 		private Rule_doAntWorld()
+			: base("doAntWorld",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, },
+			new string[] { "doAntWorld_node_firstAnt", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "doAntWorld";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
-			inputNames = new string[] { "doAntWorld_node_firstAnt", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -6677,370 +6660,370 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
             procEnv.DebugEntering("doAntWorld.exec_0", "(curAnt:Ant=firstAnt && ((TakeFood(curAnt) | GoHome(curAnt) || DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || $[SearchAimless(curAnt)])) && (curAnt)=GetNextAnt(curAnt))* | ((cur:GridNode)=ReachedEndOfWorldAnywhere && ((cur,curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur) || (cur,curOuter)=GrowWorldFirstAtCorner(cur)) && ((cur,curOuter)=GrowWorldNextNotAtCorner(cur,curOuter) || (cur,curOuter)=GrowWorldNextAtCorner(cur,curOuter))* && GrowWorldEnd(cur,curOuter)) | (curAnt)=Food2Ant(curAnt)* | [EvaporateWorld])[50]");
-            bool res_106;
-            bool res_105;
-            bool res_44;
+            bool res_75;
+            bool res_74;
+            bool res_28;
             GRGEN_MODEL.IAnt var_curAnt = null;
-            bool res_104;
-            bool res_102;
-            bool res_97;
-            bool res_68;
+            bool res_73;
+            bool res_71;
             bool res_67;
-            bool res_63;
-            bool res_51;
-            bool res_47;
+            bool res_46;
+            bool res_45;
+            bool res_42;
+            bool res_33;
+            bool res_30;
             Action_TakeFood rule_TakeFood = Action_TakeFood.Instance;
-            bool res_50;
+            bool res_32;
             Action_GoHome rule_GoHome = Action_GoHome.Instance;
-            bool res_62;
-            bool res_54;
+            bool res_41;
+            bool res_35;
             Action_DropFood rule_DropFood = Action_DropFood.Instance;
-            bool res_61;
-            bool res_57;
+            bool res_40;
+            bool res_37;
             Action_SearchAlongPheromones rule_SearchAlongPheromones = Action_SearchAlongPheromones.Instance;
-            bool res_60;
+            bool res_39;
             Action_SearchAimless rule_SearchAimless = Action_SearchAimless.Instance;
-            bool res_66;
+            bool res_44;
             Action_GetNextAnt rule_GetNextAnt = Action_GetNextAnt.Instance;
-            bool res_96;
-            bool res_90;
-            bool res_77;
-            bool res_69;
+            bool res_66;
+            bool res_62;
+            bool res_53;
+            bool res_47;
             Action_ReachedEndOfWorldAnywhere rule_ReachedEndOfWorldAnywhere = Action_ReachedEndOfWorldAnywhere.Instance;
             GRGEN_MODEL.IGridNode var_cur = null;
-            bool res_76;
-            bool res_72;
+            bool res_52;
+            bool res_49;
             Action_GrowWorldFirstNotAtCorner rule_GrowWorldFirstNotAtCorner = Action_GrowWorldFirstNotAtCorner.Instance;
             GRGEN_MODEL.IGridNode var_curOuter = null;
-            bool res_75;
+            bool res_51;
             Action_GrowWorldFirstAtCorner rule_GrowWorldFirstAtCorner = Action_GrowWorldFirstAtCorner.Instance;
-            bool res_89;
-            bool res_88;
-            bool res_82;
+            bool res_61;
+            bool res_60;
+            bool res_56;
             Action_GrowWorldNextNotAtCorner rule_GrowWorldNextNotAtCorner = Action_GrowWorldNextNotAtCorner.Instance;
-            bool res_87;
+            bool res_59;
             Action_GrowWorldNextAtCorner rule_GrowWorldNextAtCorner = Action_GrowWorldNextAtCorner.Instance;
-            bool res_95;
+            bool res_65;
             Action_GrowWorldEnd rule_GrowWorldEnd = Action_GrowWorldEnd.Instance;
-            bool res_101;
-            bool res_100;
+            bool res_70;
+            bool res_69;
             Action_Food2Ant rule_Food2Ant = Action_Food2Ant.Instance;
-            bool res_103;
+            bool res_72;
             Action_EvaporateWorld rule_EvaporateWorld = Action_EvaporateWorld.Instance;
-            long i_106 = 0;
-            for(; i_106 < 50; i_106++)
+            long i_75 = 0;
+            for(; i_75 < 50; i_75++)
             {
                 var_curAnt = (GRGEN_MODEL.IAnt)(var_firstAnt);
-                res_44 = (bool)(true);
-                if(!res_44)
-                    res_105 = (bool)(false);
+                res_28 = (bool)(true);
+                if(!res_28)
+                    res_74 = (bool)(false);
                 else
                 {
-                    long i_68 = 0;
+                    long i_46 = 0;
                     while(true)
                     {
-                        GRGEN_LIBGR.IMatchesExact<Rule_TakeFood.IMatch_TakeFood> matches_47 = rule_TakeFood.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
-                        procEnv.Matched(matches_47, null, false);
-                        if(matches_47.Count==0) {
-                            res_47 = (bool)(false);
+                        GRGEN_LIBGR.IMatchesExact<Rule_TakeFood.IMatch_TakeFood> matches_30 = rule_TakeFood.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
+                        procEnv.Matched(matches_30, null, false);
+                        if(matches_30.Count==0) {
+                            res_30 = (bool)(false);
                         } else {
-                            res_47 = (bool)(true);
-                            procEnv.PerformanceInfo.MatchesFound += matches_47.Count;
-                            procEnv.Finishing(matches_47, false);
-                            Rule_TakeFood.IMatch_TakeFood match_47 = matches_47.FirstExact;
-                            rule_TakeFood.Modify(procEnv, match_47);
+                            res_30 = (bool)(true);
+                            procEnv.PerformanceInfo.MatchesFound += matches_30.Count;
+                            procEnv.Finishing(matches_30, false);
+                            Rule_TakeFood.IMatch_TakeFood match_30 = matches_30.FirstExact;
+                            rule_TakeFood.Modify(procEnv, match_30);
                             procEnv.PerformanceInfo.RewritesPerformed++;
-                            procEnv.Finished(matches_47, false);
+                            procEnv.Finished(matches_30, false);
                         }
-                        GRGEN_LIBGR.IMatchesExact<Rule_GoHome.IMatch_GoHome> matches_50 = rule_GoHome.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
-                        procEnv.Matched(matches_50, null, false);
-                        if(matches_50.Count==0) {
-                            res_50 = (bool)(false);
+                        GRGEN_LIBGR.IMatchesExact<Rule_GoHome.IMatch_GoHome> matches_32 = rule_GoHome.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
+                        procEnv.Matched(matches_32, null, false);
+                        if(matches_32.Count==0) {
+                            res_32 = (bool)(false);
                         } else {
-                            res_50 = (bool)(true);
-                            procEnv.PerformanceInfo.MatchesFound += matches_50.Count;
-                            procEnv.Finishing(matches_50, false);
-                            Rule_GoHome.IMatch_GoHome match_50 = matches_50.FirstExact;
-                            rule_GoHome.Modify(procEnv, match_50);
+                            res_32 = (bool)(true);
+                            procEnv.PerformanceInfo.MatchesFound += matches_32.Count;
+                            procEnv.Finishing(matches_32, false);
+                            Rule_GoHome.IMatch_GoHome match_32 = matches_32.FirstExact;
+                            rule_GoHome.Modify(procEnv, match_32);
                             procEnv.PerformanceInfo.RewritesPerformed++;
-                            procEnv.Finished(matches_50, false);
+                            procEnv.Finished(matches_32, false);
                         }
-                        res_51 = (bool)(res_47 | res_50);
-                        if(res_51)
-                            res_63 = (bool)(true);
+                        res_33 = (bool)(res_30 | res_32);
+                        if(res_33)
+                            res_42 = (bool)(true);
                         else
                         {
-                            GRGEN_LIBGR.IMatchesExact<Rule_DropFood.IMatch_DropFood> matches_54 = rule_DropFood.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
-                            procEnv.Matched(matches_54, null, false);
-                            if(matches_54.Count==0) {
-                                res_54 = (bool)(false);
+                            GRGEN_LIBGR.IMatchesExact<Rule_DropFood.IMatch_DropFood> matches_35 = rule_DropFood.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
+                            procEnv.Matched(matches_35, null, false);
+                            if(matches_35.Count==0) {
+                                res_35 = (bool)(false);
                             } else {
-                                res_54 = (bool)(true);
-                                procEnv.PerformanceInfo.MatchesFound += matches_54.Count;
-                                procEnv.Finishing(matches_54, false);
-                                Rule_DropFood.IMatch_DropFood match_54 = matches_54.FirstExact;
-                                rule_DropFood.Modify(procEnv, match_54);
+                                res_35 = (bool)(true);
+                                procEnv.PerformanceInfo.MatchesFound += matches_35.Count;
+                                procEnv.Finishing(matches_35, false);
+                                Rule_DropFood.IMatch_DropFood match_35 = matches_35.FirstExact;
+                                rule_DropFood.Modify(procEnv, match_35);
                                 procEnv.PerformanceInfo.RewritesPerformed++;
-                                procEnv.Finished(matches_54, false);
+                                procEnv.Finished(matches_35, false);
                             }
-                            GRGEN_LIBGR.IMatchesExact<Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones> matches_57 = rule_SearchAlongPheromones.Match(procEnv, procEnv.MaxMatches, (GRGEN_MODEL.IAnt)var_curAnt);
-                            procEnv.Matched(matches_57, null, false);
-                            if(matches_57.Count==0) {
-                                res_57 = (bool)(false);
+                            GRGEN_LIBGR.IMatchesExact<Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones> matches_37 = rule_SearchAlongPheromones.Match(procEnv, procEnv.MaxMatches, (GRGEN_MODEL.IAnt)var_curAnt);
+                            procEnv.Matched(matches_37, null, false);
+                            if(matches_37.Count==0) {
+                                res_37 = (bool)(false);
                             } else {
-                                res_57 = (bool)(true);
-                                procEnv.PerformanceInfo.MatchesFound += matches_57.Count;
-                                procEnv.Finishing(matches_57, false);
-                                int numchooserandomvar_57 = (int)1;
-                                if(matches_57.Count < numchooserandomvar_57) numchooserandomvar_57 = matches_57.Count;
-                                for(int i = 0; i < numchooserandomvar_57; ++i)
+                                res_37 = (bool)(true);
+                                procEnv.PerformanceInfo.MatchesFound += matches_37.Count;
+                                procEnv.Finishing(matches_37, false);
+                                int numchooserandomvar_37 = (int)1;
+                                if(matches_37.Count < numchooserandomvar_37) numchooserandomvar_37 = matches_37.Count;
+                                for(int i = 0; i < numchooserandomvar_37; ++i)
                                 {
                                     if(i != 0) procEnv.RewritingNextMatch();
-                                    Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match_57 = matches_57.RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(matches_57.Count));
-                                    rule_SearchAlongPheromones.Modify(procEnv, match_57);
+                                    Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match_37 = matches_37.RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(matches_37.Count));
+                                    rule_SearchAlongPheromones.Modify(procEnv, match_37);
                                     procEnv.PerformanceInfo.RewritesPerformed++;
                                 }
-                                procEnv.Finished(matches_57, false);
+                                procEnv.Finished(matches_37, false);
                             }
-                            if(res_57)
-                                res_61 = (bool)(true);
+                            if(res_37)
+                                res_40 = (bool)(true);
                             else
                             {
-                                GRGEN_LIBGR.IMatchesExact<Rule_SearchAimless.IMatch_SearchAimless> matches_60 = rule_SearchAimless.Match(procEnv, procEnv.MaxMatches, (GRGEN_MODEL.IAnt)var_curAnt);
-                                procEnv.Matched(matches_60, null, false);
-                                if(matches_60.Count==0) {
-                                    res_60 = (bool)(false);
+                                GRGEN_LIBGR.IMatchesExact<Rule_SearchAimless.IMatch_SearchAimless> matches_39 = rule_SearchAimless.Match(procEnv, procEnv.MaxMatches, (GRGEN_MODEL.IAnt)var_curAnt);
+                                procEnv.Matched(matches_39, null, false);
+                                if(matches_39.Count==0) {
+                                    res_39 = (bool)(false);
                                 } else {
-                                    res_60 = (bool)(true);
-                                    procEnv.PerformanceInfo.MatchesFound += matches_60.Count;
-                                    procEnv.Finishing(matches_60, false);
-                                    int numchooserandomvar_60 = (int)1;
-                                    if(matches_60.Count < numchooserandomvar_60) numchooserandomvar_60 = matches_60.Count;
-                                    for(int i = 0; i < numchooserandomvar_60; ++i)
+                                    res_39 = (bool)(true);
+                                    procEnv.PerformanceInfo.MatchesFound += matches_39.Count;
+                                    procEnv.Finishing(matches_39, false);
+                                    int numchooserandomvar_39 = (int)1;
+                                    if(matches_39.Count < numchooserandomvar_39) numchooserandomvar_39 = matches_39.Count;
+                                    for(int i = 0; i < numchooserandomvar_39; ++i)
                                     {
                                         if(i != 0) procEnv.RewritingNextMatch();
-                                        Rule_SearchAimless.IMatch_SearchAimless match_60 = matches_60.RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(matches_60.Count));
-                                        rule_SearchAimless.Modify(procEnv, match_60);
+                                        Rule_SearchAimless.IMatch_SearchAimless match_39 = matches_39.RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(matches_39.Count));
+                                        rule_SearchAimless.Modify(procEnv, match_39);
                                         procEnv.PerformanceInfo.RewritesPerformed++;
                                     }
-                                    procEnv.Finished(matches_60, false);
+                                    procEnv.Finished(matches_39, false);
                                 }
-                                res_61 = (bool)(res_60);
+                                res_40 = (bool)(res_39);
                             }
-                            res_62 = (bool)(res_54 | res_61);
-                            res_63 = (bool)(res_62);
+                            res_41 = (bool)(res_35 | res_40);
+                            res_42 = (bool)(res_41);
                         }
-                        if(!res_63)
-                            res_67 = (bool)(false);
+                        if(!res_42)
+                            res_45 = (bool)(false);
                         else
                         {
-                            GRGEN_LIBGR.IMatchesExact<Rule_GetNextAnt.IMatch_GetNextAnt> matches_66 = rule_GetNextAnt.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
-                            procEnv.Matched(matches_66, null, false);
-                            if(matches_66.Count==0) {
-                                res_66 = (bool)(false);
+                            GRGEN_LIBGR.IMatchesExact<Rule_GetNextAnt.IMatch_GetNextAnt> matches_44 = rule_GetNextAnt.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
+                            procEnv.Matched(matches_44, null, false);
+                            if(matches_44.Count==0) {
+                                res_44 = (bool)(false);
                             } else {
-                                res_66 = (bool)(true);
-                                procEnv.PerformanceInfo.MatchesFound += matches_66.Count;
-                                procEnv.Finishing(matches_66, false);
-                                Rule_GetNextAnt.IMatch_GetNextAnt match_66 = matches_66.FirstExact;
+                                res_44 = (bool)(true);
+                                procEnv.PerformanceInfo.MatchesFound += matches_44.Count;
+                                procEnv.Finishing(matches_44, false);
+                                Rule_GetNextAnt.IMatch_GetNextAnt match_44 = matches_44.FirstExact;
                                 GRGEN_MODEL.IAnt tmpvar_0curAnt; 
-                                rule_GetNextAnt.Modify(procEnv, match_66, out tmpvar_0curAnt);
+                                rule_GetNextAnt.Modify(procEnv, match_44, out tmpvar_0curAnt);
                                 var_curAnt = (GRGEN_MODEL.IAnt)(tmpvar_0curAnt);
 
                                 procEnv.PerformanceInfo.RewritesPerformed++;
-                                procEnv.Finished(matches_66, false);
+                                procEnv.Finished(matches_44, false);
                             }
-                            res_67 = (bool)(res_66);
+                            res_45 = (bool)(res_44);
                         }
-                        if(!res_67) break;
-                        i_68++;
+                        if(!res_45) break;
+                        i_46++;
                     }
-                    res_68 = (bool)(i_68 >= 0);
-                    GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere> matches_69 = rule_ReachedEndOfWorldAnywhere.Match(procEnv, 1);
-                    procEnv.Matched(matches_69, null, false);
-                    if(matches_69.Count==0) {
-                        res_69 = (bool)(false);
+                    res_46 = (bool)(i_46 >= 0);
+                    GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere> matches_47 = rule_ReachedEndOfWorldAnywhere.Match(procEnv, 1);
+                    procEnv.Matched(matches_47, null, false);
+                    if(matches_47.Count==0) {
+                        res_47 = (bool)(false);
                     } else {
-                        res_69 = (bool)(true);
-                        procEnv.PerformanceInfo.MatchesFound += matches_69.Count;
-                        procEnv.Finishing(matches_69, false);
-                        Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match_69 = matches_69.FirstExact;
+                        res_47 = (bool)(true);
+                        procEnv.PerformanceInfo.MatchesFound += matches_47.Count;
+                        procEnv.Finishing(matches_47, false);
+                        Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match_47 = matches_47.FirstExact;
                         GRGEN_MODEL.IGridNode tmpvar_1cur; 
-                        rule_ReachedEndOfWorldAnywhere.Modify(procEnv, match_69, out tmpvar_1cur);
+                        rule_ReachedEndOfWorldAnywhere.Modify(procEnv, match_47, out tmpvar_1cur);
                         var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_1cur);
 
                         procEnv.PerformanceInfo.RewritesPerformed++;
-                        procEnv.Finished(matches_69, false);
+                        procEnv.Finished(matches_47, false);
                     }
-                    if(!res_69)
-                        res_77 = (bool)(false);
+                    if(!res_47)
+                        res_53 = (bool)(false);
                     else
                     {
-                        GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner> matches_72 = rule_GrowWorldFirstNotAtCorner.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur);
-                        procEnv.Matched(matches_72, null, false);
-                        if(matches_72.Count==0) {
-                            res_72 = (bool)(false);
+                        GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner> matches_49 = rule_GrowWorldFirstNotAtCorner.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur);
+                        procEnv.Matched(matches_49, null, false);
+                        if(matches_49.Count==0) {
+                            res_49 = (bool)(false);
                         } else {
-                            res_72 = (bool)(true);
-                            procEnv.PerformanceInfo.MatchesFound += matches_72.Count;
-                            procEnv.Finishing(matches_72, false);
-                            Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match_72 = matches_72.FirstExact;
+                            res_49 = (bool)(true);
+                            procEnv.PerformanceInfo.MatchesFound += matches_49.Count;
+                            procEnv.Finishing(matches_49, false);
+                            Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match_49 = matches_49.FirstExact;
                             GRGEN_MODEL.IGridNode tmpvar_2cur; GRGEN_MODEL.IGridNode tmpvar_3curOuter; 
-                            rule_GrowWorldFirstNotAtCorner.Modify(procEnv, match_72, out tmpvar_2cur, out tmpvar_3curOuter);
+                            rule_GrowWorldFirstNotAtCorner.Modify(procEnv, match_49, out tmpvar_2cur, out tmpvar_3curOuter);
                             var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_2cur);
 var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_3curOuter);
 
                             procEnv.PerformanceInfo.RewritesPerformed++;
-                            procEnv.Finished(matches_72, false);
+                            procEnv.Finished(matches_49, false);
                         }
-                        if(res_72)
-                            res_76 = (bool)(true);
+                        if(res_49)
+                            res_52 = (bool)(true);
                         else
                         {
-                            GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner> matches_75 = rule_GrowWorldFirstAtCorner.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur);
-                            procEnv.Matched(matches_75, null, false);
-                            if(matches_75.Count==0) {
-                                res_75 = (bool)(false);
+                            GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner> matches_51 = rule_GrowWorldFirstAtCorner.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur);
+                            procEnv.Matched(matches_51, null, false);
+                            if(matches_51.Count==0) {
+                                res_51 = (bool)(false);
                             } else {
-                                res_75 = (bool)(true);
-                                procEnv.PerformanceInfo.MatchesFound += matches_75.Count;
-                                procEnv.Finishing(matches_75, false);
-                                Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match_75 = matches_75.FirstExact;
+                                res_51 = (bool)(true);
+                                procEnv.PerformanceInfo.MatchesFound += matches_51.Count;
+                                procEnv.Finishing(matches_51, false);
+                                Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match_51 = matches_51.FirstExact;
                                 GRGEN_MODEL.IGridNode tmpvar_4cur; GRGEN_MODEL.IGridNode tmpvar_5curOuter; 
-                                rule_GrowWorldFirstAtCorner.Modify(procEnv, match_75, out tmpvar_4cur, out tmpvar_5curOuter);
+                                rule_GrowWorldFirstAtCorner.Modify(procEnv, match_51, out tmpvar_4cur, out tmpvar_5curOuter);
                                 var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_4cur);
 var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_5curOuter);
 
                                 procEnv.PerformanceInfo.RewritesPerformed++;
-                                procEnv.Finished(matches_75, false);
+                                procEnv.Finished(matches_51, false);
                             }
-                            res_76 = (bool)(res_75);
+                            res_52 = (bool)(res_51);
                         }
-                        res_77 = (bool)(res_76);
+                        res_53 = (bool)(res_52);
                     }
-                    if(!res_77)
-                        res_90 = (bool)(false);
+                    if(!res_53)
+                        res_62 = (bool)(false);
                     else
                     {
-                        long i_89 = 0;
+                        long i_61 = 0;
                         while(true)
                         {
-                            GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner> matches_82 = rule_GrowWorldNextNotAtCorner.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur, (GRGEN_MODEL.IGridNode)var_curOuter);
-                            procEnv.Matched(matches_82, null, false);
-                            if(matches_82.Count==0) {
-                                res_82 = (bool)(false);
+                            GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner> matches_56 = rule_GrowWorldNextNotAtCorner.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur, (GRGEN_MODEL.IGridNode)var_curOuter);
+                            procEnv.Matched(matches_56, null, false);
+                            if(matches_56.Count==0) {
+                                res_56 = (bool)(false);
                             } else {
-                                res_82 = (bool)(true);
-                                procEnv.PerformanceInfo.MatchesFound += matches_82.Count;
-                                procEnv.Finishing(matches_82, false);
-                                Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match_82 = matches_82.FirstExact;
+                                res_56 = (bool)(true);
+                                procEnv.PerformanceInfo.MatchesFound += matches_56.Count;
+                                procEnv.Finishing(matches_56, false);
+                                Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match_56 = matches_56.FirstExact;
                                 GRGEN_MODEL.IGridNode tmpvar_6cur; GRGEN_MODEL.IGridNode tmpvar_7curOuter; 
-                                rule_GrowWorldNextNotAtCorner.Modify(procEnv, match_82, out tmpvar_6cur, out tmpvar_7curOuter);
+                                rule_GrowWorldNextNotAtCorner.Modify(procEnv, match_56, out tmpvar_6cur, out tmpvar_7curOuter);
                                 var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_6cur);
 var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_7curOuter);
 
                                 procEnv.PerformanceInfo.RewritesPerformed++;
-                                procEnv.Finished(matches_82, false);
+                                procEnv.Finished(matches_56, false);
                             }
-                            if(res_82)
-                                res_88 = (bool)(true);
+                            if(res_56)
+                                res_60 = (bool)(true);
                             else
                             {
-                                GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner> matches_87 = rule_GrowWorldNextAtCorner.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur, (GRGEN_MODEL.IGridNode)var_curOuter);
-                                procEnv.Matched(matches_87, null, false);
-                                if(matches_87.Count==0) {
-                                    res_87 = (bool)(false);
+                                GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner> matches_59 = rule_GrowWorldNextAtCorner.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur, (GRGEN_MODEL.IGridNode)var_curOuter);
+                                procEnv.Matched(matches_59, null, false);
+                                if(matches_59.Count==0) {
+                                    res_59 = (bool)(false);
                                 } else {
-                                    res_87 = (bool)(true);
-                                    procEnv.PerformanceInfo.MatchesFound += matches_87.Count;
-                                    procEnv.Finishing(matches_87, false);
-                                    Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match_87 = matches_87.FirstExact;
+                                    res_59 = (bool)(true);
+                                    procEnv.PerformanceInfo.MatchesFound += matches_59.Count;
+                                    procEnv.Finishing(matches_59, false);
+                                    Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match_59 = matches_59.FirstExact;
                                     GRGEN_MODEL.IGridNode tmpvar_8cur; GRGEN_MODEL.IGridNode tmpvar_9curOuter; 
-                                    rule_GrowWorldNextAtCorner.Modify(procEnv, match_87, out tmpvar_8cur, out tmpvar_9curOuter);
+                                    rule_GrowWorldNextAtCorner.Modify(procEnv, match_59, out tmpvar_8cur, out tmpvar_9curOuter);
                                     var_cur = (GRGEN_MODEL.IGridNode)(tmpvar_8cur);
 var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
 
                                     procEnv.PerformanceInfo.RewritesPerformed++;
-                                    procEnv.Finished(matches_87, false);
+                                    procEnv.Finished(matches_59, false);
                                 }
-                                res_88 = (bool)(res_87);
+                                res_60 = (bool)(res_59);
                             }
-                            if(!res_88) break;
-                            i_89++;
+                            if(!res_60) break;
+                            i_61++;
                         }
-                        res_89 = (bool)(i_89 >= 0);
-                        res_90 = (bool)(res_89);
+                        res_61 = (bool)(i_61 >= 0);
+                        res_62 = (bool)(res_61);
                     }
-                    if(!res_90)
-                        res_96 = (bool)(false);
+                    if(!res_62)
+                        res_66 = (bool)(false);
                     else
                     {
-                        GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldEnd.IMatch_GrowWorldEnd> matches_95 = rule_GrowWorldEnd.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur, (GRGEN_MODEL.IGridNode)var_curOuter);
-                        procEnv.Matched(matches_95, null, false);
-                        if(matches_95.Count==0) {
-                            res_95 = (bool)(false);
+                        GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldEnd.IMatch_GrowWorldEnd> matches_65 = rule_GrowWorldEnd.Match(procEnv, 1, (GRGEN_MODEL.IGridNode)var_cur, (GRGEN_MODEL.IGridNode)var_curOuter);
+                        procEnv.Matched(matches_65, null, false);
+                        if(matches_65.Count==0) {
+                            res_65 = (bool)(false);
                         } else {
-                            res_95 = (bool)(true);
-                            procEnv.PerformanceInfo.MatchesFound += matches_95.Count;
-                            procEnv.Finishing(matches_95, false);
-                            Rule_GrowWorldEnd.IMatch_GrowWorldEnd match_95 = matches_95.FirstExact;
-                            rule_GrowWorldEnd.Modify(procEnv, match_95);
+                            res_65 = (bool)(true);
+                            procEnv.PerformanceInfo.MatchesFound += matches_65.Count;
+                            procEnv.Finishing(matches_65, false);
+                            Rule_GrowWorldEnd.IMatch_GrowWorldEnd match_65 = matches_65.FirstExact;
+                            rule_GrowWorldEnd.Modify(procEnv, match_65);
                             procEnv.PerformanceInfo.RewritesPerformed++;
-                            procEnv.Finished(matches_95, false);
+                            procEnv.Finished(matches_65, false);
                         }
-                        res_96 = (bool)(res_95);
+                        res_66 = (bool)(res_65);
                     }
-                    res_97 = (bool)(res_68 | res_96);
-                    long i_101 = 0;
+                    res_67 = (bool)(res_46 | res_66);
+                    long i_70 = 0;
                     while(true)
                     {
-                        GRGEN_LIBGR.IMatchesExact<Rule_Food2Ant.IMatch_Food2Ant> matches_100 = rule_Food2Ant.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
-                        procEnv.Matched(matches_100, null, false);
-                        if(matches_100.Count==0) {
-                            res_100 = (bool)(false);
+                        GRGEN_LIBGR.IMatchesExact<Rule_Food2Ant.IMatch_Food2Ant> matches_69 = rule_Food2Ant.Match(procEnv, 1, (GRGEN_MODEL.IAnt)var_curAnt);
+                        procEnv.Matched(matches_69, null, false);
+                        if(matches_69.Count==0) {
+                            res_69 = (bool)(false);
                         } else {
-                            res_100 = (bool)(true);
-                            procEnv.PerformanceInfo.MatchesFound += matches_100.Count;
-                            procEnv.Finishing(matches_100, false);
-                            Rule_Food2Ant.IMatch_Food2Ant match_100 = matches_100.FirstExact;
+                            res_69 = (bool)(true);
+                            procEnv.PerformanceInfo.MatchesFound += matches_69.Count;
+                            procEnv.Finishing(matches_69, false);
+                            Rule_Food2Ant.IMatch_Food2Ant match_69 = matches_69.FirstExact;
                             GRGEN_MODEL.IAnt tmpvar_10curAnt; 
-                            rule_Food2Ant.Modify(procEnv, match_100, out tmpvar_10curAnt);
+                            rule_Food2Ant.Modify(procEnv, match_69, out tmpvar_10curAnt);
                             var_curAnt = (GRGEN_MODEL.IAnt)(tmpvar_10curAnt);
 
                             procEnv.PerformanceInfo.RewritesPerformed++;
-                            procEnv.Finished(matches_100, false);
+                            procEnv.Finished(matches_69, false);
                         }
-                        if(!res_100) break;
-                        i_101++;
+                        if(!res_69) break;
+                        i_70++;
                     }
-                    res_101 = (bool)(i_101 >= 0);
-                    res_102 = (bool)(res_97 | res_101);
-                    GRGEN_LIBGR.IMatchesExact<Rule_EvaporateWorld.IMatch_EvaporateWorld> matches_103 = rule_EvaporateWorld.Match(procEnv, procEnv.MaxMatches);
-                    procEnv.Matched(matches_103, null, false);
-                    if(matches_103.Count==0) {
-                        res_103 = (bool)(false);
+                    res_70 = (bool)(i_70 >= 0);
+                    res_71 = (bool)(res_67 | res_70);
+                    GRGEN_LIBGR.IMatchesExact<Rule_EvaporateWorld.IMatch_EvaporateWorld> matches_72 = rule_EvaporateWorld.Match(procEnv, procEnv.MaxMatches);
+                    procEnv.Matched(matches_72, null, false);
+                    if(matches_72.Count==0) {
+                        res_72 = (bool)(false);
                     } else {
-                        res_103 = (bool)(true);
-                        procEnv.PerformanceInfo.MatchesFound += matches_103.Count;
-                        procEnv.Finishing(matches_103, false);
-                        IEnumerator<Rule_EvaporateWorld.IMatch_EvaporateWorld> enum_103 = matches_103.GetEnumeratorExact();
-                        while(enum_103.MoveNext())
+                        res_72 = (bool)(true);
+                        procEnv.PerformanceInfo.MatchesFound += matches_72.Count;
+                        procEnv.Finishing(matches_72, false);
+                        IEnumerator<Rule_EvaporateWorld.IMatch_EvaporateWorld> enum_72 = matches_72.GetEnumeratorExact();
+                        while(enum_72.MoveNext())
                         {
-                            Rule_EvaporateWorld.IMatch_EvaporateWorld match_103 = enum_103.Current;
-                            if(match_103!=matches_103.FirstExact) procEnv.RewritingNextMatch();
-                            rule_EvaporateWorld.Modify(procEnv, match_103);
+                            Rule_EvaporateWorld.IMatch_EvaporateWorld match_72 = enum_72.Current;
+                            if(match_72!=matches_72.FirstExact) procEnv.RewritingNextMatch();
+                            rule_EvaporateWorld.Modify(procEnv, match_72);
                             procEnv.PerformanceInfo.RewritesPerformed++;
                         }
-                        procEnv.Finished(matches_103, false);
+                        procEnv.Finished(matches_72, false);
                     }
-                    res_104 = (bool)(res_102 | res_103);
-                    res_105 = (bool)(res_104);
+                    res_73 = (bool)(res_71 | res_72);
+                    res_74 = (bool)(res_73);
                 }
-                if(!res_105) break;
+                if(!res_74) break;
             }
-            res_106 = (bool)(i_106 >= 50);
+            res_75 = (bool)(i_75 >= 50);
             procEnv.DebugExiting("doAntWorld.exec_0");
-            return res_106;
+            return res_75;
         }
 
 		static Rule_doAntWorld() {
@@ -7346,11 +7329,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
     
     public class Action_InitWorld : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_InitWorld
     {
-        public Action_InitWorld() {
+        public Action_InitWorld()
+            : base(Rule_InitWorld.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_InitWorld.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_InitWorld.Match_InitWorld, Rule_InitWorld.IMatch_InitWorld>(this);
         }
 
@@ -7605,11 +7588,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
     
     public class Action_TakeFood : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TakeFood
     {
-        public Action_TakeFood() {
+        public Action_TakeFood()
+            : base(Rule_TakeFood.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_TakeFood.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_TakeFood.Match_TakeFood, Rule_TakeFood.IMatch_TakeFood>(this);
         }
 
@@ -7872,11 +7855,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
     
     public class Action_GoHome : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_GoHome
     {
-        public Action_GoHome() {
+        public Action_GoHome()
+            : base(Rule_GoHome.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_GoHome.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_GoHome.Match_GoHome, Rule_GoHome.IMatch_GoHome>(this);
         }
 
@@ -8169,11 +8152,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
     
     public class Action_DropFood : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_DropFood
     {
-        public Action_DropFood() {
+        public Action_DropFood()
+            : base(Rule_DropFood.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_DropFood.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_DropFood.Match_DropFood, Rule_DropFood.IMatch_DropFood>(this);
         }
 
@@ -8436,11 +8419,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
     
     public class Action_SearchAlongPheromones : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_SearchAlongPheromones
     {
-        public Action_SearchAlongPheromones() {
+        public Action_SearchAlongPheromones()
+            : base(Rule_SearchAlongPheromones.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_SearchAlongPheromones.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_SearchAlongPheromones.Match_SearchAlongPheromones, Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones>(this);
         }
 
@@ -8733,11 +8716,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
     
     public class Action_SearchAimless : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_SearchAimless
     {
-        public Action_SearchAimless() {
+        public Action_SearchAimless()
+            : base(Rule_SearchAimless.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_SearchAimless.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_SearchAimless.Match_SearchAimless, Rule_SearchAimless.IMatch_SearchAimless>(this);
         }
 
@@ -9034,11 +9017,11 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_9curOuter);
     
     public class Action_ReachedEndOfWorld : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ReachedEndOfWorld
     {
-        public Action_ReachedEndOfWorld() {
+        public Action_ReachedEndOfWorld()
+            : base(Rule_ReachedEndOfWorld.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_ReachedEndOfWorld.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ReachedEndOfWorld.Match_ReachedEndOfWorld, Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld>(this);
         }
 
@@ -9328,11 +9311,11 @@ label0: ;
     
     public class Action_ReachedEndOfWorldAnywhere : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ReachedEndOfWorldAnywhere
     {
-        public Action_ReachedEndOfWorldAnywhere() {
+        public Action_ReachedEndOfWorldAnywhere()
+            : base(Rule_ReachedEndOfWorldAnywhere.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_ReachedEndOfWorldAnywhere.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ReachedEndOfWorldAnywhere.Match_ReachedEndOfWorldAnywhere, Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere>(this);
         }
 
@@ -9628,11 +9611,11 @@ label1: ;
     
     public class Action_GrowFoodIfEqual : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_GrowFoodIfEqual
     {
-        public Action_GrowFoodIfEqual() {
+        public Action_GrowFoodIfEqual()
+            : base(Rule_GrowFoodIfEqual.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_GrowFoodIfEqual.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_GrowFoodIfEqual.Match_GrowFoodIfEqual, Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual>(this);
         }
 
@@ -9892,11 +9875,11 @@ label1: ;
     
     public class Action_GrowWorldFirstAtCorner : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_GrowWorldFirstAtCorner
     {
-        public Action_GrowWorldFirstAtCorner() {
+        public Action_GrowWorldFirstAtCorner()
+            : base(Rule_GrowWorldFirstAtCorner.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_GrowWorldFirstAtCorner.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldFirstAtCorner.Match_GrowWorldFirstAtCorner, Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner>(this);
         }
 
@@ -10198,11 +10181,11 @@ label1: ;
     
     public class Action_GrowWorldFirstNotAtCorner : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_GrowWorldFirstNotAtCorner
     {
-        public Action_GrowWorldFirstNotAtCorner() {
+        public Action_GrowWorldFirstNotAtCorner()
+            : base(Rule_GrowWorldFirstNotAtCorner.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_GrowWorldFirstNotAtCorner.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldFirstNotAtCorner.Match_GrowWorldFirstNotAtCorner, Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner>(this);
         }
 
@@ -10504,11 +10487,11 @@ label1: ;
     
     public class Action_GrowWorldNextAtCorner : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_GrowWorldNextAtCorner
     {
-        public Action_GrowWorldNextAtCorner() {
+        public Action_GrowWorldNextAtCorner()
+            : base(Rule_GrowWorldNextAtCorner.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_GrowWorldNextAtCorner.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldNextAtCorner.Match_GrowWorldNextAtCorner, Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner>(this);
         }
 
@@ -10849,11 +10832,11 @@ label1: ;
     
     public class Action_GrowWorldNextNotAtCorner : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_GrowWorldNextNotAtCorner
     {
-        public Action_GrowWorldNextNotAtCorner() {
+        public Action_GrowWorldNextNotAtCorner()
+            : base(Rule_GrowWorldNextNotAtCorner.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_GrowWorldNextNotAtCorner.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldNextNotAtCorner.Match_GrowWorldNextNotAtCorner, Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner>(this);
         }
 
@@ -11194,11 +11177,11 @@ label1: ;
     
     public class Action_GrowWorldEnd : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_GrowWorldEnd
     {
-        public Action_GrowWorldEnd() {
+        public Action_GrowWorldEnd()
+            : base(Rule_GrowWorldEnd.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_GrowWorldEnd.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_GrowWorldEnd.Match_GrowWorldEnd, Rule_GrowWorldEnd.IMatch_GrowWorldEnd>(this);
         }
 
@@ -11483,11 +11466,11 @@ label1: ;
     
     public class Action_GetNextAnt : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_GetNextAnt
     {
-        public Action_GetNextAnt() {
+        public Action_GetNextAnt()
+            : base(Rule_GetNextAnt.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_GetNextAnt.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_GetNextAnt.Match_GetNextAnt, Rule_GetNextAnt.IMatch_GetNextAnt>(this);
         }
 
@@ -11764,11 +11747,11 @@ label1: ;
     
     public class Action_Food2Ant : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_Food2Ant
     {
-        public Action_Food2Ant() {
+        public Action_Food2Ant()
+            : base(Rule_Food2Ant.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_Food2Ant.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_Food2Ant.Match_Food2Ant, Rule_Food2Ant.IMatch_Food2Ant>(this);
         }
 
@@ -12026,11 +12009,11 @@ label1: ;
     
     public class Action_EvaporateWorld : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_EvaporateWorld
     {
-        public Action_EvaporateWorld() {
+        public Action_EvaporateWorld()
+            : base(Rule_EvaporateWorld.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_EvaporateWorld.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_EvaporateWorld.Match_EvaporateWorld, Rule_EvaporateWorld.IMatch_EvaporateWorld>(this);
         }
 
@@ -12283,11 +12266,11 @@ label1: ;
     
     public class Action_doAntWorld : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_doAntWorld
     {
-        public Action_doAntWorld() {
+        public Action_doAntWorld()
+            : base(Rule_doAntWorld.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_doAntWorld.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_doAntWorld.Match_doAntWorld, Rule_doAntWorld.IMatch_doAntWorld>(this);
         }
 
@@ -12717,6 +12700,7 @@ label1: ;
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "5efeccfb37eb4c2835fae110fe22d2e7"; } }
     }
 }

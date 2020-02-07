@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Jan 12 22:15:01 CET 2020
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Fri Feb 07 19:18:43 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -64,14 +65,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Pattern_toAorB()
+			: base("toAorB",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "toAorB_node_x", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "toAorB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "toAorB_node_x", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -844,16 +844,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_createA()
+			: base("createA",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createA";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1100,16 +1099,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_createB()
+			: base("createB",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1356,16 +1354,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_createC()
+			: base("createC",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createC";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1612,16 +1609,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_createAtoB()
+			: base("createAtoB",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createAtoB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1880,16 +1876,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_leer()
+			: base("leer",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "leer";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -2379,16 +2374,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_AorB()
+			: base("AorB",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "AorB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -3125,16 +3119,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_AandnotCorB()
+			: base("AandnotCorB",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "AandnotCorB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -4087,16 +4080,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_AorBorC()
+			: base("AorBorC",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "AorBorC";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -5049,16 +5041,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_AtoAorB()
+			: base("AtoAorB",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "AtoAorB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -5819,16 +5810,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_createComplex()
+			: base("createComplex",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createComplex";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -6173,16 +6163,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_Complex()
+			: base("Complex",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "Complex";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -7562,16 +7551,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_ComplexMax()
+			: base("ComplexMax",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "ComplexMax";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -9090,16 +9078,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_createABA()
+			: base("createABA",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createABA";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -9392,16 +9379,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_homm()
+			: base("homm",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "homm";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10236,16 +10222,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_XtoAorB()
+			: base("XtoAorB",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "XtoAorB";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10556,16 +10541,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_alternative_in_negative()
+			: base("alternative_in_negative",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "alternative_in_negative";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11534,16 +11518,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		private Rule_alternative_in_iterated()
+			: base("alternative_in_iterated",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "alternative_in_iterated";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -12621,7 +12604,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
     public class PatternAction_toAorB : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_toAorB(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_toAorB(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_toAorB.Instance.patternGraph;
         }
@@ -12735,9 +12720,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class AlternativeAction_toAorB_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_toAorB_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_toAorB_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_toAorB_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -12745,7 +12731,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -12950,11 +12935,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class Action_createA : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createA
     {
-        public Action_createA() {
+        public Action_createA()
+            : base(Rule_createA.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createA.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createA.Match_createA, Rule_createA.IMatch_createA>(this);
         }
 
@@ -13197,11 +13182,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class Action_createB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createB
     {
-        public Action_createB() {
+        public Action_createB()
+            : base(Rule_createB.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createB.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createB.Match_createB, Rule_createB.IMatch_createB>(this);
         }
 
@@ -13444,11 +13429,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class Action_createC : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createC
     {
-        public Action_createC() {
+        public Action_createC()
+            : base(Rule_createC.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createC.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createC.Match_createC, Rule_createC.IMatch_createC>(this);
         }
 
@@ -13691,11 +13676,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class Action_createAtoB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createAtoB
     {
-        public Action_createAtoB() {
+        public Action_createAtoB()
+            : base(Rule_createAtoB.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createAtoB.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createAtoB.Match_createAtoB, Rule_createAtoB.IMatch_createAtoB>(this);
         }
 
@@ -13938,11 +13923,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class Action_leer : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_leer
     {
-        public Action_leer() {
+        public Action_leer()
+            : base(Rule_leer.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_leer.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_leer.Match_leer, Rule_leer.IMatch_leer>(this);
         }
 
@@ -14187,9 +14172,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class AlternativeAction_leer_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_leer_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_leer_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_leer_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14197,7 +14183,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -14304,11 +14289,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class Action_AorB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_AorB
     {
-        public Action_AorB() {
+        public Action_AorB()
+            : base(Rule_AorB.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_AorB.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_AorB.Match_AorB, Rule_AorB.IMatch_AorB>(this);
         }
 
@@ -14553,9 +14538,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class AlternativeAction_AorB_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_AorB_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_AorB_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_AorB_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14563,7 +14549,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -14759,11 +14744,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class Action_AandnotCorB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_AandnotCorB
     {
-        public Action_AandnotCorB() {
+        public Action_AandnotCorB()
+            : base(Rule_AandnotCorB.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_AandnotCorB.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_AandnotCorB.Match_AandnotCorB, Rule_AandnotCorB.IMatch_AandnotCorB>(this);
         }
 
@@ -15008,9 +14993,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
     
     public class AlternativeAction_AandnotCorB_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_AandnotCorB_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_AandnotCorB_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_AandnotCorB_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15018,7 +15004,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -15232,11 +15217,11 @@ label0: ;
     
     public class Action_AorBorC : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_AorBorC
     {
-        public Action_AorBorC() {
+        public Action_AorBorC()
+            : base(Rule_AorBorC.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_AorBorC.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_AorBorC.Match_AorBorC, Rule_AorBorC.IMatch_AorBorC>(this);
         }
 
@@ -15481,9 +15466,10 @@ label0: ;
     
     public class AlternativeAction_AorBorC_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_AorBorC_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_AorBorC_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_AorBorC_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15491,7 +15477,6 @@ label0: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -15759,11 +15744,11 @@ label0: ;
     
     public class Action_AtoAorB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_AtoAorB
     {
-        public Action_AtoAorB() {
+        public Action_AtoAorB()
+            : base(Rule_AtoAorB.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_AtoAorB.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_AtoAorB.Match_AtoAorB, Rule_AtoAorB.IMatch_AtoAorB>(this);
         }
 
@@ -16021,9 +16006,10 @@ label0: ;
     
     public class AlternativeAction_AtoAorB_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_AtoAorB_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_AtoAorB_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_AtoAorB_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -16031,7 +16017,6 @@ label0: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -16290,11 +16275,11 @@ label0: ;
     
     public class Action_createComplex : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createComplex
     {
-        public Action_createComplex() {
+        public Action_createComplex()
+            : base(Rule_createComplex.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createComplex.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createComplex.Match_createComplex, Rule_createComplex.IMatch_createComplex>(this);
         }
 
@@ -16537,11 +16522,11 @@ label0: ;
     
     public class Action_Complex : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_Complex
     {
-        public Action_Complex() {
+        public Action_Complex()
+            : base(Rule_Complex.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_Complex.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_Complex.Match_Complex, Rule_Complex.IMatch_Complex>(this);
         }
 
@@ -16858,9 +16843,10 @@ label0: ;
     
     public class AlternativeAction_Complex_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Complex_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Complex_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Complex_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -16868,7 +16854,6 @@ label0: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -17788,11 +17773,11 @@ label0: ;
     
     public class Action_ComplexMax : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ComplexMax
     {
-        public Action_ComplexMax() {
+        public Action_ComplexMax()
+            : base(Rule_ComplexMax.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_ComplexMax.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ComplexMax.Match_ComplexMax, Rule_ComplexMax.IMatch_ComplexMax>(this);
         }
 
@@ -18109,9 +18094,10 @@ label0: ;
     
     public class AlternativeAction_ComplexMax_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ComplexMax_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ComplexMax_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ComplexMax_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -18119,7 +18105,6 @@ label0: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -19085,11 +19070,11 @@ label3: ;
     
     public class Action_createABA : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createABA
     {
-        public Action_createABA() {
+        public Action_createABA()
+            : base(Rule_createABA.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_createABA.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createABA.Match_createABA, Rule_createABA.IMatch_createABA>(this);
         }
 
@@ -19332,11 +19317,11 @@ label3: ;
     
     public class Action_homm : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_homm
     {
-        public Action_homm() {
+        public Action_homm()
+            : base(Rule_homm.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_homm.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_homm.Match_homm, Rule_homm.IMatch_homm>(this);
         }
 
@@ -19653,9 +19638,10 @@ label3: ;
     
     public class AlternativeAction_homm_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_homm_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_homm_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_homm_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -19663,7 +19649,6 @@ label3: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -20003,11 +19988,11 @@ label3: ;
     
     public class Action_XtoAorB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_XtoAorB
     {
-        public Action_XtoAorB() {
+        public Action_XtoAorB()
+            : base(Rule_XtoAorB.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_XtoAorB.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_XtoAorB.Match_XtoAorB, Rule_XtoAorB.IMatch_XtoAorB>(this);
         }
 
@@ -20280,9 +20265,10 @@ label3: ;
     
     public class AlternativeAction_XtoAorB_alt_0_inlined__sub0_0_in_XtoAorB : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_XtoAorB_alt_0_inlined__sub0_0_in_XtoAorB(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_XtoAorB_alt_0_inlined__sub0_0_in_XtoAorB(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_XtoAorB_alt_0_inlined__sub0_0_in_XtoAorB getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -20290,7 +20276,6 @@ label3: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -20495,11 +20480,11 @@ label3: ;
     
     public class Action_alternative_in_negative : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_alternative_in_negative
     {
-        public Action_alternative_in_negative() {
+        public Action_alternative_in_negative()
+            : base(Rule_alternative_in_negative.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_alternative_in_negative.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_alternative_in_negative.Match_alternative_in_negative, Rule_alternative_in_negative.IMatch_alternative_in_negative>(this);
         }
 
@@ -20745,9 +20730,10 @@ label3: ;
     
     public class AlternativeAction_alternative_in_negative_neg_0_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_alternative_in_negative_neg_0_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_alternative_in_negative_neg_0_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_alternative_in_negative_neg_0_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -20755,7 +20741,6 @@ label3: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -20996,11 +20981,11 @@ label3: ;
     
     public class Action_alternative_in_iterated : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_alternative_in_iterated
     {
-        public Action_alternative_in_iterated() {
+        public Action_alternative_in_iterated()
+            : base(Rule_alternative_in_iterated.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_alternative_in_iterated.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_alternative_in_iterated.Match_alternative_in_iterated, Rule_alternative_in_iterated.IMatch_alternative_in_iterated>(this);
         }
 
@@ -21250,7 +21235,9 @@ label3: ;
     
     public class IteratedAction_alternative_in_iterated_iter_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private IteratedAction_alternative_in_iterated_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private IteratedAction_alternative_in_iterated_iter_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Rule_alternative_in_iterated.Instance.patternGraph;
             minMatchesIter = 0;
@@ -21394,9 +21381,10 @@ maxMatchesIterReached:
     
     public class AlternativeAction_alternative_in_iterated_iter_0_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_alternative_in_iterated_iter_0_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_alternative_in_iterated_iter_0_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_alternative_in_iterated_iter_0_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -21404,7 +21392,6 @@ maxMatchesIterReached:
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -21834,6 +21821,7 @@ maxMatchesIterReached:
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
     }
 }

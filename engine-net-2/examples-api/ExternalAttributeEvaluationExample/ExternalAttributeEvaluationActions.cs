@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jan 12 22:15:07 CET 2020
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Fri Feb 07 19:18:55 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -35,16 +36,15 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 
 		private Rule_init()
+			: base("init",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "init";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -293,16 +293,15 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 
 		private Rule_init2()
+			: base("init2",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "init2";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -364,22 +363,22 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
             procEnv.DebugEntering("init2.exec_0", "{::nn=n;::v=n.ow}");
-            bool res_11;
-            object res_10;
-            object res_3;
+            bool res_8;
+            object res_7;
+            object res_2;
             object res_0;
-                        object res_9;
-            object res_4;
+                        object res_6;
+            object res_3;
                         procEnv.SetVariableValue("nn", var_n);
             res_0 = procEnv.GetVariableValue("nn");
-            res_3 = res_0;
+            res_2 = res_0;
             procEnv.SetVariableValue("v", (object)(((GRGEN_LIBGR.IGraphElement)var_n).GetAttribute("ow")));
-            res_4 = procEnv.GetVariableValue("v");
-            res_9 = res_4;
-            res_10 = res_9;
-            res_11 = (bool)(true);
+            res_3 = procEnv.GetVariableValue("v");
+            res_6 = res_3;
+            res_7 = res_6;
+            res_8 = (bool)(true);
             procEnv.DebugExiting("init2.exec_0");
-            return res_11;
+            return res_8;
         }
 
 		static Rule_init2() {
@@ -586,16 +585,15 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 
 		private Rule_r()
+			: base("r",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "r";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -908,16 +906,15 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 
 		private Rule_rp()
+			: base("rp",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "rp";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1232,16 +1229,15 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 
 		private Rule_testCopy()
+			: base("testCopy",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "testCopy";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -1508,16 +1504,15 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
 
 		private Rule_testComparison()
+			: base("testComparison",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "testComparison";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -2382,11 +2377,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
     
     public class Action_init : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init
     {
-        public Action_init() {
+        public Action_init()
+            : base(Rule_init.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_init.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init>(this);
         }
 
@@ -2629,11 +2624,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
     
     public class Action_init2 : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init2
     {
-        public Action_init2() {
+        public Action_init2()
+            : base(Rule_init2.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_init2.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init2.Match_init2, Rule_init2.IMatch_init2>(this);
         }
 
@@ -2876,11 +2871,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
     
     public class Action_r : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_r
     {
-        public Action_r() {
+        public Action_r()
+            : base(Rule_r.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_r.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r>(this);
         }
 
@@ -3158,11 +3153,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
     
     public class Action_rp : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_rp
     {
-        public Action_rp() {
+        public Action_rp()
+            : base(Rule_rp.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_rp.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_rp.Match_rp, Rule_rp.IMatch_rp>(this);
         }
 
@@ -3424,11 +3419,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
     
     public class Action_testCopy : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_testCopy
     {
-        public Action_testCopy() {
+        public Action_testCopy()
+            : base(Rule_testCopy.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_testCopy.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_testCopy.Match_testCopy, Rule_testCopy.IMatch_testCopy>(this);
         }
 
@@ -3681,11 +3676,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
     
     public class Action_testComparison : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_testComparison
     {
-        public Action_testComparison() {
+        public Action_testComparison()
+            : base(Rule_testComparison.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_testComparison.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_testComparison.Match_testComparison, Rule_testComparison.IMatch_testComparison>(this);
         }
 
@@ -4120,6 +4115,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "c31b4a83d7adddb9205f28026a0414cd"; } }
     }
 }

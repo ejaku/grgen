@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Fri Jan 17 12:46:31 CET 2020
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Fri Feb 07 19:19:01 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -35,16 +36,15 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 
 
 		private Rule_init()
+			: base("init",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "init";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -297,16 +297,15 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
 
 
 		private Rule_r()
+			: base("r",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "r";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -747,11 +746,11 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
     
     public class Action_init : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init
     {
-        public Action_init() {
+        public Action_init()
+            : base(Rule_init.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_init.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init>(this);
         }
 
@@ -994,11 +993,11 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
     
     public class Action_r : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_r
     {
-        public Action_r() {
+        public Action_r()
+            : base(Rule_r.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_r.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r>(this);
         }
 
@@ -1249,14 +1248,14 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
             procEnv.DebugEntering("s", var_nn, var_ee);
-            bool res_14;
-            bool res_7;
+            bool res_10;
+            bool res_5;
             bool res_0;
             Action_r rule_r = Action_r.Instance;
-            bool res_6;
-            object res_5;
-            bool res_13;
-            object res_12;
+            bool res_4;
+            object res_3;
+            bool res_9;
+            object res_8;
             GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> matches_0 = rule_r.Match(procEnv, 1);
             procEnv.Matched(matches_0, null, false);
             if(matches_0.Count==0) {
@@ -1275,16 +1274,16 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
             var_no = (GRGEN_MODEL.IN)(tmpvar_0no);
 var_eo = (GRGEN_MODEL.IE)(tmpvar_1eo);
 
-            res_5 = null;
-            res_6 = (bool)(true);
-            res_7 = (bool)(res_6);
+            res_3 = null;
+            res_4 = (bool)(true);
+            res_5 = (bool)(res_4);
             GRGEN_MODEL.IN tmpvar_2; GRGEN_MODEL.IE tmpvar_3; 
             GRGEN_ACTIONS.Procedures.dur(procEnv, graph, (GRGEN_MODEL.INN)var_nn, (GRGEN_MODEL.IEE)var_ee, out tmpvar_2, out tmpvar_3);
-            res_12 = null;
-            res_13 = (bool)(true);
-            res_14 = (bool)(res_13);
+            res_8 = null;
+            res_9 = (bool)(true);
+            res_10 = (bool)(res_9);
             procEnv.DebugExiting("s", var_no, var_eo);
-            return res_14;
+            return res_10;
         }
 
         public static bool Apply_s(GRGEN_LIBGR.IGraphProcessingEnvironment procEnv, GRGEN_MODEL.INN var_nn, GRGEN_MODEL.IEE var_ee, ref GRGEN_MODEL.IN var_no, ref GRGEN_MODEL.IE var_eo)
@@ -1376,6 +1375,7 @@ var_eo = (GRGEN_MODEL.IE)(tmpvar_1eo);
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "9435e7299d00cb79680575270aa3cce6"; } }
     }
 }

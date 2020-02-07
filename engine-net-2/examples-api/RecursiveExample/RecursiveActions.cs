@@ -1,12 +1,13 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Jan 12 22:15:22 CET 2020
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Fri Feb 07 19:19:26 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -66,14 +67,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ChainFromTo()
+			: base("ChainFromTo",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ChainFromTo_node_from", "ChainFromTo_node_to", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ChainFromTo";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ChainFromTo_node_from", "ChainFromTo_node_to", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -933,14 +933,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ChainFrom()
+			: base("ChainFrom",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ChainFrom_node_from", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ChainFrom";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ChainFrom_node_from", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -1747,14 +1746,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ChainFromComplete()
+			: base("ChainFromComplete",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ChainFromComplete_node_from", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ChainFromComplete";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ChainFromComplete_node_from", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -2814,14 +2812,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ChainFromCompleteArbitraryPatternpathLocked()
+			: base("ChainFromCompleteArbitraryPatternpathLocked",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ChainFromCompleteArbitraryPatternpathLocked_node_from", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ChainFromCompleteArbitraryPatternpathLocked";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ChainFromCompleteArbitraryPatternpathLocked_node_from", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -3881,14 +3878,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards()
+			: base("ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -4948,14 +4944,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_Blowball()
+			: base("Blowball",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "Blowball_node_head", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "Blowball";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "Blowball_node_head", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -6005,14 +6000,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ReverseChainFromTo()
+			: base("ReverseChainFromTo",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ReverseChainFromTo_node_from", "ReverseChainFromTo_node_to", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ReverseChainFromTo";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ReverseChainFromTo_node_from", "ReverseChainFromTo_node_to", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -6882,14 +6876,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ChainFromToReverse()
+			: base("ChainFromToReverse",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ChainFromToReverse_node_from", "ChainFromToReverse_node_to", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ChainFromToReverse";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ChainFromToReverse_node_from", "ChainFromToReverse_node_to", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -7818,14 +7811,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ChainFromToReverseToCommon()
+			: base("ChainFromToReverseToCommon",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ChainFromToReverseToCommon_node_from", "ChainFromToReverseToCommon_node_to", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ChainFromToReverseToCommon";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ChainFromToReverseToCommon_node_from", "ChainFromToReverseToCommon_node_to", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -8757,14 +8749,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Pattern_ReverseChainFromToToCommon()
+			: base("ReverseChainFromToToCommon",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "ReverseChainFromToToCommon_node_from", "ReverseChainFromToToCommon_node_to", "ReverseChainFromToToCommon_node_common", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { }
+		)
 		{
-			name = "ReverseChainFromToToCommon";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "ReverseChainFromToToCommon_node_from", "ReverseChainFromToToCommon_node_to", "ReverseChainFromToToCommon_node_common", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-
 		}
 		private void initialize()
 		{
@@ -9663,16 +9654,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_createChain()
+			: base("createChain",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createChain";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -9929,16 +9919,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_chainFromTo()
+			: base("chainFromTo",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "chainFromTo_node_beg", "chainFromTo_node_end", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "chainFromTo";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "chainFromTo_node_beg", "chainFromTo_node_end", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10221,16 +10210,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_chainFrom()
+			: base("chainFrom",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "chainFrom_node_beg", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "chainFrom";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "chainFrom_node_beg", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10500,16 +10488,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_chainFromComplete()
+			: base("chainFromComplete",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "chainFromComplete_node_beg", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "chainFromComplete";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "chainFromComplete_node_beg", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -10779,16 +10766,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_chainFromCompleteArbitraryPatternpathLocked()
+			: base("chainFromCompleteArbitraryPatternpathLocked",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "chainFromCompleteArbitraryPatternpathLocked_node_beg", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "chainFromCompleteArbitraryPatternpathLocked";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "chainFromCompleteArbitraryPatternpathLocked_node_beg", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11058,16 +11044,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards()
+			: base("chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11337,16 +11322,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_createBlowball()
+			: base("createBlowball",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createBlowball";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11602,16 +11586,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_blowball()
+			: base("blowball",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "blowball_node_head", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "blowball";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "blowball_node_head", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -11883,16 +11866,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_reverseChainFromTo()
+			: base("reverseChainFromTo",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "reverseChainFromTo_node_beg", "reverseChainFromTo_node_end", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "reverseChainFromTo";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "reverseChainFromTo_node_beg", "reverseChainFromTo_node_end", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -12175,16 +12157,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_createReverseChain()
+			: base("createReverseChain",
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "createReverseChain";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -12443,16 +12424,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_chainFromToReverse()
+			: base("chainFromToReverse",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "chainFromToReverse_node_beg", "chainFromToReverse_node_end", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "chainFromToReverse";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "chainFromToReverse_node_beg", "chainFromToReverse_node_end", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -12744,16 +12724,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_chainFromToReverseToCommon()
+			: base("chainFromToReverseToCommon",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "chainFromToReverseToCommon_node_beg", "chainFromToReverseToCommon_node_end", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "chainFromToReverseToCommon";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "chainFromToReverseToCommon_node_beg", "chainFromToReverseToCommon_node_end", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -13047,16 +13026,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 		private Rule_reverseChainFromToToCommon()
+			: base("reverseChainFromToToCommon",
+			new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, },
+			new string[] { "reverseChainFromToToCommon_node_beg", "reverseChainFromToToCommon_node_end", "reverseChainFromToToCommon_node_common", },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new string[] { },
+			new GRGEN_LIBGR.GrGenType[] { },
+			new GRGEN_LGSP.LGSPFilter[] { }
+		)
 		{
-			name = "reverseChainFromToToCommon";
-
-			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
-			inputNames = new string[] { "reverseChainFromToToCommon_node_beg", "reverseChainFromToToCommon_node_end", "reverseChainFromToToCommon_node_common", };
-			defs = new GRGEN_LIBGR.GrGenType[] { };
-			defNames = new string[] { };
-			outputs = new GRGEN_LIBGR.GrGenType[] { };
-			filters = new GRGEN_LGSP.LGSPFilter[] { };
-
 		}
 		private void initialize()
 		{
@@ -13436,7 +13414,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
     public class PatternAction_ChainFromTo : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ChainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromTo.Instance.patternGraph;
         }
@@ -13532,9 +13512,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
     
     public class AlternativeAction_ChainFromTo_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromTo_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromTo_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromTo_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -13542,7 +13523,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -13775,9 +13755,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
     
     public class AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromTo_alt_0_rec_alt_0_inlined__sub0_0_in_ChainFromTo_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -13785,7 +13766,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -14009,7 +13989,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
     
     public class PatternAction_ChainFrom : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ChainFrom(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFrom(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFrom.Instance.patternGraph;
         }
@@ -14100,9 +14082,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
     
     public class AlternativeAction_ChainFrom_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFrom_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFrom_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFrom_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14110,7 +14093,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -14297,9 +14279,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
     
     public class AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFrom_alt_0_rec_alt_0_inlined__sub0_1_in_ChainFrom_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14307,7 +14290,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -14488,7 +14470,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
     
     public class PatternAction_ChainFromComplete : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ChainFromComplete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromComplete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromComplete.Instance.patternGraph;
         }
@@ -14579,9 +14563,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
     
     public class AlternativeAction_ChainFromComplete_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromComplete_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromComplete_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromComplete_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14589,7 +14574,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -14823,9 +14807,10 @@ label2: ;
     
     public class AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromComplete_alt_0_rec_alt_0_inlined__sub0_2_in_ChainFromComplete_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -14833,7 +14818,6 @@ label2: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -15061,7 +15045,9 @@ label5: ;
     
     public class PatternAction_ChainFromCompleteArbitraryPatternpathLocked : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ChainFromCompleteArbitraryPatternpathLocked(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromCompleteArbitraryPatternpathLocked(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromCompleteArbitraryPatternpathLocked.Instance.patternGraph;
         }
@@ -15157,9 +15143,10 @@ label5: ;
     
     public class AlternativeAction_ChainFromCompleteArbitraryPatternpathLocked_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromCompleteArbitraryPatternpathLocked_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromCompleteArbitraryPatternpathLocked_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromCompleteArbitraryPatternpathLocked_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15167,7 +15154,6 @@ label5: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -15445,7 +15431,9 @@ label8: ;
     
     public class PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance.patternGraph;
         }
@@ -15536,9 +15524,10 @@ label8: ;
     
     public class AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15546,7 +15535,6 @@ label8: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -15781,9 +15769,10 @@ label11: ;
     
     public class AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_alt_0_inlined__sub0_3_in_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -15791,7 +15780,6 @@ label11: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -16020,7 +16008,9 @@ label14: ;
     
     public class PatternAction_Blowball : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_Blowball(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Blowball(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_Blowball.Instance.patternGraph;
         }
@@ -16116,9 +16106,10 @@ label14: ;
     
     public class AlternativeAction_Blowball_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_Blowball_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Blowball_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_Blowball_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -16126,7 +16117,6 @@ label14: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -16403,7 +16393,9 @@ label17: ;
     
     public class PatternAction_ReverseChainFromTo : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ReverseChainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ReverseChainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ReverseChainFromTo.Instance.patternGraph;
         }
@@ -16499,9 +16491,10 @@ label17: ;
     
     public class AlternativeAction_ReverseChainFromTo_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ReverseChainFromTo_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ReverseChainFromTo_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ReverseChainFromTo_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -16509,7 +16502,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -16742,9 +16734,10 @@ label17: ;
     
     public class AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ReverseChainFromTo_alt_0_rec_alt_0_inlined__sub0_4_in_ReverseChainFromTo_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -16752,7 +16745,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -16976,7 +16968,9 @@ label17: ;
     
     public class PatternAction_ChainFromToReverse : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ChainFromToReverse(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromToReverse(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromToReverse.Instance.patternGraph;
         }
@@ -17072,9 +17066,10 @@ label17: ;
     
     public class AlternativeAction_ChainFromToReverse_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromToReverse_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromToReverse_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromToReverse_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -17082,7 +17077,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -17315,9 +17309,10 @@ label17: ;
     
     public class AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromToReverse_alt_0_rec_alt_0_inlined_cftr_5_in_ChainFromToReverse_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -17325,7 +17320,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -17549,7 +17543,9 @@ label17: ;
     
     public class PatternAction_ChainFromToReverseToCommon : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ChainFromToReverseToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromToReverseToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromToReverseToCommon.Instance.patternGraph;
         }
@@ -17645,9 +17641,10 @@ label17: ;
     
     public class AlternativeAction_ChainFromToReverseToCommon_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromToReverseToCommon_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromToReverseToCommon_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromToReverseToCommon_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -17655,7 +17652,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -17888,9 +17884,10 @@ label17: ;
     
     public class AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ChainFromToReverseToCommon_alt_0_rec_alt_0_inlined_cftrtc_6_in_ChainFromToReverseToCommon_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -17898,7 +17895,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -18122,7 +18118,9 @@ label17: ;
     
     public class PatternAction_ReverseChainFromToToCommon : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private PatternAction_ReverseChainFromToToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ReverseChainFromToToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_)
+            : base(null)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
             patternGraph = Pattern_ReverseChainFromToToCommon.Instance.patternGraph;
         }
@@ -18223,9 +18221,10 @@ label17: ;
     
     public class AlternativeAction_ReverseChainFromToToCommon_alt_0 : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ReverseChainFromToToCommon_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ReverseChainFromToToCommon_alt_0(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ReverseChainFromToToCommon_alt_0 getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -18233,7 +18232,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -18556,9 +18554,10 @@ label17: ;
     
     public class AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_ReverseChainFromToToCommon_alt_0_rec_alt_0_inlined__sub0_7_in_ReverseChainFromToToCommon_alt_0_rec getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -18566,7 +18565,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -18900,11 +18898,11 @@ label17: ;
     
     public class Action_createChain : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createChain
     {
-        public Action_createChain() {
+        public Action_createChain()
+            : base(Rule_createChain.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_createChain.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createChain.Match_createChain, Rule_createChain.IMatch_createChain>(this);
         }
 
@@ -19171,11 +19169,11 @@ label17: ;
     
     public class Action_chainFromTo : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromTo
     {
-        public Action_chainFromTo() {
+        public Action_chainFromTo()
+            : base(Rule_chainFromTo.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_chainFromTo.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromTo.Match_chainFromTo, Rule_chainFromTo.IMatch_chainFromTo>(this);
         }
 
@@ -19455,9 +19453,10 @@ label17: ;
     
     public class AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_chainFromTo_alt_0_inlined__sub0_8_in_chainFromTo getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -19465,7 +19464,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -19712,11 +19710,11 @@ label17: ;
     
     public class Action_chainFrom : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFrom
     {
-        public Action_chainFrom() {
+        public Action_chainFrom()
+            : base(Rule_chainFrom.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_chainFrom.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFrom.Match_chainFrom, Rule_chainFrom.IMatch_chainFrom>(this);
         }
 
@@ -19966,9 +19964,10 @@ label17: ;
     
     public class AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_chainFrom_alt_0_inlined__sub0_9_in_chainFrom getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -19976,7 +19975,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -20180,11 +20178,11 @@ label17: ;
     
     public class Action_chainFromComplete : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromComplete
     {
-        public Action_chainFromComplete() {
+        public Action_chainFromComplete()
+            : base(Rule_chainFromComplete.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_chainFromComplete.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromComplete.Match_chainFromComplete, Rule_chainFromComplete.IMatch_chainFromComplete>(this);
         }
 
@@ -20434,9 +20432,10 @@ label17: ;
     
     public class AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_chainFromComplete_alt_0_inlined__sub0_10_in_chainFromComplete getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -20444,7 +20443,6 @@ label17: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -20695,11 +20693,11 @@ label20: ;
     
     public class Action_chainFromCompleteArbitraryPatternpathLocked : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromCompleteArbitraryPatternpathLocked
     {
-        public Action_chainFromCompleteArbitraryPatternpathLocked() {
+        public Action_chainFromCompleteArbitraryPatternpathLocked()
+            : base(Rule_chainFromCompleteArbitraryPatternpathLocked.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_chainFromCompleteArbitraryPatternpathLocked.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromCompleteArbitraryPatternpathLocked.Match_chainFromCompleteArbitraryPatternpathLocked, Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>(this);
         }
 
@@ -20978,11 +20976,11 @@ label20: ;
     
     public class Action_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards
     {
-        public Action_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards() {
+        public Action_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards()
+            : base(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards, Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>(this);
         }
 
@@ -21232,9 +21230,10 @@ label20: ;
     
     public class AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_inlined__sub0_11_in_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -21242,7 +21241,6 @@ label20: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -21494,11 +21492,11 @@ label23: ;
     
     public class Action_createBlowball : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createBlowball
     {
-        public Action_createBlowball() {
+        public Action_createBlowball()
+            : base(Rule_createBlowball.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_createBlowball.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createBlowball.Match_createBlowball, Rule_createBlowball.IMatch_createBlowball>(this);
         }
 
@@ -21753,11 +21751,11 @@ label23: ;
     
     public class Action_blowball : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_blowball
     {
-        public Action_blowball() {
+        public Action_blowball()
+            : base(Rule_blowball.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_blowball.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_blowball.Match_blowball, Rule_blowball.IMatch_blowball>(this);
         }
 
@@ -22036,11 +22034,11 @@ label23: ;
     
     public class Action_reverseChainFromTo : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_reverseChainFromTo
     {
-        public Action_reverseChainFromTo() {
+        public Action_reverseChainFromTo()
+            : base(Rule_reverseChainFromTo.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_reverseChainFromTo.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_reverseChainFromTo.Match_reverseChainFromTo, Rule_reverseChainFromTo.IMatch_reverseChainFromTo>(this);
         }
 
@@ -22320,9 +22318,10 @@ label23: ;
     
     public class AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_reverseChainFromTo_alt_0_inlined__sub0_12_in_reverseChainFromTo getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -22330,7 +22329,6 @@ label23: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -22577,11 +22575,11 @@ label23: ;
     
     public class Action_createReverseChain : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createReverseChain
     {
-        public Action_createReverseChain() {
+        public Action_createReverseChain()
+            : base(Rule_createReverseChain.Instance.patternGraph, new object[2])
+        {
             _rulePattern = Rule_createReverseChain.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createReverseChain.Match_createReverseChain, Rule_createReverseChain.IMatch_createReverseChain>(this);
         }
 
@@ -22848,11 +22846,11 @@ label23: ;
     
     public class Action_chainFromToReverse : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromToReverse
     {
-        public Action_chainFromToReverse() {
+        public Action_chainFromToReverse()
+            : base(Rule_chainFromToReverse.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_chainFromToReverse.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromToReverse.Match_chainFromToReverse, Rule_chainFromToReverse.IMatch_chainFromToReverse>(this);
         }
 
@@ -23132,9 +23130,10 @@ label23: ;
     
     public class AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_chainFromToReverse_alt_0_inlined_cftr_13_in_chainFromToReverse getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -23142,7 +23141,6 @@ label23: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -23389,11 +23387,11 @@ label23: ;
     
     public class Action_chainFromToReverseToCommon : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromToReverseToCommon
     {
-        public Action_chainFromToReverseToCommon() {
+        public Action_chainFromToReverseToCommon()
+            : base(Rule_chainFromToReverseToCommon.Instance.patternGraph, new object[1])
+        {
             _rulePattern = Rule_chainFromToReverseToCommon.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromToReverseToCommon.Match_chainFromToReverseToCommon, Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>(this);
         }
 
@@ -23682,9 +23680,10 @@ label23: ;
     
     public class AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_chainFromToReverseToCommon_alt_0_inlined_cftrtc_14_in_chainFromToReverseToCommon getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -23692,7 +23691,6 @@ label23: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -23939,11 +23937,11 @@ label23: ;
     
     public class Action_reverseChainFromToToCommon : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_reverseChainFromToToCommon
     {
-        public Action_reverseChainFromToToCommon() {
+        public Action_reverseChainFromToToCommon()
+            : base(Rule_reverseChainFromToToCommon.Instance.patternGraph, new object[0])
+        {
             _rulePattern = Rule_reverseChainFromToToCommon.Instance;
-            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_reverseChainFromToToCommon.Match_reverseChainFromToToCommon, Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>(this);
         }
 
@@ -24248,9 +24246,10 @@ label23: ;
     
     public class AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon : GRGEN_LGSP.LGSPSubpatternAction
     {
-        private AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
+        private AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_)
+            : base(patternGraphs_)
+        {
             actionEnv = actionEnv_; openTasks = openTasks_;
-            patternGraphs = patternGraphs_;
         }
 
         public static AlternativeAction_reverseChainFromToToCommon_alt_0_inlined__sub0_15_in_reverseChainFromToToCommon getNewTask(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {
@@ -24258,7 +24257,6 @@ label23: ;
             if(numFreeTasks>0) {
                 newTask = freeListHead;
                 newTask.actionEnv = actionEnv_; newTask.openTasks = openTasks_;
-                newTask.patternGraphs = patternGraphs_;
                 freeListHead = newTask.next;
                 newTask.next = null;
                 --numFreeTasks;
@@ -24804,6 +24802,7 @@ label23: ;
         public override bool InlineIndependents { get { return true; } }
         public override bool Profile { get { return false; } }
 
+        public override void FailAssertion() { Debug.Assert(false); }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }
 }

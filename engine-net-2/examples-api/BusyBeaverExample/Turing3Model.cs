@@ -1,10 +1,11 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jan 12 22:15:04 CET 2020
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Fri Feb 07 19:18:48 CET 2020
 
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
@@ -2347,11 +2348,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};
-		public override void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
-			((GRGEN_LGSP.LGSPGraph)graph).indices = new Turing3IndexSet((GRGEN_LGSP.LGSPGraph)graph);
+		public override GRGEN_LIBGR.IUniquenessHandler CreateUniquenessHandler(GRGEN_LIBGR.IGraph graph) {
+			return null;
+		}
+		public override GRGEN_LIBGR.IIndexSet CreateIndexSet(GRGEN_LIBGR.IGraph graph) {
+			return new Turing3IndexSet((GRGEN_LGSP.LGSPGraph)graph);
 		}
 		public override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((Turing3IndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
+			((Turing3IndexSet)graph.Indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
 		}
 
 		public override string ModelName { get { return "Turing3"; } }
@@ -2371,6 +2375,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override bool GraphElementUniquenessIsEnsured { get { return false; } }
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
+		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
 
 		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
@@ -2382,18 +2387,17 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
 		}
 
+		public override void FailAssertion() { Debug.Assert(false); }
 		public override string MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
 	}
 
 	//
-	// IGraph (LGSPGraph) / IGraphModel implementation
+	// IGraph (LGSPGraph) implementation
 	//
-	public class Turing3Graph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class Turing3Graph : GRGEN_LGSP.LGSPGraph
 	{
-		public Turing3Graph() : base(GetNextGraphName())
+		public Turing3Graph() : base(new Turing3GraphModel(), GetGraphName())
 		{
-			FullyInitializeExternalTypes();
-			InitializeGraph(this);
 		}
 
 		public GRGEN_MODEL.@Node CreateNodeNode()
@@ -2451,99 +2455,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return @GRGEN_MODEL.@moveRight.CreateEdge(this, source, target);
 		}
 
-		private Turing3NodeModel nodeModel = new Turing3NodeModel();
-		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
-		private string[] packages = {
-		};
-		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
-		};
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
-		};
-		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
-		};
-		public void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
-			((GRGEN_LGSP.LGSPGraph)graph).indices = new Turing3IndexSet((GRGEN_LGSP.LGSPGraph)graph);
-		}
-		public void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((Turing3IndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
-		}
-
-		public string ModelName { get { return "Turing3"; } }
-		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
-		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<string> Packages { get { return packages; } }
-		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
-		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
-		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
- 		{
-			for(int i=0; i<indexDescriptions.Length; ++i)
-				if(indexDescriptions[i].Name==indexName)
-					return indexDescriptions[i];
-			return null;
-		}
-		public bool GraphElementUniquenessIsEnsured { get { return false; } }
-		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
-		public int BranchingFactorForEqualsAny { get { return 0; } }
-
-		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
-			return null;
-		}
-		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			Console.WriteLine("Warning: Exporting attribute of object type to null");
-			return "null";
-		}
-		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return attribute!=null ? attribute.ToString() : "null";
-		}
-		public void External(string line, GRGEN_LIBGR.IGraph graph)
-		{
-			Console.Write("Ignoring: ");
-			Console.WriteLine(line);
-		}
-		public GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return null;
-		}
-
-		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
-		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
-		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
-
-		private void FullyInitializeExternalTypes()
-		{
-			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
-		}
-
-		public bool IsEqualClassDefined { get { return false; } }
-		public bool IsLowerClassDefined { get { return false; } }
-		public bool IsEqual(object this_, object that)
-		{
-			return this_ == that;
-		}
-		public bool IsLower(object this_, object that)
-		{
-			return this_ == that;
-		}
-
-		public string MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
 	}
 
 	//
-	// INamedGraph (LGSPNamedGraph) / IGraphModel implementation
+	// INamedGraph (LGSPNamedGraph) implementation
 	//
-	public class Turing3NamedGraph : GRGEN_LGSP.LGSPNamedGraph, GRGEN_LIBGR.IGraphModel
+	public class Turing3NamedGraph : GRGEN_LGSP.LGSPNamedGraph
 	{
-		public Turing3NamedGraph() : base(GetNextGraphName())
+		public Turing3NamedGraph() : base(new Turing3GraphModel(), GetGraphName(), 0)
 		{
-			FullyInitializeExternalTypes();
-			InitializeGraph(this);
 		}
 
 		public GRGEN_MODEL.@Node CreateNodeNode()
@@ -2656,87 +2576,5 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return @GRGEN_MODEL.@moveRight.CreateEdge(this, source, target, edgeName);
 		}
 
-		private Turing3NodeModel nodeModel = new Turing3NodeModel();
-		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
-		private string[] packages = {
-		};
-		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
-		};
-		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
-		};
-		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
-		};
-		public void CreateAndBindIndexSet(GRGEN_LIBGR.IGraph graph) {
-			((GRGEN_LGSP.LGSPGraph)graph).indices = new Turing3IndexSet((GRGEN_LGSP.LGSPGraph)graph);
-		}
-		public void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {
-			((Turing3IndexSet)((GRGEN_LGSP.LGSPGraph)graph).indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);
-		}
-
-		public string ModelName { get { return "Turing3"; } }
-		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
-		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<string> Packages { get { return packages; } }
-		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public IEnumerable<GRGEN_LIBGR.IndexDescription> IndexDescriptions { get { return indexDescriptions; } }
-		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(int i) { return indexDescriptions[i]; }
-		public static GRGEN_LIBGR.IndexDescription GetIndexDescription(string indexName)
- 		{
-			for(int i=0; i<indexDescriptions.Length; ++i)
-				if(indexDescriptions[i].Name==indexName)
-					return indexDescriptions[i];
-			return null;
-		}
-		public bool GraphElementUniquenessIsEnsured { get { return false; } }
-		public bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
-		public int BranchingFactorForEqualsAny { get { return 0; } }
-
-		public object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			reader.Read(); reader.Read(); reader.Read(); reader.Read(); // eat 'n' 'u' 'l' 'l'
-			return null;
-		}
-		public string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			Console.WriteLine("Warning: Exporting attribute of object type to null");
-			return "null";
-		}
-		public string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return attribute!=null ? attribute.ToString() : "null";
-		}
-		public void External(string line, GRGEN_LIBGR.IGraph graph)
-		{
-			Console.Write("Ignoring: ");
-			Console.WriteLine(line);
-		}
-		public GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
-		{
-			return null;
-		}
-
-		public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();
-		private GRGEN_LIBGR.ExternalType[] externalTypes = { externalType_object };
-		public GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }
-
-		private void FullyInitializeExternalTypes()
-		{
-			externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );
-		}
-
-		public bool IsEqualClassDefined { get { return false; } }
-		public bool IsLowerClassDefined { get { return false; } }
-		public bool IsEqual(object this_, object that)
-		{
-			return this_ == that;
-		}
-		public bool IsLower(object this_, object that)
-		{
-			return this_ == that;
-		}
-
-		public string MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
 	}
 }
