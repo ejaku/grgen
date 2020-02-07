@@ -594,7 +594,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // implementation of exact action interface
 
-            sb.AppendFront("/// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for(zero=unlimited), and rule parameters; returning found matches). </summary>\n");
+            sb.AppendFront("/// <summary> Type of the matcher method (with parameters processing environment containing host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>\n");
             sb.AppendFrontFormat("public delegate {0} MatchInvoker(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches{1});\n", matchesType, inParameters);
 
             sb.AppendFront("/// <summary> A delegate pointing to the current matcher program for this rule. </summary>\n");

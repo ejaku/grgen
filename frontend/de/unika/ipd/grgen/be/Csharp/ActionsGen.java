@@ -1169,7 +1169,8 @@ public class ActionsGen extends CSharpBase {
 			String className, String packageName, boolean isSubpattern) {
 		PatternGraph pattern = action.getPattern();
 
-		sb.append("\t\tprivate " + className + "() : base(");
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t: base(");
 		sb.append("\"" + formatIdentifiable(action) + "\",\n");
 		genRuleParamResult(sb, action, packageName, isSubpattern);
 		sb.append("\t\t)\n");
