@@ -1,4 +1,31 @@
-﻿v4.5.6 (2020-01-12)
+﻿v4.5.7 (2020-02-08)
+ Introduced a "for function[parallelize=true];" declaration to the model
+  it causes the creation of (external) (method) functions that can be called from parallelized matchers
+  (and implies "node edge unique;", similar to the index declarations and "for equalsAny[parallelize=k];" with k>1;
+   previously a uniqueness constraint was added to the model in case actions with the parallelize annotation were existing)
+ Actions with [parallelize=k], k>1 annotations causing the creation of parallelized matchers expect a "parallelized" model now
+  (i.e. functions callable from parallelized matchers) - an error is reported in case a parallelized rule/test is used 
+  with a model without a parallelize (function) declaration 
+
+ Bugfixes:
+ - fixed crash on rollback of (indexed) map element assignments
+ - fixed crash (because of missing names) when the debugger is running and nodes/edges are added by an add procedure
+   (in contrast to the right hand side pattern of a rule)
+ - fixed double quotation marks in debugger display of string literals appearing as arguments of emit and record
+ - all string values written by emit/record sequence computations are unescaped now (replacing e.g. "\n" by newline, at runtime),
+   instead of only single string constants (during sequence computation construction)
+
+ User manual adaptations, corrections, and improvements
+
+ Many code refactorings; and some API and build changes:
+ - generated specific graph classes implement only a (named) graph as of now (plus creation convenience helpers), 
+   instead of a graph and a model (so the model is only contained instead of implemented and contained)
+ - added DEBUG define to debug builds (so that e.g. Assertions really fire)
+ - added an AreFunctionsParallelized method to IGraphModel reporting the state of the parallelize (function) declaration
+ - introduced a FailAssertion debug helper method into model and actions classes (it fails in debug builds with an assertion,
+   this allows to directly inspect the generated model and actions files (in case of keepdebug))
+ 
+v4.5.6 (2020-01-12)
  Extended post matches sorting filters orderAscendingBy and orderDescendingBy to support multiple variables
   e.g. orderAscendingBy<v,w> orders the matches primarily by v and secondarily by w,
   i.e in case the values of the first def variable are equal, the values of the second one decide
@@ -26,7 +53,8 @@
   (this may hide bugs, but saves us from littering the code with many checkValidity annotations).
 
  Missing adaptations (bugfixes):
- - rule all call returns list of values, now also in case random choice is requested (e.g. $[r]) (in interpreted and compiled sequences)
+ - rule all call returns list of values, now also in case random choice is requested (e.g. $[r])
+   (in interpreted and compiled sequences)
  - rule all call used from some-from-set now returns list of values (in interpreted sequences)
  - rule count all call used from some-from-set returns list of values, now also in interpreted sequences
  - added missing commands to the help of the shell (and reorganized them)
@@ -38,13 +66,16 @@
  - fixed bug in printing match numbers in one-from-set version of some-from-set in debugger
    (minor fix in graph expressions)
  - avoid multiple marking of graph elements in case of a match selection error
- - custom commands of action execution environment (and derived environments) were missing from shell custom actions (/graph) command,
-   only the custom commands of the actions (/graph) themselves were available (since the graph processing environment was split out of the graph)
+ - custom commands of action execution environment (and derived environments) were missing 
+   from the custom actions (/graph) command of the shell,
+   only the custom commands of the actions (/graph) themselves were available
+   (since the graph processing environment was split out of the graph)
    (adaptvariables and set_max_matches are custom actions commands (now - were previously custom graph commands))
 
  User manual adaptations, corrections, and improvements
  
- Removed outdated ancient ASTdapter and GrIO projects (and MonoILReader.cs), and their related shell commands (parse, select parser, sync io)
+ Removed outdated ancient ASTdapter and GrIO projects (and MonoILReader.cs),
+  and their related shell commands (parse, select parser, sync io)
 
  Massive code restructuring; and slight API changes:
  - eleminated usage of InvocationParameterBinding classes from the Apply methods of the functions/procedures/sequences 

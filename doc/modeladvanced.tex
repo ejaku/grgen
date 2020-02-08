@@ -18,6 +18,7 @@ Graph-oriented programming can be made scalable to large tasks with hierarchical
   									 | EmitParseDeclaration
   									 | CopyCompareDeclaration
 										 | PackageDefinitionModel
+										 | FunctionParallelization
 										 | EqualsAnyParallelization);
 \end{rail}\ixnterm{AdvancedModelDeclarations}
 
@@ -25,7 +26,7 @@ The \emph{ExternalClassDeclaration} registers an \indexed{external class} with \
 The \emph{EmitParseDeclaration} declares that the user defines emit and parse functions for external or object type values,
 whereas the \emph{CopyCompareDeclaration} declares that the user defines copy and compare functions for external or object type values.
 You find more on them in \ref{chapextensions}, here we will take a closer look on the \emph{FunctionMethodDefinition} and \emph{ProcedureMethodDefinition}, followed by the \emph{PackageDefinitionModel}.
-The \emph{EqualsAnyParallelization} is explained in \ref{sec:performanceparallel}.
+The \emph{FunctionParallelization} and \emph{EqualsAnyParallelization} are explained in \ref{sec:performanceparallel}.
 %Node/Edge typed attributes are possible.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

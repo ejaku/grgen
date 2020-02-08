@@ -474,10 +474,12 @@ So non-named graphs are typically only of interest if you don't need to persist 
 \subsubsection*{Usage in the rules}
 The name index can be used in the pattern to look up graph elements by their name, with the same syntax as used in the GrShell for accessing elements by their (persistent) name.
 
+\makeatletter
 \begin{rail}
   NamedIndexAccessExpr:
     lbrace '@' '(' Expression ')' rbrace;
 \end{rail}\ixnterm{NamedIndexAccessExpr}
+\makeatother
 
 There is at most one element existing with the name asked for; if no graph element with that name exists, matching fails and backtracks, if an element exists, the pattern element is bound to it, and matching continues.
 Please note that the (string-)expression used to compute the name is only allowed to reference at most one other pattern element (not handed in as parameter).
@@ -686,10 +688,39 @@ Remark: Only the pattern matcher of an action is parallelized, so only the searc
 This offers the biggest bang for the bucks invested, as search is \emph{the} expensive task, and it allows you to stick to the much simpler sequential programming model.
 A parallelization of the kind presented in \cite{ParGraErs} offers potentially even higher speedups, but at the price of dealing with a parallel programming model, and at the price of graph partitioning that is very hard to get right in a general-purpose tool.
 
+\begin{rail}
+  FunctionParallelization: 'for' 'function' '[' 'parallelize' '=' BoolLit ']';
+\end{rail}\ixnterm{FunctionParallelization}
+
+In order to apply the \texttt{parallelize} annotation to an action, you need to first declare parallelization in the model with a \verb#for function[parallelize=true];# clause.
+It causes the creation of (external) (method) functions that can be called from parallelized matchers (and implies "node edge unique;").
+Actions with \texttt{parallelize} annotations causing the creation of parallelized matchers expect a "parallelized" model (functions callable from parallelized matchers).
+An error is reported in case a parallelized rule/test is used with a model without a parallelize (function) declaration.
+
+\begin{example}
+You need a
+\begin{grgen}
+for function[parallelize=true];
+\end{grgen}
+in the model in order to use parallelized matchers in the rules:
+\begin{grgen}
+test testPar[parallelize=16]
+{
+	n1:Node --> n2:Node --> n3:Node --> n1;
+}
+\end{grgen}
+\end{example}
+
+\begin{rail}
+  EqualsAnyParallelization: 'for' 'equalsAny' '[' 'parallelize' '=' Number ']';
+\end{rail}\ixnterm{EqualsAnyParallelization}
+
 There's a second part that can be parallelized, the \texttt{equalsAny} function checking for graph isomorphy of a new candidate graph against a set of known graphs.
 The \emph{EqualsAnyParallelization} clause in the model must specify the number of worker threads used in parallel.
 A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's already a graph existing that is isomorphic to the candidate.
 Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).
+
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compilation and Static Knowledge}
@@ -752,6 +783,7 @@ But don't replace iterateds unless really needed, they are simply much more conv
 \subsubsection*{Reachable versus Subpattern Recursion}
 Prefer the reachable predicate over subpattern recursion.
 The reachable predicate has a tight implementation, while subpattern recursion must pay for graph parsing with the three pushdown machine (whose execution overhead is not horrible but can be clearly felt).
+
 Note the semantic difference: elements already matched in the pattern cannot be matched again in case of subpattern recursion due to the isomorphy constraint. 
 The reachable predicate does not know about the pattern it is called from, so elements already matched in the pattern can get matched again.
 This is often what is wanted anyway, and leads together with the increased convenience of having only to call a pre-implemented functionality instead of having to program an iterated path to the clear advice to favor the reachable predicate.
@@ -769,6 +801,8 @@ and for a pattern node that is reached via multiple pattern edges
 on comparison code to check
 whether the node bound to the pattern node with the first loop
 is the same as the node that is reached later on from the other parts. 
+
+\pagebreak
 
 That approach works very well for sparse graphs with low incidence counts.
 But for graphs with massively linked parts that need to be reached on different paths you may need to overwrite this behaviour with hashset based connectedness checks.
@@ -791,6 +825,8 @@ Using a helper function is also commonly more lightweight than using a helper ru
 
 In the example \cite{MovieDatabase} mentioned above which is solving the TTC14 Movie Database Case \cite{MovieDatabaseCase}, we started optimizing the rule shown in Fig. \ref{fig:findCouples.grg}
 with the search plan printed by the \texttt{explain} command (cf. \ref{custom}) in Figure \ref{fig:InitialSP}.
+
+\pagebreak
 
 \begin{figure}[hp]
 	\begin{verbatim}
@@ -818,7 +854,7 @@ findCouples:
 	\label{fig:InitialSP}
 \end{figure}
 
-\begin{figure}[hp]
+\begin{figure}[h!p]
 	\lstinputlisting[language=LANGgrgen]{resources/findCouples.grg}
 	\caption{findCouples rule}
 	\label{fig:findCouples.grg}
