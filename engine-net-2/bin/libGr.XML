@@ -3624,9 +3624,9 @@
             If the entity is null, the unique id of the graph is returned.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Import(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Import(System.Object,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
-            Imports and returns the graph within the file specified by its path (model from given graph).
+            Imports and returns the graph within the file specified by its path (model as specified).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Export(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
@@ -4302,6 +4302,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.IActions.ProcedureDefinitions">
             <summary>
             Enumerates all procedure definitions.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActions.FailAssertion">
+            <summary>
+            Debugging helper. Fails in a debug build with an assertion.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IActions.ModelMD5Hash">
@@ -5401,16 +5406,29 @@
             If true you may query the graph with GetGraphElement for a graph element of a given unique id
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.AreFunctionsParallelized">
+            <summary>
+            If true, function methods (and functions from the actions based on this model) are also available in a parallelized version, 
+            and external functions and function methods of external classes are expected to be also available in a parallelized version
+            (and graph element uniqueness is ensured).
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.BranchingFactorForEqualsAny">
             <summary>
             Tells about the number of threads to use for the equalsAny and equalsAnyStructurally functions
             The normal non-parallel isomorphy comparison functions are used if this value is below 2
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.CreateAndBindIndexSet(de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.CreateUniquenessHandler(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            Called by the graph (generic implementation) to create and bind its index set (generated code).
-            Always called by an empty graph just constructed.
+            Called by the graph (generic implementation) to create its uniqueness handler (generated code).
+            Always called by an empty graph just constructed, the uniqueness handler is then directly bound to the graph.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.CreateIndexSet(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Called by the graph (generic implementation) to create its index set (generated code).
+            Always called by an empty graph just constructed, the index set is then directly bound to the graph.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.FillIndexSetAsClone(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement})">
@@ -5494,6 +5512,11 @@
             Calls the AttributeTypeObjectCopierComparer.IsLower function for object type arguments,
             when an attribute of object or external type is compared for ordering in the interpreted sequences;
             you may dispatch from there to the type exact comparisons, which are called directly from the compiled sequences.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.FailAssertion">
+            <summary>
+            Debugging helper. Fails in a debug build with an assertion.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.MD5Hash">
@@ -5683,6 +5706,11 @@
             <summary>
             Returns the index of the given name associated with the graph,
             or null in case no index of the given name is known.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IUniquenessHandler">
+            <summary>
+            Base class for uniqueness handlers, only needed as a kind of handle on libGr level, to transfer real implementation objects.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.Invocation">
@@ -6345,6 +6373,11 @@
             The actions employed by this graph processing environment
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Backend">
+            <summary>
+            The backend to be used for graph creation when a graph is imported
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.PerformanceInfo">
             <summary>
             PerformanceInfo is used to accumulate information about needed time, found matches and applied rewrites.
@@ -6391,6 +6424,30 @@
             </summary>
             <param name="staticAction">The original action generated by GrGen.exe.</param>
             <param name="newAction">A new action instance.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Match(de.unika.ipd.grGen.libGr.IAction,System.Object[],System.Int32,System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.FilterCall})">
+            <summary>
+            Matches a rewrite rule.
+            </summary>
+            <param name="action">The rule to invoke</param>
+            <param name="arguments">The input arguments</param>
+            <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+            depends on MaxMatches)</param>
+            <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
+            the application</param>
+            <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
+            <returns>A matches object containing the found matches.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.MatchWithoutEvent(de.unika.ipd.grGen.libGr.IAction,System.Object[],System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.FilterCall})">
+            <summary>
+            Matches a rewrite rule, without firing the Matched event (for internal or non-debugger use).
+            </summary>
+            <param name="action">The rule to invoke</param>
+            <param name="arguments">The input arguments</param>
+            <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+            depends on MaxMatches)</param>
+            <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
+            <returns>A matches object containing the found matches.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Replace(de.unika.ipd.grGen.libGr.IMatches,System.Int32)">
             <summary>
@@ -6637,6 +6694,11 @@
             The indices associated with the graph.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraph.UniquenessHandler">
+            <summary>
+            The uniqueness handler associated with the graph.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.ReuseOptimization">
             <summary>
             If true (the default case), elements deleted during a rewrite
@@ -6855,15 +6917,10 @@
             </summary>
             <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IGraph.Backend">
-            <summary>
-            The backend that created the graph
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.Clone(System.String)">
             <summary>
             Duplicates a graph.
-            The new graph will use the same model and backend as the other.
+            The new graph will use the same model as the other.
             </summary>
             <param name="newName">Name of the new graph.</param>
             <returns>A new graph with the same structure as this graph.</returns>
@@ -6877,7 +6934,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.CreateEmptyEquivalent(System.String)">
             <summary>
-            Creates an empty graph using the same model and backend as the other.
+            Creates an empty graph using the same model as the other.
             </summary>
             <param name="newName">Name of the new graph.</param>
             <returns>A new empty graph of the same model.</returns>
@@ -7536,7 +7593,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.INamedGraph.CloneNamed(System.String)">
             <summary>
             Duplicates a named graph.
-            The new graph will use the same model and backend as the other.
+            The new graph will use the same model as the other.
             </summary>
             <param name="newName">Name of the new graph.</param>
             <returns>A new graph with the same structure and names as this graph.</returns>
@@ -8629,17 +8686,11 @@
             </summary>
             <param name="seqType">The sequence type.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Sequence.Check(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.Sequence.#ctor(de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
-            Checks the sequence for errors utilizing the given checking environment
-            reports them by exception
-            default behavior: check all the children 
+            Copy constructor.
             </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Sequence.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
-            <summary>
-            Returns the type of the sequence, which is "boolean"
-            </summary>
+            <param name="that">The sequence to be copied.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.Sequence.Copy(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
@@ -8652,6 +8703,18 @@
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
             <returns>The copy of the sequence</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Sequence.Check(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Checks the sequence for errors utilizing the given checking environment
+            reports them by exception
+            default behavior: check all the children 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Sequence.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Returns the type of the sequence, which is "boolean"
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.Sequence.ReplaceSequenceDefinition(de.unika.ipd.grGen.libGr.SequenceDefinition,de.unika.ipd.grGen.libGr.SequenceDefinition)">
             <summary>
@@ -8733,12 +8796,18 @@
             to dump matches when in normal mode.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceSpecial.#ctor(System.Boolean,de.unika.ipd.grGen.libGr.SequenceType)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceSpecial.#ctor(de.unika.ipd.grGen.libGr.SequenceType,System.Boolean)">
             <summary>
             Initializes a new instance of the SequenceSpecial class.
             </summary>
-            <param name="special">The initial value for the "Special" flag.</param>
             <param name="seqType">The sequence type.</param>
+            <param name="special">The initial value for the "Special" flag.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceSpecial.#ctor(de.unika.ipd.grGen.libGr.SequenceSpecial)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="that">The sequence special to be copied.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceRandomChoice">
             <summary>
@@ -8964,6 +9033,12 @@
             </summary>
             <param name="seqCompType">The sequence computation type.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.#ctor(de.unika.ipd.grGen.libGr.AssignmentTarget)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="that">The assignment target to be copied.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.Copy(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Copies the sequence computation deeply so that
@@ -9000,6 +9075,17 @@
             The common base of sequence, sequence computation, and sequence expression objects,
             with some common infrastructure.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceBase.#ctor">
+            <summary>
+            Initializes a new SequenceBase object (sets the id).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceBase.#ctor(de.unika.ipd.grGen.libGr.SequenceBase)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="that">The sequence base to be copied.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceBase.Check(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
             <summary>
@@ -9207,6 +9293,12 @@
             </summary>
             <param name="seqCompType">The sequence computation type.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.#ctor(de.unika.ipd.grGen.libGr.SequenceComputation)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="that">The sequence computation to be copied.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.Check(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
             <summary>
             Checks the sequence computation for errors utilizing the given checking environment
@@ -9323,11 +9415,11 @@
             </summary>
             <param name="seqExprType">The sequence expression type.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.#ctor(de.unika.ipd.grGen.libGr.SequenceExpression)">
             <summary>
-            Returns the type of the sequence expression
-            default behaviour: returns "boolean"
+            Copy constructor.
             </summary>
+            <param name="that">The sequence expression to be copied.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Copy(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
@@ -9350,6 +9442,12 @@
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
             <returns>The copy of the sequence expression</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
+            <summary>
+            Returns the type of the sequence expression
+            default behaviour: returns "boolean"
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Evaluate(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
@@ -9383,17 +9481,6 @@
             <param name="seqExprType">The sequence expression type.</param>
             <param name="left">The left sequence expression.</param>
             <param name="right">The right sequence expression.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceBinaryExpression.CopyExpression(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
-            <summary>
-            Copies the sequence expression deeply so that
-            - the global Variables are kept
-            - the local Variables are replaced by copies initialized to null
-            Used for cloning defined sequences before executing them if needed.
-            Needed if the defined sequence is currently executed to prevent state corruption.
-            </summary>
-            <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
-            <returns>The copy of the sequence expression</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.SequenceBinaryExpression.ChildrenExpression">
             <summary>

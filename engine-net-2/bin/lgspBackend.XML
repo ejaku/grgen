@@ -1521,6 +1521,33 @@
             Class representing a record statement
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.GraphStatisticsParserSerializer">
+            <summary>
+            A class for serializing and parsing the statistics from a graph (cf. LGSPGraphStatistics)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphStatisticsParserSerializer.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraphStatistics)">
+            <summary>
+            Create the statistics parser and serializer, binding it to the statistics object to fill or write out.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphStatisticsParserSerializer.Parse(System.String)">
+            <summary>
+            Reads the statistics from the specified file path (inverse of Serialize), stores them in the statistics object given in the constructor.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphStatisticsParserSerializer.Serialize(System.String)">
+            <summary>
+            Writes the statistics object (given in the constructor) to the specified file path (inverse of Parse).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphStatisticsParserSerializer.FixDirectorySeparators(System.String)">
+            <summary>
+            Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system
+            </summary>
+            <param name="path">The original path string potentially with wrong chars</param>
+            <returns>The corrected path string</returns>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.FilterGenerator">
             <summary>
             The C#-part responsible for generating the post-matches filters.
@@ -1665,10 +1692,14 @@
             The previous interpretation plan operation
             </summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "F:de.unika.ipd.grGen.lgsp.InterpretationPlan.Id" ignoriert -->
+        <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlan.Id">
+            <summary>
+            A unique identifier denoting this interpretation plan operation
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanNodeMatcher">
             <summary>
-            An interpretation plan operation which matches a node
+            An interpretation plan operation that matches a node
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanNodeMatcher.node">
@@ -1683,7 +1714,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanEdgeMatcher">
             <summary>
-            An interpretation plan operation which matches an edge
+            An interpretation plan operation that matches an edge
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanEdgeMatcher.edge">
@@ -1698,7 +1729,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanDirectionVariable">
             <summary>
-            An interpretation plan operation which stores a direction decision
+            An interpretation plan operation that stores a direction decision
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.InterpretationPlanDirectionVariable.direction">
@@ -1708,92 +1739,92 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanStart">
             <summary>
-            Interpretation plan operation which work as an anchor for an interpretation plan without own functionality
+            Interpretation plan operation that works as an anchor for an interpretation plan without own functionality
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanLookupNode">
             <summary>
-            Interpretation plan operation which looks up a node in the graph
+            Interpretation plan operation that looks up a node in the graph
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanLookupEdge">
             <summary>
-            Interpretation plan operation which looks up an edge in the graph
+            Interpretation plan operation that looks up an edge in the graph
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanBothDirections">
             <summary>
-            Interpretation plan operation which iterates both directions,
+            Interpretation plan operation that iterates both directions,
             needed for matching bidirectional edges in both directions
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanIncoming">
             <summary>
-            Interpretation plan operation which retrieves an incoming edge from a source node
+            Interpretation plan operation that retrieves an incoming edge from a source node
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanOutgoing">
             <summary>
-            Interpretation plan operation which retrieves an outgoing edge from a source node
+            Interpretation plan operation that retrieves an outgoing edge from a source node
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanIncomingOrOutgoing">
             <summary>
-            Interpretation plan operation which retrieves an edge to be matched bidirectionally from a source node
+            Interpretation plan operation that retrieves an edge to be matched bidirectionally from a source node
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanImplicitTarget">
             <summary>
-            Interpretation plan operation which retrieves the target node of an edge
+            Interpretation plan operation that retrieves the target node of an edge
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanImplicitSource">
             <summary>
-            Interpretation plan operation which retrieves the source node of an edge
+            Interpretation plan operation that retrieves the source node of an edge
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanImplicitSourceOrTarget">
             <summary>
-            Interpretation plan operation which retrieves the source or target node of an edge
+            Interpretation plan operation that retrieves the source or target node of an edge
             depending on the current direction to be matched
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanImplicitTheOther">
             <summary>
-            Interpretation plan operation which retrieves the source or target node of an edge
+            Interpretation plan operation that retrieves the source or target node of an edge
             depending on the other node already matched
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckConnectednessSource">
             <summary>
-            Interpretation plan operation which checks the source node of an edge to be identical to a given node
+            Interpretation plan operation that checks the source node of an edge to be identical to a given node
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckConnectednessTarget">
             <summary>
-            Interpretation plan operation which checks the target node of an edge to be identical to a given node
+            Interpretation plan operation that checks the target node of an edge to be identical to a given node
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckConnectednessSourceOrTarget">
             <summary>
-            Interpretation plan operation which checks the source or target node of an edge to be identical to a given node,
+            Interpretation plan operation that checks the source or target node of an edge to be identical to a given node,
             depending on the current direction to be matched
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckConnectednessTheOther">
             <summary>
-            Interpretation plan operation which checks the source or target node of an edge to be identical to a given node,
+            Interpretation plan operation that checks the source or target node of an edge to be identical to a given node,
             depending on the other node already matched
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanCheckCondition">
             <summary>
-            Interpretation plan operation which checks the AreAttribuesEqual condition
+            Interpretation plan operation that checks the AreAttribuesEqual condition
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.InterpretationPlanMatchComplete">
             <summary>
-            Interpretation plan operation which completes a match;
+            Interpretation plan operation that completes a match;
             no own functionality, it just succeeds when execution reaches it
             </summary>
         </member>
@@ -2236,23 +2267,6 @@
             To be called from the graph, not directly, to ensure the changes counter is correctly set.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.Parse(System.String)">
-            <summary>
-            Reads the statistics from the specified file path (inverse of Serialize).
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.Serialize(System.String)">
-            <summary>
-            Writes the statistics to the specified file path (inverse of Parse).
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraphStatistics.FixDirectorySeparators(System.String)">
-            <summary>
-            Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system
-            </summary>
-            <param name="path">The original path string potentially with wrong chars</param>
-            <returns>The corrected path string</returns>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPGrGen">
             <summary>
             The C#-part of the GrGen.NET frontend.
@@ -2491,7 +2505,7 @@
             <summary>
             Searches for the subpattern as specified by RulePattern.
             Takes care of search state as given by found partial matches, isoSpace to search in
-            and maximum number of matches to search for (zero = find all matches)
+            and maximum number of matches to search for(zero = find all matches)
             (and open tasks via this).
             </summary>
         </member>
@@ -2761,42 +2775,11 @@
             </summary>
             <param name="grmodel">The graph model.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPBackend)">
-            <summary>
-            Constructs an LGSPGraph object with the given model and backend, and an automatically generated name.
-            </summary>
-            <param name="grmodel">The graph model.</param>
-            <param name="lgspBackend">The responsible backend object, needed for import from the sequences.</param>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.String)">
             <summary>
             Constructs an LGSPGraph object with the given model and name.
             </summary>
             <param name="grmodel">The graph model.</param>
-            <param name="grname">The name for the graph.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPBackend,System.String)">
-            <summary>
-            Constructs an LGSPGraph object with the given model, backend, and name.
-            </summary>
-            <param name="grmodel">The graph model.</param>
-            <param name="lgspBackend">The responsible backend object, needed for import from the sequences.</param>
-            <param name="grname">The name for the graph.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPBackend,de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String)">
-            <summary>
-            Constructs an LGSPGraph object.
-            Deprecated.
-            </summary>
-            <param name="lgspBackend">The responsible backend object.</param>
-            <param name="grmodel">The graph model.</param>
-            <param name="grname">The name for the graph.</param>
-            <param name="modelassemblyname">The name of the model assembly.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(System.String)">
-            <summary>
-            Constructs an LGSPGraph object without initializing it.
-            </summary>
             <param name="grname">The name for the graph.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
@@ -2814,21 +2797,6 @@
             <param name="dataSource">The LGSPGraph object to get the data from</param>
             <param name="newName">Name of the copied graph.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Copy(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
-            <summary>
-            Copy constructor helper.
-            </summary>
-            <param name="dataSource">The LGSPGraph object to get the data from</param>
-            <param name="newName">Name of the copied graph.</param>
-            <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
-            just forget about it if you don't need it.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.InitializeGraph(de.unika.ipd.grGen.libGr.IGraphModel)">
-            <summary>
-            Initializes the graph with the given model.
-            </summary>
-            <param name="grmodel">The model for this graph.</param>
-        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Name">
             <summary>
             A name associated with the graph.
@@ -2842,6 +2810,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Indices">
             <summary>
             The indices associated with the graph.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.UniquenessHandler">
+            <summary>
+            The uniqueness handler associated with the graph.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.GetNumExactNodes(de.unika.ipd.grGen.libGr.NodeType)">
@@ -3298,15 +3271,10 @@
             </summary>
             <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Backend">
-            <summary>
-            The backend that created the graph
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Clone(System.String)">
             <summary>
             Duplicates a graph.
-            The new graph will use the same model and backend as the other
+            The new graph will use the same model as the other
             Open transaction data will not be cloned.
             </summary>
             <param name="newName">Name of the new graph.</param>
@@ -3315,14 +3283,14 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CloneAndAssignNames">
             <summary>
             Duplicates a graph, assigning names.
-            The new graph will use the same model and backend as the other
+            The new graph will use the same model as the other
             Open transaction data will not be cloned.
             </summary>
             <returns>A new named graph with the same structure as this graph.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CreateEmptyEquivalent(System.String)">
             <summary>
-            Creates an empty graph using the same model and backend as the other.
+            Creates an empty graph using the same model as the other.
             </summary>
             <param name="newName">Name of the new graph.</param>
             <returns>A new empty graph of the same model.</returns>
@@ -3383,7 +3351,7 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspTypePrev">
             <summary>
-            Previous and next node in the list containing all the nodes of one type.
+            Previous node in the list containing all the nodes of one type.
             The node is not part of a graph, iff typePrev is null.
             If typePrev is null and typeNext is not null, this node has been retyped and typeNext
             points to the new node.
@@ -3394,13 +3362,8 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspTypeNext">
             <summary>
-            Previous and next node in the list containing all the nodes of one type.
-            The node is not part of a graph, iff typePrev is null.
-            If typePrev is null and typeNext is not null, this node has been retyped and typeNext
-            points to the new node.
-            These special cases are neccessary to handle the following situations:
-            "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
-            "hom + retype + delete + return".
+            Next node in the list containing all the nodes of one type.
+            See comment for lgspTypePrev (this node has been retyped if typeNext is not null but typePrev is null).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspOuthead">
@@ -3622,56 +3585,51 @@
             contains a unique id if uniqueness was declared
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTypeNext">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTypePrev">
             <summary>
-            Previous and next edge in the list containing all the edges of one type.
-            The node is not part of a graph, iff typePrev is null.
-            If typePrev is null and typeNext is not null, this node has been retyped and typeNext
-            points to the new node.
+            Previous edge in the list containing all the edges of one type.
+            The edge is not part of a graph, iff typePrev is null.
+            If typePrev is null and typeNext is not null, this edge has been retyped and typeNext
+            points to the new edge.
             These special cases are neccessary to handle the following situations:
             "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
             "hom + retype + delete + return".
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTypePrev">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTypeNext">
             <summary>
-            Previous and next edge in the list containing all the edges of one type.
-            The node is not part of a graph, iff typePrev is null.
-            If typePrev is null and typeNext is not null, this node has been retyped and typeNext
-            points to the new node.
-            These special cases are neccessary to handle the following situations:
-            "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
-            "hom + retype + delete + return".
+            Next edge in the list containing all the edges of one type.
+            See comment for lgspTypePrev (this edge has been retyped if typeNext is not null but typePrev is null).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspSource">
             <summary>
-            source and target nodes of this edge
+            source node of this edge
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTarget">
             <summary>
-            source and target nodes of this edge
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspInNext">
-            <summary>
-            previous and next edge in the incoming list of the target node containing all of it's incoming edges
+            target node of this edge
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspInPrev">
             <summary>
-            previous and next edge in the incoming list of the target node containing all of it's incoming edges
+            previous edge in the incoming list of the target node containing all of its incoming edges
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspOutNext">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspInNext">
             <summary>
-            previous and next edge in the outgoing list of the source node containing all of it's outgoing edges
+            next edge in the incoming list of the target node containing all of its incoming edges
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspOutPrev">
             <summary>
-            previous and next edge in the outgoing list of the source node containing all of it's outgoing edges
+            previous edge in the outgoing list of the source node containing all of its outgoing edges
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspOutNext">
+            <summary>
+            next edge in the outgoing list of the source node containing all of its outgoing edges
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.#ctor(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode)">
@@ -3922,8 +3880,17 @@
             for the alternatives/iterateds nested within the given negative/independent pattern graph into the given source builder
             </summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionInterface(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionImplementation(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionInterface(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)">
+            <summary>
+            generate the exact action interface
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionImplementation(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)">
+            <summary>
+            generate implementation of the exact action interface,
+            delegate calls of the inexact action interface IAction to the exact action interface
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgram(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
             <summary>
             Generates the search program(s) for the pattern graph of the given rule
@@ -4350,14 +4317,6 @@
             <param name="grmodel">The graph model.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPBackend,System.Int32)">
-            <summary>
-            Constructs an LGSPNamedGraph object with the given model, backend, and capacity, and an automatically generated name.
-            </summary>
-            <param name="grmodel">The graph model.</param>
-            <param name="backend">The backend.</param>
-            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.Int32)">
             <summary>
             Constructs an LGSPNamedGraph object with the given model, name, and capacity.
@@ -4365,32 +4324,6 @@
             <param name="grmodel">The graph model.</param>
             <param name="grname">The name for the graph.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPBackend,System.String,System.Int32)">
-            <summary>
-            Constructs an LGSPNamedGraph object with the given model, backend, name, and capacity.
-            </summary>
-            <param name="grmodel">The graph model.</param>
-            <param name="backend">The backend.</param>
-            <param name="grname">The name for the graph.</param>
-            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPBackend,de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String,System.Int32)">
-            <summary>
-            Constructs an LGSPNamedGraph object.
-            Deprecated.
-            </summary>
-            <param name="lgspBackend">The responsible backend object.</param>
-            <param name="grmodel">The graph model.</param>
-            <param name="grname">The name for the graph.</param>
-            <param name="modelassemblyname">The name of the model assembly.</param>
-            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(System.String)">
-            <summary>
-            Constructs an LGSPNameGraph object without initializing it.
-            </summary>
-            <param name="grname">The name for the graph.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPNamedGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
             <summary>
@@ -4710,39 +4643,39 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicNodes">
             <summary>
             A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
-            Including the additional information from inlined stuff.
+            Including the additional information from inlined stuff (is extended during inlining).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicEdges">
             <summary>
             A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
-            Including the additional information from inlined stuff.
+            Including the additional information from inlined stuff (is extended during inlining).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicNodesGlobal">
             <summary>
             A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
             i.e. the nodes are contained in different, but locally nested patterns (alternative cases, iterateds).
-            Including the additional information from inlined stuff.
+            Including the additional information from inlined stuff (is extended during inlining).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicEdgesGlobal">
             <summary>
             A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
             i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
-            Including the additional information from inlined stuff.
+            Including the additional information from inlined stuff (is extended during inlining).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.totallyHomomorphicNodes">
             <summary>
             An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.
-            Including the additional information from inlined stuff.
+            Including the additional information from inlined stuff (is extended during inlining).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.totallyHomomorphicEdges">
             <summary>
             An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.
-            Including the additional information from inlined stuff.
+            Including the additional information from inlined stuff (is extended during inlining).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.embeddedGraphs">
@@ -4913,6 +4846,29 @@
             in different, but locally nested patterns (alternative cases, iterateds).</param>
             <param name="totallyHomomorphicNodes"> An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.</param>
             <param name="totallyHomomorphicEdges"> An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[],System.Boolean[],de.unika.ipd.grGen.libGr.INode[],de.unika.ipd.grGen.libGr.IEdge[])">
+            <summary>
+            Constructs a PatternGraph object (when it is to be constructed from a graph object, for graph equality checking).
+            </summary>
+            <param name="name">The name of the pattern graph.</param>
+            <param name="nodes">An array of all pattern nodes.</param>
+            <param name="edges">An array of all pattern edges.</param>
+            <param name="conditions">The conditions used in this pattern graph.</param>
+            <param name="homomorphicNodes">A two-dimensional array describing which pattern node may
+            be matched non-isomorphic to which pattern node.</param>
+            <param name="homomorphicEdges">A two-dimensional array describing which pattern edge may
+            be matched non-isomorphic to which pattern edge.</param>
+            <param name="homomorphicNodesGlobal">A two-dimensional array describing which pattern node
+            may be matched non-isomorphic to which pattern node globally, i.e. the nodes are contained
+            in different, but locally nested patterns (alternative cases, iterateds).</param>
+            <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
+            may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
+            in different, but locally nested patterns (alternative cases, iterateds).</param>
+            <param name="totallyHomomorphicNodes">An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.</param>
+            <param name="totallyHomomorphicEdges">An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.</param>
+            <param name="correspondingNodes">An array of all nodes which created the pattern nodes, coupled by position.</param>
+            <param name="correspondingEdges">An array of all edges which created the pattern edges, coupled by position.</param>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.maybeNullElementNames">
             <summary>
@@ -5098,14 +5054,14 @@
             An array of GrGen types corresponding to rule return values.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPRulePattern.outputs">
-            <summary>
-            An array of GrGen types corresponding to rule return values.
-            </summary>
-        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPRulePattern.Filters">
             <summary>
             An array of the available filters
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPRulePattern.outputs">
+            <summary>
+            An array of GrGen types corresponding to rule return values.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPRulePattern.filters">
@@ -5931,6 +5887,11 @@
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.expression.Expression,System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[],de.unika.ipd.grGen.lgsp.PatternCondition,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding)">
+            <summary>
+            Constructs a PatternCondition object, for parallelization.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.Clone">
             <summary>
             Instantiates a new PatternCondition object as a copy from the original condition; for parallelization.
@@ -5999,6 +5960,11 @@
             <param name="original">The original yielding to be copy constructed.</param>
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(System.String,de.unika.ipd.grGen.expression.Yielding[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[],de.unika.ipd.grGen.lgsp.PatternYielding,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding)">
+            <summary>
+            Constructs a PatternYielding object, for parallelization.
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.Clone">
             <summary>
@@ -6718,13 +6684,11 @@
             <summary>
             Only valid if this plan node is representing a pattern edge, 
             then PatternEdgeSource gives us the plan node made out of the source node of the edge
-            then PatternEdgeTarget gives us the plan node made out of the target node of the edge
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PlanNode.PatternEdgeTarget">
             <summary>
             Only valid if this plan node is representing a pattern edge, 
-            then PatternEdgeSource gives us the plan node made out of the source node of the edge
             then PatternEdgeTarget gives us the plan node made out of the target node of the edge
             </summary>
         </member>
@@ -7257,12 +7221,10 @@
         <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode.PatternEdgeSource">
             <summary>
             PatternEdgeSource gives us the search plan node which originated from the source of the pattern edge this node represents
-            PatternEdgeTarget gives us the search plan node which originated from the target of the pattern edge this node represents
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode.PatternEdgeTarget">
             <summary>
-            PatternEdgeSource gives us the search plan node which originated from the source of the pattern edge this node represents
             PatternEdgeTarget gives us the search plan node which originated from the target of the pattern edge this node represents
             </summary>
         </member>
