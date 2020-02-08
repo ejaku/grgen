@@ -53,8 +53,6 @@ FloweringGeraniumInCrackedPot:
   FloweringGeraniumInCrackedPot.grs -> 0
 FunctionsProceduresExample:
   FunctionsProceduresExample.grs -> 0
-GrIO:
-  GrIOtest.grs -> 0
 HelloWorld-TTC2011:
   Count.grs -> 0
   Delete.grs -> 0
@@ -87,14 +85,6 @@ ModelMigration-TTC2010:
 MovieDatabase-TTC2014:
   GrgenifyMovieDatabase.grs -> 0
   imdb-0005000-50176.movies.xmi.grs -> 127
-  imdb-0010000-98388.movies.xmi.grs -> 127
-  imdb-0030000-207876.movies.xmi.grs -> 127
-  imdb-0045000-299195.movies.xmi.grs -> 127
-  imdb-0065000-405592.movies.xmi.grs -> 127
-  imdb-0085000-502878.movies.xmi.grs -> 127
-  imdb-0130000-712130.movies.xmi.grs -> 127
-  imdb-0200000-1007510.movies.xmi.grs -> 127
-  imdb-0340000-1511739.movies.xmi.grs -> 127
   MovieDatabase.grs -> 0
   MovieDatabaseLayout.grs -> 127
 Mutex:
