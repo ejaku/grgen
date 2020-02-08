@@ -7,9 +7,8 @@ GRGENDIRSRC=$GRGENDIR-src
 #contains binaries, examples, documentation
 #excluded internal stuff, source code
 
-hg pull
-hg update
-hg archive $GRGENDIRSRC
+git pull
+git archive master | tar -x --one-top-level=$GRGENDIRSRC
 
 mkdir $GRGENDIR
 mkdir $GRGENDIR/doc
