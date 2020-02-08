@@ -16,7 +16,7 @@ The home page is:
 
 To learn more about GrGen, take a look at its user manual: 
 
-    http://grgen.net/GrGenNET-Manual.pdf
+    http://grgen.net/GrGenNET-Manual.pdf (or https://github.com/ejaku/grgen/blob/master/doc/grgen.pdf)
 
 The source code was previously available from: 
 
