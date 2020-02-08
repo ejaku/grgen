@@ -29,11 +29,11 @@
     <WorkingPath>
     </WorkingPath>
     <HelpFileFormat>Website</HelpFileFormat>
-    <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 2.0</FrameworkVersion>
     <HelpTitle>GrGen.NET v4.5 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
     <PresentationStyle>VS2013</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
-    <SyntaxFilters>CSharp</SyntaxFilters>
+    <SyntaxFilters>C#</SyntaxFilters>
     <DocumentationSources>
       <DocumentationSource sourceFile="bin\lgspBackend.dll" />
       <DocumentationSource sourceFile="bin\lgspBackend.xml" />
@@ -72,6 +72,12 @@
     <MaximumGroupParts>2</MaximumGroupParts>
     <Preliminary>False</Preliminary>
     <SdkLinkTarget>Blank</SdkLinkTarget>
+    <CleanIntermediates>True</CleanIntermediates>
+    <KeepLogFile>True</KeepLogFile>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <IndentHtml>False</IndentHtml>
+    <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
+    <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->
