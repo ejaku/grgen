@@ -43,3 +43,5 @@ edge class persons;
 node edge unique;
 
 index countPersonToMovie { countOutgoing(Person, personToMovie) }
+
+for function[parallelize=true];
