@@ -40,7 +40,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes a new AssignmentTargetType object with the given assignment target type.
         /// </summary>
         /// <param name="seqCompType">The sequence computation type.</param>
-        public AssignmentTarget(AssignmentTargetType assignTgtType)
+        protected AssignmentTarget(AssignmentTargetType assignTgtType)
             : base(SequenceComputationType.AssignmentTarget)
         {
             AssignmentTargetType = assignTgtType;

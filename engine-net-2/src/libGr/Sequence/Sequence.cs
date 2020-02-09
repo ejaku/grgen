@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes a new Sequence object with the given sequence type.
         /// </summary>
         /// <param name="seqType">The sequence type.</param>
-        public Sequence(SequenceType seqType)
+        protected Sequence(SequenceType seqType)
             : base()
         {
             SequenceType = seqType;
@@ -270,7 +270,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="seqType">The sequence type.</param>
         /// <param name="special">The initial value for the "Special" flag.</param>
-        public SequenceSpecial(SequenceType seqType, bool special)
+        protected SequenceSpecial(SequenceType seqType, bool special)
             : base(seqType)
         {
             Special = special;
@@ -312,7 +312,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly Sequence Seq;
 
-        public SequenceUnary(SequenceType seqType, Sequence seq) : base(seqType)
+        protected SequenceUnary(SequenceType seqType, Sequence seq) : base(seqType)
         {
             Seq = seq;
         }
@@ -364,7 +364,7 @@ namespace de.unika.ipd.grGen.libGr
         public bool Choice { get { return choice; } set { choice = value; } }
         private bool choice;
 
-        public SequenceBinary(SequenceType seqType, Sequence left, Sequence right, bool random, bool choice)
+        protected SequenceBinary(SequenceType seqType, Sequence left, Sequence right, bool random, bool choice)
             : base(seqType)
         {
             Left = left;
@@ -432,7 +432,7 @@ namespace de.unika.ipd.grGen.libGr
         public bool Skip { get { return skip; } set { skip = value; } }
         bool skip;
 
-        public SequenceNAry(SequenceType seqType, List<Sequence> sequences, bool choice)
+        protected SequenceNAry(SequenceType seqType, List<Sequence> sequences, bool choice)
             : base(seqType)
         {
             Sequences = sequences;
@@ -500,7 +500,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly SequenceVariable DestVar;
 
-        public SequenceAssignToVar(SequenceType seqType, SequenceVariable destVar)
+        protected SequenceAssignToVar(SequenceType seqType, SequenceVariable destVar)
             : base(seqType)
         {
             DestVar = destVar;
@@ -1023,7 +1023,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly bool Test;
         public readonly List<FilterCall> Filters;
 
-        public SequenceRuleCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+        protected SequenceRuleCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test, List<FilterCall> filters)
             : this(SequenceType.RuleCall, argExprs, returnVars, subgraph, special, test, filters)
         {
@@ -1428,7 +1428,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceVariable MaxVarChooseRandom;
         private bool choice;
 
-        public SequenceRuleAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+        protected SequenceRuleAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test, List<FilterCall> filters,
             bool chooseRandom, SequenceVariable varChooseRandom,
             bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
@@ -1755,7 +1755,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly SequenceVariable CountResult;
         
-        public SequenceRuleCountAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+        protected SequenceRuleCountAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test, List<FilterCall> filters,
             SequenceVariable countResult)
             : base(SequenceType.RuleCountAllCall, argExprs, returnVars, subgraph, special, test, filters)
@@ -5236,7 +5236,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String SequenceName;
         public readonly Annotations SequenceAnnotations;
 
-        public SequenceDefinition(SequenceType seqType, String sequenceName)
+        protected SequenceDefinition(SequenceType seqType, String sequenceName)
             : base(seqType)
         {
             SequenceName = sequenceName;
@@ -5513,7 +5513,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly DefinedSequenceInfo SeqInfo;
 
-        public SequenceDefinitionCompiled(String sequenceName, DefinedSequenceInfo seqInfo)
+        protected SequenceDefinitionCompiled(String sequenceName, DefinedSequenceInfo seqInfo)
             : base(SequenceType.SequenceDefinitionCompiled, sequenceName)
         {
             SeqInfo = seqInfo;
@@ -5581,7 +5581,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract SequenceInvocation SequenceInvocation { get; }
 
-        public SequenceSequenceCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
+        protected SequenceSequenceCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special)
             : base(SequenceType.SequenceCall, special)
         {

@@ -55,7 +55,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes a new SequenceComputation object with the given sequence computation type.
         /// </summary>
         /// <param name="seqCompType">The sequence computation type.</param>
-        public SequenceComputation(SequenceComputationType seqCompType)
+        protected SequenceComputation(SequenceComputationType seqCompType)
             : base()
         {
             SequenceComputationType = seqCompType;
@@ -168,13 +168,13 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceVariable Container;
         public readonly SequenceExpressionAttributeAccess Attribute;
 
-        public SequenceComputationContainer(SequenceComputationType type, SequenceVariable container)
+        protected SequenceComputationContainer(SequenceComputationType type, SequenceVariable container)
             : base(type)
         {
             Container = container;
         }
 
-        public SequenceComputationContainer(SequenceComputationType type, SequenceExpressionAttributeAccess attribute)
+        protected SequenceComputationContainer(SequenceComputationType type, SequenceExpressionAttributeAccess attribute)
             : base(type)
         {
             Attribute = attribute;
@@ -2844,14 +2844,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public bool IsExternalProcedureCalled;
 
-        public SequenceComputationProcedureCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+        protected SequenceComputationProcedureCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
             : base(SequenceComputationType.ProcedureCall)
         {
             InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
             InitializeReturnVariables(returnVars, out ReturnVars);
         }
 
-        public SequenceComputationProcedureCall(SequenceComputationType seqCompType, List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+        protected SequenceComputationProcedureCall(SequenceComputationType seqCompType, List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
             : base(seqCompType)
         {
             InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);

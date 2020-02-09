@@ -84,7 +84,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes a new SequenceExpression object with the given sequence expression type.
         /// </summary>
         /// <param name="seqExprType">The sequence expression type.</param>
-        public SequenceExpression(SequenceExpressionType seqExprType)
+        protected SequenceExpression(SequenceExpressionType seqExprType)
             : base(SequenceComputationType.Expression)
         {
             SequenceExpressionType = seqExprType;
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly SequenceExpression ContainerExpr;
 
-        public SequenceExpressionContainer(SequenceExpressionType type, SequenceExpression containerExpr)
+        protected SequenceExpressionContainer(SequenceExpressionType type, SequenceExpression containerExpr)
             : base(type)
         {
             ContainerExpr = containerExpr;
@@ -241,7 +241,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="seqExprType">The sequence expression type.</param>
         /// <param name="left">The left sequence expression.</param>
         /// <param name="right">The right sequence expression.</param>
-        public SequenceBinaryExpression(SequenceExpressionType seqExprType, 
+        protected SequenceBinaryExpression(SequenceExpressionType seqExprType, 
             SequenceExpression left, SequenceExpression right)
             : base(seqExprType)
         {
@@ -1457,7 +1457,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String ValueType;
         public readonly SequenceExpression[] ContainerItems;
 
-        public SequenceExpressionContainerConstructor(SequenceExpressionType seqExprType, String valueType, SequenceExpression[] containerItems)
+        protected SequenceExpressionContainerConstructor(SequenceExpressionType seqExprType, String valueType, SequenceExpression[] containerItems)
             : base(seqExprType)
         {
             ValueType = valueType;
@@ -3357,7 +3357,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public bool EmitProfiling;
 
-        public SequenceExpressionGraphQuery(SequenceExpressionType type)
+        protected SequenceExpressionGraphQuery(SequenceExpressionType type)
             : base(type)
         {
         }
@@ -6140,13 +6140,13 @@ namespace de.unika.ipd.grGen.libGr
 
         public bool IsExternalFunctionCalled;
 
-        public SequenceExpressionFunctionCall(List<SequenceExpression> argExprs)
+        protected SequenceExpressionFunctionCall(List<SequenceExpression> argExprs)
             : base(SequenceExpressionType.FunctionCall)
         {
             InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
         }
 
-        public SequenceExpressionFunctionCall(SequenceExpressionType seqExprType, List<SequenceExpression> argExprs)
+        protected SequenceExpressionFunctionCall(SequenceExpressionType seqExprType, List<SequenceExpression> argExprs)
             : base(seqExprType)
         {
             InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
