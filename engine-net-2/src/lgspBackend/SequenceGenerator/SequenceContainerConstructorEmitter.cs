@@ -16,20 +16,20 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public static class SequenceContainerConstructorEmitter
     {
-        public static void GenerateContainerConstructor(IGraphModel model, SequenceExpressionContainerConstructor cc, SourceBuilder source)
+        public static void GenerateContainerConstructor(IGraphModel model, SequenceExpressionContainerConstructor containerConstructor, SourceBuilder source)
         {
-            string containerType = TypesHelper.XgrsTypeToCSharpType(GetContainerType(cc), model);
-            string valueType = TypesHelper.XgrsTypeToCSharpType(cc.ValueType, model);
+            string containerType = TypesHelper.XgrsTypeToCSharpType(GetContainerType(containerConstructor), model);
+            string valueType = TypesHelper.XgrsTypeToCSharpType(containerConstructor.ValueType, model);
             string keyType = null;
-            if(cc is SequenceExpressionMapConstructor)
-                keyType = TypesHelper.XgrsTypeToCSharpType(((SequenceExpressionMapConstructor)cc).KeyType, model);
+            if(containerConstructor is SequenceExpressionMapConstructor)
+                keyType = TypesHelper.XgrsTypeToCSharpType(((SequenceExpressionMapConstructor)containerConstructor).KeyType, model);
 
             source.Append("\n");
             source.AppendFront("public static ");
             source.Append(containerType);
-            source.Append(" fillFromSequence_" + cc.Id);
+            source.Append(" fillFromSequence_" + containerConstructor.Id);
             source.Append("(");
-            for(int i = 0; i < cc.ContainerItems.Length; ++i)
+            for(int i = 0; i < containerConstructor.ContainerItems.Length; ++i)
             {
                 if(i > 0)
                     source.Append(", ");
@@ -42,16 +42,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFrontFormat("{0} container = new {0}();\n", containerType);
-            for(int i = 0; i < cc.ContainerItems.Length; ++i)
+            for(int i = 0; i < containerConstructor.ContainerItems.Length; ++i)
             {
-                if(cc is SequenceExpressionSetConstructor)
-                    source.AppendFrontFormat("container.Add(param{0}, null);\n", i);
-                else if(cc is SequenceExpressionMapConstructor)
-                    source.AppendFrontFormat("container.Add(paramkey{0}, param{0});\n", i);
-                else if(cc is SequenceExpressionArrayConstructor)
-                    source.AppendFrontFormat("container.Add(param{0});\n", i);
-                else //if(cc is SequenceExpressionDequeConstructor)
-                    source.AppendFrontFormat("container.Enqueue(param{0});\n", i);
+                source.AppendFrontFormat(GetAddToContainer(containerConstructor, "param" + i, keyType != null ? "paramkey" + i : null));
             }
             source.AppendFront("return container;\n");
             source.Unindent();
@@ -68,6 +61,18 @@ namespace de.unika.ipd.grGen.lgsp
                 return "array<" + cc.ValueType + ">";
             else //if(cc is SequenceExpressionDequeConstructor)
                 return "deque<" + cc.ValueType + ">";
+        }
+
+        private static string GetAddToContainer(SequenceExpressionContainerConstructor containerConstructor, string value, string key)
+        {
+            if(containerConstructor is SequenceExpressionSetConstructor)
+                return "container.Add(" + value + ", null);\n";
+            else if(containerConstructor is SequenceExpressionMapConstructor)
+                return "container.Add(" + key + ", " + value + ");\n";
+            else if(containerConstructor is SequenceExpressionArrayConstructor)
+                return "container.Add(" + value + ");\n";
+            else //if(cc is SequenceExpressionDequeConstructor)
+                return "container.Enqueue(" + value + ");\n";
         }
     }
 }
