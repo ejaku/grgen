@@ -33,7 +33,7 @@ namespace de.unika.ipd.grGen.lgsp
         readonly bool emitProfiling;
 
 
-        public SequenceGenerator(IGraphModel model, SequenceCheckingEnvironmentCompiled env, 
+        public SequenceGenerator(IGraphModel model, SequenceCheckingEnvironmentCompiled env,
             SequenceComputationGenerator compGen, SequenceExpressionGenerator exprGen, SequenceGeneratorHelper helper,
             bool fireDebugEvents, bool emitProfiling)
         {
@@ -51,11 +51,11 @@ namespace de.unika.ipd.grGen.lgsp
             this.emitProfiling = emitProfiling;
         }
 
-		public void EmitSequence(Sequence seq, SourceBuilder source)
-		{
-			switch(seq.SequenceType)
-			{
-			case SequenceType.RuleCall:
+        public void EmitSequence(Sequence seq, SourceBuilder source)
+        {
+            switch(seq.SequenceType)
+            {
+            case SequenceType.RuleCall:
             case SequenceType.RuleAllCall:
             case SequenceType.RuleCountAllCall:
                 EmitRuleOrRuleAllCall((SequenceRuleCall)seq, source);
@@ -65,21 +65,21 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceCall((SequenceSequenceCall)seq, source);
                 break;
 
-			case SequenceType.Not:
-				EmitSequenceNot((SequenceNot)seq, source);
-				break;
+            case SequenceType.Not:
+                EmitSequenceNot((SequenceNot)seq, source);
+                break;
 
-			case SequenceType.LazyOr:
-			case SequenceType.LazyAnd:
+            case SequenceType.LazyOr:
+            case SequenceType.LazyAnd:
             case SequenceType.IfThen:
                 EmitSequenceBinaryLazy((SequenceBinary)seq, source);
                 break;
 
             case SequenceType.ThenLeft:
             case SequenceType.ThenRight:
-			case SequenceType.StrictAnd:
-			case SequenceType.StrictOr:
-			case SequenceType.Xor:
+            case SequenceType.StrictAnd:
+            case SequenceType.StrictOr:
+            case SequenceType.Xor:
                 EmitSequenceBinary((SequenceBinary)seq, source);
                 break;
 
@@ -136,11 +136,11 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceForMatch((SequenceForMatch)seq, source);
                 break;
 
-			case SequenceType.IterationMin:
+            case SequenceType.IterationMin:
                 EmitSequenceIterationMin((SequenceIterationMin)seq, source);
                 break;
 
-			case SequenceType.IterationMinMax:
+            case SequenceType.IterationMinMax:
                 EmitSequenceIterationMinMax((SequenceIterationMinMax)seq, source);
                 break;
 
@@ -148,9 +148,9 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceDeclareVariable((SequenceDeclareVariable)seq, source);
                 break;
 
-			case SequenceType.AssignConstToVar:
+            case SequenceType.AssignConstToVar:
                 EmitSequenceAssignConstToVar((SequenceAssignConstToVar)seq, source);
-				break;
+                break;
 
             case SequenceType.AssignContainerConstructorToVar:
                 EmitSequenceAssignContainerConstructorToVar((SequenceAssignContainerConstructorToVar)seq, source);
@@ -207,7 +207,7 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceSome((SequenceSomeFromSet)seq, source);
                 break;
 
-			case SequenceType.Transaction:
+            case SequenceType.Transaction:
                 EmitSequenceTransaction((SequenceTransaction)seq, source);
                 break;
 
@@ -227,10 +227,10 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceBooleanComputation((SequenceBooleanComputation)seq, source);
                 break;
 
-			default:
-				throw new Exception("Unknown sequence type: " + seq.SequenceType);
-			}
-		}
+            default:
+                throw new Exception("Unknown sequence type: " + seq.SequenceType);
+            }
+        }
 
         private void EmitRuleOrRuleAllCall(SequenceRuleCall seqRule, SourceBuilder source)
         {
@@ -539,14 +539,14 @@ namespace de.unika.ipd.grGen.lgsp
             String op;
             switch(seqBin.SequenceType)
             {
-                case SequenceType.StrictAnd:
-                    op = "&"; break;
-                case SequenceType.StrictOr:
-                    op = "|"; break;
-                case SequenceType.Xor:
-                    op = "^"; break;
-                default:
-                    throw new Exception("Internal error in EmitSequence: Should not have reached this!");
+            case SequenceType.StrictAnd:
+                op = "&"; break;
+            case SequenceType.StrictOr:
+                op = "|"; break;
+            case SequenceType.Xor:
+                op = "^"; break;
+            default:
+                throw new Exception("Internal error in EmitSequence: Should not have reached this!");
             }
             source.AppendFront(compGen.SetResultVar(seqBin, compGen.GetResultVar(seqBin.Left) + " " + op + " " + compGen.GetResultVar(seqBin.Right)));
         }
@@ -1250,7 +1250,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("sequencestoexecutevar_{0}.Remove({1});\n", seqAll.Id, i);
                 source.AppendFront(compGen.SetResultVar(seqAll, compGen.GetResultVar(seqAll) + (disjunction ? " || " : " && ") + compGen.GetResultVar(seqAll.Sequences[i])));
                 if(lazy)
-                    source.AppendFrontFormat("if(" + (disjunction?"":"!") + compGen.GetResultVar(seqAll) + ") continue_{0} = false;\n", seqAll.Id);
+                    source.AppendFrontFormat("if(" + (disjunction ? "" : "!") + compGen.GetResultVar(seqAll) + ") continue_{0} = false;\n", seqAll.Id);
                 source.AppendFront("break;\n");
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -1709,11 +1709,15 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 if(filterCall.IsAutoGenerated && filterCall.Name == "auto")
+                {
                     source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}_{2}(procEnv, {3});\n",
                         TypesHelper.GetPackagePrefixDot(filterCall.Package), patternName, filterCall.Name, matchesName);
+                }
                 else if(filterCall.IsAutoGenerated)
+                {
                     source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}_{2}_{3}(procEnv, {4});\n",
                         TypesHelper.GetPackagePrefixDot(filterCall.Package), patternName, filterCall.Name, filterCall.EntitySuffixForName, matchesName);
+                }
                 else
                 {
                     source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}(procEnv, {2}",
@@ -1723,7 +1727,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFormat(", ({0})({1})",
                             TypesHelper.XgrsTypeToCSharpType(helper.actionsTypeInformation.filterFunctionsToInputTypes[filterCall.Name][i], model),
                             exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[i], source));
-                    } 
+                    }
                     source.Append(");\n");
                 }
             }
