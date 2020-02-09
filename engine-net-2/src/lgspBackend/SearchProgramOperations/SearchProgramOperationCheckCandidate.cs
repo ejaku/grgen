@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class CheckCandidate : CheckOperation
     {
-        public CheckCandidate(string patternElementName)
+        protected CheckCandidate(string patternElementName)
         {
             PatternElementName = patternElementName;
         }

@@ -26,7 +26,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class SearchProgram : SearchProgramOperation
     {
-        public SearchProgram(string rulePatternClassName,
+        protected SearchProgram(string rulePatternClassName,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
             string name,
             bool parallel,

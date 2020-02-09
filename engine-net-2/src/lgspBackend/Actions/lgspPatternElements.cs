@@ -258,7 +258,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         /// <param name="initialization">The initialization expression for the element if some was defined, 
         ///     only possible for defToBeYieldedTo elements, otherwise null.</param>
-        public PatternElement(int typeID, String typeName, 
+        protected PatternElement(int typeID, String typeName, 
             String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
@@ -297,7 +297,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern element (to avoid name collisions).</param>
-        public PatternElement(PatternElement original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
+        protected PatternElement(PatternElement original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix)
         {
             TypeID = original.TypeID;
             typeName = original.typeName;
@@ -328,7 +328,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="original">The original pattern element to be copy constructed.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern element (to avoid name collisions).</param>
-        public PatternElement(PatternElement original, String nameSuffix)
+        protected PatternElement(PatternElement original, String nameSuffix)
         {
             TypeID = original.TypeID;
             typeName = original.typeName;

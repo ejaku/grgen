@@ -233,7 +233,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public abstract class YieldMethod : Yielding
     {
-        public YieldMethod(String left, Expression right)
+        protected YieldMethod(String left, Expression right)
         {
             Left = left;
             Right = right;

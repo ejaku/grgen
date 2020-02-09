@@ -80,7 +80,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public abstract class BinInfixOperator : Operator
     {
-        public BinInfixOperator(Expression left, Expression right)
+        protected BinInfixOperator(Expression left, Expression right)
         {
             Left = left;
             Right = right;
@@ -112,7 +112,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public abstract class BinFuncOperator : Operator
     {
-        public BinFuncOperator(Expression left, Expression right)
+        protected BinFuncOperator(Expression left, Expression right)
         {
             Left = left;
             Right = right;

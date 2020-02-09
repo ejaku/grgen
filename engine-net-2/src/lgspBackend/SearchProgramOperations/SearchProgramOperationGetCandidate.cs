@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class GetCandidate : SearchProgramOperation
     {
-        public GetCandidate(string patternElementName)
+        protected GetCandidate(string patternElementName)
         {
             PatternElementName = patternElementName;
         }

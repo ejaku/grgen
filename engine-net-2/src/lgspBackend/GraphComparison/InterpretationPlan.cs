@@ -45,7 +45,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class InterpretationPlan
     {
-        public InterpretationPlan()
+        protected InterpretationPlan()
         {
             Id = idOrigin;
             ++idOrigin;
@@ -130,7 +130,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class InterpretationPlanNodeMatcher : InterpretationPlan
     {
-        public InterpretationPlanNodeMatcher(SearchPlanNodeNode planNodeNode)
+        protected InterpretationPlanNodeMatcher(SearchPlanNodeNode planNodeNode)
             : base()
         {
             this.planNodeNode = planNodeNode;
@@ -152,7 +152,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class InterpretationPlanEdgeMatcher : InterpretationPlan
     {
-        public InterpretationPlanEdgeMatcher(SearchPlanEdgeNode planEdgeNode)
+        protected InterpretationPlanEdgeMatcher(SearchPlanEdgeNode planEdgeNode)
             : base()
         {
             this.planEdgeNode = planEdgeNode;
@@ -174,7 +174,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class InterpretationPlanDirectionVariable : InterpretationPlan
     {
-        public InterpretationPlanDirectionVariable()
+        protected InterpretationPlanDirectionVariable()
             : base()
         {
         }

@@ -96,7 +96,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs a new LGSPActions instance.
         /// </summary>
         /// <param name="lgspgraph">The associated graph.</param>
-        public LGSPActions(LGSPGraph lgspgraph)
+        protected LGSPActions(LGSPGraph lgspgraph)
         {
             graph = lgspgraph;
             matcherGenerator = new LGSPMatcherGenerator(graph.Model);
@@ -119,7 +119,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="lgspgraph">The associated graph.</param>
         /// <param name="modelAsmName">The name of the model assembly.</param>
         /// <param name="actionsAsmName">The name of the actions assembly.</param>
-        public LGSPActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
+        protected LGSPActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
         {
             graph = lgspgraph;
             modelAssemblyName = modelAsmName;
