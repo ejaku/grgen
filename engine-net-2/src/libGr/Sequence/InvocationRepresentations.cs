@@ -107,7 +107,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly SequenceVariable Subgraph;
 
-        public SequenceInvocation(SequenceVariable subgraph)
+        protected SequenceInvocation(SequenceVariable subgraph)
         {
             Subgraph = subgraph;
         }
@@ -167,7 +167,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class ProcedureInvocation : Invocation
     {
-        public ProcedureInvocation()
+        protected ProcedureInvocation()
         {
         }
     }

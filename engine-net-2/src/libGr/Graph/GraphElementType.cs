@@ -21,12 +21,18 @@ namespace de.unika.ipd.grGen.libGr
         /// Constructs a NodeType instance with the given type ID.
         /// </summary>
         /// <param name="typeID">The unique type ID.</param>
-        public NodeType(int typeID) : base(typeID) { }
+        protected NodeType(int typeID)
+            : base(typeID)
+        {
+        }
 
         /// <summary>
         /// Always returns true.
         /// </summary>
-        public override bool IsNodeType { [DebuggerStepThrough] get { return true; } }
+        public override bool IsNodeType
+        {
+            [DebuggerStepThrough] get { return true; }
+        }
 
         /// <summary>
         /// This NodeType describes nodes whose real .NET interface type is named as returned (fully qualified).
@@ -73,22 +79,34 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
-        public new NodeType[] SubOrSameTypes { [DebuggerStepThrough] get { return subOrSameTypes; } }
+        public new NodeType[] SubOrSameTypes
+        {
+            [DebuggerStepThrough] get { return subOrSameTypes; }
+        }
 
         /// <summary>
         /// Array containing all direct sub types of this type.
         /// </summary>
-        public new NodeType[] DirectSubTypes { [DebuggerStepThrough] get { return directSubTypes; } }
+        public new NodeType[] DirectSubTypes
+        {
+            [DebuggerStepThrough] get { return directSubTypes; }
+        }
 
         /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
-        public new NodeType[] SuperOrSameTypes { [DebuggerStepThrough] get { return superOrSameTypes; } }
+        public new NodeType[] SuperOrSameTypes
+        {
+            [DebuggerStepThrough] get { return superOrSameTypes; }
+        }
 
         /// <summary>
         /// Array containing all direct super types of this type.
         /// </summary>
-        public new NodeType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperTypes; } }
+        public new NodeType[] DirectSuperTypes
+        {
+            [DebuggerStepThrough] get { return directSuperTypes; }
+        }
 
         /// <summary>
         /// Tells whether the given type is the same or a subtype of this type
@@ -128,12 +146,18 @@ namespace de.unika.ipd.grGen.libGr
         /// Constructs an EdgeType instance with the given type ID.
         /// </summary>
         /// <param name="typeID">The unique type ID.</param>
-        public EdgeType(int typeID) : base(typeID) { }
+        protected EdgeType(int typeID)
+            : base(typeID)
+        {
+        }
 
         /// <summary>
         /// Always returns false.
         /// </summary>
-        public override bool IsNodeType { [DebuggerStepThrough] get { return false; } }
+        public override bool IsNodeType
+        {
+            [DebuggerStepThrough] get { return false; }
+        }
 
         /// <summary>
         /// This EdgeType describes edges whose real .NET interface type is named as returned (fully qualified).
@@ -209,22 +233,34 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
-        public new EdgeType[] SubOrSameTypes { [DebuggerStepThrough] get { return subOrSameTypes; } }
+        public new EdgeType[] SubOrSameTypes
+        {
+            [DebuggerStepThrough] get { return subOrSameTypes; }
+        }
 
         /// <summary>
         /// Array containing all direct sub types of this type.
         /// </summary>
-        public new EdgeType[] DirectSubTypes { [DebuggerStepThrough] get { return directSubTypes; } }
+        public new EdgeType[] DirectSubTypes
+        {
+            [DebuggerStepThrough] get { return directSubTypes; }
+        }
 
         /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
-        public new EdgeType[] SuperOrSameTypes { [DebuggerStepThrough] get { return superOrSameTypes; } }
+        public new EdgeType[] SuperOrSameTypes
+        {
+            [DebuggerStepThrough] get { return superOrSameTypes; }
+        }
 
         /// <summary>
         /// Array containing all direct super types of this type.
         /// </summary>
-        public new EdgeType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperTypes; } }
+        public new EdgeType[] DirectSuperTypes
+        {
+            [DebuggerStepThrough] get { return directSuperTypes; }
+        }
 
         /// <summary>
         /// Tells whether the given type is the same or a subtype of this type

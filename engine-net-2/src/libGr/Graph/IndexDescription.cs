@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly String Name;
 
-        public IndexDescription(string name)
+        protected IndexDescription(string name)
         {
             Name = name;
         }

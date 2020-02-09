@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes a GrGenType object.
         /// </summary>
         /// <param name="typeID">The type id for this GrGen type.</param>
-        public GrGenType(int typeID)
+        protected GrGenType(int typeID)
         {
             TypeID = typeID;
         }
@@ -102,22 +102,34 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Array containing this type first and following all sub types.
         /// </summary>
-        public GrGenType[] SubOrSameTypes { [DebuggerStepThrough] get { return subOrSameGrGenTypes; } }
+        public GrGenType[] SubOrSameTypes
+        {
+            [DebuggerStepThrough] get { return subOrSameGrGenTypes; }
+        }
 
         /// <summary>
         /// Array containing all direct sub types of this type.
         /// </summary>
-        public GrGenType[] DirectSubTypes { [DebuggerStepThrough] get { return directSubGrGenTypes; } }
+        public GrGenType[] DirectSubTypes
+        {
+            [DebuggerStepThrough] get { return directSubGrGenTypes; }
+        }
 
         /// <summary>
         /// Array containing this type first and following all super types.
         /// </summary>
-        public GrGenType[] SuperOrSameTypes { [DebuggerStepThrough] get { return superOrSameGrGenTypes; } }
+        public GrGenType[] SuperOrSameTypes
+        {
+            [DebuggerStepThrough] get { return superOrSameGrGenTypes; }
+        }
 
         /// <summary>
         /// Array containing all direct super types of this type.
         /// </summary>
-        public GrGenType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperGrGenTypes; } }
+        public GrGenType[] DirectSuperTypes
+        {
+            [DebuggerStepThrough] get { return directSuperGrGenTypes; }
+        }
 
         /// <summary>
         /// Enumerates over all real subtypes of this type
@@ -128,8 +140,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                for(int i = 1; i < SubOrSameTypes.Length; i++)
+                for(int i = 1; i < SubOrSameTypes.Length; ++i)
+                {
                     yield return SubOrSameTypes[i];
+                }
             }
         }
 
@@ -142,20 +156,28 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                for(int i = 1; i < SuperOrSameTypes.Length; i++)
+                for(int i = 1; i < SuperOrSameTypes.Length; ++i)
+                {
                     yield return SuperOrSameTypes[i];
+                }
             }
         }
 
         /// <summary>
         /// True, if this type has any super types, i.e. if it is not the node/edge root type.
         /// </summary>
-        public bool HasSuperTypes { [DebuggerStepThrough] get { return SuperOrSameTypes.Length > 1; } }
+        public bool HasSuperTypes
+        {
+            [DebuggerStepThrough] get { return SuperOrSameTypes.Length > 1; }
+        }
 
         /// <summary>
         /// True, if this type has any sub types.
         /// </summary>
-        public bool HasSubTypes { [DebuggerStepThrough] get { return SubOrSameTypes.Length > 1; } }
+        public bool HasSubTypes
+        {
+            [DebuggerStepThrough] get { return SubOrSameTypes.Length > 1; }
+        }
 
         /// <summary>
         /// True, if this type is a node type.
