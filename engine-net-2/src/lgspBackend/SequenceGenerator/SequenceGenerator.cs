@@ -695,71 +695,66 @@ namespace de.unika.ipd.grGen.lgsp
         {
             source.AppendFront(compGen.SetResultVar(seqFor, "true"));
 
+            string sourceNodeName = "node_" + seqFor.Id;
             string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
-            source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
+            source.AppendFrontFormat("GRGEN_LIBGR.INode {0} = (GRGEN_LIBGR.INode)({1});\n", sourceNodeName, sourceNodeExpr);
 
             SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 2 ? seqFor.ArgExprs[1] : null;
             string incidentEdgeTypeExpr = helper.ExtractEdgeType(source, IncidentEdgeType);
             SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 3 ? seqFor.ArgExprs[2] : null;
             string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
 
-            string iterationVariable;
-            string iterationType;
+            string iterationVariable = "edge_" + seqFor.Id;
+            string targetVariableOfIteration;
             string edgeMethod;
             string theOther;
             switch(seqFor.SequenceType)
             {
             case SequenceType.ForAdjacentNodes:
                 edgeMethod = "Incident";
-                theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
-                iterationVariable = theOther;
-                iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                theOther = iterationVariable + ".Opposite(node_" + seqFor.Id + ")";
+                targetVariableOfIteration = theOther;
                 break;
             case SequenceType.ForAdjacentNodesViaIncoming:
                 edgeMethod = "Incoming";
-                theOther = "edge_" + seqFor.Id + ".Source";
-                iterationVariable = theOther;
-                iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                theOther = iterationVariable + ".Source";
+                targetVariableOfIteration = theOther;
                 break;
             case SequenceType.ForAdjacentNodesViaOutgoing:
                 edgeMethod = "Outgoing";
-                theOther = "edge_" + seqFor.Id + ".Target";
-                iterationVariable = theOther;
-                iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
+                theOther = iterationVariable + ".Target";
+                targetVariableOfIteration = theOther;
                 break;
             case SequenceType.ForIncidentEdges:
                 edgeMethod = "Incident";
-                theOther = "edge_" + seqFor.Id + ".Opposite(node_" + seqFor.Id + ")";
-                iterationVariable = "edge_" + seqFor.Id;
-                iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                theOther = iterationVariable + ".Opposite(node_" + seqFor.Id + ")";
+                targetVariableOfIteration = iterationVariable;
                 break;
             case SequenceType.ForIncomingEdges:
                 edgeMethod = "Incoming";
-                theOther = "edge_" + seqFor.Id + ".Source";
-                iterationVariable = "edge_" + seqFor.Id;
-                iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                theOther = iterationVariable + ".Source";
+                targetVariableOfIteration = iterationVariable;
                 break;
             case SequenceType.ForOutgoingEdges:
                 edgeMethod = "Outgoing";
-                theOther = "edge_" + seqFor.Id + ".Target";
-                iterationVariable = "edge_" + seqFor.Id;
-                iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
+                theOther = iterationVariable + ".Target";
+                targetVariableOfIteration = iterationVariable;
                 break;
             default:
-                edgeMethod = theOther = iterationVariable = iterationType = "INTERNAL ERROR";
+                edgeMethod = theOther = targetVariableOfIteration = "INTERNAL ERROR";
                 break;
             }
 
             string profilingArgument = emitProfiling ? ", procEnv" : "";
             if(emitProfiling)
             {
-                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.{1})\n",
-                    seqFor.Id, edgeMethod);
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge {0} in {1}.{2})\n",
+                    iterationVariable, sourceNodeName, edgeMethod);
             }
             else
             {
-                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatible{1}({2}))\n",
-                    seqFor.Id, edgeMethod, incidentEdgeTypeExpr);
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge {0} in {1}.GetCompatible{2}({3}))\n",
+                    iterationVariable, sourceNodeName, edgeMethod, incidentEdgeTypeExpr);
             }
             source.AppendFront("{\n");
             source.Indent();
@@ -767,7 +762,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(emitProfiling)
             {
                 source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
-                source.AppendFrontFormat("if(!edge_{0}.InstanceOf(", seqFor.Id);
+                source.AppendFrontFormat("if(!{0}.InstanceOf(", iterationVariable);
                 source.Append(incidentEdgeTypeExpr);
                 source.Append("))\n");
                 source.AppendFront("\tcontinue;\n");
@@ -778,7 +773,7 @@ namespace de.unika.ipd.grGen.lgsp
                 theOther, adjacentNodeTypeExpr);
             source.AppendFront("\tcontinue;\n");
 
-            source.AppendFront(helper.SetVar(seqFor.Var, iterationVariable));
+            source.AppendFront(helper.SetVar(seqFor.Var, targetVariableOfIteration));
 
             EmitSequence(seqFor.Seq, source);
 
@@ -791,47 +786,42 @@ namespace de.unika.ipd.grGen.lgsp
         {
             source.AppendFront(compGen.SetResultVar(seqFor, "true"));
 
+            string sourceNodeName = "node_" + seqFor.Id;
             string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
-            source.AppendFrontFormat("GRGEN_LIBGR.INode node_{0} = (GRGEN_LIBGR.INode)({1});\n", seqFor.Id, sourceNodeExpr);
+            source.AppendFrontFormat("GRGEN_LIBGR.INode {0} = (GRGEN_LIBGR.INode)({1});\n", sourceNodeName, sourceNodeExpr);
 
             SequenceExpression IncidentEdgeType = seqFor.ArgExprs.Count >= 2 ? seqFor.ArgExprs[1] : null;
             string incidentEdgeTypeExpr = helper.ExtractEdgeType(source, IncidentEdgeType);
             SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 3 ? seqFor.ArgExprs[2] : null;
             string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
 
-            string iterationVariable;
+            string iterationVariable = "iter_" + seqFor.Id;
             string iterationType;
             string reachableMethod;
             switch(seqFor.SequenceType)
             {
             case SequenceType.ForReachableNodes:
                 reachableMethod = "";
-                iterationVariable = "iter_" + seqFor.Id; ;
                 iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                 break;
             case SequenceType.ForReachableNodesViaIncoming:
                 reachableMethod = "Incoming";
-                iterationVariable = "iter_" + seqFor.Id; ;
                 iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                 break;
             case SequenceType.ForReachableNodesViaOutgoing:
                 reachableMethod = "Outgoing";
-                iterationVariable = "iter_" + seqFor.Id; ;
                 iterationType = AdjacentNodeType != null ? AdjacentNodeType.Type(env) : "Node";
                 break;
             case SequenceType.ForReachableEdges:
                 reachableMethod = "Edges";
-                iterationVariable = "edge_" + seqFor.Id;
                 iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                 break;
             case SequenceType.ForReachableEdgesViaIncoming:
                 reachableMethod = "EdgesIncoming";
-                iterationVariable = "edge_" + seqFor.Id;
                 iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                 break;
             case SequenceType.ForReachableEdgesViaOutgoing:
                 reachableMethod = "EdgesOutgoing";
-                iterationVariable = "edge_" + seqFor.Id;
                 iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                 break;
             default:
@@ -842,13 +832,13 @@ namespace de.unika.ipd.grGen.lgsp
             string profilingArgument = emitProfiling ? ", procEnv" : "";
             if(seqFor.SequenceType == SequenceType.ForReachableNodes || seqFor.SequenceType == SequenceType.ForReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableNodesViaOutgoing)
             {
-                source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode iter_{0} in GraphHelper.Reachable{1}(node_{2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
-                    seqFor.Id, reachableMethod, seqFor.Id, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode {0} in GraphHelper.Reachable{1}({2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
+                    iterationVariable, reachableMethod, sourceNodeName, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
             }
             else //if(seqFor.SequenceType == SequenceType.ForReachableEdges || seqFor.SequenceType == SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
             {
-                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in GraphHelper.Reachable{1}(node_{2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
-                    seqFor.Id, reachableMethod, seqFor.Id, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge {0} in GraphHelper.Reachable{1}({2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
+                    iterationVariable, reachableMethod, sourceNodeName, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
             }
             source.AppendFront("{\n");
             source.Indent();
