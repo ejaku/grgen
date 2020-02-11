@@ -30,6 +30,7 @@ namespace de.unika.ipd.grGen.lgsp
         readonly String matchesType;
         readonly String matchesName;
 
+
         public SequenceBacktrackGenerator(SequenceBacktrack seq, SequenceGeneratorHelper helper)
         {
             this.seq = seq;
@@ -58,7 +59,7 @@ namespace de.unika.ipd.grGen.lgsp
                 seqGen.EmitFilterCall(source, seq.Rule.Filters[i], patternName, matchesName);
             }
 
-            source.AppendFront("if(" + matchesName + ".Count==0) {\n");
+            source.AppendFront("if(" + matchesName + ".Count == 0) {\n");
             source.Indent();
             source.AppendFront(compGen.SetResultVar(seq, "false"));
             source.Unindent();
@@ -94,17 +95,19 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("++" + matchesTriedName + ";\n");
 
             // start a transaction
-            source.AppendFront("int transID_" + seq.Id + " = procEnv.TransactionManager.Start();\n");
-            source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
+            String transactionIdName = "transID_" + seq.Id;
+            source.AppendFront("int " + transactionIdName + " = procEnv.TransactionManager.Start();\n");
+            String oldRewritesPerformedName = "oldRewritesPerformed_" + seq.Id;
+            source.AppendFront("int " + oldRewritesPerformedName + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
 
-            source.AppendFront("rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name) + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
+            source.AppendFront(ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
-            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
+            source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
 
@@ -114,8 +117,8 @@ namespace de.unika.ipd.grGen.lgsp
             // if sequence execution failed, roll the changes back and try the next match of the rule
             source.AppendFront("if(!" + compGen.GetResultVar(seq.Seq) + ") {\n");
             source.Indent();
-            source.AppendFront("procEnv.TransactionManager.Rollback(transID_" + seq.Id + ");\n");
-            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed_" + seq.Id + ";\n");
+            source.AppendFront("procEnv.TransactionManager.Rollback(" + transactionIdName + ");\n");
+            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed = " + oldRewritesPerformedName + ";\n");
 
             source.AppendFront("if(" + matchesTriedName + " < " + matchesName + ".Count) {\n"); // further match available -> try it
             source.Indent();
@@ -132,7 +135,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
 
             // if sequence execution succeeded, commit the changes so far and succeed
-            source.AppendFront("procEnv.TransactionManager.Commit(transID_" + seq.Id + ");\n");
+            source.AppendFront("procEnv.TransactionManager.Commit(" + transactionIdName + ");\n");
             source.AppendFront(compGen.SetResultVar(seq, "true"));
             source.AppendFront("break;\n");
 

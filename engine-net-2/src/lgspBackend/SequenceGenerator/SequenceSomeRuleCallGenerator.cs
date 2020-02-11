@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seqRule.SequenceType == SequenceType.RuleCall)
                         source.AppendFront(totalMatchToApply + " += " + matchesName + ".Count;\n");
                     else if(seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
-                        source.AppendFront("if(" + matchesName + ".Count>0) ++" + totalMatchToApply + ";\n");
+                        source.AppendFront("if(" + matchesName + ".Count > 0) ++" + totalMatchToApply + ";\n");
                     else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
                         source.AppendFront(totalMatchToApply + " += " + matchesName + ".Count;\n");
                 }
@@ -99,12 +99,13 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                 + parameters + ");\n");
-            for(int j = 0; j < seqRule.Filters.Count; ++j)
+            for(int i = 0; i < seqRule.Filters.Count; ++i)
             {
-                seqGen.EmitFilterCall(source, seqRule.Filters[j], patternName, matchesName);
+                seqGen.EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName);
             }
+
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
-            source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
+            source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFront(compGen.SetResultVar(seqSome, "true"));
             source.Unindent();
@@ -115,9 +116,9 @@ namespace de.unika.ipd.grGen.lgsp
             String totalMatchToApply, String curTotalMatch, String firstRewrite, bool fireDebugEvents)
         {
             if(seqSome.Random)
-                source.AppendFront("if(" + matchesName + ".Count!=0 && " + curTotalMatch + "<=" + totalMatchToApply + ") {\n");
+                source.AppendFront("if(" + matchesName + ".Count != 0 && " + curTotalMatch + " <= " + totalMatchToApply + ") {\n");
             else
-                source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
+                source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
 
             SequenceSomeRuleCallRewritingGenerator rewritingGen = new SequenceSomeRuleCallRewritingGenerator(this, totalMatchToApply, curTotalMatch);
@@ -126,11 +127,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(seqSome.Random)
                 {
-                    source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
+                    source.AppendFront("if(" + curTotalMatch + " == " + totalMatchToApply + ") {\n");
                     source.Indent();
                 }
 
-                rewritingGen.EmitRewritingRuleCall(source, seqGen, compGen, firstRewrite, fireDebugEvents);
+                rewritingGen.EmitRewritingRuleCall(source,
+                    seqGen, compGen, firstRewrite, fireDebugEvents);
 
                 if(seqSome.Random)
                 {
@@ -143,11 +145,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(seqSome.Random)
                 {
-                    source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
+                    source.AppendFront("if(" + curTotalMatch + " == " + totalMatchToApply + ") {\n");
                     source.Indent();
                 }
 
-                rewritingGen.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source, seqGen, compGen, firstRewrite, fireDebugEvents);
+                rewritingGen.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source,
+                    seqGen, compGen, firstRewrite, fireDebugEvents);
 
                 if(seqSome.Random)
                 {
@@ -160,11 +163,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(seqSome.Random)
                 {
-                    rewritingGen.EmitRewritingRuleAllCallRandomSequenceRandom(source, seqGen, compGen, firstRewrite, fireDebugEvents);
+                    rewritingGen.EmitRewritingRuleAllCallRandomSequenceRandom(source,
+                        seqGen, compGen, firstRewrite, fireDebugEvents);
                 }
                 else
                 {
-                    rewritingGen.EmitRewritingRuleAllCallRandomSequenceNonRandom(source, seqGen, compGen, firstRewrite, fireDebugEvents);
+                    rewritingGen.EmitRewritingRuleAllCallRandomSequenceNonRandom(source,
+                        seqGen, compGen, firstRewrite, fireDebugEvents);
                 }
             }
 

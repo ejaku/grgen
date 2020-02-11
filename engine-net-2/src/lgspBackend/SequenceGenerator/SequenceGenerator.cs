@@ -795,11 +795,15 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 if(emitProfiling)
+                {
                     source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.{1})\n",
                         seqFor.Id, edgeMethod);
+                }
                 else
+                {
                     source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge edge_{0} in node_{0}.GetCompatible{1}({2}))\n",
                         seqFor.Id, edgeMethod, incidentEdgeTypeExpr);
+                }
             }
             source.AppendFront("{\n");
             source.Indent();

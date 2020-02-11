@@ -31,6 +31,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String matchesType;
         internal readonly String matchesName;
 
+
         public SequenceRuleOrRuleAllCallGenerator(SequenceRuleCall seqRule, SequenceGeneratorHelper helper)
         {
             this.seqRule = seqRule;
@@ -74,22 +75,27 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+
             if(seqRule is SequenceRuleCountAllCall)
             {
                 SequenceRuleCountAllCall seqRuleCountAll = (SequenceRuleCountAllCall)seqRule;
                 source.AppendFront(helper.SetVar(seqRuleCountAll.CountResult, matchesName + ".Count"));
             }
 
+            String insufficientMatchesCondition;
             if(seqRule is SequenceRuleAllCall
                 && ((SequenceRuleAllCall)seqRule).ChooseRandom
                 && ((SequenceRuleAllCall)seqRule).MinSpecified)
             {
                 SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
-                source.AppendFrontFormat("int minmatchesvar_{0} = (int){1};\n", seqRuleAll.Id, helper.GetVar(seqRuleAll.MinVarChooseRandom));
-                source.AppendFrontFormat("if({0}.Count < minmatchesvar_{1}) {{\n", matchesName, seqRuleAll.Id);
+                String minMatchesVarName = "minmatchesvar_" + seqRuleAll.Id;
+                source.AppendFrontFormat("int {0} = (int){1};\n", minMatchesVarName, helper.GetVar(seqRuleAll.MinVarChooseRandom));
+                insufficientMatchesCondition = matchesName + ".Count < " + minMatchesVarName;
             }
             else
-                source.AppendFront("if(" + matchesName + ".Count==0) {\n");
+                insufficientMatchesCondition = matchesName + ".Count == 0";
+
+            source.AppendFrontFormat("if({0}) {{\n", insufficientMatchesCondition);
             source.Indent();
             source.AppendFront(compGen.SetResultVar(seqRule, "false"));
             source.Unindent();

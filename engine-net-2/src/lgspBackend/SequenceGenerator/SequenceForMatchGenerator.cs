@@ -17,17 +17,19 @@ namespace de.unika.ipd.grGen.lgsp
         readonly SequenceForMatch seqFor;
         readonly SequenceGeneratorHelper helper;
 
-        RuleInvocation ruleInvocation;
-        SequenceExpression[] ArgumentExpressions;
-        SequenceVariable[] ReturnVars;
-        String specialStr;
-        String parameters;
-        String matchingPatternClassName;
-        String patternName;
-        String matchType;
-        String matchName;
-        String matchesType;
-        String matchesName;
+        readonly RuleInvocation ruleInvocation;
+        readonly SequenceExpression[] ArgumentExpressions;
+        readonly SequenceVariable[] ReturnVars;
+        readonly String specialStr;
+        readonly String parameters;
+        readonly String matchingPatternClassName;
+        readonly String patternName;
+        readonly String ruleName;
+        readonly String matchType;
+        readonly String matchName;
+        readonly String matchesType;
+        readonly String matchesName;
+
 
         public SequenceForMatchGenerator(SequenceForMatch seqFor, SequenceGeneratorHelper helper)
         {
@@ -41,6 +43,7 @@ namespace de.unika.ipd.grGen.lgsp
             parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
             patternName = ruleInvocation.Name;
+            ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
             matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             matchName = "match_" + seqFor.Id;
             matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
@@ -51,14 +54,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             source.AppendFront(compGen.SetResultVar(seqFor, "true"));
 
-            source.AppendFront(matchesType + " " + matchesName + " = rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name)
+            source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
             for(int i = 0; i < seqFor.Rule.Filters.Count; ++i)
             {
                 seqGen.EmitFilterCall(source, seqFor.Rule.Filters[i], patternName, matchesName);
             }
 
-            source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
+            source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
