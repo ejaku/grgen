@@ -437,136 +437,148 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(compGen.SetResultVar(seqFor, "true"));
 
             if(seqFor.Container.Type == "")
-            {
-                // type not statically known? -> might be Dictionary or List or Deque dynamically, must decide at runtime
-                source.AppendFront("if(" + helper.GetVar(seqFor.Container) + " is IList) {\n");
-                source.Indent();
-
-                source.AppendFront("IList entry_" + seqFor.Id + " = (IList) " + helper.GetVar(seqFor.Container) + ";\n");
-                source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
-                source.AppendFront("{\n");
-                source.Indent();
-                if(seqFor.VarDst != null)
-                {
-                    source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
-                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                }
-                else
-                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-
-                EmitSequence(seqFor.Seq, source);
-                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                source.Unindent();
-                source.AppendFront("}\n");
-
-                source.Unindent();
-                source.AppendFront("} else if(" + helper.GetVar(seqFor.Container) + " is GRGEN_LIBGR.IDeque) {\n");
-                source.Indent();
-
-                source.AppendFront("GRGEN_LIBGR.IDeque entry_" + seqFor.Id + " = (GRGEN_LIBGR.IDeque) " + helper.GetVar(seqFor.Container) + ";\n");
-                source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
-                source.AppendFront("{\n");
-                source.Indent();
-                if(seqFor.VarDst != null)
-                {
-                    source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
-                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                }
-                else
-                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-
-                EmitSequence(seqFor.Seq, source);
-                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                source.Unindent();
-                source.AppendFront("}\n");
-
-                source.Unindent();
-                source.AppendFront("} else {\n");
-                source.Indent();
-
-                source.AppendFront("foreach(DictionaryEntry entry_" + seqFor.Id + " in (IDictionary)" + helper.GetVar(seqFor.Container) + ")\n");
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
-                if(seqFor.VarDst != null)
-                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
-
-                EmitSequence(seqFor.Seq, source);
-                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                source.Unindent();
-                source.AppendFront("}\n");
-
-                source.Unindent();
-                source.AppendFront("}\n");
-            }
+                EmitSequenceForContainerUnknownType(seqFor, source);
             else if(seqFor.Container.Type.StartsWith("array"))
-            {
-                String arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
-                source.AppendFrontFormat("List<{0}> entry_{1} = (List<{0}>) " + helper.GetVar(seqFor.Container) + ";\n", arrayValueType, seqFor.Id);
-                source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
-                source.AppendFront("{\n");
-                source.Indent();
-
-                if(seqFor.VarDst != null)
-                {
-                    source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
-                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                }
-                else
-                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-
-                EmitSequence(seqFor.Seq, source);
-
-                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                source.Unindent();
-                source.AppendFront("}\n");
-            }
+                EmitSequenceForContainerArrayType(seqFor, source);
             else if(seqFor.Container.Type.StartsWith("deque"))
+                EmitSequenceForContainerDequeType(seqFor, source);
+            else
+                EmitSequenceForContainerSetMapType(seqFor, source);
+        }
+
+        private void EmitSequenceForContainerUnknownType(SequenceForContainer seqFor, SourceBuilder source)
+        {
+            // type not statically known? -> might be Dictionary or List or Deque dynamically, must decide at runtime
+            source.AppendFront("if(" + helper.GetVar(seqFor.Container) + " is IList) {\n");
+            source.Indent();
+
+            source.AppendFront("IList entry_" + seqFor.Id + " = (IList) " + helper.GetVar(seqFor.Container) + ";\n");
+            source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+            source.AppendFront("{\n");
+            source.Indent();
+            if(seqFor.VarDst != null)
             {
-                String dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
-                source.AppendFrontFormat("GRGEN_LIBGR.Deque<{0}> entry_{1} = (GRGEN_LIBGR.Deque<{0}>) " + helper.GetVar(seqFor.Container) + ";\n", dequeValueType, seqFor.Id);
-                source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
-                source.AppendFront("{\n");
-                source.Indent();
-
-                if(seqFor.VarDst != null)
-                {
-                    source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
-                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-                }
-                else
-                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
-
-                EmitSequence(seqFor.Seq, source);
-
-                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                source.Unindent();
-                source.AppendFront("}\n");
+                source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
+                source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
             }
             else
+                source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+
+            EmitSequence(seqFor.Seq, source);
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("} else if(" + helper.GetVar(seqFor.Container) + " is GRGEN_LIBGR.IDeque) {\n");
+            source.Indent();
+
+            source.AppendFront("GRGEN_LIBGR.IDeque entry_" + seqFor.Id + " = (GRGEN_LIBGR.IDeque) " + helper.GetVar(seqFor.Container) + ";\n");
+            source.AppendFrontFormat("for(int index_{0}=0; index_{0} < entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+            source.AppendFront("{\n");
+            source.Indent();
+            if(seqFor.VarDst != null)
             {
-                String srcTypeXgrs = TypesHelper.ExtractSrc(seqFor.Container.Type);
-                String srcType = TypesHelper.XgrsTypeToCSharpType(srcTypeXgrs, model);
-                String dstTypeXgrs = TypesHelper.ExtractDst(seqFor.Container.Type);
-                String dstType = TypesHelper.XgrsTypeToCSharpType(dstTypeXgrs, model);
-                source.AppendFront("foreach(KeyValuePair<" + srcType + "," + dstType + "> entry_" + seqFor.Id + " in " + helper.GetVar(seqFor.Container) + ")\n");
-                source.AppendFront("{\n");
-                source.Indent();
-
-                if(dstTypeXgrs == "SetValueType")
-                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
-                else
-                    source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
-
-                if(seqFor.VarDst != null)
-                    source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
-
-                EmitSequence(seqFor.Seq, source);
-
-                source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
-                source.Unindent();
-                source.AppendFront("}\n");
+                source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
+                source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
             }
+            else
+                source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+
+            EmitSequence(seqFor.Seq, source);
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("} else {\n");
+            source.Indent();
+
+            source.AppendFront("foreach(DictionaryEntry entry_" + seqFor.Id + " in (IDictionary)" + helper.GetVar(seqFor.Container) + ")\n");
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+            if(seqFor.VarDst != null)
+                source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
+
+            EmitSequence(seqFor.Seq, source);
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForContainerArrayType(SequenceForContainer seqFor, SourceBuilder source)
+        {
+            String arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
+            source.AppendFrontFormat("List<{0}> entry_{1} = (List<{0}>) " + helper.GetVar(seqFor.Container) + ";\n", arrayValueType, seqFor.Id);
+            source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(seqFor.VarDst != null)
+            {
+                source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
+                source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+            }
+            else
+                source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForContainerDequeType(SequenceForContainer seqFor, SourceBuilder source)
+        {
+            String dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Container.Type), model);
+            source.AppendFrontFormat("GRGEN_LIBGR.Deque<{0}> entry_{1} = (GRGEN_LIBGR.Deque<{0}>) " + helper.GetVar(seqFor.Container) + ";\n", dequeValueType, seqFor.Id);
+            source.AppendFrontFormat("for(int index_{0}=0; index_{0}<entry_{0}.Count; ++index_{0})\n", seqFor.Id);
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(seqFor.VarDst != null)
+            {
+                source.AppendFront(helper.SetVar(seqFor.Var, "index_" + seqFor.Id));
+                source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+            }
+            else
+                source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + "[index_" + seqFor.Id + "]"));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForContainerSetMapType(SequenceForContainer seqFor, SourceBuilder source)
+        {
+            String srcTypeXgrs = TypesHelper.ExtractSrc(seqFor.Container.Type);
+            String srcType = TypesHelper.XgrsTypeToCSharpType(srcTypeXgrs, model);
+            String dstTypeXgrs = TypesHelper.ExtractDst(seqFor.Container.Type);
+            String dstType = TypesHelper.XgrsTypeToCSharpType(dstTypeXgrs, model);
+            source.AppendFront("foreach(KeyValuePair<" + srcType + "," + dstType + "> entry_" + seqFor.Id + " in " + helper.GetVar(seqFor.Container) + ")\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(dstTypeXgrs == "SetValueType")
+                source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+            else
+                source.AppendFront(helper.SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+
+            if(seqFor.VarDst != null)
+                source.AppendFront(helper.SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.Unindent();
+            source.AppendFront("}\n");
         }
 
         private void EmitSequenceForIntegerRange(SequenceForIntegerRange seqFor, SourceBuilder source)
