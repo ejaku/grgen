@@ -130,6 +130,7 @@
     <Compile Include="SearchProgramOperations\SearchProgramOperationSubpatternTaskHandling.cs" />
     <Compile Include="SequenceGenerator\SequenceBacktrackGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceComputationGenerator.cs" />
+    <Compile Include="SequenceGenerator\SequenceComputationGeneratorHelper.cs" />
     <Compile Include="SequenceGenerator\SequenceContainerConstructorEmitter.cs" />
     <Compile Include="SequenceGenerator\SequenceExpressionGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceExpressionGeneratorHelper.cs" />

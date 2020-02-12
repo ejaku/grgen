@@ -9,6 +9,7 @@
 
 using System;
 using de.unika.ipd.grGen.libGr;
+using COMP_HELPER = de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -52,7 +53,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
-            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqFor, "true"));
 
             source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
@@ -89,7 +90,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             seqGen.EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqFor, COMP_HELPER.GetResultVar(seqFor) + " & " + COMP_HELPER.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
 

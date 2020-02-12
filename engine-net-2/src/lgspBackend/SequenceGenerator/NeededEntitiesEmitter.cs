@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
+using COMP_HELPER = de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -42,7 +43,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
 		public void EmitNeededVarAndRuleEntities(Sequence seq, SourceBuilder source)
 		{
-			source.AppendFront(SequenceComputationGenerator.DeclareResultVar(seq));
+			source.AppendFront(COMP_HELPER.DeclareResultVar(seq));
 
 			switch(seq.SequenceType)
 			{
@@ -211,7 +212,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
 		private void EmitNeededVarEntities(SequenceComputation seqComp, SourceBuilder source)
 		{
-            source.AppendFront(SequenceComputationGenerator.DeclareResultVar(seqComp));
+            source.AppendFront(COMP_HELPER.DeclareResultVar(seqComp));
             
             switch(seqComp.SequenceComputationType)
 			{
@@ -263,7 +264,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
 		private void EmitNeededVarEntities(AssignmentTarget tgt, SourceBuilder source)
 		{
-            source.AppendFront(SequenceComputationGenerator.DeclareResultVar(tgt));
+            source.AppendFront(COMP_HELPER.DeclareResultVar(tgt));
 
             switch(tgt.AssignmentTargetType)
 			{

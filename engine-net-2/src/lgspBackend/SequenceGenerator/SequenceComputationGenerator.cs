@@ -9,12 +9,13 @@
 
 using System;
 using de.unika.ipd.grGen.libGr;
+using COMP_HELPER = de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper;
 
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// The sequence computation generator contains code to generate sequence computations,
-    /// it is in use by the sequence generator, also supplying result variable handling to it.
+    /// The sequence computation generator contains code to generate sequence computations;
+    /// it is in use by the sequence generator.
     /// </summary>
     public class SequenceComputationGenerator
     {
@@ -36,39 +37,6 @@ namespace de.unika.ipd.grGen.lgsp
             this.exprGen = seqExprGen;
             this.helper = helper;
             this.fireDebugEvents = fireDebugEvents;
-        }
-
-        /// <summary>
-        /// Returns a string containing a C# expression to get the value of the result variable of the sequence or sequence computation construct
-        /// (every sequence part writes a success-value which is read by other parts determining execution flow)
-        /// </summary>
-        public static string GetResultVar(SequenceBase seq)
-        {
-            return "res_" + seq.Id;
-        }
-
-        /// <summary>
-        /// Returns a string containing a C# assignment to set the result variable of the sequence or sequence computation construct
-        /// to the value as computed by the C# expression in the string given
-        /// (every sequence part writes a success-value which is read by other parts determining execution flow)
-        /// </summary>
-        public static string SetResultVar(SequenceBase seq, String valueToWrite)
-        {
-            if(seq is Sequence)
-                return "res_" + seq.Id + " = (bool)(" + valueToWrite + ");\n";
-            else
-                return "res_" + seq.Id + " = " + valueToWrite + ";\n";
-        }
-
-        /// <summary>
-        /// Returns a string containing a C# declaration of the result variable of the sequence (or sequence computation) construct
-        /// </summary>
-        public static string DeclareResultVar(SequenceBase seq)
-        {
-            if(seq is Sequence)
-                return "bool res_" + seq.Id + ";\n";
-            else
-                return "object res_" + seq.Id + ";\n";
         }
 
   		public void EmitSequenceComputation(SequenceComputation seqComp, SourceBuilder source)
@@ -192,7 +160,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             EmitSequenceComputation(seqThen.left, source);
             EmitSequenceComputation(seqThen.right, source);
-            source.AppendFront(SetResultVar(seqThen, GetResultVar(seqThen.right)));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqThen, COMP_HELPER.GetResultVar(seqThen.right)));
         }
 
         public void EmitSequenceComputationAssignment(SequenceComputationAssignment seqAssign, SourceBuilder source)
@@ -200,21 +168,21 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqAssign.SourceValueProvider is SequenceComputationAssignment)
             {
                 EmitSequenceComputation(seqAssign.SourceValueProvider, source);
-                EmitAssignment(seqAssign.Target, GetResultVar(seqAssign.SourceValueProvider), source);
-                source.AppendFront(SetResultVar(seqAssign, GetResultVar(seqAssign.Target)));
+                EmitAssignment(seqAssign.Target, COMP_HELPER.GetResultVar(seqAssign.SourceValueProvider), source);
+                source.AppendFront(COMP_HELPER.SetResultVar(seqAssign, COMP_HELPER.GetResultVar(seqAssign.Target)));
             }
             else
             {
                 string comp = exprGen.GetSequenceExpression((SequenceExpression)seqAssign.SourceValueProvider, source);
                 EmitAssignment(seqAssign.Target, comp, source);
-                source.AppendFront(SetResultVar(seqAssign, GetResultVar(seqAssign.Target)));
+                source.AppendFront(COMP_HELPER.SetResultVar(seqAssign, COMP_HELPER.GetResultVar(seqAssign.Target)));
             }
         }
 
         public void EmitSequenceComputationVariableDeclaration(SequenceComputationVariableDeclaration seqVarDecl, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(seqVarDecl.Target, TypesHelper.DefaultValueString(seqVarDecl.Target.Type, model)));
-            source.AppendFront(SetResultVar(seqVarDecl, helper.GetVar(seqVarDecl.Target)));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqVarDecl, helper.GetVar(seqVarDecl.Target)));
         }
 
         public void EmitSequenceComputationContainerAdd(SequenceComputationContainerAdd seqAdd, SourceBuilder source)
@@ -371,7 +339,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
-            source.AppendFront(SetResultVar(seqAdd, containerVar));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, containerVar));
         }
 
         public void EmitSequenceComputationContainerAddArray(SequenceComputationContainerAdd seqAdd, String container, SourceBuilder source)
@@ -416,7 +384,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqAdd, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
         }
 
         public void EmitSequenceComputationContainerAddDeque(SequenceComputationContainerAdd seqAdd, String container, SourceBuilder source)
@@ -461,7 +429,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqAdd, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
         }
 
         public void EmitSequenceComputationContainerAddSetMap(SequenceComputationContainerAdd seqAdd, String container, SourceBuilder source)
@@ -507,7 +475,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqAdd.Id + ", attrType_" + seqAdd.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqAdd, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
         }
 
         public void EmitSequenceComputationContainerRem(SequenceComputationContainerRem seqDel, SourceBuilder source)
@@ -666,7 +634,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
-            source.AppendFront(SetResultVar(seqDel, containerVar));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDel, containerVar));
         }
 
         public void EmitSequenceComputationContainerRemArray(SequenceComputationContainerRem seqDel, String container, SourceBuilder source)
@@ -708,7 +676,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqDel, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
         }
 
         public void EmitSequenceComputationContainerRemDeque(SequenceComputationContainerRem seqDel, string container, SourceBuilder source)
@@ -750,7 +718,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqDel, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
         }
 
         public void EmitSequenceComputationContainerRemSetMap(SequenceComputationContainerRem seqDel, string container, SourceBuilder source)
@@ -789,7 +757,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqDel.Id + ", attrType_" + seqDel.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqDel, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
         }
 
         public void EmitSequenceComputationContainerClear(SequenceComputationContainerClear seqClear, SourceBuilder source)
@@ -907,7 +875,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
-            source.AppendFront(SetResultVar(seqClear, containerVar));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqClear, containerVar));
         }
 
         public void EmitSequenceComputationContainerClearArray(SequenceComputationContainerClear seqClear, String container, SourceBuilder source)
@@ -934,7 +902,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\t\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqClear, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
         }
 
         public void EmitSequenceComputationContainerClearDeque(SequenceComputationContainerClear seqClear, String container, SourceBuilder source)
@@ -961,7 +929,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\t\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqClear, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
         }
 
         public void EmitSequenceComputationContainerClearSetMap(SequenceComputationContainerClear seqClear, String container, SourceBuilder source)
@@ -999,7 +967,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqClear.Id + ", attrType_" + seqClear.Id + ");\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqClear, container));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
         }
 
         public void EmitSequenceComputationVAlloc(SequenceComputationVAlloc seqVAlloc, SourceBuilder source)
@@ -1013,13 +981,13 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("graph.FreeVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
             else
                 source.AppendFront("graph.FreeVisitedFlagNonReset((int)" + exprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
-            source.AppendFront(SetResultVar(seqVFree, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqVFree, "null"));
         }
 
         public void EmitSequenceComputationVReset(SequenceComputationVReset seqVReset, SourceBuilder source)
         {
             source.AppendFront("graph.ResetVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVReset.VisitedFlagExpression, source) + ");\n");
-            source.AppendFront(SetResultVar(seqVReset, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqVReset, "null"));
         }
 
         public void EmitSequenceComputationDebugAdd(SequenceComputationDebugAdd seqDebug, SourceBuilder source)
@@ -1034,7 +1002,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
             }
             source.Append(");\n");
-            source.AppendFront(SetResultVar(seqDebug, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
 
         public void EmitSequenceComputationDebugRem(SequenceComputationDebugRem seqDebug, SourceBuilder source)
@@ -1049,7 +1017,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
             }
             source.Append(");\n");
-            source.AppendFront(SetResultVar(seqDebug, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
 
         public void EmitSequenceComputationDebugEmit(SequenceComputationDebugEmit seqDebug, SourceBuilder source)
@@ -1064,7 +1032,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
             }
             source.Append(");\n");
-            source.AppendFront(SetResultVar(seqDebug, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
 
         public void EmitSequenceComputationDebugHalt(SequenceComputationDebugHalt seqDebug, SourceBuilder source)
@@ -1079,7 +1047,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
             }
             source.Append(");\n");
-            source.AppendFront(SetResultVar(seqDebug, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
 
         public void EmitSequenceComputationDebugHighlight(SequenceComputationDebugHighlight seqDebug, SourceBuilder source)
@@ -1094,7 +1062,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("annotations.Add((string)" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
             }
             source.AppendFront("procEnv.DebugHighlighting(" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[0], source) + ", values, annotations);\n");
-            source.AppendFront(SetResultVar(seqDebug, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
 
         public void EmitSequenceComputationEmit(SequenceComputationEmit seqEmit, SourceBuilder source)
@@ -1141,7 +1109,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + exprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ", graph));\n");
                 }
             }
-            source.AppendFront(SetResultVar(seqEmit, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqEmit, "null"));
         }
 
         public void EmitSequenceComputationRecord(SequenceComputationRecord seqRec, SourceBuilder source)
@@ -1178,7 +1146,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + exprGen.GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
             }
-            source.AppendFront(SetResultVar(seqRec, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRec, "null"));
         }
 
         public void EmitSequenceComputationExport(SequenceComputationExport seqExp, SourceBuilder source)
@@ -1197,7 +1165,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("\tGRGEN_LIBGR.Porter.Export((GRGEN_LIBGR.INamedGraph)" + expGraph + ", " + expArguments + ");\n");
             source.AppendFront("else\n");
             source.AppendFront("\tGRGEN_LIBGR.Porter.Export(" + expGraph + ", " + expArguments + ");\n");
-            source.AppendFront(SetResultVar(seqExp, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqExp, "null"));
         }
 
         public void EmitSequenceComputationDeleteFile(SequenceComputationDeleteFile seqDelFile, SourceBuilder source)
@@ -1205,7 +1173,7 @@ namespace de.unika.ipd.grGen.lgsp
             string delFileName = "delfilename_" + seqDelFile.Id;
             source.AppendFront("object " + delFileName + " = " + exprGen.GetSequenceExpression(seqDelFile.Name, source) + ";\n");
             source.AppendFront("\tSystem.IO.File.Delete((string)" + delFileName + ");\n");
-            source.AppendFront(SetResultVar(seqDelFile, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDelFile, "null"));
         }
 
         public void EmitSequenceComputationGraphAdd(SequenceComputationGraphAdd seqAdd, SourceBuilder source)
@@ -1251,13 +1219,13 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     source.AppendFront("throw new Exception(\"rem() on non-node/edge\");\n");
             }
-            source.AppendFront(SetResultVar(seqRem, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRem, "null"));
         }
 
         public void EmitSequenceComputationGraphClear(SequenceComputationGraphClear seqClr, SourceBuilder source)
         {
             source.AppendFront("graph.Clear();\n");
-            source.AppendFront(SetResultVar(seqClr, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqClr, "null"));
         }
 
         public void EmitSequenceComputationGraphRetype(SequenceComputationGraphRetype seqRetype, SourceBuilder source)
@@ -1288,7 +1256,7 @@ namespace de.unika.ipd.grGen.lgsp
             string tgtNodeExpr = exprGen.GetSequenceExpression(seqMrg.TargetNodeExpr, source);
             string srcNodeExpr = exprGen.GetSequenceExpression(seqMrg.SourceNodeExpr, source);
             source.AppendFrontFormat("graph.Merge((GRGEN_LIBGR.INode){0}, (GRGEN_LIBGR.INode){1}, \"merge\");\n", tgtNodeExpr, srcNodeExpr);
-            source.AppendFront(SetResultVar(seqMrg, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqMrg, "null"));
         }
 
         public void EmitSequenceComputationGraphRedirectSource(SequenceComputationGraphRedirectSource seqRedir, SourceBuilder source)
@@ -1296,7 +1264,7 @@ namespace de.unika.ipd.grGen.lgsp
             string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
             string srcNodeExpr = exprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
             source.AppendFrontFormat("graph.RedirectSource((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old source\");\n", edgeExpr, srcNodeExpr);
-            source.AppendFront(SetResultVar(seqRedir, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
         }
 
         public void EmitSequenceComputationGraphRedirectTarget(SequenceComputationGraphRedirectTarget seqRedir, SourceBuilder source)
@@ -1304,7 +1272,7 @@ namespace de.unika.ipd.grGen.lgsp
             string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
             string tgtNodeExpr = exprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
             source.AppendFrontFormat("graph.RedirectTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old target\");\n", edgeExpr, tgtNodeExpr);
-            source.AppendFront(SetResultVar(seqRedir, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
         }
 
         public void EmitSequenceComputationGraphRedirectSourceAndTarget(SequenceComputationGraphRedirectSourceAndTarget seqRedir, SourceBuilder source)
@@ -1313,14 +1281,14 @@ namespace de.unika.ipd.grGen.lgsp
             string srcNodeExpr = exprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
             string tgtNodeExpr = exprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
             source.AppendFrontFormat("graph.RedirectSourceAndTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, (GRGEN_LIBGR.INode){2}, \"old source\", \"old target\");\n", edgeExpr, srcNodeExpr, tgtNodeExpr);
-            source.AppendFront(SetResultVar(seqRedir, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
         }
 
         public void EmitSequenceComputationInsert(SequenceComputationInsert seqIns, SourceBuilder source)
         {
             string graphExpr = exprGen.GetSequenceExpression(seqIns.Graph, source);
             source.AppendFrontFormat("GRGEN_LIBGR.GraphHelper.Insert((GRGEN_LIBGR.IGraph){0}, graph);\n", graphExpr);
-            source.AppendFront(SetResultVar(seqIns, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqIns, "null"));
         }
 
         public void EmitSequenceComputationInsertCopy(SequenceComputationInsertCopy seqInsCopy, SourceBuilder source)
@@ -1349,7 +1317,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationExpression(SequenceExpression seqExpr, SourceBuilder source)
         {
-            source.AppendFront(SetResultVar(seqExpr, exprGen.GetSequenceExpression(seqExpr, source)));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqExpr, exprGen.GetSequenceExpression(seqExpr, source)));
         }
 
         public void EmitSequenceComputationBuiltinProcedureCall(SequenceComputationBuiltinProcedureCall seqCall, SourceBuilder source)
@@ -1359,12 +1327,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqCall.ReturnVars.Count > 0)
             {
                 source.AppendFront(helper.SetVar(seqCall.ReturnVars[0], sb.ToString()));
-                source.AppendFront(SetResultVar(seqCall, helper.GetVar(seqCall.ReturnVars[0])));
+                source.AppendFront(COMP_HELPER.SetResultVar(seqCall, helper.GetVar(seqCall.ReturnVars[0])));
             }
             else
             {
                 source.AppendFront(sb.ToString() + ";\n");
-                source.AppendFront(SetResultVar(seqCall, "null"));
+                source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
             }
         }
 
@@ -1391,7 +1359,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
 
-            source.AppendFront(SetResultVar(seqCall, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
         }
 
         public void EmitSequenceComputationProcedureMethodCall(SequenceComputationProcedureMethodCall seqCall, SourceBuilder source)
@@ -1439,7 +1407,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.Append(returnArguments);
                 source.Append(");\n");
             }
-            source.AppendFront(SetResultVar(seqCall, "null"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
         }
 
         void EmitAssignment(AssignmentTarget tgt, string sourceValueComputation, SourceBuilder source)
@@ -1472,7 +1440,7 @@ namespace de.unika.ipd.grGen.lgsp
         void EmitAssignmentYieldingToVar(AssignmentTargetYieldingVar tgtYield, string sourceValueComputation, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(tgtYield.DestVar, sourceValueComputation));
-            source.AppendFront(SetResultVar(tgtYield, helper.GetVar(tgtYield.DestVar)));
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtYield, helper.GetVar(tgtYield.DestVar)));
         }
 
         void EmitAssignmentVisited(AssignmentTargetVisited tgtVisitedFlag, string sourceValueComputation, SourceBuilder source)
@@ -1480,7 +1448,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("bool visval_" + tgtVisitedFlag.Id + " = (bool)" + sourceValueComputation + ";\n");
             source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)" + helper.GetVar(tgtVisitedFlag.GraphElementVar)
                 + ", (int)" + exprGen.GetSequenceExpression(tgtVisitedFlag.VisitedFlagExpression, source) + ", visval_" + tgtVisitedFlag.Id + ");\n");
-            source.AppendFront(SetResultVar(tgtVisitedFlag, "visval_" + tgtVisitedFlag.Id));
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtVisitedFlag, "visval_" + tgtVisitedFlag.Id));
         }
 
         void EmitAssignmentIndexedVar(AssignmentTargetIndexedVar tgtIndexedVar, string sourceValueComputation, SourceBuilder source)
@@ -1489,7 +1457,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("object " + container + " = " + helper.GetVar(tgtIndexedVar.DestVar) + ";\n");
             string key = "key_" + tgtIndexedVar.Id;
             source.AppendFront("object " + key + " = " + exprGen.GetSequenceExpression(tgtIndexedVar.KeyExpression, source) + ";\n");
-            source.AppendFront(SetResultVar(tgtIndexedVar, container)); // container is a reference, so we can assign it already here before the changes
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtIndexedVar, container)); // container is a reference, so we can assign it already here before the changes
 
             if(tgtIndexedVar.DestVar.Type == "")
             {
@@ -1585,7 +1553,7 @@ namespace de.unika.ipd.grGen.lgsp
         void EmitAssignmentVar(AssignmentTargetVar tgtVar, string sourceValueComputation, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(tgtVar.DestVar, sourceValueComputation));
-            source.AppendFront(SetResultVar(tgtVar, helper.GetVar(tgtVar.DestVar)));
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtVar, helper.GetVar(tgtVar.DestVar)));
         }
 
         void EmitAssignmentAttribute(AssignmentTargetAttribute tgtAttr, string sourceValueComputation, SourceBuilder source)
@@ -1606,14 +1574,14 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("else\n");
                 source.AppendFront("\tgraph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + tgtAttr.Id + ", attrType_" + tgtAttr.Id + ");\n");
             }
-            source.AppendFront(SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
         }
 
         void EmitAssignmentAttributeIndexed(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, string sourceValueComputation, SourceBuilder source)
         {
             string value = "value_" + tgtAttrIndexedVar.Id;
             source.AppendFront("object " + value + " = " + sourceValueComputation + ";\n");
-            source.AppendFront(SetResultVar(tgtAttrIndexedVar, "value_" + tgtAttrIndexedVar.Id));
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtAttrIndexedVar, "value_" + tgtAttrIndexedVar.Id));
             source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + tgtAttrIndexedVar.Id + " = (GRGEN_LIBGR.IGraphElement)" + helper.GetVar(tgtAttrIndexedVar.DestVar) + ";\n");
             string container = "container_" + tgtAttrIndexedVar.Id;
             source.AppendFront("object " + container + " = elem_" + tgtAttrIndexedVar.Id + ".GetAttribute(\"" + tgtAttrIndexedVar.AttributeName + "\");\n");
