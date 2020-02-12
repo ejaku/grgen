@@ -50,7 +50,7 @@ namespace de.unika.ipd.grGen.lgsp
             matchesName = "matches_" + seq.Id;
         }
 
-        public void Emit(SourceBuilder source, SequenceGenerator seqGen, SequenceComputationGenerator compGen, bool fireDebugEvents)
+        public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
             source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
@@ -61,11 +61,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront("if(" + matchesName + ".Count == 0) {\n");
             source.Indent();
-            source.AppendFront(compGen.SetResultVar(seq, "false"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seq, "false"));
             source.Unindent();
             source.AppendFront("} else {\n");
             source.Indent();
-            source.AppendFront(compGen.SetResultVar(seq, "true")); // shut up compiler
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seq, "true")); // shut up compiler
             source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             if(fireDebugEvents)
@@ -115,7 +115,7 @@ namespace de.unika.ipd.grGen.lgsp
             seqGen.EmitSequence(seq.Seq, source);
 
             // if sequence execution failed, roll the changes back and try the next match of the rule
-            source.AppendFront("if(!" + compGen.GetResultVar(seq.Seq) + ") {\n");
+            source.AppendFront("if(!" + SequenceComputationGenerator.GetResultVar(seq.Seq) + ") {\n");
             source.Indent();
             source.AppendFront("procEnv.TransactionManager.Rollback(" + transactionIdName + ");\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed = " + oldRewritesPerformedName + ";\n");
@@ -126,7 +126,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("} else {\n"); // all matches tried, all failed later on -> end in fail
             source.Indent();
-            source.AppendFront(compGen.SetResultVar(seq, "false"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seq, "false"));
             source.AppendFront("break;\n");
             source.Unindent();
             source.AppendFront("}\n");
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // if sequence execution succeeded, commit the changes so far and succeed
             source.AppendFront("procEnv.TransactionManager.Commit(" + transactionIdName + ");\n");
-            source.AppendFront(compGen.SetResultVar(seq, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seq, "true"));
             source.AppendFront("break;\n");
 
             source.Unindent();

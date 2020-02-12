@@ -42,7 +42,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns a string containing a C# expression to get the value of the result variable of the sequence or sequence computation construct
         /// (every sequence part writes a success-value which is read by other parts determining execution flow)
         /// </summary>
-        public string GetResultVar(SequenceBase seq)
+        public static string GetResultVar(SequenceBase seq)
         {
             return "res_" + seq.Id;
         }
@@ -52,7 +52,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// to the value as computed by the C# expression in the string given
         /// (every sequence part writes a success-value which is read by other parts determining execution flow)
         /// </summary>
-        public string SetResultVar(SequenceBase seq, String valueToWrite)
+        public static string SetResultVar(SequenceBase seq, String valueToWrite)
         {
             if(seq is Sequence)
                 return "res_" + seq.Id + " = (bool)(" + valueToWrite + ");\n";
@@ -63,7 +63,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns a string containing a C# declaration of the result variable of the sequence (or sequence computation) construct
         /// </summary>
-        public string DeclareResultVar(SequenceBase seq)
+        public static string DeclareResultVar(SequenceBase seq)
         {
             if(seq is Sequence)
                 return "bool res_" + seq.Id + ";\n";

@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.RuleCall:
             case SequenceType.RuleAllCall:
             case SequenceType.RuleCountAllCall:
-                new SequenceRuleOrRuleAllCallGenerator((SequenceRuleCall)seq, helper).Emit(source, this, compGen, fireDebugEvents);
+                new SequenceRuleOrRuleAllCallGenerator((SequenceRuleCall)seq, helper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.SequenceCall:
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceType.ForMatch:
-                new SequenceForMatchGenerator((SequenceForMatch)seq, helper).Emit(source, this, compGen, fireDebugEvents);
+                new SequenceForMatchGenerator((SequenceForMatch)seq, helper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.IterationMin:
@@ -215,7 +215,7 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceType.Backtrack:
-                new SequenceBacktrackGenerator((SequenceBacktrack)seq, helper).Emit(source, this, compGen, fireDebugEvents);
+                new SequenceBacktrackGenerator((SequenceBacktrack)seq, helper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.Pause:
@@ -265,11 +265,11 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             if(outAssignments.Length != 0)
                 source.AppendFront(outAssignments + "\n");
-            source.AppendFront(compGen.SetResultVar(seqSeq, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqSeq, "true"));
             source.Unindent();
             source.AppendFront("} else {\n");
             source.Indent();
-            source.AppendFront(compGen.SetResultVar(seqSeq, "false"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqSeq, "false"));
             source.Unindent();
             source.AppendFront("}\n");
 
@@ -283,7 +283,7 @@ namespace de.unika.ipd.grGen.lgsp
         private void EmitSequenceNot(SequenceNot seqNot, SourceBuilder source)
         {
             EmitSequence(seqNot.Seq, source);
-            source.AppendFront(compGen.SetResultVar(seqNot, "!" + compGen.GetResultVar(seqNot.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqNot, "!" + SequenceComputationGenerator.GetResultVar(seqNot.Seq)));
         }
 
         private void EmitSequenceBinaryLazy(SequenceBinary seqBin, SourceBuilder source)
@@ -329,23 +329,23 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(seq.SequenceType == SequenceType.LazyOr)
             {
-                source.AppendFront("if(" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.AppendFront("if(" + SequenceComputationGenerator.GetResultVar(seqLeft) + ")\n");
                 source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "true"));
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seq, "true"));
                 source.Unindent();
             }
             else if(seq.SequenceType == SequenceType.LazyAnd)
             {
-                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.AppendFront("if(!" + SequenceComputationGenerator.GetResultVar(seqLeft) + ")\n");
                 source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "false"));
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seq, "false"));
                 source.Unindent();
             }
             else
             { //seq.SequenceType==SequenceType.IfThen -- lazy implication
-                source.AppendFront("if(!" + compGen.GetResultVar(seqLeft) + ")\n");
+                source.AppendFront("if(!" + SequenceComputationGenerator.GetResultVar(seqLeft) + ")\n");
                 source.Indent();
-                source.AppendFront(compGen.SetResultVar(seq, "true"));
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seq, "true"));
                 source.Unindent();
             }
 
@@ -354,7 +354,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             EmitSequence(seqRight, source);
-            source.AppendFront(compGen.SetResultVar(seq, compGen.GetResultVar(seqRight)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seq, SequenceComputationGenerator.GetResultVar(seqRight)));
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -387,12 +387,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(seqBin.SequenceType == SequenceType.ThenLeft)
             {
-                source.AppendFront(compGen.SetResultVar(seqBin, compGen.GetResultVar(seqBin.Left)));
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seqBin, SequenceComputationGenerator.GetResultVar(seqBin.Left)));
                 return;
             }
             else if(seqBin.SequenceType == SequenceType.ThenRight)
             {
-                source.AppendFront(compGen.SetResultVar(seqBin, compGen.GetResultVar(seqBin.Right)));
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seqBin, SequenceComputationGenerator.GetResultVar(seqBin.Right)));
                 return;
             }
 
@@ -408,19 +408,19 @@ namespace de.unika.ipd.grGen.lgsp
             default:
                 throw new Exception("Internal error in EmitSequence: Should not have reached this!");
             }
-            source.AppendFront(compGen.SetResultVar(seqBin, compGen.GetResultVar(seqBin.Left) + " " + op + " " + compGen.GetResultVar(seqBin.Right)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqBin, SequenceComputationGenerator.GetResultVar(seqBin.Left) + " " + op + " " + SequenceComputationGenerator.GetResultVar(seqBin.Right)));
         }
 
         private void EmitSequenceIfThenElse(SequenceIfThenElse seqIf, SourceBuilder source)
         {
             EmitSequence(seqIf.Condition, source);
 
-            source.AppendFront("if(" + compGen.GetResultVar(seqIf.Condition) + ")");
+            source.AppendFront("if(" + SequenceComputationGenerator.GetResultVar(seqIf.Condition) + ")");
             source.AppendFront("{\n");
             source.Indent();
 
             EmitSequence(seqIf.TrueCase, source);
-            source.AppendFront(compGen.SetResultVar(seqIf, compGen.GetResultVar(seqIf.TrueCase)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqIf, SequenceComputationGenerator.GetResultVar(seqIf.TrueCase)));
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -429,7 +429,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             EmitSequence(seqIf.FalseCase, source);
-            source.AppendFront(compGen.SetResultVar(seqIf, compGen.GetResultVar(seqIf.FalseCase)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqIf, SequenceComputationGenerator.GetResultVar(seqIf.FalseCase)));
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -437,7 +437,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceForContainer(SequenceForContainer seqFor, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             if(seqFor.Container.Type == "")
                 EmitSequenceForContainerUnknownType(seqFor, source);
@@ -471,7 +471,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(helper.SetVar(seqFor.Var, entryVar + "[" + indexVar + "]"));
 
             EmitSequence(seqFor.Seq, source);
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
 
@@ -492,7 +492,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(helper.SetVar(seqFor.Var, entryVar + "[" + indexVar + "]"));
 
             EmitSequence(seqFor.Seq, source);
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
 
@@ -508,7 +508,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(helper.SetVar(seqFor.VarDst, entryVar + ".Value"));
 
             EmitSequence(seqFor.Seq, source);
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
 
@@ -536,7 +536,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
         }
@@ -561,7 +561,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
         }
@@ -587,14 +587,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
         }
 
         private void EmitSequenceForIntegerRange(SequenceForIntegerRange seqFor, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             String ascendingVar = "ascending_" + seqFor.Id;
             String entryVar = "entry_" + seqFor.Id;
@@ -613,7 +613,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront("if(" + ascendingVar + ") ++" + entryVar + "; else --" + entryVar + ";\n");
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -621,7 +621,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceForIndexAccessEquality(SequenceForIndexAccessEquality seqFor, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             String indexVar = "index_" + seqFor.Id;
             source.AppendFrontFormat("GRGEN_LIBGR.IAttributeIndex {0} = (GRGEN_LIBGR.IAttributeIndex)procEnv.Graph.Indices.GetIndex(\"{1}\");\n", indexVar, seqFor.IndexName);
@@ -646,7 +646,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceForIndexAccessOrdering(SequenceForIndexAccessOrdering seqFor, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             String indexVar = "index_" + seqFor.Id;
             source.AppendFrontFormat("GRGEN_LIBGR.IAttributeIndex {0} = (GRGEN_LIBGR.IAttributeIndex)procEnv.Graph.Indices.GetIndex(\"{1}\");\n", indexVar, seqFor.IndexName);
@@ -716,7 +716,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceForFunction(SequenceForFunction seqFor, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             string sourceNodeName = "node_" + seqFor.Id;
             string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
@@ -800,14 +800,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
         }
 
         private void EmitSequenceForReachable(SequenceForFunction seqFor, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             string sourceNodeName = "node_" + seqFor.Id;
             string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
@@ -870,14 +870,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
         }
 
         private void EmitSequenceForBoundedReachable(SequenceForFunction seqFor, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             string sourceNodeName = "node_" + seqFor.Id;
             string sourceNodeExpr = exprGen.GetSequenceExpression(seqFor.ArgExprs[0], source);
@@ -943,14 +943,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
         }
 
         private void EmitSequenceForNodesEdges(SequenceForFunction seqFor, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             String iterationVariableName = "elem_" + seqFor.Id;
             if(IteratesNodes(seqFor.SequenceType))
@@ -976,7 +976,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1012,12 +1012,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqMin.Seq, source);
 
-            source.AppendFront("if(!" + compGen.GetResultVar(seqMin.Seq) + ")\n");
+            source.AppendFront("if(!" + SequenceComputationGenerator.GetResultVar(seqMin.Seq) + ")\n");
             source.AppendFront("\tbreak;\n");
             source.AppendFrontFormat("++{0};\n", iterationVariableName);
             source.Unindent();
             source.AppendFront("}\n");
-            source.AppendFront(compGen.SetResultVar(seqMin, iterationVariableName + " >= " + seqMin.Min));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqMin, iterationVariableName + " >= " + seqMin.Min));
         }
 
         private void EmitSequenceIterationMinMax(SequenceIterationMinMax seqMinMax, SourceBuilder source)
@@ -1030,73 +1030,73 @@ namespace de.unika.ipd.grGen.lgsp
 
             EmitSequence(seqMinMax.Seq, source);
 
-            source.AppendFront("if(!" + compGen.GetResultVar(seqMinMax.Seq) + ")\n");
+            source.AppendFront("if(!" + SequenceComputationGenerator.GetResultVar(seqMinMax.Seq) + ")\n");
             source.AppendFront("\tbreak;\n");
             source.Unindent();
             source.AppendFront("}\n");
-            source.AppendFront(compGen.SetResultVar(seqMinMax, iterationVariableName + " >= " + seqMinMax.Min));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqMinMax, iterationVariableName + " >= " + seqMinMax.Min));
         }
 
         private void EmitSequenceDeclareVariable(SequenceDeclareVariable seqDeclVar, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(seqDeclVar.DestVar, TypesHelper.DefaultValueString(seqDeclVar.DestVar.Type, env.Model)));
-            source.AppendFront(compGen.SetResultVar(seqDeclVar, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqDeclVar, "true"));
         }
 
         private void EmitSequenceAssignConstToVar(SequenceAssignConstToVar seqToVar, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(seqToVar.DestVar, helper.GetConstant(seqToVar.Constant)));
-            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqToVar, "true"));
         }
 
         private void EmitSequenceAssignContainerConstructorToVar(SequenceAssignContainerConstructorToVar seqToVar, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(seqToVar.DestVar, exprGen.GetSequenceExpression(seqToVar.Constructor, source)));
-            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqToVar, "true"));
         }
 
         private void EmitSequenceAssignVarToVar(SequenceAssignVarToVar seqToVar, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(seqToVar.DestVar, helper.GetVar(seqToVar.Variable)));
-            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqToVar, "true"));
         }
 
         private void EmitSequenceAssignSequenceResultToVar(SequenceAssignSequenceResultToVar seqToVar, SourceBuilder source)
         {
             EmitSequence(seqToVar.Seq, source);
-            source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq)));
-            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, SequenceComputationGenerator.GetResultVar(seqToVar.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqToVar, "true"));
         }
 
         private void EmitSequenceOrAssignSequenceResultToVar(SequenceOrAssignSequenceResultToVar seqToVar, SourceBuilder source)
         {
             EmitSequence(seqToVar.Seq, source);
-            source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq) + "|| (bool)" + helper.GetVar(seqToVar.DestVar)));
-            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, SequenceComputationGenerator.GetResultVar(seqToVar.Seq) + "|| (bool)" + helper.GetVar(seqToVar.DestVar)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqToVar, "true"));
         }
 
         private void EmitSequenceAndAssignSequenceResultToVar(SequenceAndAssignSequenceResultToVar seqToVar, SourceBuilder source)
         {
             EmitSequence(seqToVar.Seq, source);
-            source.AppendFront(helper.SetVar(seqToVar.DestVar, compGen.GetResultVar(seqToVar.Seq) + "&& (bool)" + helper.GetVar(seqToVar.DestVar)));
-            source.AppendFront(compGen.SetResultVar(seqToVar, "true"));
+            source.AppendFront(helper.SetVar(seqToVar.DestVar, SequenceComputationGenerator.GetResultVar(seqToVar.Seq) + "&& (bool)" + helper.GetVar(seqToVar.DestVar)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqToVar, "true"));
         }
 
         private void EmitSequenceAssignRandomIntToVar(SequenceAssignRandomIntToVar seqRandomToVar, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.Next(" + seqRandomToVar.Number + ")"));
-            source.AppendFront(compGen.SetResultVar(seqRandomToVar, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqRandomToVar, "true"));
         }
 
         private void EmitSequenceAssignRandomDoubleToVar(SequenceAssignRandomDoubleToVar seqRandomToVar, SourceBuilder source)
         {
             source.AppendFront(helper.SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.NextDouble()"));
-            source.AppendFront(compGen.SetResultVar(seqRandomToVar, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqRandomToVar, "true"));
         }
 
         private void EmitSequenceAll(SequenceNAry seqAll, bool disjunction, bool lazy, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqAll, disjunction ? "false" : "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqAll, disjunction ? "false" : "true"));
             String continueDecisionName = "continue_" + seqAll.Id;
             source.AppendFrontFormat("bool {0} = true;\n", continueDecisionName);
             String sequencesToExecuteVarName = "sequencestoexecutevar_" + seqAll.Id;
@@ -1121,11 +1121,11 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequence(seqAll.Sequences[i], source);
 
                 source.AppendFrontFormat("{0}.Remove({1});\n", sequencesToExecuteVarName, i);
-                String sequenceResult = compGen.GetResultVar(seqAll) + (disjunction ? " || " : " && ") + compGen.GetResultVar(seqAll.Sequences[i]);
-                source.AppendFront(compGen.SetResultVar(seqAll, sequenceResult));
+                String sequenceResult = SequenceComputationGenerator.GetResultVar(seqAll) + (disjunction ? " || " : " && ") + SequenceComputationGenerator.GetResultVar(seqAll.Sequences[i]);
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seqAll, sequenceResult));
                 if(lazy)
                 {
-                    source.AppendFrontFormat("if({0}" + compGen.GetResultVar(seqAll) + ")\n", disjunction ? "" : "!");
+                    source.AppendFrontFormat("if({0}" + SequenceComputationGenerator.GetResultVar(seqAll) + ")\n", disjunction ? "" : "!");
                     source.AppendFrontFormat("\t{0} = false;\n", continueDecisionName);
                 }
                 source.AppendFront("break;\n");
@@ -1156,7 +1156,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 EmitSequence(seqWeighted.Sequences[i], source);
 
-                source.AppendFront(compGen.SetResultVar(seqWeighted, compGen.GetResultVar(seqWeighted.Sequences[i])));
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seqWeighted, SequenceComputationGenerator.GetResultVar(seqWeighted.Sequences[i])));
                 source.Unindent();
                 source.AppendFront("}\n");
             }
@@ -1164,13 +1164,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceSome(SequenceSomeFromSet seqSome, SourceBuilder source)
         {
-            source.AppendFront(compGen.SetResultVar(seqSome, "false"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqSome, "false"));
 
             // emit code for matching all the contained rules
             for(int i = 0; i < seqSome.Sequences.Count; ++i)
             {
                 new SequenceSomeRuleCallGenerator(seqSome, (SequenceRuleCall)seqSome.Sequences[i], helper)
-                    .EmitMatching(source, this, compGen);
+                    .EmitMatching(source, this);
             }
 
             // emit code for deciding on the match to rewrite
@@ -1202,7 +1202,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < seqSome.Sequences.Count; ++i)
             {
                 new SequenceSomeRuleCallGenerator(seqSome, (SequenceRuleCall)seqSome.Sequences[i], helper)
-                    .EmitRewriting(source, this, compGen, totalMatchToApply, curTotalMatch, firstRewrite, fireDebugEvents);
+                    .EmitRewriting(source, this, totalMatchToApply, curTotalMatch, firstRewrite, fireDebugEvents);
             }
         }
 
@@ -1211,11 +1211,11 @@ namespace de.unika.ipd.grGen.lgsp
             String transactionId = "transID_" + seqTrans.Id;
             source.AppendFront("int " + transactionId + " = procEnv.TransactionManager.Start();\n");
             EmitSequence(seqTrans.Seq, source);
-            source.AppendFront("if(" + compGen.GetResultVar(seqTrans.Seq) + ")\n");
+            source.AppendFront("if(" + SequenceComputationGenerator.GetResultVar(seqTrans.Seq) + ")\n");
             source.AppendFront("\tprocEnv.TransactionManager.Commit(" + transactionId + ");\n");
             source.AppendFront("else\n");
             source.AppendFront("\tprocEnv.TransactionManager.Rollback(" + transactionId + ");\n");
-            source.AppendFront(compGen.SetResultVar(seqTrans, compGen.GetResultVar(seqTrans.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqTrans, SequenceComputationGenerator.GetResultVar(seqTrans.Seq)));
         }
 
         private void EmitSequencePause(SequencePause seqPause, SourceBuilder source)
@@ -1223,7 +1223,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("procEnv.TransactionManager.Pause();\n");
             EmitSequence(seqPause.Seq, source);
             source.AppendFront("procEnv.TransactionManager.Resume();\n");
-            source.AppendFront(compGen.SetResultVar(seqPause, compGen.GetResultVar(seqPause.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqPause, SequenceComputationGenerator.GetResultVar(seqPause.Seq)));
         }
 
         private void EmitSequenceExecuteInSubgraph(SequenceExecuteInSubgraph seqExecInSub, SourceBuilder source)
@@ -1241,21 +1241,21 @@ namespace de.unika.ipd.grGen.lgsp
             EmitSequence(seqExecInSub.Seq, source);
             source.AppendFront("procEnv.ReturnFromSubgraph();\n");
             source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
-            source.AppendFront(compGen.SetResultVar(seqExecInSub, compGen.GetResultVar(seqExecInSub.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqExecInSub, SequenceComputationGenerator.GetResultVar(seqExecInSub.Seq)));
         }
 
         private void EmitSequenceBooleanComputation(SequenceBooleanComputation seqComp, SourceBuilder source)
         {
             compGen.EmitSequenceComputation(seqComp.Computation, source);
             if(seqComp.Computation.ReturnsValue)
-                source.AppendFront(compGen.SetResultVar(seqComp, "!GRGEN_LIBGR.TypesHelper.IsDefaultValue(" + compGen.GetResultVar(seqComp.Computation) + ")"));
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seqComp, "!GRGEN_LIBGR.TypesHelper.IsDefaultValue(" + SequenceComputationGenerator.GetResultVar(seqComp.Computation) + ")"));
             else
-                source.AppendFront(compGen.SetResultVar(seqComp, "true"));
+                source.AppendFront(SequenceComputationGenerator.SetResultVar(seqComp, "true"));
         }
 
         public String GetSequenceResult(Sequence seq)
         {
-            return compGen.GetResultVar(seq);
+            return SequenceComputationGenerator.GetResultVar(seq);
         }
 
         internal void EmitFilterCall(SourceBuilder source, FilterCall filterCall, string patternName, string matchesName)

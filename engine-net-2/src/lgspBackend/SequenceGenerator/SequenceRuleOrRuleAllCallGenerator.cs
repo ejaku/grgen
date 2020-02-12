@@ -56,7 +56,7 @@ namespace de.unika.ipd.grGen.lgsp
             matchesName = "matches_" + seqRule.Id;
         }
 
-        public void Emit(SourceBuilder source, SequenceGenerator seqGen, SequenceComputationGenerator compGen, bool fireDebugEvents)
+        public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
             if(ruleInvocation.Subgraph != null)
             {
@@ -97,11 +97,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("if({0}) {{\n", insufficientMatchesCondition);
             source.Indent();
-            source.AppendFront(compGen.SetResultVar(seqRule, "false"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqRule, "false"));
             source.Unindent();
             source.AppendFront("} else {\n");
             source.Indent();
-            source.AppendFront(compGen.SetResultVar(seqRule, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqRule, "true"));
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");

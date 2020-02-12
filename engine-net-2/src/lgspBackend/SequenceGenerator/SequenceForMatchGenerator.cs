@@ -50,9 +50,9 @@ namespace de.unika.ipd.grGen.lgsp
             matchesName = "matches_" + seqFor.Id;
         }
 
-        public void Emit(SourceBuilder source, SequenceGenerator seqGen, SequenceComputationGenerator compGen, bool fireDebugEvents)
+        public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
-            source.AppendFront(compGen.SetResultVar(seqFor, "true"));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, "true"));
 
             source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             seqGen.EmitSequence(seqFor.Seq, source);
 
-            source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
+            source.AppendFront(SequenceComputationGenerator.SetResultVar(seqFor, SequenceComputationGenerator.GetResultVar(seqFor) + " & " + SequenceComputationGenerator.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
 

@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.lgsp
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
 
-        public void EmitRewritingRuleCall(SourceBuilder source, SequenceGenerator seqGen, SequenceComputationGenerator compGen, String firstRewrite, bool fireDebugEvents)
+        public void EmitRewritingRuleCall(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
         {
             source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
             if(fireDebugEvents)
@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(firstRewrite + " = false;\n");
         }
 
-        public void EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(SourceBuilder source, SequenceGenerator seqGen, SequenceComputationGenerator compGen, String firstRewrite, bool fireDebugEvents)
+        public void EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
         {
             // iterate through matches, use Modify on each, fire the next match event after the first
             if(returnParameterDeclarations.Length != 0)
@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void EmitRewritingRuleAllCallRandomSequenceRandom(SourceBuilder source, SequenceGenerator seqGen, SequenceComputationGenerator compGen, String firstRewrite, bool fireDebugEvents)
+        public void EmitRewritingRuleAllCallRandomSequenceRandom(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
         {
             // for the match selected: rewrite it
             if(returnParameterDeclarations.Length != 0)
@@ -145,7 +145,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        public void EmitRewritingRuleAllCallRandomSequenceNonRandom(SourceBuilder source, SequenceGenerator seqGen, SequenceComputationGenerator compGen, String firstRewrite, bool fireDebugEvents)
+        public void EmitRewritingRuleAllCallRandomSequenceNonRandom(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
         {
             // randomly choose match, rewrite it and remove it from available matches
             if(returnParameterDeclarations.Length != 0)

@@ -18,18 +18,14 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class NeededEntitiesEmitter
     {
-        readonly SequenceComputationGenerator compGen;
-
         readonly SequenceGeneratorHelper helper;
 
         // set of the used rules (if contained, a variable was created for easy access to them, once)
         readonly Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
 
-        public NeededEntitiesEmitter(SequenceComputationGenerator compGen, SequenceGeneratorHelper helper)
+        public NeededEntitiesEmitter(SequenceGeneratorHelper helper)
         {
-            this.compGen = compGen;
-
             this.helper = helper;
         }
 
@@ -46,7 +42,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
 		public void EmitNeededVarAndRuleEntities(Sequence seq, SourceBuilder source)
 		{
-			source.AppendFront(compGen.DeclareResultVar(seq));
+			source.AppendFront(SequenceComputationGenerator.DeclareResultVar(seq));
 
 			switch(seq.SequenceType)
 			{
@@ -215,7 +211,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
 		private void EmitNeededVarEntities(SequenceComputation seqComp, SourceBuilder source)
 		{
-            source.AppendFront(compGen.DeclareResultVar(seqComp));
+            source.AppendFront(SequenceComputationGenerator.DeclareResultVar(seqComp));
             
             switch(seqComp.SequenceComputationType)
 			{
@@ -267,7 +263,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
 		private void EmitNeededVarEntities(AssignmentTarget tgt, SourceBuilder source)
 		{
-            source.AppendFront(compGen.DeclareResultVar(tgt));
+            source.AppendFront(SequenceComputationGenerator.DeclareResultVar(tgt));
 
             switch(tgt.AssignmentTargetType)
 			{

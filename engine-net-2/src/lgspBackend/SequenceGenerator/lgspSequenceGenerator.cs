@@ -71,7 +71,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             this.seqGen = new SequenceGenerator(model, env, compGen, exprGen, helper, fireDebugEvents, emitProfiling);
 
-            this.neededEntitiesEmitter = new NeededEntitiesEmitter(compGen, helper);
+            this.neededEntitiesEmitter = new NeededEntitiesEmitter(helper);
 
             this.fireDebugEvents = fireDebugEvents;
             this.emitProfiling = emitProfiling;
