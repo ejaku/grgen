@@ -1,0 +1,37 @@
+new graph execincadjreachab/execincadjreachab
+exec (::s)=init
+
+exec forAdjacentIncoming
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forIncoming
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forAdjacentOutgoing
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forOutgoing
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forAdjacent
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forIncident
+show var a
+
+quit

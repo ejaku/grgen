@@ -1,0 +1,37 @@
+new graph execincadjreachab/execincadjreachab
+exec (::s)=init
+
+exec ::a=array<Node>[] ;> for{n:Node in boundedReachableIncoming(::s,1,Edge,N); {::a.add(n)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Edge>[] ;> for{e:Edge in boundedReachableEdgesIncoming(::s,1,Edge,N); {::a.add(e)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Node>[] ;> for{n:Node in boundedReachableOutgoing(::s,1,Edge,N); {::a.add(n)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Edge>[] ;> for{e:Edge in boundedReachableEdgesOutgoing(::s,1,Edge,N); {::a.add(e)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Node>[] ;> for{n:Node in boundedReachable(::s,1,Edge,N); {::a.add(n)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Edge>[] ;> for{e:Edge in boundedReachableEdges(::s,1,Edge,N); {::a.add(e)}}
+show var a
+
+quit

@@ -1,0 +1,13 @@
+new graph execincadjreachab/execincadjreachab
+exec (::s)=init
+
+exec forNodes
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forEdges
+show var a
+
+quit

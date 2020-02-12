@@ -1,0 +1,5 @@
+node class Start;
+node class N;
+node class M;
+
+edge class E;

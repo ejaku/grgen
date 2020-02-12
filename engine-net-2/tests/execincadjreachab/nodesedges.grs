@@ -1,0 +1,13 @@
+new graph execincadjreachab/execincadjreachab
+exec (::s)=init
+
+exec ::a=array<Node>[] ;> for{n:Node in nodes(N); {::a.add(n)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Edge>[] ;> for{e:Edge in edges(E); {::a.add(e)}}
+show var a
+
+quit

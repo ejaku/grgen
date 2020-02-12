@@ -1,0 +1,116 @@
+#using "execincadjreachab.gm"
+
+rule init : (Start)
+{
+	modify {
+		s:Start@($="start") -:E@($="e1")-> :N@($="n1") -:Edge@($="d1")-> :M@($="m1");
+		s -:E@($="e2")-> :N@($="n2") -:E@($="e3")-> :N@($="n3");
+		s -:Edge@($="d2")-> :M@($="m2");
+		s <-:E@($="e4")- :N@($="n4");
+		return(s);
+	}
+}
+
+
+sequence forNodes
+{
+	::a=array<Node>[] ;> for{n:Node in nodes(N); {::a.add(n)}}
+}
+
+sequence forEdges
+{
+	::a=array<Edge>[] ;> for{e:Edge in edges(E); {::a.add(e)}}
+}
+
+
+sequence forAdjacentIncoming
+{
+	::a=array<Node>[] ;> for{n:Node in adjacentIncoming(::s,Edge,N); {::a.add(n)}}
+}
+
+sequence forIncoming
+{
+	::a=array<Edge>[] ;> for{e:Edge in incoming(::s,Edge,N); {::a.add(e)}}
+}
+
+sequence forAdjacentOutgoing
+{
+	::a=array<Node>[] ;> for{n:Node in adjacentOutgoing(::s,Edge,N); {::a.add(n)}}
+}
+
+sequence forOutgoing
+{
+	::a=array<Edge>[] ;> for{e:Edge in outgoing(::s,Edge,N); {::a.add(e)}}
+}
+
+sequence forAdjacent
+{
+	::a=array<Node>[] ;> for{n:Node in adjacent(::s,Edge,N); {::a.add(n)}}
+}
+
+sequence forIncident
+{
+	::a=array<Edge>[] ;> for{e:Edge in incident(::s,Edge,N); {::a.add(e)}}
+}
+
+
+sequence forReachableIncoming
+{
+	::a=array<Node>[] ;> for{n:Node in reachableIncoming(::s,Edge,N); {::a.add(n)}}
+}
+
+sequence forReachableEdgesIncoming
+{
+	::a=array<Edge>[] ;> for{e:Edge in reachableEdgesIncoming(::s,Edge,N); {::a.add(e)}}
+}
+
+sequence forReachableOutgoing
+{
+	::a=array<Node>[] ;> for{n:Node in reachableOutgoing(::s,Edge,N); {::a.add(n)}}
+}
+
+sequence forReachableEdgesOutgoing
+{
+	::a=array<Edge>[] ;> for{e:Edge in reachableEdgesOutgoing(::s,Edge,N); {::a.add(e)}}
+}
+
+sequence forReachable
+{
+	::a=array<Node>[] ;> for{n:Node in reachable(::s,Edge,N); {::a.add(n)}}
+}
+
+sequence forReachableEdges
+{
+	::a=array<Edge>[] ;> for{e:Edge in reachableEdges(::s,Edge,N); {::a.add(e)}}
+}
+
+
+sequence forBoundedReachableIncoming
+{
+	::a=array<Node>[] ;> for{n:Node in boundedReachableIncoming(::s,1,Edge,N); {::a.add(n)}}
+}
+
+sequence forBoundedReachableEdgesIncoming
+{
+	::a=array<Edge>[] ;> for{e:Edge in boundedReachableEdgesIncoming(::s,1,Edge,N); {::a.add(e)}}
+}
+
+sequence forBoundedReachableOutgoing
+{
+	::a=array<Node>[] ;> for{n:Node in boundedReachableOutgoing(::s,1,Edge,N); {::a.add(n)}}
+}
+
+sequence forBoundedReachableEdgesOutgoing
+{
+	::a=array<Edge>[] ;> for{e:Edge in boundedReachableEdgesOutgoing(::s,1,Edge,N); {::a.add(e)}}
+}
+
+sequence forBoundedReachable
+{
+	::a=array<Node>[] ;> for{n:Node in boundedReachable(::s,1,Edge,N); {::a.add(n)}}
+}
+
+sequence forBoundedReachableEdges
+{
+	::a=array<Edge>[] ;> for{e:Edge in boundedReachableEdges(::s,1,Edge,N); {::a.add(e)}}
+}

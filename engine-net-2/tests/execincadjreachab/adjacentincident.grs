@@ -1,0 +1,37 @@
+new graph execincadjreachab/execincadjreachab
+exec (::s)=init
+
+exec ::a=array<Node>[] ;> for{n:Node in adjacentIncoming(::s,Edge,N); {::a.add(n)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Edge>[] ;> for{e:Edge in incoming(::s,Edge,N); {::a.add(e)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Node>[] ;> for{n:Node in adjacentOutgoing(::s,Edge,N); {::a.add(n)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Edge>[] ;> for{e:Edge in outgoing(::s,Edge,N); {::a.add(e)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Node>[] ;> for{n:Node in adjacent(::s,Edge,N); {::a.add(n)}}
+show var a
+
+clear graph
+exec (::s)=init
+
+exec ::a=array<Edge>[] ;> for{e:Edge in incident(::s,Edge,N); {::a.add(e)}}
+show var a
+
+quit

@@ -109,13 +109,16 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.ForIncidentEdges:
             case SequenceType.ForIncomingEdges:
             case SequenceType.ForOutgoingEdges:
+                EmitSequenceForFunction((SequenceForFunction)seq, source);
+                break;
+
             case SequenceType.ForReachableNodes:
             case SequenceType.ForReachableNodesViaIncoming:
             case SequenceType.ForReachableNodesViaOutgoing:
             case SequenceType.ForReachableEdges:
             case SequenceType.ForReachableEdgesViaIncoming:
             case SequenceType.ForReachableEdgesViaOutgoing:
-                EmitSequenceForFunction((SequenceForFunction)seq, source);
+                EmitSequenceForReachable((SequenceForFunction)seq, source);
                 break;
 
             case SequenceType.ForBoundedReachableNodes:
@@ -852,12 +855,12 @@ namespace de.unika.ipd.grGen.lgsp
             string profilingArgument = emitProfiling ? ", procEnv" : "";
             if(seqFor.SequenceType == SequenceType.ForReachableNodes || seqFor.SequenceType == SequenceType.ForReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableNodesViaOutgoing)
             {
-                source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode {0} in GraphHelper.Reachable{1}({2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode {0} in GRGEN_LIBGR.GraphHelper.Reachable{1}({2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
                     iterationVariable, reachableMethod, sourceNodeName, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
             }
             else //if(seqFor.SequenceType == SequenceType.ForReachableEdges || seqFor.SequenceType == SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
             {
-                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge {0} in GraphHelper.Reachable{1}({2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
+                source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge {0} in GRGEN_LIBGR.GraphHelper.Reachable{1}({2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
                     iterationVariable, reachableMethod, sourceNodeName, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
             }
             source.AppendFront("{\n");

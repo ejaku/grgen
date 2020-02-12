@@ -1,0 +1,37 @@
+new graph execincadjreachab/execincadjreachab
+exec (::s)=init
+
+exec forBoundedReachableIncoming
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forBoundedReachableEdgesIncoming
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forBoundedReachableOutgoing
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forBoundedReachableEdgesOutgoing
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forBoundedReachable
+show var a
+
+clear graph
+exec (::s)=init
+
+exec forBoundedReachableEdges
+show var a
+
+quit
