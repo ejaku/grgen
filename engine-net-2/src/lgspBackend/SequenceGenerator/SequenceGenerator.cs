@@ -853,12 +853,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             string profilingArgument = emitProfiling ? ", procEnv" : "";
-            if(seqFor.SequenceType == SequenceType.ForReachableNodes || seqFor.SequenceType == SequenceType.ForReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableNodesViaOutgoing)
+            if(IteratesNodes(seqFor.SequenceType))
             {
                 source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode {0} in GRGEN_LIBGR.GraphHelper.Reachable{1}({2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
                     iterationVariable, reachableMethod, sourceNodeName, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
             }
-            else //if(seqFor.SequenceType == SequenceType.ForReachableEdges || seqFor.SequenceType == SequenceType.ForReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForReachableEdgesViaOutgoing)
+            else
             {
                 source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge {0} in GRGEN_LIBGR.GraphHelper.Reachable{1}({2}, ({3}), ({4}), graph" + profilingArgument + "))\n",
                     iterationVariable, reachableMethod, sourceNodeName, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
@@ -893,7 +893,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             string iterationVariable = "iter_" + seqFor.Id;
             string iterationType;
-            string reachableMethod = null;
+            string reachableMethod;
             switch(seqFor.SequenceType)
             {
             case SequenceType.ForBoundedReachableNodes:
@@ -921,17 +921,17 @@ namespace de.unika.ipd.grGen.lgsp
                 iterationType = IncidentEdgeType != null ? IncidentEdgeType.Type(env) : "AEdge";
                 break;
             default:
-                iterationVariable = iterationType = "INTERNAL ERROR";
+                reachableMethod = iterationVariable = iterationType = "INTERNAL ERROR";
                 break;
             }
 
             string profilingArgument = emitProfiling ? ", procEnv" : "";
-            if(seqFor.SequenceType == SequenceType.ForBoundedReachableNodes || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableNodesViaOutgoing)
+            if(IteratesNodes(seqFor.SequenceType))
             {
                 source.AppendFrontFormat("foreach(GRGEN_LIBGR.INode {0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}({2}, {3}, ({4}), ({5}), graph" + profilingArgument + "))\n",
                     iterationVariable, reachableMethod, sourceNodeName, depthVarName, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
             }
-            else //if(seqFor.SequenceType == SequenceType.ForBoundedReachableEdges || seqFor.SequenceType == SequenceType.ForBoundedReachableEdgesViaIncoming || seqFor.SequenceType == SequenceType.ForBoundedReachableEdgesViaOutgoing)
+            else
             {
                 source.AppendFrontFormat("foreach(GRGEN_LIBGR.IEdge {0} in GRGEN_LIBGR.GraphHelper.BoundedReachable{1}({2}, {3}, ({4}), ({5}), graph" + profilingArgument + "))\n",
                     iterationVariable, reachableMethod, sourceNodeName, depthVarName, incidentEdgeTypeExpr, adjacentNodeTypeExpr);
@@ -946,7 +946,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(compGen.SetResultVar(seqFor, compGen.GetResultVar(seqFor) + " & " + compGen.GetResultVar(seqFor.Seq)));
             source.Unindent();
             source.AppendFront("}\n");
-
         }
 
         private void EmitSequenceForNodesEdges(SequenceForFunction seqFor, SourceBuilder source)
@@ -954,7 +953,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(compGen.SetResultVar(seqFor, "true"));
 
             String iterationVariableName = "elem_" + seqFor.Id;
-            if(seqFor.SequenceType == SequenceType.ForNodes)
+            if(IteratesNodes(seqFor.SequenceType))
             {
                 SequenceExpression AdjacentNodeType = seqFor.ArgExprs.Count >= 1 ? seqFor.ArgExprs[0] : null;
                 string adjacentNodeTypeExpr = helper.ExtractNodeType(source, AdjacentNodeType);
@@ -981,6 +980,26 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+        }
+
+        private bool IteratesNodes(SequenceType seqType)
+        {
+            switch(seqType)
+            {
+            case SequenceType.ForAdjacentNodes:
+            case SequenceType.ForAdjacentNodesViaIncoming:
+            case SequenceType.ForAdjacentNodesViaOutgoing:
+            case SequenceType.ForReachableNodes:
+            case SequenceType.ForReachableNodesViaIncoming:
+            case SequenceType.ForReachableNodesViaOutgoing:
+            case SequenceType.ForBoundedReachableNodes:
+            case SequenceType.ForBoundedReachableNodesViaIncoming:
+            case SequenceType.ForBoundedReachableNodesViaOutgoing:
+            case SequenceType.ForNodes:
+                return true;
+            default:
+                return false;
+            }
         }
 
         private void EmitSequenceIterationMin(SequenceIterationMin seqMin, SourceBuilder source)
