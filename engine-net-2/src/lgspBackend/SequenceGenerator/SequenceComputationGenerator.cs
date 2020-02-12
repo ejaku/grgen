@@ -49,20 +49,8 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceComputationType.Then:
                 EmitSequenceComputationThen((SequenceComputationThen)seqComp, source);
                 break;
-            case SequenceComputationType.Assignment:
-                EmitSequenceComputationAssignment((SequenceComputationAssignment)seqComp, source);
-                break;
             case SequenceComputationType.VariableDeclaration:
                 EmitSequenceComputationVariableDeclaration((SequenceComputationVariableDeclaration)seqComp, source);
-                break;
-            case SequenceComputationType.ContainerAdd:
-                EmitSequenceComputationContainerAdd((SequenceComputationContainerAdd)seqComp, source);
-                break;
-            case SequenceComputationType.ContainerRem:
-                EmitSequenceComputationContainerRem((SequenceComputationContainerRem)seqComp, source);
-                break;
-            case SequenceComputationType.ContainerClear:
-                EmitSequenceComputationContainerClear((SequenceComputationContainerClear)seqComp, source);
                 break;
             case SequenceComputationType.VAlloc:
                 EmitSequenceComputationVAlloc((SequenceComputationVAlloc)seqComp, source);
@@ -152,7 +140,19 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceComputationType.ProcedureMethodCall:
                 EmitSequenceComputationProcedureMethodCall((SequenceComputationProcedureMethodCall)seqComp, source);
                 break;
-			default:
+            case SequenceComputationType.ContainerAdd:
+                EmitSequenceComputationContainerAdd((SequenceComputationContainerAdd)seqComp, source);
+                break;
+            case SequenceComputationType.ContainerRem:
+                EmitSequenceComputationContainerRem((SequenceComputationContainerRem)seqComp, source);
+                break;
+            case SequenceComputationType.ContainerClear:
+                EmitSequenceComputationContainerClear((SequenceComputationContainerClear)seqComp, source);
+                break;
+            case SequenceComputationType.Assignment:
+                EmitSequenceComputationAssignment((SequenceComputationAssignment)seqComp, source);
+                break;
+            default:
 				throw new Exception("Unknown sequence computation type: " + seqComp.SequenceComputationType);
 			}
 		}
@@ -164,27 +164,455 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(COMP_HELPER.SetResultVar(seqThen, COMP_HELPER.GetResultVar(seqThen.right)));
         }
 
-        public void EmitSequenceComputationAssignment(SequenceComputationAssignment seqAssign, SourceBuilder source)
-        {
-            if(seqAssign.SourceValueProvider is SequenceComputationAssignment)
-            {
-                EmitSequenceComputation(seqAssign.SourceValueProvider, source);
-                EmitAssignment(seqAssign.Target, COMP_HELPER.GetResultVar(seqAssign.SourceValueProvider), source);
-                source.AppendFront(COMP_HELPER.SetResultVar(seqAssign, COMP_HELPER.GetResultVar(seqAssign.Target)));
-            }
-            else
-            {
-                string comp = exprGen.GetSequenceExpression((SequenceExpression)seqAssign.SourceValueProvider, source);
-                EmitAssignment(seqAssign.Target, comp, source);
-                source.AppendFront(COMP_HELPER.SetResultVar(seqAssign, COMP_HELPER.GetResultVar(seqAssign.Target)));
-            }
-        }
-
         public void EmitSequenceComputationVariableDeclaration(SequenceComputationVariableDeclaration seqVarDecl, SourceBuilder source)
         {
             source.AppendFront(seqHelper.SetVar(seqVarDecl.Target, TypesHelper.DefaultValueString(seqVarDecl.Target.Type, model)));
             source.AppendFront(COMP_HELPER.SetResultVar(seqVarDecl, seqHelper.GetVar(seqVarDecl.Target)));
         }
+
+        public void EmitSequenceComputationVAlloc(SequenceComputationVAlloc seqVAlloc, SourceBuilder source)
+        {
+            source.Append("graph.AllocateVisitedFlag()");
+        }
+
+        public void EmitSequenceComputationVFree(SequenceComputationVFree seqVFree, SourceBuilder source)
+        {
+            if(seqVFree.Reset)
+                source.AppendFront("graph.FreeVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
+            else
+                source.AppendFront("graph.FreeVisitedFlagNonReset((int)" + exprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqVFree, "null"));
+        }
+
+        public void EmitSequenceComputationVReset(SequenceComputationVReset seqVReset, SourceBuilder source)
+        {
+            source.AppendFront("graph.ResetVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVReset.VisitedFlagExpression, source) + ");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqVReset, "null"));
+        }
+
+        public void EmitSequenceComputationDebugAdd(SequenceComputationDebugAdd seqDebug, SourceBuilder source)
+        {
+            source.AppendFront("procEnv.DebugEntering(");
+            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+            {
+                if(i == 0)
+                    source.Append("(string)");
+                else
+                    source.Append(", ");
+                source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
+            }
+            source.Append(");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
+        }
+
+        public void EmitSequenceComputationDebugRem(SequenceComputationDebugRem seqDebug, SourceBuilder source)
+        {
+            source.AppendFront("procEnv.DebugExiting(");
+            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+            {
+                if(i == 0)
+                    source.Append("(string)");
+                else
+                    source.Append(", ");
+                source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
+            }
+            source.Append(");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
+        }
+
+        public void EmitSequenceComputationDebugEmit(SequenceComputationDebugEmit seqDebug, SourceBuilder source)
+        {
+            source.AppendFront("procEnv.DebugEmitting(");
+            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+            {
+                if(i == 0)
+                    source.Append("(string)");
+                else
+                    source.Append(", ");
+                source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
+            }
+            source.Append(");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
+        }
+
+        public void EmitSequenceComputationDebugHalt(SequenceComputationDebugHalt seqDebug, SourceBuilder source)
+        {
+            source.AppendFront("procEnv.DebugHalting(");
+            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+            {
+                if(i == 0)
+                    source.Append("(string)");
+                else
+                    source.Append(", ");
+                source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
+            }
+            source.Append(");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
+        }
+
+        public void EmitSequenceComputationDebugHighlight(SequenceComputationDebugHighlight seqDebug, SourceBuilder source)
+        {
+            source.AppendFront("List<object> values = new List<object>();\n");
+            source.AppendFront("List<string> annotations = new List<string>();\n");
+            for(int i = 1; i < seqDebug.ArgExprs.Count; ++i)
+            {
+                if(i % 2 == 1)
+                    source.AppendFront("values.Add(" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
+                else
+                    source.AppendFront("annotations.Add((string)" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
+            }
+            source.AppendFront("procEnv.DebugHighlighting(" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[0], source) + ", values, annotations);\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
+        }
+
+        public void EmitSequenceComputationEmit(SequenceComputationEmit seqEmit, SourceBuilder source)
+        {
+            bool declarationEmitted = false;
+            String emitWriter = seqEmit.IsDebug ? "EmitWriterDebug" : "EmitWriter";
+            for(int i = 0; i < seqEmit.Expressions.Count; ++i)
+            {
+                if(!(seqEmit.Expressions[i] is SequenceExpressionConstant))
+                {
+                    string emitVal = "emitval_" + seqEmit.Id;
+                    if(!declarationEmitted)
+                    {
+                        source.AppendFront("object " + emitVal + ";\n");
+                        declarationEmitted = true;
+                    }
+                    source.AppendFront(emitVal + " = " + exprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ";\n");
+                    if(seqEmit.Expressions[i].Type(env) == ""
+                        || seqEmit.Expressions[i].Type(env).StartsWith("set<") || seqEmit.Expressions[i].Type(env).StartsWith("map<")
+                        || seqEmit.Expressions[i].Type(env).StartsWith("array<") || seqEmit.Expressions[i].Type(env).StartsWith("deque<"))
+                    {
+                        source.AppendFront("if(" + emitVal + " is IDictionary)\n");
+                        source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
+                        source.AppendFront("else if(" + emitVal + " is IList)\n");
+                        source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((IList)" + emitVal + ", graph));\n");
+                        source.AppendFront("else if(" + emitVal + " is GRGEN_LIBGR.IDeque)\n");
+                        source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((GRGEN_LIBGR.IDeque)" + emitVal + ", graph));\n");
+                        source.AppendFront("else\n\t");
+                    }
+                    source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + emitVal + ", graph));\n");
+                }
+                else
+                {
+                    SequenceExpressionConstant constant = (SequenceExpressionConstant)seqEmit.Expressions[i];
+                    if(constant.Constant is string)
+                    {
+                        String text = (string)constant.Constant;
+                        text = text.Replace("\n", "\\n");
+                        text = text.Replace("\r", "\\r");
+                        text = text.Replace("\t", "\\t");
+                        source.AppendFront("procEnv." + emitWriter + ".Write(\"" + text + "\");\n");
+                    }
+                    else
+                        source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + exprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ", graph));\n");
+                }
+            }
+            source.AppendFront(COMP_HELPER.SetResultVar(seqEmit, "null"));
+        }
+
+        public void EmitSequenceComputationRecord(SequenceComputationRecord seqRec, SourceBuilder source)
+        {
+            if(!(seqRec.Expression is SequenceExpressionConstant))
+            {
+                string recVal = "recval_" + seqRec.Id;
+                source.AppendFront("object " + recVal + " = " + exprGen.GetSequenceExpression(seqRec.Expression, source) + ";\n");
+                if(seqRec.Expression.Type(env) == ""
+                    || seqRec.Expression.Type(env).StartsWith("set<") || seqRec.Expression.Type(env).StartsWith("map<")
+                    || seqRec.Expression.Type(env).StartsWith("array<") || seqRec.Expression.Type(env).StartsWith("deque<"))
+                {
+                    source.AppendFront("if(" + recVal + " is IDictionary)\n");
+                    source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((IDictionary)" + recVal + ", graph));\n");
+                    source.AppendFront("else if(" + recVal + " is IList)\n");
+                    source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((IList)" + recVal + ", graph));\n");
+                    source.AppendFront("else if(" + recVal + " is GRGEN_LIBGR.IDeque)\n");
+                    source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((GRGEN_LIBGR.IDeque)" + recVal + ", graph));\n");
+                    source.AppendFront("else\n\t");
+                }
+                source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + recVal + ", graph));\n");
+            }
+            else
+            {
+                SequenceExpressionConstant constant = (SequenceExpressionConstant)seqRec.Expression;
+                if(constant.Constant is string)
+                {
+                    String text = (string)constant.Constant;
+                    text = text.Replace("\n", "\\n");
+                    text = text.Replace("\r", "\\r");
+                    text = text.Replace("\t", "\\t");
+                    source.AppendFront("procEnv.Recorder.Write(\"" + text + "\");\n");
+                }
+                else
+                    source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + exprGen.GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
+            }
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRec, "null"));
+        }
+
+        public void EmitSequenceComputationExport(SequenceComputationExport seqExp, SourceBuilder source)
+        {
+            string expFileName = "expfilename_" + seqExp.Id;
+            source.AppendFront("object " + expFileName + " = " + exprGen.GetSequenceExpression(seqExp.Name, source) + ";\n");
+            string expArguments = "exparguments_" + seqExp.Id;
+            source.AppendFront("List<string> " + expArguments + " = new List<string>();\n");
+            source.AppendFront(expArguments + ".Add(" + expFileName + ".ToString());\n");
+            string expGraph = "expgraph_" + seqExp.Id;
+            if(seqExp.Graph != null)
+                source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = (GRGEN_LIBGR.IGraph)" + exprGen.GetSequenceExpression(seqExp.Graph, source) + ";\n");
+            else
+                source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = graph;\n");
+            source.AppendFront("if(" + expGraph + " is GRGEN_LIBGR.INamedGraph)\n");
+            source.AppendFront("\tGRGEN_LIBGR.Porter.Export((GRGEN_LIBGR.INamedGraph)" + expGraph + ", " + expArguments + ");\n");
+            source.AppendFront("else\n");
+            source.AppendFront("\tGRGEN_LIBGR.Porter.Export(" + expGraph + ", " + expArguments + ");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqExp, "null"));
+        }
+
+        public void EmitSequenceComputationDeleteFile(SequenceComputationDeleteFile seqDelFile, SourceBuilder source)
+        {
+            string delFileName = "delfilename_" + seqDelFile.Id;
+            source.AppendFront("object " + delFileName + " = " + exprGen.GetSequenceExpression(seqDelFile.Name, source) + ";\n");
+            source.AppendFront("\tSystem.IO.File.Delete((string)" + delFileName + ");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqDelFile, "null"));
+        }
+
+        public void EmitSequenceComputationGraphAdd(SequenceComputationGraphAdd seqAdd, SourceBuilder source)
+        {
+            if(seqAdd.ExprSrc == null)
+            {
+                string typeExpr = exprGen.GetSequenceExpression(seqAdd.Expr, source);
+                source.Append("GRGEN_LIBGR.GraphHelper.AddNodeOfType(" + typeExpr + ", graph)");
+            }
+            else
+            {
+                string typeExpr = exprGen.GetSequenceExpression(seqAdd.Expr, source);
+                string srcExpr = exprGen.GetSequenceExpression(seqAdd.ExprSrc, source);
+                string tgtExpr = exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
+                source.Append("GRGEN_LIBGR.GraphHelper.AddEdgeOfType(" + typeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)");
+            }
+        }
+
+        public void EmitSequenceComputationGraphRem(SequenceComputationGraphRem seqRem, SourceBuilder source)
+        {
+            string remVal = "remval_" + seqRem.Id;
+            string seqRemExpr = exprGen.GetSequenceExpression(seqRem.Expr, source);
+            if(seqRem.Expr.Type(env) == "")
+            {
+                source.AppendFront("GRGEN_LIBGR.IGraphElement " + remVal + " = (GRGEN_LIBGR.IGraphElement)" + seqRemExpr + ";\n");
+                source.AppendFront("if(" + remVal + " is GRGEN_LIBGR.IEdge)\n");
+                source.AppendFront("\tgraph.Remove((GRGEN_LIBGR.IEdge)" + remVal + ");\n");
+                source.AppendFront("else\n");
+                source.AppendFront("\t{graph.RemoveEdges((GRGEN_LIBGR.INode)" + remVal + "); graph.Remove((GRGEN_LIBGR.INode)" + remVal + ");}\n");
+            }
+            else
+            {
+                if(TypesHelper.IsSameOrSubtype(seqRem.Expr.Type(env), "Node", model))
+                {
+                    source.AppendFront("GRGEN_LIBGR.INode " + remVal + " = (GRGEN_LIBGR.INode)" + seqRemExpr + ";\n");
+                    source.AppendFront("graph.RemoveEdges(" + remVal + "); graph.Remove(" + remVal + ");\n");
+                }
+                else if(TypesHelper.IsSameOrSubtype(seqRem.Expr.Type(env), "AEdge", model))
+                {
+                    source.AppendFront("GRGEN_LIBGR.IEdge " + remVal + " = (GRGEN_LIBGR.IEdge)" + seqRemExpr + ";\n");
+                    source.AppendFront("\tgraph.Remove(" + remVal + ");\n");
+                }
+                else
+                    source.AppendFront("throw new Exception(\"rem() on non-node/edge\");\n");
+            }
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRem, "null"));
+        }
+
+        public void EmitSequenceComputationGraphClear(SequenceComputationGraphClear seqClr, SourceBuilder source)
+        {
+            source.AppendFront("graph.Clear();\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqClr, "null"));
+        }
+
+        public void EmitSequenceComputationGraphRetype(SequenceComputationGraphRetype seqRetype, SourceBuilder source)
+        {
+            string typeExpr = exprGen.GetSequenceExpression(seqRetype.TypeExpr, source);
+            string elemExpr = exprGen.GetSequenceExpression(seqRetype.ElemExpr, source);
+            source.Append("GRGEN_LIBGR.GraphHelper.RetypeGraphElement((GRGEN_LIBGR.IGraphElement)" + elemExpr + ", " + typeExpr + ", graph)");
+        }
+
+        public void EmitSequenceComputationGraphAddCopy(SequenceComputationGraphAddCopy seqAddCopy, SourceBuilder source)
+        {
+            if(seqAddCopy.ExprSrc == null)
+            {
+                string nodeExpr = exprGen.GetSequenceExpression(seqAddCopy.Expr, source);
+                source.Append("GRGEN_LIBGR.GraphHelper.AddCopyOfNode(" + nodeExpr + ", graph)");
+            }
+            else
+            {
+                string edgeExpr = exprGen.GetSequenceExpression(seqAddCopy.Expr, source);
+                string srcExpr = exprGen.GetSequenceExpression(seqAddCopy.ExprSrc, source);
+                string tgtExpr = exprGen.GetSequenceExpression(seqAddCopy.ExprDst, source);
+                source.Append("GRGEN_LIBGR.GraphHelper.AddCopyOfEdge(" + edgeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)");
+            }
+        }
+
+        public void EmitSequenceComputationGraphMerge(SequenceComputationGraphMerge seqMrg, SourceBuilder source)
+        {
+            string tgtNodeExpr = exprGen.GetSequenceExpression(seqMrg.TargetNodeExpr, source);
+            string srcNodeExpr = exprGen.GetSequenceExpression(seqMrg.SourceNodeExpr, source);
+            source.AppendFrontFormat("graph.Merge((GRGEN_LIBGR.INode){0}, (GRGEN_LIBGR.INode){1}, \"merge\");\n", tgtNodeExpr, srcNodeExpr);
+            source.AppendFront(COMP_HELPER.SetResultVar(seqMrg, "null"));
+        }
+
+        public void EmitSequenceComputationGraphRedirectSource(SequenceComputationGraphRedirectSource seqRedir, SourceBuilder source)
+        {
+            string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
+            string srcNodeExpr = exprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
+            source.AppendFrontFormat("graph.RedirectSource((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old source\");\n", edgeExpr, srcNodeExpr);
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
+        }
+
+        public void EmitSequenceComputationGraphRedirectTarget(SequenceComputationGraphRedirectTarget seqRedir, SourceBuilder source)
+        {
+            string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
+            string tgtNodeExpr = exprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
+            source.AppendFrontFormat("graph.RedirectTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old target\");\n", edgeExpr, tgtNodeExpr);
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
+        }
+
+        public void EmitSequenceComputationGraphRedirectSourceAndTarget(SequenceComputationGraphRedirectSourceAndTarget seqRedir, SourceBuilder source)
+        {
+            string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
+            string srcNodeExpr = exprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
+            string tgtNodeExpr = exprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
+            source.AppendFrontFormat("graph.RedirectSourceAndTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, (GRGEN_LIBGR.INode){2}, \"old source\", \"old target\");\n", edgeExpr, srcNodeExpr, tgtNodeExpr);
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
+        }
+
+        public void EmitSequenceComputationInsert(SequenceComputationInsert seqIns, SourceBuilder source)
+        {
+            string graphExpr = exprGen.GetSequenceExpression(seqIns.Graph, source);
+            source.AppendFrontFormat("GRGEN_LIBGR.GraphHelper.Insert((GRGEN_LIBGR.IGraph){0}, graph);\n", graphExpr);
+            source.AppendFront(COMP_HELPER.SetResultVar(seqIns, "null"));
+        }
+
+        public void EmitSequenceComputationInsertCopy(SequenceComputationInsertCopy seqInsCopy, SourceBuilder source)
+        {
+            string graphExpr = exprGen.GetSequenceExpression(seqInsCopy.Graph, source);
+            string rootNodeExpr = exprGen.GetSequenceExpression(seqInsCopy.RootNode, source);
+            source.AppendFormat("GRGEN_LIBGR.GraphHelper.InsertCopy((GRGEN_LIBGR.IGraph){0}, (GRGEN_LIBGR.INode){1}, graph)", graphExpr, rootNodeExpr);
+        }
+
+        public void EmitSequenceComputationInsertInduced(SequenceComputationInsertInduced seqInsInd, SourceBuilder source)
+        {
+            source.Append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsInd.NodeSet, source) + ", (GRGEN_LIBGR.INode)" + exprGen.GetSequenceExpression(seqInsInd.RootNode, source) + ", graph)");
+        }
+
+        public void EmitSequenceComputationInsertDefined(SequenceComputationInsertDefined seqInsDef, SourceBuilder source)
+        {
+            if(seqInsDef.EdgeSet.Type(env) == "set<Edge>")
+                source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedDirected((IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IDEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+            else if(seqInsDef.EdgeSet.Type(env) == "set<UEdge>")
+                source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedUndirected((IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IUEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+            else if(seqInsDef.EdgeSet.Type(env) == "set<AEdge>")
+                source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+            else
+                source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
+        }
+
+        public void EmitSequenceComputationExpression(SequenceExpression seqExpr, SourceBuilder source)
+        {
+            source.AppendFront(COMP_HELPER.SetResultVar(seqExpr, exprGen.GetSequenceExpression(seqExpr, source)));
+        }
+
+        public void EmitSequenceComputationBuiltinProcedureCall(SequenceComputationBuiltinProcedureCall seqCall, SourceBuilder source)
+        {
+            SourceBuilder sb = new SourceBuilder();
+            EmitSequenceComputation(seqCall.BuiltinProcedure, sb);
+            if(seqCall.ReturnVars.Count > 0)
+            {
+                source.AppendFront(seqHelper.SetVar(seqCall.ReturnVars[0], sb.ToString()));
+                source.AppendFront(COMP_HELPER.SetResultVar(seqCall, seqHelper.GetVar(seqCall.ReturnVars[0])));
+            }
+            else
+            {
+                source.AppendFront(sb.ToString() + ";\n");
+                source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
+            }
+        }
+
+        public void EmitSequenceComputationProcedureCall(SequenceComputationProcedureCall seqCall, SourceBuilder source)
+        {
+            String returnParameterDeclarations;
+            String returnArguments;
+            String returnAssignments;
+            seqHelper.BuildReturnParameters(seqCall.ProcedureInvocation, seqCall.ReturnVars, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+
+            if(returnParameterDeclarations.Length != 0)
+                source.AppendFront(returnParameterDeclarations + "\n");
+
+            if(seqCall.IsExternalProcedureCalled)
+                source.AppendFront("GRGEN_EXPR.ExternalProcedures.");
+            else
+                source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", TypesHelper.GetPackagePrefixDot(seqCall.ProcedureInvocation.Package));
+            source.Append(seqCall.ProcedureInvocation.Name);
+            source.Append("(procEnv, graph");
+            source.Append(seqHelper.BuildParameters(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
+            source.Append(returnArguments);
+            source.Append(");\n");
+
+            if(returnAssignments.Length != 0)
+                source.AppendFront(returnAssignments + "\n");
+
+            source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
+        }
+
+        public void EmitSequenceComputationProcedureMethodCall(SequenceComputationProcedureMethodCall seqCall, SourceBuilder source)
+        {
+            String type = seqCall.TargetExpr != null ? seqCall.TargetExpr.Type(env) : seqCall.TargetVar.Type;
+            if(type == "")
+            {
+                string tmpVarName = "tmpvar_" + seqHelper.GetUniqueId();
+                source.AppendFront("object[] " + tmpVarName + " = ");
+                source.Append("((GRGEN_LIBGR.IGraphElement)");
+                if(seqCall.TargetExpr != null)
+                    source.Append(exprGen.GetSequenceExpression(seqCall.TargetExpr, source));
+                else
+                    source.Append(seqHelper.GetVar(seqCall.TargetVar));
+                source.Append(").ApplyProcedureMethod(procEnv, graph, ");
+                source.Append("\"" + seqCall.ProcedureInvocation.Name + "\"");
+                source.Append(seqHelper.BuildParametersInObject(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
+                source.Append(");\n");
+                for(int i = 0; i < seqCall.ReturnVars.Length; ++i)
+                {
+                    source.Append(seqHelper.SetVar(seqCall.ReturnVars[i], tmpVarName));
+                }
+            }
+            else
+            {
+                String returnParameterDeclarations;
+                String returnArguments;
+                String returnAssignments;
+                seqHelper.BuildReturnParameters(seqCall.ProcedureInvocation, seqCall.ReturnVars, TypesHelper.GetNodeOrEdgeType(type, model), out returnParameterDeclarations, out returnArguments, out returnAssignments);
+
+                if(returnParameterDeclarations.Length != 0)
+                    source.AppendFront(returnParameterDeclarations + "\n");
+
+                source.AppendFront("((");
+                source.Append(TypesHelper.XgrsTypeToCSharpType(type, model));
+                source.Append(")");
+                if(seqCall.TargetExpr != null)
+                    source.Append(exprGen.GetSequenceExpression(seqCall.TargetExpr, source));
+                else
+                    source.Append(seqHelper.GetVar(seqCall.TargetVar));
+                source.Append(").");
+                source.Append(seqCall.ProcedureInvocation.Name);
+                source.Append("(procEnv, graph");
+                source.Append(seqHelper.BuildParameters(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(type, model).GetProcedureMethod(seqCall.ProcedureInvocation.Name)));
+                source.Append(returnArguments);
+                source.Append(");\n");
+            }
+            source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------
+
+        #region Container procedures
 
         public void EmitSequenceComputationContainerAdd(SequenceComputationContainerAdd seqAdd, SourceBuilder source)
         {
@@ -971,444 +1399,34 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
         }
 
-        public void EmitSequenceComputationVAlloc(SequenceComputationVAlloc seqVAlloc, SourceBuilder source)
+        private string GetContainerValue(SequenceComputationContainer container)
         {
-            source.Append("graph.AllocateVisitedFlag()");
-        }
-
-        public void EmitSequenceComputationVFree(SequenceComputationVFree seqVFree, SourceBuilder source)
-        {
-            if(seqVFree.Reset)
-                source.AppendFront("graph.FreeVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
+            if(container.Container != null)
+                return seqHelper.GetVar(container.Container);
             else
-                source.AppendFront("graph.FreeVisitedFlagNonReset((int)" + exprGen.GetSequenceExpression(seqVFree.VisitedFlagExpression, source) + ");\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqVFree, "null"));
+                return "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(container.Attribute.SourceVar) + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
         }
 
-        public void EmitSequenceComputationVReset(SequenceComputationVReset seqVReset, SourceBuilder source)
-        {
-            source.AppendFront("graph.ResetVisitedFlag((int)" + exprGen.GetSequenceExpression(seqVReset.VisitedFlagExpression, source) + ");\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqVReset, "null"));
-        }
+        #endregion Container procedures
 
-        public void EmitSequenceComputationDebugAdd(SequenceComputationDebugAdd seqDebug, SourceBuilder source)
+        //-------------------------------------------------------------------------------------------------------------------
+
+        #region Assignment (Assignments by target type)
+
+        public void EmitSequenceComputationAssignment(SequenceComputationAssignment seqAssign, SourceBuilder source)
         {
-            source.AppendFront("procEnv.DebugEntering(");
-            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
+            if(seqAssign.SourceValueProvider is SequenceComputationAssignment)
             {
-                if(i == 0)
-                    source.Append("(string)");
-                else
-                    source.Append(", ");
-                source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
-            }
-            source.Append(");\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
-        }
-
-        public void EmitSequenceComputationDebugRem(SequenceComputationDebugRem seqDebug, SourceBuilder source)
-        {
-            source.AppendFront("procEnv.DebugExiting(");
-            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
-            {
-                if(i == 0)
-                    source.Append("(string)");
-                else
-                    source.Append(", ");
-                source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
-            }
-            source.Append(");\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
-        }
-
-        public void EmitSequenceComputationDebugEmit(SequenceComputationDebugEmit seqDebug, SourceBuilder source)
-        {
-            source.AppendFront("procEnv.DebugEmitting(");
-            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
-            {
-                if(i == 0)
-                    source.Append("(string)");
-                else
-                    source.Append(", ");
-                source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
-            }
-            source.Append(");\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
-        }
-
-        public void EmitSequenceComputationDebugHalt(SequenceComputationDebugHalt seqDebug, SourceBuilder source)
-        {
-            source.AppendFront("procEnv.DebugHalting(");
-            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
-            {
-                if(i == 0)
-                    source.Append("(string)");
-                else
-                    source.Append(", ");
-                source.Append(exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source));
-            }
-            source.Append(");\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
-        }
-
-        public void EmitSequenceComputationDebugHighlight(SequenceComputationDebugHighlight seqDebug, SourceBuilder source)
-        {
-            source.AppendFront("List<object> values = new List<object>();\n");
-            source.AppendFront("List<string> annotations = new List<string>();\n");
-            for(int i = 1; i < seqDebug.ArgExprs.Count; ++i)
-            {
-                if(i % 2 == 1)
-                    source.AppendFront("values.Add(" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
-                else
-                    source.AppendFront("annotations.Add((string)" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source) + ");\n");
-            }
-            source.AppendFront("procEnv.DebugHighlighting(" + exprGen.GetSequenceExpression(seqDebug.ArgExprs[0], source) + ", values, annotations);\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
-        }
-
-        public void EmitSequenceComputationEmit(SequenceComputationEmit seqEmit, SourceBuilder source)
-        {
-            bool declarationEmitted = false;
-            String emitWriter = seqEmit.IsDebug ? "EmitWriterDebug" : "EmitWriter";
-            for(int i = 0; i < seqEmit.Expressions.Count; ++i)
-            {
-                if(!(seqEmit.Expressions[i] is SequenceExpressionConstant))
-                {
-                    string emitVal = "emitval_" + seqEmit.Id;
-                    if(!declarationEmitted)
-                    {
-                        source.AppendFront("object " + emitVal + ";\n");
-                        declarationEmitted = true;
-                    }
-                    source.AppendFront(emitVal + " = " + exprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ";\n");
-                    if(seqEmit.Expressions[i].Type(env) == ""
-                        || seqEmit.Expressions[i].Type(env).StartsWith("set<") || seqEmit.Expressions[i].Type(env).StartsWith("map<")
-                        || seqEmit.Expressions[i].Type(env).StartsWith("array<") || seqEmit.Expressions[i].Type(env).StartsWith("deque<"))
-                    {
-                        source.AppendFront("if(" + emitVal + " is IDictionary)\n");
-                        source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((IDictionary)" + emitVal + ", graph));\n");
-                        source.AppendFront("else if(" + emitVal + " is IList)\n");
-                        source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((IList)" + emitVal + ", graph));\n");
-                        source.AppendFront("else if(" + emitVal + " is GRGEN_LIBGR.IDeque)\n");
-                        source.AppendFront("\tprocEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString((GRGEN_LIBGR.IDeque)" + emitVal + ", graph));\n");
-                        source.AppendFront("else\n\t");
-                    }
-                    source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + emitVal + ", graph));\n");
-                }
-                else
-                {
-                    SequenceExpressionConstant constant = (SequenceExpressionConstant)seqEmit.Expressions[i];
-                    if(constant.Constant is string)
-                    {
-                        String text = (string)constant.Constant;
-                        text = text.Replace("\n", "\\n");
-                        text = text.Replace("\r", "\\r");
-                        text = text.Replace("\t", "\\t");
-                        source.AppendFront("procEnv." + emitWriter + ".Write(\"" + text + "\");\n");
-                    }
-                    else
-                        source.AppendFront("procEnv." + emitWriter + ".Write(GRGEN_LIBGR.EmitHelper.ToString(" + exprGen.GetSequenceExpression(seqEmit.Expressions[i], source) + ", graph));\n");
-                }
-            }
-            source.AppendFront(COMP_HELPER.SetResultVar(seqEmit, "null"));
-        }
-
-        public void EmitSequenceComputationRecord(SequenceComputationRecord seqRec, SourceBuilder source)
-        {
-            if(!(seqRec.Expression is SequenceExpressionConstant))
-            {
-                string recVal = "recval_" + seqRec.Id;
-                source.AppendFront("object " + recVal + " = " + exprGen.GetSequenceExpression(seqRec.Expression, source) + ";\n");
-                if(seqRec.Expression.Type(env) == ""
-                    || seqRec.Expression.Type(env).StartsWith("set<") || seqRec.Expression.Type(env).StartsWith("map<")
-                    || seqRec.Expression.Type(env).StartsWith("array<") || seqRec.Expression.Type(env).StartsWith("deque<"))
-                {
-                    source.AppendFront("if(" + recVal + " is IDictionary)\n");
-                    source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((IDictionary)" + recVal + ", graph));\n");
-                    source.AppendFront("else if(" + recVal + " is IList)\n");
-                    source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((IList)" + recVal + ", graph));\n");
-                    source.AppendFront("else if(" + recVal + " is GRGEN_LIBGR.IDeque)\n");
-                    source.AppendFront("\tprocEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString((GRGEN_LIBGR.IDeque)" + recVal + ", graph));\n");
-                    source.AppendFront("else\n\t");
-                }
-                source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + recVal + ", graph));\n");
+                EmitSequenceComputation(seqAssign.SourceValueProvider, source);
+                EmitAssignment(seqAssign.Target, COMP_HELPER.GetResultVar(seqAssign.SourceValueProvider), source);
+                source.AppendFront(COMP_HELPER.SetResultVar(seqAssign, COMP_HELPER.GetResultVar(seqAssign.Target)));
             }
             else
             {
-                SequenceExpressionConstant constant = (SequenceExpressionConstant)seqRec.Expression;
-                if(constant.Constant is string)
-                {
-                    String text = (string)constant.Constant;
-                    text = text.Replace("\n", "\\n");
-                    text = text.Replace("\r", "\\r");
-                    text = text.Replace("\t", "\\t");
-                    source.AppendFront("procEnv.Recorder.Write(\"" + text + "\");\n");
-                }
-                else
-                    source.AppendFront("procEnv.Recorder.Write(GRGEN_LIBGR.EmitHelper.ToString(" + exprGen.GetSequenceExpression(seqRec.Expression, source) + ", graph));\n");
+                string comp = exprGen.GetSequenceExpression((SequenceExpression)seqAssign.SourceValueProvider, source);
+                EmitAssignment(seqAssign.Target, comp, source);
+                source.AppendFront(COMP_HELPER.SetResultVar(seqAssign, COMP_HELPER.GetResultVar(seqAssign.Target)));
             }
-            source.AppendFront(COMP_HELPER.SetResultVar(seqRec, "null"));
-        }
-
-        public void EmitSequenceComputationExport(SequenceComputationExport seqExp, SourceBuilder source)
-        {
-            string expFileName = "expfilename_" + seqExp.Id;
-            source.AppendFront("object " + expFileName + " = " + exprGen.GetSequenceExpression(seqExp.Name, source) + ";\n");
-            string expArguments = "exparguments_" + seqExp.Id;
-            source.AppendFront("List<string> " + expArguments + " = new List<string>();\n");
-            source.AppendFront(expArguments + ".Add(" + expFileName + ".ToString());\n");
-            string expGraph = "expgraph_" + seqExp.Id;
-            if(seqExp.Graph != null)
-                source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = (GRGEN_LIBGR.IGraph)" + exprGen.GetSequenceExpression(seqExp.Graph, source) + ";\n");
-            else
-                source.AppendFront("GRGEN_LIBGR.IGraph " + expGraph + " = graph;\n");
-            source.AppendFront("if(" + expGraph + " is GRGEN_LIBGR.INamedGraph)\n");
-            source.AppendFront("\tGRGEN_LIBGR.Porter.Export((GRGEN_LIBGR.INamedGraph)" + expGraph + ", " + expArguments + ");\n");
-            source.AppendFront("else\n");
-            source.AppendFront("\tGRGEN_LIBGR.Porter.Export(" + expGraph + ", " + expArguments + ");\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqExp, "null"));
-        }
-
-        public void EmitSequenceComputationDeleteFile(SequenceComputationDeleteFile seqDelFile, SourceBuilder source)
-        {
-            string delFileName = "delfilename_" + seqDelFile.Id;
-            source.AppendFront("object " + delFileName + " = " + exprGen.GetSequenceExpression(seqDelFile.Name, source) + ";\n");
-            source.AppendFront("\tSystem.IO.File.Delete((string)" + delFileName + ");\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqDelFile, "null"));
-        }
-
-        public void EmitSequenceComputationGraphAdd(SequenceComputationGraphAdd seqAdd, SourceBuilder source)
-        {
-            if(seqAdd.ExprSrc == null)
-            {
-                string typeExpr = exprGen.GetSequenceExpression(seqAdd.Expr, source);
-                source.Append("GRGEN_LIBGR.GraphHelper.AddNodeOfType(" + typeExpr + ", graph)");
-            }
-            else
-            {
-                string typeExpr = exprGen.GetSequenceExpression(seqAdd.Expr, source);
-                string srcExpr = exprGen.GetSequenceExpression(seqAdd.ExprSrc, source);
-                string tgtExpr = exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
-                source.Append("GRGEN_LIBGR.GraphHelper.AddEdgeOfType(" + typeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)");
-            }
-        }
-
-        public void EmitSequenceComputationGraphRem(SequenceComputationGraphRem seqRem, SourceBuilder source)
-        {
-            string remVal = "remval_" + seqRem.Id;
-            string seqRemExpr = exprGen.GetSequenceExpression(seqRem.Expr, source);
-            if(seqRem.Expr.Type(env) == "")
-            {
-                source.AppendFront("GRGEN_LIBGR.IGraphElement " + remVal + " = (GRGEN_LIBGR.IGraphElement)" + seqRemExpr + ";\n");
-                source.AppendFront("if(" + remVal + " is GRGEN_LIBGR.IEdge)\n");
-                source.AppendFront("\tgraph.Remove((GRGEN_LIBGR.IEdge)" + remVal + ");\n");
-                source.AppendFront("else\n");
-                source.AppendFront("\t{graph.RemoveEdges((GRGEN_LIBGR.INode)" + remVal + "); graph.Remove((GRGEN_LIBGR.INode)" + remVal + ");}\n");
-            }
-            else
-            {
-                if(TypesHelper.IsSameOrSubtype(seqRem.Expr.Type(env), "Node", model))
-                {
-                    source.AppendFront("GRGEN_LIBGR.INode " + remVal + " = (GRGEN_LIBGR.INode)" + seqRemExpr + ";\n");
-                    source.AppendFront("graph.RemoveEdges(" + remVal + "); graph.Remove(" + remVal + ");\n");
-                }
-                else if(TypesHelper.IsSameOrSubtype(seqRem.Expr.Type(env), "AEdge", model))
-                {
-                    source.AppendFront("GRGEN_LIBGR.IEdge " + remVal + " = (GRGEN_LIBGR.IEdge)" + seqRemExpr + ";\n");
-                    source.AppendFront("\tgraph.Remove(" + remVal + ");\n");
-                }
-                else
-                    source.AppendFront("throw new Exception(\"rem() on non-node/edge\");\n");
-            }
-            source.AppendFront(COMP_HELPER.SetResultVar(seqRem, "null"));
-        }
-
-        public void EmitSequenceComputationGraphClear(SequenceComputationGraphClear seqClr, SourceBuilder source)
-        {
-            source.AppendFront("graph.Clear();\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqClr, "null"));
-        }
-
-        public void EmitSequenceComputationGraphRetype(SequenceComputationGraphRetype seqRetype, SourceBuilder source)
-        {
-            string typeExpr = exprGen.GetSequenceExpression(seqRetype.TypeExpr, source);
-            string elemExpr = exprGen.GetSequenceExpression(seqRetype.ElemExpr, source);
-            source.Append("GRGEN_LIBGR.GraphHelper.RetypeGraphElement((GRGEN_LIBGR.IGraphElement)" + elemExpr + ", " + typeExpr + ", graph)");
-        }
-
-        public void EmitSequenceComputationGraphAddCopy(SequenceComputationGraphAddCopy seqAddCopy, SourceBuilder source)
-        {
-            if(seqAddCopy.ExprSrc == null)
-            {
-                string nodeExpr = exprGen.GetSequenceExpression(seqAddCopy.Expr, source);
-                source.Append("GRGEN_LIBGR.GraphHelper.AddCopyOfNode(" + nodeExpr + ", graph)");
-            }
-            else
-            {
-                string edgeExpr = exprGen.GetSequenceExpression(seqAddCopy.Expr, source);
-                string srcExpr = exprGen.GetSequenceExpression(seqAddCopy.ExprSrc, source);
-                string tgtExpr = exprGen.GetSequenceExpression(seqAddCopy.ExprDst, source);
-                source.Append("GRGEN_LIBGR.GraphHelper.AddCopyOfEdge(" + edgeExpr + ", (GRGEN_LIBGR.INode)" + srcExpr + ", (GRGEN_LIBGR.INode)" + tgtExpr + ", graph)");
-            }
-        }
-
-        public void EmitSequenceComputationGraphMerge(SequenceComputationGraphMerge seqMrg, SourceBuilder source)
-        {
-            string tgtNodeExpr = exprGen.GetSequenceExpression(seqMrg.TargetNodeExpr, source);
-            string srcNodeExpr = exprGen.GetSequenceExpression(seqMrg.SourceNodeExpr, source);
-            source.AppendFrontFormat("graph.Merge((GRGEN_LIBGR.INode){0}, (GRGEN_LIBGR.INode){1}, \"merge\");\n", tgtNodeExpr, srcNodeExpr);
-            source.AppendFront(COMP_HELPER.SetResultVar(seqMrg, "null"));
-        }
-
-        public void EmitSequenceComputationGraphRedirectSource(SequenceComputationGraphRedirectSource seqRedir, SourceBuilder source)
-        {
-            string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
-            string srcNodeExpr = exprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
-            source.AppendFrontFormat("graph.RedirectSource((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old source\");\n", edgeExpr, srcNodeExpr);
-            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
-        }
-
-        public void EmitSequenceComputationGraphRedirectTarget(SequenceComputationGraphRedirectTarget seqRedir, SourceBuilder source)
-        {
-            string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
-            string tgtNodeExpr = exprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
-            source.AppendFrontFormat("graph.RedirectTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, \"old target\");\n", edgeExpr, tgtNodeExpr);
-            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
-        }
-
-        public void EmitSequenceComputationGraphRedirectSourceAndTarget(SequenceComputationGraphRedirectSourceAndTarget seqRedir, SourceBuilder source)
-        {
-            string edgeExpr = exprGen.GetSequenceExpression(seqRedir.EdgeExpr, source);
-            string srcNodeExpr = exprGen.GetSequenceExpression(seqRedir.SourceNodeExpr, source);
-            string tgtNodeExpr = exprGen.GetSequenceExpression(seqRedir.TargetNodeExpr, source);
-            source.AppendFrontFormat("graph.RedirectSourceAndTarget((GRGEN_LIBGR.IEdge){0}, (GRGEN_LIBGR.INode){1}, (GRGEN_LIBGR.INode){2}, \"old source\", \"old target\");\n", edgeExpr, srcNodeExpr, tgtNodeExpr);
-            source.AppendFront(COMP_HELPER.SetResultVar(seqRedir, "null"));
-        }
-
-        public void EmitSequenceComputationInsert(SequenceComputationInsert seqIns, SourceBuilder source)
-        {
-            string graphExpr = exprGen.GetSequenceExpression(seqIns.Graph, source);
-            source.AppendFrontFormat("GRGEN_LIBGR.GraphHelper.Insert((GRGEN_LIBGR.IGraph){0}, graph);\n", graphExpr);
-            source.AppendFront(COMP_HELPER.SetResultVar(seqIns, "null"));
-        }
-
-        public void EmitSequenceComputationInsertCopy(SequenceComputationInsertCopy seqInsCopy, SourceBuilder source)
-        {
-            string graphExpr = exprGen.GetSequenceExpression(seqInsCopy.Graph, source);
-            string rootNodeExpr = exprGen.GetSequenceExpression(seqInsCopy.RootNode, source);
-            source.AppendFormat("GRGEN_LIBGR.GraphHelper.InsertCopy((GRGEN_LIBGR.IGraph){0}, (GRGEN_LIBGR.INode){1}, graph)", graphExpr, rootNodeExpr);
-        }
-
-        public void EmitSequenceComputationInsertInduced(SequenceComputationInsertInduced seqInsInd, SourceBuilder source)
-        {
-            source.Append("GRGEN_LIBGR.GraphHelper.InsertInduced((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsInd.NodeSet, source) + ", (GRGEN_LIBGR.INode)" + exprGen.GetSequenceExpression(seqInsInd.RootNode, source) + ", graph)");
-        }
-
-        public void EmitSequenceComputationInsertDefined(SequenceComputationInsertDefined seqInsDef, SourceBuilder source)
-        {
-            if(seqInsDef.EdgeSet.Type(env) == "set<Edge>")
-                source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedDirected((IDictionary<GRGEN_LIBGR.IDEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IDEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
-            else if(seqInsDef.EdgeSet.Type(env) == "set<UEdge>")
-                source.Append("GRGEN_LIBGR.GraphHelper.InsertDefinedUndirected((IDictionary<GRGEN_LIBGR.IUEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IUEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
-            else if(seqInsDef.EdgeSet.Type(env) == "set<AEdge>")
-                source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType>)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
-            else
-                source.Append("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary)" + exprGen.GetSequenceExpression(seqInsDef.EdgeSet, source) + ", (GRGEN_LIBGR.IEdge)" + exprGen.GetSequenceExpression(seqInsDef.RootEdge, source) + ", graph)");
-        }
-
-        public void EmitSequenceComputationExpression(SequenceExpression seqExpr, SourceBuilder source)
-        {
-            source.AppendFront(COMP_HELPER.SetResultVar(seqExpr, exprGen.GetSequenceExpression(seqExpr, source)));
-        }
-
-        public void EmitSequenceComputationBuiltinProcedureCall(SequenceComputationBuiltinProcedureCall seqCall, SourceBuilder source)
-        {
-            SourceBuilder sb = new SourceBuilder();
-            EmitSequenceComputation(seqCall.BuiltinProcedure, sb);
-            if(seqCall.ReturnVars.Count > 0)
-            {
-                source.AppendFront(seqHelper.SetVar(seqCall.ReturnVars[0], sb.ToString()));
-                source.AppendFront(COMP_HELPER.SetResultVar(seqCall, seqHelper.GetVar(seqCall.ReturnVars[0])));
-            }
-            else
-            {
-                source.AppendFront(sb.ToString() + ";\n");
-                source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
-            }
-        }
-
-        public void EmitSequenceComputationProcedureCall(SequenceComputationProcedureCall seqCall, SourceBuilder source)
-        {
-            String returnParameterDeclarations;
-            String returnArguments;
-            String returnAssignments;
-            seqHelper.BuildReturnParameters(seqCall.ProcedureInvocation, seqCall.ReturnVars, out returnParameterDeclarations, out returnArguments, out returnAssignments);
-
-            if(returnParameterDeclarations.Length != 0)
-                source.AppendFront(returnParameterDeclarations + "\n");
-
-            if(seqCall.IsExternalProcedureCalled)
-                source.AppendFront("GRGEN_EXPR.ExternalProcedures.");
-            else
-                source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", TypesHelper.GetPackagePrefixDot(seqCall.ProcedureInvocation.Package));
-            source.Append(seqCall.ProcedureInvocation.Name);
-            source.Append("(procEnv, graph");
-            source.Append(seqHelper.BuildParameters(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
-            source.Append(returnArguments);
-            source.Append(");\n");
-
-            if(returnAssignments.Length != 0)
-                source.AppendFront(returnAssignments + "\n");
-
-            source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
-        }
-
-        public void EmitSequenceComputationProcedureMethodCall(SequenceComputationProcedureMethodCall seqCall, SourceBuilder source)
-        {
-            String type = seqCall.TargetExpr != null ? seqCall.TargetExpr.Type(env) : seqCall.TargetVar.Type;
-            if(type == "")
-            {
-                string tmpVarName = "tmpvar_" + seqHelper.GetUniqueId();
-                source.AppendFront("object[] " + tmpVarName + " = ");
-                source.Append("((GRGEN_LIBGR.IGraphElement)");
-                if(seqCall.TargetExpr != null)
-                    source.Append(exprGen.GetSequenceExpression(seqCall.TargetExpr, source));
-                else
-                    source.Append(seqHelper.GetVar(seqCall.TargetVar));
-                source.Append(").ApplyProcedureMethod(procEnv, graph, ");
-                source.Append("\"" + seqCall.ProcedureInvocation.Name + "\"");
-                source.Append(seqHelper.BuildParametersInObject(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
-                source.Append(");\n");
-                for(int i = 0; i < seqCall.ReturnVars.Length; ++i)
-                {
-                    source.Append(seqHelper.SetVar(seqCall.ReturnVars[i], tmpVarName));
-                }
-            }
-            else
-            {
-                String returnParameterDeclarations;
-                String returnArguments;
-                String returnAssignments;
-                seqHelper.BuildReturnParameters(seqCall.ProcedureInvocation, seqCall.ReturnVars, TypesHelper.GetNodeOrEdgeType(type, model), out returnParameterDeclarations, out returnArguments, out returnAssignments);
-
-                if(returnParameterDeclarations.Length != 0)
-                    source.AppendFront(returnParameterDeclarations + "\n");
-
-                source.AppendFront("((");
-                source.Append(TypesHelper.XgrsTypeToCSharpType(type, model));
-                source.Append(")");
-                if(seqCall.TargetExpr != null)
-                    source.Append(exprGen.GetSequenceExpression(seqCall.TargetExpr, source));
-                else
-                    source.Append(seqHelper.GetVar(seqCall.TargetVar));
-                source.Append(").");
-                source.Append(seqCall.ProcedureInvocation.Name);
-                source.Append("(procEnv, graph");
-                source.Append(seqHelper.BuildParameters(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(type, model).GetProcedureMethod(seqCall.ProcedureInvocation.Name)));
-                source.Append(returnArguments);
-                source.Append(");\n");
-            }
-            source.AppendFront(COMP_HELPER.SetResultVar(seqCall, "null"));
         }
 
         void EmitAssignment(AssignmentTarget tgt, string sourceValueComputation, SourceBuilder source)
@@ -1462,7 +1480,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(tgtIndexedVar.DestVar.Type == "")
             {
-                EmitAssignmentIndexedVarUnknownType(tgtIndexedVar, sourceValueComputation, 
+                EmitAssignmentIndexedVarUnknownType(tgtIndexedVar, sourceValueComputation,
                     container, key, source);
             }
             else if(tgtIndexedVar.DestVar.Type.StartsWith("array"))
@@ -1597,7 +1615,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(tgtAttrIndexedVar.DestVar.Type == "")
             {
-                EmitAssignmentAttributeIndexedUnknownType(tgtAttrIndexedVar, sourceValueComputation, 
+                EmitAssignmentAttributeIndexedUnknownType(tgtAttrIndexedVar, sourceValueComputation,
                     value, container, key, source);
             }
             else
@@ -1645,7 +1663,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        void EmitAssignmentAttributeIndexedUnknownType(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, string sourceValueComputation, 
+        void EmitAssignmentAttributeIndexedUnknownType(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, string sourceValueComputation,
             string value, string container, string key, SourceBuilder source)
         {
             source.AppendFront("if(" + container + " is IList) {\n");
@@ -1702,12 +1720,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private string GetContainerValue(SequenceComputationContainer container)
-        {
-            if(container.Container != null)
-                return seqHelper.GetVar(container.Container);
-            else
-                return "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(container.Attribute.SourceVar) + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
-        }
+        #endregion Assignment (Assignments by target type)
     }
 }
