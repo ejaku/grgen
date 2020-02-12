@@ -24,14 +24,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         readonly SequenceCheckingEnvironment env;
 
-        readonly SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper seqHelper;
 
 
-        public SequenceExpressionGenerator(IGraphModel model, SequenceCheckingEnvironment env, SequenceGeneratorHelper helper)
+        public SequenceExpressionGenerator(IGraphModel model, SequenceCheckingEnvironment env, SequenceGeneratorHelper seqHelper)
         {
             this.model = model;
             this.env = env;
-            this.helper = helper;
+            this.seqHelper = seqHelper;
         }
 
         // source is needed for a method call chain or expressions that require temporary variables, 
@@ -506,7 +506,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqIn.ContainerExpr is SequenceExpressionAttributeAccess)
             {
                 SequenceExpressionAttributeAccess seqInAttribute = (SequenceExpressionAttributeAccess)(seqIn.ContainerExpr);
-                string element = "((GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqInAttribute.SourceVar) + ")";
+                string element = "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqInAttribute.SourceVar) + ")";
                 container = element + ".GetAttribute(\"" + seqInAttribute.AttributeName + "\")";
                 ContainerType = seqInAttribute.Type(env);
             }
@@ -570,37 +570,37 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionIsVisited(SequenceExpressionIsVisited seqIsVisited, SourceBuilder source)
         {
             return "graph.IsVisited("
-                + "(GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqIsVisited.GraphElementVar)
+                + "(GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqIsVisited.GraphElementVar)
                 + ", (int)" + GetSequenceExpression(seqIsVisited.VisitedFlagExpr, source)
                 + ")";
         }
 
         private string GetSequenceExpressionNodes(SequenceExpressionNodes seqNodes, SourceBuilder source)
         {
-            string nodeType = helper.ExtractNodeType(source, seqNodes.NodeType);
+            string nodeType = seqHelper.ExtractNodeType(source, seqNodes.NodeType);
             string profilingArgument = seqNodes.EmitProfiling ? ", procEnv" : "";
             return "GRGEN_LIBGR.GraphHelper.Nodes(graph, (GRGEN_LIBGR.NodeType)" + nodeType + profilingArgument + ")";
         }
 
         private string GetSequenceExpressionEdges(SequenceExpressionEdges seqEdges , SourceBuilder source)
         {
-            string edgeType = helper.ExtractEdgeType(source, seqEdges.EdgeType);
+            string edgeType = seqHelper.ExtractEdgeType(source, seqEdges.EdgeType);
             string edgeRootType = SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqEdges.EdgeType, env);
-            string directedness = helper.GetDirectedness(edgeRootType);
+            string directedness = seqHelper.GetDirectedness(edgeRootType);
             string profilingArgument = seqEdges.EmitProfiling ? ", procEnv" : "";
             return "GRGEN_LIBGR.GraphHelper.Edges" + directedness + "(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
         }
 
         private string GetSequenceExpressionCountNodes(SequenceExpressionCountNodes seqNodes, SourceBuilder source)
         {
-            string nodeType = helper.ExtractNodeType(source, seqNodes.NodeType);
+            string nodeType = seqHelper.ExtractNodeType(source, seqNodes.NodeType);
             string profilingArgument = seqNodes.EmitProfiling ? ", procEnv" : "";
             return "GRGEN_LIBGR.GraphHelper.CountNodes(graph, (GRGEN_LIBGR.NodeType)" + nodeType + profilingArgument + ")";
         }
 
         private string GetSequenceExpressionCountEdges(SequenceExpressionCountEdges seqEdges, SourceBuilder source)
         {
-            string edgeType = helper.ExtractEdgeType(source, seqEdges.EdgeType);
+            string edgeType = seqHelper.ExtractEdgeType(source, seqEdges.EdgeType);
             string profilingArgument = seqEdges.EmitProfiling ? ", procEnv" : "";
             return "GRGEN_LIBGR.GraphHelper.CountEdges(graph, (GRGEN_LIBGR.EdgeType)" + edgeType + profilingArgument + ")";
         }
@@ -623,9 +623,9 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionAdjacentIncident(SequenceExpressionAdjacentIncident seqAdjInc, SourceBuilder source)
         {
             string sourceNode = GetSequenceExpression(seqAdjInc.SourceNode, source);
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqAdjInc.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqAdjInc.OppositeNodeType);
-            string directedness = helper.GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqAdjInc.EdgeType, env));
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqAdjInc.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqAdjInc.OppositeNodeType);
+            string directedness = seqHelper.GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqAdjInc.EdgeType, env));
             string function;
             switch(seqAdjInc.SequenceExpressionType)
             {
@@ -652,8 +652,8 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionCountAdjacentIncident(SequenceExpressionCountAdjacentIncident seqCntAdjInc, SourceBuilder source)
         {
             string sourceNode = GetSequenceExpression(seqCntAdjInc.SourceNode, source);
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqCntAdjInc.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqCntAdjInc.OppositeNodeType);
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqCntAdjInc.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqCntAdjInc.OppositeNodeType);
             string function;
             switch(seqCntAdjInc.SequenceExpressionType)
             {
@@ -690,9 +690,9 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionReachable(SequenceExpressionReachable seqReach, SourceBuilder source)
         {
             string sourceNode = GetSequenceExpression(seqReach.SourceNode, source);
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqReach.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqReach.OppositeNodeType);
-            string directedness = helper.GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqReach.EdgeType, env));
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqReach.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqReach.OppositeNodeType);
+            string directedness = seqHelper.GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqReach.EdgeType, env));
             string function;
             switch(seqReach.SequenceExpressionType)
             {
@@ -729,8 +729,8 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionCountReachable(SequenceExpressionCountReachable seqCntReach, SourceBuilder source)
         {
             string sourceNode = GetSequenceExpression(seqCntReach.SourceNode, source);
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqCntReach.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqCntReach.OppositeNodeType);
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqCntReach.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqCntReach.OppositeNodeType);
             string function;
             switch(seqCntReach.SequenceExpressionType)
             {
@@ -768,9 +768,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             string sourceNode = GetSequenceExpression(seqBoundReach.SourceNode, source);
             string depth = GetSequenceExpression(seqBoundReach.Depth, source);
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqBoundReach.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqBoundReach.OppositeNodeType);
-            string directedness = helper.GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqBoundReach.EdgeType, env));
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqBoundReach.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqBoundReach.OppositeNodeType);
+            string directedness = seqHelper.GetDirectedness(SequenceExpressionGraphQuery.GetEdgeRootTypeWithDirection(seqBoundReach.EdgeType, env));
             string function;
             switch(seqBoundReach.SequenceExpressionType)
             {
@@ -808,8 +808,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             string sourceNode = GetSequenceExpression(seqBoundReach.SourceNode, source);
             string depth = GetSequenceExpression(seqBoundReach.Depth, source);
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqBoundReach.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqBoundReach.OppositeNodeType);
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqBoundReach.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqBoundReach.OppositeNodeType);
             string function;
             switch(seqBoundReach.SequenceExpressionType)
             {
@@ -831,8 +831,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             string sourceNode = GetSequenceExpression(seqCntBoundReach.SourceNode, source);
             string depth = GetSequenceExpression(seqCntBoundReach.Depth, source);
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqCntBoundReach.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqCntBoundReach.OppositeNodeType);
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqCntBoundReach.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqCntBoundReach.OppositeNodeType);
             string function;
             switch(seqCntBoundReach.SequenceExpressionType)
             {
@@ -871,8 +871,8 @@ namespace de.unika.ipd.grGen.lgsp
             string sourceNode = GetSequenceExpression(seqIsAdjInc.SourceNode, source);
             string endElement = GetSequenceExpression(seqIsAdjInc.EndElement, source);
             string endElementType;
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqIsAdjInc.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqIsAdjInc.OppositeNodeType);
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqIsAdjInc.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqIsAdjInc.OppositeNodeType);
             string function;
             switch(seqIsAdjInc.SequenceExpressionType)
             {
@@ -915,8 +915,8 @@ namespace de.unika.ipd.grGen.lgsp
             string sourceNode = GetSequenceExpression(seqIsReach.SourceNode, source);
             string endElement = GetSequenceExpression(seqIsReach.EndElement, source);
             string endElementType;
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqIsReach.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqIsReach.OppositeNodeType);
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqIsReach.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqIsReach.OppositeNodeType);
             string function;
             switch(seqIsReach.SequenceExpressionType)
             {
@@ -959,8 +959,8 @@ namespace de.unika.ipd.grGen.lgsp
             string sourceNode = GetSequenceExpression(seqIsBoundReach.SourceNode, source);
             string endElement = GetSequenceExpression(seqIsBoundReach.EndElement, source);
             string depth = GetSequenceExpression(seqIsBoundReach.Depth, source);
-            string incidentEdgeType = helper.ExtractEdgeType(source, seqIsBoundReach.EdgeType);
-            string adjacentNodeType = helper.ExtractNodeType(source, seqIsBoundReach.OppositeNodeType);
+            string incidentEdgeType = seqHelper.ExtractEdgeType(source, seqIsBoundReach.EdgeType);
+            string adjacentNodeType = seqHelper.ExtractNodeType(source, seqIsBoundReach.OppositeNodeType);
             string function;
             switch(seqIsBoundReach.SequenceExpressionType)
             {
@@ -1204,7 +1204,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqContainerAccess.ContainerExpr is SequenceExpressionAttributeAccess)
             {
                 SequenceExpressionAttributeAccess seqContainerAttribute = (SequenceExpressionAttributeAccess)(seqContainerAccess.ContainerExpr);
-                string element = "((GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqContainerAttribute.SourceVar) + ")";
+                string element = "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqContainerAttribute.SourceVar) + ")";
                 container = element + ".GetAttribute(\"" + seqContainerAttribute.AttributeName + "\")";
                 if(seqContainerAttribute.SourceVar.Type == "")
                     ContainerType = "";
@@ -1304,7 +1304,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionConstant(SequenceExpressionConstant seqConst, SourceBuilder source)
         {
-            return helper.GetConstant(seqConst.Constant);
+            return seqHelper.GetConstant(seqConst.Constant);
         }
 
         private string GetSequenceExpressionThis(SequenceExpressionThis seqThis, SourceBuilder source)
@@ -1375,7 +1375,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionGraphElementAttribute(SequenceExpressionAttributeAccess seqAttr, SourceBuilder source)
         {
-            string element = "((GRGEN_LIBGR.IGraphElement)" + helper.GetVar(seqAttr.SourceVar) + ")";
+            string element = "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqAttr.SourceVar) + ")";
             string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
             string type = seqAttr.Type(env);
             if(type == ""
@@ -1394,7 +1394,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             String rulePatternClassName = "Rule_" + TypesHelper.ExtractSrc(seqMA.SourceVar.Type);
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqMA.SourceVar.Type));
-            string match = "((" + matchInterfaceName + ")" + helper.GetVar(seqMA.SourceVar) + ")";
+            string match = "((" + matchInterfaceName + ")" + seqHelper.GetVar(seqMA.SourceVar) + ")";
             if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
                 return match + ".node_" + seqMA.ElementName;
             else if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
@@ -1412,7 +1412,7 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionNodeByName(SequenceExpressionNodeByName seqNodeByName, SourceBuilder source)
         {
             string profilingArgument = seqNodeByName.EmitProfiling ? ", procEnv" : "";
-            string nodeType = seqNodeByName.NodeType != null ? helper.ExtractNodeType(source, seqNodeByName.NodeType) : null;
+            string nodeType = seqNodeByName.NodeType != null ? seqHelper.ExtractNodeType(source, seqNodeByName.NodeType) : null;
             if(nodeType != null)
                 return "GRGEN_LIBGR.GraphHelper.GetNode((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqNodeByName.NodeName, source) + ", " + nodeType + profilingArgument + ")";
             else
@@ -1422,7 +1422,7 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionEdgeByName(SequenceExpressionEdgeByName seqEdgeByName, SourceBuilder source)
         {
             string profilingArgument = seqEdgeByName.EmitProfiling ? ", procEnv" : "";
-            string edgeType = seqEdgeByName.EdgeType != null ? helper.ExtractEdgeType(source, seqEdgeByName.EdgeType) : null;
+            string edgeType = seqEdgeByName.EdgeType != null ? seqHelper.ExtractEdgeType(source, seqEdgeByName.EdgeType) : null;
             if(edgeType != null)
                 return "GRGEN_LIBGR.GraphHelper.GetEdge((GRGEN_LIBGR.INamedGraph)graph, (string)" + GetSequenceExpression(seqEdgeByName.EdgeName, source) + ", " + edgeType + profilingArgument + ")";
             else
@@ -1432,7 +1432,7 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionNodeByUnique(SequenceExpressionNodeByUnique seqNodeByUnique, SourceBuilder source)
         {
             string profilingArgument = seqNodeByUnique.EmitProfiling ? ", procEnv" : "";
-            string nodeType = seqNodeByUnique.NodeType != null ? helper.ExtractNodeType(source, seqNodeByUnique.NodeType) : null;
+            string nodeType = seqNodeByUnique.NodeType != null ? seqHelper.ExtractNodeType(source, seqNodeByUnique.NodeType) : null;
             if(nodeType != null)
                 return "GRGEN_LIBGR.GraphHelper.GetNode(graph, (int)" + GetSequenceExpression(seqNodeByUnique.NodeUniqueId, source) + ", " + nodeType + profilingArgument + ")";
             else
@@ -1442,7 +1442,7 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionEdgeByUnique(SequenceExpressionEdgeByUnique seqEdgeByUnique, SourceBuilder source)
         {
             string profilingArgument = seqEdgeByUnique.EmitProfiling ? ", procEnv" : "";
-            string edgeType = seqEdgeByUnique.EdgeType != null ? helper.ExtractEdgeType(source, seqEdgeByUnique.EdgeType) : null;
+            string edgeType = seqEdgeByUnique.EdgeType != null ? seqHelper.ExtractEdgeType(source, seqEdgeByUnique.EdgeType) : null;
             if(edgeType != null)
                 return "GRGEN_LIBGR.GraphHelper.GetEdge(graph, (int)" + GetSequenceExpression(seqEdgeByUnique.EdgeUniqueId, source) + ", " + edgeType + profilingArgument + ")";
             else
@@ -1466,7 +1466,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionVariable(SequenceExpressionVariable seqVar, SourceBuilder source)
         {
-            return helper.GetVar(seqVar.Variable);
+            return seqHelper.GetVar(seqVar.Variable);
         }
 
         private string GetSequenceExpressionFunctionCall(SequenceExpressionFunctionCall seqFuncCall, SourceBuilder source)
@@ -1478,7 +1478,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.AppendFormat("GRGEN_ACTIONS.{0}Functions.", TypesHelper.GetPackagePrefixDot(seqFuncCall.FunctionInvocation.Package));
             sb.Append(seqFuncCall.FunctionInvocation.Name);
             sb.Append("(procEnv, graph");
-            sb.Append(helper.BuildParameters(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions));
+            sb.Append(seqHelper.BuildParameters(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions));
             sb.Append(")");
             return sb.ToString();
         }
@@ -1492,7 +1492,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append(GetSequenceExpression(seqFuncCall.TargetExpr, source));
                 sb.Append(").ApplyFunctionMethod(procEnv, graph, ");
                 sb.Append("\"" + seqFuncCall.FunctionInvocation.Name + "\"");
-                sb.Append(helper.BuildParametersInObject(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions));
+                sb.Append(seqHelper.BuildParametersInObject(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions));
                 sb.Append(")");
             }
             else
@@ -1504,7 +1504,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append(").");
                 sb.Append(seqFuncCall.FunctionInvocation.Name);
                 sb.Append("(procEnv, graph");
-                sb.Append(helper.BuildParameters(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.FunctionInvocation.Name)));
+                sb.Append(seqHelper.BuildParameters(seqFuncCall.FunctionInvocation, seqFuncCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.FunctionInvocation.Name)));
                 sb.Append(")");
             }
             return sb.ToString();
@@ -1515,7 +1515,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(container.ContainerExpr is SequenceExpressionAttributeAccess)
             {
                 SequenceExpressionAttributeAccess attribute = (SequenceExpressionAttributeAccess)container.ContainerExpr;
-                return "((GRGEN_LIBGR.IGraphElement)" + helper.GetVar(attribute.SourceVar) + ")" + ".GetAttribute(\"" + attribute.AttributeName + "\")";
+                return "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(attribute.SourceVar) + ")" + ".GetAttribute(\"" + attribute.AttributeName + "\")";
             }
             else
                 return GetSequenceExpression(container.ContainerExpr, source);

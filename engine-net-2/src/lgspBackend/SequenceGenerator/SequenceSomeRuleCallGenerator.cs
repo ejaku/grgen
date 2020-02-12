@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         internal readonly SequenceSomeFromSet seqSome;
         internal readonly SequenceRuleCall seqRule;
-        internal readonly SequenceGeneratorHelper helper;
+        internal readonly SequenceGeneratorHelper seqHelper;
 
         internal readonly RuleInvocation ruleInvocation;
         internal readonly SequenceExpression[] ArgumentExpressions;
@@ -32,16 +32,16 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String matchesName;
 
 
-        public SequenceSomeRuleCallGenerator(SequenceSomeFromSet seqSome, SequenceRuleCall seqRule, SequenceGeneratorHelper helper)
+        public SequenceSomeRuleCallGenerator(SequenceSomeFromSet seqSome, SequenceRuleCall seqRule, SequenceGeneratorHelper seqHelper)
         {
             this.seqSome = seqSome; // parent
             this.seqRule = seqRule;
-            this.helper = helper;
+            this.seqHelper = seqHelper;
 
             ruleInvocation = seqRule.RuleInvocation;
             ArgumentExpressions = seqRule.ArgumentExpressions;
             specialStr = seqRule.Special ? "true" : "false";
-            parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+            parameters = seqHelper.BuildParameters(ruleInvocation, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
             patternName = ruleInvocation.Name;
             ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);

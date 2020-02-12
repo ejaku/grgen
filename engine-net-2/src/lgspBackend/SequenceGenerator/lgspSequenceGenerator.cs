@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         readonly SequenceGenerator seqGen;
 
-        readonly SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper seqHelper;
 
         readonly ActionNames actionNames;
 
@@ -61,17 +61,17 @@ namespace de.unika.ipd.grGen.lgsp
 
             this.env = new SequenceCheckingEnvironmentCompiled(actionNames, actionsTypeInformation, model);
 
-            this.helper = new SequenceGeneratorHelper(model, actionsTypeInformation, env);
+            this.seqHelper = new SequenceGeneratorHelper(model, actionsTypeInformation, env);
 
-            SequenceExpressionGenerator exprGen = new SequenceExpressionGenerator(model, env, helper);
+            SequenceExpressionGenerator exprGen = new SequenceExpressionGenerator(model, env, seqHelper);
 
-            this.helper.SetSequenceExpressionGenerator(exprGen);
+            this.seqHelper.SetSequenceExpressionGenerator(exprGen);
 
-            SequenceComputationGenerator compGen = new SequenceComputationGenerator(model, env, exprGen, helper, fireDebugEvents);
+            SequenceComputationGenerator compGen = new SequenceComputationGenerator(model, env, exprGen, seqHelper, fireDebugEvents);
 
-            this.seqGen = new SequenceGenerator(model, env, compGen, exprGen, helper, fireDebugEvents, emitProfiling);
+            this.seqGen = new SequenceGenerator(model, env, compGen, exprGen, seqHelper, fireDebugEvents, emitProfiling);
 
-            this.neededEntitiesEmitter = new NeededEntitiesEmitter(helper);
+            this.neededEntitiesEmitter = new NeededEntitiesEmitter(seqHelper);
 
             this.fireDebugEvents = fireDebugEvents;
             this.emitProfiling = emitProfiling;
@@ -514,14 +514,14 @@ namespace de.unika.ipd.grGen.lgsp
             switch(ex.Kind)
             {
             case SequenceParserError.BadNumberOfParameters:
-                if(helper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGiven)
+                if(seqHelper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGiven)
                     Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                 else
                     goto default;
                 break;
 
             case SequenceParserError.BadNumberOfReturnParameters:
-                if(helper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGiven)
+                if(seqHelper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGiven)
                     Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                 else
                     goto default;
@@ -575,33 +575,33 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new ArgumentException("Invalid error kind: " + ex.Kind);
             }
 
-            if(helper.actionsTypeInformation.rulesToInputTypes.ContainsKey(ex.Name))
+            if(seqHelper.actionsTypeInformation.rulesToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of rule/test: {0}", ex.Name);
-                PrintInputParams(helper.actionsTypeInformation.rulesToInputTypes[ex.Name]);
-                PrintOutputParams(helper.actionsTypeInformation.rulesToOutputTypes[ex.Name]);
+                PrintInputParams(seqHelper.actionsTypeInformation.rulesToInputTypes[ex.Name]);
+                PrintOutputParams(seqHelper.actionsTypeInformation.rulesToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(helper.actionsTypeInformation.sequencesToInputTypes.ContainsKey(ex.Name))
+            else if(seqHelper.actionsTypeInformation.sequencesToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of sequence: {0}", ex.Name);
-                PrintInputParams(helper.actionsTypeInformation.sequencesToInputTypes[ex.Name]);
-                PrintOutputParams(helper.actionsTypeInformation.sequencesToOutputTypes[ex.Name]);
+                PrintInputParams(seqHelper.actionsTypeInformation.sequencesToInputTypes[ex.Name]);
+                PrintOutputParams(seqHelper.actionsTypeInformation.sequencesToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(helper.actionsTypeInformation.proceduresToInputTypes.ContainsKey(ex.Name))
+            else if(seqHelper.actionsTypeInformation.proceduresToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature procedure: {0}", ex.Name);
-                PrintInputParams(helper.actionsTypeInformation.proceduresToInputTypes[ex.Name]);
-                PrintOutputParams(helper.actionsTypeInformation.proceduresToOutputTypes[ex.Name]);
+                PrintInputParams(seqHelper.actionsTypeInformation.proceduresToInputTypes[ex.Name]);
+                PrintOutputParams(seqHelper.actionsTypeInformation.proceduresToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(helper.actionsTypeInformation.functionsToInputTypes.ContainsKey(ex.Name))
+            else if(seqHelper.actionsTypeInformation.functionsToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of function: {0}", ex.Name);
-                PrintInputParams(helper.actionsTypeInformation.functionsToInputTypes[ex.Name]);
+                PrintInputParams(seqHelper.actionsTypeInformation.functionsToInputTypes[ex.Name]);
                 Console.Error.Write(" : ");
-                Console.Error.Write(helper.actionsTypeInformation.functionsToOutputType[ex.Name]);
+                Console.Error.Write(seqHelper.actionsTypeInformation.functionsToOutputType[ex.Name]);
                 Console.Error.WriteLine();
             }
         }

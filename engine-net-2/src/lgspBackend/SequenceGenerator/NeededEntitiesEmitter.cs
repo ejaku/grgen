@@ -19,15 +19,15 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class NeededEntitiesEmitter
     {
-        readonly SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper seqHelper;
 
         // set of the used rules (if contained, a variable was created for easy access to them, once)
         readonly Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
 
-        public NeededEntitiesEmitter(SequenceGeneratorHelper helper)
+        public NeededEntitiesEmitter(SequenceGeneratorHelper seqHelper)
         {
-            this.helper = helper;
+            this.seqHelper = seqHelper;
         }
 
         public void Reset()
@@ -202,7 +202,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(!var.Visited)
             {
                 var.Visited = true;
-                source.AppendFront(helper.DeclareVar(var));
+                source.AppendFront(seqHelper.DeclareVar(var));
             }
         }
 

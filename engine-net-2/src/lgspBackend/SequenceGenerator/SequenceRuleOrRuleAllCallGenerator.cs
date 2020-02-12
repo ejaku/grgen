@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
     class SequenceRuleOrRuleAllCallGenerator
     {
         internal readonly SequenceRuleCall seqRule;
-        internal readonly SequenceGeneratorHelper helper;
+        internal readonly SequenceGeneratorHelper seqHelper;
 
         internal readonly RuleInvocation ruleInvocation;
         internal readonly SequenceExpression[] ArgumentExpressions;
@@ -33,10 +33,10 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String matchesName;
 
 
-        public SequenceRuleOrRuleAllCallGenerator(SequenceRuleCall seqRule, SequenceGeneratorHelper helper)
+        public SequenceRuleOrRuleAllCallGenerator(SequenceRuleCall seqRule, SequenceGeneratorHelper seqHelper)
         {
             this.seqRule = seqRule;
-            this.helper = helper;
+            this.seqHelper = seqHelper;
 
             ruleInvocation = seqRule.RuleInvocation;
             ArgumentExpressions = seqRule.ArgumentExpressions;
@@ -45,9 +45,9 @@ namespace de.unika.ipd.grGen.lgsp
             parameterDeclarations = null;
             parameters = null;
             if(ruleInvocation.Subgraph != null)
-                parameters = helper.BuildParametersInDeclarations(ruleInvocation, ArgumentExpressions, out parameterDeclarations);
+                parameters = seqHelper.BuildParametersInDeclarations(ruleInvocation, ArgumentExpressions, out parameterDeclarations);
             else
-                parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+                parameters = seqHelper.BuildParameters(ruleInvocation, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
             patternName = ruleInvocation.Name;
             ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
@@ -62,7 +62,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(ruleInvocation.Subgraph != null)
             {
                 source.AppendFront(parameterDeclarations + "\n");
-                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + helper.GetVar(ruleInvocation.Subgraph) + ");\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + seqHelper.GetVar(ruleInvocation.Subgraph) + ");\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
@@ -80,7 +80,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqRule is SequenceRuleCountAllCall)
             {
                 SequenceRuleCountAllCall seqRuleCountAll = (SequenceRuleCountAllCall)seqRule;
-                source.AppendFront(helper.SetVar(seqRuleCountAll.CountResult, matchesName + ".Count"));
+                source.AppendFront(seqHelper.SetVar(seqRuleCountAll.CountResult, matchesName + ".Count"));
             }
 
             String insufficientMatchesCondition;
@@ -90,7 +90,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
                 String minMatchesVarName = "minmatchesvar_" + seqRuleAll.Id;
-                source.AppendFrontFormat("int {0} = (int){1};\n", minMatchesVarName, helper.GetVar(seqRuleAll.MinVarChooseRandom));
+                source.AppendFrontFormat("int {0} = (int){1};\n", minMatchesVarName, seqHelper.GetVar(seqRuleAll.MinVarChooseRandom));
                 insufficientMatchesCondition = matchesName + ".Count < " + minMatchesVarName;
             }
             else

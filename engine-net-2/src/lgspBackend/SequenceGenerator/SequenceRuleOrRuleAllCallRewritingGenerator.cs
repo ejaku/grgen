@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.ruleCallGen = ruleCallGen;
 
-            ruleCallGen.helper.BuildReturnParameters(ruleCallGen.ruleInvocation, ruleCallGen.ReturnVars,
+            ruleCallGen.seqHelper.BuildReturnParameters(ruleCallGen.ruleInvocation, ruleCallGen.ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
@@ -91,7 +91,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarationsAllCall + "\n");
             source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRuleAll.Id, 
-                seqRuleAll.MaxVarChooseRandom != null ? ruleCallGen.helper.GetVar(seqRuleAll.MaxVarChooseRandom) : (seqRuleAll.MinSpecified ? "2147483647" : "1"));
+                seqRuleAll.MaxVarChooseRandom != null ? ruleCallGen.seqHelper.GetVar(seqRuleAll.MaxVarChooseRandom) : (seqRuleAll.MinSpecified ? "2147483647" : "1"));
             source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, ruleCallGen.seqRule.Id);
             source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", ruleCallGen.seqRule.Id);
             source.AppendFront("{\n");

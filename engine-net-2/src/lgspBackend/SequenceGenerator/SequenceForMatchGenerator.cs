@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
     class SequenceForMatchGenerator
     {
         readonly SequenceForMatch seqFor;
-        readonly SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper seqHelper;
 
         readonly RuleInvocation ruleInvocation;
         readonly SequenceExpression[] ArgumentExpressions;
@@ -32,16 +32,16 @@ namespace de.unika.ipd.grGen.lgsp
         readonly String matchesName;
 
 
-        public SequenceForMatchGenerator(SequenceForMatch seqFor, SequenceGeneratorHelper helper)
+        public SequenceForMatchGenerator(SequenceForMatch seqFor, SequenceGeneratorHelper seqHelper)
         {
             this.seqFor = seqFor;
-            this.helper = helper;
+            this.seqHelper = seqHelper;
 
             ruleInvocation = seqFor.Rule.RuleInvocation;
             ArgumentExpressions = seqFor.Rule.ArgumentExpressions;
             ReturnVars = seqFor.Rule.ReturnVars;
             specialStr = seqFor.Rule.Special ? "true" : "false";
-            parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+            parameters = seqHelper.BuildParameters(ruleInvocation, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
             patternName = ruleInvocation.Name;
             ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.lgsp
             String returnParameterDeclarationsAllCall;
             String intermediateReturnAssignmentsAllCall;
             String returnAssignmentsAllCall;
-            helper.BuildReturnParameters(ruleInvocation, ReturnVars,
+            seqHelper.BuildReturnParameters(ruleInvocation, ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
@@ -86,7 +86,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-            source.AppendFront(helper.SetVar(seqFor.Var, matchName));
+            source.AppendFront(seqHelper.SetVar(seqFor.Var, matchName));
 
             seqGen.EmitSequence(seqFor.Seq, source);
 

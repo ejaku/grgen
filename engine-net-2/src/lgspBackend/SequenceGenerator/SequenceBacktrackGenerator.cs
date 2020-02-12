@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
     class SequenceBacktrackGenerator
     {
         readonly SequenceBacktrack seq;
-        readonly SequenceGeneratorHelper helper;
+        readonly SequenceGeneratorHelper seqHelper;
 
         readonly RuleInvocation ruleInvocation;
         readonly SequenceExpression[] ArgumentExpressions;
@@ -32,16 +32,16 @@ namespace de.unika.ipd.grGen.lgsp
         readonly String matchesName;
 
 
-        public SequenceBacktrackGenerator(SequenceBacktrack seq, SequenceGeneratorHelper helper)
+        public SequenceBacktrackGenerator(SequenceBacktrack seq, SequenceGeneratorHelper seqHelper)
         {
             this.seq = seq;
-            this.helper = helper;
+            this.seqHelper = seqHelper;
 
             ruleInvocation = seq.Rule.RuleInvocation;
             ArgumentExpressions = seq.Rule.ArgumentExpressions;
             ReturnVars = seq.Rule.ReturnVars;
             specialStr = seq.Rule.Special ? "true" : "false";
-            parameters = helper.BuildParameters(ruleInvocation, ArgumentExpressions);
+            parameters = seqHelper.BuildParameters(ruleInvocation, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
             patternName = ruleInvocation.Name;
             ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
@@ -78,7 +78,7 @@ namespace de.unika.ipd.grGen.lgsp
             String returnParameterDeclarationsAllCall;
             String intermediateReturnAssignmentsAllCall;
             String returnAssignmentsAllCall;
-            helper.BuildReturnParameters(ruleInvocation, ReturnVars,
+            seqHelper.BuildReturnParameters(ruleInvocation, ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 

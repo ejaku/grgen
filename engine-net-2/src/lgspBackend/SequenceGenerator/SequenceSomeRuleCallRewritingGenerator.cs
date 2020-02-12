@@ -55,7 +55,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.totalMatchToApply = totalMatchToApply;
             this.curTotalMatch = curTotalMatch;
 
-            ruleCallGen.helper.BuildReturnParameters(ruleCallGen.ruleInvocation, ruleCallGen.seqRule.ReturnVars,
+            ruleCallGen.seqHelper.BuildReturnParameters(ruleCallGen.ruleInvocation, ruleCallGen.seqRule.ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
@@ -107,7 +107,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(ruleCallGen.seqRule.SequenceType == SequenceType.RuleCountAllCall)
             {
                 SequenceRuleCountAllCall ruleCountAll = (SequenceRuleCountAllCall)ruleCallGen.seqRule;
-                source.AppendFront(ruleCallGen.helper.SetVar(ruleCountAll.CountResult, matchesName + ".Count"));
+                source.AppendFront(ruleCallGen.seqHelper.SetVar(ruleCountAll.CountResult, matchesName + ".Count"));
             }
         }
 
