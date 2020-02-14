@@ -158,6 +158,7 @@ options { k = 3; }
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
 	| (parallelCallRule[null, null]) => parallelCallRule[xg, returns]
+	| multiRuleAllCall[xg, returns]
 	| DOUBLECOLON id=entIdentUse { xg.append("::" + id); xg.addUsage(id); }
 	| (( DOLLAR ( MOD )? )? LBRACE LT) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
 		LBRACE LT { xg.append("{<"); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* GT RBRACE { xg.append(">}"); }
@@ -568,6 +569,13 @@ seqDequeItem [ExecNode xg] returns [ DequeItemNode res = null ]
 		{
 			res = new DequeItemNode(value.getCoords(), value);
 		}
+	;
+
+multiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns]
+	: LBRACK LBRACK {xg.append("[[");} 
+		(LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, returns, true]
+		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } (LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, returns, true] )*
+	  RBRACK RBRACK {xg.append("]]");}
 	;
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]

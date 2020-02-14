@@ -965,6 +965,11 @@ Sequence SimpleSequence():
         return new SequenceBooleanComputation(new SequenceExpressionConstant(false), null, special);
     }
 |
+    LOOKAHEAD(2) seq=MultiRuleAllCall()
+    {
+        return seq;
+    }
+|
     LOOKAHEAD(RuleLookahead())
     seq=Rule() // accepts variables, rules, all-bracketed rules, and counted all-bracketed rules
     {
@@ -1920,6 +1925,44 @@ SequenceExpression FunctionCall():
             }
         }
     }
+}
+
+Sequence MultiRuleAllCall():
+{
+    Sequence seq;
+    List<Sequence> sequences = new List<Sequence>();
+}
+{
+    "[" "[" seq=RuleForMultiRuleAllCall() { sequences.Add(seq); } ("," seq=RuleForMultiRuleAllCall() { sequences.Add(seq); })* "]" "]"
+    {
+        return new SequenceMultiRuleAllCall(sequences);
+    }
+}
+
+Sequence RuleForMultiRuleAllCall():
+{
+    bool special = false, test = false;
+    String str, package = null;
+    FilterCall filter = null;
+    List<SequenceExpression> argExprs = new List<SequenceExpression>();
+    List<SequenceVariable> returnVars = new List<SequenceVariable>();
+    List<FilterCall> filters = new List<FilterCall>();
+}
+{
+    ("(" VariableList(returnVars) ")" "=" )?
+    (
+        ("%" { special = true; } | "?" { test = true; })* 
+        str=Word() ("(" (Arguments(argExprs))? ")")?
+            ("\\" filter=Filter(str, package) { filters.Add(filter); })*
+        {
+            // No variable with this name may exist
+            if(varDecls.Lookup(str)!=null)
+                throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
+
+            return env.CreateSequenceRuleAllCall(str, package, argExprs, returnVars, null,
+                    special, test, false, null, false, null, false, filters);
+        }
+    )
 }
 
 void RuleLookahead():

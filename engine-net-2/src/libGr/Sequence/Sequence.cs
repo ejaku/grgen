@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not,
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll,
-        WeightedOne, SomeFromSet,
+        WeightedOne, SomeFromSet, MultiRuleAllCall,
         IfThenElse, IfThen,
         ForContainer, ForMatch, ForIntegerRange,
         ForIndexAccessEquality, ForIndexAccessOrdering,
@@ -2883,6 +2883,174 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return "{< ... >}"; }
+        }
+    }
+
+    /// <summary>
+    /// A sequence consisting of a list of subsequences in the form of rule calls.
+    /// First all the contained rules are matched, then they get rewritten.
+    /// </summary>
+    public class SequenceMultiRuleAllCall : Sequence
+    {
+        public readonly List<Sequence> Sequences;
+        public readonly List<IMatches> Matches;
+
+        public SequenceMultiRuleAllCall(List<Sequence> sequences)
+            : base(SequenceType.MultiRuleAllCall)
+        {
+            Sequences = sequences;
+            Matches = new List<IMatches>(Sequences.Count);
+            for(int i = 0; i < Sequences.Count; ++i)
+            {
+                Matches.Add(null);
+            }
+        }
+
+        protected SequenceMultiRuleAllCall(SequenceMultiRuleAllCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            Sequences = new List<Sequence>();
+            foreach(Sequence seq in that.Sequences)
+            {
+                Sequences.Add(seq.Copy(originalToCopy, procEnv));
+            }
+            Matches = new List<IMatches>(that.Sequences.Count);
+            for(int i = 0; i < that.Sequences.Count; ++i)
+            {
+                Matches.Add(null);
+            }
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceMultiRuleAllCall(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            foreach(Sequence seqChild in Sequences)
+            {
+                seqChild.Check(env);
+                //if(seqChild is SequenceRuleAllCall)
+                //    throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]] can't contain a rule all call (e.g. [r4]");
+                if(seqChild is SequenceRuleCountAllCall)
+                    throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]] can't contain a rule count all call (e.g. count[r4] => ct");
+                if(((SequenceRuleCall)seqChild).RuleInvocation.Subgraph != null)
+                    throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]]  can't contain a call with subgraph prefix (e.g. sg.r4)");
+            }
+        }
+
+        public int NumTotalMatches
+        {
+            get
+            {
+                int numTotalMatches = 0;
+                for(int i = 0; i < Sequences.Count; ++i)
+                {
+                    numTotalMatches += Matches[i].Count;
+                }
+                return numTotalMatches;
+            }
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            MatchAll(procEnv);
+
+            for(int i = 0; i < Sequences.Count; ++i)
+            {
+                if(Matches[i].Count > 0)
+                {
+                    SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
+                    ApplyRule(rule, procEnv, Matches[i], null);
+                }
+                else
+                    Sequences[i].executionState = SequenceExecutionState.Fail;
+            }
+
+            return NumTotalMatches > 0;
+        }
+
+        protected void MatchAll(IGraphProcessingEnvironment procEnv)
+        {
+            for(int i = 0; i < Sequences.Count; ++i)
+            {
+                if(!(Sequences[i] is SequenceRuleCall))
+                    throw new InvalidOperationException("Internal error: multi rule all call containing non-rule sequences");
+
+                SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
+                int maxMatches = procEnv.MaxMatches;
+
+                RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)rule.RuleInvocation;
+
+                FillArgumentsFromArgumentExpressions(rule.ArgumentExpressions, rule.Arguments, procEnv);
+
+                IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, rule.Arguments, maxMatches, rule.Filters);
+
+                Matches[i] = matches;
+            }
+        }
+
+        protected bool ApplyRule(SequenceRuleCall rule, IGraphProcessingEnvironment procEnv, IMatches matches, IMatch match)
+        {
+            bool result;
+            procEnv.EnteringSequence(rule);
+            rule.executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
+#endif
+            procEnv.Matched(matches, null, rule.Special);
+            result = rule.Rewrite(procEnv, matches, match);
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
+#endif
+            rule.executionState = result ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
+            procEnv.ExitingSequence(rule);
+            return result;
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            foreach(Sequence seq in Sequences)
+            {
+                if(seq.GetCurrentlyExecutedSequence() != null)
+                    return seq.GetCurrentlyExecutedSequence();
+            }
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            foreach(Sequence seq in Sequences)
+            {
+                if(seq.GetLocalVariables(variables, containerConstructors, target))
+                    return true;
+            }
+            return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get
+            {
+                foreach(Sequence seq in Sequences)
+                {
+                    yield return seq;
+                }
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "[[ ... ]]"; }
         }
     }
 

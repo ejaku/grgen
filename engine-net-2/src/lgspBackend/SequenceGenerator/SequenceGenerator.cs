@@ -211,6 +211,10 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceSome((SequenceSomeFromSet)seq, source);
                 break;
 
+            case SequenceType.MultiRuleAllCall:
+                EmitSequenceMultiRuleAllCall((SequenceMultiRuleAllCall)seq, source);
+                break;
+
             case SequenceType.Transaction:
                 EmitSequenceTransaction((SequenceTransaction)seq, source);
                 break;
@@ -1204,6 +1208,29 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 new SequenceSomeRuleCallGenerator(seqSome, (SequenceRuleCall)seqSome.Sequences[i], seqHelper)
                     .EmitRewriting(source, this, totalMatchToApply, curTotalMatch, firstRewrite, fireDebugEvents);
+            }
+        }
+
+        private void EmitSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, SourceBuilder source)
+        {
+            source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));
+
+            // emit code for matching all the contained rules
+            for(int i = 0; i < seqMulti.Sequences.Count; ++i)
+            {
+                new SequenceMultiRuleAllCallGenerator(seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], seqHelper)
+                    .EmitMatching(source, this);
+            }
+
+            // code to handle the rewrite next match
+            String firstRewrite = "first_rewrite_" + seqMulti.Id;
+            source.AppendFront("bool " + firstRewrite + " = true;\n");
+
+            // emit code for rewriting all the contained rules which got matched
+            for(int i = 0; i < seqMulti.Sequences.Count; ++i)
+            {
+                new SequenceMultiRuleAllCallGenerator(seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], seqHelper)
+                    .EmitRewriting(source, this, firstRewrite, fireDebugEvents);
             }
         }
 

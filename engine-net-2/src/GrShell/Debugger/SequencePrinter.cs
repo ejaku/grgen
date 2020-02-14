@@ -127,6 +127,9 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.SomeFromSet:
                 PrintSequenceSomeFromSet((SequenceSomeFromSet)seq, parent, context);
                 break;
+            case SequenceType.MultiRuleAllCall:
+                PrintSequenceMultiRuleAllCall((SequenceMultiRuleAllCall)seq, parent, context);
+                break;
             case SequenceType.SequenceCall:
             case SequenceType.RuleCall:
             case SequenceType.RuleAllCall:
@@ -571,6 +574,24 @@ namespace de.unika.ipd.grGen.grShell
             Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<");
             PrintChildren(seqSome, context);
             Console.Write(">}");
+            context.success = succesBackup;
+        }
+
+        private static void PrintSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, Sequence parent, PrintSequenceContext context)
+        {
+            bool highlight = false;
+            foreach(Sequence seqChild in seqMulti.Children)
+            {
+                if(seqChild == context.highlightSeq)
+                    highlight = true;
+            }
+
+            bool succesBackup = context.success;
+            if(highlight)
+                context.success = true;
+            Console.Write("[[");
+            PrintChildren(seqMulti, context);
+            Console.Write("]]");
             context.success = succesBackup;
         }
 

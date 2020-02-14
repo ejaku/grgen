@@ -137,6 +137,7 @@
     <Compile Include="SequenceGenerator\SequenceForMatchGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceGeneratorHelper.cs" />
+    <Compile Include="SequenceGenerator\SequenceMultiRuleAllCallGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceRuleOrRuleAllCallGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceRuleOrRuleAllCallRewritingGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceSomeRuleCallGenerator.cs" />

@@ -1,0 +1,13 @@
+new graph "multiruleallcall/multiruleallcall"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=init()
+
+exec [[r(::n),(m1:array<M>,::m2)=s()\auto]]\
+;> { emit('the value of variable "m1" of type M is: ', m1, "\n") } \
+;> { emit('the value of variable "m2" of type M is: ', ::m2, "\n") }
+
+show num nodes
+show num nodes N
+show num nodes M
+
+quit

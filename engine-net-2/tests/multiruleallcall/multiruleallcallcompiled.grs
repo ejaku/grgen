@@ -1,0 +1,11 @@
+new graph "multiruleallcall/multiruleallcall"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=init()
+
+exec seq
+
+show num nodes
+show num nodes N
+show num nodes M
+
+quit
