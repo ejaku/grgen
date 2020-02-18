@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<FilterCall> filters)
+            bool special, bool test, List<FilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
         {
             IAction action = null;
             if(packagePrefix != null)
@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             SequenceRuleCall seqRuleCall = new SequenceRuleCallInterpreted(action,
                 argExprs, returnVars, subgraph,
-                special, test, filters);
+                special, test, filters, isRuleForMultiRuleAllCallReturningArrays);
 
             return seqRuleCall;
         }

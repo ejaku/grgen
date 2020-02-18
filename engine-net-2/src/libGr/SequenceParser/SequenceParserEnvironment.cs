@@ -69,7 +69,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         abstract public SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<FilterCall> filters);
+            bool special, bool test, List<FilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays);
 
         abstract public SequenceRuleAllCall CreateSequenceRuleAllCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,

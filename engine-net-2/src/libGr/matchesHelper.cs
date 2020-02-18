@@ -8,10 +8,37 @@
 // by Edgar Jakumeit
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    /// <summary>
+    /// A helper class used in flattening an array of Matches objects (containing Match objects) to an array of Match objects,
+    /// and handling an array of Match objects (as it is used by the multi rule all call and multi backtracking language constructs). 
+    /// </summary>
+    public static class MatchListHelper
+    {
+        public static void Add(List<IMatch> matchList, List<IMatches> matchesList)
+        {
+            foreach(IMatches matches in matchesList)
+            {
+                matchList.AddRange(matches);
+            }
+        }
+
+        public static void Clone(List<IMatches> matchesList, List<IMatch> matchList)
+        {
+            for(int i = 0; i < matchesList.Count; ++i)
+            {
+                matchesList[i] = matchesList[i].Clone();
+            }
+            matchList.Clear();
+            Add(matchList, matchesList);
+        }
+    }
+
     public static class MatchPrinter
     {
         public static string ToString(IMatch match, IGraph graph)

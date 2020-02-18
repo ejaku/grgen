@@ -965,7 +965,7 @@ Sequence SimpleSequence():
         return new SequenceBooleanComputation(new SequenceExpressionConstant(false), null, special);
     }
 |
-    LOOKAHEAD(2) seq=MultiRuleAllCall()
+    LOOKAHEAD(2) seq=MultiRuleAllCall(true)
     {
         return seq;
     }
@@ -1927,19 +1927,19 @@ SequenceExpression FunctionCall():
     }
 }
 
-Sequence MultiRuleAllCall():
+Sequence MultiRuleAllCall(bool returnsArrays):
 {
     Sequence seq;
     List<Sequence> sequences = new List<Sequence>();
 }
 {
-    "[" "[" seq=RuleForMultiRuleAllCall() { sequences.Add(seq); } ("," seq=RuleForMultiRuleAllCall() { sequences.Add(seq); })* "]" "]"
+    "[" "[" seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); } ("," seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); })* "]" "]"
     {
         return new SequenceMultiRuleAllCall(sequences);
     }
 }
 
-Sequence RuleForMultiRuleAllCall():
+Sequence RuleForMultiRuleAllCall(bool returnsArrays):
 {
     bool special = false, test = false;
     String str, package = null;
@@ -1959,8 +1959,8 @@ Sequence RuleForMultiRuleAllCall():
             if(varDecls.Lookup(str)!=null)
                 throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-            return env.CreateSequenceRuleAllCall(str, package, argExprs, returnVars, null,
-                    special, test, false, null, false, null, false, filters);
+            return env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
+                special, test, filters, returnsArrays);
         }
     )
 }
@@ -2057,7 +2057,7 @@ Sequence Rule():
                                 special);
             } else {
                 return env.CreateSequenceRuleCall(str, package, argExprs, returnVars, subgraph,
-                                special, test, filters);
+                                special, test, filters, false);
             }
         }
     )

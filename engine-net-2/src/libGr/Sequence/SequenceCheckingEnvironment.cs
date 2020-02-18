@@ -37,7 +37,10 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(ruleInvocation, -1, SequenceParserError.UnknownRuleOrSequence);
 
             CheckInputParameters(ruleInvocation, seqRuleCall.ArgumentExpressions, null);
-            CheckOutputParameters(ruleInvocation, seqRuleCall.ReturnVars, null);
+            if(seqRuleCall.IsRuleForMultiRuleAllCallReturningArrays)
+                CheckOutputParametersRuleAll(ruleInvocation, seqRuleCall.ReturnVars);
+            else
+                CheckOutputParameters(ruleInvocation, seqRuleCall.ReturnVars, null);
 
             CheckFilterCalls(seqRuleCall, ruleInvocation);
 

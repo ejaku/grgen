@@ -1023,10 +1023,13 @@ namespace de.unika.ipd.grGen.libGr
         public readonly bool Test;
         public readonly List<FilterCall> Filters;
 
+        public readonly bool IsRuleForMultiRuleAllCallReturningArrays;
+
         protected SequenceRuleCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<FilterCall> filters)
+            bool special, bool test, List<FilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
             : this(SequenceType.RuleCall, argExprs, returnVars, subgraph, special, test, filters)
         {
+            IsRuleForMultiRuleAllCallReturningArrays = isRuleForMultiRuleAllCallReturningArrays;
         }
 
         protected SequenceRuleCall(SequenceType seqType, 
@@ -1039,6 +1042,7 @@ namespace de.unika.ipd.grGen.libGr
             Subgraph = subgraph;
             Test = test;
             Filters = filters;
+            IsRuleForMultiRuleAllCallReturningArrays = false;
         }
 
         protected SequenceRuleCall(SequenceRuleCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -1052,6 +1056,7 @@ namespace de.unika.ipd.grGen.libGr
                 Subgraph = that.Subgraph.Copy(originalToCopy, procEnv);
             Test = that.Test;
             Filters = that.Filters;
+            IsRuleForMultiRuleAllCallReturningArrays = that.IsRuleForMultiRuleAllCallReturningArrays;
         }
 
         // Modify of the Action is normally called by Rewrite of the graph processing environment, delegated to from the ApplyImpl method
@@ -1247,8 +1252,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleCallInterpreted(IAction action,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<FilterCall> filters)
-            : base(argExprs, returnVars, subgraph, special, test, filters)
+            bool special, bool test, List<FilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
+            : base(argExprs, returnVars, subgraph, special, test, filters, isRuleForMultiRuleAllCallReturningArrays)
         {
             Action = action;
         }
@@ -1359,8 +1364,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<FilterCall> filters)
-            : base(argExprs, returnVars, subgraph, special, test, filters)
+            bool special, bool test, List<FilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
+            : base(argExprs, returnVars, subgraph, special, test, filters, isRuleForMultiRuleAllCallReturningArrays)
         {
             this.Name = Name;
 
@@ -2893,17 +2898,11 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceMultiRuleAllCall : Sequence
     {
         public readonly List<Sequence> Sequences;
-        public readonly List<IMatches> Matches;
 
         public SequenceMultiRuleAllCall(List<Sequence> sequences)
             : base(SequenceType.MultiRuleAllCall)
         {
             Sequences = sequences;
-            Matches = new List<IMatches>(Sequences.Count);
-            for(int i = 0; i < Sequences.Count; ++i)
-            {
-                Matches.Add(null);
-            }
         }
 
         protected SequenceMultiRuleAllCall(SequenceMultiRuleAllCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -2913,11 +2912,6 @@ namespace de.unika.ipd.grGen.libGr
             foreach(Sequence seq in that.Sequences)
             {
                 Sequences.Add(seq.Copy(originalToCopy, procEnv));
-            }
-            Matches = new List<IMatches>(that.Sequences.Count);
-            for(int i = 0; i < that.Sequences.Count; ++i)
-            {
-                Matches.Add(null);
             }
         }
 
@@ -2931,8 +2925,8 @@ namespace de.unika.ipd.grGen.libGr
             foreach(Sequence seqChild in Sequences)
             {
                 seqChild.Check(env);
-                //if(seqChild is SequenceRuleAllCall)
-                //    throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]] can't contain a rule all call (e.g. [r4]");
+                if(seqChild is SequenceRuleAllCall)
+                    throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]] can't contain a rule all call (e.g. [r4]");
                 if(seqChild is SequenceRuleCountAllCall)
                     throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]] can't contain a rule count all call (e.g. count[r4] => ct");
                 if(((SequenceRuleCall)seqChild).RuleInvocation.Subgraph != null)
@@ -2940,39 +2934,56 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public int NumTotalMatches
-        {
-            get
-            {
-                int numTotalMatches = 0;
-                for(int i = 0; i < Sequences.Count; ++i)
-                {
-                    numTotalMatches += Matches[i].Count;
-                }
-                return numTotalMatches;
-            }
-        }
-
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            MatchAll(procEnv);
+            List<IMatches> MatchesList;
+            List<IMatch> MatchList;
+            MatchAll(procEnv, out MatchesList, out MatchList);
+
+            List<List<object[]>> ReturnValues = new List<List<object[]>>();
+            List<int> ResultNums = new List<int>();
+            Dictionary<string, int> ruleState = new Dictionary<string, int>();
+            for(int i = 0; i < Sequences.Count; ++i)
+            {
+                SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
+                IMatches matches = MatchesList[i];
+                ruleState.Add(rule.RuleInvocation.PackagePrefixedName, i);
+
+                if(matches.Count == 0)
+                    rule.executionState = SequenceExecutionState.Fail;
+
+                ReturnValues.Add(matches.Producer.Reserve(matches.Count));
+                ResultNums.Add(0);
+            }
+
+            bool first = true;
+            foreach(IMatch match in MatchList)
+            {
+                int index = ruleState[match.Pattern.PackagePrefixedName];
+                SequenceRuleCall rule = (SequenceRuleCall)Sequences[index];
+                IMatches matches = MatchesList[index];
+                List<object[]> returnValues = ReturnValues[index];
+                int resultNum = ResultNums[index];
+                ApplyMatch(rule, procEnv, matches, first, match, returnValues, ref resultNum);
+                first = false;
+                ResultNums[index] = resultNum;
+            }
 
             for(int i = 0; i < Sequences.Count; ++i)
             {
-                if(Matches[i].Count > 0)
-                {
-                    SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
-                    ApplyRule(rule, procEnv, Matches[i], null);
-                }
-                else
-                    Sequences[i].executionState = SequenceExecutionState.Fail;
+                SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
+                IMatches matches = MatchesList[i];
+                List<object[]> returnValues = ReturnValues[i];
+                FillReturnVariablesFromValues(rule.ReturnVars, matches.Producer, procEnv, returnValues, -1);
             }
 
-            return NumTotalMatches > 0;
+            return MatchList.Count > 0;
         }
 
-        protected void MatchAll(IGraphProcessingEnvironment procEnv)
+        public void MatchAll(IGraphProcessingEnvironment procEnv, out List<IMatches> MatchesList, out List<IMatch> MatchList)
         {
+            MatchesList = new List<IMatches>(Sequences.Count);
+
             for(int i = 0; i < Sequences.Count; ++i)
             {
                 if(!(Sequences[i] is SequenceRuleCall))
@@ -2987,11 +2998,14 @@ namespace de.unika.ipd.grGen.libGr
 
                 IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, rule.Arguments, maxMatches, rule.Filters);
 
-                Matches[i] = matches;
+                MatchesList.Add(matches);
             }
+
+            MatchList = new List<IMatch>();
+            MatchListHelper.Add(MatchList, MatchesList);
         }
 
-        protected bool ApplyRule(SequenceRuleCall rule, IGraphProcessingEnvironment procEnv, IMatches matches, IMatch match)
+        public bool ApplyMatch(SequenceRuleCall rule, IGraphProcessingEnvironment procEnv, IMatches matches, bool first, IMatch match, List<object[]> returnValues, ref int curResultNum)
         {
             bool result;
             procEnv.EnteringSequence(rule);
@@ -2999,14 +3013,51 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
 #endif
-            procEnv.Matched(matches, null, rule.Special);
-            result = rule.Rewrite(procEnv, matches, match);
+            procEnv.Matched(matches, match, rule.Special);
+            result = RewriteMatch(rule, procEnv, matches, first, match, returnValues, ref curResultNum);
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
 #endif
             rule.executionState = result ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
             procEnv.ExitingSequence(rule);
             return result;
+        }
+
+        public bool RewriteMatch(SequenceRuleCall rule, IGraphProcessingEnvironment procEnv, IMatches matches, bool first, IMatch match, List<object[]> returnValues, ref int curResultNum)
+        {
+            if(matches.Count == 0)
+                return false;
+            if(rule.Test)
+                return false;
+
+            procEnv.Finishing(matches, rule.Special);
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StartLocal();
+#endif
+
+            if(!first)
+                procEnv.RewritingNextMatch();
+            object[] retElems = matches.Producer.Modify(procEnv, match);
+            object[] curResult = returnValues[curResultNum];
+            for(int i = 0; i < retElems.Length; ++i)
+            {
+                curResult[i] = retElems[i];
+            }
+            ++procEnv.PerformanceInfo.RewritesPerformed;
+            ++curResultNum;
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
+#endif
+            //procEnv.Finished(matches, rule.Special); // TODO
+
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
+            procEnv.Recorder.Flush();
+#endif
+
+            return true;
         }
 
         public override Sequence GetCurrentlyExecutedSequence()

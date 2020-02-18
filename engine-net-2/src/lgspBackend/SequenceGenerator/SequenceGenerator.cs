@@ -1215,23 +1215,70 @@ namespace de.unika.ipd.grGen.lgsp
         {
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));
 
+            String matchListName = "MatchList_" + seqMulti.Id;
+            source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
+
+            SequenceMultiRuleAllCallGenerator[] ruleGenerators = new SequenceMultiRuleAllCallGenerator[seqMulti.Sequences.Count];
+            for(int i = 0; i < seqMulti.Sequences.Count; ++i)
+            {
+                ruleGenerators[i] = new SequenceMultiRuleAllCallGenerator(seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], seqHelper);
+            }
+
             // emit code for matching all the contained rules
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
             {
-                new SequenceMultiRuleAllCallGenerator(seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], seqHelper)
-                    .EmitMatching(source, this);
+                ruleGenerators[i].EmitMatching(source, this, matchListName);
+            }
+
+            for(int i = 0; i < seqMulti.Sequences.Count; ++i)
+            {
+                if(ruleGenerators[i].returnParameterDeclarationsAllCall.Length != 0)
+                    source.AppendFront(ruleGenerators[i].returnParameterDeclarationsAllCall + "\n");
             }
 
             // code to handle the rewrite next match
             String firstRewrite = "first_rewrite_" + seqMulti.Id;
             source.AppendFront("bool " + firstRewrite + " = true;\n");
 
-            // emit code for rewriting all the contained rules which got matched
+            source.AppendFront("if(" + matchListName + ".Count != 0) {\n");
+            source.Indent();
+            source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
+            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchListName + ".Count;\n");
+
+            // iterate through matches, use Modify on each, fire the next match event after the first
+            String enumeratorName = "enum_" + seqMulti.Id;
+            source.AppendFront("IEnumerator<GRGEN_LIBGR.IMatch> " + enumeratorName + " = " + matchListName + ".GetEnumerator();\n");
+            source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront("switch(" + enumeratorName + ".Current.Pattern.Name)\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            // emit code for rewriting the current match (for each rule, rule fitting to the match is selected by rule name)
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
             {
-                new SequenceMultiRuleAllCallGenerator(seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], seqHelper)
-                    .EmitRewriting(source, this, firstRewrite, fireDebugEvents);
+                ruleGenerators[i].EmitRewriting(source, this, matchListName, enumeratorName, firstRewrite, fireDebugEvents);
             }
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            for(int i = 0; i < seqMulti.Sequences.Count; ++i)
+            {
+                if(ruleGenerators[i].returnAssignmentsAllCall.Length != 0)
+                    source.AppendFront(ruleGenerators[i].returnAssignmentsAllCall + "\n");
+            }
+
+            //if(fireDebugEvents) TODO
+            //    source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
         }
 
         private void EmitSequenceTransaction(SequenceTransaction seqTrans, SourceBuilder source)

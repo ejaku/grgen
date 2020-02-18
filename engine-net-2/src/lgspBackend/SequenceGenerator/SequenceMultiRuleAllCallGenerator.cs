@@ -9,7 +9,6 @@
 
 using System;
 using de.unika.ipd.grGen.libGr;
-using COMP_HELPER = de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -25,11 +24,19 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String parameters;
         internal readonly String matchingPatternClassName;
         internal readonly String patternName;
+        internal readonly String plainRuleName;
         internal readonly String ruleName;
         internal readonly String matchType;
         internal readonly String matchName;
         internal readonly String matchesType;
         internal readonly String matchesName;
+
+        internal readonly String returnParameterDeclarations;
+        internal readonly String returnArguments;
+        internal readonly String returnAssignments;
+        internal readonly String returnParameterDeclarationsAllCall;
+        internal readonly String intermediateReturnAssignmentsAllCall;
+        internal readonly String returnAssignmentsAllCall;
 
 
         public SequenceMultiRuleAllCallGenerator(SequenceMultiRuleAllCall seqMulti, SequenceRuleCall seqRule, SequenceGeneratorHelper seqHelper)
@@ -44,14 +51,19 @@ namespace de.unika.ipd.grGen.lgsp
             parameters = seqHelper.BuildParameters(ruleInvocation, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
             patternName = ruleInvocation.Name;
-            ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
+            plainRuleName = TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
+            ruleName = "rule_" + plainRuleName;
             matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             matchName = "match_" + seqRule.Id;
             matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             matchesName = "matches_" + seqRule.Id;
+
+            seqHelper.BuildReturnParameters(ruleInvocation, seqRule.ReturnVars,
+                out returnParameterDeclarations, out returnArguments, out returnAssignments,
+                out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
 
-        public void EmitMatching(SourceBuilder source, SequenceGenerator seqGen)
+        public void EmitMatching(SourceBuilder source, SequenceGenerator seqGen, String matchListName)
         {
             source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, procEnv.MaxMatches"
@@ -61,39 +73,21 @@ namespace de.unika.ipd.grGen.lgsp
                 seqGen.EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName);
             }
 
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
-            source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
+            source.AppendFrontFormat("{0}.AddRange({1});\n", matchListName, matchesName);
             source.Unindent();
             source.AppendFront("}\n");
         }
 
-        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen,
+        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName,
             String firstRewrite, bool fireDebugEvents)
         {
-            source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
-            source.Indent();
-
-            String returnParameterDeclarations;
-            String returnArguments;
-            String returnAssignments;
-            String returnParameterDeclarationsAllCall;
-            String intermediateReturnAssignmentsAllCall;
-            String returnAssignmentsAllCall;
-            seqHelper.BuildReturnParameters(ruleInvocation, seqRule.ReturnVars,
-                out returnParameterDeclarations, out returnArguments, out returnAssignments,
-                out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
-
-            // iterate through matches, use Modify on each, fire the next match event after the first
-            if(returnParameterDeclarations.Length != 0)
-                source.AppendFront(returnParameterDeclarationsAllCall + "\n");
-            String enumeratorName = "enum_" + seqRule.Id;
-            source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
-            source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+            source.AppendFrontFormat("case \"{0}\":\n", plainRuleName);
             source.AppendFront("{\n");
             source.Indent();
-            source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
+
+            source.AppendFront(matchType + " " + matchName + " = (" + matchType + ")" + enumeratorName + ".Current;\n");
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
             if(fireDebugEvents)
@@ -104,15 +98,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
-            source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
+            source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
             source.AppendFront(firstRewrite + " = false;\n");
-            source.Unindent();
-            source.AppendFront("}\n");
-            if(returnAssignments.Length != 0)
-                source.AppendFront(returnAssignmentsAllCall + "\n");
-
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+            source.AppendFront("break;\n");
 
             source.Unindent();
             source.AppendFront("}\n");

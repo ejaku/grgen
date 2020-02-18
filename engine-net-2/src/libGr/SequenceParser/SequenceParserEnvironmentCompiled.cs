@@ -92,12 +92,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<FilterCall> filters)
+            bool special, bool test, List<FilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
         {
             SequenceRuleCall seqRuleCall = new SequenceRuleCallCompiled(ruleName, packagePrefix, packageContext,
                 Array.IndexOf(actionNames.ruleNames, ruleName) != -1,
                 argExprs, returnVars, subgraph,
-                special, test, filters);
+                special, test, filters, isRuleForMultiRuleAllCallReturningArrays);
 
             return seqRuleCall;
         }
