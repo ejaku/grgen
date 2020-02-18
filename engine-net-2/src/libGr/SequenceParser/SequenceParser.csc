@@ -1034,6 +1034,12 @@ Sequence SimpleSequence():
         return new SequenceTransaction(seq);
     }
 |
+    LOOKAHEAD(3)
+    "<<" seq=MultiRuleAllCall(false) (";;"|";") seq2=RewriteSequence() ">>"
+    {
+        return new SequenceMultiBacktrack((SequenceMultiRuleAllCall)seq, seq2);
+    }
+|
     "<<" seq=Rule() (";;"|";") seq2=RewriteSequence() ">>"
     {
         return new SequenceBacktrack(seq, seq2);

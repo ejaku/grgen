@@ -1,0 +1,18 @@
+new graph "multiruleallcall/multiruleallcall"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=init()
+
+exec <<[[r(::n),(m1:M,::m2)=s()\auto]];;\
+   { emit('the value of variable "m1" of type M is: ', m1, "\n") } \
+;> { emit('the value of variable "m2" of type M is: ', ::m2, "\n") } \
+;> count[nodes()]=>::numNodes ;> { ::numN = countNodes(N) } ;> { ::numM = countNodes(M) }\
+;> { emit('the value of variable "numNodes" of type int is: ', ::numNodes, "\n") } \
+;> { emit('the value of variable "numN" of type int is: ', ::numN, "\n") } \
+;> { emit('the value of variable "numM" of type int is: ', ::numM, "\n") } \
+;> false>>
+
+show num nodes
+show num nodes N
+show num nodes M
+
+quit

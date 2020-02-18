@@ -223,6 +223,10 @@ namespace de.unika.ipd.grGen.lgsp
                 new SequenceBacktrackGenerator((SequenceBacktrack)seq, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
+            case SequenceType.MultiBacktrack:
+                new SequenceMultiBacktrackGenerator((SequenceMultiBacktrack)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                break;
+
             case SequenceType.Pause:
                 EmitSequencePause((SequencePause)seq, source);
                 break;

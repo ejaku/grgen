@@ -69,6 +69,9 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.Backtrack:
                 PrintSequenceBacktrack((SequenceBacktrack)seq, parent, context);
                 break;
+            case SequenceType.MultiBacktrack:
+                PrintSequenceMultiBacktrack((SequenceMultiBacktrack)seq, parent, context);
+                break;
             case SequenceType.Pause:
                 PrintSequencePause((SequencePause)seq, parent, context);
                 break;
@@ -234,6 +237,15 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.Write("<<");
             PrintSequence(seqBack.Rule, seqBack, context);
+            Console.Write(";;");
+            PrintSequence(seqBack.Seq, seqBack, context);
+            Console.Write(">>");
+        }
+
+        private static void PrintSequenceMultiBacktrack(SequenceMultiBacktrack seqBack, Sequence parent, PrintSequenceContext context)
+        {
+            Console.Write("<<");
+            PrintSequence(seqBack.Rules, seqBack, context);
             Console.Write(";;");
             PrintSequence(seqBack.Seq, seqBack, context);
             Console.Write(">>");

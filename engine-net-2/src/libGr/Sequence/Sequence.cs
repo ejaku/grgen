@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         ForBoundedReachableNodes, ForBoundedReachableNodesViaIncoming, ForBoundedReachableNodesViaOutgoing,
         ForBoundedReachableEdges, ForBoundedReachableEdgesViaIncoming, ForBoundedReachableEdgesViaOutgoing,
         ForNodes, ForEdges,
-        Transaction, Backtrack, Pause,
+        Transaction, Backtrack, MultiBacktrack, Pause,
         IterationMin, IterationMinMax,
         RuleCall, RuleAllCall, RuleCountAllCall,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
@@ -3331,6 +3331,200 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return "<< " + Rule.Symbol + " ;; ... >>"; }
+        }
+    }
+
+    public class SequenceMultiBacktrack : Sequence
+    {
+        public readonly SequenceMultiRuleAllCall Rules;
+        public readonly Sequence Seq;
+
+        public SequenceMultiBacktrack(SequenceMultiRuleAllCall seqMulti, Sequence seq) : base(SequenceType.MultiBacktrack)
+        {
+            Rules = seqMulti;
+            Seq = seq;
+        }
+
+        protected SequenceMultiBacktrack(SequenceMultiBacktrack that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            Rules = (SequenceMultiRuleAllCall)that.Rules.Copy(originalToCopy, procEnv);
+            Seq = that.Seq.Copy(originalToCopy, procEnv);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceMultiBacktrack(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Seq.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            // first get all matches of the rule
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Matching multi backtrack all " + Rule.GetRuleCallString(procEnv));
+#endif
+            List<IMatches> MatchesList;
+            List<IMatch> MatchList;
+            Rules.MatchAll(procEnv, out MatchesList, out MatchList);
+            int matchesCount = MatchList.Count;
+
+            if(matchesCount == 0)
+            {
+                // todo: sequence, single rules?
+                Rules.executionState = SequenceExecutionState.Fail;
+                return false;
+            }
+
+#if LOG_SEQUENCE_EXECUTION
+            for(int i = 0; i < matchesCount; ++i)
+            {
+                procEnv.Recorder.WriteLine("match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
+            }
+#endif
+
+            // the rule might be called again in the sequence, overwriting the matches object of the action
+            // normally it's safe to assume the rule is not called again until its matches were processed,
+            // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
+            // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
+            MatchListHelper.Clone(MatchesList, MatchList);
+
+#if LOG_SEQUENCE_EXECUTION
+            for(int i = 0; i < matches.Count; ++i)
+            {
+                procEnv.Recorder.WriteLine("cloned match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
+            }
+#endif
+
+            // apply the rule and the following sequence for every match found,
+            // until the first rule and sequence execution succeeded
+            // rolling back the changes of failing executions until then
+            int matchesTried = 0;
+
+            Dictionary<string, int> ruleState = new Dictionary<string, int>();
+            for(int i = 0; i < Rules.Sequences.Count; ++i)
+            {
+                SequenceRuleCall rule = (SequenceRuleCall)Rules.Sequences[i];
+                IMatches matches = MatchesList[i];
+                ruleState.Add(rule.RuleInvocation.PackagePrefixedName, i);
+
+                if(matches.Count == 0)
+                    rule.executionState = SequenceExecutionState.Fail;
+            }
+
+            foreach(IMatch match in MatchList)
+            {
+                ++matchesTried;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Applying backtrack match " + matchesTried + "/" + matchesCount + " of " + rule.GetRuleCallString(procEnv));
+                procEnv.Recorder.WriteLine("match: " + MatchPrinter.ToString(match, procEnv.Graph, ""));
+#endif
+
+                // start a transaction
+                int transactionID = procEnv.TransactionManager.Start();
+                int oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
+
+                int index = ruleState[match.Pattern.PackagePrefixedName];
+                SequenceRuleCall rule = (SequenceRuleCall)Rules.Sequences[index];
+                IMatches matches = MatchesList[index];
+
+                procEnv.EnteringSequence(rule);
+                rule.executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
+#endif
+                procEnv.Matched(matches, match, rule.Special);
+                bool result = rule.Rewrite(procEnv, matches, match);
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
+#endif
+                rule.executionState = result ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
+                procEnv.ExitingSequence(rule);
+
+                // rule applied, now execute the sequence
+                result = Seq.Apply(procEnv);
+
+                // if sequence execution failed, roll the changes back and try the next match of the rule
+                if(!result)
+                {
+                    procEnv.TransactionManager.Rollback(transactionID);
+                    procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+                    if(matchesTried < matchesCount)
+                    {
+                        procEnv.EndOfIteration(true, this);
+                        rule.ResetExecutionState();
+                        Seq.ResetExecutionState();
+                        continue;
+                    }
+                    else
+                    {
+                        // all matches tried, all failed later on -> end in fail
+#if LOG_SEQUENCE_EXECUTION
+                        procEnv.Recorder.WriteLine("Applying backtrack match exhausted " + rule.GetRuleCallString(procEnv));
+#endif
+                        procEnv.EndOfIteration(false, this);
+                        return false;
+                    }
+                }
+
+                // if sequence execution succeeded, commit the changes so far and succeed
+                procEnv.TransactionManager.Commit(transactionID);
+                procEnv.EndOfIteration(false, this);
+                return true;
+            }
+            return false;
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(Rules.GetCurrentlyExecutedSequence() != null)
+                return Rules.GetCurrentlyExecutedSequence();
+            if(Seq.GetCurrentlyExecutedSequence() != null)
+                return Seq.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            if(Rules.GetLocalVariables(variables, containerConstructors, target))
+                return true;
+            if(Seq.GetLocalVariables(variables, containerConstructors, target))
+                return true;
+            return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get
+            {
+                foreach(Sequence child in Rules.Children)
+                {
+                    yield return child;
+                }
+                yield return Seq;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "<< " + Rules.Symbol + " ;; ... >>"; }
         }
     }
 

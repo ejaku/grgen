@@ -158,7 +158,7 @@ options { k = 3; }
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
 	| (parallelCallRule[null, null]) => parallelCallRule[xg, returns]
-	| multiRuleAllCall[xg, returns]
+	| multiRuleAllCall[xg, returns, true]
 	| DOUBLECOLON id=entIdentUse { xg.append("::" + id); xg.addUsage(id); }
 	| (( DOLLAR ( MOD )? )? LBRACE LT) => ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
 		LBRACE LT { xg.append("{<"); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* GT RBRACE { xg.append(">}"); }
@@ -170,6 +170,7 @@ options { k = 3; }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
 	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }
+	| SL { xg.append(" <<"); } multiRuleAllCall[xg, returns, false] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }
 	| DIV { xg.append(" /"); } xgrs[xg] DIV { xg.append("/ "); }
 	| IF l=LBRACE { env.pushScope("if/exec", getCoords(l)); } { xg.append("if{"); } xgrs[xg] s=SEMI 
 		{ env.pushScope("if/then-part", getCoords(s)); } { xg.append("; "); } xgrs[xg] { env.popScope(); }
@@ -571,10 +572,10 @@ seqDequeItem [ExecNode xg] returns [ DequeItemNode res = null ]
 		}
 	;
 
-multiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns]
+multiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed]
 	: LBRACK LBRACK {xg.append("[[");} 
-		(LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, returns, true]
-		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } (LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, returns, true] )*
+		(LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, returns, isAllBracketed]
+		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } (LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, returns, isAllBracketed] )*
 	  RBRACK RBRACK {xg.append("]]");}
 	;
 	
