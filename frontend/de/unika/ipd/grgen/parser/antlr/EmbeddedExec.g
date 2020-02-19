@@ -604,7 +604,7 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed]
 	
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		(xgrsVarUse[xg] DOT {xg.append(".");})?
-		id=actionIdentUse {xg.append(id);}
+		id=actionOrEntIdentUse {xg.append(id);}
 		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
 		(callRuleFilter[xg, filters])*
 		{
@@ -834,6 +834,15 @@ actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 options { k = 3; }
 	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
+	| p=IDENT DOUBLECOLON i=IDENT 
+		{ if(i!=null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+				env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
+	;
+
+actionOrEntIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+options { k = 3; }
+	: i=IDENT
+		{ if(i!=null) res = new AmbiguousIdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i)), env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	| p=IDENT DOUBLECOLON i=IDENT 
 		{ if(i!=null) res = new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
 				env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }

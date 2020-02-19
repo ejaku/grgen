@@ -666,6 +666,14 @@ public abstract class BaseNode extends Base
 		// The result is true, if the definition's valid.
 		boolean res = def.isValid();
 
+		// second chance lookup
+		if(!res && id instanceof AmbiguousIdentNode) {
+			AmbiguousIdentNode ambigId = (AmbiguousIdentNode)id;
+			def = scope.getCurrDef(ambigId.getOtherSymbol());
+			debug.report(NOTE, "definition now is: " + def);
+			res = def.isValid();
+		}
+
 		// If this definition is valid, i.e. it exists,
 		// the definition of the ident is rewritten to this definition,
 		// else, an error is emitted,

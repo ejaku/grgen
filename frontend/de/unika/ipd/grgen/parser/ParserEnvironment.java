@@ -30,21 +30,22 @@ public abstract class ParserEnvironment extends Base {
 	public static final int TYPES = 0;
 	public static final int PATTERNS = TYPES;   // patterns are also constructible, like types
 	public static final int ENTITIES = 1;
-	public static final int ACTIONS = ENTITIES; // actions are also entities to get exec working
-	public static final int ALTERNATIVES = 2;
-	public static final int ITERATEDS = 3;
-	public static final int NEGATIVES = 4;
-	public static final int INDEPENDENTS = 5;
-	public static final int REPLACES = 6;
-	public static final int MODELS = 7;
-	public static final int FUNCTIONS_AND_EXTERNAL_FUNCTIONS = 8;
-	public static final int COMPUTATION_BLOCKS = 9;
-	public static final int INDICES = 10;
-	public static final int PACKAGES = 11;
+	public static final int ACTIONS = 2;
+	public static final int ALTERNATIVES = 3;
+	public static final int ITERATEDS = 4;
+	public static final int NEGATIVES = 5;
+	public static final int INDEPENDENTS = 6;
+	public static final int REPLACES = 7;
+	public static final int MODELS = 8;
+	public static final int FUNCTIONS_AND_EXTERNAL_FUNCTIONS = 9;
+	public static final int COMPUTATION_BLOCKS = 10;
+	public static final int INDICES = 11;
+	public static final int PACKAGES = 12;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types", TYPES),        // types and patterns
-		new SymbolTable("entities", ENTITIES),     // entities and actions
+		new SymbolTable("entities", ENTITIES),
+		new SymbolTable("actions", ACTIONS),
 		new SymbolTable("alternatives", ALTERNATIVES),
 		new SymbolTable("iterateds", ITERATEDS),
 		new SymbolTable("negatives", NEGATIVES),
