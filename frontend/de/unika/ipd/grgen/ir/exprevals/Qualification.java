@@ -56,7 +56,9 @@ public class Qualification extends Expression {
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		if(owner != null) {
-			if(!isGlobalVariable(owner) && !(owner.getType() instanceof MatchType))
+			if(!isGlobalVariable(owner) 
+					&& !(owner.getType() instanceof MatchType)
+					&& !(owner.getType() instanceof DefinedMatchType))
 			{
 				if(owner instanceof GraphEntity)
 					needs.addAttr((GraphEntity) owner, member);

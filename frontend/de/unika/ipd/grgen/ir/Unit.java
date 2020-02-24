@@ -38,6 +38,10 @@ public class Unit extends IR implements ActionsBearer {
 
 	private final List<FilterFunction> filterFunctions = new LinkedList<FilterFunction>();
 
+	private final List<DefinedMatchType> matchClasses = new LinkedList<DefinedMatchType>();
+
+	private final List<MatchClassFilterFunction> matchClassFilterFunctions = new LinkedList<MatchClassFilterFunction>();
+
 	private final List<Function> functions = new LinkedList<Function>();
 
 	private final List<Procedure> procedures = new LinkedList<Procedure>();
@@ -100,7 +104,25 @@ public class Unit extends IR implements ActionsBearer {
 	public Collection<FilterFunction> getFilterFunctions() {
 		return Collections.unmodifiableCollection(filterFunctions);
 	}
-	
+
+	/** Add a match class to the unit. */
+	public void addMatchClass(DefinedMatchType matchClass) {
+		matchClasses.add(matchClass);
+	}
+
+	public Collection<DefinedMatchType> getMatchClasses() {
+		return Collections.unmodifiableCollection(matchClasses);
+	}
+
+	/** Add a match filter function to the unit. */
+	public void addMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction) {
+		matchClassFilterFunctions.add(matchClassFilterFunction);
+	}
+
+	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions() {
+		return Collections.unmodifiableCollection(matchClassFilterFunctions);
+	}
+
 	/** Add a function to the unit. */
 	public void addFunction(Function function) {
 		functions.add(function);

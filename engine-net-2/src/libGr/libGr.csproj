@@ -70,6 +70,7 @@
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\IFilter.cs" />
     <Compile Include="Actions\IFunctionDefinitionAndInfo.cs" />
+    <Compile Include="Actions\IMatchClass.cs" />
     <Compile Include="Actions\IProcedureDefinitionAndInfo.cs" />
     <Compile Include="Actions\ISequenceDefinitionAndInfo.cs" />
     <Compile Include="PatternsAndMatches\IAlternative.cs" />

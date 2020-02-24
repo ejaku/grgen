@@ -19,9 +19,12 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.DefinedMatchType;
 import de.unika.ipd.grgen.ir.FilterFunction;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MatchClassFilterFunction;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.PackageActionType;
 import de.unika.ipd.grgen.ir.Rule;
@@ -50,6 +53,12 @@ public class UnitNode extends BaseNode {
 	private CollectNode<FilterFunctionDeclNode> filterFunctions;
 	private CollectNode<IdentNode> filterFunctionsUnresolved;
 
+	private CollectNode<DefinedMatchTypeNode> matchClasses;
+	private CollectNode<IdentNode> matchClassesUnresolved;
+
+	private CollectNode<MatchClassFilterFunctionDeclNode> matchClassFilterFunctions;
+	private CollectNode<IdentNode> matchClassFilterFunctionsUnresolved;
+
 	private CollectNode<FunctionDeclNode> functions;
 	private CollectNode<IdentNode> functionsUnresolved;
 
@@ -73,9 +82,10 @@ public class UnitNode extends BaseNode {
 	 */
 	private String filename;
 
-	public UnitNode(String unitname, String filename, ModelNode stdModel,
-			CollectNode<ModelNode> models, CollectNode<IdentNode> subpatterns, 
-			CollectNode<IdentNode> actions, CollectNode<IdentNode> filterFunctions, 
+	public UnitNode(String unitname, String filename, 
+			ModelNode stdModel, CollectNode<ModelNode> models, CollectNode<IdentNode> subpatterns,
+			CollectNode<IdentNode> actions, CollectNode<IdentNode> filterFunctions,
+			CollectNode<IdentNode> matchClasses, CollectNode<IdentNode> matchClassFilterFunctions, 
 			CollectNode<IdentNode> functions, CollectNode<IdentNode> procedures,
 			CollectNode<IdentNode> sequences, CollectNode<IdentNode> packages) {
 		this.stdModel = stdModel;
@@ -87,6 +97,10 @@ public class UnitNode extends BaseNode {
 		becomeParent(this.actionsUnresolved);
 		this.filterFunctionsUnresolved = filterFunctions;
 		becomeParent(this.filterFunctionsUnresolved);
+		this.matchClassesUnresolved = matchClasses;
+		becomeParent(this.matchClassesUnresolved);
+		this.matchClassFilterFunctionsUnresolved = matchClassFilterFunctions;
+		becomeParent(this.matchClassFilterFunctionsUnresolved);
 		this.functionsUnresolved = functions;
 		becomeParent(this.functionsUnresolved);
 		this.proceduresUnresolved = procedures;
@@ -115,6 +129,8 @@ public class UnitNode extends BaseNode {
 		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
 		children.add(getValidVersion(actionsUnresolved, actions));
 		children.add(getValidVersion(filterFunctionsUnresolved, filterFunctions));
+		children.add(getValidVersion(matchClassesUnresolved, matchClasses));
+		children.add(getValidVersion(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
 		children.add(getValidVersion(functionsUnresolved, functions));
 		children.add(getValidVersion(proceduresUnresolved, procedures));
 		children.add(getValidVersion(sequencesUnresolved, sequences));
@@ -130,6 +146,8 @@ public class UnitNode extends BaseNode {
 		childrenNames.add("subpatterns");
 		childrenNames.add("actions");
 		childrenNames.add("filter functions");
+		childrenNames.add("match classes");
+		childrenNames.add("match filter functions");
 		childrenNames.add("functions");
 		childrenNames.add("procedures");
 		childrenNames.add("sequences");
@@ -145,6 +163,12 @@ public class UnitNode extends BaseNode {
 
 	private static final CollectResolver<FilterFunctionDeclNode> filterFunctionsResolver = new CollectResolver<FilterFunctionDeclNode>(
 			new DeclarationResolver<FilterFunctionDeclNode>(FilterFunctionDeclNode.class));
+
+	private static final CollectResolver<DefinedMatchTypeNode> matchClassesResolver = new CollectResolver<DefinedMatchTypeNode>(
+			new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class));
+
+	private static final CollectResolver<MatchClassFilterFunctionDeclNode> matchClassFilterFunctionsResolver = new CollectResolver<MatchClassFilterFunctionDeclNode>(
+			new DeclarationResolver<MatchClassFilterFunctionDeclNode>(MatchClassFilterFunctionDeclNode.class));
 
 	private static final CollectResolver<FunctionDeclNode> functionsResolver = new CollectResolver<FunctionDeclNode>(
 			new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class));
@@ -164,12 +188,16 @@ public class UnitNode extends BaseNode {
 		subpatterns = subpatternsResolver.resolve(subpatternsUnresolved, this);
 		actions = actionsResolver.resolve(actionsUnresolved, this);
 		filterFunctions = filterFunctionsResolver.resolve(filterFunctionsUnresolved, this);
+		matchClasses = matchClassesResolver.resolve(matchClassesUnresolved, this);
+		matchClassFilterFunctions = matchClassFilterFunctionsResolver.resolve(matchClassFilterFunctionsUnresolved, this);
 		functions = functionsResolver.resolve(functionsUnresolved, this);
 		procedures = proceduresResolver.resolve(proceduresUnresolved, this);
 		sequences = sequencesResolver.resolve(sequencesUnresolved, this);
 		packages = packagesResolver.resolve(packagesUnresolved, this);
 
-		return subpatterns != null && actions != null && filterFunctions != null
+		return subpatterns != null 
+			&& actions != null && filterFunctions != null
+			&& matchClasses != null && matchClassFilterFunctions != null
 			&& functions != null && procedures != null 
 			&& sequences != null && packages != null;
 	}
@@ -209,6 +237,10 @@ public class UnitNode extends BaseNode {
 		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildren()) {
 			if(filterFunction.evals != null) // otherwise external filter function without statements
 				res &= EvalStatementNode.checkStatements(true, filterFunction, null, filterFunction.evals, true);
+		}
+		for(MatchClassFilterFunctionDeclNode matchClassFilterFunction : matchClassFilterFunctions.getChildren()) {
+			if(matchClassFilterFunction.evals != null) // otherwise external filter function without statements
+				res &= EvalStatementNode.checkStatements(true, matchClassFilterFunction, null, matchClassFilterFunction.evals, true);
 		}
 		for(FunctionDeclNode function : functions.getChildren()) {
 			res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
@@ -304,6 +336,16 @@ public class UnitNode extends BaseNode {
 		for(FilterFunctionDeclNode n : filterFunctions.getChildren()) {
 			FilterFunction filter = n.getFilterFunction();
 			res.addFilterFunction(filter);
+		}
+
+		for(MatchClassFilterFunctionDeclNode n : matchClassFilterFunctions.getChildren()) {
+			MatchClassFilterFunction matchClassFilter = n.getMatchClassFilterFunction();
+			res.addMatchClassFilterFunction(matchClassFilter);
+		}
+
+		for(DefinedMatchTypeNode n : matchClasses.getChildren()) {
+			DefinedMatchType matchClass = n.getDefinedMatchType();
+			res.addMatchClass(matchClass);
 		}
 
 		for(FunctionDeclNode n : functions.getChildren()) {

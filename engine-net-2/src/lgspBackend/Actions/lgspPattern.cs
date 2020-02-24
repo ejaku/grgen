@@ -1663,6 +1663,11 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract ProcedureInfo[] Procedures { get; }
 
         /// <summary>
+        /// All the match class representations generated
+        /// </summary>
+        public abstract MatchClassInfo[] MatchClasses { get; }
+
+        /// <summary>
         /// All the packages defined
         /// </summary>
         public abstract string[] Packages { get; }
@@ -1787,6 +1792,27 @@ namespace de.unika.ipd.grGen.lgsp
                 actionsTypeInformation.functionsToOutputType.Add(function.packagePrefixedName, TypesHelper.DotNetTypeToXgrsType(function.output));
 
                 actionsTypeInformation.functionsToIsExternal.Add(function.packagePrefixedName, function.IsExternal);
+            }
+
+            foreach(IMatchClass matchClass in MatchClasses)
+            {
+                List<IFilter> filters = new List<IFilter>();
+                actionsTypeInformation.matchClassesToFilters.Add(matchClass.PackagePrefixedName, filters);
+                foreach(IFilter filter in matchClass.Filters)
+                {
+                    filters.Add(filter);
+
+                    if(filter is IFilterFunction)
+                    {
+                        IFilterFunction filterFunction = (IFilterFunction)filter;
+                        List<String> filterFunctionInputTypes = new List<String>();
+                        actionsTypeInformation.filterFunctionsToInputTypes.Add(filterFunction.PackagePrefixedName, filterFunctionInputTypes);
+                        foreach(GrGenType inputType in filterFunction.Inputs)
+                        {
+                            filterFunctionInputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
+                        }
+                    }
+                }
             }
 
             return actionsTypeInformation;

@@ -47,8 +47,11 @@ public class MemberAccessExprNode extends ExprNode
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(isResolved() && resolutionResult() && targetExpr.getType() instanceof MatchTypeNode) {
-			return children; // behave like a nop in case we're a match access
+		if(isResolved() && resolutionResult()) {
+			if(targetExpr.getType() instanceof MatchTypeNode
+				|| targetExpr.getType() instanceof DefinedMatchTypeNode) {
+				return children; // behave like a nop in case we're a match access
+			}
 		}
 		children.add(targetExpr);
 		children.add(memberIdent);
@@ -94,7 +97,23 @@ public class MemberAccessExprNode extends ExprNode
 			}
 			return true;
 		}
-		
+
+		if(ownerType instanceof DefinedMatchTypeNode) {
+			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)ownerType;
+			if(!definedMatchType.resolve()) {
+				reportError("Unkown match class referenced by match class type in match class filter function");
+				return false;
+			}
+			node = definedMatchType.tryGetNode(memberIdent);
+			edge = definedMatchType.tryGetEdge(memberIdent);
+			var = definedMatchType.tryGetVar(memberIdent);
+			if(node==null && edge==null && var==null) {
+				reportError("Unknown member, can't find in match class type referenced by match class filter function");
+				return false;
+			}
+			return true;
+		}
+
 		if(!(ownerType instanceof ScopeOwner)) {
 			reportError("Left hand side of '.' has no members.");
 			return false;
@@ -134,7 +153,7 @@ public class MemberAccessExprNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		if(targetExpr.getType() instanceof MatchTypeNode) {
+		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
 			if(node!=null)
 				return node.getDeclType();
 			if(edge!=null)
@@ -150,7 +169,7 @@ public class MemberAccessExprNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		if(targetExpr.getType() instanceof MatchTypeNode) {
+		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
 			if(node!=null)
 				return new MatchAccess(targetExpr.checkIR(Expression.class), node.getNode());
 			else if(edge!=null)

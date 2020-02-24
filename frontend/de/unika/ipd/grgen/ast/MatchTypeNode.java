@@ -32,7 +32,7 @@ public class MatchTypeNode extends DeclaredTypeNode {
 
 	private static HashMap<String, MatchTypeNode> matchTypes = new HashMap<String, MatchTypeNode>();
 
-	public static MatchTypeNode getMatchType(IdentNode valueTypeIdent) {
+	public static MatchTypeNode getMatchTypeNode(IdentNode valueTypeIdent) {
 		String keyStr = valueTypeIdent.toString();
 		MatchTypeNode matchTypeNode = matchTypes.get(keyStr);
 

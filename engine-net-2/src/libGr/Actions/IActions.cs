@@ -53,6 +53,22 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
+        /// Gets the filterer of the match class with the given name.
+        /// </summary>
+        /// <param name="name">The name of the match class.</param>
+        /// <returns>The filterer of the match class with the given name, or null, if no such match class exists.</returns>
+        MatchClassFilterer GetMatchClass(String name);
+
+        /// <summary>
+        /// Enumerates all match class filterers (and thus also match class info objects) managed by this IActions instance.
+        /// </summary>
+        IEnumerable<MatchClassFilterer> MatchClasses { get; }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /// <summary>
         /// Retrieve a graph rewrite sequence definition.
         /// </summary>
         /// <param name="name">The name of the defined sequence to retrieve</param>
@@ -101,16 +117,6 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Debugging helper. Fails in a debug build with an assertion.
-        /// </summary>
-        void FailAssertion();
-
-        /// <summary>
-        /// An MD5 hash of the used IGraphModel.
-        /// </summary>
-        String ModelMD5Hash { get; }
-
-        /// <summary>
         /// The action-backend dependent commands that are available, and a description of each command.
         /// </summary>
         IDictionary<String, String> CustomCommandsAndDescriptions { get; }
@@ -120,5 +126,19 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
         void Custom(params object[] args);
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /// <summary>
+        /// Debugging helper. Fails in a debug build with an assertion.
+        /// </summary>
+        void FailAssertion();
+
+        /// <summary>
+        /// An MD5 hash of the used IGraphModel.
+        /// </summary>
+        String ModelMD5Hash { get; }
     }
 }

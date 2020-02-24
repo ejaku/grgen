@@ -1,0 +1,63 @@
+#using "model.gm"
+
+rule r(start:Node) implements shared, sharez
+{
+	start --> n:Node;
+	if{ !n.visited; }
+	
+	def var v:int;
+	def x:Node;
+	def -y:Edge->;
+
+	modify {
+		delete(n);
+	}
+}
+
+rule s : (M, M) implements shared, sharez
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+	def x:Node;
+	def -y:Edge->;
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+}
+
+sequence seq
+{
+	[[r(::n),(m1:array<M>,::m2)=s()]]\shared.shf(42)\sharez.shg(0.0)
+}
+
+match class shared
+{
+	def var v:int;
+	def x:Node;
+}
+
+match class sharez
+{
+	def var v:int;
+	def -y:Edge->;
+}
+
+match filter shf<shared>(var f:int)
+{
+	for(m:match<class shared> in this)
+	{
+		m.v = m.v * f - incident(m.x).size();
+	}
+}
+
+match filter shg<sharez>(var d:double)
+{
+	for(m:match<class sharez> in this)
+	{
+		m.v = (int)Math::floor(m.v * d - (source(m.y)==target(m.y) ? 1 : 0));
+	}
+}

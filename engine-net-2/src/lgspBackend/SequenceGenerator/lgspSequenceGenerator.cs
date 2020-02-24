@@ -503,6 +503,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(ex.Name == null 
                 && ex.Kind != SequenceParserError.TypeMismatch
+                && ex.Kind != SequenceParserError.MatchClassError
                 && ex.Kind != SequenceParserError.FilterError
                 && ex.Kind != SequenceParserError.FilterParameterError
                 && ex.Kind != SequenceParserError.OperatorNotFound)
@@ -536,7 +537,7 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceParserError.FilterError:
-                Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule " + ex.Name + "!");
+                Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule (or match class) " + ex.Name + "!");
                 return;
 
             case SequenceParserError.FilterParameterError:

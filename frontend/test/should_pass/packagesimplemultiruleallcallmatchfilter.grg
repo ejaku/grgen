@@ -1,0 +1,58 @@
+#using "model.gm"
+
+package Bla
+{
+	rule r(start:Node) implements shared
+	{
+		start --> n:Node;
+		if{ !n.visited; }
+		
+		def var v:int;
+		def x:Node;
+
+		modify {
+			delete(n);
+		}
+	}
+
+	filter rf<r>(var n:int)
+	{
+		if(incident(this[0].start).empty()) {
+			this.add(copy(this.peek()));
+			this.rem();
+		}
+	}
+
+	match class shared
+	{
+		def var v:int;
+		def x:Node;
+	} \ orderAscendingBy<v>
+
+	match filter shf<shared>(var f:int)
+	{
+		for(m:match<class shared> in this)
+		{
+			m.v = m.v * f;
+		}
+	}
+}
+
+rule s : (M, M) implements Bla::shared
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+	def x:Node;
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+}
+
+sequence seq
+{
+	[[Bla::r(::n)\Bla::rf(42),(m1:array<M>,::m2)=s()]]\Bla::shared.Bla::shf(42)\Bla::shared.orderAscendingBy<v>
+}

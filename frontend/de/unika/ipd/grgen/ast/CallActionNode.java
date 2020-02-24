@@ -50,7 +50,7 @@ public class CallActionNode extends BaseNode {
 
 	private CollectNode<BaseNode> paramsUnresolved;
 	private CollectNode<BaseNode> returnsUnresolved;
-	private CollectNode<IdentNode> filterFunctionsUnresolved;
+	private CollectNode<BaseNode> filterFunctionsUnresolved; // only IdentNode in CallActionNode
 
 	private boolean isAllBracketed;
 	
@@ -68,7 +68,7 @@ public class CallActionNode extends BaseNode {
 	 * @param    returnsUnresolved   a  CollectNode<BaseNode>
 	 */
 	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<BaseNode> paramsUnresolved,
-			CollectNode<BaseNode> returnsUnresolved, CollectNode<IdentNode> filterFunctionsUnresolved, boolean isAllBracketed) {
+			CollectNode<BaseNode> returnsUnresolved, CollectNode<BaseNode> filterFunctionsUnresolved, boolean isAllBracketed) {
 		super(coords);
 		this.actionUnresolved = ruleUnresolved;
 		this.paramsUnresolved = paramsUnresolved;
@@ -84,8 +84,7 @@ public class CallActionNode extends BaseNode {
 		children.add(getValidVersion(actionUnresolved,action,sequence,booleVar));
 		children.add(getValidVersion(paramsUnresolved,params));
 		children.add(getValidVersion(returnsUnresolved,returns));
-		if(filterFunctionsUnresolved!=null)
-			children.add(getValidVersion(filterFunctionsUnresolved,filterFunctions));
+		children.add(getValidVersion(filterFunctionsUnresolved,filterFunctions));
 		return children;
 	}
 
@@ -96,8 +95,7 @@ public class CallActionNode extends BaseNode {
 		childrenNames.add("action");
 		childrenNames.add("params");
 		childrenNames.add("returns");
-		if(filterFunctionsUnresolved!=null)
-			childrenNames.add("filter");
+		childrenNames.add("filter");
 		return childrenNames;
 	}
 
@@ -111,6 +109,10 @@ public class CallActionNode extends BaseNode {
 		return params;
 	}
 
+	public TestDeclNode getAction() {
+		return action;
+	}
+	
 	/*
 	 * This introduces an ExecVar definition if an identifier is not defined
 	 * to support the usage-is-definition policy of the graph global variables in the sequences.
@@ -169,13 +171,13 @@ public class CallActionNode extends BaseNode {
 		if(!(actionUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 		}
-		if(filterFunctionsUnresolved!=null) {
-			for(IdentNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
-				if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
-					fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
-				}
+
+		for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
+			if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
+				fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
 			}
 		}
+
 		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
 			actionResolver.resolve(actionUnresolved, this);
 		if(resolved!=null) {
@@ -195,10 +197,8 @@ public class CallActionNode extends BaseNode {
 		returns = varDeclNodeResolver.resolve(returnsUnresolved, this);
 		successfullyResolved = returns!=null && successfullyResolved;
 
-		if(filterFunctionsUnresolved!=null) {
-			filterFunctions = filterResolver.resolve(filterFunctionsUnresolved, this);
-			successfullyResolved = filterFunctions!=null && successfullyResolved;
-		}
+		filterFunctions = filterResolver.resolve(filterFunctionsUnresolved, this);
+		successfullyResolved = filterFunctions!=null && successfullyResolved;
 		
 		return successfullyResolved;
 	}

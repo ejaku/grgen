@@ -29,16 +29,68 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Enumerates all actions managed by this BaseActions instance.
-        /// </summary>
-        public abstract IEnumerable<IAction> Actions { get; }
-
-        /// <summary>
         /// Gets the action with the given name.
         /// </summary>
         /// <param name="name">The name of the action.</param>
         /// <returns>The action with the given name, or null, if no such action exists.</returns>
         public abstract IAction GetAction(String name);
+
+        /// <summary>
+        /// Enumerates all actions managed by this BaseActions instance.
+        /// </summary>
+        public abstract IEnumerable<IAction> Actions { get; }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        protected readonly Dictionary<String, MatchClassFilterer> namesToMatchClassFilterers = new Dictionary<string, MatchClassFilterer>();
+
+
+        /// <summary>
+        /// Gets the filterer of the match class with the given name.
+        /// </summary>
+        /// <param name="name">The name of the match class to retrieve.</param>
+        /// <returns>The filterer of the match class with the given name, or null, if no such match class exists.</returns>
+        public MatchClassFilterer GetMatchClass(String name)
+        {
+            MatchClassFilterer matchClassFilterer;
+            namesToMatchClassFilterers.TryGetValue(name, out matchClassFilterer);
+            return matchClassFilterer;
+        }
+
+        /// <summary>
+        /// Enumerates all match class filterers (and thus match class info objects) managed by this IActions instance.
+        /// </summary>
+        public IEnumerable<MatchClassFilterer> MatchClasses
+        {
+            get
+            {
+                foreach(MatchClassFilterer matchClassFilterer in namesToMatchClassFilterers.Values)
+                    yield return matchClassFilterer;
+            }
+        }
+
+        /// <summary>
+        /// returns a comma separated list of the names of the match classes known 
+        /// </summary>
+        public string MatchClassNames
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                bool first = true;
+                foreach(string name in namesToMatchClassFilterers.Keys)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(name);
+                }
+                return sb.ToString();
+            }
+        }
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -220,9 +272,6 @@ namespace de.unika.ipd.grGen.libGr
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        
-        public abstract void FailAssertion();
-        public abstract String ModelMD5Hash { get; }
 
         public abstract IDictionary<String, String> CustomCommandsAndDescriptions { get; }
         public abstract void Custom(params object[] args);
@@ -230,5 +279,12 @@ namespace de.unika.ipd.grGen.libGr
         public abstract bool LazyNIC { get; }
         public abstract bool InlineIndependents { get; }
         public abstract bool Profile { get; }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        public abstract void FailAssertion();
+        public abstract String ModelMD5Hash { get; }
     }
 }

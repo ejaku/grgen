@@ -907,7 +907,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
-            sb.AppendFront("default: throw new Exception(\"Unknown filter name!\");\n");
+            sb.AppendFront("default: throw new Exception(\"Unknown filter name \" + filter.FullName+ \"!\");\n");
             sb.Unindent();
             sb.AppendFront("}\n");
             sb.Unindent();

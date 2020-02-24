@@ -38,6 +38,10 @@ public abstract class FilterFunction extends Identifiable implements Filter, Con
 		this.action = action;
 	}
 
+	public Rule getAction() {
+		return action;
+	}
+
 	public String getPackageContainedIn() {
 		return packageContainedIn;
 	}
@@ -46,25 +50,21 @@ public abstract class FilterFunction extends Identifiable implements Filter, Con
 		this.packageContainedIn = packageContainedIn;
 	}
 
-	public Rule getAction() {
-		return action;
-	}
-	
 	public String getFilterName() {
 		return getIdent().toString();
 	}
 
-	/** Add a parameter to the function. */
+	/** Add a parameter to the filter function. */
 	public void addParameter(Entity entity) {
 		params.add(entity);
 	}
 
-	/** Get all parameters of this function. */
+	/** Get all parameters of this filter function. */
 	public List<Entity> getParameters() {
 		return Collections.unmodifiableList(params);
 	}
 	
-	/** Get all parameter types of this external function. */
+	/** Get all parameter types of this filter function. */
 	public List<Type> getParameterTypes() {
 		if(parameterTypes==null) {
 			parameterTypes = new LinkedList<Type>();

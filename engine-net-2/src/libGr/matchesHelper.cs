@@ -37,6 +37,86 @@ namespace de.unika.ipd.grGen.libGr
             matchList.Clear();
             Add(matchList, matchesList);
         }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepFirst
+        /// </summary>
+        /// <param name="matchList">The list with the matches</param>
+        /// <param name="count">The number of matches to keep</param>
+        public static void FilterKeepFirst(List<IMatch> matchList, int count)
+        {
+            matchList.RemoveRange(count, matchList.Count - count);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLast
+        /// </summary>
+        /// <param name="matchList">The list with the matches</param>
+        /// <param name="count">The number of matches to keep</param>
+        public static void FilterKeepLast(List<IMatch> matchList, int count)
+        {
+            matchList.RemoveRange(0, matchList.Count - count);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirst
+        /// </summary>
+        /// <param name="matchList">The list with the matches</param>
+        /// <param name="count">The number of matches to remove</param>
+        public static void FilterRemoveFirst(List<IMatch> matchList, int count)
+        {
+            matchList.RemoveRange(0, count);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLast
+        /// </summary>
+        /// <param name="matchList">The list with the matches</param>
+        /// <param name="count">The number of matches to remove</param>
+        public static void FilterRemoveLast(List<IMatch> matchList, int count)
+        {
+            matchList.RemoveRange(matchList.Count - count, count);
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepFirstFraction
+        /// </summary>
+        /// <param name="matchList">The list with the matches</param>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        public static void FilterKeepFirstFraction(List<IMatch> matchList, double fraction)
+        {
+            FilterKeepFirst(matchList, (int)Math.Ceiling(fraction * matchList.Count));
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter keepLastFraction
+        /// </summary>
+        /// <param name="matchList">The list with the matches</param>
+        /// <param name="fraction">The fraction of matches to keep</param>
+        public static void FilterKeepLastFraction(List<IMatch> matchList, double fraction)
+        {
+            FilterKeepLast(matchList, (int)Math.Ceiling(fraction * matchList.Count));
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeFirstFraction
+        /// </summary>
+        /// <param name="matchList">The list with the matches</param>
+        /// <param name="fraction">The fraction of matches to remove</param>
+        public static void FilterRemoveFirstFraction(List<IMatch> matchList, double fraction)
+        {
+            FilterRemoveFirst(matchList, (int)Math.Ceiling(fraction * matchList.Count));
+        }
+
+        /// <summary>
+        /// For filtering with the auto-supplied filter removeLastFraction
+        /// </summary>
+        /// <param name="matchList">The list with the matches</param>
+        /// <param name="fraction">The fraction of matches to remove</param>
+        public static void FilterRemoveLastFraction(List<IMatch> matchList, double fraction)
+        {
+            FilterRemoveLast(matchList, (int)Math.Ceiling(fraction * matchList.Count));
+        }
     }
 
     public static class MatchPrinter

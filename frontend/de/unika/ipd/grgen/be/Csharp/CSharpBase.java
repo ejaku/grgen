@@ -388,6 +388,11 @@ public abstract class CSharpBase {
 			String actionName = matchType.getAction().getIdent().toString();
 			return "match<" + actionName + ">";
 		}
+		else if(t instanceof DefinedMatchType) {
+			DefinedMatchType matchType = (DefinedMatchType) t;
+			String matchTypeName = matchType.getIdent().toString();
+			return "match<class" + matchTypeName + ">";
+		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}
 
@@ -444,6 +449,12 @@ public abstract class CSharpBase {
 			MatchType matchType = (MatchType) t;
 			String actionName = matchType.getAction().getIdent().toString();
 			return "Rule_" + actionName + ".IMatch_" + actionName;
+		}
+		else if(t instanceof DefinedMatchType) {
+			DefinedMatchType definedMatchType = (DefinedMatchType) t;
+			String matchClassName = definedMatchType.getIdent().toString();
+			String packagePrefix = getPackagePrefixDot(definedMatchType);
+			return packagePrefix + "IMatch_" + matchClassName;
 		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}
@@ -989,7 +1000,7 @@ public abstract class CSharpBase {
 			if(no.getNamedEntity()==null) {
 				sb.append("GRGEN_LIBGR.GraphHelper.Nameof(null, graph)"); // name of graph
 			} else {
-            	sb.append("GRGEN_LIBGR.GraphHelper.Nameof(");
+				sb.append("GRGEN_LIBGR.GraphHelper.Nameof(");
 				genExpression(sb, no.getNamedEntity(), modifyGenerationState); // name of entity
 				sb.append(", graph)");
 			}
@@ -1000,13 +1011,13 @@ public abstract class CSharpBase {
 				sb.append("((GRGEN_LGSP.LGSPGraph)graph).GraphId");
 			else
 			{
-	        	sb.append("(");
-	        	if(no.getEntity().getType() instanceof NodeType)
-	        		sb.append("(GRGEN_LGSP.LGSPNode)");
-	        	else if(no.getEntity().getType() instanceof EdgeType)
-	        		sb.append("(GRGEN_LGSP.LGSPEdge)");
-	        	else
-	        		sb.append("(GRGEN_LGSP.LGSPGraph)");
+				sb.append("(");
+				if(no.getEntity().getType() instanceof NodeType)
+					sb.append("(GRGEN_LGSP.LGSPNode)");
+				else if(no.getEntity().getType() instanceof EdgeType)
+					sb.append("(GRGEN_LGSP.LGSPEdge)");
+				else
+					sb.append("(GRGEN_LGSP.LGSPGraph)");
 				genExpression(sb, no.getEntity(), modifyGenerationState); // unique id of entity
 				if(no.getEntity().getType() instanceof GraphType)
 					sb.append(").GraphId");
@@ -1016,13 +1027,13 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof ExistsFileExpr) {
 			ExistsFileExpr efe = (ExistsFileExpr) expr;
-        	sb.append("System.IO.File.Exists((string)");
+			sb.append("System.IO.File.Exists((string)");
 			genExpression(sb, efe.getPathExpr(), modifyGenerationState);
 			sb.append(")");
 		}
 		else if(expr instanceof ImportExpr) {
 			ImportExpr ie = (ImportExpr) expr;
-        	sb.append("GRGEN_LIBGR.GraphHelper.Import(");
+			sb.append("GRGEN_LIBGR.GraphHelper.Import(");
 			genExpression(sb, ie.getPathExpr(), modifyGenerationState);
 			sb.append(", actionEnv.Backend, graph.Model)");
 		}
@@ -1030,15 +1041,19 @@ public abstract class CSharpBase {
 			CopyExpr ce = (CopyExpr) expr;
 			Type t = ce.getSourceExpr().getType();
 			if(t instanceof MatchType) {
-	        	sb.append("(("+formatType(t)+")(");
+				sb.append("(("+formatType(t)+")(");
+				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
+				sb.append(").Clone())");
+			} else if(t instanceof DefinedMatchType) {
+				sb.append("(("+formatType(t)+")(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(").Clone())");
 			} else if(t instanceof GraphType) {
-	        	sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
+				sb.append("GRGEN_LIBGR.GraphHelper.Copy(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(")");
 			} else {
-	        	sb.append("new " + formatType(t) + "(");
+				sb.append("new " + formatType(t) + "(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(")");
 			}

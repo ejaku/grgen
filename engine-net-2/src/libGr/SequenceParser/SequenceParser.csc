@@ -1937,11 +1937,14 @@ Sequence MultiRuleAllCall(bool returnsArrays):
 {
     Sequence seq;
     List<Sequence> sequences = new List<Sequence>();
+    FilterCall filter = null;
+    List<FilterCall> filters = new List<FilterCall>();
 }
 {
     "[" "[" seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); } ("," seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); })* "]" "]"
+        ("\\" filter=Filter(true) { filters.Add(filter); })*
     {
-        return new SequenceMultiRuleAllCall(sequences);
+        return new SequenceMultiRuleAllCall(sequences, filters);
     }
 }
 
@@ -1958,8 +1961,9 @@ Sequence RuleForMultiRuleAllCall(bool returnsArrays):
     ("(" VariableList(returnVars) ")" "=" )?
     (
         ("%" { special = true; } | "?" { test = true; })* 
+        (LOOKAHEAD(2) package=Word() "::")? 
         str=Word() ("(" (Arguments(argExprs))? ")")?
-            ("\\" filter=Filter(str, package) { filters.Add(filter); })*
+            ("\\" filter=Filter(false) { filters.Add(filter); })*
         {
             // No variable with this name may exist
             if(varDecls.Lookup(str)!=null)
@@ -2006,7 +2010,7 @@ Sequence Rule():
         "[" ("%" { special = true; } | "?" { test = true; })* 
         (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
         str=Word() ("(" (Arguments(argExprs))? ")")?
-            ("\\" filter=Filter(str, package) { filters.Add(filter); })*
+            ("\\" filter=Filter(false) { filters.Add(filter); })*
         "]"
         {
             // No variable with this name may exist
@@ -2021,7 +2025,7 @@ Sequence Rule():
         "[" ("%" { special = true; } | "?" { test = true; })* 
         (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
         str=Word() ("(" (Arguments(argExprs))? ")")?
-            ("\\" filter=Filter(str, package) { filters.Add(filter); })*
+            ("\\" filter=Filter(false) { filters.Add(filter); })*
         "]" "=>" countResult=Variable()
         {
             // No variable with this name may exist
@@ -2035,7 +2039,7 @@ Sequence Rule():
         ("%" { special = true; } | "?" { test = true; })*
         (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
         str=Word() ("(" (Arguments(argExprs))? ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
-            ("\\" filter=Filter(str, package) { filters.Add(filter); })*
+            ("\\" filter=Filter(false) { filters.Add(filter); })*
         {
             if(argExprs.Count==0 && returnVars.Count==0)
             {
@@ -2069,24 +2073,34 @@ Sequence Rule():
     )
 }
 
-FilterCall Filter(String action, String actionPackage) :
+FilterCall Filter(bool isMatchClassFilter) :
 {
-    String filterBase, package = null;
+    String filterBase, package = null, matchClass = null, matchClassPackage = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<String> words = new List<String>();
 }
 {
-    LOOKAHEAD(4) (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() "<" WordList(words) ">"
+    LOOKAHEAD(6) (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? filterBase=Word() "<" WordList(words) ">"
         {
+            if(isMatchClassFilter && matchClass==null)
+                throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
+            if(!isMatchClassFilter && matchClass!=null)
+                throw new ParseException("A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
+
             if(filterBase!="orderAscendingBy" && filterBase!="orderDescendingBy" && filterBase!="groupBy"
                 && filterBase!="keepSameAsFirst" && filterBase!="keepSameAsLast" && filterBase!="keepOneForEach")
                 throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
             else
-                return new FilterCall(package, filterBase, words.ToArray(), env.PackageContext, true);
+                return new FilterCall(package, filterBase, matchClassPackage, matchClass, words.ToArray(), env.PackageContext, true);
         }
 |
-    (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
+    (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
         {
+            if(isMatchClassFilter && matchClass==null)
+                throw new ParseException("A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
+            if(!isMatchClassFilter && matchClass!=null)
+                throw new ParseException("A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
+
             if(filterBase=="keepFirst" || filterBase=="keepLast"
                 || filterBase=="removeFirst" || filterBase=="removeLast"
                 || filterBase=="keepFirstFraction" || filterBase=="keepLastFraction"
@@ -2094,13 +2108,18 @@ FilterCall Filter(String action, String actionPackage) :
             {
                 if(argExprs.Count!=1)
                     throw new ParseException("The auto-supplied filter " + filterBase + " expects exactly one parameter!");
-                return new FilterCall(package, filterBase, argExprs[0], env.PackageContext);
+                return new FilterCall(package, filterBase, matchClassPackage, matchClass, argExprs[0], env.PackageContext);
             }
             else
             {
                 if(filterBase=="auto")
-                    return new FilterCall(package, "auto", null, env.PackageContext, true);
-                return new FilterCall(package, filterBase, argExprs, env.PackageContext);
+                {
+                    if(isMatchClassFilter || matchClass!=null)
+                        throw new ParseException("The auto filter is not available for multi rule call or multi rule backtracking constructs.");
+
+                    return new FilterCall(package, "auto", matchClassPackage, matchClass, null, env.PackageContext, true);
+                }
+                return new FilterCall(package, filterBase, matchClassPackage, matchClass, argExprs, env.PackageContext);
             }
         }
 }

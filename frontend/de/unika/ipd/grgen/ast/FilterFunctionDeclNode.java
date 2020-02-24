@@ -80,6 +80,9 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
+		if(!(actionUnresolved instanceof PackageIdentNode)) {
+			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
+		}
 		action = actionResolver.resolve(actionUnresolved, this);
 		return action != null;
 	}

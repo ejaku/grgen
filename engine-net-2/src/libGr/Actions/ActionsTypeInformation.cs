@@ -20,6 +20,7 @@ namespace de.unika.ipd.grGen.libGr
         public ActionsTypeInformation()
         {
             rulesToFilters = new Dictionary<String, List<IFilter>>();
+            matchClassesToFilters = new Dictionary<String, List<IFilter>>();
             filterFunctionsToInputTypes = new Dictionary<String, List<String>>();
 
             rulesToInputTypes = new Dictionary<String, List<String>>();
@@ -85,6 +86,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public readonly Dictionary<String, List<IFilter>> rulesToFilters;
+        public readonly Dictionary<String, List<IFilter>> matchClassesToFilters;
         public readonly Dictionary<String, List<String>> filterFunctionsToInputTypes;
         public readonly Dictionary<String, List<String>> rulesToInputTypes;
         public readonly Dictionary<String, List<String>> rulesToOutputTypes;

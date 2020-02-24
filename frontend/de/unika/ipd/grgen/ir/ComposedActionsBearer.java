@@ -28,6 +28,8 @@ public class ComposedActionsBearer implements ActionsBearer {
 	Collection<Rule> subpatRules;
 	Collection<Rule> rules;
 	Collection<FilterFunction> filterFunctions;
+	Collection<DefinedMatchType> matchClasses;
+	Collection<MatchClassFilterFunction> matchClassFilterFunctions;
 	Collection<Function> functions;
 	Collection<Procedure> procedures;
 	Collection<Sequence> sequences;
@@ -67,6 +69,28 @@ public class ComposedActionsBearer implements ActionsBearer {
 			this.filterFunctions = Collections.unmodifiableCollection(filterFunctions);
 		}
 		return filterFunctions;
+	}
+
+	public Collection<DefinedMatchType> getMatchClasses() {
+		if(matchClasses==null) {
+			ArrayList<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>(unit.getMatchClasses());
+			for(ActionsBearer p : unit.getPackages()) {
+				matchClasses.addAll(p.getMatchClasses());
+			}
+			this.matchClasses = Collections.unmodifiableCollection(matchClasses);
+		}
+		return matchClasses;
+	}
+
+	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions() {
+		if(matchClassFilterFunctions==null) {
+			ArrayList<MatchClassFilterFunction> matchClassFilterFunctions = new ArrayList<MatchClassFilterFunction>(unit.getMatchClassFilterFunctions());
+			for(ActionsBearer p : unit.getPackages()) {
+				matchClassFilterFunctions.addAll(p.getMatchClassFilterFunctions());
+			}
+			this.matchClassFilterFunctions = Collections.unmodifiableCollection(matchClassFilterFunctions);
+		}
+		return matchClassFilterFunctions;
 	}
 	
 	public Collection<Function> getFunctions() {

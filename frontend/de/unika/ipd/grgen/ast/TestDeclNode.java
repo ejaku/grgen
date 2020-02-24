@@ -21,6 +21,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ir.DefinedMatchType;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
@@ -45,21 +46,25 @@ public class TestDeclNode extends ActionDeclNode {
 	protected ArrayList<FilterCharacter> filters;
 	private TestTypeNode type;
 	protected PatternGraphNode pattern;
+	protected CollectNode<IdentNode> implementedMatchTypesUnresolved;
+	protected CollectNode<DefinedMatchTypeNode> implementedMatchTypes;
 
 	private static final TypeNode testType = new TestTypeNode();
 
-	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern,
-						   CollectNode<BaseNode> rets) {
+	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, CollectNode<IdentNode> implementedMatchTypes,
+							CollectNode<BaseNode> rets) {
 		super(id, type);
 		this.returnFormalParametersUnresolved = rets;
 		becomeParent(this.returnFormalParametersUnresolved);
 		this.pattern = pattern;
 		becomeParent(this.pattern);
+		implementedMatchTypesUnresolved	= implementedMatchTypes;
+		becomeParent(implementedMatchTypesUnresolved);
 	}
 
-	public TestDeclNode(IdentNode id, PatternGraphNode pattern, 
+	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode<IdentNode> implementedMatchTypes,
 			CollectNode<BaseNode> rets) {
-		this(id, testType, pattern, rets);
+		this(id, testType, pattern, implementedMatchTypes, rets);
 	}
 
 	public void addFilters(ArrayList<FilterCharacter> filters) {
@@ -74,6 +79,7 @@ public class TestDeclNode extends ActionDeclNode {
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
+		children.add(getValidVersion(implementedMatchTypesUnresolved, implementedMatchTypes));
 		return children;
 	}
 
@@ -85,17 +91,26 @@ public class TestDeclNode extends ActionDeclNode {
 		childrenNames.add("type");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
+		childrenNames.add("implementedMatchTypes");
 		return childrenNames;
 	}
 
 	private static final DeclarationTypeResolver<TestTypeNode> typeResolver = new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
+	private static final CollectResolver<DefinedMatchTypeNode> matchTypeResolver = new CollectResolver<DefinedMatchTypeNode>(
+			new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class));
 	private static final CollectResolver<TypeNode> retTypeResolver = new CollectResolver<TypeNode>(
-    		new DeclarationTypeResolver<TypeNode>(TypeNode.class));
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
+		for(IdentNode mtid : implementedMatchTypesUnresolved.getChildren()) {
+			if(!(mtid instanceof PackageIdentNode)) {
+				fixupDefinition(mtid, mtid.getScope());
+			}
+		}
+		implementedMatchTypes = matchTypeResolver.resolve(implementedMatchTypesUnresolved, this);
 		returnFormalParameters = retTypeResolver.resolve(returnFormalParametersUnresolved, this);
 
 		boolean filtersOk = true;
@@ -107,7 +122,7 @@ public class TestDeclNode extends ActionDeclNode {
 			}
 		}
 
-		return type != null && returnFormalParameters != null && filtersOk;
+		return type != null && returnFormalParameters != null && implementedMatchTypes != null && filtersOk;
 	}
 
 	/**
@@ -294,7 +309,66 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		if(!(this instanceof RuleDeclNode))
 			noRewriteParts = SameNumberOfRewriteParts();
 
-		return checkFilters() && noRewriteParts && childs && edgeReUse && returnParams;
+		return checkFilters() && noRewriteParts && childs && edgeReUse && returnParams && checkMatchTypesImplemented();
+	}
+
+	public boolean checkMatchTypesImplemented()
+	{
+		boolean isOk = true;
+		
+		for(DefinedMatchTypeNode matchType : implementedMatchTypes.getChildren()) {
+			isOk &= checkMatchTypeImplemented(matchType);
+		}
+		
+		return isOk;
+	}
+
+	public boolean checkMatchTypeImplemented(DefinedMatchTypeNode matchType)
+	{
+		boolean isOk = true;
+		
+		String matchTypeName = matchType.getIdentNode().toString();
+		
+		HashSet<String> knownNodes = new HashSet<String>();
+		for(NodeDeclNode node : pattern.getNodes()) {
+			knownNodes.add(node.getIdentNode().toString());
+		}
+
+		for(NodeDeclNode node : matchType.getNodes()) {
+			String nodeName = node.getIdentNode().toString();
+			if(!knownNodes.contains(nodeName)) {
+				getIdentNode().reportError("Action does not implement the node " + nodeName + " expected from " + matchTypeName);
+				isOk = false;
+			}
+		}
+
+		HashSet<String> knownEdges = new HashSet<String>();
+		for(EdgeDeclNode edge : pattern.getEdges()) {
+			knownEdges.add(edge.getIdentNode().toString());
+		}
+
+		for(EdgeDeclNode edge: matchType.getEdges()) {
+			String edgeName = edge.getIdentNode().toString();
+			if(!knownEdges.contains(edgeName)) {
+				getIdentNode().reportError("Action does not implement the edge " + edgeName + " expected from " + matchTypeName);
+				isOk = false;
+			}
+		}
+
+		HashSet<String> knownVariables = new HashSet<String>();
+		for(VarDeclNode var : pattern.getDefVariablesToBeYieldedTo().getChildren()) {
+			knownVariables.add(var.getIdentNode().toString());
+		}
+
+		for(VarDeclNode var : matchType.getDefVariablesToBeYieldedTo()) {
+			String varName = var.getIdentNode().toString();
+			if(!knownVariables.contains(varName)) {
+				getIdentNode().reportError("Action does not implement the def variable " + varName + " expected from " + matchTypeName);
+				isOk = false;
+			}
+		}
+
+		return isOk;
 	}
 
 	public boolean checkControlFlow() {
@@ -335,7 +409,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		}
 		return true;
 	}
-	
+
 	private boolean isFilterableType(TypeNode givenType) {
 		if(givenType.isEqual(BasicTypeNode.byteType))
 			return true;
@@ -353,7 +427,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			return true;
 		return false;
 	}
-	
+
 	private VarDeclNode getVariable(String name) {
 		for(VarDeclNode var : pattern.getDefVariablesToBeYieldedTo().getChildren()) {
 			if(var.getIdentNode().toString().equals(name))
@@ -361,7 +435,11 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		}
 		return null;
 	}
-	
+
+	public Collection<DefinedMatchTypeNode> getImplementedMatchClasses() {
+		return implementedMatchTypes.getChildren();
+	}
+
 	protected void constructIRaux(MatchingAction ma, CollectNode<ExprNode> aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
 
@@ -452,6 +530,11 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 
 		// mark this node as already visited
 		setIR(testRule);
+
+		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildren()) {
+			DefinedMatchType implementedMatchClass = implementedMatchClassNode.checkIR(DefinedMatchType.class);
+			testRule.addImplementedMatchClass(implementedMatchClass);
+		}
 
 		constructImplicitNegs(left);
 		constructIRaux(testRule, pattern.returns);

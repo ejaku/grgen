@@ -122,6 +122,19 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 					reportError("Unknown member, can't find in test/rule referenced by match type in filter function");
 					successfullyResolved = false;
 				}
+			} else if(owner instanceof VarDeclNode && owner.getDeclType() instanceof DefinedMatchTypeNode) {
+				DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)owner.getDeclType();
+				/*if(!definedMatchType.resolve()) {
+					reportError("Unkown match class referenced by match class type in match class filter function");
+					return false;
+				}*/
+				node = definedMatchType.tryGetNode(memberUnresolved);
+				edge = definedMatchType.tryGetEdge(memberUnresolved);
+				var = definedMatchType.tryGetVar(memberUnresolved);
+				if(node==null && edge==null && var==null) {
+					reportError("Unknown member, can't find in match class type referenced in match class filter function");
+					successfullyResolved = false;
+				}
 			} else if(owner instanceof VarDeclNode) {
 				TypeNode ownerType = owner.getDeclType();
 				if(ownerType instanceof ScopeOwner) {

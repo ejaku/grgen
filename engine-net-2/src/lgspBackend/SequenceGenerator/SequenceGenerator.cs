@@ -8,6 +8,7 @@
 // by Edgar Jakumeit, Moritz Kroll
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
 using COMP_HELPER = de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper;
@@ -1234,6 +1235,12 @@ namespace de.unika.ipd.grGen.lgsp
                 ruleGenerators[i].EmitMatching(source, this, matchListName);
             }
 
+            // emit code for match class (non-rule-based) filtering
+            foreach(FilterCall filterCall in seqMulti.Filters)
+            {
+                EmitMatchClassFilterCall(source, filterCall, filterCall.MatchClassName, matchListName);
+            }
+
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
             {
                 if(ruleGenerators[i].returnParameterDeclarationsAllCall.Length != 0)
@@ -1396,10 +1403,77 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}(procEnv, {2}",
                         TypesHelper.GetPackagePrefixDot(filterCall.Package), filterCall.Name, matchesName);
+                    List<String> inputTypes = seqHelper.actionsTypeInformation.filterFunctionsToInputTypes[filterCall.PackagePrefixedName];
                     for(int i = 0; i < filterCall.ArgumentExpressions.Length; ++i)
                     {
                         source.AppendFormat(", ({0})({1})",
-                            TypesHelper.XgrsTypeToCSharpType(seqHelper.actionsTypeInformation.filterFunctionsToInputTypes[filterCall.Name][i], model),
+                            TypesHelper.XgrsTypeToCSharpType(inputTypes[i], model),
+                            exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[i], source));
+                    }
+                    source.Append(");\n");
+                }
+            }
+        }
+
+        internal void EmitMatchClassFilterCall(SourceBuilder source, FilterCall filterCall, string matchClassName, string matchListName)
+        {
+            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
+                || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
+                || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
+                || filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
+            {
+                switch(filterCall.Name)
+                {
+                case "keepFirst":
+                    source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FilterKeepFirst({0}, (int)({1}));\n",
+                        matchListName, exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                    break;
+                case "keepLast":
+                    source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FilterKeepLast({0}, (int)({1}));\n",
+                        matchListName, exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                    break;
+                case "keepFirstFraction":
+                    source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FilterKeepFirstFraction({0}, (double)({1}));\n",
+                        matchListName, exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                    break;
+                case "keepLastFraction":
+                    source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FilterKeepLastFraction({0}, (double)({1}));\n",
+                        matchListName, exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                    break;
+                case "removeFirst":
+                    source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FilterRemoveFirst({0}, (int)({1}));\n",
+                        matchListName, exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                    break;
+                case "removeLast":
+                    source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FilterRemoveLast({0}, (int)({1}));\n",
+                        matchListName, exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                    break;
+                case "removeFirstFraction":
+                    source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FilterRemoveFirstFraction({0}, (double)({1}));\n",
+                        matchListName, exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                    break;
+                case "removeLastFraction":
+                    source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FilterRemoveLastFraction({0}, (double)({1}));\n",
+                        matchListName, exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[0], source));
+                    break;
+                }
+            }
+            else
+            {
+                if(filterCall.IsAutoGenerated)
+                {
+                    source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchClassFilters.Filter_{1}_{2}_{3}(procEnv, {4});\n",
+                        TypesHelper.GetPackagePrefixDot(filterCall.MatchClassPackage), matchClassName, filterCall.Name, filterCall.EntitySuffixForName, matchListName);
+                }
+                else
+                {
+                    source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchClassFilters.Filter_{1}(procEnv, {2}",
+                        TypesHelper.GetPackagePrefixDot(filterCall.MatchClassPackage), filterCall.Name, matchListName);
+                    List<String> inputTypes = seqHelper.actionsTypeInformation.filterFunctionsToInputTypes[filterCall.PackagePrefixedName];
+                    for(int i = 0; i < filterCall.ArgumentExpressions.Length; ++i)
+                    {
+                        source.AppendFormat(", ({0})({1})",
+                            TypesHelper.XgrsTypeToCSharpType(inputTypes[i], model),
                             exprGen.GetSequenceExpression(filterCall.ArgumentExpressions[i], source));
                     }
                     source.Append(");\n");

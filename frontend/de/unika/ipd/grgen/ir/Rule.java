@@ -36,6 +36,9 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 	
 	/** The right hand side of the rule. */
 	private final PatternGraph right;
+	
+	/** The match classes that get implemented */
+	private final List<DefinedMatchType> implementedMatchClasses = new LinkedList<DefinedMatchType>();
 
 	/** The evaluation assignments of this rule (RHS). */
 	private final Collection<EvalStatements> evals = new LinkedList<EvalStatements>();
@@ -148,6 +151,14 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 	/** @return The right hand side graph. */
 	public PatternGraph getRight() {
 		return right;
+	}
+
+	public Collection<DefinedMatchType> getImplementedMatchClasses() {
+		return implementedMatchClasses;
+	}
+
+	public void addImplementedMatchClass(DefinedMatchType implementedMatchClass) {
+		implementedMatchClasses.add(implementedMatchClass);
 	}
 
 	/** @return Minimum number of how often the pattern must get matched. */

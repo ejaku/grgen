@@ -332,7 +332,7 @@ rule dumpEdgeImports(var v:int)
 
 rule dumpEdgeImplements(var v:int)
 {
-	src:Node -e:implements-> tgt:Node;
+	src:Node -e:implements_-> tgt:Node;
 
 	if { !e.visited[v]; }
 

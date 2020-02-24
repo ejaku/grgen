@@ -95,6 +95,9 @@ public class ModifyGen extends CSharpBase {
 		Collection<Edge> edgesNeededAsTypes();
 
 		Map<GraphEntity, HashSet<Entity>> forceAttributeToVar();
+		
+		String matchClassName();
+		String packagePrefix();
 	}
 
 	class ModifyGenerationState implements ModifyGenerationStateConst {
@@ -134,6 +137,9 @@ public class ModifyGen extends CSharpBase {
 
 		public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar() { return Collections.unmodifiableMap(forceAttributeToVar); }
 
+		public String matchClassName() { return matchClassName; }
+		public String packagePrefix() { return packagePrefix; }
+		
 		public Map<Expression, String> mapExprToTempVar() { return Collections.unmodifiableMap(mapExprToTempVar); }
 		public boolean useVarForResult() { return useVarForResult; }
 		public Model model() { return model; }
@@ -185,9 +191,11 @@ public class ModifyGen extends CSharpBase {
 		public HashMap<Expression, String> mapExprToTempVar = new LinkedHashMap<Expression, String>();
 		public boolean useVarForResult;
 
-		public Model model;
-		public boolean isToBeParallelizedActionExisting;
-		public boolean emitProfiling;
+		private Model model;
+		private String matchClassName;
+		private String packagePrefix;
+		private boolean isToBeParallelizedActionExisting;
+		private boolean emitProfiling;
 
 
 		public void InitNeeds(NeededEntities needs) {
@@ -223,10 +231,13 @@ public class ModifyGen extends CSharpBase {
 			mapExprToTempVar.clear();
 		}
 
-		public ModifyGenerationState(Model model, 
+		public ModifyGenerationState(Model model,
+				String matchClassName, String packagePrefix,
 				boolean isToBeParallelizedActionExisting,
 				boolean emitProfiling) {
 			this.model = model;
+			this.matchClassName = matchClassName;
+			this.packagePrefix = packagePrefix;
 			this.isToBeParallelizedActionExisting = isToBeParallelizedActionExisting;
 			this.emitProfiling = emitProfiling;
 		}
@@ -609,7 +620,7 @@ public class ModifyGen extends CSharpBase {
 		//  - Check returned elements for deletion and retyping due to homomorphy
 		//  - Return
 
-		ModifyGenerationState state = new ModifyGenerationState(model, false, be.system.emitProfilingInstrumentation());
+		ModifyGenerationState state = new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
 		state.actionName = task.left.getNameOfGraph();
 		String packagePrefixedActionName = packageName==null ? task.left.getNameOfGraph() : packageName + "::" + task.left.getNameOfGraph();
 		ModifyGenerationStateConst stateConst = state;
@@ -2305,7 +2316,7 @@ public class ModifyGen extends CSharpBase {
 		}
 		else
 		{
-			if(!(target.getOwner().getType() instanceof MatchType))
+			if(!(target.getOwner().getType() instanceof MatchType || target.getOwner().getType() instanceof DefinedMatchType))
 				genChangingAttribute(sb, state, target, "Assign", varName, "null");
 	
 			sb.append("\t\t\t");
@@ -2316,7 +2327,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("(GRGEN_MODEL." + getPackagePrefixDot(targetType) + "ENUM_" + formatIdentifiable(targetType) + ") ");
 			sb.append(varName + ";\n");
 			
-			if(!(target.getOwner().getType() instanceof MatchType))
+			if(!(target.getOwner().getType() instanceof MatchType || target.getOwner().getType() instanceof DefinedMatchType))
 				genChangedAttribute(sb, state, target);
 		}
 	}
@@ -3198,7 +3209,10 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genReturnStatementFilter(StringBuffer sb, ModifyGenerationStateConst state, ReturnStatementFilter rsf) {
-		sb.append("\t\t\tmatches.FromList();\n");
+		if(state.matchClassName() != null)
+			sb.append("\t\t\tmatches = (IList<GRGEN_LIBGR.IMatch>)this_matches;\n");
+		else
+			sb.append("\t\t\tmatches.FromList();\n");
 		sb.append("\t\t\treturn;\n");
 	}
 
@@ -3286,7 +3300,10 @@ public class ModifyGen extends CSharpBase {
 	private void genDefDeclVarStatement(StringBuffer sb, ModifyGenerationStateConst state, DefDeclVarStatement ddvs) {
 		Variable var = ddvs.getTarget();
 		if(var.getIdent().toString().equals("this") && var.getType() instanceof ArrayType) {
-			sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = matches.ToList();\n");
+			if(state.matchClassName() != null)
+				sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = (List<" + state.packagePrefix() + "IMatch_" + state.matchClassName() + ">)matches;\n");
+			else
+				sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = matches.ToList();\n");
 			return;
 		}
 		sb.append("\t\t\t" + formatType(var.getType()) + " " + formatEntity(var));
@@ -5034,7 +5051,7 @@ public class ModifyGen extends CSharpBase {
 	protected void genQualAccess(StringBuffer sb, Qualification qual, ModifyGenerationStateConst state) {
 		Entity owner = qual.getOwner();
 		Entity member = qual.getMember();
-		if(owner.getType() instanceof MatchType) {
+		if(owner.getType() instanceof MatchType || owner.getType() instanceof DefinedMatchType) {
 			sb.append(formatEntity(owner) + "." + formatEntity(member));
 		} else {
 			genQualAccess(sb, state, owner, member);

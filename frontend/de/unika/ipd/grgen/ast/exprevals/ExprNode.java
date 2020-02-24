@@ -74,7 +74,7 @@ public abstract class ExprNode extends BaseNode {
 			return this;
 		}
 		
-		if(tgt instanceof MatchTypeNode && src instanceof NullTypeNode) {
+		if((tgt instanceof MatchTypeNode || tgt instanceof DefinedMatchTypeNode) && src instanceof NullTypeNode) {
 			return this;
 		}
 

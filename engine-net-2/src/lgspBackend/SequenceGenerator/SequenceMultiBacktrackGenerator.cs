@@ -37,6 +37,12 @@ namespace de.unika.ipd.grGen.lgsp
                     .EmitMatching(source, seqGen, matchListName);
             }
 
+            // emit code for match class (non-rule-based) filtering
+            foreach(FilterCall filterCall in seqMulti.Rules.Filters)
+            {
+                seqGen.EmitMatchClassFilterCall(source, filterCall, filterCall.MatchClassName, matchListName);
+            }
+
             source.AppendFront("if(" + matchListName + ".Count == 0) {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));

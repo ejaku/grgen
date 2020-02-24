@@ -18,10 +18,6 @@ public class MatchType extends Type {
 		super("match type", null);
 		this.action = action;
 	}
-
-	public MatchType() {
-		super("match type", null);
-	}
 	
 	public Rule getAction() {
 		return action;

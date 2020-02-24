@@ -318,6 +318,39 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public void CheckFilterCalls(SequenceMultiRuleAllCall seqMultiRuleAllCall)
+        {
+            foreach(FilterCall filterCall in seqMultiRuleAllCall.Filters)
+            {
+                if(filterCall.MatchClassName == null)
+                    throw new SequenceParserException(seqMultiRuleAllCall.Symbol, filterCall.PackagePrefixedName ?? filterCall.Name, SequenceParserError.MatchClassError);
+
+                if(!IsFilterExisting(filterCall, seqMultiRuleAllCall))
+                    throw new SequenceParserException(filterCall.MatchClassPackagePrefixedName ?? filterCall.MatchClassName, filterCall.PackagePrefixedName ?? filterCall.Name, SequenceParserError.FilterError);
+
+                // Check whether number of filter parameters match
+                if(NumFilterFunctionParameters(filterCall, seqMultiRuleAllCall) != filterCall.ArgumentExpressions.Length)
+                    throw new SequenceParserException(filterCall.MatchClassName, filterCall.Name, SequenceParserError.FilterParameterError);
+
+                // Check parameter types
+                for(int i = 0; i < filterCall.ArgumentExpressions.Length; i++)
+                {
+                    filterCall.ArgumentExpressions[i].Check(this);
+
+                    if(filterCall.ArgumentExpressions[i] != null)
+                    {
+                        if(!TypesHelper.IsSameOrSubtype(filterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqMultiRuleAllCall), Model))
+                            throw new SequenceParserException(filterCall.MatchClassName, filterCall.Name, SequenceParserError.FilterParameterError);
+                    }
+                    else
+                    {
+                        if(filterCall.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(filterCall.Arguments[i], Model), FilterFunctionParameterType(i, filterCall, seqMultiRuleAllCall), Model))
+                            throw new SequenceParserException(filterCall.MatchClassName, filterCall.Name, SequenceParserError.FilterParameterError);
+                    }
+                }
+            }
+        }
+
         private void CheckSubgraph(Invocation invocation)
         {
             SequenceVariable subgraph;
@@ -347,5 +380,8 @@ namespace de.unika.ipd.grGen.libGr
         protected abstract bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq);
         protected abstract int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq);
         protected abstract string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq);
+        protected abstract bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq);
+        protected abstract int NumFilterFunctionParameters(FilterCall filterCall, SequenceMultiRuleAllCall seq);
+        protected abstract string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceMultiRuleAllCall seq);
     }
 }

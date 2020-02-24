@@ -86,7 +86,7 @@ edge class extends_;
 
 edge class imports;
 
-edge class implements;
+edge class implements_;
 
 edge class parameter
 {

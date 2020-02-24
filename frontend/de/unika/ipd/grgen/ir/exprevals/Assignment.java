@@ -46,7 +46,9 @@ public class Assignment extends AssignmentBase {
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();
-		if(!isGlobalVariable(entity) && !(entity.getType() instanceof MatchType)) {
+		if(!isGlobalVariable(entity) 
+				&& !(entity.getType() instanceof MatchType)
+				&& !(entity.getType() instanceof DefinedMatchType)) {
 			if(entity instanceof GraphEntity)
 				needs.add((GraphEntity) entity);
 			else

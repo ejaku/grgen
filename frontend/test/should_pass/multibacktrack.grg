@@ -1,0 +1,35 @@
+#using "model.gm"
+
+rule r(start:Node)
+{
+	start --> n:Node;
+	if{ !n.visited; }
+	
+	modify {
+		delete(n);
+	}
+}
+
+filter rf<r>
+{
+	if(incident(this[0].start).empty()) {
+		this.add(copy(this.peek()));
+		this.rem();
+	}
+}
+
+rule s : (M, M)
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+} \ auto
+
+sequence seqBacktrack
+{
+	<<[[r(::n)\rf,(m1:M,::m2)=s()\auto]];;false>>
+}

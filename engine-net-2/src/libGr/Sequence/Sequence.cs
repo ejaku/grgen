@@ -2898,11 +2898,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceMultiRuleAllCall : Sequence
     {
         public readonly List<Sequence> Sequences;
+        public readonly List<FilterCall> Filters;
 
-        public SequenceMultiRuleAllCall(List<Sequence> sequences)
+        public SequenceMultiRuleAllCall(List<Sequence> sequences, List<FilterCall> filters)
             : base(SequenceType.MultiRuleAllCall)
         {
             Sequences = sequences;
+            Filters = filters;
         }
 
         protected SequenceMultiRuleAllCall(SequenceMultiRuleAllCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -2913,6 +2915,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Sequences.Add(seq.Copy(originalToCopy, procEnv));
             }
+            Filters = that.Filters;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -2932,6 +2935,8 @@ namespace de.unika.ipd.grGen.libGr
                 if(((SequenceRuleCall)seqChild).RuleInvocation.Subgraph != null)
                     throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]]  can't contain a call with subgraph prefix (e.g. sg.r4)");
             }
+
+            env.CheckFilterCalls(this);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -2939,6 +2944,11 @@ namespace de.unika.ipd.grGen.libGr
             List<IMatches> MatchesList;
             List<IMatch> MatchList;
             MatchAll(procEnv, out MatchesList, out MatchList);
+
+            foreach(FilterCall filter in Filters)
+            {
+                procEnv.Actions.GetMatchClass(filter.MatchClassName).Filter(procEnv, MatchList, filter);
+            }
 
             List<List<object[]>> ReturnValues = new List<List<object[]>>();
             List<int> ResultNums = new List<int>();
@@ -3360,6 +3370,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env);
+            env.CheckFilterCalls(this.Rules);
         }
 
         internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
@@ -3376,8 +3387,13 @@ namespace de.unika.ipd.grGen.libGr
             List<IMatches> MatchesList;
             List<IMatch> MatchList;
             Rules.MatchAll(procEnv, out MatchesList, out MatchList);
-            int matchesCount = MatchList.Count;
 
+            foreach(FilterCall filter in Rules.Filters)
+            {
+                procEnv.Actions.GetMatchClass(filter.MatchClassName).Filter(procEnv, MatchList, filter);
+            }
+
+            int matchesCount = MatchList.Count;
             if(matchesCount == 0)
             {
                 // todo: sequence, single rules?

@@ -45,6 +45,7 @@ public class ExecNode extends BaseNode {
 		new DeclarationQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode>(ExecVarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class, VarDeclNode.class));
 
 	private StringBuilder sb = new StringBuilder(); // if sb.length()==0 this is an external exec implemented externally
+	protected CollectNode<MultiCallActionNode> multiCallActions = new CollectNode<MultiCallActionNode>();
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<ExecVarDeclNode> varDecls = new CollectNode<ExecVarDeclNode>();
 	private CollectNode<IdentNode> usageUnresolved = new CollectNode<IdentNode>();
@@ -52,6 +53,7 @@ public class ExecNode extends BaseNode {
 
 	public ExecNode(Coords coords) {
 		super(coords);
+		becomeParent(multiCallActions);
 		becomeParent(callActions);
 	}
 
@@ -117,6 +119,12 @@ public class ExecNode extends BaseNode {
 		return sb.toString();
 	}
 
+	public void addMultiCallAction(MultiCallActionNode m) {
+		assert !isResolved();
+		becomeParent(m);
+		multiCallActions.addChild(m);
+	}
+	
 	public void addCallAction(CallActionNode n) {
 		assert !isResolved();
 		becomeParent(n);
@@ -149,6 +157,7 @@ public class ExecNode extends BaseNode {
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> res = new Vector<BaseNode>();
+		res.add(multiCallActions);
 		res.add(callActions);
 		res.add(varDecls);
 		res.add(getValidVersion(usageUnresolved, usage));
@@ -159,6 +168,7 @@ public class ExecNode extends BaseNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("multi call actions");
 		childrenNames.add("call actions");
 		childrenNames.add("var decls");
 		childrenNames.add("graph element usage outside of a call");
@@ -264,6 +274,9 @@ public class ExecNode extends BaseNode {
 				if(localVars.contains(param)) continue;
 				parameters.add(param.checkIR(Expression.class));
 			}
+		}
+		for(MultiCallActionNode multiCallActionNode : multiCallActions.getChildren()) {
+			multiCallActionNode.checkPost();
 		}
 		Exec res = new Exec(getXGRSString(), parameters, getCoords().getLine());
 		return res;

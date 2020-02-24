@@ -63,6 +63,7 @@ public class CopyExprNode extends ExprNode {
 	protected boolean checkLocal() {
 		if(!(sourceExpr.getType() instanceof GraphTypeNode)
 				&& !(sourceExpr.getType() instanceof MatchTypeNode)
+				&& !(sourceExpr.getType() instanceof DefinedMatchTypeNode)
 				&& !(sourceExpr.getType() instanceof SetTypeNode)
 				&& !(sourceExpr.getType() instanceof MapTypeNode)
 				&& !(sourceExpr.getType() instanceof ArrayTypeNode)
@@ -82,6 +83,7 @@ public class CopyExprNode extends ExprNode {
 	@Override
 	public TypeNode getType() {
 		if(sourceExpr.getType() instanceof MatchTypeNode
+				|| sourceExpr.getType() instanceof DefinedMatchTypeNode
 				|| sourceExpr.getType() instanceof SetTypeNode
 				|| sourceExpr.getType() instanceof MapTypeNode
 				|| sourceExpr.getType() instanceof ArrayTypeNode

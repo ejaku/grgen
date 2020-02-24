@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
+import de.unika.ipd.grgen.ir.DefinedMatchType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
@@ -47,9 +48,9 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 */
-	public RuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right,
+	public RuleDeclNode(IdentNode id, PatternGraphNode left, CollectNode<IdentNode> implementedMatchTypes, RhsDeclNode right,
 			CollectNode<BaseNode> rets) {
-		super(id, ruleType, left, rets);
+		super(id, ruleType, left, implementedMatchTypes, rets);
 		this.right = right;
 		becomeParent(this.right);
 	}
@@ -61,6 +62,7 @@ public class RuleDeclNode extends TestDeclNode {
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
+		children.add(getValidVersion(implementedMatchTypesUnresolved, implementedMatchTypes));
 		children.add(right);
 		return children;
 	}
@@ -72,17 +74,26 @@ public class RuleDeclNode extends TestDeclNode {
 		childrenNames.add("type");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
+		childrenNames.add("implementedMatchTypes");
 		childrenNames.add("right");
 		return childrenNames;
 	}
 
 	protected static final DeclarationTypeResolver<RuleTypeNode> typeResolver =	new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
+	private static final CollectResolver<DefinedMatchTypeNode> matchTypeResolver = new CollectResolver<DefinedMatchTypeNode>(
+			new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class));
 	private static final CollectResolver<TypeNode> retTypeResolver = new CollectResolver<TypeNode>(
-    		new DeclarationTypeResolver<TypeNode>(TypeNode.class));
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
+		for(IdentNode mtid : implementedMatchTypesUnresolved.getChildren()) {
+			if(!(mtid instanceof PackageIdentNode)) {
+				fixupDefinition(mtid, mtid.getScope());
+			}
+		}
+		implementedMatchTypes = matchTypeResolver.resolve(implementedMatchTypesUnresolved, this);
 		returnFormalParameters = retTypeResolver.resolve(returnFormalParametersUnresolved, this);
 
 		boolean filtersOk = true;
@@ -94,7 +105,7 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 		}
 
-		return type != null && returnFormalParameters != null && filtersOk;
+		return type != null && returnFormalParameters != null && implementedMatchTypes != null && filtersOk;
 	}
 
 	protected Set<DeclNode> getDelete() {
@@ -673,6 +684,11 @@ public class RuleDeclNode extends TestDeclNode {
 
 		// mark this node as already visited
 		setIR(rule);
+
+		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildren()) {
+			DefinedMatchType implementedMatchClass = implementedMatchClassNode.checkIR(DefinedMatchType.class);
+			rule.addImplementedMatchClass(implementedMatchClass);
+		}
 
 		constructImplicitNegs(left);
 		constructIRaux(rule, this.right.graph.returns);

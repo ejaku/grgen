@@ -77,7 +77,12 @@ namespace de.unika.ipd.grGen.libGr
         OperatorNotFound,
 
         /// <summary>
-        /// The given filter can't be applied to the given rule 
+        /// The match class employed by the filter is not known
+        /// </summary>
+        MatchClassError,
+        
+        /// <summary>
+        /// The given filter can't be applied to the given rule or match class
         /// </summary>
         FilterError,
 
@@ -315,6 +320,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(errorKind == SequenceParserError.FilterError)
                 FilterName = filterNameOrEntityName;
+            if(errorKind == SequenceParserError.MatchClassError)
+                FilterName = filterNameOrEntityName;
             else if(errorKind == SequenceParserError.FilterParameterError)
                 FilterName = filterNameOrEntityName;
             else
@@ -381,6 +388,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.OperatorNotFound:
                     return "No operator " + this.LeftType + this.VariableOrFunctionName + this.RightType + " available (for \"" + this.Expression + "\")! Or a division-by-zero/runtime error occured.";
+
+                case SequenceParserError.MatchClassError:
+                    return "Unknown match class \"" + this.Name + "\"!";
 
                 case SequenceParserError.FilterError:
                     return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"!";

@@ -14,7 +14,7 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An object representing a filter call.
+    /// An object representing a filter call (of an action filter or a match class filter).
     /// It specifies the filter and potential arguments.
     /// </summary>
     public class FilterCall
@@ -47,6 +47,21 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String PrePackageContext;
 
         /// <summary>
+        /// null if this is a single-rule filter, otherwise the match class of the filter.
+        /// </summary>
+        public readonly String MatchClassName;
+
+        /// <summary>
+        /// null if the match class is global, otherwise the package the match class is contained in.
+        /// </summary>
+        public readonly String MatchClassPackage;
+
+        /// <summary>
+        /// The name of the match class, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String MatchClassPackagePrefixedName;
+
+        /// <summary>
         /// The entities the filter is based on, in case of a (def-variable based) auto-generated filter (empty for auto), otherwise null.
         /// </summary>
         public readonly String[] Entities;
@@ -77,10 +92,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Instantiates a new FilterCall object for a filter function
         /// </summary>
-        public FilterCall(String package, String name, List<SequenceExpression> argumentExpressions, String packageContext)
+        public FilterCall(String package, String name, String matchClassPackage, String matchClassName, List<SequenceExpression> argumentExpressions, String packageContext)
         {
             PrePackage = package;
             Name = name;
+            MatchClassPackage = matchClassPackage;
+            MatchClassName = matchClassName;
             ArgumentExpressions = new SequenceExpression[argumentExpressions.Count];
             Arguments = new object[argumentExpressions.Count];
             for(int i = 0; i < argumentExpressions.Count; ++i)
@@ -94,10 +111,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Instantiates a new FilterCall object for an auto-generated filter
         /// </summary>
-        public FilterCall(String package, String name, String[] entities, String packageContext, bool dummy)
+        public FilterCall(String package, String name, String matchClassPackage, String matchClassName, String[] entities, String packageContext, bool dummy)
         {
             PrePackage = package;
             Name = name;
+            MatchClassPackage = matchClassPackage;
+            MatchClassName = matchClassName;
             Entities = entities;
             ArgumentExpressions = new SequenceExpression[0];
             Arguments = new object[0];
@@ -107,10 +126,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Instantiates a new FilterCall object for an auto-supplied filter (with sequence expression parameter)
         /// </summary>
-        public FilterCall(String package, String name, SequenceExpression argument, String packageContext)
+        public FilterCall(String package, String name, String matchClassPackage, String matchClassName, SequenceExpression argument, String packageContext)
         {
             PrePackage = package;
             Name = name;
+            MatchClassPackage = matchClassPackage;
+            MatchClassName = matchClassName;
             IsAutoSupplied = true;
             ArgumentExpressions = new SequenceExpression[1];
             ArgumentExpressions[0] = argument;
@@ -177,15 +198,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<");
-                bool first = true;
-                foreach(String entity in Entities)
-                {
-                    if(first)
-                        first = false;
-                    else
-                        sb.Append(",");
-                    sb.Append(entity);
-                }
+                sb.Append(String.Join(",", Entities));
                 sb.Append(">");
                 return sb.ToString();
             }
