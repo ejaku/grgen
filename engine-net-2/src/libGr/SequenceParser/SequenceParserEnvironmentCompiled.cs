@@ -131,15 +131,16 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return seqRuleCountAllCall;
         }
 
+
         public override bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage)
         {
             if(package != null)
             {
                 foreach(String funcName in actionNames.filterFunctionNames)
                 {
-                    if(funcName == filterFunctionName)
-                        return true;
                     if(funcName == package + "::" + filterFunctionName)
+                        return true;
+                    if(funcName == filterFunctionName)
                         return true;
                 }
                 return false;

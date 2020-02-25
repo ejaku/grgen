@@ -114,7 +114,7 @@ namespace de.unika.ipd.grGen.libGr
         // resolves names that are given without package context but do not reference global names
         // because they are used from a sequence that is contained in a package (only possible for compiled sequences from rule language)
         // (i.e. calls of entities from packages, without package prefix are changed to package calls (may occur for entities from the same package))
-        protected static void ResolvePackage(String Name, String PrePackage, String PrePackageContext, bool unprefixedNameExists,
+        public static void ResolvePackage(String Name, String PrePackage, String PrePackageContext, bool unprefixedNameExists,
             out String Package, out String PackagePrefixedName)
         {
             if(PrePackage != null)

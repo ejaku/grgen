@@ -25,14 +25,39 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String Name;
 
         /// <summary>
-        /// null if this is a call of a global filter, otherwise the package the call target is contained in.
+        /// null if this is a call of a global filter, otherwise the (resolved) package the call target is contained in.
         /// </summary>
         public String Package;
 
         /// <summary>
-        /// The name of the filter, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
+        /// The name of the filter, prefixed by the (resolved) package it is contained in (separated by a double colon), if it is contained in a package.
         /// </summary>
         public String PackagePrefixedName;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// null if this is a single-rule filter, otherwise the match class of the filter.
+        /// </summary>
+        public readonly String MatchClassName;
+
+        /// <summary>
+        /// null if the match class is global, otherwise the (resolved) package the match class is contained in.
+        /// </summary>
+        public String MatchClassPackage;
+
+        /// <summary>
+        /// The name of the match class, prefixed by the (resolved) package it is contained in (separated by a double colon), if it is contained in a package.
+        /// </summary>
+        public String MatchClassPackagePrefixedName;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// The package this invocation is contained in (the calling source, not the filter call target (or match class target)).
+        /// Needed to resolve names from the local package accessed without package prefix.
+        /// </summary>
+        public readonly String PrePackageContext;
 
         /// <summary>
         /// null if this is a call of a global filter, otherwise the package the call target is contained in.
@@ -41,25 +66,12 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String PrePackage;
 
         /// <summary>
-        /// The package this invocation is contained in (the calling source, not the filter call target).
-        /// Needed to resolve names from the local package accessed without package prefix.
+        /// null if this is a global match class, otherwise the package the match class is contained in.
+        /// May be even null for a match class from a package, if done from a context where the package is set.
         /// </summary>
-        public readonly String PrePackageContext;
+        public readonly String MatchClassPrePackage;
 
-        /// <summary>
-        /// null if this is a single-rule filter, otherwise the match class of the filter.
-        /// </summary>
-        public readonly String MatchClassName;
-
-        /// <summary>
-        /// null if the match class is global, otherwise the package the match class is contained in.
-        /// </summary>
-        public readonly String MatchClassPackage;
-
-        /// <summary>
-        /// The name of the match class, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
-        /// </summary>
-        public String MatchClassPackagePrefixedName;
+        /////////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// The entities the filter is based on, in case of a (def-variable based) auto-generated filter (empty for auto), otherwise null.
@@ -92,11 +104,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Instantiates a new FilterCall object for a filter function
         /// </summary>
-        public FilterCall(String package, String name, String matchClassPackage, String matchClassName, List<SequenceExpression> argumentExpressions, String packageContext)
+        public FilterCall(String prePackage, String name, String matchClassPrePackage, String matchClassName, List<SequenceExpression> argumentExpressions, String packageContext)
         {
-            PrePackage = package;
+            PrePackage = prePackage;
             Name = name;
-            MatchClassPackage = matchClassPackage;
+            MatchClassPrePackage = matchClassPrePackage;
             MatchClassName = matchClassName;
             ArgumentExpressions = new SequenceExpression[argumentExpressions.Count];
             Arguments = new object[argumentExpressions.Count];
@@ -111,11 +123,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Instantiates a new FilterCall object for an auto-generated filter
         /// </summary>
-        public FilterCall(String package, String name, String matchClassPackage, String matchClassName, String[] entities, String packageContext, bool dummy)
+        public FilterCall(String prePackage, String name, String matchClassPrePackage, String matchClassName, String[] entities, String packageContext, bool dummy)
         {
-            PrePackage = package;
+            PrePackage = prePackage;
             Name = name;
-            MatchClassPackage = matchClassPackage;
+            MatchClassPrePackage = matchClassPrePackage;
             MatchClassName = matchClassName;
             Entities = entities;
             ArgumentExpressions = new SequenceExpression[0];
@@ -126,11 +138,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Instantiates a new FilterCall object for an auto-supplied filter (with sequence expression parameter)
         /// </summary>
-        public FilterCall(String package, String name, String matchClassPackage, String matchClassName, SequenceExpression argument, String packageContext)
+        public FilterCall(String prePackage, String name, String matchClassPrePackage, String matchClassName, SequenceExpression argument, String packageContext)
         {
-            PrePackage = package;
+            PrePackage = prePackage;
             Name = name;
-            MatchClassPackage = matchClassPackage;
+            MatchClassPrePackage = matchClassPrePackage;
             MatchClassName = matchClassName;
             IsAutoSupplied = true;
             ArgumentExpressions = new SequenceExpression[1];
@@ -239,6 +251,39 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     IFilterFunction filter = (IFilterFunction)filters[i];
                     if(filter.PackagePrefixedName == PackagePrefixedName)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsContainedInPureNameOnly(List<IFilter> filters)
+        {
+            return IsContainedInPureNameOnly(filters.ToArray());
+        }
+
+        public bool IsContainedInPureNameOnly(IFilter[] filters)
+        {
+            for(int i = 0; i < filters.Length; ++i)
+            {
+                if(filters[i] is IFilterAutoGenerated)
+                {
+                    IFilterAutoGenerated filter = (IFilterAutoGenerated)filters[i];
+                    if(filter.PackagePrefixedName == Name)
+                    {
+                        if(Name == "auto")
+                            return true;
+                        else
+                        {
+                            if(NameSuffixMatches(filter.Entities, Entities))
+                                return true;
+                        }
+                    }
+                }
+                else //if(filters[i] is IFilterFunction)
+                {
+                    IFilterFunction filter = (IFilterFunction)filters[i];
+                    if(filter.PackagePrefixedName == Name)
                         return true;
                 }
             }

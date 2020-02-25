@@ -960,9 +960,10 @@ public class ActionsGen extends CSharpBase {
 				sb.append("), ");
 			} else {
 				MatchClassFilterFunction mff = (MatchClassFilterFunction)matchClassFilter;
+				String packageNameOfFilterFunction = mff.getPackageContainedIn();
 				sb.append("new GRGEN_LGSP.LGSPFilterFunction(\"" + mff.getFilterName() + "\", "); 
-				sb.append(packageName!=null ? "\"" + packageName + "\", " : "null, ");
-				sb.append("\"" + (packageName!=null ? packageName + "::" + mff.getFilterName() : mff.getFilterName()) + "\", ");
+				sb.append(packageNameOfFilterFunction!=null ? "\"" + packageNameOfFilterFunction + "\", " : "null, ");
+				sb.append("\"" + (packageNameOfFilterFunction!=null ? packageNameOfFilterFunction + "::" + mff.getFilterName() : mff.getFilterName()) + "\", ");
 				sb.append((mff instanceof MatchClassFilterFunctionExternal ? "true" : "false") + ", "); 
 				sb.append("new GRGEN_LIBGR.GrGenType[] {");
 				for(Type paramType : mff.getParameterTypes()) {

@@ -1,0 +1,66 @@
+#using "model.gm"
+
+package Bla
+{
+	rule r(start:Node) implements Foo::shared
+	{
+		start --> n:Node;
+		if{ !n.visited; }
+		
+		def var v:int;
+		def x:Node;
+
+		modify {
+			delete(n);
+		}
+	}
+}
+
+rule s : (M, M) implements Foo::shared
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+	def x:Node;
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+}
+
+package Foo
+{
+	match class shared
+	{
+		def var v:int;
+		def x:Node;
+	} \ orderAscendingBy<v>
+	
+	sequence seq
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()]]\shared.Bar::shf(42)\shared.orderAscendingBy<v>\shared.keepFirst(3)
+	}
+}
+
+package Bar
+{
+	match filter shf<Foo::shared>(var f:int)
+	{
+		for(m:match<class Foo::shared> in this)
+		{
+			m.v = m.v * f;
+		}
+	}
+	
+	sequence seq
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()]]\Foo::shared.shf(42)\Foo::shared.orderAscendingBy<v>\Foo::shared.keepFirst(3)
+	}
+}
+
+sequence seq
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()]]\Foo::shared.Bar::shf(42)\Foo::shared.orderAscendingBy<v>\Foo::shared.keepFirst(3)
+}

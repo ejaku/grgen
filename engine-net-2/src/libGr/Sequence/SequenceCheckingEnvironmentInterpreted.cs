@@ -239,10 +239,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq)
         {
-            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
-                || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
-                || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
-                || filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
+            if(filterCall.IsAutoSupplied)
             {
                 filterCall.Package = null;
                 filterCall.PackagePrefixedName = filterCall.Name;

@@ -1,0 +1,55 @@
+#using "model.gm"
+
+package Bla
+{
+	rule r(start:Node)
+	{
+		start --> n:Node;
+		if{ !n.visited; }
+		
+		def var v:int;
+
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<v>
+
+	filter rf<r>(var n:int)
+	{
+		if(incident(this[0].start).empty()) {
+			this.add(copy(this.peek()));
+			this.rem();
+		}
+	}
+	
+	sequence seq
+	{
+		[[r(::n)\rf(42)\orderAscendingBy<v>,(m1:array<M>,::m2)=s()\shf(42)\orderAscendingBy<v>]]
+	}
+}
+
+rule s : (M, M)
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+} \ orderAscendingBy<v>
+
+filter shf<s>(var f:int)
+{
+	for(m:match<s> in this)
+	{
+		m.v = m.v * f;
+	}
+}
+
+sequence seq
+{
+	[[Bla::r(::n)\Bla::rf(42)\orderAscendingBy<v>,(m1:array<M>,::m2)=s()\shf(42)\orderAscendingBy<v>]]
+}

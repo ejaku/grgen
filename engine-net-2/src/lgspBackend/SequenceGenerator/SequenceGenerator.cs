@@ -1417,10 +1417,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         internal void EmitMatchClassFilterCall(SourceBuilder source, FilterCall filterCall, string matchClassName, string matchListName)
         {
-            if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
-                || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
-                || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
-                || filterCall.Name == "keepLastFraction" || filterCall.Name == "removeLastFraction")
+            if(filterCall.IsAutoSupplied)
             {
                 switch(filterCall.Name)
                 {
@@ -1468,7 +1465,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchClassFilters.Filter_{1}(procEnv, {2}",
-                        TypesHelper.GetPackagePrefixDot(filterCall.MatchClassPackage), filterCall.Name, matchListName);
+                        TypesHelper.GetPackagePrefixDot(filterCall.Package), filterCall.Name, matchListName);
                     List<String> inputTypes = seqHelper.actionsTypeInformation.filterFunctionsToInputTypes[filterCall.PackagePrefixedName];
                     for(int i = 0; i < filterCall.ArgumentExpressions.Length; ++i)
                     {
