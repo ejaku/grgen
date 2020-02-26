@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -327,48 +328,85 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 	{
 		boolean isOk = true;
 		
+		String actionName = getIdentNode().toString();
 		String matchTypeName = matchType.getIdentNode().toString();
 		
-		HashSet<String> knownNodes = new HashSet<String>();
+		HashMap<String, NodeDeclNode> knownNodes = new HashMap<String, NodeDeclNode>();
 		for(NodeDeclNode node : pattern.getNodes()) {
-			knownNodes.add(node.getIdentNode().toString());
+			knownNodes.put(node.getIdentNode().toString(), node);
 		}
 
 		for(NodeDeclNode node : matchType.getNodes()) {
 			String nodeName = node.getIdentNode().toString();
-			if(!knownNodes.contains(nodeName)) {
-				getIdentNode().reportError("Action does not implement the node " + nodeName + " expected from " + matchTypeName);
+			if(!knownNodes.containsKey(nodeName)) {
+				getIdentNode().reportError("Action " + actionName + " does not implement the node " + nodeName + " expected from " + matchTypeName);
 				isOk = false;
+			} else {
+				NodeDeclNode nodeFromPattern = knownNodes.get(nodeName);
+				NodeTypeNode type = node.getDeclType();
+				NodeTypeNode typeOfNodeFromPattern = nodeFromPattern.getDeclType();
+				if(!type.isEqual(typeOfNodeFromPattern)) {
+					getIdentNode().reportError("The type of the node " + nodeName + " from the action " + actionName + " does not equal the type of the node from the match class " + matchTypeName 
+							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfNodeFromPattern) + " is declared.");
+					isOk = false;
+				}
 			}
 		}
 
-		HashSet<String> knownEdges = new HashSet<String>();
+		HashMap<String, EdgeDeclNode> knownEdges = new HashMap<String, EdgeDeclNode>();
 		for(EdgeDeclNode edge : pattern.getEdges()) {
-			knownEdges.add(edge.getIdentNode().toString());
+			knownEdges.put(edge.getIdentNode().toString(), edge);
 		}
 
 		for(EdgeDeclNode edge: matchType.getEdges()) {
 			String edgeName = edge.getIdentNode().toString();
-			if(!knownEdges.contains(edgeName)) {
-				getIdentNode().reportError("Action does not implement the edge " + edgeName + " expected from " + matchTypeName);
+			if(!knownEdges.containsKey(edgeName)) {
+				getIdentNode().reportError("Action " + actionName + " does not implement the edge " + edgeName + " expected from " + matchTypeName);
 				isOk = false;
+			} else {
+				EdgeDeclNode edgeFromPattern = knownEdges.get(edgeName);
+				EdgeTypeNode type = edge.getDeclType();
+				EdgeTypeNode typeOfEdgeFromPattern = edgeFromPattern.getDeclType();
+				if(!type.isEqual(typeOfEdgeFromPattern)) {
+					getIdentNode().reportError("The type of the edge " + edgeName + " from the action " + actionName + " does not equal the type of the edge from the match class " + matchTypeName 
+							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfEdgeFromPattern) + " is declared.");
+					isOk = false;
+				}
 			}
 		}
 
-		HashSet<String> knownVariables = new HashSet<String>();
+		HashMap<String, VarDeclNode> knownVariables = new HashMap<String, VarDeclNode>();
 		for(VarDeclNode var : pattern.getDefVariablesToBeYieldedTo().getChildren()) {
-			knownVariables.add(var.getIdentNode().toString());
+			knownVariables.put(var.getIdentNode().toString(), var);
 		}
 
 		for(VarDeclNode var : matchType.getDefVariablesToBeYieldedTo()) {
 			String varName = var.getIdentNode().toString();
-			if(!knownVariables.contains(varName)) {
-				getIdentNode().reportError("Action does not implement the def variable " + varName + " expected from " + matchTypeName);
+			if(!knownVariables.containsKey(varName)) {
+				getIdentNode().reportError("Action " + actionName + " does not implement the def variable " + varName + " expected from " + matchTypeName);
 				isOk = false;
+			} else {
+				VarDeclNode varFromPattern = knownVariables.get(varName);
+				TypeNode type = var.getDeclType();
+				TypeNode typeOfVarFromPattern = varFromPattern.getDeclType();
+				if(!type.isEqual(typeOfVarFromPattern)) {
+					getIdentNode().reportError("The type of the variable " + varName + " from the action " + actionName + " does not equal the type of the variable from the match class " + matchTypeName 
+							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfVarFromPattern) + " is declared.");
+					isOk = false;
+				}
 			}
 		}
 
 		return isOk;
+	}
+
+	private String getTypeName(TypeNode type) {
+		String typeName;
+		if(type instanceof InheritanceTypeNode)
+			typeName = ((InheritanceTypeNode) type).getIdentNode().toString();
+		else
+			typeName = type.toString();
+		return typeName;
 	}
 
 	public boolean checkControlFlow() {

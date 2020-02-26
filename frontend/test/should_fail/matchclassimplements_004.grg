@@ -1,0 +1,18 @@
+#using "matchclassmodel.gm"
+
+rule r(start:Node) implements shared
+{
+	start --> n:Node;
+	if{ !n.visited; }
+	
+	def var v:string; // string-int mismatch
+
+	modify {
+		delete(n);
+	}
+}
+
+match class shared
+{
+	def var v:int;
+}

@@ -1,0 +1,18 @@
+#using "matchclassmodel.gm"
+
+rule r(start:Node) implements shared
+{
+	start --> n:Node;
+	if{ !n.visited; }
+	
+	def x:N; // node type N-M mismatch
+
+	modify {
+		delete(n);
+	}
+}
+
+match class shared
+{
+	def x:M;
+}
