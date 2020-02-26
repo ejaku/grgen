@@ -125,7 +125,7 @@ public class ForFunctionNode extends EvalStatementNode {
 		ForFunction ff = new ForFunction(
 				iterationVariable.checkIR(Variable.class),
 				function.checkIR(Expression.class));
-		for(EvalStatementNode accumulationStatement : loopedStatements.children) 	
+		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren())
 			ff.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return ff;
 	}

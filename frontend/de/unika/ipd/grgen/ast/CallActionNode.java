@@ -122,12 +122,12 @@ public class CallActionNode extends BaseNode {
 	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
 	 */
 	public void addImplicitDefinitions() {
-		for(int i=0; i<returnsUnresolved.children.size(); ++i)
+		for(int i=0; i<returnsUnresolved.size(); ++i)
 		{
-			if(!(returnsUnresolved.children.get(i) instanceof IdentNode)) {
+			if(!(returnsUnresolved.get(i) instanceof IdentNode)) {
 				continue;
 			}
-			IdentNode id = (IdentNode)returnsUnresolved.children.get(i);
+			IdentNode id = (IdentNode)returnsUnresolved.get(i);
 
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
 
@@ -146,7 +146,7 @@ public class CallActionNode extends BaseNode {
 				getScope().leaveScope();
 				ExecVarDeclNode evd = new ExecVarDeclNode(id, new UntypedExecVarTypeNode());
 				id.setDecl(evd);
-				returnsUnresolved.children.set(i, evd);
+				returnsUnresolved.set(i, evd);
 			}
 		}
 	}
@@ -362,12 +362,12 @@ public class CallActionNode extends BaseNode {
 	private boolean checkReturns(Collection<? extends TypeNode> formalReturns, CollectNode<ExecVarDeclNode> actualReturns) {
 		boolean res = true;
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
-		if(actualReturns.children.size() > 0 && formalReturns.size() != actualReturns.children.size()) {
+		if(actualReturns.size() > 0 && formalReturns.size() != actualReturns.size()) {
 			error.error(getCoords(), "Formal and actual return-parameter(s) of " + actionUnresolved.toString()
 					+ " mismatch in number (formal:" + formalReturns.size()
-					+ " vs. actual:" + actualReturns.children.size() +")");
+					+ " vs. actual:" + actualReturns.size() +")");
 			res = false;
-		} else if(actualReturns.children.size() > 0) {
+		} else if(actualReturns.size() > 0) {
 			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildren().iterator();
 			for(TypeNode formalReturn : formalReturns) {
 				Type     formalReturnType = formalReturn.getType();

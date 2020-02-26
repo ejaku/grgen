@@ -184,7 +184,7 @@ public class ExecNode extends BaseNode {
 	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
 	 */
 	public void addImplicitDefinitions() {
-		for(IdentNode id : usageUnresolved.children)
+		for(IdentNode id : usageUnresolved.getChildren())
 		{
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
 

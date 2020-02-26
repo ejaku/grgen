@@ -107,7 +107,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			return false;
 		}
 
-		if(nameOrAttributeInits.children.size()>0) {
+		if(nameOrAttributeInits.size()>0) {
 			reportError("A name or attribute initialization is not allowed for a retyped node");
 			return false;
 		}

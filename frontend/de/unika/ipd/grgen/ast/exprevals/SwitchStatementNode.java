@@ -106,7 +106,7 @@ public class SwitchStatementNode extends EvalStatementNode {
 	@Override
 	protected IR constructIR() {
 		SwitchStatement switchStmt = new SwitchStatement(switchExpr.checkIR(Expression.class));
-		for(EvalStatementNode statement : cases.children) 	
+		for(EvalStatementNode statement : cases.getChildren())
 			switchStmt.addStatement(statement.checkIR(CaseStatement.class));
 		return switchStmt;
 	}

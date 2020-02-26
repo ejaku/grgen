@@ -140,7 +140,7 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 		IteratedAccumulationYield iay = new IteratedAccumulationYield(
 				iterationVariable.checkIR(Variable.class),
 				iterated.checkIR(Rule.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.children) 	
+		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren())
 			iay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return iay;
 	}

@@ -58,7 +58,7 @@ public class DebugRemProcNode extends ProcedureInvocationBaseNode {
 
 	@Override
 	protected boolean checkLocal() {
-		if(!(exprs.children.get(0).getType().equals(BasicTypeNode.stringType))) {
+		if(!(exprs.get(0).getType().equals(BasicTypeNode.stringType))) {
 			reportError("the first/message argument of Debug::rem() must be of string type");
 			return false;
 		}

@@ -448,14 +448,14 @@ public class PatternGraphNode extends GraphNode {
 		for(PatternGraphNode pattern : negs.getChildren()) {
 			for(IteratedNode iter : pattern.iters.getChildren()) {
 				if(iter.right.size()>0) {
-					iter.right.children.get(0).reportError("An iterated contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
+					iter.right.get(0).reportError("An iterated contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
 					result = false;
 				}
 			}
 			for(AlternativeNode alt : pattern.alts.getChildren()) {
 				for(AlternativeCaseNode altCase : alt.getChildren()) {
 					if(altCase.right.size()>0) {
-						altCase.right.children.get(0).reportError("An alternative case contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
+						altCase.right.get(0).reportError("An alternative case contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
 						result = false;
 					}
 				}
@@ -464,14 +464,14 @@ public class PatternGraphNode extends GraphNode {
 		for(PatternGraphNode pattern : idpts.getChildren()) {
 			for(IteratedNode iter : pattern.iters.getChildren()) {
 				if(iter.right.size()>0) {
-					iter.right.children.get(0).reportError("An iterated contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
+					iter.right.get(0).reportError("An iterated contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
 					result = false;
 				}
 			}
 			for(AlternativeNode alt : pattern.alts.getChildren()) {
 				for(AlternativeCaseNode altCase : alt.getChildren()) {
 					if(altCase.right.size()>0) {
-						altCase.right.children.get(0).reportError("An alternative case contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
+						altCase.right.get(0).reportError("An alternative case contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
 						result = false;
 					}
 				}
@@ -997,7 +997,7 @@ public class PatternGraphNode extends GraphNode {
 			new LinkedHashMap<Set<NodeDeclNode>, Integer>();
 
 		for (int i = 0; i < induced.getChildren().size(); i++) {
-			BaseNode inducedNode = induced.children.get(i);
+			BaseNode inducedNode = induced.get(i);
 			Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
 
 			for (BaseNode inducedChild : inducedNode.getChildren()) {
@@ -1016,7 +1016,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 
 			if (genInducedSets.containsKey(nodes)) {
-				BaseNode oldOcc = induced.children.get(genInducedSets.get(nodes));
+				BaseNode oldOcc = induced.get(genInducedSets.get(nodes));
 				inducedNode.reportWarning("Same induced statement also occurs at " + oldOcc.getCoords());
 			} else {
 				addToDoubleNodeMap(nodes);
@@ -1092,10 +1092,10 @@ public class PatternGraphNode extends GraphNode {
 			if (allMarked) {
 				String witnessesLoc = "";
 				for (Integer index : witnesses) {
-					witnessesLoc += induced.children.get(index).getCoords() + " ";
+					witnessesLoc += induced.get(index).getCoords() + " ";
 				}
 				witnessesLoc = witnessesLoc.trim();
-				induced.children.get(candidate.getValue()).reportWarning(
+				induced.get(candidate.getValue()).reportWarning(
 					"Induced statement is redundant, since covered by statement(s) at "
 						+ witnessesLoc);
 			}
@@ -1141,7 +1141,7 @@ public class PatternGraphNode extends GraphNode {
 		Map<NodeDeclNode, Integer> genExactNodes = new LinkedHashMap<NodeDeclNode, Integer>();
 		// exact Statements
 		for (int i = 0; i < exact.getChildren().size(); i++) {
-			BaseNode exactNode = exact.children.get(i);
+			BaseNode exactNode = exact.get(i);
 			for (BaseNode exactChild : exactNode.getChildren()) {
 				// This cast must be ok after checking.
 				NodeDeclNode nodeDeclNode = (NodeDeclNode) exactChild;
@@ -1151,7 +1151,7 @@ public class PatternGraphNode extends GraphNode {
 							+ " "
 							+ nodeDeclNode.getIdentNode().getSymbol().getText()
 							+ " already occurs in exact statement at "
-							+ exact.children.get(genExactNodes.get(nodeDeclNode)).getCoords());
+							+ exact.get(genExactNodes.get(nodeDeclNode)).getCoords());
 				} else {
 					genExactNodes.put(nodeDeclNode, i);
 				}

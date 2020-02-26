@@ -130,7 +130,7 @@ public class ContainerAccumulationYieldNode extends EvalStatementNode {
 				iterationVariable.checkIR(Variable.class),
 				iterationIndex!=null ? iterationIndex.checkIR(Variable.class) : null,
 				container.checkIR(Variable.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.children) 	
+		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren())
 			cay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return cay;
 	}

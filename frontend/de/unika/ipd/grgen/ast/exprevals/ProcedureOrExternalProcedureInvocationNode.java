@@ -111,8 +111,8 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 
 		// check if the types of the parameters are correct
 		boolean res = true;
-		for (int i = 0; i < arguments.children.size(); ++i) {
-			ExprNode actualParameter = arguments.children.get(i);
+		for (int i = 0; i < arguments.size(); ++i) {
+			ExprNode actualParameter = arguments.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			TypeNode formalParameterType = pb.getParameterTypes().get(i);
 			
@@ -157,7 +157,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			for(ExprNode expr : arguments.getChildren()) {
 				pi.addArgument(expr.checkIR(Expression.class));
 			}
-			for(TypeNode type : procedureDecl.returnTypes.children) {
+			for(TypeNode type : procedureDecl.returnTypes.getChildren()) {
 				pi.addReturnType(type.checkIR(Type.class));
 			}
 			return pi;
@@ -167,7 +167,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			for(ExprNode expr : arguments.getChildren()) {
 				epi.addArgument(expr.checkIR(Expression.class));
 			}
-			for(TypeNode type : externalProcedureDecl.returnTypes.children) {
+			for(TypeNode type : externalProcedureDecl.returnTypes.getChildren()) {
 				epi.addReturnType(type.checkIR(Type.class));
 			}
 			return epi;

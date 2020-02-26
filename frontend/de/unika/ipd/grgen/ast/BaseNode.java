@@ -881,7 +881,7 @@ public abstract class BaseNode extends Base
     	TypeDeclNode rootType = null;
     	ModelNode model = ((UnitNode) root).getStdModel();
     	assert model.isResolved();
-    	Collection<TypeDeclNode> types = model.decls.children;
+    	Collection<TypeDeclNode> types = model.decls.getChildren();
 
     	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
     		TypeDeclNode candidate = it.next();

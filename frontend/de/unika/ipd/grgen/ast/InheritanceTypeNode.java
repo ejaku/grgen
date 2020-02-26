@@ -147,11 +147,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 		for(int i = 0; i < constrs.size(); i++) {
 			ConstructorDeclNode c1 = constrs.get(i);
-			Vector<ConstructorParamNode> params1 = c1.getParameters().children;
+			Vector<ConstructorParamNode> params1 = c1.getParameters().getChildrenAsVector();
 			int numParams1 = params1.size();
 			for(int j = i + 1; j < constrs.size(); j++) {
 				ConstructorDeclNode c2 = constrs.get(j);
-				Vector<ConstructorParamNode> params2 = c2.getParameters().children;
+				Vector<ConstructorParamNode> params2 = c2.getParameters().getChildrenAsVector();
 				int numParams2 = params2.size();
 				int p = 0;
 				boolean ambiguous = false;

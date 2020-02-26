@@ -142,7 +142,7 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 		for(ExprNode expr : arguments.getChildren()) {
 			pmi.addArgument(expr.checkIR(Expression.class));
 		}
-		for(TypeNode type : procedureDecl.returnTypes.children) {
+		for(TypeNode type : procedureDecl.returnTypes.getChildren()) {
 			pmi.addReturnType(type.checkIR(Type.class));
 		}
 		return pmi;

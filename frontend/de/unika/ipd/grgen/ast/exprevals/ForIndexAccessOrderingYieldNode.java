@@ -190,7 +190,7 @@ public class ForIndexAccessOrderingYieldNode extends EvalStatementNode  {
 						comp2, expr2!=null ? expr2.checkIR(Expression.class) : null
 				)
 			);
-		for(EvalStatementNode accumulationStatement : loopedStatements.children) 	
+		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren())
 			fiao.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return fiao;
 	}

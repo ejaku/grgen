@@ -31,7 +31,7 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 		setName(CollectNode.class, "collect");
 	}
 
-	public Vector<T> children = new Vector<T>();
+	private Vector<T> children = new Vector<T>();
 
 	public void addChild(T n) {
 		becomeParent(n);
@@ -43,9 +43,18 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 	public Collection<T> getChildren() {
 		return children;
 	}
+	
+	public Vector<T> getChildrenAsVector() {
+		return children;
+	}
 
 	public T get(int i) {
 		return children.get(i);
+	}
+
+	public T set(int i, T n) {
+		becomeParent(n);
+		return children.set(i, n);
 	}
 
 	public int size() {

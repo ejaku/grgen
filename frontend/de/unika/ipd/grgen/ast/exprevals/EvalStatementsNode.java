@@ -60,7 +60,7 @@ public class EvalStatementsNode extends BaseNode
 	protected IR constructIR() {
 		EvalStatements es = new EvalStatements(name);
 
-		for(EvalStatementNode evalStatement : evalStatements.children) {
+		for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
 			es.evalStatements.add(evalStatement.checkIR(EvalStatement.class));
 		}
 

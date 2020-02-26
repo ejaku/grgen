@@ -144,7 +144,7 @@ public class ForIndexAccessEqualityYieldNode extends EvalStatementNode  {
 						index.checkIR(Index.class), expr.checkIR(Expression.class)
 				)
 			);
-		for(EvalStatementNode accumulationStatement : loopedStatements.children) 	
+		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren())
 			fiae.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return fiae;
 	}

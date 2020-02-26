@@ -95,9 +95,9 @@ public class ReturnStatementNode extends EvalStatementNode {
 		boolean res = true;
 
 		int declaredNumRets = returnFormalParameters.size();
-		int actualNumRets = returnValueExprs.children.size();
+		int actualNumRets = returnValueExprs.size();
 		for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); ++i) {
-			ExprNode retExpr = returnValueExprs.children.get(i);
+			ExprNode retExpr = returnValueExprs.get(i);
 			TypeNode retExprType = retExpr.getType();
 			TypeNode retDeclType = returnFormalParameters.get(i);
 			if(!retExprType.isCompatibleTo(retDeclType)) {

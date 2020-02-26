@@ -92,7 +92,7 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 		Collection<RhsDeclNode> right = subpattern.type.right.getChildren();
 		Vector<DeclNode> formalReplacementParameters = right.iterator().next().graph.getParamDecls();
 		int expected = formalReplacementParameters.size();
-		int actual = replConnections.children.size();
+		int actual = replConnections.size();
 		if (expected != actual) {
 			subpattern.ident.reportError("The dependent replacement specified in \"" + patternName + "\" needs "
 			        + expected + " parameters, given by replacement usage " + subpattern.ident.toString() + " are " + actual);
@@ -102,7 +102,7 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 		// check if the types of the parameters are correct
 		boolean res = true;
 		for (int i = 0; i < formalReplacementParameters.size(); ++i) {
-			ExprNode actualParameter = replConnections.children.get(i);
+			ExprNode actualParameter = replConnections.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			DeclNode formalParameter = formalReplacementParameters.get(i);
 			TypeNode formalParameterType = formalParameter.getDeclType();

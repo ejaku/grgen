@@ -80,7 +80,7 @@ public class WhileStatementNode extends EvalStatementNode {
 	@Override
 	protected IR constructIR() {
 		WhileStatement ws = new WhileStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode loopedStatement : loopedStatements.children) 	
+		for(EvalStatementNode loopedStatement : loopedStatements.getChildren())
 			ws.addLoopedStatement(loopedStatement.checkIR(EvalStatement.class));
 		return ws;
 	}

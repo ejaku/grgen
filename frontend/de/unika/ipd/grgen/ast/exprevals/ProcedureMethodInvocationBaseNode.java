@@ -54,8 +54,8 @@ public abstract class ProcedureMethodInvocationBaseNode extends ProcedureInvocat
 	
 		// check if the types of the parameters are correct
 		boolean res = true;
-		for (int i = 0; i < arguments.children.size(); ++i) {
-			ExprNode actualParameter = arguments.children.get(i);
+		for (int i = 0; i < arguments.size(); ++i) {
+			ExprNode actualParameter = arguments.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			TypeNode formalParameterType = pb.getParameterTypes().get(i);
 			

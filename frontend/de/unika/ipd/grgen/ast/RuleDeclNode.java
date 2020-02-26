@@ -595,7 +595,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 
 		boolean noReturnInPatternOk = true;
-		if(pattern.returns.children.size() > 0) {
+		if(pattern.returns.size() > 0) {
 			reportError("No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}

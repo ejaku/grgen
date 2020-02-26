@@ -117,7 +117,7 @@ public class IntegerRangeIterationYieldNode extends EvalStatementNode {
 				iterationVariable.checkIR(Variable.class),
 				leftExpr.checkIR(Expression.class),
 				rightExpr.checkIR(Expression.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.children) 	
+		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren())
 			cay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return cay;
 	}

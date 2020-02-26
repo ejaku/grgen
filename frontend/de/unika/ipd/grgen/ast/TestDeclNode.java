@@ -133,9 +133,9 @@ public class TestDeclNode extends ActionDeclNode {
 		boolean res = true;
 
 		int declaredNumRets = returnFormalParameters.size();
-		int actualNumRets = returnArgs.children.size();
+		int actualNumRets = returnArgs.size();
 retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
-			ExprNode retExpr = returnArgs.children.get(i);
+			ExprNode retExpr = returnArgs.get(i);
 			TypeNode retExprType = retExpr.getType();
 
 			TypeNode retDeclType = returnFormalParameters.get(i);

@@ -94,7 +94,7 @@ public class ExternalFunctionDeclNode extends FunctionBase {
 	public Vector<TypeNode> getParameterTypes() {
 		assert isResolved();
 
-		return paramTypes.children;
+		return paramTypes.getChildrenAsVector();
 	}
 
 	@Override

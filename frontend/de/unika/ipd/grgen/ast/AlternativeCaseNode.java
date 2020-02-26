@@ -101,9 +101,9 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		boolean res = true;
 		HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom = new HashMap<EdgeDeclNode, NodeDeclNode>();
 		HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo = new HashMap<EdgeDeclNode, NodeDeclNode>();
-		for (int i = 0; i < right.getChildren().size(); i++) {
+		for (int i = 0; i < right.size(); i++) {
     		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-    		for (ConnectionNode rConn : right.children.get(i).getReusedConnections(pattern)) {
+    		for (ConnectionNode rConn : right.get(i).getReusedConnections(pattern)) {
     			EdgeDeclNode re = rConn.getEdge();
 
     			if (re instanceof EdgeTypeChangeNode) {
@@ -137,7 +137,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
     				NodeDeclNode rTgt = rConn.getTgt();
 
     				HashSet<BaseNode> rhsNodes = new HashSet<BaseNode>();
-					rhsNodes.addAll(right.children.get(i).getReusedNodes(pattern));
+					rhsNodes.addAll(right.get(i).getReusedNodes(pattern));
 
     				if (rSrc instanceof NodeTypeChangeNode) {
     					rSrc = ((NodeTypeChangeNode)rSrc).getOldNode();
@@ -329,7 +329,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 				if(right.getChildren().size()==0) continue;
 
 				Vector<DeclNode> parametersInNestedAlternativeCase =
-					altCase.right.children.get(0).graph.getParamDecls(); // todo: choose the right one
+					altCase.right.get(0).graph.getParamDecls(); // todo: choose the right one
 
 				if(parametersInNestedAlternativeCase.size()!=0) {
 					error.error(altCase.getCoords(), "No replacement parameters allowed in nested alternative cases; given in " + altCase.ident.toString());
@@ -350,7 +350,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 			if(right.getChildren().size()==0) continue;
 
 			Vector<DeclNode> parametersInNestedIterated =
-				iter.right.children.get(0).graph.getParamDecls(); // todo: choose the right one
+				iter.right.get(0).graph.getParamDecls(); // todo: choose the right one
 
 			if(parametersInNestedIterated.size()!=0) {
 				error.error(iter.getCoords(), "No replacement parameters allowed in nested iterated/multiple/optional; given in " + iter.ident.toString());
@@ -376,10 +376,10 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		if(right.getChildren().size()==0)
 			return valid;
 
-		Set<DeclNode> delete = right.children.get(0).getDelete(pattern);
-		Collection<DeclNode> maybeDeleted = right.children.get(0).getMaybeDeleted(pattern);
+		Set<DeclNode> delete = right.get(0).getDelete(pattern);
+		Collection<DeclNode> maybeDeleted = right.get(0).getMaybeDeleted(pattern);
 
-		for (BaseNode x : right.children.get(0).graph.imperativeStmts.getChildren()) {
+		for (BaseNode x : right.get(0).graph.imperativeStmts.getChildren()) {
 			if(!(x instanceof ExecNode)) continue;
 
 			ExecNode exec = (ExecNode) x;
@@ -428,20 +428,20 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	@Override
 	protected boolean checkLocal() {
 		for (int i = 0; i < right.getChildren().size(); i++) {
-			right.children.get(i).warnElemAppearsInsideAndOutsideDelete(pattern);
+			right.get(i).warnElemAppearsInsideAndOutsideDelete(pattern);
 		}
 
 		boolean leftHandGraphsOk = checkLeft();
 
 		boolean noReturnInPatternOk = true;
-		if(pattern.returns.children.size() > 0) {
+		if(pattern.returns.size() > 0) {
 			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
 
 		boolean noReturnInAlterntiveCaseReplacement = true;
 		for (int i = 0; i < right.getChildren().size(); i++) {
-			if(right.children.get(i).graph.returns.children.size() > 0) {
+			if(right.get(i).graph.returns.size() > 0) {
 				error.error(getCoords(), "No return statements in alternative cases allowed");
 				noReturnInAlterntiveCaseReplacement = false;
 			}
@@ -449,8 +449,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 		boolean abstr = true;
 
-		for (int i = 0; i < right.getChildren().size(); i++) {
-    		GraphNode right = this.right.children.get(i).graph;
+		for (int i = 0; i < right.size(); i++) {
+    		GraphNode right = this.right.get(i).graph;
 
 nodeAbstrLoop:
             for (NodeDeclNode node : right.getNodes()) {
@@ -511,14 +511,14 @@ edgeAbstrLoop:
 		// add replacement parameters to the IR
 		// TODO choose the right one
 		PatternGraph right = null;
-		if(this.right.children.size() > 0) {
-			right = this.right.children.get(0).getPatternGraph(pattern.getPatternGraph());
+		if(this.right.size() > 0) {
+			right = this.right.get(0).getPatternGraph(pattern.getPatternGraph());
 		} else {
 			return;
 		}
 
 		// add replacement parameters to the current graph
-		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
+		for(DeclNode decl : this.right.get(0).graph.getParamDecls()) {
 			if(decl instanceof NodeCharacter) {
 				right.addReplParameter(decl.checkIR(Node.class));
 				right.addSingleNode(((NodeCharacter) decl).getNode());
@@ -536,13 +536,13 @@ edgeAbstrLoop:
 
 	private void addReplacementParamsToNestedAlternativesAndIterateds(Rule rule) {
 		// TODO choose the right one
-		if(right.children.size()==0) {
+		if(right.size()==0) {
 			return;
 		}
 
 		// add replacement parameters to the nested alternatives and iterateds
 		PatternGraph patternGraph = rule.getPattern();
-		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
+		for(DeclNode decl : this.right.get(0).graph.getParamDecls()) {
 			if(decl instanceof NodeCharacter) {
 				for(Alternative alt : patternGraph.getAlts()) {
 					for(Rule altCase : alt.getAlternativeCases()) {
@@ -588,8 +588,8 @@ edgeAbstrLoop:
 
 		// TODO choose the right one
 		PatternGraph right = null;
-		if(this.right.children.size() > 0) {
-			right = this.right.children.get(0).getPatternGraph(left);
+		if(this.right.size() > 0) {
+			right = this.right.get(0).getPatternGraph(left);
 		}
 
 		// return if the pattern graph already constructed the IR object
@@ -606,8 +606,8 @@ edgeAbstrLoop:
 
 		// add Eval statements to the IR
 		// TODO choose the right one
-		if(this.right.children.size() > 0) {
-			for (EvalStatements n : this.right.children.get(0).getRHSGraph().getYieldEvalStatements()) {
+		if(this.right.size() > 0) {
+			for (EvalStatements n : this.right.get(0).getRHSGraph().getYieldEvalStatements()) {
 				altCaseRule.addEval(n);
 			}
 		}

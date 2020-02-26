@@ -163,7 +163,7 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {	
 			res &= UnitNode.checkStatementsLHS(subpattern, subpattern.pattern);
 			if(subpattern.right.size()>0)
-				res &= UnitNode.checkStatementsRHS(subpattern, subpattern.right.children.get(0).graph);
+				res &= UnitNode.checkStatementsRHS(subpattern, subpattern.right.get(0).graph);
 		}
 		for(TestDeclNode action : actions.getChildren()) {
 			res &= UnitNode.checkStatementsLHS(action, action.pattern);

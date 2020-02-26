@@ -225,7 +225,7 @@ public class UnitNode extends BaseNode {
 		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {	
 			res &= checkStatementsLHS(subpattern, subpattern.pattern);
 			if(subpattern.right.size()>0)
-				res &= checkStatementsRHS(subpattern, subpattern.right.children.get(0).graph);
+				res &= checkStatementsRHS(subpattern, subpattern.right.get(0).graph);
 		}
 		for(TestDeclNode action : actions.getChildren()) {
 			res &= checkStatementsLHS(action, action.pattern);
@@ -270,13 +270,13 @@ public class UnitNode extends BaseNode {
 			for(AlternativeCaseNode altCase : alt.getChildren()) {
 				res &= checkStatementsLHS(root, altCase.pattern);
 				if(altCase.right.size()>0)
-					res &= checkStatementsRHS(root, altCase.right.children.get(0).graph);
+					res &= checkStatementsRHS(root, altCase.right.get(0).graph);
 			}
 		}
 		for(IteratedNode iter : curPattern.iters.getChildren()) {
 			res &= checkStatementsLHS(root, iter.pattern);
 			if(iter.right.size()>0)
-				res &= checkStatementsRHS(root, iter.right.children.get(0).graph);
+				res &= checkStatementsRHS(root, iter.right.get(0).graph);
 		}
 		for(PatternGraphNode idpt : curPattern.idpts.getChildren()) {
 			res &= checkStatementsLHS(root, idpt);

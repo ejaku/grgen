@@ -89,10 +89,10 @@ public class ConditionStatementNode extends EvalStatementNode {
 	@Override
 	protected IR constructIR() {
 		ConditionStatement cond = new ConditionStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode trueCaseStatement : trueCaseStatements.children) 	
+		for(EvalStatementNode trueCaseStatement : trueCaseStatements.getChildren())
 			cond.addTrueCaseStatement(trueCaseStatement.checkIR(EvalStatement.class));
 		if(falseCaseStatements!=null)
-			for(EvalStatementNode falseCaseStatement : falseCaseStatements.children) 	
+			for(EvalStatementNode falseCaseStatement : falseCaseStatements.getChildren())
 				cond.addFalseCaseStatement(falseCaseStatement.checkIR(EvalStatement.class));
 		return cond;
 	}

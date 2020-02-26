@@ -96,18 +96,18 @@ public class ReturnAssignmentNode extends EvalStatementNode {
 		// or a ConnectionNode or a SingleNodeConnNode or a VarDeclNode
 		// and finally a projection expr node as source -- maybe with a cast prefix after type adjust
 		if(procedure!=null) {
-			if(targets.children.size() != procedure.getNumReturnTypes() && targets.children.size()!=0) {
-				procedure.reportError("Expected " + procedure.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
+			if(targets.size() != procedure.getNumReturnTypes() && targets.size()!=0) {
+				procedure.reportError("Expected " + procedure.getNumReturnTypes() + " procedure return variables, given " + targets.size());
 				return false;
 			}
 		} else if(builtinProcedure!=null) {
-			if(targets.children.size() != builtinProcedure.getNumReturnTypes() && targets.children.size()!=0) {
-				builtinProcedure.reportError("Expected " + builtinProcedure.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
+			if(targets.size() != builtinProcedure.getNumReturnTypes() && targets.size()!=0) {
+				builtinProcedure.reportError("Expected " + builtinProcedure.getNumReturnTypes() + " procedure return variables, given " + targets.size());
 				return false;
 			}
 		} else { //procedureMethod!=null
-			if(targets.children.size() != procedureMethod.getNumReturnTypes() && targets.children.size()!=0) {
-				procedureMethod.reportError("Expected " + procedureMethod.getNumReturnTypes() + " procedure return variables, given " + targets.children.size());
+			if(targets.size() != procedureMethod.getNumReturnTypes() && targets.size()!=0) {
+				procedureMethod.reportError("Expected " + procedureMethod.getNumReturnTypes() + " procedure return variables, given " + targets.size());
 				return false;
 			}			
 		}

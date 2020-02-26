@@ -81,7 +81,7 @@ public class DoWhileStatementNode extends EvalStatementNode {
 	@Override
 	protected IR constructIR() {
 		DoWhileStatement dws = new DoWhileStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode loopedStatement : loopedStatements.children) 	
+		for(EvalStatementNode loopedStatement : loopedStatements.getChildren())
 			dws.addLoopedStatement(loopedStatement.checkIR(EvalStatement.class));
 		return dws;
 	}

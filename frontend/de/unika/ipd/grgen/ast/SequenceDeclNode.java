@@ -94,10 +94,10 @@ public class SequenceDeclNode extends DeclNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		Sequence sequence = new Sequence(getIdentNode().getIdent(), exec.checkIR(Exec.class));
-		for(ExecVarDeclNode inParam : inParams.children) {
+		for(ExecVarDeclNode inParam : inParams.getChildren()) {
 			sequence.addInParam(inParam.checkIR(ExecVariable.class));
 		}
-		for(ExecVarDeclNode outParam : outParams.children) {
+		for(ExecVarDeclNode outParam : outParams.getChildren()) {
 			sequence.addOutParam(outParam.checkIR(ExecVariable.class));
 		}
 		return sequence;

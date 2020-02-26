@@ -110,8 +110,8 @@ public class SubpatternUsageNode extends DeclNode {
 		// check if the types of the parameters are correct
 		boolean res = true;
 		Vector<DeclNode> formalParameters = type.pattern.getParamDecls();
-		for (int i = 0; i < connections.children.size(); ++i) {
-			ExprNode actualParameter = connections.children.get(i);
+		for (int i = 0; i < connections.size(); ++i) {
+			ExprNode actualParameter = connections.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			DeclNode formalParameter = formalParameters.get(i);				
 			TypeNode formalParameterType = formalParameter.getDeclType();

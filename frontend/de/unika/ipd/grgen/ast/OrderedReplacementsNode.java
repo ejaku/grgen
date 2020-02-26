@@ -58,7 +58,7 @@ public class OrderedReplacementsNode extends BaseNode
 	protected IR constructIR() {
 		OrderedReplacements ors = new OrderedReplacements(name);
 
-		for(OrderedReplacementNode orderedReplacement : orderedReplacements.children) {
+		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildren()) {
 			ors.orderedReplacements.add((OrderedReplacement)orderedReplacement.getIR());
 		}
 

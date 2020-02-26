@@ -178,7 +178,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 
 		boolean noLhsNameOrAttributeInit = true;
 		if((context & CONTEXT_LHS_OR_RHS)==CONTEXT_LHS) {
-			if(nameOrAttributeInits.children.size()>0) {
+			if(nameOrAttributeInits.size()>0) {
 				reportError("A name or attribute initialization is not allowed in the pattern");
 				noLhsNameOrAttributeInit = false;
 			}
@@ -186,7 +186,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		
 		boolean atMostOneNameInit = true;
 		boolean nameInitFound = false;
-		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.children) {
+		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildren()) {
 			if(nain.attributeUnresolved == null) {
 				if(!nameInitFound)
 					nameInitFound = true;
@@ -258,7 +258,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 			edge.setInitialization(initialization.checkIR(Expression.class));
 		}
 
-		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.children) {
+		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildren()) {
 			nain.ownerIR = edge;
 			edge.addNameOrAttributeInitialization(nain.checkIR(NameOrAttributeInitialization.class));
 		}

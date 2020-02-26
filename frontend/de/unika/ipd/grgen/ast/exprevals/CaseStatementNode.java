@@ -78,7 +78,7 @@ public class CaseStatementNode extends EvalStatementNode {
 	@Override
 	protected IR constructIR() {
 		CaseStatement caseStmt = new CaseStatement(caseConstantExpr!=null ? caseConstantExpr.checkIR(Expression.class) : null);
-		for(EvalStatementNode statement : statements.children) 	
+		for(EvalStatementNode statement : statements.getChildren())
 			caseStmt.addStatement(statement.checkIR(EvalStatement.class));
 		return caseStmt;
 	}

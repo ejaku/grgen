@@ -93,7 +93,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			return false;
 		}
 
-		if(nameOrAttributeInits.children.size()>0) {
+		if(nameOrAttributeInits.size()>0) {
 			reportError("A name or attribute initialization is not allowed for a retyped edge");
 			return false;
 		}

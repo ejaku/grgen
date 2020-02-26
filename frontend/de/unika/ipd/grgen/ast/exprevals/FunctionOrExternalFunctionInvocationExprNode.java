@@ -100,8 +100,8 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 
 		// check if the types of the parameters are correct
 		boolean res = true;
-		for (int i = 0; i < arguments.children.size(); ++i) {
-			ExprNode actualParameter = arguments.children.get(i);
+		for (int i = 0; i < arguments.size(); ++i) {
+			ExprNode actualParameter = arguments.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			TypeNode formalParameterType = fb.getParameterTypes().get(i);
 			

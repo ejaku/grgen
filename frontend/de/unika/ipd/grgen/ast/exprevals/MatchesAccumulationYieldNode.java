@@ -107,7 +107,7 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode {
 		MatchesAccumulationYield may = new MatchesAccumulationYield(
 				iterationVariable.checkIR(Variable.class),
 				container.checkIR(Variable.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.children) 	
+		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren())
 			may.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return may;
 	}
