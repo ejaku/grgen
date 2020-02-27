@@ -1,0 +1,7 @@
+new graph "Filters/FilterFunctions"
+
+exec incidencyParamRemoveNonMatching(42, 42)
+
+exec incidencyParamRemoveNonMatching(42, 43)
+
+quit

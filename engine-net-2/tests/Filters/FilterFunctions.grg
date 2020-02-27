@@ -59,6 +59,23 @@ rule incidency
 	}
 } \ orderAscendingBy<i>
 
+rule incidencyParam(var i:int)
+{	
+	modify{
+		emit("The value of variable i of type int is: ");
+		emit(i);
+		emit("\n");
+	}
+} \ orderAscendingBy<i>
+
+filter filterRemoveNonMatching<incidencyParam>(var i:int)
+{
+	def ref tmp:match<incidencyParam> = this[0];
+	if(tmp.i != i) {
+		this[0] = null;
+	}
+}
+
 filter filterMaxToFront<incidency>
 {
 	def var maxpos:int=0; 
@@ -230,6 +247,13 @@ rule incidencyorderAscendingByifilterAddIfGreaterThanxx1x
 {
 	modify {
 		exec(x:int=1 ;> [incidency\orderAscendingBy<i>\filterAddIfGreaterThan(x + x + 1, x)]);
+	}
+}
+
+rule incidencyParamRemoveNonMatching(var iMatch:int, var iFilter:int)
+{
+	modify {
+		exec(incidencyParam(iMatch)\filterRemoveNonMatching(iFilter));
 	}
 }
 

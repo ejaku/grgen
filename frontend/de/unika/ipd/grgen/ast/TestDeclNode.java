@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Variable;
 
 
 /**
@@ -379,11 +380,17 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		for(VarDeclNode var : pattern.getDefVariablesToBeYieldedTo().getChildren()) {
 			knownVariables.put(var.getIdentNode().toString(), var);
 		}
-
-		for(VarDeclNode var : matchType.getDefVariablesToBeYieldedTo()) {
+		for(DeclNode varCand : pattern.getParamDecls()) {
+			if(!(varCand instanceof VarDeclNode))
+				continue;
+			VarDeclNode var = (VarDeclNode)varCand;
+			knownVariables.put(var.getIdentNode().toString(), var);
+		}
+		
+		for(VarDeclNode var : matchType.getVariables()) {
 			String varName = var.getIdentNode().toString();
 			if(!knownVariables.containsKey(varName)) {
-				getIdentNode().reportError("Action " + actionName + " does not implement the def variable " + varName + " expected from " + matchTypeName);
+				getIdentNode().reportError("Action " + actionName + " does not implement the variable " + varName + " expected from " + matchTypeName);
 				isOk = false;
 			} else {
 				VarDeclNode varFromPattern = knownVariables.get(varName);
@@ -437,41 +444,16 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 	}
 
 	private boolean checkFilterVariable(String filterBase, String filterVariable) {
-		if(getVariable(filterVariable)==null) {
+		if(pattern.getVariable(filterVariable)==null) {
 			reportError(filterBase + "<" + filterVariable + ">: unknown variable " + filterVariable);
 			return false;
 		}
-		if(!isFilterableType(getVariable(filterVariable).getDeclType())) {
-			reportError(filterBase + "<" + filterVariable + ">: the variable " + filterVariable + " must be of one of the following types: byte, short, int, long, float, double, string");
+		TypeNode filterVariableType = pattern.getVariable(filterVariable).getDeclType();
+		if(!filterVariableType.isFilterableType()) {
+			reportError(filterBase + "<" + filterVariable + ">: the variable " + filterVariable + " must be of one of the following types: " + filterVariableType.getFilterableTypesAsString());
 			return false;
 		}
 		return true;
-	}
-
-	private boolean isFilterableType(TypeNode givenType) {
-		if(givenType.isEqual(BasicTypeNode.byteType))
-			return true;
-		if(givenType.isEqual(BasicTypeNode.shortType))
-			return true;
-		if(givenType.isEqual(BasicTypeNode.intType))
-			return true;
-		if(givenType.isEqual(BasicTypeNode.longType))
-			return true;
-		if(givenType.isEqual(BasicTypeNode.floatType))
-			return true;
-		if(givenType.isEqual(BasicTypeNode.doubleType))
-			return true;
-		if(givenType.isEqual(BasicTypeNode.stringType))
-			return true;
-		return false;
-	}
-
-	private VarDeclNode getVariable(String name) {
-		for(VarDeclNode var : pattern.getDefVariablesToBeYieldedTo().getChildren()) {
-			if(var.getIdentNode().toString().equals(name))
-				return var;
-		}
-		return null;
 	}
 
 	public Collection<DefinedMatchTypeNode> getImplementedMatchClasses() {
@@ -531,39 +513,26 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 	}
 	
 	public NodeDeclNode tryGetNode(IdentNode ident) {
-		for(NodeDeclNode node : pattern.getNodes()) {
-			if(node.ident.toString().equals(ident.toString()))
-				return node;
-		}
-		return null;
+		return pattern.tryGetNode(ident);
 	}
 
 	public EdgeDeclNode tryGetEdge(IdentNode ident) {
-		for(EdgeDeclNode edge : pattern.getEdges()) {
-			if(edge.ident.toString().equals(ident.toString()))
-				return edge;
-		}
-		return null;
+		return pattern.tryGetEdge(ident);
 	}
 
 	public VarDeclNode tryGetVar(IdentNode ident) {
-		for(VarDeclNode var : pattern.defVariablesToBeYieldedTo.getChildren()) {
-			if(var.ident.toString().equals(ident.toString()))
-				return var;
-		}
-		for(DeclNode varCand : pattern.getParamDecls()) {
-			if(!(varCand instanceof VarDeclNode))
-				continue;
-			VarDeclNode var = (VarDeclNode)varCand;
-			if(var.ident.toString().equals(ident.toString()))
-				return var;
-		}
-		return null;
+		return pattern.tryGetVar(ident);
 	}
 
 	@Override
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
+		for(DeclNode varCand : pattern.getParamDecls()) {
+			if(!(varCand instanceof VarDeclNode))
+				continue;
+			VarDeclNode var = (VarDeclNode)varCand;
+			left.addVariable(var.checkIR(Variable.class));
+		}
 
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns

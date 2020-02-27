@@ -600,7 +600,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			matchClassFilterChilds.addChild(id);
 		} 
 	| MATCH mc=CLASS id=typeIdentDecl { env.pushScope(id); } LBRACE 
-		body=matchClassBody[getCoords(mc), new CollectNode<BaseNode>(), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		body=matchClassBody[getCoords(mc), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		{
 			mt = new DefinedMatchTypeNode(body);
 			id.setDecl(new TypeDeclNode(id, mt));
@@ -862,10 +862,11 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesT
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-matchClassBody [ Coords coords, CollectNode<BaseNode> params, AnonymousScopeNamer namer, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+matchClassBody [ Coords coords, AnonymousScopeNamer namer, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
+		CollectNode<BaseNode> varDecls = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<OrderedReplacementsNode> orderedReplacements = new CollectNode<OrderedReplacementsNode>();
 		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
@@ -880,17 +881,18 @@ matchClassBody [ Coords coords, CollectNode<BaseNode> params, AnonymousScopeName
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
 		res = new PatternGraphNode(nameOfGraph, coords, 
-				connections, params, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, 
+				connections, varDecls, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, 
 				alts, iters, negs, idpts, conds, evals,
 				returnz, homs, totallyhoms, exact, induced, mod, context);
 	}
-	: ( matchClassStmt[connections, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, context, res] )*
+	: ( matchClassStmt[connections, defVariablesToBeYieldedTo, varDecls, subpatterns, orderedReplacements, context, res] )*
 	;
 
-matchClassStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
+matchClassStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo, CollectNode<BaseNode> varDecls, 
 			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementsNode> orderedReplacements,
 			int context, PatternGraphNode directlyNestingLHSGraph]
 	: connectionsOrSubpattern[conn, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
+	| v=varDecl[context, directlyNestingLHSGraph ] { varDecls.addChild(v); } SEMI
 	;
 
 connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo, 

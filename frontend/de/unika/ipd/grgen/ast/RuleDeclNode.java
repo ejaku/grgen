@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ir.DefinedMatchType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Variable;
 
 
 /**
@@ -679,6 +680,12 @@ public class RuleDeclNode extends TestDeclNode {
 	 */
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
+		for(DeclNode varCand : pattern.getParamDecls()) {
+			if(!(varCand instanceof VarDeclNode))
+				continue;
+			VarDeclNode var = (VarDeclNode)varCand;
+			left.addVariable(var.checkIR(Variable.class));
+		}
 
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns

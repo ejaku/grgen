@@ -288,6 +288,51 @@ public class PatternGraphNode extends GraphNode {
 		return edges;
 	}
 
+	public VarDeclNode getVariable(String name) {
+		for(VarDeclNode var : getDefVariablesToBeYieldedTo().getChildren()) {
+			if(var.getIdentNode().toString().equals(name))
+				return var;
+		}
+		for(DeclNode varCand : getParamDecls()) {
+			if(!(varCand instanceof VarDeclNode))
+				continue;
+			VarDeclNode var = (VarDeclNode)varCand;
+			return var;
+		}
+		return null;
+	}
+
+	public NodeDeclNode tryGetNode(IdentNode ident) {
+		for(NodeDeclNode node : getNodes()) {
+			if(node.ident.toString().equals(ident.toString()))
+				return node;
+		}
+		return null;
+	}
+
+	public EdgeDeclNode tryGetEdge(IdentNode ident) {
+		for(EdgeDeclNode edge : getEdges()) {
+			if(edge.ident.toString().equals(ident.toString()))
+				return edge;
+		}
+		return null;
+	}
+
+	public VarDeclNode tryGetVar(IdentNode ident) {
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+			if(var.ident.toString().equals(ident.toString()))
+				return var;
+		}
+		for(DeclNode varCand : getParamDecls()) {
+			if(!(varCand instanceof VarDeclNode))
+				continue;
+			VarDeclNode var = (VarDeclNode)varCand;
+			if(var.ident.toString().equals(ident.toString()))
+				return var;
+		}
+		return null;
+	}
+
 	private void initHomMaps() {
 		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
 

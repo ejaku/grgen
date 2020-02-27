@@ -206,5 +206,27 @@ public abstract class TypeNode extends BaseNode {
 		if(castable != null)
 			coll.addAll(castable);
 	}
+	
+	public boolean isFilterableType() {
+		if(isEqual(BasicTypeNode.byteType))
+			return true;
+		if(isEqual(BasicTypeNode.shortType))
+			return true;
+		if(isEqual(BasicTypeNode.intType))
+			return true;
+		if(isEqual(BasicTypeNode.longType))
+			return true;
+		if(isEqual(BasicTypeNode.floatType))
+			return true;
+		if(isEqual(BasicTypeNode.doubleType))
+			return true;
+		if(isEqual(BasicTypeNode.stringType))
+			return true;
+		return false;
+	}
+	
+	public String getFilterableTypesAsString() {
+		return "byte, short, int, long, float, double, string";
+	}
 }
 
