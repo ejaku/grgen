@@ -351,6 +351,14 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfNodeFromPattern) + " is declared.");
 					isOk = false;
 				}
+				if(nodeFromPattern.defEntityToBeYieldedTo && !node.defEntityToBeYieldedTo) {
+					getIdentNode().reportError("The node " + nodeName + " from the action " + actionName + " is a def to be yielded to node, while it is a node to be matched (or received as input to the pattern) in the match class " + matchTypeName);
+					isOk = false;
+				}
+				if(!nodeFromPattern.defEntityToBeYieldedTo && node.defEntityToBeYieldedTo) {
+					getIdentNode().reportError("The node " + nodeName + " from the action " + actionName + " is a node to be matched (or received as input to the pattern), while it is a def to be yielded to node in the match class " + matchTypeName);
+					isOk = false;
+				}
 			}
 		}
 
@@ -371,6 +379,14 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 				if(!type.isEqual(typeOfEdgeFromPattern)) {
 					getIdentNode().reportError("The type of the edge " + edgeName + " from the action " + actionName + " does not equal the type of the edge from the match class " + matchTypeName 
 							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfEdgeFromPattern) + " is declared.");
+					isOk = false;
+				}
+				if(edgeFromPattern.defEntityToBeYieldedTo && !edge.defEntityToBeYieldedTo) {
+					getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName + " is a def to be yielded to edge, while it is an edge to be matched (or received as input to the pattern) in the match class " + matchTypeName);
+					isOk = false;
+				}
+				if(!edgeFromPattern.defEntityToBeYieldedTo && edge.defEntityToBeYieldedTo) {
+					getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName + " is an edge to be matched (or received as input to the pattern), while it is a def to be yielded to edge in the match class " + matchTypeName);
 					isOk = false;
 				}
 			}
@@ -399,6 +415,14 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 				if(!type.isEqual(typeOfVarFromPattern)) {
 					getIdentNode().reportError("The type of the variable " + varName + " from the action " + actionName + " does not equal the type of the variable from the match class " + matchTypeName 
 							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfVarFromPattern) + " is declared.");
+					isOk = false;
+				}
+				if(varFromPattern.defEntityToBeYieldedTo && !var.defEntityToBeYieldedTo) {
+					getIdentNode().reportError("The variable " + varName + " from the action " + actionName + " is a def to be yielded to var, while it is a var to be received as input to the pattern in the match class " + matchTypeName);
+					isOk = false;
+				}
+				if(!varFromPattern.defEntityToBeYieldedTo && var.defEntityToBeYieldedTo) {
+					getIdentNode().reportError("The variable " + varName + " from the action " + actionName + " is a variable to be received as input to the pattern, while it is a def to be yielded to var in the match class " + matchTypeName);
 					isOk = false;
 				}
 			}

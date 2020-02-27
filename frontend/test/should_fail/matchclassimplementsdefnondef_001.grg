@@ -1,0 +1,11 @@
+#using "matchclassmodel.gm"
+
+test t() implements shared
+{
+	n:Node;
+}
+
+match class shared
+{
+	def n:Node;
+}

@@ -1,0 +1,10 @@
+#using "matchclassmodel.gm"
+
+test t(var v:int) implements shared
+{
+}
+
+match class shared
+{
+	def var v:int;
+}
