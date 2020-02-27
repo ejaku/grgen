@@ -1,0 +1,49 @@
+#using "model.gm"
+
+rule r(start:Node) implements shared
+{
+	start --> n:Node;
+	if{ !n.visited; }
+	
+	def var v:int;
+	def x:Node;
+
+	modify {
+		delete(n);
+	}
+}
+
+rule s : (M, M) implements shared
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+	def x:Node;
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+}
+
+sequence seq
+{
+	[[r(::n),(m1:array<M>,::m2)=s()]]\shared.shf(42)\shared.shfext(42)
+}
+
+match class shared
+{
+	def var v:int;
+	def x:Node;
+}
+
+match filter shf<shared>(var f:int)
+{
+	for(m:match<class shared> in this)
+	{
+		m.v = m.v * f;
+	}
+}
+
+external match filter shfext<shared>(var f:int);
