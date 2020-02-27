@@ -551,6 +551,13 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			if(var.ident.toString().equals(ident.toString()))
 				return var;
 		}
+		for(DeclNode varCand : pattern.getParamDecls()) {
+			if(!(varCand instanceof VarDeclNode))
+				continue;
+			VarDeclNode var = (VarDeclNode)varCand;
+			if(var.ident.toString().equals(ident.toString()))
+				return var;
+		}
 		return null;
 	}
 

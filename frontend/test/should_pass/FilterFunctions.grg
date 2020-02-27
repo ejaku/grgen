@@ -3,6 +3,7 @@ rule filterBase
 	def var i:int;
 
 	n:Node;
+	def m:Node;
 
 	yield {
 		yield i = incident(n).size();
@@ -17,6 +18,7 @@ filter fBase<filterBase>
 	for(m:match<filterBase> in this)
 	{
 		m.i = incident(m.n).size();
+		m.m = m.n;
 	}
 	for(m:match<filterBase> in this)
 	{
@@ -55,6 +57,7 @@ test filterHass(n:Node):(Edge)
 	def var s:string;
 
 	n -e:Edge-> n;
+	def -d:Edge->;
 	
 	yield {
 		yield s = incident(n).size() > 1 ? "foo" : "fool";
@@ -65,6 +68,11 @@ test filterHass(n:Node):(Edge)
 
 filter fHass<filterHass>
 {
+	for(m:match<filterHass> in this)
+	{
+		m.s = m.s + nameof(m.e);
+		m.d = m.e;
+	}
 }
 
 rule init : (Node)

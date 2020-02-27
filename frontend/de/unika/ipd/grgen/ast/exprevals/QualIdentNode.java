@@ -119,7 +119,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 				edge = test.tryGetEdge(memberUnresolved);
 				var = test.tryGetVar(memberUnresolved);
 				if(node==null && edge==null && var==null) {
-					reportError("Unknown member, can't find in test/rule referenced by match type in filter function");
+					String memberName = memberUnresolved.toString();
+					String actionName = test.getIdentNode().toString();
+					reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName + " referenced by match type in filter function");
 					successfullyResolved = false;
 				}
 			} else if(owner instanceof VarDeclNode && owner.getDeclType() instanceof DefinedMatchTypeNode) {
@@ -132,7 +134,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 				edge = definedMatchType.tryGetEdge(memberUnresolved);
 				var = definedMatchType.tryGetVar(memberUnresolved);
 				if(node==null && edge==null && var==null) {
-					reportError("Unknown member, can't find in match class type referenced in match class filter function");
+					String memberName = memberUnresolved.toString();
+					String matchClassName = definedMatchType.getIdentNode().toString();
+					reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName + " referenced by match class filter function");
 					successfullyResolved = false;
 				}
 			} else if(owner instanceof VarDeclNode) {

@@ -92,7 +92,9 @@ public class MemberAccessExprNode extends ExprNode
 			edge = test.tryGetEdge(memberIdent);
 			var = test.tryGetVar(memberIdent);
 			if(node==null && edge==null && var==null) {
-				reportError("Unknown member, can't find in test/rule referenced by match type in filter function");
+				String memberName = memberIdent.toString();
+				String actionName = test.getIdentNode().toString();
+				reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName + " referenced by match type in filter function");
 				return false;
 			}
 			return true;
@@ -108,7 +110,9 @@ public class MemberAccessExprNode extends ExprNode
 			edge = definedMatchType.tryGetEdge(memberIdent);
 			var = definedMatchType.tryGetVar(memberIdent);
 			if(node==null && edge==null && var==null) {
-				reportError("Unknown member, can't find in match class type referenced by match class filter function");
+				String memberName = memberIdent.toString();
+				String matchClassName = definedMatchType.getIdentNode().toString();
+				reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName + " referenced by match class filter function");
 				return false;
 			}
 			return true;

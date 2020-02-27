@@ -1,11 +1,12 @@
-rule filterBase
+rule filterBase(var j:int)
 {
 	def var i:int;
 
 	n:Node;
+	def m:Node;
 
 	yield {
-		yield i = incident(n).size();
+		yield i = incident(n).size() + j;
 	}
 	
 	modify{
@@ -17,10 +18,12 @@ filter fBase<filterBase>(var x:int)
 	for(m:match<filterBase> in this)
 	{
 		m.i = incident(m.n).size();
+		m.m = m.n;
 	}
 	for(m:match<filterBase> in this)
 	{
 		m.i = m.i + adjacent(m.n).size() + x;
+		m.i = m.i + m.j;
 	}
 	this.add(copy(this.peek()));
 	this.add(copy(this.peek()), x);
@@ -55,6 +58,7 @@ test filterHass(n:Node):(Edge)
 	def var s:string;
 
 	n -e:Edge-> n;
+	def -d:Edge->;
 	
 	yield {
 		yield s = incident(n).size() > 1 ? "foo" : "fool";
@@ -65,6 +69,11 @@ test filterHass(n:Node):(Edge)
 
 filter fHass<filterHass>(var x:int, var y:double, var z:string, var c:int)
 {
+	for(m:match<filterHass> in this)
+	{
+		m.s = m.s + nameof(m.e);
+		m.d = m.e;
+	}
 }
 
 rule init : (Node)
@@ -85,8 +94,8 @@ rule r
 		m:Node;
 		def var y:double = 42.0;
 
-		exec(z:string="foo" ;> filterBase\orderAscendingBy<i>\keepFirst(3)
-				;> filterBase\fBase(x)
+		exec(z:string="foo" ;> filterBase(123)\orderAscendingBy<i>\keepFirst(3)
+				;> filterBase(123)\fBase(x)
 				;> [filterBass\orderAscendingBy<d>\keepSameAsFirst<d>]
 				;> $::x[filterBass\fBass(42.0)]
 				;> (::ee)=filterHass(::n)

@@ -653,7 +653,21 @@ public class RuleDeclNode extends TestDeclNode {
 			if(var.ident.toString().equals(ident.toString()))
 				return var;
 		}
+		for(DeclNode varCand : pattern.getParamDecls()) {
+			if(!(varCand instanceof VarDeclNode))
+				continue;
+			VarDeclNode var = (VarDeclNode)varCand;
+			if(var.ident.toString().equals(ident.toString()))
+				return var;
+		}
 		for(VarDeclNode var : right.graph.defVariablesToBeYieldedTo.getChildren()) {
+			if(var.ident.toString().equals(ident.toString()))
+				return var;
+		}
+		for(DeclNode varCand : right.graph.getParamDecls()) {
+			if(!(varCand instanceof VarDeclNode))
+				continue;
+			VarDeclNode var = (VarDeclNode)varCand;
 			if(var.ident.toString().equals(ident.toString()))
 				return var;
 		}
