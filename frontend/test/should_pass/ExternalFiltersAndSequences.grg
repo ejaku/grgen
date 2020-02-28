@@ -1,0 +1,130 @@
+#using "ExternalFiltersAndSequences.gm"
+
+// we declare the external sequences
+// signature only, external implementation!
+external sequence foo(v1:int, v2:double, v3:Enu, v4:string, v5:boolean) : (r1:int, r2:double, r3:Enu, r4:string, r5:boolean);
+external sequence bar(v1:object, v2:object) : (r1:object);
+external sequence isnull(v1:object);
+external sequence bla(v1:N, v2:E) : (r1:N, r2:E);
+external sequence blo(v1:Node, v2:Edge) : (r1:Node, r2:AEdge);
+external sequence createEdge(n1:Node, n2:Node) : (e:AEdge);
+external sequence huh;
+
+sequence counterExample1(v1:int, v2:Node) : (r1:int, r2:Node) { {r1=v1; r2=v2;} }
+sequence counterExample2 { true }
+
+rule filterBase
+{
+} \ auto // we declare the automorphy filter that is henceforth auto-generated for us
+
+// we declare two external matches filter for the matches of the filterBase rule
+external filter f1<filterBase>;
+external filter nomnomnom<filterBase>;
+
+rule filterBass
+{
+	n:N -e:E-> n;
+	
+	modify {
+	}
+} \ auto // we declare the automorphy filter that is henceforth auto-generated for us
+
+// we declare two external matches filter for the matches of the filterBass rule
+external filter f2<filterBass>;
+external filter f3<filterBass>;
+
+test filterHass(n:N):(E)
+{
+	n -e:E-> n;
+	return(e);
+}
+
+// we declare an external matches filter for the matches of the filterHass test
+external filter f4<filterHass>(var i:int, var s:string);
+
+rule init : (N)
+{
+	replace {
+		n1:N -:E-> n1;
+		n2:N -:E-> n2;
+		return(n1);
+	}
+}
+
+rule r
+{
+	n:N -e:E-> n;
+
+	modify {
+		m:N;
+
+		exec((::x,::y,::z,::u,::v)=foo(42, 3.141, Enu::hurz, "S21-heiteitei", true)
+				;> foo(n.i, n.d, n.enu, n.s, n.b)
+				;> (::nul) = bar(null, n.o)
+				;> isnull(::x)
+				;> (::a,::b) = bla(m, e)
+				;> (::a,::b) = blo(m, e)
+				;> huh
+				;> (ehh:AEdge)=createEdge(n, n)
+		);
+		exec(filterBase\f1
+				;> filterBase\nomnomnom
+				;> filterBase\auto
+				;> [filterBass\f2]
+				;> $::x[filterBass\f3]
+				;> [filterBass\auto]
+				;> (::ee)=filterHass(::n)\f4(::n.i, "foo")
+				;> <<filterBase\f1;filterBase\f1>>
+				;> ${<filterBase\f1,[filterBass\f2]>}
+		);
+	}
+}
+
+rule rs(start:Node) implements shared
+{
+	start --> n:Node;
+	if{ !n.visited; }
+	
+	def var v:int;
+	def x:Node;
+
+	modify {
+		delete(n);
+	}
+}
+
+rule ss : (M, M) implements shared
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+	def x:Node;
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+}
+
+sequence seq
+{
+	[[rs(::n),(m1:array<M>,::m2)=ss()]]\shared.shf(42)\shared.extshf(42)
+}
+
+match class shared
+{
+	def var v:int;
+	def x:Node;
+}
+
+match filter shf<shared>(var f:int)
+{
+	for(m:match<class shared> in this)
+	{
+		m.v = m.v * f;
+	}
+}
+
+external match filter extshf<shared>(var f:int);
+

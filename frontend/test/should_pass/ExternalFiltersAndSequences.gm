@@ -1,0 +1,23 @@
+enum Enu
+{
+	reh, lamm, hurz
+}
+
+node class N
+{
+	i:int;
+	s:string;
+	o:object;
+	b:boolean = true;
+	f:float;
+	d:double;
+	enu:Enu;
+	si:set<int>;
+	mso:map<string,object>;
+	a:array<double>;
+	de:deque<double>;
+}
+
+node class M;
+
+edge class E;

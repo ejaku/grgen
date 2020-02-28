@@ -1,0 +1,81 @@
+#using "ExternalAttributeEvaluation.gm"
+
+rule init
+{
+	replace {
+		n:N -:E-> n;
+	}
+}
+
+rule init2
+{
+	replace {
+		n:N -:E-> n;
+		eval { n.ow = own(); }
+		exec({::nn=n; ::v=n.ow});
+	}
+}
+
+rule r
+{
+	n:N -e:E-> n;
+	if { foo(42, 3.141, Enu::hurz, "S21-heiteitei") && foo(n.i, n.d, n.enu, n.s); }
+	if { isnull( bar(null, n.o) ); }
+	if { bla(n, e); }
+	if { hur(har(n.ow, har(n.ow, n.op))) && hurdur(n.oh); }
+
+	modify {
+		m:N;
+
+		eval {
+			m.b = foo(42, 3.141, Enu::hurz, "S21-heiteitei") && foo(n.i, n.d, n.enu, n.s);
+			m.o = bar(null, n.o);
+			n.b = bla(m, e);
+			n.op = har(n.ow, n.op);
+		}
+	}
+}
+
+rule rp
+{
+	n:N -e:E-> n;
+
+	modify {
+		m:N;
+
+		eval {
+			def nn:N;
+			fooProc(42, 3.141, Enu::hurz, "S21-heiteitei");
+			fooProc(n.i, n.d, n.enu, n.s);
+			(m.o) = barProc(null, n.o);
+			(n.b, m.b) = blaProc(m, e);
+			(n.op, n.ow, nn) = harProc(n.ow, n.op);
+		}
+	}
+}
+
+rule testCopy
+{
+	n:N;
+	modify {
+		nn:copy<n>;
+	}
+}
+
+rule testComparison
+{
+	n:N;
+	m:N;
+	if{ n.ow==m.ow; n.ow!=m.ow; n.ow<m.ow; n.ow<=m.ow; n.ow>m.ow; n.ow>=m.ow; }
+	if{ n.op==m.op; n.op!=m.op; n.op<m.op; n.op<=m.op; n.op>m.op; n.op>=m.op; }
+	if{ n.ow==m.op; n.ow!=m.op; n.ow<m.op; n.ow<=m.op; n.ow>m.op; n.ow>=m.op; }
+	
+	modify {
+		eval { 
+			def var b:boolean = n.ow==m.ow ^ n.ow!=m.ow ^ n.ow<m.ow ^ n.ow<=m.ow ^ n.ow>m.ow ^ n.ow>=m.ow;
+			b = n.op==m.op ^ n.op!=m.op ^ n.op<m.op ^ n.op<=m.op ^ n.op>m.op ^ n.op>=m.op;
+			b = n.ow==m.op ^ n.ow!=m.op ^ n.ow<m.op ^ n.ow<=m.op ^ n.ow>m.op ^ n.ow>=m.op;
+		}
+	}
+}
+

@@ -1,0 +1,115 @@
+//for function[parallelize=true];
+
+// we declare three external classes we want to use in our external attribute computations
+// signature only, external implmentation!
+external class Own;
+external class OwnPown extends Own
+{
+	external function fn(string) : string;
+	external procedure pc(string);
+}
+external class OwnPownHome extends OwnPown
+{
+	external function fn2(OwnPownHome) : OwnPownHome;
+	external function fn3() : string;
+	external procedure pc2(string, Own) : (string, Own);
+}
+
+// we declare that we want to implement parsing, serializing, and debug output generation 
+// of objects of external types or of object type
+external emit class;
+
+// we declare that we want to implement attribute to graph conversion for debugger display 
+// of objects of external types or of object type
+external emit graph class;
+
+// we declare that we want to implement copying 
+// of objects of external types or of object type
+external copy class;
+
+// we declare that we want to implement comparison 
+// of objects of external types or of object type
+external == class;
+external < class;
+
+enum Enu
+{
+	reh, lamm, hurz
+}
+
+node class N
+{
+	i:int;
+	s:string;
+	o:object;
+	b:boolean = true;
+	f:float;
+	d:double;
+	enu:Enu;
+	si:set<int>;
+	mso:map<string,object>;
+	a:array<double>;
+	de:deque<double>;
+	ow:Own; // attributes of type externally defined
+	op:OwnPown; // attributes of type externally defined
+	oh:OwnPownHome; // attributes of type externally defined
+	
+	function fn(var ss:string) : string
+	{
+		return(ss + this.s + this.fn(ss));
+	}
+	
+	procedure pc(var ss:string)
+	{
+		this.s = ss;
+		this.pc(ss);
+		return;
+	}
+	
+	function fn2(var oo:OwnPownHome) : OwnPownHome
+	{
+		def var o1:OwnPownHome = this.fn2(oo);
+		def var o2:OwnPownHome = oo.fn2(oo);
+		def var b1:boolean = o1.fn3()==o2.fn3();
+		def var b2:boolean = this.s==(oo.fn("foo")+this.op.fn("42"));
+		return( b1 && b2 ? oo : oo.fn2(oo) );
+	}
+	
+	procedure pc2(var ss:string, var oo:OwnPown) : (string, OwnPown)
+	{
+		(ss,oo)=this.pc2(ss,oo);
+		oo.pc(ss);
+		return(oo.fn(ss), oo);
+	}
+}
+
+node class NN extends N;
+edge class E;
+
+// we declare the external attribute functions
+// signature only, external implementation!
+external function foo(int, double, Enu, string) : boolean;
+external function bar(object, object) : object;
+external function isnull(object) : boolean;
+external function bla(N, E) : boolean;
+external function blo(Node, Edge) : N;
+external function har(Own, OwnPown) : OwnPown;
+external function hur(OwnPown) : boolean;
+external function hurdur(OwnPownHome) : boolean;
+
+// "constructors" implemented as attribute functions, for filling attributes
+external function own() : Own;
+external function ownPown() : OwnPown;
+external function ownPownHome() : OwnPownHome;
+
+// we declare the external attribute procedures
+// signature only, external implementation!
+external procedure fooProc(int, double, Enu, string);
+external procedure barProc(object, object) : (object);
+external procedure isnullProc(object) : (boolean);
+external procedure blaProc(N, E) : (boolean, boolean);
+external procedure bloProc(Node, Edge) : (N);
+external procedure harProc(Own, OwnPown) : (OwnPown, Own, N);
+external procedure hurProc(OwnPown);
+external procedure hurdurProc(OwnPownHome);
+
