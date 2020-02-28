@@ -38,6 +38,26 @@ namespace de.unika.ipd.grGen.libGr
             Add(matchList, matchesList);
         }
 
+        public static List<T> ToList<T>(IList<IMatch> source) where T : IMatch
+        {
+            List<T> newList = new List<T>(source.Count);
+            for(int i = 0; i < source.Count; ++i)
+            {
+                newList.Add((T)source[i]);
+            }
+            return newList;
+        }
+
+        public static void FromList<T>(IList<IMatch> target, List<T> source) where T : IMatch
+        {
+            target.Clear();
+            for(int i=0; i<source.Count; ++i)
+            {
+                if(source[i] != null)
+                    target.Add(source[i]);
+            }
+        }
+
         /// <summary>
         /// For filtering with the auto-supplied filter keepFirst
         /// </summary>
@@ -45,6 +65,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="count">The number of matches to keep</param>
         public static void FilterKeepFirst(List<IMatch> matchList, int count)
         {
+            count = Math.Min(matchList.Count, count);
             matchList.RemoveRange(count, matchList.Count - count);
         }
 
@@ -55,6 +76,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="count">The number of matches to keep</param>
         public static void FilterKeepLast(List<IMatch> matchList, int count)
         {
+            count = Math.Min(matchList.Count, count);
             matchList.RemoveRange(0, matchList.Count - count);
         }
 
@@ -65,6 +87,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="count">The number of matches to remove</param>
         public static void FilterRemoveFirst(List<IMatch> matchList, int count)
         {
+            count = Math.Min(matchList.Count, count);
             matchList.RemoveRange(0, count);
         }
 
@@ -75,6 +98,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="count">The number of matches to remove</param>
         public static void FilterRemoveLast(List<IMatch> matchList, int count)
         {
+            count = Math.Min(matchList.Count, count);
             matchList.RemoveRange(matchList.Count - count, count);
         }
 

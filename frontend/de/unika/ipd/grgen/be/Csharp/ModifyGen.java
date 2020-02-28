@@ -3210,7 +3210,7 @@ public class ModifyGen extends CSharpBase {
 
 	private void genReturnStatementFilter(StringBuffer sb, ModifyGenerationStateConst state, ReturnStatementFilter rsf) {
 		if(state.matchClassName() != null)
-			sb.append("\t\t\tmatches = (IList<GRGEN_LIBGR.IMatch>)this_matches;\n");
+			sb.append("\t\t\tGRGEN_LIBGR.MatchListHelper.FromList(matches, this_matches);\n");
 		else
 			sb.append("\t\t\tmatches.FromList();\n");
 		sb.append("\t\t\treturn;\n");
@@ -3301,7 +3301,7 @@ public class ModifyGen extends CSharpBase {
 		Variable var = ddvs.getTarget();
 		if(var.getIdent().toString().equals("this") && var.getType() instanceof ArrayType) {
 			if(state.matchClassName() != null)
-				sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = (List<" + state.packagePrefix() + "IMatch_" + state.matchClassName() + ">)matches;\n");
+				sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = GRGEN_LIBGR.MatchListHelper.ToList<" + state.packagePrefix() + "IMatch_" + state.matchClassName() + ">(matches);\n");
 			else
 				sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = matches.ToList();\n");
 			return;

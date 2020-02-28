@@ -333,8 +333,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFrontFormat("List<{0}> matchesArray = (List<{0}>)matches;\n", matchInterfaceName);
+            source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
             source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", matchClass.name, filterName);
+            source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -448,8 +449,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFrontFormat("List<{0}> matchesArray = (List<{0}>)matches;\n", matchInterfaceName);
+            source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
             source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", matchClass.name, filterName);
+            source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -529,7 +531,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFrontFormat("List<{0}> matchesArray = (List<{0}>)matches;\n", matchInterfaceName);
+            source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
             if(sameAsFirst)
             {
@@ -557,6 +559,8 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("\tmatchesArray[pos] = null;\n");
                 source.AppendFront("}\n");
             }
+
+            source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -603,7 +607,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFrontFormat("List<{0}> matchesArray = (List<{0}>)matches;\n", matchInterfaceName);
+            source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
             source.AppendFront("int cmpPos = 0;\n");
             source.AppendFront("int pos = 0 + 1;\n");
@@ -614,6 +618,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("\telse\n");
             source.AppendFront("\t\tcmpPos = pos;\n");
             source.AppendFront("}\n");
+
+            source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
 
             source.Unindent();
             source.AppendFront("}\n");
