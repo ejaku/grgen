@@ -59,9 +59,15 @@ do_test()
 {
 	local FILE="$1"
 	local DIR="`echo "$FILE" | sed -e s/\\.grg\$/$OUTPUTSUFF/`"
+	local EXTIMPLFILEMODEL="`echo "$FILE" | sed -e s/\\.grg\$/ModelExternalFunctionsImpl.cs/`"
+	local EXTIMPLFILEACTIONS="`echo "$FILE" | sed -e s/\\.grg\$/ActionsExternalFunctionsImpl.cs/`"
+	local PLAINEXTIMPLFILEMODEL="`echo "$EXTIMPLFILEMODEL" | sed -e s:\.*/::`"
+	local PLAINEXTIMPLFILEACTIONS="`echo "$EXTIMPLFILEACTIONS" | sed -e s:\.*/::`"
 	if [ "$ONLY_NEW" -a "$DIR" -nt "$FILE" ]; then return 0; fi
 	rm -fr -- "$DIR"
 	mkdir  -- "$DIR"
+	if [ -f "$EXTIMPLFILEMODEL" ]; then cp "$EXTIMPLFILEMODEL" "$DIR/$PLAINEXTIMPLFILEMODEL"; fi
+	if [ -f "$EXTIMPLFILEACTIONS" ]; then cp "$EXTIMPLFILEACTIONS" "$DIR/$PLAINEXTIMPLFILEACTIONS"; fi
 	echo -n "===> TEST $FILE"
 	if java $JAVA_ARGS -o "$DIR" "$FILE" > "$DIR/log" 2>&1; then
         if grep -q "WARNING" < "$DIR/log"; then
