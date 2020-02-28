@@ -660,7 +660,7 @@ options { k = 7; }
 		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
 			{
 				if(isMatchClassFilter)
-					reportError(getCoords(mc), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
+					reportError(getCoords(filterId), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
 
 				if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
 					|| filterId.getText().equals("removeFirst") || filterId.getText().equals("removeLast")
@@ -689,7 +689,7 @@ options { k = 7; }
 		filterBase=IDENT LT { xg.append(filterBase.getText() + "<"); } filterCallVariableList[xg] GT { xg.append("> "); }
 		{
 			if(isMatchClassFilter && mc==null)
-				reportError(getCoords(mc), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
+				reportError(getCoords(filterBase), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
 			if(!isMatchClassFilter && mc!=null)
 				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
