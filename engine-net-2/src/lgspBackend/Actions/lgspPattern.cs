@@ -1463,11 +1463,13 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class LGSPRulePattern : LGSPMatchingPattern, IRulePattern
     {
         protected LGSPRulePattern(string name, GrGenType[] inputs, string[] inputNames, 
-            GrGenType[] defs, string[] defNames, GrGenType[] outputs, LGSPFilter[] filters)
+            GrGenType[] defs, string[] defNames, GrGenType[] outputs, 
+            LGSPFilter[] filters, MatchClassInfo[] implementedMatchClasses)
             : base(name, inputs, inputNames, defs, defNames)
         {
             this.outputs = outputs;
             this.filters = filters;
+            this.implementedMatchClasses = implementedMatchClasses;
         }
 
         /// <summary>
@@ -1487,6 +1489,14 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// An array of the implemented match classes
+        /// </summary>
+        public IMatchClass[] ImplementedMatchClasses
+        {
+            get { return implementedMatchClasses; }
+        }
+
+        /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public readonly GrGenType[] outputs;
@@ -1495,6 +1505,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of the available filters
         /// </summary>
         public readonly LGSPFilter[] filters;
+
+        /// <summary>
+        /// An array of the implemented match classes
+        /// </summary>
+        public readonly MatchClassInfo[] implementedMatchClasses;
     }
 
     /// <summary>

@@ -39,7 +39,20 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         String PackagePrefixedName { get; }
 
-        // TODO: description of elements (of shared pattern part/the match class)
+        /// <summary>
+        /// An array of all pattern nodes.
+        /// </summary>
+        IPatternNode[] Nodes { get; }
+
+        /// <summary>
+        /// An array of all pattern edges.
+        /// </summary>
+        IPatternEdge[] Edges { get; }
+
+        /// <summary>
+        /// An array of all pattern variables;
+        /// </summary>
+        IPatternVariable[] Variables { get; }
 
         /// <summary>
         /// An array of the names of the available filters
@@ -49,11 +62,16 @@ namespace de.unika.ipd.grGen.libGr
 
     public abstract class MatchClassInfo : IMatchClass
     {
-        public MatchClassInfo(String name, String package, String packagePrefixedName, IFilter[] filters)
+        public MatchClassInfo(String name, String package, String packagePrefixedName,
+            IPatternNode[] nodes, IPatternEdge[] edges, IPatternVariable[] variables,
+            IFilter[] filters)
         {
             this.name = name;
             this.package = package;
             this.packagePrefixedName = packagePrefixedName;
+            this.nodes = nodes;
+            this.edges = edges;
+            this.variables = variables;
             this.filters = filters;
 
             this.annotations = new Annotations();
@@ -63,6 +81,9 @@ namespace de.unika.ipd.grGen.libGr
         public Annotations Annotations { get { return annotations; } }
         public string Package { get { return package; } }
         public string PackagePrefixedName { get { return packagePrefixedName; } }
+        public IPatternNode[] Nodes { get { return nodes; } }
+        public IPatternEdge[] Edges { get { return edges; } }
+        public IPatternVariable[] Variables { get { return variables; } }
         public IFilter[] Filters { get { return filters; } }
 
         /// <summary>
@@ -85,6 +106,21 @@ namespace de.unika.ipd.grGen.libGr
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
         public readonly string packagePrefixedName;
+
+        /// <summary>
+        /// An array of all pattern nodes.
+        /// </summary>
+        public readonly IPatternNode[] nodes;
+
+        /// <summary>
+        /// An array of all pattern edges.
+        /// </summary>
+        public readonly IPatternEdge[] edges;
+
+        /// <summary>
+        /// An array of all pattern variables;
+        /// </summary>
+        public readonly IPatternVariable[] variables;
 
         /// <summary>
         /// The filters of the match class
