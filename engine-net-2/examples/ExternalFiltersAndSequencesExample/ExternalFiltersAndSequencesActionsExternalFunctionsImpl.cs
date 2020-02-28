@@ -134,17 +134,29 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             // inspect matches carefully and manipulate as needed, depending on input parameters
             // transforming to a List<IMatch> for easier manipulation and back to an IMatchesExact if needed
             List<Rule_filterHass.IMatch_filterHass> matchesArray = matches.ToList();
-			for(int j=0; j<matchesArray.Count; ++j)
-			{
-				Rule_filterHass.IMatch_filterHass match = matchesArray[j];
-				if(match.node_n.i < i) {
-					matchesArray[j] = null; // setting to null is an efficient way to delete, better than List.RemoveAt
-				}
-				if(match.node_n.s != s) {
-					match.node_n.s = s;
-				}
-			}
+            for(int j = 0; j < matchesArray.Count; ++j)
+            {
+                Rule_filterHass.IMatch_filterHass match = matchesArray[j];
+                if(match.node_n.i < i)
+                {
+                    matchesArray[j] = null; // setting to null is an efficient way to delete, better than List.RemoveAt
+                }
+                if(match.node_n.s != s)
+                {
+                    match.node_n.s = s;
+                }
+            }
             matches.FromList();
+        }
+    }
+
+    public partial class MatchClassFilters
+    {
+        public static void Filter_extshf(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches, System.Int32 f)
+        {
+            List<IMatch_shared> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<IMatch_shared>(matches);
+            // some code, may set elements in matchesArray to null, they are then skipped when re-building matches in FromList
+            GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);
         }
     }
 }

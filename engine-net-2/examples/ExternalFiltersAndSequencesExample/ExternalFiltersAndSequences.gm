@@ -18,4 +18,6 @@ node class N
 	de:deque<double>;
 }
 
+node class M;
+
 edge class E;

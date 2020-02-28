@@ -25,9 +25,19 @@ rule filterBass
 {
 	n:N -e:E-> n;
 	
+	def var s:string;
+	
 	modify {
 	}
 } \ auto // we declare the automorphy filter that is henceforth auto-generated for us
+
+filter fil<filterBass>(var f:int)
+{
+	for(m:match<filterBass> in this)
+	{
+		m.s = nameof(m.n) + f;
+	}
+}
 
 // we declare two external matches filter for the matches of the filterBass rule
 external filter f2<filterBass>;
@@ -36,8 +46,11 @@ external filter f3<filterBass>;
 test filterHass(n:N):(E)
 {
 	n -e:E-> n;
+	
+	def var i:int;
+	
 	return(e);
-}
+} \ orderAscendingBy<i>
 
 // we declare an external matches filter for the matches of the filterHass test
 external filter f4<filterHass>(var i:int, var s:string);
@@ -70,12 +83,61 @@ rule r
 		exec(filterBase\f1
 				;> filterBase\nomnomnom
 				;> filterBase\auto
-				;> [filterBass\f2]
+				;> [filterBass\f2\fil(42)]
 				;> $::x[filterBass\f3]
 				;> [filterBass\auto]
-				;> (::ee)=filterHass(::n)\f4(::n.i, "foo")
+				;> (::ee)=filterHass(::n)\f4(::n.i, "foo")\orderAscendingBy<i>\keepFirst(42)
 				;> <<filterBase\f1;filterBase\f1>>
 				;> ${<filterBase\f1,[filterBass\f2]>}
 		);
 	}
 }
+
+rule rs(start:Node) implements shared
+{
+	start --> n:Node;
+	if{ !n.visited; }
+	
+	def var v:int;
+	def x:Node;
+
+	modify {
+		delete(n);
+	}
+}
+
+rule ss : (M, M) implements shared
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+	def x:Node;
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+}
+
+sequence seq
+{
+	[[rs(::n),(m1:array<M>,::m2)=ss()]]\shared.shf(42)\shared.extshf(42)\shared.orderAscendingBy<v>\shared.keepFirst(3)
+}
+
+match class shared
+{
+	def var v:int;
+	def x:Node;
+} \ orderAscendingBy<v>
+
+match filter shf<shared>(var f:int)
+{
+	for(m:match<class shared> in this)
+	{
+		m.v = m.v * f;
+	}
+}
+
+external match filter extshf<shared>(var f:int);
+
