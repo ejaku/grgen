@@ -149,4 +149,14 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             matches.FromList();
         }
     }
+
+    public partial class MatchClassFilters
+    {
+        public static void Filter_extshf(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches, System.Int32 f)
+        {
+            List<IMatch_shared> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<IMatch_shared>(matches);
+            // some code, may set elements in matchesArray to null, they are then skipped when re-building matches in FromList
+            GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);
+        }
+    }
 }
