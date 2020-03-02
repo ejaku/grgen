@@ -50,7 +50,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("} else {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true")); // shut up compiler
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchListName + ".Count;\n");
 
             String originalToCloneName = "originalToClone_" + seqMulti.Id;
             source.AppendFrontFormat("Dictionary<GRGEN_LIBGR.IMatch, GRGEN_LIBGR.IMatch> {0} = new Dictionary<GRGEN_LIBGR.IMatch, GRGEN_LIBGR.IMatch>();\n", originalToCloneName);

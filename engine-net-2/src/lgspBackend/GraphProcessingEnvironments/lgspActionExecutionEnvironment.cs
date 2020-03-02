@@ -190,14 +190,14 @@ namespace de.unika.ipd.grGen.lgsp
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StopMatch();
 #endif
+            PerformanceInfo.MatchesFound += matches.Count;
+
             for(int i = 0; i < filters.Count; ++i)
             {
                 action.Filter(this, matches, filters[i]);
             }
 
             Matched(matches, null, special);
-
-            PerformanceInfo.MatchesFound += matches.Count;
 
             return matches;
         }
@@ -213,12 +213,12 @@ namespace de.unika.ipd.grGen.lgsp
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StopMatch();
 #endif
+            PerformanceInfo.MatchesFound += matches.Count;
+
             for(int i = 0; i < filters.Count; ++i)
             {
                 action.Filter(this, matches, filters[i]);
             }
-
-            PerformanceInfo.MatchesFound += matches.Count;
 
             return matches;
         }

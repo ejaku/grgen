@@ -57,6 +57,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, procEnv.MaxMatches" + parameters + ");\n");
+            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             for(int i = 0; i < seqFor.Rule.Filters.Count; ++i)
             {
                 seqGen.EmitFilterCall(source, seqFor.Rule.Filters[i], patternName, matchesName);
@@ -65,7 +66,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 

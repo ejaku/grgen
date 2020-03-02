@@ -1254,7 +1254,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("if(" + matchListName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchListName + ".Count;\n");
 
             // iterate through matches, use Modify on each, fire the next match event after the first
             String enumeratorName = "enum_" + seqMulti.Id;

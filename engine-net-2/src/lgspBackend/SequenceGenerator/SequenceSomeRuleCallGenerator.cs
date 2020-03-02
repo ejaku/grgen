@@ -56,12 +56,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches")
                 + parameters + ");\n");
+            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             for(int i = 0; i < seqRule.Filters.Count; ++i)
             {
                 seqGen.EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName);
             }
 
-            source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqSome, "true"));
