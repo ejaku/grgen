@@ -1,0 +1,51 @@
+new graph "multiruleallcall/multiruleallcallmatchfilter"
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.keepFirst(2)\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.keepLast(2)\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.keepFirstFraction(0.5)\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.keepLastFraction(0.5)\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.removeFirst(2)\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.removeLast(2)\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.removeFirstFraction(0.5)\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.removeLastFraction(0.5)\mc.foutput
+
+clear graph
+
+quit

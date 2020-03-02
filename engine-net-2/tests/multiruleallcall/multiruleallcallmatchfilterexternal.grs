@@ -1,0 +1,24 @@
+new graph "multiruleallcall/multiruleallcallmatchfilterexternal"
+
+exec init
+
+exec [[r(42),s(42)]]\mc.fext(1) \
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+
+clear graph
+
+exec init
+
+exec <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.fext(1);;\
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }\
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }\
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }\
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }\
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }\
+	;> false>>
+
+quit

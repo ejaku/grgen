@@ -1,0 +1,51 @@
+new graph "multiruleallcall/multiruleallcallmatchfilter"
+
+exec init
+
+exec seqKeepFirst
+
+clear graph
+
+exec init
+
+exec seqKeepLast
+
+clear graph
+
+exec init
+
+exec seqKeepFirstFraction
+
+clear graph
+
+exec init
+
+exec seqKeepLastFraction
+
+clear graph
+
+exec init
+
+exec seqRemoveFirst
+
+clear graph
+
+exec init
+
+exec seqRemoveLast
+
+clear graph
+
+exec init
+
+exec seqRemoveFirstFraction
+
+clear graph
+
+exec init
+
+exec seqRemoveLastFraction
+
+clear graph
+
+quit

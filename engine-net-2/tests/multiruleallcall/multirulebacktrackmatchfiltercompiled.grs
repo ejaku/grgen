@@ -1,0 +1,25 @@
+new graph "multiruleallcall/multiruleallcallmatchfilter"
+
+exec init
+
+exec seqmcBacktrack
+
+clear graph
+
+exec init
+
+exec seqmcdefBacktrack
+
+clear graph
+
+exec init
+
+exec seqmcmcdefBacktrack
+
+clear graph
+
+exec init
+
+exec seqremBacktrack
+
+quit

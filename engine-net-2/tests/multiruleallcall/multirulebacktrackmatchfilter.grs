@@ -1,0 +1,57 @@
+new graph "multiruleallcall/multiruleallcallmatchfilter"
+
+exec init
+
+exec <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.f(5)\mc.frem(6);;\
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }\
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }\
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }\
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }\
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }\
+	;> false>>
+
+clear graph
+
+exec init
+
+exec <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mcdef.fdef(-2)\mcdef.fremdef(42);;\
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }\
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }\
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }\
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }\
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }\
+	;> false>>
+	
+clear graph
+
+exec init
+
+exec <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.f(1)\mcdef.fdef(10);;\
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }\
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }\
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }\
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }\
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }\
+	;> false>>
+
+clear graph
+
+exec init
+
+exec <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.frem(1)\mcdef.fremdef(2);;\
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }\
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }\
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }\
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }\
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }\
+	;> false>>
+
+quit

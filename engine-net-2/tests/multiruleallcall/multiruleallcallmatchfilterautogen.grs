@@ -1,0 +1,39 @@
+new graph "multiruleallcall/multiruleallcallmatchfilter"
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.orderAscendingBy<idef>\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.orderDescendingBy<idef>\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.keepSameAsFirst<idef>\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.keepSameAsLast<idef>\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.keepOneForEach<idef>\mc.foutput
+
+clear graph
+
+exec init
+
+exec [[r(42),s(42)]]\mc.f(0)\mc.orderDescendingBy<i>\mc.keepOneForEach<i>\mc.keepSameAsFirst<i>\mc.foutput
+
+clear graph
+
+quit
