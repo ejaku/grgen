@@ -486,30 +486,25 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
 
+            String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
             if(sameAsFirst)
             {
                 source.AppendFront("int pos = 0 + 1;\n");
-                source.AppendFrontFormat("while(pos < matchesArray.Count && matchesArray[pos].{0} == matchesArray[0].{0})\n", 
-                    NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                source.AppendFront("while(pos < matchesArray.Count)\n");
                 source.AppendFront("{\n");
+                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[0].{0})\n", matchEntity);
+                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
                 source.AppendFront("\t++pos;\n");
-                source.AppendFront("}\n");
-                source.AppendFront("for(; pos < matchesArray.Count; ++pos)\n");
-                source.AppendFront("{\n");
-                source.AppendFront("\tmatchesArray[pos] = null;\n");
                 source.AppendFront("}\n");
             }
             else
             {
                 source.AppendFront("int pos = matchesArray.Count-1 - 1;\n");
-                source.AppendFrontFormat("while(pos >= 0 && matchesArray[pos].{0} == matchesArray[matchesArray.Count-1].{0})\n",
-                    NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                source.AppendFront("while(pos >= 0)\n");
                 source.AppendFront("{\n");
+                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[matchesArray.Count-1].{0})\n", matchEntity);
+                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
                 source.AppendFront("\t--pos;\n");
-                source.AppendFront("}\n");
-                source.AppendFront("for(; pos >= 0; --pos)\n");
-                source.AppendFront("{\n");
-                source.AppendFront("\tmatchesArray[pos] = null;\n");
                 source.AppendFront("}\n");
             }
 
@@ -533,30 +528,25 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
+            String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
             if(sameAsFirst)
             {
                 source.AppendFront("int pos = 0 + 1;\n");
-                source.AppendFrontFormat("while(pos < matchesArray.Count && matchesArray[pos].{0} == matchesArray[0].{0})\n",
-                    NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                source.AppendFront("while(pos < matchesArray.Count)\n");
                 source.AppendFront("{\n");
+                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[0].{0})\n", matchEntity);
+                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
                 source.AppendFront("\t++pos;\n");
-                source.AppendFront("}\n");
-                source.AppendFront("for(; pos < matchesArray.Count; ++pos)\n");
-                source.AppendFront("{\n");
-                source.AppendFront("\tmatchesArray[pos] = null;\n");
                 source.AppendFront("}\n");
             }
             else
             {
                 source.AppendFront("int pos = matchesArray.Count-1 - 1;\n");
-                source.AppendFrontFormat("while(pos >= 0 && matchesArray[pos].{0} == matchesArray[matchesArray.Count-1].{0})\n",
-                    NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                source.AppendFront("while(pos >= 0)\n");
                 source.AppendFront("{\n");
+                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[matchesArray.Count-1].{0})\n", matchEntity);
+                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
                 source.AppendFront("\t--pos;\n");
-                source.AppendFront("}\n");
-                source.AppendFront("for(; pos >= 0; --pos)\n");
-                source.AppendFront("{\n");
-                source.AppendFront("\tmatchesArray[pos] = null;\n");
                 source.AppendFront("}\n");
             }
 
@@ -580,14 +570,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
 
-            source.AppendFront("int cmpPos = 0;\n");
-            source.AppendFront("int pos = 0 + 1;\n");
-            source.AppendFront("for(; pos < matchesArray.Count; ++pos)\n");
+            String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
+            String typeOfEntity = getTypeOfFilterVariable(rulePattern, matchEntity);
+            source.AppendFrontFormat("Dictionary<{0}, object> seenValues = new Dictionary<{0}, object>();\n", typeOfEntity);
+            source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(matchesArray[pos].{0} == matchesArray[cmpPos].{0})\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
             source.AppendFront("\t\tmatchesArray[pos] = null;\n");
             source.AppendFront("\telse\n");
-            source.AppendFront("\t\tcmpPos = pos;\n");
+            source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
             source.AppendFront("}\n");
 
             source.AppendFront("matches.FromList();\n");
@@ -609,20 +600,43 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
-            source.AppendFront("int cmpPos = 0;\n");
-            source.AppendFront("int pos = 0 + 1;\n");
-            source.AppendFront("for(; pos < matchesArray.Count; ++pos)\n");
+            String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
+            String typeOfEntity = getTypeOfFilterVariable(matchClass, matchEntity);
+            source.AppendFrontFormat("Dictionary<{0}, object> seenValues = new Dictionary<{0}, object>();\n", typeOfEntity);
+            source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(matchesArray[pos].{0} == matchesArray[cmpPos].{0})\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
             source.AppendFront("\t\tmatchesArray[pos] = null;\n");
             source.AppendFront("\telse\n");
-            source.AppendFront("\t\tcmpPos = pos;\n");
+            source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
             source.AppendFront("}\n");
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
 
             source.Unindent();
             source.AppendFront("}\n");
+        }
+
+        private static String getTypeOfFilterVariable(LGSPRulePattern rulePattern, String matchEntity)
+        {
+            foreach(IPatternVariable var in rulePattern.patternGraph.variables)
+            {
+                if(var.Name == rulePattern.PatternGraph.Name + "_" + matchEntity)
+                    return TypesHelper.TypeName(var.Type);
+            }
+
+            return null;
+        }
+
+        private static String getTypeOfFilterVariable(MatchClassInfo matchClass, String matchEntity)
+        {
+            foreach(IPatternVariable var in matchClass.variables)
+            {
+                if(var.Name == matchClass.Name + "_" + matchEntity)
+                    return TypesHelper.TypeName(var.Type);
+            }
+
+            return null;
         }
 
         public static void GenerateMatchClassFilterers(SourceBuilder source, MatchClassInfo matchClass)
