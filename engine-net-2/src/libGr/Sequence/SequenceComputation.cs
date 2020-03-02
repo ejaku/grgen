@@ -151,12 +151,12 @@ namespace de.unika.ipd.grGen.libGr
 
         protected static string Escape(String str)
         {
-            return str.Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t").Replace("#", "\\#");
+            return str.Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t").Replace("#", "\\#").Replace("\"", "\\\"");
         }
 
         protected static string Unescape(String str)
         {
-            return str.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\#", "#");
+            return str.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\#", "#").Replace("\\\"", "\"");
         }
     }
 
