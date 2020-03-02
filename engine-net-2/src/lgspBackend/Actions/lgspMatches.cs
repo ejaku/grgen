@@ -647,6 +647,15 @@ namespace de.unika.ipd.grGen.lgsp
             return new LGSPMatchesList<Match, MatchInterface>(this);
         }
 
+        /// <summary>
+        /// Clones the matches.
+        /// </summary>
+        /// <param name="originalToClone">Receives mapping of original to cloned matches</param>
+        public IMatches Clone(IDictionary<IMatch, IMatch> originalToClone)
+        {
+            return new LGSPMatchesList<Match, MatchInterface>(this, originalToClone);
+        }
+
         #endregion
 
         /// <summary>
@@ -672,6 +681,23 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 1; i < that.count; i++, curThat = curThat.next)
             {
                 cur.next = (Match)curThat.Clone();
+                cur = cur.next;
+            }
+            last = cur;
+        }
+
+        protected LGSPMatchesList(LGSPMatchesList<Match, MatchInterface> that, IDictionary<IMatch, IMatch> originalToClone)
+        {
+            producer = that.producer;
+            count = that.count;
+            Match curThat = that.root;
+            Match cur = root = (Match)curThat.Clone();
+            originalToClone.Add(curThat, cur);
+            curThat = curThat.next;
+            for(int i = 1; i < that.count; i++, curThat = curThat.next)
+            {
+                cur.next = (Match)curThat.Clone();
+                originalToClone.Add(curThat, cur.next);
                 cur = cur.next;
             }
             last = cur;

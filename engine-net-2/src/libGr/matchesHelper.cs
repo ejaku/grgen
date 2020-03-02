@@ -30,12 +30,17 @@ namespace de.unika.ipd.grGen.libGr
 
         public static void Clone(List<IMatches> matchesList, List<IMatch> matchList)
         {
+            Dictionary<IMatch, IMatch> originalToClone = new Dictionary<IMatch, IMatch>();
             for(int i = 0; i < matchesList.Count; ++i)
             {
-                matchesList[i] = matchesList[i].Clone();
+                matchesList[i] = matchesList[i].Clone(originalToClone);
             }
+            List<IMatch> originalMatchList = new List<IMatch>(matchList);
             matchList.Clear();
-            Add(matchList, matchesList);
+            foreach(IMatch originalMatch in originalMatchList)
+            {
+                matchList.Add(originalToClone[originalMatch]);
+            }
         }
 
         public static List<T> ToList<T>(IList<IMatch> source) where T : IMatch

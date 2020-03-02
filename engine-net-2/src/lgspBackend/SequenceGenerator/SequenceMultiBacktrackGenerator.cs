@@ -52,13 +52,23 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true")); // shut up compiler
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchListName + ".Count;\n");
 
-            source.AppendFrontFormat("{0}.Clear();\n", matchListName);
+            String originalToCloneName = "originalToClone_" + seqMulti.Id;
+            source.AppendFrontFormat("Dictionary<GRGEN_LIBGR.IMatch, GRGEN_LIBGR.IMatch> {0} = new Dictionary<GRGEN_LIBGR.IMatch, GRGEN_LIBGR.IMatch>();\n", originalToCloneName);
+
             // emit code for cloning the matches objects of the rules
             for(int i = 0; i < seqMulti.Rules.Sequences.Count; ++i)
             {
                 new SequenceMultiBacktrackRuleGenerator(seqMulti, (SequenceRuleCall)seqMulti.Rules.Sequences[i], seqHelper)
-                    .EmitCloning(source, seqGen, matchListName);
+                    .EmitCloning(source, seqGen, matchListName, originalToCloneName);
             }
+
+            String originalMatchList = "originalMatchList_" + seqMulti.Id;
+            source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>({1});\n", originalMatchList, matchListName);
+            source.AppendFrontFormat("{0}.Clear();\n", matchListName);
+
+            String originalMatch = "originalMatch_" + seqMulti.Id;
+            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IMatch {0} in {1})\n", originalMatch, originalMatchList);
+            source.AppendFrontFormat("\t{0}.Add({1}[{2}]);", matchListName, originalToCloneName, originalMatch);
 
             // apply the rules and the following sequence for every match found,
             // until the first rule and sequence execution succeeded

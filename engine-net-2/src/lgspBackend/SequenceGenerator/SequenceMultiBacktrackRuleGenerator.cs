@@ -70,12 +70,11 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        public void EmitCloning(SourceBuilder source, SequenceGenerator seqGen, String matchListName)
+        public void EmitCloning(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String originalToCloneName)
         {
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
-            source.AppendFrontFormat("{0} = ({1}){0}.Clone();\n", matchesName, matchesType);
-            source.AppendFrontFormat("{0}.AddRange({1});\n", matchListName, matchesName);
+            source.AppendFrontFormat("{0} = ({1}){0}.Clone({2});\n", matchesName, matchesType, originalToCloneName);
             source.Unindent();
             source.AppendFront("}\n");
         }

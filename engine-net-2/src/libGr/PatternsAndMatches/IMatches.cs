@@ -52,6 +52,12 @@ namespace de.unika.ipd.grGen.libGr
         IMatches Clone();
 
         /// <summary>
+        /// Clones the matches.
+        /// </summary>
+        /// <param name="originalToClone">Receives mapping of original to cloned matches, if not null</param>
+        IMatches Clone(IDictionary<IMatch, IMatch> originalToClone);
+
+        /// <summary>
         /// For filtering with the auto-supplied filter keepFirst
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
