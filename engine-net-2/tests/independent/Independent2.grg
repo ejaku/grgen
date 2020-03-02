@@ -41,6 +41,20 @@ rule find
 	}
 } \ auto
 
+rule findNonEmit
+{
+	p1:P; p2:P;
+	p1 --> m1:M;
+	p2 --> m1;
+	p1 --> m2:M;
+	p2 --> m2;
+	p1 --> m3:M;
+	p2 --> m3;		
+	
+	modify {
+	}
+} \ auto
+
 rule findHalfIndependent
 {
 	p1:P; p2:P;
@@ -55,6 +69,22 @@ rule findHalfIndependent
 	
 	modify {
         emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
+	}
+} \ auto
+
+rule findHalfIndependentNonEmit
+{
+	p1:P; p2:P;
+	p1 --> m1:M;
+	p2 --> m1;
+	independent {
+		p1 --> m2:M;
+		p2 --> m2;
+		p1 --> m3:M;
+		p2 --> m3;		
+	}
+	
+	modify {
 	}
 } \ auto
 
@@ -75,6 +105,22 @@ rule findIndependent
 	}
 } \ auto
 
+rule findIndependentNonEmit
+{
+	p1:P; p2:P;
+	independent {
+		p1 --> m1:M;
+		p2 --> m1;
+		p1 --> m2:M;
+		p2 --> m2;
+		p1 --> m3:M;
+		p2 --> m3;		
+	}
+	
+	modify {
+	}
+} \ auto
+
 rule findP[parallelize=2]
 {
 	p1:P; p2:P;
@@ -87,6 +133,20 @@ rule findP[parallelize=2]
 	
 	modify {
         emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
+	}
+} \ auto
+
+rule findPNonEmit[parallelize=2]
+{
+	p1:P; p2:P;
+	p1 --> m1:M;
+	p2 --> m1;
+	p1 --> m2:M;
+	p2 --> m2;
+	p1 --> m3:M;
+	p2 --> m3;		
+	
+	modify {
 	}
 } \ auto
 
@@ -107,6 +167,22 @@ rule findHalfIndependentP[parallelize=2]
 	}
 } \ auto
 
+rule findHalfIndependentPNonEmit[parallelize=2]
+{
+	p1:P; p2:P;
+	p1 --> m1:M;
+	p2 --> m1;
+	independent {
+		p1 --> m2:M;
+		p2 --> m2;
+		p1 --> m3:M;
+		p2 --> m3;		
+	}
+	
+	modify {
+	}
+} \ auto
+
 rule findIndependentP[parallelize=2]
 {
 	p1:P; p2:P;
@@ -124,3 +200,18 @@ rule findIndependentP[parallelize=2]
 	}
 } \ auto
 
+rule findIndependentPNonEmit[parallelize=2]
+{
+	p1:P; p2:P;
+	independent {
+		p1 --> m1:M;
+		p2 --> m1;
+		p1 --> m2:M;
+		p2 --> m2;
+		p1 --> m3:M;
+		p2 --> m3;		
+	}
+	
+	modify {
+	}
+} \ auto

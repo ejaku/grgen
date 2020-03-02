@@ -9,14 +9,14 @@ show num edges
 
 custom graph analyze
 custom actions gen_searchplan
-custom actions explain findIndependentP
+custom actions explain findIndependentPNonEmit
 
-exec [?findP]
-exec [?findHalfIndependentP]
-exec [?findIndependentP]
+exec [findPNonEmit]
+exec [findHalfIndependentPNonEmit]
+exec [findIndependentPNonEmit]
 
-exec [?findP\auto]
-exec [?findHalfIndependentP\auto]
-exec [?findIndependentP\auto]
+exec [findPNonEmit\auto]
+exec [findHalfIndependentPNonEmit\auto]
+exec [findIndependentPNonEmit\auto]
 
 quit
