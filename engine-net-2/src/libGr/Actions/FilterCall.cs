@@ -305,7 +305,17 @@ namespace de.unika.ipd.grGen.libGr
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(Name);
+            if(MatchClassName != null)
+            {
+                if(MatchClassPackagePrefixedName != null) // only set after resolving
+                    sb.Append(MatchClassPackagePrefixedName + ".");
+                else
+                    sb.Append(MatchClassName + ".");
+            }
+            if(PackagePrefixedName != null) // only set after resolving
+                sb.Append(PackagePrefixedName);
+            else
+                sb.Append(Name);
             if(Entities != null)
                 sb.Append(EntitySuffix);
             if(Arguments != null)
