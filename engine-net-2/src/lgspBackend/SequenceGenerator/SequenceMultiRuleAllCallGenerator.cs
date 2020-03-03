@@ -101,6 +101,8 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
             source.AppendFront(firstRewrite + " = false;\n");
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
             source.AppendFront("break;\n");
 
             source.Unindent();

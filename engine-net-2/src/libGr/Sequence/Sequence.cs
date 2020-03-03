@@ -3155,7 +3155,7 @@ namespace de.unika.ipd.grGen.libGr
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             procEnv.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
 #endif
-            //procEnv.Finished(matches, rule.Special); // TODO
+            procEnv.Finished(matches, rule.Special);
 
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
@@ -5767,6 +5767,7 @@ namespace de.unika.ipd.grGen.libGr
                 procEnv.EnteringSequence(Rule);
                 Rule.executionState = SequenceExecutionState.Underway;
                 procEnv.Matched(matches, match, Rule.Special);
+                procEnv.Finished(matches, Rule.Special);
                 Rule.executionState = SequenceExecutionState.Success;
                 procEnv.ExitingSequence(Rule);
 

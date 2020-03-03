@@ -122,9 +122,6 @@ namespace de.unika.ipd.grGen.lgsp
                     rewritingGen.EmitRewritingRuleAllCallRandomSequenceNonRandom(source, firstRewrite, fireDebugEvents);
             }
 
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
-
             source.Unindent();
             source.AppendFront("}\n");
         }

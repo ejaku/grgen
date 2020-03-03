@@ -100,6 +100,8 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
             source.AppendFront(firstRewrite + " = false;\n");
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
             source.Unindent();
             source.AppendFront("}\n");
             if(returnAssignments.Length != 0)
@@ -136,6 +138,8 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
             source.AppendFront(firstRewrite + " = false;\n");
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
             source.Unindent();
             source.AppendFront("}\n");
             if(returnAssignments.Length != 0)
@@ -165,6 +169,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(firstRewrite + " = false;\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignmentsAllCall + "\n");
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
         }
     }
 }

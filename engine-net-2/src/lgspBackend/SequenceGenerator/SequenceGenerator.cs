@@ -1298,9 +1298,6 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront(ruleGenerators[i].returnAssignmentsAllCall + "\n");
             }
 
-            //if(fireDebugEvents) TODO
-            //    source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
-
             source.Unindent();
             source.AppendFront("}\n");
         }

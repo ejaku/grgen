@@ -1,9 +1,0 @@
-node class N
-{
-	i:int = 42;
-}
-
-node class M extends N
-{
-	s:string = "foo";
-}
