@@ -90,10 +90,11 @@ namespace de.unika.ipd.grGen.lgsp
             SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)ruleCallGen.seqRule;
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarationsAllCall + "\n");
-            source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRuleAll.Id, 
+            String matchesToChoose = "numchooserandomvar_" + seqRuleAll.Id; // variable storing number of matches to choose randomly
+            source.AppendFrontFormat("int {0} = (int){1};\n", matchesToChoose, 
                 seqRuleAll.MaxVarChooseRandom != null ? ruleCallGen.seqHelper.GetVar(seqRuleAll.MaxVarChooseRandom) : (seqRuleAll.MinSpecified ? "2147483647" : "1"));
-            source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, ruleCallGen.seqRule.Id);
-            source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", ruleCallGen.seqRule.Id);
+            source.AppendFrontFormat("if({0}.Count < {1}) {1} = {0}.Count;\n", matchesName, matchesToChoose);
+            source.AppendFrontFormat("for(int i = 0; i < {0}; ++i)\n", matchesToChoose);
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFront("if(i != 0) procEnv.RewritingNextMatch();\n");
