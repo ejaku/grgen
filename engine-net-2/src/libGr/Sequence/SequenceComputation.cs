@@ -1110,6 +1110,28 @@ namespace de.unika.ipd.grGen.libGr
         {
             get { return 8; }
         }
+
+        public abstract string Name { get; }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Debug::" + Name + "(");
+                bool first = true;
+                foreach(SequenceExpression seqExpr in ArgExprs)
+                {
+                    if(!first)
+                        sb.Append(", ");
+                    else
+                        first = false;
+                    sb.Append(seqExpr.Symbol);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
     }
 
     public class SequenceComputationDebugAdd : SequenceComputationDebug
@@ -1143,24 +1165,9 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override string Symbol
+        public override string Name
         {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("Debug::add(");
-                bool first = true;
-                foreach(SequenceExpression seqExpr in ArgExprs)
-                {
-                    if(!first)
-                        sb.Append(", ");
-                    else
-                        first = false;
-                    sb.Append(seqExpr.Symbol);
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
+            get { return "add"; }
         }
     }
 
@@ -1195,24 +1202,9 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override string Symbol
+        public override string Name
         {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("Debug::rem(");
-                bool first = true;
-                foreach(SequenceExpression seqExpr in ArgExprs)
-                {
-                    if(!first)
-                        sb.Append(", ");
-                    else
-                        first = false;
-                    sb.Append(seqExpr.Symbol);
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
+            get { return "rem"; }
         }
     }
 
@@ -1247,24 +1239,9 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override string Symbol
+        public override string Name
         {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("Debug::emit(");
-                bool first = true;
-                foreach(SequenceExpression seqExpr in ArgExprs)
-                {
-                    if(!first)
-                        sb.Append(", ");
-                    else
-                        first = false;
-                    sb.Append(seqExpr.Symbol);
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
+            get { return "emit"; }
         }
     }
 
@@ -1299,24 +1276,9 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override string Symbol
+        public override string Name
         {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("Debug::halt(");
-                bool first = true;
-                foreach(SequenceExpression seqExpr in ArgExprs)
-                {
-                    if(!first)
-                        sb.Append(", ");
-                    else
-                        first = false;
-                    sb.Append(seqExpr.Symbol);
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
+            get { return "halt"; }
         }
     }
 
@@ -1366,24 +1328,9 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        public override string Symbol
+        public override string Name
         {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("Debug::highlight(");
-                bool first = true;
-                foreach(SequenceExpression seqExpr in ArgExprs)
-                {
-                    if(!first)
-                        sb.Append(", ");
-                    else
-                        first = false;
-                    sb.Append(seqExpr.Symbol);
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
+            get { return "highlight"; }
         }
     }
 

@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.grShell
                 ++context.cpPosCounter;
                 PrintSequence(seqBin.Left, seqBin, context);
                 PrintChoice(seqBin, context);
-                Console.Write(seqBin.Symbol + " ");
+                Console.Write(seqBin.OperatorSymbol + " ");
                 PrintSequence(seqBin.Right, seqBin, context);
                 return;
             }
@@ -188,14 +188,14 @@ namespace de.unika.ipd.grGen.grShell
             {
                 WorkaroundManager.Workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
                 PrintSequence(seqBin.Left, seqBin, context);
-                WorkaroundManager.Workaround.PrintHighlighted("(l) " + seqBin.Symbol + " (r)", HighlightingMode.Choicepoint);
+                WorkaroundManager.Workaround.PrintHighlighted("(l) " + seqBin.OperatorSymbol + " (r)", HighlightingMode.Choicepoint);
                 PrintSequence(seqBin.Right, seqBin, context);
                 WorkaroundManager.Workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
                 return;
             }
 
             PrintSequence(seqBin.Left, seqBin, context);
-            Console.Write(" " + seqBin.Symbol + " ");
+            Console.Write(" " + seqBin.OperatorSymbol + " ");
             PrintSequence(seqBin.Right, seqBin, context);
         }
 
@@ -210,7 +210,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private static void PrintSequenceNot(SequenceNot seqNot, Sequence parent, PrintSequenceContext context)
         {
-            Console.Write(seqNot.Symbol);
+            Console.Write(seqNot.OperatorSymbol);
             PrintSequence(seqNot.Seq, seqNot, context);
         }
 
@@ -387,7 +387,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 PrintChoice(seqN, context);
                 ++context.cpPosCounter;
-                Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
+                Console.Write((seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(");
                 bool first = true;
                 foreach(Sequence seqChild in seqN.Children)
                 {
@@ -408,7 +408,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             if(highlight && context.choice)
             {
-                WorkaroundManager.Workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
+                WorkaroundManager.Workaround.PrintHighlighted("$%" + seqN.OperatorSymbol + "(", HighlightingMode.Choicepoint);
                 bool first = true;
                 foreach(Sequence seqChild in seqN.Children)
                 {
@@ -438,7 +438,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            Console.Write((seqN.Choice ? "$%" : "$") + seqN.Symbol + "(");
+            Console.Write((seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(");
             PrintChildren(seqN, context);
             Console.Write(")");
         }
@@ -449,7 +449,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 PrintChoice(seqWeighted, context);
                 ++context.cpPosCounter;
-                Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
+                Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(");
                 bool first = true;
                 for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
                 {
@@ -474,7 +474,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             if(highlight && context.choice)
             {
-                WorkaroundManager.Workaround.PrintHighlighted("$%" + seqWeighted.Symbol + "(", HighlightingMode.Choicepoint);
+                WorkaroundManager.Workaround.PrintHighlighted("$%" + seqWeighted.OperatorSymbol + "(", HighlightingMode.Choicepoint);
                 bool first = true;
                 for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
                 {
@@ -500,7 +500,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.Symbol + "(");
+            Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(");
             bool ffs = true;
             for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
             {
@@ -604,6 +604,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.Write("[[");
             PrintChildren(seqMulti, context);
             Console.Write("]]");
+            Console.Write(seqMulti.FilterSymbol);
             context.success = succesBackup;
         }
 
@@ -652,12 +653,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.Write("(");
             PrintSequence(seqAss.Seq, seqAss, context);
-            if(seqAss.SequenceType == SequenceType.OrAssignSequenceResultToVar)
-                Console.Write("|>");
-            else if(seqAss.SequenceType == SequenceType.AndAssignSequenceResultToVar)
-                Console.Write("&>");
-            else //if(seqAss.SequenceType==SequenceType.AssignSequenceResultToVar)
-                Console.Write("=>");
+            Console.Write(seqAss.OperatorSymbol);
             Console.Write(seqAss.DestVar.Name);
             Console.Write(")");
         }

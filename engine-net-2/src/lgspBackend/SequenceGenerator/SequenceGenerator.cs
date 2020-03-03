@@ -73,7 +73,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             case SequenceType.LazyOr:
             case SequenceType.LazyAnd:
-            case SequenceType.IfThen:
                 EmitSequenceBinaryLazy((SequenceBinary)seq, source);
                 break;
 
@@ -83,6 +82,10 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.StrictOr:
             case SequenceType.Xor:
                 EmitSequenceBinary((SequenceBinary)seq, source);
+                break;
+
+            case SequenceType.IfThen:
+                EmitSequenceIfThen((SequenceIfThen)seq, source);
                 break;
 
             case SequenceType.IfThenElse:
@@ -189,19 +192,19 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceType.LazyOrAll:
-                EmitSequenceAll((SequenceLazyOrAll)seq, true, true, source);
+                EmitSequenceAll((SequenceNAry)seq, true, true, source);
                 break;
 
             case SequenceType.LazyAndAll:
-                EmitSequenceAll((SequenceLazyAndAll)seq, false, true, source);
+                EmitSequenceAll((SequenceNAry)seq, false, true, source);
                 break;
 
             case SequenceType.StrictOrAll:
-                EmitSequenceAll((SequenceStrictOrAll)seq, true, false, source);
+                EmitSequenceAll((SequenceNAry)seq, true, false, source);
                 break;
 
             case SequenceType.StrictAndAll:
-                EmitSequenceAll((SequenceStrictAndAll)seq, false, false, source);
+                EmitSequenceAll((SequenceNAry)seq, false, false, source);
                 break;
 
             case SequenceType.WeightedOne:
@@ -300,8 +303,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(seqBin.Random)
             {
-                Debug.Assert(seqBin.SequenceType != SequenceType.IfThen);
-
                 source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
                 source.AppendFront("{\n");
                 source.Indent();
@@ -344,18 +345,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(COMP_HELPER.SetResultVar(seq, "true"));
                 source.Unindent();
             }
-            else if(seq.SequenceType == SequenceType.LazyAnd)
+            else //if(seq.SequenceType == SequenceType.LazyAnd)
             {
                 source.AppendFront("if(!" + COMP_HELPER.GetResultVar(seqLeft) + ")\n");
                 source.Indent();
                 source.AppendFront(COMP_HELPER.SetResultVar(seq, "false"));
-                source.Unindent();
-            }
-            else
-            { //seq.SequenceType==SequenceType.IfThen -- lazy implication
-                source.AppendFront("if(!" + COMP_HELPER.GetResultVar(seqLeft) + ")\n");
-                source.Indent();
-                source.AppendFront(COMP_HELPER.SetResultVar(seq, "true"));
                 source.Unindent();
             }
 
@@ -419,6 +413,26 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new Exception("Internal error in EmitSequence: Should not have reached this!");
             }
             source.AppendFront(COMP_HELPER.SetResultVar(seqBin, COMP_HELPER.GetResultVar(seqBin.Left) + " " + op + " " + COMP_HELPER.GetResultVar(seqBin.Right)));
+        }
+
+        private void EmitSequenceIfThen(SequenceIfThen seqIfThen, SourceBuilder source)
+        {
+            EmitSequence(seqIfThen.Left, source);
+
+            source.AppendFront("if(!" + COMP_HELPER.GetResultVar(seqIfThen.Left) + ")\n");
+            source.Indent();
+            source.AppendFront(COMP_HELPER.SetResultVar(seqIfThen, "true")); // lazy implication
+            source.Unindent();
+
+            source.AppendFront("else\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            EmitSequence(seqIfThen.Right, source);
+            source.AppendFront(COMP_HELPER.SetResultVar(seqIfThen, COMP_HELPER.GetResultVar(seqIfThen.Right)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
         }
 
         private void EmitSequenceIfThenElse(SequenceIfThenElse seqIf, SourceBuilder source)

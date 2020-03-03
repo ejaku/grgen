@@ -1511,6 +1511,21 @@ namespace de.unika.ipd.grGen.libGr
         {
             get { return 8; }
         }
+
+        public string ItemsString
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                for(int i = 0; i < ContainerItems.Length; ++i)
+                {
+                    sb.Append(ContainerItems[i].Symbol);
+                    if(i != ContainerItems.Length - 1)
+                        sb.Append(",");
+                }
+                return sb.ToString();
+            }
+        }
     }
 
     public class SequenceExpressionSetConstructor : SequenceExpressionContainerConstructor
@@ -1557,12 +1572,7 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append("set<");
                 sb.Append(ValueType);
                 sb.Append(">{");
-                for(int i = 0; i < ContainerItems.Length; ++i)
-                {
-                    sb.Append(ContainerItems[i].Symbol);
-                    if(i != ContainerItems.Length - 1)
-                        sb.Append(",");
-                }
+                sb.Append(ItemsString);
                 sb.Append("}");
                 return sb.ToString();
             }
@@ -1722,12 +1732,7 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append("array<");
                 sb.Append(ValueType);
                 sb.Append(">[");
-                for(int i = 0; i < ContainerItems.Length; ++i)
-                {
-                    sb.Append(ContainerItems[i].Symbol);
-                    if(i != ContainerItems.Length - 1)
-                        sb.Append(",");
-                }
+                sb.Append(ItemsString);
                 sb.Append("]");
                 return sb.ToString();
             }
@@ -1777,12 +1782,7 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append("deque<");
                 sb.Append(ValueType);
                 sb.Append(">]");
-                for(int i = 0; i < ContainerItems.Length; ++i)
-                {
-                    sb.Append(ContainerItems[i].Symbol);
-                    if(i != ContainerItems.Length - 1)
-                        sb.Append(",");
-                }
+                sb.Append(ItemsString);
                 sb.Append("[");
                 return sb.ToString();
             }
@@ -1946,7 +1946,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "random(" + (UpperBound!=null? "..." : "") + ")"; }
+            get { return "random(" + (UpperBound!=null? UpperBound.Symbol : "") + ")"; }
         }
     }
 

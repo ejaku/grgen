@@ -417,13 +417,20 @@ namespace de.unika.ipd.grGen.libGr
                 yield return Right;
             }
         }
+
+        public abstract String OperatorSymbol { get; }
+
+        public override string Symbol
+        {
+            get { return Left.Symbol + OperatorSymbol + Right.Symbol; }
+        }
     }
 
     /// <summary>
     /// A sequence consisting of a list of subsequences.
     /// Decision on order of execution always by random, by user choice possible.
     /// </summary>
-    public abstract class SequenceNAry : Sequence, SequenceRandomChoice
+    public abstract class SequenceGeneralNAry : Sequence, SequenceRandomChoice
     {
         public readonly List<Sequence> Sequences;
         public virtual bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceNAry"); } }
@@ -432,14 +439,14 @@ namespace de.unika.ipd.grGen.libGr
         public bool Skip { get { return skip; } set { skip = value; } }
         bool skip;
 
-        protected SequenceNAry(SequenceType seqType, List<Sequence> sequences, bool choice)
+        protected SequenceGeneralNAry(SequenceType seqType, List<Sequence> sequences, bool choice)
             : base(seqType)
         {
             Sequences = sequences;
             this.choice = choice;
         }
 
-        protected SequenceNAry(SequenceNAry that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        protected SequenceGeneralNAry(SequenceGeneralNAry that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that)
         {
             Sequences = new List<Sequence>();
@@ -489,6 +496,46 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     yield return seq;
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// A sequence consisting of a list of subsequences.
+    /// Decision on order of execution always by random, by user choice possible.
+    /// </summary>
+    public abstract class SequenceNAry : SequenceGeneralNAry
+    {
+        protected SequenceNAry(SequenceType seqType, List<Sequence> sequences, bool choice)
+            : base(seqType, sequences, choice)
+        {
+        }
+
+        protected SequenceNAry(SequenceNAry that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        public abstract string OperatorSymbol { get; }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(OperatorSymbol);
+                sb.Append("(");
+                bool first = true;
+                foreach(Sequence seq in Sequences)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(seq);
+                }
+                sb.Append(")");
+                return sb.ToString();
             }
         }
     }
@@ -580,7 +627,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 0; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get
             {
@@ -633,7 +680,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 0; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get
             {
@@ -678,7 +725,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 1; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get
             {
@@ -723,7 +770,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 2; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get
             {
@@ -768,7 +815,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 3; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get
             {
@@ -813,7 +860,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 4; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get
             {
@@ -858,7 +905,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 5; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get
             {
@@ -894,9 +941,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return 6; }
         }
 
-        public override string Symbol
+        public string OperatorSymbol
         {
             get { return "!"; }
+        }
+
+        public override string Symbol
+        {
+            get { return OperatorSymbol + Seq.Symbol; }
         }
     }
 
@@ -1218,7 +1270,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 for(int i = 0; i < Filters.Count; ++i)
                 {
-                    sb.Append("\\").Append(Filters[i]);
+                    sb.Append("\\").Append(Filters[i]).ToString();
                 }
                 return sb.ToString();
             }
@@ -2358,9 +2410,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return 6; }
         }
 
+        public virtual string OperatorSymbol
+        {
+            get { return " => "; }
+        }
+
         public override string Symbol
         {
-            get { return "... => " + DestVar.Name; }
+            get { return Seq.Symbol + OperatorSymbol + DestVar.Name; }
         }
     }
 
@@ -2394,9 +2451,9 @@ namespace de.unika.ipd.grGen.libGr
             return Assign(result || (bool)DestVar.GetVariableValue(procEnv), procEnv);
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
-            get { return "... |> " + DestVar.Name; }
+            get { return " |> "; }
         }
     }
 
@@ -2430,9 +2487,9 @@ namespace de.unika.ipd.grGen.libGr
             return Assign(result && (bool)DestVar.GetVariableValue(procEnv), procEnv);
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
-            get { return "... &> " + DestVar.Name; }
+            get { return " &> "; }
         }
     }
 
@@ -2478,7 +2535,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get { return "||"; }
         }
@@ -2526,7 +2583,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get { return "&&"; }
         }
@@ -2570,7 +2627,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get { return "|"; }
         }
@@ -2614,13 +2671,13 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        public override string Symbol
+        public override string OperatorSymbol
         {
             get { return "&"; }
         }
     }
 
-    public class SequenceWeightedOne : SequenceNAry
+    public class SequenceWeightedOne : SequenceGeneralNAry
     {
         public readonly List<double> Numbers;
 
@@ -2672,9 +2729,32 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        public override string Symbol
+        public string OperatorSymbol
         {
             get { return "."; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(OperatorSymbol);
+                sb.Append("(");
+                bool first = true;
+                for(int i=0; i<Sequences.Count; ++i)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(Numbers[i]);
+                    sb.Append(" ");
+                    sb.Append(Sequences[i]);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
         }
     }
 
@@ -2683,7 +2763,7 @@ namespace de.unika.ipd.grGen.libGr
     /// Decision on order of execution by random, by user choice possible.
     /// First all the contained rules are matched, then they get rewritten
     /// </summary>
-    public class SequenceSomeFromSet : SequenceNAry
+    public class SequenceSomeFromSet : SequenceGeneralNAry
     {
         public readonly List<IMatches> Matches;
         public override bool Random { get { return chooseRandom; } set { chooseRandom = value; } }
@@ -2701,7 +2781,7 @@ namespace de.unika.ipd.grGen.libGr
                     SequenceRuleAllCall ruleAll = (SequenceRuleAllCall)Sequences[i];
                     if(ruleAll.Choice)
                     {
-                        Console.WriteLine("Warning: No user choice % available inside {<...>}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{(...)} construct)");
+                        Console.WriteLine("Warning: No user choice % available inside {<...>}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{<...>} construct)");
                         ruleAll.Choice = false;
                     }
                 }
@@ -2887,7 +2967,22 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "{< ... >}"; }
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("{<");
+                bool first = true;
+                for(int i = 0; i < Sequences.Count; ++i)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(Sequences[i]);
+                }
+                sb.Append(">}");
+                return sb.ToString();
+            }
         }
     }
 
@@ -3109,9 +3204,38 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
+        public string FilterSymbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                for(int i = 0; i < Filters.Count; ++i)
+                {
+                    sb.Append("\\").Append(Filters[i]).ToString();
+                }
+                return sb.ToString();
+            }
+        }
+
         public override string Symbol
         {
-            get { return "[[ ... ]]"; }
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("[[");
+                bool first = true;
+                foreach(Sequence seq in Sequences)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(seq.Symbol);
+                }
+                sb.Append("]]");
+                sb.Append(FilterSymbol);
+                return sb.ToString();
+            }
         }
     }
 
@@ -3156,7 +3280,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "< ... >"; }
+            get { return "<" + Seq.Symbol + ">"; }
         }
     }
 
@@ -3340,7 +3464,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "<< " + Rule.Symbol + " ;; ... >>"; }
+            get { return "<< " + Rule.Symbol + ";;" + Seq.Symbol + ">>"; }
         }
     }
 
@@ -3540,7 +3664,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "<< " + Rules.Symbol + " ;; ... >>"; }
+            get { return "<<" + Rules.Symbol + ";;" + Seq.Symbol + ">>"; }
         }
     }
 
@@ -3579,7 +3703,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "/ ... /"; }
+            get { return "/ " + Seq.Symbol + " /"; }
         }
     }
 
@@ -3675,27 +3799,33 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "if{ ... ; ... ; ...}"; }
+            get { return "if{" + Condition.Symbol + ";" + TrueCase + ";" + FalseCase + "}"; }
         }
     }
 
-    public class SequenceIfThen : SequenceBinary
+    public class SequenceIfThen : Sequence
     {
+        public readonly Sequence Left;
+        public readonly Sequence Right;
         public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingIf;
         public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingTrueCase;
 
         public SequenceIfThen(Sequence condition, Sequence trueCase,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingIf,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingTrueCase)
-            : base(SequenceType.IfThen, condition, trueCase, false, false)
+            : base(SequenceType.IfThen)
         {
+            Left = condition;
+            Right = trueCase;
             VariablesFallingOutOfScopeOnLeavingIf = variablesFallingOutOfScopeOnLeavingIf;
             VariablesFallingOutOfScopeOnLeavingTrueCase = variablesFallingOutOfScopeOnLeavingTrueCase;
         }
 
         protected SequenceIfThen(SequenceIfThen that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-            : base(that, originalToCopy, procEnv)
+            : base(that)
         {
+            Left = that.Left.Copy(originalToCopy, procEnv);
+            Right = that.Right.Copy(originalToCopy, procEnv);
             VariablesFallingOutOfScopeOnLeavingIf = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingIf);
             VariablesFallingOutOfScopeOnLeavingTrueCase = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeavingTrueCase);
         }
@@ -3703,6 +3833,23 @@ namespace de.unika.ipd.grGen.libGr
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceIfThen(this, originalToCopy, procEnv);
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Left.ReplaceSequenceDefinition(oldDef, newDef);
+            Right.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(Left.GetCurrentlyExecutedSequence() != null)
+                return Left.GetCurrentlyExecutedSequence();
+            if(Right.GetCurrentlyExecutedSequence() != null)
+                return Right.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -3722,6 +3869,15 @@ namespace de.unika.ipd.grGen.libGr
             return this == target;
         }
 
+        public override IEnumerable<Sequence> Children
+        {
+            get
+            {
+                yield return Left;
+                yield return Right;
+            }
+        }
+
         public override int Precedence
         {
             get { return 8; }
@@ -3729,7 +3885,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "if{ ... ; ...}"; }
+            get { return "if{" + Left.Symbol + ";" + Right.Symbol + "}"; }
         }
     }
 
@@ -3874,7 +4030,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+" in "+Container.Name+"; ...}"; }
+            get { return "for{" + Var.Name + (VarDst != null ? "->" + VarDst.Name : "") + " in " + Container.Name + ";" + Seq.Symbol + "}"; }
         }
     }
 
@@ -3972,7 +4128,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "for{" + Var.Name + " in [" + Left.Symbol + ":" + Right.Symbol + "]; ...}"; }
+            get { return "for{" + Var.Name + " in [" + Left.Symbol + ":" + Right.Symbol + "]; " + Seq.Symbol + "}"; }
         }
     }
 
@@ -4066,7 +4222,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "for{" + Var.Name + " in { " + IndexName + " == " + Expr.Symbol + " }; ...}"; }
+            get { return "for{" + Var.Name + " in { " + IndexName + " == " + Expr.Symbol + " }; " + Seq.Symbol + "}"; }
         }
     }
 
@@ -4270,7 +4426,7 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append(DirectionAsString(Direction2));
                     sb.Append(Expr2.Symbol);
                 }
-                sb.Append(") }; ...}");
+                sb.Append(") }; " + Seq.Symbol + "}");
                 return sb.ToString();
             } 
         }
@@ -5516,7 +5672,7 @@ namespace de.unika.ipd.grGen.libGr
                         first = false;
                     sb.Append(seqExpr.Symbol);
                 }
-                sb.Append("); ...}");
+                sb.Append("); " + Seq.Symbol + "}");
                 return sb.ToString();
             }
         }
@@ -5652,7 +5808,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "for{" + Var.Name + " in [?" + Rule.Symbol + "]; ...}"; }
+            get { return "for{" + Var.Name + " in [?" + Rule.Symbol + "]; " + Seq.Symbol + "}"; }
         }
     }
 
@@ -5709,11 +5865,6 @@ namespace de.unika.ipd.grGen.libGr
         public override int Precedence
         {
             get { return -1; }
-        }
-
-        public override string Symbol
-        {
-            get { return SequenceName; }
         }
     }
 
@@ -5983,6 +6134,38 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children
         {
             get { yield break; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(SequenceName);
+                if(SeqInfo.Parameters.Length > 0)
+                {
+                    sb.Append("(");
+                    for(int i = 0; i < SeqInfo.Parameters.Length; ++i)
+                    {
+                        sb.Append(SeqInfo.Parameters[i] + ":" + SeqInfo.ParameterTypes[i].ToString());
+                        if(i != SeqInfo.Parameters.Length - 1)
+                            sb.Append(",");
+                    }
+                    sb.Append(")");
+                }
+                if(SeqInfo.OutParameters.Length > 0)
+                {
+                    sb.Append(":(");
+                    for(int i = 0; i < SeqInfo.OutParameters.Length; ++i)
+                    {
+                        sb.Append(SeqInfo.OutParameters[i] + ":" + SeqInfo.OutParameterTypes[i].ToString());
+                        if(i != SeqInfo.OutParameters.Length - 1)
+                            sb.Append(",");
+                    }
+                    sb.Append(")");
+                }
+                return sb.ToString();
+            }
         }
     }
 
@@ -6415,7 +6598,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "in " + (AttributeName != null ? SubgraphVar.Name + AttributeName : SubgraphVar.Name) + "{ ... }" ; }
+            get { return "in " + (AttributeName != null ? SubgraphVar.Name + AttributeName : SubgraphVar.Name) + "{ " + Seq.Symbol + " }" ; }
         }
     }
 
