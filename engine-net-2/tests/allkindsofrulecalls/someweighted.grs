@@ -1,0 +1,47 @@
+new graph "allkindsofrulecalls/rules"
+
+dump set node N color red
+dump add node N shortinfotag i
+dump set node M color blue
+
+exec init
+
+exec $%&([%r],%s)
+
+clear graph
+
+exec init
+
+exec $%&($%[%r],%s)
+
+clear graph
+
+exec init
+
+exec $%.(0.5%r, 0.5%s)
+
+clear graph
+
+exec init
+
+exec {<[%r],%s>}
+
+clear graph
+
+exec init
+
+exec {<$[%r],%s>}
+
+clear graph
+
+exec init
+
+exec $%{<[%r],%s>}
+
+clear graph
+
+exec init
+
+exec $%{<$[%r],%s>}
+
+quit

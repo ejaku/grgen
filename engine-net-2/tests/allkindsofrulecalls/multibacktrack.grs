@@ -1,0 +1,43 @@
+new graph "allkindsofrulecalls/rules"
+
+dump set node N color red
+dump add node N shortinfotag i
+dump set node M color blue
+
+exec init
+
+exec for{m:match<r> in [?r]; %s}
+
+clear graph
+
+exec init
+
+exec <%r>
+
+clear graph
+
+exec init
+
+exec [[%r,%s]]
+
+clear graph
+
+exec init
+
+exec [[%r,%s]]\rs.orderDescendingBy<i>\rs.keepFirst(2)
+
+clear graph
+
+exec init
+
+exec <<%r;; %s;>false>>
+
+clear graph
+
+exec init
+
+exec <<[[%r,%s]];; %s;>false>>
+
+clear graph
+
+quit
