@@ -301,13 +301,18 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq)
+        protected override bool IsMatchClassExisting(FilterCall filterCall)
         {
             if(filterCall.MatchClassPackage != null)
                 filterCall.MatchClassPackagePrefixedName = filterCall.MatchClassPackage + "::" + filterCall.MatchClassName;
             else
                 filterCall.MatchClassPackagePrefixedName = filterCall.MatchClassName;
 
+            return actions.GetMatchClass(filterCall.MatchClassPackagePrefixedName) != null;
+        }
+
+        protected override bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq)
+        {
             if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
                 || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
                 || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"

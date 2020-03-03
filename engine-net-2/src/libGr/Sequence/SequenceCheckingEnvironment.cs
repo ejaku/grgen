@@ -322,7 +322,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(FilterCall filterCall in seqMultiRuleAllCall.Filters)
             {
-                if(filterCall.MatchClassName == null)
+                if(filterCall.MatchClassName == null || !IsMatchClassExisting(filterCall))
                     throw new SequenceParserException(seqMultiRuleAllCall.Symbol, filterCall.PackagePrefixedName ?? filterCall.Name, SequenceParserError.MatchClassError);
 
                 if(!IsFilterExisting(filterCall, seqMultiRuleAllCall))
@@ -380,6 +380,7 @@ namespace de.unika.ipd.grGen.libGr
         protected abstract bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq);
         protected abstract int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq);
         protected abstract string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq);
+        protected abstract bool IsMatchClassExisting(FilterCall filterCall);
         protected abstract bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq);
         protected abstract int NumFilterFunctionParameters(FilterCall filterCall, SequenceMultiRuleAllCall seq);
         protected abstract string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceMultiRuleAllCall seq);

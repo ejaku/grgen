@@ -255,11 +255,16 @@ namespace de.unika.ipd.grGen.libGr
             return actionsTypeInformation.filterFunctionsToInputTypes[filterCall.PackagePrefixedName][i];
         }
 
-        protected override bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq)
+        protected override bool IsMatchClassExisting(FilterCall filterCall)
         {
             bool unprefixedMatchClassNameExists = actionsTypeInformation.matchClassesToFilters.ContainsKey(filterCall.MatchClassName);
             SequenceBase.ResolvePackage(filterCall.MatchClassName, filterCall.MatchClassPrePackage, filterCall.PrePackageContext, unprefixedMatchClassNameExists, out filterCall.MatchClassPackage, out filterCall.MatchClassPackagePrefixedName);
 
+            return actionsTypeInformation.matchClassesToFilters.ContainsKey(filterCall.MatchClassPackagePrefixedName);
+        }
+
+        protected override bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq)
+        {
             if(filterCall.IsAutoSupplied)
             {
                 filterCall.Package = null;
