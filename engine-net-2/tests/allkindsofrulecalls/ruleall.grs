@@ -1,0 +1,61 @@
+new graph "allkindsofrulecalls/rules"
+
+dump set node N color red
+dump add node N shortinfotag i
+dump set node M color blue
+
+randomseed 0
+
+exec init
+
+exec %r
+
+clear graph
+
+exec init
+
+exec [%r]
+
+clear graph
+
+exec init
+
+exec [%r\orderDescendingBy<i>\keepFirst(2)]
+
+clear graph
+
+exec init
+
+exec count[%r] => ::c
+
+clear graph
+
+exec init
+
+exec $%[%r]
+
+clear graph
+
+exec init
+
+exec ::v=2 ;> $%::v[%r] #max 2 matches out of 3, succeed, rewrite 2
+
+clear graph
+
+exec init
+
+exec ::v=4 ;> $%::v[%r] #max 4 matches out of 3, succeed, rewrite 3
+
+clear graph
+
+exec init
+
+exec ::v=2 ;> ::w=2 ;> $%::v,::w[%r] #min and max 2 matches out of 3, succeed, rewrite 2
+
+clear graph
+
+exec init
+
+exec ::v=4 ;> $%::v,::v[%r] #min (and max) 4 matches out of 3, fail
+
+quit
