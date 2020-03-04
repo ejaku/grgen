@@ -1,0 +1,13 @@
+new graph "multiruleallcall/multiruleallcallmatchfilterexternal"
+
+exec init
+
+exec seqExternal
+
+clear graph
+
+exec init
+
+exec seqExternalBacktrack
+
+quit
