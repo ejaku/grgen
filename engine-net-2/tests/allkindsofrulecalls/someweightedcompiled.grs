@@ -1,0 +1,49 @@
+new graph "allkindsofrulecalls/rules"
+
+dump set node N color red
+dump add node N shortinfotag i
+dump set node M color blue
+
+randomseed 0
+
+exec init
+
+exec seqrandomallof
+
+clear graph
+
+exec init
+
+exec seqrandomallofrandomruleall
+
+clear graph
+
+exec init
+
+exec seqweightedsome
+
+clear graph
+
+exec init
+
+exec seqsomefromset
+
+clear graph
+
+exec init
+
+exec seqsomefromsetrandomruleall
+
+clear graph
+
+exec init
+
+exec seqonefromset
+
+clear graph
+
+exec init
+
+exec seqonefromsetrandomruleall
+
+quit

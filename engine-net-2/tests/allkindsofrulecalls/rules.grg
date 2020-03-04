@@ -57,3 +57,116 @@ rule s implements rs
 		}
 	}
 }
+
+
+sequence seqrule
+{
+	%r
+}
+
+sequence seqruleall
+{
+	[%r]
+}
+
+sequence seqruleallfilter
+{
+	[%r\orderDescendingBy<i>\keepFirst(2)]
+}
+
+sequence seqcountruleall
+{
+	count[%r] => ::c
+}
+
+sequence seqrandomruleall
+{
+	$%[%r]
+}
+
+sequence seqrandomruleallmax
+{
+	::v=2 ;> $%::v[%r]
+}
+
+sequence seqrandomruleallmaxmore
+{
+	::v=4 ;> $%::v[%r]
+}
+
+sequence seqrandomruleallminmax
+{
+	::v=2 ;> ::w=2 ;> $%::v,::w[%r]
+}
+
+sequence seqrandomruleallminmaxmore
+{
+	::v=4 ;> $%::v,::v[%r]
+}
+
+sequence seqrandomallof
+{
+	$%&([%r],%s)
+}
+
+sequence seqrandomallofrandomruleall
+{
+	$%&($%[%r],%s)
+}
+
+sequence seqweightedsome
+{
+	$%.(0.5%r, 0.5%s)
+}
+
+sequence seqsomefromset
+{
+	{<[%r],%s>}
+}
+
+sequence seqsomefromsetrandomruleall
+{
+	{<$[%r],%s>}
+}
+
+sequence seqonefromset
+{
+	$%{<[%r],%s>}
+}
+
+sequence seqonefromsetrandomruleall
+{
+	$%{<$[%r],%s>}
+}
+
+
+sequence seqformatches
+{
+	for{m:match<r> in [?r]; %s}
+}
+
+sequence seqtransaction
+{
+	<%r>
+}
+
+sequence seqmultiruleall
+{
+	[[%r,%s]]
+}
+
+sequence seqmultiruleallfilter
+{
+	[[%r,%s]]\rs.orderDescendingBy<i>\rs.keepFirst(2)
+}
+
+sequence seqbacktrack
+{
+	<<%r;; %s;>false>>
+}
+
+sequence seqmultibacktrack
+{
+	<<[[%r,%s]];; %s;>false>>
+}
+
