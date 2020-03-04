@@ -1734,7 +1734,8 @@ namespace de.unika.ipd.grGen.libGr
                             return false;
                     }
 
-                    procEnv.Matched(matches, null, Special); // only called when at least one match is existing, or the minimum number of matches was reached if a lower bound was specified
+                    if(matches.Count > 0)
+                        procEnv.Matched(matches, null, Special); // only called when at least one match is existing, or the minimum number of matches was reached if a lower bound was specified
 
                     bool result = Rewrite(procEnv, matches, null);
 
@@ -2960,7 +2961,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
 #endif
-            procEnv.Matched(matches, null, rule.Special);
+            procEnv.Matched(matches, null, rule.Special); // only called on an existing match, as ApplyRule is only called in that case
             result = rule.Rewrite(procEnv, matches, match);
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
@@ -3128,7 +3129,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
 #endif
-            procEnv.Matched(matches, match, rule.Special);
+            procEnv.Matched(matches, match, rule.Special); // only called on an existing match, as ApplyMatch is only called in that case
             result = RewriteMatch(rule, procEnv, matches, first, match, returnValues, ref curResultNum);
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
@@ -3394,7 +3395,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Before executing sequence " + Rule.Id + ": " + Rule.Symbol);
 #endif
-                procEnv.Matched(matches, match, Rule.Special);
+                procEnv.Matched(matches, match, Rule.Special); // only called on an existing match
                 bool result = Rule.Rewrite(procEnv, matches, match);
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("After executing sequence " + Rule.Id + ": " + Rule.Symbol + " result " + result);
@@ -3592,7 +3593,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
 #endif
-                procEnv.Matched(matches, match, rule.Special);
+                procEnv.Matched(matches, match, rule.Special); // only called on an existing match
                 bool result = rule.Rewrite(procEnv, matches, match);
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
@@ -5776,7 +5777,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 procEnv.EnteringSequence(Rule);
                 Rule.executionState = SequenceExecutionState.Underway;
-                procEnv.Matched(matches, match, Rule.Special);
+                procEnv.Matched(matches, match, Rule.Special); // only called on an existing match
                 procEnv.Finished(matches, Rule.Special);
                 Rule.executionState = SequenceExecutionState.Success;
                 procEnv.ExitingSequence(Rule);

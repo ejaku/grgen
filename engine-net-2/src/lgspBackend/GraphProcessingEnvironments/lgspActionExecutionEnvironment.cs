@@ -197,7 +197,8 @@ namespace de.unika.ipd.grGen.lgsp
                 action.Filter(this, matches, filters[i]);
             }
 
-            Matched(matches, null, special);
+            if(matches.Count > 0) // ensure that Matched is only called when a match exists
+                Matched(matches, null, special);
 
             return matches;
         }
