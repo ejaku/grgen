@@ -1566,6 +1566,12 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 }
             }
+            if(computationsEnteredStack.Count == 0)
+            {
+                Console.Error.WriteLine("Trying to remove from debug trace stack the entry for the exit message/computation: " + message);
+                Console.Error.WriteLine("But found no enclosing message/computation entry as the debug trace stack is empty!");
+                throw new Exception("Mismatch of debug enter / exit, mismatch in Debug::add(message,...) / Debug::rem(message,...)");
+            }
             if(computationsEnteredStack[posOfEntry].message != message)
             {
                 Console.Error.WriteLine("Trying to remove from debug trace stack the entry for the exit message/computation: " + message);
