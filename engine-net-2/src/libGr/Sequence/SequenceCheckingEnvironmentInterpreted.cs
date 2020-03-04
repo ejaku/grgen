@@ -303,6 +303,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool IsMatchClassExisting(FilterCall filterCall)
         {
+            filterCall.MatchClassPackage = filterCall.MatchClassPrePackage;
             if(filterCall.MatchClassPackage != null)
                 filterCall.MatchClassPackagePrefixedName = filterCall.MatchClassPackage + "::" + filterCall.MatchClassName;
             else
