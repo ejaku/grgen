@@ -590,7 +590,7 @@ multiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracke
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 	: ( LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
-		(	( DOLLAR {xg.append("$");} ( xgrsVarUse[xg] 
+		(	( DOLLAR {xg.append("$");} (MOD { xg.append("\%"); })? ( xgrsVarUse[xg] 
 						(COMMA {xg.append(",");} (xgrsVarUse[xg] | STAR {xg.append("*");}))? )? )?
 				LBRACK {xg.append("[");} 
 				callRule[xg, null, returns, true]
