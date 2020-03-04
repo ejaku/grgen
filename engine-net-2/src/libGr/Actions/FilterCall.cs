@@ -329,12 +329,20 @@ namespace de.unika.ipd.grGen.libGr
                 if(MatchClassPackagePrefixedName != null) // only set after resolving
                     sb.Append(MatchClassPackagePrefixedName + ".");
                 else
+                {
+                    if(MatchClassPrePackage != null)
+                        sb.Append(MatchClassPrePackage + "::");
                     sb.Append(MatchClassName + ".");
+                }
             }
             if(PackagePrefixedName != null) // only set after resolving
                 sb.Append(PackagePrefixedName);
             else
+            {
+                if(PrePackage != null)
+                    sb.Append(PrePackage + "::");
                 sb.Append(Name);
+            }
             if(Entities != null)
                 sb.Append(EntitySuffix);
             if(Arguments != null)
