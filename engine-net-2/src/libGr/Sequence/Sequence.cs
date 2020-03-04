@@ -1724,7 +1724,17 @@ namespace de.unika.ipd.grGen.libGr
                     if(Subgraph != null)
                         procEnv.SwitchToSubgraph((IGraph)Subgraph.GetVariableValue(procEnv));
 
-                    IMatches matches = procEnv.Match(Action, Arguments, procEnv.MaxMatches, Special, Filters);
+                    IMatches matches = procEnv.MatchWithoutEvent(Action, Arguments, procEnv.MaxMatches, Filters);
+
+                    if(MinSpecified)
+                    {
+                        if(!(MinVarChooseRandom.GetVariableValue(procEnv) is int))
+                            throw new InvalidOperationException("The variable '" + MinVarChooseRandom + "' is not of type int!");
+                        if(matches.Count < (int)MinVarChooseRandom.GetVariableValue(procEnv))
+                            return false;
+                    }
+
+                    procEnv.Matched(matches, null, Special); // only called when at least one match is existing, or the minimum number of matches was reached if a lower bound was specified
 
                     bool result = Rewrite(procEnv, matches, null);
 

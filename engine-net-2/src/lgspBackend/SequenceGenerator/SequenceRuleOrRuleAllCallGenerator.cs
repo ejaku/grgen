@@ -75,9 +75,6 @@ namespace de.unika.ipd.grGen.lgsp
                 seqGen.EmitFilterCall(source, seqRule.Filters[i], patternName, matchesName);
             }
 
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-
             if(seqRule is SequenceRuleCountAllCall)
             {
                 SequenceRuleCountAllCall seqRuleCountAll = (SequenceRuleCountAllCall)seqRule;
@@ -104,6 +101,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("} else {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqRule, "true"));
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
