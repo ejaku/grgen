@@ -3053,7 +3053,7 @@ namespace de.unika.ipd.grGen.libGr
 
             foreach(FilterCall filter in Filters)
             {
-                procEnv.Actions.GetMatchClass(filter.MatchClassName).Filter(procEnv, MatchList, filter);
+                procEnv.Actions.GetMatchClass(filter.MatchClassPackagePrefixedName).Filter(procEnv, MatchList, filter);
             }
 
             List<List<object[]>> ReturnValues = new List<List<object[]>>();
@@ -3525,7 +3525,7 @@ namespace de.unika.ipd.grGen.libGr
 
             foreach(FilterCall filter in Rules.Filters)
             {
-                procEnv.Actions.GetMatchClass(filter.MatchClassName).Filter(procEnv, MatchList, filter);
+                procEnv.Actions.GetMatchClass(filter.MatchClassPackagePrefixedName).Filter(procEnv, MatchList, filter);
             }
 
             int matchesCount = MatchList.Count;
