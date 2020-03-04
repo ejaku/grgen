@@ -225,6 +225,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly String Expression;
 
+        /// <summary>
+        /// A suggestion to the user hinting at a possible fix.
+        /// </summary>
+        public readonly String Suggestion;
+
 
         /// <summary>
         /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
@@ -331,6 +336,22 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, 
+        /// when the filter with the given name can't be applied to the rule of the given name
+        /// or when the pattern of the rule of the given name does not contain an entity of the given name.
+        /// Allows to give a suggestion string hinting the user at a possible solution.
+        /// </summary>
+        /// <param name="ruleName">Name of the rule.</param>
+        /// <param name="filterNameOrEntityName">Name of the filter which was mis-applied or name of the entity which is not conained in the rule.</param>
+        /// <param name="errorKind">The kind of error.</param>
+        /// <param name="suggestion">A suggestion to display to the user.</param>
+        public SequenceParserException(String ruleName, String filterNameOrEntityName, SequenceParserError errorKind, String suggestion)
+            : this(ruleName, filterNameOrEntityName, errorKind)
+        {
+            Suggestion = suggestion;
+        }
+
+        /// <summary>
         /// The error message of the exception.
         /// </summary>
         public override string Message
@@ -393,7 +414,8 @@ namespace de.unika.ipd.grGen.libGr
                     return "Unknown match class \"" + this.Name + "\"!";
 
                 case SequenceParserError.FilterError:
-                    return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"!";
+                    return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"! "
+                        + (Suggestion!=null ? "\n" + Suggestion : "");
 
                 case SequenceParserError.FilterParameterError:
                     return "Filter parameter mismatch for filter \"" + this.FilterName + "\" applied to \"" + this.Name + "\"!";

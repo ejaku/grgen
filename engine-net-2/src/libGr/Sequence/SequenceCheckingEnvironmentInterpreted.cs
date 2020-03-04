@@ -312,8 +312,10 @@ namespace de.unika.ipd.grGen.libGr
             return actions.GetMatchClass(filterCall.MatchClassPackagePrefixedName) != null;
         }
 
-        protected override bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq)
+        protected override bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq, out string suggestion)
         {
+            suggestion = null;
+
             if(filterCall.Name == "keepFirst" || filterCall.Name == "removeFirst"
                 || filterCall.Name == "keepFirstFraction" || filterCall.Name == "removeFirstFraction"
                 || filterCall.Name == "keepLast" || filterCall.Name == "removeLast"
@@ -332,7 +334,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 filterCall.Package = matchClass.Package;
                 filterCall.PackagePrefixedName = matchClass.Package + "::" + filterCall.Name;
-                return filterCall.IsContainedIn(matchClass.Filters);
+                if(filterCall.IsContainedIn(matchClass.Filters))
+                    return true;
+            }
+
+            if(filterCall.MatchClassPackage != null && filterCall.Package == null)
+            {
+                FilterCall filterCallInMatchClassPackage = new FilterCall(filterCall);
+                filterCallInMatchClassPackage.PackagePrefixedName = filterCall.MatchClassPackage + "::" + filterCall.Name;
+                if(filterCallInMatchClassPackage.IsContainedIn(matchClass.Filters))
+                    suggestion = "Potential solution: add package prefix " + filterCall.MatchClassPackage + ":: before the filter call.";
             }
             return false;
         }

@@ -263,8 +263,10 @@ namespace de.unika.ipd.grGen.libGr
             return actionsTypeInformation.matchClassesToFilters.ContainsKey(filterCall.MatchClassPackagePrefixedName);
         }
 
-        protected override bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq)
+        protected override bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq, out string suggestion)
         {
+            suggestion = null;
+
             if(filterCall.IsAutoSupplied)
             {
                 filterCall.Package = null;
@@ -283,7 +285,18 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceBase.ResolvePackage(filterCall.Name, filterCall.PrePackage, filterCall.PrePackageContext, unprefixedNameExists, out filterCall.Package, out filterCall.PackagePrefixedName);
             }
 
-            return filterCall.IsContainedIn(actionsTypeInformation.matchClassesToFilters[filterCall.MatchClassPackagePrefixedName]);
+            if(filterCall.IsContainedIn(actionsTypeInformation.matchClassesToFilters[filterCall.MatchClassPackagePrefixedName]))
+                return true;
+
+            if(filterCall.MatchClassPackage != null && filterCall.Package == null)
+            {
+                FilterCall filterCallInMatchClassPackage = new FilterCall(filterCall);
+                filterCallInMatchClassPackage.PackagePrefixedName = filterCall.MatchClassPackage + "::" + filterCall.Name;
+                if(filterCallInMatchClassPackage.IsContainedIn(actionsTypeInformation.matchClassesToFilters[filterCall.MatchClassPackagePrefixedName]))
+                    suggestion = "Potential solution: add package prefix " + filterCall.MatchClassPackage + ":: before the filter call.";
+            }
+
+            return false;
         }
 
         protected override int NumFilterFunctionParameters(FilterCall filterCall, SequenceMultiRuleAllCall seq)
