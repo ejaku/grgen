@@ -1,0 +1,39 @@
+new graph "multiruleallcall/packagesimplemultiruleallcallmatchfilter"
+
+exec init
+
+exec Bla::seqOrderAscending
+
+clear graph
+
+exec init
+
+exec Bla::seqOrderDescending
+
+clear graph
+
+exec init
+
+exec Bla::seqKeepSameAsFirst
+
+clear graph
+
+exec init
+
+exec Bla::seqKeepSameAsLast
+
+clear graph
+
+exec init
+
+exec Bla::seqKeepOneForEach
+
+clear graph
+
+exec init
+
+exec Bla::seqFilterByVar
+
+clear graph
+
+quit

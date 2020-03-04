@@ -1,0 +1,51 @@
+new graph "multiruleallcall/packagesimplemultiruleallcallmatchfilter"
+
+exec init
+
+exec Bla::seqKeepFirst
+
+clear graph
+
+exec init
+
+exec Bla::seqKeepLast
+
+clear graph
+
+exec init
+
+exec Bla::seqKeepFirstFraction
+
+clear graph
+
+exec init
+
+exec Bla::seqKeepLastFraction
+
+clear graph
+
+exec init
+
+exec Bla::seqRemoveFirst
+
+clear graph
+
+exec init
+
+exec Bla::seqRemoveLast
+
+clear graph
+
+exec init
+
+exec Bla::seqRemoveFirstFraction
+
+clear graph
+
+exec init
+
+exec Bla::seqRemoveLastFraction
+
+clear graph
+
+quit

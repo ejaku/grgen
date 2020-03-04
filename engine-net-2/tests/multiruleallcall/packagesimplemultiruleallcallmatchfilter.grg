@@ -1,0 +1,441 @@
+#using "modelmulti.gm"
+
+rule init
+{
+	modify {
+		m1:M --> :Node --> n1:N;
+		m2:M --> :Node --> n2:N;
+
+		n3:N --> :Node --> m3:M;
+		
+		eval {
+			m1.i = 1; n1.i = 1;
+			m2.i = 2; n2.i = 2;
+			
+			m3.i = 2; n3.i = 2;
+		}
+	}
+}
+
+package Bla
+{
+	match class mc
+	{
+		n:N;
+		m:M;
+		var i:int;
+		def var idef:int;
+	} \ orderAscendingBy<idef>, orderDescendingBy<idef>, keepSameAsFirst<idef>, keepSameAsLast<idef>, keepOneForEach<idef>,
+		orderDescendingBy<i>, keepOneForEach<i>, keepSameAsFirst<i>
+
+	match filter foutput<mc>
+	{
+		for(m:match<class mc> in this)
+		{
+			def n:N = m.n;
+			emit("the value of variable \"i\" of type int is: ", m.i, "\n");
+			emit("the value of variable \"idef\" of type int is: ", m.idef, "\n");
+		}
+	}
+
+	match filter f<mc>(var f:int)
+	{
+		for(m:match<class mc> in this)
+		{
+			def n:N = m.n;
+			m.idef = n.i + f;
+			emit("the value of variable \"n.i\" of type int is: ", n.i, "\n");
+			emit("the value of variable \"idef\" of type int is: ", m.idef, "\n");
+		}
+	}
+
+	match filter frem<mc>(var f:int)
+	{
+		def var pos:int = 0;
+		for(m:match<class mc> in this)
+		{
+			if(m.idef != f) {
+				this[pos] = null;
+			}
+			pos = pos + 1;
+		}
+	}
+	
+	rule r(var i:int) : (int, int, int, int) implements mc, mcdef
+	{
+		m:M --> mid:Node --> n:N;
+		
+		def ndef:N;
+		def mdef:M;
+		def var idef:int;
+
+		yield {
+			yield ndef = n;
+			yield mdef = m;
+			yield idef = i;
+		}
+		
+		modify {
+			:R<mid>;
+			return(m.i, n.i, i, idef);
+		}
+	}
+	
+	sequence seqmc
+	{
+		[[r(42),s(42)]]\mc.f(1)\mc.frem(2)
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+	}
+
+	sequence seqmcdef
+	{
+		[[r(42),s(42)]]\mcdef.fdef(0)\mcdef.fremdef(44)
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+	}
+
+	sequence seqmcmcdef
+	{
+		[[r(42),s(42)]]\mc.f(1)\mcdef.fdef(1)
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+	}
+
+	sequence seqrem
+	{
+		[[r(42),s(42)]]\mc.frem(1)\mcdef.fremdef(2)
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+	}
+
+	sequence seqmcBacktrack
+	{
+	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.f(5)\mc.frem(6);;
+		   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+		;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+		;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+		;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+		;> false>>
+	}
+
+	sequence seqmcdefBacktrack
+	{
+	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mcdef.fdef(-2)\mcdef.fremdef(42);;
+		   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+		;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+		;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+		;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+		;> false>>
+	}
+
+	sequence seqmcmcdefBacktrack
+	{
+	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.f(1)\mcdef.fdef(10);;
+		   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+		;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+		;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+		;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+		;> false>>
+	}
+
+	sequence seqremBacktrack
+	{
+	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.frem(1)\mcdef.fremdef(2);;
+		   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+		;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+		;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+		;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+		;> false>>
+	}
+
+	sequence seqOrderAscending
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.orderAscendingBy<idef>\mc.foutput
+	}
+
+	sequence seqOrderDescending
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.orderDescendingBy<idef>\mc.foutput
+	}
+
+	sequence seqKeepSameAsFirst
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.keepSameAsFirst<idef>\mc.foutput
+	}
+
+	sequence seqKeepSameAsLast
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.keepSameAsLast<idef>\mc.foutput
+	}
+
+	sequence seqKeepOneForEach
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.keepOneForEach<idef>\mc.foutput
+	}
+
+	sequence seqFilterByVar
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.orderDescendingBy<i>\mc.keepOneForEach<i>\mc.keepSameAsFirst<i>\mc.foutput
+	}
+
+	sequence seqKeepFirst
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.keepFirst(2)\mc.foutput
+	}
+
+	sequence seqKeepLast
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.keepLast(2)\mc.foutput
+	}
+
+	sequence seqKeepFirstFraction
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.keepFirstFraction(0.5)\mc.foutput
+	}
+
+	sequence seqKeepLastFraction
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.keepLastFraction(0.5)\mc.foutput
+	}
+
+	sequence seqRemoveFirst
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.removeFirst(2)\mc.foutput
+	}
+
+	sequence seqRemoveLast
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.removeLast(2)\mc.foutput
+	}
+
+	sequence seqRemoveFirstFraction
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.removeFirstFraction(0.5)\mc.foutput
+	}
+
+	sequence seqRemoveLastFraction
+	{
+		[[r(42),s(42)]]\mc.f(0)\mc.removeLastFraction(0.5)\mc.foutput
+	}
+}
+
+match class mcdef
+{
+	def ndef:N;
+	def mdef:M;
+	def var idef:int;
+}
+
+match filter fdef<mcdef>(var f:int)
+{
+	for(m:match<class mcdef> in this)
+	{
+		def ndef:N = m.ndef;
+		m.idef = ndef.i + m.idef + f;
+		emit("the value of variable \"ndef.i\" of type int is: ", ndef.i, "\n");
+		emit("the value of variable \"idef\" of type int is: ", m.idef, "\n");
+	}
+}
+
+match filter fremdef<mcdef>(var f:int)
+{
+	def var pos:int = 0;
+	for(m:match<class mcdef> in this)
+	{
+		if(m.idef != f) {
+			this[pos] = null;
+		}
+		pos = pos + 1;
+	}
+}
+
+rule s(var i:int) : (int, int, int, int) implements Bla::mc, mcdef
+{
+	n:N --> mid:Node --> m:M;
+
+	def ndef:N;
+	def mdef:M;
+	def var idef:int;
+	
+	yield {
+		yield ndef = n;
+		yield mdef = m;
+		yield idef = i;
+	}
+	
+	modify {
+		:S<mid>;
+		return(n.i, m.i, i, idef);
+	}
+}
+
+sequence seqmc
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(1)\Bla::mc.Bla::frem(2)
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+}
+
+sequence seqmcdef
+{
+	[[Bla::r(42),s(42)]]\mcdef.fdef(0)\mcdef.fremdef(44)
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+}
+
+sequence seqmcmcdef
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(1)\mcdef.fdef(1)
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+}
+
+sequence seqrem
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::frem(1)\mcdef.fremdef(2)
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+}
+
+sequence seqmcBacktrack
+{
+   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\Bla::mc.Bla::f(5)\Bla::mc.Bla::frem(6);;
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+	;> false>>
+}
+
+sequence seqmcdefBacktrack
+{
+   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mcdef.fdef(-2)\mcdef.fremdef(42);;
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+	;> false>>
+}
+
+sequence seqmcmcdefBacktrack
+{
+   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\Bla::mc.Bla::f(1)\mcdef.fdef(10);;
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+	;> false>>
+}
+
+sequence seqremBacktrack
+{
+   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\Bla::mc.Bla::frem(1)\mcdef.fremdef(2);;
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+	;> false>>
+}
+
+sequence seqOrderAscending
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderAscendingBy<idef>\Bla::mc.Bla::foutput
+}
+
+sequence seqOrderDescending
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderDescendingBy<idef>\Bla::mc.Bla::foutput
+}
+
+sequence seqKeepSameAsFirst
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepSameAsFirst<idef>\Bla::mc.Bla::foutput
+}
+
+sequence seqKeepSameAsLast
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepSameAsLast<idef>\Bla::mc.Bla::foutput
+}
+
+sequence seqKeepOneForEach
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepOneForEach<idef>\Bla::mc.Bla::foutput
+}
+
+sequence seqFilterByVar
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderDescendingBy<i>\Bla::mc.keepOneForEach<i>\Bla::mc.keepSameAsFirst<i>\Bla::mc.Bla::foutput
+}
+
+sequence seqKeepFirst
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepFirst(2)\Bla::mc.Bla::foutput
+}
+
+sequence seqKeepLast
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepLast(2)\Bla::mc.Bla::foutput
+}
+
+sequence seqKeepFirstFraction
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepFirstFraction(0.5)\Bla::mc.Bla::foutput
+}
+
+sequence seqKeepLastFraction
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepLastFraction(0.5)\Bla::mc.Bla::foutput
+}
+
+sequence seqRemoveFirst
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeFirst(2)\Bla::mc.Bla::foutput
+}
+
+sequence seqRemoveLast
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeLast(2)\Bla::mc.Bla::foutput
+}
+
+sequence seqRemoveFirstFraction
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeFirstFraction(0.5)\Bla::mc.Bla::foutput
+}
+
+sequence seqRemoveLastFraction
+{
+	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeLastFraction(0.5)\Bla::mc.Bla::foutput
+}

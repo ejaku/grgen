@@ -1,0 +1,25 @@
+new graph "multiruleallcall/packagesimplemultiruleallcallmatchfilter"
+
+exec init
+
+exec Bla::seqmc
+
+clear graph
+
+exec init
+
+exec Bla::seqmcdef
+
+clear graph
+
+exec init
+
+exec Bla::seqmcmcdef
+
+clear graph
+
+exec init
+
+exec Bla::seqrem
+
+quit

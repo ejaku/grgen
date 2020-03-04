@@ -1,0 +1,39 @@
+new graph "multiruleallcall/packagesimplemultiruleallcallmatchfilter"
+
+exec init
+
+exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderAscendingBy<idef>\Bla::mc.Bla::foutput
+
+clear graph
+
+exec init
+
+exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderDescendingBy<idef>\Bla::mc.Bla::foutput
+
+clear graph
+
+exec init
+
+exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepSameAsFirst<idef>\Bla::mc.Bla::foutput
+
+clear graph
+
+exec init
+
+exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepSameAsLast<idef>\Bla::mc.Bla::foutput
+
+clear graph
+
+exec init
+
+exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepOneForEach<idef>\Bla::mc.Bla::foutput
+
+clear graph
+
+exec init
+
+exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderDescendingBy<i>\Bla::mc.keepOneForEach<i>\Bla::mc.keepSameAsFirst<i>\Bla::mc.Bla::foutput
+
+clear graph
+
+quit

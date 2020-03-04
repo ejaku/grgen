@@ -1,0 +1,25 @@
+new graph "multiruleallcall/packagesimplemultiruleallcallmatchfilter"
+
+exec init
+
+exec seqmc
+
+clear graph
+
+exec init
+
+exec seqmcdef
+
+clear graph
+
+exec init
+
+exec seqmcmcdef
+
+clear graph
+
+exec init
+
+exec seqrem
+
+quit

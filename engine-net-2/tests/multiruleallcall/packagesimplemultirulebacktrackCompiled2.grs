@@ -1,0 +1,11 @@
+new graph "multiruleallcall/packagesimplemultiruleallcall"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=init()
+
+exec Bla::seqBacktrack
+
+show num nodes
+show num nodes N
+show num nodes M
+
+quit

@@ -1,0 +1,105 @@
+#using "model.gm"
+
+rule init : (Node)
+{
+	modify {
+		n:Node --> .;
+		n --> .;
+		n --> visit:Node;
+
+		m:Node --> :M;
+		m --> :M;
+	
+		eval {
+			visit.visited = true;
+		}
+		
+		return(n);
+	}
+}
+
+package Bla
+{
+	rule r(start:Node)
+	{
+		start --> n:Node;
+		if{ !n.visited; }
+		
+		modify {
+			delete(n);
+		}
+	}
+	
+	filter rf<r>(var n:int)
+	{
+		// no change
+	}
+	
+	sequence seq
+	{
+		[[r(::n)\rf(42),(m1:array<M>,::m2)=s()\shf(42)\auto]]
+		;> { emit("the value of variable \"m1\" of type M is: ", m1, "\n") }
+		;> { emit("the value of variable \"m2\" of type M is: ", ::m2, "\n") }
+//		;> { emit("the value of variable \"seq\" of type sequence is: Bla::seq\n") }
+	}
+	
+	test nodes()
+	{
+		.;
+	}
+
+	sequence seqBacktrack
+	{
+	   <<[[r(::n)\rf(42),(m1:M,::m2)=s()\shf(42)\auto]];;
+	   { emit("the value of variable \"m1\" of type M is: ", m1, "\n") }
+	;> { emit("the value of variable \"m2\" of type M is: ", ::m2, "\n") }
+	;> count[nodes()]=>::numNodes ;> { ::numN = countNodes(N) } ;> { ::numM = countNodes(M) }
+	;> { emit("the value of variable \"numNodes\" of type int is: ", ::numNodes, "\n") }
+	;> { emit("the value of variable \"numN\" of type int is: ", ::numN, "\n") }
+	;> { emit("the value of variable \"numM\" of type int is: ", ::numM, "\n") }
+//	;> { emit("the value of variable \"seqBacktrack\" of type sequence is: Bla::seqBacktrack\n") }
+	;> false>>
+	}
+}
+
+rule s : (M, M)
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+} \ auto
+
+filter shf<s>(var f:int)
+{
+	// no change
+}
+
+sequence seq
+{
+	[[Bla::r(::n)\Bla::rf(42),(m1:array<M>,::m2)=s()\shf(42)\auto]]
+	;> { emit("the value of variable \"m1\" of type M is: ", m1, "\n") }
+	;> { emit("the value of variable \"m2\" of type M is: ", ::m2, "\n") }
+//	;> { emit("the value of variable \"seq\" of type sequence is: seq\n") }
+}
+
+test nodes()
+{
+	.;
+}
+
+sequence seqBacktrack
+{
+   <<[[Bla::r(::n)\Bla::rf(42),(m1:M,::m2)=s()\shf(42)\auto]];;
+   { emit("the value of variable \"m1\" of type M is: ", m1, "\n") }
+;> { emit("the value of variable \"m2\" of type M is: ", ::m2, "\n") }
+;> count[nodes()]=>::numNodes ;> { ::numN = countNodes(N) } ;> { ::numM = countNodes(M) }
+;> { emit("the value of variable \"numNodes\" of type int is: ", ::numNodes, "\n") }
+;> { emit("the value of variable \"numN\" of type int is: ", ::numN, "\n") }
+;> { emit("the value of variable \"numM\" of type int is: ", ::numM, "\n") }
+//;> { emit("the value of variable \"seqBacktrack\" of type sequence is: seqBacktrack\n") }
+;> false>>
+}

@@ -1,0 +1,39 @@
+new graph "multiruleallcall/packagesimplemultiruleallcallmatchfilter"
+
+exec init
+
+exec seqOrderAscending
+
+clear graph
+
+exec init
+
+exec seqOrderDescending
+
+clear graph
+
+exec init
+
+exec seqKeepSameAsFirst
+
+clear graph
+
+exec init
+
+exec seqKeepSameAsLast
+
+clear graph
+
+exec init
+
+exec seqKeepOneForEach
+
+clear graph
+
+exec init
+
+exec seqFilterByVar
+
+clear graph
+
+quit
