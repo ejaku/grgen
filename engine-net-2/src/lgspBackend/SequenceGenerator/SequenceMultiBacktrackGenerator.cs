@@ -86,7 +86,7 @@ namespace de.unika.ipd.grGen.lgsp
             String oldRewritesPerformedName = "oldRewritesPerformed_" + seqMulti.Id;
             source.AppendFront("int " + oldRewritesPerformedName + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
 
-            source.AppendFront("switch(" + enumeratorName + ".Current.Pattern.Name)\n");
+            source.AppendFront("switch(" + enumeratorName + ".Current.Pattern.PackagePrefixedName)\n");
             source.AppendFront("{\n");
             source.Indent();
 
@@ -97,6 +97,7 @@ namespace de.unika.ipd.grGen.lgsp
                     .EmitRewriting(source, seqGen, matchListName, enumeratorName, fireDebugEvents);
             }
 
+            source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
             source.Unindent();
             source.AppendFront("}\n");
 

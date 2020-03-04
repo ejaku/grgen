@@ -1276,7 +1276,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFront("switch(" + enumeratorName + ".Current.Pattern.Name)\n");
+            source.AppendFront("switch(" + enumeratorName + ".Current.Pattern.PackagePrefixedName)\n");
             source.AppendFront("{\n");
             source.Indent();
 
@@ -1286,6 +1286,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ruleGenerators[i].EmitRewriting(source, this, matchListName, enumeratorName, firstRewrite, fireDebugEvents);
             }
 
+            source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
             source.Unindent();
             source.AppendFront("}\n");
 

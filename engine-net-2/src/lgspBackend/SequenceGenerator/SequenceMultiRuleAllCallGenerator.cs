@@ -51,8 +51,8 @@ namespace de.unika.ipd.grGen.lgsp
             parameters = seqHelper.BuildParameters(ruleInvocation, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
             patternName = ruleInvocation.Name;
-            plainRuleName = TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
-            ruleName = "rule_" + plainRuleName;
+            plainRuleName = TypesHelper.PackagePrefixedNameDoubleColon(ruleInvocation.Package, ruleInvocation.Name);
+            ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
             matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             matchName = "match_" + seqRule.Id;
             matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";

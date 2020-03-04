@@ -713,6 +713,11 @@ namespace de.unika.ipd.grGen.libGr
             return package != null ? package + "_" + name : name;
         }
 
+        public static string PackagePrefixedNameDoubleColon(String package, String name)
+        {
+            return package != null ? package + "::" + name : name;
+        }
+
         public static string GetNameAndPackageFromFullTypeName(string fullTypeName, out string package)
         {
             fullTypeName = fullTypeName.Substring(19); // remove "de.unika.ipd.grGen."
