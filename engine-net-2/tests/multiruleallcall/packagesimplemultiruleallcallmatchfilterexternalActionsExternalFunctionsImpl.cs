@@ -18,6 +18,7 @@ namespace de.unika.ipd.grGen.Action_packagesimplemultiruleallcallmatchfilterexte
 		{
             GRGEN_LIBGR.IGraph graph = procEnv.Graph;
             List<Bla.IMatch_mc> matchesExact = GRGEN_LIBGR.MatchListHelper.ToList<Bla.IMatch_mc>(matches);
+            procEnv.EmitWriter.Write("the value of variable \"fext\" of type externalmatchfilter is: externalmatchfilter\n");
             foreach(Bla.IMatch_mc m in matchesExact)
             {
                 GRGEN_MODEL.IN n = (GRGEN_MODEL.IN)(m.node_n);
