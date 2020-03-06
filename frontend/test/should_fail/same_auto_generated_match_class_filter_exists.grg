@@ -1,0 +1,9 @@
+match class Foo
+{
+	def var i:int;
+} \ orderAscendingBy<i>, orderAscendingBy<i>
+
+test foo implements Foo
+{
+	def var i:int;
+}
