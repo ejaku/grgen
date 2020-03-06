@@ -1111,6 +1111,58 @@ namespace de.unika.ipd.grGen.libGr
             IsRuleForMultiRuleAllCallReturningArrays = that.IsRuleForMultiRuleAllCallReturningArrays;
         }
 
+        readonly static List<object[]> emptyList = new List<object[]>(); // performance optimization (for ApplyRewrite, empty list is only created once)
+
+        public static List<object[]> ApplyRewrite(IGraphProcessingEnvironment procEnv, IAction action, IGraph subgraph, object[] arguments, int which,
+            int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches)
+        {
+            if(subgraph != null)
+                procEnv.SwitchToSubgraph(subgraph);
+
+            IMatches matches = procEnv.MatchWithoutEvent(action, arguments, localMaxMatches);
+
+            for(int i = 0; i < filters.Count; ++i)
+            {
+                action.Filter(procEnv, matches, filters[i]);
+            }
+
+            if(matches.Count > 0) // ensure that Matched is only called when a match exists
+                procEnv.Matched(matches, null, special);
+
+            if(matches.Count == 0)
+            {
+                if(subgraph != null)
+                    procEnv.ReturnFromSubgraph();
+                numMatches = 0;
+                return emptyList;
+            }
+
+            if(test)
+            {
+                if(subgraph != null)
+                    procEnv.ReturnFromSubgraph();
+                numMatches = matches.Count;
+                return emptyList;
+            }
+
+            procEnv.Finishing(matches, special);
+
+#if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
+            PerformanceInfo.StartLocal();
+#endif
+            List<object[]> retElemsList = procEnv.Replace(matches, which);
+#if DEBUGACTIONS || MATCHREWRITEDETAIL
+            PerformanceInfo.StopRewrite();
+#endif
+            procEnv.Finished(matches, special);
+
+            if(subgraph != null)
+                procEnv.ReturnFromSubgraph();
+
+            numMatches = matches.Count;
+            return retElemsList;
+        }
+
         // Modify of the Action is normally called by Rewrite of the graph processing environment, delegated to from the ApplyImpl method
         // this Rewrite is called by Backtracking, SomeFromSet, and a rule all call in case of random choice
         // those are constructs that first compute several matches, potentially of multiple rules, and then rewrite some of them
@@ -1336,7 +1388,7 @@ namespace de.unika.ipd.grGen.libGr
 #endif
                 FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
 
-                List<object[]> retElemsList = procEnv.ApplyRewrite(Action,
+                List<object[]> retElemsList = ApplyRewrite(procEnv, Action,
                     Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null,
                     Arguments, 0, 1, Special, Test, Filters, out numMatches);
 
@@ -1702,7 +1754,7 @@ namespace de.unika.ipd.grGen.libGr
 #endif
                     FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
 
-                    List<object[]> retElemsList = procEnv.ApplyRewrite(Action,
+                    List<object[]> retElemsList = ApplyRewrite(procEnv, Action,
                         Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null,
                         Arguments, -1, -1, Special, Test, Filters, out numMatches);
 
@@ -1724,7 +1776,12 @@ namespace de.unika.ipd.grGen.libGr
                     if(Subgraph != null)
                         procEnv.SwitchToSubgraph((IGraph)Subgraph.GetVariableValue(procEnv));
 
-                    IMatches matches = procEnv.MatchWithoutEvent(Action, Arguments, procEnv.MaxMatches, Filters);
+                    IMatches matches = procEnv.MatchWithoutEvent(Action, Arguments, procEnv.MaxMatches);
+
+                    for(int i = 0; i < Filters.Count; ++i)
+                    {
+                        Action.Filter(procEnv, matches, Filters[i]);
+                    }
 
                     if(MinSpecified)
                     {
@@ -1943,7 +2000,7 @@ namespace de.unika.ipd.grGen.libGr
 #endif
                 FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
 
-                List<object[]> retElemsList = procEnv.ApplyRewrite(Action, 
+                List<object[]> retElemsList = ApplyRewrite(procEnv, Action, 
                     Subgraph != null ? (IGraph)Subgraph.GetVariableValue(procEnv) : null,
                     Arguments, -1, -1, Special, Test, Filters, out numMatches);
 
@@ -2947,7 +3004,15 @@ namespace de.unika.ipd.grGen.libGr
 
                 FillArgumentsFromArgumentExpressions(rule.ArgumentExpressions, rule.Arguments, procEnv);
 
-                IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, rule.Arguments, maxMatches, rule.Filters);
+                IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, rule.Arguments, maxMatches);
+
+                SequenceRuleCallInterpreted ruleInterpreted = rule as SequenceRuleCallInterpreted;
+                SequenceRuleAllCallInterpreted ruleAllInterpreted = rule as SequenceRuleAllCallInterpreted;
+                IAction action = ruleInterpreted!=null ? ruleInterpreted.Action : ruleAllInterpreted.Action;
+                for(int j = 0; j < rule.Filters.Count; ++j)
+                {
+                    action.Filter(procEnv, matches, rule.Filters[j]);
+                }
 
                 Matches[i] = matches;
             }
@@ -3112,7 +3177,13 @@ namespace de.unika.ipd.grGen.libGr
 
                 FillArgumentsFromArgumentExpressions(rule.ArgumentExpressions, rule.Arguments, procEnv);
 
-                IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, rule.Arguments, maxMatches, rule.Filters);
+                IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, rule.Arguments, maxMatches);
+
+                SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)rule;
+                for(int j = 0; j < rule.Filters.Count; ++j)
+                {
+                    ruleInterpreted.Action.Filter(procEnv, matches, rule.Filters[j]);
+                }
 
                 MatchesList.Add(matches);
             }
@@ -3346,7 +3417,13 @@ namespace de.unika.ipd.grGen.libGr
 
             FillArgumentsFromArgumentExpressions(Rule.ArgumentExpressions, Rule.Arguments, procEnv);
 
-            IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, Rule.Arguments, procEnv.MaxMatches, Rule.Filters);
+            IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, Rule.Arguments, procEnv.MaxMatches);
+
+            SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)Rule;
+            for(int i = 0; i < Rule.Filters.Count; ++i)
+            {
+                ruleInterpreted.Action.Filter(procEnv, matches, Rule.Filters[i]);
+            }
 
             if(matches.Count == 0)
             {
@@ -5745,7 +5822,13 @@ namespace de.unika.ipd.grGen.libGr
 
             FillArgumentsFromArgumentExpressions(Rule.ArgumentExpressions, Rule.Arguments, procEnv);
 
-            IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, Rule.Arguments, procEnv.MaxMatches, Rule.Filters);
+            IMatches matches = procEnv.MatchWithoutEvent(ruleInvocation.Action, Rule.Arguments, procEnv.MaxMatches);
+
+            SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)Rule;
+            for(int i = 0; i < Rule.Filters.Count; ++i)
+            {
+                ruleInterpreted.Action.Filter(procEnv, matches, Rule.Filters[i]);
+            }
 
             if(matches.Count == 0)
             {

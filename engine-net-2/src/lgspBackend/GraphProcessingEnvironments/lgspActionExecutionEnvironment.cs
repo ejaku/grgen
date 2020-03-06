@@ -203,7 +203,7 @@ namespace de.unika.ipd.grGen.lgsp
             return matches;
         }
 
-        public IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches, List<FilterCall> filters)
+        public IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
@@ -215,11 +215,6 @@ namespace de.unika.ipd.grGen.lgsp
             PerformanceInfo.StopMatch();
 #endif
             PerformanceInfo.MatchesFound += matches.Count;
-
-            for(int i = 0; i < filters.Count; ++i)
-            {
-                action.Filter(this, matches, filters[i]);
-            }
 
             return matches;
         }
