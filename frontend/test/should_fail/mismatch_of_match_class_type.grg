@@ -1,0 +1,24 @@
+match class Foo
+{
+	def var i:int;
+}
+
+match class Bar
+{
+	def var i:int;
+}
+
+test bla implements Foo, Bar
+{
+	def var i:int;
+}
+
+match filter filterRemoveNonMatching<Foo>(var i:int)
+{
+	for(m:match<class Bar> in this)
+	{
+		if(m.i != i) {
+			m = null; 
+		}
+	}
+}

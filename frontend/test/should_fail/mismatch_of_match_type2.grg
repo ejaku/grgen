@@ -1,0 +1,21 @@
+test foo
+{
+	def var i:int;
+}
+
+test bar
+{
+	def var i:int;
+}
+
+filter filterRemoveNonMatching<foo>(var i:int)
+{
+	def ref a:array<int> = array<int>[];
+	for(m:match<bar> in a)
+	{
+		if(m.i != i) {
+			m = null; 
+		}
+	}
+}
+

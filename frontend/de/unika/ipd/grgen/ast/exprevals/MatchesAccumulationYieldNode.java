@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.exprevals.MatchesAccumulationYield;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
@@ -31,19 +32,19 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode {
 	}
 
 	BaseNode iterationVariableUnresolved;
-	IdentNode containerUnresolved;
+	IdentNode matchesContainerUnresolved;
 
 	VarDeclNode iterationVariable;
-	VarDeclNode container;
+	VarDeclNode matchesContainer;
 	CollectNode<EvalStatementNode> accumulationStatements;
 
 	public MatchesAccumulationYieldNode(Coords coords, BaseNode iterationVariable, 
-			IdentNode container, CollectNode<EvalStatementNode> accumulationStatements) {
+			IdentNode matchesContainer, CollectNode<EvalStatementNode> accumulationStatements) {
 		super(coords);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
-		this.containerUnresolved = container;
-		becomeParent(this.containerUnresolved);
+		this.matchesContainerUnresolved = matchesContainer;
+		becomeParent(this.matchesContainerUnresolved);
 		this.accumulationStatements = accumulationStatements;
 		becomeParent(this.accumulationStatements);
 	}
@@ -53,7 +54,7 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.add(getValidVersion(containerUnresolved, container));
+		children.add(getValidVersion(matchesContainerUnresolved, matchesContainer));
 		children.add(accumulationStatements);
 		return children;
 	}
@@ -63,7 +64,7 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode {
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("iterationVariable");
-		childrenNames.add("container");
+		childrenNames.add("matchesContainer");
 		childrenNames.add("accumulationStatements");
 		return childrenNames;
 	}
@@ -76,14 +77,18 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode {
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 
-		container = matchesResolver.resolve(containerUnresolved, this);
-		if(container==null)
+		/*if(!(matchesContainerUnresolved.toString().equals("this"))) {
+			reportError("for matches loop expects to iterate the matches stored in the this object (of type array<match<rule-name>> or array<class match<class match-class-name>>)");
+		}*/
+		
+		matchesContainer = matchesResolver.resolve(matchesContainerUnresolved, this);
+		if(matchesContainer==null)
 			successfullyResolved = false;
 
 		if(iterationVariableUnresolved instanceof VarDeclNode) {
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
 		} else {
-			reportError("error in resolving iteration variable of matches accumulation yield.");
+			reportError("error in resolving iteration variable of for matches loop.");
 			successfullyResolved = false;
 		}
 
@@ -95,6 +100,56 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
+		TypeNode matchesContainerType = matchesContainer.getDeclType();
+		if(!(matchesContainerType instanceof ArrayTypeNode)) {
+			reportError("for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<class match<class match-class-name>>), but is given: "
+					+ matchesContainerType.toString());
+		return false;
+		}
+		TypeNode matchesArrayValueType = ((ArrayTypeNode)matchesContainerType).valueType;
+
+		MatchTypeNode matchesContainerMatchType = matchesArrayValueType instanceof MatchTypeNode ? (MatchTypeNode)matchesArrayValueType : null;
+		DefinedMatchTypeNode matchesContainerDefinedMatchType = matchesArrayValueType instanceof DefinedMatchTypeNode ? (DefinedMatchTypeNode)matchesArrayValueType : null;
+		if(matchesContainerMatchType==null && matchesContainerDefinedMatchType==null) {
+			reportError("for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<class match<class match-class-name>>), but is given as array element type: "
+					+ matchesArrayValueType.toString());
+			return false;
+		}
+		
+		TypeNode iterationVariableType = iterationVariable.getDeclType();
+		MatchTypeNode iterationVariableMatchType = iterationVariableType instanceof MatchTypeNode ? (MatchTypeNode)iterationVariableType : null;
+		DefinedMatchTypeNode iterationVariableDefinedMatchType = iterationVariableType instanceof DefinedMatchTypeNode ? (DefinedMatchTypeNode)iterationVariableType : null;
+		if(iterationVariableMatchType==null && iterationVariableDefinedMatchType==null) {
+			reportError("for matches loop expects an iteration variable of matches type (match<rule-name> or match<class match-class-name>), but is given: "
+					+ iterationVariableType.toString());
+			return false;
+		}
+		
+		if(matchesContainerMatchType!=null && iterationVariableDefinedMatchType!=null) {
+			reportError("for matches loop has an iteration variable of type match<rule-name> but a matches container of value type match<class match-class-name>): "
+					+ iterationVariableDefinedMatchType.toString() + " vs. " + matchesContainerMatchType.toString());
+			return false;			
+		}
+		if(matchesContainerDefinedMatchType!=null && iterationVariableMatchType!=null) {
+			reportError("for matches loop has an iteration variable of type match<class match-class-name> but a matches container of value type match<rule-name>): "
+					+ iterationVariableMatchType.toString() + " vs. " + matchesContainerDefinedMatchType.toString());
+			return false;			
+		}
+		
+		if(matchesContainerMatchType!=null && iterationVariableMatchType!=null) {
+			if(!iterationVariableMatchType.isEqual(matchesContainerMatchType)) {
+				reportError("The iteration variable of the for matches loop iterates a different match type than the matches container (defined by the rule referenced by the filter function): "
+						+ iterationVariableMatchType.toString() + " vs. " + matchesContainerMatchType.toString());
+				return false;
+			}
+		} else /*if(matchesContainerDefinedMatchType!=null && iterationVariableDefinedMatchType!=null)*/ {
+			if(!iterationVariableDefinedMatchType.isEqual(matchesContainerDefinedMatchType)) {
+				reportError("The iteration variable of the for matches loop iterates a different match class type than the matches container (defined by the match class referenced by the match class filter function): "
+						+ iterationVariableDefinedMatchType.toString() + " vs. " + matchesContainerDefinedMatchType.toString());
+				return false;
+			}
+		}
+		
 		return true;
 	}
 
@@ -106,7 +161,7 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode {
 	protected IR constructIR() {
 		MatchesAccumulationYield may = new MatchesAccumulationYield(
 				iterationVariable.checkIR(Variable.class),
-				container.checkIR(Variable.class));
+				matchesContainer.checkIR(Variable.class));
 		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren())
 			may.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return may;

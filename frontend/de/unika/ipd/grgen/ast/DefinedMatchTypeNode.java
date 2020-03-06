@@ -32,7 +32,7 @@ public class DefinedMatchTypeNode extends DeclaredTypeNode {
 
 	@Override
 	public String getName() {
-		return "match class type";
+		return "match<class " + getIdentNode().toString() + "> type";
 	}
 
 	/////////
