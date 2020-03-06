@@ -1,0 +1,36 @@
+match class Foo
+{
+	def var i:int;
+	def ndef:Node;
+	def -edef:Edge->;
+}
+
+test foo implements Foo
+{
+	n:Node -e:Edge-> n;
+
+	def var i:int;
+	def ndef:Node;
+	def -edef:Edge->;
+	
+	yield {
+		yield ndef = n;
+		yield edef = e;
+	}
+}
+
+match filter f<Foo>(var i:int)
+{
+	def ref s:set<int> = set<int>{ i, this[0].i };
+	def ref m:map<int,string> = map<int,string>{ i -> "foo" };
+	def ref a:array<Node> = array<Node>[ this[0].ndef ];
+	def ref d:deque<Edge> = deque<Edge>] this[0].edef [;
+}
+
+filter ff<foo>(var i:int)
+{
+	def ref s:set<int> = set<int>{ i, this[0].i };
+	def ref m:map<int,string> = map<int,string>{ i -> "foo" };
+	def ref a:array<Node> = array<Node>[ this[0].ndef ];
+	def ref d:deque<Edge> = deque<Edge>] this[0].edef [;
+}
