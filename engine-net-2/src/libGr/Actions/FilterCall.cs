@@ -91,18 +91,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly bool IsAutoSupplied;
 
         /// <summary>
-        /// An array of expressions used to compute the input arguments for a filter function (or auto-supplied filter).
-        /// It must have the same length as Arguments.
-        /// If an entry is null, the according entry in Arguments is used unchanged.
-        /// Otherwise the entry in Arguments is filled with the evaluation result of the expression.
-        /// The sequence parser generates argument expressions for every entry;
-        /// they may be omitted by a user assembling an invocation at API level.
-        /// </summary>
-        public readonly SequenceExpression[] ArgumentExpressions;
-
-        /// <summary>
-        /// Buffer to store the argument values for the filter function call (or auto-supplied filter call);
-        /// used by libGr to avoid unneccessary memory allocations.
+        /// Buffer to store the argument values for the filter function call (or auto-supplied filter call).
         /// </summary>
         public readonly object[] Arguments;
 
@@ -110,19 +99,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Instantiates a new FilterCall object for a filter function
         /// </summary>
-        public FilterCall(String prePackage, String name, String matchClassPrePackage, String matchClassName, List<SequenceExpression> argumentExpressions, String packageContext)
+        public FilterCall(String prePackage, String name, String matchClassPrePackage, String matchClassName, int argumentCount, String packageContext)
         {
             PrePackage = prePackage;
             Name = name;
             MatchClassPrePackage = matchClassPrePackage;
             MatchClassName = matchClassName;
-            ArgumentExpressions = new SequenceExpression[argumentExpressions.Count];
-            Arguments = new object[argumentExpressions.Count];
-            for(int i = 0; i < argumentExpressions.Count; ++i)
-            {
-                ArgumentExpressions[i] = argumentExpressions[i];
-                Arguments[i] = null;
-            }
+            Arguments = new object[argumentCount];
             PrePackageContext = packageContext;
         }
 
@@ -136,25 +119,21 @@ namespace de.unika.ipd.grGen.libGr
             MatchClassPrePackage = matchClassPrePackage;
             MatchClassName = matchClassName;
             Entities = entities;
-            ArgumentExpressions = new SequenceExpression[0];
             Arguments = new object[0];
             PrePackageContext = packageContext;
         }
 
         /// <summary>
-        /// Instantiates a new FilterCall object for an auto-supplied filter (with sequence expression parameter)
+        /// Instantiates a new FilterCall object for an auto-supplied filter
         /// </summary>
-        public FilterCall(String prePackage, String name, String matchClassPrePackage, String matchClassName, SequenceExpression argument, String packageContext)
+        public FilterCall(String prePackage, String name, String matchClassPrePackage, String matchClassName, String packageContext)
         {
             PrePackage = prePackage;
             Name = name;
             MatchClassPrePackage = matchClassPrePackage;
             MatchClassName = matchClassName;
             IsAutoSupplied = true;
-            ArgumentExpressions = new SequenceExpression[1];
-            ArgumentExpressions[0] = argument;
             Arguments = new object[1];
-            Arguments[0] = null;
             PrePackageContext = packageContext;
         }
 
@@ -174,7 +153,6 @@ namespace de.unika.ipd.grGen.libGr
             MatchClassPrePackage = that.MatchClassPrePackage;
             Entities = that.Entities;
             IsAutoSupplied = that.IsAutoSupplied;
-            ArgumentExpressions = that.ArgumentExpressions;
             Arguments = that.Arguments;
         }
 
@@ -200,7 +178,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return Name + (EntitySuffixUnderscore.Length != 0 ? "_" + EntitySuffixUnderscore : ""); }
         }
 
-        private String EntitySuffix
+        internal String EntitySuffix
         {
             get
             {
@@ -220,52 +198,6 @@ namespace de.unika.ipd.grGen.libGr
                     return "";
                 return String.Join("_", Entities);
             }
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            if(MatchClassName != null)
-            {
-                if(MatchClassPackagePrefixedName != null) // only set after resolving
-                    sb.Append(MatchClassPackagePrefixedName + ".");
-                else
-                {
-                    if(MatchClassPrePackage != null)
-                        sb.Append(MatchClassPrePackage + "::");
-                    sb.Append(MatchClassName + ".");
-                }
-            }
-            if(PackagePrefixedName != null) // only set after resolving
-                sb.Append(PackagePrefixedName);
-            else
-            {
-                if(PrePackage != null)
-                    sb.Append(PrePackage + "::");
-                sb.Append(Name);
-            }
-            if(Entities != null)
-                sb.Append(EntitySuffix);
-            if(Arguments != null)
-            {
-                sb.Append("(");
-                for(int i=0; i<ArgumentExpressions.Length; ++i)
-                {
-                    if(ArgumentExpressions[i] != null)
-                    {
-                        sb.Append(ArgumentExpressions[i].Symbol);
-                    }
-                    else
-                    {
-                        if(Arguments[i] is Double)
-                            sb.Append(((double)Arguments[i]).ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        else
-                            sb.Append(Arguments[i].ToString());
-                    }
-                }
-                sb.Append(")");
-            }
-            return sb.ToString();
         }
     }
 }

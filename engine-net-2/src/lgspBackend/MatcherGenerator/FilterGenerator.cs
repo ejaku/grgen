@@ -676,14 +676,14 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront("switch(filter.Name) {\n");
             source.Indent();
-            source.AppendFront("case \"keepFirst\": GRGEN_LIBGR.MatchListHelper.FilterKeepFirst((List<GRGEN_LIBGR.IMatch>)matches, (int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            source.AppendFront("case \"keepLast\": GRGEN_LIBGR.MatchListHelper.FilterKeepLast((List<GRGEN_LIBGR.IMatch>)matches, (int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            source.AppendFront("case \"keepFirstFraction\": GRGEN_LIBGR.MatchListHelper.FilterKeepFirstFraction((List<GRGEN_LIBGR.IMatch>)matches, (double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            source.AppendFront("case \"keepLastFraction\": GRGEN_LIBGR.MatchListHelper.FilterKeepLastFraction((List<GRGEN_LIBGR.IMatch>)matches, (double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            source.AppendFront("case \"removeFirst\": GRGEN_LIBGR.MatchListHelper.FilterRemoveFirst((List<GRGEN_LIBGR.IMatch>)matches, (int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            source.AppendFront("case \"removeLast\": GRGEN_LIBGR.MatchListHelper.FilterRemoveLast((List<GRGEN_LIBGR.IMatch>)matches, (int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            source.AppendFront("case \"removeFirstFraction\": GRGEN_LIBGR.MatchListHelper.FilterRemoveFirstFraction((List<GRGEN_LIBGR.IMatch>)matches, (double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            source.AppendFront("case \"removeLastFraction\": GRGEN_LIBGR.MatchListHelper.FilterRemoveLastFraction((List<GRGEN_LIBGR.IMatch>)matches, (double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
+            source.AppendFront("case \"keepFirst\": GRGEN_LIBGR.MatchListHelper.FilterKeepFirst((List<GRGEN_LIBGR.IMatch>)matches, (int)(filter.Arguments[0])); break;\n");
+            source.AppendFront("case \"keepLast\": GRGEN_LIBGR.MatchListHelper.FilterKeepLast((List<GRGEN_LIBGR.IMatch>)matches, (int)(filter.Arguments[0])); break;\n");
+            source.AppendFront("case \"keepFirstFraction\": GRGEN_LIBGR.MatchListHelper.FilterKeepFirstFraction((List<GRGEN_LIBGR.IMatch>)matches, (double)(filter.Arguments[0])); break;\n");
+            source.AppendFront("case \"keepLastFraction\": GRGEN_LIBGR.MatchListHelper.FilterKeepLastFraction((List<GRGEN_LIBGR.IMatch>)matches, (double)(filter.Arguments[0])); break;\n");
+            source.AppendFront("case \"removeFirst\": GRGEN_LIBGR.MatchListHelper.FilterRemoveFirst((List<GRGEN_LIBGR.IMatch>)matches, (int)(filter.Arguments[0])); break;\n");
+            source.AppendFront("case \"removeLast\": GRGEN_LIBGR.MatchListHelper.FilterRemoveLast((List<GRGEN_LIBGR.IMatch>)matches, (int)(filter.Arguments[0])); break;\n");
+            source.AppendFront("case \"removeFirstFraction\": GRGEN_LIBGR.MatchListHelper.FilterRemoveFirstFraction((List<GRGEN_LIBGR.IMatch>)matches, (double)(filter.Arguments[0])); break;\n");
+            source.AppendFront("case \"removeLastFraction\": GRGEN_LIBGR.MatchListHelper.FilterRemoveLastFraction((List<GRGEN_LIBGR.IMatch>)matches, (double)(filter.Arguments[0])); break;\n");
             source.AppendFront("default: throw new Exception(\"Unknown auto supplied filter name!\");\n");
             source.Unindent();
             source.AppendFront("}\n");
@@ -709,8 +709,7 @@ namespace de.unika.ipd.grGen.lgsp
                         filterFunction.Name, TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType);
                     for(int i = 0; i < filterFunction.Inputs.Length; ++i)
                     {
-                        source.AppendFormat(", ({0})(filter.ArgumentExpressions[{1}]!=null ? filter.ArgumentExpressions[{1}].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[{1}])",
-                            TypesHelper.TypeName(filterFunction.Inputs[i]), i);
+                        source.AppendFormat(", ({0})(filter.Arguments[{1}])", TypesHelper.TypeName(filterFunction.Inputs[i]), i);
                     }
                     source.Append("); break;\n");
                     if(filter.Package != null)
@@ -720,8 +719,7 @@ namespace de.unika.ipd.grGen.lgsp
                             TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType);
                         for(int i = 0; i < filterFunction.Inputs.Length; ++i)
                         {
-                            source.AppendFormat(", ({0})(filter.ArgumentExpressions[{1}]!=null ? filter.ArgumentExpressions[{1}].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[{1}])",
-                                TypesHelper.TypeName(filterFunction.Inputs[i]), i);
+                            source.AppendFormat(", ({0})(filter.Arguments[{1}])", TypesHelper.TypeName(filterFunction.Inputs[i]), i);
                         }
                         source.Append("); break;\n");
                     }

@@ -69,17 +69,17 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         abstract public SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<FilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays);
+            bool special, bool test, List<SequenceFilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays);
 
         abstract public SequenceRuleAllCall CreateSequenceRuleAllCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
-            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<FilterCall> filters);
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<SequenceFilterCall> filters);
 
         abstract public SequenceRuleCountAllCall CreateSequenceRuleCountAllCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, SequenceVariable countResult, List<FilterCall> filters);
+            bool special, bool test, SequenceVariable countResult, List<SequenceFilterCall> filters);
 
         abstract public bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage);
 

@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<FilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
+            bool special, bool test, List<SequenceFilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
         {
             IAction action = null;
             if(packagePrefix != null)
@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
-            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<FilterCall> filters)
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<SequenceFilterCall> filters)
         {
             IAction action = null;
             if(packagePrefix != null)
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceRuleCountAllCall CreateSequenceRuleCountAllCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, SequenceVariable countResult, List<FilterCall> filters)
+            bool special, bool test, SequenceVariable countResult, List<SequenceFilterCall> filters)
         {
             IAction action = null;
             if(packagePrefix != null)

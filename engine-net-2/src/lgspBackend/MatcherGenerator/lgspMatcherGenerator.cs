@@ -831,14 +831,14 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent();
             sb.AppendFront("switch(filter.Name) {\n");
             sb.Indent();
-            sb.AppendFront("case \"keepFirst\": matches.FilterKeepFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            sb.AppendFront("case \"keepLast\": matches.FilterKeepLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            sb.AppendFront("case \"keepFirstFraction\": matches.FilterKeepFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            sb.AppendFront("case \"keepLastFraction\": matches.FilterKeepLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            sb.AppendFront("case \"removeFirst\": matches.FilterRemoveFirst((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            sb.AppendFront("case \"removeLast\": matches.FilterRemoveLast((int)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            sb.AppendFront("case \"removeFirstFraction\": matches.FilterRemoveFirstFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
-            sb.AppendFront("case \"removeLastFraction\": matches.FilterRemoveLastFraction((double)(filter.ArgumentExpressions[0]!=null ? filter.ArgumentExpressions[0].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"keepFirst\": matches.FilterKeepFirst((int)(filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"keepLast\": matches.FilterKeepLast((int)(filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"keepFirstFraction\": matches.FilterKeepFirstFraction((double)(filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"keepLastFraction\": matches.FilterKeepLastFraction((double)(filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"removeFirst\": matches.FilterRemoveFirst((int)(filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"removeLast\": matches.FilterRemoveLast((int)(filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"removeFirstFraction\": matches.FilterRemoveFirstFraction((double)(filter.Arguments[0])); break;\n");
+            sb.AppendFront("case \"removeLastFraction\": matches.FilterRemoveLastFraction((double)(filter.Arguments[0])); break;\n");
             sb.AppendFront("default: throw new Exception(\"Unknown auto supplied filter name!\");\n");
             sb.Unindent();
             sb.AppendFront("}\n");
@@ -864,8 +864,7 @@ namespace de.unika.ipd.grGen.lgsp
                         filterFunction.Name, TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType);
                     for(int i=0; i<filterFunction.Inputs.Length; ++i)
                     {
-                        sb.AppendFormat(", ({0})(filter.ArgumentExpressions[{1}]!=null ? filter.ArgumentExpressions[{1}].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[{1}])", 
-                            TypesHelper.TypeName(filterFunction.Inputs[i]), i);
+                        sb.AppendFormat(", ({0})(filter.Arguments[{1}])", TypesHelper.TypeName(filterFunction.Inputs[i]), i);
                     }
                     sb.Append("); break;\n");
                     if(filter.Package != null)
@@ -875,8 +874,7 @@ namespace de.unika.ipd.grGen.lgsp
                             TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType);
                         for(int i = 0; i < filterFunction.Inputs.Length; ++i)
                         {
-                            sb.AppendFormat(", ({0})(filter.ArgumentExpressions[{1}]!=null ? filter.ArgumentExpressions[{1}].Evaluate((GRGEN_LIBGR.IGraphProcessingEnvironment)actionEnv) : filter.Arguments[{1}])",
-                                TypesHelper.TypeName(filterFunction.Inputs[i]), i);
+                            sb.AppendFormat(", ({0})(filter.Arguments[{1}])", TypesHelper.TypeName(filterFunction.Inputs[i]), i);
                         }
                         sb.Append("); break;\n");
                     }

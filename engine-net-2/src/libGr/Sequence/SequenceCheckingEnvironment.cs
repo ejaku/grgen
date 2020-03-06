@@ -294,30 +294,24 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private void CheckFilterCalls(SequenceRuleCall seqRuleCall, Invocation invocation)
         {
-            foreach(FilterCall filterCall in seqRuleCall.Filters)
+            foreach(SequenceFilterCall sequenceFilterCall in seqRuleCall.Filters)
             {
+                FilterCall filterCall = sequenceFilterCall.FilterCall;
+                String filterCallName = filterCall.PackagePrefixedName ?? filterCall.Name;
                 if(!IsFilterExisting(filterCall, seqRuleCall))
-                    throw new SequenceParserException(invocation.PackagePrefixedName ?? invocation.Name, filterCall.PackagePrefixedName ?? filterCall.Name, SequenceParserError.FilterError);
+                    throw new SequenceParserException(invocation.PackagePrefixedName ?? invocation.Name, filterCallName, SequenceParserError.FilterError);
 
                 // Check whether number of filter parameters match
-                if(NumFilterFunctionParameters(filterCall, seqRuleCall) != filterCall.ArgumentExpressions.Length)
-                    throw new SequenceParserException(invocation.Name, filterCall.Name, SequenceParserError.FilterParameterError);
+                if(NumFilterFunctionParameters(filterCall, seqRuleCall) != sequenceFilterCall.ArgumentExpressions.Length)
+                    throw new SequenceParserException(invocation.Name, filterCallName, SequenceParserError.FilterParameterError);
 
                 // Check parameter types
-                for(int i = 0; i < filterCall.ArgumentExpressions.Length; i++)
+                for(int i = 0; i < sequenceFilterCall.ArgumentExpressions.Length; i++)
                 {
-                    filterCall.ArgumentExpressions[i].Check(this);
+                    sequenceFilterCall.ArgumentExpressions[i].Check(this);
 
-                    if(filterCall.ArgumentExpressions[i] != null)
-                    {
-                        if(!TypesHelper.IsSameOrSubtype(filterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
-                            throw new SequenceParserException(invocation.Name, filterCall.Name, SequenceParserError.FilterParameterError);
-                    }
-                    else
-                    {
-                        if(filterCall.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(filterCall.Arguments[i], Model), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
-                            throw new SequenceParserException(invocation.Name, filterCall.Name, SequenceParserError.FilterParameterError);
-                    }
+                    if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
+                        throw new SequenceParserException(invocation.Name, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
         }
@@ -328,33 +322,28 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public void CheckFilterCalls(SequenceMultiRuleAllCall seqMultiRuleAllCall)
         {
-            foreach(FilterCall filterCall in seqMultiRuleAllCall.Filters)
+            foreach(SequenceFilterCall sequenceFilterCall in seqMultiRuleAllCall.Filters)
             {
+                FilterCall filterCall = sequenceFilterCall.FilterCall;
+                String matchClassName = filterCall.MatchClassPackagePrefixedName ?? filterCall.MatchClassName;
+                String filterCallName = filterCall.PackagePrefixedName ?? filterCall.Name;
                 if(filterCall.MatchClassName == null || !IsMatchClassExisting(filterCall))
-                    throw new SequenceParserException(seqMultiRuleAllCall.Symbol, filterCall.PackagePrefixedName ?? filterCall.Name, SequenceParserError.MatchClassError);
+                    throw new SequenceParserException(seqMultiRuleAllCall.Symbol, filterCallName, SequenceParserError.MatchClassError);
 
                 if(!IsFilterExisting(filterCall, seqMultiRuleAllCall))
-                    throw new SequenceParserException(filterCall.MatchClassPackagePrefixedName ?? filterCall.MatchClassName, filterCall.PackagePrefixedName ?? filterCall.Name, SequenceParserError.FilterError);
+                    throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterError);
 
                 // Check whether number of filter parameters match
-                if(NumFilterFunctionParameters(filterCall, seqMultiRuleAllCall) != filterCall.ArgumentExpressions.Length)
-                    throw new SequenceParserException(filterCall.MatchClassName, filterCall.Name, SequenceParserError.FilterParameterError);
+                if(NumFilterFunctionParameters(filterCall, seqMultiRuleAllCall) != sequenceFilterCall.ArgumentExpressions.Length)
+                    throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterParameterError);
 
                 // Check parameter types
-                for(int i = 0; i < filterCall.ArgumentExpressions.Length; i++)
+                for(int i = 0; i < sequenceFilterCall.ArgumentExpressions.Length; i++)
                 {
-                    filterCall.ArgumentExpressions[i].Check(this);
+                    sequenceFilterCall.ArgumentExpressions[i].Check(this);
 
-                    if(filterCall.ArgumentExpressions[i] != null)
-                    {
-                        if(!TypesHelper.IsSameOrSubtype(filterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqMultiRuleAllCall), Model))
-                            throw new SequenceParserException(filterCall.MatchClassName, filterCall.Name, SequenceParserError.FilterParameterError);
-                    }
-                    else
-                    {
-                        if(filterCall.Arguments[i] != null && !TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(filterCall.Arguments[i], Model), FilterFunctionParameterType(i, filterCall, seqMultiRuleAllCall), Model))
-                            throw new SequenceParserException(filterCall.MatchClassName, filterCall.Name, SequenceParserError.FilterParameterError);
-                    }
+                    if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqMultiRuleAllCall), Model))
+                        throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
         }
