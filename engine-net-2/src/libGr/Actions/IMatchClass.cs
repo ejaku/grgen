@@ -58,6 +58,11 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of the names of the available filters
         /// </summary>
         IFilter[] Filters { get; }
+
+        /// <summary>
+        /// Returns whether the (package prefixed) filter is available
+        /// </summary>
+        bool ContainsFilter(string name);
     }
 
     public abstract class MatchClassInfo : IMatchClass
@@ -85,6 +90,19 @@ namespace de.unika.ipd.grGen.libGr
         public IPatternEdge[] Edges { get { return edges; } }
         public IPatternVariable[] Variables { get { return variables; } }
         public IFilter[] Filters { get { return filters; } }
+
+        /// <summary>
+        /// Returns whether the (package prefixed) filter is available
+        /// </summary>
+        public bool ContainsFilter(string name)
+        {
+            foreach(IFilter filter in filters)
+            {
+                if(filter.Matches(name))
+                    return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// The name of the match class.

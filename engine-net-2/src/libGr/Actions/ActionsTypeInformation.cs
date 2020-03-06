@@ -85,6 +85,26 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public bool RuleContainsFilter(string ruleName, string filterName)
+        {
+            foreach(IFilter filter in rulesToFilters[ruleName])
+            {
+                if(filter.Matches(filterName))
+                    return true;
+            }
+            return false;
+        }
+
+        public bool MatchClassContainsFilter(string matchClassName, string filterName)
+        {
+            foreach(IFilter filter in matchClassesToFilters[matchClassName])
+            {
+                if(filter.Matches(filterName))
+                    return true;
+            }
+            return false;
+        }
+
         public readonly Dictionary<String, List<IFilter>> rulesToFilters;
         public readonly Dictionary<String, List<IFilter>> matchClassesToFilters;
         public readonly Dictionary<String, List<String>> filterFunctionsToInputTypes;
