@@ -1142,7 +1142,9 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceVariable Subgraph;
 
         public abstract RuleInvocation RuleInvocation { get; }
-        public abstract String NameForRuleString { get; }
+
+        public abstract String NameOfCalledRule { get; }
+        public abstract String PackageOfCalledRule { get; }
 
         public readonly bool Test;
         public readonly List<SequenceFilterCall> Filters;
@@ -1382,7 +1384,7 @@ namespace de.unika.ipd.grGen.libGr
                 StringBuilder sb = new StringBuilder();
                 if(Subgraph != null)
                     sb.Append(Subgraph.Name + ".");
-                sb.Append(NameForRuleString);
+                sb.Append(NameOfCalledRule);
                 if(ArgumentExpressions.Length > 0)
                 {
                     sb.Append("(");
@@ -1423,9 +1425,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return new RuleInvocationInterpreted(Action, Subgraph); }
         }
 
-        public override string NameForRuleString
+        public override String NameOfCalledRule
         {
             get { return Action.Name; }
+        }
+
+        public override String PackageOfCalledRule
+        {
+            get { return Action.Package; }
         }
 
         public SequenceRuleCallInterpreted(IAction action,
@@ -1535,9 +1542,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return new RuleInvocationCompiled(Name, Package, PackagePrefixedName, Subgraph); }
         }
 
-        public override string NameForRuleString
+        public override String NameOfCalledRule
         {
             get { return Name; }
+        }
+
+        public override String PackageOfCalledRule
+        {
+            get { return Package; }
         }
 
         public SequenceRuleCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
@@ -1783,9 +1795,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return new RuleInvocationInterpreted(Action, Subgraph); }
         }
 
-        public override string NameForRuleString
+        public override String NameOfCalledRule
         {
             get { return Action.Name; }
+        }
+
+        public override String PackageOfCalledRule
+        {
+            get { return Action.Package; }
         }
 
         public SequenceRuleAllCallInterpreted(IAction Action,
@@ -1908,9 +1925,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return new RuleInvocationCompiled(Name, Package, PackagePrefixedName, Subgraph); }
         }
 
-        public override string NameForRuleString
+        public override String NameOfCalledRule
         {
             get { return Name; }
+        }
+
+        public override String PackageOfCalledRule
+        {
+            get { return Package; }
         }
 
         public SequenceRuleAllCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
@@ -2034,9 +2056,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return new RuleInvocationInterpreted(Action, Subgraph); }
         }
 
-        public override string NameForRuleString
+        public override String NameOfCalledRule
         {
             get { return Action.Name; }
+        }
+
+        public override String PackageOfCalledRule
+        {
+            get { return Action.Package; }
         }
 
         public SequenceRuleCountAllCallInterpreted(IAction Action,
@@ -2122,9 +2149,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return new RuleInvocationCompiled(Name, Package, PackagePrefixedName, Subgraph); }
         }
 
-        public override string NameForRuleString
+        public override String NameOfCalledRule
         {
             get { return Name; }
+        }
+
+        public override String PackageOfCalledRule
+        {
+            get { return Package; }
         }
 
         public SequenceRuleCountAllCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
