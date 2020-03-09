@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
+            bool special, bool test, bool isRuleForMultiRuleAllCallReturningArrays)
         {
             IAction action = null;
             if(packagePrefix != null)
@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             SequenceRuleCall seqRuleCall = new SequenceRuleCallInterpreted(action,
                 argExprs, returnVars, subgraph,
-                special, test, filters, isRuleForMultiRuleAllCallReturningArrays);
+                special, test, isRuleForMultiRuleAllCallReturningArrays);
 
             return seqRuleCall;
         }
@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
-            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<SequenceFilterCall> filters)
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
         {
             IAction action = null;
             if(packagePrefix != null)
@@ -127,7 +127,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             SequenceRuleAllCall seqRuleAllCall = new SequenceRuleAllCallInterpreted(action,
                 argExprs, returnVars, subgraph,
-                special, test, filters,
+                special, test,
                 chooseRandom, varChooseRandom,
                 chooseRandom2, varChooseRandom2, choice);
 
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceRuleCountAllCall CreateSequenceRuleCountAllCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, SequenceVariable countResult, List<SequenceFilterCall> filters)
+            bool special, bool test)
         {
             IAction action = null;
             if(packagePrefix != null)
@@ -154,8 +154,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             SequenceRuleCountAllCall seqRuleCountAllCall = new SequenceRuleCountAllCallInterpreted(action,
                 argExprs, returnVars, subgraph,
-                special, test, filters,
-                countResult);
+                special, test);
 
             return seqRuleCountAllCall;
         }

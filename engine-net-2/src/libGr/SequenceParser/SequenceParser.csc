@@ -1937,25 +1937,24 @@ Sequence MultiRuleAllCall(bool returnsArrays):
 {
     Sequence seq;
     List<Sequence> sequences = new List<Sequence>();
+    SequenceMultiRuleAllCall seqMultiRuleAll;
     SequenceFilterCall filter = null;
-    List<SequenceFilterCall> filters = new List<SequenceFilterCall>();
 }
 {
     "[" "[" seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); } ("," seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); })* "]" "]"
-        ("\\" filter=Filter(true) { filters.Add(filter); })*
-    {
-        return new SequenceMultiRuleAllCall(sequences, filters);
-    }
+    { seqMultiRuleAll = new SequenceMultiRuleAllCall(sequences); }
+        ("\\" filter=Filter(true) { seqMultiRuleAll.AddFilterCall(filter); })*
+    { return seqMultiRuleAll; }
 }
 
 Sequence RuleForMultiRuleAllCall(bool returnsArrays):
 {
     bool special = false, test = false;
     String str, package = null;
-    SequenceFilterCall filter = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<SequenceVariable> returnVars = new List<SequenceVariable>();
-    List<SequenceFilterCall> filters = new List<SequenceFilterCall>();
+    SequenceRuleCall ruleCall;
+    SequenceFilterCall filter = null;
 }
 {
     ("(" VariableList(returnVars) ")" "=" )?
@@ -1963,15 +1962,18 @@ Sequence RuleForMultiRuleAllCall(bool returnsArrays):
         ("%" { special = true; } | "?" { test = true; })* 
         (LOOKAHEAD(2) package=Word() "::")? 
         str=Word() ("(" (Arguments(argExprs))? ")")?
-            ("\\" filter=Filter(false) { filters.Add(filter); })*
         {
             // No variable with this name may exist
             if(varDecls.Lookup(str)!=null)
                 throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-            return env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
-                special, test, filters, returnsArrays);
+            ruleCall = env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
+                special, test, returnsArrays);
         }
+            ("\\" filter=Filter(false) { ruleCall.AddFilterCall(filter); })*
+            {
+                return ruleCall;
+            }
     )
 }
 
@@ -1994,12 +1996,15 @@ Sequence Rule():
 {
     bool special = false, test = false;
     String str, package = null;
-    SequenceFilterCall filter = null;
     bool chooseRandSpecified = false, chooseRandSpecified2 = false, choice = false;
     SequenceVariable varChooseRand = null, varChooseRand2 = null, subgraph = null, countResult = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     List<SequenceVariable> returnVars = new List<SequenceVariable>();
-    List<SequenceFilterCall> filters = new List<SequenceFilterCall>();
+    SequenceRuleAllCall ruleAllCall = null;
+    SequenceRuleCountAllCall ruleCountAllCall = null;
+    SequenceRuleCall ruleCall = null;
+    SequenceSequenceCall sequenceCall = null;
+    SequenceFilterCall filter = null;
 }
 {
     ("(" VariableList(returnVars) ")" "=" )?
@@ -2010,36 +2015,43 @@ Sequence Rule():
         "[" ("%" { special = true; } | "?" { test = true; })* 
         (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
         str=Word() ("(" (Arguments(argExprs))? ")")?
-            ("\\" filter=Filter(false) { filters.Add(filter); })*
-        "]"
         {
             // No variable with this name may exist
             if(varDecls.Lookup(str)!=null)
                 throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-            return env.CreateSequenceRuleAllCall(str, package, argExprs, returnVars, subgraph,
-                    special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice, filters);
+            ruleAllCall = env.CreateSequenceRuleAllCall(str, package, argExprs, returnVars, subgraph,
+                    special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice);
         }
+            ("\\" filter=Filter(false) { ruleAllCall.AddFilterCall(filter); })*
+        "]"
+        {
+            return ruleAllCall;
+        }
+
     |
         "count"
         "[" ("%" { special = true; } | "?" { test = true; })* 
         (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
         str=Word() ("(" (Arguments(argExprs))? ")")?
-            ("\\" filter=Filter(false) { filters.Add(filter); })*
-        "]" "=>" countResult=Variable()
         {
             // No variable with this name may exist
             if(varDecls.Lookup(str)!=null)
                 throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-            return env.CreateSequenceRuleCountAllCall(str, package, argExprs, returnVars, subgraph,
-                    special, test, countResult, filters);
+            ruleCountAllCall = env.CreateSequenceRuleCountAllCall(str, package, argExprs, returnVars, subgraph,
+                    special, test);
+        }
+            ("\\" filter=Filter(false) { ruleCountAllCall.AddFilterCall(filter); })*
+        "]" "=>" countResult=Variable() 
+        {
+            ruleCountAllCall.AddCountResult(countResult);
+            return ruleCountAllCall;
         }
     |
         ("%" { special = true; } | "?" { test = true; })*
         (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
         str=Word() ("(" (Arguments(argExprs))? ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
-            ("\\" filter=Filter(false) { filters.Add(filter); })*
         {
             if(argExprs.Count==0 && returnVars.Count==0)
             {
@@ -2048,8 +2060,6 @@ Sequence Rule():
                 {
                     if(var.Type!="" && var.Type!="boolean")
                         throw new SequenceParserException(str, "untyped or bool", var.Type);
-                    if(filters.Count > 0)
-                        throw new SequenceParserException(str, filter.ToString(), SequenceParserError.FilterError);
                     if(subgraph!=null)
                         throw new SequenceParserException(str, "", SequenceParserError.SubgraphError);
                     return new SequenceBooleanComputation(new SequenceExpressionVariable(var), null, special);
@@ -2061,15 +2071,31 @@ Sequence Rule():
                 throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
             if(env.IsSequenceName(str, package)) {
-                if(filters.Count > 0)
-                    throw new SequenceParserException(str, FiltersToString(filters), SequenceParserError.FilterError);
-                return env.CreateSequenceSequenceCall(str, package, argExprs, returnVars, subgraph,
+                sequenceCall = env.CreateSequenceSequenceCall(str, package, argExprs, returnVars, subgraph,
                                 special);
             } else {
-                return env.CreateSequenceRuleCall(str, package, argExprs, returnVars, subgraph,
-                                special, test, filters, false);
+                ruleCall = env.CreateSequenceRuleCall(str, package, argExprs, returnVars, subgraph,
+                                special, test, false);
             }
         }
+            ("\\" filter=Filter(false)
+                {
+                    if(varDecls.Lookup(str) != null)
+                        throw new SequenceParserException(str, filter.ToString(), SequenceParserError.FilterError);
+                    if(sequenceCall != null) {
+                        List<SequenceFilterCall> filters = new List<SequenceFilterCall>();
+                        filters.Add(filter);
+                        throw new SequenceParserException(str, FiltersToString(filters), SequenceParserError.FilterError);
+                    }
+                    ruleCall.AddFilterCall(filter);
+                }
+            )*
+            {
+                if(sequenceCall != null)
+                    return sequenceCall;
+                else
+                    return ruleCall;
+            }
     )
 }
 

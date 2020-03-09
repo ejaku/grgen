@@ -92,12 +92,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
+            bool special, bool test, bool isRuleForMultiRuleAllCallReturningArrays)
         {
             SequenceRuleCall seqRuleCall = new SequenceRuleCallCompiled(ruleName, packagePrefix, packageContext,
                 Array.IndexOf(actionNames.ruleNames, ruleName) != -1,
                 argExprs, returnVars, subgraph,
-                special, test, filters, isRuleForMultiRuleAllCallReturningArrays);
+                special, test, isRuleForMultiRuleAllCallReturningArrays);
 
             return seqRuleCall;
         }
@@ -106,12 +106,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
-            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice, List<SequenceFilterCall> filters)
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
         {
             SequenceRuleAllCall seqRuleAllCall = new SequenceRuleAllCallCompiled(ruleName, packagePrefix, packageContext,
                 Array.IndexOf(actionNames.ruleNames, ruleName) != -1,
                 argExprs, returnVars, subgraph,
-                special, test, filters,
+                special, test,
                 chooseRandom, varChooseRandom,
                 chooseRandom2, varChooseRandom2, choice);
 
@@ -120,13 +120,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
         public override SequenceRuleCountAllCall CreateSequenceRuleCountAllCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, SequenceVariable countResult, List<SequenceFilterCall> filters)
+            bool special, bool test)
         {
             SequenceRuleCountAllCall seqRuleCountAllCall = new SequenceRuleCountAllCallCompiled(ruleName, packagePrefix, packageContext,
                 Array.IndexOf(actionNames.ruleNames, ruleName) != -1,
                 argExprs, returnVars, subgraph,
-                special, test, filters,
-                countResult);
+                special, test);
 
             return seqRuleCountAllCall;
         }

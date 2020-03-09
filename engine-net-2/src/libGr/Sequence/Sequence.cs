@@ -1152,22 +1152,22 @@ namespace de.unika.ipd.grGen.libGr
         public readonly bool IsRuleForMultiRuleAllCallReturningArrays;
 
         protected SequenceRuleCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
-            : this(SequenceType.RuleCall, argExprs, returnVars, subgraph, special, test, filters)
+            bool special, bool test, bool isRuleForMultiRuleAllCallReturningArrays)
+            : this(SequenceType.RuleCall, argExprs, returnVars, subgraph, special, test)
         {
             IsRuleForMultiRuleAllCallReturningArrays = isRuleForMultiRuleAllCallReturningArrays;
         }
 
         protected SequenceRuleCall(SequenceType seqType, 
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters)
+            bool special, bool test)
             : base(seqType, special)
         {
             InitializeArgumentExpressionsAndArguments(argExprs, out ArgumentExpressions, out Arguments);
             InitializeReturnVariables(returnVars, out ReturnVars);
             Subgraph = subgraph;
             Test = test;
-            Filters = filters;
+            Filters = new List<SequenceFilterCall>();
             IsRuleForMultiRuleAllCallReturningArrays = false;
         }
 
@@ -1183,6 +1183,11 @@ namespace de.unika.ipd.grGen.libGr
             Test = that.Test;
             Filters = that.Filters;
             IsRuleForMultiRuleAllCallReturningArrays = that.IsRuleForMultiRuleAllCallReturningArrays;
+        }
+
+        public void AddFilterCall(SequenceFilterCall sequenceFilterCall)
+        {
+            Filters.Add(sequenceFilterCall);
         }
 
         readonly static List<object[]> emptyList = new List<object[]>(); // performance optimization (for ApplyRewrite, empty list is only created once)
@@ -1437,8 +1442,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleCallInterpreted(IAction action,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
-            : base(argExprs, returnVars, subgraph, special, test, filters, isRuleForMultiRuleAllCallReturningArrays)
+            bool special, bool test, bool isRuleForMultiRuleAllCallReturningArrays)
+            : base(argExprs, returnVars, subgraph, special, test, isRuleForMultiRuleAllCallReturningArrays)
         {
             Action = action;
         }
@@ -1554,8 +1559,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters, bool isRuleForMultiRuleAllCallReturningArrays)
-            : base(argExprs, returnVars, subgraph, special, test, filters, isRuleForMultiRuleAllCallReturningArrays)
+            bool special, bool test, bool isRuleForMultiRuleAllCallReturningArrays)
+            : base(argExprs, returnVars, subgraph, special, test, isRuleForMultiRuleAllCallReturningArrays)
         {
             this.Name = Name;
 
@@ -1624,10 +1629,10 @@ namespace de.unika.ipd.grGen.libGr
         private bool choice;
 
         protected SequenceRuleAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters,
+            bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
             bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
-            : base(SequenceType.RuleAllCall, argExprs, returnVars, subgraph, special, test, filters)
+            : base(SequenceType.RuleAllCall, argExprs, returnVars, subgraph, special, test)
         {
             ChooseRandom = chooseRandom;
             if(chooseRandom)
@@ -1807,11 +1812,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleAllCallInterpreted(IAction Action,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters,
+            bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
             bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
             : base(argExprs, returnVars, subgraph,
-                    special, test, filters,
+                    special, test,
                     chooseRandom, varChooseRandom, chooseRandom2, varChooseRandom2, choice)
         {
             this.Action = Action;
@@ -1937,11 +1942,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleAllCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters,
+            bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
             bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
             : base(argExprs, returnVars, subgraph,
-                  special, test, filters,
+                  special, test,
                   chooseRandom, varChooseRandom, chooseRandom2, varChooseRandom2, choice)
         {
             this.Name = Name;
@@ -1976,20 +1981,23 @@ namespace de.unika.ipd.grGen.libGr
 
     public abstract class SequenceRuleCountAllCall : SequenceRuleCall
     {
-        public readonly SequenceVariable CountResult;
+        public SequenceVariable CountResult;
         
         protected SequenceRuleCountAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters,
-            SequenceVariable countResult)
-            : base(SequenceType.RuleCountAllCall, argExprs, returnVars, subgraph, special, test, filters)
+            bool special, bool test)
+            : base(SequenceType.RuleCountAllCall, argExprs, returnVars, subgraph, special, test)
         {
-            CountResult = countResult;
         }
 
         protected SequenceRuleCountAllCall(SequenceRuleCountAllCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
             CountResult = that.CountResult.Copy(originalToCopy, procEnv);
+        }
+
+        public void AddCountResult(SequenceVariable countResult)
+        {
+            CountResult = countResult;
         }
 
         public override bool Rewrite(IGraphProcessingEnvironment procEnv, IMatches matches, IMatch chosenMatch)
@@ -2068,11 +2076,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleCountAllCallInterpreted(IAction Action,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters,
-            SequenceVariable countResult)
+            bool special, bool test)
             : base(argExprs, returnVars, subgraph,
-                    special, test, filters,
-                    countResult)
+                    special, test)
         {
             this.Action = Action;
         }
@@ -2161,11 +2167,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public SequenceRuleCountAllCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedRuleNameExists,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
-            bool special, bool test, List<SequenceFilterCall> filters,
-            SequenceVariable countResult)
+            bool special, bool test)
             : base(argExprs, returnVars, subgraph,
-                  special, test, filters,
-                  countResult)
+                  special, test)
         {
             this.Name = Name;
 
@@ -3181,11 +3185,11 @@ namespace de.unika.ipd.grGen.libGr
         public readonly List<Sequence> Sequences;
         public readonly List<SequenceFilterCall> Filters;
 
-        public SequenceMultiRuleAllCall(List<Sequence> sequences, List<SequenceFilterCall> filters)
+        public SequenceMultiRuleAllCall(List<Sequence> sequences)
             : base(SequenceType.MultiRuleAllCall)
         {
             Sequences = sequences;
-            Filters = filters;
+            Filters = new List<SequenceFilterCall>();
         }
 
         protected SequenceMultiRuleAllCall(SequenceMultiRuleAllCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3197,6 +3201,11 @@ namespace de.unika.ipd.grGen.libGr
                 Sequences.Add(seq.Copy(originalToCopy, procEnv));
             }
             Filters = that.Filters;
+        }
+
+        public void AddFilterCall(SequenceFilterCall sequenceFilterCall)
+        {
+            Filters.Add(sequenceFilterCall);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
