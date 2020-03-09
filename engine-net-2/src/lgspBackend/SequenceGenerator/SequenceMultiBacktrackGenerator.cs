@@ -40,7 +40,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for match class (non-rule-based) filtering
             foreach(SequenceFilterCall sequenceFilterCall in seqMulti.Rules.Filters)
             {
-                seqGen.EmitMatchClassFilterCall(source, sequenceFilterCall, sequenceFilterCall.FilterCall.MatchClassName, matchListName);
+                seqGen.EmitMatchClassFilterCall(source, (SequenceFilterCallCompiled)sequenceFilterCall, ((SequenceFilterCallCompiled)sequenceFilterCall).FilterCall.MatchClassName, matchListName);
             }
 
             source.AppendFront("if(" + matchListName + ".Count == 0) {\n");

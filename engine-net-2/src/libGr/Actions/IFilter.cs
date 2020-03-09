@@ -78,5 +78,22 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         String[] InputNames { get; }
     }
+
+    /// <summary>
+    /// A description of an auto-supplied filter
+    /// For now only used for dummy objects to get more consistent/uniform code (TODO: add to filters reported)
+    /// </summary>
+    public interface IFilterAutoSupplied : IFilter
+    {
+        /// <summary>
+        /// An array of GrGen types corresponding to filter parameters.
+        /// </summary>
+        GrGenType[] Inputs { get; }
+
+        /// <summary>
+        /// An array of the names corresponding to filter parameters.
+        /// </summary>
+        String[] InputNames { get; }
+    }
 }
 

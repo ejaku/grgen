@@ -65,7 +65,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="actionEnv">The action execution environment, esp. giving access to the host graph.</param>
         /// <param name="matches">The matches to inspect and filter</param>
         /// <param name="filter">The filter to apply</param>
-        void Filter(IActionExecutionEnvironment actionEnv, IMatches matches, FilterCall filter);
+        void Filter(IActionExecutionEnvironment actionEnv, IMatches matches, FilterCallBase filter);
 
         /// <summary>
         /// Returns a list of arrays with the given number of list elements;

@@ -1943,7 +1943,7 @@ Sequence MultiRuleAllCall(bool returnsArrays):
 {
     "[" "[" seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); } ("," seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); })* "]" "]"
     { seqMultiRuleAll = new SequenceMultiRuleAllCall(sequences); }
-        ("\\" filter=Filter(true) { seqMultiRuleAll.AddFilterCall(filter); })*
+        ("\\" filter=Filter(null, true) { seqMultiRuleAll.AddFilterCall(filter); })*
     { return seqMultiRuleAll; }
 }
 
@@ -1970,7 +1970,7 @@ Sequence RuleForMultiRuleAllCall(bool returnsArrays):
             ruleCall = env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
                 special, test, returnsArrays);
         }
-            ("\\" filter=Filter(false) { ruleCall.AddFilterCall(filter); })*
+            ("\\" filter=Filter(ruleCall, false) { ruleCall.AddFilterCall(filter); })*
             {
                 return ruleCall;
             }
@@ -2023,7 +2023,7 @@ Sequence Rule():
             ruleAllCall = env.CreateSequenceRuleAllCall(str, package, argExprs, returnVars, subgraph,
                     special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice);
         }
-            ("\\" filter=Filter(false) { ruleAllCall.AddFilterCall(filter); })*
+            ("\\" filter=Filter(ruleAllCall, false) { ruleAllCall.AddFilterCall(filter); })*
         "]"
         {
             return ruleAllCall;
@@ -2042,7 +2042,7 @@ Sequence Rule():
             ruleCountAllCall = env.CreateSequenceRuleCountAllCall(str, package, argExprs, returnVars, subgraph,
                     special, test);
         }
-            ("\\" filter=Filter(false) { ruleCountAllCall.AddFilterCall(filter); })*
+            ("\\" filter=Filter(ruleCountAllCall, false) { ruleCountAllCall.AddFilterCall(filter); })*
         "]" "=>" countResult=Variable() 
         {
             ruleCountAllCall.AddCountResult(countResult);
@@ -2078,7 +2078,7 @@ Sequence Rule():
                                 special, test, false);
             }
         }
-            ("\\" filter=Filter(false)
+            ("\\" filter=Filter(ruleCall, false)
                 {
                     if(varDecls.Lookup(str) != null)
                         throw new SequenceParserException(str, filter.ToString(), SequenceParserError.FilterError);
@@ -2099,7 +2099,7 @@ Sequence Rule():
     )
 }
 
-SequenceFilterCall Filter(bool isMatchClassFilter) :
+SequenceFilterCall Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter) :
 {
     String filterBase, package = null, matchClass = null, matchClassPackage = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
@@ -2117,7 +2117,12 @@ SequenceFilterCall Filter(bool isMatchClassFilter) :
                 && filterBase!="keepSameAsFirst" && filterBase!="keepSameAsLast" && filterBase!="keepOneForEach")
                 throw new ParseException("Unknown def-variable-based filter " + filterBase + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
             else
-                return new SequenceFilterCall(new FilterCall(package, filterBase, matchClassPackage, matchClass, words.ToArray(), env.PackageContext, true));
+            {
+                if(matchClass!=null)
+                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, argExprs);
+                else
+                    return env.CreateSequenceFilterCall(ruleCall.NameOfCalledRule, ruleCall.PackageOfCalledRule, package, filterBase, words, argExprs);
+            }
         }
 |
     (LOOKAHEAD(4) (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClass=Word() ".")? (LOOKAHEAD(2) package=Word() "::")? filterBase=Word() ("(" (Arguments(argExprs))? ")")?
@@ -2134,7 +2139,11 @@ SequenceFilterCall Filter(bool isMatchClassFilter) :
             {
                 if(argExprs.Count!=1)
                     throw new ParseException("The auto-supplied filter " + filterBase + " expects exactly one parameter!");
-                return new SequenceFilterCall(new FilterCall(package, filterBase, matchClassPackage, matchClass, env.PackageContext), argExprs[0]);
+
+                if(matchClass!=null)
+                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, argExprs);
+                else
+                    return env.CreateSequenceFilterCall(ruleCall.NameOfCalledRule, ruleCall.PackageOfCalledRule, package, filterBase, words, argExprs);
             }
             else
             {
@@ -2143,9 +2152,13 @@ SequenceFilterCall Filter(bool isMatchClassFilter) :
                     if(isMatchClassFilter || matchClass!=null)
                         throw new ParseException("The auto filter is not available for multi rule call or multi rule backtracking constructs.");
 
-                    return new SequenceFilterCall(new FilterCall(package, "auto", matchClassPackage, matchClass, null, env.PackageContext, true));
+                    return env.CreateSequenceFilterCall(ruleCall.NameOfCalledRule, ruleCall.PackageOfCalledRule, package, "auto", words, argExprs);
                 }
-                return new SequenceFilterCall(new FilterCall(package, filterBase, matchClassPackage, matchClass, argExprs.Count, env.PackageContext), argExprs.ToArray());
+
+                if(matchClass!=null)
+                    return env.CreateSequenceMatchClassFilterCall(matchClass, matchClassPackage, package, filterBase, words, argExprs);
+                else
+                    return env.CreateSequenceFilterCall(ruleCall.NameOfCalledRule, ruleCall.PackageOfCalledRule, package, filterBase, words, argExprs);
             }
         }
 }

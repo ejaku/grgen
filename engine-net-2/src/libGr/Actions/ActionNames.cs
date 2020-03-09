@@ -27,6 +27,14 @@ namespace de.unika.ipd.grGen.libGr
                 ruleNames[i] = ruleToInputTypes.Key;
                 ++i;
             }
+            // extract match class names from domain of match class names to filter functions map
+            matchClassNames = new String[ati.matchClassesToFilters.Count];
+            i = 0;
+            foreach(KeyValuePair<String, List<IFilter>> matchClassToFilters in ati.matchClassesToFilters)
+            {
+                matchClassNames[i] = matchClassToFilters.Key;
+                ++i;
+            }
             // extract sequence names from domain of sequence names to input types map
             sequenceNames = new String[ati.sequencesToInputTypes.Count];
             i = 0;
@@ -67,13 +75,41 @@ namespace de.unika.ipd.grGen.libGr
                 filterFunctionNames[i] = filterFunctionToInputType.Key;
                 ++i;
             }
+
+            // assign rules to filters and match classes to filters
+            rulesToFilters = ati.rulesToFilters;
+            matchClassesToFilters = ati.matchClassesToFilters;
+        }
+
+        public bool RuleContainsFilter(string ruleName, string filterName)
+        {
+            foreach(IFilter filter in rulesToFilters[ruleName])
+            {
+                if(filter.Matches(filterName))
+                    return true;
+            }
+            return false;
+        }
+
+        public bool MatchClassContainsFilter(string matchClassName, string filterName)
+        {
+            foreach(IFilter filter in matchClassesToFilters[matchClassName])
+            {
+                if(filter.Matches(filterName))
+                    return true;
+            }
+            return false;
         }
 
         public readonly String[] ruleNames;
+        public readonly String[] matchClassNames;
         public readonly String[] sequenceNames;
         public readonly String[] procedureNames;
         public readonly String[] functionNames;
         public readonly String[] functionOutputTypes;
         public readonly String[] filterFunctionNames;
+
+        public readonly Dictionary<String, List<IFilter>> rulesToFilters;
+        public readonly Dictionary<String, List<IFilter>> matchClassesToFilters;
     }
 }

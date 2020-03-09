@@ -1252,7 +1252,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for match class (non-rule-based) filtering
             foreach(SequenceFilterCall sequenceFilterCall in seqMulti.Filters)
             {
-                EmitMatchClassFilterCall(source, sequenceFilterCall, sequenceFilterCall.FilterCall.MatchClassName, matchListName);
+                EmitMatchClassFilterCall(source, (SequenceFilterCallCompiled)sequenceFilterCall, ((SequenceFilterCallCompiled)sequenceFilterCall).FilterCall.MatchClassName, matchListName);
             }
 
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
@@ -1355,7 +1355,7 @@ namespace de.unika.ipd.grGen.lgsp
             return COMP_HELPER.GetResultVar(seq);
         }
 
-        internal void EmitFilterCall(SourceBuilder source, SequenceFilterCall sequenceFilterCall, string patternName, string matchesName)
+        internal void EmitFilterCall(SourceBuilder source, SequenceFilterCallCompiled sequenceFilterCall, string patternName, string matchesName)
         {
             FilterCall filterCall = sequenceFilterCall.FilterCall;
             if(filterCall.IsAutoSupplied)
@@ -1419,7 +1419,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        internal void EmitMatchClassFilterCall(SourceBuilder source, SequenceFilterCall sequenceFilterCall, string matchClassName, string matchListName)
+        internal void EmitMatchClassFilterCall(SourceBuilder source, SequenceFilterCallCompiled sequenceFilterCall, string matchClassName, string matchListName)
         {
             FilterCall filterCall = sequenceFilterCall.FilterCall;
             if(filterCall.IsAutoSupplied)

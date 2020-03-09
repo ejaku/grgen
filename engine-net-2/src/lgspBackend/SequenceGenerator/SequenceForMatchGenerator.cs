@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             for(int i = 0; i < seqFor.Rule.Filters.Count; ++i)
             {
-                seqGen.EmitFilterCall(source, seqFor.Rule.Filters[i], patternName, matchesName);
+                seqGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqFor.Rule.Filters[i], patternName, matchesName);
             }
 
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");

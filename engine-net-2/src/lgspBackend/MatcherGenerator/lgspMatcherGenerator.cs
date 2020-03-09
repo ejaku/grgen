@@ -824,7 +824,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
-            sb.AppendFront("public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCall filter)\n");
+            sb.AppendFront("public void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IMatches matches, GRGEN_LIBGR.FilterCallBase filter)\n");
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFront("switch(filter.FullName) {\n");

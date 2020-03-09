@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.lgsp
             actionMapStaticToNewest[staticAction] = newAction;
         }
 
-        public IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters)
+        public IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCallBase> filters)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 

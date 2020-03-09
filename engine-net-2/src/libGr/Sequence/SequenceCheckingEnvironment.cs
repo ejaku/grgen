@@ -32,7 +32,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             RuleInvocation ruleInvocation = seqRuleCall.RuleInvocation;
 
-            // check the name against the available names, "resolves" them as needed (pre- and context packages to packages)
             if(!IsCalledEntityExisting(ruleInvocation, null))
                 throw new SequenceParserException(ruleInvocation, -1, SequenceParserError.UnknownRuleOrSequence);
 
@@ -59,7 +58,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             RuleInvocation ruleInvocation = seqRuleAllCall.RuleInvocation;
 
-            // check the name against the available names, "resolves" them as needed (pre- and context packages to packages)
             if(!IsCalledEntityExisting(ruleInvocation, null))
                 throw new SequenceParserException(ruleInvocation, -1, SequenceParserError.UnknownRuleOrSequence);
 
@@ -83,7 +81,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceInvocation sequenceInvocation = seqSeqCall.SequenceInvocation;
 
-            // check the name against the available names, "resolves" them as needed (pre- and context packages to packages)
             if(!IsCalledEntityExisting(sequenceInvocation, null))
                 throw new SequenceParserException(sequenceInvocation, -1, SequenceParserError.UnknownRuleOrSequence);
 
@@ -290,19 +287,18 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Checks whether called filter exists, and type checks the inputs.
-        /// Resolves the filter call as side effect (names to the correctly package prefixed name (according to name resolving rules)).
         /// </summary>
         private void CheckFilterCalls(SequenceRuleCall seqRuleCall, Invocation invocation)
         {
             foreach(SequenceFilterCall sequenceFilterCall in seqRuleCall.Filters)
             {
-                FilterCall filterCall = sequenceFilterCall.FilterCall;
-                String filterCallName = filterCall.PackagePrefixedName ?? filterCall.Name;
-                if(!IsFilterExisting(filterCall, seqRuleCall))
+                String filterCallName = GetFilterCallName(sequenceFilterCall);
+
+                if(!IsFilterExisting(sequenceFilterCall, seqRuleCall))
                     throw new SequenceParserException(invocation.PackagePrefixedName ?? invocation.Name, filterCallName, SequenceParserError.FilterError);
 
                 // Check whether number of filter parameters match
-                if(NumFilterFunctionParameters(filterCall, seqRuleCall) != sequenceFilterCall.ArgumentExpressions.Length)
+                if(NumFilterFunctionParameters(sequenceFilterCall, seqRuleCall) != sequenceFilterCall.ArgumentExpressions.Length)
                     throw new SequenceParserException(invocation.Name, filterCallName, SequenceParserError.FilterParameterError);
 
                 // Check parameter types
@@ -310,7 +306,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     sequenceFilterCall.ArgumentExpressions[i].Check(this);
 
-                    if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqRuleCall), Model))
+                    if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, sequenceFilterCall, seqRuleCall), Model))
                         throw new SequenceParserException(invocation.Name, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
@@ -318,23 +314,22 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Checks whether called match class filter exists, and type checks the inputs.
-        /// Resolves the filter call as side effect (names to the correctly package prefixed name (according to name resolving rules)).
         /// </summary>
         public void CheckFilterCalls(SequenceMultiRuleAllCall seqMultiRuleAllCall)
         {
             foreach(SequenceFilterCall sequenceFilterCall in seqMultiRuleAllCall.Filters)
             {
-                FilterCall filterCall = sequenceFilterCall.FilterCall;
-                String matchClassName = filterCall.MatchClassPackagePrefixedName ?? filterCall.MatchClassName;
-                String filterCallName = filterCall.PackagePrefixedName ?? filterCall.Name;
-                if(filterCall.MatchClassName == null || !IsMatchClassExisting(filterCall))
+                String matchClassName = GetMatchClassName(sequenceFilterCall);
+                String filterCallName = GetFilterCallName(sequenceFilterCall);
+
+                if(matchClassName == null || !IsMatchClassExisting(sequenceFilterCall))
                     throw new SequenceParserException(seqMultiRuleAllCall.Symbol, filterCallName, SequenceParserError.MatchClassError);
 
-                if(!IsFilterExisting(filterCall, seqMultiRuleAllCall))
+                if(!IsFilterExisting(sequenceFilterCall, seqMultiRuleAllCall))
                     throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterError);
 
                 // Check whether number of filter parameters match
-                if(NumFilterFunctionParameters(filterCall, seqMultiRuleAllCall) != sequenceFilterCall.ArgumentExpressions.Length)
+                if(NumFilterFunctionParameters(sequenceFilterCall, seqMultiRuleAllCall) != sequenceFilterCall.ArgumentExpressions.Length)
                     throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterParameterError);
 
                 // Check parameter types
@@ -342,7 +337,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     sequenceFilterCall.ArgumentExpressions[i].Check(this);
 
-                    if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, filterCall, seqMultiRuleAllCall), Model))
+                    if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, sequenceFilterCall, seqMultiRuleAllCall), Model))
                         throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
@@ -374,12 +369,14 @@ namespace de.unika.ipd.grGen.libGr
         protected abstract int NumOutputParameters(Invocation invocation, GrGenType ownerType);
         protected abstract string InputParameterType(int i, Invocation invocation, GrGenType ownerType);
         protected abstract string OutputParameterType(int i, Invocation invocation, GrGenType ownerType);
-        protected abstract bool IsFilterExisting(FilterCall filterCall, SequenceRuleCall seq);
-        protected abstract int NumFilterFunctionParameters(FilterCall filterCall, SequenceRuleCall seq);
-        protected abstract string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceRuleCall seq);
-        protected abstract bool IsMatchClassExisting(FilterCall filterCall);
-        protected abstract bool IsFilterExisting(FilterCall filterCall, SequenceMultiRuleAllCall seq);
-        protected abstract int NumFilterFunctionParameters(FilterCall filterCall, SequenceMultiRuleAllCall seq);
-        protected abstract string FilterFunctionParameterType(int i, FilterCall filterCall, SequenceMultiRuleAllCall seq);
+        protected abstract bool IsFilterExisting(SequenceFilterCall sequenceFilterCall, SequenceRuleCall seq);
+        protected abstract int NumFilterFunctionParameters(SequenceFilterCall sequenceFilterCall, SequenceRuleCall seq);
+        protected abstract string FilterFunctionParameterType(int i, SequenceFilterCall sequenceFilterCall, SequenceRuleCall seq);
+        protected abstract bool IsMatchClassExisting(SequenceFilterCall sequenceFilterCall);
+        protected abstract bool IsFilterExisting(SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq);
+        protected abstract int NumFilterFunctionParameters(SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq);
+        protected abstract string FilterFunctionParameterType(int i, SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq);
+        protected abstract string GetMatchClassName(SequenceFilterCall sequenceFilterCall);
+        protected abstract string GetFilterCallName(SequenceFilterCall sequenceFilterCall);
     }
 }

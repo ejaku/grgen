@@ -669,7 +669,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
             source.AppendFront("\n");
 
-            source.AppendFront("public override void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, IList<GRGEN_LIBGR.IMatch> matches, GRGEN_LIBGR.FilterCall filter)\n");
+            source.AppendFront("public override void Filter(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, IList<GRGEN_LIBGR.IMatch> matches, GRGEN_LIBGR.FilterCallBase filter)\n");
             source.AppendFront("{\n");
             source.Indent();
 
