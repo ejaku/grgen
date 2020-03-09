@@ -60,9 +60,9 @@ namespace de.unika.ipd.grGen.libGr
         IFilter[] Filters { get; }
 
         /// <summary>
-        /// Returns whether the (package prefixed) filter is available
+        /// Returns the (package prefixed) filter, if it is available, otherwise null
         /// </summary>
-        bool ContainsFilter(string name);
+        IFilter GetFilter(string name);
     }
 
     public abstract class MatchClassInfo : IMatchClass
@@ -92,16 +92,16 @@ namespace de.unika.ipd.grGen.libGr
         public IFilter[] Filters { get { return filters; } }
 
         /// <summary>
-        /// Returns whether the (package prefixed) filter is available
+        /// Returns the (package prefixed) filter, if it is available, otherwise null
         /// </summary>
-        public bool ContainsFilter(string name)
+        public IFilter GetFilter(string name)
         {
             foreach(IFilter filter in filters)
             {
                 if(filter.Matches(name))
-                    return true;
+                    return filter;
             }
-            return false;
+            return null;
         }
 
         /// <summary>

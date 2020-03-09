@@ -61,9 +61,9 @@ namespace de.unika.ipd.grGen.libGr
         IFilter[] Filters { get; }
 
         /// <summary>
-        /// Returns whether the (package prefixed) filter is available
+        /// Returns the (package prefixed) filter, if it is available, otherwise null
         /// </summary>
-        bool ContainsFilter(string name);
+        IFilter GetFilter(string name);
 
         /// <summary>
         /// An array of the implemented match classes
