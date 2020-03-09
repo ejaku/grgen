@@ -536,6 +536,10 @@ namespace de.unika.ipd.grGen.lgsp
                 Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                 break;
 
+            case SequenceParserError.MatchClassError:
+                Console.Error.WriteLine("Unknown match class \"" + ex.Name + "\"!");
+                break;
+
             case SequenceParserError.FilterError:
                 Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule (or match class) " + ex.Name + "!");
                 return;
