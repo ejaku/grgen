@@ -345,7 +345,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 out package, out packagePrefixedName);
 
             return new SequenceComputationProcedureCallCompiled(procedureName, package, packagePrefixedName,
-                argExprs, returnVars);
+                argExprs, returnVars, actionNames.IsExternal(packagePrefixedName));
         }
 
 
@@ -404,8 +404,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             }
 
             return new SequenceExpressionFunctionCallCompiled(functionName, package, packagePrefixedName,
-                returnType,
-                argExprs);
+                returnType, argExprs, actionNames.IsExternal(packagePrefixedName));
         }
 
         // resolves names that are given without package context but do not reference global names

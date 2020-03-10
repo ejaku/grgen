@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.ruleCallGen = ruleCallGen;
 
-            ruleCallGen.seqHelper.BuildReturnParameters(ruleCallGen.ruleInvocation, ruleCallGen.ReturnVars,
+            ruleCallGen.seqHelper.BuildReturnParameters(ruleCallGen.seqRule, ruleCallGen.ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }

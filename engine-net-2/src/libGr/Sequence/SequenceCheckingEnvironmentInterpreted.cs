@@ -31,16 +31,6 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IGraphModel Model { get { return actions.Graph.Model; } }
 
-        public override bool IsProcedureCallExternal(ProcedureInvocation invocation)
-        {
-            return ((ProcedureInvocationInterpreted)invocation).ProcedureDef.IsExternal;
-        }
-
-        public override bool IsFunctionCallExternal(FunctionInvocation invocation)
-        {
-            return ((FunctionInvocationInterpreted)invocation).FunctionDef.IsExternal;
-        }
-
         public override string TypeOfTopLevelEntityInRule(string ruleName, string entityName)
         {
             IAction rule = actions.GetAction(ruleName);
@@ -66,12 +56,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(invocation is RuleInvocation)
             {
-                RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)invocation;
-                return ruleInvocation.Action != null;
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return SequenceBase.GetAction(ruleInvocation) != null;
             }
             else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationInterpreted seqInvocation = (SequenceInvocationInterpreted)invocation;
+                SequenceSequenceCallInterpreted seqInvocation = (SequenceSequenceCallInterpreted)invocation;
                 return seqInvocation.SequenceDef != null;
             }
             else if(invocation is ProcedureInvocation)
@@ -80,7 +70,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetProcedureMethod(procInvocation.Name) != null;
                 else
-                    return ((ProcedureInvocationInterpreted)procInvocation).ProcedureDef != null;
+                    return ((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef != null;
             }
             else if(invocation is FunctionInvocation)
             {
@@ -88,7 +78,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetFunctionMethod(funcInvocation.Name) != null;
                 else
-                    return ((FunctionInvocationInterpreted)funcInvocation).FunctionDef != null;
+                    return ((SequenceExpressionFunctionCallInterpreted)funcInvocation).FunctionDef != null;
             }
             throw new Exception("Internal error");
         }
@@ -97,12 +87,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(invocation is RuleInvocation)
             {
-                RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)invocation;
-                return ruleInvocation.Action.RulePattern.Inputs.Length;
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return SequenceBase.GetAction(ruleInvocation).RulePattern.Inputs.Length;
             }
             else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationInterpreted seqInvocation = (SequenceInvocationInterpreted)invocation;
+                SequenceSequenceCallInterpreted seqInvocation = (SequenceSequenceCallInterpreted)invocation;
                 if(seqInvocation.SequenceDef is SequenceDefinitionInterpreted)
                 {
                     SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqInvocation.SequenceDef;
@@ -120,7 +110,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetProcedureMethod(procInvocation.Name).Inputs.Length;
                 else
-                    return ((ProcedureInvocationInterpreted)procInvocation).ProcedureDef.Inputs.Length;
+                    return ((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef.Inputs.Length;
             }
             else if(invocation is FunctionInvocation)
             {
@@ -128,7 +118,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetFunctionMethod(funcInvocation.Name).Inputs.Length;
                 else
-                    return ((FunctionInvocationInterpreted)funcInvocation).FunctionDef.Inputs.Length;
+                    return ((SequenceExpressionFunctionCallInterpreted)funcInvocation).FunctionDef.Inputs.Length;
             }
             throw new Exception("Internal error");
         }
@@ -137,12 +127,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(invocation is RuleInvocation)
             {
-                RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)invocation;
-                return ruleInvocation.Action.RulePattern.Outputs.Length;
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return SequenceBase.GetAction(ruleInvocation).RulePattern.Outputs.Length;
             }
             else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationInterpreted seqInvocation = (SequenceInvocationInterpreted)invocation;
+                SequenceSequenceCallInterpreted seqInvocation = (SequenceSequenceCallInterpreted)invocation;
                 if(seqInvocation.SequenceDef is SequenceDefinitionInterpreted)
                 {
                     SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqInvocation.SequenceDef;
@@ -160,7 +150,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetProcedureMethod(procInvocation.Name).Outputs.Length;
                 else
-                    return ((ProcedureInvocationInterpreted)procInvocation).ProcedureDef.Outputs.Length;
+                    return ((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef.Outputs.Length;
             }
             throw new Exception("Internal error");
         }
@@ -169,12 +159,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(invocation is RuleInvocation)
             {
-                RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)invocation;
-                return TypesHelper.DotNetTypeToXgrsType(ruleInvocation.Action.RulePattern.Inputs[i]);
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return TypesHelper.DotNetTypeToXgrsType(SequenceBase.GetAction(ruleInvocation).RulePattern.Inputs[i]);
             }
             else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationInterpreted seqInvocation = (SequenceInvocationInterpreted)invocation;
+                SequenceSequenceCallInterpreted seqInvocation = (SequenceSequenceCallInterpreted)invocation;
                 if(seqInvocation.SequenceDef is SequenceDefinitionInterpreted)
                 {
                     SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqInvocation.SequenceDef;
@@ -192,7 +182,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procInvocation.Name).Inputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(((ProcedureInvocationInterpreted)procInvocation).ProcedureDef.Inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef.Inputs[i]);
             }
             else if(invocation is FunctionInvocation)
             {
@@ -200,7 +190,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcInvocation.Name).Inputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(((FunctionInvocationInterpreted)funcInvocation).FunctionDef.Inputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(((SequenceExpressionFunctionCallInterpreted)funcInvocation).FunctionDef.Inputs[i]);
             }
             throw new Exception("Internal error");
         }
@@ -209,12 +199,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(invocation is RuleInvocation)
             {
-                RuleInvocationInterpreted ruleInvocation = (RuleInvocationInterpreted)invocation;
-                return TypesHelper.DotNetTypeToXgrsType(ruleInvocation.Action.RulePattern.Outputs[i]);
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                return TypesHelper.DotNetTypeToXgrsType(SequenceBase.GetAction(ruleInvocation).RulePattern.Outputs[i]);
             }
             else if(invocation is SequenceInvocation)
             {
-                SequenceInvocationInterpreted seqInvocation = (SequenceInvocationInterpreted)invocation;
+                SequenceSequenceCallInterpreted seqInvocation = (SequenceSequenceCallInterpreted)invocation;
                 if(seqInvocation.SequenceDef is SequenceDefinitionInterpreted)
                 {
                     SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seqInvocation.SequenceDef;
@@ -232,7 +222,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procInvocation.Name).Outputs[i]);
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(((ProcedureInvocationInterpreted)procInvocation).ProcedureDef.Outputs[i]);
+                    return TypesHelper.DotNetTypeToXgrsType(((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef.Outputs[i]);
             }
             throw new Exception("Internal error");
         }
@@ -253,7 +243,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return 1;
             }
-            foreach(IFilter filter in ((RuleInvocationInterpreted)seq.RuleInvocation).Action.RulePattern.Filters)
+            foreach(IFilter filter in SequenceBase.GetAction((RuleInvocation)seq).RulePattern.Filters)
             {
                 if(filter is IFilterFunction)
                 {
@@ -276,7 +266,7 @@ namespace de.unika.ipd.grGen.libGr
                 return "int";
             if(filterCall.FullName == "keepLastFraction" || filterCall.FullName == "removeLastFraction")
                 return "double";
-            foreach(IFilter filter in ((RuleInvocationInterpreted)seq.RuleInvocation).Action.RulePattern.Filters)
+            foreach(IFilter filter in SequenceBase.GetAction((RuleInvocation)seq).RulePattern.Filters)
             {
                 if(filter is IFilterFunction)
                 {

@@ -541,18 +541,18 @@ namespace de.unika.ipd.grGen.lgsp
             String returnParameterDeclarations;
             String returnArguments;
             String returnAssignments;
-            seqHelper.BuildReturnParameters(seqCall.ProcedureInvocation, seqCall.ReturnVars, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+            seqHelper.BuildReturnParameters(seqCall, seqCall.ReturnVars, out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
 
-            if(seqCall.IsExternalProcedureCalled)
+            if(seqCall.IsExternal)
                 source.AppendFront("GRGEN_EXPR.ExternalProcedures.");
             else
-                source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", TypesHelper.GetPackagePrefixDot(seqCall.ProcedureInvocation.Package));
-            source.Append(seqCall.ProcedureInvocation.Name);
+                source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", TypesHelper.GetPackagePrefixDot(seqCall.Package));
+            source.Append(seqCall.Name);
             source.Append("(procEnv, graph");
-            source.Append(seqHelper.BuildParameters(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
+            source.Append(seqHelper.BuildParameters(seqCall, seqCall.ArgumentExpressions));
             source.Append(returnArguments);
             source.Append(");\n");
 
@@ -575,8 +575,8 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     source.Append(seqHelper.GetVar(seqCall.TargetVar));
                 source.Append(").ApplyProcedureMethod(procEnv, graph, ");
-                source.Append("\"" + seqCall.ProcedureInvocation.Name + "\"");
-                source.Append(seqHelper.BuildParametersInObject(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions));
+                source.Append("\"" + seqCall.Name + "\"");
+                source.Append(seqHelper.BuildParametersInObject(seqCall, seqCall.ArgumentExpressions));
                 source.Append(");\n");
                 for(int i = 0; i < seqCall.ReturnVars.Length; ++i)
                 {
@@ -588,7 +588,7 @@ namespace de.unika.ipd.grGen.lgsp
                 String returnParameterDeclarations;
                 String returnArguments;
                 String returnAssignments;
-                seqHelper.BuildReturnParameters(seqCall.ProcedureInvocation, seqCall.ReturnVars, TypesHelper.GetNodeOrEdgeType(type, model), out returnParameterDeclarations, out returnArguments, out returnAssignments);
+                seqHelper.BuildReturnParameters(seqCall, seqCall.ReturnVars, TypesHelper.GetNodeOrEdgeType(type, model), out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
                 if(returnParameterDeclarations.Length != 0)
                     source.AppendFront(returnParameterDeclarations + "\n");
@@ -601,9 +601,9 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     source.Append(seqHelper.GetVar(seqCall.TargetVar));
                 source.Append(").");
-                source.Append(seqCall.ProcedureInvocation.Name);
+                source.Append(seqCall.Name);
                 source.Append("(procEnv, graph");
-                source.Append(seqHelper.BuildParameters(seqCall.ProcedureInvocation, seqCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(type, model).GetProcedureMethod(seqCall.ProcedureInvocation.Name)));
+                source.Append(seqHelper.BuildParameters(seqCall, seqCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(type, model).GetProcedureMethod(seqCall.Name)));
                 source.Append(returnArguments);
                 source.Append(");\n");
             }

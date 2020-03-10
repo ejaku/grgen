@@ -250,30 +250,29 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceCall(SequenceSequenceCall seqSeq, SourceBuilder source)
         {
-            SequenceInvocation sequenceInvocation = seqSeq.SequenceInvocation;
             SequenceExpression[] ArgumentExpressions = seqSeq.ArgumentExpressions;
             SequenceVariable[] ReturnVars = seqSeq.ReturnVars;
             String parameterDeclarations = null;
             String parameters = null;
-            if(sequenceInvocation.Subgraph != null)
-                parameters = seqHelper.BuildParametersInDeclarations(sequenceInvocation, ArgumentExpressions, out parameterDeclarations);
+            if(seqSeq.Subgraph != null)
+                parameters = seqHelper.BuildParametersInDeclarations(seqSeq, ArgumentExpressions, out parameterDeclarations);
             else
-                parameters = seqHelper.BuildParameters(sequenceInvocation, ArgumentExpressions);
+                parameters = seqHelper.BuildParameters(seqSeq, ArgumentExpressions);
             String outParameterDeclarations;
             String outArguments;
             String outAssignments;
-            seqHelper.BuildOutParameters(sequenceInvocation, ReturnVars, out outParameterDeclarations, out outArguments, out outAssignments);
+            seqHelper.BuildOutParameters(seqSeq, ReturnVars, out outParameterDeclarations, out outArguments, out outAssignments);
 
-            if(sequenceInvocation.Subgraph != null)
+            if(seqSeq.Subgraph != null)
             {
                 source.AppendFront(parameterDeclarations + "\n");
-                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + seqHelper.GetVar(sequenceInvocation.Subgraph) + ");\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + seqHelper.GetVar(seqSeq.Subgraph) + ");\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
             if(outParameterDeclarations.Length != 0)
                 source.AppendFront(outParameterDeclarations + "\n");
-            source.AppendFront("if(" + TypesHelper.GetPackagePrefixDot(sequenceInvocation.Package) + "Sequence_" + sequenceInvocation.Name + ".ApplyXGRS_" + sequenceInvocation.Name
+            source.AppendFront("if(" + TypesHelper.GetPackagePrefixDot(seqSeq.Package) + "Sequence_" + seqSeq.Name + ".ApplyXGRS_" + seqSeq.Name
                                 + "(procEnv" + parameters + outArguments + ")) {\n");
             source.Indent();
             if(outAssignments.Length != 0)
@@ -286,7 +285,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            if(sequenceInvocation.Subgraph != null)
+            if(seqSeq.Subgraph != null)
             {
                 source.AppendFront("procEnv.ReturnFromSubgraph();\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");

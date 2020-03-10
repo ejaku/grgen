@@ -6123,7 +6123,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public abstract class SequenceExpressionFunctionCall : SequenceExpression
+    public abstract class SequenceExpressionFunctionCall : SequenceExpression, FunctionInvocation
     {
         /// <summary>
         /// An array of expressions used to compute the input arguments.
@@ -6135,10 +6135,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly object[] Arguments;
 
-        public abstract FunctionInvocation FunctionInvocation { get; }
-        public abstract String NameForFunctionString { get; }
+        public abstract String Name { get; }
+        public abstract String Package { get; }
+        public abstract String PackagePrefixedName { get; }
 
-        public bool IsExternalFunctionCalled;
+        public abstract bool IsExternal { get; }
 
         protected SequenceExpressionFunctionCall(List<SequenceExpression> argExprs)
             : base(SequenceExpressionType.FunctionCall)
@@ -6157,13 +6158,11 @@ namespace de.unika.ipd.grGen.libGr
         {
             CopyArgumentExpressionsAndArguments(originalToCopy, procEnv, that.ArgumentExpressions,
                 out ArgumentExpressions, out Arguments);
-            IsExternalFunctionCalled = that.IsExternalFunctionCalled;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             env.CheckFunctionCall(this);
-            IsExternalFunctionCalled = env.IsFunctionCallExternal(FunctionInvocation);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -6191,7 +6190,7 @@ namespace de.unika.ipd.grGen.libGr
         protected virtual String GetFunctionString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(NameForFunctionString);
+            sb.Append(Name);
             if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
@@ -6219,14 +6218,24 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly IFunctionDefinition FunctionDef;
 
-        public override FunctionInvocation FunctionInvocation
-        {
-            get { return new FunctionInvocationInterpreted(FunctionDef); }
-        }
-
-        public override string NameForFunctionString
+        public override string Name
         {
             get { return FunctionDef.Name; }
+        }
+
+        public override String Package
+        {
+            get { return FunctionDef.Package; }
+        }
+
+        public override String PackagePrefixedName
+        {
+            get { return FunctionDef.Package != null ? FunctionDef.Package + "::" + FunctionDef.Name : FunctionDef.Name; }
+        }
+
+        public override bool IsExternal
+        {
+            get { return FunctionDef.IsExternal; }
         }
 
         public SequenceExpressionFunctionCallInterpreted(IFunctionDefinition FunctionDef, 
@@ -6263,53 +6272,55 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionFunctionCallCompiled : SequenceExpressionFunctionCall
     {
-        /// <summary>
-        /// The name of the function.
-        /// </summary>
-        public readonly String Name;
-
-        /// <summary>
-        /// null if this is a call of a global function, otherwise the package the call target is contained in.
-        /// </summary>
-        public readonly String Package;
-
-        /// <summary>
-        /// The name of the function, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
-        /// </summary>
-        public readonly String PackagePrefixedName;
+        public readonly String name;
+        public readonly String package;
+        public readonly String packagePrefixedName;
+        public bool isExternal;
 
         /// <summary>
         /// The type returned
         /// </summary>
         public readonly string ReturnType;
 
-        public override FunctionInvocation FunctionInvocation
+        public override string Name
         {
-            get { return new FunctionInvocationCompiled(Name, Package, PackagePrefixedName); }
+            get { return name; }
         }
 
-        public override string NameForFunctionString
+        public override String Package
         {
-            get { return Name; }
+            get { return package; }
+        }
+
+        public override String PackagePrefixedName
+        {
+            get { return packagePrefixedName; }
+        }
+
+        public override bool IsExternal
+        {
+            get { return isExternal; }
         }
 
         public SequenceExpressionFunctionCallCompiled(String Name, String Package, String PackagePrefixedName,
-            String ReturnType, List<SequenceExpression> argExprs)
+            String ReturnType, List<SequenceExpression> argExprs, bool IsExternal)
             : base(argExprs)
         {
-            this.Name = Name;
-            this.Package = Package;
-            this.PackagePrefixedName = PackagePrefixedName;
+            this.name = Name;
+            this.package = Package;
+            this.packagePrefixedName = PackagePrefixedName;
             this.ReturnType = ReturnType;
+            this.isExternal = IsExternal;
         }
 
         protected SequenceExpressionFunctionCallCompiled(SequenceExpressionFunctionCallCompiled that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
           : base(that, originalToCopy, procEnv)
         {
-            Name = that.Name;
-            Package = that.Package;
-            PackagePrefixedName = that.PackagePrefixedName;
+            name = that.name;
+            package = that.package;
+            packagePrefixedName = that.packagePrefixedName;
             ReturnType = that.ReturnType;
+            isExternal = that.isExternal;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -6328,20 +6339,30 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionFunctionMethodCall : SequenceExpressionFunctionCall
+    public class SequenceExpressionFunctionMethodCall : SequenceExpressionFunctionCall, MethodFunctionInvocation
     {
         public readonly SequenceExpression TargetExpr;
 
-        readonly String Name;
+        readonly String name;
 
-        public override FunctionInvocation FunctionInvocation
+        public override string Name
         {
-            get { return new MethodFunctionInvocation(Name); }
+            get { return name; }
         }
 
-        public override string NameForFunctionString
+        public override String Package
         {
-            get { return Name; }
+            get { return null; }
+        }
+
+        public override String PackagePrefixedName
+        {
+            get { return name; }
+        }
+
+        public override bool IsExternal
+        {
+            get { return false; }
         }
 
         public SequenceExpressionFunctionMethodCall(SequenceExpression targetExpr,
@@ -6350,14 +6371,14 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceExpressionType.FunctionMethodCall, argExprs)
         {
             TargetExpr = targetExpr;
-            Name = name;
+            this.name = name;
         }
 
         protected SequenceExpressionFunctionMethodCall(SequenceExpressionFunctionMethodCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
           : base(that, originalToCopy, procEnv)
         {
             TargetExpr = that.TargetExpr.CopyExpression(originalToCopy, procEnv);
-            Name = that.Name;
+            name = that.name;
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -6379,7 +6400,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             IGraphElement owner = (IGraphElement)TargetExpr.Evaluate(procEnv);
             FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
-            return owner.ApplyFunctionMethod(procEnv, procEnv.Graph, NameForFunctionString, Arguments);
+            return owner.ApplyFunctionMethod(procEnv, procEnv.Graph, Name, Arguments);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

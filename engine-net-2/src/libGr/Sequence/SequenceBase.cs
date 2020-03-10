@@ -111,6 +111,20 @@ namespace de.unika.ipd.grGen.libGr
 
         #region helper methods
 
+        public static IAction GetAction(RuleInvocation invocation)
+        {
+            SequenceRuleCallInterpreted sequenceRuleCall = invocation as SequenceRuleCallInterpreted;
+            if(sequenceRuleCall != null)
+                return sequenceRuleCall.Action;
+            SequenceRuleAllCallInterpreted sequenceRuleAllCall = invocation as SequenceRuleAllCallInterpreted;
+            if(sequenceRuleAllCall != null)
+                return sequenceRuleAllCall.Action;
+            SequenceRuleCountAllCallInterpreted sequenceRuleCountAllCall = invocation as SequenceRuleCountAllCallInterpreted;
+            if(sequenceRuleCountAllCall != null)
+                return sequenceRuleCountAllCall.Action;
+            return null;
+        }
+
         protected static NodeType GetNodeType(IGraphProcessingEnvironment procEnv, SequenceExpression nodeTypeExpr, string functionName)
         {
             NodeType nodeType = null;

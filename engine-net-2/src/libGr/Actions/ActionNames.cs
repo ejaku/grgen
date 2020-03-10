@@ -79,6 +79,9 @@ namespace de.unika.ipd.grGen.libGr
             // assign rules to filters and match classes to filters
             rulesToFilters = ati.rulesToFilters;
             matchClassesToFilters = ati.matchClassesToFilters;
+            // assign is external information
+            proceduresToIsExternal = ati.proceduresToIsExternal;
+            functionsToIsExternal = ati.functionsToIsExternal;
         }
 
         public bool RuleContainsFilter(string ruleName, string filterName)
@@ -98,6 +101,15 @@ namespace de.unika.ipd.grGen.libGr
                 if(filter.Matches(filterName))
                     return true;
             }
+            return false;
+        }
+
+        public bool IsExternal(string functionOrProcedureName)
+        {
+            if(functionsToIsExternal.ContainsKey(functionOrProcedureName))
+                return functionsToIsExternal[functionOrProcedureName];
+            if(proceduresToIsExternal.ContainsKey(functionOrProcedureName))
+                return proceduresToIsExternal[functionOrProcedureName];
             return false;
         }
 
@@ -142,5 +154,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public readonly Dictionary<String, List<IFilter>> rulesToFilters;
         public readonly Dictionary<String, List<IFilter>> matchClassesToFilters;
+        public readonly Dictionary<String, bool> proceduresToIsExternal;
+        public readonly Dictionary<String, bool> functionsToIsExternal;
     }
 }

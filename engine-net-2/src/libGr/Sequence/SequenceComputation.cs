@@ -2769,7 +2769,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
     
-    public abstract class SequenceComputationProcedureCall : SequenceComputation
+    public abstract class SequenceComputationProcedureCall : SequenceComputation, ProcedureInvocation
     {
         /// <summary>
         /// An array of expressions used to compute the input arguments.
@@ -2786,10 +2786,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly SequenceVariable[] ReturnVars;
 
-        public abstract ProcedureInvocation ProcedureInvocation { get; }
-        public abstract String NameForProcedureString { get; }
+        public abstract String Name { get; }
+        public abstract String Package { get; }
+        public abstract String PackagePrefixedName { get; }
 
-        public bool IsExternalProcedureCalled;
+        public abstract bool IsExternal { get; }
 
         protected SequenceComputationProcedureCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
             : base(SequenceComputationType.ProcedureCall)
@@ -2812,13 +2813,11 @@ namespace de.unika.ipd.grGen.libGr
                 out ArgumentExpressions, out Arguments);
             CopyVars(originalToCopy, procEnv, that.ReturnVars,
                 out ReturnVars);
-            IsExternalProcedureCalled = that.IsExternalProcedureCalled;
         }
 
         public override void Check(SequenceCheckingEnvironment env)
         {
             env.CheckProcedureCall(this);
-            IsExternalProcedureCalled = env.IsProcedureCallExternal(ProcedureInvocation);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -2852,7 +2851,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append(")=");
             }
-            sb.Append(NameForProcedureString);
+            sb.Append(Name);
             if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");
@@ -2880,14 +2879,24 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly IProcedureDefinition ProcedureDef;
 
-        public override ProcedureInvocation ProcedureInvocation
-        {
-            get { return new ProcedureInvocationInterpreted(ProcedureDef); }
-        }
-
-        public override string NameForProcedureString
+        public override string Name
         {
             get { return ProcedureDef.Name; }
+        }
+
+        public override String Package
+        {
+            get { return ProcedureDef.Package; }
+        }
+
+        public override String PackagePrefixedName
+        {
+            get { return ProcedureDef.Package != null ? ProcedureDef.Package + "::" + ProcedureDef.Name : ProcedureDef.Name; }
+        }
+
+        public override bool IsExternal
+        {
+            get { return ProcedureDef.IsExternal; }
         }
 
         public SequenceComputationProcedureCallInterpreted(IProcedureDefinition ProcedureDef,
@@ -2931,46 +2940,48 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceComputationProcedureCallCompiled : SequenceComputationProcedureCall
     {
-        /// <summary>
-        /// The name of the procedure.
-        /// </summary>
-        public readonly String Name;
+        public readonly String name;
+        public readonly String package;
+        public readonly String packagePrefixedName;
+        public bool isExternal;
 
-        /// <summary>
-        /// null if this is a call of a global procedure, otherwise the package the call target is contained in.
-        /// </summary>
-        public readonly String Package;
-
-        /// <summary>
-        /// The name of the procedure, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
-        /// </summary>
-        public readonly String PackagePrefixedName;
-
-        public override ProcedureInvocation ProcedureInvocation
+        public override string Name
         {
-            get { return new ProcedureInvocationCompiled(Name, Package, PackagePrefixedName); }
+            get { return name; }
         }
 
-        public override string NameForProcedureString
+        public override String Package
         {
-            get { return Name; }
+            get { return package; }
+        }
+
+        public override String PackagePrefixedName
+        {
+            get { return packagePrefixedName; }
+        }
+
+        public override bool IsExternal
+        {
+            get { return isExternal; }
         }
 
         public SequenceComputationProcedureCallCompiled(String Name, String Package, String PackagePrefixedName,
-            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
+            List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, bool IsExternalProcedureCalled)
             : base(argExprs, returnVars)
         {
-            this.Name = Name;
-            this.Package = Package;
-            this.PackagePrefixedName = PackagePrefixedName;
+            this.name = Name;
+            this.package = Package;
+            this.packagePrefixedName = PackagePrefixedName;
+            this.isExternal = IsExternalProcedureCalled;
         }
 
         protected SequenceComputationProcedureCallCompiled(SequenceComputationProcedureCallCompiled that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            Name = that.Name;
-            Package = that.Package;
-            PackagePrefixedName = that.PackagePrefixedName;
+            name = that.name;
+            package = that.package;
+            packagePrefixedName = that.packagePrefixedName;
+            isExternal = that.isExternal;
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -2994,21 +3005,31 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceComputationProcedureMethodCall : SequenceComputationProcedureCall
+    public class SequenceComputationProcedureMethodCall : SequenceComputationProcedureCall, MethodProcedureInvocation
     {
         public readonly SequenceExpression TargetExpr;
         public readonly SequenceVariable TargetVar;
 
-        readonly String Name;
+        readonly String name;
 
-        public override ProcedureInvocation ProcedureInvocation
+        public override string Name
         {
-            get { return new MethodProcedureInvocation(Name); }
+            get { return name; }
         }
 
-        public override string NameForProcedureString
+        public override String Package
         {
-            get { return Name; }
+            get { return null; }
+        }
+
+        public override String PackagePrefixedName
+        {
+            get { return name; }
+        }
+
+        public override bool IsExternal
+        {
+            get { return false; }
         }
 
         public SequenceComputationProcedureMethodCall(SequenceExpression targetExpr, 
@@ -3017,7 +3038,7 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceComputationType.ProcedureMethodCall, argExprs, returnVars)
         {
             TargetExpr = targetExpr;
-            Name = name;
+            this.name = name;
         }
 
         public SequenceComputationProcedureMethodCall(SequenceVariable targetVar, 
@@ -3026,7 +3047,7 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceComputationType.ProcedureMethodCall, argExprs, returnVars)
         {
             TargetVar = targetVar;
-            Name = name;
+            this.name = name;
         }
 
         protected SequenceComputationProcedureMethodCall(SequenceComputationProcedureMethodCall that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3036,7 +3057,7 @@ namespace de.unika.ipd.grGen.libGr
                 TargetExpr = that.TargetExpr.CopyExpression(originalToCopy, procEnv);
             if(TargetVar != null)
                 TargetVar = that.TargetVar.Copy(originalToCopy, procEnv);
-            Name = that.Name;
+            name = that.name;
         }
 
         internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -3060,7 +3081,7 @@ namespace de.unika.ipd.grGen.libGr
             else
                 owner = (IGraphElement)TargetVar.GetVariableValue(procEnv);
             FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
-            object[] resultValues = owner.ApplyProcedureMethod(procEnv, procEnv.Graph, NameForProcedureString, Arguments);
+            object[] resultValues = owner.ApplyProcedureMethod(procEnv, procEnv.Graph, Name, Arguments);
             if(ReturnVars.Length > 0)
                 FillReturnVariablesFromValues(ReturnVars, procEnv, resultValues);
             return null;
@@ -3105,7 +3126,7 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(TargetExpr.Symbol + ".");
             if(TargetVar != null)
                 sb.Append(TargetVar.ToString() + ".");
-            sb.Append(NameForProcedureString);
+            sb.Append(Name);
             if(ArgumentExpressions.Length > 0)
             {
                 sb.Append("(");

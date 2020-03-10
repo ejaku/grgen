@@ -19,7 +19,6 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly SequenceRuleCall seqRule;
         internal readonly SequenceGeneratorHelper seqHelper;
 
-        internal readonly RuleInvocation ruleInvocation;
         internal readonly SequenceExpression[] ArgumentExpressions;
         internal readonly String specialStr;
         internal readonly String parameters;
@@ -38,13 +37,12 @@ namespace de.unika.ipd.grGen.lgsp
             this.seqRule = seqRule;
             this.seqHelper = seqHelper;
 
-            ruleInvocation = seqRule.RuleInvocation;
             ArgumentExpressions = seqRule.ArgumentExpressions;
             specialStr = seqRule.Special ? "true" : "false";
-            parameters = seqHelper.BuildParameters(ruleInvocation, ArgumentExpressions);
-            matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
-            patternName = ruleInvocation.Name;
-            ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
+            parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions);
+            matchingPatternClassName = TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
+            patternName = seqRule.Name;
+            ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.Package, seqRule.Name);
             matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             matchName = "match_" + seqRule.Id;
             matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";

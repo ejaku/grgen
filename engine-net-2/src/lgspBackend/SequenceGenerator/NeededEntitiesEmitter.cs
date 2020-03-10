@@ -75,12 +75,12 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.RuleCountAllCall:
                 {
 					SequenceRuleCall seqRule = (SequenceRuleCall) seq;
-					String ruleName = seqRule.RuleInvocation.PackagePrefixedName;
+					String ruleName = seqRule.PackagePrefixedName;
 					if(!knownRules.ContainsKey(ruleName))
 					{
                         knownRules.Add(ruleName, null);
-                        source.AppendFront(TypesHelper.GetPackagePrefixDot(seqRule.RuleInvocation.Package) + "Action_" + seqRule.RuleInvocation.Name + " " + "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.RuleInvocation.Package, seqRule.RuleInvocation.Name));
-                        source.Append(" = " + TypesHelper.GetPackagePrefixDot(seqRule.RuleInvocation.Package) + "Action_" + seqRule.RuleInvocation.Name + ".Instance;\n");
+                        source.AppendFront(TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Action_" + seqRule.Name + " " + "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.Package, seqRule.Name));
+                        source.Append(" = " + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Action_" + seqRule.Name + ".Instance;\n");
                     }
                     // no handling for the input arguments seqRule.ArgumentExpressions needed 
                     // because there can only be variable uses

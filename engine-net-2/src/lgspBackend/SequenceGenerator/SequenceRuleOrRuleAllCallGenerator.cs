@@ -18,7 +18,6 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly SequenceRuleCall seqRule;
         internal readonly SequenceGeneratorHelper seqHelper;
 
-        internal readonly RuleInvocation ruleInvocation;
         internal readonly SequenceExpression[] ArgumentExpressions;
         internal readonly SequenceVariable[] ReturnVars;
         internal readonly String specialStr;
@@ -38,19 +37,18 @@ namespace de.unika.ipd.grGen.lgsp
             this.seqRule = seqRule;
             this.seqHelper = seqHelper;
 
-            ruleInvocation = seqRule.RuleInvocation;
             ArgumentExpressions = seqRule.ArgumentExpressions;
             ReturnVars = seqRule.ReturnVars;
             specialStr = seqRule.Special ? "true" : "false";
             parameterDeclarations = null;
             parameters = null;
-            if(ruleInvocation.Subgraph != null)
-                parameters = seqHelper.BuildParametersInDeclarations(ruleInvocation, ArgumentExpressions, out parameterDeclarations);
+            if(seqRule.Subgraph != null)
+                parameters = seqHelper.BuildParametersInDeclarations(seqRule, ArgumentExpressions, out parameterDeclarations);
             else
-                parameters = seqHelper.BuildParameters(ruleInvocation, ArgumentExpressions);
-            matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleInvocation.Package) + "Rule_" + ruleInvocation.Name;
-            patternName = ruleInvocation.Name;
-            ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(ruleInvocation.Package, ruleInvocation.Name);
+                parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions);
+            matchingPatternClassName = TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
+            patternName = seqRule.Name;
+            ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.Package, seqRule.Name);
             matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             matchName = "match_" + seqRule.Id;
             matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
@@ -59,10 +57,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
-            if(ruleInvocation.Subgraph != null)
+            if(seqRule.Subgraph != null)
             {
                 source.AppendFront(parameterDeclarations + "\n");
-                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + seqHelper.GetVar(ruleInvocation.Subgraph) + ");\n");
+                source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + seqHelper.GetVar(seqRule.Subgraph) + ");\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             }
 
@@ -120,7 +118,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            if(ruleInvocation.Subgraph != null)
+            if(seqRule.Subgraph != null)
             {
                 source.AppendFront("procEnv.ReturnFromSubgraph();\n");
                 source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
