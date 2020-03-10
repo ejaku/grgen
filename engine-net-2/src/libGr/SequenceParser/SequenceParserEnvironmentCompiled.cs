@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             bool special)
         {
             SequenceSequenceCall seqSequenceCall = new SequenceSequenceCallCompiled(sequenceName, packagePrefix, packageContext, 
-                Array.IndexOf(actionNames.sequenceNames, sequenceName) != -1,
+                actionNames.ContainsSequence(sequenceName),
                 argExprs, returnVars, subgraph,
                 special);
 
@@ -95,7 +95,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             bool special, bool test, bool isRuleForMultiRuleAllCallReturningArrays)
         {
             SequenceRuleCall seqRuleCall = new SequenceRuleCallCompiled(ruleName, packagePrefix, packageContext,
-                Array.IndexOf(actionNames.ruleNames, ruleName) != -1,
+                actionNames.ContainsRule(ruleName),
                 argExprs, returnVars, subgraph,
                 special, test, isRuleForMultiRuleAllCallReturningArrays);
 
@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
         {
             SequenceRuleAllCall seqRuleAllCall = new SequenceRuleAllCallCompiled(ruleName, packagePrefix, packageContext,
-                Array.IndexOf(actionNames.ruleNames, ruleName) != -1,
+                actionNames.ContainsRule(ruleName),
                 argExprs, returnVars, subgraph,
                 special, test,
                 chooseRandom, varChooseRandom,
@@ -123,7 +123,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             bool special, bool test)
         {
             SequenceRuleCountAllCall seqRuleCountAllCall = new SequenceRuleCountAllCallCompiled(ruleName, packagePrefix, packageContext,
-                Array.IndexOf(actionNames.ruleNames, ruleName) != -1,
+                actionNames.ContainsRule(ruleName),
                 argExprs, returnVars, subgraph,
                 special, test);
 
@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
         {    
             return new SequenceComputationProcedureCallCompiled(procedureName, packagePrefix, packageContext,
-                Array.IndexOf(actionNames.procedureNames, procedureName) != -1,
+                actionNames.ContainsProcedure(procedureName),
                 argExprs, returnVars);
         }
 
@@ -295,7 +295,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             }
 
             return new SequenceExpressionFunctionCallCompiled(functionName, packagePrefix, packageContext,
-                Array.IndexOf(actionNames.functionNames, functionName) != -1,
+                actionNames.ContainsFunction(functionName),
                 returnType,
                 argExprs);
         }

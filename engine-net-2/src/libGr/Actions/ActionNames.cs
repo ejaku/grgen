@@ -101,6 +101,37 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
+        public bool ContainsRule(string ruleName)
+        {
+            return Array.IndexOf(ruleNames, ruleName) != -1;
+        }
+
+        public bool ContainsMatchClass(string matchClassName)
+        {
+            return Array.IndexOf(matchClassNames, matchClassName) != -1;
+        }
+
+        public bool ContainsSequence(string sequenceName)
+        {
+            return Array.IndexOf(sequenceNames, sequenceName) != -1;
+        }
+
+        public bool ContainsProcedure(string procedureName)
+        {
+            return Array.IndexOf(procedureNames, procedureName) != -1;
+        }
+
+        public bool ContainsFunction(string functionName)
+        {
+            return Array.IndexOf(functionNames, functionName) != -1;
+        }
+
+        public bool ContainsFilterFunction(string filterFunctionName)
+        {
+            return Array.IndexOf(filterFunctionNames, filterFunctionName) != -1;
+        }
+
+        // the package prefixed names of the entities available
         public readonly String[] ruleNames;
         public readonly String[] matchClassNames;
         public readonly String[] sequenceNames;

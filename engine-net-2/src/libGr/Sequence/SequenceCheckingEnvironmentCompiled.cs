@@ -76,12 +76,12 @@ namespace de.unika.ipd.grGen.libGr
             if(invocation is RuleInvocation)
             {
                 RuleInvocation ruleInvocation = (RuleInvocation)invocation;
-                return Array.IndexOf(actionNames.ruleNames, ruleInvocation.PackagePrefixedName) != -1;
+                return actionNames.ContainsRule(ruleInvocation.PackagePrefixedName);
             }
             else if(invocation is SequenceInvocation)
             {
                 SequenceInvocation seqInvocation = (SequenceInvocation)invocation;
-                return Array.IndexOf(actionNames.sequenceNames, seqInvocation.PackagePrefixedName) != -1;
+                return actionNames.ContainsSequence(seqInvocation.PackagePrefixedName);
             }
             else if(invocation is ProcedureInvocation)
             {
@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetProcedureMethod(procInvocation.Name) != null;
                 else
-                    return Array.IndexOf(actionNames.procedureNames, procInvocation.PackagePrefixedName) != -1;
+                    return actionNames.ContainsProcedure(procInvocation.PackagePrefixedName);
             }
             else if(invocation is FunctionInvocation)
             {
@@ -97,7 +97,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(ownerType != null)
                     return ownerType.GetFunctionMethod(funcInvocation.Name) != null;
                 else
-                    return Array.IndexOf(actionNames.functionNames, funcInvocation.PackagePrefixedName) != -1;
+                    return actionNames.ContainsFunction(funcInvocation.PackagePrefixedName);
             }
             throw new Exception("Internal error");
         }
@@ -254,7 +254,7 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool IsMatchClassExisting(SequenceFilterCall sequenceFilterCall)
         {
             SequenceFilterCallCompiled sequenceFilterCallCompiled = (SequenceFilterCallCompiled)sequenceFilterCall;
-            return Array.IndexOf(actionNames.matchClassNames, sequenceFilterCallCompiled.MatchClassPackagePrefixedName) != -1;
+            return actionNames.ContainsMatchClass(sequenceFilterCallCompiled.MatchClassPackagePrefixedName);
         }
 
         protected override bool IsFilterExisting(SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq)
