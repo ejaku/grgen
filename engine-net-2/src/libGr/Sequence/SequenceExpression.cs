@@ -6293,15 +6293,14 @@ namespace de.unika.ipd.grGen.libGr
             get { return Name; }
         }
 
-        public SequenceExpressionFunctionCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedFunctionNameExists, String ReturnType,
-            List<SequenceExpression> argExprs)
+        public SequenceExpressionFunctionCallCompiled(String Name, String Package, String PackagePrefixedName,
+            String ReturnType, List<SequenceExpression> argExprs)
             : base(argExprs)
         {
             this.Name = Name;
+            this.Package = Package;
+            this.PackagePrefixedName = PackagePrefixedName;
             this.ReturnType = ReturnType;
-
-            ResolvePackage(Name, PrePackage, PrePackageContext, unprefixedFunctionNameExists,
-                        out Package, out PackagePrefixedName);
         }
 
         protected SequenceExpressionFunctionCallCompiled(SequenceExpressionFunctionCallCompiled that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)

@@ -2956,14 +2956,13 @@ namespace de.unika.ipd.grGen.libGr
             get { return Name; }
         }
 
-        public SequenceComputationProcedureCallCompiled(String Name, String PrePackage, String PrePackageContext, bool unprefixedProcedureNameExists,
+        public SequenceComputationProcedureCallCompiled(String Name, String Package, String PackagePrefixedName,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
             : base(argExprs, returnVars)
         {
             this.Name = Name;
-
-            ResolvePackage(Name, PrePackage, PrePackageContext, unprefixedProcedureNameExists,
-                        out Package, out PackagePrefixedName);
+            this.Package = Package;
+            this.PackagePrefixedName = PackagePrefixedName;
         }
 
         protected SequenceComputationProcedureCallCompiled(SequenceComputationProcedureCallCompiled that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
