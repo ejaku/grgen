@@ -411,7 +411,7 @@ namespace de.unika.ipd.grGen.libGr
                     return "No operator " + this.LeftType + this.VariableOrFunctionName + this.RightType + " available (for \"" + this.Expression + "\")! Or a division-by-zero/runtime error occured.";
 
                 case SequenceParserError.MatchClassError:
-                    return "Unknown match class \"" + this.Name + "\"!";
+                    return "Unknown match class \"" + this.Name + "\" in filter call \"" + this.FilterName + "\"!";
 
                 case SequenceParserError.FilterError:
                     return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"! "

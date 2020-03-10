@@ -323,7 +323,7 @@ namespace de.unika.ipd.grGen.libGr
                 String filterCallName = GetFilterCallName(sequenceFilterCall);
 
                 if(matchClassName == null || !IsMatchClassExisting(sequenceFilterCall))
-                    throw new SequenceParserException(seqMultiRuleAllCall.Symbol, filterCallName, SequenceParserError.MatchClassError);
+                    throw new SequenceParserException(matchClassName, sequenceFilterCall.ToString(), SequenceParserError.MatchClassError);
 
                 if(!IsFilterExisting(sequenceFilterCall, seqMultiRuleAllCall))
                     throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterError);

@@ -537,7 +537,7 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceParserError.MatchClassError:
-                Console.Error.WriteLine("Unknown match class \"" + ex.Name + "\"!");
+                Console.Error.WriteLine("Unknown match class \"" + ex.Name + "\" in filter call \"" + ex.FilterName + "\"!");
                 break;
 
             case SequenceParserError.FilterError:
