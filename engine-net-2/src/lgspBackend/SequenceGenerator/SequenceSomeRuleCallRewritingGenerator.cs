@@ -55,7 +55,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.totalMatchToApply = totalMatchToApply;
             this.curTotalMatch = curTotalMatch;
 
-            ruleCallGen.seqHelper.BuildReturnParameters(ruleCallGen.ruleInvocation, ruleCallGen.seqRule.ReturnVars,
+            ruleCallGen.seqHelper.BuildReturnParameters(ruleCallGen.seqRule, ruleCallGen.seqRule.ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
