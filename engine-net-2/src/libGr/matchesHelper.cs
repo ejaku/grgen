@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matchList">The list with the matches</param>
         /// <param name="count">The number of matches to keep</param>
-        public static void FilterKeepFirst(List<IMatch> matchList, int count)
+        public static void Filter_keepFirst(List<IMatch> matchList, int count)
         {
             count = Math.Min(matchList.Count, count);
             matchList.RemoveRange(count, matchList.Count - count);
@@ -79,7 +79,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matchList">The list with the matches</param>
         /// <param name="count">The number of matches to keep</param>
-        public static void FilterKeepLast(List<IMatch> matchList, int count)
+        public static void Filter_keepLast(List<IMatch> matchList, int count)
         {
             count = Math.Min(matchList.Count, count);
             matchList.RemoveRange(0, matchList.Count - count);
@@ -90,7 +90,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matchList">The list with the matches</param>
         /// <param name="count">The number of matches to remove</param>
-        public static void FilterRemoveFirst(List<IMatch> matchList, int count)
+        public static void Filter_removeFirst(List<IMatch> matchList, int count)
         {
             count = Math.Min(matchList.Count, count);
             matchList.RemoveRange(0, count);
@@ -101,7 +101,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matchList">The list with the matches</param>
         /// <param name="count">The number of matches to remove</param>
-        public static void FilterRemoveLast(List<IMatch> matchList, int count)
+        public static void Filter_removeLast(List<IMatch> matchList, int count)
         {
             count = Math.Min(matchList.Count, count);
             matchList.RemoveRange(matchList.Count - count, count);
@@ -112,9 +112,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matchList">The list with the matches</param>
         /// <param name="fraction">The fraction of matches to keep</param>
-        public static void FilterKeepFirstFraction(List<IMatch> matchList, double fraction)
+        public static void Filter_keepFirstFraction(List<IMatch> matchList, double fraction)
         {
-            FilterKeepFirst(matchList, (int)Math.Ceiling(fraction * matchList.Count));
+            Filter_keepFirst(matchList, (int)Math.Ceiling(fraction * matchList.Count));
         }
 
         /// <summary>
@@ -122,9 +122,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matchList">The list with the matches</param>
         /// <param name="fraction">The fraction of matches to keep</param>
-        public static void FilterKeepLastFraction(List<IMatch> matchList, double fraction)
+        public static void Filter_keepLastFraction(List<IMatch> matchList, double fraction)
         {
-            FilterKeepLast(matchList, (int)Math.Ceiling(fraction * matchList.Count));
+            Filter_keepLast(matchList, (int)Math.Ceiling(fraction * matchList.Count));
         }
 
         /// <summary>
@@ -132,9 +132,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matchList">The list with the matches</param>
         /// <param name="fraction">The fraction of matches to remove</param>
-        public static void FilterRemoveFirstFraction(List<IMatch> matchList, double fraction)
+        public static void Filter_removeFirstFraction(List<IMatch> matchList, double fraction)
         {
-            FilterRemoveFirst(matchList, (int)Math.Ceiling(fraction * matchList.Count));
+            Filter_removeFirst(matchList, (int)Math.Ceiling(fraction * matchList.Count));
         }
 
         /// <summary>
@@ -142,9 +142,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="matchList">The list with the matches</param>
         /// <param name="fraction">The fraction of matches to remove</param>
-        public static void FilterRemoveLastFraction(List<IMatch> matchList, double fraction)
+        public static void Filter_removeLastFraction(List<IMatch> matchList, double fraction)
         {
-            FilterRemoveLast(matchList, (int)Math.Ceiling(fraction * matchList.Count));
+            Filter_removeLast(matchList, (int)Math.Ceiling(fraction * matchList.Count));
         }
     }
 

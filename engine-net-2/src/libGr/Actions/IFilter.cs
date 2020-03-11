@@ -37,9 +37,30 @@ namespace de.unika.ipd.grGen.libGr
         String PackagePrefixedName { get; }
 
         /// <summary>
+        /// The package the rule/match class is contained in the filter is applyed to.
+        /// </summary>
+        String PackageOfApplyee { get; }
+
+        /// <summary>
         /// Returns whether the filter name given matches the filter.
         /// </summary>
         bool Matches(String name);
+    }
+
+    /// <summary>
+    /// A description of an auto-supplied filter
+    /// </summary>
+    public interface IFilterAutoSupplied : IFilter
+    {
+        /// <summary>
+        /// An array of GrGen types corresponding to filter parameters.
+        /// </summary>
+        GrGenType[] Inputs { get; }
+
+        /// <summary>
+        /// An array of the names corresponding to filter parameters.
+        /// </summary>
+        String[] InputNames { get; }
     }
 
     /// <summary>
@@ -68,23 +89,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         bool IsExternal { get; }
 
-        /// <summary>
-        /// An array of GrGen types corresponding to filter parameters.
-        /// </summary>
-        GrGenType[] Inputs { get; }
-
-        /// <summary>
-        /// An array of the names corresponding to filter parameters.
-        /// </summary>
-        String[] InputNames { get; }
-    }
-
-    /// <summary>
-    /// A description of an auto-supplied filter
-    /// For now only used for dummy objects to get more consistent/uniform code (TODO: add to filters reported)
-    /// </summary>
-    public interface IFilterAutoSupplied : IFilter
-    {
         /// <summary>
         /// An array of GrGen types corresponding to filter parameters.
         /// </summary>

@@ -70,7 +70,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             for(int i = 0; i < seqRule.Filters.Count; ++i)
             {
-                seqGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName);
+                seqGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName);
             }
 
             if(seqRule is SequenceRuleCountAllCall)

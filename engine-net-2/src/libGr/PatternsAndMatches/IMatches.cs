@@ -61,49 +61,49 @@ namespace de.unika.ipd.grGen.libGr
         /// For filtering with the auto-supplied filter keepFirst
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
-        void FilterKeepFirst(int count);
+        void Filter_keepFirst(int count);
         
         /// <summary>
         /// For filtering with the auto-supplied filter keepLast
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
-        void FilterKeepLast(int count);
+        void Filter_keepLast(int count);
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeFirst
         /// </summary>
         /// <param name="count">The number of matches to remove</param>
-        void FilterRemoveFirst(int count);
+        void Filter_removeFirst(int count);
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeLast
         /// </summary>
         /// <param name="count">The number of matches to remove</param>
-        void FilterRemoveLast(int count);
+        void Filter_removeLast(int count);
 
         /// <summary>
         /// For filtering with the auto-supplied filter keepFirstFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        void FilterKeepFirstFraction(double fraction);
+        void Filter_keepFirstFraction(double fraction);
         
         /// <summary>
         /// For filtering with the auto-supplied filter keepLastFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        void FilterKeepLastFraction(double fraction);
+        void Filter_keepLastFraction(double fraction);
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeFirstFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        void FilterRemoveFirstFraction(double fraction);
+        void Filter_removeFirstFraction(double fraction);
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeLastFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        void FilterRemoveLastFraction(double fraction);
+        void Filter_removeLastFraction(double fraction);
     }
 
 

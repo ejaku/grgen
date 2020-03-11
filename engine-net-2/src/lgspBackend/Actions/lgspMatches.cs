@@ -868,25 +868,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// For filtering with the auto-supplied filter keepFirstFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        public void FilterKeepFirstFraction(double fraction)
+        public void Filter_keepFirstFraction(double fraction)
         {
-            FilterKeepFirst((int)Math.Ceiling(fraction * count));
+            Filter_keepFirst((int)Math.Ceiling(fraction * count));
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter keepLastFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to keep</param>
-        public void FilterKeepLastFraction(double fraction)
+        public void Filter_keepLastFraction(double fraction)
         {
-            FilterKeepLast((int)Math.Ceiling(fraction * count));
+            Filter_keepLast((int)Math.Ceiling(fraction * count));
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter keepFirst
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
-        public void FilterKeepFirst(int count)
+        public void Filter_keepFirst(int count)
         {
             List<MatchInterface> matchesArray = ToList();
             for(int i = count; i < matchesArray.Count; ++i)
@@ -900,7 +900,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// For filtering with the auto-supplied filter keepLast
         /// </summary>
         /// <param name="count">The number of matches to keep</param>
-        public void FilterKeepLast(int count)
+        public void Filter_keepLast(int count)
         {
             List<MatchInterface> matchesArray = ToList();
             for(int i = matchesArray.Count-1 - count; i >= 0; --i)
@@ -914,25 +914,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// For filtering with the auto-supplied filter removeFirstFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to remove</param>
-        public void FilterRemoveFirstFraction(double fraction)
+        public void Filter_removeFirstFraction(double fraction)
         {
-            FilterRemoveFirst((int)Math.Ceiling(fraction * count));
+            Filter_removeFirst((int)Math.Ceiling(fraction * count));
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeLastFraction
         /// </summary>
         /// <param name="fraction">The fraction of matches to remove</param>
-        public void FilterRemoveLastFraction(double fraction)
+        public void Filter_removeLastFraction(double fraction)
         {
-            FilterRemoveLast((int)Math.Ceiling(fraction * count));
+            Filter_removeLast((int)Math.Ceiling(fraction * count));
         }
 
         /// <summary>
         /// For filtering with the auto-supplied filter removeFirst
         /// </summary>
         /// <param name="count">The number of matches to remove</param>
-        public void FilterRemoveFirst(int count)
+        public void Filter_removeFirst(int count)
         {
             List<MatchInterface> matchesArray = ToList();
             for(int i = 0; i < Math.Min(count, matchesArray.Count); ++i)
@@ -946,7 +946,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// For filtering with the auto-supplied filter removeLast
         /// </summary>
         /// <param name="count">The number of matches to remove</param>
-        public void FilterRemoveLast(int count)
+        public void Filter_removeLast(int count)
         {
             List<MatchInterface> matchesArray = ToList();
             for(int i = matchesArray.Count - 1; i > Math.Max(matchesArray.Count - 1 - count, 0); --i)
