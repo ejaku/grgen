@@ -692,9 +692,9 @@ public abstract class BaseNode extends Base
 	 * TODO: fully extract and unify this method to a common place/remove code duplication
 	 * better yet: move it to own pass before resolving
 	 */
-	public static void tryfixupDefinition(BaseNode elem, Scope scope) {
+	public static boolean tryFixupDefinition(BaseNode elem, Scope scope) {
 		if(!(elem instanceof IdentNode)) {
-			return;
+			return false;
 		}
 		IdentNode id = (IdentNode)elem;
 		
@@ -712,7 +712,10 @@ public abstract class BaseNode extends Base
 		// this fixup stuff is crappy as hell
 		if(def.isValid()) {
 			id.setSymDef(def);
-		} 
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/*

@@ -172,12 +172,6 @@ public class CallActionNode extends BaseNode {
 			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 		}
 
-		for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
-			if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
-				fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
-			}
-		}
-
 		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
 			actionResolver.resolve(actionUnresolved, this);
 		if(resolved!=null) {
@@ -190,6 +184,12 @@ public class CallActionNode extends BaseNode {
 		}
 
 		successfullyResolved = resolved!=null && (action!=null || sequence!=null || booleVar!=null) && successfullyResolved;
+
+		for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
+			if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
+				fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
+			}
+		}
 
 		params = paramNodeResolver.resolve(paramsUnresolved, this);
 		successfullyResolved = params!=null && successfullyResolved;

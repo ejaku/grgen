@@ -68,8 +68,9 @@ public class MatchTypeNode extends DeclaredTypeNode {
 
 	@Override
 	protected boolean resolveLocal() {
-		if(actionUnresolved instanceof IdentNode)
+		if(!(actionUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition((IdentNode)actionUnresolved, actionUnresolved.getScope());
+		}
 		action = actionResolver.resolve(actionUnresolved, this);
 		if(action == null) return false;
 		return true;

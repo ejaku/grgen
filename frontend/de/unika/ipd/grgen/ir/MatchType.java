@@ -15,7 +15,7 @@ public class MatchType extends Type {
 	Rule action;
 
 	public MatchType(Rule action) {
-		super("match type", null);
+		super("match type", action.getIdent());
 		this.action = action;
 	}
 	

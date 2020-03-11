@@ -83,7 +83,7 @@ public class DeclExprNode extends ExprNode {
 	@Override
 	protected boolean resolveLocal() {
 		if(!(declUnresolved instanceof PackageIdentNode)) {
-			tryfixupDefinition(declUnresolved, declUnresolved.getScope());
+			tryFixupDefinition(declUnresolved, declUnresolved.getScope());
 		}
 		
 		if(!memberResolver.resolve(declUnresolved))

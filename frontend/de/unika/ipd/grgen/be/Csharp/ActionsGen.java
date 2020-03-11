@@ -785,7 +785,7 @@ public class ActionsGen extends CSharpBase {
 			if(filter instanceof FilterFunctionInternal) {
 				FilterFunctionInternal filterFunction = (FilterFunctionInternal)filter;
 				forceNotConstant(filterFunction.getComputationStatements());
-				genFilterFunction(sb, filterFunction, be.system.emitProfilingInstrumentation());
+				genFilterFunction(sb, filterFunction, packageName, be.system.emitProfilingInstrumentation());
 			}
 		}
 
@@ -804,13 +804,14 @@ public class ActionsGen extends CSharpBase {
 		genStaticConstructor(sb, "MatchFilters", staticInitializers);
 
 		sb.append("\t}\n");
-		sb.append("\n");		
+		sb.append("\n");
 	}
 
-	private void genFilterFunction(StringBuffer sb, FilterFunctionInternal filter, boolean emitProfilingInstrumentation) {
+	private void genFilterFunction(StringBuffer sb, FilterFunctionInternal filter, String packageName, boolean emitProfilingInstrumentation) {
 		String actionName = filter.getAction().getIdent().toString();
+		String matchType = "Rule_" + actionName + ".IMatch_" + actionName;
 		sb.append("\t\tpublic static void ");
-		sb.append("Filter_" + filter.getIdent().toString() + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_"+actionName+".IMatch_"+actionName+"> matches");
+		sb.append("Filter_" + filter.getIdent().toString() + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<" + matchType + "> matches");
 		for(Entity inParam : filter.getParameters()) {
 			sb.append(", ");
 			sb.append(formatType(inParam.getType()));
