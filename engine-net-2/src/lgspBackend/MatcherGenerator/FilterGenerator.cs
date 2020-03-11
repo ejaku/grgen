@@ -701,14 +701,18 @@ namespace de.unika.ipd.grGen.lgsp
                 else if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    source.AppendFrontFormat("case \"{0}\": ", filterFunction.Name); 
-                    source.AppendFormat("GRGEN_ACTIONS.{0}MatchClassFilters.Filter_{1}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({2})matches",
-                        TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType);
-                    for(int i = 0; i < filterFunction.Inputs.Length; ++i)
+                    if(filterFunction.Package == null
+                        || (matchClass.Package != null && filterFunction.Package == matchClass.Package && matchClass.GetFilter(filterFunction.Name) == null))
                     {
-                        source.AppendFormat(", ({0})(filter.Arguments[{1}])", TypesHelper.TypeName(filterFunction.Inputs[i]), i);
+                        source.AppendFrontFormat("case \"{0}\": ", filterFunction.Name);
+                        source.AppendFormat("GRGEN_ACTIONS.{0}MatchClassFilters.Filter_{1}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, ({2})matches",
+                            TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesType);
+                        for(int i = 0; i < filterFunction.Inputs.Length; ++i)
+                        {
+                            source.AppendFormat(", ({0})(filter.Arguments[{1}])", TypesHelper.TypeName(filterFunction.Inputs[i]), i);
+                        }
+                        source.Append("); break;\n");
                     }
-                    source.Append("); break;\n");
                     if(filterFunction.Package != null)
                     {
                         source.AppendFrontFormat("case \"{0}::{1}\": ", filterFunction.Package, filterFunction.Name);
