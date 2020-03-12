@@ -177,14 +177,14 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     Package = null;
                     PackagePrefixedName = filterBase;
                 }
-                else if(packageContext != null && actionNames.RuleContainsFilter(packagePrefixedRuleName, packageContext + "::" + filterName))
-                {
-                    Package = packageContext;
-                    PackagePrefixedName = Package + "::" + filterBase;
-                }
-                else if(rulePackage != null)
+                else if(rulePackage != null && actionNames.RuleContainsFilter(packagePrefixedRuleName, rulePackage + "::" + filterName))
                 {
                     Package = rulePackage;
+                    PackagePrefixedName = Package + "::" + filterBase;
+                }
+                else if(packageContext != null)
+                {
+                    Package = packageContext;
                     PackagePrefixedName = Package + "::" + filterBase;
                 }
                 else
@@ -238,14 +238,14 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     Package = null;
                     PackagePrefixedName = filterBase;
                 }
-                else if(packageContext != null && actionNames.MatchClassContainsFilter(packagePrefixedMatchClassName, packageContext + "::" + filterName))
-                {
-                    Package = packageContext;
-                    PackagePrefixedName = Package + "::" + filterBase;
-                }
-                else if(matchClassPackage != null)
+                else if(matchClassPackage != null && actionNames.MatchClassContainsFilter(packagePrefixedMatchClassName, matchClassPackage + "::" + filterName))
                 {
                     Package = matchClassPackage;
+                    PackagePrefixedName = Package + "::" + filterBase;
+                }
+                else if(packageContext != null)
+                {
+                    Package = packageContext;
                     PackagePrefixedName = Package + "::" + filterBase;
                 }
                 else
