@@ -97,9 +97,12 @@ public class VarDeclNode extends DeclNode {
 
 	@Override
 	protected boolean resolveLocal() {
-		// Type was already known at construction?
-		if(type != null) return true;
-
+		if(type != null) { // Type was already known at construction?
+			return true;
+		}
+		if(!(typeUnresolved instanceof PackageIdentNode)) {
+			fixupDefinition(typeUnresolved, typeUnresolved.getScope());
+		}
 		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
 		if(typeDecl instanceof InvalidDeclNode) {
 			typeUnresolved.reportError("Unknown type: \"" + typeUnresolved + "\"");
