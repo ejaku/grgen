@@ -187,7 +187,9 @@ public class CallActionNode extends BaseNode {
 
 		for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
 			if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
-				fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
+				if(!tryFixupDefinition(filterFunctionUnresolved, action.getScope().getParent())) {
+					fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
+				}
 			}
 		}
 
