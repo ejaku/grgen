@@ -2144,11 +2144,12 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private void genFilterFunction(StringBuffer sb, FilterFunction ff, String packageName) {
+		String packageNameOfFilterFunction = ff.getPackageContainedIn();
 		sb.append("\t\t\t\tnew GRGEN_LGSP.LGSPFilterFunction(\"" + ff.getFilterName() + "\", "); 
-		sb.append(packageName!=null ? "\"" + packageName + "\", " : "null, ");
-		sb.append("\"" + (packageName!=null ? packageName + "::" + ff.getFilterName() : ff.getFilterName()) + "\", ");
+		sb.append(packageNameOfFilterFunction!=null ? "\"" + packageNameOfFilterFunction + "\", " : "null, ");
+		sb.append("\"" + (packageNameOfFilterFunction!=null ? packageNameOfFilterFunction + "::" + ff.getFilterName() : ff.getFilterName()) + "\", ");
 		sb.append((ff instanceof FilterFunctionExternal ? "true" : "false") + ", "); 
-		sb.append(packageName!=null ? "\"" + packageName + "\", " : "null, ");
+		sb.append(packageNameOfFilterFunction!=null ? "\"" + packageNameOfFilterFunction + "\", " : "null, ");
 		sb.append("new GRGEN_LIBGR.GrGenType[] {");
 		for(Type paramType : ff.getParameterTypes()) {
 			if(paramType instanceof InheritanceType) {
