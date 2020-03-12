@@ -495,7 +495,7 @@ public abstract class BaseNode extends Base
 	 * @param node The root node of the AST.
 	 * @return true, if everything went right, false, if not.
 	 */
-	public static final boolean manifestAST(BaseNode node) {
+	public static final boolean manifestAST(UnitNode node) {
 		// resolve AST
 		boolean resolved = node.resolve();
 
