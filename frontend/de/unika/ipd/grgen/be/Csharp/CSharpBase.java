@@ -449,7 +449,8 @@ public abstract class CSharpBase {
 			MatchType matchType = (MatchType) t;
 			Rule action = matchType.getAction();
 			String actionName = action.getIdent().toString();
-			return "Rule_" + actionName + ".IMatch_" + actionName;
+			String packagePrefix = getPackagePrefixDot(matchType.getAction());
+			return packagePrefix + "Rule_" + actionName + ".IMatch_" + actionName;
 		}
 		else if(t instanceof DefinedMatchType) {
 			DefinedMatchType definedMatchType = (DefinedMatchType) t;
