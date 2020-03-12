@@ -1,0 +1,118 @@
+#using "model.gm"
+
+package Bar
+{
+	rule r(start:Node)
+	{
+		start --> n:N;
+		if{ !n.visited; }
+		
+		def var v:int;
+		yield { yield v = n.i; }
+
+		modify {
+			delete(n);
+		}
+	} \ orderAscendingBy<v>
+
+	filter rf<r>(var n:int)
+	{
+		if(incident(this[0].start).empty()) {
+			this.add(copy(this.peek()));
+			this.rem();
+		}
+		emit("the value of variable \"Bar::rf\" of type string is: \"Bar::rf\"\n");
+		emit("the value of variable \"Bar::rf.v\" of type int is: ", this[0].v, "\n");
+	}
+	
+	sequence seq // one context - same as applyee, one explicit
+	{
+		[[r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\Foo::shf(42)]]
+		;> printNodeCounts
+	}
+	
+	sequence seqPackageApplyee
+	{
+		[[r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]
+		;> printNodeCounts
+	}
+}
+
+package Foo
+{
+	rule init : (Node)
+	{
+		modify {
+			start:Node --> n1:N;
+			start --> n2:N;
+			start --> n3:N;
+
+			root:Node --> :M;
+			root --> :M;
+			
+			eval {
+				n1.i = 1;
+				n2.i = 2;
+				n3.i = 3;
+				n3.visited = true;
+			}
+			
+			return(start);
+		}
+	}
+	
+	rule s : (M, M)
+	{
+		root:Node --> m1:M;
+		root --> m2:M;
+		
+		def var v:int;
+		yield { yield v = 1; }
+
+		modify {
+			:N<root>;
+			return(m1,m2);
+		}
+	} \ auto, orderAscendingBy<v>
+
+	filter shf<s>(var f:int)
+	{
+		for(m:match<s> in this)
+		{
+			m.v = m.v * f;
+		}
+		emit("the value of variable \"Foo::shf\" of type string is: \"Foo::shf\"\n");
+		emit("the value of variable \"Foo::shf.v\" of type int is: ", this[0].v, "\n");
+	}
+	
+	sequence seq // one explicit, one context - same as applyee
+	{
+		[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\Bar::rf(42),(m1:array<M>,::m2)=s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]
+		;> printNodeCounts
+	}
+	
+	sequence seqPackageApplyee
+	{
+		[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]
+		;> printNodeCounts
+	}
+}
+
+sequence seq // filter functions explicit
+{
+	[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\Bar::rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\Foo::shf(42)]]
+	;> printNodeCounts
+}
+
+sequence seqPackageApplyee
+{
+	[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]
+	;> printNodeCounts
+}
+
+sequence printNodeCounts
+{
+	{ emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesN\" of type int is: ", countNodes(N), "\n") }
+	;> { emit("the value of variable \"countNodesM\" of type int is: ", countNodes(M), "\n") }
+}

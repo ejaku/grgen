@@ -1,0 +1,19 @@
+new graph "multiruleallcallnonsimplepackage/packagemultiruleallcall"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=Foo::init()
+
+exec seqPackageApplyee
+
+clear graph
+
+exec (::n)=Foo::init()
+
+exec Foo::seqPackageApplyee
+
+clear graph
+
+exec (::n)=Foo::init()
+
+exec Bar::seqPackageApplyee
+
+quit

@@ -1,0 +1,8 @@
+new graph "multiruleallcallnonsimplepackage/packagemultiruleallcall"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=Foo::init()
+
+exec [[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]\
+;> printNodeCounts
+
+quit
