@@ -1,0 +1,153 @@
+#using "model.gm"
+
+package Bla
+{
+	rule r(start:Node) implements Foo::shared
+	{
+		start --> n:N;
+		if{ !n.visited; }
+		
+		def var v:int;
+		def x:Node;
+		yield {
+			yield v = n.i;
+			yield x = n;
+		}
+
+		modify {
+			delete(n);
+		}
+	}
+}
+
+rule s : (M, M) implements Foo::shared
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+	def x:Node;
+	yield {
+		yield v = 42;
+		yield x = root;
+	}
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+} \ auto
+
+package Foo
+{
+	rule init : (Node)
+	{
+		modify {
+			start:Node --> n1:N;
+			start --> n2:N;
+			start --> n3:N;
+
+			root:Node --> :M;
+			root --> :M;
+			
+			eval {
+				n1.i = 1;
+				n2.i = 2;
+				n3.i = 3;
+				n3.visited = true;
+			}
+			
+			return(start);
+		}
+	}
+
+	match class shared
+	{
+		def var v:int;
+		def x:Node;
+	} \ orderAscendingBy<v>
+
+	match filter shf<shared>(var f:int)
+	{
+		for(m:match<class shared> in this)
+		{
+			m.v = m.v * f;
+		}
+		emit("the value of variable \"Foo::shf\" of type string is: \"Foo::shf\"\n");
+		emit("the value of variable \"Foo::shf.v\" of type int is: ", this[0].v, "\n");
+	}
+
+	sequence seq // explicit
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+		;> printNodeCounts
+	}
+
+	sequence seqPackageApplyee // context - same as applyee
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.shf(42)
+		;> printNodeCounts
+	}
+	
+	sequence seqOther // explicit other
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.Bar::shf(42)
+		;> printNodeCounts
+	}
+}
+
+package Bar
+{
+	match filter shf<Foo::shared>(var f:int)
+	{
+		for(m:match<class Foo::shared> in this)
+		{
+			m.v = m.v * f;
+		}
+		emit("the value of variable \"Bar::shf\" of type string is: \"Bar::shf\"\n");
+		emit("the value of variable \"Bar::shf.v\" of type int is: ", this[0].v, "\n");
+	}
+
+	sequence seq // explicit
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+		;> printNodeCounts
+	}
+
+	sequence seqPackageApplyee // applyee - not same as context, but existing in context
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)
+		;> printNodeCounts
+	}
+	
+	sequence seqOther // explicit other
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Bar::shf(42)
+		;> printNodeCounts
+	}
+}
+
+sequence seq // explicit
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+	;> printNodeCounts
+}
+
+sequence seqPackageApplyee // applyee - does not exist in context
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)
+	;> printNodeCounts
+}
+
+sequence seqOther // explicit other
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Bar::shf(42)
+	;> printNodeCounts
+}
+
+sequence printNodeCounts
+{
+	{ emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesN\" of type int is: ", countNodes(N), "\n") }
+	;> { emit("the value of variable \"countNodesM\" of type int is: ", countNodes(M), "\n") }
+}

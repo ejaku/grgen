@@ -1,0 +1,19 @@
+new graph "multiruleallcallnonsimplepackage/packagemultiruleallcallmatchfilter"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=Foo::init()
+
+exec seq
+
+clear graph
+
+exec (::n)=Foo::init()
+
+exec Foo::seq
+
+clear graph
+
+exec (::n)=Foo::init()
+
+exec Bar::seq
+
+quit

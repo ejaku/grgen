@@ -1,0 +1,13 @@
+new graph "multiruleallcallnonsimplepackage/packagemultiruleallcallmatchfilterglobal"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=Foo::init()
+
+exec seqGGlobal
+
+clear graph
+
+exec (::n)=Foo::init()
+
+exec Foo::seqGGlobal
+
+quit

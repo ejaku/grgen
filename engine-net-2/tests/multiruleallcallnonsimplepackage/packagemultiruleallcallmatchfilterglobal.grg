@@ -1,0 +1,170 @@
+#using "model.gm"
+
+package Bla
+{
+	rule r(start:Node) implements Foo::shared, sharedGlobal
+	{
+		start --> n:N;
+		if{ !n.visited; }
+		
+		def var v:int;
+		def x:Node;
+		yield {
+			yield v = n.i;
+			yield x = n;
+		}
+
+		modify {
+			delete(n);
+		}
+	}
+}
+
+rule s : (M, M) implements Foo::shared, sharedGlobal
+{
+	root:Node --> m1:M;
+	root --> m2:M;
+	
+	def var v:int;
+	def x:Node;
+	yield {
+		yield v = 42;
+		yield x = root;
+	}
+
+	modify {
+		:N<root>;
+		return(m1,m2);
+	}
+} \ auto
+
+package Foo
+{
+	rule init : (Node)
+	{
+		modify {
+			start:Node --> n1:N;
+			start --> n2:N;
+			start --> n3:N;
+
+			root:Node --> :M;
+			root --> :M;
+			
+			eval {
+				n1.i = 1;
+				n2.i = 2;
+				n3.i = 3;
+				n3.visited = true;
+			}
+			
+			return(start);
+		}
+	}
+
+	match class shared
+	{
+		def var v:int;
+		def x:Node;
+	} \ orderAscendingBy<v>
+
+	match filter shf<Foo::shared>(var f:int)
+	{
+		for(m:match<class Foo::shared> in this)
+		{
+			m.v = m.v * f;
+		}
+		emit("the value of variable \"Foo::shf\" of type string is: \"Foo::shf\"\n");
+		emit("the value of variable \"Foo::shf.v\" of type int is: ", this[0].v, "\n");
+	}
+
+	match filter shgf<sharedGlobal>(var f:int)
+	{
+		for(m:match<class sharedGlobal> in this)
+		{
+			m.v = m.v * f;
+		}
+		emit("the value of variable \"Foo::shgf\" of type string is: \"Foo::shgf\"\n");
+		emit("the value of variable \"Foo::shgf.v\" of type int is: ", this[0].v, "\n");
+	}
+
+	sequence seq // explicit
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+		;> printNodeCounts
+	}
+
+	sequence seqGlobal // global - different from applyee
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.shf(42)
+		;> printNodeCounts
+	}
+	
+	sequence seqG // explicit
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.Foo::shgf(42)
+		;> printNodeCounts
+	}
+
+	sequence seqGGlobal // global - same as applyee
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\shared.keepFirst(100)\shared.orderAscendingBy<v>\sharedGlobal.shgf(42)
+		;> printNodeCounts
+	}	
+}
+
+match class sharedGlobal
+{
+	def var v:int;
+	def x:Node;
+} \ orderAscendingBy<v>
+
+match filter shf<Foo::shared>(var f:int)
+{
+	for(m:match<class Foo::shared> in this)
+	{
+		m.v = m.v * f;
+	}
+	emit("the value of variable \"shf\" of type string is: \"shf\"\n");
+	emit("the value of variable \"shf.v\" of type int is: ", this[0].v, "\n");
+}
+
+match filter shgf<sharedGlobal>(var f:int)
+{
+	for(m:match<class sharedGlobal> in this)
+	{
+		m.v = m.v * f;
+	}
+	emit("the value of variable \"shgf\" of type string is: \"shgf\"\n");
+	emit("the value of variable \"shgf.v\" of type int is: ", this[0].v, "\n");
+}
+
+sequence seq // explicit
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+	;> printNodeCounts
+}
+
+sequence seqGlobal // global (same as applyee)
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)
+	;> printNodeCounts
+}
+
+sequence seqG // explicit
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.Foo::shgf(42)
+	;> printNodeCounts
+}
+
+sequence seqGGlobal // global (same as applyee)
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.shgf(42)
+	;> printNodeCounts
+}
+
+sequence printNodeCounts
+{
+	{ emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesN\" of type int is: ", countNodes(N), "\n") }
+	;> { emit("the value of variable \"countNodesM\" of type int is: ", countNodes(M), "\n") }
+}
