@@ -1,0 +1,31 @@
+package Foo
+{
+	rule r {
+		x:Node -e:Edge-> x;
+
+		modify {
+			delete(e);
+			x -i:Edge-> y:Node;
+		}
+	}
+	
+	filter f<r> {
+		return;
+	}
+}
+
+package Bar 
+{	
+	rule r {
+		x:Node -e:Edge-> x;
+
+		modify {
+			delete(e);
+			x -i:Edge-> y:Node;
+		}
+	}
+		
+	filter f<r> {
+		return;
+	}
+}
