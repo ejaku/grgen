@@ -815,18 +815,18 @@ options { k = *; }
 			res = decl;
 		}
 	|
-		id=entIdentDecl COLON MATCH LT type=actionIdentUse GT // match decl
+		id=entIdentDecl COLON MATCH LT actionIdent=actionIdentUse GT // match decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeNode.getMatchTypeNode(type));
-			if(emit) xg.append(id.toString()+":match<"+type.toString()+">");
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent));
+			if(emit) xg.append(id.toString()+":match<"+actionIdent.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
 	|
-		id=entIdentDecl COLON MATCH LT CLASS type=typeIdentUse GT // match class decl
+		id=entIdentDecl COLON MATCH LT CLASS matchClassIdent=typeIdentUse GT // match class decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
-			if(emit) xg.append(id.toString()+":match<class "+type.toString()+">");
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, matchClassIdent);
+			if(emit) xg.append(id.toString()+":match<class "+matchClassIdent.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}

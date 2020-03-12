@@ -11,14 +11,23 @@
 
 package de.unika.ipd.grgen.ir;
 
-public class MatchType extends Type {
-	Rule action;
+public class MatchType extends Type implements ContainedInPackage {
+	private String packageContainedIn;
+	private Rule action;
 
 	public MatchType(Rule action) {
 		super("match type", action.getIdent());
 		this.action = action;
 	}
+
+	public String getPackageContainedIn() {
+		return packageContainedIn;
+	}
 	
+	public void setPackageContainedIn(String packageContainedIn) {
+		this.packageContainedIn = packageContainedIn;
+	}
+
 	public Rule getAction() {
 		return action;
 	}

@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ir.FilterFunction;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.MatchClassFilterFunction;
+import de.unika.ipd.grgen.ir.MatchType;
 import de.unika.ipd.grgen.ir.PackageActionType;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Sequence;
@@ -45,14 +46,17 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 	private CollectNode<TestDeclNode> actions; // of type TestDeclNode or RuleDeclNode
 	private CollectNode<IdentNode> actionsUnresolved;
 
+	private CollectNode<MatchTypeNode> matchTypes;
+	private CollectNode<IdentNode> matchTypesUnresolved;
+
 	private CollectNode<FilterFunctionDeclNode> filterFunctions;
 	private CollectNode<IdentNode> filterFunctionsUnresolved;
 
+	private CollectNode<TypeDeclNode> matchClassDecls;
+	private CollectNode<IdentNode> matchClassesUnresolved;
+
 	private CollectNode<MatchClassFilterFunctionDeclNode> matchClassFilterFunctions;
 	private CollectNode<IdentNode> matchClassFilterFunctionsUnresolved;
-
-	private CollectNode<DefinedMatchTypeNode> matchClasses;
-	private CollectNode<IdentNode> matchClassesUnresolved;
 
 	private CollectNode<FunctionDeclNode> functions;
 	private CollectNode<IdentNode> functionsUnresolved;
@@ -63,15 +67,17 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 	private CollectNode<SequenceDeclNode> sequences;
 	private CollectNode<IdentNode> sequencesUnresolved;
 
-	public PackageActionTypeNode(CollectNode<IdentNode> subpatterns, 
-			CollectNode<IdentNode> actions, CollectNode<IdentNode> filterFunctions, 
-			CollectNode<IdentNode> matchClasses, CollectNode<IdentNode> matchClassFilterFunctions, 
+	public PackageActionTypeNode(CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions,
+			CollectNode<IdentNode> matchTypes, CollectNode<IdentNode> filterFunctions,
+			CollectNode<IdentNode> matchClasses, CollectNode<IdentNode> matchClassFilterFunctions,
 			CollectNode<IdentNode> functions, CollectNode<IdentNode> procedures,
 			CollectNode<IdentNode> sequences) {
 		this.subpatternsUnresolved = subpatterns;
 		becomeParent(this.subpatternsUnresolved);
 		this.actionsUnresolved = actions;
 		becomeParent(this.actionsUnresolved);
+		this.matchTypesUnresolved = matchTypes;
+		becomeParent(this.matchTypesUnresolved);
 		this.filterFunctionsUnresolved = filterFunctions;
 		becomeParent(this.filterFunctionsUnresolved);
 		this.matchClassesUnresolved = matchClasses;
@@ -92,8 +98,9 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
 		children.add(getValidVersion(actionsUnresolved, actions));
+		children.add(getValidVersion(matchTypesUnresolved, matchTypes));
 		children.add(getValidVersion(filterFunctionsUnresolved, filterFunctions));
-		children.add(getValidVersion(matchClassesUnresolved, matchClasses));
+		children.add(getValidVersion(matchClassesUnresolved, matchClassDecls));
 		children.add(getValidVersion(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
 		children.add(getValidVersion(functionsUnresolved, functions));
 		children.add(getValidVersion(proceduresUnresolved, procedures));
@@ -107,9 +114,10 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("subpatterns");
 		childrenNames.add("actions");
+		childrenNames.add("match types");
 		childrenNames.add("filter functions");
 		childrenNames.add("match classes");
-		childrenNames.add("match filter functions");
+		childrenNames.add("match class filter functions");
 		childrenNames.add("functions");
 		childrenNames.add("procedures");
 		childrenNames.add("sequences");
@@ -122,11 +130,14 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 	private static final CollectResolver<TestDeclNode> actionsResolver = new CollectResolver<TestDeclNode>(
 			new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
 
+	private static CollectResolver<MatchTypeNode> matchTypesResolver = new CollectResolver<MatchTypeNode>(
+			new DeclarationTypeResolver<MatchTypeNode>(MatchTypeNode.class));
+
 	private static final CollectResolver<FilterFunctionDeclNode> filterFunctionsResolver = new CollectResolver<FilterFunctionDeclNode>(
 			new DeclarationResolver<FilterFunctionDeclNode>(FilterFunctionDeclNode.class));
 
-	private static final CollectResolver<DefinedMatchTypeNode> matchClassesResolver = new CollectResolver<DefinedMatchTypeNode>(
-			new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class));
+	private static final CollectResolver<TypeDeclNode> matchClassesResolver = new CollectResolver<TypeDeclNode>(
+			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 
 	private static final CollectResolver<MatchClassFilterFunctionDeclNode> matchClassFilterFunctionsResolver = new CollectResolver<MatchClassFilterFunctionDeclNode>(
 			new DeclarationResolver<MatchClassFilterFunctionDeclNode>(MatchClassFilterFunctionDeclNode.class));
@@ -143,16 +154,20 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		subpatterns  = subpatternsResolver.resolve(subpatternsUnresolved, this);
-		actions      = actionsResolver.resolve(actionsUnresolved, this);
+		subpatterns = subpatternsResolver.resolve(subpatternsUnresolved, this);
+		actions = actionsResolver.resolve(actionsUnresolved, this);
+		matchTypes = matchTypesResolver.resolve(matchTypesUnresolved, this);
 		filterFunctions = filterFunctionsResolver.resolve(filterFunctionsUnresolved, this);
-		matchClasses = matchClassesResolver.resolve(matchClassesUnresolved, this);
+		matchClassDecls = matchClassesResolver.resolve(matchClassesUnresolved, this);
 		matchClassFilterFunctions = matchClassFilterFunctionsResolver.resolve(matchClassFilterFunctionsUnresolved, this);
 		functions = functionsResolver.resolve(functionsUnresolved, this);
 		procedures = proceduresResolver.resolve(proceduresUnresolved, this);
-		sequences    = sequencesResolver.resolve(sequencesUnresolved, this);
+		sequences = sequencesResolver.resolve(sequencesUnresolved, this);
 
-		return subpatterns != null && actions != null && filterFunctions != null && matchClasses != null && matchClassFilterFunctions != null && functions != null && procedures != null && sequences != null;
+		return subpatterns != null && actions != null
+				&& matchTypes != null && filterFunctions != null
+				&& matchClassDecls != null && matchClassFilterFunctions != null
+				&& functions != null && procedures != null && sequences != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
@@ -212,14 +227,21 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 			res.addActionRule(rule);
 		}
 
+		for(MatchTypeNode n : matchTypes.getChildren()) {
+			MatchType matchType = n.getMatchType();
+			matchType.setPackageContainedIn(id.toString());
+			//no adding to package as nothing needs to be generated from this type / already happens with action
+		}
+
 		for(FilterFunctionDeclNode n : filterFunctions.getChildren()) {
 			FilterFunction filter = n.getFilterFunction();
 			filter.setPackageContainedIn(id.toString());
 			res.addFilterFunction(filter);
 		}
 
-		for(DefinedMatchTypeNode n : matchClasses.getChildren()) {
-			DefinedMatchType matchClass = n.getDefinedMatchType();
+		for(TypeDeclNode n : matchClassDecls.getChildren()) {
+			DefinedMatchTypeNode matchClassNode = (DefinedMatchTypeNode)n.getDeclType();
+			DefinedMatchType matchClass = matchClassNode.getDefinedMatchType();
 			matchClass.setPackageContainedIn(id.toString());
 			res.addMatchClass(matchClass);
 		}

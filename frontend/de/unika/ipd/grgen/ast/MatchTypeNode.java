@@ -12,13 +12,15 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchType;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.parser.ParserEnvironment;
+import de.unika.ipd.grgen.parser.Symbol;
+import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 
 public class MatchTypeNode extends DeclaredTypeNode {
 	static {
@@ -30,18 +32,32 @@ public class MatchTypeNode extends DeclaredTypeNode {
 		return "match<" + actionUnresolved.toString() + "> type";
 	}
 
-	private static HashMap<String, MatchTypeNode> matchTypes = new HashMap<String, MatchTypeNode>();
-
-	public static MatchTypeNode getMatchTypeNode(IdentNode valueTypeIdent) {
-		String keyStr = valueTypeIdent.toString();
-		MatchTypeNode matchTypeNode = matchTypes.get(keyStr);
-
-		if(matchTypeNode == null)
-			matchTypes.put(keyStr, matchTypeNode = new MatchTypeNode(valueTypeIdent));
-
-		return matchTypeNode;
+	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode actionIdent) {
+		String actionString = actionIdent.toString();
+		String matchTypeString = "match<" + actionString + ">";
+		IdentNode matchTypeIdentNode = new IdentNode(env.define(ParserEnvironment.TYPES, matchTypeString, actionIdent.getCoords()));
+		MatchTypeNode matchTypeNode = new MatchTypeNode(actionIdent);
+		TypeDeclNode typeDeclNode = new TypeDeclNode(matchTypeIdentNode, matchTypeNode); 
+		matchTypeIdentNode.setDecl(typeDeclNode);
+		return matchTypeIdentNode;
 	}
-
+	
+	public static IdentNode getMatchTypeIdentNode(ParserEnvironment env, IdentNode actionIdent) {
+		Occurrence actionOccurrence = actionIdent.occ;
+		Symbol actionSymbol = actionOccurrence.getSymbol();
+		String actionString = actionSymbol.getText();
+		String matchTypeString = "match<" + actionString + ">";
+		if(actionIdent instanceof PackageIdentNode) {
+			PackageIdentNode packageActionIdent = (PackageIdentNode)actionIdent;
+			Occurrence packageOccurrence = packageActionIdent.owningPackage;
+			Symbol packageSymbol = packageOccurrence.getSymbol();
+			return new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, packageSymbol.getText(), packageOccurrence.getCoords()), 
+					env.occurs(ParserEnvironment.TYPES, matchTypeString, actionOccurrence.getCoords()));
+		} else {
+			return new IdentNode(env.occurs(ParserEnvironment.TYPES, matchTypeString, actionOccurrence.getCoords()));
+		}
+	}
+	
 	private IdentNode actionUnresolved;
 	protected TestDeclNode action;
 
@@ -79,6 +95,11 @@ public class MatchTypeNode extends DeclaredTypeNode {
 	public TestDeclNode getTest() {
 		assert(isResolved());
 		return action;
+	}
+
+	/** Returns the IR object for this match type node. */
+	public MatchType getMatchType() {
+		return checkIR(MatchType.class);
 	}
 
 	@Override

@@ -195,6 +195,7 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<IdentNode> packages = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> matchTypeChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> matchClassChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> matchClassFilterChilds = new CollectNode<IdentNode>();
@@ -209,12 +210,13 @@ textActions returns [ UnitNode main = null ]
 
 	: ( usingDecl[modelChilds] )*
 	
-       ( globalVarDecl
-       | ( pack=packageActionDecl { packages.addChild(pack); } )
-       | (declsPatternMatchingOrAttributeEvaluationUnitWithModifier[
-                       patternChilds, actionChilds, filterChilds, matchClassChilds, matchClassFilterChilds, functionChilds, procedureChilds, sequenceChilds])
-       )*
-       EOF
+		( globalVarDecl
+		| ( pack=packageActionDecl { packages.addChild(pack); } )
+		| (declsPatternMatchingOrAttributeEvaluationUnitWithModifier[patternChilds, actionChilds,
+				matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+				functionChilds, procedureChilds, sequenceChilds])
+		)*
+		EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -272,11 +274,9 @@ textActions returns [ UnitNode main = null ]
 				modelChilds.addChild(model);
 			}
 			main = new UnitNode(actionsName, getFilename(),
-								env.getStdModel(), modelChilds, patternChilds,
-								actionChilds, filterChilds,
-								matchClassChilds, matchClassFilterChilds,
-								functionChilds, procedureChilds,
-								sequenceChilds, packages);
+						env.getStdModel(), modelChilds, patternChilds, actionChilds,
+						matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+						functionChilds, procedureChilds, sequenceChilds, packages);
 		}
 	;
 
@@ -370,6 +370,7 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 	@init{
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> matchTypeChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> filterChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> matchClassChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> matchClassFilterChilds = new CollectNode<IdentNode>();
@@ -378,28 +379,31 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 	}
 	: PACKAGE id=packageIdentDecl LBRACE { env.pushScope(id); }
-               ( declsPatternMatchingOrAttributeEvaluationUnitWithModifier[
-			patternChilds, actionChilds, filterChilds, matchClassChilds, matchClassFilterChilds, functionChilds, procedureChilds, sequenceChilds]
-               )*
+			( declsPatternMatchingOrAttributeEvaluationUnitWithModifier[patternChilds, actionChilds, 
+					matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+					functionChilds, procedureChilds, sequenceChilds]
+			)*
 	  RBRACE
-	  {
-			PackageActionTypeNode pt = new PackageActionTypeNode(patternChilds, actionChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+		{
+			PackageActionTypeNode pt = new PackageActionTypeNode(patternChilds, actionChilds, 
+				matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
 				functionChilds, procedureChilds, sequenceChilds);
 			id.setDecl(new TypeDeclNode(id, pt));
 			res = id;
-	  }
-	  { env.popScope(); }
+		}
+		{ env.popScope(); }
 	;
 
-declsPatternMatchingOrAttributeEvaluationUnitWithModifier [ CollectNode<IdentNode> patternChilds, 
-													CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> filterChilds,
-													CollectNode<IdentNode> matchClassChilds, CollectNode<IdentNode> matchClassFilterChilds, 
+declsPatternMatchingOrAttributeEvaluationUnitWithModifier [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds,
+													CollectNode<IdentNode> matchTypeChilds, CollectNode<IdentNode> filterChilds,
+													CollectNode<IdentNode> matchClassChilds, CollectNode<IdentNode> matchClassFilterChilds,
 													CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds,
 													CollectNode<IdentNode> sequenceChilds ]
 	@init{ mod = 0; }
-	: ( mod=patternModifiers declPatternMatchingOrAttributeEvaluationUnit[
-			patternChilds, actionChilds, filterChilds, matchClassChilds, matchClassFilterChilds, functionChilds, procedureChilds, sequenceChilds, mod]
-         )
+	: ( mod=patternModifiers declPatternMatchingOrAttributeEvaluationUnit[patternChilds, actionChilds,
+			matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds,
+			functionChilds, procedureChilds, sequenceChilds, mod]
+	  )
 	;
 
 patternModifiers returns [ int res = 0 ]
@@ -444,11 +448,11 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 		}
 	;
 
-declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChilds,
-											 CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> filterChilds,
-											 CollectNode<IdentNode> matchClassChilds, CollectNode<IdentNode> matchClassFilterChilds, 
-											 CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds,
-											 CollectNode<IdentNode> sequenceChilds, int mod ]
+declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds,
+		CollectNode<IdentNode> matchTypeChilds, CollectNode<IdentNode> filterChilds, 
+		CollectNode<IdentNode> matchClassChilds, CollectNode<IdentNode> matchClassFilterChilds, 
+		CollectNode<IdentNode> functionChilds, CollectNode<IdentNode> procedureChilds,
+		CollectNode<IdentNode> sequenceChilds, int mod ]
 	@init{
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
@@ -462,7 +466,8 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		DefinedMatchTypeNode mt = null;
 	}
 
-	: t=TEST id=actionIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
+	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.pushScope(id); }
+		params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes (IMPLEMENTS matchTypes[implementedMatchTypes])? LBRACE
 		left=patternBody[getCoords(t), params, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
@@ -477,7 +482,8 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			}
 		}
 		filterDecls[id, actionDecl]
-	| r=RULE id=actionIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
+	| r=RULE id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.pushScope(id); }
+		params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes (IMPLEMENTS matchTypes[implementedMatchTypes])? LBRACE
 		left=patternBody[getCoords(r), params, namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[new CollectNode<BaseNode>(), namer, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
@@ -558,7 +564,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			{
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
-						ArrayTypeNode.getArrayType(actionId/*new IdentNode(env.occurs(ParserEnvironment.ACTIONS, actionId.toString(), actionId.getCoords()))*/),
+						new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, actionId)),
 						PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
@@ -580,8 +586,8 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		LBRACE
 			{
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
-						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))), 
-						ArrayTypeNode.getArrayType(typeId/*new IdentNode(env.occurs(ParserEnvironment.TYPES, typeId.toString(), typeId.getCoords()))*/), 
+						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
+						ArrayTypeNode.getArrayType(typeId),
 						PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
@@ -1215,16 +1221,16 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 	;
 
 matchTypeContinuation [ IdentNode id, Token modifier, PatternGraphNode directlyNestingLHSGraph ] returns [ VarDeclNode var = null ]
-	: LT keyType=actionIdentUse GT
+	: LT actionIdent=actionIdentUse GT
 		{
-			var = new VarDeclNode(id, MatchTypeNode.getMatchTypeNode(keyType), directlyNestingLHSGraph, 0);
+			var = new VarDeclNode(id, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent), directlyNestingLHSGraph, 0);
 			if(!modifier.getText().equals("ref"))
 				{ reportError(getCoords(modifier), "ref keyword needed before match typed def variable"); }
 		}
 	|
-		LT CLASS keyType=typeIdentUse GT
+		LT CLASS matchClassIdent=typeIdentUse GT
 		{
-			var = new VarDeclNode(id, keyType, directlyNestingLHSGraph, 0);
+			var = new VarDeclNode(id, matchClassIdent, directlyNestingLHSGraph, 0);
 			if(!modifier.getText().equals("ref"))
 				{ reportError(getCoords(modifier), "ref keyword needed before match class typed def variable"); }
 		}
@@ -3280,22 +3286,22 @@ options { k = *; }
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
 			res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
 		}
-	| MATCH LT type=actionIdentUse GT IN i=IDENT RPAREN
+	| MATCH LT actionIdent=actionIdentUse GT IN i=IDENT RPAREN
 		LBRACE
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(leftVar, MatchTypeNode.getMatchTypeNode(type), directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent), directlyNestingLHSGraph, context);
 			res = new MatchesAccumulationYieldNode(f, iterVar, matchesIdentUse, cs);
 		}
-	| MATCH LT CLASS type=typeIdentUse GT IN i=IDENT RPAREN
+	| MATCH LT CLASS matchClassIdent=typeIdentUse GT IN i=IDENT RPAREN
 		LBRACE
 			cs=computations[onLHS, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
+			iterVar = new VarDeclNode(leftVar, matchClassIdent, directlyNestingLHSGraph, context);
 			res = new MatchesAccumulationYieldNode(f, iterVar, matchesIdentUse, cs);
 		}
 	| type=typeIdentUse IN LBRACK left=expr[false] COLON right=expr[false] RBRACK RPAREN

@@ -104,7 +104,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 					reportError("Left hand side of '.' does not own a scope");
 					successfullyResolved = false;
 				}
-			} else if(owner instanceof VarDeclNode && owner.typeUnresolved instanceof MatchTypeNode) {
+			} else if(owner instanceof VarDeclNode && owner.getDeclType() instanceof MatchTypeNode) {
 				MatchTypeNode matchType = (MatchTypeNode)owner.getDeclType();
 				if(!matchType.resolve()) {
 					reportError("Unkown test/rule referenced by match type in filter function");

@@ -447,15 +447,15 @@ public abstract class CSharpBase {
 		}
 		else if(t instanceof MatchType) {
 			MatchType matchType = (MatchType) t;
+			String packagePrefix = getPackagePrefixDot(matchType);
 			Rule action = matchType.getAction();
 			String actionName = action.getIdent().toString();
-			String packagePrefix = getPackagePrefixDot(matchType.getAction());
 			return packagePrefix + "Rule_" + actionName + ".IMatch_" + actionName;
 		}
 		else if(t instanceof DefinedMatchType) {
 			DefinedMatchType definedMatchType = (DefinedMatchType) t;
-			String matchClassName = definedMatchType.getIdent().toString();
 			String packagePrefix = getPackagePrefixDot(definedMatchType);
+			String matchClassName = definedMatchType.getIdent().toString();
 			return packagePrefix + "IMatch_" + matchClassName;
 		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
