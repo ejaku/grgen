@@ -135,7 +135,7 @@ namespace de.unika.ipd.grGen.libGr
         /// the application</param>
         /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
         /// <returns>A matches object containing the found matches.</returns>
-        IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCallBase> filters);
+        IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters);
 
         /// <summary>
         /// Matches a rewrite rule, without firing the Matched event (for internal or non-debugger use).

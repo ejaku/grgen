@@ -235,11 +235,11 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override int NumFilterFunctionParameters(SequenceFilterCall sequenceFilterCall, SequenceRuleCall seq)
         {
-            FilterCallBase filterCall = ((SequenceFilterCallInterpreted)sequenceFilterCall).FilterCallBase;
-            if(filterCall.FullName == "keepFirst" || filterCall.FullName == "removeFirst"
-                || filterCall.FullName == "keepFirstFraction" || filterCall.FullName == "removeFirstFraction"
-                || filterCall.FullName == "keepLast" || filterCall.FullName == "removeLast"
-                || filterCall.FullName == "keepLastFraction" || filterCall.FullName == "removeLastFraction")
+            FilterCall filterCall = ((SequenceFilterCallInterpreted)sequenceFilterCall).FilterCall;
+            if(filterCall.PackagePrefixedName == "keepFirst" || filterCall.PackagePrefixedName == "removeFirst"
+                || filterCall.PackagePrefixedName == "keepFirstFraction" || filterCall.PackagePrefixedName == "removeFirstFraction"
+                || filterCall.PackagePrefixedName == "keepLast" || filterCall.PackagePrefixedName == "removeLast"
+                || filterCall.PackagePrefixedName == "keepLastFraction" || filterCall.PackagePrefixedName == "removeLastFraction")
             {
                 return 1;
             }
@@ -248,7 +248,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.PackagePrefixedName == filterCall.FullName)
+                    if(filterFunction.PackagePrefixedName == filterCall.PackagePrefixedName)
                         return filterFunction.Inputs.Length;
                 }
             }
@@ -257,21 +257,21 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override string FilterFunctionParameterType(int i, SequenceFilterCall sequenceFilterCall, SequenceRuleCall seq)
         {
-            FilterCallBase filterCall = ((SequenceFilterCallInterpreted)sequenceFilterCall).FilterCallBase;
-            if(filterCall.FullName == "keepFirst" || filterCall.FullName == "removeFirst")
+            FilterCall filterCall = ((SequenceFilterCallInterpreted)sequenceFilterCall).FilterCall;
+            if(filterCall.PackagePrefixedName == "keepFirst" || filterCall.PackagePrefixedName == "removeFirst")
                 return "int";
-            if(filterCall.FullName == "keepFirstFraction" || filterCall.FullName == "removeFirstFraction")
+            if(filterCall.PackagePrefixedName == "keepFirstFraction" || filterCall.PackagePrefixedName == "removeFirstFraction")
                 return "double";
-            if(filterCall.FullName == "keepLast" || filterCall.FullName == "removeLast")
+            if(filterCall.PackagePrefixedName == "keepLast" || filterCall.PackagePrefixedName == "removeLast")
                 return "int";
-            if(filterCall.FullName == "keepLastFraction" || filterCall.FullName == "removeLastFraction")
+            if(filterCall.PackagePrefixedName == "keepLastFraction" || filterCall.PackagePrefixedName == "removeLastFraction")
                 return "double";
             foreach(IFilter filter in SequenceBase.GetAction((RuleInvocation)seq).RulePattern.Filters)
             {
                 if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.PackagePrefixedName == filterCall.FullName)
+                    if(filterFunction.PackagePrefixedName == filterCall.PackagePrefixedName)
                         return TypesHelper.DotNetTypeToXgrsType(filterFunction.Inputs[i]);
                 }
             }
@@ -293,11 +293,11 @@ namespace de.unika.ipd.grGen.libGr
         protected override int NumFilterFunctionParameters(SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq)
         {
             SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            FilterCallBase filterCall = sequenceFilterCallInterpreted.FilterCallBase;
-            if(filterCall.FullName == "keepFirst" || filterCall.FullName == "removeFirst"
-                || filterCall.FullName == "keepFirstFraction" || filterCall.FullName == "removeFirstFraction"
-                || filterCall.FullName == "keepLast" || filterCall.FullName == "removeLast"
-                || filterCall.FullName == "keepLastFraction" || filterCall.FullName == "removeLastFraction")
+            FilterCall filterCall = sequenceFilterCallInterpreted.FilterCall;
+            if(filterCall.PackagePrefixedName == "keepFirst" || filterCall.PackagePrefixedName == "removeFirst"
+                || filterCall.PackagePrefixedName == "keepFirstFraction" || filterCall.PackagePrefixedName == "removeFirstFraction"
+                || filterCall.PackagePrefixedName == "keepLast" || filterCall.PackagePrefixedName == "removeLast"
+                || filterCall.PackagePrefixedName == "keepLastFraction" || filterCall.PackagePrefixedName == "removeLastFraction")
             {
                 return 1;
             }
@@ -307,7 +307,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.PackagePrefixedName == filterCall.FullName)
+                    if(filterFunction.PackagePrefixedName == filterCall.PackagePrefixedName)
                         return filterFunction.Inputs.Length;
                 }
             }
@@ -317,14 +317,14 @@ namespace de.unika.ipd.grGen.libGr
         protected override string FilterFunctionParameterType(int i, SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq)
         {
             SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            FilterCallBase filterCall = sequenceFilterCallInterpreted.FilterCallBase;
-            if(filterCall.FullName == "keepFirst" || filterCall.FullName == "removeFirst")
+            FilterCall filterCall = sequenceFilterCallInterpreted.FilterCall;
+            if(filterCall.PackagePrefixedName == "keepFirst" || filterCall.PackagePrefixedName == "removeFirst")
                 return "int";
-            if(filterCall.FullName == "keepFirstFraction" || filterCall.FullName == "removeFirstFraction")
+            if(filterCall.PackagePrefixedName == "keepFirstFraction" || filterCall.PackagePrefixedName == "removeFirstFraction")
                 return "double";
-            if(filterCall.FullName == "keepLast" || filterCall.FullName == "removeLast")
+            if(filterCall.PackagePrefixedName == "keepLast" || filterCall.PackagePrefixedName == "removeLast")
                 return "int";
-            if(filterCall.FullName == "keepLastFraction" || filterCall.FullName == "removeLastFraction")
+            if(filterCall.PackagePrefixedName == "keepLastFraction" || filterCall.PackagePrefixedName == "removeLastFraction")
                 return "double";
             MatchClassInfo matchClass = sequenceFilterCallInterpreted.MatchClass.info;
             foreach(IFilter filter in matchClass.Filters)
@@ -332,7 +332,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.PackagePrefixedName == filterCall.FullName)
+                    if(filterFunction.PackagePrefixedName == filterCall.PackagePrefixedName)
                         return TypesHelper.DotNetTypeToXgrsType(filterFunction.Inputs[i]);
                 }
             }

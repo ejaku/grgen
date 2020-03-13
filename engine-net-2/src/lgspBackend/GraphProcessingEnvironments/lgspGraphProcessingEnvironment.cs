@@ -236,7 +236,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, 
-            int localMaxMatches, bool special, bool test, List<FilterCallBase> filters, out int numMatches)
+            int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches)
         {
             if(subgraph != null)
                 SwitchToSubgraph(subgraph);

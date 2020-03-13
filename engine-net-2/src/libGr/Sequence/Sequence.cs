@@ -1072,7 +1072,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public IFilter Filter; // set after resoving, if failed null
 
-        public FilterCallBase FilterCallBase;
+        public FilterCall FilterCall;
 
         public override String Name
         {
@@ -1093,7 +1093,7 @@ namespace de.unika.ipd.grGen.libGr
             : base(argExprs)
         {
             Filter = filter;
-            FilterCallBase = new FilterCallBase(filter.PackagePrefixedName, argExprs.Length);
+            FilterCall = new FilterCall(filter.PackagePrefixedName, argExprs.Length);
         }
 
         public SequenceFilterCallInterpreted(MatchClassFilterer matchClass, IFilter filter, SequenceExpression[] argExprs)
@@ -1101,25 +1101,25 @@ namespace de.unika.ipd.grGen.libGr
         {
             MatchClass = matchClass;
             Filter = filter;
-            FilterCallBase = new FilterCallBase(filter.PackagePrefixedName, argExprs.Length);
+            FilterCall = new FilterCall(filter.PackagePrefixedName, argExprs.Length);
         }
 
         public void Execute(IGraphProcessingEnvironment procEnv, IAction action, IMatches matches)
         {
             for(int i = 0; i < ArgumentExpressions.Length; ++i)
             {
-                FilterCallBase.Arguments[i] = ArgumentExpressions[i].Evaluate(procEnv);
+                FilterCall.Arguments[i] = ArgumentExpressions[i].Evaluate(procEnv);
             }
-            action.Filter(procEnv, matches, FilterCallBase);
+            action.Filter(procEnv, matches, FilterCall);
         }
 
         public void Execute(IGraphProcessingEnvironment procEnv, List<IMatch> matchList)
         {
             for(int i = 0; i < ArgumentExpressions.Length; ++i)
             {
-                FilterCallBase.Arguments[i] = ArgumentExpressions[i].Evaluate(procEnv);
+                FilterCall.Arguments[i] = ArgumentExpressions[i].Evaluate(procEnv);
             }
-            MatchClass.Filter(procEnv, matchList, FilterCallBase);
+            MatchClass.Filter(procEnv, matchList, FilterCall);
         }
 
         public override string ToString()

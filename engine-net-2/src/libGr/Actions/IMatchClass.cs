@@ -169,6 +169,6 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="actionEnv">The action execution environment, required by the filter implementation.</param>
         /// <param name="matches">The combined list of all matches of all rules (implementing the same match class; to inspect and filter)</param>
         /// <param name="filter">The filter to apply</param>
-        public abstract void Filter(IActionExecutionEnvironment actionEnv, IList<IMatch> matches, FilterCallBase filter);
+        public abstract void Filter(IActionExecutionEnvironment actionEnv, IList<IMatch> matches, FilterCall filter);
     }
 }
