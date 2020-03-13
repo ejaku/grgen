@@ -227,128 +227,16 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Internal error");
         }
 
-        protected override bool IsFilterExisting(SequenceFilterCall sequenceFilterCall, SequenceRuleCall seq)
-        {
-            SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            return sequenceFilterCallInterpreted.Filter != null;
-        }
-
-        protected override int NumFilterFunctionParameters(SequenceFilterCall sequenceFilterCall, SequenceRuleCall seq)
-        {
-            FilterCall filterCall = ((SequenceFilterCallInterpreted)sequenceFilterCall).FilterCall;
-            if(filterCall.PackagePrefixedName == "keepFirst" || filterCall.PackagePrefixedName == "removeFirst"
-                || filterCall.PackagePrefixedName == "keepFirstFraction" || filterCall.PackagePrefixedName == "removeFirstFraction"
-                || filterCall.PackagePrefixedName == "keepLast" || filterCall.PackagePrefixedName == "removeLast"
-                || filterCall.PackagePrefixedName == "keepLastFraction" || filterCall.PackagePrefixedName == "removeLastFraction")
-            {
-                return 1;
-            }
-            foreach(IFilter filter in SequenceBase.GetAction((RuleInvocation)seq).RulePattern.Filters)
-            {
-                if(filter is IFilterFunction)
-                {
-                    IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.PackagePrefixedName == filterCall.PackagePrefixedName)
-                        return filterFunction.Inputs.Length;
-                }
-            }
-            return 0; // auto-generated
-        }
-
-        protected override string FilterFunctionParameterType(int i, SequenceFilterCall sequenceFilterCall, SequenceRuleCall seq)
-        {
-            FilterCall filterCall = ((SequenceFilterCallInterpreted)sequenceFilterCall).FilterCall;
-            if(filterCall.PackagePrefixedName == "keepFirst" || filterCall.PackagePrefixedName == "removeFirst")
-                return "int";
-            if(filterCall.PackagePrefixedName == "keepFirstFraction" || filterCall.PackagePrefixedName == "removeFirstFraction")
-                return "double";
-            if(filterCall.PackagePrefixedName == "keepLast" || filterCall.PackagePrefixedName == "removeLast")
-                return "int";
-            if(filterCall.PackagePrefixedName == "keepLastFraction" || filterCall.PackagePrefixedName == "removeLastFraction")
-                return "double";
-            foreach(IFilter filter in SequenceBase.GetAction((RuleInvocation)seq).RulePattern.Filters)
-            {
-                if(filter is IFilterFunction)
-                {
-                    IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.PackagePrefixedName == filterCall.PackagePrefixedName)
-                        return TypesHelper.DotNetTypeToXgrsType(filterFunction.Inputs[i]);
-                }
-            }
-            throw new Exception("Internal error");
-        }
-
         protected override bool IsMatchClassExisting(SequenceFilterCall sequenceFilterCall)
         {
             SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
             return sequenceFilterCallInterpreted.MatchClass != null;
         }
 
-        protected override bool IsFilterExisting(SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq)
-        {
-            SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            return sequenceFilterCallInterpreted.Filter != null;
-        }
-
-        protected override int NumFilterFunctionParameters(SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq)
-        {
-            SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            FilterCall filterCall = sequenceFilterCallInterpreted.FilterCall;
-            if(filterCall.PackagePrefixedName == "keepFirst" || filterCall.PackagePrefixedName == "removeFirst"
-                || filterCall.PackagePrefixedName == "keepFirstFraction" || filterCall.PackagePrefixedName == "removeFirstFraction"
-                || filterCall.PackagePrefixedName == "keepLast" || filterCall.PackagePrefixedName == "removeLast"
-                || filterCall.PackagePrefixedName == "keepLastFraction" || filterCall.PackagePrefixedName == "removeLastFraction")
-            {
-                return 1;
-            }
-            MatchClassInfo matchClass = sequenceFilterCallInterpreted.MatchClass.info;
-            foreach(IFilter filter in matchClass.Filters)
-            {
-                if(filter is IFilterFunction)
-                {
-                    IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.PackagePrefixedName == filterCall.PackagePrefixedName)
-                        return filterFunction.Inputs.Length;
-                }
-            }
-            return 0; // auto-generated
-        }
-
-        protected override string FilterFunctionParameterType(int i, SequenceFilterCall sequenceFilterCall, SequenceMultiRuleAllCall seq)
-        {
-            SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            FilterCall filterCall = sequenceFilterCallInterpreted.FilterCall;
-            if(filterCall.PackagePrefixedName == "keepFirst" || filterCall.PackagePrefixedName == "removeFirst")
-                return "int";
-            if(filterCall.PackagePrefixedName == "keepFirstFraction" || filterCall.PackagePrefixedName == "removeFirstFraction")
-                return "double";
-            if(filterCall.PackagePrefixedName == "keepLast" || filterCall.PackagePrefixedName == "removeLast")
-                return "int";
-            if(filterCall.PackagePrefixedName == "keepLastFraction" || filterCall.PackagePrefixedName == "removeLastFraction")
-                return "double";
-            MatchClassInfo matchClass = sequenceFilterCallInterpreted.MatchClass.info;
-            foreach(IFilter filter in matchClass.Filters)
-            {
-                if(filter is IFilterFunction)
-                {
-                    IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.PackagePrefixedName == filterCall.PackagePrefixedName)
-                        return TypesHelper.DotNetTypeToXgrsType(filterFunction.Inputs[i]);
-                }
-            }
-            throw new Exception("Internal error");
-        }
-
         protected override string GetMatchClassName(SequenceFilterCall sequenceFilterCall)
         {
             SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
             return sequenceFilterCallInterpreted.MatchClass.info.PackagePrefixedName;
-        }
-
-        protected override string GetFilterCallName(SequenceFilterCall sequenceFilterCall)
-        {
-            SequenceFilterCallInterpreted sequenceFilterCallInterpreted = (SequenceFilterCallInterpreted)sequenceFilterCall;
-            return sequenceFilterCallInterpreted.Filter.PackagePrefixedName;
         }
     }
 }

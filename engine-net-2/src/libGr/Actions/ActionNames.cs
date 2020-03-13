@@ -84,24 +84,24 @@ namespace de.unika.ipd.grGen.libGr
             functionsToIsExternal = ati.functionsToIsExternal;
         }
 
-        public bool RuleContainsFilter(string ruleName, string filterName)
+        public IFilter GetFilterOfRule(string ruleName, string filterName)
         {
             foreach(IFilter filter in rulesToFilters[ruleName])
             {
                 if(filter.PackagePrefixedName == filterName)
-                    return true;
+                    return filter;
             }
-            return false;
+            return null;
         }
 
-        public bool MatchClassContainsFilter(string matchClassName, string filterName)
+        public IFilter GetFilterOfMatchClass(string matchClassName, string filterName)
         {
             foreach(IFilter filter in matchClassesToFilters[matchClassName])
             {
                 if(filter.PackagePrefixedName == filterName)
-                    return true;
+                    return filter;
             }
-            return false;
+            return null;
         }
 
         public bool IsExternal(string functionOrProcedureName)
