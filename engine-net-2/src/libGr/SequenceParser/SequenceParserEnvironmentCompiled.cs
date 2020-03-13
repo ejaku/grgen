@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, unprefixedMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, filterBase, SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
 
             String filterName = GetFilterName(filterBase, entities);
 
@@ -222,7 +222,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             IFilter filter = actionNames.GetFilterOfMatchClass(packagePrefixedMatchClassName, PackagePrefixedName);
             if(filter == null)
-                throw new SequenceParserException(packagePrefixedMatchClassName, filterName, SequenceParserError.FilterError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, PackagePrefixedName, SequenceParserError.FilterError);
 
             return new SequenceFilterCallCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
                 filter, argExprs.ToArray());

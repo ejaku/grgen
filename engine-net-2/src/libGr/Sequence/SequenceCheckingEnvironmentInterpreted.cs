@@ -29,7 +29,10 @@ namespace de.unika.ipd.grGen.libGr
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public override IGraphModel Model { get { return actions.Graph.Model; } }
+        public override IGraphModel Model
+        {
+            get { return actions.Graph.Model; }
+        }
 
         public override string TypeOfTopLevelEntityInRule(string ruleName, string entityName)
         {
@@ -38,16 +41,22 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(ruleName, SequenceParserError.UnknownRule);
 
             foreach(IPatternNode node in rule.RulePattern.PatternGraph.Nodes)
-                if(node.UnprefixedName==entityName)
+            {
+                if(node.UnprefixedName == entityName)
                     return TypesHelper.DotNetTypeToXgrsType(node.Type);
+            }
 
             foreach(IPatternEdge edge in rule.RulePattern.PatternGraph.Edges)
-                if(edge.UnprefixedName==entityName)
+            {
+                if(edge.UnprefixedName == entityName)
                     return TypesHelper.DotNetTypeToXgrsType(edge.Type);
+            }
 
             foreach(IPatternVariable var in rule.RulePattern.PatternGraph.Variables)
-                if(var.UnprefixedName==entityName)
+            {
+                if(var.UnprefixedName == entityName)
                     return TypesHelper.DotNetTypeToXgrsType(var.Type);
+            }
 
             throw new SequenceParserException(ruleName, entityName, SequenceParserError.UnknownPatternElement);
         }

@@ -36,7 +36,7 @@ namespace de.unika.ipd.grGen.libGr
             else
                 CheckOutputParameters(seqRuleCall, seqRuleCall.ReturnVars, null);
 
-            CheckFilterCalls(seqRuleCall, seqRuleCall);
+            CheckFilterCalls(seqRuleCall);
 
             CheckSubgraph(seqRuleCall);
 
@@ -54,7 +54,7 @@ namespace de.unika.ipd.grGen.libGr
             CheckInputParameters(seqRuleAllCall, seqRuleAllCall.ArgumentExpressions, null);
             CheckOutputParametersRuleAll(seqRuleAllCall, seqRuleAllCall.ReturnVars);
 
-            CheckFilterCalls(seqRuleAllCall, seqRuleAllCall);
+            CheckFilterCalls(seqRuleAllCall);
 
             CheckSubgraph(seqRuleAllCall);
 
@@ -272,18 +272,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Checks whether called filter exists, and type checks the inputs.
         /// </summary>
-        private void CheckFilterCalls(SequenceRuleCall seqRuleCall, Invocation invocation)
+        private void CheckFilterCalls(SequenceRuleCall seqRuleCall)
         {
             foreach(SequenceFilterCall sequenceFilterCall in seqRuleCall.Filters)
             {
                 String filterCallName = GetFilterCallName(sequenceFilterCall);
 
-                if(!IsFilterExisting(sequenceFilterCall))
-                    throw new SequenceParserException(invocation.PackagePrefixedName ?? invocation.Name, filterCallName, SequenceParserError.FilterError);
-
                 // Check whether number of filter parameters match
                 if(NumFilterFunctionParameters(sequenceFilterCall) != sequenceFilterCall.ArgumentExpressions.Length)
-                    throw new SequenceParserException(invocation.Name, filterCallName, SequenceParserError.FilterParameterError);
+                    throw new SequenceParserException(seqRuleCall.Name, filterCallName, SequenceParserError.FilterParameterError);
 
                 // Check parameter types
                 for(int i = 0; i < sequenceFilterCall.ArgumentExpressions.Length; i++)
@@ -291,7 +288,7 @@ namespace de.unika.ipd.grGen.libGr
                     sequenceFilterCall.ArgumentExpressions[i].Check(this);
 
                     if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, sequenceFilterCall), Model))
-                        throw new SequenceParserException(invocation.Name, filterCallName, SequenceParserError.FilterParameterError);
+                        throw new SequenceParserException(seqRuleCall.Name, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
         }
@@ -306,12 +303,6 @@ namespace de.unika.ipd.grGen.libGr
                 String matchClassName = GetMatchClassName(sequenceFilterCall);
                 String filterCallName = GetFilterCallName(sequenceFilterCall);
 
-                if(matchClassName == null || !IsMatchClassExisting(sequenceFilterCall))
-                    throw new SequenceParserException(matchClassName, sequenceFilterCall.ToString(), SequenceParserError.MatchClassError);
-
-                if(!IsFilterExisting(sequenceFilterCall))
-                    throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterError);
-
                 // Check whether number of filter parameters match
                 if(NumFilterFunctionParameters(sequenceFilterCall) != sequenceFilterCall.ArgumentExpressions.Length)
                     throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterParameterError);
@@ -325,11 +316,6 @@ namespace de.unika.ipd.grGen.libGr
                         throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
-        }
-
-        private bool IsFilterExisting(SequenceFilterCall sequenceFilterCall)
-        {
-            return sequenceFilterCall.Filter != null;
         }
 
         private int NumFilterFunctionParameters(SequenceFilterCall sequenceFilterCall)
