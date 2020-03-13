@@ -113,9 +113,6 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return filterBase == "auto" || (entities != null && entities.Count > 0);
         }
 
-        // todo: not used, remove
-        abstract public bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String rulePackage);
-
 
         abstract public bool IsProcedureName(String procedureName, String package);
 

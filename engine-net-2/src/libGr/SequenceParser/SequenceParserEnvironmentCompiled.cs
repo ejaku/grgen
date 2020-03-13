@@ -162,7 +162,6 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             String packagePrefixedRuleName = rulePackage != null ? rulePackage + "::" + ruleName : ruleName; // rulePackage already resolved, concatenation sufficient
 
             String filterName = GetFilterName(filterBase, entities);
-
             String PackagePrefixedName;
             if(IsAutoSuppliedFilterName(filterBase))
                 PackagePrefixedName = filterBase;
@@ -179,7 +178,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 else if(packageContext != null)
                     PackagePrefixedName = packageContext + "::" + filterBase;
                 else
-                    PackagePrefixedName = filterBase; // should not occur, (to be) handled in SequenceCheckingEnvironment
+                    PackagePrefixedName = filterBase; // should not occur
             }
 
             IFilter filter = actionNames.GetFilterOfRule(packagePrefixedRuleName, PackagePrefixedName);
@@ -218,7 +217,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 else if(packageContext != null)
                     PackagePrefixedName = packageContext + "::" + filterBase;
                 else
-                    PackagePrefixedName = filterBase; // should not occur, (to be) handled in SequenceCheckingEnvironment
+                    PackagePrefixedName = filterBase; // should not occur
             }
 
             IFilter filter = actionNames.GetFilterOfMatchClass(packagePrefixedMatchClassName, PackagePrefixedName);
@@ -227,33 +226,6 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             return new SequenceFilterCallCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
                 filter, argExprs.ToArray());
-        }
-
-        // todo: not used, remove
-        public override bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String rulePackage)
-        {
-            if(package != null)
-            {
-                foreach(String funcName in actionNames.filterFunctionNames)
-                {
-                    if(funcName == package + "::" + filterFunctionName)
-                        return true;
-                    if(funcName == filterFunctionName)
-                        return true;
-                }
-                return false;
-            }
-            else
-            {
-                foreach(String funcName in actionNames.filterFunctionNames)
-                {
-                    if(funcName == filterFunctionName)
-                        return true;
-                    if(packageContext != null && funcName == packageContext + "::" + filterFunctionName)
-                        return true;
-                }
-                return false;
-            }
         }
 
 
