@@ -13,7 +13,10 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr.sequenceParser
 {
     /// <summary>
-    /// An evironment class for the sequence parser, gives it access to the entitites and types that can be referenced in the sequence.
+    /// An environment class for the sequence parser, 
+    /// gives it access to the entitites (and types) that can be referenced in the sequence, and works as a factory for call objects, 
+    /// abstracting away the difference between interpreted and compiled sequences.
+    /// Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences.
     /// </summary>
     public abstract class SequenceParserEnvironment
     {
@@ -111,7 +114,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         }
 
         // todo: not used, remove
-        abstract public bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String actionPackage);
+        abstract public bool IsFilterFunctionName(String filterFunctionName, String package, String ruleName, String rulePackage);
 
 
         abstract public bool IsProcedureName(String procedureName, String package);

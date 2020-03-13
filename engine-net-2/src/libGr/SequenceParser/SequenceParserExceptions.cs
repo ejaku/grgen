@@ -260,14 +260,27 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule/sequence/procedure/function
-        /// with the given name does not exist or input or output parameters do not match.
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when input or output parameters do not match
+        /// for the rule/sequence/procedure/function.
         /// </summary>
         /// <param name="invocation">The rule/sequence/procedure/function invocation.</param>
         /// <param name="errorKind">The kind of error.</param>
         public SequenceParserException(Invocation invocation, int numGiven, SequenceParserError errorKind)
             : this(invocation, numGiven, errorKind, -1)
         {
+        }
+
+        /// <summary>
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule/sequence/procedure/function
+        /// with the given name does not exist.
+        /// </summary>
+        public SequenceParserException(String name, DefinitionType defType, SequenceParserError errorKind)
+        {
+            Name = name;
+            DefType = defType;
+            Kind = errorKind;
+            NumGiven = -1;
+            BadParamIndex = -1;
         }
 
         /// <summary>
@@ -318,10 +331,10 @@ namespace de.unika.ipd.grGen.libGr
         /// when the filter with the given name can't be applied to the rule of the given name
         /// or when the pattern of the rule of the given name does not contain an entity of the given name.
         /// </summary>
-        /// <param name="ruleName">Name of the rule.</param>
+        /// <param name="ruleNameOrMatchClassName">Name of the rule or match class.</param>
         /// <param name="filterNameOrEntityName">Name of the filter which was mis-applied or name of the entity which is not conained in the rule.</param>
         /// <param name="errorKind">The kind of error.</param>
-        public SequenceParserException(String ruleName, String filterNameOrEntityName, SequenceParserError errorKind)
+        public SequenceParserException(String ruleNameOrMatchClassName, String filterNameOrEntityName, SequenceParserError errorKind)
         {
             if(errorKind == SequenceParserError.FilterError)
                 FilterName = filterNameOrEntityName;
@@ -331,7 +344,7 @@ namespace de.unika.ipd.grGen.libGr
                 FilterName = filterNameOrEntityName;
             else
                 EntityName = filterNameOrEntityName;
-            Name = ruleName;
+            Name = ruleNameOrMatchClassName;
             Kind = errorKind;
         }
 

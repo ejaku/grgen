@@ -12,7 +12,7 @@ using System;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Environment for sequence (esp. type) checking giving access to model and action signatures.
+    /// Environment for sequence type checking (with/giving access to model and action signatures).
     /// Abstract base class, there are two concrete subclasses, one for interpreted, one for compiled sequences.
     /// </summary>
     public abstract class SequenceCheckingEnvironment
@@ -24,15 +24,12 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Helper for checking rule calls.
-        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seqRuleCall">The rule call to check</param>
         public void CheckRuleCall(SequenceRuleCall seqRuleCall)
         {
-            if(!IsCalledEntityExisting(seqRuleCall, null))
-                throw new SequenceParserException(seqRuleCall, -1, SequenceParserError.UnknownRuleOrSequence);
-
             CheckInputParameters(seqRuleCall, seqRuleCall.ArgumentExpressions, null);
             if(seqRuleCall.IsRuleForMultiRuleAllCallReturningArrays)
                 CheckOutputParametersRuleAll(seqRuleCall, seqRuleCall.ReturnVars);
@@ -48,15 +45,12 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Helper for checking rule all calls.
-        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seqRuleAllCall">The rule all call to check</param>
         public void CheckRuleAllCall(SequenceRuleAllCall seqRuleAllCall)
         {
-            if(!IsCalledEntityExisting(seqRuleAllCall, null))
-                throw new SequenceParserException(seqRuleAllCall, -1, SequenceParserError.UnknownRuleOrSequence);
-
             CheckInputParameters(seqRuleAllCall, seqRuleAllCall.ArgumentExpressions, null);
             CheckOutputParametersRuleAll(seqRuleAllCall, seqRuleAllCall.ReturnVars);
 
@@ -69,15 +63,12 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Helper for checking sequence calls.
-        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seqSeqCall">The sequence call to check</param>
         public void CheckSequenceCall(SequenceSequenceCall seqSeqCall)
         {
-            if(!IsCalledEntityExisting(seqSeqCall, null))
-                throw new SequenceParserException(seqSeqCall, -1, SequenceParserError.UnknownRuleOrSequence);
-
             CheckInputParameters(seqSeqCall, seqSeqCall.ArgumentExpressions, null);
             CheckOutputParameters(seqSeqCall, seqSeqCall.ReturnVars, null);
 
@@ -88,7 +79,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Helper for checking procedure calls.
-        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seqCompProcCall">The procedure call to check</param>
@@ -118,7 +109,10 @@ namespace de.unika.ipd.grGen.libGr
                 // error, must be node or edge type
                 throw new SequenceParserException(targetExpr.Type(this), SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
             }
-            
+
+            if(ownerType.GetProcedureMethod(seqCompProcMethodCall.Name) == null)
+                throw new SequenceParserException(seqCompProcMethodCall, -1, SequenceParserError.UnknownProcedure);
+
             CheckProcedureCallBase(seqCompProcMethodCall, ownerType);
         }
 
@@ -144,12 +138,16 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(targetVar.Type, SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
             }
 
+            // check whether called procedure method exists
+            if(ownerType.GetProcedureMethod(seqCompProcMethodCall.Name) == null)
+                throw new SequenceParserException(seqCompProcMethodCall, -1, SequenceParserError.UnknownProcedure);
+
             CheckProcedureCallBase(seqCompProcMethodCall, ownerType);
         }
 
         /// <summary>
         /// Helper for checking function calls.
-        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seq">The function call to check</param>
@@ -180,22 +178,22 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException(targetExpr.Type(this), SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
             }
 
+            // check whether called function method exists
+            if(ownerType.GetFunctionMethod(seqExprFuncMethodCall.Name) == null)
+                throw new SequenceParserException(seqExprFuncMethodCall, -1, SequenceParserError.UnknownProcedure);
+
             CheckFunctionCallBase(seqExprFuncMethodCall, ownerType);
         }
 
         /// <summary>
         /// Helper for checking procedure calls.
-        /// Checks whether called entity exists, type checks the input, type checks the output.
+        /// Type checks the input, type checks the output.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seqCompProcCall">The procedure call to check</param>
         /// <param name="ownerType">Gives the owner type of the procedure method call, in case this is a method call, otherwise null</param>
         private void CheckProcedureCallBase(SequenceComputationProcedureCall seqCompProcCall, GrGenType ownerType)
         {
-            // check the name against the available names
-            if(!IsCalledEntityExisting(seqCompProcCall, ownerType))
-                throw new SequenceParserException(seqCompProcCall, -1, SequenceParserError.UnknownProcedure);
-
             CheckInputParameters(seqCompProcCall, seqCompProcCall.ArgumentExpressions, ownerType);
             CheckOutputParameters(seqCompProcCall, seqCompProcCall.ReturnVars, ownerType);
 
@@ -204,17 +202,13 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Helper for checking function calls.
-        /// Checks whether called entity exists, and type checks the input.
+        /// Type checks the input.
         /// Throws an exception when an error is found.
         /// </summary>
         /// <param name="seqExprFuncCall">The function call to check</param>
         /// <param name="ownerType">Gives the owner type of the function method call, in case this is a method call, otherwise null</param>
         private void CheckFunctionCallBase(SequenceExpressionFunctionCall seqExprFuncCall, GrGenType ownerType)
         {
-            // check the name against the available names
-            if(!IsCalledEntityExisting(seqExprFuncCall, ownerType))
-                throw new SequenceParserException(seqExprFuncCall, -1, SequenceParserError.UnknownFunction);
-
             CheckInputParameters(seqExprFuncCall, seqExprFuncCall.ArgumentExpressions, ownerType);
 
             // ok, this is a well-formed invocation
@@ -385,7 +379,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract string TypeOfTopLevelEntityInRule(string ruleName, string entityName);
 
-        protected abstract bool IsCalledEntityExisting(Invocation invocation, GrGenType ownerType);
         protected abstract int NumInputParameters(Invocation invocation, GrGenType ownerType);
         protected abstract int NumOutputParameters(Invocation invocation, GrGenType ownerType);
         protected abstract string InputParameterType(int i, Invocation invocation, GrGenType ownerType);

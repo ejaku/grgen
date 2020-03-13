@@ -9,12 +9,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Environment for sequence checking giving access to model and action signatures.
+    /// Environment for sequence type checking (with/giving access to model and action signatures).
     /// Concrete subclass for compiled sequences.
     /// </summary>
     public class SequenceCheckingEnvironmentCompiled : SequenceCheckingEnvironment
@@ -59,37 +58,6 @@ namespace de.unika.ipd.grGen.libGr
 
             int indexOfEntity = actionsTypeInformation.rulesToTopLevelEntities[ruleName].IndexOf(entityName);
             return actionsTypeInformation.rulesToTopLevelEntityTypes[ruleName][indexOfEntity];
-        }
-
-        protected override bool IsCalledEntityExisting(Invocation invocation, GrGenType ownerType)
-        {
-            if(invocation is RuleInvocation)
-            {
-                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
-                return actionNames.ContainsRule(ruleInvocation.PackagePrefixedName);
-            }
-            else if(invocation is SequenceInvocation)
-            {
-                SequenceInvocation seqInvocation = (SequenceInvocation)invocation;
-                return actionNames.ContainsSequence(seqInvocation.PackagePrefixedName);
-            }
-            else if(invocation is ProcedureInvocation)
-            {
-                ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
-                if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procInvocation.Name) != null;
-                else
-                    return actionNames.ContainsProcedure(procInvocation.PackagePrefixedName);
-            }
-            else if(invocation is FunctionInvocation)
-            {
-                FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
-                if(ownerType != null)
-                    return ownerType.GetFunctionMethod(funcInvocation.Name) != null;
-                else
-                    return actionNames.ContainsFunction(funcInvocation.PackagePrefixedName);
-            }
-            throw new Exception("Internal error");
         }
 
         protected override int NumInputParameters(Invocation invocation, GrGenType ownerType)

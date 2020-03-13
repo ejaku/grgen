@@ -12,7 +12,7 @@ using System;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Environment for sequence checking giving access to model and action signatures.
+    /// Environment for sequence type checking (with/giving access to model and action signatures).
     /// Concrete subclass for interpreted sequences.
     /// </summary>
     public class SequenceCheckingEnvironmentInterpreted : SequenceCheckingEnvironment
@@ -50,37 +50,6 @@ namespace de.unika.ipd.grGen.libGr
                     return TypesHelper.DotNetTypeToXgrsType(var.Type);
 
             throw new SequenceParserException(ruleName, entityName, SequenceParserError.UnknownPatternElement);
-        }
-
-        protected override bool IsCalledEntityExisting(Invocation invocation, GrGenType ownerType)
-        {
-            if(invocation is RuleInvocation)
-            {
-                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
-                return SequenceBase.GetAction(ruleInvocation) != null;
-            }
-            else if(invocation is SequenceInvocation)
-            {
-                SequenceSequenceCallInterpreted seqInvocation = (SequenceSequenceCallInterpreted)invocation;
-                return seqInvocation.SequenceDef != null;
-            }
-            else if(invocation is ProcedureInvocation)
-            {
-                ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
-                if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procInvocation.Name) != null;
-                else
-                    return ((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef != null;
-            }
-            else if(invocation is FunctionInvocation)
-            {
-                FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
-                if(ownerType != null)
-                    return ownerType.GetFunctionMethod(funcInvocation.Name) != null;
-                else
-                    return ((SequenceExpressionFunctionCallInterpreted)funcInvocation).FunctionDef != null;
-            }
-            throw new Exception("Internal error");
         }
 
         protected override int NumInputParameters(Invocation invocation, GrGenType ownerType)
