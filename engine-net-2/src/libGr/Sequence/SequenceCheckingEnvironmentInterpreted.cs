@@ -248,7 +248,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.Matches(filterCall.FullName))
+                    if(filterFunction.PackagePrefixedName == filterCall.FullName)
                         return filterFunction.Inputs.Length;
                 }
             }
@@ -271,7 +271,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.Matches(filterCall.FullName))
+                    if(filterFunction.PackagePrefixedName == filterCall.FullName)
                         return TypesHelper.DotNetTypeToXgrsType(filterFunction.Inputs[i]);
                 }
             }
@@ -307,7 +307,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.Matches(filterCall.FullName))
+                    if(filterFunction.PackagePrefixedName == filterCall.FullName)
                         return filterFunction.Inputs.Length;
                 }
             }
@@ -332,7 +332,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(filter is IFilterFunction)
                 {
                     IFilterFunction filterFunction = (IFilterFunction)filter;
-                    if(filterFunction.Matches(filterCall.FullName))
+                    if(filterFunction.PackagePrefixedName == filterCall.FullName)
                         return TypesHelper.DotNetTypeToXgrsType(filterFunction.Inputs[i]);
                 }
             }

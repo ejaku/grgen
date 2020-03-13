@@ -98,7 +98,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(IFilter filter in filters)
             {
-                if(filter.Matches(name))
+                if(filter.PackagePrefixedName == name)
                     return filter;
             }
             return null;

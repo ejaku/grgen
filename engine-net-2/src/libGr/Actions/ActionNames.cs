@@ -88,7 +88,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(IFilter filter in rulesToFilters[ruleName])
             {
-                if(filter.Matches(filterName))
+                if(filter.PackagePrefixedName == filterName)
                     return true;
             }
             return false;
@@ -98,7 +98,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(IFilter filter in matchClassesToFilters[matchClassName])
             {
-                if(filter.Matches(filterName))
+                if(filter.PackagePrefixedName == filterName)
                     return true;
             }
             return false;
