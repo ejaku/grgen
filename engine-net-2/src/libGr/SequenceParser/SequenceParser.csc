@@ -1044,6 +1044,12 @@ Sequence SimpleSequence():
         return new SequenceTransaction(seq);
     }
 |
+    LOOKAHEAD(5)
+    "<<" seq=MultiRulePrefixedSequence() ">>"
+    {
+        return new SequenceMultiSequenceBacktrack((SequenceMultiRulePrefixedSequence)seq);
+    }
+|
     LOOKAHEAD(3)
     "<<" seq=MultiRuleAllCall(false) (";;"|";") seq2=RewriteSequence() ">>"
     {
@@ -1965,7 +1971,7 @@ Sequence MultiRulePrefixedSequence():
 }
 {
     "[" "[" "for" "{" { varDecls.PushScope(ScopeType.For); } rule=RuleForMultiRuleAllCall(false) ";" seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}"
-        ("," "for" "{" { varDecls.PushScope(ScopeType.For); } rule=RuleForMultiRuleAllCall(false) ";" seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}")*  "]" "]"
+		("," "for" "{" { varDecls.PushScope(ScopeType.For); } rule=RuleForMultiRuleAllCall(false) ";" seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}")*  "]" "]"
     { seqMultiRulePrefixedSequence = new SequenceMultiRulePrefixedSequence(rulePrefixedSequences); }
         ("\\" filter=Filter(null, true) { seqMultiRulePrefixedSequence.AddFilterCall(filter); })*
     { return seqMultiRulePrefixedSequence; }

@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         ForBoundedReachableNodes, ForBoundedReachableNodesViaIncoming, ForBoundedReachableNodesViaOutgoing,
         ForBoundedReachableEdges, ForBoundedReachableEdgesViaIncoming, ForBoundedReachableEdgesViaOutgoing,
         ForNodes, ForEdges,
-        Transaction, Backtrack, MultiBacktrack, /*MultiSequenceBacktrack,*/Pause,
+        Transaction, Backtrack, MultiBacktrack, MultiSequenceBacktrack, Pause,
         IterationMin, IterationMinMax,
         RuleCall, RuleAllCall, RuleCountAllCall, RulePrefixedSequence,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
@@ -4146,7 +4146,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env);
-            env.CheckMatchClassFilterCalls(Rules.Filters);
+            Rules.Check(env);
         }
 
         internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
@@ -4318,6 +4318,194 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return "<<" + Rules.Symbol + ";;" + Seq.Symbol + ">>"; }
+        }
+    }
+
+    public class SequenceMultiSequenceBacktrack : Sequence
+    {
+        public readonly SequenceMultiRulePrefixedSequence MultiRulePrefixedSequence;
+
+        public SequenceMultiSequenceBacktrack(SequenceMultiRulePrefixedSequence multiRulePrefixedSequence) : base(SequenceType.MultiSequenceBacktrack)
+        {
+            MultiRulePrefixedSequence = multiRulePrefixedSequence;
+        }
+
+        protected SequenceMultiSequenceBacktrack(SequenceMultiSequenceBacktrack that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            MultiRulePrefixedSequence = ((SequenceMultiRulePrefixedSequence)that.MultiRulePrefixedSequence.Copy(originalToCopy, procEnv));
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceMultiSequenceBacktrack(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+            MultiRulePrefixedSequence.Check(env);
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            MultiRulePrefixedSequence.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            // first get all matches of the rule
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Matching multi rule prefixed backtrack " + GetRuleCallString(procEnv));
+#endif
+            List<IMatches> MatchesList;
+            List<IMatch> MatchList;
+            MultiRulePrefixedSequence.MatchAll(procEnv, out MatchesList, out MatchList);
+
+            foreach(SequenceFilterCall filter in MultiRulePrefixedSequence.Filters)
+            {
+                SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
+                filterInterpreted.Execute(procEnv, MatchList);
+            }
+
+            int matchesCount = MatchList.Count;
+            if(matchesCount == 0)
+            {
+                // todo: sequence, single rules?
+                executionState = SequenceExecutionState.Fail;
+                return false;
+            }
+
+#if LOG_SEQUENCE_EXECUTION
+            for(int i = 0; i < matchesCount; ++i)
+            {
+                procEnv.Recorder.WriteLine("match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
+            }
+#endif
+
+            // the rule might be called again in the sequence, overwriting the matches object of the action
+            // normally it's safe to assume the rule is not called again until its matches were processed,
+            // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
+            // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
+            MatchListHelper.Clone(MatchesList, MatchList);
+
+#if LOG_SEQUENCE_EXECUTION
+            for(int i = 0; i < matches.Count; ++i)
+            {
+                procEnv.Recorder.WriteLine("cloned match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
+            }
+#endif
+
+            // apply the rule and its sequence for every match found,
+            // until the first rule and sequence execution succeeded
+            // rolling back the changes of failing executions until then
+            int matchesTried = 0;
+
+            Dictionary<string, int> ruleNameToComponentIndex = new Dictionary<string, int>();
+            for(int i = 0; i < MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
+            {
+                SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule;
+                IMatches matches = MatchesList[i];
+                ruleNameToComponentIndex.Add(rule.PackagePrefixedName, i);
+
+                if(matches.Count == 0)
+                    rule.executionState = SequenceExecutionState.Fail;
+            }
+
+            foreach(IMatch match in MatchList)
+            {
+                ++matchesTried;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Applying backtrack match " + matchesTried + "/" + matchesCount + " of " + rule.GetRuleCallString(procEnv));
+                procEnv.Recorder.WriteLine("match: " + MatchPrinter.ToString(match, procEnv.Graph, ""));
+#endif
+
+                // start a transaction
+                int transactionID = procEnv.TransactionManager.Start();
+                int oldRewritesPerformed = procEnv.PerformanceInfo.RewritesPerformed;
+
+                int index = ruleNameToComponentIndex[match.Pattern.PackagePrefixedName];
+                SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[index].Rule;
+                Sequence seq = MultiRulePrefixedSequence.RulePrefixedSequences[index].Sequence;
+                IMatches matches = MatchesList[index];
+
+                procEnv.EnteringSequence(rule);
+                rule.executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
+#endif
+                procEnv.Matched(matches, match, rule.Special); // only called on an existing match
+                rule.Rewrite(procEnv, matches, match);
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
+#endif
+                rule.executionState = SequenceExecutionState.Success;
+                procEnv.ExitingSequence(rule);
+
+                // rule applied, now execute its sequence
+                bool result = seq.Apply(procEnv);
+
+                // if sequence execution failed, roll the changes back and try the next match of the rule
+                if(!result)
+                {
+                    procEnv.TransactionManager.Rollback(transactionID);
+                    procEnv.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+                    if(matchesTried < matchesCount)
+                    {
+                        procEnv.EndOfIteration(true, this);
+                        rule.ResetExecutionState();
+                        seq.ResetExecutionState();
+                        continue;
+                    }
+                    else
+                    {
+                        // all matches tried, all failed later on -> end in fail
+#if LOG_SEQUENCE_EXECUTION
+                        procEnv.Recorder.WriteLine("Applying backtrack match exhausted " + rule.GetRuleCallString(procEnv));
+#endif
+                        procEnv.EndOfIteration(false, this);
+                        return false;
+                    }
+                }
+
+                // if sequence execution succeeded, commit the changes so far and succeed
+                procEnv.TransactionManager.Commit(transactionID);
+                procEnv.EndOfIteration(false, this);
+                return true;
+            }
+            return false;
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(MultiRulePrefixedSequence.GetCurrentlyExecutedSequence() != null)
+                return MultiRulePrefixedSequence.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            if(MultiRulePrefixedSequence.GetLocalVariables(variables, containerConstructors, target))
+                return true;
+            return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get { yield return MultiRulePrefixedSequence; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "<<" + MultiRulePrefixedSequence.Symbol + ">>"; }
         }
     }
 

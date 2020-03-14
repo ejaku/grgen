@@ -1,0 +1,11 @@
+new graph "multiruleprefixedsequence/multiruleprefixedsequence"
+
+exec {(::visitedFlag)=valloc()} ;> (::n)=init()
+
+exec <<[[for{r(::n);seqPrintMatchedR();>seqPrintMatched},for{(m1:M,::m2)=s()\auto;seqPrintMatchedS(m1,::m2);>seqPrintMatched}]]>>
+
+show num nodes
+show num nodes N
+show num nodes M
+
+quit
