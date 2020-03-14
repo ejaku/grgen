@@ -1,0 +1,209 @@
+#using "modelmulti.gm"
+
+rule init
+{
+	modify {
+		m1:M --> :Node --> n1:N;
+		m2:M --> :Node --> n2:N;
+
+		n3:N --> :Node --> m3:M;
+		
+		eval {
+			m1.i = 1; n1.i = 1;
+			m2.i = 2; n2.i = 2;
+			
+			m3.i = 2; n3.i = 2;
+		}
+	}
+}
+
+match class mc
+{
+	n:N;
+	m:M;
+	var i:int;
+	def var idef:int;
+}
+
+match filter foutput<mc>
+{
+	for(m:match<class mc> in this)
+	{
+		def n:N = m.n;
+		emit("the value of variable \"i\" of type int is: ", m.i, "\n");
+		emit("the value of variable \"idef\" of type int is: ", m.idef, "\n");
+	}
+}
+
+match filter f<mc>(var f:int)
+{
+	for(m:match<class mc> in this)
+	{
+		def n:N = m.n;
+		m.idef = n.i + f;
+		emit("the value of variable \"n.i\" of type int is: ", n.i, "\n");
+		emit("the value of variable \"idef\" of type int is: ", m.idef, "\n");
+	}
+}
+
+match filter frem<mc>(var f:int)
+{
+	def var pos:int = 0;
+	for(m:match<class mc> in this)
+	{
+		if(m.idef != f) {
+			this[pos] = null;
+		}
+		pos = pos + 1;
+	}
+}
+
+match class mcdef
+{
+	def ndef:N;
+	def mdef:M;
+	def var idef:int;
+}
+
+match filter fdef<mcdef>(var f:int)
+{
+	for(m:match<class mcdef> in this)
+	{
+		def ndef:N = m.ndef;
+		m.idef = ndef.i + m.idef + f;
+		emit("the value of variable \"ndef.i\" of type int is: ", ndef.i, "\n");
+		emit("the value of variable \"idef\" of type int is: ", m.idef, "\n");
+	}
+}
+
+match filter fremdef<mcdef>(var f:int)
+{
+	def var pos:int = 0;
+	for(m:match<class mcdef> in this)
+	{
+		if(m.idef != f) {
+			this[pos] = null;
+		}
+		pos = pos + 1;
+	}
+}
+
+rule r(var i:int) : (int, int, int, int) implements mc, mcdef
+{
+	m:M --> mid:Node --> n:N;
+	
+	def ndef:N;
+	def mdef:M;
+	def var idef:int;
+
+	yield {
+		yield ndef = n;
+		yield mdef = m;
+		yield idef = i;
+	}
+	
+	modify {
+		:R<mid>;
+		return(m.i, n.i, i, idef);
+	}
+}
+
+rule s(var i:int) : (int, int, int, int) implements mc, mcdef
+{
+	n:N --> mid:Node --> m:M;
+
+	def ndef:N;
+	def mdef:M;
+	def var idef:int;
+	
+	yield {
+		yield ndef = n;
+		yield mdef = m;
+		yield idef = i;
+	}
+	
+	modify {
+		:S<mid>;
+		return(n.i, m.i, i, idef);
+	}
+}
+
+/*sequence seqmc
+{
+	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.f(1)\mc.frem(2) ;> seqPrintMatched
+}
+
+sequence seqmcdef
+{
+	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mcdef.fdef(0)\mcdef.fremdef(44) ;> seqPrintMatched
+}
+
+sequence seqmcmcdef
+{
+	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.f(1)\mcdef.fdef(1) ;> seqPrintMatched
+}
+
+sequence seqrem
+{
+	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.frem(1)\mcdef.fremdef(2) ;> seqPrintMatched
+}*/
+
+sequence seqPrintMatchedR()
+{
+	   { emit("the value of variable \"matchedR\" of type int is: \"matchedR\"\n") }
+}
+
+sequence seqPrintMatchedS
+{
+	   { emit("the value of variable \"matchedS\" of type int is: \"matchedS\"\n") }
+}
+
+sequence seqPrintMatched
+{
+	   { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+}
+
+/*sequence seqmcBacktrack
+{
+   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack()},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack}]]\mc.f(5)\mc.frem(6)>>
+}
+
+sequence seqmcdefBacktrack
+{
+   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack()},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack}]]\mcdef.fdef(-2)\mcdef.fremdef(42)>>
+}
+
+sequence seqmcmcdefBacktrack
+{
+   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack()},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack}]]\mc.f(1)\mcdef.fdef(10)>>
+}
+
+sequence seqremBacktrack
+{
+   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack()},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack}]]\mc.frem(1)\mcdef.fremdef(2)>>
+}*/
+
+sequence seqPrintMatchedRBacktrack()
+{
+	{ emit("the value of variable \"matchedR\" of type rule is: \"matchedR\"\n") }
+	;> seqPrintMatchedBacktrack
+}
+
+sequence seqPrintMatchedSBacktrack
+{
+	{ emit("the value of variable \"matchedS\" of type rule is: \"matchedS\"\n") }
+	;> seqPrintMatchedBacktrack
+}
+
+sequence seqPrintMatchedBacktrack
+{
+	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
+	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
+	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
+	;> { emit("the value of variable \"idef\" of type int is: ", ::idef, "\n") }
+	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
+	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
+	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
+}

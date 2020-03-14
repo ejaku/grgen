@@ -1,0 +1,11 @@
+new graph "ruleprefixedsequence/rules"
+
+exec [for{r;true}]
+
+exec [for{r;false}]
+
+exec [for{r\f;true}]
+
+exec [for{r\f;false}]
+
+quit

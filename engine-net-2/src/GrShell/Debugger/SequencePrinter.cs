@@ -130,8 +130,14 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.SomeFromSet:
                 PrintSequenceSomeFromSet((SequenceSomeFromSet)seq, parent, context);
                 break;
+            case SequenceType.MultiRulePrefixedSequence:
+                PrintSequenceMultiRulePrefixedSequence((SequenceMultiRulePrefixedSequence)seq, parent, context);
+                break;
             case SequenceType.MultiRuleAllCall:
                 PrintSequenceMultiRuleAllCall((SequenceMultiRuleAllCall)seq, parent, context);
+                break;
+            case SequenceType.RulePrefixedSequence:
+                PrintSequenceRulePrefixedSequence((SequenceRulePrefixedSequence)seq, parent, context);
                 break;
             case SequenceType.SequenceCall:
             case SequenceType.RuleCall:
@@ -589,6 +595,25 @@ namespace de.unika.ipd.grGen.grShell
             context.success = succesBackup;
         }
 
+        private static void PrintSequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence seqMulti, Sequence parent, PrintSequenceContext context)
+        {
+            bool highlight = false;
+            foreach(Sequence seqChild in seqMulti.Children)
+            {
+                if(seqChild == context.highlightSeq)
+                    highlight = true;
+            }
+
+            bool succesBackup = context.success;
+            if(highlight)
+                context.success = true;
+            Console.Write("[[");
+            PrintChildren(seqMulti, context);
+            Console.Write("]]");
+            Console.Write(seqMulti.FilterSymbol);
+            context.success = succesBackup;
+        }
+
         private static void PrintSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, Sequence parent, PrintSequenceContext context)
         {
             bool highlight = false;
@@ -606,6 +631,21 @@ namespace de.unika.ipd.grGen.grShell
             Console.Write("]]");
             Console.Write(seqMulti.FilterSymbol);
             context.success = succesBackup;
+        }
+
+        private static void PrintSequenceRulePrefixedSequence(SequenceRulePrefixedSequence seqRulePrefixedSequence, Sequence parent, PrintSequenceContext context)
+        {
+            if(!(parent is SequenceMultiRulePrefixedSequence))
+                Console.Write("[");
+
+            Console.Write("for{");
+            PrintSequence(seqRulePrefixedSequence.Rule, seqRulePrefixedSequence, context);
+            Console.Write(";");
+            PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, context);
+            Console.Write("}");
+
+            if(!(parent is SequenceMultiRulePrefixedSequence))
+                Console.Write("]");
         }
 
         private static void PrintSequenceBreakpointable(Sequence seq, Sequence parent, PrintSequenceContext context)

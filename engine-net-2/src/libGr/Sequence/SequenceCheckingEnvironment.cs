@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using System;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -36,7 +37,7 @@ namespace de.unika.ipd.grGen.libGr
             else
                 CheckOutputParameters(seqRuleCall, seqRuleCall.ReturnVars, null);
 
-            CheckFilterCalls(seqRuleCall);
+            CheckFilterCalls(seqRuleCall.Name, seqRuleCall.Filters);
 
             CheckSubgraph(seqRuleCall);
 
@@ -54,7 +55,7 @@ namespace de.unika.ipd.grGen.libGr
             CheckInputParameters(seqRuleAllCall, seqRuleAllCall.ArgumentExpressions, null);
             CheckOutputParametersRuleAll(seqRuleAllCall, seqRuleAllCall.ReturnVars);
 
-            CheckFilterCalls(seqRuleAllCall);
+            CheckFilterCalls(seqRuleAllCall.Name, seqRuleAllCall.Filters);
 
             CheckSubgraph(seqRuleAllCall);
 
@@ -272,15 +273,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Checks whether called filter exists, and type checks the inputs.
         /// </summary>
-        private void CheckFilterCalls(SequenceRuleCall seqRuleCall)
+        private void CheckFilterCalls(String ruleName, List<SequenceFilterCall> sequenceFilterCalls)
         {
-            foreach(SequenceFilterCall sequenceFilterCall in seqRuleCall.Filters)
+            foreach(SequenceFilterCall sequenceFilterCall in sequenceFilterCalls)
             {
                 String filterCallName = GetFilterCallName(sequenceFilterCall);
 
                 // Check whether number of filter parameters match
                 if(NumFilterFunctionParameters(sequenceFilterCall) != sequenceFilterCall.ArgumentExpressions.Length)
-                    throw new SequenceParserException(seqRuleCall.Name, filterCallName, SequenceParserError.FilterParameterError);
+                    throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterParameterError);
 
                 // Check parameter types
                 for(int i = 0; i < sequenceFilterCall.ArgumentExpressions.Length; i++)
@@ -288,7 +289,7 @@ namespace de.unika.ipd.grGen.libGr
                     sequenceFilterCall.ArgumentExpressions[i].Check(this);
 
                     if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, sequenceFilterCall), Model))
-                        throw new SequenceParserException(seqRuleCall.Name, filterCallName, SequenceParserError.FilterParameterError);
+                        throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
         }
@@ -296,9 +297,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Checks whether called match class filter exists, and type checks the inputs.
         /// </summary>
-        public void CheckFilterCalls(SequenceMultiRuleAllCall seqMultiRuleAllCall)
+        public void CheckMatchClassFilterCalls(List<SequenceFilterCall> sequenceFilterCalls)
         {
-            foreach(SequenceFilterCall sequenceFilterCall in seqMultiRuleAllCall.Filters)
+            foreach(SequenceFilterCall sequenceFilterCall in sequenceFilterCalls)
             {
                 String matchClassName = GetMatchClassName(sequenceFilterCall);
                 String filterCallName = GetFilterCallName(sequenceFilterCall);

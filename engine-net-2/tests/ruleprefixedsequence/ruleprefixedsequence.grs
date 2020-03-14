@@ -1,0 +1,13 @@
+new graph "ruleprefixedsequence/rules"
+
+exec init[3]
+
+exec t(null) ;> [for{(m:Node)=rr;t(m)}] <; t(null)
+
+exec [for{(m:Node)=rr;t(m)}]
+
+exec init
+
+exec [for{(m:Node)=rr;t(m)}]
+
+quit

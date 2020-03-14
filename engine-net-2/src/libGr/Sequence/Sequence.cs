@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not,
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll,
-        WeightedOne, SomeFromSet, MultiRuleAllCall,
+        WeightedOne, SomeFromSet, MultiRuleAllCall, MultiRulePrefixedSequence,
         IfThenElse, IfThen,
         ForContainer, ForMatch, ForIntegerRange,
         ForIndexAccessEquality, ForIndexAccessOrdering,
@@ -39,9 +39,9 @@ namespace de.unika.ipd.grGen.libGr
         ForBoundedReachableNodes, ForBoundedReachableNodesViaIncoming, ForBoundedReachableNodesViaOutgoing,
         ForBoundedReachableEdges, ForBoundedReachableEdgesViaIncoming, ForBoundedReachableEdgesViaOutgoing,
         ForNodes, ForEdges,
-        Transaction, Backtrack, MultiBacktrack, Pause,
+        Transaction, Backtrack, MultiBacktrack, /*MultiSequenceBacktrack,*/Pause,
         IterationMin, IterationMinMax,
-        RuleCall, RuleAllCall, RuleCountAllCall,
+        RuleCall, RuleAllCall, RuleCountAllCall, RulePrefixedSequence,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomIntToVar, AssignRandomDoubleToVar, // needed as sequence because of debugger integration
         DeclareVariable, AssignConstToVar, AssignContainerConstructorToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
@@ -3256,7 +3256,7 @@ namespace de.unika.ipd.grGen.libGr
                     throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]]  can't contain a call with subgraph prefix (e.g. sg.r4)");
             }
 
-            env.CheckFilterCalls(this);
+            env.CheckMatchClassFilterCalls(Filters);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -3465,6 +3465,422 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sb.Append("]]");
                 sb.Append(FilterSymbol);
+                return sb.ToString();
+            }
+        }
+    }
+
+    public class SequenceRulePrefixedSequence : Sequence
+    {
+        public readonly SequenceRuleCall Rule;
+        public readonly Sequence Sequence;
+        public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeaving;
+
+        public SequenceRulePrefixedSequence(SequenceRuleCall rule, Sequence sequence,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeaving)
+            : base(SequenceType.RulePrefixedSequence)
+        {
+            Rule = rule;
+            Sequence = sequence;
+            VariablesFallingOutOfScopeOnLeaving = variablesFallingOutOfScopeOnLeaving;
+        }
+
+        protected SequenceRulePrefixedSequence(SequenceRulePrefixedSequence that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            Rule = (SequenceRuleCall)that.Rule.Copy(originalToCopy, procEnv);
+            Sequence = that.Sequence.Copy(originalToCopy, procEnv);
+            VariablesFallingOutOfScopeOnLeaving = CopyVars(originalToCopy, procEnv, that.VariablesFallingOutOfScopeOnLeaving);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceRulePrefixedSequence(this, originalToCopy, procEnv);
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Rule.ReplaceSequenceDefinition(oldDef, newDef);
+            Sequence.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(Rule.GetCurrentlyExecutedSequence() != null)
+                return Rule.GetCurrentlyExecutedSequence();
+            if(Sequence.GetCurrentlyExecutedSequence() != null)
+                return Sequence.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            try
+            {
+                bool result = false;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Applying rule prefixed sequence " + GetRuleCallString(procEnv));
+#endif
+                IMatches matches = Match(procEnv);
+
+                if(matches.Count == 0)
+                {
+                    Rule.executionState = SequenceExecutionState.Fail;
+                    return false;
+                }
+
+#if LOG_SEQUENCE_EXECUTION
+                if(res)
+                {
+                    procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
+                    procEnv.Recorder.Flush();
+                }
+#endif
+
+                // the rule might be called again in the sequence, overwriting the matches object of the action
+                // normally it's safe to assume the rule is not called again until its matches were processed,
+                // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
+                // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
+                matches = matches.Clone();
+
+                int matchesTried = 0;
+                foreach(IMatch match in matches)
+                {
+                    ++matchesTried;
+#if LOG_SEQUENCE_EXECUTION
+                    procEnv.Recorder.WriteLine("Applying match " + matchesTried + "/" + matches.Count + " of " + Rule.GetRuleCallString(procEnv));
+                    procEnv.Recorder.WriteLine("match: " + MatchPrinter.ToString(match, procEnv.Graph, ""));
+#endif
+                    procEnv.EnteringSequence(Rule);
+                    Rule.executionState = SequenceExecutionState.Underway;
+
+                    procEnv.Matched(matches, match, Rule.Special); // only called on an existing match
+                    Rule.Rewrite(procEnv, matches, match);
+
+                    Rule.executionState = SequenceExecutionState.Success;
+                    procEnv.ExitingSequence(Rule);
+
+                    result |= Sequence.Apply(procEnv);
+
+                    if(matchesTried < matches.Count)
+                    {
+                        procEnv.EndOfIteration(true, this);
+                        Rule.ResetExecutionState();
+                        Sequence.ResetExecutionState();
+                        continue;
+                    }
+                    else
+                    {
+#if LOG_SEQUENCE_EXECUTION
+                        procEnv.Recorder.WriteLine("Applying match exhausted " + rule.GetRuleCallString(procEnv));
+#endif
+                        procEnv.EndOfIteration(false, this);
+                        return result;
+                    }
+                }
+
+                return result;
+            }
+            catch(NullReferenceException)
+            {
+                System.Console.Error.WriteLine("Null reference exception during rule prefixed sequence execution (null parameter?): " + Symbol);
+                throw;
+            }
+        }
+
+        public IMatches Match(IGraphProcessingEnvironment procEnv)
+        {
+            int maxMatches = procEnv.MaxMatches;
+
+            FillArgumentsFromArgumentExpressions(Rule.ArgumentExpressions, Rule.Arguments, procEnv);
+
+            SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)Rule;
+            IMatches matches = procEnv.MatchWithoutEvent(ruleInterpreted.Action, Rule.Arguments, maxMatches);
+
+            for(int i = 0; i < Rule.Filters.Count; ++i)
+            {
+                SequenceFilterCallInterpreted filter = (SequenceFilterCallInterpreted)Rule.Filters[i];
+                filter.Execute(procEnv, ruleInterpreted.Action, matches);
+            }
+
+            return matches;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            if(Rule.GetLocalVariables(variables, containerConstructors, target))
+                return true;
+            if(Sequence.GetLocalVariables(variables, containerConstructors, target))
+                return true;
+            RemoveVariablesFallingOutOfScope(variables, VariablesFallingOutOfScopeOnLeaving);
+            return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get
+            {
+                yield return Rule;
+                yield return Sequence;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "for{" + Rule.Symbol + ";" + Sequence.Symbol + "}"; }
+        }
+    }
+
+    public class SequenceMultiRulePrefixedSequence : Sequence
+    {
+        public readonly List<SequenceRulePrefixedSequence> RulePrefixedSequences;
+        public readonly List<SequenceFilterCall> Filters;
+
+        public SequenceMultiRulePrefixedSequence(List<SequenceRulePrefixedSequence> rulePrefixedSequences) : base(SequenceType.MultiRulePrefixedSequence)
+        {
+            RulePrefixedSequences = rulePrefixedSequences;
+            Filters = new List<SequenceFilterCall>();
+        }
+
+        protected SequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            RulePrefixedSequences = new List<SequenceRulePrefixedSequence>();
+            foreach(SequenceRulePrefixedSequence rulePrefixedSequence in that.RulePrefixedSequences)
+            {
+                RulePrefixedSequences.Add((SequenceRulePrefixedSequence)rulePrefixedSequence.Copy(originalToCopy, procEnv));
+            }
+            Filters = that.Filters;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceMultiRulePrefixedSequence(this, originalToCopy, procEnv);
+        }
+
+        public void AddFilterCall(SequenceFilterCall sequenceFilterCall)
+        {
+            Filters.Add(sequenceFilterCall);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+            env.CheckMatchClassFilterCalls(Filters);
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
+            {
+                rulePrefixedSequence.ReplaceSequenceDefinition(oldDef, newDef);
+            }
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            // first get all matches of the rule
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Matching rule prefixed multi sequence " + GetRuleCallString(procEnv));
+#endif
+            List<IMatches> MatchesList;
+            List<IMatch> MatchList;
+            MatchAll(procEnv, out MatchesList, out MatchList);
+
+            foreach(SequenceFilterCall filter in Filters)
+            {
+                SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
+                filterInterpreted.Execute(procEnv, MatchList);
+            }
+
+            int matchesCount = MatchList.Count;
+            if(matchesCount == 0)
+            {
+                // todo: sequence, single rules?
+                foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
+                {
+                    rulePrefixedSequence.executionState = SequenceExecutionState.Fail;
+                }
+                executionState = SequenceExecutionState.Fail;
+                return false;
+            }
+
+#if LOG_SEQUENCE_EXECUTION
+            for(int i = 0; i < matchesCount; ++i)
+            {
+                procEnv.Recorder.WriteLine("match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
+            }
+#endif
+
+            // the rule might be called again in the sequence, overwriting the matches object of the action
+            // normally it's safe to assume the rule is not called again until its matches were processed,
+            // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
+            // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
+            MatchListHelper.Clone(MatchesList, MatchList);
+
+#if LOG_SEQUENCE_EXECUTION
+            for(int i = 0; i < matches.Count; ++i)
+            {
+                procEnv.Recorder.WriteLine("cloned match " + i + ": " + MatchPrinter.ToString(MatchList[i], procEnv.Graph, ""));
+            }
+#endif
+
+            // apply the rule and its sequence for every match found
+            int matchesTried = 0;
+
+            Dictionary<string, int> ruleNameToComponentIndex = new Dictionary<string, int>();
+            for(int i = 0; i < RulePrefixedSequences.Count; ++i)
+            {
+                SequenceRuleCall rule = (SequenceRuleCall)RulePrefixedSequences[i].Rule;
+                IMatches matches = MatchesList[i];
+                ruleNameToComponentIndex.Add(rule.PackagePrefixedName, i);
+
+                if(matches.Count == 0)
+                    rule.executionState = SequenceExecutionState.Fail;
+            }
+
+            bool result = false;
+            foreach(IMatch match in MatchList)
+            {
+                ++matchesTried;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Applying match " + matchesTried + "/" + matchesCount + " of " + rule.GetRuleCallString(procEnv));
+                procEnv.Recorder.WriteLine("match: " + MatchPrinter.ToString(match, procEnv.Graph, ""));
+#endif
+
+                int index = ruleNameToComponentIndex[match.Pattern.PackagePrefixedName];
+                SequenceRuleCall rule = (SequenceRuleCall)RulePrefixedSequences[index].Rule;
+                Sequence seq = RulePrefixedSequences[index].Sequence;
+                IMatches matches = MatchesList[index];
+
+                procEnv.EnteringSequence(rule);
+                rule.executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
+#endif
+                procEnv.Matched(matches, match, rule.Special); // only called on an existing match
+                rule.Rewrite(procEnv, matches, match);
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
+#endif
+                rule.executionState = SequenceExecutionState.Success;
+                procEnv.ExitingSequence(rule);
+
+                // rule applied, now execute its sequence
+                result |= seq.Apply(procEnv);
+
+                if(matchesTried < matchesCount)
+                {
+                    procEnv.EndOfIteration(true, this);
+                    rule.ResetExecutionState();
+                    seq.ResetExecutionState();
+                    continue;
+                }
+                else
+                {
+#if LOG_SEQUENCE_EXECUTION
+                    procEnv.Recorder.WriteLine("Applying match exhausted " + rule.GetRuleCallString(procEnv));
+#endif
+                    procEnv.EndOfIteration(false, this);
+                    return result;
+                }
+            }
+            return result;
+        }
+
+        public void MatchAll(IGraphProcessingEnvironment procEnv, out List<IMatches> MatchesList, out List<IMatch> MatchList)
+        {
+            MatchesList = new List<IMatches>(RulePrefixedSequences.Count);
+
+            for(int i = 0; i < RulePrefixedSequences.Count; ++i)
+            {
+                if(!(RulePrefixedSequences[i] is SequenceRulePrefixedSequence))
+                    throw new InvalidOperationException("Internal error: rule prefixed multi sequence containing non-rule prefixed sequence");
+
+                SequenceRulePrefixedSequence rulePrefixedSequence = (SequenceRulePrefixedSequence)RulePrefixedSequences[i];
+                IMatches matches = rulePrefixedSequence.Match(procEnv);
+                MatchesList.Add(matches);
+            }
+
+            MatchList = new List<IMatch>();
+            MatchListHelper.Add(MatchList, MatchesList);
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
+            {
+                if(rulePrefixedSequence.GetCurrentlyExecutedSequence() != null)
+                    return rulePrefixedSequence.GetCurrentlyExecutedSequence();
+            }
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
+        {
+            foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
+            {
+                if(rulePrefixedSequence.GetLocalVariables(variables, containerConstructors, target))
+                    return true;
+            }
+            return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get
+            {
+                foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
+                {
+                    yield return rulePrefixedSequence;
+                }
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public string FilterSymbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                for(int i = 0; i < Filters.Count; ++i)
+                {
+                    sb.Append("\\").Append(Filters[i].ToString());
+                }
+                return sb.ToString();
+            }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("[[");
+                foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
+                {
+                    sb.Append(rulePrefixedSequence.Symbol);
+                }
+                sb.Append("]]");
+                foreach(SequenceFilterCall filterCall in Filters)
+                {
+                    sb.Append(FilterSymbol);
+                }
                 return sb.ToString();
             }
         }
@@ -3730,7 +4146,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env);
-            env.CheckFilterCalls(this.Rules);
+            env.CheckMatchClassFilterCalls(Rules.Filters);
         }
 
         internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)

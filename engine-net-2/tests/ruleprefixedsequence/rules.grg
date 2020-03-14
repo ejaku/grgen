@@ -1,0 +1,36 @@
+rule r
+{
+	modify {
+	}
+}
+
+filter f<r>
+{
+	for(i:int in [0:this.size()-1])
+	{
+		this[i] = null;
+	}
+}
+
+rule init
+{
+	modify {
+		. --> m:Node --> m;
+	}
+}
+
+rule rr : (Node)
+{
+	n:Node --> m:Node;
+	
+	modify {
+		delete(n);
+		return(m);
+	}
+}
+
+test t(m:Node<null>)
+{
+	m --> m;
+	. --> .;
+}

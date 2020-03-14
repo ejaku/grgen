@@ -1,0 +1,25 @@
+new graph "multiruleprefixedsequence/multiruleprefixedsequencematchfilter"
+
+exec init
+
+exec [[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.f(1)\mc.frem(2) ;> seqPrintMatched
+
+clear graph
+
+exec init
+
+exec [[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mcdef.fdef(0)\mcdef.fremdef(44) ;> seqPrintMatched
+
+clear graph
+
+exec init
+
+exec [[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.f(1)\mcdef.fdef(1) ;> seqPrintMatched
+
+clear graph
+
+exec init
+
+exec [[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.frem(1)\mcdef.fremdef(2) ;> seqPrintMatched
+
+quit
