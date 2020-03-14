@@ -122,7 +122,7 @@ iterSequence[ExecNode xg]
 	;
 
 simpleSequence[ExecNode xg]
-options { k = 3; }
+options { k = 4; }
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
@@ -157,6 +157,8 @@ options { k = 3; }
 		)
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
+	| rulePrefixedSequence[xg, returns]
+	| multiRulePrefixedSequence[xg, returns]
 	| (parallelCallRule[null, null]) => parallelCallRule[xg, returns]
 	| multiRuleAllCall[xg, returns, true]
 	| DOUBLECOLON id=entIdentUse { xg.append("::" + id); xg.addUsage(id); }
@@ -171,6 +173,7 @@ options { k = 3; }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
 	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }
 	| SL { xg.append(" <<"); } multiRuleAllCall[xg, returns, false] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }
+	| SL { xg.append(" <<"); } multiRulePrefixedSequence[xg, returns] SR { xg.append(">> "); }
 	| DIV { xg.append(" /"); } xgrs[xg] DIV { xg.append("/ "); }
 	| IF l=LBRACE { env.pushScope("if/exec", getCoords(l)); } { xg.append("if{"); } xgrs[xg] s=SEMI 
 		{ env.pushScope("if/then-part", getCoords(s)); } { xg.append("; "); } xgrs[xg] { env.popScope(); }
@@ -572,6 +575,30 @@ seqDequeItem [ExecNode xg] returns [ DequeItemNode res = null ]
 		}
 	;
 
+multiRulePrefixedSequence[ExecNode xg, CollectNode<BaseNode> returns]
+	@init{
+		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
+		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
+	}
+
+	: l=LBRACK LBRACK {xg.append("[[");} 
+		rulePrefixedSequenceAtom[xg, ruleCalls, returns]
+		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } rulePrefixedSequenceAtom[xg, ruleCalls, returns] )*
+	  RBRACK RBRACK {xg.append("]]");}
+	  (callRuleFilter[xg, filters, true])*
+		{
+			xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters));
+		}
+	;
+
+rulePrefixedSequence[ExecNode xg, CollectNode<BaseNode> returns]
+	: LBRACK {xg.append("[");} rulePrefixedSequenceAtom[xg, null, returns] RBRACK {xg.append("]");}
+	;
+
+rulePrefixedSequenceAtom[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns]
+	: FOR LBRACE {xg.append("for{");} callRuleWithOptionalReturns[xg, ruleCalls, returns, false] SEMI {xg.append(";");} xgrs[xg] RBRACE {xg.append("}");}
+	;
+
 multiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed]
 	@init{
 		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
@@ -579,8 +606,8 @@ multiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracke
 	}
 
 	: l=LBRACK LBRACK {xg.append("[[");} 
-		(LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, ruleCalls, returns, isAllBracketed]
-		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } (LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, ruleCalls, returns, isAllBracketed] )*
+		callRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed]
+		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } callRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed] )*
 	  RBRACK RBRACK {xg.append("]]");}
 	  (callRuleFilter[xg, filters, true])*
 		{
@@ -603,6 +630,10 @@ parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 		|
 			callRule[xg, null, returns, false]
 		)
+	;
+
+callRuleWithOptionalReturns[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
+	: (LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, ruleCalls, returns, isAllBracketed]
 	;
 		
 callRule[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]

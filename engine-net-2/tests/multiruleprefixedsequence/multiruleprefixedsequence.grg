@@ -39,10 +39,10 @@ rule s : (M, M)
 	}
 } \ auto
 
-/*sequence seq
+sequence seq
 {
 	[[for{r(::n);seqPrintMatchedR()},for{(m1:M,::m2)=s()\auto;seqPrintMatchedS(m1,::m2)}]]
-}*/
+}
 
 sequence seqPrintMatchedR()
 {
@@ -61,7 +61,7 @@ test nodes()
 	.;
 }
 
-/*sequence seqBacktrack
+sequence seqBacktrack
 {
    <<[[for{r(::n);seqPrintMatchedR();>seqPrintMatched},for{(m1:M,::m2)=s()\auto;seqPrintMatchedS(m1,::m2);>seqPrintMatched}]]>>
 }
@@ -73,4 +73,4 @@ sequence seqPrintMatched
 	;> { emit("the value of variable \"numN\" of type int is: ", ::numN, "\n") }
 	;> { emit("the value of variable \"numM\" of type int is: ", ::numM, "\n") }
 	;> false
-}*/
+}

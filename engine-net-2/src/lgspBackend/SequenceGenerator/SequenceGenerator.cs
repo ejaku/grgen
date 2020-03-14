@@ -63,6 +63,10 @@ namespace de.unika.ipd.grGen.lgsp
                 new SequenceRuleOrRuleAllCallGenerator((SequenceRuleCall)seq, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
+            case SequenceType.RulePrefixedSequence:
+                new SequenceRulePrefixedSequenceGenerator((SequenceRulePrefixedSequence)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                break;
+
             case SequenceType.SequenceCall:
                 EmitSequenceCall((SequenceSequenceCall)seq, source);
                 break;
@@ -219,6 +223,10 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceMultiRuleAllCall((SequenceMultiRuleAllCall)seq, source);
                 break;
 
+            case SequenceType.MultiRulePrefixedSequence:
+                EmitSequenceMultiRulePrefixedSequence((SequenceMultiRulePrefixedSequence)seq, source);
+                break;
+
             case SequenceType.Transaction:
                 EmitSequenceTransaction((SequenceTransaction)seq, source);
                 break;
@@ -229,6 +237,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             case SequenceType.MultiBacktrack:
                 new SequenceMultiBacktrackGenerator((SequenceMultiBacktrack)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                break;
+
+            case SequenceType.MultiSequenceBacktrack:
+                new SequenceMultiSequenceBacktrackGenerator((SequenceMultiSequenceBacktrack)seq, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.Pause:
@@ -1297,6 +1309,67 @@ namespace de.unika.ipd.grGen.lgsp
                 if(ruleGenerators[i].returnAssignmentsAllCall.Length != 0)
                     source.AppendFront(ruleGenerators[i].returnAssignmentsAllCall + "\n");
             }
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence seqMulti, SourceBuilder source)
+        {
+            source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));
+
+            String matchListName = "MatchList_" + seqMulti.Id;
+            source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
+
+            SequenceMultiRulePrefixedSequenceGenerator[] ruleGenerators = new SequenceMultiRulePrefixedSequenceGenerator[seqMulti.RulePrefixedSequences.Count];
+            for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
+            {
+                ruleGenerators[i] = new SequenceMultiRulePrefixedSequenceGenerator(seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], seqHelper);
+            }
+
+            // emit code for matching all the contained rules
+            for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
+            {
+                ruleGenerators[i].EmitMatching(source, this, matchListName);
+            }
+
+            // emit code for match class (non-rule-based) filtering
+            foreach(SequenceFilterCall sequenceFilterCall in seqMulti.Filters)
+            {
+                EmitMatchClassFilterCall(source, (SequenceFilterCallCompiled)sequenceFilterCall, matchListName);
+            }
+
+            // code to handle the rewrite next match
+            String firstRewrite = "first_rewrite_" + seqMulti.Id;
+            source.AppendFront("bool " + firstRewrite + " = true;\n");
+
+            source.AppendFront("if(" + matchListName + ".Count != 0) {\n");
+            source.Indent();
+            source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
+
+            // iterate through matches, use Modify on each, fire the next match event after the first
+            String enumeratorName = "enum_" + seqMulti.Id;
+            source.AppendFront("IEnumerator<GRGEN_LIBGR.IMatch> " + enumeratorName + " = " + matchListName + ".GetEnumerator();\n");
+            source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront("switch(" + enumeratorName + ".Current.Pattern.PackagePrefixedName)\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            // emit code for rewriting the current match (for each rule, rule fitting to the match is selected by rule name)
+            for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
+            {
+                ruleGenerators[i].EmitRewriting(source, this, matchListName, enumeratorName, firstRewrite, fireDebugEvents);
+            }
+
+            source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
 
             source.Unindent();
             source.AppendFront("}\n");

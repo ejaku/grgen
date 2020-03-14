@@ -140,8 +140,12 @@
     <Compile Include="SequenceGenerator\SequenceMultiBacktrackGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceMultiBacktrackRuleGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceMultiRuleAllCallGenerator.cs" />
+    <Compile Include="SequenceGenerator\SequenceMultiRulePrefixedSequenceGenerator.cs" />
+    <Compile Include="SequenceGenerator\SequenceMultiSequenceBacktrackGenerator.cs" />
+    <Compile Include="SequenceGenerator\SequenceMultiSequenceBacktrackRuleGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceRuleOrRuleAllCallGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceRuleOrRuleAllCallRewritingGenerator.cs" />
+    <Compile Include="SequenceGenerator\SequenceRulePrefixedSequenceGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceSomeRuleCallGenerator.cs" />
     <Compile Include="SequenceGenerator\SequenceSomeRuleCallRewritingGenerator.cs" />
     <Compile Include="SourceBuilder.cs" />
