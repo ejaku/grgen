@@ -23,6 +23,8 @@ namespace de.unika.ipd.grGen.libGr
         For,
         If,
         IfThenPart,
+        Backtrack,
+        ForRulePrefixedSequence,
         Computation,
         InSubgraph
     }
@@ -41,6 +43,8 @@ namespace de.unika.ipd.grGen.libGr
                 this.scopeType = scopeType;
                 forCount = 0;
                 ifCount = 0;
+                backtrackCount = 0;
+                rulePrefixedSequenceCount = 0;
                 computationCount = 0;
                 inSubgraphCount = 0;
             }
@@ -49,6 +53,8 @@ namespace de.unika.ipd.grGen.libGr
             public readonly ScopeType scopeType;
             public int forCount;
             public int ifCount;
+            public int backtrackCount;
+            public int rulePrefixedSequenceCount;
             public int computationCount;
             public int inSubgraphCount;
         }
@@ -82,6 +88,14 @@ namespace de.unika.ipd.grGen.libGr
                 break;
             case ScopeType.IfThenPart:
                 scopeName = "thenpart";
+                break;
+            case ScopeType.Backtrack:
+                scopeName = "backrack" + scopesMeta.Peek().backtrackCount;
+                ++scopesMeta.Peek().backtrackCount;
+                break;
+            case ScopeType.ForRulePrefixedSequence:
+                scopeName = "ruleprefixedsequence" + scopesMeta.Peek().rulePrefixedSequenceCount;
+                ++scopesMeta.Peek().rulePrefixedSequenceCount;
                 break;
             case ScopeType.Computation:
                 scopeName = "computation" + scopesMeta.Peek().computationCount;

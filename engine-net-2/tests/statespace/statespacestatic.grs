@@ -16,18 +16,18 @@ exec (gr:Graph)=init ;> << insertRed(gr) ; / (gr2:Graph)=copyAndLinkRed(gr) / ;>
 	<< insertGreen(gr2) ;; / (gr3:Graph)=copyAndLinkGreen(gr2) / ;>\
 		<< insertRed(gr3) ;; / (gr4:Graph)=copyAndLinkRed(gr3) / ;>\
 			<< insertRed(gr4) ;; / (gr5:Graph)=copyAndLinkRed(gr4) / ;> false >>\
-			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreen(gr4) / ;> false >>\
-			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlue(gr4) / ;> false >>\
+			;> << insertGreen(gr4) ;; / (gr5:Graph)=copyAndLinkGreen(gr4) / ;> false >>\
+			;> << insertBlue(gr4) ;; / (gr5:Graph)=copyAndLinkBlue(gr4) / ;> false >>\
 		>>\
-		;> << insertGreen(gr3) ;; / (gr4)=copyAndLinkGreen(gr3) / ;>\
-			<< insertRed(gr4) ;; / (gr5)=copyAndLinkRed(gr4) / ;> false >>\
-			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreen(gr4) / ;> false >>\
-			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlue(gr4) / ;> false >>\
+		;> << insertGreen(gr3) ;; / (gr4:Graph)=copyAndLinkGreen(gr3) / ;>\
+			<< insertRed(gr4) ;; / (gr5:Graph)=copyAndLinkRed(gr4) / ;> false >>\
+			;> << insertGreen(gr4) ;; / (gr5:Graph)=copyAndLinkGreen(gr4) / ;> false >>\
+			;> << insertBlue(gr4) ;; / (gr5:Graph)=copyAndLinkBlue(gr4) / ;> false >>\
 		>>\
-		;> << insertBlue(gr3) ;; / (gr4)=copyAndLinkBlue(gr3) / ;>\
-			<< insertRed(gr4) ;; / (gr5)=copyAndLinkRed(gr4) / ;> false >>\
-			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreen(gr4) / ;> false >>\
-			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlue(gr4) / ;> false >>\
+		;> << insertBlue(gr3) ;; / (gr4:Graph)=copyAndLinkBlue(gr3) / ;>\
+			<< insertRed(gr4) ;; / (gr5:Graph)=copyAndLinkRed(gr4) / ;> false >>\
+			;> << insertGreen(gr4) ;; / (gr5:Graph)=copyAndLinkGreen(gr4) / ;> false >>\
+			;> << insertBlue(gr4) ;; / (gr5:Graph)=copyAndLinkBlue(gr4) / ;> false >>\
 		>>\
 	>>\
 >>

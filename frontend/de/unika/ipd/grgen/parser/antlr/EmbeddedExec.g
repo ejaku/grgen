@@ -171,8 +171,8 @@ options { k = 4; }
 		LPAREN { xg.append("("); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } xgrs[xg] (COMMA { xg.append(","); } f=NUM_DOUBLE { xg.append(f.getText() + " "); } xgrs[xg])* RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
-	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }
-	| SL { xg.append(" <<"); } multiRuleAllCall[xg, returns, false] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] SR { xg.append(">> "); }
+	| l=SL { env.pushScope("backtrack/exec", getCoords(l)); } { xg.append(" <<"); } parallelCallRule[xg, returns] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] { env.popScope(); } SR { xg.append(">> "); }
+	| l=SL { env.pushScope("backtrack/exec", getCoords(l)); } { xg.append(" <<"); } multiRuleAllCall[xg, returns, false] (DOUBLE_SEMI|SEMI) { xg.append(";;"); } xgrs[xg] { env.popScope(); } SR { xg.append(">> "); }
 	| SL { xg.append(" <<"); } multiRulePrefixedSequence[xg, returns] SR { xg.append(">> "); }
 	| DIV { xg.append(" /"); } xgrs[xg] DIV { xg.append("/ "); }
 	| IF l=LBRACE { env.pushScope("if/exec", getCoords(l)); } { xg.append("if{"); } xgrs[xg] s=SEMI 
@@ -596,7 +596,7 @@ rulePrefixedSequence[ExecNode xg, CollectNode<BaseNode> returns]
 	;
 
 rulePrefixedSequenceAtom[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns]
-	: FOR LBRACE {xg.append("for{");} callRuleWithOptionalReturns[xg, ruleCalls, returns, false] SEMI {xg.append(";");} xgrs[xg] RBRACE {xg.append("}");}
+	: FOR l=LBRACE { env.pushScope("ruleprefixedsequence/exec", getCoords(l)); } {xg.append("for{");} callRuleWithOptionalReturns[xg, ruleCalls, returns, false] SEMI {xg.append(";");} xgrs[xg] { env.popScope(); } RBRACE {xg.append("}");}
 	;
 
 multiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed]

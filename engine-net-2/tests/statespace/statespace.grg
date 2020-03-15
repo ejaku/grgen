@@ -201,18 +201,18 @@ sequence stateSpaceStaticCompiled
 	<< insertGreen(gr2) ;; / (gr3:Graph)=copyAndLinkGreenCompiled(gr2) / ;>
 		<< insertRed(gr3) ;; / (gr4:Graph)=copyAndLinkRedCompiled(gr3) / ;>
 			<< insertRed(gr4) ;; / (gr5:Graph)=copyAndLinkRedCompiled(gr4) / ;> false >>
-			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreenCompiled(gr4) / ;> false >>
-			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlueCompiled(gr4) / ;> false >>
+			;> << insertGreen(gr4) ;; / (gr5:Graph)=copyAndLinkGreenCompiled(gr4) / ;> false >>
+			;> << insertBlue(gr4) ;; / (gr5:Graph)=copyAndLinkBlueCompiled(gr4) / ;> false >>
 		>>
-		;> << insertGreen(gr3) ;; / (gr4)=copyAndLinkGreenCompiled(gr3) / ;>
-			<< insertRed(gr4) ;; / (gr5)=copyAndLinkRedCompiled(gr4) / ;> false >>
-			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreenCompiled(gr4) / ;> false >>
-			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlueCompiled(gr4) / ;> false >>
+		;> << insertGreen(gr3) ;; / (gr4:Graph)=copyAndLinkGreenCompiled(gr3) / ;>
+			<< insertRed(gr4) ;; / (gr5:Graph)=copyAndLinkRedCompiled(gr4) / ;> false >>
+			;> << insertGreen(gr4) ;; / (gr5:Graph)=copyAndLinkGreenCompiled(gr4) / ;> false >>
+			;> << insertBlue(gr4) ;; / (gr5:Graph)=copyAndLinkBlueCompiled(gr4) / ;> false >>
 		>>
-		;> << insertBlue(gr3) ;; / (gr4)=copyAndLinkBlueCompiled(gr3) / ;>
-			<< insertRed(gr4) ;; / (gr5)=copyAndLinkRedCompiled(gr4) / ;> false >>
-			;> << insertGreen(gr4) ;; / (gr5)=copyAndLinkGreenCompiled(gr4) / ;> false >>
-			;> << insertBlue(gr4) ;; / (gr5)=copyAndLinkBlueCompiled(gr4) / ;> false >>
+		;> << insertBlue(gr3) ;; / (gr4:Graph)=copyAndLinkBlueCompiled(gr3) / ;>
+			<< insertRed(gr4) ;; / (gr5:Graph)=copyAndLinkRedCompiled(gr4) / ;> false >>
+			;> << insertGreen(gr4) ;; / (gr5:Graph)=copyAndLinkGreenCompiled(gr4) / ;> false >>
+			;> << insertBlue(gr4) ;; / (gr5:Graph)=copyAndLinkBlueCompiled(gr4) / ;> false >>
 		>>
 	>>
 >>
