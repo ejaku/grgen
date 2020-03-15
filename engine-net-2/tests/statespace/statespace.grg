@@ -168,6 +168,15 @@ sequence stateStepCompiled(gr:Graph, level:int) {
 		false }
 }
 
+sequence stateStepRulePrefixedSequenceCompiled(gr:Graph, level:int) {
+	if{ {{level < ::stopLevel}};
+		ngr:Graph ;>
+			<<[[ for{insertRed(gr); / (ngr)=copyAndLinkRedCompiled(gr) / ;> stateStepCompiled(ngr, level+1)},
+				 for{insertGreen(gr); / (ngr)=copyAndLinkGreenCompiled(gr) / ;> stateStepCompiled(ngr, level+1)},
+				 for{insertBlue(gr); / (ngr)=copyAndLinkBlueCompiled(gr) / ;> stateStepCompiled(ngr, level+1)} ]]>>;
+		false }
+}
+
 sequence stateStepIsoCheckCompiled(gr:Graph, level:int) {
 	if{ {{level < ::stopLevel}};
 		sub:graph ;> ngr:Graph
@@ -195,6 +204,15 @@ sequence stateStepIsoCheckInsertInducedEqualsAnyCompiled(available:set<graph>, g
 		false }
 }
 
+sequence stateStepIsoCheckInsertInducedEqualsAnyRulePrefixedSequenceCompiled(available:set<graph>, gr:Graph, level:int) {
+	if{ {{level < ::stopLevel}};
+		sub:graph ;> ngr:Graph ;> adj:set<Node> ;>
+		<<[[for{insertRed(gr); {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> {{!equalsAny(sub, available)}} && / {(ngr)=insertInduced(adj, gr)} && linkRed(gr,ngr) && {ngr.sub=sub; available.add(sub)} / && stateStepIsoCheckInsertInducedEqualsAnyCompiled(available, ngr, level+1)},
+			for{insertGreen(gr); {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> {{!equalsAny(sub, available)}} && / {(ngr)=insertInduced(adj, gr)} && linkGreen(gr,ngr) && {ngr.sub=sub; available.add(sub)} / && stateStepIsoCheckInsertInducedEqualsAnyCompiled(available, ngr, level+1)},
+			for{insertBlue(gr); {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)} ;> {{!equalsAny(sub, available)}} && / {(ngr)=insertInduced(adj, gr)} && linkBlue(gr,ngr) && {ngr.sub=sub; available.add(sub)} / && stateStepIsoCheckInsertInducedEqualsAnyCompiled(available, ngr, level+1)}]]>>;
+		false }
+}
+
 sequence stateSpaceStaticCompiled
 {
 (gr:Graph)=init ;> << insertRed(gr) ;; / (gr2:Graph)=copyAndLinkRedCompiled(gr) / ;>
@@ -217,3 +235,27 @@ sequence stateSpaceStaticCompiled
 	>>
 >>
 }
+
+sequence stateSpaceStaticRulePrefixedSequenceCompiled
+{
+(gr:Graph)=init ;> << insertRed(gr) ; / (gr2:Graph)=copyAndLinkRedCompiled(gr) / ;>
+	<< insertGreen(gr2) ; / (gr3:Graph)=copyAndLinkGreenCompiled(gr2) / ;>
+		<<[[ for{insertRed(gr3); / (gr4:Graph)=copyAndLinkRedCompiled(gr3) / ;>
+			<<[[ for{insertRed(gr4); / (gr5:Graph)=copyAndLinkRedCompiled(gr4) / ;> false},
+				for{insertGreen(gr4); / (gr5:Graph)=copyAndLinkGreenCompiled(gr4) / ;> false},
+				for{insertBlue(gr4); / (gr5:Graph)=copyAndLinkBlueCompiled(gr4) / ;> false} ]]>>
+		},
+		for{insertGreen(gr3); / (gr4:Graph)=copyAndLinkGreenCompiled(gr3) / ;>
+			<<[[ for{insertRed(gr4); / (gr5:Graph)=copyAndLinkRedCompiled(gr4) / ;> false},
+				for{insertGreen(gr4); / (gr5:Graph)=copyAndLinkGreenCompiled(gr4) / ;> false},
+				for{insertBlue(gr4); / (gr5:Graph)=copyAndLinkBlueCompiled(gr4) / ;> false} ]]>>
+		},
+		for{insertBlue(gr3); / (gr4:Graph)=copyAndLinkBlueCompiled(gr3) / ;>
+			<<[[ for{insertRed(gr4); / (gr5:Graph)=copyAndLinkRedCompiled(gr4) / ;> false},
+				for{insertGreen(gr4); / (gr5:Graph)=copyAndLinkGreenCompiled(gr4) / ;> false},
+				for{insertBlue(gr4); / (gr5:Graph)=copyAndLinkBlueCompiled(gr4) / ;> false} ]]>>
+		} ]]>>
+	>>
+>>
+}
+
