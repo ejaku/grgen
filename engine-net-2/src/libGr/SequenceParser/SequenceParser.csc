@@ -422,8 +422,8 @@ SequenceExpression InitContainerExpr():
         "set" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
         (
             "{"
-                ( src=Expression() { srcItems.Add(src); } )?
-                    ( "," src=Expression() { srcItems.Add(src); })*
+                ( src=Expression() { srcItems.Add(src); }
+                    ( "," src=Expression() { srcItems.Add(src); })* )?
             "}"
             {
                 res = new SequenceExpressionSetConstructor(typeName, srcItems.ToArray());
@@ -440,8 +440,8 @@ SequenceExpression InitContainerExpr():
         "map" "<" typeName=TypeNonGeneric() "," typeNameDst=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); dstItems = new List<SequenceExpression>(); }
         (
             "{"
-                ( src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )?
-                    ( "," src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )*
+                ( src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); }
+                    ( "," src=Expression() "->" dst=Expression() { srcItems.Add(src); dstItems.Add(dst); } )* )?
             "}"
             {
                 res = new SequenceExpressionMapConstructor(typeName, typeNameDst, srcItems.ToArray(), dstItems.ToArray());
@@ -451,8 +451,8 @@ SequenceExpression InitContainerExpr():
         "array" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
         (
             "["
-                ( src=Expression() { srcItems.Add(src); } )?
-                    ( "," src=Expression() { srcItems.Add(src); })*
+                ( src=Expression() { srcItems.Add(src); }
+                    ( "," src=Expression() { srcItems.Add(src); })* )?
             "]"
             {
                 res = new SequenceExpressionArrayConstructor(typeName, srcItems.ToArray());
@@ -462,8 +462,8 @@ SequenceExpression InitContainerExpr():
         "deque" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
         (
             "]"
-                ( src=Expression() { srcItems.Add(src); } )?
-                    ( "," src=Expression() { srcItems.Add(src); })*
+                ( src=Expression() { srcItems.Add(src); }
+                    ( "," src=Expression() { srcItems.Add(src); })* )?
             "["
             {
                 res = new SequenceExpressionDequeConstructor(typeName, srcItems.ToArray());
@@ -2003,7 +2003,7 @@ SequenceRuleCall RuleForMultiRuleAllCall(bool returnsArrays):
 {
     ("(" VariableList(returnVars) ")" "=" )?
     (
-        ("%" { special = true; } | "?" { test = true; })* 
+        (LOOKAHEAD(2) "?" "%" { test = true; special = true; } | LOOKAHEAD(2) "%" "?" { special = true; test = true; } | "?" { test = true; } | "%" { special = true; })?
         (LOOKAHEAD(2) package=Word() "::")? 
         str=Word() ("(" (Arguments(argExprs))? ")")?
         {
@@ -2030,7 +2030,7 @@ void RuleLookahead():
     (
         ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
     |
-        ( "%" | "?" )* (LOOKAHEAD(2) Word() |  Variable() ".")
+        (LOOKAHEAD(2) "?" "%" | LOOKAHEAD(2) "%" "?" | "?" | "%")? (LOOKAHEAD(2) Word() |  Variable() ".")
     |
         "count" "["
     )
@@ -2056,8 +2056,8 @@ Sequence Rule():
         (
             "$" ("%" { choice = true; })? ( varChooseRand=Variable() ("," (varChooseRand2=Variable() | "*") { chooseRandSpecified2 = true; })? )? { chooseRandSpecified = true; }
         )?
-        "[" ("%" { special = true; } | "?" { test = true; })* 
-        (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
+        "[" (LOOKAHEAD(2) "?" "%" { test = true; special = true; } | LOOKAHEAD(2) "%" "?" { special = true; test = true; } | "?" { test = true; } | "%" { special = true; })? 
+        (LOOKAHEAD(2) subgraph=Variable() ".")? (LOOKAHEAD(2) package=Word() "::")?
         str=Word() ("(" (Arguments(argExprs))? ")")?
         {
             // No variable with this name may exist
@@ -2075,8 +2075,8 @@ Sequence Rule():
 
     |
         "count"
-        "[" ("%" { special = true; } | "?" { test = true; })* 
-        (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
+        "[" (LOOKAHEAD(2) "?" "%" { test = true; special = true; } | LOOKAHEAD(2) "%" "?" { special = true; test = true; } | "?" { test = true; } | "%" { special = true; })? 
+        (LOOKAHEAD(2) subgraph=Variable() ".")? (LOOKAHEAD(2) package=Word() "::")?
         str=Word() ("(" (Arguments(argExprs))? ")")?
         {
             // No variable with this name may exist
@@ -2093,8 +2093,8 @@ Sequence Rule():
             return ruleCountAllCall;
         }
     |
-        ("%" { special = true; } | "?" { test = true; })*
-        (LOOKAHEAD(2) package=Word() "::")? (LOOKAHEAD(2) subgraph=Variable() ".")?
+        (LOOKAHEAD(2) "?" "%" { test = true; special = true; } | LOOKAHEAD(2) "%" "?" { special = true; test = true; } | "?" { test = true; } | "%" { special = true; })?
+        (LOOKAHEAD(2) subgraph=Variable() ".")? (LOOKAHEAD(2) package=Word() "::")?
         str=Word() ("(" (Arguments(argExprs))? ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
         {
             if(argExprs.Count==0 && returnVars.Count==0)
