@@ -657,71 +657,96 @@ callRule[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNod
 	;
 
 callRuleFilter[ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter]
-options { k = 7; }
+	: BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? id=IDENT { xg.append(id.getText()); } 
+		callRuleFilterContinuation[xg, filters, isMatchClassFilter, p, id]
+	;
+
+callRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin]
 	@init{
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 	}
-	: BACKSLASH { xg.append("\\"); } (pmc=IDENT DOUBLECOLON { xg.append(pmc.getText()); xg.append("::"); })? mc=IDENT DOT { xg.append(mc.getText()); xg.append("."); }
-		(p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? filterId=IDENT { xg.append(filterId.getText()); } 
-		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
-			{
-				if(!isMatchClassFilter)
-					reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
+	: DOT { xg.append("."); } callMatchClassRuleFilterContinuation[xg, filters, isMatchClassFilter, pin, idin]
+	| (LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
+		{
+			Token p = pin;
+			Token filterId = idin;
 
-				if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
-					|| filterId.getText().equals("removeFirst") || filterId.getText().equals("removeLast")
-					|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction")
-					|| filterId.getText().equals("removeFirstFraction") || filterId.getText().equals("removeLastFraction"))
-				{
-					if(params.size()!=1)
-						reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
-				}
-				else
-				{
-					IdentNode matchClass = pmc != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pmc.getText(), getCoords(pmc)), 
-															env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)))
-														: new IdentNode(env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)));
-					IdentNode matchClassFilter = p != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
-															env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)))
-														: new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)));															
-					filters.addChild(new MatchTypeQualIdentNode(getCoords(filterId), matchClass, matchClassFilter));
-				}
+			if(isMatchClassFilter)
+				reportError(getCoords(filterId), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
+
+			if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
+				|| filterId.getText().equals("removeFirst") || filterId.getText().equals("removeLast")
+				|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction")
+				|| filterId.getText().equals("removeFirstFraction") || filterId.getText().equals("removeLastFraction"))
+			{
+				if(params.size()!=1)
+					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
 			}
-	| BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? (filterId=IDENT) { xg.append(filterId.getText()); }
-		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
+			else if(filterId.getText().equals("auto"))
 			{
 				if(isMatchClassFilter)
-					reportError(getCoords(filterId), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
-
-				if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
-					|| filterId.getText().equals("removeFirst") || filterId.getText().equals("removeLast")
-					|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction")
-					|| filterId.getText().equals("removeFirstFraction") || filterId.getText().equals("removeLastFraction"))
-				{
-					if(params.size()!=1)
-						reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
-				}
-				else if(filterId.getText().equals("auto"))
-				{
-					if(isMatchClassFilter)
-						reportError(getCoords(filterId), "The auto filter is not available for multi rule call or multi rule backtracking constructs.");
-					if(params.size()!=0)
-						reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 0 arguments.");
-				}
-				else
-				{
-					IdentNode filter = p != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
-															env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)))
-													: new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)));
-					filters.addChild(filter);
-				}
+					reportError(getCoords(filterId), "The auto filter is not available for multi rule call or multi rule backtracking constructs.");
+				if(params.size()!=0)
+					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 0 arguments.");
 			}
-	| BACKSLASH { xg.append("\\"); } ((pmc=IDENT DOUBLECOLON { xg.append(pmc.getText()); xg.append("::"); })? mc=IDENT DOT { xg.append(mc.getText()); xg.append("."); })?
-		filterBase=IDENT LT { xg.append(filterBase.getText() + "<"); } filterCallVariableList[xg] GT { xg.append("> "); }
+			else
+			{
+				IdentNode filter = p != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+														env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)))
+												: new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)));
+				filters.addChild(filter);
+			}
+		}
+	| LT { xg.append("<"); } filterCallVariableList[xg] GT { xg.append("> "); }
 		{
-			if(isMatchClassFilter && mc==null)
+			Token p = pin;
+			Token filterBase = idin;
+
+			if(p != null)
+				reportError(getCoords(filterBase), "No package specifier allowed for auto-generated filters.");
+			if(isMatchClassFilter)
 				reportError(getCoords(filterBase), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
-			if(!isMatchClassFilter && mc!=null)
+
+			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
+				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
+			{
+				reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText() + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
+			}
+		}
+	;
+
+callMatchClassRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc]
+	@init{
+		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+	}
+	: (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? filterId=IDENT { xg.append(filterId.getText()); } 
+		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
+		{
+			if(!isMatchClassFilter)
+				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
+
+			if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
+				|| filterId.getText().equals("removeFirst") || filterId.getText().equals("removeLast")
+				|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction")
+				|| filterId.getText().equals("removeFirstFraction") || filterId.getText().equals("removeLastFraction"))
+			{
+				if(params.size()!=1)
+					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
+			}
+			else
+			{
+				IdentNode matchClass = pmc != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, pmc.getText(), getCoords(pmc)), 
+														env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)))
+													: new IdentNode(env.occurs(ParserEnvironment.TYPES, mc.getText(), getCoords(mc)));
+				IdentNode matchClassFilter = p != null ? new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
+														env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)))
+													: new IdentNode(env.occurs(ParserEnvironment.ACTIONS, filterId.getText(), getCoords(filterId)));															
+				filters.addChild(new MatchTypeQualIdentNode(getCoords(filterId), matchClass, matchClassFilter));
+			}
+		}
+	| filterBase=IDENT LT { xg.append(filterBase.getText() + "<"); } filterCallVariableList[xg] GT { xg.append("> "); }
+		{
+			if(!isMatchClassFilter)
 				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
 			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
