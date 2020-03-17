@@ -90,8 +90,8 @@ function tbreakcontinue(var initval:int, var initval2:int) : int
 {
 	def var res:int = 0;
 	
-	def ref d:deque<int> = deque<int>] 0,1,2,3,4,5,6,7,8,9,10,11 [;
-	def ref d2:deque<int> = deque<int>] 12,13,initval,initval2 [;
+	def ref d:deque<int> = deque<int>[ 0,1,2,3,4,5,6,7,8,9,10,11 ];
+	def ref d2:deque<int> = deque<int>[ 12,13,initval,initval2 ];
 	for(i:int in d) {
 		if(i % 2 == 0) {
 			continue;
@@ -118,8 +118,8 @@ procedure rbreakcontinue(var initval:int, var initval2:int) : (int)
 {	
 	def var res:int = 0;
 	
-	def ref d:deque<int> = deque<int>] 0,1,2,3,4,5,6,7,8,9,10,11 [;
-	def ref d2:deque<int> = deque<int>] 12,13,initval,initval2 [;
+	def ref d:deque<int> = deque<int>[ 0,1,2,3,4,5,6,7,8,9,10,11 ];
+	def ref d2:deque<int> = deque<int>[ 12,13,initval,initval2 ];
 	for(i:int in d) {
 		if(i % 2 == 1) {
 			continue;

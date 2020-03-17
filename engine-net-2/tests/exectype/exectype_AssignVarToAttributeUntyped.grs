@@ -15,7 +15,7 @@ x.dq
 x.fl
 x.d
 xgrs ::y=::x && ::f=foo::Bla && ::by=42y && ::sh=42s && ::i=42 && ::l=42l && ::b=true && ::st="Gnampf!" \
-	&& ::s=set<foo>{} && ::m=map<int,string>{} && ::a=array<foo>[] && ::dq=deque<foo>][ \
+	&& ::s=set<foo>{} && ::m=map<int,string>{} && ::a=array<foo>[] && ::dq=deque<foo>[] \
 	&& ::fl=3.141f && ::d=3.141592654 \
 	&& {::s.add(::f)} && {::m.add(::i,::st)} && {::a.add(::f)} && {::dq.add(::f)} \
 	&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(::f)} && {emit("\n")} \

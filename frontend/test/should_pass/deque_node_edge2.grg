@@ -5,9 +5,9 @@ rule addToDeque {
 	
 	modify {
 		eval {
-			n.edgeDeque = n.edgeDeque + deque<Edge>] n [;
-			n.eDeque = n.eDeque + deque<E>] n [;
-			n.uDeque = n.uDeque + deque<UEdge>] u [;
+			n.edgeDeque = n.edgeDeque + deque<Edge>[ n ];
+			n.eDeque = n.eDeque + deque<E>[ n ];
+			n.uDeque = n.uDeque + deque<UEdge>[ u ];
 		}
 	}
 }
@@ -36,14 +36,14 @@ rule assignDequeToDeque {
 rule anonymousDeque {
 	-n:E->; -m:E->; -u:UEdge-;
 	
-	if { n in deque<Edge>] n, m [; }
-	if { n in deque<E>] n, m [; }
-	if { u in deque<UEdge>] u [; }
+	if { n in deque<Edge>[ n, m ]; }
+	if { n in deque<E>[ n, m ]; }
+	if { u in deque<UEdge>[ u ]; }
 
 	modify {
 		eval {
-			n.val = (n in deque<Edge>]n, m[) ? 1 : 0;
-			m.val = (u in deque<UEdge>]u[) ? 1 : 0;
+			n.val = (n in deque<Edge>[n, m]) ? 1 : 0;
+			m.val = (u in deque<UEdge>[u]) ? 1 : 0;
 		}
 	}
 }
@@ -69,8 +69,8 @@ rule addToDeque2 {
 	
 	modify {
 		eval {
-			n.edgeDeque = (m.edgeDeque + deque<Edge>] n, m [) + deque<Edge>] m [;
-			n.uDeque = (m.uDeque + deque<UEdge>] u [) + deque<UEdge>] u [;
+			n.edgeDeque = (m.edgeDeque + deque<Edge>[ n, m ]) + deque<Edge>[ m ];
+			n.uDeque = (m.uDeque + deque<UEdge>[ u ]) + deque<UEdge>[ u ];
 		}
 	}
 }

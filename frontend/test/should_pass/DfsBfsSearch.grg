@@ -21,7 +21,7 @@ function foundCondition() : boolean
 // bfs with a queue (could assign bfs number when putting to queue, saving the visited flag)
 procedure BreadthFirstSearch(root:WalkOrder) : (boolean)
 {
-	def ref d:deque<WalkOrder> = deque<WalkOrder>][;
+	def ref d:deque<WalkOrder> = deque<WalkOrder>[];
 	def var vis:int;
 	(vis) = valloc();
 	def var num:int = 0;

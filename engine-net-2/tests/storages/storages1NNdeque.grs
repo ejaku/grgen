@@ -1,6 +1,6 @@
 new graph storages/storages
 
-xgrs ::st1=deque<NN>][
+xgrs ::st1=deque<NN>[]
 xgrs {::sz=::st1.size()}
 show var sz
 show num nodes
@@ -24,7 +24,7 @@ show var sz
 show num nodes
 show num edges
 
-xgrs ::st2=deque<NN>][
+xgrs ::st2=deque<NN>[]
 xgrs for{::n in ::st1; {::st2.add(::n)}}
 xgrs {::sz=::st1.size()}
 show var sz

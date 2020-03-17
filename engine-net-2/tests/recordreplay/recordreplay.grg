@@ -18,7 +18,7 @@ rule checkTestGraphAndPrintNames1
 		e2.bla==2.0f;
 		e2.huh==false;
 		e2.lal==Bla::Lamm;
-		e2.meeh==deque<string>]"la","le","lu"[;
+		e2.meeh==deque<string>["la","le","lu"];
 	}
 	
 	modify {
@@ -48,7 +48,7 @@ rule createTestGraphWithRules
 			e2.bla = 2.0f;
 			e2.huh = false;
 			e2.lal = Bla::Lamm;
-			e2.meeh = deque<string>]"la","le","lu"[;
+			e2.meeh = deque<string>["la","le","lu"];
 		}
 	}
 }

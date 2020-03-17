@@ -1,6 +1,6 @@
 function foo(ref m:map<int,Node>) : int
 {
-	def ref d:deque<Node> = deque<Node>][;
+	def ref d:deque<Node> = deque<Node>[];
 	def var res:int = 0;
 	for(n:Node in d) {
 		if(true) {
@@ -29,7 +29,7 @@ test t(ref m:map<int,Node>) : (int)
 	
 	independent {
 		yield {
-			def ref d:deque<Node> = deque<Node>][;
+			def ref d:deque<Node> = deque<Node>[];
 			for(n:Node in d) {
 				d.add(n);
 				if(true) {
@@ -60,7 +60,7 @@ rule r(ref m:map<int,Node>) : (int)
 		def var res:int = 0;
 		
 		eval { 
-			def ref d:deque<Node> = deque<Node>][;
+			def ref d:deque<Node> = deque<Node>[];
 			for(n:Node in d) {
 				if(true) {
 					break;

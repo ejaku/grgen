@@ -6,7 +6,7 @@ function some(n:A, -e:E1->) : boolean
 
     def ref m:map<string, Node> = map<string,Node>{s->n};
     def ref ar:array<Node> = array<Node>[n];
-    def ref de:deque<E1> = deque<E1>]e[;
+    def ref de:deque<E1> = deque<E1>[e];
     def ref se:set<string> = set<string>{s};
 
 	return(n.b);
@@ -22,7 +22,7 @@ test t(n:A, -e:E1->) : (boolean)
 
 			def ref m:map<string, Node> = map<string,Node>{s->n};
 			def ref ar:array<Node> = array<Node>[n];
-			def ref de:deque<E1> = deque<E1>]e[;
+			def ref de:deque<E1> = deque<E1>[e];
 			def ref se:set<string> = set<string>{s};
 
 			yield res = n.b;
@@ -42,7 +42,7 @@ rule r(n:A, -e:E1->, var x:int) : (boolean)
 
 			def ref m:map<string, Node> = map<string,Node>{s->n};
 			def ref ar:array<Node> = array<Node>[n];
-			def ref de:deque<E1> = deque<E1>]e[;
+			def ref de:deque<E1> = deque<E1>[e];
 			def ref se:set<string> = set<string>{s};
 			def ref sei:set<int> = set<int>{x};
 			def var ii:int = x;
@@ -64,7 +64,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 
 				def ref m:map<string, Node> = map<string,Node>{s->n};
 				def ref ar:array<Node> = array<Node>[n];
-				def ref de:deque<E1> = deque<E1>]e[;
+				def ref de:deque<E1> = deque<E1>[e];
 				def ref se:set<string> = set<string>{s};
 
 				yield res = n.i1 + i1;
@@ -75,7 +75,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 
 				def ref m:map<string, Node> = map<string,Node>{s->n};
 				def ref ar:array<Node> = array<Node>[n];
-				def ref de:deque<E1> = deque<E1>]e[;
+				def ref de:deque<E1> = deque<E1>[e];
 				def ref se:set<string> = set<string>{s};
 
 				yield res = n.i1 + i1;
@@ -90,7 +90,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 
 			def ref m:map<string, Node> = map<string,Node>{s->n};
 			def ref ar:array<Node> = array<Node>[n];
-			def ref de:deque<E1> = deque<E1>]e[;
+			def ref de:deque<E1> = deque<E1>[e];
 			def ref se:set<string> = set<string>{s};
 
 			yield resres = n.i1 + i1;
@@ -101,7 +101,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 
 			def ref m:map<string, Node> = map<string,Node>{s->n};
 			def ref ar:array<Node> = array<Node>[n];
-			def ref de:deque<E1> = deque<E1>]e[;
+			def ref de:deque<E1> = deque<E1>[e];
 			def ref se:set<string> = set<string>{s};
 
 			yield resres = n.i1 + i1;

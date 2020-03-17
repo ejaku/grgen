@@ -56,7 +56,7 @@ function arrayExample(ref ai:array<int>) : boolean
 
 function dequeExample(ref di:deque<int>) : boolean
 {
-	def ref d:deque<int> = deque<int>][;
+	def ref d:deque<int> = deque<int>[];
 	d.add(1); // ] 1 [
 	d.add(2); // ] 1, 2 [
 	d.add(3); // ] 1, 2, 3 [, d.size()==3
@@ -70,5 +70,5 @@ function dequeExample(ref di:deque<int>) : boolean
 		d[i] = 1;
 	} // ] 1, 3 [
 	d.add(2, 1); // ] 1, 2, 3 [
-	return (2 in d + deque<int>] 4, 5 [); // true
+	return (2 in d + deque<int>[ 4, 5 ]); // true
 }

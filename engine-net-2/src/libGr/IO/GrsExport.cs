@@ -539,7 +539,7 @@ restart:
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
                 IDeque deque = (IDeque)value;
-                sw.Write("{0}]", attrType.GetKindName());
+                sw.Write("{0}[", attrType.GetKindName());
                 bool first = true;
                 foreach(object entry in deque)
                 {
@@ -551,7 +551,7 @@ restart:
                     else
                         sw.Write("," + ToString(mainGraphContext, entry, attrType.ValueType, graph));
                 }
-                sw.Write("[");
+                sw.Write("]");
             }
             else
                 sw.Write("{0}", ToString(mainGraphContext, value, attrType, graph));

@@ -332,48 +332,47 @@ seqExprUnary[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 // todo: the xgrsVarUse[xg] casted to IdenNodes might be not simple variable identifiers, but global variables with :: prefix,
 //  probably a distinction is needed
 seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+options { k = 5; }
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
+		IdentNode id;
 	}
 	
-	: (methodCall[null]) => methodCall[xg]
-	| (xgrsVarUse[null] DOT VISITED) => xgrsVarUse[xg] DOT VISITED LBRACK 
+	: methodCall[xg]
+	| xgrsVarUse[xg] DOT VISITED LBRACK 
 		{ xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
-	| (xgrsVarUse[null] DOT IDENT) => target=xgrsVarUse[xg] d=DOT attr=memberIdentUse { xg.append("."+attr.getSymbol().getText()); }
+	| target=xgrsVarUse[xg] d=DOT attr=memberIdentUse { xg.append("."+attr.getSymbol().getText()); }
 			{ res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
 		sel=seqExprSelector[res, xg] { res = sel; }
-	| (xgrsConstant[null]) => exp=xgrsConstant[xg] { res = (ExprNode)exp; }
 	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); }
-	| (functionCall[null]) => fc=functionCall[xg]
+	| fc=functionCall[xg]
 			 { res = fc; }
-	| (xgrsVarUse[null]) => target=xgrsVarUse[xg]
+	| target=xgrsVarUse[xg]
 			{ res = new IdentExprNode((IdentNode)target); }
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| a=AT LPAREN { xg.append("@("); } (i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
+	| exp=xgrsConstantWithoutType[xg] { res = (ExprNode)exp; }
+	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
+		{
+			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+			res = new IdentExprNode(id);
+			xg.append(i.getText());
+		}
+	;
+
+methodCall[ExecNode xg]
+	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
+			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])* )? RPAREN { xg.append(")"); }
 	;
 
 seqExprSelector[ExprNode prefix, ExecNode xg] returns[ExprNode res = prefix]
-	: (LBRACK seqExprSelectorTerminator) => // terminate, deque end
-	| (LBRACK) => l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
+	: l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
 			{ res = new IndexedAccessExprNode(getCoords(l), prefix, key); } // array/deque/map access
 	| // no selector
 	;
 	
-seqExprSelectorTerminator
-	: THENLEFT
-	| THENRIGHT
-	| LOR
-	| LAND 
-	| BOR
-	| BXOR 
-	| BAND
-	| PLUS
-	| RPAREN
-	| RBRACE
-	;
-
 procedureCall[ExecNode xg]
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
@@ -444,13 +443,19 @@ functionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 functionCallParameters[ExecNode xg] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
 	: (fromExpr=seqExpression[xg] { params.addChild(fromExpr); } (COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { params.addChild(fromExpr2); } )* )?
 	;
-	
-methodCall[ExecNode xg]
-	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
-			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])* )? RPAREN { xg.append(")"); }
-	;
 
 xgrsConstant[ExecNode xg] returns[ExprNode res = env.initExprNode()]
+@init{ IdentNode id; }
+	: xgrsConstantWithoutType[xg]
+	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
+		{
+			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+			res = new IdentExprNode(id);
+			xg.append(i.getText());
+		}
+	;
+	
+xgrsConstantWithoutType[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 options { k = 4; }
 @init{ IdentNode id; }
 	: b=NUM_BYTE { xg.append(b.getText()); res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
@@ -470,12 +475,6 @@ options { k = 4; }
 	| SET LT typeName=typeIdentUse GT { xg.append("set<"+typeName+">"); } e2=seqInitSetExpr[xg, SetTypeNode.getSetType(typeName)] { res = e2; }
 	| ARRAY LT typeName=typeIdentUse GT { xg.append("array<"+typeName+">"); } e3=seqInitArrayExpr[xg, ArrayTypeNode.getArrayType(typeName)] { res = e3; }
 	| DEQUE LT typeName=typeIdentUse GT { xg.append("deque<"+typeName+">"); } e4=seqInitDequeExpr[xg, DequeTypeNode.getDequeType(typeName)] { res = e4; }
-	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
-		{
-			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
-			res = new IdentExprNode(id);
-			xg.append(i.getText());
-		}
 	| pen=IDENT d=DOUBLECOLON i=IDENT 
 		{
 			if(env.test(ParserEnvironment.PACKAGES, pen.getText()) || !env.test(ParserEnvironment.TYPES, pen.getText())) {
@@ -537,11 +536,11 @@ seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ExprNode res =
 
 seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ ExprNode res = null ]
 	@init{ DequeInitNode dequeInit = null; }
-	: l=RBRACK { xg.append("]"); } { res = dequeInit = new DequeInitNode(getCoords(l), null, dequeType); }	
+	: l=LBRACK { xg.append("["); } { res = dequeInit = new DequeInitNode(getCoords(l), null, dequeType); }	
 		( item1=seqDequeItem[xg] { dequeInit.addDequeItem(item1); }
 			( COMMA { xg.append(","); } item2=seqDequeItem[xg] { dequeInit.addDequeItem(item2); } )*
 		)?
-	  LBRACK { xg.append("["); }
+	  RBRACK { xg.append("]"); }
 	/*| l=LPAREN { xg.append("("); } value=seqExpression[xg]
 		{ res = new DequeCopyConstructorNode(getCoords(l), null, dequeType, value); }
 	  RPAREN { xg.append(")"); }*/

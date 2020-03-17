@@ -14,7 +14,7 @@ rule addToDeque {
 		eval {
 			a.niceDeque = a.niceDeque.subdeque(a.niceDeque.indexOf("foo"), 1);
 			a.niceDeque = a.niceDeque.subdeque(a.niceDeque.indexOf("foo", 42), 1);
-			a.spiceDeque = deque<int>](a.niceDeque.asSet() & set<string>{"a","b"}).size()[;
+			a.spiceDeque = deque<int>[(a.niceDeque.asSet() & set<string>{"a","b"}).size()];
 			a.spiceDeque = a.spiceDeque.subdeque(0, a.spiceDeque.size());
 		}		
 	}

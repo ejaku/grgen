@@ -13,7 +13,7 @@ rule addFooHuu
     nb:B;
 	modify {
 		eval {
-			nb.b = nb.b + deque<string>] "foo" [;
+			nb.b = nb.b + deque<string>[ "foo" ];
 			nb.b.add("huu");
 		}
 	}
@@ -61,13 +61,13 @@ rule remove()
 test anonymousDeque
 {
 	na:A;
-	if { na.val in deque<string>] "foo", "argl" [; }
+	if { na.val in deque<string>[ "foo", "argl" ]; }
 }
 
 test anonymousDequeNA
 {
 	nb:B;
-	if { nb.val in deque<string>] "aha","oho","uh?" [; }
+	if { nb.val in deque<string>[ "aha","oho","uh?" ]; }
 }
 
 rule useDequeVar(ref niceDeque:deque<string>)
@@ -98,27 +98,27 @@ rule dequeIndexof
 
 rule dequeIndexof2
 {
-	if{ deque<int>]0,42,1,42,3[.indexOf(42, 0)==1 && deque<int>]0,42,1,42,3[.indexOf(42, 1)==1
-		&& deque<int>]0,42,1,42,3[.indexOf(42, 2)==3 && deque<int>]0,42,1,42,3[.indexOf(42, 4)==-1; }
+	if{ deque<int>[0,42,1,42,3].indexOf(42, 0)==1 && deque<int>[0,42,1,42,3].indexOf(42, 1)==1
+		&& deque<int>[0,42,1,42,3].indexOf(42, 2)==3 && deque<int>[0,42,1,42,3].indexOf(42, 4)==-1; }
 	
 	modify {
-		emit("1 value of attribute 5 6 ", deque<int>]0,42,1,42,3[.indexOf(42, 2), "\n");
+		emit("1 value of attribute 5 6 ", deque<int>[0,42,1,42,3].indexOf(42, 2), "\n");
 	}
 }
 
 rule dequeAsSet
 {
-	if { 1 in deque<int>]0,1,3,4[.asSet() && !(2 in deque<int>]0,1,3,4[.asSet()); }
+	if { 1 in deque<int>[0,1,3,4].asSet() && !(2 in deque<int>[0,1,3,4].asSet()); }
 
 	modify {
-		emit("1 value of attribute 5 6 ", deque<int>]0,42,1,42,3[.asSet(), "\n");	
+		emit("1 value of attribute 5 6 ", deque<int>[0,42,1,42,3].asSet(), "\n");	
 	}
 }
 
 rule dequeIteration
 {    
     modify {
-		exec( ::a=deque<string>][ ;> ::tmp="a" ;> {::a.add(::tmp)} ;> ::tmp="b" ;> {::a.add(::tmp)} ;> ::tmp="c" ;> {::a.add(::tmp)} ;> ::tmp="d" ;> {::a.add(::tmp)} ;> ::tmp="e" ;> {::a.add(::tmp)} );
+		exec( ::a=deque<string>[] ;> ::tmp="a" ;> {::a.add(::tmp)} ;> ::tmp="b" ;> {::a.add(::tmp)} ;> ::tmp="c" ;> {::a.add(::tmp)} ;> ::tmp="d" ;> {::a.add(::tmp)} ;> ::tmp="e" ;> {::a.add(::tmp)} );
 		exec( for{::i->::e in ::a; {emit("1 value of attribute 5 6 ")} ;> {emit(::i)} ;> {emit("\n")} } );
 		exec( for{::i->::e in ::a; {emit("1 value of attribute 5 6 ")} ;> {emit(::e)} ;> {emit("\n")} } );
 		exec( for{::e in ::a; {emit("1 value of attribute 5 6 ")} ;> {emit(::e)} ;> {emit("\n")} } );

@@ -395,7 +395,7 @@ rule ArrayPartial3(n:AA)
 rule Deque(n:AA)
 {
 	modify {
-		exec(x:deque<A>=deque<A>][ && y:deque<int>=deque<int>][ && v:int=42 && vd:int=0
+		exec(x:deque<A>=deque<A>[] && y:deque<int>=deque<int>[] && v:int=42 && vd:int=0
 			&& {x.add(n)} && {y.add(v,vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
 			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
@@ -424,7 +424,7 @@ rule Deque(n:AA)
 rule DequeUntyped(n:AA)
 {
 	modify {
-		exec(::x=deque<A>][ && ::y=deque<int>][ && ::v=42 && ::vd=0
+		exec(::x=deque<A>[] && ::y=deque<int>[] && ::v=42 && ::vd=0
 			&& {::x.add(n)} && {::y.add(::v,::vd)}
 			&& i:int=0 && {i=::x.size()} && j:int=0 && {j=::y.size()}
 			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
@@ -453,7 +453,7 @@ rule DequeUntyped(n:AA)
 rule DequePartial1(n:AA)
 {
 	modify {
-		exec(x:deque<A>=deque<A>][ && y:deque<int>=deque<int>][ && ::v=42 && vd:int=0
+		exec(x:deque<A>=deque<A>[] && y:deque<int>=deque<int>[] && ::v=42 && vd:int=0
 			&& {x.add(n)} && {y.add(::v,vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
 			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
@@ -482,7 +482,7 @@ rule DequePartial1(n:AA)
 rule DequePartial2(n:AA)
 {
 	modify {
-		exec(x:deque<A>=deque<A>][ && y:deque<int>=deque<int>][ && v:int=42 && ::vd=0
+		exec(x:deque<A>=deque<A>[] && y:deque<int>=deque<int>[] && v:int=42 && ::vd=0
 			&& {x.add(n)} && {y.add(v,::vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
 			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
@@ -512,7 +512,7 @@ rule DequePartial2(n:AA)
 rule DequePartial3(n:AA)
 {
 	modify {
-		exec(::x=deque<A>][ && ::y=deque<int>][ && v:int=42 && vd:int=0
+		exec(::x=deque<A>[] && ::y=deque<int>[] && v:int=42 && vd:int=0
 			&& {::x.add(n)} && {::y.add(v,vd)}
 			&& i:int=0 && {i=::x.size()} && j:int=0 && {j=::y.size()}
 			&& {emit("value of variable i 5 6 7 8 9 ")} && {emit(i)} && {emit("\n")}
@@ -545,7 +545,7 @@ rule AssignConstToVar
 		exec(xby:byte=3Y && xsh:short=3S && x:int=3 && xl:long=3L && y:string="fool" && z:foo=foo::Bar
 			&& u:double=3.141592654 && l:float=3.141f && v:boolean=true
 			&& w:set<int>=set<int>{} && k:map<A,H>=map<A,H>{} 
-			&& m:array<int>=array<int>[] && n:deque<int>=deque<int>][
+			&& m:array<int>=array<int>[] && n:deque<int>=deque<int>[]
 			&& {emit("value of variable xby 5 6 7 8 9 ")} && {emit(xby)} && {emit("\n")}
 			&& {emit("value of variable xsh 5 6 7 8 9 ")} && {emit(xsh)} && {emit("\n")}
 			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
@@ -569,7 +569,7 @@ rule AssignConstToVarUntyped
 		exec(::xby=3Y && ::xsh=3S && ::x=3 && ::xl=3L && ::y="fool" && ::z=foo::Bar
 			&& ::u=3.141592654 && ::l=3.141f && ::v=true
 			&& ::w=set<int>{} && ::k=map<A,H>{}
-			&& ::m=array<int>[] && ::n=deque<int>][
+			&& ::m=array<int>[] && ::n=deque<int>[]
 			&& {emit("value of variable xby 5 6 7 8 9 ")} && {emit(::xby)} && {emit("\n")}
 			&& {emit("value of variable xsh 5 6 7 8 9 ")} && {emit(::xsh)} && {emit("\n")}
 			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")}
@@ -752,7 +752,7 @@ rule AssignVarToAttribute(x:A)
 	modify {
 		exec(f:foo=foo::Bla && by:byte=42y && sh:short=42s && i:int=42 && l:long=42l && b:boolean=true && st:string="Gnampf!"
 			&& s:set<foo>=set<foo>{} && m:map<int,string>=map<int,string>{}
-			&& a:array<foo>=array<foo>[] && dq:deque<foo>=deque<foo>][
+			&& a:array<foo>=array<foo>[] && dq:deque<foo>=deque<foo>[]
 			&& fl:float=3.141f && d:double=3.141592654
 			&& {s.add(f)} && {m.add(i,st)} && {a.add(f)} && {dq.add(f)}
 			&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(f)} && {emit("\n")}
@@ -779,7 +779,7 @@ rule AssignVarToAttributeUntyped(x:A)
 	modify {
 		exec(::y=x && ::f=foo::Bla && ::by=42y && ::sh=42s && ::i=42 && ::l=42l && ::b=true && ::st="Gnampf!"
 			&& ::s=set<foo>{} && ::m=map<int,string>{}
-			&& ::a=array<foo>[] && ::dq=deque<foo>][
+			&& ::a=array<foo>[] && ::dq=deque<foo>[]
 			&& ::fl=3.141f && ::d=3.141592654
 			&& {::s.add(::f)} && {::m.add(::i,::st)} && {::a.add(::f)} && {::dq.add(::f)}
 			&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(::f)} && {emit("\n")}

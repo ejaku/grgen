@@ -5,8 +5,8 @@ rule addToDeque {
 	
 	modify {
 		eval {
-			n.nodeDeque = n.nodeDeque + deque<Node>] n [;
-			n.nDeque = n.nDeque + deque<N>] n [;
+			n.nodeDeque = n.nodeDeque + deque<Node>[ n ];
+			n.nDeque = n.nDeque + deque<N>[ n ];
 		}
 	}
 }
@@ -33,12 +33,12 @@ rule assignDequeToDeque {
 rule anonymousDeque {
 	n:N; m:N;
 	
-	if { n in deque<Node>] n, m [; }
-	if { n in deque<N>] n, m [; }
+	if { n in deque<Node>[ n, m ]; }
+	if { n in deque<N>[ n, m ]; }
 
 	modify {
 		eval {
-			n.val = (n in deque<Node>]n, m[) ? 1 : 0;
+			n.val = (n in deque<Node>[n, m]) ? 1 : 0;
 		}
 	}
 }
@@ -62,7 +62,7 @@ rule addToDeque2 {
 	
 	modify {
 		eval {
-			n.nodeDeque = (m.nodeDeque + deque<Node>] n, m [) + deque<Node>] m [;
+			n.nodeDeque = (m.nodeDeque + deque<Node>[ n, m ]) + deque<Node>[ m ];
 		}
 	}
 }

@@ -2,7 +2,7 @@ new graph "exectype/exectype"
 xgrs ::xby=3Y && ::xsh=3S && ::x=3 && ::xl=3L && ::y="fool" && ::z=foo::Bar \
 		&& ::u=3.141592654 && ::l=3.141f && ::v=true \
 		&& ::w=set<int>{} && ::k=map<A,H>{} \
-		&& ::m=array<int>[] && ::n=deque<int>][ \
+		&& ::m=array<int>[] && ::n=deque<int>[] \
 		&& {emit("value of variable xby 5 6 7 8 9 ")} && {emit(::xby)} && {emit("\n")} \
 		&& {emit("value of variable xsh 5 6 7 8 9 ")} && {emit(::xsh)} && {emit("\n")} \
 		&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")} \

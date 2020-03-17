@@ -73,14 +73,14 @@ emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
 emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }
 
 exec (a:N,b:N,c:N,d:N)=ddeque\
-;> container:deque<N> = deque<N>]a,b,c,d[\
+;> container:deque<N> = deque<N>[a,b,c,d]\
 ;> ccontainer:deque<N> ;> { ccontainer = copy(container) }\
 ;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
 emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
 ;> for{n:N in ccontainer; { container.rem() } }\
 ;> { emit("1 value of attribute 5 6 "); emit(container); emit("\n");\
 emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\
-;> ::containerr = deque<N>]a,b,c,d[\
+;> ::containerr = deque<N>[a,b,c,d]\
 ;> { ccontainer = copy(::containerr) }\
 ;> { emit("1 value of attribute 5 6 "); emit(::containerr); emit("\n");\
 emit("1 value of attribute 5 6 "); emit(ccontainer); emit("\n") }\

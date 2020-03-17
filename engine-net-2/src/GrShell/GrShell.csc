@@ -829,10 +829,10 @@ object Constant():
             if(constant==null)
                 throw new ParseException("Invalid constant \"deque<"+typeName+">\"!");
         }
-        "]"
+        "["
             ( src=SimpleConstant() { ((IDeque)constant).Enqueue(src); } )?
                 ( "," src=SimpleConstant() { ((IDeque)constant).Enqueue(src); })*
-        "["
+        "]"
     )
     {
         return constant;
@@ -1333,8 +1333,8 @@ void AttributeParamValue(ref Param param):
             param.Type = typeName;
             param.Values = new ArrayList();
         }
-        "]" ( value=AttributeValue() { param.Values.Add(value); } )?
-            (<COMMA> value=AttributeValue() { param.Values.Add(value); })* "["
+        "[" ( value=AttributeValue() { param.Values.Add(value); } )?
+            (<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
 }
 
 //////////////////////

@@ -828,7 +828,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                // deque<type> ] value * , [
+                // deque<type> [ value * , ]
                 Match(TokenKind.DEQUE);
                 Match(TokenKind.LANGLE);
                 string type = ParseTypeText();
@@ -837,8 +837,8 @@ namespace de.unika.ipd.grGen.libGr
                 IDeque deque = ContainerHelper.NewDeque(
                     ContainerHelper.GetTypeFromNameForContainer(type, graph));
 
-                Match(TokenKind.RBOXBRACKET);
-                if(LookaheadToken() != TokenKind.LBOXBRACKET)
+                Match(TokenKind.LBOXBRACKET);
+                if(LookaheadToken() != TokenKind.RBOXBRACKET)
                 {
                     object value = ParseAttributeSimpleValue(attrType.ValueType);
                     deque.Enqueue(value);
@@ -849,7 +849,7 @@ namespace de.unika.ipd.grGen.libGr
                         deque.Enqueue(value);
                     }
                 }
-                Match(TokenKind.LBOXBRACKET);
+                Match(TokenKind.RBOXBRACKET);
 
                 attributeValue = deque;
             }

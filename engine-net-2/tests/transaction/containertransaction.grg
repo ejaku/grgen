@@ -14,7 +14,7 @@ rule transform1 {
 			a.mapVal = a.mapVal \ set<string>{ "foo" };
 			a.mapVal = a.mapVal | map<string,string>{ "bar"->"foo" };
 			a.arrayVal = a.arrayVal + array<string>[ "bar" ];
-			a.dequeVal = a.dequeVal + deque<string>] "bar" [;
+			a.dequeVal = a.dequeVal + deque<string>[ "bar" ];
 		}
 	}
 }

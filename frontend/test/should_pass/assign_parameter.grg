@@ -19,7 +19,7 @@ rule r(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s:st
 				ss = set<int>{ 2,3,5,7,11,13,17 };
 				m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
 				a = array<int>[ 2,3,5,7,11,13,17 ];
-				dq = deque<int>] 2,3,5,7,11,13,17 [;
+				dq = deque<int>[ 2,3,5,7,11,13,17 ];
 			}
 		}
 	}
@@ -40,7 +40,7 @@ rule r(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s:st
 					ss = set<int>{ 2,3,5,7,11,13,17 };
 					m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
 					a = array<int>[ 2,3,5,7,11,13,17 ];
-					dq = deque<int>] 2,3,5,7,11,13,17 [;
+					dq = deque<int>[ 2,3,5,7,11,13,17 ];
 				}
 			}
 		}
@@ -61,7 +61,7 @@ rule r(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s:st
 			ss = set<int>{ 2,3,5,7,11,13,17 };
 			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
 			a = array<int>[ 2,3,5,7,11,13,17 ];
-			dq = deque<int>] 2,3,5,7,11,13,17 [;
+			dq = deque<int>[ 2,3,5,7,11,13,17 ];
 
 			b = true || (i==42 ? true : false);
 			by = (byte)(0y + 0x4ey);
@@ -75,7 +75,7 @@ rule r(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s:st
 			ss = set<int>{ 2,3,5,7,11,13,17 } & set<int>{ 1,2 };
 			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false } | map<string,boolean>{ "7"->true,"8"->false };
 			a = array<int>[ 2,3,5,7,11,13,17 ] + array<int>[ 1,2 ];			
-			dq = deque<int>] 2,3,5,7,11,13,17 [ + deque<int>] 1,2 [;			
+			dq = deque<int>[ 2,3,5,7,11,13,17 ] + deque<int>[ 1,2 ];			
 		}
 	}
 }
@@ -99,7 +99,7 @@ pattern p(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s
 				ss = set<int>{ 2,3,5,7,11,13,17 };
 				m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
 				a = array<int>[ 2,3,5,7,11,13,17 ];
-				dq = deque<int>] 2,3,5,7,11,13,17 [;
+				dq = deque<int>[ 2,3,5,7,11,13,17 ];
 			}
 		}
 	}
@@ -120,7 +120,7 @@ pattern p(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s
 					ss = set<int>{ 2,3,5,7,11,13,17 };
 					m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
 					a = array<int>[ 2,3,5,7,11,13,17 ];
-					dq = deque<int>] 2,3,5,7,11,13,17 [;
+					dq = deque<int>[ 2,3,5,7,11,13,17 ];
 				}
 			}
 		}
@@ -141,7 +141,7 @@ pattern p(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s
 			ss = set<int>{ 2,3,5,7,11,13,17 };
 			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
 			a = array<int>[ 2,3,5,7,11,13,17 ];
-			dq = deque<int>] 2,3,5,7,11,13,17 [;
+			dq = deque<int>[ 2,3,5,7,11,13,17 ];
 
 			b = true || (i==42 ? true : false);
 			by = (byte)(0y + 0x4e);
@@ -155,7 +155,7 @@ pattern p(var b:boolean, var by:byte, var sh:short, var i:int, var l:long, var s
 			ss = set<int>{ 2,3,5,7,11,13,17 } & set<int>{ 1,2 };
 			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false } | map<string,boolean>{ "7"->true,"8"->false };
 			a = array<int>[ 2,3,5,7,11,13,17 ] + array<int>[ 1,2 ];			
-			dq = deque<int>] 2,3,5,7,11,13,17 [ + deque<int> ] 1,2 [;			
+			dq = deque<int>[ 2,3,5,7,11,13,17 ] + deque<int> [ 1,2 ];
 		}
 	}
 }

@@ -22,7 +22,7 @@ rule r {
 		exec( { emit("The value of attribute noattribute is ", typeof(set<N>{}), "\n") } );
 		exec( { emit("The value of attribute noattribute is ", typeof(map<E,int>{}), "\n") } );
 		exec( { emit("The value of attribute noattribute is ", typeof(array<Foo>[]), "\n") } );
-		exec( { emit("The value of attribute noattribute is ", typeof(deque<double>][), "\n") } );
+		exec( { emit("The value of attribute noattribute is ", typeof(deque<double>[]), "\n") } );
 	}
 }
 

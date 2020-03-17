@@ -4,7 +4,7 @@ new n1:NN
 new n2:NN
 new n3:NNN
 
-xgrs ::st = deque<Node>][
+xgrs ::st = deque<Node>[]
 
 xgrs [addToDeque(::st)] <; {::s=::st.size()}
 show var s

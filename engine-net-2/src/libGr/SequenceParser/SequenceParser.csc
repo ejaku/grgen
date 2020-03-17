@@ -461,10 +461,10 @@ SequenceExpression InitContainerExpr():
     |
         "deque" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
         (
-            "]"
+            "["
                 ( src=Expression() { srcItems.Add(src); }
                     ( "," src=Expression() { srcItems.Add(src); })* )?
-            "["
+            "]"
             {
                 res = new SequenceExpressionDequeConstructor(typeName, srcItems.ToArray());
             }
@@ -607,7 +607,7 @@ String Type():
     | LOOKAHEAD("array" "<" TypeNonGeneric() ">") "array" "<" typeParam=TypeNonGeneric() ">" { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
     | LOOKAHEAD("deque" "<" TypeNonGeneric() ">") "deque" "<" typeParam=TypeNonGeneric() ">" { type = "deque<"+typeParam+">"; }
-        (LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at deque declaration, use d:deque<T> = deque<T>][ for initialization"); })?
+        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
     // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
     | LOOKAHEAD("set" "<" TypeNonGeneric() ">=") "set" "<" typeParam=TypeNonGeneric() { type = "set<"+typeParam+">"; }
         (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
@@ -616,7 +616,7 @@ String Type():
     | LOOKAHEAD("array" "<" TypeNonGeneric() ">=") "array" "<" typeParam=TypeNonGeneric() { type = "array<"+typeParam+">"; }
         (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
     | LOOKAHEAD("deque" "<" TypeNonGeneric() ">=") "deque" "<" typeParam=TypeNonGeneric() { type = "deque<"+typeParam+">"; }
-        (LOOKAHEAD(2) "]" { throw new ParseException("no ][ allowed at deque declaration, use d:deque<T> = deque<T>][ for initialization"); })?
+        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
     // the match type exists only for the loop variable of the for matches loop
     | LOOKAHEAD("match" "<" Word() ">") "match" "<" typeParam=Word() ">" { type = "match<"+typeParam+">"; }    
     )
@@ -1460,15 +1460,7 @@ SequenceExpression ExpressionBasic():
     }
 |
     fromVar=VariableUse() { expr = new SequenceExpressionVariable(fromVar); }
-    (LOOKAHEAD({ GetToken(1).kind==LBOXBRACKET && // we're at a deque end or at an indexed access?
-        ( GetToken(2).kind!=THENLEFT && GetToken(2).kind!=THENRIGHT
-            && GetToken(2).kind!=DOUBLEPIPE && GetToken(2).kind!=DOUBLEAMPERSAND 
-            && GetToken(2).kind!=PIPE && GetToken(2).kind!=CIRCUMFLEX 
-            && GetToken(2).kind!=AMPERSAND && GetToken(2).kind!=PLUS
-            && GetToken(2).kind!=RPARENTHESIS && GetToken(2).kind!=RBOXBRACKET
-            && GetToken(2).kind!=EOF
-        )
-        || GetToken(1).kind==DOT}) 
+    (
         expr=SelectorExpression(expr)
     )*
     {    

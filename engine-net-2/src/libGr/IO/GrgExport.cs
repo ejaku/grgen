@@ -268,7 +268,7 @@ namespace de.unika.ipd.grGen.libGr
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
                 IDeque deque = (IDeque)value;
-                sw.Write("{0}]", attrType.GetKindName());
+                sw.Write("{0}[", attrType.GetKindName());
                 bool first = true;
                 foreach(object entry in deque)
                 {
@@ -280,7 +280,7 @@ namespace de.unika.ipd.grGen.libGr
                     else
                         sw.Write("," + ToString(entry, attrType.ValueType, graph));
                 }
-                sw.Write("[");
+                sw.Write("]");
             }
             else
             {

@@ -121,11 +121,11 @@ rule ddeque
 {
 	a:N; b:N; c:N; d:N;
 	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
-	if{ deque<N>]a,b,c,d[ == copy(deque<N>]a,b,c,d[); }
+	if{ deque<N>[a,b,c,d] == copy(deque<N>[a,b,c,d]); }
 	
 	modify {
 		eval {
-			def ref container:deque<N> = deque<N>]a,b,c,d[;
+			def ref container:deque<N> = deque<N>[a,b,c,d];
 			def ref ccontainer:deque<N> = copy(container);
 			emit("1 value of attribute 5 6 " + container + "\n");
 			emit("1 value of attribute 5 6 " + ccontainer + "\n");

@@ -137,7 +137,7 @@ rule ddeque : (N,N,N,N)
 	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
 	
 	modify {
-		exec ( container:deque<N> = deque<N>]a,b,c,d[
+		exec ( container:deque<N> = deque<N>[a,b,c,d]
 			;> ccontainer:deque<N> ;> { ccontainer = copy(container) }
 			;> { emit("1 value of attribute 5 6 " + container + "\n");
 			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
@@ -145,7 +145,7 @@ rule ddeque : (N,N,N,N)
 			;> { emit("1 value of attribute 5 6 " + container + "\n");
 			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }
 		);
-		exec ( ::container = deque<N>]a,b,c,d[
+		exec ( ::container = deque<N>[a,b,c,d]
 			;> ccontainer:deque<N> ;> { ccontainer = copy(::container) }
 			;> { emit("1 value of attribute 5 6 "); emit(::container); emit("\n");
 			emit("1 value of attribute 5 6 " + ccontainer + "\n"); }

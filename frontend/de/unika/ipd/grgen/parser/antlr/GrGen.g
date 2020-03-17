@@ -2655,11 +2655,11 @@ initArrayExpr [IdentNode id, ArrayTypeNode arrayType] returns [ ExprNode res = n
 
 initDequeExpr [IdentNode id, DequeTypeNode dequeType] returns [ ExprNode res = null ]
 	@init{ DequeInitNode dequeInit = null; }
-	: l=RBRACK { res = dequeInit = new DequeInitNode(getCoords(l), id, dequeType); }
+	: l=LBRACK { res = dequeInit = new DequeInitNode(getCoords(l), id, dequeType); }
 		( item1=dequeItem { dequeInit.addDequeItem(item1); }
 			( COMMA item2=dequeItem { dequeInit.addDequeItem(item2); } )*
 		)?
-	  LBRACK
+	  RBRACK
 	| lp=LPAREN value=expr[false]
 		{ res = new DequeCopyConstructorNode(getCoords(lp), id, dequeType, value); }
 	  RPAREN 

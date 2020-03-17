@@ -5,7 +5,7 @@ rule concatenateWithCast {
 
 	modify {
 		eval {
-			a.stringDeque = a.stringDeque + deque<string>] a.intValue [; // no implicit cast without the type prefix
+			a.stringDeque = a.stringDeque + deque<string>[ a.intValue ]; // no implicit cast without the type prefix
 		}
 	}
 }

@@ -4,10 +4,10 @@ rule anonymousDeque {
 	a:A -e:E-> a;
 	
 	if { 
-		a.val in deque<int>] 1, 3, 5, 7, 11, 13, 17 [
-		|| e.strval in deque<string>] "foo", "bar", "blubb" [
-		&& a.val in deque<int>] 2, 4, a.val, 19 [
-		&& e.strval in deque<string>] "bar", e.strval, "blubb" [;
+		a.val in deque<int>[ 1, 3, 5, 7, 11, 13, 17 ]
+		|| e.strval in deque<string>[ "foo", "bar", "blubb" ]
+		&& a.val in deque<int>[ 2, 4, a.val, 19 ]
+		&& e.strval in deque<string>[ "bar", e.strval, "blubb" ];
 	}
 		
 	if { 
@@ -17,8 +17,8 @@ rule anonymousDeque {
 	
 	modify {
 		eval {
-			a.val = a.val in deque<int>] 2, 4, a.val, 19 [ ? a.val : 42;
-			e.strval = e.strval in deque<string>] "bar", e.strval, "blubb" [ ? e.strval : 42;
+			a.val = a.val in deque<int>[ 2, 4, a.val, 19 ] ? a.val : 42;
+			e.strval = e.strval in deque<string>[ "bar", e.strval, "blubb" ] ? e.strval : 42;
 		}
 				
 		eval { 

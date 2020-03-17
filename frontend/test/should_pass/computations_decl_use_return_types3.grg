@@ -21,7 +21,7 @@ rule r() : (boolean)
 
 		def ref m:map<string, Node> = map<string,Node>{s->n};
 		def ref ar:array<Node> = array<Node>[n];
-		def ref de:deque<E1> = deque<E1>]e[;
+		def ref de:deque<E1> = deque<E1>[e];
 		def ref se:set<string> = set<string>{s};
 
 		yield res = true;
@@ -33,7 +33,7 @@ rule r() : (boolean)
 
 			def ref m:map<string, Node> = map<string,Node>{s->n};
 			def ref ar:array<Node> = array<Node>[n];
-			def ref de:deque<E1> = deque<E1>]e[;
+			def ref de:deque<E1> = deque<E1>[e];
 			def ref se:set<string> = set<string>{s};
 		}
 		
