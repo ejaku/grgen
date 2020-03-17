@@ -16,6 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         readonly SequenceMultiBacktrack seqMulti;
         readonly SequenceRuleCall seqRule;
+        readonly SequenceExpressionGenerator seqExprGen;
         readonly SequenceGeneratorHelper seqHelper;
 
         readonly SequenceExpression[] ArgumentExpressions;
@@ -32,10 +33,11 @@ namespace de.unika.ipd.grGen.lgsp
         readonly String matchesName;
 
 
-        public SequenceMultiBacktrackRuleGenerator(SequenceMultiBacktrack seqMulti, SequenceRuleCall seqRule, SequenceGeneratorHelper seqHelper)
+        public SequenceMultiBacktrackRuleGenerator(SequenceMultiBacktrack seqMulti, SequenceRuleCall seqRule, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
         {
             this.seqMulti = seqMulti;
             this.seqRule = seqRule;
+            this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
 
             ArgumentExpressions = seqRule.ArgumentExpressions;
@@ -59,7 +61,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             for(int i = 0; i < seqRule.Filters.Count; ++i)
             {
-                seqGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName);
+                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
             }
 
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");

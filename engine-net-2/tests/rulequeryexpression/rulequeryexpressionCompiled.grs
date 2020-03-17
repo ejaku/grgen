@@ -1,0 +1,11 @@
+new graph "rulequeryexpression/rulequeryexpression"
+
+exec (::start1)=init
+
+exec seqEmitRuleQuery
+
+exec seqExecTestRuleQuery
+
+exec seqExecRuleRuleQuery
+
+quit

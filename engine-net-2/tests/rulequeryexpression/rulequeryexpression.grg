@@ -25,3 +25,18 @@ test t
 {
 	n:Node --> .;
 }
+
+sequence seqEmitRuleQuery
+{
+	{ emit("the value of variable \"rule\" of type evaluation is: ", ![?r(::start1)].empty(), "\n") }
+}
+
+sequence seqExecTestRuleQuery
+{
+	b([?t].empty())
+}
+
+sequence seqExecRuleRuleQuery
+{
+	b([?r(::start1)].empty())
+}

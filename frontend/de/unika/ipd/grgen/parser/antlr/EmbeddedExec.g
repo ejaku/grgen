@@ -224,6 +224,11 @@ seqComputation[ExecNode xg]
 	| LBRACE { xg.append("{"); } seqExpression[xg] RBRACE { xg.append("}"); }
 	;
 
+methodCall[ExecNode xg]
+	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
+			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])* )? RPAREN { xg.append(")"); }
+	;
+
 seqExpressionOrAssign[ExecNode xg]
 	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
 	| seqExpression[xg] 
@@ -332,26 +337,17 @@ seqExprUnary[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 // todo: the xgrsVarUse[xg] casted to IdenNodes might be not simple variable identifiers, but global variables with :: prefix,
 //  probably a distinction is needed
 seqExprBasic[ExecNode xg] returns[ExprNode res = env.initExprNode()]
-options { k = 5; }
+options { k = 4; }
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		IdentNode id;
 	}
-	
-	: methodCall[xg]
-	| xgrsVarUse[xg] DOT VISITED LBRACK 
-		{ xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); }
-	| target=xgrsVarUse[xg] d=DOT attr=memberIdentUse { xg.append("."+attr.getSymbol().getText()); }
-			{ res = new MemberAccessExprNode(getCoords(d), new IdentExprNode((IdentNode)target), attr); }
-		sel=seqExprSelector[res, xg] { res = sel; }
+	: owner=xgrsVarUseInExpr[xg] sel=seqExprSelector[owner, xg] { res = sel; }
 	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); }
-	| fc=functionCall[xg]
-			 { res = fc; }
-	| target=xgrsVarUse[xg]
-			{ res = new IdentExprNode((IdentNode)target); }
-		sel=seqExprSelector[res, xg] { res = sel; }
+	| fc=functionCall[xg] { res = fc; }
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| a=AT LPAREN { xg.append("@("); } (i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
+	| rq=ruleQuery[xg, returns] sel=seqExprSelector[rq, xg] { res = sel; }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
 	| exp=xgrsConstantWithoutType[xg] { res = (ExprNode)exp; }
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
@@ -362,14 +358,25 @@ options { k = 5; }
 		}
 	;
 
-methodCall[ExecNode xg]
-	: xgrsVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
-			 ( seqExpression[xg] (COMMA { xg.append(","); } seqExpression[xg])* )? RPAREN { xg.append(")"); }
+xgrsVarUseInExpr[ExecNode xg] returns[IdentExprNode res]
+	: var=xgrsVarUse[xg] { res = new IdentExprNode(var); }
 	;
 
 seqExprSelector[ExprNode prefix, ExecNode xg] returns[ExprNode res = prefix]
+options { k = 3; }
+	@init{
+		CollectNode<ExprNode> arguments = new CollectNode<ExprNode>();
+	}
 	: l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
 			{ res = new IndexedAccessExprNode(getCoords(l), prefix, key); } // array/deque/map access
+	| d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
+			( arg=seqExpression[xg] { arguments.addChild(arg); } (COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); })* )? RPAREN { xg.append(")"); }
+			{ res = new MethodInvocationExprNode(prefix, new IdentNode(env.occurs(ParserEnvironment.ENTITIES, method.getText(), getCoords(method))), arguments, null); }
+	| DOT VISITED LBRACK 
+		{ xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } // TODO: visited expr
+	| d=DOT attr=memberIdentUse { xg.append("."+attr.getSymbol().getText()); }
+			{ res = new MemberAccessExprNode(getCoords(d), prefix, attr); }
+		sel=seqExprSelector[res, xg] { res = sel; }
 	| // no selector
 	;
 	
@@ -631,6 +638,12 @@ parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 		)
 	;
 
+ruleQuery[ExecNode xg, CollectNode<BaseNode> returns] returns[ExprNode res = env.initExprNode()]
+	: LBRACK {xg.append("[");} 
+		cre=callRuleExpression[xg, null, returns, true] { res = cre; }
+		RBRACK {xg.append("]");}
+	;
+
 callRuleWithOptionalReturns[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
 	: (LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? callRule[xg, ruleCalls, returns, isAllBracketed]
 	;
@@ -652,6 +665,27 @@ callRule[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNod
 			if(ruleCalls != null) { // must be added to MultiCallActionNode if used from multi rule all call or multi backtrack construct
 				ruleCalls.addChild(ruleCall);
 			}
+		}
+	;
+
+callRuleExpression[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed] returns[ExprNode res = env.initExprNode()]
+	@init{
+		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
+	}
+	
+	: ( QUESTION MOD { xg.append("?\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } )
+		(xgrsVarUse[xg] DOT {xg.append(".");})?
+		id=actionOrEntIdentUse {xg.append(id);}
+		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
+		(callRuleFilter[xg, filters, false])*
+		{
+			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, isAllBracketed);
+			xg.addCallAction(ruleCall);
+			if(ruleCalls != null) { // must be added to MultiCallActionNode if used from multi rule all call or multi backtrack construct
+				ruleCalls.addChild(ruleCall);
+			}
+			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, id)));
 		}
 	;
 
@@ -773,7 +807,7 @@ xgrsVariableList[ExecNode xg, CollectNode<BaseNode> res]
 		( COMMA { xg.append(","); } child=xgrsEntity[xg] { res.addChild(child); } )*
 	;
 
-xgrsVarUse[ExecNode xg] returns [BaseNode res = null]
+xgrsVarUse[ExecNode xg] returns [IdentNode res = null]
 	:
 		id=entIdentUse // var of node, edge, or basic type
 		{ res = id; xg.append(id); xg.addUsage(id); } 

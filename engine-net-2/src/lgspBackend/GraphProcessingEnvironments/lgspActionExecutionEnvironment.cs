@@ -219,6 +219,11 @@ namespace de.unika.ipd.grGen.lgsp
             return matches;
         }
 
+        public IMatchesExact<T> MatchForQuery<T>(IAction action, object[] arguments, int localMaxMatches)
+        {
+            return (IMatchesExact<T>)MatchWithoutEvent(action, arguments, localMaxMatches);
+        }
+
         public List<object[]> Replace(IMatches matches, int which)
         {
             List<object[]> returns;

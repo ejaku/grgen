@@ -17,6 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly SequenceMultiRulePrefixedSequence seqMulti;
         internal readonly SequenceRulePrefixedSequence seqRulePrefixedSequence;
         internal readonly SequenceRuleCall seqRule;
+        internal readonly SequenceExpressionGenerator seqExprGen;
         internal readonly SequenceGeneratorHelper seqHelper;
 
         internal readonly SequenceExpression[] ArgumentExpressions;
@@ -39,10 +40,11 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String returnAssignmentsAllCall;
 
 
-        public SequenceMultiRulePrefixedSequenceGenerator(SequenceMultiRulePrefixedSequence seqMulti, SequenceRulePrefixedSequence seqRulePrefixedSequence, SequenceGeneratorHelper seqHelper)
+        public SequenceMultiRulePrefixedSequenceGenerator(SequenceMultiRulePrefixedSequence seqMulti, SequenceRulePrefixedSequence seqRulePrefixedSequence, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
         {
             this.seqMulti = seqMulti; // parent
             this.seqRulePrefixedSequence = seqRulePrefixedSequence;
+            this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
 
             seqRule = seqRulePrefixedSequence.Rule;
@@ -72,7 +74,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("procEnv.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             for(int i = 0; i < seqRule.Filters.Count; ++i)
             {
-                seqGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName);
+                seqExprGen.EmitFilterCall(source, (SequenceFilterCallCompiled)seqRule.Filters[i], patternName, matchesName, seqRule.PackagePrefixedName, false);
             }
 
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");

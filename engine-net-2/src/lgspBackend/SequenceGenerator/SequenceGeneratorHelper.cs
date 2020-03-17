@@ -174,7 +174,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(ArgumentExpressions[i] != null)
                 {
-                    parameters += ", " + exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
+                    if(i != 0)
+                        parameters += ", ";
+                    parameters += exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
                 }
                 else
                 {

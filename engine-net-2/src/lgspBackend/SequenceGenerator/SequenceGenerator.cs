@@ -60,11 +60,11 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.RuleCall:
             case SequenceType.RuleAllCall:
             case SequenceType.RuleCountAllCall:
-                new SequenceRuleOrRuleAllCallGenerator((SequenceRuleCall)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                new SequenceRuleOrRuleAllCallGenerator((SequenceRuleCall)seq, exprGen, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.RulePrefixedSequence:
-                new SequenceRulePrefixedSequenceGenerator((SequenceRulePrefixedSequence)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                new SequenceRulePrefixedSequenceGenerator((SequenceRulePrefixedSequence)seq, exprGen, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.SequenceCall:
@@ -145,7 +145,7 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceType.ForMatch:
-                new SequenceForMatchGenerator((SequenceForMatch)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                new SequenceForMatchGenerator((SequenceForMatch)seq, exprGen, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.IterationMin:
@@ -232,15 +232,15 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceType.Backtrack:
-                new SequenceBacktrackGenerator((SequenceBacktrack)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                new SequenceBacktrackGenerator((SequenceBacktrack)seq, exprGen, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.MultiBacktrack:
-                new SequenceMultiBacktrackGenerator((SequenceMultiBacktrack)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                new SequenceMultiBacktrackGenerator((SequenceMultiBacktrack)seq, exprGen, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.MultiSequenceBacktrack:
-                new SequenceMultiSequenceBacktrackGenerator((SequenceMultiSequenceBacktrack)seq, seqHelper).Emit(source, this, fireDebugEvents);
+                new SequenceMultiSequenceBacktrackGenerator((SequenceMultiSequenceBacktrack)seq, exprGen, seqHelper).Emit(source, this, fireDebugEvents);
                 break;
 
             case SequenceType.Pause:
@@ -1204,7 +1204,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for matching all the contained rules
             for(int i = 0; i < seqSome.Sequences.Count; ++i)
             {
-                new SequenceSomeRuleCallGenerator(seqSome, (SequenceRuleCall)seqSome.Sequences[i], seqHelper)
+                new SequenceSomeRuleCallGenerator(seqSome, (SequenceRuleCall)seqSome.Sequences[i], exprGen, seqHelper)
                     .EmitMatching(source, this);
             }
 
@@ -1236,7 +1236,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for rewriting all the contained rules which got matched
             for(int i = 0; i < seqSome.Sequences.Count; ++i)
             {
-                new SequenceSomeRuleCallGenerator(seqSome, (SequenceRuleCall)seqSome.Sequences[i], seqHelper)
+                new SequenceSomeRuleCallGenerator(seqSome, (SequenceRuleCall)seqSome.Sequences[i], exprGen, seqHelper)
                     .EmitRewriting(source, this, totalMatchToApply, curTotalMatch, firstRewrite, fireDebugEvents);
             }
         }
@@ -1251,7 +1251,7 @@ namespace de.unika.ipd.grGen.lgsp
             SequenceMultiRuleAllCallGenerator[] ruleGenerators = new SequenceMultiRuleAllCallGenerator[seqMulti.Sequences.Count];
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
             {
-                ruleGenerators[i] = new SequenceMultiRuleAllCallGenerator(seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], seqHelper);
+                ruleGenerators[i] = new SequenceMultiRuleAllCallGenerator(seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], exprGen, seqHelper);
             }
 
             // emit code for matching all the contained rules
@@ -1324,7 +1324,7 @@ namespace de.unika.ipd.grGen.lgsp
             SequenceMultiRulePrefixedSequenceGenerator[] ruleGenerators = new SequenceMultiRulePrefixedSequenceGenerator[seqMulti.RulePrefixedSequences.Count];
             for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
             {
-                ruleGenerators[i] = new SequenceMultiRulePrefixedSequenceGenerator(seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], seqHelper);
+                ruleGenerators[i] = new SequenceMultiRulePrefixedSequenceGenerator(seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], exprGen, seqHelper);
             }
 
             // emit code for matching all the contained rules
@@ -1425,64 +1425,6 @@ namespace de.unika.ipd.grGen.lgsp
         public String GetSequenceResult(Sequence seq)
         {
             return COMP_HELPER.GetResultVar(seq);
-        }
-
-        internal void EmitFilterCall(SourceBuilder source, SequenceFilterCallCompiled sequenceFilterCall, string patternName, string matchesName, string packagePrefixedRuleName)
-        {
-            if(sequenceFilterCall.Filter is IFilterAutoSupplied)
-            {
-                IFilterAutoSupplied filterAutoSupplied = (IFilterAutoSupplied)sequenceFilterCall.Filter;
-                EmitFilterAutoSuppliedCall(source, filterAutoSupplied, sequenceFilterCall.ArgumentExpressions, matchesName);
-            }
-            else if(sequenceFilterCall.Filter is IFilterAutoGenerated)
-            {
-                IFilterAutoGenerated filterAutoGenerated = (IFilterAutoGenerated)sequenceFilterCall.Filter;
-                EmitFilterAutoGeneratedCall(source, filterAutoGenerated, patternName, matchesName);
-            }
-            else
-            {
-                IFilterFunction filterFunction = (IFilterFunction)sequenceFilterCall.Filter;
-                EmitFilterFunctionCall(source, filterFunction, sequenceFilterCall.ArgumentExpressions, matchesName);
-            }
-        }
-
-        private void EmitFilterAutoSuppliedCall(SourceBuilder source, IFilterAutoSupplied filterAutoSupplied, SequenceExpression[] argumentExpressions, string matchesName)
-        {
-            source.AppendFrontFormat("{0}.Filter_{1}(",
-                matchesName, filterAutoSupplied.Name);
-            bool first = true;
-            for(int i = 0; i < argumentExpressions.Length; ++i)
-            {
-                if(first)
-                    first = false;
-                else
-                    source.Append(", ");
-                source.AppendFormat("({0})({1})",
-                    TypesHelper.TypeName(filterAutoSupplied.Inputs[i]),
-                    exprGen.GetSequenceExpression(argumentExpressions[i], source));
-            }
-            source.Append(");\n");
-        }
-
-        private void EmitFilterAutoGeneratedCall(SourceBuilder source, IFilterAutoGenerated filterAutoGenerated, string patternName, string matchesName)
-        {
-            source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}_{2}(procEnv, {3});\n",
-                TypesHelper.GetPackagePrefixDot(filterAutoGenerated.PackageOfApplyee),
-                patternName, ((LGSPFilterAutoGenerated)filterAutoGenerated).NameWithUnderscoreSuffix, matchesName);
-        }
-
-        private void EmitFilterFunctionCall(SourceBuilder source, IFilterFunction filterFunction, SequenceExpression[] argumentExpressions, string matchesName)
-        {
-            source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}(procEnv, {2}",
-                TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesName);
-            List<String> inputTypes = seqHelper.actionsTypeInformation.filterFunctionsToInputTypes[filterFunction.PackagePrefixedName];
-            for(int i = 0; i < argumentExpressions.Length; ++i)
-            {
-                source.AppendFormat(", ({0})({1})",
-                    TypesHelper.XgrsTypeToCSharpType(inputTypes[i], model),
-                    exprGen.GetSequenceExpression(argumentExpressions[i], source));
-            }
-            source.Append(");\n");
         }
 
         internal void EmitMatchClassFilterCall(SourceBuilder source, SequenceFilterCallCompiled sequenceFilterCall, string matchListName)

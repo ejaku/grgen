@@ -16,12 +16,14 @@ namespace de.unika.ipd.grGen.lgsp
     class SequenceMultiSequenceBacktrackGenerator
     {
         readonly SequenceMultiSequenceBacktrack seqMulti;
+        readonly SequenceExpressionGenerator seqExprGen;
         readonly SequenceGeneratorHelper seqHelper;
 
 
-        public SequenceMultiSequenceBacktrackGenerator(SequenceMultiSequenceBacktrack seqMulti, SequenceGeneratorHelper seqHelper)
+        public SequenceMultiSequenceBacktrackGenerator(SequenceMultiSequenceBacktrack seqMulti, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
         {
             this.seqMulti = seqMulti;
+            this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
         }
 
@@ -36,7 +38,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new SequenceMultiSequenceBacktrackRuleGenerator(seqMulti, 
                     seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule,
                     seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Sequence,
-                    seqHelper)
+                    seqExprGen, seqHelper)
                     .EmitMatching(source, seqGen, matchListName);
             }
 
@@ -63,7 +65,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new SequenceMultiSequenceBacktrackRuleGenerator(seqMulti,
                     seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule,
                     seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Sequence,
-                    seqHelper)
+                    seqExprGen, seqHelper)
                     .EmitCloning(source, seqGen, matchListName, originalToCloneName);
             }
 
@@ -103,7 +105,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new SequenceMultiSequenceBacktrackRuleGenerator(seqMulti,
                     seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule,
                     seqMulti.MultiRulePrefixedSequence.RulePrefixedSequences[i].Sequence,
-                    seqHelper)
+                    seqExprGen, seqHelper)
                     .EmitRewriting(source, seqGen, matchListName, enumeratorName, fireDebugEvents);
             }
 

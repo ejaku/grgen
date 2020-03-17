@@ -41,6 +41,12 @@ namespace de.unika.ipd.grGen.lgsp
 			builder = new StringBuilder();
         }
 
+        public void Reset()
+        {
+            builder.Length = 0;
+            indentation = "";
+        }
+
         public SourceBuilder Append(String str)
         {
             builder.Append(str);

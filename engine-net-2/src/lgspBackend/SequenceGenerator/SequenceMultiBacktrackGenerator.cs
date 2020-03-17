@@ -16,12 +16,14 @@ namespace de.unika.ipd.grGen.lgsp
     class SequenceMultiBacktrackGenerator
     {
         readonly SequenceMultiBacktrack seqMulti;
+        readonly SequenceExpressionGenerator seqExprGen;
         readonly SequenceGeneratorHelper seqHelper;
 
 
-        public SequenceMultiBacktrackGenerator(SequenceMultiBacktrack seqMulti, SequenceGeneratorHelper seqHelper)
+        public SequenceMultiBacktrackGenerator(SequenceMultiBacktrack seqMulti, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
         {
             this.seqMulti = seqMulti;
+            this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
         }
 
@@ -33,7 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for matching all the contained rules
             for(int i = 0; i < seqMulti.Rules.Sequences.Count; ++i)
             {
-                new SequenceMultiBacktrackRuleGenerator(seqMulti, (SequenceRuleCall)seqMulti.Rules.Sequences[i], seqHelper)
+                new SequenceMultiBacktrackRuleGenerator(seqMulti, (SequenceRuleCall)seqMulti.Rules.Sequences[i], seqExprGen, seqHelper)
                     .EmitMatching(source, seqGen, matchListName);
             }
 
@@ -57,7 +59,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for cloning the matches objects of the rules
             for(int i = 0; i < seqMulti.Rules.Sequences.Count; ++i)
             {
-                new SequenceMultiBacktrackRuleGenerator(seqMulti, (SequenceRuleCall)seqMulti.Rules.Sequences[i], seqHelper)
+                new SequenceMultiBacktrackRuleGenerator(seqMulti, (SequenceRuleCall)seqMulti.Rules.Sequences[i], seqExprGen, seqHelper)
                     .EmitCloning(source, seqGen, matchListName, originalToCloneName);
             }
 
@@ -93,7 +95,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for rewriting the current match (for each rule, rule fitting to the match is selected by rule name)
             for(int i = 0; i < seqMulti.Rules.Sequences.Count; ++i)
             {
-                new SequenceMultiBacktrackRuleGenerator(seqMulti, (SequenceRuleCall)seqMulti.Rules.Sequences[i], seqHelper)
+                new SequenceMultiBacktrackRuleGenerator(seqMulti, (SequenceRuleCall)seqMulti.Rules.Sequences[i], seqExprGen, seqHelper)
                     .EmitRewriting(source, seqGen, matchListName, enumeratorName, fireDebugEvents);
             }
 
