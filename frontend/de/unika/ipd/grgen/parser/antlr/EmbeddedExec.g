@@ -687,7 +687,7 @@ options { k = 7; }
 					filters.addChild(new MatchTypeQualIdentNode(getCoords(filterId), matchClass, matchClassFilter));
 				}
 			}
-	| BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? (filterId=IDENT | filterId=AUTO) { xg.append(filterId.getText()); } 
+	| BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? (filterId=IDENT) { xg.append(filterId.getText()); }
 		(LPAREN {xg.append("(");} (ruleParams[xg, params])? RPAREN {xg.append(")");})?
 			{
 				if(isMatchClassFilter)
@@ -984,7 +984,7 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	;
 
 	
-	//////////////////////////////////////////
+//////////////////////////////////////////
 // Range Spec
 //////////////////////////////////////////
 
