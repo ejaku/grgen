@@ -1,0 +1,11 @@
+new graph "rulequeryexpression/rulequeryexpression"
+
+exec (::start1)=init
+
+exec { emit("the value of variable \"rule\" of type evaluation is: ", ![?r(::start1)].empty(), "\n") }
+
+exec b([?t].empty())
+
+exec b([?r(::start1)].empty())
+
+quit

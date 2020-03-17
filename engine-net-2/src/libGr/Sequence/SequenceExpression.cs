@@ -66,6 +66,7 @@ namespace de.unika.ipd.grGen.libGr
         ExistsFile, Import,
         Copy,
         Canonize,
+        RuleQuery,
         FunctionCall, FunctionMethodCall
     }
 
@@ -6120,6 +6121,89 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return "copy(" + ObjectToBeCopied.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionRuleQuery : SequenceExpression, RuleInvocation
+    {
+        public readonly SequenceRuleAllCall RuleCall;
+
+        public String Name
+        {
+            get { return RuleCall.Name; }
+        }
+
+        public String Package
+        {
+            get { return RuleCall.Package; }
+        }
+
+        public String PackagePrefixedName
+        {
+            get { return RuleCall.PackagePrefixedName; }
+        }
+
+        public SequenceVariable Subgraph
+        {
+            get { return RuleCall.Subgraph; }
+        }
+
+        public SequenceExpressionRuleQuery(SequenceRuleAllCall ruleCall)
+            : base(SequenceExpressionType.RuleQuery)
+        {
+            RuleCall = ruleCall;
+        }
+
+        protected SequenceExpressionRuleQuery(SequenceExpressionRuleQuery that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            RuleCall = that.RuleCall;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionRuleQuery(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "array<match<" + RuleCall.Name + ">>";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            SequenceRuleAllCallInterpreted ruleCallInterpreted = (SequenceRuleAllCallInterpreted)RuleCall;
+            return ruleCallInterpreted.MatchForQuery(procEnv);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            RuleCall.GetLocalVariables(variables, containerConstructors, null);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                foreach(SequenceExpression argument in RuleCall.ArgumentExpressions)
+                {
+                    yield return argument;
+                }
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return RuleCall.Symbol;
+            }
         }
     }
 

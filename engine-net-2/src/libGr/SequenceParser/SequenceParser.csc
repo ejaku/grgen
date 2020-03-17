@@ -1431,6 +1431,12 @@ SequenceExpression ExpressionBasic():
     object constant;
 }
 {
+    LOOKAHEAD(3)
+    expr=RuleQuery() expr=SelectorExpression(expr)
+    {
+        return expr;
+    }
+|
     LOOKAHEAD(VariableUse() "." "visited")
     fromVar=VariableUse() "." "visited" "[" expr=Expression() "]"
     {
@@ -1521,6 +1527,8 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
             {
                 if(fromExpr is SequenceExpressionVariable && ((SequenceExpressionVariable)fromExpr).Variable.Type.StartsWith("match<"))
                     return new SequenceExpressionMatchAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
+                else if(fromExpr is SequenceExpressionRuleQuery)
+                    return new SequenceExpressionMatchAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
                 else
                     return new SequenceExpressionAttributeAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
             }
@@ -2133,6 +2141,31 @@ Sequence Rule():
                     return ruleCall;
             }
     )
+}
+
+SequenceExpression RuleQuery():
+{
+    bool special = false, test = false;
+    String str, package = null;
+    SequenceVariable subgraph = null; // maybe todo - remove
+    List<SequenceExpression> argExprs = new List<SequenceExpression>();
+    SequenceRuleAllCall ruleAllCall = null;
+    SequenceRuleCall ruleCall = null;
+    SequenceFilterCall filter = null;
+}
+{
+    "[" ( LOOKAHEAD(2) "?" "%" { test = true; special = true; } | LOOKAHEAD(2) "%" "?" { special = true; test = true; } | "?" { test = true; } )
+    (LOOKAHEAD(2) subgraph=Variable() ".")? (LOOKAHEAD(2) package=Word() "::")?
+    str=Word() ("(" (Arguments(argExprs))? ")")?
+    {
+        ruleAllCall = env.CreateSequenceRuleAllCall(str, package, argExprs, new List<SequenceVariable>(), subgraph,
+                special, test, false, null, false, null, false);
+    }
+        ("\\" filter=Filter(ruleAllCall, false) { ruleAllCall.AddFilterCall(filter); })*
+    "]"
+    {
+        return new SequenceExpressionRuleQuery(ruleAllCall);
+    }
 }
 
 SequenceFilterCall Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter) :

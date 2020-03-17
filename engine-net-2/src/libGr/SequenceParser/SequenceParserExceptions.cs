@@ -403,7 +403,7 @@ namespace de.unika.ipd.grGen.libGr
                     return "The " + (this.BadParamIndex + 1) + ". return parameter is not valid for " + DefinitionTypeName + " \"" + this.Name + "\"!";
 
                 case SequenceParserError.RuleNameUsedByVariable:
-                    return "The name of the variable conflicts with the name of " + DefinitionTypeName + " \"" + this.Name + "\"!";
+                    return "The name of the variable conflicts with the name of " + this.Name + "\"!";
 
                 case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
                     return "The variable \"" + this.Name + "\" may neither receive parameters nor return values!";

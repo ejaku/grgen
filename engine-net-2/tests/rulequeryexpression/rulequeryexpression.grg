@@ -1,0 +1,27 @@
+rule init : (Node)
+{
+	modify {
+		n:Node --> m:Node;
+		return(n);
+	}
+}
+
+rule r(n:Node) : (Node)
+{
+	n --> m:Node;
+	
+	modify {
+		return(m);
+	}
+}
+
+test b(var b:boolean)
+{
+	n:Node --> m:Node;
+	if{ !b; }	
+}
+
+test t
+{
+	n:Node --> .;
+}

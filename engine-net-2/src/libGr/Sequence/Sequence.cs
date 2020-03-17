@@ -1375,6 +1375,32 @@ namespace de.unika.ipd.grGen.libGr
             return returns;
         }
 
+        protected static IMatches MatchForQuery(IGraphProcessingEnvironment procEnv, IAction action, IGraph subgraph, object[] arguments,
+            int localMaxMatches, bool special, List<SequenceFilterCall> filters)
+        {
+            if(subgraph != null)
+                procEnv.SwitchToSubgraph(subgraph);
+
+            IMatches matches = procEnv.MatchWithoutEvent(action, arguments, localMaxMatches);
+
+            for(int i = 0; i < filters.Count; ++i)
+            {
+                SequenceFilterCallInterpreted filter = (SequenceFilterCallInterpreted)filters[i];
+                filter.Execute(procEnv, action, matches);
+            }
+
+            //subrule debugging must be changed to allow this
+            //if(matches.Count > 0) {// ensure that Matched is only called when a match exists
+            //    procEnv.Matched(matches, null, special);
+            //    procEnv.Finishing(matches, special);
+            //}
+
+            if(subgraph != null)
+                procEnv.ReturnFromSubgraph();
+
+            return matches;
+        }
+
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors, Sequence target)
         {
@@ -1958,6 +1984,35 @@ namespace de.unika.ipd.grGen.libGr
 
                     return result;
                 }
+            }
+            catch(NullReferenceException)
+            {
+                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                throw;
+            }
+        }
+
+        public List<IMatch> MatchForQuery(IGraphProcessingEnvironment procEnv)
+        {
+            try
+            {
+#if LOG_SEQUENCE_EXECUTION
+                procEnv.Recorder.WriteLine("Matching rule " + GetRuleCallString(procEnv) + " for expression");
+#endif
+                FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
+
+                IMatches matches = MatchForQuery(procEnv, Action,
+                    subgraph != null ? (IGraph)subgraph.GetVariableValue(procEnv) : null,
+                    Arguments, 0, Special, Filters);
+
+#if LOG_SEQUENCE_EXECUTION
+                if(res)
+                {
+                    procEnv.Recorder.WriteLine("Matched/Applied " + Symbol);
+                    procEnv.Recorder.Flush();
+                }
+#endif
+                return new List<IMatch>(matches);
             }
             catch(NullReferenceException)
             {
