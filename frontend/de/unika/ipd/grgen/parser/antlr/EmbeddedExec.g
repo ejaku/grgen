@@ -195,14 +195,7 @@ seqForSeqRemainder[ExecNode xg, CollectNode<BaseNode> returns]
 options { k = 4; }
 	: (RARROW { xg.append(" -> "); } seqEntity[xg])? IN { xg.append(" in "); } seqEntity[xg]
 			SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
-	| IN { xg.append(" in "); } { input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
-			|| input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
-			|| input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
-			|| input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableEdgesIncoming") || input.LT(1).getText().equals("reachableEdgesOutgoing") 
-			|| input.LT(1).getText().equals("boundedReachable") || input.LT(1).getText().equals("boundedReachableIncoming") || input.LT(1).getText().equals("boundedReachableOutgoing")
-			|| input.LT(1).getText().equals("boundedReachableEdges") || input.LT(1).getText().equals("boundedReachableEdgesIncoming") || input.LT(1).getText().equals("boundedReachableEdgesOutgoing") 
-			|| input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
-		 }?
+	| IN { xg.append(" in "); } { env.isKnownForFunction(input.LT(1).getText()) }?
 			i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
 			(expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] 
 				(COMMA { xg.append(","); } expr3=seqExpression[xg] (COMMA { xg.append(","); } expr4=seqExpression[xg])? )? 
@@ -420,43 +413,8 @@ seqFunctionCall[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
 	  ( i=IDENT | i=COPY | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); } params=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
-			if( (i.getText().equals("now")) && params.getChildren().size()==0
-				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
-				|| (i.getText().equals("countNodes") || i.getText().equals("countEdges")) && params.getChildren().size()<=1
-				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
-				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
-				|| i.getText().equals("opposite") && params.getChildren().size()==2
-				|| (i.getText().equals("nodeByName") || i.getText().equals("edgeByName")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-				|| (i.getText().equals("nodeByUnique") || i.getText().equals("edgeByUnique")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("reachableEdgesIncoming") || i.getText().equals("reachableEdgesOutgoing") || i.getText().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
-				|| (i.getText().equals("boundedReachableIncoming") || i.getText().equals("boundedReachableOutgoing") || i.getText().equals("boundedReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("boundedReachableEdgesIncoming") || i.getText().equals("boundedReachableEdgesOutgoing") || i.getText().equals("boundedReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-				|| (i.getText().equals("boundedReachableWithRemainingDepthIncoming") || i.getText().equals("boundedReachableWithRemainingDepthOutgoing") || i.getText().equals("boundedReachableWithRemainingDepth")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("countIncoming") || i.getText().equals("countOutgoing") || i.getText().equals("countIncident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("countAdjacentIncoming") || i.getText().equals("countAdjacentOutgoing") || i.getText().equals("countAdjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("countReachableIncoming") || i.getText().equals("countReachableOutgoing") || i.getText().equals("countReachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("countReachableEdgesIncoming") || i.getText().equals("countReachableEdgesOutgoing") || i.getText().equals("countReachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
-				|| (i.getText().equals("countBoundedReachableIncoming") || i.getText().equals("countBoundedReachableOutgoing") || i.getText().equals("countBoundedReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("countBoundedReachableEdgesIncoming") || i.getText().equals("countBoundedReachableEdgesOutgoing") || i.getText().equals("countBoundedReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-				|| (i.getText().equals("isIncoming") || i.getText().equals("isOutgoing") || i.getText().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-				|| (i.getText().equals("isBoundedReachableIncoming") || i.getText().equals("isBoundedReachableOutgoing") || i.getText().equals("isBoundedReachable")) && params.getChildren().size()>=3 && params.getChildren().size()<=5
-				|| (i.getText().equals("isBoundedReachableEdgesIncoming") || i.getText().equals("isBoundedReachableEdgesOutgoing") || i.getText().equals("isBoundedReachableEdges")) && params.getChildren().size()>=3 && params.getChildren().size()<=5 
-				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
-				|| i.getText().equals("canonize") && params.getChildren().size()==1
-				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
-				|| (i.getText().equals("equalsAny") || i.getText().equals("equalsAnyStructurally")) && params.getChildren().size()==2
-				|| (i.getText().equals("exists") || i.getText().equals("import")) && params.getChildren().size()==1
-				|| i.getText().equals("copy") && params.getChildren().size()==1
-				|| i.getText().equals("nameof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
-				|| i.getText().equals("uniqueof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
-			  )
-			{
+			if(i.getText().equals("now") && params.getChildren().size()==0
+				|| env.isGlobalFunction(null, i, params)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				res = new FunctionInvocationExprNode(funcIdent, params, env);
 			} else {
@@ -737,10 +695,7 @@ seqCallRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filters, boolea
 			if(isMatchClassFilter)
 				reportError(getCoords(filterId), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
 
-			if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
-				|| filterId.getText().equals("removeFirst") || filterId.getText().equals("removeLast")
-				|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction")
-				|| filterId.getText().equals("removeFirstFraction") || filterId.getText().equals("removeLastFraction"))
+			if(env.isAutoSuppliedFilterName(filterId.getText()))
 			{
 				if(params.size()!=1)
 					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
@@ -770,8 +725,7 @@ seqCallRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filters, boolea
 			if(isMatchClassFilter)
 				reportError(getCoords(filterBase), "A match class specifier is required for filters of multi rule call or multi rule backtracking constructs.");
 
-			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
-				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
+			if(!env.isAutoGeneratedBaseFilterName(filterBase.getText()))
 			{
 				reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText() + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			}
@@ -788,10 +742,7 @@ seqCallMatchClassRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filte
 			if(!isMatchClassFilter)
 				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
-			if(filterId.getText().equals("keepFirst") || filterId.getText().equals("keepLast")
-				|| filterId.getText().equals("removeFirst") || filterId.getText().equals("removeLast")
-				|| filterId.getText().equals("keepFirstFraction") || filterId.getText().equals("keepLastFraction")
-				|| filterId.getText().equals("removeFirstFraction") || filterId.getText().equals("removeLastFraction"))
+			if(env.isAutoSuppliedFilterName(filterId.getText()))
 			{
 				if(params.size()!=1)
 					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 arguments.");
@@ -812,8 +763,7 @@ seqCallMatchClassRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filte
 			if(!isMatchClassFilter)
 				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
-			if(!filterBase.getText().equals("orderAscendingBy") && !filterBase.getText().equals("orderDescendingBy") && !filterBase.getText().equals("groupBy")
-				&& !filterBase.getText().equals("keepSameAsFirst") && !filterBase.getText().equals("keepSameAsLast") && !filterBase.getText().equals("keepOneForEach"))
+			if(!env.isAutoGeneratedBaseFilterName(filterBase.getText()))
 			{
 				reportError(getCoords(filterBase), "Unknown def-variable-based filter " + filterBase.getText() + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach.");
 			}

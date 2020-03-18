@@ -3010,39 +3010,7 @@ options { k = 5; }
 			{ 
 				if(!methodCall)
 				{
-					if(	( pack!=null && pack.getText().equals("File") &&
-							( i.getText().equals("export")
-							|| i.getText().equals("delete")
-							)
-						|| pack!=null && pack.getText().equals("Transaction") &&
-							( i.getText().equals("start") 
-							|| i.getText().equals("pause") 
-							|| i.getText().equals("resume")
-							|| i.getText().equals("commit")
-							|| i.getText().equals("rollback")
-							)
-						|| pack!=null && pack.getText().equals("Debug") &&
-							( i.getText().equals("add") 
-							|| i.getText().equals("rem") 
-							|| i.getText().equals("emit") 
-							|| i.getText().equals("halt") 
-							|| i.getText().equals("highlight") 
-							)
-						)
-						|| i.getText().equals("valloc") && params.getChildren().size()==0
-						|| i.getText().equals("vfree") || i.getText().equals("vfreenonreset") || i.getText().equals("vreset") 
-						|| i.getText().equals("record") || i.getText().equals("emit") || i.getText().equals("emitdebug")
-						|| i.getText().equals("add") && (params.getChildren().size()==1 || params.getChildren().size()==3)
-						|| i.getText().equals("rem") || i.getText().equals("clear")
-						|| i.getText().equals("retype") && params.getChildren().size()==2
-						|| i.getText().equals("addCopy") && (params.getChildren().size()==1 || params.getChildren().size()==3)
-						|| i.getText().equals("merge")
-						|| i.getText().equals("redirectSource") || i.getText().equals("redirectTarget")
-						|| i.getText().equals("redirectSourceAndTarget")
-						|| i.getText().equals("insert") && params.getChildren().size()==1
-						|| i.getText().equals("insertCopy") && params.getChildren().size()==2
-						|| (i.getText().equals("insertInduced") || i.getText().equals("insertDefined")) && params.getChildren().size()==2
-					)
+					if(env.isKnownProcedure(pack, i, params))
 					{
 						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
 						ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, context, env);
@@ -3263,14 +3231,7 @@ options { k = *; }
 			res = new ContainerAccumulationYieldNode(f, iterVar, iterIndex, containerIdentUse, cs);
 		}
 	| type=typeIdentUse IN
-			{ input.LT(1).getText().equals("adjacent") || input.LT(1).getText().equals("adjacentIncoming") || input.LT(1).getText().equals("adjacentOutgoing")
-			  || input.LT(1).getText().equals("incident") || input.LT(1).getText().equals("incoming") || input.LT(1).getText().equals("outgoing")
-			  || input.LT(1).getText().equals("reachable") || input.LT(1).getText().equals("reachableIncoming") || input.LT(1).getText().equals("reachableOutgoing")
-			  || input.LT(1).getText().equals("reachableEdges") || input.LT(1).getText().equals("reachableEdgesIncoming") || input.LT(1).getText().equals("reachableEdgesOutgoing")
-			  || input.LT(1).getText().equals("boundedReachable") || input.LT(1).getText().equals("boundedReachableIncoming") || input.LT(1).getText().equals("boundedReachableOutgoing")
-			  || input.LT(1).getText().equals("boundedReachableEdges") || input.LT(1).getText().equals("boundedReachableEdgesIncoming") || input.LT(1).getText().equals("boundedReachableEdgesOutgoing")
-			  || input.LT(1).getText().equals("nodes") || input.LT(1).getText().equals("edges")
-			  }?
+			{ env.isKnownForFunction(input.LT(1).getText()) }?
 			function=externalFunctionInvocationExpr[false] RPAREN
 			{
 				if(!(function instanceof FunctionInvocationExprNode))
@@ -3662,65 +3623,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 	}
 	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY) params=paramExprs[inEnumInit]
 		{
-			if( ( pack!=null && pack.getText().equals("Math") && 
-					( i.getText().equals("min") || i.getText().equals("max") 
-					|| i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")
-					|| i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan") 
-					|| i.getText().equals("pow") || i.getText().equals("log")
-					|| i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")
-					|| i.getText().equals("abs") || i.getText().equals("sgn")
-					|| i.getText().equals("pi") || i.getText().equals("e") 
-					|| i.getText().equals("byteMin") || i.getText().equals("byteMax") 
-					|| i.getText().equals("shortMin") || i.getText().equals("shortMax") 
-					|| i.getText().equals("intMin") || i.getText().equals("intMax") 
-					|| i.getText().equals("longMin") || i.getText().equals("longMax") 
-					|| i.getText().equals("floatMin") || i.getText().equals("floatMax") 
-					|| i.getText().equals("doubleMin") || i.getText().equals("doubleMax") 
-					)
-				)
-				|| ( pack!=null && pack.getText().equals("File") &&
-					( i.getText().equals("exists") 
-					|| i.getText().equals("import")
-					)
-				)
-				|| ( pack!=null && pack.getText().equals("Time") &&
-					( i.getText().equals("now")
-					)
-				)
-				|| (i.getText().equals("nodes") || i.getText().equals("edges")) && params.getChildren().size()<=1
-				|| (i.getText().equals("countNodes") || i.getText().equals("countEdges")) && params.getChildren().size()<=1
-				|| (i.getText().equals("empty") || i.getText().equals("size")) && params.getChildren().size()==0
-				|| (i.getText().equals("source") || i.getText().equals("target")) && params.getChildren().size()==1
-				|| i.getText().equals("opposite") && params.getChildren().size()==2
-				|| (i.getText().equals("nodeByName") || i.getText().equals("edgeByName")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-				|| (i.getText().equals("nodeByUnique") || i.getText().equals("edgeByUnique")) && params.getChildren().size()>=1 && params.getChildren().size()<=2
-				|| (i.getText().equals("incoming") || i.getText().equals("outgoing") || i.getText().equals("incident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("adjacentIncoming") || i.getText().equals("adjacentOutgoing") || i.getText().equals("adjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("reachableIncoming") || i.getText().equals("reachableOutgoing") || i.getText().equals("reachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("reachableEdgesIncoming") || i.getText().equals("reachableEdgesOutgoing") || i.getText().equals("reachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
-				|| (i.getText().equals("boundedReachableIncoming") || i.getText().equals("boundedReachableOutgoing") || i.getText().equals("boundedReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("boundedReachableEdgesIncoming") || i.getText().equals("boundedReachableEdgesOutgoing") || i.getText().equals("boundedReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-				|| (i.getText().equals("boundedReachableWithRemainingDepthIncoming") || i.getText().equals("boundedReachableWithRemainingDepthOutgoing") || i.getText().equals("boundedReachableWithRemainingDepth")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("countIncoming") || i.getText().equals("countOutgoing") || i.getText().equals("countIncident")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("countAdjacentIncoming") || i.getText().equals("countAdjacentOutgoing") || i.getText().equals("countAdjacent")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("countReachableIncoming") || i.getText().equals("countReachableOutgoing") || i.getText().equals("countReachable")) && params.getChildren().size()>=1 && params.getChildren().size()<=3
-				|| (i.getText().equals("countReachableEdgesIncoming") || i.getText().equals("countReachableEdgesOutgoing") || i.getText().equals("countReachableEdges")) && params.getChildren().size()>=1 && params.getChildren().size()<=3 
-				|| (i.getText().equals("countBoundedReachableIncoming") || i.getText().equals("countBoundedReachableOutgoing") || i.getText().equals("countBoundedReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("countBoundedReachableEdgesIncoming") || i.getText().equals("countBoundedReachableEdgesOutgoing") || i.getText().equals("countBoundedReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-				|| (i.getText().equals("isIncoming") || i.getText().equals("isOutgoing") || i.getText().equals("isIncident")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("isAdjacentIncoming") || i.getText().equals("isAdjacentOutgoing") || i.getText().equals("isAdjacent")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("isReachableIncoming") || i.getText().equals("isReachableOutgoing") || i.getText().equals("isReachable")) && params.getChildren().size()>=2 && params.getChildren().size()<=4
-				|| (i.getText().equals("isReachableEdgesIncoming") || i.getText().equals("isReachableEdgesOutgoing") || i.getText().equals("isReachableEdges")) && params.getChildren().size()>=2 && params.getChildren().size()<=4 
-				|| (i.getText().equals("isBoundedReachableIncoming") || i.getText().equals("isBoundedReachableOutgoing") || i.getText().equals("isBoundedReachable")) && params.getChildren().size()>=3 && params.getChildren().size()<=5
-				|| (i.getText().equals("isBoundedReachableEdgesIncoming") || i.getText().equals("isBoundedReachableEdgesOutgoing") || i.getText().equals("isBoundedReachableEdges")) && params.getChildren().size()>=3 && params.getChildren().size()<=5 
-				|| i.getText().equals("random") && params.getChildren().size()>=0 && params.getChildren().size()<=1
-				|| i.getText().equals("canonize") && params.getChildren().size()==1
-				|| (i.getText().equals("inducedSubgraph") || i.getText().equals("definedSubgraph")) && params.getChildren().size()==1
-				|| (i.getText().equals("equalsAny") || i.getText().equals("equalsAnyStructurally")) && params.getChildren().size()==2
-				|| i.getText().equals("copy") && params.getChildren().size()==1
-				|| i.getText().equals("uniqueof") && (params.getChildren().size()==1 || params.getChildren().size()==0)
-			)
-			{
+			if(env.isKnownFunction(pack, i, params)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
 				res = new FunctionInvocationExprNode(funcIdent, params, env);
 			} else {
@@ -3739,18 +3642,11 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	:	l=LBRACK key=expr[inEnumInit] RBRACK { res = new IndexedAccessExprNode(getCoords(l), target, key); }
 	|	d=DOT id=memberIdentUse
-			( { input.get(input.LT(1).getTokenIndex()-1).getText().equals("indexOfBy") || input.get(input.LT(1).getTokenIndex()-1).getText().equals("indexOfOrderedBy") 
-				|| input.get(input.LT(1).getTokenIndex()-1).getText().equals("lastIndexOfBy") || input.get(input.LT(1).getTokenIndex()-1).getText().equals("orderAscendingBy") }? 
-				LT mi=memberIdentUse GT )?
+			( { env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? LT mi=memberIdentUse GT )?
 		(
-			params=paramExprs[inEnumInit]
-			{
-				res = new MethodInvocationExprNode(target, id, params, mi);
-			}
+			params=paramExprs[inEnumInit] { res = new MethodInvocationExprNode(target, id, params, mi); }
 		| 
-			{
-				res = new MemberAccessExprNode(getCoords(d), target, id);
-			}
+			{ res = new MemberAccessExprNode(getCoords(d), target, id); }
 		)
 	;
 	
