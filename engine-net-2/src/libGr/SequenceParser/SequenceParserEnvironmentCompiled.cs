@@ -268,7 +268,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return sb.ToString();
         }
 
-        public override SequenceComputationProcedureCall CreateSequenceComputationProcedureCall(String procedureName, String packagePrefix,
+        public override SequenceComputationProcedureCall CreateSequenceComputationProcedureCallUserProcedure(String procedureName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
         {
             String package;
@@ -322,7 +322,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return sb.ToString();
         }
 
-        public override SequenceExpressionFunctionCall CreateSequenceExpressionFunctionCall(String functionName, String packagePrefix,
+        public override SequenceExpressionFunctionCall CreateSequenceExpressionFunctionCallUserFunction(String functionName, String packagePrefix,
             List<SequenceExpression> argExprs)
         {
             String package;

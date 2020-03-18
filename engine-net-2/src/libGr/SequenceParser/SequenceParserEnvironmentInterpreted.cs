@@ -184,7 +184,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return ((BaseActions)actions).ProcedureNames;
         }
 
-        public override SequenceComputationProcedureCall CreateSequenceComputationProcedureCall(String procedureName, String packagePrefix,
+        public override SequenceComputationProcedureCall CreateSequenceComputationProcedureCallUserProcedure(String procedureName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars)
         {
             String packagePrefixedProcedureName = packagePrefix != null ? packagePrefix + "::" + procedureName : procedureName;
@@ -207,7 +207,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return ((BaseActions)actions).FunctionNames;
         }
 
-        public override SequenceExpressionFunctionCall CreateSequenceExpressionFunctionCall(String functionName, String packagePrefix,
+        public override SequenceExpressionFunctionCall CreateSequenceExpressionFunctionCallUserFunction(String functionName, String packagePrefix,
             List<SequenceExpression> argExprs)
         {
             String packagePrefixedFunctionName = packagePrefix != null ? packagePrefix + "::" + functionName : functionName;
