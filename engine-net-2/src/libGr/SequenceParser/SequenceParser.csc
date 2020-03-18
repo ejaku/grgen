@@ -1213,7 +1213,7 @@ SequenceComputation Computation():
         return new SequenceComputationAssignment(tgt, assignOrExpr);
     }
 |
-    LOOKAHEAD(VariableDefinition())
+    LOOKAHEAD(2)
     toVar=VariableDefinition()
     {
         return new SequenceComputationVariableDeclaration(toVar);
@@ -1233,8 +1233,7 @@ SequenceComputation Computation():
 AssignmentTarget AssignmentTarget():
 {
     SequenceVariable toVar;
-    SequenceExpression fromExpr;
-    String attrName;
+    AssignmentTarget target;
 }
 {
     "yield" toVar=VariableUse()
@@ -1242,14 +1241,24 @@ AssignmentTarget AssignmentTarget():
         return new AssignmentTargetYieldingVar(toVar);
     }
 |
-    LOOKAHEAD(VariableUse() "." "visited" "[" Expression() "]")
-    toVar=VariableUse() "." "visited" "[" fromExpr=Expression() "]"
+    LOOKAHEAD(2) toVar=VariableDefinition()
     {
-        return new AssignmentTargetVisited(toVar, fromExpr);
+        return new AssignmentTargetVar(toVar);
     }
 |
-    LOOKAHEAD(VariableUse() "." Word())
-    toVar=VariableUse() "." attrName=Word()
+    toVar=VariableUse() target=AssignmentTargetSelector(toVar)
+    {
+        return target;
+    }
+}
+
+AssignmentTarget AssignmentTargetSelector(SequenceVariable toVar):
+{
+    SequenceExpression fromExpr;
+    String attrName;
+}
+{
+    LOOKAHEAD(2) "." attrName=Word()
     ( "[" fromExpr=Expression() "]" 
         { return new AssignmentTargetAttributeIndexed(toVar, attrName, fromExpr); }
     )? // todo: this should be a composition of the two targets, not a fixed special one
@@ -1257,13 +1266,16 @@ AssignmentTarget AssignmentTarget():
         return new AssignmentTargetAttribute(toVar, attrName);
     }
 |
-    LOOKAHEAD(VariableUse() "[" Expression() "]")
-    toVar=VariableUse() "[" fromExpr=Expression() "]"
+    "." "visited" "[" fromExpr=Expression() "]"
+    {
+        return new AssignmentTargetVisited(toVar, fromExpr);
+    }
+|
+    "[" fromExpr=Expression() "]"
     {
         return new AssignmentTargetIndexedVar(toVar, fromExpr);
     }
 |
-    toVar=Variable()
     {
         return new AssignmentTargetVar(toVar);
     }

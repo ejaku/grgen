@@ -228,9 +228,9 @@ seqCompoundComputation[ExecNode xg]
 
 seqComputation[ExecNode xg]
 	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); }) seqExpressionOrAssign[xg]
-	| (seqEntityDecl[null,true]) => seqEntityDecl[xg, true]
-	| (seqMethodCall[null]) => seqMethodCall[xg]
-	| (seqProcedureCall[null]) => seqProcedureCall[xg]
+	| seqEntityDecl[xg, true]
+	| seqMethodCall[xg]
+	| seqProcedureCall[xg]
 	| LBRACE { xg.append("{"); } seqExpression[xg] RBRACE { xg.append("}"); }
 	;
 
@@ -245,13 +245,17 @@ seqExpressionOrAssign[ExecNode xg]
 	;
 
 seqAssignTarget[ExecNode xg]
-	: (seqVarUse[null] DOT IDENT ) => seqVarUse[xg] d=DOT attr=IDENT { xg.append("."+attr.getText()); }
-		(LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); })?
-	| (seqVarUse[null] DOT VISITED) => seqVarUse[xg] DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } 
-	| (seqVarUse[null] LBRACK) => seqVarUse[xg] LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
-	| seqVarUse[xg]
+	: YIELD { xg.append("yield "); } seqVarUse[xg] 
+	| seqVarUse[xg] seqAssignTargetSelector[xg]
 	| seqEntityDecl[xg, true]
-	| YIELD { xg.append("yield "); } seqVarUse[xg]
+	;
+
+seqAssignTargetSelector[ExecNode xg]
+	: DOT attr=IDENT { xg.append("."+attr.getText()); } 
+		(LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); })?
+	| DOT VISITED LBRACK { xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } 
+	| LBRACK { xg.append("["); } seqExpression[xg] RBRACK { xg.append("]"); }
+	|
 	;
 
 // todo: add expression value returns to remaining sequence expressions,
