@@ -526,16 +526,16 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			}
 		RBRACE { env.popScope(); }
 	| s=SEQUENCE id=actionIdentDecl { env.pushScope(id); } { exec = new ExecNode(getCoords(s)); }
-		inParams=execInParameters[exec] outParams=execOutParameters[exec]
+		inParams=sequenceInParameters[exec] outParams=sequenceOutParameters[exec]
 		LBRACE 
-			xgrs[exec]
+			sequence[exec]
 		RBRACE { env.popScope(); }
 		{
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
 	| EXTERNAL s=SEQUENCE id=actionIdentDecl { env.pushScope(id); } { exec = new ExecNode(getCoords(s)); }
-		inParams=execInParameters[exec] outParams=execOutParameters[exec]
+		inParams=sequenceInParameters[exec] outParams=sequenceOutParameters[exec]
 		SEMI { env.popScope(); }
 		{
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
@@ -1938,7 +1938,7 @@ alternativeOrIteratedRewriteUsage[CollectNode<OrderedReplacementsNode> orderedRe
 	;
 
 execStmt[CollectNode<BaseNode> imperativeStmts, int context, PatternGraphNode directlyNestingLHSGraph] returns[ExecNode exec = null]
-	: e=EXEC { env.pushScope("exec_", getCoords(e)); } { exec = new ExecNode(getCoords(e)); } LPAREN xgrs[exec] RPAREN
+	: e=EXEC { env.pushScope("exec_", getCoords(e)); } { exec = new ExecNode(getCoords(e)); } LPAREN sequence[exec] RPAREN
 		{ if(imperativeStmts!=null) imperativeStmts.addChild(exec); } { env.popScope(); }
 	;
 
