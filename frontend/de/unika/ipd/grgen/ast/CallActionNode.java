@@ -185,10 +185,12 @@ public class CallActionNode extends BaseNode {
 
 		successfullyResolved = resolved!=null && (action!=null || sequence!=null || booleVar!=null) && successfullyResolved;
 
-		for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
-			if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
-				if(!tryFixupDefinition(filterFunctionUnresolved, action.getScope().getParent())) {
-					fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
+		if(action != null) {
+			for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
+				if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
+					if(!tryFixupDefinition(filterFunctionUnresolved, action.getScope().getParent())) {
+						fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
+					}
 				}
 			}
 		}
