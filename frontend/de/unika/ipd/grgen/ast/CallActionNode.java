@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.exprevals.ObjectType;
 import de.unika.ipd.grgen.ir.containers.SetType;
 import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.TypeType;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -329,8 +330,8 @@ public class CallActionNode extends BaseNode {
 					}
 				}
 				// No, are formal and actual param types of same kind?
-				else if(!((actualParamType instanceof EdgeType || actualParamType instanceof ObjectType) && formalParamType instanceof EdgeType ||
-						 (actualParamType instanceof NodeType || actualParamType instanceof ObjectType) && formalParamType instanceof NodeType))
+				else if(!((actualParamType instanceof EdgeType || actualParamType instanceof ObjectType || actualParamType instanceof TypeType) && formalParamType instanceof EdgeType ||
+						 (actualParamType instanceof NodeType || actualParamType instanceof ObjectType || actualParamType instanceof TypeType) && formalParamType instanceof NodeType))
 					incommensurable = true;			// No => illegal
 
 				if(incommensurable) {

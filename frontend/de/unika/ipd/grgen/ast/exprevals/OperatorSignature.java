@@ -817,6 +817,7 @@ public class OperatorSignature extends FunctionSignature {
 		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, condEvaluator);
 		makeOp(COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, condEvaluator);
 		makeOp(COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, condEvaluator);
+		makeOp(COND, TYPE, new TypeNode[] { BOOLEAN, TYPE, TYPE }, condEvaluator);
 
 		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, condEvaluator);
 
