@@ -2258,11 +2258,6 @@ namespace de.unika.ipd.grGen.libGr
             ContainerExpr.GetLocalVariables(variables, containerConstructors);
         }
 
-        public override IEnumerable<SequenceComputation> Children
-        {
-            get { yield break; }
-        }
-
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
             get { yield return ContainerExpr; }
@@ -2332,11 +2327,6 @@ namespace de.unika.ipd.grGen.libGr
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
             ContainerExpr.GetLocalVariables(variables, containerConstructors);
-        }
-
-        public override IEnumerable<SequenceComputation> Children
-        {
-            get { yield break; }
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -2546,11 +2536,6 @@ namespace de.unika.ipd.grGen.libGr
             ContainerExpr.GetLocalVariables(variables, containerConstructors);
             if(KeyExpr != null)
                 KeyExpr.GetLocalVariables(variables, containerConstructors);
-        }
-
-        public override IEnumerable<SequenceComputation> Children
-        {
-            get { yield break; }
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -3155,6 +3140,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            base.Check(env); // check children
+
             CheckAndReturnAttributeType(env);
         }
 
@@ -3728,10 +3715,6 @@ namespace de.unika.ipd.grGen.libGr
             return "boolean";
         }
 
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-        }
-
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             return procEnv.Graph.NumNodes + procEnv.Graph.NumEdges == 0;
@@ -3780,10 +3763,6 @@ namespace de.unika.ipd.grGen.libGr
             return "long";
         }
 
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-        }
-
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             return DateTime.UtcNow.ToFileTime();
@@ -3830,10 +3809,6 @@ namespace de.unika.ipd.grGen.libGr
         public override String Type(SequenceCheckingEnvironment env)
         {
             return "int";
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
@@ -5887,11 +5862,6 @@ namespace de.unika.ipd.grGen.libGr
             return "string"; // typeof in the sequences returns the type name
         }
 
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            base.Check(env); // check children
-        }
-
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             object entity = Entity.Evaluate(procEnv);
@@ -6165,6 +6135,13 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionRuleQuery(this, originalToCopy, procEnv);
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            //children are arguments, those are checked in environment with the call
+
+            env.CheckRuleCall(RuleCall);
+        }
+
         public override string Type(SequenceCheckingEnvironment env)
         {
             return "array<match<" + RuleCall.Name + ">>";
@@ -6246,6 +6223,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            //children are arguments, those are checked in environment with the call
+
             env.CheckFunctionCall(this);
         }
 
@@ -6472,6 +6451,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            //children are arguments, those are checked in environment with the call
+
             env.CheckFunctionMethodCall(TargetExpr, this);
         }
 
