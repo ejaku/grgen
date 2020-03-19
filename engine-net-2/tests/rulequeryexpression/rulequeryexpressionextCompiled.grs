@@ -1,0 +1,15 @@
+new graph "rulequeryexpression/rulequeryexpressionext"
+
+exec (::start1,::start2)=init
+
+exec seqEmitRuleQuery
+
+exec seqExecRuleRecQuery
+
+exec seqExecRuleRecExtQuery
+
+exec seqExecRuleRecRecQuery
+
+exec seqExecRuleRecRecExtQuery
+
+quit

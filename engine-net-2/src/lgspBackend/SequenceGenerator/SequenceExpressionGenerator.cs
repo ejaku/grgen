@@ -96,10 +96,13 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionImport((SequenceExpressionImport)expr, source);
             case SequenceExpressionType.Copy:
                 return GetSequenceExpressionCopy((SequenceExpressionCopy)expr, source);
-            case SequenceExpressionType.ElementOfMatch:
-                return GetSequenceExpressionElementOfMatch((SequenceExpressionMatchAccess)expr, source);
-            case SequenceExpressionType.GraphElementAttribute:
-                return GetSequenceExpressionGraphElementAttribute((SequenceExpressionAttributeAccess)expr, source);
+            case SequenceExpressionType.GraphElementAttributeOrElementOfMatch:
+                if(((SequenceExpressionAttributeOrMatchAccess)expr).AttributeAccess != null)
+                    return GetSequenceExpressionGraphElementAttribute(((SequenceExpressionAttributeOrMatchAccess)expr).AttributeAccess, source);
+                else if(((SequenceExpressionAttributeOrMatchAccess)expr).MatchAccess != null)
+                    return GetSequenceExpressionElementOfMatch(((SequenceExpressionAttributeOrMatchAccess)expr).MatchAccess, source);
+                else
+                    return GetSequenceExpressionGraphElementAttributeOrElementOfMatch((SequenceExpressionAttributeOrMatchAccess)expr, source);
             case SequenceExpressionType.Constant:
                 return GetSequenceExpressionConstant((SequenceExpressionConstant)expr, source);
             case SequenceExpressionType.Variable:
@@ -503,7 +506,7 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionIsVisited(SequenceExpressionIsVisited seqIsVisited, SourceBuilder source)
         {
             return "graph.IsVisited("
-                + "(GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqIsVisited.GraphElementVar)
+                + "(GRGEN_LIBGR.IGraphElement)" + GetSequenceExpression(seqIsVisited.GraphElementVarExpr, source)
                 + ", (int)" + GetSequenceExpression(seqIsVisited.VisitedFlagExpr, source)
                 + ")";
         }
@@ -574,11 +577,17 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.TypesHelper.Clone(" + GetSequenceExpression(seqCopy.ObjectToBeCopied, source) + ")";
         }
 
+        private string GetSequenceExpressionGraphElementAttributeOrElementOfMatch(SequenceExpressionAttributeOrMatchAccess seqAttrOrMa, SourceBuilder source)
+        {
+            return "GRGEN_LIBGR.ContainerHelper.GetGraphElementAttributeOrElementOfMatch(" 
+                + GetSequenceExpression(seqAttrOrMa.Source, source) + ", (string)(\"" + seqAttrOrMa.AttributeOrElementName + "\"))";
+        }
+
         private string GetSequenceExpressionElementOfMatch(SequenceExpressionMatchAccess seqMA, SourceBuilder source)
         {
-            String rulePatternClassName = "Rule_" + TypesHelper.ExtractSrc(seqMA.SourceVar.Type);
-            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqMA.SourceVar.Type));
-            string match = "((" + matchInterfaceName + ")" + seqHelper.GetVar(seqMA.SourceVar) + ")";
+            String rulePatternClassName = "Rule_" + TypesHelper.ExtractSrc(seqMA.Source.Type(env));
+            String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(TypesHelper.ExtractSrc(seqMA.Source.Type(env)));
+            string match = "((" + matchInterfaceName + ")" + GetSequenceExpression(seqMA.Source, source) + ")";
             if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
                 return match + ".node_" + seqMA.ElementName;
             else if(TypesHelper.GetNodeType(seqMA.Type(env), model) != null)
@@ -589,7 +598,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionGraphElementAttribute(SequenceExpressionAttributeAccess seqAttr, SourceBuilder source)
         {
-            string element = "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqAttr.SourceVar) + ")";
+            string element = "((GRGEN_LIBGR.IGraphElement)" + GetSequenceExpression(seqAttr.Source, source) + ")";
             string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
             string type = seqAttr.Type(env);
             if(type == ""
@@ -1225,7 +1234,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqIn.ContainerExpr is SequenceExpressionAttributeAccess)
             {
                 SequenceExpressionAttributeAccess seqInAttribute = (SequenceExpressionAttributeAccess)(seqIn.ContainerExpr);
-                string element = "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqInAttribute.SourceVar) + ")";
+                string element = "((GRGEN_LIBGR.IGraphElement)" + GetSequenceExpression(seqInAttribute.Source, source) + ")";
                 container = element + ".GetAttribute(\"" + seqInAttribute.AttributeName + "\")";
                 ContainerType = seqInAttribute.Type(env);
             }
@@ -1389,13 +1398,13 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqContainerAccess.ContainerExpr is SequenceExpressionAttributeAccess)
             {
                 SequenceExpressionAttributeAccess seqContainerAttribute = (SequenceExpressionAttributeAccess)(seqContainerAccess.ContainerExpr);
-                string element = "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqContainerAttribute.SourceVar) + ")";
+                string element = "((GRGEN_LIBGR.IGraphElement)" + GetSequenceExpression(seqContainerAttribute.Source, source) + ")";
                 container = element + ".GetAttribute(\"" + seqContainerAttribute.AttributeName + "\")";
-                if(seqContainerAttribute.SourceVar.Type == "")
+                if(seqContainerAttribute.Source.Type(env) == "")
                     ContainerType = "";
                 else
                 {
-                    GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqContainerAttribute.SourceVar.Type, env.Model);
+                    GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(seqContainerAttribute.Source.Type(env), env.Model);
                     AttributeType attributeType = nodeOrEdgeType.GetAttributeType(seqContainerAttribute.AttributeName);
                     ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
                 }
@@ -1479,7 +1488,10 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 if(seqContainerPeek.ContainerType(env).StartsWith("array"))
-                    return container + "[" + container + ".Count - 1]";
+                {
+                    string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerPeek.ContainerType(env)), model);
+                    return "GRGEN_LIBGR.ContainerHelper.Peek<" + arrayValueType + ">(" + container + ")";
+                }
                 else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
                     return container + "[0]";
                 else
@@ -1553,7 +1565,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(container.ContainerExpr is SequenceExpressionAttributeAccess)
             {
                 SequenceExpressionAttributeAccess attribute = (SequenceExpressionAttributeAccess)container.ContainerExpr;
-                return "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(attribute.SourceVar) + ")" + ".GetAttribute(\"" + attribute.AttributeName + "\")";
+                return "((GRGEN_LIBGR.IGraphElement)" + GetSequenceExpression(attribute.Source, source) + ")" + ".GetAttribute(\"" + attribute.AttributeName + "\")";
             }
             else
                 return GetSequenceExpression(container.ContainerExpr, source);

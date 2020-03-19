@@ -1983,6 +1983,35 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static T Peek<T>(List<T> array)
+        {
+            return array[array.Count - 1];
+        }
+
+        public static object GetGraphElementAttributeOrElementOfMatch(object source, string attributeOrElementName)
+        {
+            if(source is IMatch)
+            {
+                IMatch match = (IMatch)source;
+                object value = match.getNode(attributeOrElementName);
+                if(value != null)
+                    return value;
+                value = match.getEdge(attributeOrElementName);
+                if(value != null)
+                    return value;
+                value = match.getVariable(attributeOrElementName);
+                return value;
+            }
+            else
+            {
+                IGraphElement elem = (IGraphElement)source;
+                object value = elem.GetAttribute(attributeOrElementName);
+                value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
+                    elem, attributeOrElementName, value);
+                return value;
+            }
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>

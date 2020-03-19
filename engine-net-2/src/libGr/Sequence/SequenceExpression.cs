@@ -35,8 +35,7 @@ namespace de.unika.ipd.grGen.libGr
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
         ElementFromGraph, NodeByName, EdgeByName, NodeByUnique, EdgeByUnique,
         Source, Target, Opposite,
-        GraphElementAttribute,
-        ElementOfMatch,
+        GraphElementAttributeOrElementOfMatch, GraphElementAttribute, ElementOfMatch,
         Nodes, Edges,
         CountNodes, CountEdges,
         Now,
@@ -2042,20 +2041,20 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionIsVisited : SequenceExpression
     {
-        public readonly SequenceVariable GraphElementVar;
+        public readonly SequenceExpression GraphElementVarExpr;
         public readonly SequenceExpression VisitedFlagExpr;
 
-        public SequenceExpressionIsVisited(SequenceVariable graphElementVar, SequenceExpression visitedFlagExpr)
+        public SequenceExpressionIsVisited(SequenceExpression graphElementVarExpr, SequenceExpression visitedFlagExpr)
             : base(SequenceExpressionType.IsVisited)
         {
-            GraphElementVar = graphElementVar;
+            GraphElementVarExpr = graphElementVarExpr;
             VisitedFlagExpr = visitedFlagExpr;
         }
 
         protected SequenceExpressionIsVisited(SequenceExpressionIsVisited that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that)
         {
-            GraphElementVar = that.GraphElementVar.Copy(originalToCopy, procEnv);
+            GraphElementVarExpr = that.GraphElementVarExpr.CopyExpression(originalToCopy, procEnv);
             VisitedFlagExpr = that.VisitedFlagExpr.CopyExpression(originalToCopy, procEnv);
         }
 
@@ -2068,15 +2067,15 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            if(GraphElementVar.Type != "" && TypesHelper.GetNodeOrEdgeType(GraphElementVar.Type, env.Model) == null)
-                throw new SequenceParserException(Symbol, "node or edge type", GraphElementVar.Type);
+            if(GraphElementVarExpr.Type(env) != "" && TypesHelper.GetNodeOrEdgeType(GraphElementVarExpr.Type(env), env.Model) == null)
+                throw new SequenceParserException(Symbol, "node or edge type", GraphElementVarExpr.Type(env));
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpr.Type(env), "int", env.Model))
                 throw new SequenceParserException(Symbol, "int", VisitedFlagExpr.Type(env));
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(procEnv);
+            IGraphElement elem = (IGraphElement)GraphElementVarExpr.Evaluate(procEnv);
             int visitedFlag = (int)VisitedFlagExpr.Evaluate(procEnv);
             return procEnv.Graph.IsVisited(elem, visitedFlag);
         }
@@ -2084,7 +2083,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
-            GraphElementVar.GetLocalVariables(variables);
+            GraphElementVarExpr.GetLocalVariables(variables, containerConstructors);
             VisitedFlagExpr.GetLocalVariables(variables, containerConstructors);
         }
 
@@ -2100,7 +2099,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return GraphElementVar.Name + ".visited[" + VisitedFlagExpr.Symbol + "]"; }
+            get { return GraphElementVarExpr.Symbol + ".visited[" + VisitedFlagExpr.Symbol + "]"; }
         }
     }
 
@@ -3105,31 +3104,20 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExpressionAttributeAccess : SequenceExpression
     {
-        public readonly SequenceVariable SourceVar;
-        public readonly SequenceExpressionThis SourceThis;
+        public readonly SequenceExpression Source;
         public readonly String AttributeName;
 
-        public SequenceExpressionAttributeAccess(SequenceVariable sourceVar, String attributeName)
+        public SequenceExpressionAttributeAccess(SequenceExpression source, String attributeName)
             : base(SequenceExpressionType.GraphElementAttribute)
         {
-            SourceVar = sourceVar;
-            AttributeName = attributeName;
-        }
-
-        public SequenceExpressionAttributeAccess(SequenceExpressionThis sourceThis, String attributeName)
-            : base(SequenceExpressionType.GraphElementAttribute)
-        {
-            SourceThis = sourceThis;
+            Source = source;
             AttributeName = attributeName;
         }
 
         protected SequenceExpressionAttributeAccess(SequenceExpressionAttributeAccess that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
           : base(that)
         {
-            if(that.SourceVar != null)
-                SourceVar = that.SourceVar.Copy(originalToCopy, procEnv);
-            if(that.SourceThis != null)
-                SourceThis = (SequenceExpressionThis)that.SourceThis.Copy(originalToCopy, procEnv);
+            Source = that.Source.CopyExpression(originalToCopy, procEnv);
             AttributeName = that.AttributeName;
         }
 
@@ -3147,14 +3135,12 @@ namespace de.unika.ipd.grGen.libGr
 
         public string CheckAndReturnAttributeType(SequenceCheckingEnvironment env)
         {
-            base.Check(env); // check children
-
-            if(SourceVarType == "")
+            if(Source.Type(env) == "")
                 return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
 
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVarType, env.Model);
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(Source.Type(env), env.Model);
             if(nodeOrEdgeType == null)
-                throw new SequenceParserException(Symbol, "node or edge type", SourceVarType);
+                throw new SequenceParserException(Symbol, "node or edge type", Source.Type(env));
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
@@ -3164,10 +3150,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            if(SourceVarType == "")
+            if(Source.Type(env) == "")
                 return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             
-            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(SourceVarType, env.Model);
+            GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(Source.Type(env), env.Model);
             AttributeType attributeType = nodeOrEdgeType.GetAttributeType(AttributeName);
             if(attributeType == null)
                 return ""; // error, will be reported by Check, just ensure we don't crash here
@@ -3177,46 +3163,40 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = SourceValue(procEnv);
+            IGraphElement elem = (IGraphElement)Source.Evaluate(procEnv);
             object value = elem.GetAttribute(AttributeName);
             value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
                 elem, AttributeName, value);
             return value;
         }
 
+        public static object Execute(IGraphProcessingEnvironment procEnv, IGraphElement elem, string attributeName)
+        {
+            object value = elem.GetAttribute(attributeName);
+            value = ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(
+                elem, attributeName, value);
+            return value;
+        }
+
         public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = SourceValue(procEnv);
+            IGraphElement elem = (IGraphElement)Source.Evaluate(procEnv);
             object value = elem.GetAttribute(AttributeName);
             return value;
         }
 
         public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv, out IGraphElement elem, out AttributeType attrType)
         {
-            elem = SourceValue(procEnv);
+            elem = (IGraphElement)Source.Evaluate(procEnv);
             object value = elem.GetAttribute(AttributeName);
             attrType = elem.Type.GetAttributeType(AttributeName);
             return value;
         }
 
-        public string SourceVarType
-        {
-            get { return SourceVar != null ? SourceVar.Type : SourceThis.TypeOfGraphElementThis; }
-        }
-
-        public IGraphElement SourceValue(IGraphProcessingEnvironment procEnv)
-        {
-            if(SourceVar != null)
-                return (IGraphElement)SourceVar.GetVariableValue(procEnv);
-            else
-                return (IGraphElement)SourceThis.Evaluate(procEnv);
-        }
-
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
-            if(SourceVar != null)
-                SourceVar.GetLocalVariables(variables);
+            Source.GetLocalVariables(variables, containerConstructors);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -3231,37 +3211,26 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return (SourceVar != null ? SourceVar.Name : "this") + "." + AttributeName; }
+            get { return Source.Symbol + "." + AttributeName; }
         }
     }
 
     public class SequenceExpressionMatchAccess : SequenceExpression
     {
-        public readonly SequenceVariable SourceVar;
-        public readonly SequenceExpressionThis SourceThis;
+        public readonly SequenceExpression Source;
         public readonly String ElementName;
 
-        public SequenceExpressionMatchAccess(SequenceVariable sourceVar, String elementName)
+        public SequenceExpressionMatchAccess(SequenceExpression source, String elementName)
             : base(SequenceExpressionType.ElementOfMatch)
         {
-            SourceVar = sourceVar;
-            ElementName = elementName;
-        }
-
-        public SequenceExpressionMatchAccess(SequenceExpressionThis sourceThis, String elementName)
-            : base(SequenceExpressionType.ElementOfMatch)
-        {
-            SourceThis = sourceThis;
+            Source = source;
             ElementName = elementName;
         }
 
         protected SequenceExpressionMatchAccess(SequenceExpressionMatchAccess that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
           : base(that)
         {
-            if(that.SourceVar != null)
-                SourceVar = that.SourceVar.Copy(originalToCopy, procEnv);
-            if(that.SourceThis != null)
-                SourceThis = (SequenceExpressionThis)that.SourceThis.Copy(originalToCopy, procEnv);
+            Source = that.Source.CopyExpression(originalToCopy, procEnv);
             ElementName = that.ElementName;
         }
 
@@ -3274,10 +3243,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
-            if(!SourceVarType.StartsWith("match<"))
+            if(!Source.Type(env).StartsWith("match<"))
                 throw new Exception("SequenceExpression MatchAccess can only access a variable of type match<rulename>");
 
-            string ruleName = TypesHelper.ExtractSrc(SourceVarType);
+            string ruleName = TypesHelper.ExtractSrc(Source.Type(env));
 
             // throws exceptions in case the rule does not exist, or it does not contain an element of the given name
             string elementType = env.TypeOfTopLevelEntityInRule(ruleName, ElementName);
@@ -3288,41 +3257,31 @@ namespace de.unika.ipd.grGen.libGr
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            string ruleName = TypesHelper.ExtractSrc(SourceVarType);
+            string ruleName = TypesHelper.ExtractSrc(Source.Type(env));
             return env.TypeOfTopLevelEntityInRule(ruleName, ElementName);
         }
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            IMatch match = (IMatch)SourceValue(procEnv);
-            object value = match.getNode(ElementName);
+            return Execute(procEnv, (IMatch)Source.Evaluate(procEnv), ElementName);
+        }
+
+        public static object Execute(IGraphProcessingEnvironment procEnv, IMatch match, string elementName)
+        {
+            object value = match.getNode(elementName);
             if(value != null)
                 return value;
-            value = match.getEdge(ElementName);
+            value = match.getEdge(elementName);
             if(value != null)
                 return value;
-            value = match.getVariable(ElementName);
+            value = match.getVariable(elementName);
             return value;
-        }
-
-        public string SourceVarType
-        {
-            get { return SourceVar != null ? SourceVar.Type : "match<" + SourceThis.RuleOfMatchThis+ ">"; }
-        }
-
-        public IMatch SourceValue(IGraphProcessingEnvironment procEnv)
-        {
-            if(SourceVar != null)
-                return (IMatch)SourceVar.GetVariableValue(procEnv);
-            else
-                return (IMatch)SourceThis.Evaluate(procEnv);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionContainerConstructor> containerConstructors)
         {
-            if(SourceVar != null)
-                SourceVar.GetLocalVariables(variables);
+            Source.GetLocalVariables(variables, containerConstructors);
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -3337,7 +3296,104 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return (SourceVar != null ? SourceVar.Name : "this") + "." + ElementName; }
+            get { return Source.Symbol + "." + ElementName; }
+        }
+    }
+
+    public class SequenceExpressionAttributeOrMatchAccess : SequenceExpression
+    {
+        public readonly SequenceExpression Source;
+        public readonly String AttributeOrElementName;
+
+        public SequenceExpressionAttributeAccess AttributeAccess;
+        public SequenceExpressionMatchAccess MatchAccess;
+
+        public SequenceExpressionAttributeOrMatchAccess(SequenceExpression source, String attributeOrElementName)
+            : base(SequenceExpressionType.GraphElementAttributeOrElementOfMatch)
+        {
+            Source = source;
+            AttributeOrElementName = attributeOrElementName;
+        }
+
+        protected SequenceExpressionAttributeOrMatchAccess(SequenceExpressionAttributeOrMatchAccess that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that)
+        {
+            Source = that.Source.CopyExpression(originalToCopy, procEnv);
+            AttributeOrElementName = that.AttributeOrElementName;
+
+            if(that.AttributeAccess != null)
+                AttributeAccess = (SequenceExpressionAttributeAccess)that.AttributeAccess.CopyExpression(originalToCopy, procEnv);
+            if(that.MatchAccess != null)
+                MatchAccess = (SequenceExpressionMatchAccess)that.MatchAccess.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionAttributeOrMatchAccess(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            // if type is known statically, resolve to correct access class (otherwise runtime decision is required)
+            if(Source.Type(env).StartsWith("match<"))
+            {
+                MatchAccess = new SequenceExpressionMatchAccess(Source, AttributeOrElementName);
+                MatchAccess.Check(env);
+            }
+            else if(Source.Type(env)!="")
+            {
+                AttributeAccess = new SequenceExpressionAttributeAccess(Source, AttributeOrElementName);
+                AttributeAccess.Check(env);
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            if(AttributeAccess != null)
+                return AttributeAccess.Type(env);
+            else if(MatchAccess != null)
+                return MatchAccess.Type(env);
+            else
+                return "";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(AttributeAccess != null)
+                return AttributeAccess.Evaluate(procEnv);
+            else if(MatchAccess != null)
+                return MatchAccess.Evaluate(procEnv);
+            else
+            {
+                object source = Source.Evaluate(procEnv);
+                if(source is IMatch)
+                    return SequenceExpressionMatchAccess.Execute(procEnv, (IMatch)source, AttributeOrElementName);
+                else
+                    return SequenceExpressionAttributeAccess.Execute(procEnv, (IGraphElement)source, AttributeOrElementName);
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Source.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield return Source; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Source.Symbol + "." + AttributeOrElementName; }
         }
     }
 

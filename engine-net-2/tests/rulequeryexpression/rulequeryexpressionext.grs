@@ -1,0 +1,18 @@
+new graph "rulequeryexpression/rulequeryexpressionext"
+
+exec (::start1,::start2)=init
+
+exec { emit("the value of variable \"i\" of type evaluation is: ", [?r(::start1)].peek().i, "\n") }\
+	;> { emit("the value of variable \"ni\" of type evaluation is: ", [?r(::start1)].peek().m.i, "\n") }\
+	;> { emit("the value of variable \"i\" of type evaluation is: ", [?r(::start2)].peek().i, "\n") }\
+	;> { emit("the value of variable \"ni\" of type evaluation is: ", [?r(::start2)].peek().m.i, "\n") }
+
+exec r([?r(::start1)].peek().m)
+
+exec r([?r(::start1)].empty() ? (N)::start1 : [?r(::start1)].peek().m)
+
+exec r([?r([?r(::start1)].peek().m)].peek().m)
+
+exec r([?r([?r(::start2)].peek().m)].empty() ? (N)::start2 : [?r([?r(::start2)].peek().m)].peek().m)
+
+quit

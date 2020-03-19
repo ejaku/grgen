@@ -354,7 +354,7 @@ options { k = 4; }
 		IdentNode id;
 	}
 	: owner=seqVarUseInExpr[xg] sel=seqExprSelector[owner, xg] { res = sel; }
-	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); }
+	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); } sel=seqExprSelector[owner, xg] { res = sel; }
 	| fc=seqFunctionCall[xg] { res = fc; }
 	| DEF LPAREN { xg.append("def("); } seqVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| a=AT LPAREN { xg.append("@("); } 
@@ -384,13 +384,17 @@ options { k = 3; }
 			(COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); })*
 			)? RPAREN { xg.append(")"); }
 		{ res = new MethodInvocationExprNode(prefix, new IdentNode(env.occurs(ParserEnvironment.ENTITIES, method.getText(), getCoords(method))), arguments, null); }
-	| d=DOT attr=seqMemberIdentUse { xg.append("."+attr.getSymbol().getText()); }
-			{ res = new MemberAccessExprNode(getCoords(d), prefix, attr); }
 		sel=seqExprSelector[res, xg] { res = sel; }
-	| DOT VISITED LBRACK 
-		{ xg.append(".visited["); } seqExpression[xg] RBRACK { xg.append("]"); } // TODO: visited expr
+	| d=DOT attr=seqMemberIdentUse { xg.append("."+attr.getSymbol().getText()); }
+		{ res = new MemberAccessExprNode(getCoords(d), prefix, attr); }
+		sel=seqExprSelector[res, xg] { res = sel; }
+	| DOT v=VISITED LBRACK 
+		{ xg.append(".visited["); } visId=seqExpression[xg] RBRACK { xg.append("]"); }
+		{ res = new VisitedNode(getCoords(v), visId, prefix); }
+		sel=seqExprSelector[res, xg] { res = sel; }
 	| l=LBRACK { xg.append("["); } key=seqExpression[xg] RBRACK { xg.append("]"); }
-			{ res = new IndexedAccessExprNode(getCoords(l), prefix, key); } // array/deque/map access
+		{ res = new IndexedAccessExprNode(getCoords(l), prefix, key); } // array/deque/map access
+		sel=seqExprSelector[res, xg] { res = sel; }
 	| // no selector
 	;
 	

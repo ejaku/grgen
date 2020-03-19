@@ -1449,12 +1449,6 @@ SequenceExpression ExpressionBasic():
         return expr;
     }
 |
-    LOOKAHEAD(VariableUse() "." "visited")
-    fromVar=VariableUse() "." "visited" "[" expr=Expression() "]"
-    {
-        return new SequenceExpressionIsVisited(fromVar, expr);
-    }
-|
     LOOKAHEAD(FunctionCall())
     expr=FunctionCall()
     {
@@ -1477,10 +1471,7 @@ SequenceExpression ExpressionBasic():
         return new SequenceExpressionDef(argExprs.ToArray());
     }
 |
-    fromVar=VariableUse() { expr = new SequenceExpressionVariable(fromVar); }
-    (
-        expr=SelectorExpression(expr)
-    )*
+    fromVar=VariableUse() { expr = new SequenceExpressionVariable(fromVar); } expr=SelectorExpression(expr)
     {    
         return expr;
     }
@@ -1490,8 +1481,7 @@ SequenceExpression ExpressionBasic():
         return new SequenceExpressionElementFromGraph(elemName);
     }
 |
-    "this" { expr = new SequenceExpressionThis(env.RuleOfMatchThis, env.TypeOfGraphElementThis); }
-        ( LOOKAHEAD(2) expr=SelectorExpression(expr) )?
+    "this" { expr = new SequenceExpressionThis(env.RuleOfMatchThis, env.TypeOfGraphElementThis); } expr=SelectorExpression(expr)
     {
         return expr;
     }
@@ -1505,43 +1495,42 @@ SequenceExpression ExpressionBasic():
 SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 {
     String methodOrAttrName;
-    SequenceExpression fromExpr2 = null;
+    SequenceExpression expr = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
 }
 {
+    LOOKAHEAD(2)
     "." methodOrAttrName=Word()
     (
         "(" (Arguments(argExprs))? ")"
-        {
-            return env.CreateSequenceExpressionFunctionMethodCall(fromExpr, methodOrAttrName, argExprs);
-        }
+            { expr = env.CreateSequenceExpressionFunctionMethodCall(fromExpr, methodOrAttrName, argExprs); }
     |
-        {
-            if(fromExpr is SequenceExpressionThis)
-            {
-                if(env.RuleOfMatchThis != null)
-                    return new SequenceExpressionMatchAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
-                else
-                    return new SequenceExpressionAttributeAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
-            }
-            else
-            {
-                if(fromExpr is SequenceExpressionVariable && ((SequenceExpressionVariable)fromExpr).Variable.Type.StartsWith("match<"))
-                    return new SequenceExpressionMatchAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
-                else if(fromExpr is SequenceExpressionRuleQuery)
-                    return new SequenceExpressionMatchAccess((SequenceExpressionThis)fromExpr, methodOrAttrName);
-                else
-                    return new SequenceExpressionAttributeAccess(((SequenceExpressionVariable)fromExpr).Variable, methodOrAttrName);
-            }
-        }
+        { expr = new SequenceExpressionAttributeOrMatchAccess(fromExpr, methodOrAttrName); }
     )
-|
-    "[" fromExpr2=Expression() "]"
+    expr=SelectorExpression(expr)
     {
-        return new SequenceExpressionContainerAccess(fromExpr, fromExpr2);
+        return expr;
+    }
+|
+    "." "visited" "[" expr=Expression() "]"
+        { expr = new SequenceExpressionIsVisited(fromExpr, expr); }
+    expr=SelectorExpression(expr)
+    {
+        return expr;
+    }
+|
+    "[" expr=Expression() "]"
+        { expr = new SequenceExpressionContainerAccess(fromExpr, expr); }
+    expr=SelectorExpression(expr)
+    {
+        return expr;
+    }
+|
+    {
+        return fromExpr;
     }
 }
-            
+
 SequenceComputation ProcedureOrMethodCall():
 {
     String procedure, attrName = null, package = null;
@@ -1564,7 +1553,7 @@ SequenceComputation ProcedureOrMethodCall():
             {
                 return env.CreateSequenceComputationProcedureMethodCall(fromVar, procedure, argExprs, returnVars);
             } else { // attribute method call
-                SequenceExpressionAttributeAccess attrAcc = new SequenceExpressionAttributeAccess(fromVar, attrName);
+                SequenceExpressionAttributeAccess attrAcc = new SequenceExpressionAttributeAccess(new SequenceExpressionVariable(fromVar), attrName);
                 return env.CreateSequenceComputationProcedureMethodCall(attrAcc, procedure, argExprs, returnVars);
             }
         }
