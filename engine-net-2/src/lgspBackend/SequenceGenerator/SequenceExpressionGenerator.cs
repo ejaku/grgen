@@ -633,7 +633,7 @@ namespace de.unika.ipd.grGen.lgsp
             matchesSourceBuilder.AppendFormat("procEnv.MatchForQuery<{0}>({1}, {2}{3}, procEnv.MaxMatches, {4})",
                 matchType, TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Action_" + ruleCall.Name + ".Instance",
                 ruleCall.Subgraph != null ? seqHelper.GetVar(ruleCall.Subgraph) : "null", 
-                seqHelper.BuildParametersInObject(ruleCall, ruleCall.ArgumentExpressions), ruleCall.Special ? "true" : "false");
+                seqHelper.BuildParametersInObject(ruleCall, ruleCall.ArgumentExpressions, source), ruleCall.Special ? "true" : "false");
             for(int i = 0; i < ruleCall.Filters.Count; ++i)
             {
                 String matchesSource = matchesSourceBuilder.ToString();
@@ -652,7 +652,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.AppendFormat("GRGEN_ACTIONS.{0}Functions.", TypesHelper.GetPackagePrefixDot(seqFuncCall.Package));
             sb.Append(seqFuncCall.Name);
             sb.Append("(procEnv, graph");
-            sb.Append(seqHelper.BuildParameters(seqFuncCall, seqFuncCall.ArgumentExpressions));
+            sb.Append(seqHelper.BuildParameters(seqFuncCall, seqFuncCall.ArgumentExpressions, source));
             sb.Append(")");
             return sb.ToString();
         }
@@ -666,7 +666,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append(GetSequenceExpression(seqFuncCall.TargetExpr, source));
                 sb.Append(").ApplyFunctionMethod(procEnv, graph, ");
                 sb.Append("\"" + seqFuncCall.Name + "\"");
-                sb.Append(seqHelper.BuildParametersInObject(seqFuncCall, seqFuncCall.ArgumentExpressions));
+                sb.Append(seqHelper.BuildParametersInObject(seqFuncCall, seqFuncCall.ArgumentExpressions, source));
                 sb.Append(")");
             }
             else
@@ -678,7 +678,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append(").");
                 sb.Append(seqFuncCall.Name);
                 sb.Append("(procEnv, graph");
-                sb.Append(seqHelper.BuildParameters(seqFuncCall, seqFuncCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.Name)));
+                sb.Append(seqHelper.BuildParameters(seqFuncCall, seqFuncCall.ArgumentExpressions, TypesHelper.GetNodeOrEdgeType(seqFuncCall.TargetExpr.Type(env), model).GetFunctionMethod(seqFuncCall.Name), source));
                 sb.Append(")");
             }
             return sb.ToString();

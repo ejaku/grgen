@@ -267,9 +267,9 @@ namespace de.unika.ipd.grGen.lgsp
             String parameterDeclarations = null;
             String parameters = null;
             if(seqSeq.Subgraph != null)
-                parameters = seqHelper.BuildParametersInDeclarations(seqSeq, ArgumentExpressions, out parameterDeclarations);
+                parameters = seqHelper.BuildParametersInDeclarations(seqSeq, ArgumentExpressions, source, out parameterDeclarations);
             else
-                parameters = seqHelper.BuildParameters(seqSeq, ArgumentExpressions);
+                parameters = seqHelper.BuildParameters(seqSeq, ArgumentExpressions, source);
             String outParameterDeclarations;
             String outArguments;
             String outAssignments;

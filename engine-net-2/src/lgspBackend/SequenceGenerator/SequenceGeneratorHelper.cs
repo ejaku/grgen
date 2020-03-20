@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.lgsp
             return id;
         }
 
-        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions)
+        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, SourceBuilder source)
         {
             String parameters = "";
             for(int i = 0; i < ArgumentExpressions.Length; i++)
@@ -116,7 +116,7 @@ namespace de.unika.ipd.grGen.lgsp
                     else
                         typeName = actionsTypeInformation.functionsToInputTypes[invocation.PackagePrefixedName][i];
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], source);
                 }
                 else
                 {
@@ -127,7 +127,7 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, IFunctionDefinition functionMethod)
+        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, IFunctionDefinition functionMethod, SourceBuilder source)
         {
             String parameters = "";
             for(int i = 0; i < ArgumentExpressions.Length; i++)
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String typeName = TypesHelper.DotNetTypeToXgrsType(functionMethod.Inputs[i]);
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], source);
                 }
                 else
                 {
@@ -147,7 +147,7 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, IProcedureDefinition procedureMethod)
+        public String BuildParameters(Invocation invocation, SequenceExpression[] ArgumentExpressions, IProcedureDefinition procedureMethod, SourceBuilder source)
         {
             String parameters = "";
             for(int i = 0; i < ArgumentExpressions.Length; i++)
@@ -156,7 +156,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     String typeName = TypesHelper.DotNetTypeToXgrsType(procedureMethod.Inputs[i]);
                     String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
+                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], source);
                 }
                 else
                 {
@@ -167,7 +167,7 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
-        public String BuildParametersInObject(Invocation invocation, SequenceExpression[] ArgumentExpressions)
+        public String BuildParametersInObject(Invocation invocation, SequenceExpression[] ArgumentExpressions, SourceBuilder source)
         {
             String parameters = ", new object[] { ";
             for(int i = 0; i < ArgumentExpressions.Length; i++)
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(i != 0)
                         parameters += ", ";
-                    parameters += exprGen.GetSequenceExpression(ArgumentExpressions[i], null);
+                    parameters += exprGen.GetSequenceExpression(ArgumentExpressions[i], source);
                 }
                 else
                 {
@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters + " }";
         }
 
-        public String BuildParametersInDeclarations(Invocation invocation, SequenceExpression[] ArgumentExpressions, out String declarations)
+        public String BuildParametersInDeclarations(Invocation invocation, SequenceExpression[] ArgumentExpressions, SourceBuilder source, out String declarations)
         {
             String parameters = "";
             declarations = "";
@@ -202,7 +202,7 @@ namespace de.unika.ipd.grGen.lgsp
                         typeName = actionsTypeInformation.sequencesToInputTypes[invocation.PackagePrefixedName][i];
                     String type = TypesHelper.XgrsTypeToCSharpType(typeName, model);
                     String name = "tmpvar_" + GetUniqueId();
-                    declarations += type + " " + name + " = " + "(" + type + ")" + exprGen.GetSequenceExpression(ArgumentExpressions[i], null) + ";";
+                    declarations += type + " " + name + " = " + "(" + type + ")" + exprGen.GetSequenceExpression(ArgumentExpressions[i], source) + ";";
                     parameters += ", " + name;
                 }
                 else

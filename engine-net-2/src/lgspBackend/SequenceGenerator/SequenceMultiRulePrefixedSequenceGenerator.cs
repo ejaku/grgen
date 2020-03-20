@@ -22,7 +22,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         internal readonly SequenceExpression[] ArgumentExpressions;
         internal readonly String specialStr;
-        internal readonly String parameters;
         internal readonly String matchingPatternClassName;
         internal readonly String patternName;
         internal readonly String plainRuleName;
@@ -51,7 +50,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             ArgumentExpressions = seqRule.ArgumentExpressions;
             specialStr = seqRule.Special ? "true" : "false";
-            parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
             patternName = seqRule.Name;
             plainRuleName = TypesHelper.PackagePrefixedNameDoubleColon(seqRule.Package, seqRule.Name);
@@ -68,6 +66,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitMatching(SourceBuilder source, SequenceGenerator seqGen, String matchListName)
         {
+            String parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
             source.AppendFront(matchesType + " " + matchesName + " = " + ruleName
                 + ".Match(procEnv, procEnv.MaxMatches"
                 + parameters + ");\n");

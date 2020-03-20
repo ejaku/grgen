@@ -22,8 +22,6 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly SequenceExpression[] ArgumentExpressions;
         internal readonly SequenceVariable[] ReturnVars;
         internal readonly String specialStr;
-        internal readonly String parameterDeclarations;
-        internal readonly String parameters;
         internal readonly String matchingPatternClassName;
         internal readonly String patternName;
         internal readonly String ruleName;
@@ -42,12 +40,6 @@ namespace de.unika.ipd.grGen.lgsp
             ArgumentExpressions = seqRule.ArgumentExpressions;
             ReturnVars = seqRule.ReturnVars;
             specialStr = seqRule.Special ? "true" : "false";
-            parameterDeclarations = null;
-            parameters = null;
-            if(seqRule.Subgraph != null)
-                parameters = seqHelper.BuildParametersInDeclarations(seqRule, ArgumentExpressions, out parameterDeclarations);
-            else
-                parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions);
             matchingPatternClassName = TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
             patternName = seqRule.Name;
             ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.Package, seqRule.Name);
@@ -59,6 +51,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void Emit(SourceBuilder source, SequenceGenerator seqGen, bool fireDebugEvents)
         {
+            String parameterDeclarations = null;
+            String parameters = null;
+            if(seqRule.Subgraph != null)
+                parameters = seqHelper.BuildParametersInDeclarations(seqRule, ArgumentExpressions, source, out parameterDeclarations);
+            else
+                parameters = seqHelper.BuildParameters(seqRule, ArgumentExpressions, source);
+
             if(seqRule.Subgraph != null)
             {
                 source.AppendFront(parameterDeclarations + "\n");
