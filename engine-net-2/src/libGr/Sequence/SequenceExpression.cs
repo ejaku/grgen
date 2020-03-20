@@ -1515,7 +1515,7 @@ namespace de.unika.ipd.grGen.libGr
         public override String Type(SequenceCheckingEnvironment env)
         {
             if(RuleOfMatchThis != null)
-                return RuleOfMatchThis;
+                return "match<" + RuleOfMatchThis + ">";
             else if(TypeOfGraphElementThis != null)
                 return TypeOfGraphElementThis;
             else
