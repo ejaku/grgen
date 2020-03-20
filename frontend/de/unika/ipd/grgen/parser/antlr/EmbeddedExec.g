@@ -258,7 +258,7 @@ seqAssignTargetSelector[ExecNode xg]
 seqExpression[ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	: exp=seqExprLazyOr[xg] { res = exp; }
 		( 
-			q=QUESTION { xg.append("?"); } op1=seqExpression[xg] COLON { xg.append(":"); } op2=seqExpression[xg]
+			q=QUESTION { xg.append("?"); } op1=seqExpression[xg] COLON { xg.append(" : "); } op2=seqExpression[xg]
 			{
 				OpNode cond=makeOp(q);
 				cond.addChild(exp);
