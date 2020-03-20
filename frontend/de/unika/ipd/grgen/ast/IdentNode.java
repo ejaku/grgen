@@ -93,7 +93,8 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	@Override
 	protected boolean checkLocal() {
 		// there must be exactly one definition
-		return getSymDef().isValid();
+		boolean isValid = getSymDef().isValid();
+		return isValid;
 	}
 
 	/**

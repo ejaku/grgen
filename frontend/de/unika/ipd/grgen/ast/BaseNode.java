@@ -587,8 +587,11 @@ public abstract class BaseNode extends Base
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 
-			for(BaseNode child : getChildren())
-				successfullyChecked = child.check() && successfullyChecked;
+			for(BaseNode child : getChildren()) {
+				boolean res = child.check();
+				//assert(res || this instanceof InvalidDeclNode);
+				successfullyChecked &= res;
+			}
 		}
 
 		if(!successfullyChecked)
