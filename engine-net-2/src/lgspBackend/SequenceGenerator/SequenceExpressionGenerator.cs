@@ -78,6 +78,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionMod((SequenceExpressionMod)expr, source);
             case SequenceExpressionType.Not:
                 return GetSequenceExpressionNot((SequenceExpressionNot)expr, source);
+            case SequenceExpressionType.UnaryMinus:
+                return GetSequenceExpressionUnaryMinus((SequenceExpressionUnaryMinus)expr, source);
             case SequenceExpressionType.Cast:
                 return GetSequenceExpressionCast((SequenceExpressionCast)expr, source);
             case SequenceExpressionType.Def:
@@ -474,6 +476,21 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionNot(SequenceExpressionNot seqNot, SourceBuilder source)
         {
             return "!" + "((bool)" + GetSequenceExpression(seqNot.Operand, source) + ")";
+        }
+
+        private string GetSequenceExpressionUnaryMinus(SequenceExpressionUnaryMinus seqUnaryMinus, SourceBuilder source)
+        {
+            string operandExpr = GetSequenceExpression(seqUnaryMinus.Operand, source);
+            string operandType = "GRGEN_LIBGR.TypesHelper.XgrsTypeOfConstant(" + operandExpr + ", graph.Model)";
+            if(seqUnaryMinus.BalancedTypeStatic != "")
+                return SequenceExpressionGeneratorHelper.UnaryMinusStatic(operandExpr, seqUnaryMinus.BalancedTypeStatic, seqUnaryMinus.OperandTypeStatic, model);
+            else
+            {
+                return "GRGEN_LIBGR.SequenceExpressionExecutionHelper.UnaryMinusObjects("
+                    + operandExpr + ", " 
+                    + "GRGEN_LIBGR.SequenceExpressionTypeHelper.Balance(GRGEN_LIBGR.SequenceExpressionType.UnaryMinus, " + operandType + ", graph.Model),"
+                    + operandType + ", graph)";
+            }
         }
 
         private string GetSequenceExpressionCast(SequenceExpressionCast seqCast, SourceBuilder source)

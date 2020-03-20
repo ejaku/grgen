@@ -1431,6 +1431,7 @@ SequenceExpression ExpressionUnary():
 {
     LOOKAHEAD("(" Constant() ")") "(" type=Constant() ")" seq=ExpressionBasic() { return new SequenceExpressionCast(seq, type); }
     | "!" seq=ExpressionBasic() { return new SequenceExpressionNot(seq); }
+    | "-" seq=ExpressionBasic() { return new SequenceExpressionUnaryMinus(seq); }
     | seq=ExpressionBasic() { return seq; }
 }
 

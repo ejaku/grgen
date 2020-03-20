@@ -256,6 +256,22 @@ namespace de.unika.ipd.grGen.lgsp
             return null;
         }
 
+        public static string UnaryMinusStatic(string operandValue, string balancedType, string operandType, IGraphModel model)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+                return "( - " + "(int)" + operandValue + ")";
+            else if(balancedType == "long")
+                return "( - " + "(long)" + operandValue + ")";
+            else if(balancedType == "float")
+                return "( - " + "(float)" + operandValue + ")";
+            else if(balancedType == "double")
+                return "(- " + "(double)" + operandValue + ")";
+
+            return null;
+        }
+
         public static string MinusStatic(string leftValue, string rightValue,
             string balancedType, string leftType, string rightType, IGraphModel model)
         {

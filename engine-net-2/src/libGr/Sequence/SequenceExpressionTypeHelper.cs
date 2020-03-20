@@ -119,6 +119,21 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static string Balance(SequenceExpressionType op, string operand, IGraphModel model)
+        {
+            string result;
+
+            switch(op)
+            {
+            case SequenceExpressionType.UnaryMinus:
+                result = BalanceArithmetic(operand, model);
+                return result;
+
+            default:
+                return "";
+            }
+        }
+
         /// <summary>
         /// Returns the types to which the operands must be casted to, 
         /// assuming an arithmetic operator.
@@ -204,6 +219,28 @@ namespace de.unika.ipd.grGen.libGr
                 default:
                     if(TypesHelper.IsEnumType(left, model) && TypesHelper.IsEnumType(right, model)) return "int";
                     else return "-";
+            }
+        }
+
+        private static string BalanceArithmetic(string operand, IGraphModel model)
+        {
+            switch(operand)
+            {
+            case "byte":
+            case "short":
+            case "int":
+                return "int";
+            case "long":
+                return "long";
+            case "float":
+                return "float";
+            case "double":
+                return "double";
+            case "":
+                return "";
+            default:
+                if(TypesHelper.IsEnumType(operand, model)) return "int";
+                else return "-";
             }
         }
 

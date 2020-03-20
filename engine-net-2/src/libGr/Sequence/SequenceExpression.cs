@@ -24,7 +24,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         Conditional,
         LazyOr, LazyAnd, StrictOr, StrictXor, StrictAnd,
-        Not, Cast,
+        Not, UnaryMinus, Cast,
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
         Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
         Constant, Variable, This,
@@ -607,6 +607,102 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return "!" + Operand.Symbol; }
+        }
+    }
+
+    public class SequenceExpressionUnaryMinus : SequenceExpression
+    {
+        public readonly SequenceExpression Operand;
+
+        // statically known types of the unary expression
+        public string OperandTypeStatic;
+        public string BalancedTypeStatic; // the type of the operator
+
+        public SequenceExpressionUnaryMinus(SequenceExpression operand)
+            : base(SequenceExpressionType.UnaryMinus)
+        {
+            this.Operand = operand;
+        }
+
+        protected SequenceExpressionUnaryMinus(SequenceExpressionUnaryMinus that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            Operand = that.Operand.CopyExpression(originalToCopy, procEnv);
+            OperandTypeStatic = that.OperandTypeStatic;
+            BalancedTypeStatic = that.BalancedTypeStatic;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionUnaryMinus(this, originalToCopy, procEnv);
+        }
+
+        protected void BalanceIfStaticallyUnknown(IGraphProcessingEnvironment procEnv,
+            object operandValue, ref string balancedType, ref string operandType)
+        {
+            if(balancedType != "")
+                return;
+
+            operandType = TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model);
+            balancedType = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, operandType, procEnv.Graph.Model);
+
+            if(balancedType == "-")
+                throw new SequenceParserException("-", operandType, operandType, Symbol);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            OperandTypeStatic = Operand.Type(env);
+            BalancedTypeStatic = SequenceExpressionTypeHelper.Balance(SequenceExpressionType, OperandTypeStatic, env.Model);
+            if(BalancedTypeStatic == "-")
+                throw new SequenceParserException("-", OperandTypeStatic, OperandTypeStatic, Symbol);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            string OperandTypeStatic = Operand.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, OperandTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object operandValue = Operand.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string operandType = OperandTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, operandValue, ref balancedType, ref operandType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.UnaryMinusObjects(operandValue, balancedType, operandType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException("-", TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(operandValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override sealed void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            Operand.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield return Operand; }
+        }
+
+        public override int Precedence
+        {
+            get { return 7; }
+        }
+
+        public override string Symbol
+        {
+            get { return "-" + Operand.Symbol; }
         }
     }
 

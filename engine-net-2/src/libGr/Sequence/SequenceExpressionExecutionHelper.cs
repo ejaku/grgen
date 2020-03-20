@@ -2588,6 +2588,70 @@ namespace de.unika.ipd.grGen.libGr
             throw new Exception("Invalid types for +");
         }
 
+        public static object UnaryMinusObjects(object operandValue, string balancedType, string operandType, IGraph graph)
+        {
+            // byte and short are only used for storing, no computations are done with them
+            // enums are handled via int
+            if(balancedType == "int")
+            {
+                if(operandType == "byte")
+                    return - (int)(sbyte)operandValue;
+                else if(operandType == "short")
+                    return - (int)(short)operandValue;
+                else if(operandType == "int")
+                    return - (int)(int)operandValue;
+                else // TypesHelper.IsEnumType(operandType, model)
+                    return - (int)Convert.ToInt32((Enum)operandValue);
+            }
+            else if(balancedType == "long")
+            {
+                if(operandType == "byte")
+                    return - (long)(sbyte)operandValue;
+                else if(operandType == "short")
+                    return - (long)(short)operandValue;
+                else if(operandType == "int")
+                    return - (long)(int)operandValue;
+                else if(operandType == "long")
+                    return - (long)(long)operandValue;
+                else // TypesHelper.IsEnumType(operandType, model)
+                    return - (long)Convert.ToInt32((Enum)operandValue);
+            }
+            else if(balancedType == "float")
+            {
+                if(operandType == "byte")
+                    return - (float)(sbyte)operandValue;
+                else if(operandType == "short")
+                    return - (float)(short)operandValue;
+                else if(operandType == "int")
+                    return - (float)(int)operandValue;
+                else if(operandType == "long")
+                    return - (float)(long)operandValue;
+                else if(operandType == "float")
+                    return - (float)(float)operandValue;
+                else // TypesHelper.IsEnumType(leftType, model)
+                    return - (float)Convert.ToInt32((Enum)operandValue);
+            }
+            else if(balancedType == "double")
+            {
+                if(operandType == "byte")
+                    return - (double)(sbyte)operandValue;
+                else if(operandType == "short")
+                    return - (double)(short)operandValue;
+                else if(operandType == "int")
+                    return - (double)(int)operandValue;
+                else if(operandType == "long")
+                    return - (double)(long)operandValue;
+                else if(operandType == "float")
+                    return - (double)(float)operandValue;
+                else if(operandType == "double")
+                    return - (double)(double)operandValue;
+                else // TypesHelper.IsEnumType(leftType, model)
+                    return - (double)Convert.ToInt32((Enum)operandValue);
+            }
+
+            throw new Exception("Invalid types for -");
+        }
+
         public static object MinusObjects(object leftValue, object rightValue,
             string balancedType, string leftType, string rightType, IGraph graph)
         {
