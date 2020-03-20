@@ -35,6 +35,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode voidType = new VoidTypeNode();
 	public static final BasicTypeNode nullType = new NullTypeNode();
 	public static final BasicTypeNode graphType = new GraphTypeNode();
+	public static final BasicTypeNode untypedType = new UntypedExecVarTypeNode();
 
 	public static final TypeNode errorType = new ErrorTypeNode(IdentNode.getInvalid());
 
@@ -67,6 +68,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		valueMap.put(enumItemType, Integer.class);
 		valueMap.put(objectType, ObjectTypeNode.Value.class);
 		valueMap.put(nullType, NullConstNode.Value.class);
+		valueMap.put(untypedType, UntypedExecVarTypeNode.Value.class);
 		
 		//////////////////////////////////////////////////////////
 		//implicit casts; upcasts for arithmetic, and everything to string (easy emitting)
@@ -109,6 +111,24 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCompatibility(booleanType, stringType);
 		addCompatibility(objectType, stringType);
 		addCompatibility(voidType, stringType);
+
+		//////////////////////////////////////////////////////////
+		//implicit casts to untyped (due to sequence variables of statically not known type)
+		//////////////////////////////////////////////////////////
+
+		addCompatibility(enumItemType, untypedType);
+		addCompatibility(byteType, untypedType);
+		addCompatibility(shortType, untypedType);
+		addCompatibility(intType, untypedType);
+		addCompatibility(longType, untypedType);
+		addCompatibility(floatType, untypedType);
+		addCompatibility(doubleType, untypedType);
+		addCompatibility(booleanType, untypedType);
+		addCompatibility(objectType, untypedType);
+		addCompatibility(voidType, untypedType);
+		addCompatibility(stringType, untypedType);
+		addCompatibility(typeType, untypedType);
+		addCompatibility(nullType, untypedType);
 
 		//////////////////////////////////////////////////////////
 		//explicit casts; downcasts for arithmetic, everything into an object

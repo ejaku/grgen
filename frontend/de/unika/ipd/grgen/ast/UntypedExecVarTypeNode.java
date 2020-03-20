@@ -17,12 +17,29 @@ import de.unika.ipd.grgen.ir.UntypedExecVarType;
 import java.util.Collection;
 import java.util.Vector;
 
-public class UntypedExecVarTypeNode extends DeclaredTypeNode
+public class UntypedExecVarTypeNode extends BasicTypeNode
 {
 	static {
 		setName(UntypedExecVarTypeNode.class, "untyped exec variable type");
 	}
 
+	// TODO: No instance is ever used! Probably useless...
+	public static class Value {
+		public static Value NULL = new Value() {
+			public String toString() { return "Untyped null"; }
+		};
+
+		private Value() {}
+
+		public boolean equals(Object val) {
+			return (this == val);
+		}
+	}
+
+	public UntypedExecVarTypeNode()
+	{
+	}
+	
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {

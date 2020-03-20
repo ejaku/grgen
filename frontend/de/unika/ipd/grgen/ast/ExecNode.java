@@ -201,7 +201,7 @@ public class ExecNode extends BaseNode {
 				id.setSymDef(vdef);
 				vdef.setNode(id);
 				getScope().leaveScope();
-				ExecVarDeclNode evd = new ExecVarDeclNode(id, new UntypedExecVarTypeNode());
+				ExecVarDeclNode evd = new ExecVarDeclNode(id, BasicTypeNode.untypedType);
 				id.setDecl(evd);
 				addVarDecl(evd);
 			}

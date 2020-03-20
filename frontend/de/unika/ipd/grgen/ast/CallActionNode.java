@@ -145,7 +145,7 @@ public class CallActionNode extends BaseNode {
 				id.setSymDef(vdef);
 				vdef.setNode(id);
 				getScope().leaveScope();
-				ExecVarDeclNode evd = new ExecVarDeclNode(id, new UntypedExecVarTypeNode());
+				ExecVarDeclNode evd = new ExecVarDeclNode(id, BasicTypeNode.untypedType);
 				id.setDecl(evd);
 				returnsUnresolved.set(i, evd);
 			}
@@ -330,8 +330,8 @@ public class CallActionNode extends BaseNode {
 					}
 				}
 				// No, are formal and actual param types of same kind?
-				else if(!((actualParamType instanceof EdgeType || actualParamType instanceof ObjectType || actualParamType instanceof TypeType) && formalParamType instanceof EdgeType ||
-						 (actualParamType instanceof NodeType || actualParamType instanceof ObjectType || actualParamType instanceof TypeType) && formalParamType instanceof NodeType))
+				else if(!(isEdgeCompatible(actualParamType) && formalParamType instanceof EdgeType ||
+						 isNodeCompatible(actualParamType) && formalParamType instanceof NodeType))
 					incommensurable = true;			// No => illegal
 
 				if(incommensurable) {
@@ -356,6 +356,20 @@ public class CallActionNode extends BaseNode {
 			}
 		}
 		return res;
+	}
+
+	private boolean isNodeCompatible(Type actualParamType)
+	{
+		return actualParamType instanceof NodeType 
+				|| actualParamType instanceof ObjectType 
+				|| actualParamType instanceof TypeType;
+	}
+
+	private boolean isEdgeCompatible(Type actualParamType)
+	{
+		return actualParamType instanceof EdgeType 
+				|| actualParamType instanceof ObjectType 
+				|| actualParamType instanceof TypeType;
 	}
 
 	/**

@@ -122,6 +122,7 @@ public class OperatorSignature extends FunctionSignature {
 	static final TypeNode NULL = BasicTypeNode.nullType;
 	static final TypeNode ENUM = BasicTypeNode.enumItemType;
 	static final TypeNode TYPE = BasicTypeNode.typeType;
+	static final TypeNode UNTYPED = BasicTypeNode.untypedType;
 
 	/**
 	 * Each operator is mapped by its ID to a Map, which maps each result type
@@ -676,6 +677,13 @@ public class OperatorSignature extends FunctionSignature {
 		}
 	};
 
+	public static final Evaluator untypedEvaluator = new Evaluator() {
+		protected ExprNode eval(Coords coords, OperatorSignature op,
+				ExprNode[] e) throws NotEvaluatableException {
+			throw new NotEvaluatableException(coords);
+		}
+	};
+
 	private static final Evaluator emptyEvaluator = new Evaluator();
 
 	// Initialize the operators map.
@@ -743,7 +751,7 @@ public class OperatorSignature extends FunctionSignature {
 		makeBinOp(BIT_OR, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 		makeBinOp(BIT_XOR, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 
-		// Boolean comparision
+		// Boolean comparison
 		makeBinOp(EQ, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 		makeBinOp(NE, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 
@@ -818,11 +826,56 @@ public class OperatorSignature extends FunctionSignature {
 		makeOp(COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, condEvaluator);
 		makeOp(COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, condEvaluator);
 		makeOp(COND, TYPE, new TypeNode[] { BOOLEAN, TYPE, TYPE }, condEvaluator);
-
 		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, condEvaluator);
-
 		// makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, condEvaluator);
 
+
+		/////////////////////////////////////////////////////////////////////////////////////////
+		// Operators to handle the untyped type that may appear in the sequence expressions due to untyped graph global variables
+		
+		// Comparison operators
+		makeBinOp(EQ, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(NE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(GE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(GT, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(LE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(LT, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(IN, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(SE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+
+		// Boolean operators
+		makeBinOp(LOG_AND, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(LOG_OR, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeUnOp(LOG_NOT, BOOLEAN, UNTYPED, untypedEvaluator);
+
+		makeBinOp(BIT_AND, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(BIT_OR, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(BIT_XOR, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+
+		// Arithmetic (and string concatenation) operators
+		makeBinOp(ADD, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(SUB, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(MUL, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(DIV, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(MOD, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+
+		makeUnOp(NEG, UNTYPED, UNTYPED, untypedEvaluator);
+
+		// Condition operator ?:
+		makeOp(COND, BYTE, new TypeNode[] { UNTYPED, BYTE, BYTE }, condEvaluator);
+		makeOp(COND, SHORT, new TypeNode[] { UNTYPED, SHORT, SHORT }, condEvaluator);
+		makeOp(COND, INT, new TypeNode[] { UNTYPED, INT, INT }, condEvaluator);
+		makeOp(COND, LONG, new TypeNode[] { UNTYPED, LONG, LONG }, condEvaluator);
+		makeOp(COND, FLOAT, new TypeNode[] { UNTYPED, FLOAT, FLOAT }, condEvaluator);
+		makeOp(COND, DOUBLE, new TypeNode[] { UNTYPED, DOUBLE, DOUBLE }, condEvaluator);
+		makeOp(COND, STRING, new TypeNode[] { UNTYPED, STRING, STRING }, condEvaluator);
+		makeOp(COND, BOOLEAN, new TypeNode[] { UNTYPED, BOOLEAN, BOOLEAN }, condEvaluator);
+		makeOp(COND, TYPE, new TypeNode[] { UNTYPED, TYPE, TYPE }, condEvaluator);
+		makeOp(COND, OBJECT, new TypeNode[] { UNTYPED, OBJECT, OBJECT }, condEvaluator);
+		
+		makeOp(COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED}, untypedEvaluator);
+
+		makeOp(COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED}, untypedEvaluator);
 	}
 
 	/**
@@ -875,12 +928,15 @@ public class OperatorSignature extends FunctionSignature {
 		int nearest = Integer.MAX_VALUE;
 
 		boolean hasVoid = false;
+		boolean hasUntyped = false;
 		boolean checkEnums = false;
 		boolean[] isEnum = null;
 
 		for(int i = 0; i < opTypes.length; i++) {
 			if(opTypes[i] == BasicTypeNode.voidType)
 				hasVoid = true;
+			else if(opTypes[i] == BasicTypeNode.untypedType)
+				hasUntyped = true;
 			else if(opTypes[i] instanceof EnumTypeNode) {
 				if(isEnum == null) {
 					isEnum = new boolean[opTypes.length];	// initialized to false
@@ -891,17 +947,21 @@ public class OperatorSignature extends FunctionSignature {
 		}
 
 		HashSet<OperatorSignature> opSet = operators.get(oid);
-		if(opSet == null) return INVALID;
+		if(opSet == null)
+			return INVALID;
 
 		for (Iterator<OperatorSignature> it = opSet.iterator(); it.hasNext();) {
 			OperatorSignature op = it.next();
 			int dist = op.getDistance(opTypes);
 
 			String arguments = "";
-			for(TypeNode tn : opTypes) arguments += tn.toString() + ", ";
+			for(TypeNode tn : opTypes) {
+				arguments += tn.toString() + ", ";
+			}
 			debug.report(NOTE, "dist: " + dist + " for signature: " + op + " against " + arguments);
 
-			if(dist == Integer.MAX_VALUE) continue;
+			if(dist == Integer.MAX_VALUE)
+				continue;
 
 			if(checkEnums) {
 				// Make implicit casts from enum to int for half the price
@@ -917,7 +977,8 @@ public class OperatorSignature extends FunctionSignature {
 			if (dist < nearest) {
 				nearest = dist;
 				res = op;
-				if(nearest == 0) break;
+				if(nearest == 0)
+					break;
 			}
 		}
 
@@ -925,9 +986,15 @@ public class OperatorSignature extends FunctionSignature {
 		// But allow "a + b" being enums to be turned into "(int) a + (int) b".
 		// Also allow "a == b" being void (abstract attribute) to become "(string) a == (string) b".
 		if(!hasVoid && (checkEnums && nearest >= 4				// costs doubled
-						|| !checkEnums && nearest >= 2))
+						|| !checkEnums && nearest >= 2)) {
 			res = INVALID;
-
+		}
+		
+		// Don't allow untyped to get introduced on type mismatches (one argument untyped -> untyped as result ok)
+		if(res.getResultType()==BasicTypeNode.untypedType && !hasUntyped) {
+			res = INVALID;
+		}
+		
 		debug.report(NOTE, "selected: " + res);
 
 		return res;

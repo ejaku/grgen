@@ -118,6 +118,13 @@ public class MemberAccessExprNode extends ExprNode
 			return true;
 		}
 
+		if(ownerType instanceof UntypedExecVarTypeNode) {
+			member = new MemberDeclNode(memberIdent, BasicTypeNode.untypedType, false);
+			member.resolve();
+			setCheckVisited();
+			return true;
+		}
+
 		if(!(ownerType instanceof ScopeOwner)) {
 			reportError("Left hand side of '.' has no members.");
 			return false;
@@ -152,18 +159,18 @@ public class MemberAccessExprNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
+		TypeNode declType = null;
 		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
 			if(node!=null)
-				return node.getDeclType();
-			if(edge!=null)
-				return edge.getDeclType();
-			if(var!=null)
-				return var.getDeclType();
-			return null;
-//			return new UntypedExecVarTypeNode(); // behave like a nop in case we're a match access
+				declType = node.getDeclType();
+			else if(edge!=null)
+				declType = edge.getDeclType();
+			else if(var!=null)
+				declType = var.getDeclType();
+		} else {
+			declType = member.getDecl().getDeclType(); // untyped exec var type in case owner is an untyped exec var
 		}
-
-		return member.getDecl().getDeclType();
+		return declType;
 	}
 
 	@Override
@@ -186,7 +193,7 @@ public class MemberAccessExprNode extends ExprNode
 				member.checkIR(Entity.class));
 		} else {
 			return new Qualification(
-				targetExpr.checkIR(Expression.class), // normally a Cast
+				targetExpr.checkIR(Expression.class), // normally a Cast (or an untyped exec var)
 				member.checkIR(Entity.class));
 		}
 	}

@@ -87,7 +87,7 @@ public abstract class ExprNode extends BaseNode {
 		 * and nicely with this little piece of code finding a compatibility
 		 * with only one indirection */
 		for (TypeNode t : src.getCompatibleToTypes()) {
-			if (t.isCompatibleTo(tgt)) {
+			if (t.isCompatibleTo(tgt) && t!=BasicTypeNode.untypedType) {
 				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this, this), this);
 			}
 		}

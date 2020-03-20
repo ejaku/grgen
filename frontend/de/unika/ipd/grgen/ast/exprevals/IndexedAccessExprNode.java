@@ -18,6 +18,10 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.containers.ArrayType;
+import de.unika.ipd.grgen.ir.containers.DequeType;
+import de.unika.ipd.grgen.ir.containers.MapType;
 import de.unika.ipd.grgen.ir.exprevals.IndexedAccessExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -57,6 +61,10 @@ public class IndexedAccessExprNode extends ExprNode
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
+		if(targetType instanceof UntypedExecVarTypeNode) {
+			return true;
+		}
+
 		if(!(targetType instanceof MapTypeNode) 
 				&& !(targetType instanceof ArrayTypeNode)
 				&& !(targetType instanceof DequeTypeNode)) {
@@ -103,13 +111,26 @@ public class IndexedAccessExprNode extends ExprNode
 			return ((MapTypeNode)targetExprType).valueType;
 		else if(targetExprType instanceof ArrayTypeNode)
 			return ((ArrayTypeNode)targetExprType).valueType;
-		else
+		else if(targetExprType instanceof DequeTypeNode)
 			return ((DequeTypeNode)targetExprType).valueType;
+		else
+			return targetExprType; // assuming untyped
 	}
 
 	@Override
 	protected IR constructIR() {
+		Expression texp = targetExpr.checkIR(Expression.class);
+		Type type = texp.getType();
+		Type accessedType;
+		if(type instanceof MapType)
+			accessedType = ((MapType)type).getValueType();
+		else if(type instanceof DequeType)
+			accessedType = ((DequeType)type).getValueType();
+		else if(type instanceof ArrayType)
+			accessedType = ((ArrayType)type).getValueType();
+		else
+			accessedType = type; // assuming untypedType
 		return new IndexedAccessExpr(targetExpr.checkIR(Expression.class),
-			keyExpr.checkIR(Expression.class));
+			keyExpr.checkIR(Expression.class), accessedType);
 	}
 }

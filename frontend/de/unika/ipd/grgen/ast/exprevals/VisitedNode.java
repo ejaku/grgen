@@ -55,9 +55,15 @@ public class VisitedNode extends ExprNode {
 
 	@Override
 	protected boolean checkLocal() {
+		if(visitorIDExpr.getType() instanceof UntypedExecVarTypeNode) {
+			return true;
+		}
 		if(!visitorIDExpr.getType().isEqual(BasicTypeNode.intType)) {
 			visitorIDExpr.reportError("Visitor ID expression must be of type int");
 			return false;
+		}
+		if(entityExpr.getType() instanceof UntypedExecVarTypeNode) {
+			return true;
 		}
 		if(entityExpr.getType() instanceof EdgeTypeNode) {
 			return true;

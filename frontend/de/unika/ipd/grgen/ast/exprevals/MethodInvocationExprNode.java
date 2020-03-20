@@ -525,8 +525,12 @@ public class MethodInvocationExprNode extends ExprNode
 		///////////////////////////////////////////////////
 		else if(targetType instanceof ExternalTypeNode) {
 		///////////////////////////////////////////////////
-			targetExpr.resolve();
 			result = new ExternalFunctionMethodInvocationExprNode(targetExpr, methodIdent, params);
+		}
+		///////////////////////////////////////////////////
+		else if(targetType instanceof UntypedExecVarTypeNode) {
+		///////////////////////////////////////////////////
+			result = new UntypedFunctionMethodInvocationExprNode(methodIdent.getCoords(), params);
 		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");

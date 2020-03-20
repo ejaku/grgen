@@ -12,13 +12,14 @@
 package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.containers.*;
+import de.unika.ipd.grgen.ir.Type;
 
 public class IndexedAccessExpr extends Expression {
 	Expression targetExpr;
 	Expression keyExpr;
 
-	public IndexedAccessExpr(Expression targetExpr, Expression keyExpr) {
-		super("indexed access expression", targetExpr.getType() instanceof MapType ? ((MapType) targetExpr.getType()).getValueType() : targetExpr.getType() instanceof DequeType ? ((DequeType) targetExpr.getType()).getValueType() : ((ArrayType) targetExpr.getType()).getValueType());
+	public IndexedAccessExpr(Expression targetExpr, Expression keyExpr, Type type) {
+		super("indexed access expression", type);
 		this.targetExpr = targetExpr;
 		this.keyExpr = keyExpr;
 	}
