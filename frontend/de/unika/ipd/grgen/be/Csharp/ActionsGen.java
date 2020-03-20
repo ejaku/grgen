@@ -1350,12 +1350,6 @@ public class ActionsGen extends CSharpBase {
 				for(Expression arg : emit.getArguments())
 					arg.collectNeededEntities(needs);
 			}
-			else if (istmt instanceof Exec) {
-				Exec exec = (Exec) istmt;
-				for(Expression arg : exec.getArguments())
-					arg.collectNeededEntities(needs);
-			}
-			else assert false : "unknown ImperativeStmt: " + istmt;
 		}
 		genLocalContainers(sb, needs, staticInitializers, false);
 	}

@@ -1,0 +1,23 @@
+rule testuntyped(ref mp:map<int,Node>)
+{
+	n:Node; m:Node;
+	def ref fubz:set<Node>;
+	yield {
+		yield fubz = set<Node>{n,m};
+	}
+	
+	modify {
+		exec(tnode(n));
+		exec(tnode(mp[0]));
+		exec(tnode(fubz.peek(0)));
+		exec(tsetnode(set<Node>{n}));
+	}
+}
+
+test tnode(n:Node)
+{
+}
+
+test tsetnode(ref s:set<Node>)
+{
+}
