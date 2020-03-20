@@ -1041,8 +1041,11 @@ public class ModifyGen extends CSharpBase {
 			}
 			else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
+				boolean collectContainerExprsBackup = needs.collectContainerExprs;
+				needs.collectContainerExprs = false;
 				for(Expression arg : exec.getArguments())
 					arg.collectNeededEntities(needs);
+				needs.collectContainerExprs = collectContainerExprsBackup;
 			}
 			else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
 		}
