@@ -113,33 +113,6 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            // then schedule the initialization of all def to be yielded to elements and variables,
-            // must come after the preset elements, as they may be used in the def initialization
-            foreach(SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
-            {
-                if(edge.Type == SearchOperationType.DefToBeYieldedTo
-                    && (!isNegativeOrIndependent || (edge.Target.PatternElement.pointOfDefinition == patternGraph && edge.Target.PatternElement.originalElement==null)))
-                {
-                    SearchOperation newOp = new SearchOperation(
-                        SearchOperationType.DefToBeYieldedTo,
-                        edge.Target, spGraph.Root, 0);
-                    newOp.Expression = edge.Target.PatternElement.Initialization;
-                    operations.Add(newOp);
-                }
-            }
-            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
-            {
-                if(var.defToBeYieldedTo
-                    && (!isNegativeOrIndependent || var.pointOfDefinition == patternGraph && var.originalVariable == null))
-                {
-                    SearchOperation newOp = new SearchOperation(
-                        SearchOperationType.DefToBeYieldedTo,
-                        var, spGraph.Root, 0);
-                    newOp.Expression = var.initialization;
-                    operations.Add(newOp);
-                }
-            }
-
             // then schedule all map with storage / pick from index / pick from storage / pick from name index elements not depending on other elements
             foreach(SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
             {
@@ -275,6 +248,33 @@ namespace de.unika.ipd.grGen.lgsp
 
             // insert conditions into the schedule
             InsertConditionsIntoSchedule(patternGraph.ConditionsPlusInlined, operations, lazyNegativeIndependentConditionEvaluation);
+
+            // schedule the initialization of all def to be yielded to elements and variables at the end,
+            // must come after the pattern elements (and preset elements), as they may be used in the def initialization
+            foreach(SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
+            {
+                if(edge.Type == SearchOperationType.DefToBeYieldedTo
+                    && (!isNegativeOrIndependent || (edge.Target.PatternElement.pointOfDefinition == patternGraph && edge.Target.PatternElement.originalElement == null)))
+                {
+                    SearchOperation newOp = new SearchOperation(
+                        SearchOperationType.DefToBeYieldedTo,
+                        edge.Target, spGraph.Root, 0);
+                    newOp.Expression = edge.Target.PatternElement.Initialization;
+                    operations.Add(newOp);
+                }
+            }
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
+            {
+                if(var.defToBeYieldedTo
+                    && (!isNegativeOrIndependent || var.pointOfDefinition == patternGraph && var.originalVariable == null))
+                {
+                    SearchOperation newOp = new SearchOperation(
+                        SearchOperationType.DefToBeYieldedTo,
+                        var, spGraph.Root, 0);
+                    newOp.Expression = var.initialization;
+                    operations.Add(newOp);
+                }
+            }
 
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
             return new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
