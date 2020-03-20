@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedList;
 
+import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.*;
@@ -1298,7 +1299,7 @@ public class ActionsGen extends CSharpBase {
 	private void genLocalContainers(StringBuffer sb, PatternGraph pattern,
 			List<String> staticInitializers, String pathPrefixForElements,
 			HashMap<Entity, String> alreadyDefinedEntityToName) {
-		genLocalContainersInitializations(sb, pattern, pattern, staticInitializers,
+		genLocalContainersInitializations(sb, pattern, staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 		genLocalContainersConditions(sb, pattern, staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
@@ -1308,12 +1309,26 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genLocalContainersInitializations(StringBuffer sb, PatternGraph pattern, PatternGraph directlyNestingLHSPattern, List<String> staticInitializers,
+	private void genLocalContainersInitializations(StringBuffer sb, PatternGraph rhsPattern, PatternGraph directlyNestingLHSPattern, List<String> staticInitializers,
+			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
+		for(Variable var : rhsPattern.getVars()) {
+			if(var.initialization!=null) {
+				if(var.directlyNestingLHSGraph==directlyNestingLHSPattern 
+						&& (var.getContext()&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+					var.initialization.collectNeededEntities(needs);
+				}
+			}
+		}
+		genLocalContainers(sb, needs, staticInitializers, false);
+	}
+
+	private void genLocalContainersInitializations(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(Variable var : pattern.getVars()) {
 			if(var.initialization!=null) {
-				if(var.directlyNestingLHSGraph==directlyNestingLHSPattern) {
+				if(var.directlyNestingLHSGraph==pattern) {
 					var.initialization.collectNeededEntities(needs);
 				}
 			}
