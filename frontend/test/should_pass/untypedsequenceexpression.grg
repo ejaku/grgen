@@ -1,0 +1,92 @@
+rule testuntyped()
+{
+	modify {
+		exec(tint(::x));
+		exec(tbool(::x));
+		exec(tnode(::x));
+		exec(tedge(::x));
+
+		exec(tint(::x.y));
+		exec(tbool(::x.y));
+		exec(tnode(::x.y));
+		exec(tedge(::x.y));
+
+		exec(tint(::x[::y]));
+		exec(tbool(::x[::y]));
+		exec(tnode(::x[::y]));
+		exec(tedge(::x[::y]));
+
+		exec(tint(::x.peek()));
+		exec(tbool(::x.peek()));
+		exec(tnode(::x.peek()));
+		exec(tedge(::x.peek()));
+
+		exec(tint(::x.size()));
+		exec(tbool(::x.empty()));
+
+		exec(tbool(::x.visited[::i]));
+
+		exec(tbool(::v in ::y));
+		
+		exec(::x && {{::x}});
+		exec(tbool(::v in ::y));
+		exec(tnode(null) && tint(0));
+
+		exec(tint(-::x));
+		exec(tint(::x + ::y));
+		exec(tint(::x - ::y));
+		exec(tint(::x * ::y));
+		exec(tint(::x / ::y));
+		exec(tint(::x % ::y));
+
+		exec(tdouble(-::x));		
+		exec(tdouble(::x + ::y));
+		exec(tdouble(::x - ::y));
+		exec(tdouble(::x * ::y));
+		exec(tdouble(::x / ::y));
+		exec(tdouble(::x % ::y));
+				
+		exec(tint(::b ? ::x : ::y));
+		exec(tbool(::b ? ::x : ::y));
+		exec(tnode(::b ? ::x : ::y));
+		exec(tedge(::b ? ::x : ::y));
+
+		exec(tbool(::x < ::y));
+		exec(tbool(::x <= ::y));
+		exec(tbool(::x > ::y));
+		exec(tbool(::x >= ::y));
+		exec(tbool(::x ==::y));
+		exec(tbool(::x != ::y));
+
+		exec(tbool(!::x));
+		exec(tbool(::x && ::y));
+		exec(tbool(::x & ::y));
+		exec(tbool(::x || ::y));
+		exec(tbool(::x | ::y));
+		exec(tbool(::x ^ ::y));
+	}
+}
+
+test tint(var i:int)
+{
+}
+
+test tbool(var b:boolean)
+{
+}
+
+test tnode(n:Node)
+{
+}
+
+test tsetnode(ref s:set<Node>)
+{
+}
+
+test tedge(-e:Edge->)
+{
+}
+
+test tdouble(var d:double)
+{
+}
