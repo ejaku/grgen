@@ -193,7 +193,9 @@ public class Scope {
 			def = getLocalDef(sym); // the previous definition
 			reporter.error(coords, "Symbol \"" + sym + "\" has already been defined in this scope (at: " + def.coords + ")");
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol
-		} else if(defined(sym) && sym.getSymbolTable().getSymbolTableId()!=ParserEnvironment.ITERATEDS) {
+		} else if(defined(sym) 
+				&& sym.getSymbolTable().getSymbolTableId()!=ParserEnvironment.ITERATEDS
+				&& this.getIdentNode().getSymbol().getSymbolTable().getSymbolTableId()!=ParserEnvironment.PACKAGES) {
 			def = getCurrDef(sym); // the previous definition
 			reporter.error(coords, "Symbol \"" + sym + "\" has already been defined in some parent scope (at: " + def.coords + ")");
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol from a parent scope

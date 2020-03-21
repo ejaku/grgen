@@ -1,0 +1,15 @@
+#using "model.gm"
+
+function f() : boolean
+{
+	return(true);
+}
+
+package Foo
+{
+	// was error: f already defined
+	function f() : boolean
+	{
+		return(true);
+	}
+}

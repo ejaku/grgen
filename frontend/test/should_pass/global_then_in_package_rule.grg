@@ -1,0 +1,17 @@
+#using "model.gm"
+
+rule r
+{
+	modify {
+	}
+}
+
+package Foo
+{
+	// was error: r already defined
+	rule r
+	{
+		modify {
+		}
+	}
+}

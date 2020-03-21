@@ -1,0 +1,15 @@
+#using "model.gm"
+
+sequence seq
+{
+	true
+}
+
+package Foo
+{
+	// was error: seq already defined
+	sequence seq
+	{
+		true
+	}
+}

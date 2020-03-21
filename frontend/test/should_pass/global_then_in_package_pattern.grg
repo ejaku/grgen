@@ -1,0 +1,23 @@
+#using "model.gm"
+
+pattern P()
+{
+}
+
+package Foo
+{
+	// was error: p already defined
+	pattern P()
+	{
+	}
+	
+	test t()
+	{
+		p:P();
+	}
+}
+
+test t()
+{
+	p:P();
+}
