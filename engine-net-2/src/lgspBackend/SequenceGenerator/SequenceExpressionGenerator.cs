@@ -1263,31 +1263,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(ContainerType == "")
             {
-                SourceBuilder sb = new SourceBuilder();
-
-                string sourceExpr = GetSequenceExpression(seqIn.Expr, source);
-                string containerVar = "tmp_eval_once_" + seqIn.Id;
-                source.AppendFront("object " + containerVar + " = null;\n");
-                sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
-
-                string array = "((System.Collections.IList)" + containerVar + ")";
-                sb.AppendFront(array + ".Contains(" + sourceExpr + ")");
-
-                sb.AppendFront(" : ");
-
-                sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
-
-                string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
-                sb.AppendFront(deque + ".Contains(" + sourceExpr + ")");
-
-                sb.AppendFront(" : ");
-
-                string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
-                sb.AppendFront(dictionary + ".Contains(" + sourceExpr + ")");
-
-                sb.AppendFront(")");
-
-                return sb.ToString();
+                string valueExpr = GetSequenceExpression(seqIn.Expr, source);
+                string containerExpr = GetSequenceExpression(seqIn.ContainerExpr, source);
+                return "GRGEN_LIBGR.ContainerHelper.InContainer(procEnv, " + containerExpr + ", " + valueExpr + ")";
             }
             else if(ContainerType.StartsWith("array"))
             {
@@ -1318,30 +1296,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(seqContainerSize.ContainerType(env) == "")
             {
-                SourceBuilder sb = new SourceBuilder();
-
-                string containerVar = "tmp_eval_once_" + seqContainerSize.Id;
-                source.AppendFront("object " + containerVar + " = null;\n");
-                sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
-
-                string array = "((System.Collections.IList)" + containerVar + ")";
-                sb.AppendFront(array + ".Count");
-
-                sb.AppendFront(" : ");
-
-                sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
-
-                string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
-                sb.AppendFront(deque + ".Count");
-
-                sb.AppendFront(" : ");
-
-                string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
-                sb.AppendFront(dictionary + ".Count");
-
-                sb.AppendFront(")");
-
-                return sb.ToString();
+                string containerExpr = GetSequenceExpression(seqContainerSize.ContainerExpr, source);
+                return "GRGEN_LIBGR.ContainerHelper.ContainerSize(procEnv, " + containerExpr + ")";
             }
             else if(seqContainerSize.ContainerType(env).StartsWith("array"))
             {
@@ -1366,30 +1322,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(seqContainerEmpty.ContainerType(env) == "")
             {
-                SourceBuilder sb = new SourceBuilder();
-
-                string containerVar = "tmp_eval_once_" + seqContainerEmpty.Id;
-                source.AppendFront("object " + containerVar + " = null;\n");
-                sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
-
-                string array = "((System.Collections.IList)" + containerVar + ")";
-                sb.AppendFront(array + ".Count==0");
-
-                sb.AppendFront(" : ");
-
-                sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
-
-                string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
-                sb.AppendFront(deque + ".Count==0");
-
-                sb.AppendFront(" : ");
-
-                string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
-                sb.AppendFront(dictionary + ".Count==0");
-
-                sb.AppendFront(")");
-
-                return sb.ToString();
+                string containerExpr = GetSequenceExpression(seqContainerEmpty.ContainerExpr, source);
+                return "GRGEN_LIBGR.ContainerHelper.ContainerEmpty(procEnv, " + containerExpr + ")";
             }
             else if(seqContainerEmpty.ContainerType(env).StartsWith("array"))
             {
@@ -1434,37 +1368,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(ContainerType == "")
             {
-                SourceBuilder sb = new SourceBuilder();
-
-                string sourceExpr = GetSequenceExpression(seqContainerAccess.KeyExpr, source);
-                string containerVar = "tmp_eval_once_" + seqContainerAccess.Id;
-                source.AppendFront("object " + containerVar + " = null;\n");
-                sb.AppendFront("((" + containerVar + " = " + container + ") is IList ? ");
-
-                string array = "((System.Collections.IList)" + containerVar + ")";
-                if(!TypesHelper.IsSameOrSubtype(seqContainerAccess.KeyExpr.Type(env), "int", model))
-                    sb.AppendFront(array + "[-1]");
-                else
-                    sb.AppendFront(array + "[(int)" + sourceExpr + "]");
-
-                sb.AppendFront(" : ");
-
-                sb.AppendFront(containerVar + " is GRGEN_LIBGR.IDeque ? ");
-
-                string deque = "((GRGEN_LIBGR.IDeque)" + containerVar + ")";
-                if(!TypesHelper.IsSameOrSubtype(seqContainerAccess.KeyExpr.Type(env), "int", model))
-                    sb.AppendFront(deque + "[-1]");
-                else
-                    sb.AppendFront(deque + "[(int)" + sourceExpr + "]");
-
-                sb.AppendFront(" : ");
-
-                string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
-                sb.AppendFront(dictionary + "[" + sourceExpr + "]");
-
-                sb.AppendFront(")");
-
-                return sb.ToString();
+                string keyExpr = GetSequenceExpression(seqContainerAccess.KeyExpr, source);
+                string containerExpr = GetSequenceExpression(seqContainerAccess.ContainerExpr, source);
+                return "GRGEN_LIBGR.ContainerHelper.ContainerAccess(procEnv, " + containerExpr + ", " + keyExpr + ")";
             }
             else if(ContainerType.StartsWith("array"))
             {

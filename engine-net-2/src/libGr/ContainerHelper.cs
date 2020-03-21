@@ -2012,6 +2012,82 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static object InContainer(IGraphProcessingEnvironment procEnv, object container, object value)
+        {
+            if(container is IList)
+            {
+                IList array = (IList)container;
+                return array.Contains(value);
+            }
+            else if(container is IDeque)
+            {
+                IDeque deque = (IDeque)container;
+                return deque.Contains(value);
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)container;
+                return setmap.Contains(value);
+            }
+        }
+
+        public static int ContainerSize(IGraphProcessingEnvironment procEnv, object container)
+        {
+            if(container is IList)
+            {
+                IList array = (IList)container;
+                return array.Count;
+            }
+            else if(container is IDeque)
+            {
+                IDeque deque = (IDeque)container;
+                return deque.Count;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)container;
+                return setmap.Count;
+            }
+        }
+
+        public static bool ContainerEmpty(IGraphProcessingEnvironment procEnv, object container)
+        {
+            if(container is IList)
+            {
+                IList array = (IList)container;
+                return array.Count == 0;
+            }
+            else if(container is IDeque)
+            {
+                IDeque deque = (IDeque)container;
+                return deque.Count == 0;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)container;
+                return setmap.Count == 0;
+            }
+        }
+
+        public static object ContainerAccess(IGraphProcessingEnvironment procEnv, object container, object key)
+        {
+            if(container is IList)
+            {
+                IList array = (IList)container;
+                return array[(int)key];
+            }
+            else if(container is IDeque)
+            {
+                IDeque deque = (IDeque)container;
+                return deque[(int)key];
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)container;
+                return setmap[key];
+            }
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
