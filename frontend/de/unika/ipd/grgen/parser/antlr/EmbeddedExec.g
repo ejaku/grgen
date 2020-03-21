@@ -193,7 +193,7 @@ options { k = 4; }
 
 seqForSeqRemainder[ExecNode xg, CollectNode<BaseNode> returns]
 options { k = 4; }
-	: (RARROW { xg.append(" -> "); } seqEntity[xg])? IN { xg.append(" in "); } seqEntity[xg]
+	: (RARROW { xg.append(" -> "); } seqEntity[xg])? IN { xg.append(" in "); } seqVarUse[xg]
 			SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN { xg.append(" in "); } { env.isKnownForFunction(input.LT(1).getText()) }?
 			i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
@@ -508,7 +508,7 @@ seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ ExprNode res = null 
 
 seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ ExprNode res = null ]
 	@init{ SetInitNode setInit = null; }
-	: l=LBRACE { xg.append("{"); } { res = setInit = new SetInitNode(getCoords(l), null, setType); }	
+	: l=LBRACE { xg.append("{"); } { res = setInit = new SetInitNode(getCoords(l), null, setType); }
 		( item1=seqSetItem[xg] { setInit.addSetItem(item1); }
 			( COMMA { xg.append(","); } item2=seqSetItem[xg] { setInit.addSetItem(item2); } )*
 		)?
@@ -792,16 +792,20 @@ seqVariableList[ExecNode xg, CollectNode<BaseNode> res]
 		( COMMA { xg.append(","); } child=seqEntity[xg] { res.addChild(child); } )*
 	;
 
+// read context (assignment rhs)
 seqVarUse[ExecNode xg] returns [IdentNode res = null]
 	:
 		id=seqEntIdentUse { res = id; xg.append(id); xg.addUsage(id); } // var of node, edge, or basic type
 	|
-		DOUBLECOLON id=seqEntIdentUse { res = id; xg.append("::" + id); xg.addUsage(id); } // global var of node, edge, or basic type		 
+		DOUBLECOLON id=seqEntIdentUse { res = id; xg.append("::" + id); xg.addUsage(id); } // global var of node, edge, or basic type
 	;
 
+// write context (assignment lhs)
 seqEntity[ExecNode xg] returns [BaseNode res = null]
 	:
-		varUse=seqVarUse[xg] { res = varUse; }
+		id=seqEntIdentUse { res = id; xg.append(id); xg.addWriteUsage(id); } // var of node, edge, or basic type
+	|
+		DOUBLECOLON id=seqEntIdentUse { res = id; xg.append("::" + id); xg.addWriteUsage(id); } // global var of node, edge, or basic type
 	|
 		seqVarDecl=seqEntityDecl[xg, true] { res = seqVarDecl; }
 	;

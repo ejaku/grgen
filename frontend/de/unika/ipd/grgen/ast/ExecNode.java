@@ -49,7 +49,9 @@ public class ExecNode extends BaseNode {
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<ExecVarDeclNode> varDecls = new CollectNode<ExecVarDeclNode>();
 	private CollectNode<IdentNode> usageUnresolved = new CollectNode<IdentNode>();
+	private CollectNode<IdentNode> writeUsageUnresolved = new CollectNode<IdentNode>();
 	private CollectNode<DeclNode> usage = new CollectNode<DeclNode>();
+	private CollectNode<DeclNode> writeUsage = new CollectNode<DeclNode>();
 
 	public ExecNode(Coords coords) {
 		super(coords);
@@ -153,6 +155,12 @@ public class ExecNode extends BaseNode {
 		usageUnresolved.addChild(id);
 	}
 
+	public void addWriteUsage(IdentNode id) {
+		assert !isResolved();
+		becomeParent(id);
+		writeUsageUnresolved.addChild(id);
+	}
+
 	/** returns children of this node */
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
@@ -161,6 +169,7 @@ public class ExecNode extends BaseNode {
 		res.add(callActions);
 		res.add(varDecls);
 		res.add(getValidVersion(usageUnresolved, usage));
+		res.add(getValidVersion(writeUsageUnresolved, writeUsage));
 		return res;
 	}
 
@@ -172,6 +181,7 @@ public class ExecNode extends BaseNode {
 		childrenNames.add("call actions");
 		childrenNames.add("var decls");
 		childrenNames.add("graph element usage outside of a call");
+		childrenNames.add("writing graph element usage (outside of a call)");
 		return childrenNames;
 	}
 
@@ -185,6 +195,29 @@ public class ExecNode extends BaseNode {
 	 */
 	public void addImplicitDefinitions() {
 		for(IdentNode id : usageUnresolved.getChildren())
+		{
+			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
+
+			// Get the definition of the ident's symbol local to the owned scope.
+			Symbol.Definition def = getScope().getCurrDef(id.getSymbol());
+			debug.report(NOTE, "definition is: " + def);
+
+			// If this definition is valid, i.e. it exists, it will be used
+			// else, an ExecVarDeclNode of this name is added to the scope
+			if(def.isValid()) {
+				id.setSymDef(def);
+			} else {
+				Symbol.Definition vdef = getScope().define(id.getSymbol(), id.getCoords());
+				id.setSymDef(vdef);
+				vdef.setNode(id);
+				getScope().leaveScope();
+				ExecVarDeclNode evd = new ExecVarDeclNode(id, BasicTypeNode.untypedType);
+				id.setDecl(evd);
+				addVarDecl(evd);
+			}
+		}
+		
+		for(IdentNode id : writeUsageUnresolved.getChildren())
 		{
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
 
@@ -242,8 +275,48 @@ public class ExecNode extends BaseNode {
 
 			becomeParent(usage);
 		}
+		
+		Quadruple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<VarDeclNode>> writeResolve =
+				graphElementUsageOutsideOfCallResolver.resolve(writeUsageUnresolved);
 
-		return resolve != null;
+			if (writeResolve != null) {
+				if (writeResolve.first != null) {
+					for (ExecVarDeclNode c : writeResolve.first.getChildren()) {
+						writeUsage.addChild(c);
+					}
+				}
+
+				if (writeResolve.second != null) {
+					for (NodeDeclNode c : writeResolve.second.getChildren()) {
+						if(!c.defEntityToBeYieldedTo) {
+							reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement (violated by " + c.getIdentNode().toString() + ").");
+						}
+						writeUsage.addChild(c);
+					}
+				}
+
+				if (writeResolve.third != null) {
+					for (EdgeDeclNode c : writeResolve.third.getChildren()) {
+						if(!c.defEntityToBeYieldedTo) {
+							reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement (violated by " + c.getIdentNode().toString() + ").");
+						}
+						writeUsage.addChild(c);
+					}
+				}
+
+				if (writeResolve.fourth != null) {
+					for (VarDeclNode c : writeResolve.fourth.getChildren()) {
+						if(!c.defEntityToBeYieldedTo) {
+							reportError("Only a def (to be yielded to) variable is allowed to be written from an exec statement (violated by " + c.getIdentNode().toString() + ").");
+						}
+						writeUsage.addChild(c);
+					}
+				}
+
+				becomeParent(writeUsage);
+			}
+
+		return resolve != null && writeResolve != null;
 	}
 
 	@Override
@@ -263,6 +336,12 @@ public class ExecNode extends BaseNode {
 			localVars.add(node);
 		Set<Expression> parameters = new LinkedHashSet<Expression>();
 		for(DeclNode dn : usage.getChildren()) {
+			if(dn instanceof ConstraintDeclNode)
+				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
+			else if(dn instanceof VarDeclNode)
+				parameters.add(new VariableExpression(dn.checkIR(Variable.class)));
+		}
+		for(DeclNode dn : writeUsage.getChildren()) {
 			if(dn instanceof ConstraintDeclNode)
 				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
 			else if(dn instanceof VarDeclNode)
