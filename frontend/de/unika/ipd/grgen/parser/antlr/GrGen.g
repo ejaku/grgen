@@ -3464,7 +3464,7 @@ unaryExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initE
 primaryExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 options { k = 4; }
 @init{ IdentNode id; }
-	: e=visited[context] { res = e; }
+	: e=visitedFunction[context] { res = e; }
 	| e=nameOf[context] { res = e; }
 	| e=count { res = e; }
 	| e=globalsAccessExpr { res = e; }
@@ -3509,15 +3509,18 @@ options { k = 4; }
 		}
 	;
 
-visited [int context] returns [ VisitedNode res ]
+visitedFunction [int context] returns [ VisitedNode res ]
 	: v=VISITED LPAREN elem=expr[context, false] 
 		( COMMA idExpr=expr[context, false] RPAREN
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| RPAREN
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
 		)
-	|
-		(elem=entIdentExpr | elem=globalsAccessExpr) DOT v=VISITED  
+	;
+
+visited [int context] returns [ VisitedNode res ]
+	: vf=visitedFunction[context] { res = vf; }
+	| (elem=entIdentExpr | elem=globalsAccessExpr) DOT v=VISITED  
 		( (LBRACK) => LBRACK idExpr=expr[context, false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| 
@@ -3536,14 +3539,14 @@ count returns [ ExprNode res = env.initExprNode() ]
 typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
-	
+
 initContainerExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
 	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[context, null, MapTypeNode.getMapType(keyType, valueType)] { res = e1; }
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[context, null, SetTypeNode.getSetType(valueType)] { res = e2; }
 	| ARRAY LT valueType=typeIdentUse GT e3=initArrayExpr[context, null, ArrayTypeNode.getArrayType(valueType)] { res = e3; }
 	| DEQUE LT valueType=typeIdentUse GT e4=initDequeExpr[context, null, DequeTypeNode.getDequeType(valueType)] { res = e4; }
 	;
-	
+
 constant returns [ ExprNode res = env.initExprNode() ]
 	: b=NUM_BYTE
 		{ res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
@@ -3596,7 +3599,7 @@ options { k = 4; }
 				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
 		}
 	;
-	
+
 entIdentExpr returns [ ExprNode res = env.initExprNode() ]
 	: i=IDENT
 		{
@@ -3616,7 +3619,7 @@ globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
 			res = new IdentExprNode(id);
 		}
 	;
-	
+
 externalFunctionInvocationExpr [ int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	@init{
 		boolean packPrefix = false;
@@ -3638,18 +3641,24 @@ externalFunctionInvocationExpr [ int context, boolean inEnumInit ] returns [ Exp
 			}
 		}
 	;
-	
+
 selectorExpr [ int context, ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	:	l=LBRACK key=expr[context, inEnumInit] RBRACK { res = new IndexedAccessExprNode(getCoords(l), target, key); }
-	|	d=DOT id=memberIdentUse
+	: l=LBRACK key=expr[context, inEnumInit] RBRACK { res = new IndexedAccessExprNode(getCoords(l), target, key); }
+	| d=DOT id=memberIdentUse
 			( { env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? LT mi=memberIdentUse GT )?
 		(
 			params=paramExprs[context, inEnumInit] { res = new MethodInvocationExprNode(target, id, params, mi); }
 		| 
 			{ res = new MemberAccessExprNode(getCoords(d), target, id); }
 		)
+	| DOT v=VISITED  
+		( (LBRACK) => LBRACK idExpr=expr[context, false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
+			{ res = new VisitedNode(getCoords(v), idExpr, target); }
+		| 
+			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), target); }
+		)
 	;
-	
+
 paramExprs [int context, boolean inEnumInit] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
 	:	LPAREN
 		(

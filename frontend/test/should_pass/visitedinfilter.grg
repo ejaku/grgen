@@ -1,0 +1,18 @@
+#using "model.gm"
+
+rule r(start:Node)
+{
+	start --> n:Node;
+	
+	modify {
+		delete(n);
+	}
+}
+
+filter rf<r>
+{
+	if(this[0].start.visited[0]) {
+		this.add(copy(this.peek()));
+		this.rem();
+	}
+}
