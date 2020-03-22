@@ -19,7 +19,7 @@ test foo implements Foo
 	}
 }
 
-match filter f<Foo>(var i:int)
+filter f<class Foo>(var i:int)
 {
 	def ref s:set<int> = set<int>{ i, this[0].i };
 	def ref m:map<int,string> = map<int,string>{ i -> "foo" };

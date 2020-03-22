@@ -46,7 +46,7 @@ package Foo
 
 package Bar
 {
-	match filter shf<Foo::shared>(var f:int)
+	filter shf<class Foo::shared>(var f:int)
 	{
 		for(m:match<class Foo::shared> in this)
 		{

@@ -1,6 +1,6 @@
 #include "packagesimplemultiruleallcallmatchfilter.grg"
 
-external match filter fext<Bla::mc>(var f:int);
+external filter fext<class Bla::mc>(var f:int);
 
 sequence seqExternal
 {

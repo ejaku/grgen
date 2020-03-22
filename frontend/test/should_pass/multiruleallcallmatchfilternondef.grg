@@ -45,7 +45,7 @@ match class shared
 	def x:Node;	
 }
 
-match filter shf<shared>(var f:int)
+filter shf<class shared>(var f:int)
 {
 	for(m:match<class shared> in this)
 	{

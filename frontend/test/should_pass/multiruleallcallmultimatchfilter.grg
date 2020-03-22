@@ -46,7 +46,7 @@ match class sharez
 	def -y:Edge->;
 }
 
-match filter shf<shared>(var f:int)
+filter shf<class shared>(var f:int)
 {
 	for(m:match<class shared> in this)
 	{
@@ -54,7 +54,7 @@ match filter shf<shared>(var f:int)
 	}
 }
 
-match filter shg<sharez>(var d:double)
+filter shg<class sharez>(var d:double)
 {
 	for(m:match<class sharez> in this)
 	{

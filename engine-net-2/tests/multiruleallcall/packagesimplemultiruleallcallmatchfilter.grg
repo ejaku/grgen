@@ -28,7 +28,7 @@ package Bla
 	} \ orderAscendingBy<idef>, orderDescendingBy<idef>, keepSameAsFirst<idef>, keepSameAsLast<idef>, keepOneForEach<idef>,
 		orderDescendingBy<i>, keepOneForEach<i>, keepSameAsFirst<i>
 
-	match filter foutput<mc>
+	filter foutput<class mc>
 	{
 		emit("the value of variable \"foutput\" of type matchfilter is: Bla::matchfilter\n");
 		for(m:match<class mc> in this)
@@ -39,7 +39,7 @@ package Bla
 		}
 	}
 
-	match filter f<mc>(var f:int)
+	filter f<class mc>(var f:int)
 	{
 		emit("the value of variable \"f\" of type matchfilter is: Bla::matchfilter\n");
 		for(m:match<class mc> in this)
@@ -51,7 +51,7 @@ package Bla
 		}
 	}
 
-	match filter frem<mc>(var f:int)
+	filter frem<class mc>(var f:int)
 	{
 		emit("the value of variable \"frem\" of type matchfilter is: Bla::matchfilter\n");
 		def var pos:int = 0;
@@ -268,7 +268,7 @@ match class mcdef
 	def var idef:int;
 }
 
-match filter fdef<mcdef>(var f:int)
+filter fdef<class mcdef>(var f:int)
 {
 	emit("the value of variable \"fdef\" of type matchfilter is: matchfilter\n");
 	for(m:match<class mcdef> in this)
@@ -280,7 +280,7 @@ match filter fdef<mcdef>(var f:int)
 	}
 }
 
-match filter fremdef<mcdef>(var f:int)
+filter fremdef<class mcdef>(var f:int)
 {
 	emit("the value of variable \"fremdef\" of type matchfilter is: matchfilter\n");
 	def var pos:int = 0;

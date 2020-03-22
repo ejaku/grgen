@@ -25,7 +25,7 @@ match class mc
 	def var idef:int;
 }
 
-match filter foutput<mc>
+filter foutput<class mc>
 {
 	for(m:match<class mc> in this)
 	{
@@ -35,7 +35,7 @@ match filter foutput<mc>
 	}
 }
 
-match filter f<mc>(var f:int)
+filter f<class mc>(var f:int)
 {
 	for(m:match<class mc> in this)
 	{
@@ -46,7 +46,7 @@ match filter f<mc>(var f:int)
 	}
 }
 
-match filter frem<mc>(var f:int)
+filter frem<class mc>(var f:int)
 {
 	def var pos:int = 0;
 	for(m:match<class mc> in this)
@@ -65,7 +65,7 @@ match class mcdef
 	def var idef:int;
 }
 
-match filter fdef<mcdef>(var f:int)
+filter fdef<class mcdef>(var f:int)
 {
 	for(m:match<class mcdef> in this)
 	{
@@ -76,7 +76,7 @@ match filter fdef<mcdef>(var f:int)
 	}
 }
 
-match filter fremdef<mcdef>(var f:int)
+filter fremdef<class mcdef>(var f:int)
 {
 	def var pos:int = 0;
 	for(m:match<class mcdef> in this)

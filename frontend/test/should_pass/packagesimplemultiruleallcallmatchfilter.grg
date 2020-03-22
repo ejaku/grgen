@@ -29,7 +29,7 @@ package Bla
 		def x:Node;
 	} \ orderAscendingBy<v>
 
-	match filter shf<shared>(var f:int)
+	filter shf<class shared>(var f:int)
 	{
 		for(m:match<class shared> in this)
 		{

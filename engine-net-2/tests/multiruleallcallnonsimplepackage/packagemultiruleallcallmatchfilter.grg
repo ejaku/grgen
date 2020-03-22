@@ -67,7 +67,7 @@ package Foo
 		def x:Node;
 	} \ orderAscendingBy<v>
 
-	match filter shf<shared>(var f:int)
+	filter shf<class shared>(var f:int)
 	{
 		for(m:match<class shared> in this)
 		{
@@ -98,7 +98,7 @@ package Foo
 
 package Bar
 {
-	match filter shf<Foo::shared>(var f:int)
+	filter shf<class Foo::shared>(var f:int)
 	{
 		for(m:match<class Foo::shared> in this)
 		{

@@ -559,7 +559,25 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			id.setDecl(new ProcedureDeclNode(id, evals, params, retTypes, false));
 			procedureChilds.addChild(id);
 		}
-	| f=FILTER id=actionIdentDecl LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+	| f=FILTER id=actionIdentDecl filterFunctionDecl[f, id, filterChilds, matchClassFilterChilds]
+	| EXTERNAL f=FILTER id=actionIdentDecl externalFilterFunctionDecl[f, id, filterChilds, matchClassFilterChilds]
+	| MATCH mc=CLASS id=typeIdentDecl { env.pushScope(id); } LBRACE 
+		body=matchClassBody[getCoords(mc), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		{
+			mt = new DefinedMatchTypeNode(body);
+			id.setDecl(new TypeDeclNode(id, mt));
+			matchClassChilds.addChild(id);
+		}
+		RBRACE { env.popScope(); }
+		matchClassFilterDecls[id, mt]
+	;
+
+filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds, CollectNode<IdentNode> matchClassFilterChilds ]
+	@init{
+		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+	}
+
+	: LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		LBRACE
 			{
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
@@ -575,14 +593,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			id.setDecl(ff);
 			filterChilds.addChild(id);
 		}
-	| EXTERNAL f=FILTER id=actionIdentDecl LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
-		SEMI { env.popScope(); }
-		{
-			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionId);
-			id.setDecl(ff);
-			filterChilds.addChild(id);
-		} 
-	| MATCH f=FILTER id=actionIdentDecl LT typeId=typeIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+	| LT CLASS typeId=typeIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		LBRACE
 			{
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
@@ -598,22 +609,23 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			id.setDecl(mff);
 			matchClassFilterChilds.addChild(id);
 		}
-	| EXTERNAL MATCH f=FILTER id=actionIdentDecl LT typeId=typeIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+	;
+
+externalFilterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds, CollectNode<IdentNode> matchClassFilterChilds ]
+	: LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
+		SEMI { env.popScope(); }
+		{
+			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionId);
+			id.setDecl(ff);
+			filterChilds.addChild(id);
+		} 
+	| LT CLASS typeId=typeIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		SEMI { env.popScope(); }
 		{
 			MatchClassFilterFunctionDeclNode mff = new MatchClassFilterFunctionDeclNode(id, null, params, typeId);
 			id.setDecl(mff);
 			matchClassFilterChilds.addChild(id);
 		} 
-	| MATCH mc=CLASS id=typeIdentDecl { env.pushScope(id); } LBRACE 
-		body=matchClassBody[getCoords(mc), namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
-		{
-			mt = new DefinedMatchTypeNode(body);
-			id.setDecl(new TypeDeclNode(id, mt));
-			matchClassChilds.addChild(id);
-		}
-		RBRACE { env.popScope(); }
-		matchClassFilterDecls[id, mt]
 	;
 
 matchTypes [ CollectNode<IdentNode> implementedMatchTypes ]

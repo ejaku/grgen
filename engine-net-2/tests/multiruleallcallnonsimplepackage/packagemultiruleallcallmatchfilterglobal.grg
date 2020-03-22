@@ -67,7 +67,7 @@ package Foo
 		def x:Node;
 	} \ orderAscendingBy<v>
 
-	match filter shf<Foo::shared>(var f:int)
+	filter shf<class Foo::shared>(var f:int)
 	{
 		for(m:match<class Foo::shared> in this)
 		{
@@ -77,7 +77,7 @@ package Foo
 		emit("the value of variable \"Foo::shf.v\" of type int is: ", this[0].v, "\n");
 	}
 
-	match filter shgf<sharedGlobal>(var f:int)
+	filter shgf<class sharedGlobal>(var f:int)
 	{
 		for(m:match<class sharedGlobal> in this)
 		{
@@ -118,7 +118,7 @@ match class sharedGlobal
 	def x:Node;
 } \ orderAscendingBy<v>
 
-match filter shf<Foo::shared>(var f:int)
+filter shf<class Foo::shared>(var f:int)
 {
 	for(m:match<class Foo::shared> in this)
 	{
@@ -128,7 +128,7 @@ match filter shf<Foo::shared>(var f:int)
 	emit("the value of variable \"shf.v\" of type int is: ", this[0].v, "\n");
 }
 
-match filter shgf<sharedGlobal>(var f:int)
+filter shgf<class sharedGlobal>(var f:int)
 {
 	for(m:match<class sharedGlobal> in this)
 	{
