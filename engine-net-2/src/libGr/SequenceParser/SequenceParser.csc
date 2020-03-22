@@ -1462,7 +1462,7 @@ SequenceExpression ExpressionBasic():
         return new SequenceExpressionConstant(constant);
     }
 |
-    expr=InitContainerExpr()
+    expr=InitContainerExpr() expr=SelectorExpression(expr)
     {
         return expr;
     }

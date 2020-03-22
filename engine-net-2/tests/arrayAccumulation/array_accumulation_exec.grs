@@ -1,0 +1,24 @@
+new graph arrayAccumulation/array_accumulation_exec
+
+exec sum
+show var x
+
+exec prod
+show var x
+
+exec min
+show var x
+
+exec max
+show var x
+
+exec avg
+show var x
+
+exec med
+show var x
+
+exec medUnsorted
+show var x
+
+quit

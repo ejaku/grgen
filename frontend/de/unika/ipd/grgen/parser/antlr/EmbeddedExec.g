@@ -361,7 +361,7 @@ options { k = 4; }
 		(i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
 	| rq=seqRuleQuery[xg, returns] sel=seqExprSelector[rq, xg] { res = sel; }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
-	| exp=seqConstantWithoutType[xg] { res = (ExprNode)exp; }
+	| exp=seqConstantWithoutType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
 		{
 			id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));

@@ -796,6 +796,41 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 if(argExprs.Count != 0 && argExprs.Count != 1) throw new ParseException("\"" + functionMethodName + "\" expects none or one parameter)");
                 return new SequenceExpressionContainerPeek(targetExpr, argExprs.Count != 0 ? argExprs[0] : null);
             }
+            else if(functionMethodName == "sum")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArraySum(targetExpr);
+            }
+            else if(functionMethodName == "prod")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayProd(targetExpr);
+            }
+            else if(functionMethodName == "min")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayMin(targetExpr);
+            }
+            else if(functionMethodName == "max")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayMax(targetExpr);
+            }
+            else if(functionMethodName == "avg")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayAvg(targetExpr);
+            }
+            else if(functionMethodName == "med")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayMed(targetExpr);
+            }
+            else if(functionMethodName == "medUnsorted")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayMedUnsorted(targetExpr);
+            }
             else
             {
                 return CreateSequenceExpressionFunctionMethodCallUserFunction(targetExpr, functionMethodName, argExprs);

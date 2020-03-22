@@ -1,0 +1,65 @@
+using array_model_001;
+
+test ti(var x:int, var y:int)
+{
+}
+
+test td(var x:double, var y:double)
+{
+}
+
+rule sum {
+	a:A;
+	
+	modify {
+		exec(ti(array<int>[1,2].sum(), a.spiceArray.sum()));
+	}
+}
+
+rule prod {
+	a:A;
+
+	modify {
+		exec(ti(array<int>[1,2].prod(), a.spiceArray.prod()));
+	}
+}
+
+rule min {
+	a:A;
+
+	modify {
+		exec(ti(array<int>[1,2].min(), a.spiceArray.min()));
+	}
+}
+
+rule max {
+	a:A;
+
+	modify {
+		exec(ti(array<int>[1,2].max(), a.spiceArray.max()));
+	}
+}
+
+rule avg {
+	a:A;
+
+	modify {
+		exec(td(array<int>[1,2].avg(), a.spiceArray.avg()));
+	}
+}
+
+rule med {
+	a:A;
+
+	modify {
+		exec(td(array<int>[1,2].med(), a.spiceArray.med()));
+	}
+}
+
+rule medUnsorted {
+	a:A;
+
+	modify {
+		exec(td(array<int>[1,2].medUnsorted(), a.spiceArray.medUnsorted()));
+	}
+}

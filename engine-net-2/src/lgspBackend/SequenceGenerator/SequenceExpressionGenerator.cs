@@ -248,6 +248,20 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionContainerConstructor((SequenceExpressionContainerConstructor)expr, source);
             case SequenceExpressionType.MapConstructor:
                 return GetSequenceExpressionMapConstructor((SequenceExpressionMapConstructor)expr, source);
+            case SequenceExpressionType.ArraySum:
+                return GetSequenceExpressionArraySum((SequenceExpressionArraySum)expr, source);
+            case SequenceExpressionType.ArrayProd:
+                return GetSequenceExpressionArrayProd((SequenceExpressionArrayProd)expr, source);
+            case SequenceExpressionType.ArrayMin:
+                return GetSequenceExpressionArrayMin((SequenceExpressionArrayMin)expr, source);
+            case SequenceExpressionType.ArrayMax:
+                return GetSequenceExpressionArrayMax((SequenceExpressionArrayMax)expr, source);
+            case SequenceExpressionType.ArrayAvg:
+                return GetSequenceExpressionArrayAvg((SequenceExpressionArrayAvg)expr, source);
+            case SequenceExpressionType.ArrayMed:
+                return GetSequenceExpressionArrayMed((SequenceExpressionArrayMed)expr, source);
+            case SequenceExpressionType.ArrayMedUnsorted:
+                return GetSequenceExpressionArrayMedUnsorted((SequenceExpressionArrayMedUnsorted)expr, source);
 
             default:
                 throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
@@ -1494,6 +1508,111 @@ namespace de.unika.ipd.grGen.lgsp
             }
             sb.Append(")");
             return sb.ToString();
+        }
+
+        private string GetSequenceExpressionArraySum(SequenceExpressionArraySum seqArraySum, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArraySum, source);
+
+            if(seqArraySum.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Sum((IList)(" + container + "))";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArraySum.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Sum((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayProd(SequenceExpressionArrayProd seqArrayProd, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayProd, source);
+
+            if(seqArrayProd.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Prod((IList)(" + container + "))";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayProd.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Prod((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayMin(SequenceExpressionArrayMin seqArrayMin, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayMin, source);
+
+            if(seqArrayMin.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Min((IList)(" + container + "))";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMin.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Min((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayMax(SequenceExpressionArrayMax seqArrayMax, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayMax, source);
+
+            if(seqArrayMax.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Max((IList)(" + container + "))";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMax.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Max((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayAvg(SequenceExpressionArrayAvg seqArrayAvg, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayAvg, source);
+
+            if(seqArrayAvg.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Avg((IList)(" + container + "))";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayAvg.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Avg((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayMed(SequenceExpressionArrayMed seqArrayMed, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayMed, source);
+
+            if(seqArrayMed.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Med((IList)(" + container + "))";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMed.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Med((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayMedUnsorted(SequenceExpressionArrayMedUnsorted seqArrayMedUnsorted, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayMedUnsorted, source);
+
+            if(seqArrayMedUnsorted.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((IList)(" + container + "))";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMedUnsorted.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((" + arrayType + ")" + container + ")";
+            }
         }
 
         private string GetContainerValue(SequenceExpressionContainer container, SourceBuilder source)

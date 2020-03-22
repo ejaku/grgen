@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
@@ -74,6 +75,22 @@ namespace de.unika.ipd.grGen.libGr
             return sum;
         }
 
+        public static object Sum(IList array)
+        {
+            if(array is List<SByte>)
+                return Sum(array as List<SByte>);
+            else if(array is List<Int16>)
+                return Sum(array as List<Int16>);
+            else if(array is List<Int32>)
+                return Sum(array as List<Int32>);
+            else if(array is List<Int64>)
+                return Sum(array as List<Int64>);
+            else if(array is List<Single>)
+                return Sum(array as List<Single>);
+            else
+                return Sum(array as List<Double>);
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         public static int Prod(List<SByte> array)
@@ -134,6 +151,22 @@ namespace de.unika.ipd.grGen.libGr
                 prod *= elem;
             }
             return prod;
+        }
+
+        public static object Prod(IList array)
+        {
+            if(array is List<SByte>)
+                return Prod(array as List<SByte>);
+            else if(array is List<Int16>)
+                return Prod(array as List<Int16>);
+            else if(array is List<Int32>)
+                return Prod(array as List<Int32>);
+            else if(array is List<Int64>)
+                return Prod(array as List<Int64>);
+            else if(array is List<Single>)
+                return Prod(array as List<Single>);
+            else
+                return Prod(array as List<Double>);
         }
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -198,6 +231,22 @@ namespace de.unika.ipd.grGen.libGr
             return min;
         }
 
+        public static object Min(IList array)
+        {
+            if(array is List<SByte>)
+                return Min(array as List<SByte>);
+            else if(array is List<Int16>)
+                return Min(array as List<Int16>);
+            else if(array is List<Int32>)
+                return Min(array as List<Int32>);
+            else if(array is List<Int64>)
+                return Min(array as List<Int64>);
+            else if(array is List<Single>)
+                return Min(array as List<Single>);
+            else
+                return Min(array as List<Double>);
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         public static int Max(List<SByte> array)
@@ -258,6 +307,22 @@ namespace de.unika.ipd.grGen.libGr
                 max = Math.Max(max, elem);
             }
             return max;
+        }
+
+        public static object Max(IList array)
+        {
+            if(array is List<SByte>)
+                return Max(array as List<SByte>);
+            else if(array is List<Int16>)
+                return Max(array as List<Int16>);
+            else if(array is List<Int32>)
+                return Max(array as List<Int32>);
+            else if(array is List<Int64>)
+                return Max(array as List<Int64>);
+            else if(array is List<Single>)
+                return Max(array as List<Single>);
+            else
+                return Max(array as List<Double>);
         }
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -334,6 +399,22 @@ namespace de.unika.ipd.grGen.libGr
             return avg;
         }
 
+        public static double Avg(IList array)
+        {
+            if(array is List<SByte>)
+                return Avg(array as List<SByte>);
+            else if(array is List<Int16>)
+                return Avg(array as List<Int16>);
+            else if(array is List<Int32>)
+                return Avg(array as List<Int32>);
+            else if(array is List<Int64>)
+                return Avg(array as List<Int64>);
+            else if(array is List<Single>)
+                return Avg(array as List<Single>);
+            else
+                return Avg(array as List<Double>);
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         public static double Med(List<SByte> array)
@@ -402,6 +483,22 @@ namespace de.unika.ipd.grGen.libGr
                 return (array[array.Count / 2 - 1] + array[array.Count / 2]) / 2.0;
         }
 
+        public static double Med(IList array)
+        {
+            if(array is List<SByte>)
+                return Med(array as List<SByte>);
+            else if(array is List<Int16>)
+                return Med(array as List<Int16>);
+            else if(array is List<Int32>)
+                return Med(array as List<Int32>);
+            else if(array is List<Int64>)
+                return Med(array as List<Int64>);
+            else if(array is List<Single>)
+                return Med(array as List<Single>);
+            else
+                return Med(array as List<Double>);
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         public static double MedUnsorted(List<SByte> array)
@@ -438,6 +535,22 @@ namespace de.unika.ipd.grGen.libGr
         {
             List<Double> arrayOrdered = ArrayOrderAscending(array);
             return Med(arrayOrdered);
+        }
+
+        public static double MedUnsorted(IList array)
+        {
+            if(array is List<SByte>)
+                return MedUnsorted(array as List<SByte>);
+            else if(array is List<Int16>)
+                return MedUnsorted(array as List<Int16>);
+            else if(array is List<Int32>)
+                return MedUnsorted(array as List<Int32>);
+            else if(array is List<Int64>)
+                return MedUnsorted(array as List<Int64>);
+            else if(array is List<Single>)
+                return MedUnsorted(array as List<Single>);
+            else
+                return MedUnsorted(array as List<Double>);
         }
     }
 }
