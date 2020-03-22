@@ -1402,23 +1402,36 @@ namespace de.unika.ipd.grGen.lgsp
                 if(seqContainerPeek.ContainerType(env) == "")
                     return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
                 else if(seqContainerPeek.ContainerType(env).StartsWith("array"))
-                    return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
+                {
+                    string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerPeek.ContainerType(env)), model);
+                    return "GRGEN_LIBGR.ContainerHelper.Peek<" + arrayValueType + ">(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
+                }
                 else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
-                    return container + "[(int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + "]";
-                else // statically known set/map/deque
-                    return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
+                {
+                    string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerPeek.ContainerType(env)), model);
+                    return "GRGEN_LIBGR.ContainerHelper.Peek<" + dequeValueType + ">(" + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + container + ")";
+                }
+                else
+                {
+                    string dictKeyType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerPeek.ContainerType(env)), model);
+                    string dictValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqContainerPeek.ContainerType(env)), model);
+                    return "GRGEN_LIBGR.ContainerHelper.Peek<" + dictKeyType + "," + dictValueType + ">(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
+                }
             }
             else
             {
-                if(seqContainerPeek.ContainerType(env).StartsWith("array"))
+                if(seqContainerPeek.ContainerType(env) == "")
+                    return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ")";
+                else if(seqContainerPeek.ContainerType(env).StartsWith("array"))
                 {
                     string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerPeek.ContainerType(env)), model);
                     return "GRGEN_LIBGR.ContainerHelper.Peek<" + arrayValueType + ">(" + container + ")";
                 }
-                else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
-                    return container + "[0]";
-                else
-                    return "GRGEN_LIBGR.ContainerHelper.Peek(" + container + ")";
+                else //if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
+                {
+                    string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerPeek.ContainerType(env)), model);
+                    return "GRGEN_LIBGR.ContainerHelper.Peek<" + dequeValueType + ">(" + container + ")";
+                }
             }
         }
 

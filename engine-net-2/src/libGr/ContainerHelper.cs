@@ -15,7 +15,7 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {
-    public static class ContainerHelper
+    public static partial class ContainerHelper
     {
         /// <summary>
         /// If dict is dictionary, the dictionary is returned together with its key and value type
@@ -1919,6 +1919,26 @@ namespace de.unika.ipd.grGen.libGr
             return it.Current.Key;
         }
 
+        public static T Peek<T>(List<T> array)
+        {
+            return array[array.Count - 1];
+        }
+
+        public static T Peek<T>(List<T> array, int index)
+        {
+            return array[index];
+        }
+
+        public static T Peek<T>(Deque<T> deque)
+        {
+            return deque[0];
+        }
+
+        public static T Peek<T>(Deque<T> deque, int index)
+        {
+            return deque[index];
+        }
+
         /// <summary>
         /// Returns the value from the dictionary or list or deque at the nth position as defined by the iterator of the dictionary or the index of the list or the iterator of the deque.
         /// </summary>
@@ -1981,11 +2001,6 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new Exception("peek() can only be used on array or deque (peek(int) works on all containers)");
             }
-        }
-
-        public static T Peek<T>(List<T> array)
-        {
-            return array[array.Count - 1];
         }
 
         public static object GetGraphElementAttributeOrElementOfMatch(object source, string attributeOrElementName)

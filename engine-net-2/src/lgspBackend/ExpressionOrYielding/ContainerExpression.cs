@@ -1008,17 +1008,14 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
             Target.Emit(sourceCode);
-            sourceCode.Append("[");
             if(Number != null)
-                Number.Emit(sourceCode);
-            else
             {
-                sourceCode.Append("(");
-                Target.Emit(sourceCode);
-                sourceCode.Append(").Count-1");
+                sourceCode.Append(", ");
+                Number.Emit(sourceCode);
             }
-            sourceCode.Append("]");
+            sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -1883,13 +1880,14 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Peek(");
             Target.Emit(sourceCode);
-            sourceCode.Append("[");
             if(Number != null)
+            {
+                sourceCode.Append(", ");
                 Number.Emit(sourceCode);
-            else
-                sourceCode.Append("0");
-            sourceCode.Append("]");
+            }
+            sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
