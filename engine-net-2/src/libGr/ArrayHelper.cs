@@ -1,0 +1,443 @@
+/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 4.5
+ * Copyright (C) 2003-2020 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.net
+ */
+
+// by Edgar Jakumeit
+
+using System;
+using System.Collections.Generic;
+
+namespace de.unika.ipd.grGen.libGr
+{
+    public static partial class ContainerHelper
+    {
+        public static int Sum(List<SByte> array)
+        {
+            int sum = 0;
+            foreach(SByte elem in array)
+            {
+                sum += elem;
+            }
+            return sum;
+        }
+
+        public static int Sum(List<Int16> array)
+        {
+            int sum = 0;
+            foreach(Int16 elem in array)
+            {
+                sum += elem;
+            }
+            return sum;
+        }
+
+        public static int Sum(List<Int32> array)
+        {
+            int sum = 0;
+            foreach(Int32 elem in array)
+            {
+                sum += elem;
+            }
+            return sum;
+        }
+
+        public static long Sum(List<Int64> array)
+        {
+            long sum = 0;
+            foreach(Int64 elem in array)
+            {
+                sum += elem;
+            }
+            return sum;
+        }
+
+        public static float Sum(List<Single> array)
+        {
+            float sum = 0.0f;
+            foreach(Single elem in array)
+            {
+                sum += elem;
+            }
+            return sum;
+        }
+
+        public static double Sum(List<Double> array)
+        {
+            double sum = 0.0;
+            foreach(Double elem in array)
+            {
+                sum += elem;
+            }
+            return sum;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static int Prod(List<SByte> array)
+        {
+            int prod = 1;
+            foreach(SByte elem in array)
+            {
+                prod *= elem;
+            }
+            return prod;
+        }
+
+        public static int Prod(List<Int16> array)
+        {
+            int prod = 1;
+            foreach(Int16 elem in array)
+            {
+                prod *= elem;
+            }
+            return prod;
+        }
+
+        public static int Prod(List<Int32> array)
+        {
+            int prod = 1;
+            foreach(Int32 elem in array)
+            {
+                prod *= elem;
+            }
+            return prod;
+        }
+
+        public static long Prod(List<Int64> array)
+        {
+            long prod = 1;
+            foreach(Int64 elem in array)
+            {
+                prod *= elem;
+            }
+            return prod;
+        }
+
+        public static float Prod(List<Single> array)
+        {
+            float prod = 1.0f;
+            foreach(Single elem in array)
+            {
+                prod *= elem;
+            }
+            return prod;
+        }
+
+        public static double Prod(List<Double> array)
+        {
+            double prod = 1.0;
+            foreach(Double elem in array)
+            {
+                prod *= elem;
+            }
+            return prod;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static int Min(List<SByte> array)
+        {
+            int min = SByte.MaxValue;
+            foreach(SByte elem in array)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static int Min(List<Int16> array)
+        {
+            int min = Int16.MaxValue;
+            foreach(Int16 elem in array)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static int Min(List<Int32> array)
+        {
+            int min = Int32.MaxValue;
+            foreach(Int32 elem in array)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static long Min(List<Int64> array)
+        {
+            long min = Int64.MaxValue;
+            foreach(Int64 elem in array)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static float Min(List<Single> array)
+        {
+            float min = Single.MaxValue;
+            foreach(Single elem in array)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static double Min(List<Double> array)
+        {
+            double min = Double.MaxValue;
+            foreach(Double elem in array)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static int Max(List<SByte> array)
+        {
+            int max = SByte.MinValue;
+            foreach(SByte elem in array)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static int Max(List<Int16> array)
+        {
+            int max = Int16.MinValue;
+            foreach(Int16 elem in array)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static int Max(List<Int32> array)
+        {
+            int max = Int32.MinValue;
+            foreach(Int32 elem in array)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static long Max(List<Int64> array)
+        {
+            long max = Int64.MinValue;
+            foreach(Int64 elem in array)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static float Max(List<Single> array)
+        {
+            float max = Single.MinValue;
+            foreach(Single elem in array)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static double Max(List<Double> array)
+        {
+            double max = Double.MinValue;
+            foreach(Double elem in array)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static double Avg(List<SByte> array)
+        {
+            double avg = 0.0;
+            int t = 1;
+            foreach(SByte elem in array)
+            {
+                avg += (elem - avg) / t;
+                ++t;
+            }
+            return avg;
+        }
+
+        public static double Avg(List<Int16> array)
+        {
+            double avg = 0.0;
+            int t = 1;
+            foreach(Int16 elem in array)
+            {
+                avg += (elem - avg) / t;
+                ++t;
+            }
+            return avg;
+        }
+
+        public static double Avg(List<Int32> array)
+        {
+            double avg = 0.0;
+            int t = 1;
+            foreach(Int32 elem in array)
+            {
+                avg += (elem - avg) / t;
+                ++t;
+            }
+            return avg;
+        }
+
+        public static double Avg(List<Int64> array)
+        {
+            double avg = 0.0;
+            int t = 1;
+            foreach(Int64 elem in array)
+            {
+                avg += (elem - avg) / t;
+                ++t;
+            }
+            return avg;
+        }
+
+        public static double Avg(List<Single> array)
+        {
+            double avg = 0.0;
+            int t = 1;
+            foreach(Single elem in array)
+            {
+                avg += (elem - avg) / t;
+                ++t;
+            }
+            return avg;
+        }
+
+        public static double Avg(List<Double> array)
+        {
+            double avg = 0.0;
+            int t = 1;
+            foreach(Double elem in array)
+            {
+                avg += (elem - avg) / t;
+                ++t;
+            }
+            return avg;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static double Med(List<SByte> array)
+        {
+            if(array.Count == 0)
+                return 0.0;
+
+            if(array.Count % 2 == 1)
+                return array[array.Count / 2];
+            else
+                return (array[array.Count / 2 - 1] + array[array.Count / 2]) / 2.0;
+        }
+
+        public static double Med(List<Int16> array)
+        {
+            if(array.Count == 0)
+                return 0.0;
+
+            if(array.Count % 2 == 1)
+                return array[array.Count / 2];
+            else
+                return (array[array.Count / 2 - 1] + array[array.Count / 2]) / 2.0;
+        }
+
+        public static double Med(List<Int32> array)
+        {
+            if(array.Count == 0)
+                return 0.0;
+
+            if(array.Count % 2 == 1)
+                return array[array.Count / 2];
+            else
+                return (array[array.Count / 2 - 1] + array[array.Count / 2]) / 2.0;
+        }
+
+        public static double Med(List<Int64> array)
+        {
+            if(array.Count == 0)
+                return 0.0;
+
+            if(array.Count % 2 == 1)
+                return array[array.Count / 2];
+            else
+                return (array[array.Count / 2 - 1] + array[array.Count / 2]) / 2.0;
+        }
+
+        public static double Med(List<Single> array)
+        {
+            if(array.Count == 0)
+                return 0.0;
+
+            if(array.Count % 2 == 1)
+                return array[array.Count / 2];
+            else
+                return (array[array.Count / 2 - 1] + array[array.Count / 2]) / 2.0;
+        }
+
+        public static double Med(List<Double> array)
+        {
+            if(array.Count == 0)
+                return 0.0;
+
+            if(array.Count % 2 == 1)
+                return array[array.Count / 2];
+            else
+                return (array[array.Count / 2 - 1] + array[array.Count / 2]) / 2.0;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static double MedUnsorted(List<SByte> array)
+        {
+            List<SByte> arrayOrdered = ArrayOrderAscending(array);
+            return Med(arrayOrdered);
+        }
+
+        public static double MedUnsorted(List<Int16> array)
+        {
+            List<Int16> arrayOrdered = ArrayOrderAscending(array);
+            return Med(arrayOrdered);
+        }
+
+        public static double MedUnsorted(List<Int32> array)
+        {
+            List<Int32> arrayOrdered = ArrayOrderAscending(array);
+            return Med(arrayOrdered);
+        }
+
+        public static double MedUnsorted(List<Int64> array)
+        {
+            List<Int64> arrayOrdered = ArrayOrderAscending(array);
+            return Med(arrayOrdered);
+        }
+
+        public static double MedUnsorted(List<Single> array)
+        {
+            List<Single> arrayOrdered = ArrayOrderAscending(array);
+            return Med(arrayOrdered);
+        }
+
+        public static double MedUnsorted(List<Double> array)
+        {
+            List<Double> arrayOrdered = ArrayOrderAscending(array);
+            return Med(arrayOrdered);
+        }
+    }
+}

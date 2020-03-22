@@ -1,0 +1,125 @@
+rule sum : (int, int) {
+	def var x:int;
+	
+	yield { 
+		yield x = array<int>[1,2,3].sum();
+	}
+	
+	modify {
+		def var y:int;
+
+		eval {
+			yield y = array<int>[1,2,3].sum();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule prod : (int, int) {
+	def var x:int;
+
+	yield { 
+		yield x = array<int>[1,2,3].prod();
+	}
+	
+	modify {
+		def var y:int;
+
+		eval {
+			yield y = array<int>[1,2,3].prod();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule min : (int, int) {
+	def var x:int;
+
+	yield { 
+		yield x = array<int>[1,2,3].min();
+	}
+	
+	modify {
+		def var y:int;
+
+		eval {
+			yield y = array<int>[1,2,3].min();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule max : (int, int) {
+	def var x:int;
+
+	yield { 
+		yield x = array<int>[1,2,3].max();
+	}
+	
+	modify {
+		def var y:int;
+
+		eval {
+			yield y = array<int>[1,2,3].max();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule avg : (double, double) {
+	def var x:double;
+
+	yield { 
+		yield x = array<int>[1,2,3].avg();
+	}
+	
+	modify {
+		def var y:double;
+
+		eval {
+			yield y = array<int>[1,2,3].avg();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule med : (double, double) {
+	def var x:double;
+
+	yield { 
+		yield x = array<int>[1,2,3].med();
+	}
+	
+	modify {
+		def var y:double;
+
+		eval {
+			yield y = array<int>[1,2,3].med();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule medUnsorted : (double, double) {
+	def var x:double;
+
+	yield { 
+		yield x = array<int>[1,2,3].medUnsorted();
+	}
+	
+	modify {
+		def var y:double;
+
+		eval {
+			yield y = array<int>[1,2,3].medUnsorted();
+		}
+		
+		return(x,y);
+	}
+}

@@ -7,6 +7,7 @@ node class A
 {
 	b:boolean = false;
 	val:int = 42;
+	valDouble:double = 42.0;
 	const constVal:int = 42;
 	strval:string = "foo";
 	const constStrval:string = "foo";

@@ -202,5 +202,16 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static String getUseStr() {
 		return "basic type";
 	}
+	
+	public static TypeNode getOperationType(TypeNode inputType) {
+		if(inputType==byteType)
+			return intType; // byte input -> upcast to int operation
+		else if(inputType==shortType)
+			return intType; // short input -> upcast int operation
+		else if(inputType==floatType)
+			return doubleType; // float input -> upcast to double operation
+		else
+			return inputType;
+	}
 }
 

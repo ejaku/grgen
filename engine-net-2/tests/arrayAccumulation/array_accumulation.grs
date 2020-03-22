@@ -1,0 +1,31 @@
+new graph arrayAccumulation/array_accumulation
+
+exec (::x,::y)=sum
+show var x
+show var y
+
+exec (::x,::y)=prod
+show var x
+show var y
+
+exec (::x,::y)=min
+show var x
+show var y
+
+exec (::x,::y)=max
+show var x
+show var y
+
+exec (::x,::y)=avg
+show var x
+show var y
+
+exec (::x,::y)=med
+show var x
+show var y
+
+exec (::x,::y)=medUnsorted
+show var x
+show var y
+
+quit

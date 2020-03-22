@@ -1591,6 +1591,216 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array sum expression.
+    /// </summary>
+    public class ArraySum : Expression
+    {
+        public ArraySum(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArraySum(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Sum(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array prod expression.
+    /// </summary>
+    public class ArrayProd : Expression
+    {
+        public ArrayProd(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayProd(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Prod(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array min expression.
+    /// </summary>
+    public class ArrayMin : Expression
+    {
+        public ArrayMin(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayMin(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Min(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array max expression.
+    /// </summary>
+    public class ArrayMax : Expression
+    {
+        public ArrayMax(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayMax(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Max(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array avg expression.
+    /// </summary>
+    public class ArrayAvg : Expression
+    {
+        public ArrayAvg(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayAvg(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Avg(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array med expression.
+    /// </summary>
+    public class ArrayMed : Expression
+    {
+        public ArrayMed(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayMed(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Med(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array medUnsorted expression.
+    /// </summary>
+    public class ArrayMedUnsorted : Expression
+    {
+        public ArrayMedUnsorted(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayMedUnsorted(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.MedUnsorted(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
     /// Class representing a deque size expression.
     /// </summary>
     public class DequeSize : Expression

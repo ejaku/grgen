@@ -429,6 +429,69 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArrayAsStringNode(getCoords(), targetExpr, params.get(0));
   			}
+			else if(methodName.equals("sum")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.sum() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArraySumNode(getCoords(), targetExpr);
+  				}
+			}
+			else if(methodName.equals("prod")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.prod() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArrayProdNode(getCoords(), targetExpr);
+  				}
+			}
+			else if(methodName.equals("min")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.min() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArrayMinNode(getCoords(), targetExpr);
+  				}
+			}
+			else if(methodName.equals("max")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.max() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArrayMaxNode(getCoords(), targetExpr);
+  				}
+			}
+			else if(methodName.equals("avg")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.avg() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArrayAvgNode(getCoords(), targetExpr);
+  				}
+			}
+			else if(methodName.equals("med")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.med() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArrayMedNode(getCoords(), targetExpr);
+  				}
+			}
+			else if(methodName.equals("medUnsorted")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.medUnsorted() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArrayMedUnsortedNode(getCoords(), targetExpr);
+  				}
+			}
   			else {
   				reportError("array<T> does not have a method named \"" + methodName + "\"");
   				return false;

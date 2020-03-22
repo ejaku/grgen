@@ -3257,6 +3257,48 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, aas.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof ArraySumExpr) {
+			ArraySumExpr as = (ArraySumExpr)expr;
+			sb.append("new GRGEN_EXPR.ArraySum(");
+			genExpressionTree(sb, as.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayProdExpr) {
+			ArrayProdExpr ap = (ArrayProdExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayProd(");
+			genExpressionTree(sb, ap.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayMinExpr) {
+			ArrayMinExpr am = (ArrayMinExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayMin(");
+			genExpressionTree(sb, am.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayMaxExpr) {
+			ArrayMaxExpr am = (ArrayMaxExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayMax(");
+			genExpressionTree(sb, am.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayAvgExpr) {
+			ArrayAvgExpr aa = (ArrayAvgExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayAvg(");
+			genExpressionTree(sb, aa.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayMedExpr) {
+			ArrayMedExpr am = (ArrayMedExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayMed(");
+			genExpressionTree(sb, am.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayMedUnsortedExpr) {
+			ArrayMedUnsortedExpr amu = (ArrayMedUnsortedExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayMedUnsorted(");
+			genExpressionTree(sb, amu.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof DequeSizeExpr) {
 			DequeSizeExpr ds = (DequeSizeExpr)expr;
 			sb.append("new GRGEN_EXPR.DequeSize(");
