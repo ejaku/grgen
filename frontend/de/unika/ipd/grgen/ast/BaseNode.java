@@ -529,9 +529,12 @@ public abstract class BaseNode extends Base
 			debug.report(NOTE, getCoords(), "local resolve ERROR in " + this);
 		}
 
-		for(BaseNode c : getChildren())
-			successfullyResolved &= (c!=null) && c.resolve();
-
+		for(BaseNode c : getChildren()) {
+			boolean res = (c!=null) && c.resolve();
+			//assert(res || this instanceof InvalidDeclNode);
+			successfullyResolved &= res;
+		}
+		
 		if(!successfullyResolved) {
 			debug.report(NOTE, getCoords(), "child resolve ERROR in " + this);
 		}
