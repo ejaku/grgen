@@ -822,8 +822,8 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		sb.append("\t\t\tGRGEN_LIBGR.IActionExecutionEnvironment actionEnv = procEnv;\n");
-		sb.append("\t\t\tGRGEN_LIBGR.IGraph graph = procEnv.Graph;\n");
+		sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = procEnv;\n");
+		sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)procEnv.Graph;\n");
 		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, null, "", false, emitProfilingInstrumentation);
 		EvalStatement lastEvalStmt = null;
 		for(EvalStatement evalStmt : filter.getComputationStatements()) {
@@ -884,8 +884,8 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-		sb.append("\t\t\tGRGEN_LIBGR.IActionExecutionEnvironment actionEnv = procEnv;\n");
-		sb.append("\t\t\tGRGEN_LIBGR.IGraph graph = procEnv.Graph;\n");
+		sb.append("\t\t\tGRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = procEnv;\n");
+		sb.append("\t\t\tGRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)procEnv.Graph;\n");
 		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, matchClassName, packagePrefix, false, emitProfilingInstrumentation);
 		EvalStatement lastEvalStmt = null;
 		for(EvalStatement evalStmt : matchClassFilter.getComputationStatements()) {
