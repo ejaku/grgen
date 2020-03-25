@@ -1,0 +1,35 @@
+match class mc
+{
+	def var i:int;
+	def var j:int;
+}
+
+rule r implements mc
+{
+	def var i:int;
+	def var j:int;
+	
+	modify {
+	}
+}
+
+filter f<class mc>
+{
+	if(this.extract<i>().sum() > this.extract<j>().sum()) {
+		this = deleteAll(this);
+	}
+}
+
+function deleteAll(ref a:array<match<class mc> >) : array<match<class mc> >
+{
+	for(i:int in [0:a.size()-1])
+	{
+		a[i] = null;
+	}
+	return(a);
+}
+
+test tb(ref a:array<match<class mc> >)
+{
+	if{ a.extract<i>().sum() < a.extract<j>().sum(); }
+}

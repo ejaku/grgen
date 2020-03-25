@@ -358,11 +358,26 @@ namespace de.unika.ipd.grGen.lgsp
                 sbInArguments.Append(", ");
                 sbInArguments.Append(matchingPattern.InputNames[i]);
 
-                sbInArgumentsFromArray.Append(", (");
-                sbInArgumentsFromArray.Append(TypesHelper.TypeName(matchingPattern.Inputs[i]));
-                sbInArgumentsFromArray.Append(") parameters[");
-                sbInArgumentsFromArray.Append(i);
-                sbInArgumentsFromArray.Append("]");
+                String parameterType = TypesHelper.DotNetTypeToXgrsType(matchingPattern.Inputs[i]);
+                if(parameterType.StartsWith("array<match<"))
+                {
+                    String arrayValueType = TypesHelper.ExtractSrc(parameterType);
+                    if(parameterType.StartsWith("array<match<class "))
+                        sbInArgumentsFromArray.AppendFormat(", {0}.ConvertAsNeeded(", TypesHelper.MatchClassFiltererForMatchClassType(arrayValueType));
+                    else
+                        sbInArgumentsFromArray.AppendFormat(", {0}.ConvertAsNeeded(", TypesHelper.ActionClassForMatchType(arrayValueType));
+                    sbInArgumentsFromArray.Append("parameters[");
+                    sbInArgumentsFromArray.Append(i);
+                    sbInArgumentsFromArray.Append("])");
+                }
+                else
+                {
+                    sbInArgumentsFromArray.Append(", (");
+                    sbInArgumentsFromArray.Append(TypesHelper.TypeName(matchingPattern.Inputs[i]));
+                    sbInArgumentsFromArray.Append(") parameters[");
+                    sbInArgumentsFromArray.Append(i);
+                    sbInArgumentsFromArray.Append("]");
+                }
             }
             String inParameters = sbInParameters.ToString();
             String inArguments = sbInArguments.ToString();
@@ -886,6 +901,18 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("default: throw new Exception(\"Unknown filter name \" + filter.PackagePrefixedName + \"!\");\n");
             sb.Unindent();
             sb.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            string typeName = TypesHelper.XgrsTypeToCSharpType("match<" + matchingPattern.patternGraph.PackagePrefixedName + ">", model);
+            string listTypeName = TypesHelper.XgrsTypeToCSharpType("array<match<" + matchingPattern.patternGraph.PackagePrefixedName + ">>", model);
+            sb.AppendFrontFormat("public static {0} ConvertAsNeeded(object parameter)\n", listTypeName);
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFrontFormat("if(parameter is {0})\n", listTypeName);
+            sb.AppendFrontFormat("\treturn (({0})parameter);\n", listTypeName);
+            sb.AppendFrontFormat("else\n");
+            sb.AppendFrontFormat("\treturn GRGEN_LIBGR.MatchListHelper.ToList<{0}>((IList<GRGEN_LIBGR.IMatch>)parameter);\n", typeName);
             sb.Unindent();
             sb.AppendFront("}\n");
         }

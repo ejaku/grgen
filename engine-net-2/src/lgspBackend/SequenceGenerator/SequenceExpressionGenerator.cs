@@ -671,7 +671,7 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesSourceBuilder.Reset();
                 EmitFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
             }
-            return matchesSourceBuilder.ToString() + ".ToList()";
+            return matchesSourceBuilder.ToString() + ".ToListExact()";
         }
 
         private string GetSequenceExpressionFunctionCall(SequenceExpressionFunctionCall seqFuncCall, SourceBuilder source)

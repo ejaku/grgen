@@ -3215,7 +3215,7 @@ public class ModifyGen extends CSharpBase {
 		if(state.matchClassName() != null)
 			sb.append("\t\t\tGRGEN_LIBGR.MatchListHelper.FromList(matches, this_matches);\n");
 		else
-			sb.append("\t\t\tmatches.FromList();\n");
+			sb.append("\t\t\tmatches.FromListExact();\n");
 		sb.append("\t\t\treturn;\n");
 	}
 
@@ -3306,7 +3306,7 @@ public class ModifyGen extends CSharpBase {
 			if(state.matchClassName() != null)
 				sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = GRGEN_LIBGR.MatchListHelper.ToList<" + state.packagePrefix() + "IMatch_" + state.matchClassName() + ">(matches);\n");
 			else
-				sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = matches.ToList();\n");
+				sb.append("\t\t\t" + formatType(var.getType()) + " this_matches = matches.ToListExact();\n");
 			return;
 		}
 		sb.append("\t\t\t" + formatType(var.getType()) + " " + formatEntity(var));

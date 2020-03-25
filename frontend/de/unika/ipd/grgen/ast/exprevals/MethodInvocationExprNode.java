@@ -397,6 +397,14 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArrayReverseNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("extract")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.extract<attribute>() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new ArrayExtractNode(getCoords(), targetExpr, attributeIdent);
+  			}
 			else if(methodName.equals("asSet")) {
   				if(params.size() != 0) {
   					reportError("array<T>.asSet() takes no parameters.");

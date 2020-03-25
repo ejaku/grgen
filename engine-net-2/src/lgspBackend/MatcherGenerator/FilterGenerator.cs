@@ -206,7 +206,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront("if(matches.Count < 2)\n");
             source.AppendFront("\treturn;\n");
-            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
             source.AppendFrontFormat("if(matches.Count < 5 || {0}.Instance.patternGraph.nodes.Length + {0}.Instance.patternGraph.edges.Length < 1)\n", rulePatternClassName);
             source.AppendFront("{\n");
@@ -282,7 +282,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            source.AppendFront("matches.FromList();\n");
+            source.AppendFront("matches.FromListExact();\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -300,9 +300,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
             source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", rulePattern.name, filterName);
-            source.AppendFront("matches.FromList();\n");
+            source.AppendFront("matches.FromListExact();\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -392,9 +392,9 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("{\n");
                 source.Indent();
 
-                source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+                source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
                 source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", rulePattern.name, filterName);
-                source.AppendFront("matches.FromList();\n");
+                source.AppendFront("matches.FromListExact();\n");
 
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -484,7 +484,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
             String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
             if(sameAsFirst)
@@ -508,7 +508,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("}\n");
             }
 
-            source.AppendFront("matches.FromList();\n");
+            source.AppendFront("matches.FromListExact();\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -568,7 +568,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToList();\n", matchInterfaceName);
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
             String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
             String typeOfEntity = getTypeOfFilterVariable(rulePattern, matchEntity);
@@ -581,7 +581,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
             source.AppendFront("}\n");
 
-            source.AppendFront("matches.FromList();\n");
+            source.AppendFront("matches.FromListExact();\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -639,7 +639,7 @@ namespace de.unika.ipd.grGen.lgsp
             return null;
         }
 
-        public static void GenerateMatchClassFilterers(SourceBuilder source, MatchClassInfo matchClass)
+        public static void GenerateMatchClassFilterers(SourceBuilder source, MatchClassInfo matchClass, IGraphModel model)
         {
             source.AppendFront("\n");
 
@@ -730,6 +730,18 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            string typeName = TypesHelper.XgrsTypeToCSharpType("match<class " + matchClass.PackagePrefixedName + ">", model);
+            string listTypeName = TypesHelper.XgrsTypeToCSharpType("array<match<class " + matchClass.PackagePrefixedName + ">>", model);
+            source.AppendFrontFormat("public static {0} ConvertAsNeeded(object parameter)\n", listTypeName);
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFrontFormat("if(parameter is {0})\n", listTypeName);
+            source.AppendFrontFormat("\treturn (({0})parameter);\n", listTypeName);
+            source.AppendFrontFormat("else\n");
+            source.AppendFrontFormat("\treturn GRGEN_LIBGR.MatchListHelper.ToList<{0}>((IList<GRGEN_LIBGR.IMatch>)parameter);\n", typeName);
             source.Unindent();
             source.AppendFront("}\n");
 

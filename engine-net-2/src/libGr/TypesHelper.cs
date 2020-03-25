@@ -33,7 +33,7 @@ namespace de.unika.ipd.grGen.libGr
                             first = false;
                         else
                             sb.Append(", ");
-                        sb.Append(typeArg.FullName);
+                        sb.Append(typeArg.FullName.Replace("+", "."));
                     }
                     sb.Append('>');
                     return sb.ToString();
@@ -222,6 +222,25 @@ namespace de.unika.ipd.grGen.libGr
                     return type.Substring(9); // remove "EdgeType_"
                 else
                     return package + "::" + type.Substring(9); // remove "EdgeType_"
+            }
+
+            if(typeName.StartsWith("IMatch_"))
+            {
+                String potentialRuleName = typeName.Substring(7);
+                if(fullTypeName.Contains(".Rule_" + potentialRuleName))
+                {
+                    if(package == null)
+                        return "match<" + potentialRuleName + ">"; // remove "IMatch_"
+                    else
+                        return "match<" + package + "::" + potentialRuleName + ">"; // remove "IMatch_"
+                }
+                else
+                {
+                    if(package == null)
+                        return "match<class " + potentialRuleName + ">"; // remove "IMatch_"
+                    else
+                        return "match<class " + package + "::" + potentialRuleName + ">"; // remove "IMatch_"
+                }
             }
 
             typeName = typeName.Substring(1); // remove I from class name
@@ -465,6 +484,12 @@ namespace de.unika.ipd.grGen.libGr
                 genericType = genericType.Remove(genericType.Length - 1);
                 return genericType;
             }
+            else if(genericType.StartsWith("match<class ")) // match<class srcType>
+            {
+                genericType = genericType.Substring(12);
+                genericType = genericType.Remove(genericType.Length - 1);
+                return genericType;
+            }
             else if(genericType.StartsWith("match<")) // match<srcType>
             {
                 genericType = genericType.Substring(6);
@@ -491,6 +516,38 @@ namespace de.unika.ipd.grGen.libGr
             else if(genericType.StartsWith("deque<")) // deque<srcType>
                 return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
             return null;
+        }
+
+        public static String ActionClassForMatchType(String matchType)
+        {
+            String prefixedRule = matchType.Substring(6, matchType.Length - 6 - 1); // remove match< begin and > end
+            if(prefixedRule.Contains("::"))
+            {
+                String packageName = prefixedRule.Substring(0, prefixedRule.IndexOf(':'));
+                String ruleName = prefixedRule.Substring(prefixedRule.LastIndexOf(':') + 1);
+                return "GRGEN_ACTIONS." + packageName + ".Action_" + ruleName;
+            }
+            else
+            {
+                String ruleName = prefixedRule;
+                return "GRGEN_ACTIONS.Action_" + ruleName;
+            }
+        }
+
+        public static String MatchClassFiltererForMatchClassType(String matchClassType)
+        {
+            String prefixedMatchClass = matchClassType.Substring(12, matchClassType.Length - 12 - 1); // remove match<class begin and > end
+            if(prefixedMatchClass.Contains("::"))
+            {
+                String packageName = prefixedMatchClass.Substring(0, prefixedMatchClass.IndexOf(':'));
+                String matchClassName = prefixedMatchClass.Substring(prefixedMatchClass.LastIndexOf(':') + 1);
+                return "GRGEN_ACTIONS." + packageName + ".MatchClassFilterer_" + matchClassName;
+            }
+            else
+            {
+                String matchClassName = prefixedMatchClass;
+                return "GRGEN_ACTIONS.MatchClassFilterer_" + matchClassName;
+            }
         }
 
         /// <summary>
@@ -541,7 +598,6 @@ namespace de.unika.ipd.grGen.libGr
             if(type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
             if(type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
             if(type.StartsWith("deque<")) return "GRGEN_LIBGR.Deque<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
-            if(type.StartsWith("match<")) return "Rule_" + ExtractSrc(type) + ".IMatch_" + ExtractSrc(type);
             if(type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
             if(type == "graph") return "GRGEN_LIBGR.IGraph"; 
 
@@ -549,6 +605,38 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(enumAttrType.PackagePrefixedName == type)
                     return "GRGEN_MODEL." + (enumAttrType.Package!=null ? enumAttrType.Package+"." : "") + "ENUM_" + enumAttrType.Name;
+            }
+
+            if(type.StartsWith("match<class "))
+            {
+                String prefixedMatchClass = type.Substring(12, type.Length - 12 - 1);
+                if(prefixedMatchClass.Contains("::"))
+                {
+                    String packageName = prefixedMatchClass.Substring(0, prefixedMatchClass.IndexOf(':'));
+                    String matchClassName = prefixedMatchClass.Substring(prefixedMatchClass.LastIndexOf(':') + 1);
+                    return "GRGEN_ACTIONS." + packageName + ".IMatch_" + matchClassName;
+                }
+                else
+                {
+                    String matchClassName = prefixedMatchClass;
+                    return "GRGEN_ACTIONS.IMatch_" + matchClassName;
+                }
+            }
+
+            if(type.StartsWith("match<"))
+            {
+                String prefixedRule = type.Substring(6, type.Length - 6 - 1);
+                if(prefixedRule.Contains("::"))
+                {
+                    String packageName = prefixedRule.Substring(0, prefixedRule.IndexOf(':'));
+                    String ruleName = prefixedRule.Substring(prefixedRule.LastIndexOf(':') + 1);
+                    return "GRGEN_ACTIONS." + packageName + ".Rule_" + ruleName + ".IMatch_" + ruleName;
+                }
+                else
+                {
+                    String ruleName = prefixedRule;
+                    return "GRGEN_ACTIONS.Rule_" + ruleName + ".IMatch_" + ruleName;
+                }
             }
 
             if(type.Contains("::"))

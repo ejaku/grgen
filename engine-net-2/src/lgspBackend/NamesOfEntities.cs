@@ -179,7 +179,23 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public static string RulePatternClassName(string rulePatternName, string packageName, bool isSubpattern)
         {
-            return (packageName!=null ? packageName + "." : "") + (isSubpattern ? "Pattern_" : "Rule_") + rulePatternName;
+            return (packageName != null ? packageName + "." : "") + (isSubpattern ? "Pattern_" : "Rule_") + rulePatternName;
+        }
+
+        /// <summary>
+        /// Returns name of the match class
+        /// </summary>
+        public static string MatchClassName(string matchClassName, string packageName)
+        {
+            return (packageName != null ? packageName + "." : "") + "MatchClassInfo_" + matchClassName;
+        }
+
+        /// <summary>
+        /// Returns name of the comparer class
+        /// </summary>
+        public static string ComparerClassName(string graphElementTypeName, string packageName, string entityName)
+        {
+            return (packageName != null ? packageName + "." : "") + "Comparer_" + graphElementTypeName + "_" + entityName;
         }
 
         /// <summary>

@@ -1,0 +1,10 @@
+new graph arrayAccumulation/array_accumulation_extraction_graph_element_type
+
+exec init
+
+exec r
+
+show var avg
+show var med
+
+quit

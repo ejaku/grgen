@@ -803,12 +803,13 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
-        /// The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
+        /// Returns a copy of the content of the current matches list in form of an array.
+        /// Attention: matches may get stale when the rule is matched again.
+        /// This is only a convenience helper method, unrelated to ToListExact, and its pairing with FromListExact.
         /// </summary>
-        public List<MatchInterface> ToList()
+        public List<IMatch> ToList()
         {
-            array.Clear();
+            List<IMatch> array = new List<IMatch>(Count);
             Match cur = root;
             for(int i = 0; i < count; i++, cur = cur.next)
             {
@@ -818,11 +819,26 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
+        /// The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
+        /// </summary>
+        public List<MatchInterface> ToListExact()
+        {
+            arrayExact.Clear();
+            Match cur = root;
+            for(int i = 0; i < count; i++, cur = cur.next)
+            {
+                arrayExact.Add(cur);
+            }
+            return arrayExact;
+        }
+
+        /// <summary>
         /// Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
         /// The list might have been reordered, matches might have been removed, or even added.
         /// Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
         /// </summary>
-        public void FromList()
+        public void FromListExact()
         {
             // forget about the matches currently stored in the matches list which were handed out in ToList, keeping the "free tail" remaining
             for(int i = 0; i < count; ++i)
@@ -832,30 +848,30 @@ namespace de.unika.ipd.grGen.lgsp
             count = 0;
 
             // that's it if the array is empty
-            if(array.Count == 0)
+            if(arrayExact.Count == 0)
                 return;
             int startIndex = 0;
-            for(; startIndex < array.Count; ++startIndex) // fast forward to first non-null entry
+            for(; startIndex < arrayExact.Count; ++startIndex) // fast forward to first non-null entry
             {
-                if(array[startIndex] != null)
+                if(arrayExact[startIndex] != null)
                     break;
             }
-            if(startIndex >= array.Count) // only null-entries were in array
+            if(startIndex >= arrayExact.Count) // only null-entries were in array
                 return;
 
             // prepend the matches stored in the array handed out
 
             // employ the first non-null entry in the array as new list head
             Match oldRoot = root;
-            root = (Match)array[startIndex];
+            root = (Match)arrayExact[startIndex];
             ++count;
             Match cur = root;
             // add all further, non-null entries to list
-            for(int i = startIndex + 1; i < array.Count; ++i)
+            for(int i = startIndex + 1; i < arrayExact.Count; ++i)
             {
-                if(array[i] == null)
+                if(arrayExact[i] == null)
                     continue;
-                cur.next = (Match)array[i];
+                cur.next = (Match)arrayExact[i];
                 cur = cur.next;
                 ++count;
             }
@@ -888,12 +904,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="count">The number of matches to keep</param>
         public void Filter_keepFirst(int count)
         {
-            List<MatchInterface> matchesArray = ToList();
+            List<MatchInterface> matchesArray = ToListExact();
             for(int i = count; i < matchesArray.Count; ++i)
             {
                 matchesArray[i] = default(MatchInterface); // = null
             }
-            FromList();
+            FromListExact();
         }
 
         /// <summary>
@@ -902,12 +918,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="count">The number of matches to keep</param>
         public void Filter_keepLast(int count)
         {
-            List<MatchInterface> matchesArray = ToList();
+            List<MatchInterface> matchesArray = ToListExact();
             for(int i = matchesArray.Count-1 - count; i >= 0; --i)
             {
                 matchesArray[i] = default(MatchInterface); // = null
             }
-            FromList();
+            FromListExact();
         }
 
         /// <summary>
@@ -934,12 +950,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="count">The number of matches to remove</param>
         public void Filter_removeFirst(int count)
         {
-            List<MatchInterface> matchesArray = ToList();
+            List<MatchInterface> matchesArray = ToListExact();
             for(int i = 0; i < Math.Min(count, matchesArray.Count); ++i)
             {
                 matchesArray[i] = default(MatchInterface); // = null
             }
-            FromList();
+            FromListExact();
         }
 
         /// <summary>
@@ -948,12 +964,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="count">The number of matches to remove</param>
         public void Filter_removeLast(int count)
         {
-            List<MatchInterface> matchesArray = ToList();
+            List<MatchInterface> matchesArray = ToListExact();
             for(int i = matchesArray.Count - 1; i > Math.Max(matchesArray.Count - 1 - count, 0); --i)
             {
                 matchesArray[i] = default(MatchInterface); // = null
             }
-            FromList();
+            FromListExact();
         }
 
         /// <summary>
@@ -979,8 +995,8 @@ namespace de.unika.ipd.grGen.lgsp
         private int count;
 
         /// <summary>
-        /// the array returned in a call of ToList
+        /// the array returned in a call of ToListExact
         /// </summary>
-        private List<MatchInterface> array = new List<MatchInterface>();
+        private List<MatchInterface> arrayExact = new List<MatchInterface>();
     }
 }

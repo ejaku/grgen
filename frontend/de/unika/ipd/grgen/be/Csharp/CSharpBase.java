@@ -1563,6 +1563,35 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
+		else if (expr instanceof ArrayExtract) {
+			ArrayExtract ae = (ArrayExtract)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ae));
+			}
+			else {
+				Type arrayValueType = ((ArrayType)ae.getTargetExpr().getType()).getValueType();
+				if(arrayValueType instanceof InheritanceType) {
+					InheritanceType graphElementType = (InheritanceType)arrayValueType;
+					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_" + graphElementType.getIdent().toString() + "_" + formatIdentifiable(ae.getMember());
+					sb.append("GRGEN_MODEL." + comparerName + ".Extract(");
+					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchType) {
+					MatchType matchType = (MatchType)arrayValueType;
+					Rule rule = matchType.getAction();
+					String ruleName = getPackagePrefixDot(rule) + "Rule_" + formatIdentifiable(rule);
+					sb.append("GRGEN_ACTIONS." + ruleName + ".Extractor.Extract_" + formatIdentifiable(ae.getMember()) + "(");
+					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof DefinedMatchType) {
+					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
+					String matchClassName = getPackagePrefixDot(definedMatchType) + "MatchClassInfo_" + formatIdentifiable(definedMatchType);
+					sb.append("GRGEN_ACTIONS." + matchClassName + ".Extractor.Extract_" + formatIdentifiable(ae.getMember()) + "(");
+					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
+			}
+		}
 		else if (expr instanceof ArrayAsSetExpr) {
 			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {

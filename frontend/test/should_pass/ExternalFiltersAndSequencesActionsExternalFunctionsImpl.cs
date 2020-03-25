@@ -119,21 +119,21 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
         {
             // inspect matches carefully and manipulate as needed, 
             // transforming to a List<IMatch> for easier manipulation and back to an IMatchesExact if needed
-            List<Rule_filterBass.IMatch_filterBass> matchesArray = matches.ToList();
+            List<Rule_filterBass.IMatch_filterBass> matchesArray = matches.ToListExact();
             matchesArray.Reverse();
             Rule_filterBass.IMatch_filterBass match = matchesArray[matchesArray.Count-1];
             matchesArray[matchesArray.Count - 1] = null; // setting to null is an efficient way to delete, better than List.RemoveAt
             ++match.node_n.i;
             matchesArray.Add(match);
             matchesArray.Reverse();
-            matches.FromList();
+            matches.FromListExact();
         }
 
         public static void Filter_f4(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> matches, System.Int32 i, System.String s)
         {
             // inspect matches carefully and manipulate as needed, depending on input parameters
             // transforming to a List<IMatch> for easier manipulation and back to an IMatchesExact if needed
-            List<Rule_filterHass.IMatch_filterHass> matchesArray = matches.ToList();
+            List<Rule_filterHass.IMatch_filterHass> matchesArray = matches.ToListExact();
             for(int j = 0; j < matchesArray.Count; ++j)
             {
                 Rule_filterHass.IMatch_filterHass match = matchesArray[j];
@@ -146,7 +146,7 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
                     match.node_n.s = s;
                 }
             }
-            matches.FromList();
+            matches.FromListExact();
         }
     }
 

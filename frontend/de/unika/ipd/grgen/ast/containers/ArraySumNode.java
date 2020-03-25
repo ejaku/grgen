@@ -61,7 +61,8 @@ public class ArraySumNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		return BasicTypeNode.getOperationType(((ArrayTypeNode)targetExpr.getType()).valueType);
+		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		return BasicTypeNode.getOperationType(arrayType.valueType);
 	}
 
 	@Override

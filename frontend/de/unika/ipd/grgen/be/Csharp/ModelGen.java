@@ -2341,6 +2341,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\tnewList.Sort(thisComparer);\n");
 		sb.append("\t\t\treturn newList;\n");
 		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic static List<" + formatType(entity.getType()) + "> Extract(List<" + typeName + "> list)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tList<" + formatType(entity.getType()) + "> resultList = new List<" + formatType(entity.getType()) + ">(list.Count);\n");
+		sb.append("\t\t\tforeach(" + typeName + " entry in list)\n");
+		sb.append("\t\t\t\tresultList.Add(entry.@" + attributeName + ");\n");
+		sb.append("\t\t\treturn resultList;\n");
+		sb.append("\t\t}\n");
 		
 		sb.append("\t}\n\n");
 	}

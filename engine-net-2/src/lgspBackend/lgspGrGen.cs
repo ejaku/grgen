@@ -815,7 +815,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(MatchClassInfo matchClass in ruleAndMatchingPatterns.MatchClasses)
             {
-                FilterGenerator.GenerateMatchClassFilterers(source, matchClass);
+                FilterGenerator.GenerateMatchClassFilterers(source, matchClass, model);
             }
 
             // the actions class referencing the generated stuff is generated now into 

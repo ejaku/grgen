@@ -107,12 +107,12 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 			} else if(owner instanceof VarDeclNode && owner.getDeclType() instanceof MatchTypeNode) {
 				MatchTypeNode matchType = (MatchTypeNode)owner.getDeclType();
 				if(!matchType.resolve()) {
-					reportError("Unkown test/rule referenced by match type in filter function");
+					reportError("Unkown test/rule referenced by match type");
 					return false;
 				}
 				TestDeclNode test = matchType.getTest();
 				if(!test.resolve()) {
-					reportError("Error in test/rule referenced by match type in filter function");
+					reportError("Error in test/rule referenced by match type");
 					return false;
 				}
 				node = test.tryGetNode(memberUnresolved);
@@ -121,13 +121,13 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 				if(node==null && edge==null && var==null) {
 					String memberName = memberUnresolved.toString();
 					String actionName = test.getIdentNode().toString();
-					reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName + " referenced by match type in filter function");
+					reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
 					successfullyResolved = false;
 				}
 			} else if(owner instanceof VarDeclNode && owner.getDeclType() instanceof DefinedMatchTypeNode) {
 				DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)owner.getDeclType();
 				/*if(!definedMatchType.resolve()) {
-					reportError("Unkown match class referenced by match class type in match class filter function");
+					reportError("Unkown match class referenced by match class type");
 					return false;
 				}*/
 				node = definedMatchType.tryGetNode(memberUnresolved);
@@ -136,7 +136,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 				if(node==null && edge==null && var==null) {
 					String memberName = memberUnresolved.toString();
 					String matchClassName = definedMatchType.getIdentNode().toString();
-					reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName + " referenced by match class filter function");
+					reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
 					successfullyResolved = false;
 				}
 			} else if(owner instanceof VarDeclNode) {

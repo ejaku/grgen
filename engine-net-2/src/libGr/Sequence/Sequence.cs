@@ -2012,7 +2012,7 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.Recorder.Flush();
                 }
 #endif
-                return new List<IMatch>(matches);
+                return matches.ToList();
             }
             catch(NullReferenceException)
             {

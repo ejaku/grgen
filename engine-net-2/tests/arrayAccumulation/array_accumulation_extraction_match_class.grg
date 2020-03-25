@@ -1,0 +1,60 @@
+#using "array_model.gm"
+
+rule init
+{	
+	modify {
+		a:A; b:A; c:A; n:N;
+		
+		eval {
+			a.intValue = 1;
+			b.intValue = 2;
+			c.intValue = 3;
+			
+			n.val = 42;
+		}
+	}
+}
+
+match class mc
+{
+	def var i:int;
+	def var j:int;
+}
+
+rule r(var offset:int) implements mc
+{
+	a:A;
+
+	def var i:int;
+	def var j:int;
+
+	yield {
+		yield i = a.intValue;
+		yield j = a.intValue + offset;
+	}
+	
+	modify {
+		n:Node;
+	}
+}
+
+filter f<class mc>
+{
+	if(this.extract<i>().sum() > this.extract<j>().sum()) {
+		this = deleteAll(this);
+	}
+}
+
+function deleteAll(ref a:array<match<class mc> >) : array<match<class mc> >
+{
+	for(i:int in [0:a.size()-1])
+	{
+		a[i] = null;
+	}
+	return(a);
+}
+
+/*test tb(ref a:array<match<class mc> >)
+{
+	if{ a.extract<i>().sum() < a.extract<j>().sum(); }
+}*/

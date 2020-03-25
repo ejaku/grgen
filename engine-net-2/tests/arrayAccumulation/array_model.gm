@@ -1,0 +1,10 @@
+node class A
+{
+	intValue: int;
+}
+
+node class N
+{
+	val: int;
+	aArray: array<A>;
+}

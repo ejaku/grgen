@@ -678,6 +678,7 @@ seqCallRuleExpression[ExecNode xg, CollectNode<CallActionNode> ruleCalls, Collec
 				ruleCalls.addChild(ruleCall);
 			}
 			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, id)));
+			//array-of-match-todo:res = new RuleQueryExprNode(id.getCoords(), ruleCall, ArrayTypeNode.getArrayType(MatchTypeNode.getMatchTypeIdentNode(env, id)));
 		}
 	;
 

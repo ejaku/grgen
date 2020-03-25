@@ -430,6 +430,9 @@ public class ActionsGen extends CSharpBase {
 
 		genMatch(sb, actionRule.getPattern(), actionRule.getImplementedMatchClasses(), className, actionRule.getAnnotations().containsKey("parallelize"));
 
+		sb.append("\n");
+		genExtractor(sb, actionRule);
+		
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -994,6 +997,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\n");
 		sb.append(sbElements.toString());
 
+		sb.append("\n");
+		genMatchClassExtractor(sb, matchClass);
+
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -1038,6 +1044,91 @@ public class ActionsGen extends CSharpBase {
 		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
 		genPatternMatchImplementation(sb, pattern, pattern.getNameOfGraph(),
 				patGraphVarName, className, pattern.getNameOfGraph()+"_", false, false, parallelized);
+	}
+
+	/**
+	 * Generates the Extractor class with the Extract helper functions (returning an array of the extracted match element type from an array of match type)
+	 */
+	void genExtractor(StringBuffer sb, Rule actionRule)
+	{
+		sb.append("\tpublic class Extractor\n");
+		sb.append("\t{\n");
+
+		PatternGraph pattern = actionRule.getPattern();
+		String matchTypeName = "IMatch_" + pattern.getNameOfGraph();
+
+		for(Node node : pattern.getNodes()) {
+			sb.append("\t\tpublic static List<" + formatType(node.getType()) + "> Extract_" + formatIdentifiable(node) + "(List<" + matchTypeName + "> matchList)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tList<" + formatType(node.getType()) + "> resultList = new List<" + formatType(node.getType()) + ">(matchList.Count);\n");
+			sb.append("\t\t\tforeach(" + matchTypeName + " match in matchList)\n");
+			sb.append("\t\t\t\tresultList.Add(match." + formatEntity(node) + ");\n");
+			sb.append("\t\t\treturn resultList;\n");
+			sb.append("\t\t}\n");
+		}
+		for(Edge edge : pattern.getEdges()) {
+			sb.append("\t\tpublic static List<" + formatType(edge.getType()) + "> Extract_" + formatIdentifiable(edge) + "(List<" + matchTypeName + "> matchList)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tList<" + formatType(edge.getType()) + "> resultList = new List<" + formatType(edge.getType()) + ">(matchList.Count);\n");
+			sb.append("\t\t\tforeach(" + matchTypeName + " match in matchList)\n");
+			sb.append("\t\t\t\tresultList.Add(match." + formatEntity(edge) + ");\n");
+			sb.append("\t\t\treturn resultList;\n");
+			sb.append("\t\t}\n");
+		}
+		for(Variable var : pattern.getVars()) {
+			sb.append("\t\tpublic static List<" + formatType(var.getType()) + "> Extract_" + formatIdentifiable(var) + "(List<" + matchTypeName + "> matchList)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tList<" + formatType(var.getType()) + "> resultList = new List<" + formatType(var.getType()) + ">(matchList.Count);\n");
+			sb.append("\t\t\tforeach(" + matchTypeName + " match in matchList)\n");
+			sb.append("\t\t\t\tresultList.Add(match." + formatEntity(var) + ");\n");
+			sb.append("\t\t\treturn resultList;\n");
+			sb.append("\t\t}\n");
+		}
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	/**
+	 * Generates the Extractor class with the Extract helper functions (returning an array of the extracted match class element type from an array of match class type)
+	 */
+	void genMatchClassExtractor(StringBuffer sb, DefinedMatchType matchClass)
+	{
+		sb.append("\tpublic class Extractor\n");
+		sb.append("\t{\n");
+
+		String matchTypeName = "IMatch_" + matchClass.getIdent().toString();
+
+		for(Node node : matchClass.getNodes()) {
+			sb.append("\t\tpublic static List<" + formatType(node.getType()) + "> Extract_" + formatIdentifiable(node) + "(List<" + matchTypeName + "> matchList)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tList<" + formatType(node.getType()) + "> resultList = new List<" + formatType(node.getType()) + ">(matchList.Count);\n");
+			sb.append("\t\t\tforeach(" + matchTypeName + " match in matchList)\n");
+			sb.append("\t\t\t\tresultList.Add(match." + formatEntity(node) + ");\n");
+			sb.append("\t\t\treturn resultList;\n");
+			sb.append("\t\t}\n");
+		}
+		for(Edge edge : matchClass.getEdges()) {
+			sb.append("\t\tpublic static List<" + formatType(edge.getType()) + "> Extract_" + formatIdentifiable(edge) + "(List<" + matchTypeName + "> matchList)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tList<" + formatType(edge.getType()) + "> resultList = new List<" + formatType(edge.getType()) + ">(matchList.Count);\n");
+			sb.append("\t\t\tforeach(" + matchTypeName + " match in matchList)\n");
+			sb.append("\t\t\t\tresultList.Add(match." + formatEntity(edge) + ");\n");
+			sb.append("\t\t\treturn resultList;\n");
+			sb.append("\t\t}\n");
+		}
+		for(Variable var : matchClass.getVars()) {
+			sb.append("\t\tpublic static List<" + formatType(var.getType()) + "> Extract_" + formatIdentifiable(var) + "(List<" + matchTypeName + "> matchList)\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tList<" + formatType(var.getType()) + "> resultList = new List<" + formatType(var.getType()) + ">(matchList.Count);\n");
+			sb.append("\t\t\tforeach(" + matchTypeName + " match in matchList)\n");
+			sb.append("\t\t\t\tresultList.Add(match." + formatEntity(var) + ");\n");
+			sb.append("\t\t\treturn resultList;\n");
+			sb.append("\t\t}\n");
+		}
+
+		sb.append("\t}\n");
+		sb.append("\n");
 	}
 
 	//////////////////////////////////////////////////
@@ -3230,6 +3321,42 @@ public class ActionsGen extends CSharpBase {
 			sb.append("new GRGEN_EXPR.ArrayReverse(");
 			genExpressionTree(sb, ar.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
+		}
+		else if (expr instanceof ArrayExtract) {
+			ArrayExtract ae = (ArrayExtract)expr;
+			Type arrayValueType = ((ArrayType)ae.getTargetExpr().getType()).getValueType();
+			if(arrayValueType instanceof InheritanceType) {
+				InheritanceType graphElementType = (InheritanceType)arrayValueType;
+				ContainedInPackage cip = (ContainedInPackage)graphElementType;
+				sb.append("new GRGEN_EXPR.ArrayExtractGraphElementType(");
+				genExpressionTree(sb, ae.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + ((ArrayType)ae.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+				sb.append(", \"" + formatIdentifiable(ae.getMember()) + "\"");
+				sb.append(", \"" + formatIdentifiable(graphElementType) + "\"");
+				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(")");
+			}
+			else if(arrayValueType instanceof MatchType) {
+				MatchType matchType = (MatchType)arrayValueType;
+				Rule rule = matchType.getAction();
+				sb.append("new GRGEN_EXPR.ArrayExtract(");
+				genExpressionTree(sb, ae.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + ((ArrayType)ae.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+				sb.append(", \"" + formatIdentifiable(ae.getMember()) + "\"");
+				sb.append(", \"" + formatIdentifiable(rule) + "\"");
+				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(")");
+			}
+			else if(arrayValueType instanceof DefinedMatchType) {
+				DefinedMatchType matchType = (DefinedMatchType)arrayValueType;
+				sb.append("new GRGEN_EXPR.ArrayExtractMatchClass(");
+				genExpressionTree(sb, ae.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + ((ArrayType)ae.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
+				sb.append(", \"" + formatIdentifiable(ae.getMember()) + "\"");
+				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
+				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(")");
+			}
 		}
 		else if (expr instanceof ArrayAsSetExpr) {
 			ArrayAsSetExpr aas = (ArrayAsSetExpr)expr;

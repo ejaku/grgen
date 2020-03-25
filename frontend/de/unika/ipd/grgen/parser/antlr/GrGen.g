@@ -468,7 +468,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 
 	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.pushScope(id); }
 		params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
-		ret=returnTypes (IMPLEMENTS matchTypes[implementedMatchTypes])? LBRACE
+		ret=returnTypes (IMPLEMENTS matchClasses[implementedMatchTypes])? LBRACE
 		left=patternBody[getCoords(t), params, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
 				actionDecl = new TestDeclNode(id, left, implementedMatchTypes, ret);
@@ -484,7 +484,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		filterDecls[id, actionDecl]
 	| r=RULE id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.pushScope(id); }
 		params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
-		ret=returnTypes (IMPLEMENTS matchTypes[implementedMatchTypes])? LBRACE
+		ret=returnTypes (IMPLEMENTS matchClasses[implementedMatchTypes])? LBRACE
 		left=patternBody[getCoords(r), params, namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[new CollectNode<BaseNode>(), namer, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
@@ -583,6 +583,7 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 						new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, actionId)),
+						//array-of-match-todo:ArrayTypeNode.getArrayType(MatchTypeNode.getMatchTypeIdentNode(env, actionId)),
 						PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
@@ -628,7 +629,7 @@ externalFilterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filte
 		} 
 	;
 
-matchTypes [ CollectNode<IdentNode> implementedMatchTypes ]
+matchClasses [ CollectNode<IdentNode> implementedMatchTypes ]
 	: mtid=typeIdentUse { implementedMatchTypes.addChild(mtid); }
 		( COMMA mtid=typeIdentUse { implementedMatchTypes.addChild(mtid); } )*
 	;
@@ -1197,7 +1198,7 @@ containerTypeUse returns [ TypeNode res = null ]
 		{ 
 			res = SetTypeNode.getSetType(keyType);
 		}
-	| ARRAY LT keyType=typeIdentUse GT
+	| ARRAY LT (keyType=typeIdentUse | keyType=matchTypeIdentUse) GT
 		{
 			res = ArrayTypeNode.getArrayType(keyType);
 		}
@@ -3508,7 +3509,7 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 initContainerExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
 	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[context, null, MapTypeNode.getMapType(keyType, valueType)] { res = e1; }
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[context, null, SetTypeNode.getSetType(valueType)] { res = e2; }
-	| ARRAY LT valueType=typeIdentUse GT e3=initArrayExpr[context, null, ArrayTypeNode.getArrayType(valueType)] { res = e3; }
+	| ARRAY LT (valueType=typeIdentUse | valueType=matchTypeIdentUse) GT e3=initArrayExpr[context, null, ArrayTypeNode.getArrayType(valueType)] { res = e3; }
 	| DEQUE LT valueType=typeIdentUse GT e4=initDequeExpr[context, null, DequeTypeNode.getDequeType(valueType)] { res = e4; }
 	;
 

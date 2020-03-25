@@ -1463,6 +1463,123 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array extract (from match type of rule) expression.
+    /// </summary>
+    public class ArrayExtract : Expression
+    {
+        public ArrayExtract(Expression target, string valueType, string member, string ruleName, string packageName)
+        {
+            Target = target;
+            ValueType = valueType;
+            Member = member;
+            RuleName = ruleName;
+            PackageName = packageName;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayExtract(Target.Copy(renameSuffix), ValueType, Member, RuleName, PackageName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string ruleClass = NamesOfEntities.RulePatternClassName(RuleName, PackageName, false);
+            sourceCode.AppendFormat("GRGEN_ACTIONS.{0}.Extractor.Extract_{1}(", ruleClass, Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+        readonly String ValueType;
+        readonly String Member;
+        readonly String RuleName;
+        readonly String PackageName;
+    }
+
+    /// <summary>
+    /// Class representing an array extract (from match class) expression.
+    /// </summary>
+    public class ArrayExtractMatchClass : Expression
+    {
+        public ArrayExtractMatchClass(Expression target, string valueType, string member, string matchClassName, string packageName)
+        {
+            Target = target;
+            ValueType = valueType;
+            Member = member;
+            MatchClassName = matchClassName;
+            PackageName = packageName;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayExtractMatchClass(Target.Copy(renameSuffix), ValueType, Member, MatchClassName, PackageName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string matchClass = NamesOfEntities.MatchClassName(MatchClassName, PackageName);
+            sourceCode.AppendFormat("GRGEN_ACTIONS.{0}.Extractor.Extract_{1}(", matchClass, Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+        readonly String ValueType;
+        readonly String Member;
+        readonly String MatchClassName;
+        readonly String PackageName;
+    }
+
+    /// <summary>
+    /// Class representing an array extract from node/edge type expression.
+    /// </summary>
+    public class ArrayExtractGraphElementType : Expression
+    {
+        public ArrayExtractGraphElementType(Expression target, string valueType, string member, string graphElementTypeName, string packageName)
+        {
+            Target = target;
+            ValueType = valueType;
+            Member = member;
+            GraphElementTypeName = graphElementTypeName;
+            PackageName = packageName;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayExtractGraphElementType(Target.Copy(renameSuffix), ValueType, Member, GraphElementTypeName, PackageName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string comparerName = NamesOfEntities.ComparerClassName(GraphElementTypeName, PackageName, Member);
+            sourceCode.AppendFormat("GRGEN_MODEL.{0}.Extract(", comparerName);
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+        readonly String ValueType;
+        readonly String Member;
+        readonly String GraphElementTypeName;
+        readonly String PackageName;
+    }
+
+    /// <summary>
     /// Class representing an array as set expression.
     /// </summary>
     public class ArrayAsSet : Expression

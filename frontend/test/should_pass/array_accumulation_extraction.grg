@@ -1,0 +1,29 @@
+rule r
+{
+	def var i:int;
+	def var j:int;
+	
+	modify {
+	}
+}
+
+filter f<r>
+{
+	if(this.extract<i>().sum() > this.extract<j>().sum()) {
+		this = deleteAll(this);
+	}
+}
+
+function deleteAll(ref a:array<match<r> >) : array<match<r> >
+{
+	for(i:int in [0:a.size()-1])
+	{
+		a[i] = null;
+	}
+	return(a);
+}
+
+test tb(ref a:array<match<r> >)
+{
+	if{ a.extract<i>().sum() < a.extract<j>().sum(); }
+}
