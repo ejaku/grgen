@@ -694,30 +694,8 @@ returnTypeList [ CollectNode<BaseNode> returnTypes ]
 	;
 
 returnType returns [ BaseNode res = env.initNode() ]
-	:	type=typeIdentUse
-		{
-			res = type;
-		}
-	|
-		MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-			res = MapTypeNode.getMapType(keyType, valueType);
-		}
-	|
-		SET LT keyType=typeIdentUse GT
-		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-			res = SetTypeNode.getSetType(keyType);
-		}
-	|
-		ARRAY LT keyType=typeIdentUse GT
-		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-			res = ArrayTypeNode.getArrayType(keyType);
-		}
-	|
-		DEQUE LT keyType=typeIdentUse GT
-		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-			res = DequeTypeNode.getDequeType(keyType);
-		}
+	: type=typeIdentUse { res = type; }
+	| containerType=containerTypeUse { res = containerType; }
 	;
 
 filterDecls [ IdentNode actionIdent, TestDeclNode actionDecl ]
@@ -1192,56 +1170,52 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 					{ reportError(getCoords(modifier), "var keyword needed before non graph element and non container def variable"); }
 			}
 		|
-			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				var = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), directlyNestingLHSGraph, context, true);
+			containerType=containerTypeUse
+			{
+				var = new VarDeclNode(id, containerType, directlyNestingLHSGraph, context, true);
 				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before map typed def variable"); }
+					{ reportError(getCoords(modifier), "ref keyword needed before container typed def variable"); }
 			}
 		|
-			SET LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				var = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context, true);
-				if(!modifier.getText().equals("ref")) 
-					{ reportError(getCoords(modifier), "ref keyword needed before set typed def variable"); }
-			}
-		|
-			ARRAY LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				var = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context, true);
-				if(!modifier.getText().equals("ref")) 
-					{ reportError(getCoords(modifier), "ref keyword needed before array typed def variable"); }
-			}
-		|
-			DEQUE LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				var = new VarDeclNode(id, DequeTypeNode.getDequeType(keyType), directlyNestingLHSGraph, context, true);
-				if(!modifier.getText().equals("ref")) 
-					{ reportError(getCoords(modifier), "ref keyword needed before deque typed def variable"); }
-			}
-		|
-			MATCH mtc=matchTypeContinuation[id, modifier, directlyNestingLHSGraph] 
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				var = mtc;
+			matchTypeIdent=matchTypeIdentUse
+			{
+				var = new VarDeclNode(id, matchTypeIdent, directlyNestingLHSGraph, 0);
+				if(!modifier.getText().equals("ref"))
+					{ reportError(getCoords(modifier), "ref keyword needed before match typed def variable"); }
 			}
 		)
 		{ if(var!=null) res = var; }
 		(a=ASSIGN e=expr[context, false] { if(var!=null) var.setInitialization(e); } )?
 	;
 
-matchTypeContinuation [ IdentNode id, Token modifier, PatternGraphNode directlyNestingLHSGraph ] returns [ VarDeclNode var = null ]
-	: LT actionIdent=actionIdentUse GT
-		{
-			var = new VarDeclNode(id, MatchTypeNode.getMatchTypeIdentNode(env, actionIdent), directlyNestingLHSGraph, 0);
-			if(!modifier.getText().equals("ref"))
-				{ reportError(getCoords(modifier), "ref keyword needed before match typed def variable"); }
+containerTypeUse returns [ TypeNode res = null ]
+	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+		{ 
+			res = MapTypeNode.getMapType(keyType, valueType);
 		}
-	|
-		LT CLASS matchClassIdent=typeIdentUse GT
+	| SET LT keyType=typeIdentUse GT
+		{ 
+			res = SetTypeNode.getSetType(keyType);
+		}
+	| ARRAY LT keyType=typeIdentUse GT
 		{
-			var = new VarDeclNode(id, matchClassIdent, directlyNestingLHSGraph, 0);
-			if(!modifier.getText().equals("ref"))
-				{ reportError(getCoords(modifier), "ref keyword needed before match class typed def variable"); }
+			res = ArrayTypeNode.getArrayType(keyType);
+		}
+	| DEQUE LT keyType=typeIdentUse GT
+		{
+			res = DequeTypeNode.getDequeType(keyType);
+		}
+	;
+
+matchTypeIdentUse returns [ IdentNode res = null ]
+	options { k = 3; }
+	: MATCH LT actionIdent=actionIdentUse GT
+		{
+			res = MatchTypeNode.getMatchTypeIdentNode(env, actionIdent);
+		}
+	| MATCH LT CLASS matchClassIdent=typeIdentUse GT
+		{
+			res = matchClassIdent;
 		}
 	;
 
@@ -1383,32 +1357,11 @@ varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 					{ reportError(getCoords(paramModifier), "var keyword needed before non graph element and non container parameter"); }
 			}
 		|
-			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), directlyNestingLHSGraph, context);
+			containerType=containerTypeUse
+			{
+				res = new VarDeclNode(id, containerType, directlyNestingLHSGraph, context);
 				if(!paramModifier.getText().equals("ref"))
-					{ reportWarning(getCoords(paramModifier), "ref keyword needed before map typed parameter"); } // TODO: next version -> error
-			}
-		|
-			SET LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context);
-				if(!paramModifier.getText().equals("ref")) 
-					{ reportWarning(getCoords(paramModifier), "ref keyword needed before set typed parameter"); } // TODO: next version -> error
-			}
-		|
-			ARRAY LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context);
-				if(!paramModifier.getText().equals("ref")) 
-					{ reportWarning(getCoords(paramModifier), "ref keyword needed before array typed parameter"); } // TODO: next version -> error
-			}
-		|
-			DEQUE LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, DequeTypeNode.getDequeType(keyType), directlyNestingLHSGraph, context);
-				if(!paramModifier.getText().equals("ref")) 
-					{ reportWarning(getCoords(paramModifier), "ref keyword needed before deque typed parameter"); } // TODO: next version -> error
+					{ reportWarning(getCoords(paramModifier), "ref keyword needed before container typed parameter"); } // TODO: next version -> error
 			}
 		)
 	;
