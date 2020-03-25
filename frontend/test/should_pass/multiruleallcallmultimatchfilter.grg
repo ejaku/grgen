@@ -31,7 +31,7 @@ rule s : (M, M) implements shared, sharez
 
 sequence seq
 {
-	[[r(::n),(m1:array<M>,::m2)=s()]]\shared.shf(42)\sharez.shg(0.0)
+	[[r(::n),(m1:array<M>,::m2)=s()]\shared.shf(42)\sharez.shg(0.0)]
 }
 
 match class shared

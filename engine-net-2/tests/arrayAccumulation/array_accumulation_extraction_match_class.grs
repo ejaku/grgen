@@ -2,13 +2,13 @@ new graph arrayAccumulation\array_accumulation_extraction_match_class
 
 exec init
 show num nodes
-exec [[r(1)]]\mc.f
+exec [[r(1)]\mc.f]
 show num nodes
 
 clear graph
 exec init
 show num nodes
-exec [[r(-1)]]\mc.f
+exec [[r(-1)]\mc.f]
 show num nodes
 
 #clear graph

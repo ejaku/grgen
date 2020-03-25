@@ -122,7 +122,7 @@ rule ss : (M, M) implements shared
 
 sequence seq
 {
-	[[rs(::n),(m1:array<M>,::m2)=ss()]]\shared.shf(42)\shared.extshf(42)\shared.orderAscendingBy<v>\shared.keepFirst(3)
+	[[rs(::n),(m1:array<M>,::m2)=ss()]\shared.shf(42)\shared.extshf(42)\shared.orderAscendingBy<v>\shared.keepFirst(3)]
 }
 
 match class shared
@@ -131,7 +131,7 @@ match class shared
 	def x:Node;
 } \ orderAscendingBy<v>
 
-match filter shf<shared>(var f:int)
+filter shf<class shared>(var f:int)
 {
 	for(m:match<class shared> in this)
 	{
@@ -139,5 +139,5 @@ match filter shf<shared>(var f:int)
 	}
 }
 
-external match filter extshf<shared>(var f:int);
+external filter extshf<class shared>(var f:int);
 

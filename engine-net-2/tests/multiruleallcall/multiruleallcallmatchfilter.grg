@@ -131,7 +131,7 @@ rule s(var i:int) : (int, int, int, int) implements mc, mcdef
 
 sequence seqmc
 {
-	[[r(42),s(42)]]\mc.f(1)\mc.frem(2)
+	[[r(42),s(42)]\mc.f(1)\mc.frem(2)]
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
 	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
@@ -139,7 +139,7 @@ sequence seqmc
 
 sequence seqmcdef
 {
-	[[r(42),s(42)]]\mcdef.fdef(0)\mcdef.fremdef(44)
+	[[r(42),s(42)]\mcdef.fdef(0)\mcdef.fremdef(44)]
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
 	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
@@ -147,7 +147,7 @@ sequence seqmcdef
 
 sequence seqmcmcdef
 {
-	[[r(42),s(42)]]\mc.f(1)\mcdef.fdef(1)
+	[[r(42),s(42)]\mc.f(1)\mcdef.fdef(1)]
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
 	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
@@ -155,7 +155,7 @@ sequence seqmcmcdef
 
 sequence seqrem
 {
-	[[r(42),s(42)]]\mc.frem(1)\mcdef.fremdef(2)
+	[[r(42),s(42)]\mc.frem(1)\mcdef.fremdef(2)]
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
 	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
@@ -163,7 +163,7 @@ sequence seqrem
 
 sequence seqmcBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.f(5)\mc.frem(6);;
+   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mc.f(5)\mc.frem(6)];;
 	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
 	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
@@ -176,7 +176,7 @@ sequence seqmcBacktrack
 
 sequence seqmcdefBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mcdef.fdef(-2)\mcdef.fremdef(42);;
+   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mcdef.fdef(-2)\mcdef.fremdef(42)];;
 	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
 	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
@@ -189,7 +189,7 @@ sequence seqmcdefBacktrack
 
 sequence seqmcmcdefBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.f(1)\mcdef.fdef(10);;
+   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mc.f(1)\mcdef.fdef(10)];;
 	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
 	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
@@ -202,7 +202,7 @@ sequence seqmcmcdefBacktrack
 
 sequence seqremBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.frem(1)\mcdef.fremdef(2);;
+   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mc.frem(1)\mcdef.fremdef(2)];;
 	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
 	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }
@@ -215,70 +215,70 @@ sequence seqremBacktrack
 
 sequence seqOrderAscending
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.orderAscendingBy<idef>\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.orderAscendingBy<idef>\mc.foutput]
 }
 
 sequence seqOrderDescending
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.orderDescendingBy<idef>\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.orderDescendingBy<idef>\mc.foutput]
 }
 
 sequence seqKeepSameAsFirst
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.keepSameAsFirst<idef>\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.keepSameAsFirst<idef>\mc.foutput]
 }
 
 sequence seqKeepSameAsLast
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.keepSameAsLast<idef>\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.keepSameAsLast<idef>\mc.foutput]
 }
 
 sequence seqKeepOneForEach
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.keepOneForEach<idef>\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.keepOneForEach<idef>\mc.foutput]
 }
 
 sequence seqFilterByVar
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.orderDescendingBy<i>\mc.keepOneForEach<i>\mc.keepSameAsFirst<i>\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.orderDescendingBy<i>\mc.keepOneForEach<i>\mc.keepSameAsFirst<i>\mc.foutput]
 }
 
 sequence seqKeepFirst
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.keepFirst(2)\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.keepFirst(2)\mc.foutput]
 }
 
 sequence seqKeepLast
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.keepLast(2)\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.keepLast(2)\mc.foutput]
 }
 
 sequence seqKeepFirstFraction
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.keepFirstFraction(0.5)\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.keepFirstFraction(0.5)\mc.foutput]
 }
 
 sequence seqKeepLastFraction
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.keepLastFraction(0.5)\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.keepLastFraction(0.5)\mc.foutput]
 }
 
 sequence seqRemoveFirst
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.removeFirst(2)\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.removeFirst(2)\mc.foutput]
 }
 
 sequence seqRemoveLast
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.removeLast(2)\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.removeLast(2)\mc.foutput]
 }
 
 sequence seqRemoveFirstFraction
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.removeFirstFraction(0.5)\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.removeFirstFraction(0.5)\mc.foutput]
 }
 
 sequence seqRemoveLastFraction
 {
-	[[r(42),s(42)]]\mc.f(0)\mc.removeLastFraction(0.5)\mc.foutput
+	[[r(42),s(42)]\mc.f(0)\mc.removeLastFraction(0.5)\mc.foutput]
 }

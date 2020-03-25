@@ -2,49 +2,49 @@ new graph "multiruleallcall/packagesimplemultiruleallcallmatchfilter"
 
 exec init
 
-exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepFirst(2)\Bla::mc.Bla::foutput
+exec [[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepFirst(2)\Bla::mc.Bla::foutput]
 
 clear graph
 
 exec init
 
-exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepLast(2)\Bla::mc.Bla::foutput
+exec [[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepLast(2)\Bla::mc.Bla::foutput]
 
 clear graph
 
 exec init
 
-exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepFirstFraction(0.5)\Bla::mc.Bla::foutput
+exec [[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepFirstFraction(0.5)\Bla::mc.Bla::foutput]
 
 clear graph
 
 exec init
 
-exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepLastFraction(0.5)\Bla::mc.Bla::foutput
+exec [[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepLastFraction(0.5)\Bla::mc.Bla::foutput]
 
 clear graph
 
 exec init
 
-exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeFirst(2)\Bla::mc.Bla::foutput
+exec [[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.removeFirst(2)\Bla::mc.Bla::foutput]
 
 clear graph
 
 exec init
 
-exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeLast(2)\Bla::mc.Bla::foutput
+exec [[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.removeLast(2)\Bla::mc.Bla::foutput]
 
 clear graph
 
 exec init
 
-exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeFirstFraction(0.5)\Bla::mc.Bla::foutput
+exec [[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.removeFirstFraction(0.5)\Bla::mc.Bla::foutput]
 
 clear graph
 
 exec init
 
-exec [[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeLastFraction(0.5)\Bla::mc.Bla::foutput
+exec [[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.removeLastFraction(0.5)\Bla::mc.Bla::foutput]
 
 clear graph
 

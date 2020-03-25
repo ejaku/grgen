@@ -130,22 +130,22 @@ rule s(var i:int) : (int, int, int, int) implements mc, mcdef
 
 sequence seqmc
 {
-	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.f(1)\mc.frem(2) ;> seqPrintMatched
+	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]\mc.f(1)\mc.frem(2)] ;> seqPrintMatched
 }
 
 sequence seqmcdef
 {
-	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mcdef.fdef(0)\mcdef.fremdef(44) ;> seqPrintMatched
+	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]\mcdef.fdef(0)\mcdef.fremdef(44)] ;> seqPrintMatched
 }
 
 sequence seqmcmcdef
 {
-	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.f(1)\mcdef.fdef(1) ;> seqPrintMatched
+	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]\mc.f(1)\mcdef.fdef(1)] ;> seqPrintMatched
 }
 
 sequence seqrem
 {
-	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]]\mc.frem(1)\mcdef.fremdef(2) ;> seqPrintMatched
+	[[for{r(42);seqPrintMatchedR},for{s(42);seqPrintMatchedS()}]\mc.frem(1)\mcdef.fremdef(2)] ;> seqPrintMatched
 }
 
 sequence seqPrintMatchedR()
@@ -168,22 +168,22 @@ sequence seqPrintMatched
 
 sequence seqmcBacktrack
 {
-   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]]\mc.f(5)\mc.frem(6)>>
+   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]\mc.f(5)\mc.frem(6)]>>
 }
 
 sequence seqmcdefBacktrack
 {
-   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]]\mcdef.fdef(-2)\mcdef.fremdef(42)>>
+   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]\mcdef.fdef(-2)\mcdef.fremdef(42)]>>
 }
 
 sequence seqmcmcdefBacktrack
 {
-   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]]\mc.f(1)\mcdef.fdef(10)>>
+   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]\mc.f(1)\mcdef.fdef(10)]>>
 }
 
 sequence seqremBacktrack
 {
-   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]]\mc.frem(1)\mcdef.fremdef(2)>>
+   <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]\mc.frem(1)\mcdef.fremdef(2)]>>
 }
 
 sequence seqPrintMatchedRBacktrack()

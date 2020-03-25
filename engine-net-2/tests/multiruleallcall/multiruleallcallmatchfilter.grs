@@ -2,7 +2,7 @@ new graph "multiruleallcall/multiruleallcallmatchfilter"
 
 exec init
 
-exec [[r(42),s(42)]]\mc.f(1)\mc.frem(2) \
+exec [[r(42),s(42)]\mc.f(1)\mc.frem(2)] \
 		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
 		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
 		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
@@ -11,7 +11,7 @@ clear graph
 
 exec init
 
-exec [[r(42),s(42)]]\mcdef.fdef(0)\mcdef.fremdef(44) \
+exec [[r(42),s(42)]\mcdef.fdef(0)\mcdef.fremdef(44)] \
 		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
 		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
 		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
@@ -20,7 +20,7 @@ clear graph
 
 exec init
 
-exec [[r(42),s(42)]]\mc.f(1)\mcdef.fdef(1) \
+exec [[r(42),s(42)]\mc.f(1)\mcdef.fdef(1)] \
 		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
 		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
 		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
@@ -29,7 +29,7 @@ clear graph
 
 exec init
 
-exec [[r(42),s(42)]]\mc.frem(1)\mcdef.fremdef(2) \
+exec [[r(42),s(42)]\mc.frem(1)\mcdef.fremdef(2)] \
 		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }\
 		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }\
 		;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }

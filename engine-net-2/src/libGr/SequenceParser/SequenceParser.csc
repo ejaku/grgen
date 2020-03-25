@@ -1596,9 +1596,10 @@ Sequence MultiRulePrefixedSequence():
 }
 {
     "[" "[" "for" "{" { varDecls.PushScope(ScopeType.ForRulePrefixedSequence); } rule=RuleForMultiRuleAllCall(false) ";" seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}"
-        ("," "for" "{" { varDecls.PushScope(ScopeType.ForRulePrefixedSequence); } rule=RuleForMultiRuleAllCall(false) ";" seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}")*  "]" "]"
-    { seqMultiRulePrefixedSequence = new SequenceMultiRulePrefixedSequence(rulePrefixedSequences); }
-        ("\\" filter=Filter(null, true) { seqMultiRulePrefixedSequence.AddFilterCall(filter); })*
+        ("," "for" "{" { varDecls.PushScope(ScopeType.ForRulePrefixedSequence); } rule=RuleForMultiRuleAllCall(false) ";" seq=RewriteSequence() { varDecls.PopScope(variableList); } { rulePrefixedSequences.Add(new SequenceRulePrefixedSequence(rule, seq, variableList)); } "}")*
+		"]" { seqMultiRulePrefixedSequence = new SequenceMultiRulePrefixedSequence(rulePrefixedSequences); }
+		("\\" filter=Filter(null, true) { seqMultiRulePrefixedSequence.AddFilterCall(filter); })*
+		"]"
     { return seqMultiRulePrefixedSequence; }
 }
 
@@ -1610,9 +1611,10 @@ Sequence MultiRuleAllCall(bool returnsArrays):
     SequenceFilterCall filter = null;
 }
 {
-    "[" "[" seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); } ("," seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); })* "]" "]"
-    { seqMultiRuleAll = new SequenceMultiRuleAllCall(sequences); }
-        ("\\" filter=Filter(null, true) { seqMultiRuleAll.AddFilterCall(filter); })*
+    "[" "[" seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); } ("," seq=RuleForMultiRuleAllCall(returnsArrays) { sequences.Add(seq); })*
+		"]" { seqMultiRuleAll = new SequenceMultiRuleAllCall(sequences); }
+		("\\" filter=Filter(null, true) { seqMultiRuleAll.AddFilterCall(filter); })*
+		"]" 
     { return seqMultiRuleAll; }
 }
 

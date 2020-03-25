@@ -2,7 +2,7 @@ new graph "multiruleallcallnonsimplepackage/packagemultiruleallcallmatchfiltergl
 
 exec {(::visitedFlag)=valloc()} ;> (::n)=Foo::init()
 
-exec [[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)\
+exec [[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)]\
 	;> printNodeCounts
 
 quit

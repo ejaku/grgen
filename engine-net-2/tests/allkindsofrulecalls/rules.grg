@@ -157,7 +157,7 @@ sequence seqmultiruleall
 
 sequence seqmultiruleallfilter
 {
-	[[%r,%s]]\rs.orderDescendingBy<i>\rs.keepFirst(2)
+	[[%r,%s]\rs.orderDescendingBy<i>\rs.keepFirst(2)]
 }
 
 sequence seqbacktrack

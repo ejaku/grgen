@@ -31,8 +31,8 @@ rule s : (M, M) implements shared
 
 sequence seqBacktrack
 {
-	<<[[r(::n),(m1:M,::m2)=s()]]\shared.shf(42)\shared.orderAscendingBy<v,w>\shared.orderAscendingBy<v>\shared.orderDescendingBy<v,w>\shared.orderDescendingBy<v>\shared.keepSameAsFirst<v>\shared.keepSameAsLast<v>\shared.keepOneForEach<v>
-\shared.keepFirst(2)\shared.keepLast(2)\shared.keepFirstFraction(0.42)\shared.keepLastFraction(0.42)\shared.removeFirst(2)\shared.removeLast(2)\shared.removeFirstFraction(0.42)\shared.removeLastFraction(0.42);;false>>
+	<<[[r(::n),(m1:M,::m2)=s()]\shared.shf(42)\shared.orderAscendingBy<v,w>\shared.orderAscendingBy<v>\shared.orderDescendingBy<v,w>\shared.orderDescendingBy<v>\shared.keepSameAsFirst<v>\shared.keepSameAsLast<v>\shared.keepOneForEach<v>
+\shared.keepFirst(2)\shared.keepLast(2)\shared.keepFirstFraction(0.42)\shared.keepLastFraction(0.42)\shared.removeFirst(2)\shared.removeLast(2)\shared.removeFirstFraction(0.42)\shared.removeLastFraction(0.42)];;false>>
 }
 
 match class shared

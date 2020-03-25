@@ -86,7 +86,7 @@ package Bla
 	
 	sequence seqmc
 	{
-		[[r(42),s(42)]]\mc.f(1)\mc.frem(2)
+		[[r(42),s(42)]\mc.f(1)\mc.frem(2)]
 		;> { emit("the value of variable \"seqmc\" of type sequence is: Bla::seq\n") }
 		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
@@ -95,7 +95,7 @@ package Bla
 
 	sequence seqmcdef
 	{
-		[[r(42),s(42)]]\mcdef.fdef(0)\mcdef.fremdef(44)
+		[[r(42),s(42)]\mcdef.fdef(0)\mcdef.fremdef(44)]
 		;> { emit("the value of variable \"seqmcdef\" of type sequence is: Bla::seq\n") }
 		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
@@ -104,7 +104,7 @@ package Bla
 
 	sequence seqmcmcdef
 	{
-		[[r(42),s(42)]]\mc.f(1)\mcdef.fdef(1)
+		[[r(42),s(42)]\mc.f(1)\mcdef.fdef(1)]
 		;> { emit("the value of variable \"seqmcmcdef\" of type sequence is: Bla::seq\n") }
 		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
@@ -113,7 +113,7 @@ package Bla
 
 	sequence seqrem
 	{
-		[[r(42),s(42)]]\mc.frem(1)\mcdef.fremdef(2)
+		[[r(42),s(42)]\mc.frem(1)\mcdef.fremdef(2)]
 		;> { emit("the value of variable \"seqrem\" of type sequence is: Bla::seq\n") }
 		;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 		;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
@@ -122,7 +122,7 @@ package Bla
 
 	sequence seqmcBacktrack
 	{
-	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.f(5)\mc.frem(6);;
+	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mc.f(5)\mc.frem(6)];;
 		   { emit("the value of variable \"seqmcBacktrack\" of type sequence is: Bla::seq\n") }
 		;> { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 		;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
@@ -136,7 +136,7 @@ package Bla
 
 	sequence seqmcdefBacktrack
 	{
-	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mcdef.fdef(-2)\mcdef.fremdef(42);;
+	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mcdef.fdef(-2)\mcdef.fremdef(42)];;
 		   { emit("the value of variable \"seqmcdefBacktrack\" of type sequence is: Bla::seq\n") }
 		;> { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 		;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
@@ -150,7 +150,7 @@ package Bla
 
 	sequence seqmcmcdefBacktrack
 	{
-	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.f(1)\mcdef.fdef(10);;
+	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mc.f(1)\mcdef.fdef(10)];;
 		   { emit("the value of variable \"seqmcmcdefBacktrack\" of type sequence is: Bla::seq\n") }
 		;> { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 		;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
@@ -164,7 +164,7 @@ package Bla
 
 	sequence seqremBacktrack
 	{
-	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.frem(1)\mcdef.fremdef(2);;
+	   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mc.frem(1)\mcdef.fremdef(2)];;
 		   { emit("the value of variable \"seqremBacktrack\" of type sequence is: Bla::seq\n") }
 		;> { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 		;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
@@ -178,85 +178,85 @@ package Bla
 
 	sequence seqOrderAscending
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.orderAscendingBy<idef>\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.orderAscendingBy<idef>\mc.foutput]
 		;> { emit("the value of variable \"seqOrderAscending\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqOrderDescending
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.orderDescendingBy<idef>\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.orderDescendingBy<idef>\mc.foutput]
 		;> { emit("the value of variable \"seqOrderDescending\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqKeepSameAsFirst
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.keepSameAsFirst<idef>\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.keepSameAsFirst<idef>\mc.foutput]
 		;> { emit("the value of variable \"seqKeepSameAsFirst\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqKeepSameAsLast
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.keepSameAsLast<idef>\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.keepSameAsLast<idef>\mc.foutput]
 		;> { emit("the value of variable \"seqKeepSameAsLast\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqKeepOneForEach
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.keepOneForEach<idef>\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.keepOneForEach<idef>\mc.foutput]
 		;> { emit("the value of variable \"seqKeepOneForEach\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqFilterByVar
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.orderDescendingBy<i>\mc.keepOneForEach<i>\mc.keepSameAsFirst<i>\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.orderDescendingBy<i>\mc.keepOneForEach<i>\mc.keepSameAsFirst<i>\mc.foutput]
 		;> { emit("the value of variable \"seqFilterByVar\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqKeepFirst
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.keepFirst(2)\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.keepFirst(2)\mc.foutput]
 		;> { emit("the value of variable \"seqKeepFirst\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqKeepLast
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.keepLast(2)\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.keepLast(2)\mc.foutput]
 		;> { emit("the value of variable \"seqKeepLast\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqKeepFirstFraction
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.keepFirstFraction(0.5)\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.keepFirstFraction(0.5)\mc.foutput]
 		;> { emit("the value of variable \"seqKeepFirstFraction\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqKeepLastFraction
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.keepLastFraction(0.5)\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.keepLastFraction(0.5)\mc.foutput]
 		;> { emit("the value of variable \"seqKeepLastFraction\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqRemoveFirst
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.removeFirst(2)\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.removeFirst(2)\mc.foutput]
 		;> { emit("the value of variable \"seqRemoveFirst\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqRemoveLast
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.removeLast(2)\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.removeLast(2)\mc.foutput]
 		;> { emit("the value of variable \"seqRemoveLast\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqRemoveFirstFraction
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.removeFirstFraction(0.5)\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.removeFirstFraction(0.5)\mc.foutput]
 		;> { emit("the value of variable \"seqRemoveFirstFraction\" of type sequence is: Bla::seq\n") }
 	}
 
 	sequence seqRemoveLastFraction
 	{
-		[[r(42),s(42)]]\mc.f(0)\mc.removeLastFraction(0.5)\mc.foutput
+		[[r(42),s(42)]\mc.f(0)\mc.removeLastFraction(0.5)\mc.foutput]
 		;> { emit("the value of variable \"seqRemoveLastFraction\" of type sequence is: Bla::seq\n") }
 	}
 }
@@ -315,7 +315,7 @@ rule s(var i:int) : (int, int, int, int) implements Bla::mc, mcdef
 
 sequence seqmc
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(1)\Bla::mc.Bla::frem(2)
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(1)\Bla::mc.Bla::frem(2)]
 	;> { emit("the value of variable \"seqmc\" of type sequence is: seq\n") }
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
@@ -324,7 +324,7 @@ sequence seqmc
 
 sequence seqmcdef
 {
-	[[Bla::r(42),s(42)]]\mcdef.fdef(0)\mcdef.fremdef(44)
+	[[Bla::r(42),s(42)]\mcdef.fdef(0)\mcdef.fremdef(44)]
 	;> { emit("the value of variable \"seqmcdef\" of type sequence is: seq\n") }
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
@@ -333,7 +333,7 @@ sequence seqmcdef
 
 sequence seqmcmcdef
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(1)\mcdef.fdef(1)
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(1)\mcdef.fdef(1)]
 	;> { emit("the value of variable \"seqmcdef\" of type sequence is: seq\n") }
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
@@ -342,7 +342,7 @@ sequence seqmcmcdef
 
 sequence seqrem
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::frem(1)\mcdef.fremdef(2)
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::frem(1)\mcdef.fremdef(2)]
 	;> { emit("the value of variable \"seqrem\" of type sequence is: seq\n") }
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
@@ -351,7 +351,7 @@ sequence seqrem
 
 sequence seqmcBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\Bla::mc.Bla::f(5)\Bla::mc.Bla::frem(6);;
+   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\Bla::mc.Bla::f(5)\Bla::mc.Bla::frem(6)];;
 	   { emit("the value of variable \"seqmcBacktrack\" of type sequence is: seq\n") }
 	;> { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
@@ -365,7 +365,7 @@ sequence seqmcBacktrack
 
 sequence seqmcdefBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mcdef.fdef(-2)\mcdef.fremdef(42);;
+   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mcdef.fdef(-2)\mcdef.fremdef(42)];;
 	   { emit("the value of variable \"seqmcdefBacktrack\" of type sequence is: seq\n") }
 	;> { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
@@ -379,7 +379,7 @@ sequence seqmcdefBacktrack
 
 sequence seqmcmcdefBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\Bla::mc.Bla::f(1)\mcdef.fdef(10);;
+   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\Bla::mc.Bla::f(1)\mcdef.fdef(10)];;
 	   { emit("the value of variable \"seqmcmcdefBacktrack\" of type sequence is: seq\n") }
 	;> { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
@@ -393,7 +393,7 @@ sequence seqmcmcdefBacktrack
 
 sequence seqremBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\Bla::mc.Bla::frem(1)\mcdef.fremdef(2);;
+   <<[[(::mi, ::ni, ::i, ::idef)=Bla::r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\Bla::mc.Bla::frem(1)\mcdef.fremdef(2)];;
 	   { emit("the value of variable \"seqremBacktrack\" of type sequence is: seq\n") }
 	;> { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
@@ -407,84 +407,84 @@ sequence seqremBacktrack
 
 sequence seqOrderAscending
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderAscendingBy<idef>\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.orderAscendingBy<idef>\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqOrderAscending\" of type sequence is: seq\n") }
 }
 
 sequence seqOrderDescending
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderDescendingBy<idef>\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.orderDescendingBy<idef>\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqOrderDescending\" of type sequence is: seq\n") }
 }
 
 sequence seqKeepSameAsFirst
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepSameAsFirst<idef>\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepSameAsFirst<idef>\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqKeepSameAsFirst\" of type sequence is: seq\n") }
 }
 
 sequence seqKeepSameAsLast
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepSameAsLast<idef>\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepSameAsLast<idef>\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqKeepSameAsLast\" of type sequence is: seq\n") }
 }
 
 sequence seqKeepOneForEach
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepOneForEach<idef>\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepOneForEach<idef>\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqKeepOneForEach\" of type sequence is: seq\n") }
 }
 
 sequence seqFilterByVar
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.orderDescendingBy<i>\Bla::mc.keepOneForEach<i>\Bla::mc.keepSameAsFirst<i>\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.orderDescendingBy<i>\Bla::mc.keepOneForEach<i>\Bla::mc.keepSameAsFirst<i>\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqFilterByVar\" of type sequence is: seq\n") }
 }
 
 sequence seqKeepFirst
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepFirst(2)\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepFirst(2)\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqKeepFirst\" of type sequence is: seq\n") }
 }
 
 sequence seqKeepLast
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepLast(2)\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepLast(2)\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqKeepLast\" of type sequence is: seq\n") }
 }
 
 sequence seqKeepFirstFraction
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepFirstFraction(0.5)\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepFirstFraction(0.5)\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqKeepFirstFraction\" of type sequence is: seq\n") }
 }
 
 sequence seqKeepLastFraction
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.keepLastFraction(0.5)\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.keepLastFraction(0.5)\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqKeepLastFraction\" of type sequence is: seq\n") }
 }
 
 sequence seqRemoveFirst
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeFirst(2)\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.removeFirst(2)\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqRemoveFirst\" of type sequence is: seq\n") }
 }
 
 sequence seqRemoveLast
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeLast(2)\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.removeLast(2)\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqRemoveLast\" of type sequence is: seq\n") }
 }
 
 sequence seqRemoveFirstFraction
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeFirstFraction(0.5)\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.removeFirstFraction(0.5)\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqRemoveFirstFraction\" of type sequence is: seq\n") }
 }
 
 sequence seqRemoveLastFraction
 {
-	[[Bla::r(42),s(42)]]\Bla::mc.Bla::f(0)\Bla::mc.removeLastFraction(0.5)\Bla::mc.Bla::foutput
+	[[Bla::r(42),s(42)]\Bla::mc.Bla::f(0)\Bla::mc.removeLastFraction(0.5)\Bla::mc.Bla::foutput]
 	;> { emit("the value of variable \"seqRemoveLastFraction\" of type sequence is: seq\n") }
 }

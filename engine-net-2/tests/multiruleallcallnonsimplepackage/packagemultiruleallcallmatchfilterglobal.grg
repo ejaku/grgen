@@ -89,25 +89,25 @@ package Foo
 
 	sequence seq // explicit
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)]
 		;> printNodeCounts
 	}
 
 	sequence seqGlobal // global - different from applyee
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.shf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.shf(42)]
 		;> printNodeCounts
 	}
 	
 	sequence seqG // explicit
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.Foo::shgf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.Foo::shgf(42)]
 		;> printNodeCounts
 	}
 
 	sequence seqGGlobal // global - same as applyee
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\shared.keepFirst(100)\shared.orderAscendingBy<v>\sharedGlobal.shgf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\shared.keepFirst(100)\shared.orderAscendingBy<v>\sharedGlobal.shgf(42)]
 		;> printNodeCounts
 	}	
 }
@@ -140,25 +140,25 @@ filter shgf<class sharedGlobal>(var f:int)
 
 sequence seq // explicit
 {
-	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)]
 	;> printNodeCounts
 }
 
 sequence seqGlobal // global (same as applyee)
 {
-	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)]
 	;> printNodeCounts
 }
 
 sequence seqG // explicit
 {
-	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.Foo::shgf(42)
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.Foo::shgf(42)]
 	;> printNodeCounts
 }
 
 sequence seqGGlobal // global (same as applyee)
 {
-	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.shgf(42)
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\sharedGlobal.shgf(42)]
 	;> printNodeCounts
 }
 

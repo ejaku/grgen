@@ -24,6 +24,6 @@ exec (::ee)=filterHass(::n)\f4(::n.i, "foo")\orderAscendingBy<i>\keepFirst(42)
 exec <<filterBase\f1;filterBase\f1>>
 exec ${<filterBase\f1,[filterBass\f2]>}
 
-exec [[rs(::n),(m1:array<M>,::m2)=ss()]]\shared.shf(42)\shared.extshf(42)\shared.orderAscendingBy<v>\shared.keepFirst(3)
+exec [[rs(::n),(m1:array<M>,::m2)=ss()]\shared.shf(42)\shared.extshf(42)\shared.orderAscendingBy<v>\shared.keepFirst(3)]
 
 exit

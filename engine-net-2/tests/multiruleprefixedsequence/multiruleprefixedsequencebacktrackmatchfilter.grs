@@ -2,24 +2,24 @@ new graph "multiruleprefixedsequence/multiruleprefixedsequencematchfilter"
 
 exec init
 
-exec <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]]\mc.f(5)\mc.frem(6)>>
+exec <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]\mc.f(5)\mc.frem(6)]>>
 
 clear graph
 
 exec init
 
-exec <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]]\mcdef.fdef(-2)\mcdef.fremdef(42)>>
+exec <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]\mcdef.fdef(-2)\mcdef.fremdef(42)]>>
 
 clear graph
 
 exec init
 
-exec <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]]\mc.f(1)\mcdef.fdef(10)>>
+exec <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]\mc.f(1)\mcdef.fdef(10)]>>
 
 clear graph
 
 exec init
 
-exec <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]]\mc.frem(1)\mcdef.fremdef(2)>>
+exec <<[[for{(::mi, ::ni, ::i, ::idef)=r(42);seqPrintMatchedRBacktrack();>false},for{(::ni, ::mi, ::i, ::idef)=s(42);seqPrintMatchedSBacktrack;>false}]\mc.frem(1)\mcdef.fremdef(2)]>>
 
 quit

@@ -31,7 +31,7 @@ rule s : (M, M) implements shared, sharez
 
 sequence seqBacktrack
 {
-	<<[[r(::n),(m1:M,::m2)=s()]]\shared.shf(42)\sharez.shg(0.0);;false>>
+	<<[[r(::n),(m1:M,::m2)=s()]\shared.shf(42)\sharez.shg(0.0)];;false>>
 }
 
 match class shared

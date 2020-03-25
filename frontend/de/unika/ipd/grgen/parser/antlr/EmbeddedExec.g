@@ -579,8 +579,7 @@ seqMultiRulePrefixedSequence[ExecNode xg, CollectNode<BaseNode> returns]
 	: l=LBRACK LBRACK {xg.append("[[");} 
 		seqRulePrefixedSequenceAtom[xg, ruleCalls, returns]
 		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } seqRulePrefixedSequenceAtom[xg, ruleCalls, returns] )*
-	  RBRACK RBRACK {xg.append("]]");}
-	  (seqCallRuleFilter[xg, filters, true])*
+	  RBRACK {xg.append("]");} (seqCallRuleFilter[xg, filters, true])* RBRACK {xg.append("]");}
 		{
 			xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters));
 		}
@@ -605,8 +604,7 @@ seqMultiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBra
 	: l=LBRACK LBRACK {xg.append("[[");} 
 		seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed]
 		( COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, isAllBracketed] )*
-	  RBRACK RBRACK {xg.append("]]");}
-	  (seqCallRuleFilter[xg, filters, true])*
+	  RBRACK {xg.append("]");} (seqCallRuleFilter[xg, filters, true])* RBRACK {xg.append("]");}
 		{
 			xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters));
 		}

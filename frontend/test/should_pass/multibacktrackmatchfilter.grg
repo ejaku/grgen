@@ -29,7 +29,7 @@ rule s : (M, M) implements shared
 
 sequence seqBacktrack
 {
-	<<[[r(::n),(m1:M,::m2)=s()]]\shared.shf(42);;false>>
+	<<[[r(::n),(m1:M,::m2)=s()]\shared.shf(42)];;false>>
 }
 
 match class shared

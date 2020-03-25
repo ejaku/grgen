@@ -79,19 +79,19 @@ package Foo
 
 	sequence seq // explicit
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)]
 		;> printNodeCounts
 	}
 
 	sequence seqPackageApplyee // context - same as applyee
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.shf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.shf(42)]
 		;> printNodeCounts
 	}
 	
 	sequence seqOther // explicit other
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.Bar::shf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.Bar::shf(42)]
 		;> printNodeCounts
 	}
 }
@@ -110,38 +110,38 @@ package Bar
 
 	sequence seq // explicit
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)]
 		;> printNodeCounts
 	}
 
 	sequence seqPackageApplyee // applyee - not same as context, but existing in context
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)]
 		;> printNodeCounts
 	}
 	
 	sequence seqOther // explicit other
 	{
-		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Bar::shf(42)
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Bar::shf(42)]
 		;> printNodeCounts
 	}
 }
 
 sequence seq // explicit
 {
-	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Foo::shf(42)]
 	;> printNodeCounts
 }
 
 sequence seqPackageApplyee // applyee - does not exist in context
 {
-	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)]
 	;> printNodeCounts
 }
 
 sequence seqOther // explicit other
 {
-	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Bar::shf(42)
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.Bar::shf(42)]
 	;> printNodeCounts
 }
 

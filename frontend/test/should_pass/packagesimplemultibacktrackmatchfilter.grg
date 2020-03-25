@@ -54,5 +54,5 @@ rule s : (M, M) implements Bla::shared
 
 sequence seqBacktrack
 {
-	<<[[Bla::r(::n),(m1:M,::m2)=s()]]\Bla::shared.Bla::shf(42)\Bla::shared.orderAscendingBy<v>;;false>>
+	<<[[Bla::r(::n),(m1:M,::m2)=s()]\Bla::shared.Bla::shf(42)\Bla::shared.orderAscendingBy<v>];;false>>
 }

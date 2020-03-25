@@ -40,7 +40,7 @@ package Foo
 
 	sequence seqBacktrack
 	{
-		<<[[Bla::r(::n),(m1:M,::m2)=s()]]\shared.Bar::shf(42)\shared.orderAscendingBy<v>\shared.keepFirst(3);;false>>
+		<<[[Bla::r(::n),(m1:M,::m2)=s()]\shared.Bar::shf(42)\shared.orderAscendingBy<v>\shared.keepFirst(3)];;false>>
 	}
 }
 
@@ -56,11 +56,11 @@ package Bar
 	
 	sequence seqBacktrack
 	{
-		<<[[Bla::r(::n),(m1:M,::m2)=s()]]\Foo::shared.shf(42)\Foo::shared.orderAscendingBy<v>\Foo::shared.keepFirst(3);;false>>
+		<<[[Bla::r(::n),(m1:M,::m2)=s()]\Foo::shared.shf(42)\Foo::shared.orderAscendingBy<v>\Foo::shared.keepFirst(3)];;false>>
 	}
 }
 
 sequence seqBacktrack
 {
-	<<[[Bla::r(::n),(m1:M,::m2)=s()]]\Foo::shared.Bar::shf(42)\Foo::shared.orderAscendingBy<v>\Foo::shared.keepFirst(3);;false>>
+	<<[[Bla::r(::n),(m1:M,::m2)=s()]\Foo::shared.Bar::shf(42)\Foo::shared.orderAscendingBy<v>\Foo::shared.keepFirst(3)];;false>>
 }

@@ -109,7 +109,7 @@ rule ss : (M, M) implements shared
 
 sequence seq
 {
-	[[rs(::n),(m1:array<M>,::m2)=ss()]]\shared.shf(42)\shared.extshf(42)
+	[[rs(::n),(m1:array<M>,::m2)=ss()]\shared.shf(42)\shared.extshf(42)]
 }
 
 match class shared

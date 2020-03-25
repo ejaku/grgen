@@ -26,7 +26,7 @@ clear graph
 
 exec init
 
-exec [[%r,%s]]\rs.orderDescendingBy<i>\rs.keepFirst(2)
+exec [[%r,%s]\rs.orderDescendingBy<i>\rs.keepFirst(2)]
 
 clear graph
 

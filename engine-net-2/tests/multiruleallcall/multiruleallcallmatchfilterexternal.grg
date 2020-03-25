@@ -4,7 +4,7 @@ external filter fext<class mc>(var f:int);
 
 sequence seqExternal
 {
-	[[r(42),s(42)]]\mc.fext(1)
+	[[r(42),s(42)]\mc.fext(1)]
 	;> { emit("the value of variable \"countNodes\" of type int is: ", countNodes(), "\n") }
 	;> { emit("the value of variable \"countNodesR\" of type int is: ", countNodes(R), "\n") }
 	;> { emit("the value of variable \"countNodesS\" of type int is: ", countNodes(S), "\n") }
@@ -12,7 +12,7 @@ sequence seqExternal
 
 sequence seqExternalBacktrack
 {
-   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]]\mc.fext(1);;
+   <<[[(::mi, ::ni, ::i, ::idef)=r(42),(::ni, ::mi, ::i, ::idef)=s(42)]\mc.fext(1)];;
 	   { emit("the value of variable \"mi\" of type int is: ", ::mi, "\n") }
 	;> { emit("the value of variable \"ni\" of type int is: ", ::ni, "\n") }
 	;> { emit("the value of variable \"i\" of type int is: ", ::i, "\n") }

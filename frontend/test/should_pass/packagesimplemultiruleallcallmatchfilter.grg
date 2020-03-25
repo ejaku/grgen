@@ -54,5 +54,5 @@ rule s : (M, M) implements Bla::shared
 
 sequence seq
 {
-	[[Bla::r(::n)\Bla::rf(42),(m1:array<M>,::m2)=s()]]\Bla::shared.Bla::shf(42)\Bla::shared.orderAscendingBy<v>
+	[[Bla::r(::n)\Bla::rf(42),(m1:array<M>,::m2)=s()]\Bla::shared.Bla::shf(42)\Bla::shared.orderAscendingBy<v>]
 }

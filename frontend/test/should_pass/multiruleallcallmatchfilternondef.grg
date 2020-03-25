@@ -33,7 +33,7 @@ rule s(var vi:int) : (M, M) implements shared
 
 sequence seq
 {
-	[[r(::n, 42),(m1:array<M>,::m2)=s(42)]]\shared.shf(42)
+	[[r(::n, 42),(m1:array<M>,::m2)=s(42)]\shared.shf(42)]
 }
 
 match class shared
