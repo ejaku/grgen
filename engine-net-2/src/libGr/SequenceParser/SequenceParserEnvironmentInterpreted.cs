@@ -139,6 +139,15 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return new SequenceFilterCallInterpreted(/*action, */filter, argExprs.ToArray());
         }
 
+        public override string GetPackagePrefixedMatchClassName(String matchClassName, String matchClassPackage)
+        {
+            String packagePrefixedMatchClassName = matchClassPackage != null ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
+            MatchClassFilterer matchClass = actions.GetMatchClass(packagePrefixedMatchClassName); // may be null, match class is part of filter call, was not checked before
+            if(matchClass == null)
+                throw new SequenceParserException(packagePrefixedMatchClassName, "\\<class " + packagePrefixedMatchClassName + ">", SequenceParserError.MatchClassError);
+            return matchClass.info.PackagePrefixedName;
+        }
+
         public override SequenceFilterCall CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
             String packagePrefix, String filterBase, List<String> entities, List<SequenceExpression> argExprs)
         {

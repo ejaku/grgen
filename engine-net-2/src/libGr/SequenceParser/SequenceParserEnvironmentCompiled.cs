@@ -188,6 +188,18 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             return new SequenceFilterCallCompiled(filter, argExprs.ToArray());
         }
 
+        public override string GetPackagePrefixedMatchClassName(String matchClassName, String matchClassPackage)
+        {
+            String resolvedMatchClassPackage; // match class not yet resolved (impossible before as only part of filter call), resolve it here
+            String packagePrefixedMatchClassName;
+            bool unprefixedMatchClassNameExists = actionNames.matchClassesToFilters.ContainsKey(matchClassName);
+            ResolvePackage(matchClassName, matchClassPackage, packageContext, unprefixedMatchClassNameExists,
+                out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
+            if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
+                throw new SequenceParserException(packagePrefixedMatchClassName, "\\<class " + packagePrefixedMatchClassName + ">", SequenceParserError.MatchClassError);
+            return packagePrefixedMatchClassName;
+        }
+
         public override SequenceFilterCall CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
             String packagePrefix, String filterBase, List<String> entities, List<SequenceExpression> argExprs)
         {

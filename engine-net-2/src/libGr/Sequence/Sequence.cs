@@ -3300,6 +3300,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            List<SequenceRuleCall> RuleCalls = new List<SequenceRuleCall>();
             foreach(Sequence seqChild in Sequences)
             {
                 seqChild.Check(env);
@@ -3309,9 +3310,10 @@ namespace de.unika.ipd.grGen.libGr
                     throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]] can't contain a rule count all call (e.g. count[r4] => ct");
                 if(((SequenceRuleCall)seqChild).Subgraph != null)
                     throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]]  can't contain a call with subgraph prefix (e.g. sg.r4)");
+                RuleCalls.Add((SequenceRuleCall)seqChild);
             }
 
-            env.CheckMatchClassFilterCalls(Filters);
+            env.CheckMatchClassFilterCalls(Filters, RuleCalls);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -3729,7 +3731,14 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env);
-            env.CheckMatchClassFilterCalls(Filters);
+
+            List<SequenceRuleCall> RuleCalls = new List<SequenceRuleCall>();
+            foreach(SequenceRulePrefixedSequence seqChild in RulePrefixedSequences)
+            {
+                RuleCalls.Add(seqChild.Rule);
+            }
+
+            env.CheckMatchClassFilterCalls(Filters, RuleCalls);
         }
 
         internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)

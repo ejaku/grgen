@@ -504,6 +504,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(ex.Name == null 
                 && ex.Kind != SequenceParserError.TypeMismatch
                 && ex.Kind != SequenceParserError.MatchClassError
+                && ex.Kind != SequenceParserError.MatchClassNotImplementedError
                 && ex.Kind != SequenceParserError.FilterError
                 && ex.Kind != SequenceParserError.FilterParameterError
                 && ex.Kind != SequenceParserError.OperatorNotFound)
@@ -538,6 +539,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             case SequenceParserError.MatchClassError:
                 Console.Error.WriteLine("Unknown match class \"" + ex.Name + "\" in filter call \"" + ex.FilterName + "\"!");
+                break;
+
+            case SequenceParserError.MatchClassNotImplementedError:
+                Console.Error.WriteLine("Match class \"" + ex.Name + "\" is not implemented by rule \"" + ex.FilterName + "\"!");
                 break;
 
             case SequenceParserError.FilterError:

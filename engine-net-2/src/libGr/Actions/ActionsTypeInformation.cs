@@ -21,6 +21,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             rulesToFilters = new Dictionary<String, List<IFilter>>();
             matchClassesToFilters = new Dictionary<String, List<IFilter>>();
+
             filterFunctionsToInputTypes = new Dictionary<String, List<String>>();
 
             rulesToInputTypes = new Dictionary<String, List<String>>();
@@ -28,6 +29,8 @@ namespace de.unika.ipd.grGen.libGr
 
             rulesToTopLevelEntities = new Dictionary<String, List<String>>();
             rulesToTopLevelEntityTypes = new Dictionary<String, List<String>>();
+
+            rulesToImplementedMatchClasses = new Dictionary<String, List<MatchClassInfo>>();
 
             sequencesToInputTypes = new Dictionary<String, List<String>>();
             sequencesToOutputTypes = new Dictionary<String, List<String>>();
@@ -105,6 +108,16 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public MatchClassInfo GetImplementedMatchClassOfRule(string ruleName, string matchClassName)
+        {
+            foreach(MatchClassInfo implementedMatchClass in rulesToImplementedMatchClasses[ruleName])
+            {
+                if(implementedMatchClass.PackagePrefixedName == matchClassName)
+                    return implementedMatchClass;
+            }
+            return null;
+        }
+
         public readonly Dictionary<String, List<IFilter>> rulesToFilters;
         public readonly Dictionary<String, List<IFilter>> matchClassesToFilters;
         public readonly Dictionary<String, List<String>> filterFunctionsToInputTypes;
@@ -120,5 +133,6 @@ namespace de.unika.ipd.grGen.libGr
         public readonly Dictionary<String, bool> functionsToIsExternal;
         public readonly Dictionary<String, List<String>> rulesToTopLevelEntities;
         public readonly Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
+        public readonly Dictionary<String, List<MatchClassInfo>> rulesToImplementedMatchClasses;
     }
 }

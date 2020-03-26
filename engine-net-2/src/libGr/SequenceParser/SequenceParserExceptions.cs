@@ -80,7 +80,12 @@ namespace de.unika.ipd.grGen.libGr
         /// The match class employed by the filter is not known
         /// </summary>
         MatchClassError,
-        
+
+        /// <summary>
+        /// The match class is not implemented by the rule
+        /// </summary>
+        MatchClassNotImplementedError,
+
         /// <summary>
         /// The given filter can't be applied to the given rule or match class
         /// </summary>
@@ -336,11 +341,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="errorKind">The kind of error.</param>
         public SequenceParserException(String ruleNameOrMatchClassName, String filterNameOrEntityName, SequenceParserError errorKind)
         {
-            if(errorKind == SequenceParserError.FilterError)
-                FilterName = filterNameOrEntityName;
-            if(errorKind == SequenceParserError.MatchClassError)
-                FilterName = filterNameOrEntityName;
-            else if(errorKind == SequenceParserError.FilterParameterError)
+            if(errorKind == SequenceParserError.FilterError
+                || errorKind == SequenceParserError.MatchClassError
+                || errorKind == SequenceParserError.MatchClassNotImplementedError
+                || errorKind == SequenceParserError.FilterParameterError)
                 FilterName = filterNameOrEntityName;
             else
                 EntityName = filterNameOrEntityName;
@@ -425,6 +429,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.MatchClassError:
                     return "Unknown match class \"" + this.Name + "\" in filter call \"" + this.FilterName + "\"!";
+
+                case SequenceParserError.MatchClassNotImplementedError:
+                    return "Match class \"" + this.Name + "\" is not implemented by rule \"" + this.FilterName + "\"!";
 
                 case SequenceParserError.FilterError:
                     return "The filter \"" + this.FilterName + "\" can't be applied to \"" + this.Name + "\"! "

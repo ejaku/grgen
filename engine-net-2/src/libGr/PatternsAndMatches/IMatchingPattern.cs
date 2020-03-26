@@ -69,6 +69,11 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of the implemented match classes
         /// </summary>
         IMatchClass[] ImplementedMatchClasses { get; }
+
+        /// <summary>
+        /// Returns the implemented match class, if it is available, otherwise null
+        /// </summary>
+        IMatchClass GetImplementedMatchClass(string name);
     }
 }
 

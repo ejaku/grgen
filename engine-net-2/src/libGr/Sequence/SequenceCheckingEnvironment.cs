@@ -297,11 +297,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Checks whether called match class filter exists, and type checks the inputs.
         /// </summary>
-        public void CheckMatchClassFilterCalls(List<SequenceFilterCall> sequenceFilterCalls)
+        public void CheckMatchClassFilterCalls(List<SequenceFilterCall> sequenceFilterCalls, List<SequenceRuleCall> ruleCalls)
         {
             foreach(SequenceFilterCall sequenceFilterCall in sequenceFilterCalls)
             {
                 String matchClassName = GetMatchClassName(sequenceFilterCall);
+                foreach(SequenceRuleCall ruleCall in ruleCalls)
+                {
+                    if(!IsRuleImplementingMatchClass(ruleCall.PackagePrefixedName, matchClassName))
+                        throw new SequenceParserException(matchClassName, ruleCall.PackagePrefixedName, SequenceParserError.MatchClassNotImplementedError);
+                }
+
                 String filterCallName = GetFilterCallName(sequenceFilterCall);
 
                 // Check whether number of filter parameters match
@@ -372,5 +378,6 @@ namespace de.unika.ipd.grGen.libGr
         protected abstract string OutputParameterType(int i, Invocation invocation, GrGenType ownerType);
         protected abstract bool IsMatchClassExisting(SequenceFilterCall sequenceFilterCall);
         protected abstract string GetMatchClassName(SequenceFilterCall sequenceFilterCall);
+        public abstract bool IsRuleImplementingMatchClass(string rulePackagePrefixedName, string matchClassPackagePrefixedName);
     }
 }

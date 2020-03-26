@@ -79,6 +79,7 @@ namespace de.unika.ipd.grGen.libGr
             // assign rules to filters and match classes to filters
             rulesToFilters = ati.rulesToFilters;
             matchClassesToFilters = ati.matchClassesToFilters;
+            rulesToImplementedMatchClasses = ati.rulesToImplementedMatchClasses;
             // assign is external information
             proceduresToIsExternal = ati.proceduresToIsExternal;
             functionsToIsExternal = ati.functionsToIsExternal;
@@ -100,6 +101,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(filter.PackagePrefixedName == filterName)
                     return filter;
+            }
+            return null;
+        }
+
+        public MatchClassInfo GetImplementedMatchClassOfRule(string ruleName, string matchClassName)
+        {
+            foreach(MatchClassInfo implementedMatchClass in rulesToImplementedMatchClasses[ruleName])
+            {
+                if(implementedMatchClass.PackagePrefixedName == matchClassName)
+                    return implementedMatchClass;
             }
             return null;
         }
@@ -154,6 +165,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public readonly Dictionary<String, List<IFilter>> rulesToFilters;
         public readonly Dictionary<String, List<IFilter>> matchClassesToFilters;
+        public readonly Dictionary<String, List<MatchClassInfo>> rulesToImplementedMatchClasses;
         public readonly Dictionary<String, bool> proceduresToIsExternal;
         public readonly Dictionary<String, bool> functionsToIsExternal;
     }

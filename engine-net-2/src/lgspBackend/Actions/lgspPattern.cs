@@ -1510,6 +1510,19 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns the implemented match class, if it is available, otherwise null
+        /// </summary>
+        public IMatchClass GetImplementedMatchClass(string name)
+        {
+            foreach(IMatchClass implementedMatchClass in implementedMatchClasses)
+            {
+                if(implementedMatchClass.PackagePrefixedName == name)
+                    return implementedMatchClass;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public readonly GrGenType[] outputs;
@@ -1800,6 +1813,13 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(IPatternVariable var in rulePattern.PatternGraph.Variables)
                 {
                     topLevelEntityTypes.Add(TypesHelper.DotNetTypeToXgrsType(var.Type));
+                }
+
+                List<MatchClassInfo> implementedMatchClasses = new List<MatchClassInfo>();
+                actionsTypeInformation.rulesToImplementedMatchClasses.Add(rulePattern.PatternGraph.PackagePrefixedName, implementedMatchClasses);
+                foreach(MatchClassInfo matchClass in rulePattern.implementedMatchClasses)
+                {
+                    implementedMatchClasses.Add(matchClass);
                 }
             }
 

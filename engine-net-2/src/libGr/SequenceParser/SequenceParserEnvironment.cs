@@ -88,6 +88,8 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         abstract public SequenceFilterCall CreateSequenceFilterCall(String ruleName, String rulePackage,
             String packagePrefix, String filterBase, List<String> entities, List<SequenceExpression> argExprs);
 
+        abstract public string GetPackagePrefixedMatchClassName(String matchClassName, String matchClassPackage);
+
         abstract public SequenceFilterCall CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
             String packagePrefix, String filterBase, List<String> entities, List<SequenceExpression> argExprs);
 

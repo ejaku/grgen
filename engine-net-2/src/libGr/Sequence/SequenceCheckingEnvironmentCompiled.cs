@@ -185,5 +185,10 @@ namespace de.unika.ipd.grGen.libGr
             SequenceFilterCallCompiled sequenceFilterCallCompiled = (SequenceFilterCallCompiled)sequenceFilterCall;
             return sequenceFilterCallCompiled.MatchClassPackagePrefixedName;
         }
+
+        public override bool IsRuleImplementingMatchClass(string rulePackagePrefixedName, string matchClassPackagePrefixedName)
+        {
+            return actionNames.GetImplementedMatchClassOfRule(rulePackagePrefixedName, matchClassPackagePrefixedName) != null;
+        }
     }
 }
