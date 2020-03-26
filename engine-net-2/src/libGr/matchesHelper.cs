@@ -43,6 +43,15 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static List<IMatch> AddReturn<T>(List<IMatch> target, IList<T> source) where T : IMatch
+        {
+            foreach(T match in source)
+            {
+                target.Add(match);
+            }
+            return target;
+        }
+
         public static List<T> ToList<T>(IList<IMatch> source) where T : IMatch
         {
             List<T> newList = new List<T>(source.Count);

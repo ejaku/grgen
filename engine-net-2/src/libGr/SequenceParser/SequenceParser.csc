@@ -201,6 +201,7 @@ TOKEN: {
 |   < YIELD: "yield" >
 |   < COUNT: "count" >
 |   < THIS: "this" >
+|   < CLASS: "class" >
 }
 
 TOKEN: {
@@ -1450,6 +1451,11 @@ SequenceExpression ExpressionBasic():
         return expr;
     }
 |
+    expr=MultiRuleQuery() expr=SelectorExpression(expr)
+    {
+        return expr;
+    }
+|
     LOOKAHEAD(FunctionCall())
     expr=FunctionCall()
     {
@@ -1777,7 +1783,6 @@ SequenceExpression RuleQuery():
     SequenceVariable subgraph = null; // maybe todo - remove
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceRuleAllCall ruleAllCall = null;
-    SequenceRuleCall ruleCall = null;
     SequenceFilterCall filter = null;
 }
 {
@@ -1793,6 +1798,53 @@ SequenceExpression RuleQuery():
     {
         return new SequenceExpressionRuleQuery(ruleAllCall);
     }
+}
+
+SequenceExpression MultiRuleQuery():
+{
+    Sequence seq;
+    List<Sequence> sequences = new List<Sequence>();
+    SequenceMultiRuleAllCall seqMultiRuleAll;
+    SequenceFilterCall filter = null;
+    String matchClassPackage = null;
+    String matchClassName = null;
+}
+{
+    "[" "?" "[" seq=RuleForMultiRuleQuery() { sequences.Add(seq); } ("," seq=RuleForMultiRuleQuery() { sequences.Add(seq); })*
+        "]" { seqMultiRuleAll = new SequenceMultiRuleAllCall(sequences); }
+        (LOOKAHEAD(2) "\\" filter=Filter(null, true) { seqMultiRuleAll.AddFilterCall(filter); })*
+        "\\" "<" "class" (LOOKAHEAD(2) matchClassPackage=Word() "::")? matchClassName=Word() ">"
+        "]"
+    {
+        return new SequenceExpressionMultiRuleQuery(seqMultiRuleAll, env.GetPackagePrefixedMatchClassName(matchClassName, matchClassPackage));
+    }
+}
+
+SequenceRuleCall RuleForMultiRuleQuery():
+{
+    bool special = false;
+    String str, package = null;
+    List<SequenceExpression> argExprs = new List<SequenceExpression>();
+    List<SequenceVariable> returnVars = new List<SequenceVariable>();
+    SequenceRuleCall ruleCall;
+    SequenceFilterCall filter = null;
+}
+{
+    ("%" { special = true; })?
+    (LOOKAHEAD(2) package=Word() "::")? 
+    str=Word() ("(" (Arguments(argExprs))? ")")?
+    {
+        // No variable with this name may exist
+        if(varDecls.Lookup(str)!=null)
+            throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
+
+        ruleCall = env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
+            special, true, false);
+    }
+        ("\\" filter=Filter(ruleCall, false) { ruleCall.AddFilterCall(filter); })*
+        {
+            return ruleCall;
+        }
 }
 
 SequenceFilterCall Filter(SequenceRuleCall ruleCall, bool isMatchClassFilter) :

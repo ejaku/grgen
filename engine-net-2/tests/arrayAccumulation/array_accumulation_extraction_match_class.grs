@@ -11,16 +11,16 @@ show num nodes
 exec [[r(-1)]\mc.f]
 show num nodes
 
-#clear graph
-#exec init
-#show num nodes
-#exec tb([?[r(1)]\mc])
-#show num nodes
+clear graph
+exec init
+show num nodes
+exec tb([?[r(1)]\<class mc>])
+show num nodes
 
-#clear graph
-#exec init
-#show num nodes
-#exec tb([?[r(-1)]\mc])
-#show num nodes
+clear graph
+exec init
+show num nodes
+exec tb([?[r(-1)]\<class mc>])
+show num nodes
 
 quit

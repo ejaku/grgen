@@ -6,7 +6,11 @@ rule init : (Node)
 	}
 }
 
-rule r(n:Node) : (Node)
+match class empty
+{
+}
+
+rule r(n:Node) : (Node) implements empty
 {
 	n --> m:Node;
 	
@@ -21,7 +25,7 @@ test b(var b:boolean)
 	if{ !b; }	
 }
 
-test t
+test t implements empty
 {
 	n:Node --> .;
 }
@@ -39,4 +43,19 @@ sequence seqExecTestRuleQuery
 sequence seqExecRuleRuleQuery
 {
 	b([?r(::start1)].empty())
+}
+
+sequence seqEmitMultiRuleQuery
+{
+	{ emit("the value of variable \"rule\" of type evaluation is: ", ![?[r(::start1)]\<class empty>].empty(), "\n") }
+}
+
+sequence seqExecTestMultiRuleQuery
+{
+	b([?[t]\<class empty>].empty())
+}
+
+sequence seqExecRuleMultiRuleQuery
+{
+	b([?[r(::start1)]\<class empty>].empty())
 }

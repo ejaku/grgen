@@ -66,7 +66,7 @@ namespace de.unika.ipd.grGen.libGr
         ExistsFile, Import,
         Copy,
         Canonize,
-        RuleQuery,
+        RuleQuery, MultiRuleQuery,
         FunctionCall, FunctionMethodCall
     }
 
@@ -6799,6 +6799,113 @@ namespace de.unika.ipd.grGen.libGr
             get
             {
                 return RuleCall.Symbol;
+            }
+        }
+    }
+
+    public class SequenceExpressionMultiRuleQuery : SequenceExpression
+    {
+        public readonly SequenceMultiRuleAllCall MultiRuleCall;
+        public readonly String MatchClass;
+
+        public SequenceExpressionMultiRuleQuery(SequenceMultiRuleAllCall multiRuleCall, String matchClass)
+            : base(SequenceExpressionType.MultiRuleQuery)
+        {
+            MultiRuleCall = multiRuleCall;
+            MatchClass = matchClass;
+        }
+
+        protected SequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            MultiRuleCall = that.MultiRuleCall;
+            MatchClass = that.MatchClass;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMultiRuleQuery(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            List<SequenceRuleCall> RuleCalls = new List<SequenceRuleCall>();
+            foreach(Sequence seqChild in MultiRuleCall.Sequences)
+            {
+                seqChild.Check(env);
+                if(seqChild is SequenceRuleAllCall)
+                    throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]] can't contain a rule all call (e.g. [r4]");
+                if(seqChild is SequenceRuleCountAllCall)
+                    throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]] can't contain a rule count all call (e.g. count[r4] => ct");
+                if(((SequenceRuleCall)seqChild).Subgraph != null)
+                    throw new Exception("Sequence MultiRuleAllCall (e.g. [[r1,r2(x),(y)=r3]]  can't contain a call with subgraph prefix (e.g. sg.r4)");
+                RuleCalls.Add((SequenceRuleCall)seqChild);
+            }
+
+            env.CheckMatchClassFilterCalls(MultiRuleCall.Filters, RuleCalls);
+            foreach(SequenceRuleCall ruleCall in RuleCalls)
+            {
+                if(!env.IsRuleImplementingMatchClass(ruleCall.PackagePrefixedName, MatchClass))
+                    throw new SequenceParserException(MatchClass, ruleCall.PackagePrefixedName, SequenceParserError.MatchClassNotImplementedError);
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "array<match<class " + MatchClass + ">>";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            List<IMatches> MatchesList;
+            List<IMatch> MatchList;
+            MultiRuleCall.MatchAll(procEnv, out MatchesList, out MatchList);
+            return MatchList; //TODO evt stale matches?
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            MultiRuleCall.GetLocalVariables(variables, containerConstructors, null);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                foreach(Sequence rule in MultiRuleCall.Sequences)
+                {
+                    foreach(SequenceExpression argument in ((SequenceRuleCall)rule).ArgumentExpressions)
+                    {
+                        yield return argument;
+                    }
+                }
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("[?[");
+                bool first = true;
+                foreach(Sequence rule in MultiRuleCall.Sequences)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(rule.Symbol);
+                }
+                sb.Append("]");
+                sb.Append("\\<class " + MatchClass + ">");
+                sb.Append("]");
+                return sb.ToString();
             }
         }
     }

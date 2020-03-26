@@ -54,7 +54,7 @@ function deleteAll(ref a:array<match<class mc> >) : array<match<class mc> >
 	return(a);
 }
 
-/*test tb(ref a:array<match<class mc> >)
+test tb(ref a:array<match<class mc> >)
 {
 	if{ a.extract<i>().sum() < a.extract<j>().sum(); }
-}*/
+}

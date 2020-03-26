@@ -80,47 +80,62 @@ public class MultiCallActionNode extends BaseNode {
 		// all actions must implement the match classes of the employed filters
 		for(MatchTypeQualIdentNode matchClassFilterReference : matchClassFilterFunctions.getChildren()) {
 			MatchClassFilterFunctionDeclNode matchClassFilter = (MatchClassFilterFunctionDeclNode)matchClassFilterReference.getMember();
-			String matchTypeNameOfFilterFunction = matchClassFilter.matchType.getIdentNode().toString();
+			String matchClassReferencedByFilterFunction = matchClassFilter.matchType.getIdentNode().toString();
 			String nameOfFilterFunction = matchClassFilter.getIdentNode().toString();
 
 			for(CallActionNode actionCall : actionCalls.getChildren()) {
-				String nameOfAction = actionCall.getAction().getIdentNode().toString();
-				boolean isMatchClassOfFilterImplementedByAction = false;
-				for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses())
-				{
-					String matchTypeNameImplementedByAction = matchType.getIdentNode().toString();
-					if(matchTypeNameOfFilterFunction.equals(matchTypeNameImplementedByAction)) {
-						isMatchClassOfFilterImplementedByAction = true;
-					}
-				}
-				
-				if(!isMatchClassOfFilterImplementedByAction) {
-					if(actionCall.getAction().getImplementedMatchClasses().isEmpty()) {
-						reportError("Match filter " + nameOfFilterFunction + " is defined for match class " + matchTypeNameOfFilterFunction + ". "
-								+ "It can't be applied to action " + nameOfAction + " implementing no match class");
-
-					} else {
-						StringBuilder matchTypeNamesImplementedByAction = new StringBuilder();
-						boolean first = true;
-						for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses())
-						{
-							String matchTypeNameImplementedByAction = matchType.getIdentNode().toString();
-							if(first) {
-								first = false;
-							} else {
-								matchTypeNamesImplementedByAction.append(",");
-							}
-							matchTypeNamesImplementedByAction.append(matchTypeNameImplementedByAction);
-						}
-	
-						reportError("Match filter " + nameOfFilterFunction + " is defined for match class " + matchTypeNameOfFilterFunction + ". "
-								+ "It can't be applied to action " + nameOfAction + " implementing only " + matchTypeNamesImplementedByAction);
-					}
-				}
+				checkWhetherCalledActionImplementsMatchClass(matchClassReferencedByFilterFunction, nameOfFilterFunction,
+						actionCall);
 			}
 		}
 
 		return res;
+	}
+
+	public static void checkWhetherCalledActionImplementsMatchClass(String matchClassReferencedByFilterFunction,
+			String nameOfFilterFunction, CallActionNode actionCall) {
+		String nameOfAction = actionCall.getAction().getIdentNode().toString();
+		boolean isMatchClassOfFilterImplementedByAction = false;
+		for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses())
+		{
+			String matchClassImplementedByAction = matchType.getIdentNode().toString();
+			if(matchClassReferencedByFilterFunction.equals(matchClassImplementedByAction)) {
+				isMatchClassOfFilterImplementedByAction = true;
+			}
+		}
+		
+		if(!isMatchClassOfFilterImplementedByAction) {
+			if(actionCall.getAction().getImplementedMatchClasses().isEmpty()) {
+				if(nameOfFilterFunction != null) {
+					actionCall.reportError("Match filter " + nameOfFilterFunction + " is defined for match class " + matchClassReferencedByFilterFunction + ". "
+							+ "The action " + nameOfAction + " implements no match classes.");
+				} else {
+					actionCall.reportError("The multi rule query is defined for match class " + matchClassReferencedByFilterFunction + ". "
+							+ "The action " + nameOfAction + " implements no match classes.");
+				}
+			} else {
+				StringBuilder matchClassesImplementedByAction = new StringBuilder();
+				boolean first = true;
+				for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses())
+				{
+					String matchTypeNameImplementedByAction = matchType.getIdentNode().toString();
+					if(first) {
+						first = false;
+					} else {
+						matchClassesImplementedByAction.append(",");
+					}
+					matchClassesImplementedByAction.append(matchTypeNameImplementedByAction);
+				}
+
+				if(nameOfFilterFunction != null) {
+					actionCall.reportError("Match filter " + nameOfFilterFunction + " is defined for match class " + matchClassReferencedByFilterFunction + ". "
+							+ "The action " + nameOfAction + " implements only " + matchClassesImplementedByAction + ".");
+				} else {
+					actionCall.reportError("The multi rule query is defined for match class " + matchClassReferencedByFilterFunction + ". "
+							+ "The action " + nameOfAction + " implements only " + matchClassesImplementedByAction + ".");
+				}
+			}
+		}
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */

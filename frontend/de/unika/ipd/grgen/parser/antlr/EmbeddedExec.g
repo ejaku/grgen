@@ -359,7 +359,8 @@ options { k = 4; }
 	| DEF LPAREN { xg.append("def("); } seqVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| a=AT LPAREN { xg.append("@("); } 
 		(i=IDENT { xg.append(i.getText()); } | s=STRING_LITERAL { xg.append(s.getText()); }) RPAREN { xg.append(")"); }
-	| rq=seqRuleQuery[xg, returns] sel=seqExprSelector[rq, xg] { res = sel; }
+	| rq=seqRuleQuery[xg] sel=seqExprSelector[rq, xg] { res = sel; }
+	| mrq=seqMultiRuleQuery[xg] sel=seqExprSelector[mrq, xg] { res = sel; }
 	| LPAREN { xg.append("("); } seqExpression[xg] RPAREN { xg.append(")"); } 
 	| exp=seqConstantWithoutType[xg] sel=seqExprSelector[(ExprNode)exp, xg] { res = sel; }
 	| {env.test(ParserEnvironment.TYPES, input.LT(1).getText()) && !env.test(ParserEnvironment.ENTITIES, input.LT(1).getText())}? i=IDENT
@@ -570,7 +571,7 @@ seqDequeItem [ExecNode xg] returns [ DequeItemNode res = null ]
 		}
 	;
 
-seqMultiRulePrefixedSequence[ExecNode xg, CollectNode<BaseNode> returns]
+seqMultiRulePrefixedSequence [ExecNode xg, CollectNode<BaseNode> returns]
 	@init{
 		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
@@ -585,17 +586,17 @@ seqMultiRulePrefixedSequence[ExecNode xg, CollectNode<BaseNode> returns]
 		}
 	;
 
-seqRulePrefixedSequence[ExecNode xg, CollectNode<BaseNode> returns]
+seqRulePrefixedSequence [ExecNode xg, CollectNode<BaseNode> returns]
 	: LBRACK {xg.append("[");} seqRulePrefixedSequenceAtom[xg, null, returns] RBRACK {xg.append("]");}
 	;
 
-seqRulePrefixedSequenceAtom[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns]
+seqRulePrefixedSequenceAtom [ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns]
 	: FOR l=LBRACE { env.pushScope("ruleprefixedsequence/exec", getCoords(l)); } {xg.append("for{");} 
 		seqCallRuleWithOptionalReturns[xg, ruleCalls, returns, false] SEMI {xg.append(";");}
 			sequence[xg] { env.popScope(); } RBRACE {xg.append("}");}
 	;
 
-seqMultiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed]
+seqMultiRuleAllCall [ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBracketed]
 	@init{
 		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
@@ -610,7 +611,7 @@ seqMultiRuleAllCall[ExecNode xg, CollectNode<BaseNode> returns, boolean isAllBra
 		}
 	;
 	
-seqParallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
+seqParallelCallRule [ExecNode xg, CollectNode<BaseNode> returns]
 	: ( LPAREN {xg.append("(");} seqVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
 		(	( DOLLAR {xg.append("$");} (MOD { xg.append("\%"); })? ( seqVarUse[xg] 
 						(COMMA {xg.append(",");} (seqVarUse[xg] | STAR {xg.append("*");}))? )? )?
@@ -627,50 +628,45 @@ seqParallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 		)
 	;
 
-seqRuleQuery[ExecNode xg, CollectNode<BaseNode> returns] returns[ExprNode res = env.initExprNode()]
+seqRuleQuery [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	: LBRACK {xg.append("[");} 
-		cre=seqCallRuleExpression[xg, null, returns, true] { res = cre; }
+		cre=seqCallRuleExpression[xg] { res = cre; }
 		RBRACK {xg.append("]");}
 	;
 
-seqCallRuleWithOptionalReturns[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
-	: (LPAREN {xg.append("(");} seqVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? seqCallRule[xg, ruleCalls, returns, isAllBracketed]
-	;
-
-seqCallRule[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
+seqMultiRuleQuery [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 	@init{
-		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
+		CollectNode<ExprNode> ruleCallExprs = new CollectNode<ExprNode>();
 	}
-	
-	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
-		(seqVarUse[xg] DOT {xg.append(".");})?
-		id=seqActionOrEntIdentUse {xg.append(id);}
-		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN {xg.append(")");})?
-		(seqCallRuleFilter[xg, filters, false])*
+
+	: l=LBRACK QUESTION LBRACK { xg.append("[?["); } 
+		cre=seqCallRuleExpressionForMulti[xg, ruleCalls] { ruleCallExprs.addChild(cre); }
+		( COMMA { xg.append(","); } cre=seqCallRuleExpressionForMulti[xg, ruleCalls] { ruleCallExprs.addChild(cre); } )*
+	  RBRACK {xg.append("]");} ( seqCallRuleFilter[xg, filters, true] )*
+		BACKSLASH { xg.append("\\"); } LT CLASS matchClassIdent=seqTypeIdentUse GT { xg.append("<class " + matchClassIdent.toString() + ">"); }
+	  RBRACK {xg.append("]");}
 		{
-			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, isAllBracketed);
-			xg.addCallAction(ruleCall);
-			if(ruleCalls != null) { // must be added to MultiCallActionNode if used from multi rule all call or multi backtrack construct
-				ruleCalls.addChild(ruleCall);
-			}
+			MultiCallActionNode multiRuleCall = new MultiCallActionNode(getCoords(l), ruleCalls, filters);
+			xg.addMultiCallAction(multiRuleCall);
+			res = new MultiRuleQueryExprNode(getCoords(l), ruleCallExprs, matchClassIdent, new ArrayTypeNode(matchClassIdent));
+			//array-of-match-todo:res = new MultiRuleQueryExprNode(getCoords(l), ruleCallExprs, matchClassIdent, ArrayTypeNode.getArrayType(matchClassIdent));
 		}
 	;
 
-seqCallRuleExpression[ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
-		returns[ExprNode res = env.initExprNode()]
+seqCallRuleExpressionForMulti [ExecNode xg, CollectNode<CallActionNode> ruleCalls] returns[ExprNode res = env.initExprNode()]
 	@init{
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
 	
-	: ( QUESTION MOD { xg.append("?\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } )
-		(seqVarUse[xg] DOT {xg.append(".");})?
-		id=seqActionOrEntIdentUse {xg.append(id);}
-		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN {xg.append(")");})?
+	: id=seqActionOrEntIdentUse { xg.append(id); }
+		(LPAREN {xg.append("(");} ( seqRuleParams[xg, params] )? RPAREN {xg.append(")");})?
 		(seqCallRuleFilter[xg, filters, false])*
 		{
-			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, isAllBracketed);
+			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, false);
 			xg.addCallAction(ruleCall);
 			if(ruleCalls != null) { // must be added to MultiCallActionNode if used from multi rule all call or multi backtrack construct
 				ruleCalls.addChild(ruleCall);
@@ -680,12 +676,56 @@ seqCallRuleExpression[ExecNode xg, CollectNode<CallActionNode> ruleCalls, Collec
 		}
 	;
 
-seqCallRuleFilter[ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter]
+seqCallRuleWithOptionalReturns [ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
+	: (LPAREN {xg.append("(");} seqVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");})? seqCallRule[xg, ruleCalls, returns, isAllBracketed]
+	;
+
+seqCallRule [ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed]
+	@init{
+		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
+	}
+	
+	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
+		(seqVarUse[xg] DOT { xg.append("."); })?
+		id=seqActionOrEntIdentUse { xg.append(id); }
+		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
+		(seqCallRuleFilter[xg, filters, false])*
+		{
+			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, isAllBracketed);
+			xg.addCallAction(ruleCall);
+			if(ruleCalls != null) { // must be added to MultiCallActionNode if used from multi rule all call or multi backtrack construct
+				ruleCalls.addChild(ruleCall);
+			}
+		}
+	;
+
+seqCallRuleExpression [ExecNode xg] returns[ExprNode res = env.initExprNode()]
+	@init{
+		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
+	}
+	
+	: ( QUESTION MOD { xg.append("?\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } )
+		(seqVarUse[xg] DOT { xg.append("."); })?
+		id=seqActionOrEntIdentUse { xg.append(id); }
+		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
+		(seqCallRuleFilter[xg, filters, false])*
+		{
+			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, true);
+			xg.addCallAction(ruleCall);
+			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, id)));
+			//array-of-match-todo:res = new RuleQueryExprNode(id.getCoords(), ruleCall, ArrayTypeNode.getArrayType(MatchTypeNode.getMatchTypeIdentNode(env, id)));
+		}
+	;
+
+seqCallRuleFilter [ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter]
 	: BACKSLASH { xg.append("\\"); } (p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); })? id=IDENT { xg.append(id.getText()); } 
 		seqCallRuleFilterContinuation[xg, filters, isMatchClassFilter, p, id]
 	;
 
-seqCallRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin]
+seqCallRuleFilterContinuation [ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin]
 	@init{
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 	}
@@ -735,7 +775,7 @@ seqCallRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filters, boolea
 		}
 	;
 
-seqCallMatchClassRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc]
+seqCallMatchClassRuleFilterContinuation [ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc]
 	@init{
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 	}
@@ -773,26 +813,26 @@ seqCallMatchClassRuleFilterContinuation[ExecNode xg, CollectNode<BaseNode> filte
 		}
 	;
 
-seqFilterCallVariableList[ExecNode xg]
+seqFilterCallVariableList [ExecNode xg]
 	: filterVariable=IDENT { xg.append(filterVariable.getText()); }
 		( COMMA {xg.append(",");} filterVariable=IDENT { xg.append(filterVariable.getText()); } )*
 	;
 
-seqRuleParam[ExecNode xg, CollectNode<BaseNode> parameters]
+seqRuleParam [ExecNode xg, CollectNode<BaseNode> parameters]
 	: exp=seqExpression[xg] { parameters.addChild(exp); }
 	;
 
-seqRuleParams[ExecNode xg, CollectNode<BaseNode> parameters]
+seqRuleParams [ExecNode xg, CollectNode<BaseNode> parameters]
 	: seqRuleParam[xg, parameters]	( COMMA {xg.append(",");} seqRuleParam[xg, parameters] )*
 	;
 
-seqVariableList[ExecNode xg, CollectNode<BaseNode> res]
+seqVariableList [ExecNode xg, CollectNode<BaseNode> res]
 	: child=seqEntity[xg] { res.addChild(child); }
 		( COMMA { xg.append(","); } child=seqEntity[xg] { res.addChild(child); } )*
 	;
 
 // read context (assignment rhs)
-seqVarUse[ExecNode xg] returns [IdentNode res = null]
+seqVarUse [ExecNode xg] returns [IdentNode res = null]
 	:
 		id=seqEntIdentUse { res = id; xg.append(id); xg.addUsage(id); } // var of node, edge, or basic type
 	|
@@ -800,7 +840,7 @@ seqVarUse[ExecNode xg] returns [IdentNode res = null]
 	;
 
 // write context (assignment lhs)
-seqEntity[ExecNode xg] returns [BaseNode res = null]
+seqEntity [ExecNode xg] returns [BaseNode res = null]
 	:
 		id=seqEntIdentUse { res = id; xg.append(id); xg.addWriteUsage(id); } // var of node, edge, or basic type
 	|
@@ -809,7 +849,7 @@ seqEntity[ExecNode xg] returns [BaseNode res = null]
 		seqVarDecl=seqEntityDecl[xg, true] { res = seqVarDecl; }
 	;
 
-seqEntityDecl[ExecNode xg, boolean emit] returns [ExecVarDeclNode res = null]
+seqEntityDecl [ExecNode xg, boolean emit] returns [ExecVarDeclNode res = null]
 options { k = *; }
 	:
 		id=seqEntIdentDecl COLON type=seqTypeIdentUse // node decl
@@ -913,7 +953,7 @@ options { k = *; }
 		}
 	;
 
-seqIndex[ExecNode xg]
+seqIndex [ExecNode xg]
 	: id=seqIndexIdentUse { xg.append(id.toString()); }
 	;
 

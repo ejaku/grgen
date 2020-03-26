@@ -111,6 +111,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionVariable((SequenceExpressionVariable)expr, source);
             case SequenceExpressionType.RuleQuery:
                 return GetSequenceExpressionRuleQuery((SequenceExpressionRuleQuery)expr, source);
+            case SequenceExpressionType.MultiRuleQuery:
+                return GetSequenceExpressionMultiRuleQuery((SequenceExpressionMultiRuleQuery)expr, source);
             case SequenceExpressionType.FunctionCall:
                 return GetSequenceExpressionFunctionCall((SequenceExpressionFunctionCall)expr, source);
             case SequenceExpressionType.FunctionMethodCall:
@@ -657,13 +659,18 @@ namespace de.unika.ipd.grGen.lgsp
         private string GetSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqRuleQuery, SourceBuilder source)
         {
             SequenceRuleAllCall ruleCall = seqRuleQuery.RuleCall;
-            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(seqRuleQuery.RuleCall.Package) + "Rule_" + seqRuleQuery.RuleCall.Name;
+            return GetSequenceExpressionRuleCall(ruleCall, source);
+        }
+
+        private string GetSequenceExpressionRuleCall(SequenceRuleCall ruleCall, SourceBuilder source)
+        {
+            String matchingPatternClassName = TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Rule_" + ruleCall.Name;
             String patternName = ruleCall.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             SourceBuilder matchesSourceBuilder = new SourceBuilder();
             matchesSourceBuilder.AppendFormat("procEnv.MatchForQuery<{0}>({1}, {2}{3}, procEnv.MaxMatches, {4})",
                 matchType, TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Action_" + ruleCall.Name + ".Instance",
-                ruleCall.Subgraph != null ? seqHelper.GetVar(ruleCall.Subgraph) : "null", 
+                ruleCall.Subgraph != null ? seqHelper.GetVar(ruleCall.Subgraph) : "null",
                 seqHelper.BuildParametersInObject(ruleCall, ruleCall.ArgumentExpressions, source), ruleCall.Special ? "true" : "false");
             for(int i = 0; i < ruleCall.Filters.Count; ++i)
             {
@@ -671,7 +678,40 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesSourceBuilder.Reset();
                 EmitFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
             }
-            return matchesSourceBuilder.ToString() + ".ToListExact()";
+            return matchesSourceBuilder.ToString() + ".ToListExact()"; // TODO copy of list?
+        }
+
+        private string GetSequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery seqMultiRuleQuery, SourceBuilder source)
+        {
+            SequenceMultiRuleAllCall seqMulti = seqMultiRuleQuery.MultiRuleCall;
+
+            String matchListName = "MatchList_" + seqMulti.Id;
+            source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
+
+            SourceBuilder matchesSourceBuilder = new SourceBuilder();
+
+            String matchType = NamesOfEntities.MatchInterfaceName(seqMultiRuleQuery.MatchClass);
+            matchesSourceBuilder.AppendFormat("GRGEN_LIBGR.MatchListHelper.ToList<{0}>(", matchType);
+
+            matchesSourceBuilder.Append(GetRuleCallOfSequenceMultiRuleAllCall(seqMulti, seqMulti.Sequences.Count - 1, matchListName, source));
+
+            // emit code for match class (non-rule-based) filtering
+            foreach(SequenceFilterCall sequenceFilterCall in seqMulti.Filters)
+            {
+                EmitMatchClassFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)sequenceFilterCall, matchListName, true);
+            }
+
+            matchesSourceBuilder.Append(")");
+            return matchesSourceBuilder.ToString();
+        }
+
+        private string GetRuleCallOfSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, int index, String matchListName, SourceBuilder source)
+        {
+            SequenceRuleCall ruleCall = (SequenceRuleCall)seqMulti.Sequences[index];
+            if(index == 0)
+                return "GRGEN_LIBGR.MatchListHelper.AddReturn(" + matchListName + ", " + GetSequenceExpressionRuleCall(ruleCall, source) + ")";
+            else
+                return "GRGEN_LIBGR.MatchListHelper.AddReturn(" + GetRuleCallOfSequenceMultiRuleAllCall(seqMulti, index - 1, matchListName, source) + ",\n" + GetSequenceExpressionRuleCall(ruleCall, source) + ")";
         }
 
         private string GetSequenceExpressionFunctionCall(SequenceExpressionFunctionCall seqFuncCall, SourceBuilder source)
@@ -1683,6 +1723,65 @@ namespace de.unika.ipd.grGen.lgsp
         {
             source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchFilters.Filter_{1}(procEnv, {2}",
                 TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchesSource);
+            List<String> inputTypes = seqHelper.actionsTypeInformation.filterFunctionsToInputTypes[filterFunction.PackagePrefixedName];
+            for(int i = 0; i < argumentExpressions.Length; ++i)
+            {
+                source.AppendFormat(", ({0})({1})",
+                    TypesHelper.XgrsTypeToCSharpType(inputTypes[i], model),
+                    GetSequenceExpression(argumentExpressions[i], source));
+            }
+            source.Append(")");
+            if(!chainable)
+                source.Append(";\n");
+        }
+
+        internal void EmitMatchClassFilterCall(SourceBuilder source, SequenceFilterCallCompiled sequenceFilterCall, string matchListName, bool chainable)
+        {
+            if(sequenceFilterCall.Filter is IFilterAutoSupplied)
+            {
+                IFilterAutoSupplied filterAutoSupplied = (IFilterAutoSupplied)sequenceFilterCall.Filter;
+                EmitMatchClassFilterAutoSuppliedCall(source, filterAutoSupplied, sequenceFilterCall.ArgumentExpressions, matchListName, chainable);
+            }
+            else if(sequenceFilterCall.Filter is IFilterAutoGenerated)
+            {
+                IFilterAutoGenerated filterAutoGenerated = (IFilterAutoGenerated)sequenceFilterCall.Filter;
+                EmitMatchClassFilterAutoGeneratedCall(source, filterAutoGenerated, sequenceFilterCall.MatchClassName, matchListName, chainable);
+            }
+            else
+            {
+                IFilterFunction filterFunction = (IFilterFunction)sequenceFilterCall.Filter;
+                EmitMatchClassFilterFunctionCall(source, filterFunction, sequenceFilterCall.ArgumentExpressions, matchListName, chainable);
+            }
+        }
+
+        private void EmitMatchClassFilterAutoSuppliedCall(SourceBuilder source, IFilterAutoSupplied filterAutoSupplied, SequenceExpression[] argumentExpressions, string matchListName, bool chainable)
+        {
+            source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.Filter_{0}({1}",
+                filterAutoSupplied.Name, matchListName);
+            for(int i = 0; i < argumentExpressions.Length; ++i)
+            {
+                source.AppendFormat(", ({0})({1})",
+                    TypesHelper.TypeName(filterAutoSupplied.Inputs[i]),
+                    GetSequenceExpression(argumentExpressions[i], source));
+            }
+            source.Append(")");
+            if(!chainable)
+                source.Append(";\n");
+        }
+
+        private void EmitMatchClassFilterAutoGeneratedCall(SourceBuilder source, IFilterAutoGenerated filterAutoGenerated, string matchClassName, string matchListName, bool chainable)
+        {
+            source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchClassFilters.Filter_{1}_{2}(procEnv, {3});\n",
+                TypesHelper.GetPackagePrefixDot(filterAutoGenerated.PackageOfApplyee),
+                matchClassName, ((LGSPFilterAutoGenerated)filterAutoGenerated).NameWithUnderscoreSuffix, matchListName);
+            if(!chainable)
+                source.Append(";\n");
+        }
+
+        private void EmitMatchClassFilterFunctionCall(SourceBuilder source, IFilterFunction filterFunction, SequenceExpression[] argumentExpressions, string matchListName, bool chainable)
+        {
+            source.AppendFrontFormat("GRGEN_ACTIONS.{0}MatchClassFilters.Filter_{1}(procEnv, {2}",
+                TypesHelper.GetPackagePrefixDot(filterFunction.Package), filterFunction.Name, matchListName);
             List<String> inputTypes = seqHelper.actionsTypeInformation.filterFunctionsToInputTypes[filterFunction.PackagePrefixedName];
             for(int i = 0; i < argumentExpressions.Length; ++i)
             {
