@@ -28,7 +28,8 @@ public class SetAsArrayNode extends ExprNode
 	}
 
 	private ExprNode targetExpr;
-
+	private ArrayTypeNode arrayTypeNode;
+	
 	public SetAsArrayNode(Coords coords, ExprNode targetExpr)
 	{
 		super(coords);
@@ -51,8 +52,8 @@ public class SetAsArrayNode extends ExprNode
 
 	@Override
 	protected boolean resolveLocal() {
-		getType().resolve(); // call to ensure the set type exists
-		return true;
+		arrayTypeNode = new ArrayTypeNode(((SetTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		return arrayTypeNode.resolve();
 	}
 	
 	@Override
@@ -67,7 +68,7 @@ public class SetAsArrayNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		return ArrayTypeNode.getArrayType(((SetTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		return arrayTypeNode;
 	}
 
 	@Override

@@ -61,16 +61,11 @@ import de.unika.ipd.grgen.parser.Symbol;
 	@Override
 	protected boolean checkLocal() {
 		// there must be exactly one definition
-		return super.checkLocal() && getOwnerSymDef().isValid();
+		return super.checkLocal() && (getOwnerSymbol().toString().equals("global") || getOwnerSymDef().isValid());
 	}
 
 	public Symbol.Definition getOwnerSymDef() {
-		if(getOwnerSymbol().toString().equals("global")) {
-			Symbol.Definition def = owningPackage.getScope().getRoot().getCurrDef(getOwnerSymbol());
-			if(def.isValid())
-				setOwnerSymDef(def);
-		}
-		else if(owningPackage.getDefinition()==null || !owningPackage.getDefinition().isValid()) {
+		if(owningPackage.getDefinition()==null || !owningPackage.getDefinition().isValid()) {
 			Symbol.Definition def = owningPackage.getScope().getCurrDef(getOwnerSymbol());
 			if(def.isValid())
 				setOwnerSymDef(def);

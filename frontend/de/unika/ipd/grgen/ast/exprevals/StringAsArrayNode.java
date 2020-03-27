@@ -28,7 +28,7 @@ public class StringAsArrayNode extends ExprNode {
 
 	private ExprNode stringExpr;
 	private ExprNode stringToSplitAtExpr;
-
+	private ArrayTypeNode arrayTypeNode;
 
 	public StringAsArrayNode(Coords coords, ExprNode stringExpr,
 			ExprNode stringToSplitAtExpr) {
@@ -55,6 +55,12 @@ public class StringAsArrayNode extends ExprNode {
 	}
 
 	@Override
+	protected boolean resolveLocal() {
+		arrayTypeNode = new ArrayTypeNode(((StringTypeNode)stringExpr.getType()).getIdentNode());
+		return arrayTypeNode.resolve();
+	}
+
+	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("This argument to string explode expression must be of type string");
@@ -77,6 +83,6 @@ public class StringAsArrayNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return ArrayTypeNode.getArrayType(((StringTypeNode)stringExpr.getType()).getIdentNode());
+		return arrayTypeNode;
 	}
 }

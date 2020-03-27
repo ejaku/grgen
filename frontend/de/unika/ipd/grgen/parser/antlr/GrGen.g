@@ -351,7 +351,7 @@ globalVarDecl
 		|
 			ARRAY LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				id.setDecl(new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), null, 0));
+				id.setDecl(new VarDeclNode(id, new ArrayTypeNode(keyType), null, 0));
 				if(!modifier.getText().equals("ref"))
 					{ reportError(getCoords(modifier), "ref keyword needed before array global variable"); }
 			}
@@ -583,7 +583,6 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 						new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, actionId)),
-						//array-of-match-todo:ArrayTypeNode.getArrayType(MatchTypeNode.getMatchTypeIdentNode(env, actionId)),
 						PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
@@ -599,7 +598,7 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 			{
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
 						new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
-						ArrayTypeNode.getArrayType(typeId),
+						new ArrayTypeNode(typeId),
 						PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
@@ -1200,7 +1199,7 @@ containerTypeUse returns [ TypeNode res = null ]
 		}
 	| ARRAY LT (keyType=typeIdentUse | keyType=matchTypeIdentUse) GT
 		{
-			res = ArrayTypeNode.getArrayType(keyType);
+			res = new ArrayTypeNode(keyType);
 		}
 	| DEQUE LT keyType=typeIdentUse GT
 		{
@@ -2484,7 +2483,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 			|
 				ARRAY LT valueType=typeIdentUse GT
 				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-					decl = new MemberDeclNode(id, ArrayTypeNode.getArrayType(valueType), isConst);
+					decl = new MemberDeclNode(id, new ArrayTypeNode(valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
 				}
@@ -3509,7 +3508,7 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 initContainerExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
 	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[context, null, MapTypeNode.getMapType(keyType, valueType)] { res = e1; }
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[context, null, SetTypeNode.getSetType(valueType)] { res = e2; }
-	| ARRAY LT (valueType=typeIdentUse | valueType=matchTypeIdentUse) GT e3=initArrayExpr[context, null, ArrayTypeNode.getArrayType(valueType)] { res = e3; }
+	| ARRAY LT (valueType=typeIdentUse | valueType=matchTypeIdentUse) GT e3=initArrayExpr[context, null, new ArrayTypeNode(valueType)] { res = e3; }
 	| DEQUE LT valueType=typeIdentUse GT e4=initDequeExpr[context, null, DequeTypeNode.getDequeType(valueType)] { res = e4; }
 	;
 

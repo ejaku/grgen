@@ -469,7 +469,7 @@ options { k = 4; }
 	| SET LT typeName=seqTypeIdentUse GT { xg.append("set<"+typeName+">"); } 
 		e2=seqInitSetExpr[xg, SetTypeNode.getSetType(typeName)] { res = e2; }
 	| ARRAY LT typeName=seqTypeIdentUse GT { xg.append("array<"+typeName+">"); } 
-		e3=seqInitArrayExpr[xg, ArrayTypeNode.getArrayType(typeName)] { res = e3; }
+		e3=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e3; }
 	| DEQUE LT typeName=seqTypeIdentUse GT { xg.append("deque<"+typeName+">"); } 
 		e4=seqInitDequeExpr[xg, DequeTypeNode.getDequeType(typeName)] { res = e4; }
 	| pen=IDENT d=DOUBLECOLON i=IDENT 
@@ -651,7 +651,6 @@ seqMultiRuleQuery [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 			MultiCallActionNode multiRuleCall = new MultiCallActionNode(getCoords(l), ruleCalls, filters);
 			xg.addMultiCallAction(multiRuleCall);
 			res = new MultiRuleQueryExprNode(getCoords(l), ruleCallExprs, matchClassIdent, new ArrayTypeNode(matchClassIdent));
-			//array-of-match-todo:res = new MultiRuleQueryExprNode(getCoords(l), ruleCallExprs, matchClassIdent, ArrayTypeNode.getArrayType(matchClassIdent));
 		}
 	;
 
@@ -672,7 +671,6 @@ seqCallRuleExpressionForMulti [ExecNode xg, CollectNode<CallActionNode> ruleCall
 				ruleCalls.addChild(ruleCall);
 			}
 			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, id)));
-			//array-of-match-todo:res = new RuleQueryExprNode(id.getCoords(), ruleCall, ArrayTypeNode.getArrayType(MatchTypeNode.getMatchTypeIdentNode(env, id)));
 		}
 	;
 
@@ -716,7 +714,6 @@ seqCallRuleExpression [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, true);
 			xg.addCallAction(ruleCall);
 			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeNode.getMatchTypeIdentNode(env, id)));
-			//array-of-match-todo:res = new RuleQueryExprNode(id.getCoords(), ruleCall, ArrayTypeNode.getArrayType(MatchTypeNode.getMatchTypeIdentNode(env, id)));
 		}
 	;
 
@@ -896,7 +893,7 @@ options { k = *; }
 	|
 		id=seqEntIdentDecl COLON ARRAY LT type=seqTypeIdentUse GT // array decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, ArrayTypeNode.getArrayType(type));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
 			if(emit) xg.append(id.toString()+":array<"+type.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
@@ -905,7 +902,7 @@ options { k = *; }
 		(seqEntIdentDecl COLON ARRAY LT seqTypeIdentUse GE) => 
 		id=seqEntIdentDecl COLON ARRAY LT type=seqTypeIdentUse // array decl; special to save user from splitting array<S>=x to array<S> =x as >= is GE not GT ASSIGN
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, ArrayTypeNode.getArrayType(type));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
 			if(emit) xg.append(id.toString()+":array<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;

@@ -813,7 +813,7 @@ public class ActionsGen extends CSharpBase {
 
 	private void genFilterFunction(StringBuffer sb, FilterFunctionInternal filter, String packageName, boolean emitProfilingInstrumentation) {
 		String actionName = filter.getAction().getIdent().toString();
-		String packagePrefixOfAction = getPackagePrefixDot(filter.getAction());
+		String packagePrefixOfAction = "GRGEN_ACTIONS." + getPackagePrefixDot(filter.getAction());
 		String matchType = packagePrefixOfAction + "Rule_" + actionName + ".IMatch_" + actionName;
 		sb.append("\t\tpublic static void ");
 		sb.append("Filter_" + filter.getIdent().toString() + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<" + matchType + "> matches");

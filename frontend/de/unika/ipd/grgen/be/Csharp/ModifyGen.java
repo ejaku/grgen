@@ -1615,7 +1615,7 @@ public class ModifyGen extends CSharpBase {
 					SubpatternDependentReplacement subRep = (SubpatternDependentReplacement)orderedRep;
 					Rule subRule = subRep.getSubpatternUsage().getSubpatternAction();
 					String subName = formatIdentifiable(subRep);
-					sb.append("\t\t\t" + getPackagePrefixDot(subRule) + "Pattern_" + formatIdentifiable(subRule)
+					sb.append("\t\t\t" + "GRGEN_ACTIONS." + getPackagePrefixDot(subRule) + "Pattern_" + formatIdentifiable(subRule)
 							+ ".Instance." + formatIdentifiable(subRule) +
 							"_Modify(actionEnv, subpattern_" + subName);
 					NeededEntities needs = new NeededEntities(true, true, true, false, true, true, false, false);
@@ -1926,7 +1926,7 @@ public class ModifyGen extends CSharpBase {
 				|| hasDanglingEdges(subUsage.getSubpatternAction().getPattern()))
 				continue; // pattern creation code was not generated, can't call it
 
-			sb.append("\t\t\t" + getPackagePrefixDot(subUsage.getSubpatternAction()) + "Pattern_" + formatIdentifiable(subUsage.getSubpatternAction())
+			sb.append("\t\t\t" + "GRGEN_ACTIONS." + getPackagePrefixDot(subUsage.getSubpatternAction()) + "Pattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Create(actionEnv");
 			for(Expression expr: subUsage.getSubpatternConnections()) {
@@ -1946,7 +1946,7 @@ public class ModifyGen extends CSharpBase {
 	{
 		for(SubpatternUsage subUsage : state.delSubpatternUsages()) {
 			String subName = formatIdentifiable(subUsage);
-			sb.append("\t\t\t" + getPackagePrefixDot(subUsage.getSubpatternAction()) + "Pattern_" + formatIdentifiable(subUsage.getSubpatternAction())
+			sb.append("\t\t\t" + "GRGEN_ACTIONS." + getPackagePrefixDot(subUsage.getSubpatternAction()) + "Pattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Delete(actionEnv, subpattern_" + subName + ");\n");
 		}

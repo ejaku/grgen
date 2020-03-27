@@ -139,7 +139,7 @@ public class ArrayExtractNode extends ExprNode
 		}
 
 		DeclaredTypeNode declType = (DeclaredTypeNode)type;
-		extractedArrayType = ArrayTypeNode.getArrayType(declType.getIdentNode());
+		extractedArrayType = new ArrayTypeNode(declType.getIdentNode());
 		
 		return extractedArrayType.resolve();
 	}

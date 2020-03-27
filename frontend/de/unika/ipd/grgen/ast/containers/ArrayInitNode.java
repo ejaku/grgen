@@ -81,10 +81,10 @@ public class ArrayInitNode extends ExprNode
 			if(!lhsResolver.resolve(lhsUnresolved)) return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
-		} else if(arrayType!=null) {
-			return arrayType.resolve();
 		} else {
-			return true;
+			if(arrayType==null) 
+				arrayType = createArrayType();
+			return arrayType.resolve();
 		}
 	}
 
@@ -97,16 +97,9 @@ public class ArrayInitNode extends ExprNode
 			TypeNode type = lhs.getDeclType();
 			assert type instanceof ArrayTypeNode: "Lhs should be a Array<Value>";
 			arrayType = (ArrayTypeNode) type;
-		} else if(this.arrayType!=null) {
-			arrayType = this.arrayType;
 		} else {
-			TypeNode arrayTypeNode = getArrayType();
-			if(arrayTypeNode instanceof ArrayTypeNode) {
-				arrayType = (ArrayTypeNode)arrayTypeNode;
-			} else {
-				return false;
-			}
-		}
+			arrayType = this.arrayType;
+		} 
 
 		for(ArrayItemNode item : arrayItems.getChildren()) {
 			if(item.valueExpr.getType() != arrayType.valueType) {
@@ -141,10 +134,10 @@ public class ArrayInitNode extends ExprNode
 		return success;
 	}
 
-	protected TypeNode getArrayType() {
+	protected ArrayTypeNode createArrayType() {
 		TypeNode itemTypeNode = arrayItems.getChildren().iterator().next().valueExpr.getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
-		return ArrayTypeNode.getArrayType(itemTypeIdent);
+		return new ArrayTypeNode(itemTypeIdent);
 	}
 
 	/**
@@ -187,7 +180,7 @@ public class ArrayInitNode extends ExprNode
 		} else if(arrayType!=null) {
 			return arrayType;
 		} else {
-			return getArrayType();
+			return createArrayType();
 		}
 	}
 

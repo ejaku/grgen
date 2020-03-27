@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
 import de.unika.ipd.grgen.ir.Type;
 import java.awt.Color;
 import java.util.Collection;
@@ -123,7 +124,12 @@ public abstract class TypeNode extends BaseNode {
 	 * @return true, if this and <code>t</code> are of the same type.
 	 */
 	public boolean isEqual(TypeNode t) {
-		return t == this;
+		if(t == this)
+			return true;
+		else if(t instanceof ArrayTypeNode && this instanceof ArrayTypeNode)
+			return ((ArrayTypeNode)t).valueType == ((ArrayTypeNode)this).valueType;
+		else
+			return false;
 	}
 
 	/**

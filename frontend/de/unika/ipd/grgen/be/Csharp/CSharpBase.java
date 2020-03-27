@@ -228,9 +228,9 @@ public abstract class CSharpBase {
 	String matchType(PatternGraph patternGraph, Rule subpattern, boolean isSubpattern, String pathPrefix) {
 		String matchClassContainer;
 		if(isSubpattern) {
-			matchClassContainer = getPackagePrefixDot(subpattern) + "Pattern_" + patternGraph.getNameOfGraph();
+			matchClassContainer = "GRGEN_ACTIONS." + getPackagePrefixDot(subpattern) + "Pattern_" + patternGraph.getNameOfGraph();
 		} else {
-			matchClassContainer = "Rule_" + patternGraph.getNameOfGraph();
+			matchClassContainer = "GRGEN_ACTIONS." + getPackagePrefixDot(subpattern) + "Rule_" + patternGraph.getNameOfGraph();
 		}
 		String nameOfMatchClass = "Match_" + pathPrefix + patternGraph.getNameOfGraph();
 		return matchClassContainer + "." + nameOfMatchClass;
@@ -450,13 +450,13 @@ public abstract class CSharpBase {
 			String packagePrefix = getPackagePrefixDot(matchType);
 			Rule action = matchType.getAction();
 			String actionName = action.getIdent().toString();
-			return packagePrefix + "Rule_" + actionName + ".IMatch_" + actionName;
+			return "GRGEN_ACTIONS." + packagePrefix + "Rule_" + actionName + ".IMatch_" + actionName;
 		}
 		else if(t instanceof DefinedMatchType) {
 			DefinedMatchType definedMatchType = (DefinedMatchType) t;
 			String packagePrefix = getPackagePrefixDot(definedMatchType);
 			String matchClassName = definedMatchType.getIdent().toString();
-			return packagePrefix + "IMatch_" + matchClassName;
+			return "GRGEN_ACTIONS." + packagePrefix + "IMatch_" + matchClassName;
 		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}

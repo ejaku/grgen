@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ast.containers;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
@@ -31,18 +30,6 @@ public class ArrayTypeNode extends DeclaredTypeNode {
 	@Override
 	public String getName() {
 		return "array<" + valueTypeUnresolved.toString() + "> type";
-	}
-
-	private static HashMap<String, ArrayTypeNode> arrayTypes = new HashMap<String, ArrayTypeNode>();
-
-	public static ArrayTypeNode getArrayType(IdentNode valueTypeIdent) {
-		String keyStr = valueTypeIdent.toString();
-		ArrayTypeNode arrayTypeNode = arrayTypes.get(keyStr);
-
-		if(arrayTypeNode == null)
-			arrayTypes.put(keyStr, arrayTypeNode = new ArrayTypeNode(valueTypeIdent));
-
-		return arrayTypeNode;
 	}
 
 	public IdentNode valueTypeUnresolved;

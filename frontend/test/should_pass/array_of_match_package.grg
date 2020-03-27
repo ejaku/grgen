@@ -1,0 +1,42 @@
+package Foo
+{
+	rule r
+	{
+		m:Node;
+		
+		modify {
+		}
+	}
+	
+	filter f<r>
+	{
+		def ref a:array<match<r> > = this;
+		def ref m:array<Node> = a.extract<m>();
+	}
+	
+	filter fg<global::r>
+	{
+		def ref a:array<match<global::r> > = this;
+		def ref n:array<Node> = a.extract<n>();
+	}
+}
+
+rule r
+{
+	n:Node;
+	
+	modify {
+	}
+}
+
+filter f<r>
+{
+	def ref a:array<match<r> > = this;
+	def ref n:array<Node> = a.extract<n>();
+}
+
+filter fp<Foo::r>
+{
+	def ref a:array<match<Foo::r> > = this;
+	def ref m:array<Node> = a.extract<m>();
+}
