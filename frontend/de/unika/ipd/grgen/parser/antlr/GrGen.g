@@ -337,14 +337,14 @@ globalVarDecl
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				id.setDecl(new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), null, 0));
+				id.setDecl(new VarDeclNode(id, new MapTypeNode(keyType, valueType), null, 0));
 				if(!modifier.getText().equals("ref"))
 					{ reportError(getCoords(modifier), "ref keyword needed before map global variable"); }
 			}
 		|
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				id.setDecl(new VarDeclNode(id, SetTypeNode.getSetType(keyType), null, 0));
+				id.setDecl(new VarDeclNode(id, new SetTypeNode(keyType), null, 0));
 				if(!modifier.getText().equals("ref"))
 					{ reportError(getCoords(modifier), "ref keyword needed before set global variable"); }
 			}
@@ -358,7 +358,7 @@ globalVarDecl
 		|
 			DEQUE LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				id.setDecl(new VarDeclNode(id, DequeTypeNode.getDequeType(keyType), null, 0));
+				id.setDecl(new VarDeclNode(id, new DequeTypeNode(keyType), null, 0));
 				if(!modifier.getText().equals("ref"))
 					{ reportError(getCoords(modifier), "ref keyword needed before deque global variable"); }
 			}
@@ -1191,11 +1191,11 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 containerTypeUse returns [ TypeNode res = null ]
 	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 		{ 
-			res = MapTypeNode.getMapType(keyType, valueType);
+			res = new MapTypeNode(keyType, valueType);
 		}
 	| SET LT keyType=typeIdentUse GT
 		{ 
-			res = SetTypeNode.getSetType(keyType);
+			res = new SetTypeNode(keyType);
 		}
 	| ARRAY LT (keyType=typeIdentUse | keyType=matchTypeIdentUse) GT
 		{
@@ -1203,7 +1203,7 @@ containerTypeUse returns [ TypeNode res = null ]
 		}
 	| DEQUE LT keyType=typeIdentUse GT
 		{
-			res = DequeTypeNode.getDequeType(keyType);
+			res = new DequeTypeNode(keyType);
 		}
 	;
 
@@ -2453,7 +2453,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 			|
 				MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-					decl = new MemberDeclNode(id, MapTypeNode.getMapType(keyType, valueType), isConst);
+					decl = new MemberDeclNode(id, new MapTypeNode(keyType, valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
 				}
@@ -2468,7 +2468,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 			|
 				SET LT valueType=typeIdentUse GT
 				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-					decl = new MemberDeclNode(id, SetTypeNode.getSetType(valueType), isConst);
+					decl = new MemberDeclNode(id, new SetTypeNode(valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
 				}
@@ -2498,7 +2498,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 			|
 				DEQUE LT valueType=typeIdentUse GT
 				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-					decl = new MemberDeclNode(id, DequeTypeNode.getDequeType(valueType), isConst);
+					decl = new MemberDeclNode(id, new DequeTypeNode(valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
 				}
@@ -3506,10 +3506,10 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 	;
 
 initContainerExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
-	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[context, null, MapTypeNode.getMapType(keyType, valueType)] { res = e1; }
-	| SET LT valueType=typeIdentUse GT e2=initSetExpr[context, null, SetTypeNode.getSetType(valueType)] { res = e2; }
+	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[context, null, new MapTypeNode(keyType, valueType)] { res = e1; }
+	| SET LT valueType=typeIdentUse GT e2=initSetExpr[context, null, new SetTypeNode(valueType)] { res = e2; }
 	| ARRAY LT (valueType=typeIdentUse | valueType=matchTypeIdentUse) GT e3=initArrayExpr[context, null, new ArrayTypeNode(valueType)] { res = e3; }
-	| DEQUE LT valueType=typeIdentUse GT e4=initDequeExpr[context, null, DequeTypeNode.getDequeType(valueType)] { res = e4; }
+	| DEQUE LT valueType=typeIdentUse GT e4=initDequeExpr[context, null, new DequeTypeNode(valueType)] { res = e4; }
 	;
 
 constant returns [ ExprNode res = env.initExprNode() ]

@@ -39,8 +39,6 @@ public class DequeInitNode extends ExprNode
 	//     then lhs != null, dequeType == null
 	// if deque init node is used in actions, for anonymous const deque with specified type
 	//     then lhs == null, dequeType != null -- adjust type of deque items to this type
-	// if qeque init node is used in actions, for anonymous const deque without specified type
-	//     then lhs == null, dequeType == null -- determine deque type from first item, all items must be exactly of this type
 	private BaseNode lhsUnresolved;
 	private DeclNode lhs;
 	private DequeTypeNode dequeType;
@@ -78,13 +76,14 @@ public class DequeInitNode extends ExprNode
 	@Override
 	protected boolean resolveLocal() {
 		if(lhsUnresolved!=null) {
-			if(!lhsResolver.resolve(lhsUnresolved)) return false;
+			if(!lhsResolver.resolve(lhsUnresolved))
+				return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
-		} else if(dequeType!=null) {
-			return dequeType.resolve();
 		} else {
-			return true;
+			if(dequeType==null)
+				dequeType = createDequeType();
+			return dequeType.resolve();
 		}
 	}
 
@@ -97,15 +96,8 @@ public class DequeInitNode extends ExprNode
 			TypeNode type = lhs.getDeclType();
 			assert type instanceof DequeTypeNode: "Lhs should be a Deque<Value>";
 			dequeType = (DequeTypeNode) type;
-		} else if(this.dequeType!=null) {
-			dequeType = this.dequeType;
 		} else {
-			TypeNode dequeTypeNode = getDequeType();
-			if(dequeTypeNode instanceof DequeTypeNode) {
-				dequeType = (DequeTypeNode)dequeTypeNode;
-			} else {
-				return false;
-			}
+			dequeType = this.dequeType;
 		}
 
 		for(DequeItemNode item : dequeItems.getChildren()) {
@@ -141,10 +133,10 @@ public class DequeInitNode extends ExprNode
 		return success;
 	}
 
-	protected TypeNode getDequeType() {
+	protected DequeTypeNode createDequeType() {
 		TypeNode itemTypeNode = dequeItems.getChildren().iterator().next().valueExpr.getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
-		return DequeTypeNode.getDequeType(itemTypeIdent);
+		return new DequeTypeNode(itemTypeIdent);
 	}
 
 	/**
@@ -184,10 +176,8 @@ public class DequeInitNode extends ExprNode
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
 			return (DequeTypeNode) type;
-		} else if(dequeType!=null) {
-			return dequeType;
 		} else {
-			return getDequeType();
+			return dequeType;
 		}
 	}
 

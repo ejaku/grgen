@@ -28,6 +28,7 @@ public class DequeAsSetNode extends ExprNode
 	}
 
 	private ExprNode targetExpr;
+	private SetTypeNode setTypeNode;
 
 	public DequeAsSetNode(Coords coords, ExprNode targetExpr)
 	{
@@ -51,8 +52,8 @@ public class DequeAsSetNode extends ExprNode
 
 	@Override
 	protected boolean resolveLocal() {
-		getType().resolve(); // call to ensure the set type exists
-		return true;
+		setTypeNode = new SetTypeNode(((DequeTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		return setTypeNode.resolve();
 	}
 	
 	@Override
@@ -67,7 +68,7 @@ public class DequeAsSetNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(((DequeTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		return setTypeNode;
 	}
 
 	@Override

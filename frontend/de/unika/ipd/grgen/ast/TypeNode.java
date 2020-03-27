@@ -12,6 +12,9 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.containers.DequeTypeNode;
+import de.unika.ipd.grgen.ast.containers.MapTypeNode;
+import de.unika.ipd.grgen.ast.containers.SetTypeNode;
 import de.unika.ipd.grgen.ir.Type;
 import java.awt.Color;
 import java.util.Collection;
@@ -125,8 +128,15 @@ public abstract class TypeNode extends BaseNode {
 	public boolean isEqual(TypeNode t) {
 		if(t == this)
 			return true;
+		else if(t instanceof SetTypeNode && this instanceof SetTypeNode)
+			return ((SetTypeNode)t).valueType == ((SetTypeNode)this).valueType;
+		else if(t instanceof MapTypeNode && this instanceof MapTypeNode)
+			return ((MapTypeNode)t).keyType == ((MapTypeNode)this).keyType
+				&& ((MapTypeNode)t).valueType == ((MapTypeNode)this).valueType;
 		else if(t instanceof ArrayTypeNode && this instanceof ArrayTypeNode)
 			return ((ArrayTypeNode)t).valueType == ((ArrayTypeNode)this).valueType;
+		else if(t instanceof DequeTypeNode && this instanceof DequeTypeNode)
+			return ((DequeTypeNode)t).valueType == ((DequeTypeNode)this).valueType;
 		else
 			return false;
 	}

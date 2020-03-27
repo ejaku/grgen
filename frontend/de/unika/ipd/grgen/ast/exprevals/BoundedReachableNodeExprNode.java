@@ -32,6 +32,8 @@ public class BoundedReachableNodeExprNode extends ExprNode {
 
 	private int direction;
 	
+	private SetTypeNode setTypeNode;
+	
 	public static final int ADJACENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
@@ -78,7 +80,8 @@ public class BoundedReachableNodeExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		return getType().resolve();
+		setTypeNode = new SetTypeNode(getNodeRoot(adjacentTypeExpr));
+		return setTypeNode.resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -115,6 +118,6 @@ public class BoundedReachableNodeExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(getNodeRoot(adjacentTypeExpr));
+		return setTypeNode;
 	}
 }

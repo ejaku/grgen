@@ -26,6 +26,7 @@ public class NodesExprNode extends ExprNode {
 	}
 
 	private ExprNode nodeType;
+	private SetTypeNode setTypeNode;
 		
 	public NodesExprNode(Coords coords, ExprNode nodeType) {
 		super(coords);
@@ -52,7 +53,8 @@ public class NodesExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		return getType().resolve();
+		setTypeNode = new SetTypeNode(getNodeRoot(nodeType));
+		return setTypeNode.resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -72,6 +74,6 @@ public class NodesExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(getNodeRoot(nodeType));
+		return setTypeNode;
 	}
 }

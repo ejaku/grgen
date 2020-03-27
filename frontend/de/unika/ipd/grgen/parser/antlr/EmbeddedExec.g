@@ -465,13 +465,13 @@ options { k = 4; }
 	| ff=FALSE { xg.append(ff.getText()); res = new BoolConstNode(getCoords(ff), false); }
 	| n=NULL { xg.append(n.getText()); res = new NullConstNode(getCoords(n)); }
 	| MAP LT typeName=seqTypeIdentUse COMMA toTypeName=seqTypeIdentUse GT { xg.append("map<"+typeName+","+toTypeName+">"); } 
-		e1=seqInitMapExpr[xg, MapTypeNode.getMapType(typeName, toTypeName)] { res = e1; }
+		e1=seqInitMapExpr[xg, new MapTypeNode(typeName, toTypeName)] { res = e1; }
 	| SET LT typeName=seqTypeIdentUse GT { xg.append("set<"+typeName+">"); } 
-		e2=seqInitSetExpr[xg, SetTypeNode.getSetType(typeName)] { res = e2; }
+		e2=seqInitSetExpr[xg, new SetTypeNode(typeName)] { res = e2; }
 	| ARRAY LT typeName=seqTypeIdentUse GT { xg.append("array<"+typeName+">"); } 
 		e3=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e3; }
 	| DEQUE LT typeName=seqTypeIdentUse GT { xg.append("deque<"+typeName+">"); } 
-		e4=seqInitDequeExpr[xg, DequeTypeNode.getDequeType(typeName)] { res = e4; }
+		e4=seqInitDequeExpr[xg, new DequeTypeNode(typeName)] { res = e4; }
 	| pen=IDENT d=DOUBLECOLON i=IDENT 
 		{
 			if(env.test(ParserEnvironment.PACKAGES, pen.getText()) || !env.test(ParserEnvironment.TYPES, pen.getText())) {
@@ -859,7 +859,7 @@ options { k = *; }
 	|
 		id=seqEntIdentDecl COLON MAP LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse GT // map decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new MapTypeNode(keyType, valueType));
 			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
@@ -868,7 +868,7 @@ options { k = *; }
 		(seqEntIdentDecl COLON MAP LT seqTypeIdentUse COMMA seqTypeIdentUse GE) =>
 		id=seqEntIdentDecl COLON MAP LT keyType=seqTypeIdentUse COMMA valueType=seqTypeIdentUse // map decl; special to save user from splitting map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new MapTypeNode(keyType, valueType));
 			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString());
 			xg.addVarDecl(decl);
 			res = decl;
@@ -876,7 +876,7 @@ options { k = *; }
 	|
 		id=seqEntIdentDecl COLON SET LT type=seqTypeIdentUse GT // set decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new SetTypeNode(type));
 			if(emit) xg.append(id.toString()+":set<"+type.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
@@ -885,7 +885,7 @@ options { k = *; }
 		(seqEntIdentDecl COLON SET LT seqTypeIdentUse GE) => 
 		id=seqEntIdentDecl COLON SET LT type=seqTypeIdentUse // set decl; special to save user from splitting set<S>=x to set<S> =x as >= is GE not GT ASSIGN
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new SetTypeNode(type));
 			if(emit) xg.append(id.toString()+":set<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
@@ -910,7 +910,7 @@ options { k = *; }
 	|
 		id=seqEntIdentDecl COLON DEQUE LT type=seqTypeIdentUse GT // deque decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, DequeTypeNode.getDequeType(type));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
 			if(emit) xg.append(id.toString()+":deque<"+type.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
@@ -919,7 +919,7 @@ options { k = *; }
 		(seqEntIdentDecl COLON DEQUE LT seqTypeIdentUse GE) => 
 		id=seqEntIdentDecl COLON DEQUE LT type=seqTypeIdentUse // deque decl; special to save user from splitting deque<S>=x to deque<S> =x as >= is GE not GT ASSIGN
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, DequeTypeNode.getDequeType(type));
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new DequeTypeNode(type));
 			if(emit) xg.append(id.toString()+":deque<"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;

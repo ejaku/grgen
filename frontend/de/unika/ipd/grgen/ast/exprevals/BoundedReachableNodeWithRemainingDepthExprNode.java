@@ -32,6 +32,8 @@ public class BoundedReachableNodeWithRemainingDepthExprNode extends ExprNode {
 
 	private int direction;
 	
+	private MapTypeNode mapTypeNode;
+	
 	public static final int ADJACENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
@@ -78,7 +80,8 @@ public class BoundedReachableNodeWithRemainingDepthExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		return getType().resolve();
+		mapTypeNode = new MapTypeNode(getNodeRoot(adjacentTypeExpr), BasicTypeNode.intType.getIdentNode());
+		return mapTypeNode.resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -115,6 +118,6 @@ public class BoundedReachableNodeWithRemainingDepthExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return MapTypeNode.getMapType(getNodeRoot(adjacentTypeExpr), BasicTypeNode.intType.getIdentNode());
+		return mapTypeNode;
 	}
 }

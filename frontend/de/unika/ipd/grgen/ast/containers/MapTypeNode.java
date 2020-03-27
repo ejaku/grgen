@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ast.containers;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
@@ -32,20 +31,6 @@ public class MapTypeNode extends DeclaredTypeNode {
 		return "map<" + keyTypeUnresolved.toString() + "," + valueTypeUnresolved.toString() + "> type";
 	}
 
-	private static HashMap<String, MapTypeNode> mapTypes = new HashMap<String, MapTypeNode>();
-
-	public static MapTypeNode getMapType(IdentNode keyTypeIdent, IdentNode valueTypeIdent) {
-		String keyStr = keyTypeIdent.toString() + "->" + valueTypeIdent.toString();
-		MapTypeNode mapTypeNode = mapTypes.get(keyStr);
-
-		if(mapTypeNode == null) {
-			mapTypes.put(keyStr, mapTypeNode = new MapTypeNode(keyTypeIdent, valueTypeIdent));
-			mapTypeNode.setExceptCompatibleSetType(SetTypeNode.getSetType(keyTypeIdent));
-		}
-
-		return mapTypeNode;
-	}
-
 	protected IdentNode keyTypeUnresolved;
 	public TypeNode keyType;
 	protected IdentNode valueTypeUnresolved;
@@ -57,10 +42,7 @@ public class MapTypeNode extends DeclaredTypeNode {
 	public MapTypeNode(IdentNode keyTypeIdent, IdentNode valueTypeIdent) {
 		keyTypeUnresolved   = becomeParent(keyTypeIdent);
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
-	}
-
-	private void setExceptCompatibleSetType(SetTypeNode stn) {
-		exceptCompatibleSetTyp = stn;
+		exceptCompatibleSetTyp = new SetTypeNode(keyTypeIdent);
 	}
 
 	@Override
@@ -92,6 +74,8 @@ public class MapTypeNode extends DeclaredTypeNode {
 
 		keyType   = typeResolver.resolve(keyTypeUnresolved, this);
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
+		
+		exceptCompatibleSetTyp.resolve();
 
 		if(keyType == null || valueType == null) return false;
 

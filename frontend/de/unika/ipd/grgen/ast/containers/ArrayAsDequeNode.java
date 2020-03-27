@@ -28,6 +28,7 @@ public class ArrayAsDequeNode extends ExprNode
 	}
 
 	private ExprNode targetExpr;
+	private DequeTypeNode dequeTypeNode;
 
 	public ArrayAsDequeNode(Coords coords, ExprNode targetExpr)
 	{
@@ -51,8 +52,8 @@ public class ArrayAsDequeNode extends ExprNode
 
 	@Override
 	protected boolean resolveLocal() {
-		getType().resolve(); // call to ensure the set type exists
-		return true;
+		dequeTypeNode = new DequeTypeNode(((ArrayTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		return dequeTypeNode.resolve();
 	}
 	
 	@Override
@@ -67,7 +68,7 @@ public class ArrayAsDequeNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		return DequeTypeNode.getDequeType(((ArrayTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		return dequeTypeNode;
 	}
 
 	@Override

@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ast.containers;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
@@ -31,18 +30,6 @@ public class DequeTypeNode extends DeclaredTypeNode {
 	@Override
 	public String getName() {
 		return "deque<" + valueTypeUnresolved.toString() + "> type";
-	}
-
-	private static HashMap<String, DequeTypeNode> dequeTypes = new HashMap<String, DequeTypeNode>();
-
-	public static DequeTypeNode getDequeType(IdentNode valueTypeIdent) {
-		String keyStr = valueTypeIdent.toString();
-		DequeTypeNode dequeTypeNode = dequeTypes.get(keyStr);
-
-		if(dequeTypeNode == null)
-			dequeTypes.put(keyStr, dequeTypeNode = new DequeTypeNode(valueTypeIdent));
-
-		return dequeTypeNode;
 	}
 
 	public IdentNode valueTypeUnresolved;

@@ -31,6 +31,8 @@ public class IncidentEdgeExprNode extends ExprNode {
 
 	private int direction;
 	
+	private SetTypeNode setTypeNode;
+	
 	public static final int INCIDENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
@@ -72,7 +74,8 @@ public class IncidentEdgeExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		return getType().resolve();
+		setTypeNode = new SetTypeNode(getEdgeRootOfMatchingDirectedness(incidentTypeExpr));
+		return setTypeNode.resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -107,6 +110,6 @@ public class IncidentEdgeExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(getEdgeRootOfMatchingDirectedness(incidentTypeExpr));
+		return setTypeNode;
 	}
 }

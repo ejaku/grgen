@@ -28,6 +28,7 @@ public class MapRangeNode extends ExprNode
 	}
 
 	private ExprNode targetExpr;
+	private SetTypeNode setTypeNode;
 
 	public MapRangeNode(Coords coords, ExprNode targetExpr)
 	{
@@ -51,8 +52,8 @@ public class MapRangeNode extends ExprNode
 
 	@Override
 	protected boolean resolveLocal() {
-		getType().resolve(); // call to ensure the set type exists
-		return true;
+		setTypeNode = new SetTypeNode(((MapTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		return setTypeNode.resolve();
 	}
 	
 	@Override
@@ -67,7 +68,7 @@ public class MapRangeNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(((MapTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		return setTypeNode;
 	}
 
 	@Override

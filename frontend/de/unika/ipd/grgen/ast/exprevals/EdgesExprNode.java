@@ -26,6 +26,7 @@ public class EdgesExprNode extends ExprNode {
 	}
 
 	private ExprNode edgeType;
+	private SetTypeNode setTypeNode;
 	
 	public EdgesExprNode(Coords coords, ExprNode edgeType) {
 		super(coords);
@@ -52,7 +53,8 @@ public class EdgesExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		return getType().resolve();
+		setTypeNode = new SetTypeNode(getEdgeRootOfMatchingDirectedness(edgeType));
+		return setTypeNode.resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -72,6 +74,6 @@ public class EdgesExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(getEdgeRootOfMatchingDirectedness(edgeType));
+		return setTypeNode;
 	}	
 }

@@ -39,8 +39,6 @@ public class MapInitNode extends ExprNode
 	//     then lhs != null, mapType == null
 	// if map init node is used in actions, for anonymous const map with specified types
 	//     then lhs == null, mapType != null -- adjust type of map items to this type
-	// if map init node is used in actions, for anonymous const map without specified types
-	//     then lhs == null, mapType == null -- determine map type from first item, all items must be exactly of this type
 	private BaseNode lhsUnresolved;
 	private DeclNode lhs;
 	private MapTypeNode mapType;
@@ -78,13 +76,14 @@ public class MapInitNode extends ExprNode
 	@Override
 	protected boolean resolveLocal() {
 		if(lhsUnresolved!=null) {
-			if(!lhsResolver.resolve(lhsUnresolved)) return false;
+			if(!lhsResolver.resolve(lhsUnresolved))
+				return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
-		} else if(mapType!=null) {
-			return mapType.resolve();
 		} else {
-			return true;
+			if(mapType==null)
+				mapType = createMapType();
+			return mapType.resolve();
 		}
 	}
 
@@ -97,17 +96,10 @@ public class MapInitNode extends ExprNode
 			TypeNode type = lhs.getDeclType();
 			assert type instanceof MapTypeNode: "Lhs should be a Map<Key,Value>";
 			mapType = (MapTypeNode) type;
-		} else if(this.mapType!=null) {
-			mapType = this.mapType;
 		} else {
-			TypeNode mapTypeNode = getMapType();
-			if(mapTypeNode instanceof MapTypeNode) {
-				mapType = (MapTypeNode)mapTypeNode;
-			} else {
-				return false;
-			}
-		}
-
+			mapType = this.mapType;
+		} 
+		
 		for(MapItemNode item : mapItems.getChildren()) {
 			if (item.keyExpr.getType() != mapType.keyType) {
 				if(this.mapType!=null) {
@@ -159,12 +151,12 @@ public class MapInitNode extends ExprNode
 		return success;
 	}
 
-	private TypeNode getMapType() {
+	private MapTypeNode createMapType() {
 		TypeNode keyTypeNode = mapItems.getChildren().iterator().next().keyExpr.getType();
 		TypeNode valueTypeNode = mapItems.getChildren().iterator().next().valueExpr.getType();
 		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).getIdentNode();
 		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).getIdentNode();
-		return MapTypeNode.getMapType(keyTypeIdent, valueTypeIdent);
+		return new MapTypeNode(keyTypeIdent, valueTypeIdent);
 	}
 
 	/**
@@ -195,10 +187,8 @@ public class MapInitNode extends ExprNode
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
 			return (MapTypeNode) type;
-		} else if(mapType!=null) {
-			return mapType;
 		} else {
-			return getMapType();
+			return mapType;
 		}
 	}
 

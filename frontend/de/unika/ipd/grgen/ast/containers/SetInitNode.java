@@ -39,8 +39,6 @@ public class SetInitNode extends ExprNode
 	//     then lhs != null, setType == null
 	// if set init node is used in actions, for anonymous const set with specified type
 	//     then lhs == null, setType != null -- adjust type of set items to this type
-	// if set init node is used in actions, for anonymous const set without specified type
-	//     then lhs == null, setType == null -- determine set type from first item, all items must be exactly of this type
 	private BaseNode lhsUnresolved;
 	private DeclNode lhs;
 	private SetTypeNode setType;
@@ -78,13 +76,14 @@ public class SetInitNode extends ExprNode
 	@Override
 	protected boolean resolveLocal() {
 		if(lhsUnresolved!=null) {
-			if(!lhsResolver.resolve(lhsUnresolved)) return false;
+			if(!lhsResolver.resolve(lhsUnresolved))
+				return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
-		} else if(setType!=null) {
-			return setType.resolve();
 		} else {
-			return true;
+			if(setType==null)
+				setType = createSetType();
+			return setType.resolve();
 		}
 	}
 
@@ -97,15 +96,8 @@ public class SetInitNode extends ExprNode
 			TypeNode type = lhs.getDeclType();
 			assert type instanceof SetTypeNode: "Lhs should be a Set<Value>";
 			setType = (SetTypeNode) type;
-		} else if(this.setType!=null) {
-			setType = this.setType;
 		} else {
-			TypeNode setTypeNode = getSetType();
-			if(setTypeNode instanceof SetTypeNode) {
-				setType = (SetTypeNode)setTypeNode;
-			} else {
-				return false;
-			}
+			setType = this.setType;
 		}
 
 		for(SetItemNode item : setItems.getChildren()) {
@@ -141,10 +133,10 @@ public class SetInitNode extends ExprNode
 		return success;
 	}
 
-	protected TypeNode getSetType() {
+	protected SetTypeNode createSetType() {
 		TypeNode itemTypeNode = setItems.getChildren().iterator().next().valueExpr.getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
-		return SetTypeNode.getSetType(itemTypeIdent);
+		return new SetTypeNode(itemTypeIdent);
 	}
 
 	/**
@@ -184,10 +176,8 @@ public class SetInitNode extends ExprNode
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
 			return (SetTypeNode) type;
-		} else if(setType!=null) {
-			return setType;
 		} else {
-			return getSetType();
+			return setType;
 		}
 	}
 

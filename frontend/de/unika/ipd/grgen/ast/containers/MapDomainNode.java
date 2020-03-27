@@ -28,6 +28,7 @@ public class MapDomainNode extends ExprNode
 	}
 
 	private ExprNode targetExpr;
+	private SetTypeNode setTypeNode;
 
 	public MapDomainNode(Coords coords, ExprNode targetExpr)
 	{
@@ -51,8 +52,8 @@ public class MapDomainNode extends ExprNode
 
 	@Override
 	protected boolean resolveLocal() {
-		getType().resolve(); // call to ensure the set type exists
-		return true;
+		setTypeNode = new SetTypeNode(((MapTypeNode)targetExpr.getType()).keyTypeUnresolved);
+		return setTypeNode.resolve();
 	}
 	
 	@Override
@@ -67,7 +68,7 @@ public class MapDomainNode extends ExprNode
 
 	@Override
 	public TypeNode getType() {
-		return SetTypeNode.getSetType(((MapTypeNode)targetExpr.getType()).keyTypeUnresolved);
+		return setTypeNode;
 	}
 
 	@Override
