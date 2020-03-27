@@ -1,0 +1,24 @@
+package Foo
+{
+	rule r()
+	{
+		modify {
+		}
+	}
+	
+	sequence seq
+	{
+		global::r(::x) ;> r(::x) ;> Foo::r()
+	}
+}
+
+rule r(var x:int)
+{
+	modify {
+	}
+}
+
+sequence seq
+{
+	global::r(::x) ;> r(::x) ;> Foo::r()
+}

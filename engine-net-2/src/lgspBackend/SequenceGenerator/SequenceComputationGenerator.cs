@@ -549,7 +549,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqCall.IsExternal)
                 source.AppendFront("GRGEN_EXPR.ExternalProcedures.");
             else
-                source.AppendFrontFormat("GRGEN_ACTIONS.{0}Procedures.", TypesHelper.GetPackagePrefixDot(seqCall.Package));
+                source.AppendFrontFormat("{0}Procedures.", "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqCall.Package));
             source.Append(seqCall.Name);
             source.Append("(procEnv, graph");
             source.Append(seqHelper.BuildParameters(seqCall, seqCall.ArgumentExpressions, source));

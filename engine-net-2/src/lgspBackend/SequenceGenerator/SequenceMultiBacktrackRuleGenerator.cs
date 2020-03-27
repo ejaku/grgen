@@ -42,7 +42,7 @@ namespace de.unika.ipd.grGen.lgsp
             ArgumentExpressions = seqRule.ArgumentExpressions;
             ReturnVars = seqRule.ReturnVars;
             specialStr = seqRule.Special ? "true" : "false";
-            matchingPatternClassName = TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
+            matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
             patternName = seqRule.Name;
             plainRuleName = TypesHelper.PackagePrefixedNameDoubleColon(seqRule.Package, seqRule.Name);
             ruleName = "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.Package, seqRule.Name);

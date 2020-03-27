@@ -79,8 +79,8 @@ namespace de.unika.ipd.grGen.lgsp
 					if(!knownRules.ContainsKey(ruleName))
 					{
                         knownRules.Add(ruleName, null);
-                        source.AppendFront(TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Action_" + seqRule.Name + " " + "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.Package, seqRule.Name));
-                        source.Append(" = " + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Action_" + seqRule.Name + ".Instance;\n");
+                        source.AppendFront("GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Action_" + seqRule.Name + " " + "rule_" + TypesHelper.PackagePrefixedNameUnderscore(seqRule.Package, seqRule.Name));
+                        source.Append(" = " + "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Action_" + seqRule.Name + ".Instance;\n");
                     }
                     // no handling for the input arguments seqRule.ArgumentExpressions needed 
                     // because there can only be variable uses

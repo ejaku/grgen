@@ -289,6 +289,15 @@ public class Scope {
 		return parent;
 	}
 
+	public Scope getRoot() {
+		Scope curScope = this;
+		while(!curScope.isRoot())
+		{
+			curScope = curScope.getParent();
+		}
+		return curScope;
+	}
+	
 	public String getName() {
 		if(ident==null)
 			return "<ROOT>";

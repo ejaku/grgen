@@ -65,7 +65,12 @@ import de.unika.ipd.grgen.parser.Symbol;
 	}
 
 	public Symbol.Definition getOwnerSymDef() {
-		if(owningPackage.getDefinition()==null || !owningPackage.getDefinition().isValid()) {
+		if(getOwnerSymbol().toString().equals("global")) {
+			Symbol.Definition def = owningPackage.getScope().getRoot().getCurrDef(getOwnerSymbol());
+			if(def.isValid())
+				setOwnerSymDef(def);
+		}
+		else if(owningPackage.getDefinition()==null || !owningPackage.getDefinition().isValid()) {
 			Symbol.Definition def = owningPackage.getScope().getCurrDef(getOwnerSymbol());
 			if(def.isValid())
 				setOwnerSymDef(def);
@@ -75,11 +80,6 @@ import de.unika.ipd.grgen.parser.Symbol;
 
 	public void setOwnerSymDef(Symbol.Definition def) {
 		owningPackage.setDefinition(def);
-	}
-
-	public IdentNode setOwnerDecl(DeclNode n) {
-		ownerDecl = n;
-		return this;
 	}
 
 	public DeclNode getOwnerDecl() {
@@ -102,6 +102,9 @@ import de.unika.ipd.grgen.parser.Symbol;
 
 	public DeclNode getDecl() {
 		Resolver.resolveOwner(this);
+		if(getOwnerSymbol().toString().equals("global")) {
+			fixupDefinition(this, getScope().getRoot(), true);
+		}
 		return super.getDecl();
 	}
 

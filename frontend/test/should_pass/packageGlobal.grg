@@ -1,0 +1,38 @@
+package Foo
+{
+	rule r()
+	{
+		if{ global::f() + f(42) + Foo::f(42) == 42; }
+		
+		modify {
+		}
+	}
+	
+	function f(var x:int) : int
+	{
+		return(x);
+	}
+	
+	sequence seq
+	{
+		global::r(::x) ;> r() ;> Foo::r() ;> { ::y = global::f() } ;> { ::y = f(::x) } ;> { ::y = Foo::f(::x) }
+	}
+}
+
+rule r(var x:int)
+{
+	if{ global::f() + f() + Foo::f(42) == 42; }
+
+	modify {
+	}
+}
+
+function f() : int
+{
+	return(42);
+}
+
+sequence seq
+{
+	global::r(::x) ;> r(::x) ;> Foo::r() ;> { ::y = global::f() } ;> { ::y = f() } ;> { ::y = Foo::f(::x) }
+}

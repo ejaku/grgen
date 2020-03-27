@@ -93,9 +93,15 @@ package Foo
 		;> printNodeCounts
 	}
 
-	sequence seqGlobal // global - different from applyee
+	sequence seqGlobal // not global anymore - applyee
 	{
 		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.shf(42)]
+		;> printNodeCounts
+	}
+
+	sequence seqGlobalEnforced // global - different from applyee
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\shared.keepFirst(100)\shared.orderAscendingBy<v>\shared.global::shf(42)]
 		;> printNodeCounts
 	}
 	
@@ -105,9 +111,15 @@ package Foo
 		;> printNodeCounts
 	}
 
-	sequence seqGGlobal // global - same as applyee
+	sequence seqGGlobal // applyee (same as global)
 	{
 		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\shared.keepFirst(100)\shared.orderAscendingBy<v>\sharedGlobal.shgf(42)]
+		;> printNodeCounts
+	}
+	
+	sequence seqGGlobalEnforced // global - same as applyee
+	{
+		[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\shared.keepFirst(100)\shared.orderAscendingBy<v>\sharedGlobal.global::shgf(42)]
 		;> printNodeCounts
 	}	
 }
@@ -144,9 +156,15 @@ sequence seq // explicit
 	;> printNodeCounts
 }
 
-sequence seqGlobal // global (same as applyee)
+sequence seqGlobal // not global anymore - same as applyee
 {
 	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.shf(42)]
+	;> printNodeCounts
+}
+
+sequence seqGlobalEnforced // global (different from applyee)
+{
+	[[Bla::r(::n),(m1:array<M>,::m2)=s()\auto]\Foo::shared.keepFirst(100)\Foo::shared.orderAscendingBy<v>\Foo::shared.global::shf(42)]
 	;> printNodeCounts
 }
 

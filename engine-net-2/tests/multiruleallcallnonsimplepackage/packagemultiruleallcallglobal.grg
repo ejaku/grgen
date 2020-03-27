@@ -25,15 +25,27 @@ package Bar
 		emit("the value of variable \"Bar::rf.v\" of type int is: ", this[0].v, "\n");
 	}
 	
-	sequence seq // one global first, one explicit
+	sequence seq // one rule depending, one explicit
 	{
 		[[r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\Foo::shf(42)]]
 		;> printNodeCounts
 	}
-	
-	sequence seqPackageApplyee // both global first
+
+	sequence seqGlobalEnforced // one global first, one explicit
+	{
+		[[r(::n)\keepFirst(100)\orderAscendingBy<v>\global::rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\Foo::shf(42)]]
+		;> printNodeCounts
+	}
+		
+	sequence seqPackageApplyee // both rule depending
 	{
 		[[r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]
+		;> printNodeCounts
+	}
+
+	sequence seqPackageApplyeeGlobalEnforced // both global first
+	{
+		[[r(::n)\keepFirst(100)\orderAscendingBy<v>\global::rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\global::shf(42)]]
 		;> printNodeCounts
 	}
 }
@@ -95,15 +107,27 @@ package Foo
 		emit("the value of variable \"Foo::shf.v\" of type int is: ", this[0].v, "\n");
 	}
 	
-	sequence seq // one explicit, one global first
+	sequence seq // one explicit, one rule depending
 	{
 		[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\Bar::rf(42),(m1:array<M>,::m2)=s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]
 		;> printNodeCounts
 	}
 	
-	sequence seqPackageApplyee // both global first
+	sequence seqGlobalEnforced // one explicit, one global first
+	{
+		[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\Bar::rf(42),(m1:array<M>,::m2)=s()\keepFirst(100)\auto\orderAscendingBy<v>\global::shf(42)]]
+		;> printNodeCounts
+	}
+
+	sequence seqPackageApplyee // both rule depending
 	{
 		[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]
+		;> printNodeCounts
+	}
+
+	sequence seqPackageApplyeeGlobalEnforced // both global first
+	{
+		[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=s()\keepFirst(100)\auto\orderAscendingBy<v>\global::shf(42)]]
 		;> printNodeCounts
 	}
 }
@@ -124,9 +148,15 @@ sequence seq // filter functions explicit
 	;> printNodeCounts
 }
 
-sequence seqPackageApplyee // global first
+sequence seqPackageApplyee // rule depending - global last
 {
 	[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\shf(42)]]
+	;> printNodeCounts
+}
+
+sequence seqPackageApplyeeGlobalEnforced // global first
+{
+	[[Bar::r(::n)\keepFirst(100)\orderAscendingBy<v>\global::rf(42),(m1:array<M>,::m2)=Foo::s()\keepFirst(100)\auto\orderAscendingBy<v>\global::shf(42)]]
 	;> printNodeCounts
 }
 

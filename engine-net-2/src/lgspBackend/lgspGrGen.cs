@@ -1018,28 +1018,28 @@ namespace de.unika.ipd.grGen.lgsp
                 if(matchingPattern is LGSPRulePattern) // normal rule
                 {
                     endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfPatternGraph({1}Rule_{0}.Instance.patternGraph, false);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                     endSource.AppendFrontFormat("GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline({1}Rule_{0}.Instance.patternGraph);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                     endSource.AppendFrontFormat("analyzer.RememberMatchingPattern({1}Rule_{0}.Instance);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                     endSource.AppendFrontFormat("actions.Add(\"{2}\", (GRGEN_LGSP.LGSPAction) "
                             + "{1}Action_{0}.Instance);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package),
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package),
                             matchingPattern.PatternGraph.PackagePrefixedName);
 
                     endSource.AppendFrontFormat("@{2} = {1}Action_{0}.Instance;\n",
-                        matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package),
+                        matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package),
                         TypesHelper.PackagePrefixedNameUnderscore(matchingPattern.PatternGraph.Package, matchingPattern.PatternGraph.Name));
                 }
                 else
                 {
                     endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfPatternGraph({1}Pattern_{0}.Instance.patternGraph, false);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                     endSource.AppendFrontFormat("GRGEN_LGSP.PatternGraphAnalyzer.PrepareInline({1}Pattern_{0}.Instance.patternGraph);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                     endSource.AppendFrontFormat("analyzer.RememberMatchingPattern({1}Pattern_{0}.Instance);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
             }
 
@@ -1049,12 +1049,12 @@ namespace de.unika.ipd.grGen.lgsp
                 if(matchingPattern is LGSPRulePattern) // normal rule
                 {
                     endSource.AppendFrontFormat("analyzer.AnalyzeWithInterPatternRelationsKnown({1}Rule_{0}.Instance.patternGraph);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
                 else
                 {
                     endSource.AppendFrontFormat("analyzer.AnalyzeWithInterPatternRelationsKnown({1}Pattern_{0}.Instance.patternGraph);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
             }
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
@@ -1062,12 +1062,12 @@ namespace de.unika.ipd.grGen.lgsp
                 if(matchingPattern is LGSPRulePattern) // normal rule
                 {
                     endSource.AppendFrontFormat("analyzer.InlineSubpatternUsages({1}Rule_{0}.Instance.patternGraph);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
                 else
                 {
                     endSource.AppendFrontFormat("analyzer.InlineSubpatternUsages({1}Pattern_{0}.Instance.patternGraph);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
             }
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
@@ -1075,12 +1075,12 @@ namespace de.unika.ipd.grGen.lgsp
                 if(matchingPattern is LGSPRulePattern) // normal rule
                 {
                     endSource.AppendFrontFormat("{1}Rule_{0}.Instance.patternGraph.maxIsoSpace = 0;\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
                 else
                 {
                     endSource.AppendFrontFormat("{1}Pattern_{0}.Instance.patternGraph.maxIsoSpace = 0;\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
             }
             foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
@@ -1088,12 +1088,12 @@ namespace de.unika.ipd.grGen.lgsp
                 if(matchingPattern is LGSPRulePattern) // normal rule
                 {
                     endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfPatternGraph({1}Rule_{0}.Instance.patternGraph, true);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
                 else
                 {
                     endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfPatternGraph({1}Pattern_{0}.Instance.patternGraph, true);\n",
-                            matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
+                            matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package));
                 }
             }
             endSource.AppendFront("analyzer.ComputeInterPatternRelations(true);\n");
@@ -1101,30 +1101,30 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
             {
                 endSource.AppendFrontFormat("RegisterGraphRewriteSequenceDefinition("
-                        + "{1}Sequence_{0}.Instance);\n", sequence.Name, 
-                        TypesHelper.GetPackagePrefixDot(sequence.Package));
+                        + "{1}Sequence_{0}.Instance);\n", sequence.Name,
+                        "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(sequence.Package));
 
-                endSource.AppendFrontFormat("@{2} = {1}Sequence_{0}.Instance;\n", sequence.Name, 
-                    TypesHelper.GetPackagePrefixDot(sequence.Package),
+                endSource.AppendFrontFormat("@{2} = {1}Sequence_{0}.Instance;\n", sequence.Name,
+                    "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(sequence.Package),
                     TypesHelper.PackagePrefixedNameUnderscore(sequence.Package, sequence.Name));
             }
 
             foreach(FunctionInfo function in ruleAndMatchingPatterns.Functions)
             {
                 endSource.AppendFrontFormat("namesToFunctionDefinitions.Add(\"{2}\", {1}FunctionInfo_{0}.Instance);\n",
-                    function.name, TypesHelper.GetPackagePrefixDot(function.package), function.packagePrefixedName);
+                    function.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(function.package), function.packagePrefixedName);
             }
 
             foreach(ProcedureInfo procedure in ruleAndMatchingPatterns.Procedures)
             {
                 endSource.AppendFrontFormat("namesToProcedureDefinitions.Add(\"{2}\", {1}ProcedureInfo_{0}.Instance);\n",
-                    procedure.name, TypesHelper.GetPackagePrefixDot(procedure.package), procedure.packagePrefixedName);
+                    procedure.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(procedure.package), procedure.packagePrefixedName);
             }
 
             foreach(MatchClassInfo matchClass in ruleAndMatchingPatterns.MatchClasses)
             {
                 endSource.AppendFrontFormat("namesToMatchClassFilterers.Add(\"{2}\", {1}MatchClassFilterer_{0}.Instance);\n",
-                    matchClass.name, TypesHelper.GetPackagePrefixDot(matchClass.package), matchClass.packagePrefixedName);
+                    matchClass.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchClass.package), matchClass.packagePrefixedName);
             }
 
             endSource.Unindent();
@@ -1136,7 +1136,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(matchingPattern is LGSPRulePattern) // normal rule
                 {
                     endSource.AppendFrontFormat("public {1}IAction_{0} @{2};\n",
-                        matchingPattern.name, TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package),
+                        matchingPattern.name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(matchingPattern.PatternGraph.Package),
                         TypesHelper.PackagePrefixedNameUnderscore(matchingPattern.PatternGraph.Package, matchingPattern.PatternGraph.Name));
                 }
             }
@@ -1145,7 +1145,7 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
             {
                 endSource.AppendFrontFormat("public {1}Sequence_{0} @{2};\n",
-                    sequence.Name, TypesHelper.GetPackagePrefixDot(sequence.Package),
+                    sequence.Name, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(sequence.Package),
                     TypesHelper.PackagePrefixedNameUnderscore(sequence.Package, sequence.Name));
             }
             endSource.AppendFront("\n");

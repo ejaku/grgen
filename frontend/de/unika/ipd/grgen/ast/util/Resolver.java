@@ -36,6 +36,10 @@ public abstract class Resolver<T> extends Base {
 	public abstract T resolve(BaseNode node, BaseNode parent);
 	
 	public static boolean resolveOwner(PackageIdentNode pn) {
+		if(pn.getOwnerSymbol().toString().equals("global")) {
+			return true;
+		}
+		
 		DeclNode owner = pn.getOwnerDecl();
 		if(owner == null) {
 			pn.reportError("Failure in resolving package of " + pn);

@@ -284,7 +284,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(outParameterDeclarations.Length != 0)
                 source.AppendFront(outParameterDeclarations + "\n");
-            source.AppendFront("if(" + TypesHelper.GetPackagePrefixDot(seqSeq.Package) + "Sequence_" + seqSeq.Name + ".ApplyXGRS_" + seqSeq.Name
+            source.AppendFront("if(" + "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqSeq.Package) + "Sequence_" + seqSeq.Name + ".ApplyXGRS_" + seqSeq.Name
                                 + "(procEnv" + parameters + outArguments + ")) {\n");
             source.Indent();
             if(outAssignments.Length != 0)
