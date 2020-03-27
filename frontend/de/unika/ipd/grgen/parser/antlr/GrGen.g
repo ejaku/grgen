@@ -1667,12 +1667,12 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<VarDe
 alternative [ AnonymousScopeNamer namer, int context ] returns [ AlternativeNode alt = null ]
 	: a=ALTERNATIVE (name=altIdentDecl)? { namer.defAlt(name, getCoords(a)); alt = new AlternativeNode(namer.alt()); } LBRACE
 		( alternativeCase[alt, namer, context] ) +
-		RBRACE
+		RBRACE { namer.undefAlt(); }
 	| a=LPAREN { namer.defAlt(null, getCoords(a)); alt = new AlternativeNode(namer.alt()); }
 		( alternativeCasePure[alt, a, namer, context] )
 			( BOR alternativeCasePure[alt, a, namer, context] ) *
-		RPAREN
-	;	
+		RPAREN { namer.undefAlt(); }
+	;
 	
 alternativeCase [ AlternativeNode alt, AnonymousScopeNamer namer, int context ]
 	@init{
@@ -1693,7 +1693,7 @@ alternativeCase [ AlternativeNode alt, AnonymousScopeNamer namer, int context ]
 					rightHandSides.addChild(rightModify);
 				}
 		) ?
-		RBRACE { env.popScope(); } { alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSides)); }
+		RBRACE { env.popScope(); } { alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSides)); namer.undefAltCase(); }
 	;
 
 alternativeCasePure [ AlternativeNode alt, Token a, AnonymousScopeNamer namer, int context ]
@@ -1716,7 +1716,7 @@ alternativeCasePure [ AlternativeNode alt, Token a, AnonymousScopeNamer namer, i
 					rightHandSides.addChild(rightModify);
 				}
 		) ?
-		{ env.popScope(); } { alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSides)); }
+		{ env.popScope(); } { alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSides)); namer.undefAltCase(); }
 	;
 
 iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res = null ]
@@ -1745,8 +1745,8 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 				{
 					rightHandSides.addChild(rightModify);
 				}
-		) ?				
-		RBRACE { env.popScope(); } { res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); }
+		) ?
+		RBRACE { env.popScope(); } { res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); namer.undefIter(); }
 	| 
 		l=LPAREN { namer.defIter(null, getCoords(l)); } { env.pushScope(namer.iter()); }
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, 0, context, namer.iter().toString()]
@@ -1759,7 +1759,7 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 				{
 					rightHandSides.addChild(rightModify);
 				}
-		) ?	
+		) ?
 		RPAREN { env.popScope(); } 
 	  ( 
 	    STAR { minMatches = 0; maxMatches = 0; } 
@@ -1769,7 +1769,7 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 	  	   ( COLON ( STAR { maxMatches=0; } | i=NUM_INTEGER { maxMatches = Integer.parseInt(i.getText()); } ) | { maxMatches = minMatches; } )
 		  RBRACK
 	  )
-		{ res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); }
+		{ res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); namer.undefIter(); }
 	;
 
 negative [ AnonymousScopeNamer namer, int context ] returns [ PatternGraphNode res = null ]
@@ -1784,14 +1784,14 @@ negative [ AnonymousScopeNamer namer, int context ] returns [ PatternGraphNode r
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod, 
 				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; b.iterationBreaking = brk; } 
-		RBRACE { env.popScope(); }
+		RBRACE { env.popScope(); namer.undefNeg(); }
 	| n=TILDE { namer.defNeg(null, getCoords(n)); }
 		LPAREN { env.pushScope(namer.neg()); }
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod, 
 				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; } 
-		RPAREN { env.popScope(); }
+		RPAREN { env.popScope(); namer.undefNeg(); }
 	;
 
 independent [ AnonymousScopeNamer namer, int context ] returns [ PatternGraphNode res = null ]
@@ -1806,14 +1806,14 @@ independent [ AnonymousScopeNamer namer, int context ] returns [ PatternGraphNod
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, mod,
 				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; b.iterationBreaking = brk; } 
-		RBRACE { env.popScope(); }
+		RBRACE { env.popScope(); namer.undefIdpt(); }
 	| i=BAND { namer.defIdpt(null, getCoords(i)); }
 		LPAREN { env.pushScope(namer.idpt()); }
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, mod,
 				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; } 
-		RPAREN { env.popScope(); }
+		RPAREN { env.popScope(); namer.undefIdpt(); }
 	;
 
 condition [ CollectNode<ExprNode> conds, int context ]
@@ -1837,7 +1837,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 			}
 		LBRACE { env.pushScope(namer.eval()); }
 			( c=computation[false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curEval.addChild(c); } )*
-		RBRACE { env.popScope(); }
+		RBRACE { env.popScope(); namer.undefEval(); }
 	| eh=EVALHERE
 			{ namer.defEval(null, getCoords(eh));
 			  curOrderedRepl = new OrderedReplacementsNode(getCoords(eh), namer.eval().toString());
@@ -1845,7 +1845,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 			}
 		LBRACE { env.pushScope(namer.eval()); }
 			( c=computation[false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curOrderedRepl.addChild(c); } )*
-		RBRACE { env.popScope(); }
+		RBRACE { env.popScope(); namer.undefEval(); }
 	;
 
 yielding [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int context, PatternGraphNode directlyNestingLHSGraph]
@@ -1858,7 +1858,7 @@ yielding [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int
 			  evals.addChild(curEval); }
 		LBRACE { env.pushScope(namer.yield()); }
 			( c=computation[true, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, directlyNestingLHSGraph] { curEval.addChild(c); } )*
-		RBRACE { env.popScope(); }
+		RBRACE { env.popScope(); namer.undefYield(); }
 	;
 	
 rets [CollectNode<ExprNode> res, int context]
