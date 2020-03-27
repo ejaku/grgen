@@ -39,8 +39,6 @@ public class ArrayInitNode extends ExprNode
 	//     then lhs != null, arrayType == null
 	// if array init node is used in actions, for anonymous const array with specified type
 	//     then lhs == null, arrayType != null -- adjust type of array items to this type
-	// if array init node is used in actions, for anonymous const array without specified type
-	//     then lhs == null, arrayType == null -- determine array type from first item, all items must be exactly of this type
 	private BaseNode lhsUnresolved;
 	private DeclNode lhs;
 	private ArrayTypeNode arrayType;

@@ -125,8 +125,7 @@ public class OperatorSignature extends FunctionSignature {
 	static final TypeNode UNTYPED = BasicTypeNode.untypedType;
 
 	/**
-	 * Each operator is mapped by its ID to a Map, which maps each result type
-	 * of the specific operator to a its signature.
+	 * Each generic operator is mapped by its ID to a set of concrete operator signatures.
 	 */
 	private static final Map<Integer, HashSet<OperatorSignature>> operators = new HashMap<Integer, HashSet<OperatorSignature>>();
 
@@ -135,26 +134,26 @@ public class OperatorSignature extends FunctionSignature {
 	 *
 	 * @param id
 	 *            The ID of the operator.
-	 * @param resType
+	 * @param resultType
 	 *            The result type of the operator.
-	 * @param opTypes
+	 * @param operandTypes
 	 *            The operand types of the operator.
-	 * @param eval
+	 * @param evaluator
 	 *            an Evaluator
 	 */
-	public static final void makeOp(int id, TypeNode resType,
-			TypeNode[] opTypes, Evaluator eval) {
+	public static final void makeOp(int id, TypeNode resultType,
+			TypeNode[] operandTypes, Evaluator evaluator) {
 
-		Integer oid = new Integer(id);
+		Integer operatorId = new Integer(id);
 
-		HashSet<OperatorSignature> typeMap = operators.get(oid);
+		HashSet<OperatorSignature> typeMap = operators.get(operatorId);
 		if(typeMap == null) {
 			typeMap = new LinkedHashSet<OperatorSignature>();
-			operators.put(oid, typeMap);
+			operators.put(operatorId, typeMap);
 		}
 
-		OperatorSignature newOpSig = new OperatorSignature(id, resType,
-				opTypes, eval);
+		OperatorSignature newOpSig = new OperatorSignature(id, resultType,
+				operandTypes, evaluator);
 		typeMap.add(newOpSig);
 	}
 
@@ -162,18 +161,18 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter a binary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public static final void makeBinOp(int id, TypeNode res, TypeNode op0,
-			TypeNode op1, Evaluator eval) {
-		makeOp(id, res, new TypeNode[] { op0, op1 }, eval);
+	public static final void makeBinOp(int id, TypeNode resultType, TypeNode leftType,
+			TypeNode rightType, Evaluator evaluator) {
+		makeOp(id, resultType, new TypeNode[] { leftType, rightType }, evaluator);
 	}
 
 	/**
 	 * Enter an unary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public static final void makeUnOp(int id, TypeNode res, TypeNode op0,
-			Evaluator eval) {
-		makeOp(id, res, new TypeNode[] { op0 }, eval);
+	public static final void makeUnOp(int id, TypeNode resultType, TypeNode operandType,
+			Evaluator evaluator) {
+		makeOp(id, resultType, new TypeNode[] { operandType }, evaluator);
 	}
 
 	/**
@@ -181,38 +180,38 @@ public class OperatorSignature extends FunctionSignature {
 	 */
 	static class Evaluator {
 
-		public ExprNode evaluate(ExprNode expr, OperatorSignature op,
-				ExprNode[] args) {
-			debug.report(NOTE, "id: " + op.id + ", name: " + names.get(new Integer(op.id)));
+		public ExprNode evaluate(ExprNode expr, OperatorSignature operator,
+				ExprNode[] arguments) {
+			debug.report(NOTE, "id: " + operator.id + ", name: " + names.get(new Integer(operator.id)));
 
-			ExprNode res = expr;
-			TypeNode[] paramTypes = op.getOperandTypes();
+			ExprNode resExpr = expr;
+			TypeNode[] paramTypes = operator.getOperandTypes();
 
 			// Check, if the arity matches.
-			if (args.length == paramTypes.length) {
+			if (arguments.length == paramTypes.length) {
 
 				// Check the types of the arguments.
-				for (int i = 0; i < args.length; i++) {
+				for (int i = 0; i < arguments.length; i++) {
 					debug.report(NOTE, "parameter type: " + paramTypes[i]
-							+ " argument type: " + args[i].getType());
-					if (!paramTypes[i].isEqual(args[i].getType()))
-						return res;
+							+ " argument type: " + arguments[i].getType());
+					if (!paramTypes[i].isEqual(arguments[i].getType()))
+						return resExpr;
 				}
 
 				// If we're here, all checks succeeded.
 				try {
-					res = eval(expr.getCoords(), op, args);
+					resExpr = eval(expr.getCoords(), operator, arguments);
 				} catch (NotEvaluatableException e) {
 					debug.report(NOTE, e.toString());
 				}
 			}
 
 			if(debug.willReport(NOTE)) {
-				ConstNode c = (res instanceof ConstNode) ? (ConstNode) res : ConstNode.getInvalid();
-				debug.report(NOTE, "result: " + res.getClass() + ", value: " + c.getValue());
+				ConstNode c = (resExpr instanceof ConstNode) ? (ConstNode) resExpr : ConstNode.getInvalid();
+				debug.report(NOTE, "result: " + resExpr.getClass() + ", value: " + c.getValue());
 			}
 
-			return res;
+			return resExpr;
 		}
 
 		/**
@@ -918,66 +917,67 @@ public class OperatorSignature extends FunctionSignature {
 	 *
 	 * @param id
 	 *            The operator id.
-	 * @param opTypes
+	 * @param operandTypes
 	 *            The operands.
 	 * @return The "nearest" operator.
 	 */
-	protected static OperatorSignature getNearest(int id, TypeNode[] opTypes) {
-		Integer oid = new Integer(id);
-		OperatorSignature res = INVALID;
-		int nearest = Integer.MAX_VALUE;
+	protected static OperatorSignature getNearestOperator(int id, TypeNode[] operandTypes) {
+		Integer operatorId = new Integer(id);
+		OperatorSignature resultingOperator = INVALID;
+		int nearestDistance = Integer.MAX_VALUE;
 
 		boolean hasVoid = false;
 		boolean hasUntyped = false;
 		boolean checkEnums = false;
 		boolean[] isEnum = null;
 
-		for(int i = 0; i < opTypes.length; i++) {
-			if(opTypes[i] == BasicTypeNode.voidType)
+		for(int i = 0; i < operandTypes.length; i++) {
+			if(operandTypes[i] == BasicTypeNode.voidType)
 				hasVoid = true;
-			else if(opTypes[i] == BasicTypeNode.untypedType)
+			else if(operandTypes[i] == BasicTypeNode.untypedType)
 				hasUntyped = true;
-			else if(opTypes[i] instanceof EnumTypeNode) {
+			else if(operandTypes[i] instanceof EnumTypeNode) {
 				if(isEnum == null) {
-					isEnum = new boolean[opTypes.length];	// initialized to false
+					isEnum = new boolean[operandTypes.length];	// initialized to false
 					checkEnums = true;
 				}
 				isEnum[i] = true;
 			}
 		}
 
-		HashSet<OperatorSignature> opSet = operators.get(oid);
-		if(opSet == null)
+		HashSet<OperatorSignature> operatorCandidates = operators.get(operatorId);
+		if(operatorCandidates == null)
 			return INVALID;
 
-		for (Iterator<OperatorSignature> it = opSet.iterator(); it.hasNext();) {
-			OperatorSignature op = it.next();
-			int dist = op.getDistance(opTypes);
+		Iterator<OperatorSignature> it = operatorCandidates.iterator();
+		while(it.hasNext()) {
+			OperatorSignature operatorCandidate = it.next();
+			int distance = operatorCandidate.getDistance(operandTypes);
 
 			String arguments = "";
-			for(TypeNode tn : opTypes) {
+			for(TypeNode tn : operandTypes) {
 				arguments += tn.toString() + ", ";
 			}
-			debug.report(NOTE, "dist: " + dist + " for signature: " + op + " against " + arguments);
+			debug.report(NOTE, "dist: " + distance + " for signature: " + operatorCandidate + " against " + arguments);
 
-			if(dist == Integer.MAX_VALUE)
+			if(distance == Integer.MAX_VALUE)
 				continue;
 
 			if(checkEnums) {
 				// Make implicit casts from enum to int for half the price
-				dist *= 2;
+				distance *= 2;
 
-				TypeNode[] resOpTypes = op.getOperandTypes();
-				for(int i = 0; i < opTypes.length; i++) {
-					if(isEnum[i] && resOpTypes[i] == BasicTypeNode.intType)
-						dist--;
+				TypeNode[] candidateOperandTypes = operatorCandidate.getOperandTypes();
+				for(int i = 0; i < operandTypes.length; i++) {
+					if(isEnum[i] && candidateOperandTypes[i] == BasicTypeNode.intType)
+						distance--;
 				}
 			}
 
-			if (dist < nearest) {
-				nearest = dist;
-				res = op;
-				if(nearest == 0)
+			if (distance < nearestDistance) {
+				nearestDistance = distance;
+				resultingOperator = operatorCandidate;
+				if(nearestDistance == 0)
 					break;
 			}
 		}
@@ -985,19 +985,19 @@ public class OperatorSignature extends FunctionSignature {
 		// Don't allow "null+a.obj" to be turned into "(string) null + (string) a.obj".
 		// But allow "a + b" being enums to be turned into "(int) a + (int) b".
 		// Also allow "a == b" being void (abstract attribute) to become "(string) a == (string) b".
-		if(!hasVoid && (checkEnums && nearest >= 4				// costs doubled
-						|| !checkEnums && nearest >= 2)) {
-			res = INVALID;
+		if(!hasVoid && (checkEnums && nearestDistance >= 4				// costs doubled
+						|| !checkEnums && nearestDistance >= 2)) {
+			resultingOperator = INVALID;
 		}
 		
 		// Don't allow untyped to get introduced on type mismatches (one argument untyped -> untyped as result ok)
-		if(res.getResultType()==BasicTypeNode.untypedType && !hasUntyped) {
-			res = INVALID;
+		if(resultingOperator.getResultType()==BasicTypeNode.untypedType && !hasUntyped) {
+			resultingOperator = INVALID;
 		}
 		
-		debug.report(NOTE, "selected: " + res);
+		debug.report(NOTE, "selected: " + resultingOperator);
 
-		return res;
+		return resultingOperator;
 	}
 
 	/**
@@ -1022,17 +1022,17 @@ public class OperatorSignature extends FunctionSignature {
 	 *
 	 * @param id
 	 *            The operator id.
-	 * @param resType
+	 * @param resultType
 	 *            The result type of the operator.
-	 * @param opTypes
+	 * @param operandTypes
 	 *            The operand types.
 	 * @param evaluator
 	 *            The evaluator for this operator signature.
 	 */
-	private OperatorSignature(int id, TypeNode resType, TypeNode[] opTypes,
+	private OperatorSignature(int id, TypeNode resultType, TypeNode[] operandTypes,
 			Evaluator evaluator) {
 
-		super(resType, opTypes);
+		super(resultType, operandTypes);
 		this.id = id;
 		this.evaluator = evaluator;
 
@@ -1044,13 +1044,13 @@ public class OperatorSignature extends FunctionSignature {
 	 *
 	 * @param expr
 	 *            The expression to be evaluated.
-	 * @param args
+	 * @param arguments
 	 *            The arguments for this operator.
 	 * @return
 	 *            The possibly simplified value of the expression.
 	 */
-	protected ExprNode evaluate(ArithmeticOpNode expr, ExprNode[] args) {
-		return evaluator.evaluate(expr, this, args);
+	protected ExprNode evaluate(ArithmeticOpNode expr, ExprNode[] arguments) {
+		return evaluator.evaluate(expr, this, arguments);
 	}
 
 	/**

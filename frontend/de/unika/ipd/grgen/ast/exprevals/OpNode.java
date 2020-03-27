@@ -67,7 +67,7 @@ public abstract class OpNode extends ExprNode
 	 * Determine the operator that will be used with this operator node.
 	 * The method gets the operand types of this node and determines the
 	 * operator, that will need the least implicit type casts using the
-	 * operands' types (this is done via {@link Operator#getNearest(int, TypeNode[])}).
+	 * operands' types (this is done via {@link Operator#getNearestOperator(int, TypeNode[])}).
 	 * If no such operator is found, an error message is reported.
 	 * @return The proper operator for this node, <code>null</code> otherwise.
 	 */
@@ -88,7 +88,7 @@ public abstract class OpNode extends ExprNode
 			argTypes[i] = type;
 		}
 
-		operator = OperatorSignature.getNearest(opId, argTypes);
+		operator = OperatorSignature.getNearestOperator(opId, argTypes);
 		if(!operator.isValid())	{
 			StringBuffer params = new StringBuffer();
 			boolean errorReported = false;

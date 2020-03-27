@@ -20,10 +20,10 @@ import de.unika.ipd.grgen.util.Base;
 public class ProcedureSignature extends Base {
 
 	/** Result types. */
-	private TypeNode[] resTypes;
+	private TypeNode[] resultTypes;
 
-	/** Argument types. */
-	private TypeNode[] opTypes;
+	/** Parameter types. */
+	private TypeNode[] parameterTypes;
 
 	/**
 	 * Make a new procedure signature.
@@ -31,8 +31,8 @@ public class ProcedureSignature extends Base {
 	 * @param opTypes The operand types.
 	 */
 	public ProcedureSignature(TypeNode[] resTypes, TypeNode[] opTypes) {
-		this.resTypes = resTypes;
-		this.opTypes = opTypes;
+		this.resultTypes = resTypes;
+		this.parameterTypes = opTypes;
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class ProcedureSignature extends Base {
 	 * @return The result type.
 	 */
 	protected TypeNode[] getResultTypes() {
-		return resTypes;
+		return resultTypes;
 	}
 
 	/**
@@ -48,59 +48,39 @@ public class ProcedureSignature extends Base {
 	 * @return The operand types.
 	 */
 	protected TypeNode[] getOperandTypes() {
-		return opTypes;
+		return parameterTypes;
 	}
 
 	/**
 	 * Get the number of implicit type casts needed for calling this
 	 * procedure signature with the given operands.
-	 * @param ops The operands
+	 * @param argumentTypes The operands
 	 * @return The number of implicit type casts needed to apply the operands
 	 * to this procedure signature. <code>Integer.MAX_VALUE</code> is returned,
 	 * if the operands cannot be applied to this procedure signature.
 	 */
-	protected int getDistance(TypeNode[] ops) {
-		int res = Integer.MAX_VALUE;
+	protected int getDistance(TypeNode[] argumentTypes) {
+		if(argumentTypes.length == parameterTypes.length)
+			return Integer.MAX_VALUE;
+		
+		int distance = 0;
+		for(int i = 0; i < parameterTypes.length; i++) {
+			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes[i]
+				+ ", op type: " + parameterTypes[i]);
 
-		if(ops.length == opTypes.length) {
-			res = 0;
-			for(int i = 0; i < opTypes.length; i++) {
-				debug.report(NOTE, "" + i + ": arg type: " + ops[i]
-					+ ", op type: " + opTypes[i]);
+			boolean equal = argumentTypes[i].isEqual(parameterTypes[i]);
+			boolean compatible = argumentTypes[i].isCompatibleTo(parameterTypes[i]);
+			debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
 
-				boolean equal = ops[i].isEqual(opTypes[i]);
-				boolean compatible = ops[i].isCompatibleTo(opTypes[i]);
+			int compatibilityDistance = argumentTypes[i].compatibilityDistance(parameterTypes[i]);
 
-				/* Compute indirect compatiblity interms of the "compatibility
-				 * distance". Note that the below procedure only test indirect
-				 * compatibility of distance two. If you need more you have to
-				 * implement it!!! */
-				int compatDist = ops[i].compatibilityDist(opTypes[i]);
-
-				debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
-
-				if (equal)
-					continue;
-				else if (compatible)
-					res++;
-				else if (compatDist > 0)
-					res += compatDist;
-				else {
-					res = Integer.MAX_VALUE;
-					break;
-				}
-
-				/*
-				if(!compatible) {
-					res = Integer.MAX_VALUE;
-					break;
-				} else if(!equal && compatible)
-					res++;
-				 */
-			}
+			if (compatibilityDistance == Integer.MAX_VALUE)
+				return Integer.MAX_VALUE;
+			
+			distance += compatibilityDistance;
 		}
 
-		return res;
+		return distance;
 	}
 
 }
