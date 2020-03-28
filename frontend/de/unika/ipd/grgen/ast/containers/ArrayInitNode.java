@@ -76,7 +76,8 @@ public class ArrayInitNode extends ExprNode
 	@Override
 	protected boolean resolveLocal() {
 		if(lhsUnresolved!=null) {
-			if(!lhsResolver.resolve(lhsUnresolved)) return false;
+			if(!lhsResolver.resolve(lhsUnresolved))
+				return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
 		} else {
@@ -175,10 +176,8 @@ public class ArrayInitNode extends ExprNode
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
 			return (ArrayTypeNode) type;
-		} else if(arrayType!=null) {
-			return arrayType;
 		} else {
-			return createArrayType();
+			return arrayType;
 		}
 	}
 
