@@ -30,6 +30,7 @@ namespace de.unika.ipd.grGen.libGr
             rulesToTopLevelEntities = new Dictionary<String, List<String>>();
             rulesToTopLevelEntityTypes = new Dictionary<String, List<String>>();
 
+            matchClasses = new Dictionary<String, MatchClassInfo>();
             rulesToImplementedMatchClasses = new Dictionary<String, List<MatchClassInfo>>();
 
             sequencesToInputTypes = new Dictionary<String, List<String>>();
@@ -133,6 +134,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly Dictionary<String, bool> functionsToIsExternal;
         public readonly Dictionary<String, List<String>> rulesToTopLevelEntities;
         public readonly Dictionary<String, List<String>> rulesToTopLevelEntityTypes;
+        public readonly Dictionary<String, MatchClassInfo> matchClasses;
         public readonly Dictionary<String, List<MatchClassInfo>> rulesToImplementedMatchClasses;
     }
 }

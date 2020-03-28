@@ -1502,6 +1502,7 @@ SequenceExpression ExpressionBasic():
 SequenceExpression SelectorExpression(SequenceExpression fromExpr):
 {
     String methodOrAttrName;
+    String memberOrAttribute;
     SequenceExpression expr = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
 }
@@ -1509,6 +1510,9 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
     LOOKAHEAD(2)
     "." methodOrAttrName=Word()
     (
+        "<" memberOrAttribute=Word() ">" "(" (Arguments(argExprs))? ")"
+            { expr = env.CreateSequenceExpressionArrayAttributeAccessMethodCall(fromExpr, methodOrAttrName, memberOrAttribute, argExprs); }
+    |
         "(" (Arguments(argExprs))? ")"
             { expr = env.CreateSequenceExpressionFunctionMethodCall(fromExpr, methodOrAttrName, argExprs); }
     |

@@ -66,6 +66,28 @@ namespace de.unika.ipd.grGen.libGr
             return actionsTypeInformation.rulesToTopLevelEntityTypes[ruleName][indexOfEntity];
         }
 
+        public override string TypeOfMemberOrAttribute(string matchOrGraphElementType, string memberOrAttribute)
+        {
+            if(matchOrGraphElementType.StartsWith("match<class "))
+            {
+                String matchClassName = TypesHelper.GetMatchClassName(matchOrGraphElementType);
+                IMatchClass matchClass = actionsTypeInformation.matchClasses[matchClassName];
+                IPatternElement element = matchClass.GetPatternElement(memberOrAttribute);
+                GrGenType elementType = element.Type;
+                return TypesHelper.DotNetTypeToXgrsType(elementType);
+            }
+            else if(matchOrGraphElementType.StartsWith("match<"))
+            {
+                return TypeOfTopLevelEntityInRule(TypesHelper.GetRuleName(matchOrGraphElementType), memberOrAttribute);
+            }
+            else
+            {
+                GrGenType graphElementType = TypesHelper.GetNodeOrEdgeType(matchOrGraphElementType, Model);
+                AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                return TypesHelper.AttributeTypeToXgrsType(attributeType);
+            }
+        }
+
         protected override int NumInputParameters(Invocation invocation, GrGenType ownerType)
         {
             if(invocation is RuleInvocation)

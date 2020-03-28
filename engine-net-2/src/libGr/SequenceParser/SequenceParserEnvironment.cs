@@ -839,6 +839,17 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             }
         }
 
+        public SequenceExpression CreateSequenceExpressionArrayAttributeAccessMethodCall(SequenceExpression targetExpr,
+            String functionMethodName, String memberOrAttributeName, List<SequenceExpression> argExprs)
+        {
+            if(functionMethodName == "extract")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayExtract(targetExpr, memberOrAttributeName);
+            }
+            throw new ParseException("Unknown array attribute access function method name: \"" + functionMethodName + "\"! (available is extract)");
+        }
+
         abstract public bool IsFunctionName(String functionName, String package);
 
         abstract public string GetFunctionNames();

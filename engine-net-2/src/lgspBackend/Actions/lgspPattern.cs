@@ -1898,6 +1898,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(MatchClassInfo matchClass in MatchClasses)
             {
+                actionsTypeInformation.matchClasses.Add(matchClass.PackagePrefixedName, matchClass);
+
                 List<IFilter> filters = new List<IFilter>();
                 actionsTypeInformation.matchClassesToFilters.Add(matchClass.PackagePrefixedName, filters);
                 foreach(IFilter filter in matchClass.Filters)

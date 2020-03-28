@@ -1,0 +1,42 @@
+#using "model.gm"
+
+rule init
+{
+	modify {
+		n1:N; n2:N; n3:N;
+		
+		eval {
+			n1.i = 1;
+			n2.i = 2;
+			n3.i = 3;
+		}
+	}
+}
+
+test t
+{
+	n:N;
+}
+
+test b(ref s:array<N>)
+{
+	n:N{s};
+	yield {
+		emit("the value of variable \"n.i\" of type N is: ", n.i, "\n");
+	}
+}
+
+/*sequence seqEmitExtract
+{
+	{ emit("the value of variable \"rule\" of type evaluation is: ", [?t].extract<n>(), "\n") }
+}
+
+sequence seqEmitExtractExtract
+{
+	{ emit("the value of variable \"rule\" of type evaluation is: ", [?t].extract<n>().extract<i>(), "\n") }
+}
+
+sequence seqExtractForStorage
+{
+	[b([?t].extract<n>())]
+}*/

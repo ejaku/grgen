@@ -1428,6 +1428,107 @@ namespace de.unika.ipd.grGen.libGr
             return newList;
         }
 
+        public static IList Extract(object container, string memberOrAttribute, IGraphProcessingEnvironment procEnv)
+        {
+            IList array = (IList)container;
+            string arrayType = TypesHelper.DotNetTypeToXgrsType(array.GetType());
+            string arrayValueType = TypesHelper.ExtractSrc(arrayType);
+            if(arrayValueType.StartsWith("match<"))
+            {
+                if(arrayValueType == "match<>")
+                {
+                    if(array.Count > 0)
+                    {
+                        IMatch match = (IMatch)array[0];
+                        object matchElement = match.GetMember(memberOrAttribute);
+                        Type matchElementType;
+                        if(matchElement is IGraphElement)
+                            matchElementType = TypesHelper.GetType(((IGraphElement)matchElement).Type, procEnv.Graph.Model);
+                        else
+                            matchElementType = matchElement.GetType();
+                        Type listType = typeof(List<>).MakeGenericType(matchElementType);
+                        IList extractedArray = (IList)Activator.CreateInstance(listType);
+                        ExtractMatchMember(array, memberOrAttribute, extractedArray);
+                        return extractedArray;
+                    }
+                    else
+                        return new List<object>();
+                }
+                else
+                {
+                    if(arrayValueType.StartsWith("match<class "))
+                    {
+                        MatchClassFilterer matchClass = procEnv.Actions.GetMatchClass(TypesHelper.GetMatchClassName(arrayValueType));
+                        IPatternElement element = matchClass.info.GetPatternElement(memberOrAttribute);
+                        GrGenType elementType = element.Type;
+                        Type listType = typeof(List<>).MakeGenericType(TypesHelper.GetType(elementType, procEnv.Graph.Model));
+                        IList extractedArray = (IList)Activator.CreateInstance(listType);
+                        ExtractMatchMember(array, memberOrAttribute, extractedArray);
+                        return extractedArray;
+                    }
+                    else
+                    {
+                        IAction action = procEnv.Actions.GetAction(TypesHelper.GetRuleName(arrayValueType));
+                        IPatternElement element = action.RulePattern.PatternGraph.GetPatternElement(memberOrAttribute);
+                        GrGenType elementType = element.Type;
+                        Type listType = typeof(List<>).MakeGenericType(TypesHelper.GetType(elementType, procEnv.Graph.Model));
+                        IList extractedArray = (IList)Activator.CreateInstance(listType);
+                        ExtractMatchMember(array, memberOrAttribute, extractedArray);
+                        return extractedArray;
+                    }
+                }
+            }
+            else
+            {
+                GrGenType graphElementType = TypesHelper.GetNodeOrEdgeType(arrayValueType, procEnv.Graph.Model);
+                if(graphElementType != null)
+                {
+                    AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                    Type listType = typeof(List<>).MakeGenericType(attributeType.Type);
+                    IList extractedArray = (IList)Activator.CreateInstance(listType);
+                    ExtractAttribute(array, memberOrAttribute, extractedArray);
+                    return extractedArray;
+                }
+                else
+                {
+                    if(array.Count > 0)
+                    {
+                        IGraphElement graphElement = (IGraphElement)array[0];
+                        object element = graphElement.GetAttribute(memberOrAttribute);
+                        Type elementType;
+                        if(element is IGraphElement)
+                            elementType = TypesHelper.GetType(((IGraphElement)element).Type, procEnv.Graph.Model);
+                        else
+                            elementType = element.GetType();
+                        Type listType = typeof(List<>).MakeGenericType(elementType);
+                        IList extractedArray = (IList)Activator.CreateInstance(listType);
+                        ExtractAttribute(array, memberOrAttribute, extractedArray);
+                        return extractedArray;
+                    }
+                    else
+                        return new List<object>();
+                }
+            }
+        }
+
+        private static void ExtractMatchMember(IList array, string member, IList extractedArray)
+        {
+            foreach(object element in array)
+            {
+                IMatch match = (IMatch)element;
+                extractedArray.Add(match.GetMember(member));
+            }
+        }
+
+        private static void ExtractAttribute(IList array, string attribute, IList extractedArray)
+        {
+            foreach(object element in array)
+            {
+                IGraphElement graphElement = (IGraphElement)element;
+                extractedArray.Add(graphElement.GetAttribute(attribute));
+            }
+        }
+
         /// <summary>
         /// Creates a new array containing the content of the old array but sorted.
         /// </summary>

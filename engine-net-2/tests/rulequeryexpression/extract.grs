@@ -1,0 +1,11 @@
+new graph "rulequeryexpression/extract"
+
+exec init
+
+exec { emit("the value of variable \"rule\" of type evaluation is: ", [?t].extract<n>(), "\n") }
+
+exec { emit("the value of variable \"rule\" of type evaluation is: ", [?t].extract<n>().extract<i>(), "\n") }
+
+exec [b([?t].extract<n>())]
+
+quit

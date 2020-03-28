@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using System;
+using System.Reflection;
 using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
@@ -104,6 +105,31 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public static Type GetType(GrGenType type, IGraphModel model)
+        {
+            if(type is NodeType)
+            {
+                NodeType nodeType = (NodeType)type;
+                if(Type.GetType(nodeType.NodeInterfaceName) != null) // available in libGr (INode)?
+                    return Type.GetType(nodeType.NodeInterfaceName);
+                else
+                    return Type.GetType(nodeType.NodeInterfaceName + "," + Assembly.GetAssembly(model.GetType()).FullName); // no -> search model assembly
+            }
+            else if(type is EdgeType)
+            {
+                EdgeType edgeType = (EdgeType)type;
+                if(Type.GetType(edgeType.EdgeInterfaceName) != null) // available in libGr (INode)?
+                    return Type.GetType(edgeType.EdgeInterfaceName);
+                else
+                    return Type.GetType(edgeType.EdgeInterfaceName + "," + Assembly.GetAssembly(model.GetType()).FullName); // no -> search model assembly
+            }
+            else
+            {
+                VarType varType = (VarType)type;
+                return varType.Type;
+            }
+        }
+
         public static Type GetType(String typeName, IGraphModel model)
         {
             if(typeName == null)
@@ -134,6 +160,36 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return null;
+        }
+
+        public static String DotNetTypeToXgrsType(Type type)
+        {
+            if(type.IsGenericType)
+            {
+                if(type.Name == "Dictionary`2")
+                {
+                    Type keyType;
+                    Type valueType;
+                    ContainerHelper.GetDictionaryTypes(type, out keyType, out valueType);
+                    if(valueType.Name == "SetValueType")
+                        return "set<" + DotNetTypeToXgrsType(keyType.Name, keyType.FullName) + ">";
+                    else
+                        return "map<" + DotNetTypeToXgrsType(keyType.Name, keyType.FullName) + "," + DotNetTypeToXgrsType(valueType.Name, valueType.FullName) + ">";
+                }
+                else if(type.Name == "List`1")
+                {
+                    Type valueType;
+                    ContainerHelper.GetListType(type, out valueType);
+                    return "array<" + DotNetTypeToXgrsType(valueType.Name, valueType.FullName) + ">";
+                }
+                else if(type.Name == "Deque`1")
+                {
+                    Type valueType;
+                    ContainerHelper.GetDequeType(type, out valueType);
+                    return "deque<" + DotNetTypeToXgrsType(valueType.Name, valueType.FullName) + ">";
+                }
+            }
+            return DotNetTypeToXgrsType(type.Name, type.FullName);
         }
 
         public static String DotNetTypeToXgrsType(GrGenType type)
@@ -242,6 +298,8 @@ namespace de.unika.ipd.grGen.libGr
                         return "match<class " + package + "::" + potentialRuleName + ">"; // remove "IMatch_"
                 }
             }
+            if(typeName == "IMatch")
+                return "match<>";
 
             typeName = typeName.Substring(1); // remove I from class name
             if(typeName == "Edge")  // special handling for IEdge,IDEdge,IUEdge, they map to AEdge,Edge,UEdge resp.
@@ -518,6 +576,11 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public static String GetRuleName(String matchType)
+        {
+            return matchType.Substring(6, matchType.Length - 6 - 1); // remove match< begin and > end
+        }
+
         public static String ActionClassForMatchType(String matchType)
         {
             String prefixedRule = matchType.Substring(6, matchType.Length - 6 - 1); // remove match< begin and > end
@@ -532,6 +595,11 @@ namespace de.unika.ipd.grGen.libGr
                 String ruleName = prefixedRule;
                 return "GRGEN_ACTIONS.Action_" + ruleName;
             }
+        }
+
+        public static String GetMatchClassName(String matchClassType)
+        {
+            return matchClassType.Substring(12, matchClassType.Length - 12 - 1); // remove match<class begin and > end
         }
 
         public static String MatchClassFiltererForMatchClassType(String matchClassType)

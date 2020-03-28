@@ -61,6 +61,30 @@ namespace de.unika.ipd.grGen.libGr
             throw new SequenceParserException(ruleName, entityName, SequenceParserError.UnknownPatternElement);
         }
 
+        public override string TypeOfMemberOrAttribute(string matchOrGraphElementType, string memberOrAttribute)
+        {
+            if(matchOrGraphElementType.StartsWith("match<class "))
+            {
+                MatchClassFilterer matchClass = actions.GetMatchClass(TypesHelper.GetMatchClassName(matchOrGraphElementType));
+                IPatternElement element = matchClass.info.GetPatternElement(memberOrAttribute);
+                GrGenType elementType = element.Type;
+                return TypesHelper.DotNetTypeToXgrsType(elementType);
+            }
+            else if(matchOrGraphElementType.StartsWith("match<"))
+            {
+                IAction action = actions.GetAction(TypesHelper.GetRuleName(matchOrGraphElementType));
+                IPatternElement element = action.RulePattern.PatternGraph.GetPatternElement(memberOrAttribute);
+                GrGenType elementType = element.Type;
+                return TypesHelper.DotNetTypeToXgrsType(elementType);
+            }
+            else
+            {
+                GrGenType graphElementType = TypesHelper.GetNodeOrEdgeType(matchOrGraphElementType, Model);
+                AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                return TypesHelper.AttributeTypeToXgrsType(attributeType);
+            }
+        }
+
         protected override int NumInputParameters(Invocation invocation, GrGenType ownerType)
         {
             if(invocation is RuleInvocation)

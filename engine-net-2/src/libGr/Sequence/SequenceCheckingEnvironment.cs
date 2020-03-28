@@ -372,6 +372,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract string TypeOfTopLevelEntityInRule(string ruleName, string entityName);
 
+        /// <summary>
+        /// Helper which returns the type of 
+        /// - the given member in the given match or match class type or
+        /// - the given attribute in the given node or edge type
+        /// </summary>
+        public abstract string TypeOfMemberOrAttribute(string matchOrGraphElementType, string memberOrAttribute);
+
         protected abstract int NumInputParameters(Invocation invocation, GrGenType ownerType);
         protected abstract int NumOutputParameters(Invocation invocation, GrGenType ownerType);
         protected abstract string InputParameterType(int i, Invocation invocation, GrGenType ownerType);
