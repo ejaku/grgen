@@ -370,6 +370,14 @@ namespace de.unika.ipd.grGen.lgsp
                     sbInArgumentsFromArray.Append(i);
                     sbInArgumentsFromArray.Append("])");
                 }
+                else if(parameterType.StartsWith("array<"))
+                {
+                    String arrayValueType = TypesHelper.ExtractSrc(parameterType);
+                    sbInArgumentsFromArray.AppendFormat(", GRGEN_LIBGR.ContainerHelper.ConvertIfEmpty<{0}>(", TypesHelper.XgrsTypeToCSharpType(arrayValueType, model));
+                    sbInArgumentsFromArray.Append("parameters[");
+                    sbInArgumentsFromArray.Append(i);
+                    sbInArgumentsFromArray.Append("])");
+                }
                 else
                 {
                     sbInArgumentsFromArray.Append(", (");

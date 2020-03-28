@@ -132,16 +132,16 @@ namespace de.unika.ipd.grGen.libGr
 
             switch(typeName)
             {
-                case "boolean": return typeof(bool);
-                case "byte": return typeof(sbyte);
-                case "short": return typeof(short);
-                case "int": return typeof(int);
-                case "long": return typeof(long);
-                case "float": return typeof(float);
-                case "double": return typeof(double);
-                case "string": return typeof(string);
-                case "object": return typeof(object);
-                case "graph": return typeof(IGraph);
+            case "boolean": return typeof(bool);
+            case "byte": return typeof(sbyte);
+            case "short": return typeof(short);
+            case "int": return typeof(int);
+            case "long": return typeof(long);
+            case "float": return typeof(float);
+            case "double": return typeof(double);
+            case "string": return typeof(string);
+            case "object": return typeof(object);
+            case "graph": return typeof(IGraph);
             }
 
             if(model == null)
@@ -188,10 +188,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static String GetQualifiedTypeName(String typeName, IGraphModel model)
         {
-            if(typeName=="de.unika.ipd.grGen.libGr.SetValueType" || typeName=="SetValueType")
+            if(typeName == "de.unika.ipd.grGen.libGr.SetValueType" || typeName == "SetValueType")
                 return "de.unika.ipd.grGen.libGr.SetValueType";
             Type type = GetTypeFromNameForContainer(typeName, model);
-            return type!=null ? type.Namespace+"."+type.Name : null;
+            return type != null ? type.Namespace + "." + type.Name : null;
         }
 
         public static Dictionary<K, V> FillMap<K, V>(Dictionary<K, V> mapToCopyTo, string keyTypeName, string valueTypeName, object hopefullyMapToCopy, IGraphModel model)
@@ -200,7 +200,7 @@ namespace de.unika.ipd.grGen.libGr
                 return FillMap(mapToCopyTo, keyTypeName, valueTypeName, (IDictionary)hopefullyMapToCopy, model);
             throw new Exception("Map copy constructor expects map as source.");
         }
-        
+
         public static Dictionary<K, V> FillMap<K, V>(Dictionary<K, V> mapToCopyTo, string keyTypeName, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
         {
             NodeType nodeType = TypesHelper.GetNodeType(keyTypeName, model);
@@ -719,7 +719,7 @@ namespace de.unika.ipd.grGen.libGr
 
             Type genDictType = typeof(Dictionary<,>);
             Type dictType = genDictType.MakeGenericType(keyType, valueType);
-            return (IDictionary) Activator.CreateInstance(dictType, oldDictionary);
+            return (IDictionary)Activator.CreateInstance(dictType, oldDictionary);
         }
 
         /// <summary>
@@ -920,7 +920,7 @@ namespace de.unika.ipd.grGen.libGr
                 a.Remove(key);
             }
 
-            return toBeRemoved.Count>0;
+            return toBeRemoved.Count > 0;
         }
 
         /// <summary>
@@ -1367,7 +1367,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The first position from the end inwards of entry in the array a, -1 if entry not in a.</returns>
         public static int LastIndexOf<V>(List<V> a, V entry)
         {
-            for(int i = a.Count-1; i >= 0; --i)
+            for(int i = a.Count - 1; i >= 0; --i)
             {
                 if(EqualityComparer<V>.Default.Equals(a[i], entry))
                     return i;
@@ -1420,7 +1420,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             List<V> newList = new List<V>();
 
-            for(int i = start; i < start+length; ++i)
+            for(int i = start; i < start + length; ++i)
             {
                 newList.Add(a[i]);
             }
@@ -1527,6 +1527,14 @@ namespace de.unika.ipd.grGen.libGr
                 IGraphElement graphElement = (IGraphElement)element;
                 extractedArray.Add(graphElement.GetAttribute(attribute));
             }
+        }
+
+        public static List<T> ConvertIfEmpty<T>(object array)
+        {
+            if(!(array is List<T>) && array is IList && ((IList)array).Count == 0)
+                return new List<T>();
+            else
+                return (List<T>)array;
         }
 
         /// <summary>
