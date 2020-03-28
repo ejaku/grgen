@@ -55,12 +55,17 @@ namespace de.unika.ipd.grGen.libGr
         IPatternVariable[] Variables { get; }
 
         /// <summary>
+        /// Returns the pattern element with the given name if it is available, otherwise null.
+        /// </summary>
+        IPatternElement GetPatternElement(string name);
+
+        /// <summary>
         /// An array of the names of the available filters
         /// </summary>
         IFilter[] Filters { get; }
 
         /// <summary>
-        /// Returns the (package prefixed) filter, if it is available, otherwise null
+        /// Returns the (package prefixed) filter if it is available, otherwise null
         /// </summary>
         IFilter GetFilter(string name);
     }
@@ -92,7 +97,30 @@ namespace de.unika.ipd.grGen.libGr
         public IFilter[] Filters { get { return filters; } }
 
         /// <summary>
-        /// Returns the (package prefixed) filter, if it is available, otherwise null
+        /// Returns the pattern element with the given name if it is available, otherwise null.
+        /// </summary>
+        public IPatternElement GetPatternElement(string name)
+        {
+            foreach(IPatternNode node in Nodes)
+            {
+                if(node.Name == name)
+                    return node;
+            }
+            foreach(IPatternEdge edge in Edges)
+            {
+                if(edge.Name == name)
+                    return edge;
+            }
+            foreach(IPatternVariable variable in Variables)
+            {
+                if(variable.Name == name)
+                    return variable;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the (package prefixed) filter if it is available, otherwise null
         /// </summary>
         public IFilter GetFilter(string name)
         {

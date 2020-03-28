@@ -4570,7 +4570,7 @@ public class ActionsGen extends CSharpBase {
 	{
 		String interfaceName = "IMatch_" + name;
 		String className = "Match_" + name;
-		sb.append("\t\tpublic class "+className+" : GRGEN_LGSP.ListElement<"+className+">, "+interfaceName+"\n");
+		sb.append("\t\tpublic class "+className+" : GRGEN_LGSP.MatchListElement<"+className+">, "+interfaceName+"\n");
 		sb.append("\t\t{\n");
 
 		for(int i=MATCH_PART_NODES; i<MATCH_PART_END; ++i) {
@@ -4583,19 +4583,19 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\t\n");
 		}
 
-		sb.append("\t\t\tpublic GRGEN_LIBGR.IPatternGraph Pattern { get { return "+ruleClassName+".instance."+patGraphVarName+"; } }\n");
+		sb.append("\t\t\tpublic override GRGEN_LIBGR.IPatternGraph Pattern { get { return "+ruleClassName+".instance."+patGraphVarName+"; } }\n");
 		if(iterated) {
 			sb.append("\t\t\tpublic bool IsNullMatch { get { return _isNullMatch; } }\n");
 			sb.append("\t\t\tpublic bool _isNullMatch;\n");
 		}
-		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }\n");
-		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch Clone() { return new "+className+"(this); }\n");
+		sb.append("\t\t\tpublic override GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }\n");
+		sb.append("\t\t\tpublic override GRGEN_LIBGR.IMatch Clone() { return new "+className+"(this); }\n");
 		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;\n");
 		sb.append("\t\t\tpublic void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
 		sb.append("\t\t\tpublic override string ToString() { return \"Match of \" + Pattern.Name; }\n");
 		sb.append("\t\t\tpublic bool _flag;\n");
-		sb.append("\t\t\tpublic void Mark(bool flag) { _flag = flag; }\n");
-		sb.append("\t\t\tpublic bool IsMarked() { return _flag; }\n");
+		sb.append("\t\t\tpublic override void Mark(bool flag) { _flag = flag; }\n");
+		sb.append("\t\t\tpublic override bool IsMarked() { return _flag; }\n");
 		sb.append("\t\t\tpublic "+className+" nextWithSameHash;\n");
 		sb.append("\t\t\tpublic void CleanNextWithSameHash() {\n");
 		sb.append("\t\t\t\t"+className+" cur = this;\n");
@@ -4608,7 +4608,7 @@ public class ActionsGen extends CSharpBase {
 		if(parallelized)
 			sb.append("\t\t\tpublic int duplicateMatchHash;\n");
 		sb.append("\t\t\tpublic int _iterationNumber;\n");
-		sb.append("\t\t\tpublic int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }\n");
+		sb.append("\t\t\tpublic override int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }\n");
 
 		sb.append("\n\t\t\tpublic void CopyMatchContent("+className +" that)\n");
 		sb.append("\t\t\t{\n");
@@ -4905,13 +4905,13 @@ public class ActionsGen extends CSharpBase {
 		String matchedEntitiesNameSingular = matchedEntitiesNameSingular(which);
 		String matchedEntitiesNamePlural = matchedEntitiesNamePlural(which);
 
-		sb.append("\t\t\tpublic IEnumerable<"+typeOfMatchedEntities+"> "+matchedEntitiesNamePlural+" { get { return new "+enumerableName+"(this); } }\n");
-		sb.append("\t\t\tpublic IEnumerator<"+typeOfMatchedEntities+"> "+matchedEntitiesNamePlural+"Enumerator { get { return new " + enumeratorName + "(this); } }\n");
-		sb.append("\t\t\tpublic int NumberOf"+matchedEntitiesNamePlural+" { get { return " + numberOfMatchedEntities + ";} }\n");
+		sb.append("\t\t\tpublic override IEnumerable<"+typeOfMatchedEntities+"> "+matchedEntitiesNamePlural+" { get { return new "+enumerableName+"(this); } }\n");
+		sb.append("\t\t\tpublic override IEnumerator<"+typeOfMatchedEntities+"> "+matchedEntitiesNamePlural+"Enumerator { get { return new " + enumeratorName + "(this); } }\n");
+		sb.append("\t\t\tpublic override int NumberOf"+matchedEntitiesNamePlural+" { get { return " + numberOfMatchedEntities + ";} }\n");
 
 	    // -----------------------------
 
-		sb.append("\t\t\tpublic "+typeOfMatchedEntities+" get"+matchedEntitiesNameSingular+"At(int index)\n");
+		sb.append("\t\t\tpublic override "+typeOfMatchedEntities+" get"+matchedEntitiesNameSingular+"At(int index)\n");
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t\tswitch(index) {\n");
 
@@ -4966,7 +4966,7 @@ public class ActionsGen extends CSharpBase {
 	    
 	    // -----------------------------
 	    
-		sb.append("\t\t\tpublic "+typeOfMatchedEntities+" get"+matchedEntitiesNameSingular+"(string name)\n");
+		sb.append("\t\t\tpublic override "+typeOfMatchedEntities+" get"+matchedEntitiesNameSingular+"(string name)\n");
 		sb.append("\t\t\t{\n");
 		sb.append("\t\t\t\tswitch(name) {\n");
 

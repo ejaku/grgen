@@ -473,14 +473,82 @@ namespace de.unika.ipd.grGen.lgsp
 
 
     /// <summary>
-    /// Element of invasive linked list of T
+    /// Element of invasively linked list of T, and Match
     /// </summary>
-    public class ListElement<T>
+    public abstract class MatchListElement<T> : IMatch
     {
         /// <summary>
         /// The next element in the linked list.
         /// </summary>
         public T next;
+
+        ///////////////////////////////////////////////////////////////
+
+        public abstract IPatternGraph Pattern { get; }
+        public abstract IMatch MatchOfEnclosingPattern { get; }
+        public abstract IMatch Clone();
+
+        public abstract void Mark(bool flag);
+        public abstract bool IsMarked();
+        public abstract int IterationNumber { get; set; }
+
+        public abstract IEnumerable<INode> Nodes { get; }
+        public abstract IEnumerator<INode> NodesEnumerator { get; }
+        public abstract int NumberOfNodes { get; }
+        public abstract INode getNodeAt(int index);
+        public abstract INode getNode(string name);
+
+        public abstract IEnumerable<IEdge> Edges { get; }
+        public abstract IEnumerator<IEdge> EdgesEnumerator { get; }
+        public abstract int NumberOfEdges { get; }
+        public abstract IEdge getEdgeAt(int index);
+        public abstract IEdge getEdge(string name);
+
+        public abstract IEnumerable<object> Variables { get; }
+        public abstract IEnumerator<object> VariablesEnumerator { get; }
+        public abstract int NumberOfVariables { get; }
+        public abstract object getVariableAt(int index);
+        public abstract object getVariable(string name);
+
+        public abstract IEnumerable<IMatch> EmbeddedGraphs { get; }
+        public abstract IEnumerator<IMatch> EmbeddedGraphsEnumerator { get; }
+        public abstract int NumberOfEmbeddedGraphs { get; }
+        public abstract IMatch getEmbeddedGraphAt(int index);
+        public abstract IMatch getEmbeddedGraph(string name);
+
+        public abstract IEnumerable<IMatch> Alternatives { get; }
+        public abstract IEnumerator<IMatch> AlternativesEnumerator { get; }
+        public abstract int NumberOfAlternatives { get; }
+        public abstract IMatch getAlternativeAt(int index);
+        public abstract IMatch getAlternative(string name);
+
+        public abstract IEnumerable<IMatches> Iterateds { get; }
+        public abstract IEnumerator<IMatches> IteratedsEnumerator { get; }
+        public abstract int NumberOfIterateds { get; }
+        public abstract IMatches getIteratedAt(int index);
+        public abstract IMatches getIterated(string name);
+
+        public abstract IEnumerable<IMatch> Independents { get; }
+        public abstract IEnumerator<IMatch> IndependentsEnumerator { get; }
+        public abstract int NumberOfIndependents { get; }
+        public abstract IMatch getIndependentAt(int index);
+        public abstract IMatch getIndependent(string name);
+
+        ///////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns value bound to the member of the given name or null if no such member exists
+        /// </summary>
+        public object GetMember(string name)
+        {
+            INode node = getNode(name);
+            if(node != null)
+                return node;
+            IEdge edge = getEdge(name);
+            if(edge != null)
+                return edge;
+            return getVariable(name);
+        }
     }
 
 
@@ -499,7 +567,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// Then it is just used as a container for already allocated elements.
     /// </summary>
     public class LGSPMatchesList<Match, MatchInterface> : IMatchesExact<MatchInterface>
-        where Match : ListElement<Match>, MatchInterface, new()
+        where Match : MatchListElement<Match>, MatchInterface, new()
         where MatchInterface : IMatch
     {
         #region IMatchesExact

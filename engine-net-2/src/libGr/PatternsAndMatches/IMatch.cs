@@ -146,6 +146,15 @@ namespace de.unika.ipd.grGen.libGr
 
 
         //////////////////////////////////////////////////////////////////////////
+        // By Name Access to Members = Nodes, Edges, Variables
+
+        /// <summary>
+        /// Returns value bound to the member of the given name or null if no such member exists
+        /// </summary>
+        object GetMember(string name);
+
+
+        //////////////////////////////////////////////////////////////////////////
         // Embedded Graphs
 
         /// <summary>

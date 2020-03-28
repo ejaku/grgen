@@ -48,6 +48,11 @@ namespace de.unika.ipd.grGen.libGr
         IPatternVariable[] Variables { get; }
 
         /// <summary>
+        /// Returns the pattern element with the given name if it is available, otherwise null.
+        /// </summary>
+        IPatternElement GetPatternElement(string name);
+
+        /// <summary>
         /// Returns the source pattern node of the given edge, null if edge dangles to the left
         /// </summary>
         IPatternNode GetSource(IPatternEdge edge);

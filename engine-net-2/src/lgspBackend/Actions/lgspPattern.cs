@@ -76,6 +76,29 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns the pattern element with the given name if it is available, otherwise null.
+        /// </summary>
+        public IPatternElement GetPatternElement(string name)
+        {
+            foreach(IPatternNode node in Nodes)
+            {
+                if(node.UnprefixedName == name)
+                    return node;
+            }
+            foreach(IPatternEdge edge in Edges)
+            {
+                if(edge.UnprefixedName == name)
+                    return edge;
+            }
+            foreach(IPatternVariable variable in Variables)
+            {
+                if(variable.UnprefixedName == name)
+                    return variable;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Returns the source pattern node of the given edge, null if edge dangles to the left
         /// </summary>
         public IPatternNode GetSource(IPatternEdge edge)
@@ -1873,7 +1896,7 @@ namespace de.unika.ipd.grGen.lgsp
                 actionsTypeInformation.functionsToIsExternal.Add(function.packagePrefixedName, function.IsExternal);
             }
 
-            foreach(IMatchClass matchClass in MatchClasses)
+            foreach(MatchClassInfo matchClass in MatchClasses)
             {
                 List<IFilter> filters = new List<IFilter>();
                 actionsTypeInformation.matchClassesToFilters.Add(matchClass.PackagePrefixedName, filters);
