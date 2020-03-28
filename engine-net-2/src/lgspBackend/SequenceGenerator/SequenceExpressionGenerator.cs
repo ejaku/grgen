@@ -264,6 +264,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayMed((SequenceExpressionArrayMed)expr, source);
             case SequenceExpressionType.ArrayMedUnsorted:
                 return GetSequenceExpressionArrayMedUnsorted((SequenceExpressionArrayMedUnsorted)expr, source);
+            case SequenceExpressionType.ArrayExtract:
+                return GetSequenceExpressionArrayExtract((SequenceExpressionArrayExtract)expr, source);
 
             default:
                 throw new Exception("Unknown sequence expression type: " + expr.SequenceExpressionType);
@@ -1573,7 +1575,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return "GRGEN_LIBGR.ContainerHelper.Prod((IList)(" + container + "))";
             }
-            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            else //if(seqArrayProd.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayProd.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.Prod((" + arrayType + ")" + container + ")";
@@ -1588,7 +1590,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return "GRGEN_LIBGR.ContainerHelper.Min((IList)(" + container + "))";
             }
-            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            else //if(seqArrayMin.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMin.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.Min((" + arrayType + ")" + container + ")";
@@ -1603,7 +1605,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return "GRGEN_LIBGR.ContainerHelper.Max((IList)(" + container + "))";
             }
-            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            else //if(seqArrayMax.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMax.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.Max((" + arrayType + ")" + container + ")";
@@ -1618,7 +1620,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return "GRGEN_LIBGR.ContainerHelper.Avg((IList)(" + container + "))";
             }
-            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            else //if(seqArrayAvg.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayAvg.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.Avg((" + arrayType + ")" + container + ")";
@@ -1633,7 +1635,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return "GRGEN_LIBGR.ContainerHelper.Med((IList)(" + container + "))";
             }
-            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            else //if(seqArrayMed.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMed.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.Med((" + arrayType + ")" + container + ")";
@@ -1648,10 +1650,50 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((IList)(" + container + "))";
             }
-            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            else //if(seqArrayMedUnsorted.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMedUnsorted.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayExtract(SequenceExpressionArrayExtract seqArrayExtract, SourceBuilder source)
+        {
+            string array = GetContainerValue(seqArrayExtract, source);
+
+            if(seqArrayExtract.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.ArrayExtract(" + array + ", \"" + seqArrayExtract.memberOrAttributeName + "\", procEnv)";
+            }
+            else //if(seqArrayExtract.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = seqArrayExtract.ContainerType(env);
+                string arrayValueType = TypesHelper.ExtractSrc(arrayType);
+                string typeOfMemberOrAttribute = env.TypeOfMemberOrAttribute(arrayValueType, seqArrayExtract.memberOrAttributeName);
+                if(arrayValueType.StartsWith("match<class ")) // match class type
+                {
+                    string member = seqArrayExtract.memberOrAttributeName;
+                    string packageName;
+                    string matchClassName = TypesHelper.SeparatePackage(TypesHelper.GetMatchClassName(arrayValueType), out packageName);
+                    string matchClass = NamesOfEntities.MatchClassName(matchClassName, packageName);
+                    return "GRGEN_ACTIONS." + matchClass + ".Extractor.Extract_" + member +"(" + array+ ")";
+                }
+                else if(arrayValueType.StartsWith("match<")) //match type
+                {
+                    string member = seqArrayExtract.memberOrAttributeName;
+                    string packageName;
+                    string ruleName = TypesHelper.SeparatePackage(TypesHelper.GetRuleName(arrayValueType), out packageName);
+                    string ruleClass = NamesOfEntities.RulePatternClassName(ruleName, packageName, false);
+                    return "GRGEN_ACTIONS." + ruleClass + ".Extractor.Extract_" + member + "(" + array +")";
+                }
+                else // node/edge type
+                {
+                    string attribute = seqArrayExtract.memberOrAttributeName;
+                    string packageName;
+                    string graphElementTypeName = TypesHelper.SeparatePackage(arrayValueType, out packageName);
+                    string comparerName = NamesOfEntities.ComparerClassName(graphElementTypeName, packageName, attribute);
+                    return "GRGEN_MODEL." + comparerName +".Extract(" + array + ")";
+                }
             }
         }
 

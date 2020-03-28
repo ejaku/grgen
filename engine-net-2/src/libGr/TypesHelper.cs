@@ -515,6 +515,20 @@ namespace de.unika.ipd.grGen.libGr
                 return constant;
         }
 
+        public static String SeparatePackage(String packagePrefixedName, out String packageName)
+        {
+            if(packagePrefixedName.IndexOf("::") != -1)
+            {
+                packageName = packagePrefixedName.Substring(0, packagePrefixedName.IndexOf("::"));
+                return packagePrefixedName.Substring(packagePrefixedName.IndexOf("::") + "::".Length);
+            }
+            else
+            {
+                packageName = null;
+                return packagePrefixedName;
+            }
+        }
+
         public static String ExtractSrc(String genericType)
         {
             if(genericType == null) return null;

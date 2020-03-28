@@ -380,14 +380,17 @@ options { k = 3; }
 	@init{
 		CollectNode<ExprNode> arguments = new CollectNode<ExprNode>();
 	}
-	: DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
-		( arg=seqExpression[xg] { arguments.addChild(arg); }
-			(COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); })*
-			)? RPAREN { xg.append(")"); }
-		{ res = new MethodInvocationExprNode(prefix, new IdentNode(env.occurs(ParserEnvironment.ENTITIES, method.getText(), getCoords(method))), arguments, null); }
-		sel=seqExprSelector[res, xg] { res = sel; }
-	| d=DOT attr=seqMemberIdentUse { xg.append("."+attr.getSymbol().getText()); }
-		{ res = new MemberAccessExprNode(getCoords(d), prefix, attr); }
+	: d=DOT methodOrAttrName=seqMemberIdentUse { xg.append("."+methodOrAttrName.getSymbol().getText()); } 
+			({ env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? LT mi=memberIdentUse GT { xg.append("<" + mi.getSymbol().getText() + ">"); })?
+		(
+			LPAREN { xg.append("("); } 
+			( arg=seqExpression[xg] { arguments.addChild(arg); }
+				(COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); })*
+				)? RPAREN { xg.append(")"); }
+			{ res = new MethodInvocationExprNode(prefix, methodOrAttrName, arguments, mi); }
+		|
+			{ res = new MemberAccessExprNode(getCoords(d), prefix, methodOrAttrName); }
+		)
 		sel=seqExprSelector[res, xg] { res = sel; }
 	| DOT v=VISITED LBRACK 
 		{ xg.append(".visited["); } visId=seqExpression[xg] RBRACK { xg.append("]"); }

@@ -26,7 +26,7 @@ test b(ref s:array<N>)
 	}
 }
 
-/*sequence seqEmitExtract
+sequence seqEmitExtract
 {
 	{ emit("the value of variable \"rule\" of type evaluation is: ", [?t].extract<n>(), "\n") }
 }
@@ -39,4 +39,4 @@ sequence seqEmitExtractExtract
 sequence seqExtractForStorage
 {
 	[b([?t].extract<n>())]
-}*/
+}

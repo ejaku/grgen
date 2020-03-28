@@ -1,0 +1,11 @@
+new graph "rulequeryexpression/extract"
+
+exec init
+
+exec seqEmitExtract
+
+exec seqEmitExtractExtract
+
+exec seqExtractForStorage
+
+quit
