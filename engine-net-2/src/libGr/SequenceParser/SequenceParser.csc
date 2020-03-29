@@ -59,7 +59,7 @@ PARSER_BEGIN(SequenceParser)
 
         /// <summary>
         /// Parses a given string in xgrs exp syntax and builds a SequenceExpression object. 
-        /// Used for the interpreted if clauses for conditional watchpoint debugging.
+        /// Used for expression evaluation, and the interpreted if clauses for conditional watchpoint debugging.
         /// </summary>
         /// <param name="sequenceExprStr">The string representing a xgrs expression (e.g. "func() &amp;&amp; (st[e]==0 || var + 1 < 42)")</param>
         /// <param name="predefinedVariables">A map from variables to types giving the predefined this variable for the sequence expression.</param>

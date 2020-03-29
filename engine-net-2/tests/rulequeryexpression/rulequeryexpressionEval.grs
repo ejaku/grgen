@@ -1,0 +1,29 @@
+new graph "rulequeryexpression/rulequeryexpression"
+
+exec (::start1)=init
+
+eval ![?r(::start1)].empty()
+
+eval [?r(::start1)]
+
+eval [?t]
+
+exec init[4]
+
+eval [?t]
+
+eval [?b(false)]
+
+eval 1
+
+eval 0
+
+eval true
+
+eval false
+
+exec ::x = 42
+
+eval ::x
+
+quit

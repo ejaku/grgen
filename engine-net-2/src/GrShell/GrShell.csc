@@ -104,6 +104,7 @@ TOKEN: {
 |   < EMIT: "emit" >
 |   < ENABLE: "enable" >
 |   < ENDIF: "endif" >
+|   < EVAL: "eval" >
 |   < EXCLUDE: "exclude" >
 |   < EXEC: "exec" >
 |   < EXIT: "exit" >
@@ -887,6 +888,8 @@ void ShellCommand():
     List<String> parameters;
     Param param;
     Token tok;
+    Sequence seq;
+    SequenceExpression seqExpr;
 }
 {
     "!" str1=CommandLine()
@@ -1054,9 +1057,18 @@ void ShellCommand():
         }
     )
 |
-    (tok="xgrs" | tok="exec") str1=CommandLine()
+    (tok="exec" | tok="xgrs") str1=CommandLine()
     {
-        impl.ParseAndApplySequence(str1, tok, out noError);
+        seq = impl.ParseSequence(str1, tok, out noError);
+        if(seq != null)
+            impl.ApplySequence(seq, tok, out noError);
+    }
+|
+    tok="eval" str1=CommandLine()
+    {
+        seqExpr = impl.ParseSequenceExpression(str1, null, null, tok, out noError);
+        if(seqExpr != null)
+            impl.ApplySequenceExpression(seqExpr, tok, out noError);
     }
 |
     tok="def" str1=CommandLine()
@@ -1663,9 +1675,11 @@ void DebugCommand():
 {
     try
     {
-        (tok="xgrs" | tok="exec") str=CommandLine()
+        (tok="exec" | tok="xgrs") str=CommandLine()
         {
-            impl.ParseAndDebugSequence(str, tok, out noError);
+            seq = impl.ParseSequence(str, tok, out noError);
+            if(seq != null)
+                impl.DebugSequence(seq, tok, out noError);
         }
     |
         "enable" LineEnd()

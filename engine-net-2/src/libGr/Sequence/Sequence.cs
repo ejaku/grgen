@@ -47,7 +47,8 @@ namespace de.unika.ipd.grGen.libGr
         DeclareVariable, AssignConstToVar, AssignContainerConstructorToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         ExecuteInSubgraph,
-        BooleanComputation
+        BooleanComputation,
+        Dummy
     }
 
     public enum RelOpDirection
@@ -7599,6 +7600,47 @@ namespace de.unika.ipd.grGen.libGr
                 return Special ? "%{ " + (Computation is SequenceExpression ? "{" + Computation.Symbol + "}" : Computation.Symbol) + " }" 
                     : "{ " + (Computation is SequenceExpression ? "{" + Computation.Symbol + "}" : Computation.Symbol) + " }";
             }
+        }
+    }
+
+    /// <summary>
+    /// A dummy sequence to be used in contexts where a sequence is needed formally but not available (null-element/guard).
+    /// </summary>
+    public class SequenceDummy : Sequence
+    {
+        public SequenceDummy()
+            : base(SequenceType.Dummy)
+        {
+        }
+
+        protected SequenceDummy(SequenceDummy that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceDummy(this, originalToCopy, procEnv);
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            return false;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get { yield break; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "dummy"; }
         }
     }
 }

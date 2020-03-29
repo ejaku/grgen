@@ -618,6 +618,21 @@ namespace de.unika.ipd.grGen.lgsp
             return ApplyGraphRewriteSequence(ParseSequence(seqStr));
         }
 
+        public object EvaluateGraphRewriteSequenceExpression(SequenceExpression sequenceExpression)
+        {
+            PerformanceInfo.Start();
+
+            object res = sequenceExpression.Evaluate(this);
+
+            PerformanceInfo.Stop();
+            return res;
+        }
+
+        public object EvaluateGraphRewriteSequenceExpression(String seqExprStr)
+        {
+            return EvaluateGraphRewriteSequenceExpression(ParseSequenceExpression(seqExprStr));
+        }
+
         public bool ValidateWithSequence(Sequence seq)
         {
             SwitchToSubgraph(graph.Clone("clonedGraph"));
@@ -641,6 +656,19 @@ namespace de.unika.ipd.grGen.lgsp
                 System.Console.Error.WriteLine(warning);
             }
             return seq;
+        }
+
+        public SequenceExpression ParseSequenceExpression(String seqExprStr)
+        {
+            Dictionary<String, String> predefinedVariables = new Dictionary<string, string>();
+            SequenceParserEnvironmentInterpreted parserEnv = new SequenceParserEnvironmentInterpreted(curActions);
+            List<string> warnings = new List<string>();
+            SequenceExpression seqExpr = SequenceParser.ParseSequenceExpression(seqExprStr, predefinedVariables, parserEnv, warnings);
+            foreach(string warning in warnings)
+            {
+                System.Console.Error.WriteLine(warning);
+            }
+            return seqExpr;
         }
 
 

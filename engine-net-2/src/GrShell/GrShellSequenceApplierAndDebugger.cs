@@ -229,6 +229,76 @@ namespace de.unika.ipd.grGen.grShell
             return false;
         }
 
+        public void ApplyRewriteSequenceExpression(SequenceExpression seqExpr)
+        {
+            SequenceDummy seq = new SequenceDummy();
+
+            if(!impl.ActionsExists())
+                return;
+
+            if(CheckDebuggerAlive())
+            {
+                debugger.NotifyOnConnectionLost = true;
+                debugger.InitNewRewriteSequence(seq, false);
+            }
+
+            curGRS = seq;
+            curRule = null;
+
+            impl.debugOut.WriteLine("Executing Sequence Expression (CTRL+C for abort) ...");
+            cancelSequence = false;
+            WorkaroundManager.Workaround.PreventComputerGoingIntoSleepMode(true);
+            impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
+            StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
+            Timer timer = null;
+            if(!silenceExec)
+                timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
+
+            try
+            {
+                object result = impl.curShellProcEnv.ProcEnv.EvaluateGraphRewriteSequenceExpression(seqExpr);
+                if(timer != null)
+                    timer.Dispose();
+
+                seq.ResetExecutionState();
+                impl.debugOut.WriteLine("Executing Sequence Expression done after {0} ms with result: {1}",
+                    (impl.curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture),
+                    EmitHelper.ToStringAutomatic(result, impl.curShellProcEnv.ProcEnv.Graph));
+                if(impl.newGraphOptions.Profile)
+                    impl.debugOut.WriteLine(" - {0} search steps executed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
+#if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
+                impl.debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
+                impl.debugOut.WriteLine(" - {0} rewrites performed in {1} ms", perfInfo.RewritesPerformed, perfInfo.TotalRewriteTimeMS);
+#if DEBUGACTIONS
+                impl.debugOut.WriteLine("\nDetails:");
+                ShowSequenceDetails(seq, perfInfo);
+#endif
+#else
+                impl.debugOut.WriteLine(" - {0} matches found", impl.curShellProcEnv.ProcEnv.PerformanceInfo.MatchesFound);
+#endif
+            }
+            catch(OperationCanceledException)
+            {
+                cancelSequence = true;      // make sure cancelSequence is set to true
+                if(timer != null)
+                    timer.Dispose();
+                impl.errOut.WriteLine("Sequence expression aborted!");
+            }
+            WorkaroundManager.Workaround.PreventComputerGoingIntoSleepMode(false);
+            curRule = null;
+            curGRS = null;
+
+            if(InDebugMode)
+            {
+                debugger.NotifyOnConnectionLost = false;
+                debugger.FinishRewriteSequence();
+            }
+
+            StreamWriter emitWriter = impl.curShellProcEnv.ProcEnv.EmitWriter as StreamWriter;
+            if(emitWriter != null)
+                emitWriter.Flush();
+        }
+
         public void ApplyRewriteSequence(Sequence seq, bool debug)
         {
             bool installedDumpHandlers = false;
@@ -270,8 +340,9 @@ namespace de.unika.ipd.grGen.grShell
                     timer.Dispose();
 
                 seq.ResetExecutionState();
-                impl.debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:",
-                    (impl.curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture), result);
+                impl.debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result: {1}",
+                    (impl.curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture), 
+                    result);
                 if(impl.newGraphOptions.Profile)
                     impl.debugOut.WriteLine(" - {0} search steps executed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate

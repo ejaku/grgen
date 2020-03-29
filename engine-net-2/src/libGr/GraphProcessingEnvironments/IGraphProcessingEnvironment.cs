@@ -228,6 +228,20 @@ namespace de.unika.ipd.grGen.libGr
         bool ApplyGraphRewriteSequence(String seqStr);
 
         /// <summary>
+        /// Evaluate a graph rewrite sequence expression (on the currently associated graph).
+        /// </summary>
+        /// <param name="sequenceExpression">The graph rewrite sequence expression</param>
+        /// <returns>The result of the expression</returns>
+        object EvaluateGraphRewriteSequenceExpression(SequenceExpression sequenceExpression);
+
+        /// <summary>
+        /// Evaluate a graph rewrite sequence expression (on the currently associated graph).
+        /// </summary>
+        /// <param name="seqExprStr">The graph rewrite sequence expression in form of a string</param>
+        /// <returns>The result of the expression</returns>
+        object EvaluateGraphRewriteSequenceExpression(String seqExprStr);
+
+        /// <summary>
         /// Tests whether the given sequence succeeds on a clone of the associated graph.
         /// </summary>
         /// <param name="seq">The sequence to be executed</param>
@@ -242,12 +256,20 @@ namespace de.unika.ipd.grGen.libGr
         bool ValidateWithSequence(String seqStr);
 
         /// <summary>
-        /// Parses the given XGRS string and generates a Sequence object.
+        /// Parses the given sequence string and generates a Sequence object.
         /// Any actions in the string must refer to actions from the actions contained in this object.
         /// </summary>
-        /// <param name="seqStr">The sequence to be parsed in form of an XGRS string.</param>
+        /// <param name="seqStr">The sequence to be parsed in form of a string.</param>
         /// <returns>The sequence object according to the given string.</returns>
         Sequence ParseSequence(String seqStr);
+
+        /// <summary>
+        /// Parses the given sequence expression string and generates a SequenceExpression object.
+        /// Any actions in the string must refer to actions from the actions contained in this object.
+        /// </summary>
+        /// <param name="seqExprStr">The sequence expression to be parsed in form of a string.</param>
+        /// <returns>The sequence expression object according to the given string.</returns>
+        SequenceExpression ParseSequenceExpression(String seqExprStr);
 
 
         /// <summary>
