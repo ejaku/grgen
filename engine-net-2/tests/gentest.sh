@@ -49,6 +49,7 @@ for scriptfile in $*; do
     /value of variable/ { print getAttribute(10) }
     /The graph is/ { print \$4 }
     /reported back:/ { print \"warning reported back\" }
+    /Evaluating Sequence Expression done/ { print getAttribute(10) }
 
     function getAttribute(startindex)
     {

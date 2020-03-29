@@ -149,7 +149,7 @@ for filename in $targets; do
           fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctvalue)
         if(value != correctvalue)
-          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of variable = \" correctvalue \", Found \" value)
       }
       /reported back:/ {
         testnum++
@@ -158,7 +158,16 @@ for filename in $targets; do
           fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctvalue)
         if(value != correctvalue)
-          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of warning reported back = \" correctvalue \", Found \" value)
+      }
+      /Evaluating Sequence Expression done/ {
+        testnum++
+        value = getAttribute(10)
+        if ((getline correctvalue < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
+        sub(\"\\r\$\", \"\", correctvalue)
+        if(value != correctvalue)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of sequence expression evaluation = \" correctvalue \", Found \" value)
       }
 	  END {
         if(failed) exit 1

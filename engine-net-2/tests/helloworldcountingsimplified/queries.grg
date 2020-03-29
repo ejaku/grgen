@@ -1,0 +1,27 @@
+rule init {
+	modify {
+		looping1:Node --> looping1;
+		looping2:Node --> looping2;
+		
+		.; .; .; .; // 4 isolated nodes
+		
+		n1:Node --> n2:Node --> n3:Node --> n1;
+	}
+}
+
+test loopingEdge {
+	n:Node --> n;
+}
+
+test isolatedNode {
+	n:Node;
+	negative {
+		n <-->;
+	}
+}
+
+test cycle {
+	n1:Node --> n2;
+	n2:Node --> n3;
+	n3:Node --> n1;
+} \ auto

@@ -245,7 +245,7 @@ namespace de.unika.ipd.grGen.grShell
             curGRS = seq;
             curRule = null;
 
-            impl.debugOut.WriteLine("Executing Sequence Expression (CTRL+C for abort) ...");
+            impl.debugOut.WriteLine("Evaluating Sequence Expression (CTRL+C for abort) ...");
             cancelSequence = false;
             WorkaroundManager.Workaround.PreventComputerGoingIntoSleepMode(true);
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
@@ -261,7 +261,7 @@ namespace de.unika.ipd.grGen.grShell
                     timer.Dispose();
 
                 seq.ResetExecutionState();
-                impl.debugOut.WriteLine("Executing Sequence Expression done after {0} ms with result: {1}",
+                impl.debugOut.WriteLine("Evaluating Sequence Expression done after {0} ms with result: {1}",
                     (impl.curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture),
                     EmitHelper.ToStringAutomatic(result, impl.curShellProcEnv.ProcEnv.Graph));
                 if(impl.newGraphOptions.Profile)

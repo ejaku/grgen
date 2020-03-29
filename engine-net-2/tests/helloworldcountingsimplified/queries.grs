@@ -1,0 +1,19 @@
+new graph helloworldcountingsimplified/queries
+
+eval [?loopingEdge].size()
+
+eval [?isolatedNode].size()
+
+eval [?cycle].size()
+
+exec init
+
+eval [?loopingEdge].size()
+
+eval [?isolatedNode].size()
+
+eval [?cycle].size()
+
+eval [?cycle\auto].size()
+
+quit
