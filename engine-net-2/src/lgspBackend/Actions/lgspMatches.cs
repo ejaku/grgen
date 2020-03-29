@@ -482,15 +482,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public T next;
 
+        public IMatch _matchOfEnclosingPattern;
+        public bool _flag;
+        public int _iterationNumber;
+
         ///////////////////////////////////////////////////////////////
 
         public abstract IPatternGraph Pattern { get; }
-        public abstract IMatch MatchOfEnclosingPattern { get; }
+        public IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
         public abstract IMatch Clone();
 
-        public abstract void Mark(bool flag);
-        public abstract bool IsMarked();
-        public abstract int IterationNumber { get; set; }
+        public void Mark(bool flag) { _flag = flag; }
+        public bool IsMarked() { return _flag; }
+        public int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }
 
         public abstract IEnumerable<INode> Nodes { get; }
         public abstract IEnumerator<INode> NodesEnumerator { get; }
@@ -548,6 +552,11 @@ namespace de.unika.ipd.grGen.lgsp
             if(edge != null)
                 return edge;
             return getVariable(name);
+        }
+
+        public override string ToString()
+        {
+            return "Match of " + Pattern.Name;
         }
     }
 

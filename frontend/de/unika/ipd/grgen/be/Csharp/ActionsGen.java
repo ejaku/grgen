@@ -4588,14 +4588,8 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tpublic bool IsNullMatch { get { return _isNullMatch; } }\n");
 			sb.append("\t\t\tpublic bool _isNullMatch;\n");
 		}
-		sb.append("\t\t\tpublic override GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }\n");
 		sb.append("\t\t\tpublic override GRGEN_LIBGR.IMatch Clone() { return new "+className+"(this); }\n");
-		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;\n");
 		sb.append("\t\t\tpublic void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
-		sb.append("\t\t\tpublic override string ToString() { return \"Match of \" + Pattern.Name; }\n");
-		sb.append("\t\t\tpublic bool _flag;\n");
-		sb.append("\t\t\tpublic override void Mark(bool flag) { _flag = flag; }\n");
-		sb.append("\t\t\tpublic override bool IsMarked() { return _flag; }\n");
 		sb.append("\t\t\tpublic "+className+" nextWithSameHash;\n");
 		sb.append("\t\t\tpublic void CleanNextWithSameHash() {\n");
 		sb.append("\t\t\t\t"+className+" cur = this;\n");
@@ -4607,8 +4601,6 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t}\n");
 		if(parallelized)
 			sb.append("\t\t\tpublic int duplicateMatchHash;\n");
-		sb.append("\t\t\tpublic int _iterationNumber;\n");
-		sb.append("\t\t\tpublic override int IterationNumber { get { return _iterationNumber; } set { _iterationNumber = value; } }\n");
 
 		sb.append("\n\t\t\tpublic void CopyMatchContent("+className +" that)\n");
 		sb.append("\t\t\t{\n");
