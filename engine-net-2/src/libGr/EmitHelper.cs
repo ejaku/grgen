@@ -484,6 +484,46 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>String representation of the scalar.</returns>
         private static string ToString(object value, AttributeType attrType, IGraph graph)
         {
+            if(value is IMatch)
+            {
+                IMatch match = (IMatch)value;
+                StringBuilder sb = new StringBuilder();
+                sb.Append("match<" + match.Pattern.PackagePrefixedName + ">{");
+                bool first = true;
+                foreach(IPatternNode patternNode in match.Pattern.Nodes)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(patternNode.UnprefixedName);
+                    sb.Append(":");
+                    sb.Append(EmitHelper.ToString(match.getNode(patternNode.UnprefixedName), attrType, graph));
+                }
+                foreach(IPatternEdge patternEdge in match.Pattern.Edges)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(patternEdge.UnprefixedName);
+                    sb.Append(":");
+                    sb.Append(EmitHelper.ToString(match.getEdge(patternEdge.UnprefixedName), attrType, graph));
+                }
+                foreach(IPatternVariable patternVar in match.Pattern.Variables)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(patternVar.UnprefixedName);
+                    sb.Append(":");
+                    sb.Append(EmitHelper.ToString(match.getVariable(patternVar.UnprefixedName), attrType, graph));
+                }
+                sb.Append("}");
+                return sb.ToString();
+            }
+
             // enums are bitches, sometimes ToString gives the symbolic name, sometimes only the integer value
             // we always want the symbolic name, enforce this here
             if(attrType!=null && attrType.Kind==AttributeKind.EnumAttr)
