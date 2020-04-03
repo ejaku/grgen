@@ -37,6 +37,7 @@ rule find
 	p2 --> m3;		
 	
 	modify {
+	---
         emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
 	}
 } \ auto
@@ -68,6 +69,7 @@ rule findHalfIndependent
 	}
 	
 	modify {
+	---
         emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
 	}
 } \ auto
@@ -101,6 +103,7 @@ rule findIndependent
 	}
 	
 	modify {
+	---
         emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
 	}
 } \ auto
@@ -132,6 +135,7 @@ rule findP[parallelize=2]
 	p2 --> m3;		
 	
 	modify {
+	---
         emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
 	}
 } \ auto
@@ -163,6 +167,7 @@ rule findHalfIndependentP[parallelize=2]
 	}
 	
 	modify {
+	---
         emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
 	}
 } \ auto
@@ -196,6 +201,7 @@ rule findIndependentP[parallelize=2]
 	}
 	
 	modify {
+	---
         emit("1 value of attribute 5 6 " + nameof(p1) + "_" + nameof(p2) + "\n");
 	}
 } \ auto

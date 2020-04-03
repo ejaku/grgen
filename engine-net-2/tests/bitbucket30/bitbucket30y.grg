@@ -9,6 +9,7 @@ rule init {
 }
 
 test yEmitSetAEdge {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -19,6 +20,7 @@ test yEmitSetAEdge {
 }
 
 test yEmitEdge {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -29,6 +31,7 @@ test yEmitEdge {
 }
 
 test yEmitEdgeFail {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -39,6 +42,7 @@ test yEmitEdgeFail {
 }
 
 test yEmitUEdge {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -49,6 +53,7 @@ test yEmitUEdge {
 }
 
 test yEmitUEdgeFail {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -59,6 +64,7 @@ test yEmitUEdgeFail {
 }
 
 test yEmitAEdge {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -69,6 +75,7 @@ test yEmitAEdge {
 }
 
 test yEmitAEdgeNoArgument {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -79,6 +86,7 @@ test yEmitAEdgeNoArgument {
 }
 
 test yEmitDirectedEdge {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -89,6 +97,7 @@ test yEmitDirectedEdge {
 }
 
 test yEmitDirectedEdgeFail {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -99,6 +108,7 @@ test yEmitDirectedEdgeFail {
 }
 
 test yEmitUndirectedEdge {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";
@@ -109,6 +119,7 @@ test yEmitUndirectedEdge {
 }
 
 test yEmitUndirectedEdgeFail {
+---
 	def var s:string;
 	yield {
 		yield s = "this is an effect causing the yield to get executed, emit is a debug-only feature!";

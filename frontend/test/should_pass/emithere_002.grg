@@ -5,12 +5,14 @@ rule emittli()
 	iterated it {
 		t:Node;
 		modify {
+		---
 			emithere(s);
 			emithere(t);
 		}
 	}
 
 	modify {
+	---
 		iterated it;
 		emithere(s);
 	}

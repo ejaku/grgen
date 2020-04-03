@@ -4,6 +4,7 @@ rule r1
 	if(inducedSubgraph(adjacent(n)) == definedSubgraph(incident(n)));
 
 	modify {
+	---
 		eval{ 
 			def var res:boolean = inducedSubgraph(adjacent(n)) == definedSubgraph(incident(n)); 
 		}
@@ -16,6 +17,7 @@ rule r2
 	if(inducedSubgraph(adjacent(n)) != definedSubgraph(incident(n)));
 
 	modify {
+	---
 		eval{ 
 			def var res:boolean = inducedSubgraph(adjacent(n)) != definedSubgraph(incident(n)); 
 		}
@@ -28,6 +30,7 @@ rule r3
 	if(inducedSubgraph(adjacent(n)) ~~ definedSubgraph(incident(n)));
 
 	modify {
+	---
 		eval{ 
 			def var res:boolean = inducedSubgraph(adjacent(n)) ~~ definedSubgraph(incident(n)); 
 		}

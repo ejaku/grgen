@@ -3,7 +3,7 @@
 rule sortReverseInt(ref a:array<int>) {
 	if {
 		a.orderAscending() == a.reverse();
-	}		
+	}
 	
 	modify {
 		eval {
@@ -19,7 +19,7 @@ rule sortReverseByInt(ref a:array<N>) {
 		a.indexOfOrderedBy<i>(42) == a.indexOfOrderedBy<i>(42);
 		a.indexOfBy<i>(42) == a.indexOfBy<i>(42, 0);
 		a.lastIndexOfBy<i>(42) == a.lastIndexOfBy<i>(42, 0);
-	}		
+	}
 	
 	modify {
 		eval {
@@ -35,7 +35,7 @@ rule sortReverseByInt(ref a:array<N>) {
 rule sortReverseString(ref a:array<string>) {
 	if {
 		a.orderAscending() == a.reverse();
-	}		
+	}
 	
 	modify {
 		eval {
@@ -51,7 +51,7 @@ rule sortReverseByString(ref a:array<N>) {
 		a.indexOfOrderedBy<s>("42") == a.indexOfOrderedBy<s>("42");
 		a.indexOfBy<s>("42") == a.indexOfBy<s>("42", 0);
 		a.lastIndexOfBy<s>("42") == a.lastIndexOfBy<s>("42", 0);
-	}		
+	}
 	
 	modify {
 		eval {
@@ -67,7 +67,7 @@ rule sortReverseByString(ref a:array<N>) {
 rule sortReverseDouble(ref a:array<double>) {
 	if {
 		a.orderAscending() == a.reverse();
-	}		
+	}
 	
 	modify {
 		eval {
@@ -83,7 +83,7 @@ rule sortReverseByDouble(ref a:array<N>) {
 		a.indexOfOrderedBy<d>(42.0) == a.indexOfOrderedBy<d>(42.0);
 		a.indexOfBy<d>(42.0) == a.indexOfBy<d>(42.0, 0);
 		a.lastIndexOfBy<d>(42.0) == a.lastIndexOfBy<d>(42.0, 0);
-	}		
+	}	
 	
 	modify {
 		eval {
@@ -99,7 +99,7 @@ rule sortReverseByDouble(ref a:array<N>) {
 rule sortReverseET(ref a:array<ET>) {
 	if {
 		a.orderAscending() == a.reverse();
-	}		
+	}
 	
 	modify {
 		eval {
@@ -115,7 +115,7 @@ rule sortReverseByET(ref a:array<N>) {
 		a.indexOfOrderedBy<e>(ET::bar) == a.indexOfOrderedBy<e>(ET::bar);
 		a.indexOfBy<e>(ET::bar) == a.indexOfBy<e>(ET::bar, 0);
 		a.lastIndexOfBy<e>(ET::bar) == a.lastIndexOfBy<e>(ET::bar, 0);
-	}		
+	}
 	
 	modify {
 		eval {

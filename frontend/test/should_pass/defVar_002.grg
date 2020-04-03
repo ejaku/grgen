@@ -13,6 +13,7 @@ rule r
 	-esh:ESHORT->;
 
 	modify {
+	---
 		def var ai:int = 42;
 		def var al:long = 42l;
 		def var ab:boolean = true;
@@ -74,6 +75,7 @@ pattern p
 	-esh:ESHORT->;
 
 	modify {
+	---
 		def var ai:int = 42;
 		def var al:long = 42l;
 		def var ab:boolean = true;
@@ -138,6 +140,7 @@ rule ra
 			-esh:ESHORT->;
 
 			modify {
+			---
 				def var ai:int = 42;
 				def var al:long = 42l;
 				def var ab:boolean = true;
@@ -208,6 +211,7 @@ rule ran
 		case_ {
 
 			modify {
+			---
 				evalhere {
 					ni.a = ai;
 					nl.a = al;
@@ -248,6 +252,7 @@ rule ran
 	}
 
 	modify {
+	---
 		def var ai:int = 42;
 		def var al:long = 42l;
 		def var ab:boolean = true;
@@ -275,6 +280,7 @@ pattern pa
 		-esh:ESHORT->;
 
 		modify {
+		---
 			def var ai:int = 42;
 			def var al:long = 42l;
 			def var ab:boolean = true;
@@ -344,6 +350,7 @@ pattern pan
 		.;
 
 		modify {
+		---
 			evalhere {
 				ni.a = ai;
 				nl.a = al;
@@ -383,6 +390,7 @@ pattern pan
 	}
 
 	modify {
+	---
 		def var ai:int = 42;
 		def var al:long = 42l;
 		def var ab:boolean = true;

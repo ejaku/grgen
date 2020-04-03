@@ -10,6 +10,7 @@ rule r(var x:int, y:Node)
   modify {
     c:Node;
     d:AB;
+  ---
 	def var z:int = 0;
 
     exec( s1:set<int>=set<int>{} ;> s2:set<int>=set<int>{0,1,2} ); 

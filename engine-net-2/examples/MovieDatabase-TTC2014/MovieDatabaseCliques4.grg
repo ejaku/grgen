@@ -14,7 +14,7 @@ rule findCliquesOf4
 		c -:persons-> pn2;
 		c -:persons-> pn3;
 		c -:persons-> pn4;
-
+	---
 		exec(addCommonMoviesAndComputeAverageRankingOfClique4(c, pn1, pn2, pn3, pn4));
 	}
 } \ auto
@@ -29,11 +29,13 @@ rule addCommonMoviesAndComputeAverageRankingOfClique4(c:Clique, pn1:Person, pn2:
 		
 		modify {
 			c -:commonMovies-> m;
+		---
 			eval { yield sum = sum + m.rating; }
 		}
 	}	
 	
 	modify {
+	---
 		def var sum:double = 0.0;
 		eval { c.avgRating = sum / count(it); }
 	}
@@ -62,7 +64,7 @@ rule findCliquesOf4Opt[parallelize=16]
 		c -:persons-> pn2;
 		c -:persons-> pn3;
 		c -:persons-> pn4;
-
+	---
 		exec([addCommonMoviesOf4(c, pn1, pn2, pn3, pn4)]);
 	}
 }
@@ -87,7 +89,7 @@ rule cliques4WithRating
 	c -:persons-> pn3:Person;
 	c -:persons-> pn4:Person;
 	if{ uniqueof(pn1) < uniqueof(pn2) && uniqueof(pn2) < uniqueof(pn3) && uniqueof(pn3) < uniqueof(pn4); }
-
+---
 	def var avgRating:double;
 	def var numMovies:int;
 	yield {
@@ -96,6 +98,7 @@ rule cliques4WithRating
 	}
 	
 	modify {
+	---
 		emit("avgRating: " + avgRating + " numMovies: " + numMovies + " by " + pn1.name + " and " + pn2.name + " and " + pn3.name + " and " + pn4.name + "\n");
 	}
 } \ orderDescendingBy<avgRating>, orderDescendingBy<numMovies>

@@ -20,6 +20,7 @@ rule filter_(var visID:int, var counter:int):(int) {
 		eval {
 			type.visited[visID] = true;
 		}
+	---
 		emit("\t<View:Class xmi:id=\"a" + counter + "\" name=\"" + name._identifier + "\"/>\n");
 
 		return (counter + 1);
@@ -28,12 +29,14 @@ rule filter_(var visID:int, var counter:int):(int) {
 
 rule xmlPrefix {
 	modify {
+	---
 		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xmi:XMI xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:View=\"org.amma.viewQ1\">\n");
 	}
 }
 
 rule xmlSuffix {
 	modify {
+	---
 		emit("</xmi:XMI>\n");
 	}
 }

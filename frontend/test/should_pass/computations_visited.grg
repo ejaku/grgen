@@ -20,6 +20,7 @@ rule r() : (int)
 	n:Node;
 	
 	modify {
+	---
 		def var res:int;
 		
 		eval { 

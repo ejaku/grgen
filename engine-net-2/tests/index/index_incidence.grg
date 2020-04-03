@@ -4,6 +4,7 @@ rule rfoo {
 	n:Node{descending(foo)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -12,6 +13,7 @@ rule rbar {
 	n:Node{descending(bar)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -20,6 +22,7 @@ rule rbaz {
 	n:Node{descending(baz)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -28,6 +31,7 @@ rule rqux {
 	n:N{descending(qux)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -36,6 +40,7 @@ rule rpix {
 	n:N{descending(pix)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -44,6 +49,7 @@ rule rxom {
 	n:N{descending(xom)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -53,6 +59,7 @@ rule sfoo {
 	n:N{foo==2};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -61,6 +68,7 @@ rule sbar {
 	n:N{bar==2};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -69,6 +77,7 @@ rule sbaz {
 	n:N{baz==2};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -77,6 +86,7 @@ rule squx {
 	n:Node{qux==2};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -85,6 +95,7 @@ rule spix {
 	n:Node{pix==2};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -93,6 +104,7 @@ rule sxom {
 	n:Node{xom==2};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -104,6 +116,7 @@ rule tfoo {
 	n:Node{ascending(foo>m.i, foo<=2)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -114,6 +127,7 @@ rule tbar {
 	n:Node{ascending(bar>m.i, bar<=2)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -124,6 +138,7 @@ rule tbaz {
 	n:Node{ascending(baz>m.i, baz<=2)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -134,6 +149,7 @@ rule tqux {
 	n:N{ascending(qux>m.i, qux<=2)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -144,6 +160,7 @@ rule tpix {
 	n:N{ascending(pix>m.i, pix<=2)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
@@ -154,17 +171,20 @@ rule txom {
 	n:N{ascending(xom>m.i, xom<=2)};
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 	}
 }
 
 rule fooincidencecount(n:Node, m:N) : (int,int,int,int) {
+---
 	def var i1a:int;
 	def var i1b:int;
 	yield { yield i1a = foo[n]; }
 	yield { yield i1b = qux[m]; }
 
 	modify {
+	---
 		def var i2a:int;
 		def var i2b:int;
 		eval {

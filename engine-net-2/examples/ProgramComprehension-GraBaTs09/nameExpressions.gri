@@ -1,5 +1,6 @@
 rule CFG_name_expressions {
 	modify {
+	---
 		exec((CFG_name_SimpleName || CFG_name_NumberLiteral ||
 		      CFG_name_PrefixExpression || CFG_name_PostfixExpression ||
 		      CFG_name_MethodInvocation ||

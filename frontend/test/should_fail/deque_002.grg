@@ -5,7 +5,7 @@ rule assignWrongType {
 
 	modify {
 		eval {
-			a.intDeque = a.intDeque + deque<int>] a.stringValue [;
+			a.intDeque = a.intDeque + deque<int>[ a.stringValue ];
 		}
 	}
 }

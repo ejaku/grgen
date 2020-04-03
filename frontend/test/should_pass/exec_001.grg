@@ -7,6 +7,7 @@ rule r(y : Acc) {
   n : Node;
   modify{
     c : AcccAccAcA<b>;
+  ---
     exec(r(c)); // subtype as param
     exec(r(y)); // exact type as param
   }

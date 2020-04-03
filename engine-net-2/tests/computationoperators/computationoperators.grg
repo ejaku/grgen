@@ -14,6 +14,7 @@ test False
 rule then
 {
 	modify {
+	---
 		exec(r:boolean=({{true} ; {true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true} ; {false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{false} ; {true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -24,6 +25,7 @@ rule then
 rule lazyor
 {
 	modify {
+	---
 		exec(r:boolean=({{true || true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true || false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{false || true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -34,6 +36,7 @@ rule lazyor
 rule lazyand
 {
 	modify {
+	---
 		exec(r:boolean=({{true && true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true && false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{false && true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -44,6 +47,7 @@ rule lazyand
 rule strictor
 {
 	modify {
+	---
 		exec(r:boolean=({{true | true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true | false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{false | true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -54,6 +58,7 @@ rule strictor
 rule strictand
 {
 	modify {
+	---
 		exec(r:boolean=({{true & true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true & false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{false & true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -64,6 +69,7 @@ rule strictand
 rule strictxor
 {
 	modify {
+	---
 		exec(r:boolean=({{true ^ true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true ^ false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{false ^ true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -74,6 +80,7 @@ rule strictxor
 rule neg
 {
 	modify {
+	---
 		exec(r:boolean=({{!true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{!false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
@@ -82,6 +89,7 @@ rule neg
 rule conditional
 {
 	modify {
+	---
 		exec(r:boolean=({{true ? true : true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true ? true : false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true ? false : true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -96,6 +104,7 @@ rule conditional
 rule assignment
 {
 	modify {
+	---
 		exec(({::r=::s=::t=42}) && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")}
 								  && {emit("The value of variable s of type bool is: ")} && {emit(::s)} && {emit("\n")}
 								  && {emit("The value of variable t of type bool is: ")} && {emit(::t)} && {emit("\n")});
@@ -105,6 +114,7 @@ rule assignment
 rule variables
 {
 	modify {
+	---
 		exec(::r=42 ;> r:int=1337 ;> {emit("1 value of attribute 5 6 ")} ;> {emit(::r)} ;> {emit("\n")}
 								  ;> {emit("1 value of attribute 5 6 ")} ;> {emit(r)} ;> {emit("\n")});
 	}
@@ -113,6 +123,7 @@ rule variables
 rule variabledeclaration
 {
 	modify {
+	---
 		exec({r:int; emit("1 value of attribute 5 6 "); emit(r); emit("\n");
 				r=1337; emit("1 value of attribute 5 6 "); emit(r); emit("\n")});
 	}
@@ -121,6 +132,7 @@ rule variabledeclaration
 rule methodcall
 {
 	modify {
+	---
 		exec(::r=set<int>{} ;> ::s=({::r.add(1); ::r.add(2); ::r.add(3); ::r.rem(3); {::r.empty()}})
 				;> {emit("The value of variable r of type bool is: ")} ;> {emit(::r)} ;> {emit("\n")}
 				;> {emit("The value of variable s of type bool is: ")} ;> {emit(::s)} ;> {emit("\n")});
@@ -130,6 +142,7 @@ rule methodcall
 rule equal
 {
 	modify {
+	---
 		exec(r:boolean=({{true == true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true == false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{false == true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -206,6 +219,7 @@ rule equal
 rule notequal
 {
 	modify {
+	---
 		exec(r:boolean=({{true != true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{true != false}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{false != true}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -282,6 +296,7 @@ rule notequal
 rule greater
 {
 	modify {
+	---
 		exec(r:boolean=({{Foo::Bar > Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{Foo::Bar > Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{Foo::Bla > Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -346,6 +361,7 @@ rule greater
 rule lower
 {
 	modify {
+	---
 		exec(r:boolean=({{Foo::Bar < Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{Foo::Bar < Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{Foo::Bla < Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -410,6 +426,7 @@ rule lower
 rule greaterequal
 {
 	modify {
+	---
 		exec(r:boolean=({{Foo::Bar >= Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{Foo::Bar >= Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{Foo::Bla >= Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -474,6 +491,7 @@ rule greaterequal
 rule lowerequal
 {
 	modify {
+	---
 		exec(r:boolean=({{Foo::Bar <= Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{Foo::Bar <= Foo::Bla}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=({{Foo::Bla <= Foo::Bar}}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -538,6 +556,7 @@ rule lowerequal
 rule plus
 {
 	modify {
+	---
 		exec({::r="a" + "a"} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r="a" + "b"} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r="b" + "a"} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
@@ -595,6 +614,7 @@ rule plus
 rule minus
 {
 	modify {
+	---
 		exec({::r=Foo::Bar - Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=Foo::Bar - Foo::Bla} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=Foo::Bla - Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
@@ -635,6 +655,7 @@ rule minus
 rule mul
 {
 	modify {
+	---
 		exec({::r=Foo::Blubb * Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=Foo::Bar * Foo::Bla} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=Foo::Bla * Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
@@ -675,6 +696,7 @@ rule mul
 rule div
 {
 	modify {
+	---
 		exec({::r=Foo::Blubb / Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=Foo::Bar / Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=Foo::Bla / Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
@@ -715,6 +737,7 @@ rule div
 rule mod
 {
 	modify {
+	---
 		exec({::r=Foo::Blubb % Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=Foo::Bar % Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});
 		exec({::r=Foo::Bla % Foo::Bar} && {emit("The value of variable r of type bool is: ")} && {emit(::r)} && {emit("\n")});

@@ -6,6 +6,7 @@ match class mc
 
 rule r implements mc
 {
+---
 	def var i:int;
 	def var j:int;
 	

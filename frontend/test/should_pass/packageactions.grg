@@ -7,6 +7,7 @@ package Foo
 		modify {
 			delete(e);
 			x -i:Edge-> y:Node;
+		---
 			eval{ add(Node); }
 			eval{ proc(func() && func2()); }
 
@@ -28,6 +29,7 @@ package Foo
 			delete(e);
 			x -i:Edge-> y:Node;
 			p();
+		---
 			eval{ add(Node); }
 			eval{ proc(func() && func2()); }
 
@@ -62,6 +64,7 @@ package Bar
 		modify {
 			delete(e);
 			x -i:Edge-> y:Node;
+		---
 			eval{ add(Node); }
 			eval{ proc(func() && func2()); }
 
@@ -83,6 +86,7 @@ package Bar
 			delete(e);
 			x -i:Edge-> y:Node;
 			p();
+		---
 			eval{ add(Node); }
 			eval{ proc(func() && func2()); }
 
@@ -115,6 +119,7 @@ pattern P2 {
 	modify {
 		delete(e);
 		x -i:Edge-> y:Node;
+	---
 		eval{ add(Node); }
 		eval{ Foo::proc(Bar::func()); }
 		eval{ Bar::proc(Foo::func()); }
@@ -134,11 +139,12 @@ rule r2 {
 	modify {
 		delete(e);
 		x -i:Edge-> y:Node;
-		eval{ add(Node); }
-		eval{ Foo::proc(Bar::func()); Bar::proc(Foo::func()); proc2(func2()); }
 		p1();
 		p2();
 		p();
+	---
+		eval{ add(Node); }
+		eval{ Foo::proc(Bar::func()); Bar::proc(Foo::func()); proc2(func2()); }
 		
 		exec(Foo::t()\auto || Foo::r()\Foo::f ;> Bar::t()\auto || Bar::r()\Bar::f ;> { Foo::proc(true); Bar::proc(true); proc2(true); { Foo::func() || Bar::func() || func2() } } ;> Foo::s ;> Bar::s ;> r2\auto ;> s2);
 	}

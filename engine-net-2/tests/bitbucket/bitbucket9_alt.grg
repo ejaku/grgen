@@ -9,8 +9,9 @@ rule DeleteRule {
 	alternative {
 		one {
 			modify{
-				emithere("1 value of attribute found node " + nameof(n) +"\n");
 				delete(n);
+			---
+				emithere("1 value of attribute found node " + nameof(n) +"\n");
 			}
 		}
 	}

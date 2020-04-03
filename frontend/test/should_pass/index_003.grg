@@ -194,6 +194,7 @@ rule indexaccess {
 	if{baz5[n]==42;}
 	
 	modify {
+	---
 		def var i:int;
 		eval {
 			yield i = foo[n];

@@ -1,6 +1,7 @@
 rule r : (int)
 {
 	modify {
+	---
 		def var res:int;
 		eval {
 			(yield res) = number(3);
@@ -31,8 +32,9 @@ rule foo : (int)
 {
 	start:Node --> . --> . --> start;
 	modify {
-		def var res:int;
 		start --> .;
+	---
+		def var res:int;
 		exec( (tmp:int) = bar ;> yield res = tmp );
 		return(4*res);
 	}
@@ -43,6 +45,7 @@ rule bar : (int)
 	.;
 	
 	modify {
+	---
 		def var res:int;
 		exec( { (tmp:int) = baz(); yield res = tmp; } );
 		return (res);

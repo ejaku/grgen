@@ -7,6 +7,7 @@ rule r
 	if{ array<A>[a,b,c].extract<intValue>().sum() > n.nArray.extract<val>().sum(); }
 	
 	modify {
+	---
 		eval {
 			def var avg:double = array<A>[a,b,c].extract<intValue>().avg();
 			def var med:double = n.nArray.extract<val>().medUnsorted();

@@ -22,6 +22,7 @@ rule ggraph : (N,N,N,N)
 	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
 
 	modify {
+	---
 		exec( { emit("1 value of attribute 5 6 " + (copy(inducedSubgraph(set<Node>{a,b,c,d}))~~inducedSubgraph(set<Node>{a,b,c,d})) + "\n") } );
 		exec( { ::x = inducedSubgraph(set<Node>{a,b,c,d}) } );
 		exec( { emit("1 value of attribute 5 6 " + (copy(::x)~~inducedSubgraph(set<Node>{a,b,c,d})) + "\n") } );
@@ -38,6 +39,7 @@ test testmatch
 rule mmatch
 {
 	modify {
+	---
 		exec( mm:match<testmatch> ;> for{ m:match<testmatch> in [?testmatch]; { mm = copy(m); } } ;> {
 			emit("1 value of attribute 5 6 "); emit(mm.a); emit("\n");
 			emit("1 value of attribute 5 6 "); emit(mm.b); emit("\n");
@@ -59,6 +61,7 @@ rule mmap : (N,N,N,N)
 	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
 	
 	modify {
+	---
 		exec ( container:map<N, int> = map<N, int>{a->a.a,b->b.a,c->c.a,d->d.a}
 			;> ccontainer:map<N, int> ;> { ccontainer = copy(container) }
 			;> { emit("1 value of attribute 5 6 " + container + "\n");
@@ -85,6 +88,7 @@ rule sset : (N,N,N,N)
 	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
 	
 	modify {
+	---
 		exec ( container:set<N> = set<N>{a,b,c,d}
 			;> ccontainer:set<N> ;> { ccontainer = copy(container) }
 			;> { emit("1 value of attribute 5 6 " + container + "\n");
@@ -111,6 +115,7 @@ rule aarray : (N,N,N,N)
 	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
 	
 	modify {
+	---
 		exec ( container:array<N> = array<N>[a,b,c,d]
 			;> ccontainer:array<N> ;> { ccontainer = copy(container) }
 			;> { emit("1 value of attribute 5 6 " + container + "\n");
@@ -137,6 +142,7 @@ rule ddeque : (N,N,N,N)
 	if{ a.a==0 && b.a==1 && c.a==2 && d.a==3; }
 	
 	modify {
+	---
 		exec ( container:deque<N> = deque<N>[a,b,c,d]
 			;> ccontainer:deque<N> ;> { ccontainer = copy(container) }
 			;> { emit("1 value of attribute 5 6 " + container + "\n");

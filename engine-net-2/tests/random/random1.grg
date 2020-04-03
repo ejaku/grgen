@@ -49,6 +49,7 @@ rule randomiexec
 	a:A;
 	
 	modify {
+	---
 		exec( ::x = $(42) ;> {a.i = ::x;} );
 	}
 }
@@ -58,6 +59,7 @@ rule randomdexec
 	a:A;
 	
 	modify {
+	---
 		exec( ::x = $(1.0) ;> {a.d = ::x;} );
 	}
 }
@@ -67,6 +69,7 @@ rule randomiexec2
 	a:A;
 	
 	modify {
+	---
 		exec( { ::x = random(42); a.i = ::x; } );
 	}
 }
@@ -76,6 +79,7 @@ rule randomdexec2
 	a:A;
 	
 	modify {
+	---
 		exec( { x:double = random(); a.d = x; } );
 	}
 }

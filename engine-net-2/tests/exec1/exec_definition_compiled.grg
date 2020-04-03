@@ -49,6 +49,7 @@ test testReflexive
 rule topLevel(start:A) : (A)
 {
 	modify {
+	---
 		def lst:A;
 		exec((::last)=chain(start) ;> yield lst=::last);
 		return(lst);

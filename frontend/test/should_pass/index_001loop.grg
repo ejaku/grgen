@@ -2,6 +2,7 @@
 
 test t(x:N, var i:int)
 {
+---
 	def ref res:set<Node> = set<Node>{};
 	def ref resi:set<Edge> = set<Edge>{};
 	yield
@@ -36,6 +37,7 @@ test t(x:N, var i:int)
 rule r(x:N, var i:int)
 {
 	modify {
+	---
 		def ref res:set<Node> = set<Node>{};
 		def ref resi:set<Edge> = set<Edge>{};
 		eval

@@ -5,7 +5,7 @@ rule constAssignment {
 
 	modify {
 		eval {
-			a.constStringDeque = a.constStringDeque + deque<string>] "bla" [;
+			a.constStringDeque = a.constStringDeque + deque<string>[ "bla" ];
 		}
 	}
 }

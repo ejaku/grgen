@@ -1,5 +1,6 @@
 test t(ref a:array<int>) : (int)
 {
+---
 	def var res:int = 0;
 	
 	yield {
@@ -24,6 +25,7 @@ test t(ref a:array<int>) : (int)
 rule r(ref a:array<int>) : (int)
 {	
 	modify {
+	---
 		def var res:int = 0;
 		
 		eval { 

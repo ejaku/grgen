@@ -15,14 +15,15 @@ function foo() : int
 }
 
 test t : (int)
-{
-	def var res:int = 42;
-	
+{	
 	independent {
+	---
 		yield {
 			yield res = loopdown(res);
 		}
 	}
+---
+	def var res:int = 42;
 	
 	return (res);
 }
@@ -30,6 +31,7 @@ test t : (int)
 rule r : (int)
 {	
 	modify {
+	---
 		def var res:int = 42;
 		
 		eval { 

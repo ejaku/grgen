@@ -2,14 +2,16 @@ using defYield;
 
 test t
 {
-	def x:Node;
-	pp:p(yield x);
+	pp:p(--- yield x);
 	if { outgoing(x).size()>=1 || typeof(x)>Node || set<Node>{ x,x }.size()<=1; }
+---
+	def x:Node;
 }
 
-pattern p(def x:Node)
+pattern p(--- def x:Node)
 {
 	y:Node;
+---
 	yield { yield x = y; }
 }
 

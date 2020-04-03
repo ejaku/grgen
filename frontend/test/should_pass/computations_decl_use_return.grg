@@ -18,14 +18,15 @@ function three(var v:int) : int
 }
 
 test t : (int)
-{
-	def var res:int;
-	
+{	
 	independent {
+	---
 		yield {
 			yield res = one() + two();
 		}
 	}
+---
+	def var res:int;
 	
 	return (res);
 }
@@ -33,6 +34,7 @@ test t : (int)
 rule r : (int)
 {	
 	modify {
+	---
 		def var res:int;
 		
 		eval { 

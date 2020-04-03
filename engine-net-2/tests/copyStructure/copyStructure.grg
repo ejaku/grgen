@@ -23,6 +23,7 @@ pattern CopySubgraph(root:Node, ref oldToNew:map<Node, Node>)
   modify {
     newroot:copy<root>;
     eval { oldToNew.add(root, newroot); }
+  ---
     exec( [CopyOutgoingEdge(root, oldToNew)] );
   }
 }

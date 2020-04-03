@@ -4,6 +4,7 @@ rule r1(x:A) {
   y:A;
   replace {
     y;
+  ---
     exec(r1(y));
   }
 }

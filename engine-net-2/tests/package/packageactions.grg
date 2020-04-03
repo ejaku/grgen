@@ -99,6 +99,7 @@ pattern P2 {
 
 	modify {
 		delete(e);
+	---
 		eval{ FOO::proc(BAR::func()); }
 		eval{ BAR::proc(FOO::func()); }
 	}
@@ -118,6 +119,7 @@ rule r3 {
 	if{ FOO::func() && BAR::func(); }
 	
 	modify {
+	---
 		eval{ FOO::proc(BAR::func()); BAR::proc(FOO::func()); proc2(func2()); }
 		
 		exec(FOO::t()\auto && FOO::r()\FOO::f ;> BAR::t()\auto && BAR::r()\BAR::f ;> { FOO::proc(true); BAR::proc(true); proc2(true); { FOO::func() || BAR::func() || func2() } });
@@ -126,6 +128,7 @@ rule r3 {
 
 pattern P3 {
 	modify {
+	---
 		exec(FOO::t()\auto && FOO::r()\FOO::f ;> BAR::t()\auto && BAR::r()\BAR::f ;> { FOO::proc(true); BAR::proc(true); proc2(true); { FOO::func() || BAR::func() || func2() } });			
 	}
 }

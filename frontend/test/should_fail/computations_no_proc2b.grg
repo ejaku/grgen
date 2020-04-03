@@ -1,6 +1,7 @@
 test bar()
 {
 	optional {
+	---
 		yield {
 			add(Node);
 		}

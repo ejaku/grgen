@@ -11,6 +11,7 @@ test tstringint(var s:string, var i:int) : (string)
 rule rdoublefloat(var d:double, var f:float) : (double)
 {
     modify {
+	---
         return (d + 2 * f);
         emit("Double: " + d + " Float: " + f + "\n");
     }
@@ -19,6 +20,7 @@ rule rdoublefloat(var d:double, var f:float) : (double)
 rule print(var s:string)
 {
     modify {
+	---
         emit(s);
     }
 }
@@ -26,6 +28,7 @@ rule print(var s:string)
 rule callexec
 {
     modify {
+	---
         exec(tint(999991) && (i:int)=tint(-90) && (s:string)=tstringint("test", i) && print(s));
         exec((d:double)=rdoublefloat(-3.94955, 2.111f) && rdoublefloat(d, -2.0f));
     }

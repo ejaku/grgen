@@ -19,6 +19,7 @@ rule r(y : Acc) {
   b : B;
   n : Node;
   modify{
+  ---
     exec(<<r(y) ; s(a,b)&&(m:Node)=t(n)&&t(m) >>);
     exec(<s(a,b)&&(m:Node)=t(n)&&t(m)>);
   }

@@ -1,8 +1,8 @@
 rule filterBase
 {
-	def var i:int;
-
 	n:Node;
+---
+	def var i:int;
 
 	yield {
 		yield i = incident(n).size();
@@ -14,10 +14,10 @@ rule filterBase
 
 rule filterBass
 {
+	n:Node --> n;
+---
 	def var d:double;
 	
-	n:Node --> n;
-
 	yield {
 		yield d = incident(n).size() * 3.141592654;
 	}
@@ -28,9 +28,9 @@ rule filterBass
 
 test filterHass(n:Node):(Edge)
 {
-	def var s:string;
-
 	n -e:Edge-> n;
+---
+	def var s:string;
 	
 	yield {
 		yield s = incident(n).size() > 1 ? "foo" : "fool";
@@ -51,10 +51,12 @@ rule init : (Node)
 rule r
 {
 	n:Node -e:Edge-> n;
+---
 	def var x:int = 42;
 
 	modify {
 		m:Node;
+	---
 		def var y:double = 42.0;
 
 		exec(z:int=0

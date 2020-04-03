@@ -13,6 +13,7 @@ rule r : (A, B)
 	n:Node;
 
 	modify {
+	---
 		def u:A;
 		def v:B;
 		exec( (::a,::b)=st(n) & yield u=::a & yield v=::b );

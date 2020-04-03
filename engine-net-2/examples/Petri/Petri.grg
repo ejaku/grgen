@@ -18,6 +18,7 @@ rule fireRule
 	}
 
 	modify {
+	---
 		exec( [emitTokens(t)] && [consumeTokens(t)] );
 	}
 }
@@ -36,6 +37,7 @@ rule consumeTokens(t:Transition)
 	t <-o:outArc- p:Place;
 
 	modify {
+	---
 		exec(deleteToken(p));
 	}
 }

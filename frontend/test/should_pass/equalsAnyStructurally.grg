@@ -5,6 +5,7 @@ rule r(ref s:set<graph>)
 	if{ equalsAnyStructurally(this, s); }
 	
 	modify {
+	---
 		def var res:boolean;
 		def var g:graph;
 		eval {
@@ -23,6 +24,7 @@ rule rp[parallelize=2](ref s:set<graph>)
 	if{ equalsAnyStructurally(this, s); }
 	
 	modify {
+	---
 		def var res:boolean;
 		def var g:graph;
 		eval {

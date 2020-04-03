@@ -2,7 +2,8 @@ using exectype;
 
 rule r
 {
-	modify  {
+	modify {
+	---
 		exec(x:foo=foo::Gnampf); // Gnampf is not a value of enum foo
 	}
 }

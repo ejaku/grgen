@@ -8,7 +8,8 @@ rule DeleteRule {
 	alternative {
 		one {
 			n:Node;
-			modify{
+			modify {
+			---
 				emithere("1 value of attribute found node " + nameof(n) +"\n");
 			}
 		}

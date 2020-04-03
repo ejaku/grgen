@@ -13,6 +13,7 @@ rule s : (A, B)
 rule r : (A, B)
 {
 	modify {
+	---
 		def u:A;
 		def v:B;
 		exec ( (::a,::b)=s & yield u=::a & yield v=::b);

@@ -30,6 +30,7 @@ rule retypeAgain
 rule execBacktrackFail
 {
 	modify {
+	---
 		exec(<<find ;; false>>);
 	}
 }
@@ -37,6 +38,7 @@ rule execBacktrackFail
 rule execBacktrack
 {
 	modify {
+	---
 		exec(<<(n:Node)=find ;; reflexive(n)>>);
 	}
 }

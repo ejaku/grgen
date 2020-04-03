@@ -59,7 +59,7 @@ test matchFooBar(fooX:Foo::N, -fooE:Foo::E->, var fooLal:Foo::Lal, barX:Bar::N, 
 	if {
 		fooLal == fooE.lal && barLal == barE.lal;
 	}
-	
+---	
 	def ref no:set<Node> = set<Node>{};
 	def ref ed:set<Edge> = set<Edge>{};
 	yield {

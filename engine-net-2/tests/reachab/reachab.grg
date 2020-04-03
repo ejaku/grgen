@@ -1,5 +1,6 @@
 rule reachabOutgoingPure(start:Node) : (set<Node>)
 {
+---
 	def ref res:set<Node> = reachableOutgoing(start);
 	modify {
 		return(res);
@@ -8,6 +9,7 @@ rule reachabOutgoingPure(start:Node) : (set<Node>)
 
 rule reachabOutgoingAdj(start:Node) : (set<Node>)
 {
+---
 	def ref res:set<Node> = adjacentOutgoing(start);
 	modify {
 		return(res);
@@ -18,6 +20,7 @@ rule reachabOutgoingAdj(start:Node) : (set<Node>)
 
 rule reachabOutgoing(start:Node, var k:int) : (set<Node>)
 {
+---
 	def ref res:set<Node> = boundedReachableOutgoing(start, k);
 	modify {
 		return(res);
@@ -26,6 +29,7 @@ rule reachabOutgoing(start:Node, var k:int) : (set<Node>)
 
 rule reachabIncoming(start:Node, var k:int) : (set<Node>)
 {
+---
 	def ref res:set<Node> = boundedReachableIncoming(start, k);
 	modify {
 		return(res);
@@ -34,6 +38,7 @@ rule reachabIncoming(start:Node, var k:int) : (set<Node>)
 
 rule reachab(start:Node, var k:int) : (set<Node>)
 {
+---
 	def ref res:set<Node> = boundedReachable(start, k);
 	modify {
 		return(res);
@@ -42,6 +47,7 @@ rule reachab(start:Node, var k:int) : (set<Node>)
 
 rule reachabEdgesOutgoing(start:Node, var k:int) : (set<Edge>)
 {
+---
 	def ref res:set<Edge> = boundedReachableEdgesOutgoing(start, k, Edge);
 	modify {
 		return(res);
@@ -50,6 +56,7 @@ rule reachabEdgesOutgoing(start:Node, var k:int) : (set<Edge>)
 
 rule reachabEdgesIncoming(start:Node, var k:int) : (set<Edge>)
 {
+---
 	def ref res:set<Edge> = boundedReachableEdgesIncoming(start, k, Edge);
 	modify {
 		return(res);
@@ -58,6 +65,7 @@ rule reachabEdgesIncoming(start:Node, var k:int) : (set<Edge>)
 
 rule reachabEdges(start:Node, var k:int) : (set<Edge>)
 {
+---
 	def ref res:set<Edge> = boundedReachableEdges(start, k, Edge);
 	modify {
 		return(res);
@@ -69,6 +77,7 @@ rule reachabEdges(start:Node, var k:int) : (set<Edge>)
 rule reachabOutgoingLoop(start:Node, var k:int) : (set<Node>)
 {
 	modify {
+	---
 		def ref res:set<Node> = set<Node>{};
 		eval {
 			for(n:Node in boundedReachableOutgoing(start, k)) {
@@ -82,6 +91,7 @@ rule reachabOutgoingLoop(start:Node, var k:int) : (set<Node>)
 rule reachabIncomingLoop(start:Node, var k:int) : (set<Node>)
 {
 	modify {
+	---
 		def ref res:set<Node> = set<Node>{};
 		eval {
 			for(n:Node in boundedReachableIncoming(start, k)) {
@@ -95,6 +105,7 @@ rule reachabIncomingLoop(start:Node, var k:int) : (set<Node>)
 rule reachabLoop(start:Node, var k:int) : (set<Node>)
 {
 	modify {
+	---
 		def ref res:set<Node> = set<Node>{};
 		eval {
 			for(n:Node in boundedReachable(start, k)) {
@@ -108,6 +119,7 @@ rule reachabLoop(start:Node, var k:int) : (set<Node>)
 rule reachabEdgesOutgoingLoop(start:Node, var k:int) : (set<Edge>)
 {
 	modify {
+	---
 		def ref res:set<Edge> = set<Edge>{};
 		eval {
 			for(e:Edge in boundedReachableEdgesOutgoing(start, k)) {
@@ -121,6 +133,7 @@ rule reachabEdgesOutgoingLoop(start:Node, var k:int) : (set<Edge>)
 rule reachabEdgesIncomingLoop(start:Node, var k:int) : (set<Edge>)
 {
 	modify {
+	---
 		def ref res:set<Edge> = set<Edge>{};
 		eval {
 			for(e:Edge in boundedReachableEdgesIncoming(start, k)) {
@@ -134,6 +147,7 @@ rule reachabEdgesIncomingLoop(start:Node, var k:int) : (set<Edge>)
 rule reachabEdgesLoop(start:Node, var k:int) : (set<Edge>)
 {
 	modify {
+	---
 		def ref res:set<Edge> = set<Edge>{};
 		eval {
 			for(e:Edge in boundedReachableEdges(start, k)) {
@@ -181,6 +195,7 @@ test isReachabEdges(start:Node, -end:Edge->, var k:int)
 rule boundedReachab(start:Node)
 {
 	modify {
+	---
 		exec( for{x:Node in boundedReachable(start, 1); { emit("The value of variable \"x\" of type Node is: ", x, "\n") } } );
 	}
 }
@@ -188,6 +203,7 @@ rule boundedReachab(start:Node)
 rule boundedReachabEdges(start:Node)
 {
 	modify {
+	---
 		exec( for{x:Edge in boundedReachableEdges(start, 1); { emit("The value of variable \"x\" of type Edge is: ", x, "\n") } } );
 	}
 }

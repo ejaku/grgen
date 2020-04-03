@@ -3,13 +3,15 @@ using expressionCount;
 rule outgoing : (int,int,int)
 {
 	n:N;
-	def var numOutEN:int;
 	if { incoming(n).size() == 0; }
+---
+	def var numOutEN:int;
 	yield { 
 		yield numOutEN = outgoing(n, E, N).size();
 	}
 	
 	modify {
+	---
 		def var numOutE:int;
 		def var numOut:int;
 		eval {

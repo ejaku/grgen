@@ -21,6 +21,7 @@ test t
 test b(ref s:array<N>)
 {
 	n:N{s};
+	---
 	yield {
 		emit("the value of variable \"n.i\" of type N is: ", n.i, "\n");
 	}

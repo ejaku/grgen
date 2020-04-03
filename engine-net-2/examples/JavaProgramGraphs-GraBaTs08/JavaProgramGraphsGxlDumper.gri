@@ -4,6 +4,7 @@ rule dumpGxl(var v:int)
 {
 
 	modify {
+	---
 		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
 			"<!DOCTYPE gxl SYSTEM \"http://www.gupro.de/GXL/gxl-1.0.dtd\">",
 			"<gxl>",
@@ -30,7 +31,7 @@ rule dumpNodePackage(var v:int)
 
 	modify {
 	    eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Package\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -46,7 +47,7 @@ rule dumpNodeClass(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Class\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -65,7 +66,7 @@ rule dumpNodeInterface(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Interface\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -83,7 +84,7 @@ rule dumpNodeVariable(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Variable\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -102,7 +103,7 @@ rule dumpNodeOperation(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Operation\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -122,7 +123,7 @@ rule dumpNodeMethodBody(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"MethodBody\"/>",
 			"</node>");
@@ -137,7 +138,7 @@ rule dumpNodeAccess(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Access\"/>",
 			"<attr name=\"this\"> <bool>", n.this_, "</bool> </attr>",
@@ -153,7 +154,7 @@ rule dumpNodeUpdate(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Update\"/>",
 			"<attr name=\"this\"> <bool>", n.this_, "</bool> </attr>",
@@ -169,7 +170,7 @@ rule dumpNodeCall(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Call\"/>",
 			"<attr name=\"this\"> <bool>", n.this_, "</bool> </attr>",
@@ -186,7 +187,7 @@ rule dumpNodeIstantiation(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Instantiation\"/>",
 			"</node>");
@@ -201,7 +202,7 @@ rule dumpNodeOperator(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Operator\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -217,7 +218,7 @@ rule dumpNodeReturn(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Return\"/>",
 			"</node>");
@@ -232,7 +233,7 @@ rule dumpNodeBlock(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Block\"/>",
 			"</node>");
@@ -247,7 +248,7 @@ rule dumpNodeLiteral(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Literal\"/>",
 			"<attr name=\"value\"> <string>", n.value, "</string> </attr>",
@@ -263,7 +264,7 @@ rule dumpNodeParameter(var v:int)
 
 	modify {
 		eval { n.visited[v] = true; }
-
+	---
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Parameter\"/>",
 			"</node>");
@@ -278,7 +279,7 @@ rule dumpEdgeBelongsTo(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"belongsTo\"/>",
 			"</edge>");
@@ -293,7 +294,7 @@ rule dumpEdgeType(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"type\"/>",
 			"</edge>");
@@ -308,7 +309,7 @@ rule dumpEdgeExtends(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"extends\"/>",
 			"</edge>");
@@ -323,7 +324,7 @@ rule dumpEdgeImports(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"imports\"/>",
 			"</edge>");
@@ -338,7 +339,7 @@ rule dumpEdgeImplements(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"implements\"/>",
 			"</edge>");
@@ -353,7 +354,7 @@ rule dumpEdgeParameter(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"parameter\"/>",
 			"</edge>");
@@ -368,7 +369,7 @@ rule dumpEdgeBinding(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"binding\"/>",
 			"</edge>");
@@ -383,7 +384,7 @@ rule dumpEdgeLink(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"link\"/>",
 			"</edge>");
@@ -398,7 +399,7 @@ rule dumpEdgeExpression(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"expression\"/>",
 			"</edge>");
@@ -413,7 +414,7 @@ rule dumpEdgeActualParameter(var v:int)
 
 	modify {
 		eval { e.visited[v] = true; }
-
+	---
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"actualParameter\"/>",
 			"</edge>");

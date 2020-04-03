@@ -1,7 +1,8 @@
 using deep_model_001;
 
 rule r(y : Bcc) : (B) {
-  modify{
+  modify {
+  ---
     return (y);
     exec(c:B=c & (c:B)=r(c) & (c)=r(c));
   }

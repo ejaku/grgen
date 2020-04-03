@@ -13,10 +13,9 @@ function one() : int
 }
 
 test t : (int)
-{
-	def var res:int;
-	
+{	
 	independent {
+	---
 		yield {
 			def var resres:int;
 			resres = one() + 2;
@@ -28,13 +27,16 @@ test t : (int)
 			yield res = resres;
 		}
 	}
+---
+	def var res:int;
 	
 	return (res);
 }
 
 rule r : (int)
-{	
+{
 	modify {
+	---
 		def var res:int;
 		
 		eval { 
@@ -52,10 +54,11 @@ rule r : (int)
 	}
 }
 
-pattern P(var x:int, def var res:int) modify(var xx:int, def var resres:int)
+pattern P(var x:int --- def var res:int) modify(var xx:int --- def var resres:int)
 {
 	independent {
 		independent {
+		---
 			yield {
 				def var ress:int;
 				ress = one() + 2;
@@ -70,6 +73,7 @@ pattern P(var x:int, def var res:int) modify(var xx:int, def var resres:int)
 	}
 	
 	modify {
+	---
 		eval { 
 			def var resress:int;
 			resress = one() + 2;

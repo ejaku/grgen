@@ -13,6 +13,9 @@ rule r
 	p2:p();
 
 	modify {
+		p1(ni.a, ef.a --- yield aby, yield ash, yield ai, yield al, yield ab, yield as, yield af, yield ad, yield ao);
+		p2(ai, af --- yield aby, yield ash, yield ai, yield al, yield ab, yield as, yield af, yield ad, yield ao);
+	---
 		def var aby:byte = 42Y;
 		def var ash:short = 42S;
 		def var ai:int = 42;
@@ -22,13 +25,10 @@ rule r
 		def var af:float = 42.42424242f;
 		def var ad:double = 42.42424242424242;
 		def var ao:object = null;
-
-		p1(ni.a, ef.a, yield aby, yield ash, yield ai, yield al, yield ab, yield as, yield af, yield ad, yield ao);
-		p2(ai, af, yield aby, yield ash, yield ai, yield al, yield ab, yield as, yield af, yield ad, yield ao);
 	}
 }
 
-pattern p modify(var in1:int, var in2:float, 
+pattern p modify(var in1:int, var in2:float --- 
 					def var aby:byte, def var ash:short, def var ai:int, def var al:long,
 					def var ab:boolean, def var as:string,
 					def var af:float, def var ad:double, def var ao:object)
@@ -44,6 +44,7 @@ pattern p modify(var in1:int, var in2:float,
 	-esh:ESHORT->;
 
 	modify {
+	---
 		evalhere {
 			ni.a = ai;
 			nl.a = al;

@@ -6,6 +6,7 @@ rule emitState(ref nodeToId:map<Node, int>)
 		s -:Edge-> t:Node;
 
 		modify {
+		---
 			emithere(nodeToId[t] + " ");
 		}
 	}
@@ -13,11 +14,13 @@ rule emitState(ref nodeToId:map<Node, int>)
 		s <-:Edge- t:Node;
 
 		modify {
+		---
 			emithere(nodeToId[t] + " ");
 		}
 	}
 
 	modify {
+	---
 		emithere("    <states xmi:type=\"statemachine:State\" xmi:id=\"" + nodeToId[s] + "\" ");
 		emithere("out=\"");
 		iterated outgoing;

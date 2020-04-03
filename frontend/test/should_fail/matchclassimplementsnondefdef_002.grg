@@ -2,6 +2,7 @@
 
 test t() implements shared
 {
+---
 	def -e:Edge->;
 }
 

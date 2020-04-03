@@ -1,6 +1,6 @@
 using ProofLangModel;
 
-pattern NextDefLabel(current:NamedItem, uref:URef) modify(def end:NamedItem)
+pattern NextDefLabel(current:NamedItem, uref:URef) modify(--- def end:NamedItem)
 {
   alternative {
     LabeledStepWrongLabel {
@@ -9,7 +9,7 @@ pattern NextDefLabel(current:NamedItem, uref:URef) modify(def end:NamedItem)
       if { label.id != uref.content; }
       c:NextDefLabel(pred, uref);
       modify {
-        c(yield end);
+        c(--- yield end);
      }
    }
    LabeledStepCorrectLabel {
@@ -17,6 +17,7 @@ pattern NextDefLabel(current:NamedItem, uref:URef) modify(def end:NamedItem)
     label : Label -:deflink-> pred;
     if { label.id == uref.content; }
         modify {
+		---
          eval { yield end = pred; }
         }
        }
@@ -29,9 +30,10 @@ rule PLResolveReferences {
   uref -:support-> proofstep : NamedItem;
   c:NextDefLabel(proofstep, uref);
   modify {
-   def end:NamedItem;
-   c(yield end); // end is filled
+   c(--- yield end); // end is filled
    uref -:has-> end;
+  ---
+   def end:NamedItem;
    emit ("Ergebnis: "+ end.id);
   }
 }

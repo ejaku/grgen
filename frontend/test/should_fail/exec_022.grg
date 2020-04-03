@@ -2,6 +2,7 @@ using deep_model_001;
 
 rule r(y : Bcc) : (B) {
   modify{
+  ---
     return (y);
     exec(c:B=y & (c:B)=r(c) & (c:B)=r(c));
   }

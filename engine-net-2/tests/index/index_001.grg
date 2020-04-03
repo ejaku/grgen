@@ -4,6 +4,7 @@ rule r13 {
 	n:N{foo==13};
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
@@ -12,6 +13,7 @@ rule rascending {
 	n:N{ascending(foo)};
 
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
@@ -20,6 +22,7 @@ rule rdescending {
 	n:N{descending(foo)};
 
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
@@ -28,6 +31,7 @@ rule rascendinglargerthan5lowerequal13 {
 	n:N{ascending(foo>5, foo<=13)};
 
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
@@ -36,6 +40,7 @@ rule rascendinglargerequal5 {
 	n:N{ascending(foo>=5)};
 
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
@@ -44,6 +49,7 @@ rule rascendinglowerthan13 {
 	n:N{ascending(foo<13)};
 
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
@@ -52,6 +58,7 @@ rule rdescendinglowerthan13largerequal5 {
 	n:N{descending(foo<13, foo>=5)};
 
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
@@ -60,6 +67,7 @@ rule rdescendinglowerequal13 {
 	n:N{descending(foo<=13)};
 
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
@@ -68,6 +76,7 @@ rule rdescendinglargerthan5 {
 	n:N{descending(foo>5)};
 
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }

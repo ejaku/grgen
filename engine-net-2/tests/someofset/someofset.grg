@@ -43,6 +43,7 @@ rule findP : (P,Edge)
 rule execSomeOfSet
 {
 	modify {
+	---
 		exec({<(::n,::ne)=findN,(::o,::oe)=[findO],(::p,::pe)=$[findP]>}
 		;> {emit("The value of variable n of type n is: "); emit(::n); emit("\n")}
 		;> {emit("The value of variable o of type array<O> is: "); emit(::o); emit("\n")}
@@ -54,6 +55,7 @@ rule execSomeOfSet
 rule execOneOfSet
 {
 	modify {
+	---
 		exec(${<(::n,::ne)=findN,(::o,::oe)=[findO],(::p,::pe)=$[findP]>}
 		;> {emit("The value of variable n of type n is: "); emit(::n); emit("\n")}
 		;> {emit("The value of variable o of type array<O> is: "); emit(::o); emit("\n")}

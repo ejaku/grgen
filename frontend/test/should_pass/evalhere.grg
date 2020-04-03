@@ -18,7 +18,7 @@ rule r
 	modify {
 		no:NOBJECT;
 		ns:NSTRING;
-
+	---
 		evalhere {
 			ni.a = 42;
 			nb.a = ni.a==42;
@@ -52,7 +52,7 @@ pattern p
 	modify {
 		no:NOBJECT;
 		ns:NSTRING;
-
+	---
 		evalhere {
 			ni.a = 42;
 			nb.a = ni.a==42;
@@ -89,7 +89,7 @@ rule ra
 			modify {
 				no:NOBJECT;
 				ns:NSTRING;
-
+			---
 				evalhere {
 					ni.a = 42;
 					nb.a = ni.a==42;
@@ -130,7 +130,7 @@ pattern pa
 		modify {
 			no:NOBJECT;
 			ns:NSTRING;
-
+		---
 			evalhere {
 				ni.a = 42;
 				nb.a = ni.a==42;

@@ -1,6 +1,7 @@
 rule buh(var x:int)
 {
 	modify {
+	---
 		eval {
 			if(x==1) {
 				x = 1;

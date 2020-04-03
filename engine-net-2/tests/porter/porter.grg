@@ -233,6 +233,7 @@ rule printNames
 	}
 
 	modify {
+	---
 		emit("value of variable n1 which is a node rly ", nameof(n1), "\n");
 		emit("value of variable n2 which is a node rly ", nameof(n2), "\n");
 		emit("value of variable n3 which is a node rly ", nameof(n3), "\n");

@@ -25,6 +25,7 @@ rule r
 	if{ array<A>[a,b,c].extract<intValue>().sum() > n.aArray.extract<intValue>().sum() + n.val; }
 	
 	modify {
+	---
 		eval {
 			::avg = array<A>[a,b,c].extract<intValue>().avg();
 			::med = n.aArray.extract<intValue>().medUnsorted();

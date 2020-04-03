@@ -25,6 +25,7 @@ rule Init : (Node, Node, Node)
 rule incidentAdjacent(c1:Node, c2:Node, c3:Node)
 {
 	modify {
+	---
 		exec(
 			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
 			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
@@ -75,6 +76,7 @@ rule incidentAdjacent(c1:Node, c2:Node, c3:Node)
 rule incidentAdjacentee(c1:Node, c2:Node, c3:Node)
 {
 	modify {
+	---
 		exec(
 			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
 			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
@@ -125,6 +127,7 @@ rule incidentAdjacentee(c1:Node, c2:Node, c3:Node)
 rule incidentAdjacentB(c1:Node, c2:Node, c3:Node)
 {
 	modify {
+	---
 		exec(
 			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
 			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
@@ -175,6 +178,7 @@ rule incidentAdjacentB(c1:Node, c2:Node, c3:Node)
 rule incidentAdjacenteeB(c1:Node, c2:Node, c3:Node)
 {
 	modify {
+	---
 		exec(
 			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
 			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
@@ -229,6 +233,7 @@ rule incidentAdjacenteeB(c1:Node, c2:Node, c3:Node)
 rule forIncidentAdjacent(c1:Node, c2:Node, c3:Node)
 {
 	modify {
+	---
 		exec(
 			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
 			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
@@ -297,6 +302,7 @@ rule forIncidentAdjacent(c1:Node, c2:Node, c3:Node)
 rule forIncidentAdjacentee(c1:Node, c2:Node, c3:Node)
 {
 	modify {
+	---
 		exec(
 			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
 			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
@@ -365,6 +371,7 @@ rule forIncidentAdjacentee(c1:Node, c2:Node, c3:Node)
 rule forIncidentAdjacentB(c1:Node, c2:Node, c3:Node)
 {
 	modify {
+	---
 		exec(
 			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
 			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}
@@ -433,6 +440,7 @@ rule forIncidentAdjacentB(c1:Node, c2:Node, c3:Node)
 rule forIncidentAdjacenteeB(c1:Node, c2:Node, c3:Node)
 {
 	modify {
+	---
 		exec(
 			   {emit("value of variable c1 5 6 7 8 9 ")} && {emit(::c)} && {emit("\n")}
 			&& {emit("value of variable c2 5 6 7 8 9 ")} && {emit(::c2)} && {emit("\n")}

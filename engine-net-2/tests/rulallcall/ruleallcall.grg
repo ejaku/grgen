@@ -21,6 +21,7 @@ rule s : (N, Node, int, string)
 	n:N;
 	
 	modify {
+	---
 		exec((r1:array<N>,r2:array<Node>,r3:array<int>,r4:array<string>)=[r]);
 		exec((::_r1,::_r2,::_r3,::_r4)=[r]);
 		exec([r]);
@@ -38,6 +39,7 @@ rule s : (N, Node, int, string)
 rule t
 {
 	modify {
+	---
 		exec ( (r1:array<N>,r2:array<Node>,r3:array<int>,r4:array<string>)=[r]
 			;> { emit("the value of variable \"r1\" of type dontcare is: ", r1, "\n") }
 			;> { emit("the value of variable \"r2\" of type dontcare is: ", r2, "\n") }
@@ -67,6 +69,7 @@ rule t
 rule tr
 {
 	modify {
+	---
 		exec ( (r1:N,r2:Node,r3:int,r4:string)=r
 			;> { emit("the value of variable \"r1\" of type dontcare is: ", r1, "\n") }
 			;> { emit("the value of variable \"r2\" of type dontcare is: ", r2, "\n") }
@@ -86,6 +89,7 @@ rule tr
 rule tr2
 {
 	modify {
+	---
 		exec ( (r1:array<N>,r2:array<Node>,r3:array<int>,r4:array<string>)=$[r]
 			;> { emit("the value of variable \"r1\" of type dontcare is: ", r1, "\n") }
 			;> { emit("the value of variable \"r2\" of type dontcare is: ", r2, "\n") }

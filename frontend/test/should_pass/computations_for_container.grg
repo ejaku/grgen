@@ -12,10 +12,9 @@ function foo(ref s:set<Node>) : int
 }
 
 test t(ref s:set<Node>) : (int)
-{
-	def var res:int = 0;
-	
+{	
 	independent {
+	---
 		yield {
 			def ref a:array<Node> = array<Node>[];
 			for(n:Node in s) {
@@ -26,6 +25,8 @@ test t(ref s:set<Node>) : (int)
 			}
 		}
 	}
+---
+	def var res:int = 0;
 	
 	return (res);
 }
@@ -33,6 +34,7 @@ test t(ref s:set<Node>) : (int)
 rule r(ref s:set<Node>) : (int)
 {	
 	modify {
+	---
 		def var res:int = 0;
 		
 		eval { 

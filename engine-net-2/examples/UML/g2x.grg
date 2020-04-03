@@ -36,9 +36,9 @@ rule toXmi {
 	rootpack:Package -:name_-> rootpackname:String;
   	if { rootpackname.value == "Root"; }
 	modify {
-
 		// Calculate unique ids for all CMOF_NODEs
 		cntr:AUX_Counter;
+	---
 		exec([uniquifyIDs(cntr)] | deleteAUX_Counter(cntr)); // simultaneous match operator "[...]"
 
 		// Print the XML & XMI header
@@ -95,6 +95,7 @@ rule writeXmiValueAttribute(parent:CMOF_NODE) {
 	if { prop.isXmiIdReference == false; mmValue.value == prop.name; mmUpperConstraint.value == "1"; }
 	modify {
 		delete(prop);
+	---
 		emit (
 			" ", prop.name, "=\"", child.value, "\""
 		);
@@ -109,6 +110,7 @@ rule writeXmiReferenceElement(parent:CMOF_NODE) {
 	if { prop.isXmiIdReference == true; }
 	modify {
 		delete(prop);
+	---
 		emit (
 			"\t<",  prop.name, " xmi:idref=\"G-", child.id, "\"", " />\n"
 		);
@@ -133,7 +135,7 @@ rule writeXmiElement(parent:CMOF_NODE) {
 	if { prop.isXmiIdReference == false; prop.name == mmPropertyName.value; mmPropertyUpper.value != "1"; }
 	modify {
 		delete(prop);
-
+	---
 		emit (
 			"\t<",  prop.name," xmi:type=", "\"uml:", child.uuid, "\"", " xmi:id=\"G-", child.id, "\""
 		);
@@ -167,6 +169,7 @@ rule writeXmiReferenceAttribute(parent:CMOF_NODE) {
 	// 			Better would be a query like 'typeof(parent)<=mm_Class.uuid' (parent type is a (sub)type of mm_Class - the connection assertion restriction 'FROM'-direction )
 	// if { prop.isXmiIdReference == false; mmProperty.name == prop.uuid; mmProperty.upper == "1"; }
 	modify {
+	---
 		exec( [ findAccurateMetaModelPropertyAndWriteReferenceAttribute(parent, prop) ] );
 	}
 }
@@ -190,6 +193,7 @@ rule findAccurateMetaModelPropertyAndWriteReferenceAttribute(parent:CMOF_NODE, -
 	// Find the matching pair (of the parent class) in the metamodel.
 	if { mmClass_name.value == parent.uuid; }
 	modify {
+	---
 		exec( writeAttributereferenceIfValidMetaModelClass(parent, mmClass, prop) || [findAccurateMetamodelSuperClassWriteReferenceAttribute(mmClass, prop, parent)] );
 	}
 }
@@ -209,6 +213,7 @@ rule writeAttributereferenceIfValidMetaModelClass(parent:CMOF_NODE, mmClass:Meta
 	if { prop.isXmiIdReference == false; mmClass_property_name.value == prop.name; mmClass_property_upper.value == "1"; }
 	modify {
 		delete(prop);
+	---
 		emit (" ", prop.name, "=\"G-", child.id, "\"");
 	}
 }
@@ -224,6 +229,7 @@ rule findAccurateMetamodelSuperClassWriteReferenceAttribute(mmClass:Metamodel_Cl
 	mmSuperClass -:Metamodel_name-> mmSuperClassName;
 
 	modify {
+	---
 		exec( writeAttributereferenceIfValidMetaModelClass(parent, mmSuperClass, prop) || [findAccurateMetamodelSuperClassWriteReferenceAttribute(mmSuperClass, prop, parent)] );
 	}
 }

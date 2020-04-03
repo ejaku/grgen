@@ -13,10 +13,9 @@ function foo() : int
 }
 
 test t() : (int)
-{
-	def var res:int = 0;
-	
+{	
 	independent {
+	---
 		yield {
 			for(i:int in [0:100]) {
 				yield res = res + 1; 
@@ -28,6 +27,8 @@ test t() : (int)
 			}
 		}
 	}
+---
+	def var res:int = 0;
 	
 	return (res);
 }
@@ -35,6 +36,7 @@ test t() : (int)
 rule r() : (int)
 {	
 	modify {
+	---
 		def var res:int = 0;
 		
 		eval { 

@@ -15,8 +15,8 @@ rule r {
 	modify {
 		eval {
 			// no implicit cast from double to float
-			nf = nd;
+			nf.a = nd.a;
 		}
 	}
-} attr
+}
 

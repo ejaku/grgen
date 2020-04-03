@@ -152,6 +152,7 @@ rule solve
 	p9 -:timepos-> t9;
 
 	modify {
+	---
 		exec((setAssoc(p1, t1, p2, t2, p3, t3, p4, t4,
 					p5, t5, p6, t6, p7, t7, p8, t8, p9, t9)
 			&& checkConstr) | deAssoc*);
@@ -195,6 +196,7 @@ rule solveShow
 	p9 -:timepos-> t9;
 
 	modify {
+	---
 		exec((setAssoc(p1, t1, p2, t2, p3, t3, p4, t4,
 					p5, t5, p6, t6, p7, t7, p8, t8, p9, t9)
 			&& checkConstr && showSolution(p1, t1, p2, t2, p3, t3, p4, t4,
@@ -254,6 +256,7 @@ rule showSolution(p1:Paper, t1:Slot, p2:Paper, t2:Slot, p3:Paper, t3:Slot,
 	hom(t1, t2, t3, t4, t5, t6, t7, t8, t9);
 
 	modify {
+	---
 		emit(p1.name, "@", t1.id, ",",
 			p2.name, "@", t2.id, ",",
 			p3.name, "@", t3.id, ",",

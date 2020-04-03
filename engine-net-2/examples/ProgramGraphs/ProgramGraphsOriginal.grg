@@ -234,6 +234,7 @@ test matchAll(c1:Class)
 rule InsertHelperEdgesForNestedLayout
 {
 	modify {
+	---
 		exec(LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && [RemoveMethodBodyContainsBetweenExpressions] && RetypeClassContainment*);
 	}
 }

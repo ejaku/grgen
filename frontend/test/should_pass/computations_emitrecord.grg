@@ -23,6 +23,7 @@ test t()
 {
 	independent {
 		n:Node;
+	---
 		yield {
 			emit("bar");
 			emit(42);
@@ -35,6 +36,7 @@ rule r()
 {	
 	n:Node;
 	modify {
+	---
 		def var res:string;
 		
 		eval { 

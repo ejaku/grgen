@@ -13,6 +13,7 @@ rule search()
 	n:Node{unique[0]} -e:Edge{unique[1]}-> n;
 	
 	modify {
+	---
 		eval {
 			// output scheme stemming from value of attribute printing that gets inserted into test data file
 			emit("1 value of attribute 5 6 " + uniqueof(n) + "\n");
@@ -26,6 +27,7 @@ rule searchNonIndex()
 	n:Node -e:Edge-> n;
 	
 	modify {
+	---
 		eval {
 			// output scheme stemming from value of attribute printing that gets inserted into test data file
 			emit("1 value of attribute 5 6 " + uniqueof(n) + "\n");

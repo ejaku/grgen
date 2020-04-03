@@ -1,5 +1,6 @@
 rule r
 {
+---
 	def var i:int;
 	def var j:int;
 	

@@ -65,10 +65,11 @@ rule createTransitions
 
 	// get the target state from the target class; find the source state via recursive depth walking outwards
 	targetClass <-:link- targetState:_statemachine::_State;
-	def sourceState:_statemachine::_State;
-	fss:FindSourceState(expressionStatement, yield sourceState);
+	fss:FindSourceState(expressionStatement --- yield sourceState);
 
 	sm:_statemachine::_StateMachine;
+---
+	def sourceState:_statemachine::_State;
 
 	modify {
 		sm -:_statemachine::_StateMachine_transitions-> transition:_statemachine::_Transition;
@@ -79,13 +80,13 @@ rule createTransitions
 	}
 }
 
-pattern FindSourceState(containedEntity:Node, def sourceState:_statemachine::_State) modify(transition:_statemachine::_Transition)
+pattern FindSourceState(containedEntity:Node --- def sourceState:_statemachine::_State) modify(transition:_statemachine::_Transition)
 {
 	// move outwards from the contained entity till the class, return the State linked to the class
 	alternative {
 		StatementListContainer {
 			listContainer:_statements::_StatementListContainer -:_statements::_StatementListContainer_statements-> containedEntity;
-			fss:FindSourceState(listContainer, yield sourceState);
+			fss:FindSourceState(listContainer --- yield sourceState);
 
 			modify {
 				transition -:link-> listContainer;
@@ -94,7 +95,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:_statemachine::_St
 		}
 		StatementContainer {
 			container:_statements::_StatementContainer -:_statements::_StatementContainer_statement-> containedEntity;
-			fss:FindSourceState(container, yield sourceState);
+			fss:FindSourceState(container --- yield sourceState);
 
 			modify {
 				transition -:link-> container;
@@ -103,7 +104,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:_statemachine::_St
 		}
 		StatementSwitch {
 			switch_:_statements::_Switch -:_statements::_Switch_cases-> containedEntity;
-			fss:FindSourceState(switch_, yield sourceState);
+			fss:FindSourceState(switch_ --- yield sourceState);
 
 			modify {
 				transition -:link-> switch_;
@@ -112,7 +113,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:_statemachine::_St
 		}
 		StatementCondition {
 			condition:_statements::_Condition -:_statements::_Condition_elseStatement-> containedEntity;
-			fss:FindSourceState(condition, yield sourceState);
+			fss:FindSourceState(condition --- yield sourceState);
 
 			modify {
 				transition -:link-> condition;
@@ -121,7 +122,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:_statemachine::_St
 		}
 		StatementTry {
 			try:_statements::_TryBlock -:_statements::_TryBlock_catcheBlocks-> containedEntity;
-			fss:FindSourceState(try, yield sourceState);
+			fss:FindSourceState(try --- yield sourceState);
 
 			modify {
 				transition -:link-> try;
@@ -131,6 +132,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:_statemachine::_St
 		Class {
 			cc:_classifiers::_Class -:_members::_MemberContainer_members-> containedEntity;
 			ss:_statemachine::_State -:link-> cc;
+			---
 			yield { yield sourceState = ss; }
 
 			modify {

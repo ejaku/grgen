@@ -10,6 +10,7 @@ match class Bar
 
 test bla implements Foo, Bar
 {
+---
 	def var i:int;
 }
 

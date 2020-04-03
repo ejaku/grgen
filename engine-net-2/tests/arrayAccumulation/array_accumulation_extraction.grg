@@ -18,7 +18,7 @@ rule init
 rule r(var offset:int)
 {
 	a:A;
-	
+---	
 	def var i:int;
 	def var j:int;
 	

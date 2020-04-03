@@ -4,6 +4,7 @@ rule r(p : B) : (B) {
   l:B;
   modify{
     x:B;
+  ---
     return (x);
 
     exec(r(p));
@@ -198,6 +199,7 @@ rule r(p : B) : (B) {
 
 rule r2(-e:Edge->):(Edge) {
   modify {
+  ---
     return(e);
     exec( (-x:Edge->)=r2(e) && ( (x)=r2(x) )[*] );
   }

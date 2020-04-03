@@ -32,6 +32,7 @@ rule r
 	cc:CC -ed:Edge->;
 
 	modify {
+	---
 		eval { ::g_n = cc; }
 		eval { ::g_e = ed; }
 		eval { ::g_a.f = 1.0f; }
@@ -52,6 +53,7 @@ rule rt
 	cc:CC -ed:Edge->;
 
 	modify {
+	---
 		eval { ::g_a.b = ::g_e in incoming(::g_n); }
 		eval { ::g_a.f = ::g_a.f + 1.0f; }
 		eval { ::g_s = ::g_s + "muh"; }
@@ -74,6 +76,7 @@ rule re
 	cc:CC -ed:Edge->;
 
 	modify {
+	---
 //		exec ( {{ incident(::g_n).size()!=0 }} ); function calls can't be nested yet in the sequences
 		exec ( {{ ::g_e in incoming(::g_n) }} );
 		exec ( {{ ::g_a.f + 1.0 < 2.0 }} );

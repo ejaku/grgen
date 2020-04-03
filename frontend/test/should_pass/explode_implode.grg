@@ -5,13 +5,13 @@ rule r1(var s:string)
 	str:NSTRING;
 	str2:NSTRING;
 	b:NBOOL;
-
-	def ref exploded:array<string>;
-	def var imploded:string;
-
+	
 	if {
 		str.a == (str.a.asArray(",")).asString(",");
 	}
+---
+	def ref exploded:array<string>;
+	def var imploded:string;
 	
 	yield {
 		yield exploded = s.asArray(",");
@@ -19,6 +19,7 @@ rule r1(var s:string)
 	}
 
 	modify {
+	---
 		def ref exploded_:array<string>;
 		def var imploded_:string;
 		

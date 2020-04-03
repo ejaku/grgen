@@ -107,6 +107,7 @@ rule CFG_handle_EmptyStatement {
 
 rule CFG_sweep_graph {
 	modify {
+	---
 		exec(CFG_sweep_graph_step1* && CFG_sweep_graph_step2*);
 	}
 }
@@ -141,6 +142,7 @@ rule CFG_sweep_graph_step2
 
 rule AST_nodes_2_CFG {
 	modify {
+	---
 		exec((ExpressionStatement_2_CFG || IfStatement_2_CFG ||
 		      WhileStatement_2_CFG ||
 		      SimpleName_2_CFG || NumberLiteral_2_CFG || Assignment_2_CFG ||

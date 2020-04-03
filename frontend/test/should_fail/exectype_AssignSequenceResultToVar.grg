@@ -2,7 +2,8 @@ using exectype;
 
 rule r
 {
-	modify  {
+	modify {
+	---
 		exec(x:int=(r));
 	}
 }

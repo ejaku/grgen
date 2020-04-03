@@ -11,10 +11,9 @@ function foo(n1:Node, -e1:Edge->) : int
 }
 
 test t(n1:Node, -e1:Edge->) : (int)
-{
-	def var res:int = 42;
-	
+{	
 	independent {
+	---
 		yield {
 			def var g1:graph = inducedSubgraph(adjacent(n1));
 			def var g2:graph = definedSubgraph(incident(n1));
@@ -22,7 +21,9 @@ test t(n1:Node, -e1:Edge->) : (int)
 			def var s2:string = canonize(g2);
 		}
 	}
-	
+---	
+	def var res:int = 42;
+
 	return (res);
 }
 
@@ -31,6 +32,7 @@ rule r(n1:Node, -e1:Edge->) : (int)
 	if(canonize(inducedSubgraph(adjacent(n1)))!="");
 	
 	modify {
+	---
 		def var res:int = 42;
 		
 		eval { 

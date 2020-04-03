@@ -3,7 +3,7 @@
 rule Test {
     modify {
         a:Node --> b:Node --> c:Node;
-
+	---
         eval {
             //Broken: Somehow returns a set of nodes and fails while casting Nodes to Edges
             //Broken: The undirected version returns reachable edges more than twice
@@ -26,7 +26,7 @@ rule Test {
 rule Test2 {
     modify {
         a:Node --> b:Node --> c:Node --> a;
-
+	---
         eval {
             for(e:Edge in reachableEdges(b)){
 				emit("1 value of attribute found edge " + nameof(e) + "\n");

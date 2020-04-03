@@ -34,6 +34,7 @@ rule t
 	if { isAdjacent(n, m) && isAdjacentIncoming(n, m) && isAdjacentOutgoing(n, m); }
 		
 	modify {
+	---
 		def var res:boolean;
 		
 		eval { yield res = edges().size()!=0; }

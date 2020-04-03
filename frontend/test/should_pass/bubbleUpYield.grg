@@ -1,22 +1,24 @@
 using Chemistry;
 
-pattern nucleophile(mg:MolecularGraph, def a:Atom)  {
+pattern nucleophile(mg:MolecularGraph --- def a:Atom)  {
   mg-:contains->n:N;
+---
   yield{ yield a=n;}
 }
 
-pattern electrophile(mg:MolecularGraph, def a:Atom)  {
+pattern electrophile(mg:MolecularGraph --- def a:Atom)  {
   mg-:contains->c0:C-->b_c0o0_0:Bond<--o0:O;
   b_c0o0_0<--:Bond;
+---
   yield{ yield a=c0;}
 }
 
-pattern nucleophileAddition (mg1:MolecularGraph, mg2:MolecularGraph) {
+pattern nucleophileAddition (mg1:MolecularGraph, mg2:MolecularGraph) {  
+  nucSP:nucleophile(mg1 --- yield nuc);
+  elecSP:electrophile(mg2 --- yield elec);
+---
   def nuc:Atom;
   def elec:Atom;
-  
-  nucSP:nucleophile(mg1, yield nuc);
-  elecSP:electrophile(mg2, yield elec);
 
   modify  {
     nuc-->:Bond<--elec;

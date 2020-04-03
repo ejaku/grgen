@@ -1,7 +1,8 @@
 rule r()
 {	
-	modify {		
-		eval { 
+	modify {
+	---
+		eval {
 			break;
 		}
 	}

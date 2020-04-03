@@ -19,7 +19,7 @@ rule findCouples
 		c:Couple;
 		c -:p1-> pn1;
 		c -:p2-> pn2;
-
+	---
 		exec(addCommonMoviesAndComputeAverageRanking(c, pn1, pn2));
 	}
 } \ auto
@@ -30,12 +30,14 @@ rule addCommonMoviesAndComputeAverageRanking(c:Couple, pn1:Person, pn2:Person)
 		pn1 -:personToMovie-> m:Movie <-:personToMovie- pn2;
 		
 		modify {
-			c -:commonMovies-> m;	
+			c -:commonMovies-> m;
+		---
 			eval { yield sum = sum + m.rating; }
 		}
 	}	
 	
 	modify {
+	---
 		def var sum:double = 0.0;
 		eval { c.avgRating = sum / count(it); }
 	}
@@ -55,7 +57,7 @@ rule findCouplesOpt[parallelize=16]
 	if{ uniqueof(pn1) < uniqueof(pn2); }
 	if{ countPersonToMovie[pn1] >= 3; }
 	if{ countPersonToMovie[pn2] >= 3; }
-	
+---	
 	def ref common:set<Node>;
 	yield {
 		yield common = getCommonMovies(pn1, pn2);
@@ -65,7 +67,7 @@ rule findCouplesOpt[parallelize=16]
 		c:Couple;
 		c -:p1-> pn1;
 		c -:p2-> pn2;
-	
+	---
 		eval { 
 			for(movie:Node in common) { 
 				add(commonMovies, c, movie); 
@@ -140,11 +142,13 @@ rule computeAverageRanking
 		c -:commonMovies-> m:Movie;
 		
 		modify {
+		---
 			eval { yield sum = sum + m.rating; }
 		}
 	}
 	
 	modify {
+	---
 		def var sum:double = 0.0;
 		eval { c.avgRating = sum / count(it); }
 	}
@@ -157,7 +161,7 @@ rule couplesWithRating
 	c:Couple;
 	c -:p1-> pn1:Person;
 	c -:p2-> pn2:Person;
-
+---
 	def var avgRating:double;
 	def var numMovies:int;
 	yield {
@@ -166,6 +170,7 @@ rule couplesWithRating
 	}
 	
 	modify {
+	---
 		emit("avgRating: " + avgRating + " numMovies: " + numMovies + " by " + pn1.name + " and " + pn2.name + "\n");
 	}
 } \ orderDescendingBy<avgRating>, orderDescendingBy<numMovies>

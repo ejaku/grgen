@@ -11,7 +11,7 @@ rule findCouplesIntermediateOpt1
 		c:Couple;
 		c -:p1-> pn1;
 		c -:p2-> pn2;
-
+	---
 		exec( [addCommonMoviesIntermediateOpt(c, pn1, pn2)] );
 	}
 }
@@ -42,7 +42,7 @@ rule findCouplesIntermediateOpt2
 		c:Couple;
 		c -:p1-> pn1;
 		c -:p2-> pn2;
-
+	---
 		exec( [addCommonMoviesIntermediateOpt(c, pn1, pn2)] );
 	}
 }

@@ -11,8 +11,9 @@ function number(var x:int) : int
 	return(res);
 }
 
-pattern P(var x:int, def var res:int) modify(var xx:int, def var resres:int)
+pattern P(var x:int --- def var res:int) modify(var xx:int --- def var resres:int)
 {
+---
 	yield {
 		if(x==1) {
 			yield res = 1;
@@ -24,6 +25,7 @@ pattern P(var x:int, def var res:int) modify(var xx:int, def var resres:int)
 	}
 	
 	modify {
+	---
 		eval {
 			if(x==1) {
 				yield resres = 1;
@@ -44,13 +46,16 @@ test t(var x:int) : (int)
 rule r(var x:int) : (int,int)
 {
 	if(number(x) < number(x+1));
+
+	p:P(x --- yield res);
 	
+---
 	def var res:int;
-	p:P(x, yield res);
 	
 	replace {
+		p(x --- yield resres);
+	---
 		def var resres:int;
-		p(x, yield resres);
 		return(res, resres);
 	}	
 }

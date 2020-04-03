@@ -1,8 +1,8 @@
 rule filterBase(var j:int)
 {
-	def var i:int;
-
 	n:Node;
+---
+	def var i:int;
 	def m:Node;
 
 	yield {
@@ -36,10 +36,10 @@ filter fBase<filterBase>(var x:int)
 }
 
 rule filterBass
-{
-	def var d:double;
-	
+{	
 	n:Node --> n;
+---
+	def var d:double;
 
 	yield {
 		yield d = incident(n).size() * 3.141592654;
@@ -55,9 +55,9 @@ filter fBass<filterBass>(var y:double)
 
 test filterHass(n:Node):(Edge)
 {
-	def var s:string;
-
 	n -e:Edge-> n;
+---
+	def var s:string;
 	def -d:Edge->;
 	
 	yield {
@@ -88,10 +88,12 @@ rule init : (Node)
 rule r
 {
 	n:Node -e:Edge-> n;
+---
 	def var x:int = 1;
 
 	modify {
 		m:Node;
+	---
 		def var y:double = 42.0;
 
 		exec(z:string="foo" ;> filterBase(123)\orderAscendingBy<i>\keepFirst(3)

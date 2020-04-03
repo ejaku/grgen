@@ -2,6 +2,7 @@
 
 rule activityToCompliant(ref tasks:set<Node>, ref ttasks:array<Node>, ref tttasks:map<Node,Node>, ref ttttasks:deque<Node>) {	
 	modify {
+	---
 		eval {
 			for(t:_abstractPrograms::_Task in tasks) { 
 				emit(" test "+t._name);

@@ -26,10 +26,9 @@ function some2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de
 }
 
 test t(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : (boolean)
-{
-	def var res:boolean;
-	
+{	
 	independent {
+	---
 		yield {
 			m.add("foo",n);
 			ar.add(n);
@@ -39,15 +38,16 @@ test t(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E
 			yield res = !m.empty() && !ar.empty() && !de.empty() && !se.empty();
 		}
 	}
+---
+	def var res:boolean;
 	
 	return (res);
 }
 
 test t2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : (boolean)
-{
-	def var res:boolean;
-	
+{	
 	independent {
+	---
 		yield {
 			m.add("foo",n);
 			ar.add(n);
@@ -62,6 +62,8 @@ test t2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<
 			yield res =  m.empty() && ar.empty() && de.empty() && se.empty();
 		}
 	}
+---
+	def var res:boolean;
 	
 	return (res);
 }
@@ -69,6 +71,7 @@ test t2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<
 rule r(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : (boolean)
 {	
 	modify {
+	---
 		def var res:boolean;
 		
 		eval { 
@@ -87,6 +90,7 @@ rule r(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E
 rule r2(n:A, -e:E1->, ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>, ref se:set<string>) : (boolean)
 {	
 	modify {
+	---
 		def var res:boolean;
 		
 		eval { 

@@ -2,25 +2,29 @@ using defYield;
 
 rule t
 {
+	pp:p(--- yield x);
+---
 	def x:Node;
-	pp:p(yield x);
 	
 	modify {
+		pp(--- yield y);
+	---
 		def y:Node;
 		def var z:boolean;
-		pp(yield y);
 		eval { yield z = typeof(x)>=A; }
 		eval { yield z = typeof(y)>=A; }
 	}
 }
 
-pattern p(def x:Node) modify(def z:Node)
+pattern p(--- def x:Node) modify(--- def z:Node)
 {
 	y:Node;
+---
 	yield { yield x = y; }
 	
 	modify {
 		u:Node;
+	---
 		eval { yield z = u; }
 	}
 }

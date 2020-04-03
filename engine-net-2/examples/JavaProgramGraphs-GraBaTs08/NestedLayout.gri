@@ -5,6 +5,7 @@
 rule InsertHelperEdgesForNestedLayout
 {
 	modify {
+	---
 		exec(BindOperations* && InitMoveIntoBlocks* && MoveIntoBlocks*);
 	}
 }

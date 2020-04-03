@@ -20,6 +20,7 @@ pattern P
 {
 
 	modify {
+	---
 		exec(<s & sab>); // :B->:AB, the stuff done by s rolled back
 							// i.e. ok: :Center, :AB, :A,   fail otherwise
     }
@@ -47,6 +48,7 @@ pattern Q
 {
 
 	modify {
+	---
 		exec(<t & tdel & false>); // :A->:B, Center deleted, but then rolled back
 	}
 }
@@ -72,6 +74,7 @@ pattern R
 {
 
 	modify {
+	---
 		exec(<u>); // :A->:B, committed, but then rolled back in nesting exec
 	}
 }

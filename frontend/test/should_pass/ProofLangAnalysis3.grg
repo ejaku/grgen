@@ -1,7 +1,8 @@
 using ProofLangModel;
 
-pattern getParent(proofstep:NamedItem, def parent:NamedItem)
+pattern getParent(proofstep:NamedItem --- def parent:NamedItem)
 {
+---
     yield
     {
         yield parent = proofstep;
@@ -11,8 +12,9 @@ pattern getParent(proofstep:NamedItem, def parent:NamedItem)
 rule InsertEdge(step1:NamedItem, step2:NamedItem)
 {
     modify {
-        emit ("insert edge");
         step1 -:ast->step2;
+	---
+        emit ("insert edge");
     }
 }
 
@@ -26,9 +28,11 @@ rule test1(ref idset:set<NamedItem>)
 {
 	pred:NamedItem;
 	firststep:NamedItem;
+    :getParent(pred --- yield parent);
+---
     def parent:NamedItem;
-    :getParent(pred, yield parent);
     modify {
+	---
         exec (rsubproofsteps(firststep, idset) ;> for {::step in idset; InsertEdge(parent, ::step)} );
     }
 } 

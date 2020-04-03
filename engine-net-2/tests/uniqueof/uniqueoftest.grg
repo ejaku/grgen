@@ -2,7 +2,7 @@
 
 rule t {
 	n:N -e:E-> n;
-	
+---	
 	def var nodeunique:int;
 	def var edgeunique:int;
 	def var graphunique:int;
@@ -14,6 +14,7 @@ rule t {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nodeunique + "\n");
 		emit("The value of attribute noattribute is " + edgeunique + "\n");
 		emit("The value of attribute noattribute is " + graphunique + "\n");
@@ -22,7 +23,7 @@ rule t {
 
 rule r {
 	n:N -e:E-> n;
-
+---
 	def var subgraph:graph;
 	def var subgraphunique:int;
 
@@ -32,6 +33,7 @@ rule r {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + subgraphunique + "\n");
 	}
 }
@@ -43,6 +45,7 @@ rule s {
 	if{ nodeByUnique(42)==edgeByUnique(42); }
 		
 	modify {
+	---
 		emit("The value of attribute noattribute is " + uniqueof(nodeByUnique(0)) + "\n");
 		emit("The value of attribute noattribute is " + uniqueof(edgeByUnique(1)) + "\n");
 	}

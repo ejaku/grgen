@@ -1,5 +1,6 @@
 test tbyte(var x:byte) : (string)
 {
+---
 	def var res:string;
 		
 	yield {
@@ -22,6 +23,7 @@ test tbyte(var x:byte) : (string)
 rule rbyte(var x:byte) : (string)
 {
 	modify {
+	---
 		def var res:string;
 		
 		eval { 
@@ -44,6 +46,7 @@ rule rbyte(var x:byte) : (string)
 
 test tshort(var x:short) : (string)
 {
+---
 	def var res:string;
 		
 	yield {
@@ -66,6 +69,7 @@ test tshort(var x:short) : (string)
 rule rshort(var x:short) : (string)
 {
 	modify {
+	---
 		def var res:string;
 		
 		eval { 
@@ -88,6 +92,7 @@ rule rshort(var x:short) : (string)
 
 test tint(var x:int) : (string)
 {
+---
 	def var res:string;
 		
 	yield {
@@ -110,6 +115,7 @@ test tint(var x:int) : (string)
 rule rint(var x:int) : (string)
 {
 	modify {
+	---
 		def var res:string;
 		
 		eval { 
@@ -132,6 +138,7 @@ rule rint(var x:int) : (string)
 
 test tlong(var x:long) : (string)
 {
+---
 	def var res:string;
 		
 	yield {
@@ -154,6 +161,7 @@ test tlong(var x:long) : (string)
 rule rlong(var x:long) : (string)
 {
 	modify {
+	---
 		def var res:string;
 		
 		eval { 
@@ -176,6 +184,7 @@ rule rlong(var x:long) : (string)
 
 test tboolean(var x:boolean) : (string)
 {
+---
 	def var res:string;
 		
 	yield {
@@ -198,6 +207,7 @@ test tboolean(var x:boolean) : (string)
 rule rboolean(var x:boolean) : (string)
 {
 	modify {
+	---
 		def var res:string;
 		
 		eval { 
@@ -221,6 +231,7 @@ rule rboolean(var x:boolean) : (string)
 
 test tstring(var x:string) : (string)
 {
+---
 	def var res:string;
 		
 	yield {
@@ -243,6 +254,7 @@ test tstring(var x:string) : (string)
 rule rstring(var x:string) : (string)
 {
 	modify {
+	---
 		def var res:string;
 		
 		eval { 

@@ -39,6 +39,7 @@ rule t(var k:int)
 	if { isBoundedReachableEdges(n, e, k) && isBoundedReachableEdgesIncoming(n, e, k) && isBoundedReachableEdgesOutgoing(n, e, k); }
 	
 	modify {
+	---
 		def var res:boolean;
 		
 		eval { yield res = reachableEdges(::g_n).size()!=0 && reachableEdgesIncoming(::g_n).size()!=0 && reachableEdgesOutgoing(::g_n).size()!=0; }

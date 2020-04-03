@@ -79,6 +79,7 @@ rule createProgramGraphPullUp : (Class, MethodBody)
 rule InsertHelperEdgesForNestedLayout
 {
 	modify {
+	---
 		exec(LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && [RemoveMethodBodyContainsBetweenExpressions] && RetypeClassContainment*);
 	}
 }

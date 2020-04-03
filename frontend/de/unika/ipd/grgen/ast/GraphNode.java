@@ -38,6 +38,7 @@ import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class GraphNode extends BaseNode {
 	protected CollectNode<BaseNode> connectionsUnresolved;
 	protected CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 	protected CollectNode<SubpatternUsageNode> subpatterns;
+	protected CollectNode<SubpatternReplNode> subpatternRepls;
 	protected CollectNode<OrderedReplacementsNode> orderedReplacements;
 	protected CollectNode<EvalStatementsNode> yieldsEvals;
 	protected CollectNode<ExprNode> returns;
@@ -84,10 +86,8 @@ public class GraphNode extends BaseNode {
 	 */
 	public GraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
-			CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
-			CollectNode<SubpatternUsageNode> subpatterns,
+			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
 			CollectNode<OrderedReplacementsNode> orderedReplacements,
-			CollectNode<EvalStatementsNode> yieldsEvals,
 			CollectNode<ExprNode> returns, CollectNode<BaseNode> imperativeStmts,
 			int context, PatternGraphNode directlyNestingLHSGraph) {
 		super(coords);
@@ -96,17 +96,16 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.connectionsUnresolved);
 		this.subpatterns = subpatterns;
 		becomeParent(this.subpatterns);
+		this.subpatternRepls = subpatternRepls;
+		becomeParent(this.subpatternRepls);
 		this.orderedReplacements = orderedReplacements;
 		becomeParent(this.orderedReplacements);
-		this.yieldsEvals = yieldsEvals;
-		becomeParent(this.yieldsEvals);
 		this.returns = returns;
 		becomeParent(this.returns);
 		this.imperativeStmts = imperativeStmts;
 		becomeParent(imperativeStmts);
 		this.params = params;
 		becomeParent(this.params);
-		this.defVariablesToBeYieldedTo = defVariablesToBeYieldedTo;
 		this.context = context;
 
 		// if we're constructed as part of a PatternGraphNode
@@ -118,6 +117,17 @@ public class GraphNode extends BaseNode {
 		}
 	}
 
+	public void addEvals(CollectNode<EvalStatementsNode> yieldsEvals)
+	{
+		this.yieldsEvals = yieldsEvals;
+		becomeParent(this.yieldsEvals);	
+	}
+
+	public void addDefVariablesToBeYieldedTo(CollectNode<VarDeclNode> defVariablesToBeYieldedTo)
+	{
+		this.defVariablesToBeYieldedTo = defVariablesToBeYieldedTo;
+	}
+
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
@@ -126,6 +136,7 @@ public class GraphNode extends BaseNode {
 		children.add(params);
 		children.add(defVariablesToBeYieldedTo);
 		children.add(subpatterns);
+		children.add(subpatternRepls);
 		children.add(orderedReplacements);
 		children.add(yieldsEvals);
 		children.add(returns);
@@ -142,6 +153,7 @@ public class GraphNode extends BaseNode {
 		childrenNames.add("defVariablesToBeYieldedTo");
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
+		childrenNames.add("orderedReplacements");
 		childrenNames.add("yieldsEvals");
 		childrenNames.add("returns");
 		childrenNames.add("imperativeStmts");
@@ -238,6 +250,38 @@ public class GraphNode extends BaseNode {
 				else resSubUsages = false;
 			}
 		}
+
+		// replace subpattern replacement node placeholder just specifying position in ordered list 
+		// by subpattern replacement node from unordered list with correct arguments
+		// move missing replacement nodes to the begin of the ordered list, it is the base list for further processing
+		Iterator<SubpatternReplNode> it = subpatternRepls.getChildren().iterator();
+		while(it.hasNext()) {
+			SubpatternReplNode subpatternRepl = it.next();
+			for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+				if(!orderedRepls.getChildren().isEmpty())
+				{
+					Iterator<OrderedReplacementNode> subCand = orderedRepls.getChildren().iterator();
+					OrderedReplacementNode orderedRepl = subCand.next();
+					if(orderedRepl instanceof SubpatternReplNode) {
+						SubpatternReplNode orderedSubpatternRepl = (SubpatternReplNode)orderedRepl;
+						String orderedSubpatternReplName = orderedSubpatternRepl.getSubpatternIdent().toString();
+						String subpatternReplName = subpatternRepl.getSubpatternIdent().toString();
+						if(orderedSubpatternReplName.equals(subpatternReplName)) {
+							subCand.remove();
+							orderedRepls.addChild(subpatternRepl);
+							it.remove();
+						}
+					}
+				}
+			}
+		}
+		for(int i = subpatternRepls.getChildren().size() - 1; i >= 0; --i) {
+			SubpatternReplNode subpatternRepl = subpatternRepls.get(i);
+			OrderedReplacementsNode orderedRepls = new OrderedReplacementsNode(subpatternRepl.getCoords(), subpatternRepl.getSubpatternIdent().getIdent().toString());
+			orderedRepls.addChild(subpatternRepl);
+			orderedReplacements.addChildAtFront(orderedRepls);
+		}
+		subpatternRepls.getChildren().clear();
 
 		return resolve != null && paramsOK && resSubUsages;
 	}

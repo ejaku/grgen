@@ -2,7 +2,8 @@ using exectype;
 
 rule r
 {
-	modify  {
+	modify {
+	---
 		exec(x:boolean=true && y:int=3 && {x.rem(y)});
 	}
 }

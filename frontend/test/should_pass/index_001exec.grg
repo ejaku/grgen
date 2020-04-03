@@ -3,6 +3,7 @@
 rule r(x:N, var i:int)
 {
 	modify {
+	---
 		def ref res:set<Node> = set<Node>{};
 		def ref resi:set<Edge> = set<Edge>{};
 		exec(

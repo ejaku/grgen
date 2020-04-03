@@ -3,6 +3,7 @@ rule r1 {
   x:Node;
   negative { x <-- ; }
   modify{
+  ---
     emit("0");
     exec(r2(x));
   }
@@ -12,6 +13,7 @@ rule r2(x:Node) : (Node) {
   x --> y:Node;
   modify {
     delete(x);
+  ---
     return(y);
     emit("-->O");
     exec(r1 && (z:Node)=r2(y));

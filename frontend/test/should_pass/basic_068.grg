@@ -5,6 +5,7 @@ rule B {
 	aa : A;
 	replace {
 		aa;
+	---
 		exec(B);
 		emit(typeof(aa)!=A);
 	}

@@ -40,6 +40,7 @@ rule matchpattern
   ng3a --> ng4a:N; ng3b --> ng4a; ng3b --> ng4b:N; ng3c --> ng4b;
   
   modify {
+  ---
     // emit the value of the attribute
     // the numbers are placeholders needed for arbitrary but successive words
     // so that the test script accepts them as outputs to be checked

@@ -2,6 +2,7 @@
 
 rule rEmitEdge {
     modify {
+	---
         eval {
 			for (e:Edge in edges(Edge)) {
 				emit(e, "\n");
@@ -12,6 +13,7 @@ rule rEmitEdge {
 
 rule rEmitUEdge {
     modify {
+	---
         eval {
 			for (e:UEdge in edges(UEdge)) {
 				emit(e, "\n");
@@ -22,6 +24,7 @@ rule rEmitUEdge {
 
 rule rEmitAEdge {
     modify {
+	---
         eval {
 			for (e:AEdge in edges(AEdge)) {
 				emit(e, "\n");
@@ -32,6 +35,7 @@ rule rEmitAEdge {
 
 rule rEmitEdgeNoArgument {
     modify {
+	---
         eval {
 			for (e:Edge in edges()) { // may fail at runtime
 				emit(e, "\n");
@@ -42,6 +46,7 @@ rule rEmitEdgeNoArgument {
 
 rule rEmitUEdgeNoArgument {
     modify {
+	---
         eval {
 			for (e:UEdge in edges()) { // may fail at runtime
 				emit(e, "\n");
@@ -52,6 +57,7 @@ rule rEmitUEdgeNoArgument {
 
 rule rEmitAEdgeNoArgument {
     modify {
+	---
         eval {
 			for (e:AEdge in edges()) {
 				emit(e, "\n");
@@ -62,6 +68,7 @@ rule rEmitAEdgeNoArgument {
 
 rule rEmitDirectedEdge {
     modify {
+	---
         eval {
 			for (e:MyDirectedEdge in edges(MyDirectedEdge)) {
 				emit(e, "\n");
@@ -72,6 +79,7 @@ rule rEmitDirectedEdge {
 
 rule rEmitUndirectedEdge {
     modify {
+	---
         eval {
 			for (e:MyUndirectedEdge in edges(MyUndirectedEdge)) {
 				emit(e, "\n");
@@ -82,6 +90,7 @@ rule rEmitUndirectedEdge {
 
 rule rEmitDirectedEdgeNoArgument {
     modify {
+	---
         eval {
 			for (e:MyDirectedEdge in edges()) { // may fail at runtime
 				emit(e, "\n");
@@ -92,6 +101,7 @@ rule rEmitDirectedEdgeNoArgument {
 
 rule rEmitUndirectedEdgeNoArgument {
     modify {
+	---
         eval {
 			for (e:MyUndirectedEdge in edges()) { // may fail at runtime
 				emit(e, "\n");

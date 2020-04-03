@@ -2,6 +2,7 @@
 
 rule i {
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		exec(
@@ -16,6 +17,7 @@ rule i {
 
 rule d {
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		exec(
@@ -30,6 +32,7 @@ rule d {
 
 rule b {
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		exec(
@@ -44,6 +47,7 @@ rule b {
 
 rule s {
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		exec
@@ -59,6 +63,7 @@ rule s {
 
 rule re {
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		exec

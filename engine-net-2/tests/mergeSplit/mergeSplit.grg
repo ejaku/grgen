@@ -54,6 +54,7 @@ rule T2exec
   }
   
   modify { // then merge succ into this predecessor; this version is able to handle multiedges
+  ---
     exec([copyToPred(pred, succ)] ;> delSucc(succ));
   }
 }
@@ -86,6 +87,7 @@ rule split(succ:BB)
     modify {
       otherpred -newe:cf-> newsucc:copy<succ>;
       delete(other);
+	---
       exec(copyCfSuccFromTo(succ, newsucc));
     }
   }

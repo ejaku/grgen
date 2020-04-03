@@ -1,5 +1,6 @@
-pattern P(var input:int, def var output:int) modify(var inputput:int, def var outputput:int)
+pattern P(var input:int --- def var output:int) modify(var inputput:int --- def var outputput:int)
 {
+---
 	yield {
 		return(input);
 	}

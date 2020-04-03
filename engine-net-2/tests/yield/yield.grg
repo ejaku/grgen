@@ -9,6 +9,7 @@ rule testreturn:(int)
 rule testyield:(int)
 {
     modify {
+	---
         def var res:int;
         exec ( (::r)=testreturn ;> yield res=::r );
         return (res);

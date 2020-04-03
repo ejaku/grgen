@@ -13,6 +13,7 @@ procedure foo
 rule r : (int)
 {	
 	modify {
+	---
 		def var transactionId:int;
 		
 		eval { 

@@ -10,6 +10,7 @@ rule init {
 
 rule rEmitSetAEdge {
     modify {
+	---
         eval {
 			def ref s:set<AEdge>;
 			s=edges();
@@ -20,6 +21,7 @@ rule rEmitSetAEdge {
 
 rule rEmitEdge {
     modify {
+	---
         eval {
 			for (e:Edge in edges(Edge)) {
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -30,6 +32,7 @@ rule rEmitEdge {
 
 rule rEmitEdgeFail {
     modify {
+	---
         eval {
 			for (e:Edge in edges()) { // may fail at runtime
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -40,6 +43,7 @@ rule rEmitEdgeFail {
 
 rule rEmitUEdge {
     modify {
+	---
         eval {
 			for (e:UEdge in edges(UEdge)) {
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -50,6 +54,7 @@ rule rEmitUEdge {
 
 rule rEmitUEdgeFail {
     modify {
+	---
         eval {
 			for (e:UEdge in edges()) { // may fail at runtime
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -60,6 +65,7 @@ rule rEmitUEdgeFail {
 
 rule rEmitAEdge {
     modify {
+	---
         eval {
 			for (e:AEdge in edges(AEdge)) {
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -70,6 +76,7 @@ rule rEmitAEdge {
 
 rule rEmitAEdgeNoArgument {
     modify {
+	---
         eval {
 			for (e:AEdge in edges()) {
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -80,6 +87,7 @@ rule rEmitAEdgeNoArgument {
 
 rule rEmitDirectedEdge {
     modify {
+	---
         eval {
 			for (e:MyDirectedEdge in edges(MyDirectedEdge)) {
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -90,6 +98,7 @@ rule rEmitDirectedEdge {
 
 rule rEmitDirectedEdgeFail {
     modify {
+	---
         eval {
 			for (e:MyDirectedEdge in edges()) { // may fail at runtime
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -100,6 +109,7 @@ rule rEmitDirectedEdgeFail {
 
 rule rEmitUndirectedEdge {
     modify {
+	---
         eval {
 			for (e:MyUndirectedEdge in edges(MyUndirectedEdge)) {
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");
@@ -110,6 +120,7 @@ rule rEmitUndirectedEdge {
 
 rule rEmitUndirectedEdgeFail {
     modify {
+	---
         eval {
 			for (e:MyUndirectedEdge in edges()) { // may fail at runtime
 				emit("1 value of attribute 5 6 " + nameof(e) + "\n");

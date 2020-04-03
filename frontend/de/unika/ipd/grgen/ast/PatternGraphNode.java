@@ -132,11 +132,9 @@ public class PatternGraphNode extends GraphNode {
 		if(invalid==null) {
 			invalid = new PatternGraphNode("invalid", Coords.getInvalid(), 
 					null, null, 
-					null, 
 					null, null, 
 					null, null,
 					null, null, 
-					null, 
 					null, 
 					null, 
 					null, null,
@@ -148,19 +146,17 @@ public class PatternGraphNode extends GraphNode {
 	
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
-			CollectNode<BaseNode> connections, CollectNode<BaseNode> params, 
-			CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
-			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementsNode> orderedReplacements,
+			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
+			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
 			CollectNode<ExprNode> conditions, 
-			CollectNode<EvalStatementsNode> yieldsEvals,
 			CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyHoms, 
 			CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int modifiers, int context) {
-		super(nameOfGraph, coords, connections, params, defVariablesToBeYieldedTo, subpatterns, orderedReplacements,
-				yieldsEvals, returns, null, context, null);
+		super(nameOfGraph, coords, connections, params, subpatterns, subpatternRepls,
+				new CollectNode<OrderedReplacementsNode>(), returns, null, context, null);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.iters = iters;
@@ -185,6 +181,12 @@ public class PatternGraphNode extends GraphNode {
 		if(params!=null)
 			addParamsToConnections(params);
 	}
+	
+	public void addYieldings(CollectNode<EvalStatementsNode> yieldsEvals)
+	{
+		this.yieldsEvals = yieldsEvals;
+		becomeParent(this.yieldsEvals);	
+	}
 
 	/** returns children of this node */
 	@Override
@@ -194,6 +196,7 @@ public class PatternGraphNode extends GraphNode {
 		children.add(params);
 		children.add(defVariablesToBeYieldedTo);
 		children.add(subpatterns);
+		children.add(subpatternRepls);
 		children.add(orderedReplacements);
 		children.add(alts);
 		children.add(iters);
@@ -218,6 +221,7 @@ public class PatternGraphNode extends GraphNode {
 		childrenNames.add("defVariablesToBeYieldedTo");
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
+		childrenNames.add("orderedReplacements");
 		childrenNames.add("alternatives");
 		childrenNames.add("iters");
 		childrenNames.add("negatives");

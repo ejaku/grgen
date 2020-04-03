@@ -8,6 +8,7 @@ rule init {
 
 rule rn : (set<Node>, set<N>, set<Node>, set<N>)
 {
+---
 	def ref snode:set<Node>;
 	def ref sn:set<N>;
 	yield {
@@ -16,6 +17,7 @@ rule rn : (set<Node>, set<N>, set<Node>, set<N>)
 	}
 	
 	modify {
+	---
 		def ref snode_:set<Node>;
 		def ref sn_:set<N>;
 		eval {
@@ -29,6 +31,7 @@ rule rn : (set<Node>, set<N>, set<Node>, set<N>)
 
 rule re : (set<Edge>, set<E>, set<Edge>, set<E>)
 {
+---
 	def ref sedge:set<Edge>;
 	def ref se:set<E>;
 	yield {
@@ -37,6 +40,7 @@ rule re : (set<Edge>, set<E>, set<Edge>, set<E>)
 	}
 	
 	modify {
+	---
 		def ref sedge_:set<Edge>;
 		def ref se_:set<E>;
 		eval {

@@ -6,7 +6,7 @@ rule r
 
 	modify {
 		x -e:EINT-> x;
-
+	---
 		evalhere {
 			e.a = 42 + e.a;
 		}

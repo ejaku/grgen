@@ -91,7 +91,7 @@ filter fremdef<class mcdef>(var f:int)
 rule r(var i:int) : (int, int, int, int) implements mc, mcdef
 {
 	m:M --> mid:Node --> n:N;
-	
+---	
 	def ndef:N;
 	def mdef:M;
 	def var idef:int;
@@ -111,7 +111,7 @@ rule r(var i:int) : (int, int, int, int) implements mc, mcdef
 rule s(var i:int) : (int, int, int, int) implements mc, mcdef
 {
 	n:N --> mid:Node --> m:M;
-
+---
 	def ndef:N;
 	def mdef:M;
 	def var idef:int;

@@ -3,14 +3,8 @@ using model_init;
 // not really computations, just yielding
 test t(n:A, -e:E1->, var spat:string) : (boolean)
 {
-	def var res:boolean;
-	
-	def ref mpat:map<string, Node> = map<string,Node>{spat->n};
-	def ref arpat:array<Node> = array<Node>[n];
-	def ref depat:deque<E1> = deque<E1>[e];
-	def ref sepat:set<string> = set<string>{spat};
-	
 	independent {
+	---
 		yield {
 			yield mpat.add(spat, n);
 			yield arpat.add(n);
@@ -20,13 +14,21 @@ test t(n:A, -e:E1->, var spat:string) : (boolean)
 			yield res = mpat[spat] in arpat;
 		}
 	}
+---
+	def var res:boolean;
 	
+	def ref mpat:map<string, Node> = map<string,Node>{spat->n};
+	def ref arpat:array<Node> = array<Node>[n];
+	def ref depat:deque<E1> = deque<E1>[e];
+	def ref sepat:set<string> = set<string>{spat};
+		
 	return (res);
 }
 
 rule r(n:A, -e:E1->, var spat:string, var x:int) : (boolean)
 {	
 	modify {
+	---
 		def var res:boolean;
 
 		def ref mpat:map<string, Node> = map<string,Node>{spat->n};
@@ -50,12 +52,8 @@ rule r(n:A, -e:E1->, var spat:string, var x:int) : (boolean)
 pattern P(var spat:string, n:A, -e:E1->) modify(var _spat:string, _n:A)
 {
 	independent {
-		def ref mpat:map<string, Node> = map<string,Node>{spat->n};
-		def ref arpat:array<Node> = array<Node>[n];
-		def ref depat:deque<E1> = deque<E1>[e];
-		def ref sepat:set<string> = set<string>{spat};
-
 		independent {
+		---
 			yield {
 				mpat.add(spat, n);
 				arpat.add(n);
@@ -63,9 +61,16 @@ pattern P(var spat:string, n:A, -e:E1->) modify(var _spat:string, _n:A)
 				sepat.add(spat);
 			}
 		}
+		
+	---
+		def ref mpat:map<string, Node> = map<string,Node>{spat->n};
+		def ref arpat:array<Node> = array<Node>[n];
+		def ref depat:deque<E1> = deque<E1>[e];
+		def ref sepat:set<string> = set<string>{spat};
 	}
 	
 	modify {
+	---
 		def ref mpat:map<string, Node> = map<string,Node>{spat->n};
 		def ref arpat:array<Node> = array<Node>[n];
 		def ref depat:deque<E1> = deque<E1>[e];

@@ -9,6 +9,7 @@ sequence DoesNotWork {
 
 rule CheckWorks {
     modify {
+	---
         eval {
             def var ret:int = TestFunction2("haha");
             (ret)=TestProcedure2("hoho");    
@@ -19,6 +20,7 @@ rule CheckWorks {
 
 rule Works {
     modify {
+	---
         eval {
             def var ret:int = TestFunction();
             TestProcedure();    

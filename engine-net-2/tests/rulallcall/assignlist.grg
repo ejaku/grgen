@@ -19,6 +19,7 @@ rule r : (N, Node, int, string)
 rule rexec
 {
 	modify {
+	---
 		exec ( (::_r1,::_r2,::_r3,::_r4)=r
 			;> { emit("the value of variable \"_r1\" of type dontcare is: ", ::_r1, "\n") }
 			;> { emit("the value of variable \"_r2\" of type dontcare is: ", ::_r2, "\n") }

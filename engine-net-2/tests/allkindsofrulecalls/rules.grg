@@ -25,7 +25,7 @@ match class rs
 rule r implements rs
 {
 	n1:Node --> n2:N;
-	
+---
 	def var i:int;
 	yield {
 		yield i = n2.i;
@@ -44,7 +44,7 @@ rule r implements rs
 rule s implements rs
 {
 	m:M --> m;
-
+---
 	def var i:int;
 	yield {
 		yield i = m.i;

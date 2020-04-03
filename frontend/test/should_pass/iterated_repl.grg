@@ -10,6 +10,7 @@ rule r
 	
 	modify {
 		x:Node;
+	---
 		iterated foo;
 	}
 }
@@ -26,6 +27,7 @@ pattern p
 	
 	modify {
 		x:Node;
+	---
 		iterated foo;
 	}
 }

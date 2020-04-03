@@ -7,6 +7,7 @@ rule r(var n:N, var nn:NN)
 	if{ ((NN)n).aa() == ((N)nn).a(); }
 	
 	replace {
+	---
 		eval {
 			def var a:int = ((NN)n).aa() + ((N)nn).a();
 			(def var b:N, def var c:string) = nn.p(n, "foo");

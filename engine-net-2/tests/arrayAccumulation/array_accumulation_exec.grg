@@ -10,42 +10,49 @@ test td(var x:double) : (double)
 
 rule sum {
 	modify {
+	---
 		exec((::x) = ti(array<int>[1,2,3].sum()));
 	}
 }
 
 rule prod {
 	modify {
+	---
 		exec((::x) = ti(array<int>[1,2,3].prod()));
 	}
 }
 
 rule min {
 	modify {
+	---
 		exec((::x) = ti(array<int>[1,2,3].min()));
 	}
 }
 
 rule max {
 	modify {
+	---
 		exec((::x) = ti(array<int>[1,2,3].max()));
 	}
 }
 
 rule avg {
 	modify {
+	---
 		exec((::x) = td(array<int>[1,2,3].avg()));
 	}
 }
 
 rule med {
 	modify {
+	---
 		exec((::x) = td(array<int>[1,2,3].med()));
 	}
 }
 
 rule medUnsorted {
 	modify {
+	---
 		exec((::x) = td(array<int>[1,2,3].medUnsorted()));
 	}
 }

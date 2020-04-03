@@ -28,6 +28,7 @@ rule init
 		s --> n1:Node;
 		s --> n1;
 		s --> . --> . --> .;
+	---
 		eval { ::start = s; }
 	}
 }
@@ -36,6 +37,7 @@ rule init
 
 rule rnodes
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 	
@@ -45,6 +47,7 @@ rule rnodes
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -61,6 +64,7 @@ rule rnodes
 
 rule redges
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -70,6 +74,7 @@ rule redges
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -86,6 +91,7 @@ rule redges
 
 rule redges_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -95,6 +101,7 @@ rule redges_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -113,6 +120,7 @@ rule redges_
 
 rule rinc
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -122,6 +130,7 @@ rule rinc
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -138,6 +147,7 @@ rule rinc
 
 rule rinc_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -147,6 +157,7 @@ rule rinc_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -163,6 +174,7 @@ rule rinc_
 
 rule rincin
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -172,6 +184,7 @@ rule rincin
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -188,6 +201,7 @@ rule rincin
 
 rule rincin_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -197,6 +211,7 @@ rule rincin_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -213,6 +228,7 @@ rule rincin_
 
 rule rincout
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -222,6 +238,7 @@ rule rincout
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -238,6 +255,7 @@ rule rincout
 
 rule rincout_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -247,6 +265,7 @@ rule rincout_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -263,6 +282,7 @@ rule rincout_
 
 rule radj
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -272,6 +292,7 @@ rule radj
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -288,6 +309,7 @@ rule radj
 
 rule radjin
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -297,6 +319,7 @@ rule radjin
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -313,6 +336,7 @@ rule radjin
 
 rule radjout
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -322,6 +346,7 @@ rule radjout
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -340,6 +365,7 @@ rule radjout
 
 rule rreache
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -349,6 +375,7 @@ rule rreache
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -365,6 +392,7 @@ rule rreache
 
 rule rreache_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -374,6 +402,7 @@ rule rreache_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -390,6 +419,7 @@ rule rreache_
 
 rule rreachein
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -399,6 +429,7 @@ rule rreachein
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -415,6 +446,7 @@ rule rreachein
 
 rule rreachein_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -424,6 +456,7 @@ rule rreachein_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -440,6 +473,7 @@ rule rreachein_
 
 rule rreacheout
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -449,6 +483,7 @@ rule rreacheout
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -465,6 +500,7 @@ rule rreacheout
 
 rule rreacheout_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -474,6 +510,7 @@ rule rreacheout_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -490,6 +527,7 @@ rule rreacheout_
 
 rule rreach
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -499,6 +537,7 @@ rule rreach
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -515,6 +554,7 @@ rule rreach
 
 rule rreachin
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -524,6 +564,7 @@ rule rreachin
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -540,6 +581,7 @@ rule rreachin
 
 rule rreachout
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -549,6 +591,7 @@ rule rreachout
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -567,6 +610,7 @@ rule rreachout
 
 rule rboundreache
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -576,6 +620,7 @@ rule rboundreache
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -592,6 +637,7 @@ rule rboundreache
 
 rule rboundreache_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -601,6 +647,7 @@ rule rboundreache_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -617,6 +664,7 @@ rule rboundreache_
 
 rule rboundreachein
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -626,6 +674,7 @@ rule rboundreachein
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -642,6 +691,7 @@ rule rboundreachein
 
 rule rboundreachein_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -651,6 +701,7 @@ rule rboundreachein_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -667,6 +718,7 @@ rule rboundreachein_
 
 rule rboundreacheout
 {
+---
 	def ref _res1e:set<Edge>;
 	def var _res1ecount:int;
 
@@ -676,6 +728,7 @@ rule rboundreacheout
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e = _res1e;
 			::res1ecount = _res1ecount;
@@ -692,6 +745,7 @@ rule rboundreacheout
 
 rule rboundreacheout_
 {
+---
 	def ref _res1e:set<AEdge>;
 	def var _res1ecount:int;
 
@@ -701,6 +755,7 @@ rule rboundreacheout_
 	}
 	
 	modify {
+	---
 		eval {
 			::res1e_ = _res1e;
 			::res1ecount = _res1ecount;
@@ -717,6 +772,7 @@ rule rboundreacheout_
 
 rule rboundreach
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -726,6 +782,7 @@ rule rboundreach
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -742,6 +799,7 @@ rule rboundreach
 
 rule rboundreachin
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -751,6 +809,7 @@ rule rboundreachin
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -767,6 +826,7 @@ rule rboundreachin
 
 rule rboundreachout
 {
+---
 	def ref _res1:set<Node>;
 	def var _res1count:int;
 
@@ -776,6 +836,7 @@ rule rboundreachout
 	}
 	
 	modify {
+	---
 		eval {
 			::res1 = _res1;
 			::res1count = _res1count;
@@ -792,6 +853,7 @@ rule rboundreachout
 
 rule rmapboundreach
 {
+---
 	def ref _res1m:map<Node,int>;
 
 	yield {
@@ -799,6 +861,7 @@ rule rmapboundreach
 	}
 	
 	modify {
+	---
 		eval {
 			::res1m = _res1m;
 			::res2m = boundedReachableWithRemainingDepth(::start, 2);
@@ -812,6 +875,7 @@ rule rmapboundreach
 
 rule rmapboundreachin
 {
+---
 	def ref _res1m:map<Node,int>;
 
 	yield {
@@ -819,6 +883,7 @@ rule rmapboundreachin
 	}
 	
 	modify {
+	---
 		eval {
 			::res1m = _res1m;
 			::res2m = boundedReachableWithRemainingDepthIncoming(::start, 2);
@@ -832,6 +897,7 @@ rule rmapboundreachin
 
 rule rmapboundreachout
 {
+---
 	def ref _res1m:map<Node,int>;
 
 	yield {
@@ -839,6 +905,7 @@ rule rmapboundreachout
 	}
 	
 	modify {
+	---
 		eval {
 			::res1m = _res1m;
 			::res2m = boundedReachableWithRemainingDepthOutgoing(::start, 2);

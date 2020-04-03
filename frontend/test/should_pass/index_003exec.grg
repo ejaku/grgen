@@ -5,6 +5,7 @@ rule t(var x:int)
 	m:N;
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		exec
 		(
@@ -48,6 +49,7 @@ rule t2(var x:int)
 	m:N;
 
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		exec
 		(
@@ -91,6 +93,7 @@ rule t3(var x:int)
 	m:N;
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		exec
 		(
@@ -134,6 +137,7 @@ rule t4(var x:int)
 	m:N;
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		exec
 		(
@@ -177,6 +181,7 @@ rule t5(var x:int)
 	m:N;
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		exec
 		(

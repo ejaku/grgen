@@ -11,6 +11,7 @@ rule init : (A,Edge,Node)
 rule rclear
 {
 	modify {
+	---
 		eval {
 			clear();
 		}
@@ -20,6 +21,7 @@ rule rclear
 rule rmerge(n1:A, -e:Edge->, n2:Node)
 {	
 	modify {
+	---
 		eval { 
 			merge(n1,n2);
 		}
@@ -34,6 +36,7 @@ test tmerge
 rule rredirectsource(n1:A, -e:Edge->, n2:Node)
 {	
 	modify {
+	---
 		eval { 
 			redirectSource(e,n2);
 		}
@@ -49,6 +52,7 @@ test tredirectsource
 rule rredirecttarget(n1:A, -e:Edge->, n2:Node)
 {	
 	modify {
+	---
 		eval { 
 			redirectTarget(e,n1);
 		}
@@ -64,6 +68,7 @@ test tredirecttarget
 rule rredirctsourcetarget(n1:A, -e:Edge->, n2:Node)
 {	
 	modify {
+	---
 		eval { 
 			redirectSourceAndTarget(e,n2,n1);
 		}

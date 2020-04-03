@@ -38,6 +38,11 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 		children.add(n);
 	}
 
+	public void addChildAtFront(T n) {
+		becomeParent(n);
+		children.add(0, n);
+	}
+
 	/** returns children of this node */
 	@Override
 	public Collection<T> getChildren() {

@@ -9,6 +9,7 @@ rule r
 	if{ n.foo(13)<42 && nn1.foo(13)<42 && nn2.foo(13)<42 && nnn.foo(13)<42; }
 	
 	modify {
+	---
 		eval {
 			def var x:int = 1;
 			def var y:int = 2;
@@ -29,6 +30,7 @@ rule s
 	if{ e.foo(13)<42 && ee1.foo(13)<42 && ee2.foo(13)<42 && eee.foo(13)<42; }
 	
 	modify {
+	---
 		eval {
 			def var x:int = 1;
 			def var y:int = 2;

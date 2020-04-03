@@ -9,6 +9,7 @@ rule rn : (N)
 	if { nameof(nodeByName("$0", N))=="$0"; }
 	
 	modify {
+	---
 		def n:N;
 		eval {
 			yield n = nodeByName("$42", N);
@@ -29,6 +30,7 @@ rule re : (E)
 	if { nameof(edgeByName("$0", E))=="$0"; }
 	
 	modify {
+	---
 		def -n:E->;
 		eval {
 			yield n = edgeByName("$42", E);

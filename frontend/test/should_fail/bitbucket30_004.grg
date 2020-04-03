@@ -1,5 +1,6 @@
 rule rEmitSetUEdgeReverseFail {
     modify {
+	---
         eval {
 			def ref s:set<AEdge>;
 			s=edges(UEdge);

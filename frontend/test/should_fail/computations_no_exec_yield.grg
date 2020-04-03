@@ -1,6 +1,7 @@
 rule r(var n:int) : (int)
 {
 	modify {
+	---
 		def var res:int = 0; 
 		exec( { (res) = foo(); } ); // yield missing
 		return( res );

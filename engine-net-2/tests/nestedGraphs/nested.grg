@@ -46,6 +46,7 @@ sequence remGreenSeq
 rule r1
 {
 	modify {
+	---
 		def var result:boolean;
 		exec( (gr:set<Node>)=init ;> (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;> {
 			File::export("redgreenblueC.grs");
@@ -66,6 +67,7 @@ rule r1
 rule r2
 {
 	modify {
+	---
 		def var result:boolean;
 		exec( (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;> {
 			sub:graph = File::import("redgreenbluefullC.grs"); 
@@ -80,6 +82,7 @@ rule r2
 rule r3
 {
 	modify {
+	---
 		def var result:boolean;
 		exec( (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;>
 			rr:RedGraph ;> in r.sub { (rr)=red ;> { rr.sub = File::import("redgreenblueC.grs")} } ;>
@@ -97,6 +100,7 @@ rule r3
 rule r4
 {
 	modify {
+	---
 		def var result:boolean;
 		exec( { clone:graph=copy(this); full:graph=File::import("redgreenbluefull2C.grs"); initial:graph=File::import("redgreenblueC.grs"); 
 			yield result = this==clone && this==full && this!=initial } 
@@ -110,6 +114,7 @@ rule r4
 rule r5
 {
 	modify {
+	---
 		def var result:boolean;
 		exec( (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;>
 			rsub:graph ;> gsub:graph ;> bsub:graph ;> { rsub=r.sub; gsub=g.sub; bsub=b.sub } ;>
@@ -127,6 +132,7 @@ rule r5
 rule r6
 {
 	modify {
+	---
 		def var result:boolean;
 		exec( (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;>
 			rsub:graph ;> gsub:graph ;> bsub:graph ;> { rsub=r.sub; gsub=g.sub; bsub=b.sub } ;>
@@ -144,6 +150,7 @@ rule r6
 rule r2special
 {
 	modify {
+	---
 		def var result:boolean;
 		exec( (r:RedGraph)=red ;> (g:GreenGraph)=green ;> (b:BlueGraph)=blue ;>
 			rsub:graph ;> gsub:graph ;> bsub:graph ;> { rsub=r.sub; gsub=g.sub; bsub=b.sub } ;>
@@ -165,6 +172,7 @@ rule testThis
 {
 	if { this == this; }
 	modify {
+	---
 		def var b:boolean;
 		eval { yield b = this != this; }
 	}

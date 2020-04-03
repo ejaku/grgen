@@ -2,6 +2,7 @@ rule emitInt {
 	int:_result::_IntResult;
 
 	replace {
+	---
 		emit("<?xml version=\"1.0\" encoding=\"ASCII\"?>\n");
 		emit("<result:IntResult xmi:version=\"2.0\"\n");
 		emit("    xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
@@ -15,6 +16,7 @@ rule emitString {
 	string:_result::_StringResult;
 
 	replace {
+	---
 		emit("<?xml version=\"1.0\" encoding=\"ASCII\"?>\n");
 		emit("<result:StringResult xmi:version=\"2.0\"\n");
 		emit("    xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");

@@ -40,6 +40,7 @@ procedure einszweipolizei() : (int, int, int)
 rule r : (int)
 {	
 	modify {
+	---
 		def var res1:int;
 		
 		eval { 
@@ -55,9 +56,10 @@ rule r : (int)
 	}
 }
 
-pattern P() modify(var input:int, def var output:int)
+pattern P() modify(var input:int --- def var output:int)
 {
 	modify {
+	---
 		eval {
 			(yield output) = one();
 			yield output = output + input;
@@ -70,9 +72,10 @@ rule r2d2 : (int, int)
 	p:P();
 	
 	modify {
+		p(res --- yield resres);
+	---
 		def var res:int = 42;
 		def var resres:int;
-		p(res, yield resres);
 				
 		return (res, resres);
 	}

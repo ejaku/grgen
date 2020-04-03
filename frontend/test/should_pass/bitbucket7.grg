@@ -2,6 +2,7 @@
 
 rule TestRule {
     modify {
+	---
         eval {
             def ref mySet:set<string>;
 

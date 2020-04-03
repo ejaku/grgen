@@ -12,6 +12,7 @@ test False
 rule thenleft
 {
 	modify {
+	---
 		exec(r:boolean=(true <; true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(true <; false) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(false <; true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -22,6 +23,7 @@ rule thenleft
 rule thenright
 {
 	modify {
+	---
 		exec(r:boolean=(true ;> true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(true ;> false) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(false ;> true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -32,6 +34,7 @@ rule thenright
 rule lazyor
 {
 	modify {
+	---
 		exec(r:boolean=(true || true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(true || false) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(false || true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -42,6 +45,7 @@ rule lazyor
 rule lazyand
 {
 	modify {
+	---
 		exec(r:boolean=(true && true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(true && false) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(false && true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -52,6 +56,7 @@ rule lazyand
 rule strictor
 {
 	modify {
+	---
 		exec(r:boolean=(true | true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(true | false) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(false | true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -62,6 +67,7 @@ rule strictor
 rule strictand
 {
 	modify {
+	---
 		exec(r:boolean=(true & true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(true & false) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(false & true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -72,6 +78,7 @@ rule strictand
 rule strictxor
 {
 	modify {
+	---
 		exec(r:boolean=(true ^ true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(true ^ false) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(false ^ true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -82,6 +89,7 @@ rule strictxor
 rule neg
 {
 	modify {
+	---
 		exec(r:boolean=(!true) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(!false) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 	}
@@ -90,6 +98,7 @@ rule neg
 rule ifthenelse
 {
 	modify {
+	---
 		exec(r:boolean=(if{true; true; true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(if{true; true; false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(if{true; false; true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
@@ -104,6 +113,7 @@ rule ifthenelse
 rule ifthen
 {
 	modify {
+	---
 		exec(r:boolean=(if{true; true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(if{true; false}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});
 		exec(r:boolean=(if{false; true}) && {emit("The value of variable r of type bool is: ")} && {emit(r)} && {emit("\n")});

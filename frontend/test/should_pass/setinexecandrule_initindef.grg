@@ -1,9 +1,11 @@
 rule testuntyped(ref mp:map<int,Node>)
 {
 	n:Node; m:Node;
+---
 	def ref fubz:set<Node> = set<Node>{n,m};
 	
 	modify {
+	---
 		exec(tnode(n));
 		exec(tnode(mp[0]));
 		exec(tnode(fubz.peek(0)));

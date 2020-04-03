@@ -16,6 +16,7 @@ rule DestroyRing {
     a:Node -e:Edge-> b:Node;
     modify {
         delete(e);
+	---
         exec(DestroyEnd[*]);
     }
 }

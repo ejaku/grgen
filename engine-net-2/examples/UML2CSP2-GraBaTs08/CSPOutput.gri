@@ -11,7 +11,7 @@ rule InitOutput
   modify {
     counter:Counter;
     lastPa -:processAssignments-> dummyPa:ProcessAssignment;
-
+  ---
     exec(x:ProcessAssignment=curPa && ((x)=PAWriteProcess(x)[+]
         | (x)=PAWritePrefix(x)[+]
         | (x)=PAWriteConditionStart(x)
@@ -30,6 +30,7 @@ rule PAWriteProcess(curPa:ProcessAssignment) : (ProcessAssignment)
   curPa -:processAssignments-> nextPa:ProcessAssignment;
 
   modify {
+  ---
     return (nextPa);
     emit(procID.name, " = ", proc.name, "\n");
   }
@@ -47,6 +48,7 @@ rule PAWritePrefix(curPa:ProcessAssignment) : (ProcessAssignment)
   curPa -:processAssignments-> nextPa:ProcessAssignment;
 
   modify {
+  ---
     return (nextPa);
     emit(procID.name, " = ", ev.name, " -> ", tgt.name, "\n");
   }
@@ -62,6 +64,7 @@ rule PAWriteConditionStart(curPa:ProcessAssignment) : (ProcessAssignment)
   curPa -:processAssignments-> nextPa:ProcessAssignment;
 
   modify {
+  ---
     return (nextPa);
     emit(procID.name, " = ");
     exec((PAWriteConditionNext(cond) || PAWriteConditionLast(cond)) | PAWriteConditionEnd[*]);
@@ -75,6 +78,7 @@ rule PAWriteConditionNext(curCond:Condition)
   counter:Counter;
 
   modify {
+  ---
     eval {
       counter.value = counter.value + 1;
     }
@@ -89,6 +93,7 @@ rule PAWriteConditionLast(curCond:Condition)
   counter:Counter;
 
   modify {
+  ---
     emit((counter.value > 1 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> " + elseProc.name);
   }
 }
@@ -99,6 +104,7 @@ rule PAWriteConditionEnd
   if { counter.value > 0; }
 
   modify {
+  ---
     eval {
       counter.value = counter.value - 1;
     }
@@ -117,6 +123,7 @@ rule PAWriteConcurrencyStart(curPa:ProcessAssignment) : (ProcessAssignment)
   curPa -:processAssignments-> nextPa:ProcessAssignment;
 
   modify {
+  ---
     return (nextPa);
     emit(procID.name, " = ", forkProc.name);
     exec(PAWriteConcurrencyNext(conc) || PAWriteConcurrencyLast(conc));
@@ -129,6 +136,7 @@ rule PAWriteConcurrencyNext(curConc:Concurrency)
   curConc -:rightHandSide-> nextConc:Concurrency -:leftHandSide-> forkProc:Process;
 
   modify {
+  ---
     emit(" || ", forkProc.name);
     exec(PAWriteConcurrencyNext(nextConc) || PAWriteConcurrencyLast(nextConc));
   }
@@ -139,6 +147,7 @@ rule PAWriteConcurrencyLast(curConc:Concurrency)
   curConc -:rightHandSide-> forkProc:Process;
 
   modify {
+  ---
     emit(" || ", forkProc.name);
   }
 }

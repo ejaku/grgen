@@ -1,6 +1,7 @@
 #using "bitbucket30.gm"
 
 test yEmitEdge {
+---
 	yield {
 		for (e:Edge in edges(Edge)) {
 			emit(e, "\n");
@@ -9,6 +10,7 @@ test yEmitEdge {
 }
 
 test yEmitUEdge {
+---
 	yield {
 		for (e:UEdge in edges(UEdge)) {
 			emit(e, "\n");
@@ -17,6 +19,7 @@ test yEmitUEdge {
 }
 
 test yEmitAEdge {
+---
 	yield {
 		for (e:AEdge in edges(AEdge)) {
 			emit(e, "\n");
@@ -25,6 +28,7 @@ test yEmitAEdge {
 }
 
 test yEmitEdgeNoArgument {
+---
 	yield {
 		for (e:Edge in edges()) { // may fail at runtime
 			emit(e, "\n");
@@ -33,6 +37,7 @@ test yEmitEdgeNoArgument {
 }
 
 test yEmitUEdgeNoArgument {
+---
 	yield {
 		for (e:UEdge in edges()) { // may fail at runtime
 			emit(e, "\n");
@@ -41,6 +46,7 @@ test yEmitUEdgeNoArgument {
 }
 
 test yEmitAEdgeNoArgument {
+---
 	yield {
 		for (e:AEdge in edges()) {
 			emit(e, "\n");
@@ -49,6 +55,7 @@ test yEmitAEdgeNoArgument {
 }
 
 test yEmitDirectedEdge {
+---
 	yield {
 		for (e:MyDirectedEdge in edges(MyDirectedEdge)) {
 			emit(e, "\n");
@@ -57,6 +64,7 @@ test yEmitDirectedEdge {
 }
 
 test yEmitUndirectedEdge {
+---
 	yield {
 		for (e:MyUndirectedEdge in edges(MyUndirectedEdge)) {
 			emit(e, "\n");
@@ -65,6 +73,7 @@ test yEmitUndirectedEdge {
 }
 
 test yEmitDirectedEdgeNoArgument {
+---
 	yield {
 		for (e:MyDirectedEdge in edges()) { // may fail at runtime
 			emit(e, "\n");
@@ -73,6 +82,7 @@ test yEmitDirectedEdgeNoArgument {
 }
 
 test yEmitUndirectedEdgeNoArgument {
+---
 	yield {
 		for (e:MyUndirectedEdge in edges()) { // may fail at runtime
 			emit(e, "\n");

@@ -5,6 +5,7 @@ match class Foo
 
 test foo implements Foo
 {
+---
 	def var i:int;
 }
 

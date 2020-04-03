@@ -24,7 +24,7 @@ match class mc
 rule r(var offset:int) implements mc
 {
 	a:A;
-
+---
 	def var i:int;
 	def var j:int;
 

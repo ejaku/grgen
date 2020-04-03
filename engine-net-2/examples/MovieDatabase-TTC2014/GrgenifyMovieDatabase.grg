@@ -30,6 +30,7 @@ function escapeEscapeAndQuote(var s:string) : string
 rule create_MovieDatabaseModel
 {
 	modify {
+	---
 		emit("new graph \"MovieDatabaseModel\"\n");
 	}
 }
@@ -39,6 +40,7 @@ rule create_Movie
 	m:_movies::_Movie;
 	
 	modify {
+	---
 		emit("new :Movie($=\""+nameof(m)+"\", title=\""+escapeEscapeAndQuote(m._title)+"\", rating="+m._rating+", year="+m._year+", type="+removeLeadingUnderscore((string)m._type)+")\n");
 	}
 }
@@ -48,6 +50,7 @@ rule create_Actor
 	a:_movies::_Actor;
 	
 	modify {
+	---
 		emit("new :Actor($=\""+nameof(a)+"\", name=\""+escapeEscapeAndQuote(a._name)+"\")\n");
 	}
 }
@@ -57,6 +60,7 @@ rule create_Actress
 	a:_movies::_Actress;
 	
 	modify {
+	---
 		emit("new :Actress($=\""+nameof(a)+"\", name=\""+escapeEscapeAndQuote(a._name)+"\")\n");
 	}
 }
@@ -69,6 +73,7 @@ rule create_personToMovie
 	modify {
 		delete(pm);
 		delete(mp);
+		---
 		emithere("new @(\""+nameof(p)+"\") -:personToMovie($=\""+nameof(pm)+"\")-> @(\""+nameof(m)+"\")\n");
 	}
 }

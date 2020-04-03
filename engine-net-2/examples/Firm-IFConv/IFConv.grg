@@ -87,6 +87,7 @@ rule WalkBlocks
     cur:Block -:df-> :IR_node -:df-> top:Block <-p:pdom- bottom:Block;
     modify {
         cur -:cdep-> top;
+	---
         exec(curBlock:Block=cur && (curBlock)=BuildCDep(curBlock,top,bottom)[*]);
     }
 }
@@ -113,6 +114,7 @@ rule IFConv
     top <-:df- cond:Cond -:df-> condProj:Proj;
 
     modify {
+	---
         exec(  ICCheckPathValid(lb, top)
             && ICCheckPathValid(rb, top)
             && (lpos:int)=ICGetPos(l)
@@ -196,6 +198,7 @@ rule ICPreparePath(block:Block, pred:Block, var i:int, top:Block)
     pred -p:df-> :IR_node\Block -:df-> pred_pred:Block -:cdep-> top;
 
     modify {
+	---
         exec(  (ppos:int)=ICGetPos(p)
             && ICPreparePath(pred, pred_pred, ppos, top)
             | ICSplitBlock(block, pred, i, pred_pred, ppos));
@@ -204,7 +207,8 @@ rule ICPreparePath(block:Block, pred:Block, var i:int, top:Block)
 
 rule ICSplitBlock(block:Block, pred:Block, var i:int, pred_pred:Block, var j:int)
 {
-    modify{
+    modify {
+	---
         exec((nextPos:int)=ICGetNextPos(block)
             && [ICCopyPhi(block, pred, i, pred_pred, j, nextPos)]
             && (jmp:IR_node)=ICGetBlockEnd(pred)
@@ -261,6 +265,7 @@ rule ICCopyPhi(block:Block, pred:Block, var i:int, pred_pred:Block, var j:int, v
     if { dfphi.pos == i; }
 
     modify {
+		---
 //        exec(ICCopyTo(phi_pred, pred, pred_pred, j));
         exec(((copy_:IR_node)=ICCopyTo_otherBlock(phi_pred, pred, pred_pred)
             || (copy_)=ICCopyTo_isPhi(phi_pred, pred, pred_pred, j)
@@ -322,9 +327,9 @@ rule ICCopyTo_default(curNode:IR_node, pred:Block, pred_pred:Block, var i:int) :
     modify {
         // TODO: Copy all attributes...
         copy_:typeof(curNode) -:df-> pred_pred;
-        return (copy_);
-
+	---
         exec([ICCopyPred(copy_, curNode, pred, pred_pred, i)]);
+        return (copy_);
     }
 }
 
@@ -333,6 +338,7 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
     from -dfrom:df-> target:IR_node\Block;
 
     modify {
+	---
 //        exec(ICCopyTo(target, block, i));
         exec(((pred_copy:IR_node)=ICCopyTo_otherBlock(target, pred, pred_pred)
             || (pred_copy)=ICCopyTo_isPhi(target, pred, pred_pred, i)
@@ -374,6 +380,7 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
             modify {
                 // TODO: Copy all attributes...
                 copy_:typeof(curNode) -:df-> pred_block;
+			---
 //                return (copy_);
 
                 exec([ICCopyPred(copy_, curNode, block, i)]);
@@ -388,6 +395,7 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
     hom(cur, left);
     cur -:df-> :Proj -:df-> top;
     modify {
+	---
         exec(curBlock:Block = right | (curBlock)=ICCheckRight(curBlock, top, left, right, bottom) | ICCheckRightEnd(curBlock, top, left, right, bottom));
     }
 }
@@ -407,6 +415,7 @@ rule ICCheckRightEnd(cur:Block, top:Block, left:Block, right:Block, bottom:Block
     cur -:df-> :Proj -:df-> top;
     modify {
         bottom -:ifconv-> top;
+	---
         exec(MoveToBlock(left, top)[*] | MoveToBlock(right, top)[*]);
     }
 }
@@ -433,6 +442,7 @@ rule TestRef
 {
     b:Block -l:df-> n:Jmp -:df-> prev:Block;
     modify {
+	---
         exec((top)=IFConvLeftEnd(prev,b,l));
     }
 }
@@ -442,7 +452,7 @@ rule IFConvLeftEnd(cur:Block, bottom:Block, -left:df->) : (Block)
     cur -:df-> :Proj -:df-> top:Block;
     modify {
         return(top);
-
+	---
         exec(IFConvRightStart(bottom, top, left));
     }
 }
@@ -451,6 +461,7 @@ rule IFConvRightStart(bottom:Block, top:Block, -left:df->)
 {
     bottom -:df-> :Jmp -:df-> prev:Block -:cdep-> top;
     modify {
+	---
         exec(IFConvRightEnd(prev,
     }
 }

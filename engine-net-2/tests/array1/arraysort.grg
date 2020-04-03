@@ -7,6 +7,7 @@ rule sort(ref a:array<N>)
 	if{ a.orderAscendingBy<s>().indexOfOrderedBy<s>("2")==2; }
 
 	modify {
+	---
 		emit("the value of variable a of type unknown is: ", a.orderAscendingBy<i>(), "\n");
 		emit("the value of variable i of type unknown is: ", a.orderAscendingBy<i>().indexOfOrderedBy<i>(2), "\n");
 		emit("the value of variable a of type unknown is: ", a.orderAscendingBy<s>(), "\n");
@@ -20,6 +21,7 @@ rule sortPlain(ref a:array<int>)
 	if{ a.orderAscending().indexOfOrdered(2)==2; }
 
 	modify {
+	---
 		emit("the value of variable a of type unknown is: ", a.orderAscending(), "\n");
 		emit("the value of variable i of type unknown is: ", a.orderAscending().indexOfOrdered(2), "\n");
 	}

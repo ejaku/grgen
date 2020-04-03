@@ -8,8 +8,9 @@ rule DeleteRule {
 	n:Node;
 	optional {
 		modify{
-			eval{ emit("1 value of attribute found node " + nameof(n) +"\n"); }
 			delete(n);
+		---
+			eval{ emit("1 value of attribute found node " + nameof(n) +"\n"); }
 		}
 	}
 }

@@ -12,6 +12,7 @@ rule r
 	
 	modify {
 		x:Node;
+	---
 		alternative foo;
 	}
 }
@@ -30,6 +31,7 @@ pattern p
 	
 	modify {
 		x:Node;
+	---
 		alternative foo;
 	}
 }

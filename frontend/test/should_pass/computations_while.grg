@@ -8,16 +8,17 @@ function foo() : int
 }
 
 test t : (int)
-{
-	def var res:int = 42;
-	
+{	
 	independent {
+	---
 		yield {
 			while(res > 1) {
 				yield res = res - 1;
 			}
 		}
 	}
+---	
+	def var res:int = 42;
 	
 	return (res);
 }
@@ -25,6 +26,7 @@ test t : (int)
 rule r : (int)
 {	
 	modify {
+	---
 		def var res:int = 42;
 		
 		eval { 

@@ -8,6 +8,7 @@ rule createTestGraph
 {
 	modify {
 		a:AnchorNode --> . --> :SpecialNode;
+	---
 		exec(createFirstLevel(a)[1000]);
 	}
 }
@@ -16,6 +17,7 @@ rule createFirstLevel(a:AnchorNode)
 {
 	modify {
 		a --> next:Node;
+	---
 		exec(createSecondLevel(next)[1000]);
 	}
 }

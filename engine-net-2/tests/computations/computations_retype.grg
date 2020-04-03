@@ -3,6 +3,7 @@ using model_init;
 rule radd : (Node,A,Edge,E1)
 {
 	modify {
+	---
 		def nn:Node;
 		def na:A;
 		def -ee:Edge->;
@@ -21,7 +22,8 @@ rule radd : (Node,A,Edge,E1)
 
 rule rretypebasic(nn:Node, -ee:Edge->) : (A, E1)
 {
-	modify {		
+	modify {
+	---	
 		def nnr:A;
 		def -eer:E1->;
 
@@ -36,7 +38,8 @@ rule rretypebasic(nn:Node, -ee:Edge->) : (A, E1)
 
 rule rretype(na:A, -ee1:E1->) : (B, EE)
 {
-	modify {		
+	modify {
+	---
 		def nar:B;
 		def -ee1r:EE->;
 

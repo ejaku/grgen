@@ -2,7 +2,8 @@ using exectype;
 
 rule r
 {
-	modify  {
+	modify {
+	---
 		exec(x:set<foo>=set<foo>{} && y:map<AA,HH>=map<AA,HH>{} ;> {b:boolean=x.empty()} || {::b=y.empty()});
 	}
 }

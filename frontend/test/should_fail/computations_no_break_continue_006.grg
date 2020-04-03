@@ -1,6 +1,7 @@
 pattern p()
 {
 	modify {
+	---
 		eval {
 			if(true) {
 				break;

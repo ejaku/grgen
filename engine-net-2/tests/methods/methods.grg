@@ -12,6 +12,7 @@ rule r : (int, int)
 	n:N -e:E->;
 
 	modify {
+	---
 		def var ni:int;
 		def var ne:int;
 		eval {

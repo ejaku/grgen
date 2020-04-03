@@ -4,6 +4,7 @@ rule r {
 	n:N -e:E -> m:Node;
 
 	modify {
+	---
 		exec( { emit("The value of attribute noattribute is ", typeof(m), "\n") } );
 		exec( { emit("The value of attribute noattribute is ", typeof(n), "\n") } );
 		exec( { emit("The value of attribute noattribute is ", typeof(n.i), "\n") } );

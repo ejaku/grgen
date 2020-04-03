@@ -174,6 +174,11 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 		return typeName;
 	}
 
+	public IdentNode getSubpatternIdent()
+	{
+		return subpatternUnresolved;
+	}
+
 	@Override
 	protected IR constructIR() {
 		List<Expression> replConnections = new LinkedList<Expression>();

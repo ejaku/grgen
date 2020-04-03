@@ -12,6 +12,7 @@ rule init2
 	replace {
 		n:N -:E-> n;
 		eval { n.ow = own(); }
+	---
 		exec({::nn=n; ::v=n.ow});
 	}
 }
@@ -42,7 +43,7 @@ rule rp
 
 	modify {
 		m:N;
-
+	---
 		eval {
 			def nn:N;
 			fooProc(42, 3.141, Enu::hurz, "S21-heiteitei");
@@ -71,6 +72,7 @@ rule testComparison
 	if{ n.ow==m.op; n.ow!=m.op; n.ow<m.op; n.ow<=m.op; n.ow>m.op; n.ow>=m.op; }
 	
 	modify {
+	---
 		eval { 
 			def var b:boolean = n.ow==m.ow ^ n.ow!=m.ow ^ n.ow<m.ow ^ n.ow<=m.ow ^ n.ow>m.ow ^ n.ow>=m.ow;
 			b = n.op==m.op ^ n.op!=m.op ^ n.op<m.op ^ n.op<=m.op ^ n.op>m.op ^ n.op>=m.op;

@@ -29,13 +29,15 @@ test classWithStuffReturn : (set<Node>)
   multiple mu { // get all of its methods, expect at least one
     c -:cts-> m:Method;
 	
-	def var n:Node;
     independent { // expect an argument variable
       m -:ref-> v:Variable;
+	---
 	  yield { yield n = v; }
     }
+  ---
+	def var n:Node;
   }	
-  
+---
   def ref s:set<Node> = set<Node>{};
   yield {
 	for(n in mu) {

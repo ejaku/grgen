@@ -3,7 +3,8 @@ using attrib_model_101;
 rule r1(a:A, as:ASTR) : (AINT) {
   x:AINT;
   n:Node;
-  modify{
+  modify {
+  ---
     return (x);
     exec(r2(a,as)&&r2(as,a)&&r2(as,as)||r2(a,a));
     //exec(r2(n,as)&&r2(n,a)&&r2(as,n)||r2(a,n)||r2(n,n)); -- bullshit - this(supertype/disjoint type of parameter as argument) must fail
@@ -14,6 +15,7 @@ rule r1(a:A, as:ASTR) : (AINT) {
 rule r2(n:Node, a:A) {
    modify {
      as : ASTR;
+   ---
      exec((ai:AINT)=r1(a, as) && (ai)=r1(ai, as) && (aii:AINT)=r1(ai, as));
    }
 }

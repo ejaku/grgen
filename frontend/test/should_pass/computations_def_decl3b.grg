@@ -14,6 +14,7 @@ procedure some(var in1:int, in2:Node, -in3:Edge->) : (int)
 rule r(var in1:int, in2:Node, -in3:Edge->) : (int)
 {	
 	modify {
+	---
 		def var res:int;
 		
 		eval { 

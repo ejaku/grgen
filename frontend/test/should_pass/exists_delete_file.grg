@@ -2,6 +2,7 @@ rule r {
 	if(File::exists("foo.grs"));
 	
 	replace {
+	---
 		eval {
 			def var b:boolean = File::exists("foo.grs");
 			if(b) {

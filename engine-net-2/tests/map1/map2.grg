@@ -95,6 +95,7 @@ rule dumpIntValue(var key:int)
     if { key in a.m; }
 
     modify {
+	---
         emit("1 value of attribute 5 6 " + a.m[key] + "\n");
     }
 }

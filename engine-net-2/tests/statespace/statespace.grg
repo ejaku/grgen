@@ -104,6 +104,7 @@ rule copySubgraph(gr:Graph, ref oldToNew:map<Color, Color>) : (Graph)
 		modify {
 			ngr -:contains-> nc:copy<c>;
 			eval { oldToNew.add(c, nc); }
+		---
 			exec( [CopyOutgoingEdge(c, oldToNew)] );
 		}
 	}

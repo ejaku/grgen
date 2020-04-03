@@ -3,6 +3,7 @@
 rule t(var x:int)
 {
 	m:N;
+---
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
@@ -112,6 +113,7 @@ rule t(var x:int)
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
@@ -225,6 +227,7 @@ rule t(var x:int)
 rule t2(var x:int)
 {
 	m:N;
+---
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
@@ -334,6 +337,7 @@ rule t2(var x:int)
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
@@ -447,6 +451,7 @@ rule t2(var x:int)
 rule t3(var x:int)
 {
 	m:N;
+---
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
@@ -556,6 +561,7 @@ rule t3(var x:int)
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
@@ -669,6 +675,7 @@ rule t3(var x:int)
 rule t4(var x:int)
 {
 	m:N;
+---
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
@@ -778,6 +785,7 @@ rule t4(var x:int)
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
@@ -891,6 +899,7 @@ rule t4(var x:int)
 rule t5(var x:int)
 {
 	m:N;
+---
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
@@ -1000,6 +1009,7 @@ rule t5(var x:int)
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{

@@ -16,7 +16,7 @@ rule findCliquesOf5
 		c -:persons-> pn3;
 		c -:persons-> pn4;
 		c -:persons-> pn5;
-
+	---
 		exec(addCommonMoviesAndComputeAverageRankingOfClique5(c, pn1, pn2, pn3, pn4, pn5));
 	}
 } \ auto
@@ -32,11 +32,13 @@ rule addCommonMoviesAndComputeAverageRankingOfClique5(c:Clique, pn1:Person, pn2:
 		
 		modify {
 			c -:commonMovies-> m;
+		---
 			eval { yield sum = sum + m.rating; }
 		}
 	}	
 	
 	modify {
+	---
 		def var sum:double = 0.0;
 		eval { c.avgRating = sum / count(it); }
 	}
@@ -68,7 +70,7 @@ rule findCliquesOf5Opt[parallelize=16]
 		c -:persons-> pn3;
 		c -:persons-> pn4;
 		c -:persons-> pn5;
-
+	---
 		exec([addCommonMoviesOf5(c, pn1, pn2, pn3, pn4, pn5)]);
 	}
 }
@@ -96,6 +98,7 @@ rule cliques5WithRating
 	c -:persons-> pn5:Person;
 	if{ uniqueof(pn1) < uniqueof(pn2) && uniqueof(pn2) < uniqueof(pn3) && uniqueof(pn3) < uniqueof(pn4) && uniqueof(pn4) < uniqueof(pn5); }
 
+---
 	def var avgRating:double;
 	def var numMovies:int;
 	yield {
@@ -104,6 +107,7 @@ rule cliques5WithRating
 	}
 	
 	modify {
+	---
 		emit("avgRating: " + avgRating + " numMovies: " + numMovies + " by " + pn1.name + " and " + pn2.name + " and " + pn3.name + " and " + pn4.name + " and " + pn5.name + "\n");
 	}
 } \ orderDescendingBy<avgRating>, orderDescendingBy<numMovies>

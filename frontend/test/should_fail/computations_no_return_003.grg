@@ -1,6 +1,7 @@
 rule r : (int, int)
 {	
 	modify {
+	---
 		eval {
 			return (0,1);
 		}

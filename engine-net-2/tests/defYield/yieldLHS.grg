@@ -8,17 +8,18 @@ rule createChain : (Node)
 	}
 }
 
-pattern Chain(begin:Node, def end:Node)
+pattern Chain(begin:Node --- def end:Node)
 {
 	alternative {
 		further {
 			begin --> next:Node;
-			c:Chain(next, yield end);
+			c:Chain(next --- yield end);
 		}
 		done {
 			negative {
 				begin --> ;
 			}
+		---
 			yield {
 				yield end = begin;
 			}
@@ -28,8 +29,9 @@ pattern Chain(begin:Node, def end:Node)
 
 rule linkChainEndToStart(begin:Node) : (Node)
 {
+	c:Chain(begin --- yield end);
+---
 	def end:Node;
-	c:Chain(begin, yield end);
 
 	modify {
 		end --> begin;
@@ -39,11 +41,11 @@ rule linkChainEndToStart(begin:Node) : (Node)
 
 rule linkChainEndToStartIndependent(begin:Node) : (Node)
 {
-	def end:Node;
-
 	independent {
-		c:Chain(begin, yield end);
+		c:Chain(begin --- yield end);
 	}
+---
+	def end:Node;
 
 	modify {
 		end --> begin;
@@ -82,15 +84,11 @@ rule createBlowball : (Node)
 
 test countNINT(start:Node) : (int, int, int)
 {
-	def var io:int = 0;
-	def var jo:int = 0;
-	def var v:int = 0;
-
 	iterated it {
+		start --> n:NINT;
+	---
 		def var i:int;
 		def var j:int;
-
-		start --> n:NINT;
 
 		yield {
 			yield i = n.a;
@@ -98,6 +96,10 @@ test countNINT(start:Node) : (int, int, int)
 			yield v = 42;
 		}
 	}
+---
+	def var io:int = 0;
+	def var jo:int = 0;
+	def var v:int = 0;
 
 	yield {
 		for(i in it) { 

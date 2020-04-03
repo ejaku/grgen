@@ -292,6 +292,7 @@ rule transform_Partition_contents {
 
 rule clean_up {
 	modify {
+	---
 		exec(transform_CompositeState*);
 	}
 }

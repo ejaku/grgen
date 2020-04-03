@@ -2,7 +2,8 @@ using exectype;
 
 rule r
 {
-	modify  {
+	modify {
+	---
 		exec(x:A=::varia ;> b:boolean=false && {x.i=b}); // x.i is integer
 	}
 }

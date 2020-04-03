@@ -1,7 +1,8 @@
 using deep_model_001;
 
 rule r(y : Bcc) : (Bcc) {
-  modify{
+  modify {
+  ---
     return (y);
 	// removed use before definition and argument type not matching parameter type bullshit
     exec(c:Bcc=c & (c)=r(c)   & (c)=r(c));

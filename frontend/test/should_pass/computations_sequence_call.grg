@@ -15,9 +15,10 @@ test t : (int)
 rule r(var n:int) : (int)
 {
 	modify {
-		def var res:int = 0; 
 		y:Node -z:Edge-> y2;
 		y2:A -z2:E1-> y;
+	---
+		def var res:int = 0; 
 		// TODO: das muss verboten sein, da fehlt yield
 		exec( { (res) = foo(n, y, z, y2, z2); } ;> (::num)=t() ;> { yield res = res + ::num + bar(); } );
 		def var resres:int = 0; 

@@ -20,6 +20,7 @@ procedure foo() : (set<Node>)
 rule r()
 {
 	modify {
+	---
 		def ref res:set<Node>;
 		
 		eval { 

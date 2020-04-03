@@ -5,6 +5,7 @@ test t : (int)
 
 test tyield : (int)
 {
+---
 	def var num:int;
 	yield {
 		yield num = number(3);

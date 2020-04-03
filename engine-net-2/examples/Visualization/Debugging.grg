@@ -9,8 +9,9 @@ rule init
 
 rule r
 {
-	def var i:int = 0;
 	n:Node --> m:Node --> l:Node --> n;	
+---
+	def var i:int = 0;
 	
 	modify {
 		delete(n);
@@ -21,15 +22,18 @@ rule r
 
 rule s
 {
+---
 	def var i:int = 0;
 
 	modify {
+	---
 		exec(ss ;> r);
 	}
 }
 
 rule ss
 {
+---
 	def var i:int = 0;
 
 	modify {

@@ -37,6 +37,7 @@ rule emitFromDeque {
 	if { 5 in a.spiceDeque; }
 	
 	modify {
+	---
 		emit("is \"5\" contained? " + (5 in a.spiceDeque ? "yes" : "no") + ", dequesize = " + a.spiceDeque.size());
 	}
 }
@@ -45,6 +46,7 @@ rule dequeVarContains(ref m:deque<string>) {
 	if { "yeah" in m; }
 	
 	modify {
+	---
 		emit("\"yeah\" is contained? " + ("yeah" in m) + ", dequesize = " + m.size());
 	}
 }

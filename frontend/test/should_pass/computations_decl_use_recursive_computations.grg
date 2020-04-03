@@ -1,6 +1,7 @@
 rule t : (int)
 {
 	modify {
+	---
 		def var res:int;
 		eval {
 			(yield res) = number(3);

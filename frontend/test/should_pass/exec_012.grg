@@ -1,6 +1,7 @@
 rule r : (Node) {
   modify{
     y : Node;
+  ---
     return (y);
     exec( (z:Node)=r && r );
   }

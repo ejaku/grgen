@@ -47,6 +47,7 @@ rule radj(ref adj:set<Node>, ref adjEE:set<Node>, ref adjEEA:set<Node>, ref adjO
 			ref adj2:set<Node>, ref adjInc2:set<Node>, ref adjOut2:set<Node>, ref aadj2:set<Node>, ref aadjInc2:set<Node>, ref aadjOut2:set<Node>,
 			start:A, left:A, right:A, start2:Node) : (boolean,boolean,boolean,boolean,boolean,boolean)
 {
+---
 	def var isAdjOut:boolean;
 	def var isAdjIn:boolean;
 	def var isAdj:boolean;
@@ -97,6 +98,7 @@ rule radj(ref adj:set<Node>, ref adjEE:set<Node>, ref adjEEA:set<Node>, ref adjO
 	}
 	
 	modify {
+	---
 		def var iisAdjOut:boolean;
 		def var iisAdjIn:boolean;
 		def var iisAdj:boolean;
@@ -154,6 +156,7 @@ rule radjloop(ref adj:set<Node>, ref adjEE:set<Node>, ref adjEEA:set<Node>, ref 
 			ref adj2:set<Node>, ref adjInc2:set<Node>, ref adjOut2:set<Node>, ref aadj2:set<Node>, ref aadjInc2:set<Node>, ref aadjOut2:set<Node>,
 			start:A, left:A, right:A, start2:Node) : (boolean,boolean,boolean,boolean,boolean,boolean)
 {
+---
 	def var isAdjOut:boolean;
 	def var isAdjIn:boolean;
 	def var isAdj:boolean;
@@ -194,6 +197,7 @@ rule radjloop(ref adj:set<Node>, ref adjEE:set<Node>, ref adjEEA:set<Node>, ref 
 	}
 	
 	modify {
+	---
 		def var iisAdjOut:boolean;
 		def var iisAdjIn:boolean;
 		def var iisAdj:boolean;

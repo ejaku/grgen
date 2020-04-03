@@ -4,6 +4,7 @@ rule r1 : (NINT) {
   x:NINT;
   negative { x <-- ; }
   modify{
+  ---
     return (x);
     exec(r2);
   }
@@ -13,6 +14,7 @@ rule r2 : (Node) {
   x:Node -e:ESTRING-> y:NINT;
   modify {
     delete(x);
+  ---
     return(y);
     exec((z:Node)=r1 && r2);
     exec(r2);
@@ -23,6 +25,7 @@ rule r3(x:Node) {
   x -e:ESTRING-> y:NINT;
   modify {
     delete(x);
+  ---
     exec(r3(y));
     exec((z:NINT)=r1 && r2 && r3(y));
     exec((h:Node)=r1 && r2 && r3(y));

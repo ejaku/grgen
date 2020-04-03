@@ -3,13 +3,14 @@ using defYield;
 rule t
 {
 	modify {
-		def x:B;
 		y:B;
+	---
+		def x:B;
 		eval { x = y; }
 	}
 }
 
-pattern p modify (x:B, def z:B)
+pattern p modify (x:B --- def z:B)
 {
 	modify {
 		eval { z = x; }

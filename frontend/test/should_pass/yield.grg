@@ -13,13 +13,14 @@ rule linkChainEndToStart(start:Node)
 	c:Chain(start);
 	
 	modify {
-		def end:Node;
-		c(yield end);
+		c(--- yield end);
 		end --> start;
+	---
+		def end:Node;
 	}
 }
 
-pattern Chain(begin:Node) modify(def end:Node)
+pattern Chain(begin:Node) modify(--- def end:Node)
 {
 	alternative {
 		further {
@@ -27,11 +28,12 @@ pattern Chain(begin:Node) modify(def end:Node)
 			c:Chain(next);
 			
 			modify {
-				c(yield end);
+				c(--- yield end);
 			}
 		}
 		done {
 			modify {
+			---
 				eval {
 					yield end = begin;
 				}
@@ -85,6 +87,7 @@ rule deleteNINTNSTRING(start:Node) : (object)
 			start --> n:NINT;
 			
 			modify {
+			---
 				eval {
 					n.a = 42;
 					yield m = n;
@@ -96,6 +99,7 @@ rule deleteNINTNSTRING(start:Node) : (object)
 			start --> n:NSTRING;
 			
 			modify {
+			---
 				eval {
 					n.a = "fool";
 					yield v = (object)n.a;
@@ -106,9 +110,10 @@ rule deleteNINTNSTRING(start:Node) : (object)
 	}
 	
 	modify {
+		delete(m);
+	---
 		def m:Node;
 		def var v:object;
-		delete(m);
 		return (v);
 	}
 }
@@ -122,6 +127,7 @@ rule retypeNINTNSTRING(start:Node) : (object)
 			start --> n:NINT;
 			
 			modify {
+			---
 				eval {
 					n.a = 42;
 					yield m = n;
@@ -133,6 +139,7 @@ rule retypeNINTNSTRING(start:Node) : (object)
 			start --> n:NSTRING;
 			
 			modify {
+			---
 				eval {
 					n.a = "fool";
 					yield v = (object)n.a;
@@ -143,9 +150,10 @@ rule retypeNINTNSTRING(start:Node) : (object)
 	}
 	
 	modify {
+		k:NFLOAT<m>;
+	---
 		def m:Node;
 		def var v:object;
-		k:NFLOAT<m>;
 		return (v);
 	}
 }
@@ -174,6 +182,7 @@ rule countNINT(start:Node) : (int)
 		start --> n:NINT;
 		
 		modify {
+		---
 			eval {
 				yield m = n;
 				yield i = i + n.a;
@@ -182,9 +191,10 @@ rule countNINT(start:Node) : (int)
 	}
 	
 	modify {
+		delete(m); // deletes the lastly iterated node, which one of the 3 is indeterministic
+	---
 		def m:NINT;
 		def var i:int = 0;
-		delete(m); // deletes the lastly iterated node, which one of the 3 is indeterministic
 		return (i);
 	}
 }

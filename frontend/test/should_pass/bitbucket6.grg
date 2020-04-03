@@ -5,6 +5,7 @@
 //Does not work:
 rule TestRule:(set<TestPackage::TestNode>) {
     modify {
+	---
         def ref nodeSet:set<TestPackage::TestNode> = set<TestPackage::TestNode>{}; 
         return(nodeSet);
     }
@@ -18,6 +19,7 @@ sequence TestSequence {
 
 rule TestRule2:(set<MyNode>) {
     modify {
+	---
         def ref nodeSet:set<MyNode> = set<MyNode>{}; 
         return(nodeSet);
     }

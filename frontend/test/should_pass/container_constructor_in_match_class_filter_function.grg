@@ -8,7 +8,7 @@ match class Foo
 test foo implements Foo
 {
 	n:Node -e:Edge-> n;
-
+---
 	def var i:int;
 	def ndef:Node;
 	def -edef:Edge->;

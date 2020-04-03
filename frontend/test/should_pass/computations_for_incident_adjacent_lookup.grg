@@ -85,13 +85,8 @@ test t() : (int)
 {
 	start:Node;
 	
-	def var res:int = 0;
-	def tmpNode:Node;
-	def -tmpEdge:Edge->;
-	def tmpNode_:A;
-	def -tmpEdge_:EE->;
-	
 	independent {
+	---
 		yield {
 			for(n:Node in nodes(Node)) {
 				yield res = res + 1;
@@ -164,6 +159,12 @@ test t() : (int)
 			}
 		}
 	}
+---
+	def var res:int = 0;
+	def tmpNode:Node;
+	def -tmpEdge:Edge->;
+	def tmpNode_:A;
+	def -tmpEdge_:EE->;
 	
 	return (res);
 }
@@ -172,7 +173,7 @@ rule r() : (int)
 {	
 	modify {
 		start:Node;
-		
+---		
 		def var res:int = 0;
 		def tmpNode:Node;
 		def -tmpEdge:Edge->;

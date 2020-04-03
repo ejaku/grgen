@@ -6,6 +6,7 @@ rule r(p : Node) : (Node)
 
 	modify {
 		x:Node;
+	---
 		return (x);
 
 		exec(r(p) ;> r(l) <; r(x));
@@ -71,6 +72,7 @@ rule r(p : Node) : (Node)
 
 rule r2(-e:Edge->):(Edge) {
   modify {
+  ---
     return(e);
     exec( (-x:Edge->)=r2(e) ;> ( (x)=r2(x) | if{?r2(x);r2(x);r2(e)} )[*] );
   }

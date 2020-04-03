@@ -42,6 +42,7 @@ rule in_subgraph
 	n:Node;
 
 	modify {
+	---
 		exec( sub:graph ;> { sub=inducedSubgraph(adjacent(n)) } ;> in sub { r() ;> r() } );
 		exec( { ::sub=inducedSubgraph(adjacent(n)) } ;> in ::sub { r() ;> r() } );
 		exec( sub:graph ;> { sub=inducedSubgraph(adjacent(n)) } ;> sub.r() );

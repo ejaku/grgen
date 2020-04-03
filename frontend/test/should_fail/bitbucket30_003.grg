@@ -1,5 +1,6 @@
 rule rEmitSetAEdgeFailDirected {
     modify {
+	---
         eval {
 			def ref s:set<Edge> =edges();
 			emit("1 value of attribute 5 6 " + s + "\n");

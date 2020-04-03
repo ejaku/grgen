@@ -8,6 +8,7 @@ test Match
 rule addA
 {
 	modify {
+	---
 		exec({(::a)=add(A)});
 	}
 }
@@ -15,6 +16,7 @@ rule addA
 rule addB
 {
 	modify {
+	---
 		exec({(::b)=add(B)});
 	}
 }
@@ -22,6 +24,7 @@ rule addB
 rule addC
 {
 	modify {
+	---
 		exec({(::c)=add(Node)});
 	}
 }
@@ -29,6 +32,7 @@ rule addC
 rule addE
 {
 	modify {
+	---
 		exec({(::e)=add(ee,::a,::b)});
 	}
 }
@@ -36,6 +40,7 @@ rule addE
 rule addF
 {
 	modify {
+	---
 		exec({(::f)=add(ee,::b,::c)});
 	}
 }
@@ -43,6 +48,7 @@ rule addF
 rule addG
 {
 	modify {
+	---
 		exec({(::g)=add(Edge,::c,::c)});
 	}
 }
@@ -50,6 +56,7 @@ rule addG
 rule getSrc
 {
 	modify {
+	---
 		exec({::src=source(::e)});
 	}
 }
@@ -57,6 +64,7 @@ rule getSrc
 rule getTgt
 {
 	modify {
+	---
 		exec({::tgt=target(::e)});
 	}
 }
@@ -64,6 +72,7 @@ rule getTgt
 rule remG
 {
 	modify {
+	---
 		exec({rem(::g)});
 	}
 }
@@ -71,6 +80,7 @@ rule remG
 rule remB
 {
 	modify {
+	---
 		exec({rem(::b)});
 	}
 }
@@ -78,6 +88,7 @@ rule remB
 rule clr
 {
 	modify {
+	---
 		exec({clear()});
 	}
 }

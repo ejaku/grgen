@@ -3,7 +3,8 @@ using exec_model_001;
 rule r
 {
 	modify {
-	exec ( (sb:set<boolean>)=tsetboolean );
+	---
+		exec ( (sb:set<boolean>)=tsetboolean );
 		exec( (a:A)=tA && sA(a) && (a)=tAB
 			|| ((ab:AB)=tAB && sAB(ab) && (ab)=tABC && sA(ab))
 			|| ((abc:ABC)=tABC && sABC(abc) && sA(abc))

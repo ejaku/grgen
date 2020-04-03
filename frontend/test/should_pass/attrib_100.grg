@@ -3,6 +3,7 @@ using attrib_model_100;
 rule toStringA_value {
   a:A;
   modify {
+  ---
     emit(a.value);
   }
 }
@@ -10,6 +11,7 @@ rule toStringA_value {
 rule toStringAF {
   a:A -f:F-> ;
   modify {
+  ---
     emit(a.value, f.x);
   }
 }

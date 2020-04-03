@@ -1,6 +1,7 @@
 rule testuntyped()
 {
 	modify {
+	---
 		exec(tint(::x));
 		exec(tbool(::x));
 		exec(tnode(::x));

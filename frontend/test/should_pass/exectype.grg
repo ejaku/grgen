@@ -18,6 +18,7 @@ rule ss
 rule AssignSequenceResultToVar
 {
 	modify {
+	---
 		exec(x:boolean=(rr) && {emit("The value of variable x of type bool is: ")} && {emit(x)} && {emit("\n")});
 		exec(y:boolean=(ss) && {emit("The value of variable y of type bool is: ")} && {emit(y)} && {emit("\n")});
 	}
@@ -26,6 +27,7 @@ rule AssignSequenceResultToVar
 rule AssignSequenceResultToVarUntyped
 {
 	modify {
+	---
 		exec(::x=(rr) && {emit("The value of variable x of type bool is: ")} && {emit(::x)} && {emit("\n")});
 		exec(::y=(ss) && {emit("The value of variable y of type bool is: ")} && {emit(::y)} && {emit("\n")});
 	}
@@ -34,6 +36,7 @@ rule AssignSequenceResultToVarUntyped
 rule Map(n:AA, -e:HH->)
 {
 	modify {
+	---
 		exec(x:map<A,HH>=map<A,HH>{} && y:map<int,foo>=map<int,foo>{} && v:int=42 && vd:foo=foo::Bar
 			&& {x.add(n,e)} && {y.add(v,vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
@@ -62,6 +65,7 @@ rule Map(n:AA, -e:HH->)
 rule MapUntyped(n:AA, -e:HH->)
 {
 	modify {
+	---
 		exec(::x=map<A,HH>{} && ::y=map<int,foo>{} && ::v=42 && ::vd=foo::Bar
 			&& {::x.add(n,e)} && {::y.add(::v,::vd)}
 			&& {::i=::x.size()} && {::j=::y.size()}
@@ -90,6 +94,7 @@ rule MapUntyped(n:AA, -e:HH->)
 rule MapPartial2(n:AA, -e:HH->)
 {
 	modify {
+	---
 		exec(x:map<A,HH>=map<A,HH>{} && y:map<int,foo>=map<int,foo>{} && ::v=42 && ::vd=foo::Bar
 			&& {x.add(n,e)} && {y.add(::v,::vd)}
 			&& {::i=x.size()} && {::j=y.size()}
@@ -118,6 +123,7 @@ rule MapPartial2(n:AA, -e:HH->)
 rule MapPartial1(n:AA, -e:HH->)
 {
 	modify {
+	---
 		exec(::x=map<A,HH>{} && ::y=map<int,foo>{} && v:int=42 && vd:foo=foo::Bar
 			&& {::x.add(n,e)} && {::y.add(v,vd)}
 			&& i:int=0 && {i=::x.size()} && j:int=0 && {j=::y.size()}
@@ -147,6 +153,7 @@ rule MapPartial1(n:AA, -e:HH->)
 rule Set(n:AA)
 {
 	modify {
+	---
 		exec(x:set<AA>=set<AA>{} && y:set<int>=set<int>{} && v:int=42
 			&& {x.add(n)} && {y.add(v)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
@@ -172,6 +179,7 @@ rule Set(n:AA)
 rule SetUntyped(n:AA)
 {
 	modify {
+	---
 		exec(::x=set<AA>{} && ::y=set<int>{} && ::v=42
 			&& {::x.add(n)} && {::y.add(::v)}
 			&& {::i=::x.size()} && {::j=::y.size()}
@@ -197,6 +205,7 @@ rule SetUntyped(n:AA)
 rule SetPartial2(n:AA)
 {
 	modify {
+	---
 		exec(x:set<AA>=set<AA>{} && y:set<int>=set<int>{} && ::v=42
 			&& {x.add(n)} && {y.add(::v)}
 			&& {::i=x.size()} && {::j=y.size()}
@@ -222,6 +231,7 @@ rule SetPartial2(n:AA)
 rule SetPartial1(n:AA)
 {
 	modify {
+	---
 		exec(::x=set<AA>{} && ::y=set<int>{} && v:int=42
 			&& {::x.add(n)} && {::y.add(v)}
 			&& i:int=0 && {i=::x.size()} && j:int=0 && {j=::y.size()}
@@ -248,6 +258,7 @@ rule SetPartial1(n:AA)
 rule Array(n:AA)
 {
 	modify {
+	---
 		exec(x:array<A>=array<A>[] && y:array<int>=array<int>[] && v:int=42 && vd:int=0
 			&& {x.add(n)} && {y.add(v,vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
@@ -277,6 +288,7 @@ rule Array(n:AA)
 rule ArrayUntyped(n:AA)
 {
 	modify {
+	---
 		exec(::x=array<A>[] && ::y=array<int>[] && ::v=42 && ::vd=0
 			&& {::x.add(n)} && {::y.add(::v,::vd)}
 			&& i:int=0 && {i=::x.size()} && j:int=0 && {j=::y.size()}
@@ -306,6 +318,7 @@ rule ArrayUntyped(n:AA)
 rule ArrayPartial1(n:AA)
 {
 	modify {
+	---
 		exec(x:array<A>=array<A>[] && y:array<int>=array<int>[] && ::v=42 && vd:int=0
 			&& {x.add(n)} && {y.add(::v,vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
@@ -335,6 +348,7 @@ rule ArrayPartial1(n:AA)
 rule ArrayPartial2(n:AA)
 {
 	modify {
+	---
 		exec(x:array<A>=array<A>[] && y:array<int>=array<int>[] && v:int=42 && ::vd=0
 			&& {x.add(n)} && {y.add(v,::vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
@@ -365,6 +379,7 @@ rule ArrayPartial2(n:AA)
 rule ArrayPartial3(n:AA)
 {
 	modify {
+	---
 		exec(::x=array<A>[] && ::y=array<int>[] && v:int=42 && vd:int=0
 			&& {::x.add(n)} && {::y.add(v,vd)}
 			&& i:int=0 && {i=::x.size()} && j:int=0 && {j=::y.size()}
@@ -395,6 +410,7 @@ rule ArrayPartial3(n:AA)
 rule Deque(n:AA)
 {
 	modify {
+	---
 		exec(x:deque<A>=deque<A>[] && y:deque<int>=deque<int>[] && v:int=42 && vd:int=0
 			&& {x.add(n)} && {y.add(v,vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
@@ -424,6 +440,7 @@ rule Deque(n:AA)
 rule DequeUntyped(n:AA)
 {
 	modify {
+	---
 		exec(::x=deque<A>[] && ::y=deque<int>[] && ::v=42 && ::vd=0
 			&& {::x.add(n)} && {::y.add(::v,::vd)}
 			&& i:int=0 && {i=::x.size()} && j:int=0 && {j=::y.size()}
@@ -453,6 +470,7 @@ rule DequeUntyped(n:AA)
 rule DequePartial1(n:AA)
 {
 	modify {
+	---
 		exec(x:deque<A>=deque<A>[] && y:deque<int>=deque<int>[] && ::v=42 && vd:int=0
 			&& {x.add(n)} && {y.add(::v,vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
@@ -482,6 +500,7 @@ rule DequePartial1(n:AA)
 rule DequePartial2(n:AA)
 {
 	modify {
+	---
 		exec(x:deque<A>=deque<A>[] && y:deque<int>=deque<int>[] && v:int=42 && ::vd=0
 			&& {x.add(n)} && {y.add(v,::vd)}
 			&& i:int=0 && {i=x.size()} && j:int=0 && {j=y.size()}
@@ -512,6 +531,7 @@ rule DequePartial2(n:AA)
 rule DequePartial3(n:AA)
 {
 	modify {
+	---
 		exec(::x=deque<A>[] && ::y=deque<int>[] && v:int=42 && vd:int=0
 			&& {::x.add(n)} && {::y.add(v,vd)}
 			&& i:int=0 && {i=::x.size()} && j:int=0 && {j=::y.size()}
@@ -542,6 +562,7 @@ rule DequePartial3(n:AA)
 rule AssignConstToVar
 {
 	modify {
+	---
 		exec(xby:byte=3Y && xsh:short=3S && x:int=3 && xl:long=3L && y:string="fool" && z:foo=foo::Bar
 			&& u:double=3.141592654 && l:float=3.141f && v:boolean=true
 			&& w:set<int>=set<int>{} && k:map<A,H>=map<A,H>{} 
@@ -566,6 +587,7 @@ rule AssignConstToVar
 rule AssignConstToVarUntyped
 {
 	modify {
+	---
 		exec(::xby=3Y && ::xsh=3S && ::x=3 && ::xl=3L && ::y="fool" && ::z=foo::Bar
 			&& ::u=3.141592654 && ::l=3.141f && ::v=true
 			&& ::w=set<int>{} && ::k=map<A,H>{}
@@ -590,6 +612,7 @@ rule AssignConstToVarUntyped
 rule AssignAttributeToVar(x:A)
 {
 	modify {
+	---
 		exec(f:foo=foo::Bar && {f=x.f} && by:byte=0y && {by=x.by} && sh:short=0s && {sh=x.sh} && i:int=0 && {i=x.i}
 			&& l:long=0l && {l=x.l} && b:boolean=false && {b=x.b} && st:string=null && {st=x.st}
 			&& s:set<foo>=null && {s=x.s} && m:map<int,string>=null && {m=x.m}
@@ -615,6 +638,7 @@ rule AssignAttributeToVar(x:A)
 rule AssignAttributeToVarUntyped(x:A)
 {
 	modify {
+	---
 		exec(::y=x && {::f=::y.f} && {::by=::y.by} && {::sh=::y.sh} && {::i=::y.i} && {::l=::y.l} && {::b=::y.b} 
 			&& {::st=::y.st} && {::s=::y.s} && {::m=::y.m} && {::a=::y.a} && {::dq=::y.dq} && {::fl=::y.fl} && {::d=::y.d}
 			&& {emit("value of variable f 5 6 7 8 9 ")} && {emit(::f)} && {emit("\n")}
@@ -637,6 +661,7 @@ rule AssignAttributeToVarUntyped(x:A)
 rule Visited(n:A,-e:H->)
 {
 	modify {
+	---
 		exec(i:int=0 && {(i)=valloc()} && v:boolean=false && {n.visited[i]=v} && v=true && {e.visited[i]=v}
 			;> {{n.visited[i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
 			;> {{e.visited[i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
@@ -651,6 +676,7 @@ rule Visited(n:A,-e:H->)
 rule VisitedUntyped(n:A,-e:H->)
 {
 	modify {
+	---
 		exec({(::i)=valloc()} && ::v=false && {n.visited[::i]=::v} && ::v=true && {e.visited[::i]=::v}
 			;> {{n.visited[::i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
 			;> {{e.visited[::i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
@@ -665,6 +691,7 @@ rule VisitedUntyped(n:A,-e:H->)
 rule VisitedPartial2(n:A,-e:H->)
 {
 	modify {
+	---
 		exec({(::ifirst)=valloc()} && {(::i)=valloc()} && v:boolean=false && {n.visited[::i]=v} && v=true && {e.visited[::i]=v}
 			;> {{n.visited[::i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
 			;> {{e.visited[::i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
@@ -679,6 +706,7 @@ rule VisitedPartial2(n:A,-e:H->)
 rule VisitedPartial1(n:A,-e:H->)
 {
 	modify {
+	---
 		exec(i:int=0 && {(i)=valloc()} && ::v=false && {n.visited[i]=::v} && ::v=true && {e.visited[i]=::v}
 			;> {{n.visited[i]}} && {emit("value of variable n 5 6 7 8 9 visited\n")} || {emit("value of variable n 5 6 7 8 9 notvisited\n")}
 			;> {{e.visited[i]}} && {emit("value of variable e 5 6 7 8 9 visited\n")} || {emit("value of variable e 5 6 7 8 9 notvisited\n")}
@@ -692,6 +720,7 @@ rule VisitedPartial1(n:A,-e:H->)
 
 rule VarPredicate{
 	modify {
+	---
 		exec(x:boolean=true && y:boolean=false
 			&& x && {{x}} && {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
 			&& y && {{y}} && {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
@@ -702,6 +731,7 @@ rule VarPredicate{
 rule VarPredicateUntyped
 {
 	modify {
+	---
 		exec(::x=true && ::y=false
 			&& ::x && {{::x}} && {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")}
 			&& ::y && {{::y}} && {emit("value of variable y 5 6 7 8 9 ")} && {emit(::y)} && {emit("\n")}
@@ -712,6 +742,7 @@ rule VarPredicateUntyped
 rule AssignVarToVar(n:A,m:AA)
 {
 	modify {
+	---
 		exec(x:A=n && y:AA=m
 			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(x)} && {emit("\n")}
 			&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(y)} && {emit("\n")}
@@ -731,6 +762,7 @@ rule AssignVarToVar(n:A,m:AA)
 rule AssignVarToVarUntyped(n:A,m:AA)
 {
 	modify {
+	---
 		exec(::x=n && ::y=m
 			&& {emit("value of variable x 5 6 7 8 9 ")} && {emit(::x)} && {emit("\n")}
 			&& {emit("value of variable y 5 6 7 8 9 ")} && {emit(::y)} && {emit("\n")}
@@ -750,6 +782,7 @@ rule AssignVarToVarUntyped(n:A,m:AA)
 rule AssignVarToAttribute(x:A)
 {
 	modify {
+	---
 		exec(f:foo=foo::Bla && by:byte=42y && sh:short=42s && i:int=42 && l:long=42l && b:boolean=true && st:string="Gnampf!"
 			&& s:set<foo>=set<foo>{} && m:map<int,string>=map<int,string>{}
 			&& a:array<foo>=array<foo>[] && dq:deque<foo>=deque<foo>[]
@@ -777,6 +810,7 @@ rule AssignVarToAttribute(x:A)
 rule AssignVarToAttributeUntyped(x:A)
 {
 	modify {
+	---
 		exec(::y=x && ::f=foo::Bla && ::by=42y && ::sh=42s && ::i=42 && ::l=42l && ::b=true && ::st="Gnampf!"
 			&& ::s=set<foo>{} && ::m=map<int,string>{}
 			&& ::a=array<foo>[] && ::dq=deque<foo>[]

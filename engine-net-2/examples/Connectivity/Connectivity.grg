@@ -92,6 +92,7 @@ exact rule reportSize {
 	x:CountNode;
 
 	replace {
+	---
 		emit("size=", x.count_, "\n");
 	}
 }

@@ -1,10 +1,10 @@
 using formatch;
 
 rule retype(n:N<null>)
-{	
-	def var dummy:int;
-	
+{		
 	root:Node --> n;
+---
+	def var dummy:int;
 
 	modify {
 		:NN<n>;
@@ -12,11 +12,11 @@ rule retype(n:N<null>)
 }
 
 rule retype2(n:N<null>)
-{	
-	def var dummy:int;
-
+{
 	root:Node --> n;
 	if{n.val==2;}
+---
+	def var dummy:int;
 
 	modify {
 		:NN<n>;
@@ -26,6 +26,7 @@ rule retype2(n:N<null>)
 rule exec1
 {
 	modify {
+	---
 		exec(for{m:match<retype> in [?retype(null)]; true});
 	}
 }
@@ -33,6 +34,7 @@ rule exec1
 rule exec2
 {
 	modify {
+	---
 		exec(for{m:match<retype> in [?retype(null)]; retype2(m.n)});
 	}
 }
@@ -40,6 +42,7 @@ rule exec2
 rule exec3
 {
 	modify {
+	---
 		exec(for{m:match<retype> in [?retype(null)]; retype(m.n)});
 	}
 }
@@ -47,6 +50,7 @@ rule exec3
 rule exec4
 {
 	modify {
+	---
 		exec({::c=0} ;> for{m:match<retype2> in [?retype2(null)]; for{mm:match<retype> in [?retype(null)]; {::c=::c+1}}});
 	}
 }
@@ -54,6 +58,7 @@ rule exec4
 rule exec5
 {
 	modify {
+	---
 		exec(for{m:match<retype> in [?retype(null)]; {nn:N=m.n; emit("value of variable nn.val 5 6 7 8 9 "); emit(nn.val); emit("\n")}});
 	}
 }

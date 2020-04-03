@@ -1,4 +1,5 @@
 rule sum : (int, int) {
+---
 	def var x:int;
 	
 	yield { 
@@ -6,6 +7,7 @@ rule sum : (int, int) {
 	}
 	
 	modify {
+	---
 		def var y:int;
 
 		eval {
@@ -17,6 +19,7 @@ rule sum : (int, int) {
 }
 
 rule prod : (int, int) {
+---
 	def var x:int;
 
 	yield { 
@@ -24,6 +27,7 @@ rule prod : (int, int) {
 	}
 	
 	modify {
+	---
 		def var y:int;
 
 		eval {
@@ -35,6 +39,7 @@ rule prod : (int, int) {
 }
 
 rule min : (int, int) {
+---
 	def var x:int;
 
 	yield { 
@@ -42,6 +47,7 @@ rule min : (int, int) {
 	}
 	
 	modify {
+	---
 		def var y:int;
 
 		eval {
@@ -53,6 +59,7 @@ rule min : (int, int) {
 }
 
 rule max : (int, int) {
+---
 	def var x:int;
 
 	yield { 
@@ -60,6 +67,7 @@ rule max : (int, int) {
 	}
 	
 	modify {
+	---
 		def var y:int;
 
 		eval {
@@ -71,6 +79,7 @@ rule max : (int, int) {
 }
 
 rule avg : (double, double) {
+---
 	def var x:double;
 
 	yield { 
@@ -78,6 +87,7 @@ rule avg : (double, double) {
 	}
 	
 	modify {
+	---
 		def var y:double;
 
 		eval {
@@ -89,6 +99,7 @@ rule avg : (double, double) {
 }
 
 rule med : (double, double) {
+---
 	def var x:double;
 
 	yield { 
@@ -96,6 +107,7 @@ rule med : (double, double) {
 	}
 	
 	modify {
+	---
 		def var y:double;
 
 		eval {
@@ -107,6 +119,7 @@ rule med : (double, double) {
 }
 
 rule medUnsorted : (double, double) {
+---
 	def var x:double;
 
 	yield { 
@@ -114,6 +127,7 @@ rule medUnsorted : (double, double) {
 	}
 	
 	modify {
+	---
 		def var y:double;
 
 		eval {

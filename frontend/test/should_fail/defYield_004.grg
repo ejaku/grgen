@@ -2,13 +2,15 @@ using defYield;
 
 test t
 {
+	pp:p(--- yield x);
+---
 	def x:B;
-	pp:p(yield x);
 }
 
-pattern p(def x:B)
+pattern p(--- def x:B)
 {
 	y:A;
+---
 	yield { yield x = y; }
 }
 

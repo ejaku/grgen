@@ -1,6 +1,7 @@
 #using "index_model_002.gm"
 
 rule i {
+---
 	def ref res:set<Node> = set<Node>{};
 	def ref resi:set<Edge> = set<Edge>{};
 	yield
@@ -20,6 +21,7 @@ rule i {
 	}
 	
 	modify {
+	---
 		eval {
 			def ref res_:set<Node> = set<Node>{};
 			def ref resi_:set<Edge> = set<Edge>{};
@@ -42,6 +44,7 @@ rule i {
 //////////////////////////////////////////////////////////////////
 
 rule d {
+---
 	def ref res:set<Node> = set<Node>{};
 	def ref resi:set<Edge> = set<Edge>{};
 	yield
@@ -61,6 +64,7 @@ rule d {
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		eval
@@ -84,6 +88,7 @@ rule d {
 //////////////////////////////////////////////////////////////////
 
 rule b {
+---
 	def ref res:set<Node> = set<Node>{};
 	def ref resi:set<Edge> = set<Edge>{};
 	yield
@@ -103,6 +108,7 @@ rule b {
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		eval
@@ -126,6 +132,7 @@ rule b {
 //////////////////////////////////////////////////////////////////
 
 rule s {
+---
 	def ref res:set<Node> = set<Node>{};
 	def ref resi:set<Edge> = set<Edge>{};
 	yield
@@ -145,6 +152,7 @@ rule s {
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		eval
@@ -168,6 +176,7 @@ rule s {
 //////////////////////////////////////////////////////////////////
 
 rule re {
+---
 	def ref res:set<Node> = set<Node>{};
 	def ref resi:set<Edge> = set<Edge>{};
 	yield
@@ -187,6 +196,7 @@ rule re {
 	}
 	
 	modify {
+	---
 		def ref res_:set<Node> = set<Node>{};
 		def ref resi_:set<Edge> = set<Edge>{};
 		eval

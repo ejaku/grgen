@@ -63,6 +63,7 @@ rule init2 {
 rule copyconstructor
 {
   modify {
+  ---
     eval {
 		def ref snode:set<Node> = nodes(MyNode);
 		def ref sn:set<MyNode> = set<MyNode>(snode);

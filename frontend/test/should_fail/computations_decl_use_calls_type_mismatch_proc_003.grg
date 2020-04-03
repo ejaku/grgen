@@ -9,6 +9,7 @@ rule r
 {
 	-e:Edge->;
 	modify {
+	---
 		eval {
 			def -e1:Edge->;
 			(e1) = proc(e);

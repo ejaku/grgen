@@ -1,13 +1,15 @@
 test t
 {
-	def x:Node;
-	pp:p(yield x);
+	pp:p(--- yield x);
 	x --> y:Node;
+---
+	def x:Node;
 }
 
-pattern p(def x:Node)
+pattern p(--- def x:Node)
 {
 	y:Node;
+---
 	yield { yield x = y; }
 }
 

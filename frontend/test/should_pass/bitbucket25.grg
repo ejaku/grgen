@@ -3,10 +3,12 @@ package x {
                 iterated {
                         :Node;
                         modify {
+						---
                                 exec(b());
                         }
                 }
                 modify {
+				---
                         exec(b());
                 }
         }
@@ -19,10 +21,12 @@ package y {
                 iterated {
                         :Node;
                         modify {
+						---
                                 exec(y::b());
                         }
                 }
                 modify {
+				---
                         exec(y::b());
                 }
         }

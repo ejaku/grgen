@@ -207,7 +207,7 @@ rule mergeBlocks
 
 	modify {
 		delete(jmp);
-
+	---
 		exec([relinkUser(block,jmpBlock)] ;> deleteNode(block));
 	}
 }
@@ -359,6 +359,7 @@ rule foldBinary(b:Binary<FirmNode>) : (Const)
 	modify {
 		c:Const -startBlockEdge:Dataflow-> startBlock;
 		eval { startBlockEdge.position = -1; }
+	---	
 		exec([relinkUser(b,c)] ;> deleteNode(b));
 		return(c);
 	}
@@ -372,6 +373,7 @@ rule mergeConsts
 	if {c0.value == c1.value;}
 
 	modify {
+	---
 		exec([relinkUser(c0,c1)] ;> deleteNode(c0));
 	}
 }

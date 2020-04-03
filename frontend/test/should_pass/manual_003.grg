@@ -82,6 +82,7 @@ rule example2
 	if{ unequalContainedSubgraphs(start1, start2); }
 	
 	modify {
+	---
 		eval {
 			insert(inducedSubgraph(adjacentOutgoing(start2, contains) | set<Node>{start2}));
 				// 1. computes the union of the set of the nodes outgoing from start2 with the set containing start2
@@ -116,6 +117,7 @@ procedure lengthOfLongestPath(start:Node, var lengthReached:int, var flag:int) :
 rule getLolp(start:Node) : (int)
 {
 	modify {
+	---
 		def var lolp:int;
 		eval {
 			(def var flag:int) = valloc();

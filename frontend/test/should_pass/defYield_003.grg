@@ -2,22 +2,26 @@ using defYield;
 
 rule t
 {
+	pp:p(--- yield x);
+---
 	def x:A;
-	pp:p(yield x);
 	
 	modify {
+		pp(--- yield y);
+	---
 		def y:A;
-		pp(yield y);
 	}
 }
 
-pattern p(def x:B) modify(def z:B)
+pattern p(--- def x:B) modify(--- def z:B)
 {
 	y:B;
+---
 	yield { yield x = y; }
 	
 	modify {
 		u:B;
+	---
 		eval { yield z = u; }
 	}
 }

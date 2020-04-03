@@ -8,6 +8,7 @@ rule r
 	if{ nn.qux()=="foo"; }
 	
 	modify {
+	---
 		eval {
 			def var x:int = 1;
 			def var y:int = 2;
@@ -26,6 +27,7 @@ rule s
 	if{ ee.qux()=="foo"; }
 	
 	modify {
+	---
 		eval {
 			def var x:int = 1;
 			def var y:int = 2;

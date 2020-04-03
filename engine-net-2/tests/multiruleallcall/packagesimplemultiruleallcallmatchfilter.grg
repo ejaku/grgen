@@ -67,7 +67,7 @@ package Bla
 	rule r(var i:int) : (int, int, int, int) implements mc, mcdef
 	{
 		m:M --> mid:Node --> n:N;
-		
+	---
 		def ndef:N;
 		def mdef:M;
 		def var idef:int;
@@ -296,7 +296,7 @@ filter fremdef<class mcdef>(var f:int)
 rule s(var i:int) : (int, int, int, int) implements Bla::mc, mcdef
 {
 	n:N --> mid:Node --> m:M;
-
+---
 	def ndef:N;
 	def mdef:M;
 	def var idef:int;

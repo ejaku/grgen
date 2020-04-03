@@ -5,7 +5,7 @@ rule r {
 
 	modify {
 		eval {
-			ni.a = --- ni.a;
+			ni.a = - -- ni.a;
 		}
 	}
 }

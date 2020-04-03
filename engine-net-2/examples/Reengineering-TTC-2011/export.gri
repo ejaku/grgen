@@ -27,6 +27,7 @@ rule assignId(var id:int, ref nodeToId:map<Node, int>) : (int)
 rule emitPrefix
 {
 	modify {
+	---
 		emit("<?xml version=\"1.0\" encoding=\"ASCII\"?>\n");
 		emit("<xmi:XMI xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance>\" StateMachine.ecore>\n");
 		emit("  <statemachine:StateMachine>\n");
@@ -41,6 +42,7 @@ rule emitState(ref nodeToId:map<Node, int>)
 		s -:_statemachine::_State_out-> t:_statemachine::_Transition;
 
 		modify {
+		---
 			emithere(nodeToId[t] + " ");
 		}
 	}
@@ -48,11 +50,13 @@ rule emitState(ref nodeToId:map<Node, int>)
 		s -:_statemachine::_State_in-> t:_statemachine::_Transition;
 
 		modify {
+		---
 			emithere(nodeToId[t] + " ");
 		}
 	}
 
 	modify {
+	---
 		emithere("    <states xmi:type=\"statemachine:State\" xmi:id=\"" + nodeToId[s] + "\" name=\"" + s._name + "\" ");
 		emithere("out=\"");
 		iterated outgoing;
@@ -67,6 +71,7 @@ rule emitTransition(ref nodeToId:map<Node, int>)
 	src:_statemachine::_State <-:_statemachine::_Transition_src- t:_statemachine::_Transition -:_statemachine::_Transition_dst-> dst:_statemachine::_State;
 
 	modify {
+	---
 		emit("    <transitions xmi:type=\"statemachine:Transition\" xmi:id=\"" + nodeToId[t] + "\" ");
 		emit("action=\"" + t._action + "\" trigger=\"" + t._trigger + "\" ");
 		emit("src=\"" + nodeToId[src] + "\" dst=\"" + nodeToId[dst] + "\"");
@@ -78,6 +83,7 @@ rule emitSuffix
 {
 
 	modify {
+	---
 		emit("  <statemachine:StateMachine>\n");
 		emit("<xmi:XMI>\n");
 	}

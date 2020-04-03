@@ -22,25 +22,27 @@ rule create : (Node)
 	}
 }
 
-pattern P(start:Node) modify(def var i:int)
+pattern P(start:Node) modify(--- def var i:int)
 {
 	start --> n:NINT;
 
 	modify {
+	---
 		eval {
 			yield i = i + n.a;
 		}
 	}
 }
 
-pattern Chain(begin:Node) modify(def var count_:int)
+pattern Chain(begin:Node) modify(--- def var count_:int)
 {
 	optional {
 		begin --> next:Node\(NINT+NFLOAT+NSTRING);
 		c:Chain(next);
 
 		modify {
-			c(yield count_);
+			c(--- yield count_);
+		---
 			evalhere { yield count_ = count_ + 1; }
 		}
 	}
@@ -55,6 +57,7 @@ rule answer(start:Node) : (int)
 		start --> :NSTRING;
 
 		modify {
+		---
 			eval {
 				yield i = i-1;
 			}
@@ -67,6 +70,7 @@ rule answer(start:Node) : (int)
 			negative { n --> :NFLOAT; }
 
 			modify {
+			---
 				eval {
 					yield i = i==4 ? i+(int)n.a : i;
 				}
@@ -76,6 +80,7 @@ rule answer(start:Node) : (int)
 			start --> n1:NFLOAT --> n2:NFLOAT;
 
 			modify {
+			---
 				eval {
 					yield i = i==4 ? i+(int)(n1.a+n2.a) : i;
 				}
@@ -89,16 +94,20 @@ rule answer(start:Node) : (int)
 	ch:Chain(start);
 
 	modify {
+		sub1(--- yield i);
+		sub2(--- yield i);
+		ch(--- yield i);
+	---
 		def var i:int = 0; // 0
 		evalhere { yield i = i==0 ? i+1 : i; } // 0+1 1
-		sub1(yield i); // 1+2 3
+		pattern sub1; // 1+2 3
 		evalhere { yield i = i==3 ? i+1 : i; } // 3+1 4
 		alternative alt; // 4+7 11
 		evalhere { yield i = i==11 ? i+2 : i; } // 11+2 13
-		sub2(yield i); // 13+2 15
+		pattern sub2; // 13+2 15
 		iterated it; // 15-1-1-1 12
 		evalhere { yield i = i==12 ? i+1 : i; } // 12+1 13
-		ch(yield i); // 13+4 17
+		pattern ch; // 13+4 17
 		evalhere { yield i = i==17 ? i+1 : i; } // 17+1 18
 		eval { yield i = i==18 ? i*2+6 : i; } // 18*2+6 42
 		return(i);

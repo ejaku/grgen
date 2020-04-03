@@ -2,7 +2,8 @@ using exectype;
 
 rule r
 {
-	modify  {
+	modify {
+	---
 		exec(x:set<foo> =set<foo> ;> {b:int=x.empty()} );
 	}
 }

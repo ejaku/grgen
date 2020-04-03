@@ -16,6 +16,7 @@ rule t(var str:string)
 	}
 
 	modify {
+	---
         emit("1 value of attribute 5 6 " + (str.length()==11) + "\n");
         emit("1 value of attribute 5 6 " + (str.indexOf("foo")==0) + "\n");
         emit("1 value of attribute 5 6 " + (str.indexOf("foo", 1)==8) + "\n");

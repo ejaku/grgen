@@ -13,8 +13,8 @@ rule tiptop
 	
 	modify {
 		delete(e);
-
 		eval { c.name = t.hop; }
+	---
 		exec ( bbase(c) || bbase(t) || s );
 	}
 }

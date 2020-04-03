@@ -7,10 +7,9 @@ function foo() : double
 }
 
 test t : (double)
-{
-	def var res:double;
-	
+{	
 	independent {
+	---
 		yield {
 			def var temp1:double = Math::sin(Math::pi());
 			def var temp2:double = Math::cos(0.0);
@@ -18,6 +17,8 @@ test t : (double)
 			yield res = temp1+temp2+temp3;
 		}
 	}
+---
+	def var res:double;
 	
 	return (res);
 }
@@ -27,6 +28,7 @@ rule r : (double)
 	if(Math::sin(Math::pi())+Math::cos(0.0) == Math::tan(0.0));
 	
 	modify {
+	---
 		def var res:double;
 		
 		eval { 

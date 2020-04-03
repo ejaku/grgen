@@ -1,10 +1,12 @@
 test foo
 {
+---
 	def var i:int;
 }
 
 test bar
 {
+---
 	def var i:int;
 }
 

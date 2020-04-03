@@ -7,6 +7,7 @@ rule findMyNode(var key:int) {
     n:MyNode{MyNode_Key == key};
 
     modify {
+	---
         emit("Found node!\n");
     }
 }
@@ -19,6 +20,7 @@ rule findMyNode2(var key:int) {
             n:MyNode{MyNode_Key == key};
 
             modify {
+			---
                 emit("Found node!\n");
             }
         }
@@ -28,6 +30,7 @@ rule findMyNode2(var key:int) {
             }
 
             modify {
+			---
                 emit("Did not find node!\n");
             }
         }
@@ -38,7 +41,8 @@ rule findMyNode2(var key:int) {
 rule findMyNodeFromOtherNode(otherNode:MyOtherNode) {
     n:MyNode{MyNode_Key == otherNode.foreignKey};
 
-    modify{
+    modify {
+	---
         emit("Found node key!\n");
     }
 }
@@ -51,6 +55,7 @@ rule findMyNodeFromOtherNode2(otherNode:MyOtherNode) {
             n:MyNode{MyNode_Key == otherNode.foreignKey};
 
             modify {
+			---
                 emit("Found node!\n");
             }
         }
@@ -60,6 +65,7 @@ rule findMyNodeFromOtherNode2(otherNode:MyOtherNode) {
             }
 
             modify {
+			---
                 emit("Did not find node!\n");
             }
         }

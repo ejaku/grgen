@@ -10,13 +10,11 @@ function number(var x:int) : int
 }
 
 test t(var x:int) : (int,int,int)
-{
-	def var res:int;
-	def var resres:int;
-	
+{	
 	if (number(1) < number(2));
 	
 	independent {
+	---
 		yield {
 			if(x==1) {
 				yield res = 1;
@@ -28,6 +26,9 @@ test t(var x:int) : (int,int,int)
 			yield resres = number(x);
 		}
 	}
+---
+	def var res:int;
+	def var resres:int;
 		
 	return (res, resres, number(x));
 }
@@ -39,6 +40,7 @@ rule r(var x:int) : (int,int,int,int)
 		if ( x < number(number(1) + number(2)) );
 		
 		modify {
+		---
 			eval { 
 				if(x==1) {
 					yield res = 1;
@@ -52,6 +54,7 @@ rule r(var x:int) : (int,int,int,int)
 	}
 
 	modify {
+	---
 		def var res:int;
 		def var resres:int;
 		def var resresres:int;

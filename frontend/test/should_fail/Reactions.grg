@@ -14,27 +14,29 @@ pattern minBondPathLength(aStart:Atom, aEnd:Atom, var length:int)  {
   }
 } 
 
-pattern nucleophile(mg:MolecularGraph, def a:Atom)  {
-  mg-:contains->n:N; 
+pattern nucleophile(mg:MolecularGraph --- def a:Atom)  {
+  mg-:contains->n:N;
+---
   yield{ yield a=n;}
 }
 
-pattern electrophile(mg:MolecularGraph, def a:Atom)  {
+pattern electrophile(mg:MolecularGraph --- def a:Atom)  {
   mg-:contains->c0:C-->b_c0o0_0:Bond<--o0:O;
   b_c0o0_0<--b_c0o0_1:Bond;
+---
   yield{ yield a=c0;}
 }
 
 pattern nucleophileAddition (mg1:MolecularGraph, mg2:MolecularGraph) {
-  def nuc:Atom;
-  def elec:Atom;
-
-  nosSP:nucleophile(mg1, yield nuc);
-  elecSP:electrophile(mg2, yield elec);
+  nosSP:nucleophile(mg1 --- yield nuc);
+  elecSP:electrophile(mg2 --- yield elec);
 
   negative  {
     :minBondPathLength(nuc,elec,4);
   }
+---
+  def nuc:Atom;
+  def elec:Atom;
 
   modify  {
     nuc-->:Bond<--elec;
@@ -50,13 +52,14 @@ pattern sptest (ref sReactants:set<MolecularGraph>, var bIntraMolecular:boolean)
   nucAddSP:nucleophileAddition(mgr1,mgr2);
   
   modify  {
-    emit("SPTEST EXECING!!!\n");
     nucAddSP();
+  ---
+    emit("SPTEST EXECING!!!\n");
   }
 }
 
 rule react(ref sReactants:set<MolecularGraph>, var bIntraMolecular:boolean) {
   alternative  {
-      testingyield{r:sptest(sReactants, bIntraMolecular); modify{emit("in test modify\n");r();}}
+      testingyield{r:sptest(sReactants, bIntraMolecular); modify{r();---emit("in test modify\n");}}
   }
 }

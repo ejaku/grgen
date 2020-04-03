@@ -23,6 +23,7 @@ rule ggraph
 	if{ inducedSubgraph(set<Node>{a,b,c,d}) == copy(inducedSubgraph(set<Node>{a,b,c,d})); }
 
 	modify {
+	---
 		eval {
 			def var gr:graph = inducedSubgraph(set<Node>{a,b,c,d});
 			def var ggr:graph = copy(gr);
@@ -58,6 +59,7 @@ rule mmap
 	if{ map<N, N>{a->a,b->b,c->c,d->d} == copy(map<N, N>{a->a,b->b,c->c,d->d}); }
 	
 	modify {
+	---
 		eval {
 			def ref container:map<N, int> = map<N, int>{a->a.a,b->b.a,c->c.a,d->d.a};
 			def ref ccontainer:map<N, int> = copy(container);
@@ -80,6 +82,7 @@ rule sset
 	if{ set<N>{a,b,c,d} == copy(set<N>{a,b,c,d}); }
 	
 	modify {
+	---
 		eval {
 			def ref container:set<N> = set<N>{a,b,c,d};
 			def ref ccontainer:set<N> = copy(container);
@@ -102,6 +105,7 @@ rule aarray
 	if{ array<N>[a,b,c,d] == copy(array<N>[a,b,c,d]); }
 	
 	modify {
+	---
 		eval {
 			def ref container:array<N> = array<N>[a,b,c,d];
 			def ref ccontainer:array<N> = copy(container);
@@ -124,6 +128,7 @@ rule ddeque
 	if{ deque<N>[a,b,c,d] == copy(deque<N>[a,b,c,d]); }
 	
 	modify {
+	---
 		eval {
 			def ref container:deque<N> = deque<N>[a,b,c,d];
 			def ref ccontainer:deque<N> = copy(container);

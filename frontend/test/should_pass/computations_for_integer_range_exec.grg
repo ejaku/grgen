@@ -1,6 +1,7 @@
 rule r() : (int)
 {	
 	modify {
+	---
 		def var res:int = 0;
 		
 		exec ( 
@@ -16,6 +17,7 @@ rule r() : (int)
 rule r2() : (int)
 {	
 	modify {
+	---
 		def var res:int = 0;
 		
 		exec ( 

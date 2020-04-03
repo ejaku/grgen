@@ -47,6 +47,7 @@ test t(start1:A, middle1:A, end1:A, start2:Node, end2:Node)
 
 rule r(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean,boolean,boolean)
 {
+---
 	def var isR11:boolean;
 	def var isR12:boolean;
 	yield {
@@ -71,6 +72,7 @@ rule r(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node
 	}
 	
 	modify {
+	---
 		def var iisR11:boolean;
 		def var iisR12:boolean;
 		eval {
@@ -99,6 +101,7 @@ rule r(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node
 
 rule rloop(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<Node>, ref rrs1:set<Node>, ref rrm1:set<Node>, ref rrs2:set<Node>, ref rre2:set<Node>, start1:A, middle1:A, end1:A, start2:Node, end2:Node) : (boolean,boolean,boolean,boolean)
 {
+---
 	def var isR11:boolean;
 	def var isR12:boolean;
 	yield {
@@ -119,6 +122,7 @@ rule rloop(ref rs1:set<Node>, ref rm1:set<Node>, ref rs2:set<Node>, ref re2:set<
 	}
 	
 	modify {
+	---
 		def var iisR11:boolean;
 		def var iisR12:boolean;
 		eval {

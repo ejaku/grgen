@@ -1,8 +1,9 @@
 using Chemistry;
 
-pattern minBondPathLength(def aStart:Atom, def aEnd:Atom)  {
+pattern minBondPathLength(--- def aStart:Atom, def aEnd:Atom)  {
 	start:Atom;
 	end:Atom;
+---
 	yield {
 		yield aStart = start;
 		yield aEnd = end;
@@ -14,7 +15,7 @@ pattern nucleophileAddition (mg1:MolecularGraph, mg2:MolecularGraph) {
   elec:Atom;
 
   negative  {
-    :minBondPathLength(yield nuc, yield elec);
+    :minBondPathLength(--- yield nuc, yield elec);
   }
 
   modify  {
@@ -31,13 +32,14 @@ pattern sptest (ref sReactants:set<MolecularGraph>, var bIntraMolecular:boolean)
   nucAddSP:nucleophileAddition(mgr1,mgr2);
   
   modify  {
-    emit("SPTEST EXECING!!!\n");
     nucAddSP();
+  ---
+    emit("SPTEST EXECING!!!\n");
   }
 }
 
 rule react(ref sReactants:set<MolecularGraph>, var bIntraMolecular:boolean) {
   alternative  {
-      testingyield{r:sptest(sReactants, bIntraMolecular); modify{emit("in test modify\n");r();}}
+      testingyield{r:sptest(sReactants, bIntraMolecular); modify{r();---emit("in test modify\n");}}
   }
 }

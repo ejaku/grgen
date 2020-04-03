@@ -4,12 +4,13 @@ procedure foo() : (int)
 }
 
 test bar()
-{
-	def var x:int;
-	
+{	
 	optional {
+	---
 		yield {
 			(yield x) = foo();
 		}
 	}
+---
+	def var x:int;
 }

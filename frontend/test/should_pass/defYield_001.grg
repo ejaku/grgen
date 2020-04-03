@@ -1,22 +1,26 @@
 rule t
 {
+	pp:p(--- yield x);
+---
 	def x:Node;
-	pp:p(yield x);
 
 	modify {
-		def y:Node;
-		pp(yield y);
 		x --> y;
+		pp(--- yield y);
+	---
+		def y:Node;
 	}
 }
 
-pattern p(def x:Node) modify(def z:Node)
+pattern p(--- def x:Node) modify(--- def z:Node)
 {
 	y:Node;
+---
 	yield { yield x = y; }
 	
 	modify {
 		u:Node;
+	---
 		eval { yield z = u; }
 	}
 }

@@ -5,6 +5,7 @@ rule rn : (Node)
 	if { uniqueof(nodeByUnique(0))==0; }
 	
 	modify {
+	---
 		def n:Node;
 		eval {
 			yield n = nodeByUnique(42);
@@ -21,6 +22,7 @@ rule re : (Edge)
 	if { uniqueof(edgeByUnique(0))==0; }
 	
 	modify {
+	---
 		def -n:Edge->;
 		eval {
 			yield n = (Edge)edgeByUnique(42);

@@ -9,6 +9,7 @@ rule rn : (N)
 	if { uniqueof(nodeByUnique(0, N))==0; }
 	
 	modify {
+	---
 		def n:N;
 		eval {
 			yield n = nodeByUnique(42, N);
@@ -29,6 +30,7 @@ rule re : (E)
 	if { uniqueof(edgeByUnique(0, E))==0; }
 	
 	modify {
+	---
 		def -n:E->;
 		eval {
 			yield n = edgeByUnique(42, E);

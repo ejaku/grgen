@@ -22,6 +22,7 @@ rule checkTestGraphAndPrintNames1
 	}
 	
 	modify {
+	---
 		emit("value of variable n1 which is a node rly ", nameof(n1), "\n");
 		emit("value of variable n2 which is a node rly ", nameof(n2), "\n");
 		emit("value of variable e1 which is a edge rly ", nameof(e1), "\n");

@@ -1,5 +1,6 @@
 test t(var x:int) : (string)
 {
+---
 	def var res:string;
 		
 	yield {
@@ -22,6 +23,7 @@ test t(var x:int) : (string)
 rule r(var x:int) : (string)
 {
 	modify {
+	---
 		def var res:string;
 		eval { 
 			switch(x) {

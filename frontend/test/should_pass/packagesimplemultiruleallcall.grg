@@ -6,7 +6,7 @@ package Bla
 	{
 		start --> n:Node;
 		if{ !n.visited; }
-		
+	---
 		def var v:int;
 
 		modify {
@@ -32,7 +32,7 @@ rule s : (M, M)
 {
 	root:Node --> m1:M;
 	root --> m2:M;
-	
+---
 	def var v:int;
 
 	modify {

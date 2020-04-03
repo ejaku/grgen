@@ -3,6 +3,7 @@ using model_init;
 rule radd : (Node,A,Edge,E1)
 {
 	modify {
+	---
 		def nn:Node;
 		def na:A;
 		def -ee:Edge->;
@@ -38,6 +39,7 @@ rule raddcopy : (Node,A,Edge,E1)
 	na -ee1:E1-> nn;
 	
 	modify {
+	---
 		def nnc:Node;
 		def nac:A;
 		def -eec:Edge->;
@@ -57,6 +59,7 @@ rule raddcopy : (Node,A,Edge,E1)
 rule rremedges(-ee:Edge->, -ee1:E1->)
 {
 	modify {
+	---
 		eval { 
 			rem(ee);
 			rem(ee1);
@@ -67,6 +70,7 @@ rule rremedges(-ee:Edge->, -ee1:E1->)
 rule rremnodes(nn:Node, na:A)
 {
 	modify {
+	---
 		eval { 
 			rem(nn);
 			rem(na);

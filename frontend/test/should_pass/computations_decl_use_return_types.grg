@@ -24,7 +24,7 @@ rule r()
 {
 	bb:BB;
 	b:B;
-	
+---	
 	yield {
 		def ret1:Node = func1(bb);
 		def ret2:B = func1(bb);
@@ -34,6 +34,7 @@ rule r()
 	}
 	
 	modify {
+	---
 		eval {
 			def ret1:Node = func1(bb);
 			def ret2:B = func1(bb);
@@ -83,7 +84,7 @@ rule re()
 {
 	-ee:EE->;
 	-e:E1->;
-
+---
 	yield {
 		def -ret1:Edge-> = func1e(ee);
 		def -ret2:E1-> = func1e(ee);
@@ -93,6 +94,7 @@ rule re()
 	}
 
 	modify {
+	---
 		eval {
 			def -ret1:Edge-> = func1e(ee);
 			def -ret2:E1-> = func1e(ee);

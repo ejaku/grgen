@@ -1,6 +1,7 @@
 rule r : (int)
 {	
 	modify {
+	---
 		def var res:int = 42;
 		
 		eval { 

@@ -3,6 +3,7 @@ rule r {
 	if { size()>0; }
 
 	modify {
+	---
 		eval {
 			def var x:boolean = empty();
 			def var y:int = size();

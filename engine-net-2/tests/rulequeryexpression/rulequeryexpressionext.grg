@@ -17,7 +17,7 @@ rule init : (Node, Node)
 rule r(n:Node) : (N)
 {
 	n --> m:N;
-	
+---	
 	def var i:int;
 	yield { yield i = m.i; }
 	

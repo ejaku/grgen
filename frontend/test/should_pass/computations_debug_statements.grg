@@ -27,6 +27,7 @@ test t()
 	independent {
 		n:Node;
 		if{!n.visited[0];}
+	---
 		yield {
 			Debug::add("t", 0, n, "t");
 			Debug::emit("t", 0, n, "t");
@@ -43,6 +44,7 @@ rule r()
 	n:Node;
 	if{!n.visited[0];}
 	modify {
+	---
 		def var vis:int;
 		def var res:string = "nNn";
 		
@@ -85,6 +87,7 @@ procedure pp(n:Node) : (Node)
 rule tt {
 	n:Node;
 	modify {
+	---
 		eval {
 			def m:Node;
 			(m)=pp(n);
@@ -95,6 +98,7 @@ rule tt {
 rule ss {
 	n:Node; m:Node;
 	modify {
+	---
 		exec( tt ;> {pp(m)} );
 	}
 }
@@ -102,6 +106,7 @@ rule ss {
 rule rr {
 	n:Node;
 	modify {
+	---
 		exec( ss() && tt() || tt() );
 	}
 }

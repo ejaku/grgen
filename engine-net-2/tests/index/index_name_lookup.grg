@@ -4,6 +4,7 @@ rule t {
 	n:N{@("foo")} -e:E{@("bar")}-> n;
 
 	modify {
+	---
 		emit("The value of attribute noattribute is ", nameof(n), "\n");
 		emit("The value of attribute noattribute is ", nameof(e), "\n");
 		emit("The value of attribute s is ", n.s, "\n");
@@ -21,6 +22,7 @@ rule r {
 	n:Node{@("foo")} -e:Edge{@("bar")}-> n;
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 		emit("The value of attribute noattribute is " + nameof(e) + "\n");
 	}
@@ -32,6 +34,7 @@ rule tp(var x:string, var y:string) {
 	n:N{@(x)} -e:E{@(y)}-> n;
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 		emit("The value of attribute noattribute is " + nameof(e) + "\n");
 		emit("The value of attribute s is " + n.s + "\n");
@@ -43,6 +46,7 @@ rule rp(var x:string, var y:string) {
 	n:Node{@(x)} -e:Edge{@(y)}-> n;
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 		emit("The value of attribute noattribute is " + nameof(e) + "\n");
 	}
@@ -52,6 +56,7 @@ rule sp(var x:int, var y:string) {
 	n:Node{@(x)} -e:Edge{@(y)}-> n; // implicit cast to string
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 		emit("The value of attribute noattribute is " + nameof(e) + "\n");
 	}
@@ -63,6 +68,7 @@ rule ta {
 	n:N{@("foo")} -e:E{@(n.s)}-> n;
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 		emit("The value of attribute noattribute is " + nameof(e) + "\n");
 		emit("The value of attribute s is " + n.s + "\n");
@@ -74,6 +80,7 @@ rule ra {
 	n:Node{@(e.s)} -e:E{@("bar")}-> n;
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + nameof(n) + "\n");
 		emit("The value of attribute noattribute is " + nameof(e) + "\n");
 	}

@@ -174,7 +174,7 @@ rule GrowWorldFirstAtCorner(cur:GridCornerNode<GridNode>) : (GridNode, GridNode)
         eval {
             hill.foodCountdown = hill.foodCountdown - 3;
         }
-
+	---
         return (next, outer3);
 
 //        exec(GrowFoodIfEqual(outer1, -2) || GrowFoodIfEqual(outer2, -1) || GrowFoodIfEqual(outer3, 0));
@@ -195,7 +195,7 @@ rule GrowWorldFirstNotAtCorner(cur:GridNode\GridCornerNode) : (GridNode, GridNod
         eval {
             hill.foodCountdown = hill.foodCountdown - 1;
         }
-
+	---
         return (next, outer);
 
 //        exec(GrowFoodIfEqual(outer, 0));
@@ -222,7 +222,7 @@ rule GrowWorldNextAtCorner(cur:GridCornerNode<GridNode>, curOuter:GridNode) : (G
         eval {
             hill.foodCountdown = hill.foodCountdown - 3;
         }
-
+	---
         return (next, outer3);
 //        exec(GrowFoodIfEqual(outer1, -2) || GrowFoodIfEqual(outer2, -1) || GrowFoodIfEqual(outer3, 0));
         exec(GrowFoodIfEqual(outer1, minusTwo) || GrowFoodIfEqual(outer2, minusOne) || GrowFoodIfEqual(outer3, zero));
@@ -244,7 +244,7 @@ rule GrowWorldNextNotAtCorner(cur:GridNode\GridCornerNode, curOuter:GridNode) : 
         eval {
             hill.foodCountdown = hill.foodCountdown - 1;
         }
-
+	---
         return (next, outer);
 //        exec(GrowFoodIfEqual(outer, 0));
         exec(GrowFoodIfEqual(outer, zero));
@@ -293,6 +293,7 @@ rule EvaporateWorld
 rule doAntWorld(firstAnt:Ant)
 {
     modify {
+	---
         exec((curAnt:Ant=firstAnt &&
             ((
                 TakeFood(curAnt) | GoHome(curAnt) ||

@@ -1,8 +1,8 @@
 rule filterInt
 {
-	def var i:int;
-
 	n:Node;
+---
+	def var i:int;
 
 	yield {
 		yield i = incident(n).size();
@@ -15,10 +15,10 @@ rule filterInt
 
 rule filterDouble
 {
+	n:Node;
+---
 	def var d:double;
 	
-	n:Node;
-
 	yield {
 		yield d = incident(n).size() * 3.141592654;
 	}
@@ -30,9 +30,9 @@ rule filterDouble
 
 rule filterString
 {
-	def var s:string;
-
 	n:Node;
+---
+	def var s:string;
 	
 	yield {
 		yield s = helper(incident(n).size());

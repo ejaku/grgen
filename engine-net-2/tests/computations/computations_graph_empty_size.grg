@@ -16,7 +16,7 @@ rule addEdge
 rule r : (int, int) {
 	if { !empty(); }
 	if { size()>0; }
-
+---
 	def var xs:boolean;
 	def var ys:int;
 	yield {
@@ -25,6 +25,7 @@ rule r : (int, int) {
 	}
 	
 	modify {
+	---
 		def var x:boolean;
 		def var y:int;
 		eval {

@@ -8,8 +8,9 @@ sequence TestSequence {
 
 rule DeleteRule {
     n:Node;
-    modify{
+    modify {
+	    delete(n);
+	---
         eval { emit("1 value of attribute found node " + nameof(n) +"\n"); }
-        delete(n);
     }
 }

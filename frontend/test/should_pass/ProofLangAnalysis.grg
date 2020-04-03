@@ -15,6 +15,7 @@ rule getLabels (successor:NamedItem, uref:URef, ref x:set<NamedItem>)
             if { label.id == uref.content; }
             modify {
               eval { x.add(current); }
+			---
               exec( getLabels(current, uref, ::labels) );
           }
         }
@@ -23,6 +24,7 @@ rule getLabels (successor:NamedItem, uref:URef, ref x:set<NamedItem>)
             label : Label -:deflink-> current;
             if { label.id != uref.content; }
             modify {
+			---
               exec( getLabels(current, uref, ::labels) );
                 }
         }
@@ -33,6 +35,7 @@ rule getLabels (successor:NamedItem, uref:URef, ref x:set<NamedItem>)
               label : Label -:deflink-> current;
           }
             modify {
+			---
               exec( getLabels(current, uref, ::labels) );
                 }
         }

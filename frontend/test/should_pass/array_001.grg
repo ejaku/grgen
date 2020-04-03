@@ -37,6 +37,7 @@ rule emitFromArray {
 	if { 5 in a.spiceArray; }
 	
 	modify {
+	---
 		emit("is \"5\" contained? " + (5 in a.spiceArray ? "yes" : "no") + ", arraysize = " + a.spiceArray.size());
 	}
 }
@@ -45,6 +46,7 @@ rule arrayVarContains(ref m:array<string>) {
 	if { "yeah" in m; }
 	
 	modify {
+	---
 		emit("\"yeah\" is contained? " + ("yeah" in m) + ", arraysize = " + m.size());
 	}
 }

@@ -13,7 +13,8 @@ rule r(ref n:set<Node>, ref a:set<Node>, ref e:set<Edge>, ref nn:set<Node>, ref 
 	if { edges().size() > edges(EE).size(); }
 	if { countNodes() > countNodes(A); }
 	if { countEdges() > countEdges(EE); }
-	
+
+---	
 	def var countA:int;
 	def var countEE:int;
 	yield {
@@ -34,6 +35,7 @@ rule r(ref n:set<Node>, ref a:set<Node>, ref e:set<Edge>, ref nn:set<Node>, ref 
 	}
 	
 	modify {
+	---
 		def var ccountA:int;
 		def var ccountEE:int;
 		eval {
@@ -57,7 +59,8 @@ rule r(ref n:set<Node>, ref a:set<Node>, ref e:set<Edge>, ref nn:set<Node>, ref 
 }
 
 rule rloop(ref n:set<Node>, ref a:set<A>, ref e:set<Edge>, ref ee:set<EE>, ref nn:set<Node>, ref aa:set<A>, ref eee:set<Edge>, ref eeee:set<EE>)
-{	
+{
+---
 	yield {
 		for(el:Node in nodes()) {
 			n.add(el);
@@ -74,6 +77,7 @@ rule rloop(ref n:set<Node>, ref a:set<A>, ref e:set<Edge>, ref ee:set<EE>, ref n
 	}
 	
 	modify {
+	---
 		eval {
 			for(el:Node in nodes()) {
 				nn.add(el);

@@ -1,6 +1,7 @@
 #using "index_model_001b.gm"
 
 rule r13 {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {foo==13}) {
@@ -10,11 +11,13 @@ rule r13 {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
 rule rascending {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {ascending(foo)}) {
@@ -24,11 +27,13 @@ rule rascending {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
 rule rdescending {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {descending(foo)}) {
@@ -38,11 +43,13 @@ rule rdescending {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
 rule rascendinglargerthan5lowerequal13 {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {ascending(foo>5, foo<=13)}) {
@@ -52,11 +59,13 @@ rule rascendinglargerthan5lowerequal13 {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
 rule rascendinglargerequal5 {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {ascending(foo>=5)}) {
@@ -66,11 +75,13 @@ rule rascendinglargerequal5 {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
 rule rascendinglowerthan13 {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {ascending(foo<13)}) {
@@ -80,11 +91,13 @@ rule rascendinglowerthan13 {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
 rule rdescendinglowerthan13largerequal5 {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {descending(foo<13, foo>=5)}) {
@@ -94,11 +107,13 @@ rule rdescendinglowerthan13largerequal5 {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
 rule rdescendinglowerequal13 {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {descending(foo<=13)}) {
@@ -108,11 +123,13 @@ rule rdescendinglowerequal13 {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }
 
 rule rdescendinglargerthan5 {
+---
 	def -n:E->;
 	yield {
 		for(m:E in {descending(foo>5)}) {
@@ -122,6 +139,7 @@ rule rdescendinglargerthan5 {
 	}
 	
 	modify {
+	---
 		emit("The value of attribute i is " + n.i + "\n");
 	}
 }

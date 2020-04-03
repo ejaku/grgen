@@ -2,7 +2,8 @@ using exectype;
 
 rule r
 {
-	modify  {
+	modify {
+	---
 		exec(x:foo=foo::Bla && i:int=0 && y:boolean=true && {x.visited[i]=y});
 	}
 }

@@ -2,7 +2,8 @@ using exectype;
 
 rule r
 {
-	modify  {
+	modify {
+	---
 		exec(if{x:int=42; ::y=x; ::z=x} && if{x:string="Gnampf!"; ::y=x; ::z=x} && x:foo=foo::Bar);
 	}
 }

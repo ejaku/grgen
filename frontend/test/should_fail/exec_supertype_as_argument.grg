@@ -2,7 +2,8 @@ using deep_model_001;
 
 rule r(y : Acc) {
   n : Node;
-  modify{
+  modify {
+  ---
     exec(r(n)); // supertype as argument
   }
 }

@@ -1,6 +1,7 @@
 test t()
 {
 	independent {
+	---
 		yield {
 			if(true) {
 				continue;

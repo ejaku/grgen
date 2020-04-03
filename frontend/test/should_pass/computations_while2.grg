@@ -1,7 +1,8 @@
-pattern P(def var res:int, def var resa:int, def var resi:int) 
-	modify(def var resres:int, def var resresa:int, def var resresi:int)
+pattern P(--- def var res:int, def var resa:int, def var resi:int) 
+	modify(--- def var resres:int, def var resresa:int, def var resresi:int)
 {
 	independent {
+	---
 		yield {
 			def var res_:int = 42;
 			while(res_ > 1) {
@@ -13,6 +14,7 @@ pattern P(def var res:int, def var resa:int, def var resi:int)
 	
 	alternative {
 		case1 {
+			---
 			yield {
 				def var resa_:int = 42;
 				while(resa_ > 1) {
@@ -21,6 +23,7 @@ pattern P(def var res:int, def var resa:int, def var resi:int)
 				yield resa = resa_;
 			}
 			modify {
+			---
 				eval {
 					def var resresa_:int = 42;
 					while(resresa_ > 1) {
@@ -34,7 +37,7 @@ pattern P(def var res:int, def var resa:int, def var resi:int)
 	
 	iterated {
 		.;
-		
+	---	
 		yield {
 			def var resi_:int = 42;
 			while(resi_ > 1) {
@@ -43,6 +46,7 @@ pattern P(def var res:int, def var resa:int, def var resi:int)
 			yield resi = resi_;
 		}
 		modify {
+		---
 			eval {
 				def var resresi_:int = 42;
 				while(resresi_ > 1) {
@@ -54,6 +58,7 @@ pattern P(def var res:int, def var resa:int, def var resi:int)
 	}
 	
 	modify {
+	---
 		eval {
 			def var resres_:int = 42;
 			while(resres_ > 1) {
@@ -66,16 +71,18 @@ pattern P(def var res:int, def var resa:int, def var resi:int)
 
 rule r : (int, int, int, int, int, int)
 {
+	p:P(--- yield res, yield resa, yield resi);
+---
 	def var res:int;
 	def var resa:int;
 	def var resi:int;
-	p:P(yield res, yield resa, yield resi);
 	
 	replace {
+		p(--- yield resres, yield resresa, yield resresi);
+	---
 		def var resres:int;
 		def var resresa:int;
 		def var resresi:int;
-		p(yield resres, yield resresa, yield resresi);
 		return(res, resa, resi, resres, resresa, resresi);
 	}
 }

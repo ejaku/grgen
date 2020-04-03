@@ -111,9 +111,11 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 			CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 			GraphNode graph = new GraphNode(getIdentNode().toString(), getIdentNode().getCoords(), 
-				connections, new CollectNode<BaseNode>(), defVariablesToBeYieldedTo, subpatterns,
-				orderedReplacements, evals, returnz, imperativeStmts,
+				connections, new CollectNode<BaseNode>(), subpatterns, new CollectNode<SubpatternReplNode>(),
+				orderedReplacements, returnz, imperativeStmts,
 				BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, pattern);
+			graph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
+			graph.addEvals(evals);
 			right.addChild(new ModifyDeclNode(getIdentNode(), graph, new CollectNode<IdentNode>()));
 			getIdentNode().setDecl(this);
 		}

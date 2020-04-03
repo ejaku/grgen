@@ -47,6 +47,7 @@ rule rinc(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref incO
 			ref inc2:set<Edge>, ref incInc2:set<Edge>, ref incOut2:set<Edge>, ref iinc2:set<Edge>, ref iincInc2:set<Edge>, ref iincOut2:set<Edge>,
 			start:A, -leftEdge:Edge->, -rightEdge:Edge->, start2:Node, -start2Edge:Edge->) : (boolean,boolean,boolean,boolean,boolean,boolean)
 {
+---
 	def var isincOut:boolean;
 	def var isincIn:boolean;
 	def var isinc:boolean;
@@ -97,6 +98,7 @@ rule rinc(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref incO
 	}
 	
 	modify {
+	---
 		def var iisincOut:boolean;
 		def var iisincIn:boolean;
 		def var iisinc:boolean;
@@ -154,6 +156,7 @@ rule rinc_(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref inc
 			ref inc2:set<Edge>, ref incInc2:set<Edge>, ref incOut2:set<Edge>, ref iinc2:set<Edge>, ref iincInc2:set<Edge>, ref iincOut2:set<Edge>,
 			start:A, -leftEdge:Edge->, -rightEdge:Edge->, start2:Node, -start2Edge:Edge->) : (boolean,boolean,boolean,boolean,boolean,boolean)
 {
+---
 	def var isincOut:boolean;
 	def var isincIn:boolean;
 	def var isinc:boolean;
@@ -204,6 +207,7 @@ rule rinc_(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref inc
 	}
 	
 	modify {
+	---
 		def var iisincOut:boolean;
 		def var iisincIn:boolean;
 		def var iisinc:boolean;
@@ -261,6 +265,7 @@ rule rincloop(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref 
 			ref inc2:set<Edge>, ref incInc2:set<Edge>, ref incOut2:set<Edge>, ref iinc2:set<Edge>, ref iincInc2:set<Edge>, ref iincOut2:set<Edge>,
 			start:A, -leftEdge:Edge->, -rightEdge:Edge->, start2:Node, -start2Edge:Edge->) : (boolean,boolean,boolean,boolean,boolean,boolean)
 {
+---
 	def var isincOut:boolean;
 	def var isincIn:boolean;
 	def var isinc:boolean;
@@ -301,6 +306,7 @@ rule rincloop(ref inc:set<Edge>, ref incEE:set<Edge>, ref incEEA:set<Edge>, ref 
 	}
 	
 	modify {
+	---
 		def var iisincOut:boolean;
 		def var iisincIn:boolean;
 		def var iisinc:boolean;

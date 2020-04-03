@@ -5,6 +5,7 @@ rule rn : (Node)
 	if { nameof(nodeByName("$0"))=="$0"; }
 	
 	modify {
+	---
 		def n:Node;
 		eval {
 			yield n = nodeByName("$42");
@@ -21,6 +22,7 @@ rule re : (Edge)
 	if { nameof(edgeByName("$0"))=="$0"; }
 	
 	modify {
+	---
 		def -n:Edge->;
 		eval {
 			yield n = (Edge)edgeByName("$42");

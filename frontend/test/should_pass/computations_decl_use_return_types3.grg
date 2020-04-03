@@ -13,8 +13,9 @@ procedure someproc(ref m:map<string, Node>, ref ar:array<Node>, ref de:deque<E1>
 
 rule r() : (boolean)
 {
-	def var res:boolean;
 	n:Node -e:E1->;
+---
+	def var res:boolean;
 
 	yield {
 		def var s:string = "hello world";
@@ -28,6 +29,7 @@ rule r() : (boolean)
 	}
 
 	modify {		
+	---
 		eval { 
 			def var s:string = "hello world";
 

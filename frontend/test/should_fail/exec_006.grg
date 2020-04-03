@@ -6,6 +6,7 @@ rule r(y : Acc) {
   b : B;
   replace {
     c : AcccAccAcA<b>;
+  ---
     exec(r(a));  // a may have been deleted iff a!=b
   }
 }

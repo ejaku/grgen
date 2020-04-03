@@ -8,28 +8,32 @@ function two() : int
 	return(2);
 }
 
-pattern P(var input:int, def var output:int) modify(var inputput:int, def var outputput:int)
+pattern P(var input:int --- def var output:int) modify(var inputput:int --- def var outputput:int)
 {
+---
 	yield {
 		yield output = input;
 	}
 	
 	modify {
+	---
 		eval {
 			yield outputput = inputput;
 		}
 	}
 }
 
-pattern Pplus(var input:int, def var output:int) modify(var inputput:int, def var outputput:int)
+pattern Pplus(var input:int --- def var output:int) modify(var inputput:int --- def var outputput:int)
 {
 	if ( one() < two() );
 
+---
 	yield {
 		yield output = input + one();
 	}
 	
 	modify {
+	---
 		eval {
 			yield outputput = inputput + two();
 		}
@@ -45,12 +49,14 @@ test t : (int)
 
 rule r : (int, int)
 {
+	p:P(two() - one() --- yield res);
+---
 	def var res:int;
-	p:P(two() - one(), yield res);
 	
 	modify {
+		p(one() + one() --- yield resres);
+	---
 		def var resres:int;
-		p(one() + one(), yield resres);
 				
 		return (res, resres + one());
 	}
@@ -58,12 +64,14 @@ rule r : (int, int)
 
 rule q(var one:int, var two:int) : (int, int)
 {
+	p:P(two - one --- yield res);
+---
 	def var res:int;
-	p:P(two - one, yield res);
 	
 	modify {
+		p(one + one --- yield resres);
+	---
 		def var resres:int;
-		p(one + one, yield resres);
 				
 		return (res, resres + one);
 	}
@@ -71,12 +79,14 @@ rule q(var one:int, var two:int) : (int, int)
 
 rule rplus(var one:int, var two:int) : (int, int)
 {
+	p:Pplus(two - one --- yield res);
+---
 	def var res:int;
-	p:Pplus(two - one, yield res);
 	
 	modify {
+		p(one + one --- yield resres);
+	---
 		def var resres:int;
-		p(one + one, yield resres);
 				
 		return (res, resres + one);
 	}

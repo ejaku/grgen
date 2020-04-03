@@ -4,7 +4,8 @@ rule r(y : Bcc) : (B) {
   hom(a,b);
   a : A;
   b : B;
-  modify{
+  modify {
+  ---
     return (b);
     exec(c:A=a & (c)=r(y));     // wrong type as return var
   }

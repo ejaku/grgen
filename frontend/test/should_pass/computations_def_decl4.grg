@@ -18,10 +18,9 @@ function some(n:A, -e:E1->) : boolean
 }
 
 test t(n:A, -e:E1->) : (boolean)
-{
-	def var res:boolean;
-	
+{	
 	independent {
+	---
 		yield {
 			def var by:byte = (byte)42;
 			def var sh:short = (short)42;
@@ -38,6 +37,8 @@ test t(n:A, -e:E1->) : (boolean)
 			yield res = n.b;
 		}
 	}
+---
+	def var res:boolean;
 	
 	return (res);
 }
@@ -45,6 +46,7 @@ test t(n:A, -e:E1->) : (boolean)
 rule r(n:A, -e:E1->, var x:int) : (boolean)
 {	
 	modify {
+	---
 		def var res:boolean;
 
 		eval { 
@@ -67,10 +69,11 @@ rule r(n:A, -e:E1->, var x:int) : (boolean)
 	}
 }
 
-pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var resres:int)
+pattern P(var x:int, n:A, -e:E1-> --- def var res:int) modify(var xx:int --- def var resres:int)
 {
 	independent {
 		independent {
+		---
 			yield {
 				def var by:byte = (byte)42;
 				def var sh:short = (short)42;
@@ -105,6 +108,7 @@ pattern P(var x:int, n:A, -e:E1->, def var res:int) modify(var xx:int, def var r
 	}
 	
 	modify {
+	---
 		eval { 
 			def var by:byte = (byte)42;
 			def var sh:short = (short)42;

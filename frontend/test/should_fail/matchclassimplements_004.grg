@@ -4,7 +4,7 @@ rule r(start:Node) implements shared
 {
 	start --> n:Node;
 	if{ !n.visited; }
-	
+---
 	def var v:string; // string-int mismatch
 
 	modify {

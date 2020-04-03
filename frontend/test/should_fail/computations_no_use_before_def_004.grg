@@ -8,6 +8,7 @@ procedure muh() : (int)
 rule r : (int)
 {	
 	modify {
+	---
 		def var res:int;
 		
 		eval { 

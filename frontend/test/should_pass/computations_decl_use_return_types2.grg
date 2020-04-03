@@ -12,7 +12,8 @@ procedure someproc(var by:byte, var sh:short, var i1:int, var l:long, var f:floa
 }
 
 rule r : (boolean)
-{	
+{
+---
 	def var res:boolean;
 
 	yield {
@@ -29,6 +30,7 @@ rule r : (boolean)
 	}
 
 	modify {
+	---
 		eval { 
 			def var by:byte = (byte)42;
 			def var sh:short = (short)42;

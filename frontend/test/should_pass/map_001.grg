@@ -61,6 +61,7 @@ rule emitFromMap {
 	if { 5 in a.niceMap; }
 
 	modify {
+	---
 		emit("entry for \"5\" = " + a.niceMap[5] + ", mapsize = " + a.niceMap.size());
 	}
 }
@@ -70,6 +71,7 @@ rule emitFromMap2 {
 	if { 5 in a.niceMap; }
 
 	modify {
+	---
 		emit("is \"5\" contained? " + (5 in a.niceMap ? "yes" : "no") + ", mapsize = " + a.niceMap.size());
 	}
 }
@@ -78,6 +80,7 @@ rule mapVarContains(ref m:map<string, int>) {
 	if { "yeah" in m; }
 
 	modify {
+	---
 		emit("entry for \"yeah\" = " + m["yeah"] + ", mapsize = " + m.size());
 	}
 }
@@ -122,6 +125,7 @@ rule evalAndEmitFromAnonymousMap {
 
 	modify {
 		eval { a.val = map<int,int>{ 1->2, 2->3, 3->1 }[2]; }
+	---
 		emit("entry for \"5\" = " + map<int,string>{5->"foo"}[5] + ", mapsize = " + map<int,string>{5->"foo"}.size());
 	}
 }

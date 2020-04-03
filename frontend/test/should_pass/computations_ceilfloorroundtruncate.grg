@@ -8,10 +8,9 @@ function foo() : double
 }
 
 test t : (double)
-{
-	def var res:double;
-	
+{	
 	independent {
+	---
 		yield {
 			def var temp1:double = Math::ceil(2.5);
 			def var temp2:double = Math::floor(2.5);
@@ -20,6 +19,8 @@ test t : (double)
 			yield res = temp1+temp2+temp3+temp4;
 		}
 	}
+---
+	def var res:double;
 	
 	return (res);
 }
@@ -29,6 +30,7 @@ rule r : (double)
 	if(Math::ceil(2.5)+Math::floor(2.5) == Math::round(2.5)+Math::truncate(2.5));
 	
 	modify {
+	---
 		def var res:double;
 		
 		eval { 

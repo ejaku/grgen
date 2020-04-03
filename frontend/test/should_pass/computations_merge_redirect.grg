@@ -16,7 +16,7 @@ rule r : (string)
 {	
 	modify {
 		n1:Node -e:Edge-> n2:Node;
-		
+	---
 		def var s:string = "it's magic";
 		
 		eval { 

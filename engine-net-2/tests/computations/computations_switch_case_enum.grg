@@ -2,6 +2,7 @@
 
 test t(var x:ET) : (string)
 {
+---
 	def var res:string;
 		
 	yield {
@@ -24,6 +25,7 @@ test t(var x:ET) : (string)
 rule r(var x:ET) : (string)
 {
 	modify {
+	---
 		def var res:string;
 		eval { 
 			switch(x) {

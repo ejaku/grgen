@@ -4,7 +4,7 @@ rule r(start:Node) implements shared
 {
 	start --> n:Node;
 	if{ !n.visited; }
-	
+---	
 	def var v:int;
 	def x:Node;
 
@@ -17,7 +17,7 @@ rule s : (M, M) implements shared
 {
 	root:Node --> m1:M;
 	root --> m2:M;
-	
+---
 	def var v:int;
 	def x:Node;
 

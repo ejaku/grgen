@@ -6,16 +6,17 @@ function one() : int
 }
 
 test t : (int)
-{
-	def var res:int;
-	
+{	
 	independent {
+	---
 		yield {
 			def var resres:int;
 			resres = one() + 2;
 			yield res = resres;
 		}
 	}
+---
+	def var res:int;
 	
 	return (res);
 }
@@ -23,6 +24,7 @@ test t : (int)
 rule r : (int)
 {	
 	modify {
+	---
 		def var res:int;
 		
 		eval { 

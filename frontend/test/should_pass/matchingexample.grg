@@ -3,18 +3,18 @@
 rule r(a:Node) : (Node, int)
 {
 	a --> b:Node;
-	
-	def var i:int;
+	p:P(b --- yield d);
 	optional o {
 		a --> . --> c:N;
+	---
 		yield { yield i = c.i; }
 		
 		modify {
 		}
 	}
-
+---	
+	def var i:int;
 	def d:Node;
-	p:P(b, yield d);
 	
 	modify {
 		b --> u:Node;
@@ -22,8 +22,9 @@ rule r(a:Node) : (Node, int)
 	}
 }
 
-pattern P(n:Node, def rm:Node)
+pattern P(n:Node --- def rm:Node)
 {
 	n --> . --> m:Node;
+---
 	yield { yield rm = m; }
 }

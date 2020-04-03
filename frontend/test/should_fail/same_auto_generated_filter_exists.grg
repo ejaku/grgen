@@ -1,4 +1,5 @@
 test foo
 {
+---
 	def var i:int;
 } \ orderAscendingBy<i>, orderAscendingBy<i>

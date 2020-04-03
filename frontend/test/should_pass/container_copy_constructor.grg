@@ -2,6 +2,7 @@
 
 rule r
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -13,6 +14,7 @@ rule r
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<N> = set<N>(nodes(Node));
 			def ref m:map<int,N> = map<int,N>(nodes(Node).asArray().asMap());
@@ -26,6 +28,7 @@ rule r
 
 rule rr
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -37,6 +40,7 @@ rule rr
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<NN> = set<NN>(nodes(N));
 			def ref m:map<int,NN> = map<int,NN>(nodes(N).asArray().asMap());
@@ -50,6 +54,7 @@ rule rr
 
 rule rrev
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -61,6 +66,7 @@ rule rrev
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<Node> = set<Node>(nodes(NN));
 			def ref m:map<int,Node> = map<int,Node>(nodes(NN).asArray().asMap());
@@ -74,6 +80,7 @@ rule rrev
 
 rule re
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -85,6 +92,7 @@ rule re
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<E> = set<E>(edges());
 			def ref m:map<int,E> = map<int,E>(edges().asArray().asMap());
@@ -98,6 +106,7 @@ rule re
 
 rule rer
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -109,6 +118,7 @@ rule rer
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<EE> = set<EE>(edges(E));
 			def ref m:map<int,EE> = map<int,EE>(edges(E).asArray().asMap());
@@ -122,6 +132,7 @@ rule rer
 
 rule rerev
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -133,6 +144,7 @@ rule rerev
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<AEdge> = set<AEdge>(edges(EE));
 			def ref m:map<int,AEdge> = map<int,AEdge>(edges(EE).asArray().asMap());
@@ -146,6 +158,7 @@ rule rerev
 
 rule reu
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -157,6 +170,7 @@ rule reu
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<EU> = set<EU>(edges());
 			def ref m:map<int,EU> = map<int,EU>(edges().asArray().asMap());
@@ -170,6 +184,7 @@ rule reu
 
 rule reur
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -181,6 +196,7 @@ rule reur
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<EEU> = set<EEU>(edges(EU));
 			def ref m:map<int,EEU> = map<int,EEU>(edges(EU).asArray().asMap());
@@ -194,6 +210,7 @@ rule reur
 
 rule reurev
 {
+---
 	def n:Node;
 	yield {
 		yield n = nodes(NN).peek(0);
@@ -205,6 +222,7 @@ rule reurev
 	}
 	
 	modify {
+	---
 		eval {
 			def ref s:set<AEdge> = set<AEdge>(edges(EEU));
 			def ref m:map<int,AEdge> = map<int,AEdge>(edges(EEU).asArray().asMap());

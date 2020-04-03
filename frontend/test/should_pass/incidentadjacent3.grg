@@ -22,6 +22,7 @@ rule t
 	if { isAdjacent(n, m, Edge, Node) && isAdjacentIncoming(n, m, Edge, Node) && isAdjacentOutgoing(n, m, Edge, Node); }
 	
 	modify {
+	---
 		def var res:boolean;
 		
 		eval { yield res = incident(::g_n, Edge, Node).size()!=0 && incoming(::g_n, Edge, Node).size()!=0 && outgoing(::g_n, Edge, Node).size()!=0; }

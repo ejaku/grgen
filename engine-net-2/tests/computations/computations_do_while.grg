@@ -1,5 +1,6 @@
 test t : (int)
 {
+---
 	def var res:int = 0;
 	
 	yield {
@@ -12,8 +13,9 @@ test t : (int)
 }
 
 rule r : (int)
-{	
+{
 	modify {
+	---
 		def var res:int = 0;
 		
 		eval { 

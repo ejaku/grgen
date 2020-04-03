@@ -4,6 +4,7 @@ rule t {
 	n:N{unique[0]} -e:E{unique[1]}-> n;
 
 	modify {
+	---
 		emit("The value of attribute noattribute is ", uniqueof(n), "\n");
 		emit("The value of attribute noattribute is ", uniqueof(e), "\n");
 		emit("The value of attribute i is ", n.i, "\n");
@@ -21,6 +22,7 @@ rule r {
 	n:Node{unique[0]} -e:Edge{unique[1]}-> n;
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + uniqueof(n) + "\n");
 		emit("The value of attribute noattribute is " + uniqueof(e) + "\n");
 	}
@@ -32,6 +34,7 @@ rule tp(var x:int, var y:int) {
 	n:N{unique[x]} -e:E{unique[y]}-> n;
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + uniqueof(n) + "\n");
 		emit("The value of attribute noattribute is " + uniqueof(e) + "\n");
 		emit("The value of attribute i is " + n.i + "\n");
@@ -43,6 +46,7 @@ rule rp(var x:int, var y:int) {
 	n:Node{unique[x]} -e:Edge{unique[y]}-> n;
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + uniqueof(n) + "\n");
 		emit("The value of attribute noattribute is " + uniqueof(e) + "\n");
 	}
@@ -54,6 +58,7 @@ rule ta {
 	n:N{unique[0]} -e:E{unique[n.i+1]}-> n;
 
 	modify {
+	---
 		emit("The value of attribute noattribute is " + uniqueof(n) + "\n");
 		emit("The value of attribute noattribute is " + uniqueof(e) + "\n");
 		emit("The value of attribute i is " + n.i + "\n");
@@ -65,6 +70,7 @@ rule ra {
 	n:Node{unique[e.i-1]} -e:E{unique[1]}-> n;
 	
 	modify {
+	---
 		emit("The value of attribute noattribute is " + uniqueof(n) + "\n");
 		emit("The value of attribute noattribute is " + uniqueof(e) + "\n");
 	}
