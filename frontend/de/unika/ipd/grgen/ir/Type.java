@@ -123,4 +123,22 @@ public abstract class Type extends Identifiable {
 		assert false;
 		return super.compareTo(id);
 	}
+	
+	public boolean isFilterableType() {
+		if(classify()==IS_BYTE)
+			return true;
+		if(classify()==IS_SHORT)
+			return true;
+		if(classify()==IS_INTEGER)
+			return true;
+		if(classify()==IS_LONG)
+			return true;
+		if(classify()==IS_FLOAT)
+			return true;
+		if(classify()==IS_DOUBLE)
+			return true;
+		if(classify()==IS_STRING)
+			return true;
+		return false;
+	}
 }

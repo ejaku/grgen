@@ -32,3 +32,17 @@ rule r
 		}
 	}
 }
+
+rule ro
+{
+	a:A; b:A; c:A; n:N;
+	if{ array<A>[a,b,c].orderAscendingBy<intValue>().subarray(0, 2).extract<intValue>().sum() > n.aArray.orderAscendingBy<intValue>().subarray(0, 2).extract<intValue>().sum() + n.val; }
+	
+	modify {
+	---
+		eval {
+			::avg = array<A>[a,b,c].orderAscendingBy<intValue>().subarray(0, 2).extract<intValue>().avg();
+			::med = n.aArray.orderAscendingBy<intValue>().subarray(0, 2).extract<intValue>().medUnsorted();
+		}
+	}
+}

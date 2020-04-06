@@ -1,0 +1,32 @@
+new graph arrayAccumulation\array_accumulation_extraction
+
+exec init
+show num nodes
+exec [r(1)]
+show num nodes
+
+clear graph
+exec init
+show num nodes
+exec [r(1)\fo]
+show num nodes
+
+clear graph
+exec init
+show num nodes
+exec [r(-1)\fo]
+show num nodes
+
+clear graph
+exec init
+show num nodes
+exec tbo([?r(1)])
+show num nodes
+
+clear graph
+exec init
+show num nodes
+exec tbo([?r(-1)])
+show num nodes
+
+quit

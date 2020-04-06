@@ -32,7 +32,10 @@ public class ArrayOrderAscendingByNode extends ExprNode
 	private ExprNode targetExpr;
 	private IdentNode attribute;
 	private MemberDeclNode member;
-
+	private NodeDeclNode node;
+	private EdgeDeclNode edge;
+	private VarDeclNode var;
+	
 	public ArrayOrderAscendingByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
 	{
 		super(coords);
@@ -66,22 +69,56 @@ public class ArrayOrderAscendingByNode extends ExprNode
 		}
 		
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
-		if(!(arrayType.valueType instanceof InheritanceTypeNode)) {
-			reportError("orderAscendingBy can only be employed on an array of nodes or edges.");
+		if(!(arrayType.valueType instanceof InheritanceTypeNode)
+				&& !(arrayType.valueType instanceof MatchTypeNode)
+				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {
+			reportError("orderAscendingBy can only be employed on an array of nodes or edges or an array of match types.");
 			return false;
 		}
 
-		ScopeOwner o = (ScopeOwner) arrayType.valueType;
-		o.fixupDefinition(attribute);
-		member = memberResolver.resolve(attribute, this);
-		if(member == null)
-			return false;
-
-		if(member.isConst()) {
-			reportError("orderAscendingBy cannot be used on const attributes.");
+		TypeNode valueType = arrayType.valueType;
+		if(valueType instanceof MatchTypeNode) {
+			MatchTypeNode matchType = (MatchTypeNode)valueType;
+			if(!matchType.resolve()) {
+				return false;
+			}
+			TestDeclNode test = matchType.getTest();
+			node = test.tryGetNode(attribute);
+			edge = test.tryGetEdge(attribute);
+			var = test.tryGetVar(attribute);
+			if(node==null && edge==null && var==null) {
+				String memberName = attribute.toString();
+				String actionName = test.getIdentNode().toString();
+				reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
+				return false;
+			}
+		} else if(valueType instanceof DefinedMatchTypeNode) {
+			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)valueType;
+			if(!definedMatchType.resolve()) {
+				return false;
+			}
+			node = definedMatchType.tryGetNode(attribute);
+			edge = definedMatchType.tryGetEdge(attribute);
+			var = definedMatchType.tryGetVar(attribute);
+			if(node==null && edge==null && var==null) {
+				String memberName = attribute.toString();
+				String matchClassName = definedMatchType.getIdentNode().toString();
+				reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
+				return false;
+			}
+		} else {
+			ScopeOwner o = (ScopeOwner) arrayType.valueType;
+			o.fixupDefinition(attribute);
+			member = memberResolver.resolve(attribute, this);
+			if(member == null)
+				return false;
+				
+			if(member.isConst()) {
+				reportError("orderAscendingBy cannot be used on const attributes.");
+			}
 		}
 
-		TypeNode memberType = member.getDeclType();
+		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!(memberType.equals(BasicTypeNode.byteType))
 			&&!(memberType.equals(BasicTypeNode.shortType))
 			&& !(memberType.equals(BasicTypeNode.intType))
@@ -101,9 +138,31 @@ public class ArrayOrderAscendingByNode extends ExprNode
 		return ((ArrayTypeNode)targetExpr.getType());
 	}
 
+	private TypeNode getTypeOfElementToBeExtracted() {
+		if(member!=null)
+			return member.getDeclType();
+		else if(node!=null)
+			return node.getDeclType();
+		else if(edge!=null)
+			return edge.getDeclType();
+		else if(var!=null)
+			return var.getDeclType();
+		return null;
+	}
+
 	@Override
 	protected IR constructIR() {
+		Entity accessedMember;
+		if(member!=null)
+			accessedMember = member.checkIR(Entity.class);
+		else if(node!=null)
+			accessedMember = node.checkIR(Entity.class);
+		else if(edge!=null)
+			accessedMember = edge.checkIR(Entity.class);
+		else
+			accessedMember = var.checkIR(Entity.class);
+		
 		return new ArrayOrderAscendingBy(targetExpr.checkIR(Expression.class),
-				member.checkIR(Entity.class));
+				accessedMember);
 	}
 }

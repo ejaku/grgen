@@ -36,6 +36,11 @@ public class ActionsGen extends CSharpBase {
 	final int MATCH_PART_INDEPENDENTS = 6;
 	final int MATCH_PART_END = 7;
 
+	enum MemberBearerType
+	{
+		Action, Subpattern, MatchClass
+	}
+
 	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
@@ -434,6 +439,9 @@ public class ActionsGen extends CSharpBase {
 		genExtractor(sb, actionRule);
 		
 		sb.append("\t}\n");
+		sb.append("\n");
+
+		genArraySortBy(sb, actionRule, MemberBearerType.Action, null);
 		sb.append("\n");
 	}
 
@@ -926,6 +934,9 @@ public class ActionsGen extends CSharpBase {
 		genMatchClassInfo(sb, matchClass, packageName);
 		
 		sb.append("\n");
+
+		genArraySortBy(sb, matchClass);
+		sb.append("\n");
 	}
 
 	private void genMatchClassInfo(StringBuffer sb, DefinedMatchType matchClass, String packageName) {
@@ -1090,6 +1101,60 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	/**
+	 * Generates the Array_sortAscendingBy_member function plus the Comparison helper (shared with the corresponding sortAscendingBy filter)
+	 */
+	void genArraySortBy(StringBuffer sb, Rule actionRule, MemberBearerType memberBearerType, Rule iteratedRule)
+	{
+		sb.append("\t\tpublic partial class MatchFilters\n");
+		sb.append("\t\t{\n");
+
+		Rule rule = iteratedRule != null ? iteratedRule : actionRule;
+		for(Variable var : rule.getPattern().getVars())
+		{
+			if(var.getType().isFilterableType())
+				GenerateComparerAndArrayOrderAscendingBy(sb, actionRule, memberBearerType, iteratedRule, var);
+		}
+
+		sb.append("\t\t}\n");
+	}
+	
+	void GenerateComparerAndArrayOrderAscendingBy(StringBuffer sb,
+			Identifiable memberBearer, MemberBearerType memberBearerType, Rule iteratedRule, Variable var)
+	{
+		String name = formatIdentifiable(memberBearer);
+		String iteratedNameComponent = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
+		String memberBearerClass;
+		if(memberBearerType == MemberBearerType.Action)
+			memberBearerClass = "Rule_" + name + ".";
+		else if(memberBearerType == MemberBearerType.Subpattern)
+			memberBearerClass = "Pattern_" + name + ".";
+		else //if(memberBearerType == MemberBearerType.MatchClass)
+			memberBearerClass = "";
+		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
+				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
+		String functionName = "orderAscendingBy_" + formatIdentifiable(var);
+		String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
+		String comparerName = "Comparer_" + name + iteratedNameComponent + "_" + functionName;
+
+		sb.append("\t\t\tpublic static List<" + matchInterfaceName + "> " + arrayFunctionName + "(List<" + matchInterfaceName + "> list)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tList<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">(list);\n");
+		sb.append("\t\t\t\tnewList.Sort(new " + comparerName + "());\n");
+		sb.append("\t\t\t\treturn newList;\n");
+		sb.append("\t\t\t}\n");
+
+		sb.append("\t\t\tclass " + comparerName + " : Comparer<" + matchInterfaceName + ">\n");
+		sb.append("\t\t\t{\n");
+
+		sb.append("\t\t\t\tpublic override int Compare(" + matchInterfaceName + " left, " + matchInterfaceName + " right)\n");
+		sb.append("\t\t\t\t{\n");
+		sb.append("\t\t\t\t\treturn left." + formatEntity(var) + ".CompareTo(right." + formatEntity(var) + ");\n");
+		sb.append("\t\t\t\t}\n");
+
+		sb.append("\t\t\t}\n");
+	}
+
+	/**
 	 * Generates the Extractor class with the Extract helper functions (returning an array of the extracted match class element type from an array of match class type)
 	 */
 	void genMatchClassExtractor(StringBuffer sb, DefinedMatchType matchClass)
@@ -1129,6 +1194,23 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t}\n");
 		sb.append("\n");
+	}
+
+	/**
+	 * Generates the Array_sortAscendingBy_member function plus the Comparison helper (shared with the corresponding sortAscendingBy filter)
+	 */
+	void genArraySortBy(StringBuffer sb, DefinedMatchType matchClass)
+	{
+		sb.append("\t\tpublic partial class MatchClassFilters\n");
+		sb.append("\t\t{\n");
+
+		for(Variable var : matchClass.getVars())
+		{
+			if(var.getType().isFilterableType())
+				GenerateComparerAndArrayOrderAscendingBy(sb, matchClass, MemberBearerType.MatchClass, null, var);
+		}
+
+		sb.append("\t\t}\n");
 	}
 
 	//////////////////////////////////////////////////
@@ -3310,11 +3392,36 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if (expr instanceof ArrayOrderAscendingBy) {
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
-			sb.append("new GRGEN_EXPR.ArrayOrderAscendingBy(");
-			genExpressionTree(sb, aoab.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", \"" + ((ArrayType)aoab.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
-			sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
-			sb.append(")");
+			Type arrayValueType = ((ArrayType)aoab.getTargetExpr().getType()).getValueType();
+			if(arrayValueType instanceof InheritanceType) {
+				InheritanceType graphElementType = (InheritanceType)arrayValueType;
+				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
+				sb.append("new GRGEN_EXPR.ArrayOrderAscendingBy(");
+				genExpressionTree(sb, aoab.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + graphElementType.getIdent().toString() + "\"");
+				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
+				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(")");
+			}
+			else if(arrayValueType instanceof MatchType) {
+				MatchType matchType = (MatchType)arrayValueType;
+				Rule rule = matchType.getAction();
+				sb.append("new GRGEN_EXPR.ArrayOfMatchTypeOrderAscendingBy(");
+				genExpressionTree(sb, aoab.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + formatIdentifiable(rule) + "\"");
+				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
+				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(")");
+			}
+			else if(arrayValueType instanceof DefinedMatchType) {
+				DefinedMatchType matchType = (DefinedMatchType)arrayValueType;
+				sb.append("new GRGEN_EXPR.ArrayOfMatchClassTypeOrderAscendingBy(");
+				genExpressionTree(sb, aoab.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
+				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
+				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(")");
+			}
 		}
 		else if (expr instanceof ArrayReverseExpr) {
 			ArrayReverseExpr ar = (ArrayReverseExpr)expr;
@@ -3330,7 +3437,6 @@ public class ActionsGen extends CSharpBase {
 				ContainedInPackage cip = (ContainedInPackage)graphElementType;
 				sb.append("new GRGEN_EXPR.ArrayExtractGraphElementType(");
 				genExpressionTree(sb, ae.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-				sb.append(", \"" + ((ArrayType)ae.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(ae.getMember()) + "\"");
 				sb.append(", \"" + formatIdentifiable(graphElementType) + "\"");
 				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
@@ -3341,7 +3447,6 @@ public class ActionsGen extends CSharpBase {
 				Rule rule = matchType.getAction();
 				sb.append("new GRGEN_EXPR.ArrayExtract(");
 				genExpressionTree(sb, ae.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-				sb.append(", \"" + ((ArrayType)ae.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(ae.getMember()) + "\"");
 				sb.append(", \"" + formatIdentifiable(rule) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
@@ -3351,7 +3456,6 @@ public class ActionsGen extends CSharpBase {
 				DefinedMatchType matchType = (DefinedMatchType)arrayValueType;
 				sb.append("new GRGEN_EXPR.ArrayExtractMatchClass(");
 				genExpressionTree(sb, ae.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-				sb.append(", \"" + ((ArrayType)ae.getTargetExpr().getType()).getValueType().getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(ae.getMember()) + "\"");
 				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
 				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");

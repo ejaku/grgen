@@ -1042,11 +1042,7 @@ public abstract class CSharpBase {
 		else if(expr instanceof CopyExpr) {
 			CopyExpr ce = (CopyExpr) expr;
 			Type t = ce.getSourceExpr().getType();
-			if(t instanceof MatchType) {
-				sb.append("(("+formatType(t)+")(");
-				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
-				sb.append(").Clone())");
-			} else if(t instanceof DefinedMatchType) {
+			if(t instanceof MatchType || t instanceof DefinedMatchType) {
 				sb.append("(("+formatType(t)+")(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(").Clone())");
@@ -1543,13 +1539,38 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof ArrayOrderAscendingBy) {
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
+			Type arrayValueType = ((ArrayType)aoab.getTargetExpr().getType()).getValueType();
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aoab));
 			}
 			else {
-				sb.append("GRGEN_MODEL.Comparer_" + ((ArrayType)aoab.getTargetExpr().getType()).getValueType().getIdent().toString() + "_" + formatIdentifiable(aoab.getMember()) + ".ArrayOrderAscendingBy(");
-				genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
-				sb.append(")");
+				if(arrayValueType instanceof InheritanceType) {
+					InheritanceType graphElementType = (InheritanceType)arrayValueType;
+					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_" + graphElementType.getIdent().toString() + "_" + formatIdentifiable(aoab.getMember());
+					sb.append("GRGEN_MODEL." + comparerName + ".ArrayOrderAscendingBy(");
+					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(arrayValueType instanceof MatchType) {
+					MatchType matchType = (MatchType)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(arrayValueType instanceof DefinedMatchType) {
+					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
+					String matchClassPackage = getPackagePrefixDot(definedMatchType);
+					String matchClassName = formatIdentifiable(definedMatchType);
+					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
+					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
+					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
 			}
 		}
 		else if (expr instanceof ArrayReverseExpr) {

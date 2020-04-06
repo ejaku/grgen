@@ -45,6 +45,13 @@ filter f<class mc>
 	}
 }
 
+filter fo<class mc>
+{
+	if(this.orderAscendingBy<i>().subarray(0, 2).extract<i>().sum() > this.orderAscendingBy<j>().subarray(0, 2).extract<j>().sum()) {
+		this = deleteAll(this);
+	}
+}
+
 function deleteAll(ref a:array<match<class mc> >) : array<match<class mc> >
 {
 	for(i:int in [0:a.size()-1])
@@ -57,4 +64,9 @@ function deleteAll(ref a:array<match<class mc> >) : array<match<class mc> >
 test tb(ref a:array<match<class mc> >)
 {
 	if{ a.extract<i>().sum() < a.extract<j>().sum(); }
+}
+
+test tbo(ref a:array<match<class mc> >)
+{
+	if{ a.orderAscendingBy<i>().subarray(0, 2).extract<i>().sum() < a.orderAscendingBy<j>().subarray(0, 2).extract<j>().sum(); }
 }

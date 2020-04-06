@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 
 using de.unika.ipd.grGen.lgsp;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.expression
 {
@@ -1403,21 +1404,24 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayOrderAscendingBy : Expression
     {
-        public ArrayOrderAscendingBy(Expression target, string ownerType, string member)
+        public ArrayOrderAscendingBy(Expression target, string ownerType, string member, string typePackage)
         {
             Target = target;
             OwnerType = ownerType;
             Member = member;
+            TypePackage = typePackage;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayOrderAscendingBy(Target.Copy(renameSuffix), OwnerType, Member);
+            return new ArrayOrderAscendingBy(Target.Copy(renameSuffix), OwnerType, Member, TypePackage);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("GRGEN_MODEL.Comparer_{0}_{1}.ArrayOrderAscendingBy(", OwnerType, Member);
+            sourceCode.AppendFormat("{0}Comparer_{1}_{2}.ArrayOrderAscendingBy(",
+                "GRGEN_MODEL." + TypesHelper.GetPackagePrefixDot(TypePackage), 
+                OwnerType, Member);
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }
@@ -1430,6 +1434,83 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Target;
         readonly String OwnerType;
         readonly String Member;
+        readonly String TypePackage;
+    }
+
+    /// <summary>
+    /// Class representing an array of action matches sort by expression.
+    /// </summary>
+    public class ArrayOfMatchTypeOrderAscendingBy : Expression
+    {
+        public ArrayOfMatchTypeOrderAscendingBy(Expression target, string patternName, string member, string rulePackage)
+        {
+            Target = target;
+            PatternName = patternName;
+            Member = member;
+            RulePackage = rulePackage;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfMatchTypeOrderAscendingBy(Target.Copy(renameSuffix), PatternName, Member, RulePackage);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}MatchFilters.Array_{1}_{2}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
+                PatternName, "orderAscendingBy_" + Member);
+            Target.Emit(sourceCode);
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+        readonly String PatternName;
+        readonly String Member;
+        readonly String RulePackage;
+    }
+
+    /// <summary>
+    /// Class representing an array of match class matches sort by expression.
+    /// </summary>
+    public class ArrayOfMatchClassTypeOrderAscendingBy : Expression
+    {
+        public ArrayOfMatchClassTypeOrderAscendingBy(Expression target, string matchClassName, string member, string matchClassPackage)
+        {
+            Target = target;
+            MatchClassName = matchClassName;
+            Member = member;
+            MatchClassPackage = matchClassPackage;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfMatchClassTypeOrderAscendingBy(Target.Copy(renameSuffix), MatchClassName, Member, MatchClassPackage);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}MatchClassFilters.Array_{1}_{2}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(MatchClassPackage),
+                MatchClassName, "orderAscendingBy_" + Member);
+            Target.Emit(sourceCode);
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+        readonly String MatchClassName;
+        readonly String Member;
+        readonly String MatchClassPackage;
     }
 
     /// <summary>
@@ -1467,10 +1548,9 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayExtract : Expression
     {
-        public ArrayExtract(Expression target, string valueType, string member, string ruleName, string packageName)
+        public ArrayExtract(Expression target, string member, string ruleName, string packageName)
         {
             Target = target;
-            ValueType = valueType;
             Member = member;
             RuleName = ruleName;
             PackageName = packageName;
@@ -1478,7 +1558,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayExtract(Target.Copy(renameSuffix), ValueType, Member, RuleName, PackageName);
+            return new ArrayExtract(Target.Copy(renameSuffix), Member, RuleName, PackageName);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1495,7 +1575,6 @@ namespace de.unika.ipd.grGen.expression
         }
 
         readonly Expression Target;
-        readonly String ValueType;
         readonly String Member;
         readonly String RuleName;
         readonly String PackageName;
@@ -1506,10 +1585,9 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayExtractMatchClass : Expression
     {
-        public ArrayExtractMatchClass(Expression target, string valueType, string member, string matchClassName, string packageName)
+        public ArrayExtractMatchClass(Expression target, string member, string matchClassName, string packageName)
         {
             Target = target;
-            ValueType = valueType;
             Member = member;
             MatchClassName = matchClassName;
             PackageName = packageName;
@@ -1517,7 +1595,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayExtractMatchClass(Target.Copy(renameSuffix), ValueType, Member, MatchClassName, PackageName);
+            return new ArrayExtractMatchClass(Target.Copy(renameSuffix), Member, MatchClassName, PackageName);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1534,7 +1612,6 @@ namespace de.unika.ipd.grGen.expression
         }
 
         readonly Expression Target;
-        readonly String ValueType;
         readonly String Member;
         readonly String MatchClassName;
         readonly String PackageName;
@@ -1545,10 +1622,9 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class ArrayExtractGraphElementType : Expression
     {
-        public ArrayExtractGraphElementType(Expression target, string valueType, string member, string graphElementTypeName, string packageName)
+        public ArrayExtractGraphElementType(Expression target, string member, string graphElementTypeName, string packageName)
         {
             Target = target;
-            ValueType = valueType;
             Member = member;
             GraphElementTypeName = graphElementTypeName;
             PackageName = packageName;
@@ -1556,7 +1632,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayExtractGraphElementType(Target.Copy(renameSuffix), ValueType, Member, GraphElementTypeName, PackageName);
+            return new ArrayExtractGraphElementType(Target.Copy(renameSuffix), Member, GraphElementTypeName, PackageName);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1573,7 +1649,6 @@ namespace de.unika.ipd.grGen.expression
         }
 
         readonly Expression Target;
-        readonly String ValueType;
         readonly String Member;
         readonly String GraphElementTypeName;
         readonly String PackageName;
