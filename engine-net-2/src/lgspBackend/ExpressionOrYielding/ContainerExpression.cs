@@ -1476,6 +1476,46 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array of iterated matches sort by expression.
+    /// </summary>
+    public class ArrayOfIteratedMatchTypeOrderAscendingBy : Expression
+    {
+        public ArrayOfIteratedMatchTypeOrderAscendingBy(Expression target, string patternName, string iteratedName, string member, string rulePackage)
+        {
+            Target = target;
+            PatternName = patternName;
+            IteratedName = iteratedName;
+            Member = member;
+            RulePackage = rulePackage;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOfIteratedMatchTypeOrderAscendingBy(Target.Copy(renameSuffix), PatternName, IteratedName, Member, RulePackage);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}MatchFilters.Array_{1}_{2}_{3}(",
+                "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
+                PatternName, IteratedName, "orderAscendingBy_" + Member);
+            Target.Emit(sourceCode);
+            sourceCode.AppendFrontFormat(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+        readonly String PatternName;
+        readonly String IteratedName;
+        readonly String Member;
+        readonly String RulePackage;
+    }
+
+    /// <summary>
     /// Class representing an array of match class matches sort by expression.
     /// </summary>
     public class ArrayOfMatchClassTypeOrderAscendingBy : Expression
@@ -1577,6 +1617,45 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Target;
         readonly String Member;
         readonly String RuleName;
+        readonly String PackageName;
+    }
+
+    /// <summary>
+    /// Class representing an array extract (from match type of rule iterated) expression.
+    /// </summary>
+    public class ArrayExtractIterated : Expression
+    {
+        public ArrayExtractIterated(Expression target, string member, string ruleName, string iteratedName, string packageName)
+        {
+            Target = target;
+            Member = member;
+            RuleName = ruleName;
+            IteratedName = iteratedName;
+            PackageName = packageName;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayExtractIterated(Target.Copy(renameSuffix), Member, RuleName, IteratedName, PackageName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string ruleClass = NamesOfEntities.RulePatternClassName(RuleName, PackageName, false);
+            sourceCode.AppendFormat("GRGEN_ACTIONS.{0}.Extractor_{1}.Extract_{2}(", ruleClass, IteratedName, Member);
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+        readonly String Member;
+        readonly String RuleName;
+        readonly String IteratedName;
         readonly String PackageName;
     }
 

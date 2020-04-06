@@ -1,0 +1,6 @@
+1
+1
+[match<t>{score:3,nodes:[$2,$1,$0],nodesSet:{$2,$1,$0}}]
+1
+[match<t2>{score:6,itersSorted:[match<it>{n:$2,i:3},match<it>{n:$1,i:2},match<it>{n:$0,i:1}]}]
+1

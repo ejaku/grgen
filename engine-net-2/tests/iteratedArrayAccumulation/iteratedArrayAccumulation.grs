@@ -1,6 +1,6 @@
 new graph iteratedArrayAccumulation/iteratedArrayAccumulation
 
-exec init[3]
+exec init
 
 eval [?t]
 

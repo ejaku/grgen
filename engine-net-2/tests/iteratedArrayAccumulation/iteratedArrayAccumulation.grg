@@ -2,21 +2,26 @@
 
 rule init {
 	modify {
-		n:N;
+		n1:N; n2:N; n3:N;
+		eval {
+			n1.i = 1;
+			n2.i = 2;
+			n3.i = 3;
+		}
 	}
 }
 
 test t
 {
-	iterated it2
+	iterated it
 	{
 		n:Node;
 	}
 ---
-	def var score:int = yield([?it2].size());
-	def ref iters:array<match<t.it2> > = yield([?it2]);
-	def ref nodes:array<Node> = yield([?it2].extract<n>());
-	def ref nodesSet:set<Node> = yield([?it2].extract<n>().asSet());	
+	def var score:int = yield([?it].size());
+	//def ref iters:array<match<t.it> > = yield([?it]);
+	def ref nodes:array<Node> = yield([?it].extract<n>());
+	def ref nodesSet:set<Node> = yield([?it].extract<n>().asSet());	
 	//improved notation for:
 	//def ref ns:set<Node>=set<Node>{};
 	//yield {
