@@ -79,6 +79,10 @@ public abstract class ParserEnvironment extends Base {
 	private final ModelNode stdModel;
 
 	private HashSet<String> keywords = new HashSet<String>();
+
+	private IdentNode id;
+
+	private CollectNode<IdentNode> matchTypeChilds = new CollectNode<IdentNode>();
 	
 	// ANTLR is only SLL, not LL, can't disambiguate based on the context = the stuff on the stack,
 	// here we emulate a "stack" for a particular question where we just can't get along without,
@@ -242,6 +246,26 @@ public abstract class ParserEnvironment extends Base {
 		return symTabs[symTab].test(text);
 	}
 
+	public void setCurrentActionOrSubpattern(IdentNode id)
+	{
+		this.id = id;
+	}
+	
+	public IdentNode getCurrentActionOrSubpattern()
+	{
+		return id;
+	}
+	
+	public void setMatchTypeChilds(CollectNode<IdentNode> matchTypeChilds)
+	{
+		this.matchTypeChilds = matchTypeChilds;
+	}
+	
+	public void addMatchTypeChild(IdentNode matchTypeChild)
+	{
+		this.matchTypeChilds.addChild(matchTypeChild);
+	}
+	
 	/**
 	 * Get the node root identifier.
 	 * @return The node root type identifier.

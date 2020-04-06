@@ -1,0 +1,13 @@
+new graph iteratedArrayAccumulation/iteratedArrayAccumulation
+
+exec init[3]
+
+eval [?t]
+
+eval [?t2]
+
+#exec [r]
+
+#exec tnested
+
+quit

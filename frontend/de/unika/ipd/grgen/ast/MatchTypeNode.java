@@ -58,7 +58,7 @@ public class MatchTypeNode extends DeclaredTypeNode {
 		}
 	}
 	
-	private IdentNode actionUnresolved;
+	protected IdentNode actionUnresolved;
 	protected TestDeclNode action;
 
 	// the match type node instances are created in ParserEnvironment as needed

@@ -1,0 +1,88 @@
+#using "iteratedArrayAccumulation.gm"
+
+rule init {
+	modify {
+		n:N;
+	}
+}
+
+test t
+{
+	iterated it2
+	{
+		n:Node;
+	}
+---
+	def var score:int = yield([?it2].size());
+	def ref iters:array<match<t.it2> > = yield([?it2]);
+	def ref nodes:array<Node> = yield([?it2].extract<n>());
+	def ref nodesSet:set<Node> = yield([?it2].extract<n>().asSet());	
+	//improved notation for:
+	//def ref ns:set<Node>=set<Node>{};
+	//yield {
+	//  for(n in it) {
+	//	  ns.add(n);
+	//  }
+	//}
+}
+
+test t2
+{
+	iterated it
+	{
+		n:N;
+	---
+		def var i:int = n.i;
+	}
+---
+	def var score:int = yield([?it].extract<i>().sum());
+	def ref itersSorted:array<match<t2.it> > = yield([?it].orderAscendingBy<i>().reverse());
+	//def ref itersSet:set<match<t2.it> > = yield(itersSorted.asSet());
+}
+
+/*rule r : (M)
+{
+	iterated it
+	{
+		n:N;
+	---
+		def var i:int = n.i;
+		
+		modify {
+			delete(n);
+		}
+	} \ orderDescendingBy<i>
+---
+	iterated it\orderDescendingBy<i>\keepFirst(1);
+	
+	modify {
+		m:M;
+		
+		eval {
+			def var score:int = [?it].size();
+			def ref iters:array<match<t.it> > = [?it];
+			def ref nodes:array<Node> = [?it].extract<n>();
+			def ref nodesSet:set<Node> = [?it].extract<n>().asSet();
+			def var score2:int = [?it].extract<i>.sum();
+			def ref itersSorted:array<match<t.it> > = [?it].orderAscendingBy<i>().reverse();
+			def ref itersSet:set<match<t.it> > = itersSorted.asSet();
+			m.i = score + score2;
+		}
+		
+		return (m);
+	}
+}*/
+
+/*test tnested
+{
+	iterated it
+	{
+		n:Node;
+		iterated itn {
+			m:Node;
+		}
+	}
+---
+	def ref iters:array<match<t.it> > = yield([?it]);
+	def ref iters:array<match<t.it.itn> > = yield([?it][0].itn);
+}*/

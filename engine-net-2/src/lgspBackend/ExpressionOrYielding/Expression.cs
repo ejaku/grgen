@@ -1263,6 +1263,29 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing the matches array of an iterated pattern expression / iterated query
+    /// </summary>
+    public class IteratedQuery : Expression
+    {
+        public IteratedQuery(String iterated)
+        {
+            Iterated = iterated;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IteratedQuery(Iterated + renameSuffix);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("match." + NamesOfEntities.MatchName(Iterated, BuildMatchObjectType.Iteration) + ".ToListExact()");
+        }
+
+        readonly String Iterated;
+    }
+
+    /// <summary>
     /// Class representing qualification expression
     /// </summary>
     public class Qualification : Expression

@@ -402,6 +402,12 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t}\n");
 		sb.append("\n");
+
+		for(Rule iteratedRule : subpatternRule.getLeft().getIters())
+		{
+			genArraySortBy(sb, subpatternRule, MemberBearerType.Subpattern, iteratedRule);
+		}
+		sb.append("\n");
 	}
 
 	/**
@@ -436,12 +442,20 @@ public class ActionsGen extends CSharpBase {
 		genMatch(sb, actionRule.getPattern(), actionRule.getImplementedMatchClasses(), className, actionRule.getAnnotations().containsKey("parallelize"));
 
 		sb.append("\n");
-		genExtractor(sb, actionRule);
-		
+		genExtractor(sb, actionRule, null);
+		for(Rule iteratedRule : actionRule.getLeft().getIters())
+		{
+			genExtractor(sb, actionRule, iteratedRule);
+		}
+
 		sb.append("\t}\n");
 		sb.append("\n");
 
 		genArraySortBy(sb, actionRule, MemberBearerType.Action, null);
+		for(Rule iteratedRule : actionRule.getLeft().getIters())
+		{
+			genArraySortBy(sb, actionRule, MemberBearerType.Action, iteratedRule);
+		}
 		sb.append("\n");
 	}
 
@@ -1060,13 +1074,15 @@ public class ActionsGen extends CSharpBase {
 	/**
 	 * Generates the Extractor class with the Extract helper functions (returning an array of the extracted match element type from an array of match type)
 	 */
-	void genExtractor(StringBuffer sb, Rule actionRule)
+	void genExtractor(StringBuffer sb, Rule actionRule, Rule iteratedRule)
 	{
-		sb.append("\tpublic class Extractor\n");
+		String iteratedRuleSuffix = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
+
+		sb.append("\tpublic class Extractor" + iteratedRuleSuffix + "\n");
 		sb.append("\t{\n");
 
-		PatternGraph pattern = actionRule.getPattern();
-		String matchTypeName = "IMatch_" + pattern.getNameOfGraph();
+		PatternGraph pattern = iteratedRule!=null ? iteratedRule.getPattern() : actionRule.getPattern();
+		String matchTypeName = "IMatch_" + actionRule.getPattern().getNameOfGraph() + iteratedRuleSuffix;
 
 		for(Node node : pattern.getNodes()) {
 			sb.append("\t\tpublic static List<" + formatType(node.getType()) + "> Extract_" + formatIdentifiable(node) + "(List<" + matchTypeName + "> matchList)\n");
@@ -3403,6 +3419,18 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
 				sb.append(")");
 			}
+			else if(arrayValueType instanceof MatchTypeIterated) {
+				MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+				Rule rule = matchType.getAction();
+				Rule iterated = matchType.getIterated();
+				sb.append("new GRGEN_EXPR.ArrayOfIteratedMatchTypeOrderAscendingBy(");
+				genExpressionTree(sb, aoab.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + formatIdentifiable(rule) + "\"");
+				sb.append(", \"" + formatIdentifiable(iterated) + "\"");
+				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
+				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(")");
+			}
 			else if(arrayValueType instanceof MatchType) {
 				MatchType matchType = (MatchType)arrayValueType;
 				Rule rule = matchType.getAction();
@@ -3440,6 +3468,18 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(ae.getMember()) + "\"");
 				sb.append(", \"" + formatIdentifiable(graphElementType) + "\"");
 				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(")");
+			}
+			else if(arrayValueType instanceof MatchTypeIterated) {
+				MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+				Rule rule = matchType.getAction();
+				Rule iterated = matchType.getIterated();
+				sb.append("new GRGEN_EXPR.ArrayExtractIterated(");
+				genExpressionTree(sb, ae.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + formatIdentifiable(ae.getMember()) + "\"");
+				sb.append(", \"" + formatIdentifiable(rule) + "\"");
+				sb.append(", \"" + formatIdentifiable(iterated) + "\"");
+				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchType) {
@@ -4436,6 +4476,12 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", ");
 			}
 			genExpressionTree(sb, p.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof IteratedQueryExpr) {
+			IteratedQueryExpr iq = (IteratedQueryExpr) expr;
+			sb.append("new GRGEN_EXPR.IteratedQuery(");
+			sb.append("\"" + iq.getIteratedName().toString() + "\"");
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");

@@ -468,9 +468,10 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 		TestDeclNode actionDecl = null;
 		DefinedMatchTypeNode mt = null;
+		env.setMatchTypeChilds(matchTypeChilds);
 	}
 
-	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.pushScope(id); }
+	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
 		params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes (IMPLEMENTS matchClasses[implementedMatchTypes])? LBRACE
 		left=patternBody[getCoords(t), params, conn, returnz, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
@@ -487,7 +488,8 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			}
 		}
 		filterDecls[id, actionDecl]
-	| r=RULE id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.pushScope(id); }
+		{ env.setCurrentActionOrSubpattern(null); }
+	| r=RULE id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
 		params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes (IMPLEMENTS matchClasses[implementedMatchTypes])? LBRACE
 		left=patternBody[getCoords(r), params, conn, new CollectNode<ExprNode>(), namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
@@ -513,7 +515,9 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		)
 		RBRACE { env.popScope(); }
 		filterDecls[id, actionDecl]
-	| p=PATTERN id=patIdentDecl { env.pushScope(id); } params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
+		{ env.setCurrentActionOrSubpattern(null); }
+	| p=PATTERN id=patIdentDecl { env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
+		params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
 		((MODIFY|REPLACE) mp=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })?
 		LBRACE
 		left=patternBody[getCoords(p), params, conn, new CollectNode<ExprNode>(), namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
@@ -532,6 +536,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 				patternChilds.addChild(id);
 			}
 		RBRACE { env.popScope(); }
+		{ env.setCurrentActionOrSubpattern(null); }
 	| s=SEQUENCE id=actionIdentDecl { env.pushScope(id); } { exec = new ExecNode(getCoords(s)); }
 		inParams=sequenceInParameters[exec] outParams=sequenceOutParameters[exec]
 		LBRACE 
@@ -583,7 +588,7 @@ defEntitiesOrYieldings [CollectNode<BaseNode> conn, CollectNode<VarDeclNode> def
 						CollectNode<EvalStatementsNode> evals, CollectNode<ExprNode> returnz,
 						AnonymousScopeNamer namer, int context, PatternGraphNode directlyNestingLHSGraph]
 	: ( TRIPLEMINUS
-		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
+		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, evals, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
 		| yielding[evals, namer, context, directlyNestingLHSGraph]
 		| rets[returnz, context] SEMI
 		)*
@@ -674,8 +679,8 @@ patternParamList [ CollectNode<BaseNode> params, int context, PatternGraphNode d
 	;
 
 patternDefParamList [ CollectNode<BaseNode> params, int context, PatternGraphNode directlyNestingLHSGraph ]
-	: dp=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph] { params.addChild(dp); }
-		( COMMA dp=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph] { params.addChild(dp); } )*
+	: dp=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] { params.addChild(dp); }
+		( COMMA dp=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] { params.addChild(dp); } )*
 	;
 
 param [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
@@ -940,7 +945,7 @@ matchClassStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariabl
 			int context, PatternGraphNode directlyNestingLHSGraph]
 	: connectionsOrSubpattern[conn, subpatterns, subpatternRepls, context, directlyNestingLHSGraph] SEMI
 	| v=varDecl[context, directlyNestingLHSGraph ] { varDecls.addChild(v); } SEMI
-	| defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
+	| defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, null, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
 	;
 
 connectionsOrSubpattern [ CollectNode<BaseNode> conn,
@@ -1152,7 +1157,7 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 		{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
 	;
 
-defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
+defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo, CollectNode<EvalStatementsNode> evals,
 						int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
 	: DEF (
 		MINUS edge=defEdgeToBeYieldedTo[context, directlyNestingLHSGraph] direction=forwardOrUndirectedEdgeParam
@@ -1176,7 +1181,7 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 				if(connections!=null) connections.addChild(res);
 			}
 		  ( defGraphElementInitialization[context, edge] )? 
-		| v=defVarDeclToBeYieldedTo[context, directlyNestingLHSGraph]
+		| v=defVarDeclToBeYieldedTo[evals, context, directlyNestingLHSGraph]
 			{
 				res = v;
 				if(defVariablesToBeYieldedTo!=null) defVariablesToBeYieldedTo.addChild(v);
@@ -1210,8 +1215,12 @@ defGraphElementInitialization [ int context, ConstraintDeclNode graphElement ]
 		} 
 	;
 
-defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ VarDeclNode res = env.initVarNode(directlyNestingLHSGraph, context) ]
-	@init{ VarDeclNode var = null; }
+defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ VarDeclNode res = env.initVarNode(directlyNestingLHSGraph, context) ]
+	@init{
+		EvalStatementsNode curEval = null;
+		VarDeclNode var = null;
+	}
+
 	: modifier=IDENT id=entIdentDecl COLON
 		(
 			type=typeIdentUse
@@ -1236,7 +1245,15 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 			}
 		)
 		{ if(var!=null) res = var; }
-		(a=ASSIGN e=expr[context, false] { if(var!=null) var.setInitialization(e); } )?
+		(ASSIGN e=expr[context, false] { if(var!=null) var.setInitialization(e); } )?
+		(a=ASSIGN y=YIELD LPAREN e=expr[context, false]
+			{
+				curEval = new EvalStatementsNode(getCoords(y), "initialization_of_" + id.toString());
+				evals.addChild(curEval);
+				IdentNode varIdent = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, id.toString(), id.getCoords()));
+				curEval.addChild(new AssignNode(getCoords(a), new IdentExprNode(varIdent, true), e, context, true));
+			}
+			RPAREN)?
 	;
 
 containerTypeUse returns [ TypeNode res = null ]
@@ -1260,9 +1277,12 @@ containerTypeUse returns [ TypeNode res = null ]
 
 matchTypeIdentUse returns [ IdentNode res = null ]
 	options { k = 3; }
-	: MATCH LT actionIdent=actionIdentUse GT
+	: MATCH LT actionIdent=actionIdentUse (DOT iterIdent=iterIdentUse)? GT
 		{
-			res = MatchTypeNode.getMatchTypeIdentNode(env, actionIdent);
+			if(iterIdent == null)
+				res = MatchTypeNode.getMatchTypeIdentNode(env, actionIdent);
+			else
+				res = MatchTypeIteratedNode.getMatchTypeIdentNode(env, actionIdent, iterIdent);
 		}
 	| MATCH LT CLASS matchClassIdent=typeIdentUse GT
 		{
@@ -1719,7 +1739,7 @@ defEntitiesOrEvals [CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVari
 						CollectNode<BaseNode> imperativeStmts, CollectNode<ExprNode> returnz,
 						AnonymousScopeNamer namer, int context, GraphNode graph, PatternGraphNode directlyNestingLHSGraph]
 	: ( TRIPLEMINUS
-		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
+		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, null, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
 		| evaluation[evals, orderedReplacements, namer, context, directlyNestingLHSGraph]
 		| rets[returnz, context] SEMI
 		| alternativeOrIteratedOrSubpatternRewriteOrder[orderedReplacements]
@@ -1812,7 +1832,7 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 	  | i=OPTIONAL { minMatches = 0; maxMatches = 1; }
 	  | i=MULTIPLE { minMatches = 1; maxMatches = 0; }
 	  )
-	    ( name=iterIdentDecl { namer.defIter(name, null); } 
+		( name=iterIdentDecl { namer.defIter(name, null); env.addMatchTypeChild(MatchTypeIteratedNode.defineMatchType(env, env.getCurrentActionOrSubpattern(), name)); }
 		  | { namer.defIter(null, getCoords(i)); } )
 		LBRACE { env.pushScope(namer.iter()); }
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), conn, new CollectNode<ExprNode>(), namer, 0, context, namer.iter().toString()]
@@ -3040,7 +3060,7 @@ options { k = 4; }
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, false), cat, e, ccat, tgtChanged); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
 	|
-	  de=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph] SEMI
+	  de=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] SEMI
 			{ res=new DefDeclStatementNode(de.getCoords(), de, context); }
 	|
 	  (l=LPAREN tgts=targets[false, getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
@@ -3129,7 +3149,7 @@ options { k = 5; }
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
 	|
-	  de=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph] SEMI
+	  de=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] SEMI
 			{ res=new DefDeclStatementNode(de.getCoords(), de, context); }
 	|
 	  r=RETURN ( retValues=paramExprs[context, false] { returnValues = retValues; } )? SEMI
@@ -3272,7 +3292,7 @@ options { k = 5; }
 	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[context, false] RBRACK
 		{ res = new AssignIndexedNode(coords, new IdentExprNode(variable, yielded), e, idx, context, onLHS); }
 	|
-	  de=defEntityToBeYieldedTo[null, null, context, directlyNestingLHSGraph]
+	  de=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph]
 		{
 			DefDeclStatementNode tgt = new DefDeclStatementNode(coords, de, context);
 			ms.addStatement(tgt);
@@ -3666,6 +3686,8 @@ options { k = 4; }
 					env.occurs(ParserEnvironment.TYPES, en.getText(), getCoords(en))),
 				new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)))));
 		}
+	| LBRACK QUESTION iterIdent=iterIdentUse { res = new IteratedQueryExprNode(iterIdent.getCoords(), iterIdent,
+			new ArrayTypeNode(MatchTypeIteratedNode.getMatchTypeIdentNode(env, env.getCurrentActionOrSubpattern(), iterIdent))); } RBRACK
 	;
 
 visitedFunction [int context] returns [ VisitedNode res ]

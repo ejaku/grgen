@@ -383,6 +383,12 @@ public abstract class CSharpBase {
 		else if(t instanceof InheritanceType) {
 			return getPackagePrefixDoubleColon(t) + formatIdentifiable(t);
 		}
+		else if(t instanceof MatchTypeIterated) {
+			MatchTypeIterated matchType = (MatchTypeIterated) t;
+			String actionName = matchType.getAction().getIdent().toString();
+			String iteratedName = matchType.getIterated().getIdent().toString();
+			return "match<" + actionName + "." + iteratedName + ">";
+		}
 		else if(t instanceof MatchType) {
 			MatchType matchType = (MatchType) t;
 			String actionName = matchType.getAction().getIdent().toString();
@@ -444,6 +450,15 @@ public abstract class CSharpBase {
 		}
 		else if(t instanceof InheritanceType) {
 			return formatElementInterfaceRef(t);
+		}
+		else if(t instanceof MatchTypeIterated) {
+			MatchTypeIterated matchType = (MatchTypeIterated) t;
+			String packagePrefix = getPackagePrefixDot(matchType);
+			Rule action = matchType.getAction();
+			String actionName = action.getIdent().toString();
+			Rule iterated = matchType.getIterated();
+			String iteratedName = iterated.getIdent().toString();
+			return "GRGEN_ACTIONS." + packagePrefix + "Rule_" + actionName + ".IMatch_" + actionName + "_" + iteratedName;
 		}
 		else if(t instanceof MatchType) {
 			MatchType matchType = (MatchType) t;
@@ -1042,7 +1057,7 @@ public abstract class CSharpBase {
 		else if(expr instanceof CopyExpr) {
 			CopyExpr ce = (CopyExpr) expr;
 			Type t = ce.getSourceExpr().getType();
-			if(t instanceof MatchType || t instanceof DefinedMatchType) {
+			if(t instanceof MatchType || t instanceof MatchTypeIterated || t instanceof DefinedMatchType) {
 				sb.append("(("+formatType(t)+")(");
 				genExpression(sb, ce.getSourceExpr(), modifyGenerationState);
 				sb.append(").Clone())");
@@ -1551,6 +1566,17 @@ public abstract class CSharpBase {
 					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				}
+				else if(arrayValueType instanceof MatchTypeIterated) {
+					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String iteratedName = formatIdentifiable(matchType.getIterated());
+					String functionName = "orderAscendingBy_" + formatIdentifiable(aoab.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					genExpression(sb, aoab.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
 				else if(arrayValueType instanceof MatchType) {
 					MatchType matchType = (MatchType)arrayValueType;
 					String rulePackage = getPackagePrefixDot(matchType.getAction());
@@ -1595,6 +1621,15 @@ public abstract class CSharpBase {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
 					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_" + graphElementType.getIdent().toString() + "_" + formatIdentifiable(ae.getMember());
 					sb.append("GRGEN_MODEL." + comparerName + ".Extract(");
+					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				} else if(arrayValueType instanceof MatchTypeIterated) {
+					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+					Rule rule = matchType.getAction();
+					String ruleName = getPackagePrefixDot(rule) + "Rule_" + formatIdentifiable(rule);
+					Rule iterated = matchType.getIterated();
+					String iteratedName = formatIdentifiable(iterated);
+					sb.append("GRGEN_ACTIONS." + ruleName + ".Extractor_" + iteratedName + ".Extract_" + formatIdentifiable(ae.getMember()) + "(");
 					genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				} else if(arrayValueType instanceof MatchType) {

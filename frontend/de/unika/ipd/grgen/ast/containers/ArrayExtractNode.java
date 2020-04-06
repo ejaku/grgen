@@ -81,17 +81,30 @@ public class ArrayExtractNode extends ExprNode
 		}
 
 		TypeNode valueType = arrayType.valueType;
-		if(valueType instanceof MatchTypeNode) {
-			MatchTypeNode matchType = (MatchTypeNode)valueType;
+		if(valueType instanceof MatchTypeIteratedNode) {
+			MatchTypeIteratedNode matchType = (MatchTypeIteratedNode)valueType;
 			if(!matchType.resolve()) {
-				reportError("Unkown test/rule referenced by match type");
 				return false;
 			}
 			TestDeclNode test = matchType.getTest();
-			if(!test.resolve()) {
-				reportError("Error in test/rule referenced by match type");
+			IteratedNode iterated = matchType.getIterated();
+			PatternGraphNode iteratedPattern = iterated.getLeft();
+			node = iteratedPattern.tryGetNode(attribute);
+			edge = iteratedPattern.tryGetEdge(attribute);
+			var = iteratedPattern.tryGetVar(attribute);
+			if(node==null && edge==null && var==null) {
+				String memberName = attribute.toString();
+				String actionName = test.getIdentNode().toString();
+				String iteratedName = iterated.getIdentNode().toString();
+				reportError("Unknown member " + memberName + ", can't find in iterated " + iteratedName + " of test/rule " + actionName);
 				return false;
 			}
+		} else if(valueType instanceof MatchTypeNode) {
+			MatchTypeNode matchType = (MatchTypeNode)valueType;
+			if(!matchType.resolve()) {
+				return false;
+			}
+			TestDeclNode test = matchType.getTest();
 			node = test.tryGetNode(attribute);
 			edge = test.tryGetEdge(attribute);
 			var = test.tryGetVar(attribute);
@@ -103,10 +116,9 @@ public class ArrayExtractNode extends ExprNode
 			}
 		} else if(valueType instanceof DefinedMatchTypeNode) {
 			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)valueType;
-			/*if(!definedMatchType.resolve()) {
-				reportError("Unkown match class referenced by match class type in match class filter function");
+			if(!definedMatchType.resolve()) {
 				return false;
-			}*/
+			}
 			node = definedMatchType.tryGetNode(attribute);
 			edge = definedMatchType.tryGetEdge(attribute);
 			var = definedMatchType.tryGetVar(attribute);
@@ -116,13 +128,9 @@ public class ArrayExtractNode extends ExprNode
 				reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
 				return false;
 			}
-		} else {
+		} else if(valueType instanceof InheritanceTypeNode) {
 			ScopeOwner o = (ScopeOwner) valueType;
 			o.fixupDefinition(attribute);
-			if(!(valueType instanceof InheritanceTypeNode)) {
-				String memberName = attribute.toString();
-				reportError("Unknown member " + memberName);
-			}
 			InheritanceTypeNode inheritanceType = (InheritanceTypeNode)valueType;
 			member = (MemberDeclNode)inheritanceType.getAllMembers().get(attribute.getIdent().toString());
 			if(member == null) {
@@ -130,6 +138,9 @@ public class ArrayExtractNode extends ExprNode
 				reportError("Unknown member " + memberName + ", can't find in node/edge class type " + inheritanceType.getIdentNode().toString());
 				return false;
 			}
+		} else {
+			String memberName = attribute.toString();
+			reportError("Unknown member " + memberName);
 		}
 
 		TypeNode type = getTypeOfElementToBeExtracted();

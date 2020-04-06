@@ -1,0 +1,9 @@
+node class N
+{
+	i:int;
+}
+
+node class M
+{
+	i:int;
+}

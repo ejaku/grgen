@@ -77,7 +77,25 @@ public class ArrayOrderAscendingByNode extends ExprNode
 		}
 
 		TypeNode valueType = arrayType.valueType;
-		if(valueType instanceof MatchTypeNode) {
+		if(valueType instanceof MatchTypeIteratedNode) {
+			MatchTypeIteratedNode matchType = (MatchTypeIteratedNode)valueType;
+			if(!matchType.resolve()) {
+				return false;
+			}
+			TestDeclNode test = matchType.getTest();
+			IteratedNode iterated = matchType.getIterated();
+			PatternGraphNode iteratedPattern = iterated.getLeft();
+			node = iteratedPattern.tryGetNode(attribute);
+			edge = iteratedPattern.tryGetEdge(attribute);
+			var = iteratedPattern.tryGetVar(attribute);
+			if(node==null && edge==null && var==null) {
+				String memberName = attribute.toString();
+				String actionName = test.getIdentNode().toString();
+				String iteratedName = iterated.getIdentNode().toString();
+				reportError("Unknown member " + memberName + ", can't find in iterated " + iteratedName + " of test/rule " + actionName);
+				return false;
+			}
+		} else if(valueType instanceof MatchTypeNode) {
 			MatchTypeNode matchType = (MatchTypeNode)valueType;
 			if(!matchType.resolve()) {
 				return false;
