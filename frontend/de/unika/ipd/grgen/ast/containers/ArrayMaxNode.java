@@ -53,7 +53,7 @@ public class ArrayMaxNode extends ExprNode
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array peek expression must be of type array<T>");
+			targetExpr.reportError("This argument to array max expression must be of type array<T>");
 			return false;
 		}
 		return true;

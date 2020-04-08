@@ -500,6 +500,24 @@ public class MethodInvocationExprNode extends ExprNode
 					result = new ArrayMedUnsortedNode(getCoords(), targetExpr);
   				}
 			}
+			else if(methodName.equals("var")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.var() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArrayVarNode(getCoords(), targetExpr);
+  				}
+			}
+			else if(methodName.equals("dev")) {
+				if(params.size() != 0) {
+  					reportError("array<T>.dev() takes no parameters.");
+					return false;
+				}
+  				else {
+					result = new ArrayDevNode(getCoords(), targetExpr);
+  				}
+			}
   			else {
   				reportError("array<T> does not have a method named \"" + methodName + "\"");
   				return false;

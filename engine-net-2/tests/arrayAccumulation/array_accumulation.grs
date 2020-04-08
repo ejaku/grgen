@@ -28,4 +28,12 @@ exec (::x,::y)=medUnsorted
 show var x
 show var y
 
+exec (::x,::y)=variance
+show var x
+show var y
+
+exec (::x,::y)=dev
+show var x
+show var y
+
 quit

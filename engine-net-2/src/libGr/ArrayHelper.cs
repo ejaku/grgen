@@ -552,5 +552,161 @@ namespace de.unika.ipd.grGen.libGr
             else
                 return MedUnsorted(array as List<Double>);
         }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static double Var(List<SByte> array)
+        {
+            if(array.Count == 0 || array.Count == 1)
+                return 0.0;
+
+            double avg = Avg(array);
+
+            double var = 0.0;
+            foreach(SByte elem in array)
+            {
+                var += (elem - avg) * (elem - avg);
+            }
+            return var / (array.Count - 1);
+        }
+
+        public static double Var(List<Int16> array)
+        {
+            if(array.Count == 0 || array.Count == 1)
+                return 0.0;
+
+            double avg = Avg(array);
+
+            double var = 0.0;
+            foreach(Int16 elem in array)
+            {
+                var += (elem - avg) * (elem - avg);
+            }
+            return var / (array.Count - 1);
+        }
+
+        public static double Var(List<Int32> array)
+        {
+            if(array.Count == 0 || array.Count == 1)
+                return 0.0;
+
+            double avg = Avg(array);
+
+            double var = 0.0;
+            foreach(Int32 elem in array)
+            {
+                var += (elem - avg) * (elem - avg);
+            }
+            return var / (array.Count - 1);
+        }
+
+        public static double Var(List<Int64> array)
+        {
+            if(array.Count == 0 || array.Count == 1)
+                return 0.0;
+
+            double avg = Avg(array);
+
+            double var = 0.0;
+            foreach(Int64 elem in array)
+            {
+                var += (elem - avg) * (elem - avg);
+            }
+            return var / (array.Count - 1);
+        }
+
+        public static double Var(List<Single> array)
+        {
+            if(array.Count == 0 || array.Count == 1)
+                return 0.0;
+
+            double avg = Avg(array);
+
+            double var = 0.0;
+            foreach(Single elem in array)
+            {
+                var += (elem - avg) * (elem - avg);
+            }
+            return var / (array.Count - 1);
+        }
+
+        public static double Var(List<Double> array)
+        {
+            if(array.Count == 0 || array.Count == 1)
+                return 0.0;
+
+            double avg = Avg(array);
+
+            double var = 0.0;
+            foreach(Double elem in array)
+            {
+                var += (elem - avg) * (elem - avg);
+            }
+            return var / (array.Count - 1);
+        }
+
+        public static double Var(IList array)
+        {
+            if(array is List<SByte>)
+                return Var(array as List<SByte>);
+            else if(array is List<Int16>)
+                return Var(array as List<Int16>);
+            else if(array is List<Int32>)
+                return Var(array as List<Int32>);
+            else if(array is List<Int64>)
+                return Var(array as List<Int64>);
+            else if(array is List<Single>)
+                return Var(array as List<Single>);
+            else
+                return Var(array as List<Double>);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static double Dev(List<SByte> array)
+        {
+            return Math.Sqrt(Var(array));
+        }
+
+        public static double Dev(List<Int16> array)
+        {
+            return Math.Sqrt(Var(array));
+        }
+
+        public static double Dev(List<Int32> array)
+        {
+            return Math.Sqrt(Var(array));
+        }
+
+        public static double Dev(List<Int64> array)
+        {
+            return Math.Sqrt(Var(array));
+        }
+
+        public static double Dev(List<Single> array)
+        {
+            return Math.Sqrt(Var(array));
+        }
+
+        public static double Dev(List<Double> array)
+        {
+            return Math.Sqrt(Var(array));
+        }
+
+        public static double Dev(IList array)
+        {
+            if(array is List<SByte>)
+                return Dev(array as List<SByte>);
+            else if(array is List<Int16>)
+                return Dev(array as List<Int16>);
+            else if(array is List<Int32>)
+                return Dev(array as List<Int32>);
+            else if(array is List<Int64>)
+                return Dev(array as List<Int64>);
+            else if(array is List<Single>)
+                return Dev(array as List<Single>);
+            else
+                return Dev(array as List<Double>);
+        }
     }
 }

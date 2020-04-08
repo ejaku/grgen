@@ -21,4 +21,10 @@ show var x
 exec medUnsorted
 show var x
 
+exec variance
+show var x
+
+exec dev
+show var x
+
 quit

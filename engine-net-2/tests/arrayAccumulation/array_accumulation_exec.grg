@@ -56,3 +56,17 @@ rule medUnsorted {
 		exec((::x) = td(array<int>[1,2,3].medUnsorted()));
 	}
 }
+
+rule variance {
+	modify {
+	---
+		exec((::x) = td(array<int>[1,2,3].var()));
+	}
+}
+
+rule dev {
+	modify {
+	---
+		exec((::x) = td(array<int>[1,2,3].dev()));
+	}
+}

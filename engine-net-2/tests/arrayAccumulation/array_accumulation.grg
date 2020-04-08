@@ -137,3 +137,43 @@ rule medUnsorted : (double, double) {
 		return(x,y);
 	}
 }
+
+rule variance : (double, double) {
+---
+	def var x:double;
+
+	yield { 
+		yield x = array<int>[1,2,3].var();
+	}
+	
+	modify {
+	---
+		def var y:double;
+
+		eval {
+			yield y = array<int>[1,2,3].var();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule dev : (double, double) {
+---
+	def var x:double;
+
+	yield { 
+		yield x = array<int>[1,2,3].dev();
+	}
+	
+	modify {
+	---
+		def var y:double;
+
+		eval {
+			yield y = array<int>[1,2,3].dev();
+		}
+		
+		return(x,y);
+	}
+}

@@ -1889,7 +1889,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array prod expression.
+    /// Class representing an array prod(uct) expression.
     /// </summary>
     public class ArrayProd : Expression
     {
@@ -1919,7 +1919,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array min expression.
+    /// Class representing an array min(imum) expression.
     /// </summary>
     public class ArrayMin : Expression
     {
@@ -1949,7 +1949,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array max expression.
+    /// Class representing an array max(imum) expression.
     /// </summary>
     public class ArrayMax : Expression
     {
@@ -1979,7 +1979,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array avg expression.
+    /// Class representing an array avg (average/mean) expression.
     /// </summary>
     public class ArrayAvg : Expression
     {
@@ -2009,7 +2009,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array med expression.
+    /// Class representing an array med(ian) (on already sorted array) expression.
     /// </summary>
     public class ArrayMed : Expression
     {
@@ -2039,7 +2039,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array medUnsorted expression.
+    /// Class representing an array medUnsorted (median on array not sorted) expression.
     /// </summary>
     public class ArrayMedUnsorted : Expression
     {
@@ -2056,6 +2056,66 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("GRGEN_LIBGR.ContainerHelper.MedUnsorted(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array var(iance) expression.
+    /// </summary>
+    public class ArrayVar : Expression
+    {
+        public ArrayVar(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayVar(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Var(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        readonly Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array (standard) dev(iation) expression.
+    /// </summary>
+    public class ArrayDev : Expression
+    {
+        public ArrayDev(Expression target)
+        {
+            Target = target;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayDev(Target.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Dev(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }

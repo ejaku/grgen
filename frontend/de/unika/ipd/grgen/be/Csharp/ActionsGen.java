@@ -3589,6 +3589,18 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, amu.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof ArrayVarExpr) {
+			ArrayVarExpr av = (ArrayVarExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayVar(");
+			genExpressionTree(sb, av.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayDevExpr) {
+			ArrayDevExpr ad = (ArrayDevExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayDev(");
+			genExpressionTree(sb, ad.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof DequeSizeExpr) {
 			DequeSizeExpr ds = (DequeSizeExpr)expr;
 			sb.append("new GRGEN_EXPR.DequeSize(");

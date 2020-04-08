@@ -264,6 +264,10 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayMed((SequenceExpressionArrayMed)expr, source);
             case SequenceExpressionType.ArrayMedUnsorted:
                 return GetSequenceExpressionArrayMedUnsorted((SequenceExpressionArrayMedUnsorted)expr, source);
+            case SequenceExpressionType.ArrayVar:
+                return GetSequenceExpressionArrayVar((SequenceExpressionArrayVar)expr, source);
+            case SequenceExpressionType.ArrayDev:
+                return GetSequenceExpressionArrayDev((SequenceExpressionArrayDev)expr, source);
             case SequenceExpressionType.ArrayExtract:
                 return GetSequenceExpressionArrayExtract((SequenceExpressionArrayExtract)expr, source);
 
@@ -1654,6 +1658,36 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMedUnsorted.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayVar(SequenceExpressionArrayVar seqArrayVar, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayVar, source);
+
+            if(seqArrayVar.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Var((IList)(" + container + "))";
+            }
+            else //if(seqArrayVar.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayVar.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Var((" + arrayType + ")" + container + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayDev(SequenceExpressionArrayDev seqArrayDev, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayDev, source);
+
+            if(seqArrayDev.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Dev((IList)(" + container + "))";
+            }
+            else //if(seqArrayDev.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayDev.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Dev((" + arrayType + ")" + container + ")";
             }
         }
 
