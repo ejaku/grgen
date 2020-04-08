@@ -41,7 +41,7 @@ test t2
 	}
 ---
 	def var score:int = yield([?it].extract<i>().sum());
-	def ref itersSorted:array<match<t2.it> > = yield([?it].orderAscendingBy<i>().reverse());
+	def ref itersSorted:array<match<t2.it> > = yield([?it].orderAscendingBy<i>().reverse().orderDescendingBy<i>());
 	//def ref itersSet:set<match<t2.it> > = yield(itersSorted.asSet());
 }
 
@@ -69,7 +69,7 @@ rule r : (M)
 			def ref nodes:array<N> = [?it].extract<n>();
 			def ref nodesSet:set<N> = [?it].extract<n>().asSet();
 			def var score2:int = [?it].extract<i>().sum();
-			def ref itersSorted:array<match<r.it> > = [?it].orderAscendingBy<i>().reverse();
+			def ref itersSorted:array<match<r.it> > = [?it].orderAscendingBy<i>().reverse().orderDescendingBy<i>();
 			//def ref itersSet:set<match<r.it> > = itersSorted.asSet();
 			m.i = score + score2;
 		}

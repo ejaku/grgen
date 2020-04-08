@@ -46,3 +46,17 @@ rule ro
 		}
 	}
 }
+
+rule rod
+{
+	a:A; b:A; c:A; n:N;
+	if{ array<A>[a,b,c].orderDescendingBy<intValue>().reverse().subarray(0, 2).extract<intValue>().sum() > n.aArray.orderDescendingBy<intValue>().reverse().subarray(0, 2).extract<intValue>().sum() + n.val; }
+	
+	modify {
+	---
+		eval {
+			::avg = array<A>[a,b,c].orderDescendingBy<intValue>().reverse().subarray(0, 2).extract<intValue>().avg();
+			::med = n.aArray.orderDescendingBy<intValue>().reverse().subarray(0, 2).extract<intValue>().medUnsorted();
+		}
+	}
+}

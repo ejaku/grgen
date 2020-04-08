@@ -1622,11 +1622,54 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
         /// <returns>A new List with the content of the old list sorted.</returns>
+        public static List<V> ArrayOrderDescending<V>(List<V> a)
+        {
+            List<V> newList = new List<V>(a);
+
+            newList.Sort();
+            newList.Reverse();
+
+            return newList;
+        }
+
+        /* 
+        // TODO: measure against comparison with default comparer and following reverse
+        public class ReverseComparer<T> : Comparer<T>
+        {
+            static Comparer<T> defaultComparer = Comparer<T>.Default;
+
+            public override int Compare(T left, T right)
+            {
+                return defaultComparer.Compare(right, left);
+            }
+        }
+        */
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array but sorted.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list sorted.</returns>
         public static List<string> ArrayOrderAscending(List<string> a)
         {
             List<string> newList = new List<string>(a);
 
             newList.Sort(StringComparer.InvariantCulture);
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array but sorted.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list sorted.</returns>
+        public static List<string> ArrayOrderDescending(List<string> a)
+        {
+            List<string> newList = new List<string>(a);
+
+            newList.Sort(StringComparer.InvariantCulture);
+            newList.Reverse();
 
             return newList;
         }

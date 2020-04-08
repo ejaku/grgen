@@ -1,0 +1,26 @@
+new graph arrayAccumulation\array_accumulation_extraction_match_class
+
+exec init
+show num nodes
+exec [[r(1)]\mc.fod]
+show num nodes
+
+clear graph
+exec init
+show num nodes
+exec [[r(-1)]\mc.fod]
+show num nodes
+
+clear graph
+exec init
+show num nodes
+exec tbod([?[r(1)]\<class mc>])
+show num nodes
+
+clear graph
+exec init
+show num nodes
+exec tbod([?[r(-1)]\<class mc>])
+show num nodes
+
+quit

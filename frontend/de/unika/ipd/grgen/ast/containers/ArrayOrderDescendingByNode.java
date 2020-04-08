@@ -17,16 +17,16 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.containers.ArrayOrderAscendingBy;
+import de.unika.ipd.grgen.ir.containers.ArrayOrderDescendingBy;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayOrderAscendingByNode extends ExprNode
+public class ArrayOrderDescendingByNode extends ExprNode
 {
 	static {
-		setName(ArrayOrderAscendingByNode.class, "array order ascending by");
+		setName(ArrayOrderDescendingByNode.class, "array order descending by");
 	}
 
 	private ExprNode targetExpr;
@@ -36,7 +36,7 @@ public class ArrayOrderAscendingByNode extends ExprNode
 	private EdgeDeclNode edge;
 	private VarDeclNode var;
 	
-	public ArrayOrderAscendingByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
+	public ArrayOrderDescendingByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
@@ -64,7 +64,7 @@ public class ArrayOrderAscendingByNode extends ExprNode
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array orderAscendingBy expression must be of type array<T>");
+			targetExpr.reportError("This argument to array orderDescendingBy expression must be of type array<T>");
 			return false;
 		}
 		
@@ -72,7 +72,7 @@ public class ArrayOrderAscendingByNode extends ExprNode
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)
 				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {
-			reportError("orderAscendingBy can only be employed on an array of nodes or edges or an array of match types.");
+			reportError("orderDescendingBy can only be employed on an array of nodes or edges or an array of match types.");
 			return false;
 		}
 
@@ -132,7 +132,7 @@ public class ArrayOrderAscendingByNode extends ExprNode
 				return false;
 				
 			if(member.isConst()) {
-				reportError("orderAscendingBy cannot be used on const attributes.");
+				reportError("orderDescendingBy cannot be used on const attributes.");
 			}
 		}
 
@@ -146,7 +146,7 @@ public class ArrayOrderAscendingByNode extends ExprNode
 			&& !(memberType.equals(BasicTypeNode.stringType))
 			&& !(memberType.equals(BasicTypeNode.booleanType))
 			&& !(memberType instanceof EnumTypeNode)) {
-			targetExpr.reportError("array method orderAscendingBy only available for attributes of type byte,short,int,long,float,double,string,boolean,enum of a graph element");
+			targetExpr.reportError("array method orderDescendingBy only available for attributes of type byte,short,int,long,float,double,string,boolean,enum of a graph element");
 		}
 		return true;
 	}
@@ -180,7 +180,7 @@ public class ArrayOrderAscendingByNode extends ExprNode
 		else
 			accessedMember = var.checkIR(Entity.class);
 		
-		return new ArrayOrderAscendingBy(targetExpr.checkIR(Expression.class),
+		return new ArrayOrderDescendingBy(targetExpr.checkIR(Expression.class),
 				accessedMember);
 	}
 }

@@ -614,9 +614,8 @@ public abstract class ParserEnvironment extends Base {
 
 	public boolean isArrayAttributeAccessMethodName(String name)
 	{
-		if(name.equals("indexOfBy") || name.equals("indexOfOrderedBy") 
-			|| name.equals("lastIndexOfBy") || name.equals("orderAscendingBy")
-			|| name.equals("extract")) {
+		if(name.equals("indexOfBy") || name.equals("indexOfOrderedBy") || name.equals("lastIndexOfBy") 
+			|| name.equals("orderAscendingBy") || name.equals("orderDescendingBy") || name.equals("extract")) {
 			return true;
 		}
 		return false;

@@ -2249,9 +2249,12 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String attributeName = formatIdentifiable(entity);
 		String attributeTypeName = formatAttributeType(entity.getType());
 		String comparerClassName = "Comparer_" + type.getIdent().toString() + "_" + attributeName;
+		String reverseComparerClassName = "ReverseComparer_" + type.getIdent().toString() + "_" + attributeName;
 		
 		if(!type.isAbstract() && type.getExternalName()==null) 
 		{
+			genAttributeArrayReverseComparer(type, entity);
+			
 			sb.append("\n\tpublic class " + comparerClassName + " : Comparer<" + typeName + ">\n");
 			sb.append("\t{\n");
 
@@ -2266,6 +2269,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			for(InheritanceType subtype : type.getAllSubTypes()) {
 				if(!subtype.isAbstract() && type.getExternalName()==null)
 				{
+					genAttributeArrayReverseComparer(type, entity);
+
 					sb.append("\n\tpublic class " + comparerClassName + " : Comparer<" + typeName + ">\n");
 					sb.append("\t{\n");
 
@@ -2342,6 +2347,13 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\treturn newList;\n");
 		sb.append("\t\t}\n");
 
+		sb.append("\t\tpublic static List<" + typeName + "> ArrayOrderDescendingBy(List<" + typeName + "> list)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tList<" + typeName + "> newList = new List<" + typeName + ">(list);\n");
+		sb.append("\t\t\tnewList.Sort(" + reverseComparerClassName + ".thisComparer);\n");
+		sb.append("\t\t\treturn newList;\n");
+		sb.append("\t\t}\n");
+
 		sb.append("\t\tpublic static List<" + formatType(entity.getType()) + "> Extract(List<" + typeName + "> list)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tList<" + formatType(entity.getType()) + "> resultList = new List<" + formatType(entity.getType()) + ">(list.Count);\n");
@@ -2353,6 +2365,33 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t}\n\n");
 	}
 
+	void genAttributeArrayReverseComparer(InheritanceType type, Entity entity)
+	{
+		String typeName = formatElementInterfaceRef(type);
+		String attributeName = formatIdentifiable(entity);
+		String reverseComparerClassName = "ReverseComparer_" + type.getIdent().toString() + "_" + attributeName;
+
+		sb.append("\n\tpublic class " + reverseComparerClassName + " : Comparer<" + typeName + ">\n");
+		sb.append("\t{\n");
+		
+		sb.append("\t\tpublic static " + reverseComparerClassName + " thisComparer = new " + reverseComparerClassName + "();\n");
+		
+		sb.append("\t\tpublic override int Compare(" + typeName + " a, " + typeName + " b)\n");
+		sb.append("\t\t{\n");
+		if(entity.getType().classify()==Type.IS_EXTERNAL_TYPE || entity.getType().classify()==Type.IS_OBJECT) {
+			sb.append("\t\t\tif(AttributeTypeObjectCopierComparer.IsEqual(a, b)) return 0;\n");
+			sb.append("\t\t\tif(AttributeTypeObjectCopierComparer.IsLower(a, b)) return 1;\n");
+			sb.append("\t\t\treturn -1;\n");
+		}
+		else if(entity.getType() instanceof StringType)
+			sb.append("\t\t\treturn -StringComparer.InvariantCulture.Compare(a.@" + attributeName + ", b.@" + attributeName + ");\n");
+		else
+			sb.append("\t\t\treturn -a.@" + attributeName + ".CompareTo(b.@" + attributeName + ");\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t}\n");
+	}
+	
 	////////////////////////////
 	// Index generation //
 	////////////////////////////

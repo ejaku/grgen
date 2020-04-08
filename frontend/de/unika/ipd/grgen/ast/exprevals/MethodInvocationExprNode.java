@@ -381,6 +381,14 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArrayOrderAscendingNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("orderDescending")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.orderDescending() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new ArrayOrderDescendingNode(getCoords(), targetExpr);
+  			}
 			else if(methodName.equals("orderAscendingBy")) {
   				if(params.size() != 0) {
   					reportError("array<T>.orderAscendingBy<attribute>() takes no parameters.");
@@ -388,6 +396,14 @@ public class MethodInvocationExprNode extends ExprNode
 				}
   				else
   					result = new ArrayOrderAscendingByNode(getCoords(), targetExpr, attributeIdent);
+  			}
+			else if(methodName.equals("orderDescendingBy")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.orderDescendingBy<attribute>() takes no parameters.");
+					return false;
+				}
+  				else
+  					result = new ArrayOrderDescendingByNode(getCoords(), targetExpr, attributeIdent);
   			}
 			else if(methodName.equals("reverse")) {
   				if(params.size() != 0) {
