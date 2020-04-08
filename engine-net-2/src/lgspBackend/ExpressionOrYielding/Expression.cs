@@ -2843,54 +2843,67 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing the logarithm function.
+    /// Class representing the square function.
     /// </summary>
-    public class Log : Expression
+    public class Sqr : Expression
     {
-        public Log(Expression left, Expression right)
+        public Sqr(Expression expr)
         {
-            Left = left;
-            Right = right;
-        }
-
-        public Log(Expression left)
-        {
-            Left = left;
+            Expr = expr;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            if(Right != null)
-                return new Log(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
-            else
-                return new Log(Left.Copy(renameSuffix));
+            return new Sqr(Expr.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("Math.Log(");
-            Left.Emit(sourceCode);
-            if(Right != null)
-            {
-                sourceCode.Append(", ");
-                Right.Emit(sourceCode);
-            }
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Sqr(");
+            Expr.Emit(sourceCode);
             sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
-            yield return Left;
-            if(Right != null)
-                yield return Right;
+            yield return Expr;
         }
 
-        public readonly Expression Left;
-        public readonly Expression Right;
+        public readonly Expression Expr;
     }
 
     /// <summary>
-    /// Class representing the to-the-power-of operator.
+    /// Class representing the square root function.
+    /// </summary>
+    public class Sqrt : Expression
+    {
+        public Sqrt(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Sqr(Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Sqrt(");
+            Expr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
+        public readonly Expression Expr;
+    }
+
+    /// <summary>
+    /// Class representing the to-the-power-of function.
     /// </summary>
     public class Pow : Expression
     {
@@ -2936,6 +2949,53 @@ namespace de.unika.ipd.grGen.expression
             if(Left != null)
                 yield return Left;
             yield return Right;
+        }
+
+        public readonly Expression Left;
+        public readonly Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing the logarithm function.
+    /// </summary>
+    public class Log : Expression
+    {
+        public Log(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public Log(Expression left)
+        {
+            Left = left;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            if(Right != null)
+                return new Log(Left.Copy(renameSuffix), Right.Copy(renameSuffix));
+            else
+                return new Log(Left.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("Math.Log(");
+            Left.Emit(sourceCode);
+            if(Right != null)
+            {
+                sourceCode.Append(", ");
+                Right.Emit(sourceCode);
+            }
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            if(Right != null)
+                yield return Right;
         }
 
         public readonly Expression Left;

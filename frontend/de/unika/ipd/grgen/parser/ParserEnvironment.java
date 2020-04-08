@@ -450,6 +450,7 @@ public abstract class ParserEnvironment extends Base {
 			if(i.getText().equals("min") || i.getText().equals("max") 
 				|| i.getText().equals("sin") || i.getText().equals("cos") || i.getText().equals("tan")
 				|| i.getText().equals("arcsin") || i.getText().equals("arccos") || i.getText().equals("arctan") 
+				|| i.getText().equals("sqr") || i.getText().equals("sqrt")
 				|| i.getText().equals("pow") || i.getText().equals("log")
 				|| i.getText().equals("ceil") || i.getText().equals("floor") || i.getText().equals("round") || i.getText().equals("truncate")
 				|| i.getText().equals("abs") || i.getText().equals("sgn")

@@ -1,0 +1,16 @@
+using attrib_model_001;
+
+rule r {
+	nd : NDOUBLE;
+
+	if {
+		nd.a == Math::sqrt(nd.a);
+	}
+
+	modify {
+		eval {
+			nd.a = Math::sqrt(nd.a);
+		}
+	}
+}
+

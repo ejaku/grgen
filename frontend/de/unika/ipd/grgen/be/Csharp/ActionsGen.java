@@ -4489,14 +4489,16 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, c.getGraphExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
-		else if (expr instanceof LogExpr) {
-			LogExpr l = (LogExpr) expr;
-			sb.append("new GRGEN_EXPR.Log(");
-			genExpressionTree(sb, l.getLeftExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			if(l.getRightExpr()!=null) {
-				sb.append(", ");
-				genExpressionTree(sb, l.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			}
+		else if (expr instanceof SqrExpr) {
+			SqrExpr s = (SqrExpr) expr;
+			sb.append("new GRGEN_EXPR.Sqr(");
+			genExpressionTree(sb, s.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof SqrtExpr) {
+			SqrtExpr s = (SqrtExpr) expr;
+			sb.append("new GRGEN_EXPR.Sqrt(");
+			genExpressionTree(sb, s.getExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof PowExpr) {
@@ -4507,6 +4509,16 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", ");
 			}
 			genExpressionTree(sb, p.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof LogExpr) {
+			LogExpr l = (LogExpr) expr;
+			sb.append("new GRGEN_EXPR.Log(");
+			genExpressionTree(sb, l.getLeftExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(l.getRightExpr()!=null) {
+				sb.append(", ");
+				genExpressionTree(sb, l.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			}
 			sb.append(")");
 		}
 		else if (expr instanceof IteratedQueryExpr) {

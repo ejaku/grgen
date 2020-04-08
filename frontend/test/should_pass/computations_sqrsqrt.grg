@@ -1,0 +1,40 @@
+function foo() : double
+{
+	def var temp1:double = Math::sqr(1.0);
+	def var temp1b:double = Math::sqrt(1.0);
+	return(temp1);
+}
+
+test t : (double)
+{	
+	independent {
+	---
+		yield {
+			def var temp1:double = Math::sqr(1.0);
+			def var temp1b:double = Math::sqrt(1.0);
+			yield res = temp1;
+		}
+	}
+---
+	def var res:double;
+	
+	return (res);
+}
+
+rule r : (double)
+{	
+	if(Math::sqr(0.0) == Math::sqrt(0.0));
+	
+	modify {
+	---
+		eval {
+			def var temp1:double = Math::sqr(1.0);
+			def var temp1b:double = Math::sqrt(1.0);
+			yield res = temp1;
+		}
+
+		def var res:double;
+
+		return (res);
+	}
+}

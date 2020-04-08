@@ -127,6 +127,22 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_TAN, params.get(0));
 		}
+		else if(functionName.equals("sqrMath")) {
+			if(params.size() == 1) {
+				result = new SqrExprNode(getCoords(), params.get(0));
+			} else {
+				reportError("Math::sqr(.) takes one parameter.");
+				return false;
+			}
+		}
+		else if(functionName.equals("sqrtMath")) {
+			if(params.size() == 1) {
+				result = new SqrtExprNode(getCoords(), params.get(0));
+			} else {
+				reportError("Math::sqrt(.) takes one parameter.");
+				return false;
+			}
+		}
 		else if(functionName.equals("powMath")) {
 			if(params.size() == 2) {
 				result = new PowExprNode(getCoords(), params.get(0), params.get(1));

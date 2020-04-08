@@ -2806,14 +2806,16 @@ public abstract class CSharpBase {
 			genExpression(sb, c.getGraphExpr(), modifyGenerationState);
 			sb.append(").Canonize()");
 		}
-		else if (expr instanceof LogExpr) {
-			LogExpr l = (LogExpr)expr;
-			sb.append("Math.Log(");
-			genExpression(sb, l.getLeftExpr(), modifyGenerationState);
-			if(l.getRightExpr()!=null) {
-				sb.append(", ");
-				genExpression(sb, l.getRightExpr(), modifyGenerationState);
-			}
+		else if (expr instanceof SqrExpr) {
+			SqrExpr s = (SqrExpr)expr;
+			sb.append("GRGEN_LIBGR.ContainerHelper.Sqr(");
+			genExpression(sb, s.getExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof SqrtExpr) {
+			SqrtExpr s = (SqrtExpr)expr;
+			sb.append("Math.Sqrt(");
+			genExpression(sb, s.getExpr(), modifyGenerationState);
 			sb.append(")");
 		}
 		else if (expr instanceof PowExpr) {
@@ -2829,6 +2831,16 @@ public abstract class CSharpBase {
 				genExpression(sb, p.getRightExpr(), modifyGenerationState);
 				sb.append(")");
 			}
+		}
+		else if (expr instanceof LogExpr) {
+			LogExpr l = (LogExpr)expr;
+			sb.append("Math.Log(");
+			genExpression(sb, l.getLeftExpr(), modifyGenerationState);
+			if(l.getRightExpr()!=null) {
+				sb.append(", ");
+				genExpression(sb, l.getRightExpr(), modifyGenerationState);
+			}
+			sb.append(")");
 		}
 		else if(expr instanceof ProjectionExpr) {
 			ProjectionExpr proj = (ProjectionExpr) expr;
