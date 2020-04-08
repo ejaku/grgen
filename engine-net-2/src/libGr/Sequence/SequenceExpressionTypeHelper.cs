@@ -114,6 +114,23 @@ namespace de.unika.ipd.grGen.libGr
                     result = BalanceArithmetic(left, right, model);
                     return result;
 
+                case SequenceExpressionType.Except:
+                    if(left == "" || right == "")
+                        return "";
+                    if(left == right && left.StartsWith("set<"))
+                        return left;
+                    return "-";
+
+                case SequenceExpressionType.StrictAnd:
+                case SequenceExpressionType.StrictOr:
+                    if(left == "" || right == "")
+                        return "";
+                    if(left == right && left == "boolean")
+                        return left;
+                    if(left == right && left.StartsWith("set<"))
+                        return left;
+                    return "-";
+
                 default:
                     return "";
             }

@@ -339,5 +339,36 @@ namespace de.unika.ipd.grGen.lgsp
 
             return null;
         }
+
+        public static string ExceptStatic(string leftValue, string rightValue,
+            string balancedType, string leftType, string rightType, IGraphModel model)
+        {
+            if(balancedType.StartsWith("set<"))
+                return "GRGEN_LIBGR.ContainerHelper.Except((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ")";
+
+            return null;
+        }
+
+        public static string OrStatic(string leftValue, string rightValue,
+            string balancedType, string leftType, string rightType, IGraphModel model)
+        {
+            if(balancedType == "boolean")
+                return "((bool)" + leftValue + " | " + "(bool)" + rightValue + ")";
+            else if(balancedType.StartsWith("set<"))
+                return "GRGEN_LIBGR.ContainerHelper.Union((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ")";
+
+            return null;
+        }
+
+        public static string AndStatic(string leftValue, string rightValue,
+            string balancedType, string leftType, string rightType, IGraphModel model)
+        {
+            if(balancedType == "boolean")
+                return "((bool)" + leftValue + " & " + "(bool)" + rightValue + ")";
+            else if(balancedType.StartsWith("set<"))
+                return "GRGEN_LIBGR.ContainerHelper.Intersect((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ")";
+
+            return null;
+        }
     }
 }

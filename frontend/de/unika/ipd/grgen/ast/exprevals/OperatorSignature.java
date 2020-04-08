@@ -842,16 +842,18 @@ public class OperatorSignature extends FunctionSignature {
 		makeBinOp(IN, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
 		makeBinOp(SE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
 
-		// Boolean operators
+		// Boolean (and set) operators
 		makeBinOp(LOG_AND, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
 		makeBinOp(LOG_OR, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
 		makeUnOp(LOG_NOT, BOOLEAN, UNTYPED, untypedEvaluator);
 
-		makeBinOp(BIT_AND, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
-		makeBinOp(BIT_OR, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(BIT_AND, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+		makeBinOp(BIT_OR, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
 		makeBinOp(BIT_XOR, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
 
-		// Arithmetic (and string concatenation) operators
+		makeBinOp(EXCEPT, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
+
+		// Arithmetic (and string or array/deque concatenation) operators
 		makeBinOp(ADD, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
 		makeBinOp(SUB, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);
 		makeBinOp(MUL, UNTYPED, UNTYPED, UNTYPED, untypedEvaluator);

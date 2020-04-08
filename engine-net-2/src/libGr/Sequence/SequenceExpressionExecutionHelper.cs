@@ -4007,5 +4007,46 @@ namespace de.unika.ipd.grGen.libGr
 
             throw new Exception("Invalid types for %");
         }
+
+        public static object AndObjects(object leftValue, object rightValue,
+            string balancedType, string leftType, string rightType, IGraph graph)
+        {
+            if(balancedType=="boolean")
+            {
+                return (bool)leftValue & (bool)rightValue;
+            }
+            if(balancedType.StartsWith("set<"))
+            {
+                return ContainerHelper.Intersect((IDictionary)leftValue, (IDictionary)rightValue);
+            }
+
+            throw new Exception("Invalid types for &");
+        }
+
+        public static object OrObjects(object leftValue, object rightValue,
+            string balancedType, string leftType, string rightType, IGraph graph)
+        {
+            if(balancedType=="boolean")
+            {
+                return (bool)leftValue | (bool)rightValue;
+            }
+            if(balancedType.StartsWith("set<"))
+            {
+                return ContainerHelper.Union((IDictionary)leftValue, (IDictionary)rightValue);
+            }
+
+            throw new Exception("Invalid types for |");
+        }
+
+        public static object ExceptObjects(object leftValue, object rightValue,
+            string balancedType, string leftType, string rightType, IGraph graph)
+        {
+            if(balancedType.StartsWith("set<"))
+            {
+                return ContainerHelper.Except((IDictionary)leftValue, (IDictionary)rightValue);
+            }
+
+            throw new Exception("Invalid types for \\");
+        }
     }
 }

@@ -1,0 +1,30 @@
+new graph set1/set1norules
+
+new na:A
+new nb:B
+
+na.a
+exec { ::untyped = set<string>{ "foo" }; ::na.a = ::na.a | ::untyped }
+na.a
+
+nb.b
+exec { ::untyped = set<string>{ "foo" }; ::nb.b = ::nb.b | ::untyped }
+nb.b
+
+na.a
+exec { ::untyped = set<string>{ "foo" }; ::na.a = ::na.a & ::untyped }
+na.a
+
+nb.b
+exec { ::untyped = set<string>{ "bar" }; ::nb.b = ::nb.b & ::untyped }
+nb.b
+
+nb.a
+exec { ::untyped = set<string>{ "bar" }; ::nb.a = ::nb.a \ ::untyped }
+nb.a
+
+nb.a
+exec { ::untyped = set<string>{ "bar" }; ::nb.a = ::nb.a \ ::untyped }
+nb.a
+
+quit

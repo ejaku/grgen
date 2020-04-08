@@ -1317,7 +1317,15 @@ SequenceExpression Expression():
     SequenceExpression seq, seq2, seq3;
 }
 {
-    seq=ExpressionLazyOr() ( "?" seq2=Expression() ":" seq3=Expression() { seq = new SequenceExpressionConditional(seq, seq2, seq3); } )? { return seq; }
+    seq=ExpressionExcept() ( "?" seq2=Expression() ":" seq3=Expression() { seq = new SequenceExpressionConditional(seq, seq2, seq3); } )? { return seq; }
+}
+
+SequenceExpression ExpressionExcept():
+{
+    SequenceExpression seq, seq2;
+}
+{
+    seq=ExpressionLazyOr() ( "\\" seq2=ExpressionLazyOr() { seq = new SequenceExpressionExcept(seq, seq2); } )* { return seq; }
 }
 
 SequenceExpression ExpressionLazyOr():

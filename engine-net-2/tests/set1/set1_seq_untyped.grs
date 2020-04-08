@@ -1,0 +1,30 @@
+new graph set1/set1norules
+
+new na:A
+new nb:B
+
+na.a
+exec { ::na.a = ::na.a | set<string>{ "foo" } }
+na.a
+
+nb.b
+exec { ::nb.b = ::nb.b | set<string>{ "foo" } }
+nb.b
+
+na.a
+exec { ::na.a = ::na.a & set<string>{ "foo" } }
+na.a
+
+nb.b
+exec { ::nb.b = ::nb.b & set<string>{ "bar" } }
+nb.b
+
+nb.a
+exec { ::nb.a = ::nb.a \ set<string>{ "bar" } }
+nb.a
+
+nb.a
+exec { ::nb.a = ::nb.a \ set<string>{ "bar" } }
+nb.a
+
+quit

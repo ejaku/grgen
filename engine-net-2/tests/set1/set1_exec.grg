@@ -1,0 +1,59 @@
+using set1;
+
+rule orFooNoEffect()
+{
+    na:A\B;
+	
+	modify {
+	---
+		exec({ na.a = na.a | set<string>{ "foo" } });
+	}
+}
+
+rule orFoo()
+{
+    nb:B;
+	modify {
+	---
+		exec({ nb.b = nb.b | set<string>{ "foo" } });
+	}
+}
+
+rule andFooOneRemains()
+{
+    na:A\B;
+	
+	modify {
+	---
+		exec({ na.a = na.a & set<string>{ "foo" } });
+	}
+}
+
+rule andBarAllRemoved()
+{
+    nb:B;
+	modify {
+	---
+		exec({ nb.b = nb.b & set<string>{ "bar" } });
+	}
+}
+
+rule exceptBar()
+{
+    nb:B;
+
+	modify {
+	---
+		exec({ nb.a = nb.a \ set<string>{ "bar" } });
+	}
+}
+
+rule exceptBarNoEffect()
+{
+    nb:B;
+	
+	modify {
+	---
+		exec({ nb.a = nb.a \ set<string>{ "bar" } });
+	}
+}

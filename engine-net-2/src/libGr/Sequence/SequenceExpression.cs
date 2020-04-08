@@ -23,7 +23,7 @@ namespace de.unika.ipd.grGen.libGr
     public enum SequenceExpressionType
     {
         Conditional,
-        LazyOr, LazyAnd, StrictOr, StrictXor, StrictAnd,
+        Except, LazyOr, LazyAnd, StrictOr, StrictXor, StrictAnd,
         Not, UnaryMinus, Cast,
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
         Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
@@ -419,6 +419,61 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceExpressionExcept : SequenceBinaryExpression
+    {
+        public SequenceExpressionExcept(SequenceExpression left, SequenceExpression right)
+            : base(SequenceExpressionType.Except, left, right)
+        {
+        }
+
+        protected SequenceExpressionExcept(SequenceExpressionExcept that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionExcept(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.ExceptObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 2; } // TODO: adapt all precedences
+        }
+
+        public override string Operator
+        {
+            get { return " \\ "; }
+        }
+    }
+
     public class SequenceExpressionLazyOr : SequenceBinaryExpression
     {
         public SequenceExpressionLazyOr(SequenceExpression left, SequenceExpression right)
@@ -502,9 +557,31 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionStrictOr(this, originalToCopy, procEnv);
         }
 
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            return (bool)Left.Evaluate(procEnv) | (bool)Right.Evaluate(procEnv);
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.OrObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
         }
 
         public override int Precedence
@@ -568,9 +645,31 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionStrictAnd(this, originalToCopy, procEnv);
         }
 
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            LeftTypeStatic = Left.Type(env);
+            RightTypeStatic = Right.Type(env);
+            return SequenceExpressionTypeHelper.Balance(SequenceExpressionType, LeftTypeStatic, RightTypeStatic, env.Model);
+        }
+
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            return (bool)Left.Evaluate(procEnv) & (bool)Right.Evaluate(procEnv);
+            object leftValue = Left.Evaluate(procEnv);
+            object rightValue = Right.Evaluate(procEnv);
+
+            string balancedType = BalancedTypeStatic;
+            string leftType = LeftTypeStatic;
+            string rightType = RightTypeStatic;
+            BalanceIfStaticallyUnknown(procEnv, leftValue, rightValue, ref balancedType, ref leftType, ref rightType);
+
+            try
+            {
+                return SequenceExpressionExecutionHelper.AndObjects(leftValue, rightValue, balancedType, leftType, rightType, procEnv.Graph);
+            }
+            catch(Exception)
+            {
+                throw new SequenceParserException(Operator, TypesHelper.XgrsTypeOfConstant(leftValue, procEnv.Graph.Model), TypesHelper.XgrsTypeOfConstant(rightValue, procEnv.Graph.Model), Symbol);
+            }
         }
 
         public override int Precedence

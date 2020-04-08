@@ -1,0 +1,26 @@
+rule r()
+{
+	n:Node; m:Node;
+---
+	
+	modify {
+	---
+		exec({ ::x = set<int>{1,2,3} & set<int>{2,3,4} });
+		exec(tsetnode(set<Node>{n,m} & set<Node>{n}));
+		exec({ ::x = set<int>{1,2,3} | set<int>{2,3,4} });
+		exec(tsetnode(set<Node>{n,m} | set<Node>{n}));
+		exec({ ::x = set<int>{1,2,3} \ set<int>{2,3,4} });
+		exec(tsetnode(set<Node>{n,m} \ set<Node>{n}));
+		
+		exec({ ::x = ::u & ::v });
+		exec(tsetnode(::u & ::v));
+		exec({ ::x = ::u | ::v });
+		exec(tsetnode(::u | ::v));
+		exec({ ::x = ::u \ ::v });
+		exec(tsetnode(::u \ ::v));
+	}
+}
+
+test tsetnode(ref s:set<Node>)
+{
+}

@@ -1,0 +1,30 @@
+new graph set1/set1_exec
+
+new na:A
+new nb:B
+
+na.a
+exec orFooNoEffect
+na.a
+
+nb.b
+exec orFoo
+nb.b
+
+na.a
+exec andFooOneRemains
+na.a
+
+nb.b
+exec andBarAllRemoved
+nb.b
+
+nb.a
+exec exceptBar
+nb.a
+
+nb.a
+exec exceptBarNoEffect
+nb.a
+
+quit

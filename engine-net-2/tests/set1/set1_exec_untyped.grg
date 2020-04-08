@@ -1,0 +1,59 @@
+using set1;
+
+rule orFooNoEffect()
+{
+    na:A\B;
+	
+	modify {
+	---
+		exec({ ::untyped = set<string>{ "foo" }; na.a = na.a | ::untyped });
+	}
+}
+
+rule orFoo()
+{
+    nb:B;
+	modify {
+	---
+		exec({ ::untyped = set<string>{ "foo" }; nb.b = nb.b | ::untyped });
+	}
+}
+
+rule andFooOneRemains()
+{
+    na:A\B;
+	
+	modify {
+	---
+		exec({ ::untyped = set<string>{ "foo" }; na.a = na.a & ::untyped });
+	}
+}
+
+rule andBarAllRemoved()
+{
+    nb:B;
+	modify {
+	---
+		exec({ ::untyped = set<string>{ "bar" }; nb.b = nb.b & ::untyped });
+	}
+}
+
+rule exceptBar()
+{
+    nb:B;
+
+	modify {
+	---
+		exec({ ::untyped = set<string>{ "bar" }; nb.a = nb.a \ ::untyped });
+	}
+}
+
+rule exceptBarNoEffect()
+{
+    nb:B;
+	
+	modify {
+	---
+		exec({ ::untyped = set<string>{ "bar" }; nb.a = nb.a \ ::untyped });
+	}
+}

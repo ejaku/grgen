@@ -813,6 +813,24 @@ namespace de.unika.ipd.grGen.libGr
             return newDict;
         }
 
+        public static IDictionary Union(IDictionary a, IDictionary b)
+        {
+            Type keyType;
+            Type valueType;
+            IDictionary dict = ContainerHelper.GetDictionaryTypes(a, out keyType, out valueType);
+
+            // Fill new dictionary with all elements from a.
+            IDictionary newDict = NewDictionary(keyType, valueType, a);
+
+            // Add all elements from b, potentially overwriting those of a.
+            foreach(DictionaryEntry entry in b)
+            {
+                newDict[entry.Key] = entry.Value;
+            }
+
+            return newDict;
+        }
+
         /// <summary>
         /// Creates a new dictionary containing all key/value pairs from
         /// <paramref name="a"/> whose keys are also contained in <paramref name="b"/>.
@@ -849,6 +867,36 @@ namespace de.unika.ipd.grGen.libGr
             return newDict;
         }
 
+        public static IDictionary Intersect(IDictionary a, IDictionary b)
+        {
+            Type keyType;
+            Type valueType;
+            IDictionary dict = ContainerHelper.GetDictionaryTypes(a, out keyType, out valueType);
+
+            // Create empty dictionary.
+            IDictionary newDict = NewDictionary(keyType, valueType);
+
+            // Add all elements of a also contained in b.
+            if(a.Count <= b.Count)
+            {
+                foreach(DictionaryEntry entry in a)
+                {
+                    if(b.Contains(entry.Key))
+                        newDict.Add(entry.Key, entry.Value);
+                }
+            }
+            else
+            {
+                foreach(DictionaryEntry entry in b)
+                {
+                    if(a.Contains(entry.Key))
+                        newDict.Add(entry.Key, a[entry.Key]);
+                }
+            }
+
+            return newDict;
+        }
+
         /// <summary>
         /// Creates a new dictionary containing all key/value pairs from
         /// <paramref name="a"/> whose keys are not contained in <paramref name="b"/>.
@@ -864,6 +912,24 @@ namespace de.unika.ipd.grGen.libGr
 
             // Remove all elements contained in b.
             foreach(KeyValuePair<K, W> entry in b)
+            {
+                newDict.Remove(entry.Key);
+            }
+
+            return newDict;
+        }
+
+        public static IDictionary Except(IDictionary a, IDictionary b)
+        {
+            Type keyType;
+            Type valueType;
+            IDictionary dict = ContainerHelper.GetDictionaryTypes(a, out keyType, out valueType);
+
+            // Fill new dictionary with all elements from a.
+            IDictionary newDict = NewDictionary(keyType, valueType, a);
+
+            // Remove all elements contained in b.
+            foreach(DictionaryEntry entry in b)
             {
                 newDict.Remove(entry.Key);
             }
