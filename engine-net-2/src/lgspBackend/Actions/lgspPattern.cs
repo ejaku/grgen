@@ -509,6 +509,16 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternYielding[] YieldingsPlusInlined;
 
         /// <summary>
+        /// Tells whether an iterated filtering is existing in this pattern graph
+        /// </summary>
+        public bool isIteratedFilteringExisting = false;
+
+        /// <summary>
+        /// Tells whether an iterated filtering is existing in this pattern graph after inlining
+        /// </summary>
+        public bool isIteratedFilteringExistingPlusInlined = false;
+
+        /// <summary>
         /// Tells whether a def entity (node, edge, variable) is existing in this pattern graph
         /// </summary>
         public bool isDefEntityExisting = false;

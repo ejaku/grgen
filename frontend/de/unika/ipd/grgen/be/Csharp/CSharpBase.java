@@ -2818,6 +2818,10 @@ public abstract class CSharpBase {
 			sb.append(".");
 			sb.append(formatEntity(ma.getEntity()));
 		}
+		else if(expr instanceof IteratedQueryExpr) {
+			IteratedQueryExpr iq = (IteratedQueryExpr) expr;
+			sb.append("curMatch." + iq.getIteratedName().toString() + ".ToListExact()");
+		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
 

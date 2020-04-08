@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.parser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.antlr.runtime.RecognitionException;
@@ -638,6 +639,31 @@ public abstract class ParserEnvironment extends Base {
 			return true;
 		}
 		return false;
+	}
+	
+	public ArrayList<FilterAutoNode> getFiltersAutoSupplied(IteratedNode iterated)
+	{
+		ArrayList<FilterAutoNode> autoSuppliedFilters = new ArrayList<FilterAutoNode>();
+		
+		if(iterated != null) // may happen due to syntactic predicate / backtracking peek ahead
+		{
+			autoSuppliedFilters.add(getFilterAutoSupplied("keepFirst", iterated));
+			autoSuppliedFilters.add(getFilterAutoSupplied("keepLast", iterated));
+			autoSuppliedFilters.add(getFilterAutoSupplied("removeFirst", iterated));
+			autoSuppliedFilters.add(getFilterAutoSupplied("removeLast", iterated));
+			autoSuppliedFilters.add(getFilterAutoSupplied("keepFirstFraction", iterated));
+			autoSuppliedFilters.add(getFilterAutoSupplied("keepLastFraction", iterated));
+			autoSuppliedFilters.add(getFilterAutoSupplied("removeFirstFraction", iterated));
+			autoSuppliedFilters.add(getFilterAutoSupplied("removeLastFraction", iterated));
+		}
+		
+		return autoSuppliedFilters;
+	}
+	
+	public FilterAutoNode getFilterAutoSupplied(String ident, IteratedNode iterated)
+	{
+		IdentNode filterIdent = new IdentNode(define(ParserEnvironment.ACTIONS, ident, iterated.getCoords()));
+		return new FilterAutoSuppliedNode(filterIdent, iterated.getIdentNode());
 	}
 
 	public abstract UnitNode parseActions(File inputFile);

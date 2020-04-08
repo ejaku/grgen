@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
  * Additionally it can have conditions referring to its items that restrict the set of possible matchings.
  */
 public class PatternGraph extends Graph {
-	private final Collection<Variable> vars = new HashSet<Variable>();
+	private final Collection<Variable> vars = new LinkedHashSet<Variable>();
 
 	/** The alternative statements of the pattern graph */
 	private final Collection<Alternative> alts = new LinkedList<Alternative>();

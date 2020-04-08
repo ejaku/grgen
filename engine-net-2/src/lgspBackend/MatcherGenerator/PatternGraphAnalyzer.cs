@@ -194,6 +194,14 @@ namespace de.unika.ipd.grGen.lgsp
                             patternGraph.isNonLocalDefEntityExistingPlusInlined = true;
                     }
                 }
+                foreach(PatternYielding patternYielding in patternGraph.YieldingsPlusInlined)
+                {
+                    foreach(Yielding yielding in patternYielding.ElementaryYieldings)
+                    {
+                        if(yielding is IteratedFiltering)
+                            patternGraph.isIteratedFilteringExistingPlusInlined = true;
+                    }
+                }
 
                 foreach(Alternative alternative in patternGraph.alternativesPlusInlined)
                 {
@@ -238,6 +246,14 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.isDefEntityExisting = true;
                         if(var.pointOfDefinition != patternGraph)
                             patternGraph.isNonLocalDefEntityExisting = true;
+                    }
+                }
+                foreach(PatternYielding patternYielding in patternGraph.Yieldings)
+                {
+                    foreach(Yielding yielding in patternYielding.ElementaryYieldings)
+                    {
+                        if(yielding is IteratedFiltering)
+                            patternGraph.isIteratedFilteringExisting = true;
                     }
                 }
 

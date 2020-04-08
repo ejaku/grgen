@@ -45,7 +45,7 @@ test t2
 	//def ref itersSet:set<match<t2.it> > = yield(itersSorted.asSet());
 }
 
-/*rule r : (M)
+rule r : (M)
 {
 	iterated it
 	{
@@ -59,24 +59,24 @@ test t2
 	} \ orderDescendingBy<i>
 ---
 	iterated it\orderDescendingBy<i>\keepFirst(1);
-	
+
 	modify {
 		m:M;
 		
 		eval {
 			def var score:int = [?it].size();
-			def ref iters:array<match<t.it> > = [?it];
-			def ref nodes:array<Node> = [?it].extract<n>();
-			def ref nodesSet:set<Node> = [?it].extract<n>().asSet();
-			def var score2:int = [?it].extract<i>.sum();
-			def ref itersSorted:array<match<t.it> > = [?it].orderAscendingBy<i>().reverse();
-			def ref itersSet:set<match<t.it> > = itersSorted.asSet();
+			def ref iters:array<match<r.it> > = [?it];
+			def ref nodes:array<N> = [?it].extract<n>();
+			def ref nodesSet:set<N> = [?it].extract<n>().asSet();
+			def var score2:int = [?it].extract<i>().sum();
+			def ref itersSorted:array<match<r.it> > = [?it].orderAscendingBy<i>().reverse();
+			//def ref itersSet:set<match<r.it> > = itersSorted.asSet();
 			m.i = score + score2;
 		}
 		
 		return (m);
 	}
-}*/
+}
 
 /*test tnested
 {

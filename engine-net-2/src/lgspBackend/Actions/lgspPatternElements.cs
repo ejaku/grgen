@@ -1979,6 +1979,14 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// An array of the available filters
+        /// </summary>
+        public IFilter[] Filters
+        {
+            get { return filters; }
+        }
+
+        /// <summary>
         ///The iterated pattern to be matched as often as possible within specified bounds.
         /// </summary>
         public readonly PatternGraph iteratedPattern;
@@ -1992,6 +2000,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// The upper bound to stop matching at, 0 means unlimited.
         /// </summary>
         public readonly int maxMatches;
+
+        /// <summary>
+        /// An array of the available filters
+        /// </summary>
+        public readonly LGSPFilter[] filters;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -2010,12 +2023,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Constructs an Iterated object.
         /// </summary>
-        /// <param name="iterated">PatternGraph of the iterated.</param>
-        public Iterated(PatternGraph iteratedPattern, int minMatches, int maxMatches)
+        /// <param name="iteratedPattern">PatternGraph of the iterated.</param>
+        public Iterated(PatternGraph iteratedPattern, int minMatches, int maxMatches, LGSPFilter[] filters)
         {
             this.iteratedPattern = iteratedPattern;
             this.minMatches = minMatches;
             this.maxMatches = maxMatches;
+            this.filters = filters;
         }
 
         /// <summary>
@@ -2035,6 +2049,7 @@ namespace de.unika.ipd.grGen.lgsp
                     nodeToCopy, edgeToCopy, variableToCopy);
             minMatches = original.minMatches;
             maxMatches = original.maxMatches;
+            filters = original.filters;
 
             originalIterated = original;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;

@@ -2472,4 +2472,125 @@ namespace de.unika.ipd.grGen.expression
 
         readonly Expression ToRecordExpression;
     }
+
+    /// <summary>
+    /// Class representing an iterated filtering.
+    /// </summary>
+    public class IteratedFiltering : Yielding
+    {
+        public IteratedFiltering(String ruleOrSubpatternName, String iteratedName, FilterInvocation[] filterInvocations)
+        {
+            RuleOrSubpatternName = ruleOrSubpatternName;
+            IteratedName = iteratedName;
+            FilterInvocations = filterInvocations;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            FilterInvocation[] newFilterInvocations = new FilterInvocation[FilterInvocations.Length];
+            for(int i = 0; i < FilterInvocations.Length; ++i)
+            {
+                newFilterInvocations[i] = (FilterInvocation)FilterInvocations[i].Copy(renameSuffix);
+            }
+            return new IteratedFiltering(RuleOrSubpatternName, IteratedName, newFilterInvocations);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String matchesSource = "match." + IteratedName;
+            foreach(FilterInvocation filterInvocation in FilterInvocations)
+            {
+                filterInvocation.Emit(sourceCode, matchesSource, RuleOrSubpatternName, IteratedName);
+            }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(FilterInvocation filterInvocation in FilterInvocations)
+            {
+                yield return filterInvocation;
+            }
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        String RuleOrSubpatternName;
+        String IteratedName;
+        FilterInvocation[] FilterInvocations;
+        public bool Parallel;
+    }
+
+    /// <summary>
+    /// Class representing a filter invocation applied to an iterated.
+    /// </summary>
+    public class FilterInvocation : Yielding
+    {
+        public FilterInvocation(string filterName, bool isAutoSupplied, Expression[] arguments, String[] argumentTypes)
+        {
+            FilterName = filterName;
+            IsAutoSupplied = isAutoSupplied;
+            Arguments = arguments;
+            ArgumentTypes = argumentTypes;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Expression[] newArguments = new Expression[Arguments.Length];
+            for(int i = 0; i < Arguments.Length; ++i)
+            {
+                newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
+            }
+            return new FilterInvocation(FilterName, IsAutoSupplied, newArguments, (String[])ArgumentTypes.Clone());
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Emit(SourceBuilder sourceCode, String matchesSource, String ruleOrSubpatternName, String iteratedName)
+        {
+            if(IsAutoSupplied)
+            {
+                sourceCode.AppendFrontFormat("({0}).Filter_{1}(", matchesSource, FilterName);
+                for(int i = 0; i < Arguments.Length; ++i)
+                {
+                    if(i != 0)
+                        sourceCode.Append(", ");
+                    Expression argument = Arguments[i];
+                    if(ArgumentTypes[i] != null)
+                        sourceCode.Append("(" + ArgumentTypes[i] + ")");
+                    argument.Emit(sourceCode);
+                }
+                sourceCode.Append(")\n;");
+            }
+            else
+            {
+                sourceCode.AppendFrontFormat("MatchFilters.Filter_{0}_{1}_{2}((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv, {3});\n",
+                    ruleOrSubpatternName, iteratedName, FilterName, matchesSource);
+            }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Expression argument in Arguments)
+            {
+                yield return argument;
+            }
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public readonly string FilterName;
+        public readonly bool IsAutoSupplied;
+        public readonly Expression[] Arguments;
+        public readonly String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+        public bool Parallel;
+    }
 }

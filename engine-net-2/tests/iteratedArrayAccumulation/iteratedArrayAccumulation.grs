@@ -6,7 +6,15 @@ eval [?t]
 
 eval [?t2]
 
-#exec [r]
+show num nodes N
+show num nodes M
+
+exec (::m)=[r] ;> {::m=::m[0]}
+
+show node m
+
+show num nodes N
+show num nodes M
 
 #exec tnested
 

@@ -223,6 +223,14 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns the name of the match interface for an iterated in a pattern graph
+        /// </summary>
+        public static string MatchInterfaceName(string patternGraphName, string iteratedName)
+        {
+            return "IMatch_" + patternGraphName + "_" + iteratedName;
+        }
+
+        /// <summary>
         /// Returns name of the action member variable storing the matched independent
         /// </summary>
         public static string MatchedIndependentVariable(string patternGraphName)

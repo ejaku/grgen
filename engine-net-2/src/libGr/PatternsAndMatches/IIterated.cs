@@ -29,6 +29,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The upper bound to stop matching at, 0 means unlimited/as often as possible.
         /// </summary>
         int MaxMatches { get; }
+
+        /// <summary>
+        /// An array of the available filters
+        /// </summary>
+        IFilter[] Filters { get; }
     }
 }
 
