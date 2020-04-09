@@ -270,6 +270,16 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayVar((SequenceExpressionArrayVar)expr, source);
             case SequenceExpressionType.ArrayDev:
                 return GetSequenceExpressionArrayDev((SequenceExpressionArrayDev)expr, source);
+            case SequenceExpressionType.ArrayAsSet:
+                return GetSequenceExpressionArrayAsSet((SequenceExpressionArrayAsSet)expr, source);
+            case SequenceExpressionType.ArrayAsMap:
+                return GetSequenceExpressionArrayAsMap((SequenceExpressionArrayAsMap)expr, source);
+            case SequenceExpressionType.ArrayAsDeque:
+                return GetSequenceExpressionArrayAsDeque((SequenceExpressionArrayAsDeque)expr, source);
+            case SequenceExpressionType.ArrayAsString:
+                return GetSequenceExpressionArrayAsString((SequenceExpressionArrayAsString)expr, source);
+            case SequenceExpressionType.ArraySubarray:
+                return GetSequenceExpressionArraySubarray((SequenceExpressionArraySubarray)expr, source);
             case SequenceExpressionType.ArrayOrderAscending:
                 return GetSequenceExpressionArrayOrderAscending((SequenceExpressionArrayOrderAscending)expr, source);
             case SequenceExpressionType.ArrayOrderDescending:
@@ -1618,7 +1628,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArraySum.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArraySum.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.Sum((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.Sum((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1633,7 +1643,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayProd.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayProd.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.Prod((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.Prod((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1648,7 +1658,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayMin.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMin.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.Min((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.Min((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1663,7 +1673,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayMax.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMax.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.Max((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.Max((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1678,7 +1688,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayAvg.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayAvg.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.Avg((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.Avg((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1693,7 +1703,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayMed.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMed.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.Med((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.Med((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1708,7 +1718,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayMedUnsorted.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMedUnsorted.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1723,7 +1733,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayVar.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayVar.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.Var((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.Var((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1738,7 +1748,88 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayDev.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayDev.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.Dev((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.Dev((" + arrayType + ")(" + container + "))";
+            }
+        }
+
+        private string GetSequenceExpressionArrayAsSet(SequenceExpressionArrayAsSet seqArrayAsSet, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayAsSet, source);
+
+            if(seqArrayAsSet.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.ArrayAsSet((IList)(" + container + "))";
+            }
+            else //if(seqArrayAsSet.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayAsSet.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.ArrayAsSet((" + arrayType + ")(" + container + "))";
+            }
+        }
+
+        private string GetSequenceExpressionArrayAsMap(SequenceExpressionArrayAsMap seqArrayAsMap, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayAsMap, source);
+
+            if(seqArrayAsMap.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.ArrayAsMap((IList)(" + container + "))";
+            }
+            else //if(seqArrayAsMap.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayAsMap.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.ArrayAsMap((" + arrayType + ")(" + container + "))";
+            }
+        }
+
+        private string GetSequenceExpressionArrayAsDeque(SequenceExpressionArrayAsDeque seqArrayAsDeque, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayAsDeque, source);
+
+            if(seqArrayAsDeque.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.ArrayAsDeque((IList)(" + container + "))";
+            }
+            else //if(seqArrayAsDeque.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayAsDeque.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.ArrayAsDeque((" + arrayType + ")(" + container + "))";
+            }
+        }
+
+        private string GetSequenceExpressionArrayAsString(SequenceExpressionArrayAsString seqArrayAsString, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayAsString, source);
+
+            if(seqArrayAsString.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.ArrayAsString((IList)(" + container + "),"
+                    + GetSequenceExpression(seqArrayAsString.Separator, source) + ")";
+            }
+            else //if(seqArrayAsString.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayAsString.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.ArrayAsString((" + arrayType + ")(" + container + ")," 
+                    + GetSequenceExpression(seqArrayAsString.Separator, source) + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArraySubarray(SequenceExpressionArraySubarray seqArraySubarray, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArraySubarray, source);
+
+            if(seqArraySubarray.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Subarray((IList)(" + container + "),"
+                    + GetSequenceExpression(seqArraySubarray.Start, source) + ","
+                    + GetSequenceExpression(seqArraySubarray.Length, source) + ")";
+            }
+            else //if(seqArrayDev.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArraySubarray.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Subarray((" + arrayType + ")(" + container + "),"
+                    + GetSequenceExpression(seqArraySubarray.Start, source) + ","
+                    + GetSequenceExpression(seqArraySubarray.Length, source) + ")";
             }
         }
 
@@ -1753,7 +1844,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayOrderAscending.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrderAscending.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.ArrayOrderAscending((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.ArrayOrderAscending((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1768,7 +1859,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayOrderDescending.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrderDescending.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.ArrayOrderDescending((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.ArrayOrderDescending((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1783,7 +1874,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayKeepOneForEach.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayKeepOneForEach.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.ArrayKeepOneForEach((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.ArrayKeepOneForEach((" + arrayType + ")(" + container + "))";
             }
         }
 
@@ -1798,7 +1889,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //if(seqArrayReverse.ContainerType(env).StartsWith("array"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayReverse.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.ArrayReverse((" + arrayType + ")" + container + ")";
+                return "GRGEN_LIBGR.ContainerHelper.ArrayReverse((" + arrayType + ")(" + container + "))";
             }
         }
 

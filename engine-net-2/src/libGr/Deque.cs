@@ -42,6 +42,8 @@ namespace de.unika.ipd.grGen.libGr
         //object SyncRoot { get; } from ICollection
         //void CopyTo(Array array, int index); from ICollection
 
+        void Add(object item);
+
         int IndexOf(object item);
         int IndexOf(object item, int startIndex);
         int LastIndexOf(object item);
@@ -508,6 +510,11 @@ namespace de.unika.ipd.grGen.libGr
         public void Add(T item)
         {
             Enqueue(item);
+        }
+
+        public void Add(object item)
+        {
+            Enqueue((T)item);
         }
 
         public int IndexOf(T item)

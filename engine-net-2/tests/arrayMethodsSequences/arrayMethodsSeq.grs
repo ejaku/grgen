@@ -1,0 +1,18 @@
+new graph arrayMethodsSequences/arrayMethods
+
+exec {::x=array<int>[1,2,3].subarray(0, 2)}
+show var x
+
+exec {::x=array<int>[1,2,3].asSet()}
+show var x
+
+exec {::x=array<int>[1,2,3].asMap()}
+show var x
+
+exec {::x=array<int>[1,2,3].asDeque()}
+show var x
+
+exec {::x=array<string>["1","2","3"].asString(",")}
+show var x
+
+quit

@@ -1,0 +1,49 @@
+rule subarray(ref a:array<int>) : (array<int>)
+{
+	modify {
+	---
+		def ref o:array<int>;
+		exec({yield o=a.subarray(0, 2)});
+		return(o);
+	}
+}
+
+rule asSet(ref a:array<int>) : (set<int>)
+{
+	modify {
+	---
+		def ref o:set<int>;
+		exec({yield o=a.asSet()});
+		return(o);
+	}
+}
+
+rule asMap(ref a:array<int>) : (map<int,int>)
+{
+	modify {
+	---
+		def ref o:map<int,int>;
+		exec({yield o=a.asMap()});
+		return(o);
+	}
+}
+
+rule asDeque(ref a:array<int>) : (deque<int>)
+{
+	modify {
+	---
+		def ref o:deque<int>;
+		exec({yield o=a.asDeque()});
+		return(o);
+	}
+}
+
+rule asString(ref a:array<string>) : (string)
+{
+	modify {
+	---
+		def var o:string;
+		exec({yield o=a.asString(",")});
+		return(o);
+	}
+}

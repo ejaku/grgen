@@ -1480,6 +1480,18 @@ namespace de.unika.ipd.grGen.libGr
             return -1;
         }
 
+        public static IList Subarray(IList a, int start, int length)
+        {
+            IList newList = (IList)Activator.CreateInstance(a.GetType());
+
+            for(int i = start; i < start + length; ++i)
+            {
+                newList.Add(a[i]);
+            }
+
+            return newList;
+        }
+
         /// <summary>
         /// Creates a new dynamic array with length values copied from a from index start on.
         /// </summary>
@@ -1790,6 +1802,23 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates a new dictionary representing a set containing all values from the given list.
         /// </summary>
+        public static IDictionary ArrayAsSet(IList a)
+        {
+            Type valueType;
+            ContainerHelper.GetListType(a, out valueType);
+            IDictionary newDict = NewDictionary(valueType, typeof(SetValueType));
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newDict[a[i]] = null;
+            }
+
+            return newDict;
+        }
+
+        /// <summary>
+        /// Creates a new dictionary representing a set containing all values from the given list.
+        /// </summary>
         public static Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> ArrayAsSet<V>(List<V> a)
         {
             Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> newDict =
@@ -1798,6 +1827,23 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < a.Count; ++i)
             {
                 newDict[a[i]] = null;
+            }
+
+            return newDict;
+        }
+
+        /// <summary>
+        /// Creates a new dictionary representing a map containing all values from the given list, mapped to by their index.
+        /// </summary>
+        public static IDictionary ArrayAsMap(IList a)
+        {
+            Type valueType;
+            ContainerHelper.GetListType(a, out valueType);
+            IDictionary newDict = NewDictionary(typeof(int), valueType);
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newDict[i] = a[i];
             }
 
             return newDict;
@@ -1822,6 +1868,23 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates a new deque containing all values from the given list.
         /// </summary>
+        public static IDeque ArrayAsDeque(IList a)
+        {
+            Type valueType;
+            ContainerHelper.GetListType(a, out valueType);
+            IDeque newDeque = NewDeque(valueType);
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newDeque.Add(a[i]);
+            }
+
+            return newDeque;
+        }
+
+        /// <summary>
+        /// Creates a new deque containing all values from the given list.
+        /// </summary>
         public static Deque<V> ArrayAsDeque<V>(List<V> a)
         {
             Deque<V> newDeque = new Deque<V>();
@@ -1832,6 +1895,23 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return newDeque;
+        }
+
+        public static string ArrayAsString(IList a, string filler)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            bool first = true;
+            for(int i = 0; i < a.Count; ++i)
+            {
+                if(!first)
+                    sb.Append(filler);
+                else
+                    first = false;
+                sb.Append(a[i]);
+            }
+
+            return sb.ToString();
         }
 
         public static string ArrayAsString(List<string> a, string filler)

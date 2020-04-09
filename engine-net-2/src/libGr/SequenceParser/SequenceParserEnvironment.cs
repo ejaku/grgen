@@ -863,6 +863,31 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayReverse(targetExpr);
             }
+            else if(functionMethodName == "subarray")
+            {
+                if(argExprs.Count != 2) throw new ParseException("\"" + functionMethodName + "\" expects 2 parameters)");
+                return new SequenceExpressionArraySubarray(targetExpr, argExprs[0], argExprs[1]);
+            }
+            else if(functionMethodName == "asSet")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayAsSet(targetExpr);
+            }
+            else if(functionMethodName == "asMap")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayAsMap(targetExpr);
+            }
+            else if(functionMethodName == "asDeque")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayAsDeque(targetExpr);
+            }
+            else if(functionMethodName == "asString")
+            {
+                if(argExprs.Count != 1) throw new ParseException("\"" + functionMethodName + "\" expects 1 parameter)");
+                return new SequenceExpressionArrayAsString(targetExpr, argExprs[0]);
+            }
             else
             {
                 return CreateSequenceExpressionFunctionMethodCallUserFunction(targetExpr, functionMethodName, argExprs);

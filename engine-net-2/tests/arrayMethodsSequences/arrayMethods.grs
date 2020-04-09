@@ -1,0 +1,18 @@
+new graph arrayMethodsSequences/arrayMethods
+
+exec (::x)=subarray(array<int>[1,2,3])
+show var x
+
+exec (::x)=asSet(array<int>[1,2,3])
+show var x
+
+exec (::x)=asMap(array<int>[1,2,3])
+show var x
+
+exec (::x)=asDeque(array<int>[1,2,3])
+show var x
+
+exec (::x)=asString(array<string>["1","2","3"])
+show var x
+
+quit
