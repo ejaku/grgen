@@ -1,0 +1,32 @@
+new graph arrayAccumulation\array_accumulation_extraction
+
+exec initDuplicate
+show num nodes
+exec [r(1)]
+show num nodes
+
+clear graph
+exec initDuplicate
+show num nodes
+exec [r(1)\fko]
+show num nodes
+
+clear graph
+exec initDuplicate
+show num nodes
+exec [r(-1)\fko]
+show num nodes
+
+clear graph
+exec initDuplicate
+show num nodes
+exec tbko([?r(1)])
+show num nodes
+
+clear graph
+exec initDuplicate
+show num nodes
+exec tbko([?r(-1)])
+show num nodes
+
+quit

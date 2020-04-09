@@ -389,6 +389,23 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArrayOrderDescendingNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("keepOneForEach")) {
+				if(attributeIdent == null) {
+	  				if(params.size() != 0) {
+	  					reportError("array<T>.keepOneForEach() takes no parameters.");
+						return false;
+					}
+	  				else
+	  					result = new ArrayKeepOneForEachNode(getCoords(), targetExpr);
+				} else {
+	  				if(params.size() != 0) {
+	  					reportError("array<T>.keepOneForEach<attribute>() takes no parameters.");
+						return false;
+					}
+	  				else
+	  					result = new ArrayKeepOneForEachByNode(getCoords(), targetExpr, attributeIdent);
+				}
+  			}
 			else if(methodName.equals("orderAscendingBy")) {
   				if(params.size() != 0) {
   					reportError("array<T>.orderAscendingBy<attribute>() takes no parameters.");

@@ -2354,6 +2354,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\treturn newList;\n");
 		sb.append("\t\t}\n");
 
+		generateArrayKeepOneForEach(sb, "ArrayKeepOneForEachBy", typeName, attributeName, attributeTypeName);
+
 		sb.append("\t\tpublic static List<" + formatType(entity.getType()) + "> Extract(List<" + typeName + "> list)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tList<" + formatType(entity.getType()) + "> resultList = new List<" + formatType(entity.getType()) + ">(list.Count);\n");

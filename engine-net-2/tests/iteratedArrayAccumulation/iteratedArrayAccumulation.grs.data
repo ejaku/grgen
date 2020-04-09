@@ -2,7 +2,7 @@
 1
 [match<t>{score:3,nodes:[$2,$1,$0],nodesSet:{$2,$1,$0}}]
 1
-[match<t2>{score:6,itersSorted:[match<it>{n:$2,i:3},match<it>{n:$1,i:2},match<it>{n:$0,i:1}]}]
+[match<t2>{score:6,itersSorted:[match<it>{n:$0,i:1},match<it>{n:$1,i:2},match<it>{n:$2,i:3}],itersSortedDescending:[match<it>{n:$2,i:3},match<it>{n:$1,i:2},match<it>{n:$0,i:1}],itersWithoutDuplicates:[match<it>{n:$2,i:3},match<it>{n:$1,i:2},match<it>{n:$0,i:1}]}]
 1
 3
 0
@@ -10,4 +10,8 @@
 1
 4
 2
+1
+1
+1
+[match<t2>{score:5,itersSorted:[match<it>{n:$4,i:1},match<it>{n:$6,i:2},match<it>{n:$5,i:2}],itersSortedDescending:[match<it>{n:$5,i:2},match<it>{n:$6,i:2},match<it>{n:$4,i:1}],itersWithoutDuplicates:[match<it>{n:$6,i:2},match<it>{n:$4,i:1}]}]
 1

@@ -15,6 +15,20 @@ rule init
 	}
 }
 
+rule initDuplicate
+{	
+	modify {
+		a:A; b:A; c:A; n:N;
+
+		eval {
+			a.intValue = 1;
+			b.intValue = 2;
+			c.intValue = 2;
+			
+			n.val = 42;
+		}
+	}
+}
 rule r(var offset:int)
 {
 	a:A;
@@ -53,6 +67,13 @@ filter fod<r>
 	}
 }
 
+filter fko<r>
+{
+	if(this.keepOneForEach<i>().extract<i>().sum() > this.keepOneForEach<j>().extract<j>().sum()) {
+		this = deleteAll(this);
+	}
+}
+
 function deleteAll(ref a:array<match<r> >) : array<match<r> >
 {
 	for(i:int in [0:a.size()-1])
@@ -76,4 +97,9 @@ test tbo(ref a:array<match<r> >)
 test tbod(ref a:array<match<r> >)
 {
 	if{ a.orderDescendingBy<i>().reverse().subarray(0, 2).extract<i>().sum() < a.orderDescendingBy<j>().reverse().subarray(0, 2).extract<j>().sum(); }
+}
+
+test tbko(ref a:array<match<r> >)
+{
+	if{ a.keepOneForEach<i>().extract<i>().sum() < a.keepOneForEach<j>().extract<j>().sum(); }
 }

@@ -1130,6 +1130,7 @@ public class ActionsGen extends CSharpBase {
 			if(var.getType().isFilterableType()) {
 				generateComparerAndArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, true);
 				generateComparerAndArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, false);
+				generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var);
 			}
 		}
 
@@ -1173,6 +1174,26 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\t}\n");
 
 		sb.append("\t\t\t}\n");
+	}
+
+	void generateArrayKeepOneForEach(StringBuffer sb, Identifiable memberBearer,
+			MemberBearerType memberBearerType, Rule iteratedRule, Variable var)
+	{
+		String name = formatIdentifiable(memberBearer);
+		String iteratedNameComponent = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
+		String memberBearerClass;
+		if(memberBearerType == MemberBearerType.Action)
+			memberBearerClass = "Rule_" + name + ".";
+		else if(memberBearerType == MemberBearerType.Subpattern)
+			memberBearerClass = "Pattern_" + name + ".";
+		else //if(memberBearerType == MemberBearerType.MatchClass)
+			memberBearerClass = "";
+		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
+				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
+		String functionName = "keepOneForEachBy_" + formatIdentifiable(var);
+		String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
+
+		generateArrayKeepOneForEach(sb, arrayFunctionName, matchInterfaceName, formatEntity(var), formatType(var.getType()));
 	}
 
 	/**
@@ -1230,6 +1251,7 @@ public class ActionsGen extends CSharpBase {
 			if(var.getType().isFilterableType()) {
 				generateComparerAndArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
 				generateComparerAndArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
+				generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var);
 			}
 		}
 
@@ -3440,6 +3462,12 @@ public class ActionsGen extends CSharpBase {
 			sb.append(", false");
 			sb.append(")");
 		}
+		else if (expr instanceof ArrayKeepOneForEach) {
+			ArrayKeepOneForEach ako = (ArrayKeepOneForEach)expr;
+			sb.append("new GRGEN_EXPR.ArrayKeepOneForEach(");
+			genExpressionTree(sb, ako.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof ArrayOrderAscendingBy) {
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
 			Type arrayValueType = ((ArrayType)aoab.getTargetExpr().getType()).getValueType();
@@ -3451,7 +3479,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + graphElementType.getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", true");
+				sb.append(", GRGEN_EXPR.OrderMethod.OrderAscending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchTypeIterated) {
@@ -3464,7 +3492,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(iterated) + "\"");
 				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", true");
+				sb.append(", GRGEN_EXPR.OrderMethod.OrderAscending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchType) {
@@ -3475,7 +3503,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(rule) + "\"");
 				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", true");
+				sb.append(", GRGEN_EXPR.OrderMethod.OrderAscending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof DefinedMatchType) {
@@ -3485,7 +3513,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
 				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", true");
+				sb.append(", GRGEN_EXPR.OrderMethod.OrderAscending");
 				sb.append(")");
 			}
 		}
@@ -3500,7 +3528,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + graphElementType.getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(aodb.getMember()) + "\"");
 				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", false");
+				sb.append(", GRGEN_EXPR.OrderMethod.OrderDescending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchTypeIterated) {
@@ -3513,7 +3541,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(iterated) + "\"");
 				sb.append(", \"" + formatIdentifiable(aodb.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", false");
+				sb.append(", GRGEN_EXPR.OrderMethod.OrderDescending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchType) {
@@ -3524,7 +3552,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(rule) + "\"");
 				sb.append(", \"" + formatIdentifiable(aodb.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", false");
+				sb.append(", GRGEN_EXPR.OrderMethod.OrderDescending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof DefinedMatchType) {
@@ -3534,7 +3562,56 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
 				sb.append(", \"" + formatIdentifiable(aodb.getMember()) + "\"");
 				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", false");
+				sb.append(", GRGEN_EXPR.OrderMethod.OrderDescending");
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof ArrayKeepOneForEachBy) {
+			ArrayKeepOneForEachBy akob = (ArrayKeepOneForEachBy)expr;
+			Type arrayValueType = ((ArrayType)akob.getTargetExpr().getType()).getValueType();
+			if(arrayValueType instanceof InheritanceType) {
+				InheritanceType graphElementType = (InheritanceType)arrayValueType;
+				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
+				sb.append("new GRGEN_EXPR.ArrayOrderBy(");
+				genExpressionTree(sb, akob.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + graphElementType.getIdent().toString() + "\"");
+				sb.append(", \"" + formatIdentifiable(akob.getMember()) + "\"");
+				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(", GRGEN_EXPR.OrderMethod.KeepOneForEach");
+				sb.append(")");
+			}
+			else if(arrayValueType instanceof MatchTypeIterated) {
+				MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+				Rule rule = matchType.getAction();
+				Rule iterated = matchType.getIterated();
+				sb.append("new GRGEN_EXPR.ArrayOfIteratedMatchTypeOrderBy(");
+				genExpressionTree(sb, akob.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + formatIdentifiable(rule) + "\"");
+				sb.append(", \"" + formatIdentifiable(iterated) + "\"");
+				sb.append(", \"" + formatIdentifiable(akob.getMember()) + "\"");
+				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(", GRGEN_EXPR.OrderMethod.KeepOneForEach");
+				sb.append(")");
+			}
+			else if(arrayValueType instanceof MatchType) {
+				MatchType matchType = (MatchType)arrayValueType;
+				Rule rule = matchType.getAction();
+				sb.append("new GRGEN_EXPR.ArrayOfMatchTypeOrderBy(");
+				genExpressionTree(sb, akob.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + formatIdentifiable(rule) + "\"");
+				sb.append(", \"" + formatIdentifiable(akob.getMember()) + "\"");
+				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(", GRGEN_EXPR.OrderMethod.KeepOneForEach");
+				sb.append(")");
+			}
+			else if(arrayValueType instanceof DefinedMatchType) {
+				DefinedMatchType matchType = (DefinedMatchType)arrayValueType;
+				sb.append("new GRGEN_EXPR.ArrayOfMatchClassTypeOrderBy(");
+				genExpressionTree(sb, akob.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
+				sb.append(", \"" + formatIdentifiable(akob.getMember()) + "\"");
+				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
+				sb.append(", GRGEN_EXPR.OrderMethod.KeepOneForEach");
 				sb.append(")");
 			}
 		}

@@ -1402,29 +1402,23 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array sort by expression.
+    /// Class representing an array keep one for each expression.
     /// </summary>
-    public class ArrayOrderBy : Expression
+    public class ArrayKeepOneForEach : Expression
     {
-        public ArrayOrderBy(Expression target, string ownerType, string member, string typePackage, bool ascending)
+        public ArrayKeepOneForEach(Expression target)
         {
             Target = target;
-            OwnerType = ownerType;
-            Member = member;
-            TypePackage = typePackage;
-            Ascending = ascending;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayOrderBy(Target.Copy(renameSuffix), OwnerType, Member, TypePackage, Ascending);
+            return new ArrayKeepOneForEach(Target.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("{0}Comparer_{1}_{2}.ArrayOrder{3}By(",
-                "GRGEN_MODEL." + TypesHelper.GetPackagePrefixDot(TypePackage), 
-                OwnerType, Member, Ascending ? "Ascending" : "Descending");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.ArrayKeepOneForEach(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }
@@ -1435,36 +1429,98 @@ namespace de.unika.ipd.grGen.expression
         }
 
         readonly Expression Target;
+    }
+
+    public enum OrderMethod
+    {
+        OrderAscending, OrderDescending, KeepOneForEach
+    }
+
+    /// <summary>
+    /// Class representing an array ordering expression.
+    /// </summary>
+    public abstract class ArrayOrderByBase : Expression
+    {
+        public ArrayOrderByBase(Expression target, OrderMethod orderMethod)
+        {
+            Target = target;
+            OrderMethod = orderMethod;
+        }
+
+        public string GetOrderMethodString()
+        {
+            if(OrderMethod == OrderMethod.OrderAscending)
+                return "orderAscendingBy";
+            else if(OrderMethod == OrderMethod.OrderDescending)
+                return "orderDescendingBy";
+            else
+                return "keepOneForEachBy";
+        }
+
+        protected readonly Expression Target;
+        protected readonly OrderMethod OrderMethod;
+    }
+
+    /// <summary>
+    /// Class representing an array sort by expression.
+    /// </summary>
+    public class ArrayOrderBy : ArrayOrderByBase
+    {
+        public ArrayOrderBy(Expression target, string ownerType, string member, string typePackage, OrderMethod orderMethod)
+            : base(target, orderMethod)
+        {
+            OwnerType = ownerType;
+            Member = member;
+            TypePackage = typePackage;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new ArrayOrderBy(Target.Copy(renameSuffix), OwnerType, Member, TypePackage, OrderMethod);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("{0}Comparer_{1}_{2}.Array{3}(",
+                "GRGEN_MODEL." + TypesHelper.GetPackagePrefixDot(TypePackage), 
+                OwnerType, Member, OrderMethod.ToString() + "By");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
         readonly String OwnerType;
         readonly String Member;
         readonly String TypePackage;
-        readonly bool Ascending;
     }
 
     /// <summary>
     /// Class representing an array of action matches sort by expression.
     /// </summary>
-    public class ArrayOfMatchTypeOrderBy : Expression
+    public class ArrayOfMatchTypeOrderBy : ArrayOrderByBase
     {
-        public ArrayOfMatchTypeOrderBy(Expression target, string patternName, string member, string rulePackage, bool ascending)
+        public ArrayOfMatchTypeOrderBy(Expression target, string patternName, string member, string rulePackage, OrderMethod orderMethod)
+            : base(target, orderMethod)
         {
-            Target = target;
             PatternName = patternName;
             Member = member;
             RulePackage = rulePackage;
-            Ascending = ascending;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayOfMatchTypeOrderBy(Target.Copy(renameSuffix), PatternName, Member, RulePackage, Ascending);
+            return new ArrayOfMatchTypeOrderBy(Target.Copy(renameSuffix), PatternName, Member, RulePackage, OrderMethod);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFrontFormat("{0}MatchFilters.Array_{1}_{2}_{3}(",
                 "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
-                PatternName, Ascending ? "orderAscendingBy" : "orderDescendingBy", Member);
+                PatternName, GetOrderMethodString(), Member);
             Target.Emit(sourceCode);
             sourceCode.AppendFrontFormat(")");
         }
@@ -1474,38 +1530,35 @@ namespace de.unika.ipd.grGen.expression
             yield return Target;
         }
 
-        readonly Expression Target;
         readonly String PatternName;
         readonly String Member;
         readonly String RulePackage;
-        readonly bool Ascending;
     }
 
     /// <summary>
     /// Class representing an array of iterated matches sort by expression.
     /// </summary>
-    public class ArrayOfIteratedMatchTypeOrderBy : Expression
+    public class ArrayOfIteratedMatchTypeOrderBy : ArrayOrderByBase
     {
-        public ArrayOfIteratedMatchTypeOrderBy(Expression target, string patternName, string iteratedName, string member, string rulePackage, bool ascending)
+        public ArrayOfIteratedMatchTypeOrderBy(Expression target, string patternName, string iteratedName, string member, string rulePackage, OrderMethod orderMethod)
+            : base(target, orderMethod)
         {
-            Target = target;
             PatternName = patternName;
             IteratedName = iteratedName;
             Member = member;
             RulePackage = rulePackage;
-            Ascending = ascending;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayOfIteratedMatchTypeOrderBy(Target.Copy(renameSuffix), PatternName, IteratedName, Member, RulePackage, Ascending);
+            return new ArrayOfIteratedMatchTypeOrderBy(Target.Copy(renameSuffix), PatternName, IteratedName, Member, RulePackage, OrderMethod);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFrontFormat("{0}MatchFilters.Array_{1}_{2}_{3}_{4}(",
                 "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(RulePackage),
-                PatternName, IteratedName, Ascending ? "orderAscendingBy" : "orderDescendingBy", Member);
+                PatternName, IteratedName, GetOrderMethodString(), Member);
             Target.Emit(sourceCode);
             sourceCode.AppendFrontFormat(")");
         }
@@ -1515,38 +1568,35 @@ namespace de.unika.ipd.grGen.expression
             yield return Target;
         }
 
-        readonly Expression Target;
         readonly String PatternName;
         readonly String IteratedName;
         readonly String Member;
         readonly String RulePackage;
-        readonly bool Ascending;
     }
 
     /// <summary>
     /// Class representing an array of match class matches sort by expression.
     /// </summary>
-    public class ArrayOfMatchClassTypeOrderBy : Expression
+    public class ArrayOfMatchClassTypeOrderBy : ArrayOrderByBase
     {
-        public ArrayOfMatchClassTypeOrderBy(Expression target, string matchClassName, string member, string matchClassPackage, bool ascending)
+        public ArrayOfMatchClassTypeOrderBy(Expression target, string matchClassName, string member, string matchClassPackage, OrderMethod orderMethod)
+            : base(target, orderMethod)
         {
-            Target = target;
             MatchClassName = matchClassName;
             Member = member;
             MatchClassPackage = matchClassPackage;
-            Ascending = ascending;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayOfMatchClassTypeOrderBy(Target.Copy(renameSuffix), MatchClassName, Member, MatchClassPackage, Ascending);
+            return new ArrayOfMatchClassTypeOrderBy(Target.Copy(renameSuffix), MatchClassName, Member, MatchClassPackage, OrderMethod);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFrontFormat("{0}MatchClassFilters.Array_{1}_{2}_{3}(",
                 "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(MatchClassPackage),
-                MatchClassName, Ascending ? "orderAscendingBy" : "orderDescendingBy", Member);
+                MatchClassName, GetOrderMethodString(), Member);
             Target.Emit(sourceCode);
             sourceCode.AppendFrontFormat(")");
         }
@@ -1556,11 +1606,9 @@ namespace de.unika.ipd.grGen.expression
             yield return Target;
         }
 
-        readonly Expression Target;
         readonly String MatchClassName;
         readonly String Member;
         readonly String MatchClassPackage;
-        readonly bool Ascending;
     }
 
     /// <summary>

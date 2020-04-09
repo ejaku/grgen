@@ -11,6 +11,17 @@ rule init {
 	}
 }
 
+rule initDuplicate {
+	modify {
+		n1:N; n2:N; n3:N;
+		eval {
+			n1.i = 1;
+			n2.i = 2;
+			n3.i = 2;
+		}
+	}
+}
+
 test t
 {
 	iterated it
@@ -41,7 +52,9 @@ test t2
 	}
 ---
 	def var score:int = yield([?it].extract<i>().sum());
-	def ref itersSorted:array<match<t2.it> > = yield([?it].orderAscendingBy<i>().reverse().orderDescendingBy<i>());
+	def ref itersSorted:array<match<t2.it> > = yield([?it].orderAscendingBy<i>());
+	def ref itersSortedDescending:array<match<t2.it> > = yield([?it].orderDescendingBy<i>());
+	def ref itersWithoutDuplicates:array<match<t2.it> > = yield([?it].keepOneForEach<i>());
 	//def ref itersSet:set<match<t2.it> > = yield(itersSorted.asSet());
 }
 
@@ -69,7 +82,9 @@ rule r : (M)
 			def ref nodes:array<N> = [?it].extract<n>();
 			def ref nodesSet:set<N> = [?it].extract<n>().asSet();
 			def var score2:int = [?it].extract<i>().sum();
-			def ref itersSorted:array<match<r.it> > = [?it].orderAscendingBy<i>().reverse().orderDescendingBy<i>();
+			def ref itersSorted:array<match<r.it> > = [?it].orderAscendingBy<i>();
+			def ref itersSortedDescending:array<match<r.it> > = [?it].orderDescendingBy<i>();
+			def ref itersWithoutDuplicates:array<match<r.it> > = [?it].keepOneForEach<i>();
 			//def ref itersSet:set<match<r.it> > = itersSorted.asSet();
 			m.i = score + score2;
 		}

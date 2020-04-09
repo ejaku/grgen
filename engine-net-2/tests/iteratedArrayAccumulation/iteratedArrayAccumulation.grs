@@ -16,6 +16,12 @@ show node m
 show num nodes N
 show num nodes M
 
+clear graph
+
+exec initDuplicate
+
+eval [?t2]
+
 #exec tnested
 
 quit

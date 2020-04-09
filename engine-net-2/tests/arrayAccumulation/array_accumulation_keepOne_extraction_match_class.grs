@@ -1,0 +1,26 @@
+new graph arrayAccumulation\array_accumulation_extraction_match_class
+
+exec initDuplicate
+show num nodes
+exec [[r(1)]\mc.fko]
+show num nodes
+
+clear graph
+exec initDuplicate
+show num nodes
+exec [[r(-1)]\mc.fko]
+show num nodes
+
+clear graph
+exec initDuplicate
+show num nodes
+exec tbko([?[r(1)]\<class mc>])
+show num nodes
+
+clear graph
+exec initDuplicate
+show num nodes
+exec tbko([?[r(-1)]\<class mc>])
+show num nodes
+
+quit

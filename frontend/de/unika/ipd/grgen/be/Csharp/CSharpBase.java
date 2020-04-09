@@ -1563,6 +1563,17 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
+		else if (expr instanceof ArrayKeepOneForEach) {
+			ArrayKeepOneForEach ako = (ArrayKeepOneForEach)expr;
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ako));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayKeepOneForEach(");
+				genExpression(sb, ako.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
 		else if (expr instanceof ArrayOrderAscendingBy) {
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
 			Type arrayValueType = ((ArrayType)aoab.getTargetExpr().getType()).getValueType();
@@ -1653,6 +1664,53 @@ public abstract class CSharpBase {
 					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
 					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
 					genExpression(sb, aodb.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
+			}
+		}
+		else if (expr instanceof ArrayKeepOneForEachBy) {
+			ArrayKeepOneForEachBy akob = (ArrayKeepOneForEachBy)expr;
+			Type arrayValueType = ((ArrayType)akob.getTargetExpr().getType()).getValueType();
+			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(akob));
+			}
+			else {
+				if(arrayValueType instanceof InheritanceType) {
+					InheritanceType graphElementType = (InheritanceType)arrayValueType;
+					String comparerName = getPackagePrefixDot(graphElementType) + "Comparer_" + graphElementType.getIdent().toString() + "_" + formatIdentifiable(akob.getMember());
+					sb.append("GRGEN_MODEL." + comparerName + ".ArrayKeepOneForEachBy(");
+					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(arrayValueType instanceof MatchTypeIterated) {
+					MatchTypeIterated matchType = (MatchTypeIterated)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String iteratedName = formatIdentifiable(matchType.getIterated());
+					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + iteratedName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(arrayValueType instanceof MatchType) {
+					MatchType matchType = (MatchType)arrayValueType;
+					String rulePackage = getPackagePrefixDot(matchType.getAction());
+					String ruleName = formatIdentifiable(matchType.getAction());
+					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
+					String arrayFunctionName = "Array_" + ruleName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + rulePackage + "MatchFilters." + arrayFunctionName + "(");
+					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(arrayValueType instanceof DefinedMatchType) {
+					DefinedMatchType definedMatchType = (DefinedMatchType)arrayValueType;
+					String matchClassPackage = getPackagePrefixDot(definedMatchType);
+					String matchClassName = formatIdentifiable(definedMatchType);
+					String functionName = "keepOneForEachBy_" + formatIdentifiable(akob.getMember());
+					String arrayFunctionName = "Array_" + matchClassName + "_" + functionName;
+					sb.append("GRGEN_ACTIONS." + matchClassPackage + "MatchClassFilters." + arrayFunctionName + "(");
+					genExpression(sb, akob.getTargetExpr(), modifyGenerationState);
 					sb.append(")");
 				}
 			}
@@ -3334,6 +3392,26 @@ public abstract class CSharpBase {
 			sb.append("\t\t\treturn " + dequeName + ";\n");
 			sb.append("\t\t}\n");
 		}
+	}
+	
+	protected void generateArrayKeepOneForEach(StringBuffer sb, String arrayFunctionName, String matchInterfaceName, 
+			String memberName, String memberType)
+	{
+		sb.append("\t\t\tpublic static List<" + matchInterfaceName + "> " + arrayFunctionName + "(List<" + matchInterfaceName + "> list)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tList<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
+		
+		sb.append("\t\t\t\tDictionary<" + memberType + ", GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<" + memberType + ", GRGEN_LIBGR.SetValueType>();\n");
+		sb.append("\t\t\t\tforeach(" + matchInterfaceName + " element in list)\n");
+		sb.append("\t\t\t\t{\n");
+		sb.append("\t\t\t\t\tif(!alreadySeenMembers.ContainsKey(element.@" + memberName + ")) {\n");
+		sb.append("\t\t\t\t\t\tnewList.Add(element);\n");
+		sb.append("\t\t\t\t\t\talreadySeenMembers.Add(element.@" + memberName + ", null);\n");
+		sb.append("\t\t\t\t\t}\n");
+		sb.append("\t\t\t\t}\n");
+		
+		sb.append("\t\t\t\treturn newList;\n");
+		sb.append("\t\t\t}\n");
 	}
 
 	///////////////////////

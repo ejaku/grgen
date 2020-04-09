@@ -1646,6 +1646,28 @@ namespace de.unika.ipd.grGen.libGr
         */
 
         /// <summary>
+        /// Creates a new array containing the content of the old array but freed of duplicates.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list freed of duplicates.</returns>
+        public static List<V> ArrayKeepOneForEach<V>(List<V> a)
+        {
+            List<V> newList = new List<V>();
+
+            Dictionary<V, SetValueType> alreadySeenElements = new Dictionary<V, SetValueType>();
+            foreach(V element in a)
+            {
+                if(!alreadySeenElements.ContainsKey(element))
+                {
+                    newList.Add(element);
+                    alreadySeenElements.Add(element, null);
+                }
+            }
+
+            return newList;
+        }
+
+        /// <summary>
         /// Creates a new array containing the content of the old array but sorted.
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
