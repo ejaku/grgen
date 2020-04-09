@@ -1,0 +1,15 @@
+new graph arrayAccumulation/array_accumulation_orderByKeepOne_exec
+
+exec {::x = array<int>[1,3,2].orderAscending()}
+show var x
+
+exec {::x = array<int>[1,3,2].orderDescending()}
+show var x
+
+exec {::x = array<int>[1,3,2,2].keepOneForEach()}
+show var x
+
+exec {::x = array<int>[1,2,3].reverse()}
+show var x
+
+quit

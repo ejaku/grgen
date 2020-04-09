@@ -1,0 +1,79 @@
+rule orderAscending : (array<string>, array<string>) {
+---
+	def ref x:array<string>;
+	
+	yield { 
+		yield x = array<string>["a1","a3","a2"].orderAscending();
+	}
+	
+	modify {
+	---
+		def ref y:array<string>;
+
+		eval {
+			yield y = array<string>["a1","a3","a2"].orderAscending();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule orderDescending : (array<string>, array<string>) {
+---
+	def ref x:array<string>;
+
+	yield { 
+		yield x = array<string>["a1","a3","a2"].orderDescending();
+	}
+	
+	modify {
+	---
+		def ref y:array<string>;
+
+		eval {
+			yield y = array<string>["a1","a3","a2"].orderDescending();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule keepOneForEach : (array<string>, array<string>) {
+---
+	def ref x:array<string>;
+
+	yield { 
+		yield x = array<string>["a1","a3","a2","a2"].keepOneForEach();
+	}
+	
+	modify {
+	---
+		def ref y:array<string>;
+
+		eval {
+			yield y = array<string>["a1","a3","a2","a2"].keepOneForEach();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule reverse : (array<string>, array<string>) {
+---
+	def ref x:array<string>;
+
+	yield { 
+		yield x = array<string>["a1","a2","a3"].reverse();
+	}
+	
+	modify {
+	---
+		def ref y:array<string>;
+
+		eval {
+			yield y = array<string>["a1","a2","a3"].reverse();
+		}
+		
+		return(x,y);
+	}
+}

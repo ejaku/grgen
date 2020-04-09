@@ -1,0 +1,15 @@
+new graph arrayAccumulation/array_accumulation_orderByKeepOneString_exec
+
+exec {::x = array<string>["a1","a3","a2"].orderAscending()}
+show var x
+
+exec {::x = array<string>["a1","a3","a2"].orderDescending()}
+show var x
+
+exec {::x = array<string>["a1","a3","a2","a2"].keepOneForEach()}
+show var x
+
+exec {::x = array<string>["a1","a2","a3"].reverse()}
+show var x
+
+quit

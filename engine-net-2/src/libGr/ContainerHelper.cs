@@ -15,6 +15,11 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    public enum OrderMethod
+    {
+        OrderAscending, OrderDescending, KeepOneForEach
+    }
+
     public static partial class ContainerHelper
     {
         /// <summary>
@@ -1608,11 +1613,61 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
         /// <returns>A new List with the content of the old list sorted.</returns>
+        public static IList ArrayOrderAscending(IList a)
+        {
+            if(a is List<String>)
+                return ArrayOrderAscending((List<String>) a);
+
+            IList newList = (IList)Activator.CreateInstance(a.GetType(), a);
+
+            ArrayList.Adapter(newList).Sort();
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array but sorted.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list sorted.</returns>
         public static List<V> ArrayOrderAscending<V>(List<V> a)
         {
             List<V> newList = new List<V>(a);
 
             newList.Sort();
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array but sorted.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list sorted.</returns>
+        public static List<string> ArrayOrderAscending(List<string> a)
+        {
+            List<string> newList = new List<string>(a);
+
+            newList.Sort(StringComparer.InvariantCulture);
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array but sorted.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list sorted.</returns>
+        public static IList ArrayOrderDescending(IList a)
+        {
+            if(a is List<String>)
+                return ArrayOrderDescending((List<String>)a);
+
+            IList newList = (IList)Activator.CreateInstance(a.GetType(), a);
+
+            ArrayList adapter = ArrayList.Adapter(newList);
+            adapter.Sort();
+            adapter.Reverse();
 
             return newList;
         }
@@ -1646,6 +1701,43 @@ namespace de.unika.ipd.grGen.libGr
         */
 
         /// <summary>
+        /// Creates a new array containing the content of the old array but sorted.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list sorted.</returns>
+        public static List<string> ArrayOrderDescending(List<string> a)
+        {
+            List<string> newList = new List<string>(a);
+
+            newList.Sort(StringComparer.InvariantCulture);
+            newList.Reverse();
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new array containing the content of the old array but freed of duplicates.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <returns>A new List with the content of the old list freed of duplicates.</returns>
+        public static IList ArrayKeepOneForEach(IList a)
+        {
+            IList newList = (IList)Activator.CreateInstance(a.GetType());
+
+            Dictionary<object, SetValueType> alreadySeenElements = new Dictionary<object, SetValueType>();
+            foreach(object element in a)
+            {
+                if(!alreadySeenElements.ContainsKey(element))
+                {
+                    newList.Add(element);
+                    alreadySeenElements.Add(element, null);
+                }
+            }
+
+            return newList;
+        }
+
+        /// <summary>
         /// Creates a new array containing the content of the old array but freed of duplicates.
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
@@ -1668,30 +1760,15 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a new array containing the content of the old array but sorted.
+        /// Creates a new array containing the content of the old array but reversed.
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
-        /// <returns>A new List with the content of the old list sorted.</returns>
-        public static List<string> ArrayOrderAscending(List<string> a)
+        /// <returns>A new List with the content of the old list reversed.</returns>
+        public static IList ArrayReverse(IList a)
         {
-            List<string> newList = new List<string>(a);
+            IList newList = (IList)Activator.CreateInstance(a.GetType(), a);
 
-            newList.Sort(StringComparer.InvariantCulture);
-
-            return newList;
-        }
-
-        /// <summary>
-        /// Creates a new array containing the content of the old array but sorted.
-        /// </summary>
-        /// <param name="a">A List, i.e. dynamic array.</param>
-        /// <returns>A new List with the content of the old list sorted.</returns>
-        public static List<string> ArrayOrderDescending(List<string> a)
-        {
-            List<string> newList = new List<string>(a);
-
-            newList.Sort(StringComparer.InvariantCulture);
-            newList.Reverse();
+            ArrayList.Adapter(newList).Reverse();
 
             return newList;
         }

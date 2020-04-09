@@ -3479,7 +3479,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + graphElementType.getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.OrderAscending");
+				sb.append(", GRGEN_LIBGR.OrderMethod.OrderAscending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchTypeIterated) {
@@ -3492,7 +3492,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(iterated) + "\"");
 				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.OrderAscending");
+				sb.append(", GRGEN_LIBGR.OrderMethod.OrderAscending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchType) {
@@ -3503,7 +3503,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(rule) + "\"");
 				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.OrderAscending");
+				sb.append(", GRGEN_LIBGR.OrderMethod.OrderAscending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof DefinedMatchType) {
@@ -3513,7 +3513,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
 				sb.append(", \"" + formatIdentifiable(aoab.getMember()) + "\"");
 				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.OrderAscending");
+				sb.append(", GRGEN_LIBGR.OrderMethod.OrderAscending");
 				sb.append(")");
 			}
 		}
@@ -3528,7 +3528,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + graphElementType.getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(aodb.getMember()) + "\"");
 				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.OrderDescending");
+				sb.append(", GRGEN_LIBGR.OrderMethod.OrderDescending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchTypeIterated) {
@@ -3541,7 +3541,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(iterated) + "\"");
 				sb.append(", \"" + formatIdentifiable(aodb.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.OrderDescending");
+				sb.append(", GRGEN_LIBGR.OrderMethod.OrderDescending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchType) {
@@ -3552,7 +3552,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(rule) + "\"");
 				sb.append(", \"" + formatIdentifiable(aodb.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.OrderDescending");
+				sb.append(", GRGEN_LIBGR.OrderMethod.OrderDescending");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof DefinedMatchType) {
@@ -3562,7 +3562,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
 				sb.append(", \"" + formatIdentifiable(aodb.getMember()) + "\"");
 				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.OrderDescending");
+				sb.append(", GRGEN_LIBGR.OrderMethod.OrderDescending");
 				sb.append(")");
 			}
 		}
@@ -3577,7 +3577,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + graphElementType.getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(akob.getMember()) + "\"");
 				sb.append(", " + (cip.getPackageContainedIn()!=null ? "\"" + cip.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.KeepOneForEach");
+				sb.append(", GRGEN_LIBGR.OrderMethod.KeepOneForEach");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchTypeIterated) {
@@ -3590,7 +3590,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(iterated) + "\"");
 				sb.append(", \"" + formatIdentifiable(akob.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.KeepOneForEach");
+				sb.append(", GRGEN_LIBGR.OrderMethod.KeepOneForEach");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof MatchType) {
@@ -3601,7 +3601,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(rule) + "\"");
 				sb.append(", \"" + formatIdentifiable(akob.getMember()) + "\"");
 				sb.append(", " + (rule.getPackageContainedIn()!=null ? "\"" + rule.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.KeepOneForEach");
+				sb.append(", GRGEN_LIBGR.OrderMethod.KeepOneForEach");
 				sb.append(")");
 			}
 			else if(arrayValueType instanceof DefinedMatchType) {
@@ -3611,7 +3611,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", \"" + formatIdentifiable(matchType) + "\"");
 				sb.append(", \"" + formatIdentifiable(akob.getMember()) + "\"");
 				sb.append(", " + (matchType.getPackageContainedIn()!=null ? "\"" + matchType.getPackageContainedIn() + "\"" : "null") + "");
-				sb.append(", GRGEN_EXPR.OrderMethod.KeepOneForEach");
+				sb.append(", GRGEN_LIBGR.OrderMethod.KeepOneForEach");
 				sb.append(")");
 			}
 		}

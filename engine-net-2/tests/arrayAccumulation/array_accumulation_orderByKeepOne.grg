@@ -1,0 +1,79 @@
+rule orderAscending : (array<int>, array<int>) {
+---
+	def ref x:array<int>;
+	
+	yield { 
+		yield x = array<int>[1,3,2].orderAscending();
+	}
+	
+	modify {
+	---
+		def ref y:array<int>;
+
+		eval {
+			yield y = array<int>[1,3,2].orderAscending();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule orderDescending : (array<int>, array<int>) {
+---
+	def ref x:array<int>;
+
+	yield { 
+		yield x = array<int>[1,3,2].orderDescending();
+	}
+	
+	modify {
+	---
+		def ref y:array<int>;
+
+		eval {
+			yield y = array<int>[1,3,2].orderDescending();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule keepOneForEach : (array<int>, array<int>) {
+---
+	def ref x:array<int>;
+
+	yield { 
+		yield x = array<int>[1,3,2,2].keepOneForEach();
+	}
+	
+	modify {
+	---
+		def ref y:array<int>;
+
+		eval {
+			yield y = array<int>[1,3,2,2].keepOneForEach();
+		}
+		
+		return(x,y);
+	}
+}
+
+rule reverse : (array<int>, array<int>) {
+---
+	def ref x:array<int>;
+
+	yield { 
+		yield x = array<int>[1,2,3].reverse();
+	}
+	
+	modify {
+	---
+		def ref y:array<int>;
+
+		eval {
+			yield y = array<int>[1,2,3].reverse();
+		}
+		
+		return(x,y);
+	}
+}

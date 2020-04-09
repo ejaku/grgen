@@ -1,0 +1,33 @@
+test ti(ref x:array<string>) : (array<string>)
+{
+	return(x);
+}
+
+rule orderAscending {
+	modify {
+	---
+		exec((::x) = ti(array<string>["a1","a3","a2"].orderAscending()));
+	}
+}
+
+rule orderDescending {
+	modify {
+	---
+		exec((::x) = ti(array<string>["a1","a3","a2"].orderDescending()));
+	}
+}
+
+rule keepOneForEach {
+	modify {
+	---
+		exec((::x) = ti(array<string>["a1","a3","a2","a2"].keepOneForEach()));
+	}
+}
+
+rule reverse {
+	modify {
+	---
+		exec((::x) = ti(array<string>["a1","a2","a3"].reverse()));
+	}
+}
+

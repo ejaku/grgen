@@ -1,0 +1,15 @@
+new graph arrayAccumulation/array_accumulation_orderByKeepOne_exec
+
+exec orderAscending
+show var x
+
+exec orderDescending
+show var x
+
+exec keepOneForEach
+show var x
+
+exec reverse
+show var x
+
+quit

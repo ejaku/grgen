@@ -1,0 +1,33 @@
+test ti(ref x:array<int>) : (array<int>)
+{
+	return(x);
+}
+
+rule orderAscending {
+	modify {
+	---
+		exec((::x) = ti(array<int>[1,3,2].orderAscending()));
+	}
+}
+
+rule orderDescending {
+	modify {
+	---
+		exec((::x) = ti(array<int>[1,3,2].orderDescending()));
+	}
+}
+
+rule keepOneForEach {
+	modify {
+	---
+		exec((::x) = ti(array<int>[1,3,2,2].keepOneForEach()));
+	}
+}
+
+rule reverse {
+	modify {
+	---
+		exec((::x) = ti(array<int>[1,2,3].reverse()));
+	}
+}
+

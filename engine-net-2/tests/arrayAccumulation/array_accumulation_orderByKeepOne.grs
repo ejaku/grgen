@@ -1,0 +1,19 @@
+new graph arrayAccumulation/array_accumulation_orderByKeepOne
+
+exec (::x,::y)=orderAscending
+show var x
+show var y
+
+exec (::x,::y)=orderDescending
+show var x
+show var y
+
+exec (::x,::y)=keepOneForEach
+show var x
+show var y
+
+exec (::x,::y)=reverse
+show var x
+show var y
+
+quit

@@ -843,6 +843,26 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayDev(targetExpr);
             }
+            else if(functionMethodName == "orderAscending")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayOrderAscending(targetExpr);
+            }
+            else if(functionMethodName == "orderDescending")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayOrderDescending(targetExpr);
+            }
+            else if(functionMethodName == "keepOneForEach")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayKeepOneForEach(targetExpr);
+            }
+            else if(functionMethodName == "reverse")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayReverse(targetExpr);
+            }
             else
             {
                 return CreateSequenceExpressionFunctionMethodCallUserFunction(targetExpr, functionMethodName, argExprs);

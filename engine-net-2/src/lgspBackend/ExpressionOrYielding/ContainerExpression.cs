@@ -1431,11 +1431,6 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Target;
     }
 
-    public enum OrderMethod
-    {
-        OrderAscending, OrderDescending, KeepOneForEach
-    }
-
     /// <summary>
     /// Class representing an array ordering expression.
     /// </summary>
