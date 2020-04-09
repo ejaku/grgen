@@ -1,0 +1,30 @@
+new graph arrayAccumulation/array_accumulation_exec
+
+exec {::x = array<int>[1,2,3].sum()}
+show var x
+
+exec {::x = array<int>[1,2,3].prod()}
+show var x
+
+exec {::x = array<int>[1,2,3].min()}
+show var x
+
+exec {::x = array<int>[1,2,3].max()}
+show var x
+
+exec {::x = array<int>[1,2,3].avg()}
+show var x
+
+exec {::x = array<int>[1,2,3].med()}
+show var x
+
+exec {::x = array<int>[3,1,2].medUnsorted()}
+show var x
+
+exec {::x = array<int>[1,2,3].var()}
+show var x
+
+exec {::x = array<int>[1,2,3].dev()}
+show var x
+
+quit
