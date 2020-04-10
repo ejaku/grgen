@@ -458,6 +458,13 @@ SequenceExpression InitContainerExpr():
             {
                 res = new SequenceExpressionArrayConstructor(typeName, srcItems.ToArray());
             }
+        |
+            "("
+                value=Expression()
+            ")"
+            {
+                res = new SequenceExpressionArrayCopyConstructor(typeName, value);
+            }
         )
     |
         "deque" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }

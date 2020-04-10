@@ -1,0 +1,21 @@
+new graph arrayMethodsSequences/toArrayMethods
+
+exec {::x=set<int>{1,2,3}.asArray()}
+show var x
+
+exec {::x=map<int,int>{0->1,1->2,2->3}.asArray()}
+show var x
+
+exec {::x=deque<int>[1,2,3].asArray()}
+show var x
+
+exec {::x="1,2,3"; ::x=::x.asArray(",")}
+show var x
+
+exec {::x=array<int>[1,2,3].asArray()} # undocumented functionality
+show var x
+
+exec {::x=array<int>(array<int>[1,2,3])}
+show var x
+
+quit

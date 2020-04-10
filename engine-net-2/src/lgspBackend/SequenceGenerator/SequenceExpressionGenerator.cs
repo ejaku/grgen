@@ -246,6 +246,12 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionContainerPeek((SequenceExpressionContainerPeek)expr, source);
             case SequenceExpressionType.SetCopyConstructor:
                 return GetSequenceExpressionSetCopyConstructor((SequenceExpressionSetCopyConstructor)expr, source);
+            case SequenceExpressionType.ArrayCopyConstructor:
+                return GetSequenceExpressionArrayCopyConstructor((SequenceExpressionArrayCopyConstructor)expr, source);
+            case SequenceExpressionType.ContainerAsArray:
+                return GetSequenceExpressionContainerAsArray((SequenceExpressionContainerAsArray)expr, source);
+            case SequenceExpressionType.StringAsArray:
+                return GetSequenceExpressionStringAsArray((SequenceExpressionStringAsArray)expr, source);
             case SequenceExpressionType.SetConstructor:
             case SequenceExpressionType.ArrayConstructor:
             case SequenceExpressionType.DequeConstructor:
@@ -1569,6 +1575,58 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append(GetSequenceExpression(seqConstr.SetToCopy, source));
             sb.Append(", graph.Model)");
             return sb.ToString();
+        }
+
+        private string GetSequenceExpressionArrayCopyConstructor(SequenceExpressionArrayCopyConstructor seqConstr, SourceBuilder source)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("GRGEN_LIBGR.ContainerHelper.FillArray(new List<");
+            sb.Append(TypesHelper.XgrsTypeToCSharpType(seqConstr.ValueType, model));
+            sb.Append(">(), ");
+            sb.Append("\"");
+            sb.Append(seqConstr.ValueType);
+            sb.Append("\", ");
+            sb.Append(GetSequenceExpression(seqConstr.ArrayToCopy, source));
+            sb.Append(", graph.Model)");
+            return sb.ToString();
+        }
+
+        private string GetSequenceExpressionContainerAsArray(SequenceExpressionContainerAsArray seqContainerAsArray, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqContainerAsArray, source);
+
+            if(seqContainerAsArray.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.AsArray(" + container + ")";
+            }
+            else if(seqContainerAsArray.ContainerType(env).StartsWith("set<"))
+            {
+                string setType = TypesHelper.XgrsTypeToCSharpType(seqContainerAsArray.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.SetAsArray((" + setType + ")(" + container + "))";
+            }
+            else if(seqContainerAsArray.ContainerType(env).StartsWith("map<"))
+            {
+                string setType = TypesHelper.XgrsTypeToCSharpType(seqContainerAsArray.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.MapAsArray((" + setType + ")(" + container + "))";
+            }
+            else if(seqContainerAsArray.ContainerType(env).StartsWith("deque<"))
+            {
+                string setType = TypesHelper.XgrsTypeToCSharpType(seqContainerAsArray.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.DequeAsArray((" + setType + ")(" + container + "))";
+            }
+            else //if(seqContainerAsArray.ContainerType(env).StartsWith("array<"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqContainerAsArray.ContainerType(env), model);
+                return "((" + arrayType + ")(" + container + "))";
+            }
+        }
+
+        private string GetSequenceExpressionStringAsArray(SequenceExpressionStringAsArray seqStringAsArray, SourceBuilder source)
+        {
+            return "GRGEN_LIBGR.ContainerHelper.StringAsArray(" 
+                + "(string)(" + GetSequenceExpression(seqStringAsArray.StringExpr, source) + ")," 
+                + "(string)(" + GetSequenceExpression(seqStringAsArray.SeparatorExpr, source) + "))";
         }
 
         private string GetSequenceExpressionContainerConstructor(SequenceExpressionContainerConstructor seqConstr, SourceBuilder source)

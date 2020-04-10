@@ -485,6 +485,65 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static IList FillArray(IList arrayToCopyTo, string valueTypeName, object hopefullyArrayToCopy, IGraphModel model)
+        {
+            if(hopefullyArrayToCopy is IList)
+                return FillArray(arrayToCopyTo, valueTypeName, (IList)hopefullyArrayToCopy, model);
+            throw new Exception("Array copy constructor expects array as source.");
+        }
+
+        public static IList FillArray(IList arrayToCopyTo, string valueTypeName, IList arrayToCopy, IGraphModel model)
+        {
+            NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
+            if(nodeType != null)
+                FillArrayWithNode(arrayToCopyTo, nodeType, arrayToCopy);
+            else
+            {
+                EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
+                if(edgeType != null)
+                    FillArrayWithEdge(arrayToCopyTo, edgeType, arrayToCopy);
+                else
+                {
+                    Type varType = TypesHelper.GetType(valueTypeName, model);
+                    FillArrayWithVar(arrayToCopyTo, varType, arrayToCopy);
+                }
+            }
+            return arrayToCopyTo;
+        }
+
+        public static void FillArrayWithNode(IList targetArray, NodeType nodeType, IList sourceArray)
+        {
+            foreach(object entry in sourceArray)
+            {
+                INode node = entry as INode;
+                if(node == null)
+                    continue;
+                if(node.InstanceOf(nodeType))
+                    targetArray.Add(entry);
+            }
+        }
+
+        public static void FillArrayWithEdge(IList targetArray, EdgeType edgeType, IList sourceArray)
+        {
+            foreach(object entry in sourceArray)
+            {
+                IEdge edge = entry as IEdge;
+                if(edge == null)
+                    continue;
+                if(edge.InstanceOf(edgeType))
+                    targetArray.Add(entry);
+            }
+        }
+
+        public static void FillArrayWithVar(IList targetArray, Type varType, IList sourceArray)
+        {
+            foreach(object entry in sourceArray)
+            {
+                if(entry.GetType() == varType)
+                    targetArray.Add(entry);
+            }
+        }
+
         public static List<K> FillArray<K>(List<K> arrayToCopyTo, string valueTypeName, object hopefullyArrayToCopy, IGraphModel model)
         {
             if(hopefullyArrayToCopy is IList)
@@ -743,6 +802,24 @@ namespace de.unika.ipd.grGen.libGr
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);
             return (IList)Activator.CreateInstance(listType, oldList);
+        }
+
+        /// <summary>
+        /// Creates a new List of the given value type,
+        /// initialized with the given capacity
+        /// </summary>
+        /// <param name="valueType">The value type of the List to be created</param>
+        /// <param name="capacity">The capacity of the new list</param>
+        /// <returns>The newly created List, containing the content of the old List,
+        /// null if unsuccessfull</returns>
+        public static IList NewList(Type valueType, int capacity)
+        {
+            if(valueType == null)
+                return null;
+
+            Type genListType = typeof(List<>);
+            Type listType = genListType.MakeGenericType(valueType);
+            return (IList)Activator.CreateInstance(listType, capacity);
         }
 
         /// <summary>
@@ -1368,7 +1445,47 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a new dictionary representing a set containing all values from the given list.
+        /// Creates a new list containing all values from the given dictionary representing a set.
+        /// </summary>
+        public static IList AsArray(object container, IGraphModel model)
+        {
+            if(container is IList)
+                return (IList)container;
+            else if(container is IDictionary)
+            {
+                Type keyType;
+                Type valueType;
+                ContainerHelper.GetDictionaryTypes(container, out keyType, out valueType);
+                if(valueType.Name == "SetValueType")
+                    return SetAsArray((IDictionary)container);
+                else
+                    return MapAsArray((IDictionary)container, model);
+            }
+            else if(container is IDeque)
+                return DequeAsArray((IDeque)container);
+            return null;
+        }
+
+        /// <summary>
+        /// Creates a new list containing all values from the given dictionary representing a set.
+        /// </summary>
+        public static IList SetAsArray(IDictionary a)
+        {
+            Type keyType;
+            Type valueType;
+            ContainerHelper.GetDictionaryTypes(a, out keyType, out valueType);
+            IList newList = NewList(keyType);
+
+            foreach(DictionaryEntry entry in a)
+            {
+                newList.Add(entry.Key);
+            }
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new list containing all values from the given dictionary representing a set.
         /// </summary>
         public static List<V> SetAsArray<V>(Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> a)
         {
@@ -2118,6 +2235,23 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates a new list representing an array containing all values from the given deque.
         /// </summary>
+        public static IList DequeAsArray(IDeque a)
+        {
+            Type valueType;
+            ContainerHelper.GetDequeType(a, out valueType);
+            IList newArray = NewList(valueType);
+
+            for(int i = 0; i < a.Count; ++i)
+            {
+                newArray.Add(a[i]);
+            }
+
+            return newArray;
+        }
+
+        /// <summary>
+        /// Creates a new list representing an array containing all values from the given deque.
+        /// </summary>
         public static List<V> DequeAsArray<V>(Deque<V> a)
         {
             List<V> newArray = new List<V>();
@@ -2274,6 +2408,39 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="map">A dictionary representing a map.</param>
         /// <returns>A new list containing all values from <paramref name="map"/>.</returns>
+        public static IList MapAsArray(IDictionary map, IGraphModel model)
+        {
+            int max = 0;
+            foreach(int i in map.Keys)
+            {
+                if(i < 0)
+                    throw new Exception("MapAsArray does not support negative indices");
+                max = Math.Max(max, i);
+            }
+
+            Type keyType;
+            Type valueType;
+            ContainerHelper.GetDictionaryTypes(map, out keyType, out valueType);
+            IList newList = NewList(valueType, max + 1); // yep, if the dict contains max int, contiguous 8GB are needed
+
+            // Add all values of dictionary representing map to new dictionary representing set
+            for(int i = 0; i < max + 1; ++i)
+            {
+                if(map.Contains(i))
+                    newList.Add(map[i]);
+                else
+                    newList.Add(TypesHelper.DefaultValue(valueType.Name, model));
+            }
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Creates a new list representing an array,
+        /// containing all values from the given dictionary representing a map <paramref name="map"/> from int to some values.
+        /// </summary>
+        /// <param name="map">A dictionary representing a map.</param>
+        /// <returns>A new list containing all values from <paramref name="map"/>.</returns>
         public static List<V> MapAsArray<V>(Dictionary<int, V> map)
         {
             int max = 0;
@@ -2283,15 +2450,15 @@ namespace de.unika.ipd.grGen.libGr
                     throw new Exception("MapAsArray does not support negative indices");
                 max = Math.Max(max, i);
             }
-            List<V> newList = new List<V>(max); // yep, if the dict contains max int, contiguous 8GB are needed
+            List<V> newList = new List<V>(max + 1); // yep, if the dict contains max int, contiguous 8GB are needed
 
             // Add all values of dictionary representing map to new dictionary representing set
-            for(int i = 0; i < map.Count; ++i)
+            for(int i = 0; i < max + 1; ++i)
             {
                 if(map.ContainsKey(i))
-                    newList[i] = map[i];
+                    newList.Add(map[i]);
                 else
-                    newList[i] = default(V);
+                    newList.Add(default(V));
             }
 
             return newList;

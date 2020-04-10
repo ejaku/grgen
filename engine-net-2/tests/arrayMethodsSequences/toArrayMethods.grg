@@ -1,0 +1,59 @@
+rule asArray(ref a:set<int>) : (array<int>)
+{
+	modify {
+	---
+		def ref o:array<int>;
+		exec({yield o=a.asArray()});
+		return(o);
+	}
+}
+
+rule asArrayFromMap(ref a:map<int,int>) : (array<int>)
+{
+	modify {
+	---
+		def ref o:array<int>;
+		exec({yield o=a.asArray()});
+		return(o);
+	}
+}
+
+rule asArrayFromDeque(ref a:deque<int>) : (array<int>)
+{
+	modify {
+	---
+		def ref o:array<int>;
+		exec({yield o=a.asArray()});
+		return(o);
+	}
+}
+
+rule asArrayFromString(var a:string) : (array<string>)
+{
+	modify {
+	---
+		def ref o:array<string>;
+		exec({yield o=a.asArray(",")});
+		return(o);
+	}
+}
+
+rule asArrayFromArray(ref a:array<int>) : (array<int>)
+{
+	modify {
+	---
+		def ref o:array<int>;
+		exec({yield o=a.asArray()});
+		return(o);
+	}
+}
+
+rule arrayFromArray(ref a:array<int>) : (array<int>)
+{
+	modify {
+	---
+		def ref o:array<int>;
+		exec({yield o=array<int>(a)});
+		return(o);
+	}
+}

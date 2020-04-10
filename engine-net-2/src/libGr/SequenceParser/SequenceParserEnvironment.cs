@@ -888,6 +888,14 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 if(argExprs.Count != 1) throw new ParseException("\"" + functionMethodName + "\" expects 1 parameter)");
                 return new SequenceExpressionArrayAsString(targetExpr, argExprs[0]);
             }
+            else if(functionMethodName == "asArray")
+            {
+                if(argExprs.Count != 0 && argExprs.Count != 1) throw new ParseException("\"" + functionMethodName + "\" expects none or one parameter)");
+                if(argExprs.Count == 0)
+                    return new SequenceExpressionContainerAsArray(targetExpr);
+                else
+                    return new SequenceExpressionStringAsArray(targetExpr, argExprs[0]);
+            }
             else
             {
                 return CreateSequenceExpressionFunctionMethodCallUserFunction(targetExpr, functionMethodName, argExprs);

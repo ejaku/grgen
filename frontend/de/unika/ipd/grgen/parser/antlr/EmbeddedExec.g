@@ -533,9 +533,9 @@ seqInitArrayExpr [ExecNode xg, ArrayTypeNode arrayType] returns [ ExprNode res =
 			( COMMA { xg.append(","); } item2=seqArrayItem[xg] { arrayInit.addArrayItem(item2); } )*
 		)?
 	  RBRACK { xg.append("]"); }
-	/*| l=LPAREN { xg.append("("); } value=seqExpression[xg]
+	| l=LPAREN { xg.append("("); } value=seqExpression[xg]
 		{ res = new ArrayCopyConstructorNode(getCoords(l), null, arrayType, value); }
-	  RPAREN { xg.append(")"); }*/
+	  RPAREN { xg.append(")"); }
 	;
 
 seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ ExprNode res = null ]
