@@ -2859,7 +2859,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.Sqr(");
+            sourceCode.Append("GRGEN_LIBGR.MathHelper.Sqr(");
             Expr.Emit(sourceCode);
             sourceCode.Append(")");
         }

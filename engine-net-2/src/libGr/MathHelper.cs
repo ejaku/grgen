@@ -9,7 +9,7 @@
 
 namespace de.unika.ipd.grGen.libGr
 {
-    public static partial class ContainerHelper
+    public static class MathHelper
     {
         public static double Sqr(double argument)
         {

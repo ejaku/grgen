@@ -2924,7 +2924,7 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof SqrExpr) {
 			SqrExpr s = (SqrExpr)expr;
-			sb.append("GRGEN_LIBGR.ContainerHelper.Sqr(");
+			sb.append("GRGEN_LIBGR.MathHelper.Sqr(");
 			genExpression(sb, s.getExpr(), modifyGenerationState);
 			sb.append(")");
 		}
