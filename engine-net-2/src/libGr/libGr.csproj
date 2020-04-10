@@ -73,7 +73,7 @@
     <Compile Include="Actions\IMatchClass.cs" />
     <Compile Include="Actions\IProcedureDefinitionAndInfo.cs" />
     <Compile Include="Actions\ISequenceDefinitionAndInfo.cs" />
-    <Compile Include="ArrayHelper.cs" />
+    <Compile Include="ArrayAccumulationHelper.cs" />
     <Compile Include="PatternsAndMatches\IAlternative.cs" />
     <Compile Include="PatternsAndMatches\IIterated.cs" />
     <Compile Include="PatternsAndMatches\IMatch.cs" />
