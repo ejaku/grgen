@@ -33,10 +33,7 @@ public class MemberAccessExprNode extends ExprNode
 
 	private ExprNode targetExpr; // resulting from primary expression, most often an IdentExprNode
 	private IdentNode memberIdent;
-	private MemberDeclNode member;
-	private NodeDeclNode node;
-	private EdgeDeclNode edge;
-	private VarDeclNode var;
+	private DeclNode member;
 	
 	public MemberAccessExprNode(Coords coords, ExprNode targetExpr, IdentNode memberIdent) {
 		super(coords);
@@ -88,10 +85,8 @@ public class MemberAccessExprNode extends ExprNode
 				reportError("Error in test/rule referenced by match type in filter function");
 				return false;
 			}
-			node = test.tryGetNode(memberIdent.toString());
-			edge = test.tryGetEdge(memberIdent.toString());
-			var = test.tryGetVar(memberIdent.toString());
-			if(node==null && edge==null && var==null) {
+			member = matchType.tryGetMember(memberIdent.toString());
+			if(member == null) {
 				String memberName = memberIdent.toString();
 				String actionName = test.getIdentNode().toString();
 				reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName + " referenced by match type in filter function");
@@ -106,10 +101,8 @@ public class MemberAccessExprNode extends ExprNode
 				reportError("Unkown match class referenced by match class type in match class filter function");
 				return false;
 			}
-			node = definedMatchType.tryGetNode(memberIdent.toString());
-			edge = definedMatchType.tryGetEdge(memberIdent.toString());
-			var = definedMatchType.tryGetVar(memberIdent.toString());
-			if(node==null && edge==null && var==null) {
+			member = definedMatchType.tryGetMember(memberIdent.toString());
+			if(member == null) {
 				String memberName = memberIdent.toString();
 				String matchClassName = definedMatchType.getIdentNode().toString();
 				reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName + " referenced by match class filter function");
@@ -154,19 +147,14 @@ public class MemberAccessExprNode extends ExprNode
 	protected final MemberDeclNode getDecl() {
 		assert isResolved();
 
-		return member;
+		return member instanceof MemberDeclNode ? (MemberDeclNode)member : null;
 	}
 
 	@Override
 	public TypeNode getType() {
 		TypeNode declType = null;
 		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
-			if(node!=null)
-				declType = node.getDeclType();
-			else if(edge!=null)
-				declType = edge.getDeclType();
-			else if(var!=null)
-				declType = var.getDeclType();
+			declType = member.getDeclType();
 		} else {
 			declType = member.getDecl().getDeclType(); // untyped exec var type in case owner is an untyped exec var
 		}
@@ -176,13 +164,9 @@ public class MemberAccessExprNode extends ExprNode
 	@Override
 	protected IR constructIR() {
 		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
-			if(node!=null)
-				return new MatchAccess(targetExpr.checkIR(Expression.class), node.getNode());
-			else if(edge!=null)
-				return new MatchAccess(targetExpr.checkIR(Expression.class), edge.getEdge());
-			else
-				return new MatchAccess(targetExpr.checkIR(Expression.class), var.getVariable());
+			return new MatchAccess(targetExpr.checkIR(Expression.class), member.checkIR(Entity.class));
 		}
+		
 		if(targetExpr.getIR() instanceof VariableExpression) {
 			return new Qualification(
 				targetExpr.checkIR(VariableExpression.class).getVariable(),

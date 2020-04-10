@@ -34,10 +34,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	private DeclNode owner;
 
 	protected IdentNode memberUnresolved;
-	private MemberDeclNode member;
-	private NodeDeclNode node;
-	private EdgeDeclNode edge;
-	private VarDeclNode var;
+	private DeclNode member;
 
 	/**
 	 * Make a new identifier qualify node.
@@ -57,7 +54,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(ownerUnresolved, owner));
-		children.add(getValidVersion(memberUnresolved, member, node, edge, var));
+		children.add(getValidVersion(memberUnresolved, member));
 		return children;
 	}
 
@@ -115,10 +112,8 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 					reportError("Error in test/rule referenced by match type");
 					return false;
 				}
-				node = test.tryGetNode(memberUnresolved.toString());
-				edge = test.tryGetEdge(memberUnresolved.toString());
-				var = test.tryGetVar(memberUnresolved.toString());
-				if(node==null && edge==null && var==null) {
+				member = matchType.tryGetMember(memberUnresolved.toString());
+				if(member == null) {
 					String memberName = memberUnresolved.toString();
 					String actionName = test.getIdentNode().toString();
 					reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
@@ -126,14 +121,12 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 				}
 			} else if(owner instanceof VarDeclNode && owner.getDeclType() instanceof DefinedMatchTypeNode) {
 				DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)owner.getDeclType();
-				/*if(!definedMatchType.resolve()) {
+				if(!definedMatchType.resolve()) {
 					reportError("Unkown match class referenced by match class type");
 					return false;
-				}*/
-				node = definedMatchType.tryGetNode(memberUnresolved.toString());
-				edge = definedMatchType.tryGetEdge(memberUnresolved.toString());
-				var = definedMatchType.tryGetVar(memberUnresolved.toString());
-				if(node==null && edge==null && var==null) {
+				}
+				member = definedMatchType.tryGetMember(memberUnresolved.toString());
+				if(member == null) {
 					String memberName = memberUnresolved.toString();
 					String matchClassName = definedMatchType.getIdentNode().toString();
 					reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
@@ -172,7 +165,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	public MemberDeclNode getDecl() {
 		assert isResolved();
 
-		return member;
+		return member instanceof MemberDeclNode ? (MemberDeclNode)member : null;
 	}
 
 	protected DeclNode getOwner() {
@@ -184,40 +177,19 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	public boolean isMatchAssignment() {
 		assert isResolved();
 
-		return node!=null || edge!=null || var!=null;
+		return !(member instanceof MemberDeclNode);
 	}
 	
-	public NodeDeclNode getNodeFromMatch() {
+	public DeclNode getMember() {
 		assert isResolved();
 
-		return node;
-	}
-
-	public EdgeDeclNode getEdgeFromMatch() {
-		assert isResolved();
-
-		return edge;
-	}
-	
-	public VarDeclNode getVarFromMatch() {
-		assert isResolved();
-
-		return var;
+		return member;
 	}
 
 	@Override
 	protected IR constructIR() {
 		Entity ownerIR = owner.checkIR(Entity.class);
-		Entity memberIR;
-		if(member!=null)
-			memberIR = member.checkIR(Entity.class);
-		else if(node!=null)
-			memberIR = node.checkIR(Entity.class);
-		else if(edge!=null)
-			memberIR = edge.checkIR(Entity.class);
-		else
-			memberIR = var.checkIR(Entity.class);
-
+		Entity memberIR = member.checkIR(Entity.class);
 		return new Qualification(ownerIR, memberIR);
 	}
 

@@ -15,26 +15,12 @@ import de.unika.ipd.grgen.ir.*;
 
 public class MatchAccess extends Expression {
 	Expression expression;
-	Node node;
-	Edge edge;
-	Variable var;
+	Entity entity; // member
 	
-	public MatchAccess(Expression expression, Node node) {
-		super("match access", node.getNodeType());
+	public MatchAccess(Expression expression, Entity entity) {
+		super("match access", entity.getType());
 		this.expression = expression;
-		this.node = node;
-	}
-
-	public MatchAccess(Expression expression, Edge edge) {
-		super("match access", edge.getEdgeType());
-		this.expression = expression;
-		this.edge = edge;
-	}
-
-	public MatchAccess(Expression expression, Variable var) {
-		super("match access", var.getType());
-		this.expression = expression;
-		this.var = var;
+		this.entity = entity;
 	}
 	
 	public Expression getExpr() {
@@ -42,12 +28,7 @@ public class MatchAccess extends Expression {
 	}
 
 	public Entity getEntity() {
-		if(node!=null)
-			return node;
-		else if(edge!=null)
-			return edge;
-		else
-			return var;
+		return entity;
 	}
 	
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */

@@ -278,12 +278,8 @@ public class AssignNode extends EvalStatementNode {
 		if(lhsQual!=null) {
 			if(!lhsQual.isMatchAssignment())
 				targetType = lhsQual.getDecl().getDeclType();
-			else if(lhsQual.getNodeFromMatch()!=null)
-				targetType = lhsQual.getNodeFromMatch().getDeclType();
-			else if(lhsQual.getEdgeFromMatch()!=null)
-				targetType = lhsQual.getEdgeFromMatch().getDeclType();
 			else
-				targetType = lhsQual.getVarFromMatch().getDeclType();
+				targetType = lhsQual.getMember().getDeclType();
 		}
 		if(lhsVar!=null) targetType = lhsVar.getDeclType();
 		if(lhsGraphElement!=null) targetType = lhsGraphElement.getDeclType();

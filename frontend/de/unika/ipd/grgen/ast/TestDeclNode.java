@@ -492,18 +492,6 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		return "action";
 	}
 	
-	public NodeDeclNode tryGetNode(String name) {
-		return pattern.tryGetNode(name);
-	}
-
-	public EdgeDeclNode tryGetEdge(String name) {
-		return pattern.tryGetEdge(name);
-	}
-
-	public VarDeclNode tryGetVar(String name) {
-		return pattern.tryGetVar(name);
-	}
-
 	@Override
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
