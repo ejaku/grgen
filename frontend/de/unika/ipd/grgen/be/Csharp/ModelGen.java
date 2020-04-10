@@ -2251,41 +2251,32 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String comparerClassName = "Comparer_" + type.getIdent().toString() + "_" + attributeName;
 		String reverseComparerClassName = "ReverseComparer_" + type.getIdent().toString() + "_" + attributeName;
 		
-		if(!type.isAbstract() && type.getExternalName()==null) 
-		{
-			genAttributeArrayReverseComparer(type, entity);
-			
-			sb.append("\n\tpublic class " + comparerClassName + " : Comparer<" + typeName + ">\n");
-			sb.append("\t{\n");
-
-			if(type instanceof EdgeType)
-				sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(type) + "(null, null);\n");
-			else
-				sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(type) + "();\n");
-		}
+		InheritanceType nonAbstractTypeOrSubtype = null;
+		if(!type.isAbstract() && type.getExternalName() == null) 
+			nonAbstractTypeOrSubtype = type;
 		else
 		{
-			boolean nonAbstractSubtypeFound = false;
 			for(InheritanceType subtype : type.getAllSubTypes()) {
-				if(!subtype.isAbstract() && type.getExternalName()==null)
+				if(!subtype.isAbstract() && type.getExternalName() == null)
 				{
-					genAttributeArrayReverseComparer(type, entity);
-
-					sb.append("\n\tpublic class " + comparerClassName + " : Comparer<" + typeName + ">\n");
-					sb.append("\t{\n");
-
-					if(type instanceof EdgeType)
-						sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(subtype) + "(null, null);\n");
-					else
-						sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(subtype) + "();\n");
-					
-					nonAbstractSubtypeFound = true;
+					nonAbstractTypeOrSubtype = subtype;
 					break;
 				}
 			}
-			if(!nonAbstractSubtypeFound)
-				return; // can't generate comparer for abstract types that have no concrete subtype
 		}
+		
+		if(nonAbstractTypeOrSubtype == null)
+			return; // can't generate comparer for abstract types that have no concrete subtype
+
+		genAttributeArrayReverseComparer(type, entity);
+
+		sb.append("\n\tpublic class " + comparerClassName + " : Comparer<" + typeName + ">\n");
+		sb.append("\t{\n");
+
+		if(type instanceof EdgeType)
+			sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
+		else
+			sb.append("\t\tprivate static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "();\n");
 		
 		sb.append("\t\tprivate static " + comparerClassName + " thisComparer = new " + comparerClassName + "();\n");
 		
