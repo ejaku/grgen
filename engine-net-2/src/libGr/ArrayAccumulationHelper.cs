@@ -708,12 +708,5 @@ namespace de.unika.ipd.grGen.libGr
             else
                 return Dev(array as List<Double>);
         }
-
-        /////////////////////////////////////////////////////////////////////////////////
-
-        public static double Sqr(double argument) // somewhat misplaced here, move to MathHelper/MiscHelper
-        {
-            return argument * argument;
-        }
     }
 }
