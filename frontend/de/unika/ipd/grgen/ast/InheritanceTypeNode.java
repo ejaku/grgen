@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.parser.Symbol;
 /**
  * Base class for compound types, that allow inheritance.
  */
-public abstract class InheritanceTypeNode extends CompoundTypeNode
+public abstract class InheritanceTypeNode extends CompoundTypeNode implements MemberAccessor
 {
 	public static final int MOD_CONST = 1;
 	public static final int MOD_ABSTRACT = 2;
@@ -249,6 +249,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	protected abstract Collection<? extends InheritanceTypeNode> getDirectSuperTypes();
 
 	protected abstract void getMembers(Map<String, DeclNode> members);
+
+	public DeclNode tryGetMember(String name)
+	{
+		return getAllMembers().get(name);
+	}
 
 	/** Returns all members (including inherited ones) of this type. */
 	public Map<String, DeclNode> getAllMembers()

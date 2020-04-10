@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 
-public class MatchTypeNode extends DeclaredTypeNode {
+public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor {
 	static {
 		setName(MatchTypeNode.class, "match type");
 	}
@@ -95,6 +95,16 @@ public class MatchTypeNode extends DeclaredTypeNode {
 	public TestDeclNode getTest() {
 		assert(isResolved());
 		return action;
+	}
+
+	public DeclNode tryGetMember(String name) {
+		NodeDeclNode node = action.pattern.tryGetNode(name);
+		if(node != null)
+			return node;
+		EdgeDeclNode edge = action.pattern.tryGetEdge(name);
+		if(edge != null)
+			return edge;
+		return action.pattern.tryGetVar(name);
 	}
 
 	/** Returns the IR object for this match type node. */

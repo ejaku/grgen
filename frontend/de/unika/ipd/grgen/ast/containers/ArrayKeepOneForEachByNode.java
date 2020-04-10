@@ -31,10 +31,7 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 
 	private ExprNode targetExpr;
 	private IdentNode attribute;
-	private MemberDeclNode member;
-	private NodeDeclNode node;
-	private EdgeDeclNode edge;
-	private VarDeclNode var;
+	private DeclNode member;
 	
 	public ArrayKeepOneForEachByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
 	{
@@ -84,11 +81,8 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 			}
 			TestDeclNode test = matchType.getTest();
 			IteratedNode iterated = matchType.getIterated();
-			PatternGraphNode iteratedPattern = iterated.getLeft();
-			node = iteratedPattern.tryGetNode(attribute.toString());
-			edge = iteratedPattern.tryGetEdge(attribute.toString());
-			var = iteratedPattern.tryGetVar(attribute.toString());
-			if(node==null && edge==null && var==null) {
+			member = matchType.tryGetMember(attribute.toString());
+			if(member == null) {
 				String memberName = attribute.toString();
 				String actionName = test.getIdentNode().toString();
 				String iteratedName = iterated.getIdentNode().toString();
@@ -101,10 +95,8 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 				return false;
 			}
 			TestDeclNode test = matchType.getTest();
-			node = test.tryGetNode(attribute.toString());
-			edge = test.tryGetEdge(attribute.toString());
-			var = test.tryGetVar(attribute.toString());
-			if(node==null && edge==null && var==null) {
+			member = matchType.tryGetMember(attribute.toString());
+			if(member == null) {
 				String memberName = attribute.toString();
 				String actionName = test.getIdentNode().toString();
 				reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
@@ -115,10 +107,8 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 			if(!definedMatchType.resolve()) {
 				return false;
 			}
-			node = definedMatchType.tryGetNode(attribute.toString());
-			edge = definedMatchType.tryGetEdge(attribute.toString());
-			var = definedMatchType.tryGetVar(attribute.toString());
-			if(node==null && edge==null && var==null) {
+			member = definedMatchType.tryGetMember(attribute.toString());
+			if(member == null) {
 				String memberName = attribute.toString();
 				String matchClassName = definedMatchType.getIdentNode().toString();
 				reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
@@ -131,7 +121,7 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 			if(member == null)
 				return false;
 				
-			if(member.isConst()) {
+			if(((MemberDeclNode)member).isConst()) {
 				reportError("keepOneForEach cannot be used on const attributes.");
 			}
 		}
@@ -157,28 +147,16 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 	}
 
 	private TypeNode getTypeOfElementToBeExtracted() {
-		if(member!=null)
+		if(member != null)
 			return member.getDeclType();
-		else if(node!=null)
-			return node.getDeclType();
-		else if(edge!=null)
-			return edge.getDeclType();
-		else if(var!=null)
-			return var.getDeclType();
 		return null;
 	}
 
 	@Override
 	protected IR constructIR() {
-		Entity accessedMember;
-		if(member!=null)
+		Entity accessedMember = null;
+		if(member != null)
 			accessedMember = member.checkIR(Entity.class);
-		else if(node!=null)
-			accessedMember = node.checkIR(Entity.class);
-		else if(edge!=null)
-			accessedMember = edge.checkIR(Entity.class);
-		else
-			accessedMember = var.checkIR(Entity.class);
 		
 		return new ArrayKeepOneForEachBy(targetExpr.checkIR(Expression.class),
 				accessedMember);

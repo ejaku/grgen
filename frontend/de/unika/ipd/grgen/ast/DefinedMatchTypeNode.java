@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.MatchClassFilterFunction;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Variable;
 
-public class DefinedMatchTypeNode extends DeclaredTypeNode {
+public class DefinedMatchTypeNode extends DeclaredTypeNode implements MemberAccessor {
 	static {
 		setName(DefinedMatchTypeNode.class, "defined match type");
 	}
@@ -138,6 +138,16 @@ public class DefinedMatchTypeNode extends DeclaredTypeNode {
 	}
 
 	public VarDeclNode tryGetVar(String name) {
+		return pattern.tryGetVar(name);
+	}
+
+	public DeclNode tryGetMember(String name) {
+		NodeDeclNode node = pattern.tryGetNode(name);
+		if(node != null)
+			return node;
+		EdgeDeclNode edge = pattern.tryGetEdge(name);
+		if(edge != null)
+			return edge;
 		return pattern.tryGetVar(name);
 	}
 

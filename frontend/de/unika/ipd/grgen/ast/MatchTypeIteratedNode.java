@@ -116,6 +116,17 @@ public class MatchTypeIteratedNode extends MatchTypeNode {
 		return iterated;
 	}
 
+	@Override
+	public DeclNode tryGetMember(String name) {
+		NodeDeclNode node = iterated.getLeft().tryGetNode(name);
+		if(node != null)
+			return node;
+		EdgeDeclNode edge = iterated.getLeft().tryGetEdge(name);
+		if(edge != null)
+			return edge;
+		return iterated.getLeft().tryGetVar(name);
+	}
+
 	/** Returns the IR object for this match type node. */
 	public MatchTypeIterated getMatchTypeIterated() {
 		return checkIR(MatchTypeIterated.class);
