@@ -74,6 +74,9 @@
     <Compile Include="Actions\IProcedureDefinitionAndInfo.cs" />
     <Compile Include="Actions\ISequenceDefinitionAndInfo.cs" />
     <Compile Include="ArrayAccumulationHelper.cs" />
+    <Compile Include="ArrayHelper.cs" />
+    <Compile Include="DequeHelper.cs" />
+    <Compile Include="MapHelper.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="PatternsAndMatches\IAlternative.cs" />
     <Compile Include="PatternsAndMatches\IIterated.cs" />
@@ -155,6 +158,8 @@
     <Compile Include="Sequence\SequenceVariable.cs" />
     <Compile Include="IO\set.cs" />
     <Compile Include="SequenceParser\SimpleCharStream.cs" />
+    <Compile Include="SetHelper.cs" />
+    <Compile Include="DictionaryHelper.cs" />
     <Compile Include="SetValueType.cs" />
     <Compile Include="SingleLinkedList.cs" />
     <Compile Include="SequenceParser\SymbolTable.cs" />
