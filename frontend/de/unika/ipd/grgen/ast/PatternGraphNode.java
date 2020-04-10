@@ -306,32 +306,32 @@ public class PatternGraphNode extends GraphNode {
 		return null;
 	}
 
-	public NodeDeclNode tryGetNode(IdentNode ident) {
+	public NodeDeclNode tryGetNode(String name) {
 		for(NodeDeclNode node : getNodes()) {
-			if(node.ident.toString().equals(ident.toString()))
+			if(node.ident.toString().equals(name))
 				return node;
 		}
 		return null;
 	}
 
-	public EdgeDeclNode tryGetEdge(IdentNode ident) {
+	public EdgeDeclNode tryGetEdge(String name) {
 		for(EdgeDeclNode edge : getEdges()) {
-			if(edge.ident.toString().equals(ident.toString()))
+			if(edge.ident.toString().equals(name))
 				return edge;
 		}
 		return null;
 	}
 
-	public VarDeclNode tryGetVar(IdentNode ident) {
+	public VarDeclNode tryGetVar(String name) {
 		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
-			if(var.ident.toString().equals(ident.toString()))
+			if(var.ident.toString().equals(name))
 				return var;
 		}
 		for(DeclNode varCand : getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
 				continue;
 			VarDeclNode var = (VarDeclNode)varCand;
-			if(var.ident.toString().equals(ident.toString()))
+			if(var.ident.toString().equals(name))
 				return var;
 		}
 		return null;

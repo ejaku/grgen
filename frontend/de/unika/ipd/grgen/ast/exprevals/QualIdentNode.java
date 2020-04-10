@@ -115,9 +115,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 					reportError("Error in test/rule referenced by match type");
 					return false;
 				}
-				node = test.tryGetNode(memberUnresolved);
-				edge = test.tryGetEdge(memberUnresolved);
-				var = test.tryGetVar(memberUnresolved);
+				node = test.tryGetNode(memberUnresolved.toString());
+				edge = test.tryGetEdge(memberUnresolved.toString());
+				var = test.tryGetVar(memberUnresolved.toString());
 				if(node==null && edge==null && var==null) {
 					String memberName = memberUnresolved.toString();
 					String actionName = test.getIdentNode().toString();
@@ -130,9 +130,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 					reportError("Unkown match class referenced by match class type");
 					return false;
 				}*/
-				node = definedMatchType.tryGetNode(memberUnresolved);
-				edge = definedMatchType.tryGetEdge(memberUnresolved);
-				var = definedMatchType.tryGetVar(memberUnresolved);
+				node = definedMatchType.tryGetNode(memberUnresolved.toString());
+				edge = definedMatchType.tryGetEdge(memberUnresolved.toString());
+				var = definedMatchType.tryGetVar(memberUnresolved.toString());
 				if(node==null && edge==null && var==null) {
 					String memberName = memberUnresolved.toString();
 					String matchClassName = definedMatchType.getIdentNode().toString();

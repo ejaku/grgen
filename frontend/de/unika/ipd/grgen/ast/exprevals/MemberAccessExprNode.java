@@ -88,9 +88,9 @@ public class MemberAccessExprNode extends ExprNode
 				reportError("Error in test/rule referenced by match type in filter function");
 				return false;
 			}
-			node = test.tryGetNode(memberIdent);
-			edge = test.tryGetEdge(memberIdent);
-			var = test.tryGetVar(memberIdent);
+			node = test.tryGetNode(memberIdent.toString());
+			edge = test.tryGetEdge(memberIdent.toString());
+			var = test.tryGetVar(memberIdent.toString());
 			if(node==null && edge==null && var==null) {
 				String memberName = memberIdent.toString();
 				String actionName = test.getIdentNode().toString();
@@ -106,9 +106,9 @@ public class MemberAccessExprNode extends ExprNode
 				reportError("Unkown match class referenced by match class type in match class filter function");
 				return false;
 			}
-			node = definedMatchType.tryGetNode(memberIdent);
-			edge = definedMatchType.tryGetEdge(memberIdent);
-			var = definedMatchType.tryGetVar(memberIdent);
+			node = definedMatchType.tryGetNode(memberIdent.toString());
+			edge = definedMatchType.tryGetEdge(memberIdent.toString());
+			var = definedMatchType.tryGetVar(memberIdent.toString());
 			if(node==null && edge==null && var==null) {
 				String memberName = memberIdent.toString();
 				String matchClassName = definedMatchType.getIdentNode().toString();

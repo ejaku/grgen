@@ -129,16 +129,16 @@ public class DefinedMatchTypeNode extends DeclaredTypeNode {
 		return true;
 	}
 	
-	public NodeDeclNode tryGetNode(IdentNode ident) {
-		return pattern.tryGetNode(ident);
+	public NodeDeclNode tryGetNode(String name) {
+		return pattern.tryGetNode(name);
 	}
 
-	public EdgeDeclNode tryGetEdge(IdentNode ident) {
-		return pattern.tryGetEdge(ident);
+	public EdgeDeclNode tryGetEdge(String name) {
+		return pattern.tryGetEdge(name);
 	}
 
-	public VarDeclNode tryGetVar(IdentNode ident) {
-		return pattern.tryGetVar(ident);
+	public VarDeclNode tryGetVar(String name) {
+		return pattern.tryGetVar(name);
 	}
 
 	public Collection<NodeDeclNode> getNodes() {

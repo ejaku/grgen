@@ -85,9 +85,9 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 			TestDeclNode test = matchType.getTest();
 			IteratedNode iterated = matchType.getIterated();
 			PatternGraphNode iteratedPattern = iterated.getLeft();
-			node = iteratedPattern.tryGetNode(attribute);
-			edge = iteratedPattern.tryGetEdge(attribute);
-			var = iteratedPattern.tryGetVar(attribute);
+			node = iteratedPattern.tryGetNode(attribute.toString());
+			edge = iteratedPattern.tryGetEdge(attribute.toString());
+			var = iteratedPattern.tryGetVar(attribute.toString());
 			if(node==null && edge==null && var==null) {
 				String memberName = attribute.toString();
 				String actionName = test.getIdentNode().toString();
@@ -101,9 +101,9 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 				return false;
 			}
 			TestDeclNode test = matchType.getTest();
-			node = test.tryGetNode(attribute);
-			edge = test.tryGetEdge(attribute);
-			var = test.tryGetVar(attribute);
+			node = test.tryGetNode(attribute.toString());
+			edge = test.tryGetEdge(attribute.toString());
+			var = test.tryGetVar(attribute.toString());
 			if(node==null && edge==null && var==null) {
 				String memberName = attribute.toString();
 				String actionName = test.getIdentNode().toString();
@@ -115,9 +115,9 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 			if(!definedMatchType.resolve()) {
 				return false;
 			}
-			node = definedMatchType.tryGetNode(attribute);
-			edge = definedMatchType.tryGetEdge(attribute);
-			var = definedMatchType.tryGetVar(attribute);
+			node = definedMatchType.tryGetNode(attribute.toString());
+			edge = definedMatchType.tryGetEdge(attribute.toString());
+			var = definedMatchType.tryGetVar(attribute.toString());
 			if(node==null && edge==null && var==null) {
 				String memberName = attribute.toString();
 				String matchClassName = definedMatchType.getIdentNode().toString();
