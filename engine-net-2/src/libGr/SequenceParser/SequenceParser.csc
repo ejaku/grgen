@@ -447,6 +447,13 @@ SequenceExpression InitContainerExpr():
             {
                 res = new SequenceExpressionMapConstructor(typeName, typeNameDst, srcItems.ToArray(), dstItems.ToArray());
             }
+        |
+            "("
+                value=Expression()
+            ")"
+            {
+                res = new SequenceExpressionMapCopyConstructor(typeName, typeNameDst, value);
+            }
         )
     |
         "array" "<" typeName=TypeNonGeneric() ">" { srcItems = new List<SequenceExpression>(); }
@@ -475,6 +482,13 @@ SequenceExpression InitContainerExpr():
             "]"
             {
                 res = new SequenceExpressionDequeConstructor(typeName, srcItems.ToArray());
+            }
+        |
+            "("
+                value=Expression()
+            ")"
+            {
+                res = new SequenceExpressionDequeCopyConstructor(typeName, value);
             }
         )
     )

@@ -246,8 +246,12 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionContainerPeek((SequenceExpressionContainerPeek)expr, source);
             case SequenceExpressionType.SetCopyConstructor:
                 return GetSequenceExpressionSetCopyConstructor((SequenceExpressionSetCopyConstructor)expr, source);
+            case SequenceExpressionType.MapCopyConstructor:
+                return GetSequenceExpressionMapCopyConstructor((SequenceExpressionMapCopyConstructor)expr, source);
             case SequenceExpressionType.ArrayCopyConstructor:
                 return GetSequenceExpressionArrayCopyConstructor((SequenceExpressionArrayCopyConstructor)expr, source);
+            case SequenceExpressionType.DequeCopyConstructor:
+                return GetSequenceExpressionDequeCopyConstructor((SequenceExpressionDequeCopyConstructor)expr, source);
             case SequenceExpressionType.ContainerAsArray:
                 return GetSequenceExpressionContainerAsArray((SequenceExpressionContainerAsArray)expr, source);
             case SequenceExpressionType.StringAsArray:
@@ -1577,6 +1581,26 @@ namespace de.unika.ipd.grGen.lgsp
             return sb.ToString();
         }
 
+        private string GetSequenceExpressionMapCopyConstructor(SequenceExpressionMapCopyConstructor seqConstr, SourceBuilder source)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("GRGEN_LIBGR.ContainerHelper.FillMap(new Dictionary<");
+            sb.Append(TypesHelper.XgrsTypeToCSharpType(seqConstr.KeyType, model));
+            sb.Append(", ");
+            sb.Append(TypesHelper.XgrsTypeToCSharpType(seqConstr.ValueType, model));
+            sb.Append(">(), ");
+            sb.Append("\"");
+            sb.Append(seqConstr.KeyType);
+            sb.Append("\", ");
+            sb.Append("\"");
+            sb.Append(seqConstr.ValueType);
+            sb.Append("\", ");
+            sb.Append(GetSequenceExpression(seqConstr.MapToCopy, source));
+            sb.Append(", graph.Model)");
+            return sb.ToString();
+        }
+
         private string GetSequenceExpressionArrayCopyConstructor(SequenceExpressionArrayCopyConstructor seqConstr, SourceBuilder source)
         {
             StringBuilder sb = new StringBuilder();
@@ -1588,6 +1612,21 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Append(seqConstr.ValueType);
             sb.Append("\", ");
             sb.Append(GetSequenceExpression(seqConstr.ArrayToCopy, source));
+            sb.Append(", graph.Model)");
+            return sb.ToString();
+        }
+
+        private string GetSequenceExpressionDequeCopyConstructor(SequenceExpressionDequeCopyConstructor seqConstr, SourceBuilder source)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("GRGEN_LIBGR.ContainerHelper.FillDeque(new GRGEN_LIBGR.Deque<");
+            sb.Append(TypesHelper.XgrsTypeToCSharpType(seqConstr.ValueType, model));
+            sb.Append(">(), ");
+            sb.Append("\"");
+            sb.Append(seqConstr.ValueType);
+            sb.Append("\", ");
+            sb.Append(GetSequenceExpression(seqConstr.DequeToCopy, source));
             sb.Append(", graph.Model)");
             return sb.ToString();
         }

@@ -1,0 +1,39 @@
+rule setFromSet(ref a:set<int>) : (set<int>)
+{
+	modify {
+	---
+		def ref o:set<int>;
+		exec({yield o=set<int>(a)});
+		return(o);
+	}
+}
+
+rule mapFromMap(ref a:map<int,int>) : (map<int,int>)
+{
+	modify {
+	---
+		def ref o:map<int,int>;
+		exec({yield o=map<int,int>(a)});
+		return(o);
+	}
+}
+
+rule arrayFromArray(ref a:array<int>) : (array<int>)
+{
+	modify {
+	---
+		def ref o:array<int>;
+		exec({yield o=array<int>(a)});
+		return(o);
+	}
+}
+
+rule dequeFromDeque(ref a:deque<int>) : (deque<int>)
+{
+	modify {
+	---
+		def ref o:deque<int>;
+		exec({yield o=deque<int>(a)});
+		return(o);
+	}
+}

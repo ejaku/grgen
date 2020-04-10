@@ -199,6 +199,233 @@ namespace de.unika.ipd.grGen.libGr
             return type != null ? type.Namespace + "." + type.Name : null;
         }
 
+        public static IDictionary FillMap(IDictionary mapToCopyTo, string keyTypeName, string valueTypeName, object hopefullyMapToCopy, IGraphModel model)
+        {
+            if(hopefullyMapToCopy is IDictionary)
+                return FillMap(mapToCopyTo, keyTypeName, valueTypeName, (IDictionary)hopefullyMapToCopy, model);
+            throw new Exception("Map copy constructor expects map as source.");
+        }
+
+        public static IDictionary FillMap(IDictionary mapToCopyTo, string keyTypeName, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
+        {
+            NodeType nodeType = TypesHelper.GetNodeType(keyTypeName, model);
+            if(nodeType != null)
+                FillMapWithKeyNode(mapToCopyTo, nodeType, valueTypeName, mapToCopy, model);
+            else
+            {
+                EdgeType edgeType = TypesHelper.GetEdgeType(keyTypeName, model);
+                if(edgeType != null)
+                    FillMapWithKeyEdge(mapToCopyTo, edgeType, valueTypeName, mapToCopy, model);
+                else
+                {
+                    Type varType = TypesHelper.GetType(keyTypeName, model);
+                    FillMapWithKeyVar(mapToCopyTo, varType, valueTypeName, mapToCopy, model);
+                }
+            }
+            return mapToCopyTo;
+        }
+
+        public static IDictionary FillMapWithKeyNode(IDictionary mapToCopyTo, NodeType keyNodeType, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
+        {
+            NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
+            if(nodeType != null)
+                FillMapWithKeyNodeValueNode(mapToCopyTo, keyNodeType, nodeType, mapToCopy);
+            else
+            {
+                EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
+                if(edgeType != null)
+                    FillMapWithKeyNodeValueEdge(mapToCopyTo, keyNodeType, edgeType, mapToCopy);
+                else
+                {
+                    Type valueType = TypesHelper.GetType(valueTypeName, model);
+                    FillMapWithKeyNodeValueVar(mapToCopyTo, keyNodeType, valueType, mapToCopy);
+                }
+            }
+            return mapToCopyTo;
+        }
+
+        public static IDictionary FillMapWithKeyEdge(IDictionary mapToCopyTo, EdgeType keyEdgeType, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
+        {
+            NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
+            if(nodeType != null)
+                FillMapWithKeyEdgeValueNode(mapToCopyTo, keyEdgeType, nodeType, mapToCopy);
+            else
+            {
+                EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
+                if(edgeType != null)
+                    FillMapWithKeyEdgeValueEdge(mapToCopyTo, keyEdgeType, edgeType, mapToCopy);
+                else
+                {
+                    Type valueType = TypesHelper.GetType(valueTypeName, model);
+                    FillMapWithKeyEdgeValueVar(mapToCopyTo, keyEdgeType, valueType, mapToCopy);
+                }
+            }
+            return mapToCopyTo;
+        }
+
+        public static IDictionary FillMapWithKeyVar(IDictionary mapToCopyTo, Type keyVarType, string valueTypeName, IDictionary mapToCopy, IGraphModel model)
+        {
+            NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
+            if(nodeType != null)
+                FillMapWithKeyVarValueNode(mapToCopyTo, keyVarType, nodeType, mapToCopy);
+            else
+            {
+                EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
+                if(edgeType != null)
+                    FillMapWithKeyVarValueEdge(mapToCopyTo, keyVarType, edgeType, mapToCopy);
+                else
+                {
+                    Type valueType = TypesHelper.GetType(valueTypeName, model);
+                    FillMapWithKeyVarValueVar(mapToCopyTo, keyVarType, valueType, mapToCopy);
+                }
+            }
+            return mapToCopyTo;
+        }
+
+        public static void FillMapWithKeyNodeValueNode(IDictionary targetMap, NodeType keyNodeType, NodeType valueNodeType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                INode keyNode = entry.Key as INode;
+                if(keyNode == null)
+                    continue;
+                if(!keyNode.InstanceOf(keyNodeType))
+                    continue;
+                INode valueNode = entry.Value as INode;
+                if(valueNode == null)
+                    continue;
+                if(!valueNode.InstanceOf(valueNodeType))
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
+        public static void FillMapWithKeyNodeValueEdge(IDictionary targetMap, NodeType keyNodeType, EdgeType valueEdgeType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                INode keyNode = entry.Key as INode;
+                if(keyNode == null)
+                    continue;
+                if(!keyNode.InstanceOf(keyNodeType))
+                    continue;
+                IEdge valueEdge = entry.Value as IEdge;
+                if(valueEdge == null)
+                    continue;
+                if(!valueEdge.InstanceOf(valueEdgeType))
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
+        public static void FillMapWithKeyNodeValueVar(IDictionary targetMap, NodeType keyNodeType, Type valueVarType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                INode keyNode = entry.Key as INode;
+                if(keyNode == null)
+                    continue;
+                if(!keyNode.InstanceOf(keyNodeType))
+                    continue;
+                if(entry.Value.GetType() != valueVarType)
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
+        public static void FillMapWithKeyEdgeValueNode(IDictionary targetMap, EdgeType keyEdgeType, NodeType valueNodeType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                IEdge keyEdge = entry.Key as IEdge;
+                if(keyEdge == null)
+                    continue;
+                if(!keyEdge.InstanceOf(keyEdgeType))
+                    continue;
+                INode valueNode = entry.Value as INode;
+                if(valueNode == null)
+                    continue;
+                if(!valueNode.InstanceOf(valueNodeType))
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
+        public static void FillMapWithKeyEdgeValueEdge(IDictionary targetMap, EdgeType keyEdgeType, EdgeType valueEdgeType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                IEdge keyEdge = entry.Key as IEdge;
+                if(keyEdge == null)
+                    continue;
+                if(!keyEdge.InstanceOf(keyEdgeType))
+                    continue;
+                IEdge valueEdge = entry.Value as IEdge;
+                if(valueEdge == null)
+                    continue;
+                if(!valueEdge.InstanceOf(valueEdgeType))
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
+        public static void FillMapWithKeyEdgeValueVar(IDictionary targetMap, EdgeType keyEdgeType, Type valueVarType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                IEdge keyEdge = entry.Key as IEdge;
+                if(keyEdge == null)
+                    continue;
+                if(!keyEdge.InstanceOf(keyEdgeType))
+                    continue;
+                if(entry.Value.GetType() != valueVarType)
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
+        public static void FillMapWithKeyVarValueNode(IDictionary targetMap, Type keyVarType, NodeType valueNodeType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                if(entry.Key.GetType() != keyVarType)
+                    continue;
+                INode valueNode = entry.Value as INode;
+                if(valueNode == null)
+                    continue;
+                if(!valueNode.InstanceOf(valueNodeType))
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
+        public static void FillMapWithKeyVarValueEdge(IDictionary targetMap, Type keyVarType, EdgeType valueEdgeType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                if(entry.Key.GetType() != keyVarType)
+                    continue;
+                IEdge valueEdge = entry.Value as IEdge;
+                if(valueEdge == null)
+                    continue;
+                if(!valueEdge.InstanceOf(valueEdgeType))
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
+        public static void FillMapWithKeyVarValueVar(IDictionary targetMap, Type keyVarType, Type valueVarType, IDictionary sourceMap)
+        {
+            foreach(DictionaryEntry entry in sourceMap)
+            {
+                if(entry.Key.GetType() != keyVarType)
+                    continue;
+                if(entry.Value.GetType() != valueVarType)
+                    continue;
+                targetMap.Add(entry.Key, entry.Value);
+            }
+        }
+
         public static Dictionary<K, V> FillMap<K, V>(Dictionary<K, V> mapToCopyTo, string keyTypeName, string valueTypeName, object hopefullyMapToCopy, IGraphModel model)
         {
             if(hopefullyMapToCopy is IDictionary)
@@ -600,6 +827,65 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(entry.GetType() == varType)
                     targetArray.Add((K)entry);
+            }
+        }
+
+        public static IDeque FillDeque(IDeque dequeToCopyTo, string valueTypeName, object hopefullyDequeToCopy, IGraphModel model)
+        {
+            if(hopefullyDequeToCopy is IDeque)
+                return FillDeque(dequeToCopyTo, valueTypeName, (IDeque)hopefullyDequeToCopy, model);
+            throw new Exception("Deque copy constructor expects deque as source.");
+        }
+
+        public static IDeque FillDeque(IDeque dequeToCopyTo, string valueTypeName, IDeque dequeToCopy, IGraphModel model)
+        {
+            NodeType nodeType = TypesHelper.GetNodeType(valueTypeName, model);
+            if(nodeType != null)
+                FillDequeWithNode(dequeToCopyTo, nodeType, dequeToCopy);
+            else
+            {
+                EdgeType edgeType = TypesHelper.GetEdgeType(valueTypeName, model);
+                if(edgeType != null)
+                    FillDequeWithEdge(dequeToCopyTo, edgeType, dequeToCopy);
+                else
+                {
+                    Type varType = TypesHelper.GetType(valueTypeName, model);
+                    FillDequeWithVar(dequeToCopyTo, varType, dequeToCopy);
+                }
+            }
+            return dequeToCopyTo;
+        }
+
+        public static void FillDequeWithNode(IDeque targetDeque, NodeType nodeType, IDeque sourceDeque)
+        {
+            foreach(object entry in sourceDeque)
+            {
+                INode node = entry as INode;
+                if(node == null)
+                    continue;
+                if(node.InstanceOf(nodeType))
+                    targetDeque.Add(entry);
+            }
+        }
+
+        public static void FillDequeWithEdge(IDeque targetDeque, EdgeType edgeType, IDeque sourceDeque)
+        {
+            foreach(object entry in sourceDeque)
+            {
+                IEdge edge = entry as IEdge;
+                if(edge == null)
+                    continue;
+                if(edge.InstanceOf(edgeType))
+                    targetDeque.Add(entry);
+            }
+        }
+
+        public static void FillDequeWithVar(IDeque targetDeque, Type varType, IDeque sourceDeque)
+        {
+            foreach(object entry in sourceDeque)
+            {
+                if(entry.GetType() == varType)
+                    targetDeque.Add(entry);
             }
         }
 

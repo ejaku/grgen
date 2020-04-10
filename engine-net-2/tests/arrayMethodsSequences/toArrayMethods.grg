@@ -47,13 +47,3 @@ rule asArrayFromArray(ref a:array<int>) : (array<int>)
 		return(o);
 	}
 }
-
-rule arrayFromArray(ref a:array<int>) : (array<int>)
-{
-	modify {
-	---
-		def ref o:array<int>;
-		exec({yield o=array<int>(a)});
-		return(o);
-	}
-}

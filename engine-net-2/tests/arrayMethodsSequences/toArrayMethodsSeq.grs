@@ -15,7 +15,4 @@ show var x
 exec {::x=array<int>[1,2,3].asArray()} # undocumented functionality
 show var x
 
-exec {::x=array<int>(array<int>[1,2,3])}
-show var x
-
 quit

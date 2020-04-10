@@ -1,0 +1,15 @@
+new graph arrayMethodsSequences/copyConstructors
+
+exec {::x=set<int>(set<int>{1,2,3})}
+show var x
+
+exec {::x=map<int,int>(map<int,int>{0->1,1->2,2->3})}
+show var x
+
+exec {::x=array<int>(array<int>[1,2,3])}
+show var x
+
+exec {::x=deque<int>(deque<int>[1,2,3])}
+show var x
+
+quit

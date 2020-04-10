@@ -509,9 +509,9 @@ seqInitMapExpr [ExecNode xg, MapTypeNode mapType] returns [ ExprNode res = null 
 			( COMMA { xg.append(","); } item2=seqMapItem[xg] { mapInit.addMapItem(item2); } )*
 		)?
 	  RBRACE { xg.append("}"); }
-	/*| l=LPAREN { xg.append("("); } value=seqExpression[xg]
+	| l=LPAREN { xg.append("("); } value=seqExpression[xg]
 		{ res = new MapCopyConstructorNode(getCoords(l), null, mapType, value); }
-	  RPAREN { xg.append(")"); }*/
+	  RPAREN { xg.append(")"); }
 	;
 
 seqInitSetExpr [ExecNode xg, SetTypeNode setType] returns [ ExprNode res = null ]
@@ -545,9 +545,9 @@ seqInitDequeExpr [ExecNode xg, DequeTypeNode dequeType] returns [ ExprNode res =
 			( COMMA { xg.append(","); } item2=seqDequeItem[xg] { dequeInit.addDequeItem(item2); } )*
 		)?
 	  RBRACK { xg.append("]"); }
-	/*| l=LPAREN { xg.append("("); } value=seqExpression[xg]
+	| l=LPAREN { xg.append("("); } value=seqExpression[xg]
 		{ res = new DequeCopyConstructorNode(getCoords(l), null, dequeType, value); }
-	  RPAREN { xg.append(")"); }*/
+	  RPAREN { xg.append(")"); }
 	;
 
 seqMapItem [ExecNode xg] returns [ MapItemNode res = null ]

@@ -15,7 +15,4 @@ show var x
 exec (::x)=asArrayFromArray(array<int>[1,2,3]) # undocumented functionality
 show var x
 
-exec (::x)=arrayFromArray(array<int>[1,2,3])
-show var x
-
 quit

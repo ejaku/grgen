@@ -29,7 +29,7 @@ namespace de.unika.ipd.grGen.libGr
         Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
         Constant, Variable, This,
         SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor,
-        SetCopyConstructor, ArrayCopyConstructor,
+        SetCopyConstructor, MapCopyConstructor, ArrayCopyConstructor, DequeCopyConstructor,
         ContainerAsArray, StringAsArray,
         Random,
         Def,
@@ -2118,6 +2118,94 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceExpressionMapCopyConstructor : SequenceExpression
+    {
+        public readonly String KeyType;
+        public readonly String ValueType;
+        public readonly SequenceExpression MapToCopy;
+
+        public SequenceExpressionMapCopyConstructor(String keyType, String valueType, SequenceExpression mapToCopy)
+            : base(SequenceExpressionType.MapCopyConstructor)
+        {
+            KeyType = keyType;
+            ValueType = valueType;
+            MapToCopy = mapToCopy;
+        }
+
+        protected SequenceExpressionMapCopyConstructor(SequenceExpressionMapCopyConstructor that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            KeyType = that.KeyType;
+            ValueType = that.ValueType;
+            MapToCopy = that.MapToCopy.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMapCopyConstructor(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "map<" + KeyType + "," + ValueType + ">";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(MapToCopy.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(!MapToCopy.Type(env).StartsWith("map<"))
+                    throw new SequenceParserException(Symbol + ", argument", "map type", MapToCopy.Type(env));
+
+                // TODO: check KeyType/ValueType with compatibility with key type/value type of MapToCopy
+            }
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            Type srcType = ContainerHelper.GetTypeFromNameForContainer(KeyType, procEnv.Graph.Model);
+            Type dstType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            IDictionary map = ContainerHelper.NewDictionary(srcType, dstType);
+            ContainerHelper.FillMap(map, KeyType, ValueType, MapToCopy.Evaluate(procEnv), procEnv.Graph.Model);
+            return map;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            base.GetLocalVariables(variables, containerConstructors);
+            MapToCopy.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield return MapToCopy; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("map<");
+                sb.Append(KeyType);
+                sb.Append(",");
+                sb.Append(ValueType);
+                sb.Append(">(");
+                sb.Append(MapToCopy.Symbol);
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+    }
+
     public class SequenceExpressionArrayCopyConstructor : SequenceExpression
     {
         public readonly String ValueType;
@@ -2194,6 +2282,88 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(ValueType);
                 sb.Append(">[");
                 sb.Append(ArrayToCopy.Symbol);
+                sb.Append("]");
+                return sb.ToString();
+            }
+        }
+    }
+
+    public class SequenceExpressionDequeCopyConstructor : SequenceExpression
+    {
+        public readonly String ValueType;
+        public readonly SequenceExpression DequeToCopy;
+
+        public SequenceExpressionDequeCopyConstructor(String valueType, SequenceExpression dequeToCopy)
+            : base(SequenceExpressionType.DequeCopyConstructor)
+        {
+            ValueType = valueType;
+            DequeToCopy = dequeToCopy;
+        }
+
+        protected SequenceExpressionDequeCopyConstructor(SequenceExpressionDequeCopyConstructor that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            ValueType = that.ValueType;
+            DequeToCopy = that.DequeToCopy.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionDequeCopyConstructor(this, originalToCopy, procEnv);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "deque<" + ValueType + ">";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(DequeToCopy.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(!DequeToCopy.Type(env).StartsWith("deque<"))
+                    throw new SequenceParserException(Symbol + ", argument", "deque type", DequeToCopy.Type(env));
+
+                // TODO: check ValueType with compatibility with value type of DequeToCopy
+            }
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            Type valueType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            IDeque deque = ContainerHelper.NewDeque(valueType);
+            ContainerHelper.FillDeque(deque, ValueType, DequeToCopy.Evaluate(procEnv), procEnv.Graph.Model);
+            return deque;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            base.GetLocalVariables(variables, containerConstructors);
+            DequeToCopy.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield return DequeToCopy; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("deque<");
+                sb.Append(ValueType);
+                sb.Append(">[");
+                sb.Append(DequeToCopy.Symbol);
                 sb.Append("]");
                 return sb.ToString();
             }
