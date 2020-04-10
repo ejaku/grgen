@@ -1785,6 +1785,11 @@ namespace de.unika.ipd.grGen.libGr
             return newList;
         }
 
+        public static int IndexOf(IList a, object entry)
+        {
+            return a.IndexOf(entry);
+        }
+
         /// <summary>
         /// Returns the first position of entry in the array a
         /// </summary>
@@ -1794,16 +1799,6 @@ namespace de.unika.ipd.grGen.libGr
         public static int IndexOf<V>(List<V> a, V entry)
         {
             return a.IndexOf(entry);
-        }
-
-        public static int IndexOf(IList a, object entry)
-        {
-            return a.IndexOf(entry);
-        }
-
-        public static int IndexOf<V>(List<V> a, V entry, int startIndex)
-        {
-            return a.IndexOf(entry, startIndex);
         }
 
         public static int IndexOf(IList a, object entry, int startIndex)
@@ -1817,8 +1812,26 @@ namespace de.unika.ipd.grGen.libGr
             return -1;
         }
 
+        public static int IndexOf<V>(List<V> a, V entry, int startIndex)
+        {
+            return a.IndexOf(entry, startIndex);
+        }
+
         /// <summary>
-        /// Returns the first position of entry in the array a that must be ordered with a binary search
+        /// Returns the first position of entry in the array a with a binary search - thus the array must be ordered.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <param name="entry">The value to search for.</param>
+        /// <returns>The first position of entry in the array a, -1 if entry not in a.</returns>
+        public static int IndexOfOrdered(IList a, object entry)
+        {
+            if(a is List<string>)
+                return IndexOfOrdered((List<string>)a, (string)entry);
+            return ArrayList.Adapter(a).BinarySearch(entry);
+        }
+
+        /// <summary>
+        /// Returns the first position of entry in the array a with a binary search - thus the array must be ordered.
         /// </summary>
         /// <param name="a">A List, i.e. dynamic array.</param>
         /// <param name="entry">The value to search for.</param>
@@ -1833,6 +1846,18 @@ namespace de.unika.ipd.grGen.libGr
             return a.BinarySearch(entry, StringComparer.InvariantCulture);
         }
 
+
+        public static int LastIndexOf(IList a, object entry)
+        {
+            for(int i = a.Count - 1; i >= 0; --i)
+            {
+                if(a[i].Equals(entry))
+                    return i;
+            }
+
+            return -1;
+        }
+        
         /// <summary>
         /// Returns the first position from the end inwards of entry in the array a
         /// </summary>
@@ -1850,11 +1875,11 @@ namespace de.unika.ipd.grGen.libGr
             return -1;
         }
 
-        public static int LastIndexOf(IList a, object entry)
+        public static int LastIndexOf(IList a, object entry, int startIndex)
         {
-            for(int i = a.Count - 1; i >= 0; --i)
+            for(int i = startIndex; i >= 0; --i)
             {
-                if(a[i] == entry)
+                if(a[i].Equals(entry))
                     return i;
             }
 
@@ -1866,17 +1891,6 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = startIndex; i >= 0; --i)
             {
                 if(EqualityComparer<V>.Default.Equals(a[i], entry))
-                    return i;
-            }
-
-            return -1;
-        }
-
-        public static int LastIndexOf(IList a, object entry, int startIndex)
-        {
-            for(int i = startIndex; i >= 0; --i)
-            {
-                if(a[i] == entry)
                     return i;
             }
 

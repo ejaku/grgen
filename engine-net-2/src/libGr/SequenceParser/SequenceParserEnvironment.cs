@@ -896,6 +896,21 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 else
                     return new SequenceExpressionStringAsArray(targetExpr, argExprs[0]);
             }
+            else if(functionMethodName == "indexOf")
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 2) throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
+                return new SequenceExpressionArrayIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+            }
+            else if(functionMethodName == "lastIndexOf")
+            {
+                if(argExprs.Count != 1 && argExprs.Count != 2) throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
+                return new SequenceExpressionArrayLastIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+            }
+            else if(functionMethodName == "indexOfOrdered")
+            {
+                if(argExprs.Count != 1) throw new ParseException("\"" + functionMethodName + "\" expects 1 parameter)");
+                return new SequenceExpressionArrayIndexOfOrdered(targetExpr, argExprs[0]);
+            }
             else
             {
                 return CreateSequenceExpressionFunctionMethodCallUserFunction(targetExpr, functionMethodName, argExprs);

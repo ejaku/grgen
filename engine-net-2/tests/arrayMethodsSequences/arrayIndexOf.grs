@@ -1,0 +1,33 @@
+new graph arrayMethodsSequences/arrayIndexOf
+
+exec (::x)=indexOf(array<int>[1,42,2,42,3])
+show var x
+
+exec (::x)=indexOfString(array<string>["a1","a42","a2","a42","3"])
+show var x
+
+exec (::x)=indexOfStart(array<int>[1,42,2,42,3], 2)
+show var x
+
+exec (::x)=indexOfStartString(array<string>["a1","a42","a2","a42","3"], 2)
+show var x
+
+exec (::x)=lastIndexOf(array<int>[1,42,2,42,3])
+show var x
+
+exec (::x)=lastIndexOfString(array<string>["a1","a42","a2","a42","3"])
+show var x
+
+exec (::x)=lastIndexOfStart(array<int>[1,42,2,42,3], 2)
+show var x
+
+exec (::x)=lastIndexOfStartString(array<string>["a1","a42","a2","a42","3"], 2)
+show var x
+
+exec (::x)=indexOfOrdered(array<int>[1,42,101])
+show var x
+
+exec (::x)=indexOfOrderedString(array<string>["a1","a42","a99"])
+show var x
+
+quit

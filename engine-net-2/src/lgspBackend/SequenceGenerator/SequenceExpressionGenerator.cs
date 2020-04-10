@@ -262,6 +262,12 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionContainerConstructor((SequenceExpressionContainerConstructor)expr, source);
             case SequenceExpressionType.MapConstructor:
                 return GetSequenceExpressionMapConstructor((SequenceExpressionMapConstructor)expr, source);
+            case SequenceExpressionType.ArrayIndexOf:
+                return GetSequenceExpressionArrayIndexOf((SequenceExpressionArrayIndexOf)expr, source);
+            case SequenceExpressionType.ArrayLastIndexOf:
+                return GetSequenceExpressionArrayLastIndexOf((SequenceExpressionArrayLastIndexOf)expr, source);
+            case SequenceExpressionType.ArrayIndexOfOrdered:
+                return GetSequenceExpressionArrayIndexOfOrdered((SequenceExpressionArrayIndexOfOrdered)expr, source);
             case SequenceExpressionType.ArraySum:
                 return GetSequenceExpressionArraySum((SequenceExpressionArraySum)expr, source);
             case SequenceExpressionType.ArrayProd:
@@ -1712,6 +1718,70 @@ namespace de.unika.ipd.grGen.lgsp
             }
             sb.Append(")");
             return sb.ToString();
+        }
+
+        private string GetSequenceExpressionArrayIndexOf(SequenceExpressionArrayIndexOf seqArrayIndexOf, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayIndexOf, source);
+
+            if(seqArrayIndexOf.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.IndexOf((IList)(" + container + "), " 
+                    + GetSequenceExpression(seqArrayIndexOf.ValueToSearchForExpr, source)
+                    + (seqArrayIndexOf.StartPositionExpr != null ? "," + GetSequenceExpression(seqArrayIndexOf.StartPositionExpr, source) : "")
+                    + ")";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayIndexOf.ContainerType(env), model);
+                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayIndexOf.ContainerType(env)), model);
+                return "GRGEN_LIBGR.ContainerHelper.IndexOf((" + arrayType + ")(" + container + "), "
+                    + "(" + arrayValueType + ")(" + GetSequenceExpression(seqArrayIndexOf.ValueToSearchForExpr, source) + ")"
+                    + (seqArrayIndexOf.StartPositionExpr != null ? ", (int)(" + GetSequenceExpression(seqArrayIndexOf.StartPositionExpr, source) + ")" : "")
+                    + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayLastIndexOf(SequenceExpressionArrayLastIndexOf seqArrayLastIndexOf, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayLastIndexOf, source);
+
+            if(seqArrayLastIndexOf.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.LastIndexOf((IList)(" + container + "), "
+                    + GetSequenceExpression(seqArrayLastIndexOf.ValueToSearchForExpr, source)
+                    + (seqArrayLastIndexOf.StartPositionExpr != null ? "," + GetSequenceExpression(seqArrayLastIndexOf.StartPositionExpr, source) : "")
+                    + ")";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayLastIndexOf.ContainerType(env), model);
+                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayLastIndexOf.ContainerType(env)), model);
+                return "GRGEN_LIBGR.ContainerHelper.LastIndexOf((" + arrayType + ")(" + container + "), "
+                    + "(" + arrayValueType + ")(" + GetSequenceExpression(seqArrayLastIndexOf.ValueToSearchForExpr, source) + ")"
+                    + (seqArrayLastIndexOf.StartPositionExpr != null ? ", (int)(" + GetSequenceExpression(seqArrayLastIndexOf.StartPositionExpr, source) + ")" : "")
+                    + ")";
+            }
+        }
+
+        private string GetSequenceExpressionArrayIndexOfOrdered(SequenceExpressionArrayIndexOfOrdered seqArrayIndexOfOrdered, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqArrayIndexOfOrdered, source);
+
+            if(seqArrayIndexOfOrdered.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.IndexOfOrdered((IList)(" + container + "), "
+                    + GetSequenceExpression(seqArrayIndexOfOrdered.ValueToSearchForExpr, source)
+                    + ")";
+            }
+            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            {
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayIndexOfOrdered.ContainerType(env), model);
+                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayIndexOfOrdered.ContainerType(env)), model);
+                return "GRGEN_LIBGR.ContainerHelper.IndexOfOrdered((" + arrayType + ")(" + container + "), "
+                    + "(" + arrayValueType + ")(" + GetSequenceExpression(seqArrayIndexOfOrdered.ValueToSearchForExpr, source) + ")"
+                    + ")";
+            }
         }
 
         private string GetSequenceExpressionArraySum(SequenceExpressionArraySum seqArraySum, SourceBuilder source)

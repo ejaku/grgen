@@ -35,6 +35,7 @@ namespace de.unika.ipd.grGen.libGr
         Def,
         IsVisited,
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
+        ArrayIndexOf, ArrayLastIndexOf, ArrayIndexOfOrdered,
         ArraySum, ArrayProd, ArrayMin, ArrayMax, ArrayAvg, ArrayMed, ArrayMedUnsorted, ArrayVar, ArrayDev,
         ArrayAsSet, ArrayAsMap, ArrayAsDeque, ArrayAsString,
         ArraySubarray,
@@ -3194,6 +3195,264 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return Name + ".peek(" + (KeyExpr != null ? KeyExpr.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionArrayIndexOf : SequenceExpressionContainer
+    {
+        public readonly SequenceExpression ValueToSearchForExpr;
+        public readonly SequenceExpression StartPositionExpr;
+
+        public SequenceExpressionArrayIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
+            : base(SequenceExpressionType.ArrayIndexOf, containerExpr)
+        {
+            ValueToSearchForExpr = valueToSearchForExpr;
+            StartPositionExpr = startPositionExpr;
+        }
+
+        protected SequenceExpressionArrayIndexOf(SequenceExpressionArrayIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayIndexOf(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType == "")
+                return;
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(ValueToSearchForExpr.Type(env) != "")
+            {
+                if(ValueToSearchForExpr.Type(env) != TypesHelper.ExtractSrc(ContainerType(env)))
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), ValueToSearchForExpr.Type(env));
+            }
+
+            if(StartPositionExpr != null && StartPositionExpr.Type(env) != "")
+            {
+                if(StartPositionExpr != null && StartPositionExpr.Type(env) != "int")
+                    throw new SequenceParserException(Symbol, "int", ValueToSearchForExpr.Type(env));
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(StartPositionExpr != null)
+                return ContainerHelper.IndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv));
+            else
+                return ContainerHelper.IndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+            ValueToSearchForExpr.GetLocalVariables(variables, containerConstructors);
+            if(StartPositionExpr != null)
+                StartPositionExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return ValueToSearchForExpr;
+                if(StartPositionExpr != null)
+                    yield return StartPositionExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".indexOf(" + ValueToSearchForExpr.Symbol + (StartPositionExpr != null ? "," + StartPositionExpr.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionArrayLastIndexOf : SequenceExpressionContainer
+    {
+        public readonly SequenceExpression ValueToSearchForExpr;
+        public readonly SequenceExpression StartPositionExpr;
+
+        public SequenceExpressionArrayLastIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
+            : base(SequenceExpressionType.ArrayLastIndexOf, containerExpr)
+        {
+            ValueToSearchForExpr = valueToSearchForExpr;
+            StartPositionExpr = startPositionExpr;
+        }
+
+        protected SequenceExpressionArrayLastIndexOf(SequenceExpressionArrayLastIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayLastIndexOf(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType == "")
+                return;
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(ValueToSearchForExpr.Type(env) != "")
+            {
+                if(ValueToSearchForExpr.Type(env) != TypesHelper.ExtractSrc(ContainerType(env)))
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), ValueToSearchForExpr.Type(env));
+            }
+
+            if(StartPositionExpr != null && StartPositionExpr.Type(env) != "")
+            {
+                if(StartPositionExpr != null && StartPositionExpr.Type(env) != "int")
+                    throw new SequenceParserException(Symbol, "int", ValueToSearchForExpr.Type(env));
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            if(StartPositionExpr != null)
+                return ContainerHelper.LastIndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv));
+            else
+                return ContainerHelper.LastIndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+            ValueToSearchForExpr.GetLocalVariables(variables, containerConstructors);
+            if(StartPositionExpr != null)
+                StartPositionExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return ValueToSearchForExpr;
+                if(StartPositionExpr != null)
+                    yield return StartPositionExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".lastIndexOf(" + ValueToSearchForExpr.Symbol + (StartPositionExpr != null ? "," + StartPositionExpr.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionArrayIndexOfOrdered : SequenceExpressionContainer
+    {
+        public readonly SequenceExpression ValueToSearchForExpr;
+
+        public SequenceExpressionArrayIndexOfOrdered(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr)
+            : base(SequenceExpressionType.ArrayIndexOfOrdered, containerExpr)
+        {
+            ValueToSearchForExpr = valueToSearchForExpr;
+        }
+
+        protected SequenceExpressionArrayIndexOfOrdered(SequenceExpressionArrayIndexOfOrdered that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionArrayIndexOfOrdered(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+
+            if(containerType == "")
+                return;
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
+                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            if(ValueToSearchForExpr.Type(env) != "")
+            {
+                if(ValueToSearchForExpr.Type(env) != TypesHelper.ExtractSrc(ContainerType(env)))
+                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType(env)), ValueToSearchForExpr.Type(env));
+            }
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.IndexOfOrdered(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+            ValueToSearchForExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return ValueToSearchForExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".indexOfOrdered(" + ValueToSearchForExpr.Symbol + ")"; }
         }
     }
 

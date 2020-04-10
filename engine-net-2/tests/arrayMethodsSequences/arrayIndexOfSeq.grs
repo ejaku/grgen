@@ -1,0 +1,23 @@
+new graph arrayMethodsSequences/arrayIndexOf
+
+eval array<int>[1,42,2,42,3].indexOf(42)
+
+eval array<string>["a1","a42","a2","a42","3"].indexOf("a42")
+
+eval array<int>[1,42,2,42,3].indexOf(42, 2)
+
+eval array<string>["a1","a42","a2","a42","3"].indexOf("a42", 2)
+
+eval array<int>[1,42,2,42,3].lastIndexOf(42)
+
+eval array<string>["a1","a42","a2","a42","3"].lastIndexOf("a42")
+
+eval array<int>[1,42,2,42,3].lastIndexOf(42, 2)
+
+eval array<string>["a1","a42","a2","a42","3"].lastIndexOf("a42", 2)
+
+eval array<int>[1,42,101].indexOfOrdered(42)
+
+eval array<string>["a1","a42","a99"].indexOfOrdered("a42")
+
+quit

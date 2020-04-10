@@ -1,0 +1,99 @@
+rule indexOf(ref a:array<int>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf(42)});
+		return(o);
+	}
+}
+
+rule indexOfString(ref a:array<string>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf("a42")});
+		return(o);
+	}
+}
+
+rule indexOfStart(ref a:array<int>, var i:int) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf(42, i)});
+		return(o);
+	}
+}
+
+rule indexOfStartString(ref a:array<string>, var i:int) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf("a42", i)});
+		return(o);
+	}
+}
+
+rule lastIndexOf(ref a:array<int>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.lastIndexOf(42)});
+		return(o);
+	}
+}
+
+rule lastIndexOfString(ref a:array<string>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.lastIndexOf("a42")});
+		return(o);
+	}
+}
+
+rule lastIndexOfStart(ref a:array<int>, var i:int) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.lastIndexOf(42, i)});
+		return(o);
+	}
+}
+
+rule lastIndexOfStartString(ref a:array<string>, var i:int) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.lastIndexOf("a42", i)});
+		return(o);
+	}
+}
+
+rule indexOfOrdered(ref a:array<int>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf(42)});
+		return(o);
+	}
+}
+
+rule indexOfOrderedString(ref a:array<string>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf("a42")});
+		return(o);
+	}
+}
