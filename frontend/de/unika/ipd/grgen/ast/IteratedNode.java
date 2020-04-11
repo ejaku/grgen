@@ -13,12 +13,8 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
@@ -104,255 +100,6 @@ public class IteratedNode extends ActionDeclNode  {
 		return type != null && resolveFilters(filters);
 	}
 
-	// TODO: pull this and the other code duplications up to ActionDeclNode
-	/** Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
-	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
-	 * incident to (if these aren't dummy nodes themselves, of course). */
-	private boolean checkRhsReuse() {
-		boolean res = true;
-		if(right == null)
-			return res;
-
-		HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom = new HashMap<EdgeDeclNode, NodeDeclNode>();
-		HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo = new HashMap<EdgeDeclNode, NodeDeclNode>();
-
-		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for (ConnectionNode rConn : right.getReusedConnections(pattern)) {
-			EdgeDeclNode re = rConn.getEdge();
-
-			if (re instanceof EdgeTypeChangeNode) {
-				re = ((EdgeTypeChangeNode)re).getOldEdge();
-			}
-
-			for (BaseNode lc : pattern.getConnections()) {
-				if (!(lc instanceof ConnectionNode)) {
-					continue;
-				}
-
-				ConnectionNode lConn = (ConnectionNode) lc;
-
-				EdgeDeclNode le = lConn.getEdge();
-
-				if ( ! le.equals(re) ) {
-					continue;
-				}
-
-				if (lConn.getConnectionKind() != rConn.getConnectionKind()) {
-					res = false;
-					rConn.reportError("Reused edge does not have the same connection kind");
-					// if you don't add to alreadyReported erroneous errors can occur,
-					// e.g. lhs=x-e->y, rhs=y-e-x
-					alreadyReported.add(re);
-				}
-
-				NodeDeclNode lSrc = lConn.getSrc();
-				NodeDeclNode lTgt = lConn.getTgt();
-				NodeDeclNode rSrc = rConn.getSrc();
-				NodeDeclNode rTgt = rConn.getTgt();
-
-				HashSet<BaseNode> rhsNodes = new HashSet<BaseNode>();
-				rhsNodes.addAll(right.getReusedNodes(pattern));
-
-				if (rSrc instanceof NodeTypeChangeNode) {
-					rSrc = ((NodeTypeChangeNode)rSrc).getOldNode();
-					rhsNodes.add(rSrc);
-				}
-				if (rTgt instanceof NodeTypeChangeNode) {
-					rTgt = ((NodeTypeChangeNode)rTgt).getOldNode();
-					rhsNodes.add(rTgt);
-				}
-
-				if ( ! lSrc.isDummy() ) {
-					if ( rSrc.isDummy() ) {
-						if ( rhsNodes.contains(lSrc) ) {
-							//replace the dummy src node by the src node of the pattern connection
-							rConn.setSrc(lSrc);
-						} else if ( ! alreadyReported.contains(re) ) {
-							res = false;
-							rConn.reportError("The source node of reused edge \"" + le + "\" must be reused, too");
-							alreadyReported.add(re);
-						}
-					} else if (lSrc != rSrc && (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE)!=ConnectionNode.REDIRECT_SOURCE && ! alreadyReported.contains(re)) {
-						res = false;
-						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes (and is not declared to redirect source)");
-						alreadyReported.add(re);
-					}
-				}
-				
-				if ( (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE)==ConnectionNode.REDIRECT_SOURCE ) {
-					if(rSrc.isDummy()) {
-						res = false;
-						rConn.reportError("An edge with source redirection must be given a source node.");
-					}
-					
-					if(lSrc.equals(rSrc)) {
-						rConn.reportWarning("Redirecting edge to same source again.");
-					}
-					
-					if(redirectedFrom.containsKey(le)) {
-						res = false;
-						rConn.reportError("Can't redirect edge source more than once.");
-					}
-					redirectedFrom.put(le, rSrc);
-				}
-
-				if ( ! lTgt.isDummy() ) {
-					if ( rTgt.isDummy() ) {
-						if ( rhsNodes.contains(lTgt) ) {
-							//replace the dummy tgt node by the tgt node of the pattern connection
-							rConn.setTgt(lTgt);
-						} else if ( ! alreadyReported.contains(re) ) {
-							res = false;
-							rConn.reportError("The target node of reused edge \"" + le + "\" must be reused, too");
-							alreadyReported.add(re);
-						}
-					} else if ( lTgt != rTgt && (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET)!=ConnectionNode.REDIRECT_TARGET && ! alreadyReported.contains(re)) {
-						res = false;
-						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes (and is not declared to redirect target)");
-						alreadyReported.add(re);
-					}
-				}
-				
-				if ( (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET)==ConnectionNode.REDIRECT_TARGET ) {
-					if(rTgt.isDummy()) {
-						res = false;
-						rConn.reportError("An edge with target redirection must be given a target node.");
-					}
-					
-					if(lTgt.equals(rTgt)) {
-						rConn.reportWarning("Redirecting edge to same target again.");
-					}
-					
-					if(redirectedTo.containsKey(le)) {
-						res = false;
-						rConn.reportError("Can't redirect edge target more than once.");
-					}
-					redirectedTo.put(le, rSrc);
-				}
-
-				//check, whether RHS "adds" a node to a dangling end of a edge
-				if ( ! alreadyReported.contains(re) ) {
-					if ( lSrc.isDummy() && ! rSrc.isDummy() && (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE)!=ConnectionNode.REDIRECT_SOURCE ) {
-						res = false;
-						rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
-						alreadyReported.add(re);
-					}
-					if ( lTgt.isDummy() && ! rTgt.isDummy() && (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET)!=ConnectionNode.REDIRECT_TARGET ) {
-						res = false;
-						rConn.reportError("Reused edge dangles on LHS, but has a target node on RHS");
-						alreadyReported.add(re);
-					}
-				}
-			}
-		}
-
-		return res;
-	}
-
-	private boolean SameNumberOfRewritePartsAndNoNestedRewriteParameters() {
-		boolean res = true;
-
-		for(AlternativeNode alt : pattern.alts.getChildren()) {
-			for(AlternativeCaseNode altCase : alt.getChildren()) {
-				if((right == null) != (altCase.right == null)) {
-					error.error(getCoords(), "Different number of replacement patterns/rewrite parts in iterated/multiple/optional " + ident.toString()
-							+ " and nested alternative case " + altCase.ident.toString());
-					res = false;
-					continue;
-				}
-
-				if(right == null) continue;
-
-				Vector<DeclNode> parametersInNestedAlternativeCase =
-					altCase.right.graph.getParamDecls();
-
-				if(parametersInNestedAlternativeCase.size()!=0) {
-					error.error(altCase.getCoords(), "No replacement parameters allowed in nested alternative cases; given in " + altCase.ident.toString());
-					res = false;
-					continue;
-				}
-			}
-		}
-
-		for(IteratedNode iter : pattern.iters.getChildren()) {
-			if((right == null) != (iter.right == null)) {
-				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in iterated/multiple/optional " + ident.toString()
-						+ " and nested iterated/multiple/optional " + iter.ident.toString());
-				res = false;
-				continue;
-			}
-
-			if(right == null) continue;
-
-			Vector<DeclNode> parametersInNestedIterated =
-				iter.right.graph.getParamDecls();
-
-			if(parametersInNestedIterated.size()!=0) {
-				error.error(iter.getCoords(), "No replacement parameters allowed in nested iterated/multiple/optional; given in " + iter.ident.toString());
-				res = false;
-				continue;
-			}
-		}
-
-		return res;
-	}
-
-	/**
-	 * Check that exec parameters are not deleted.
-	 *
-	 * The check consider the case that parameters are deleted due to
-	 * homomorphic matching.
-	 */
-	private boolean checkExecParamsNotDeleted() {
-		assert isResolved();
-
-		boolean valid = true;
-
-		if(right == null)
-			return valid;
-
-		Set<DeclNode> delete = right.getDelete(pattern);
-		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
-
-		for (BaseNode x : right.graph.imperativeStmts.getChildren()) {
-			if(!(x instanceof ExecNode)) continue;
-
-			ExecNode exec = (ExecNode) x;
-			for(CallActionNode callAction : exec.callActions.getChildren()) {
-				for(ExprNode arg : callAction.params.getChildren()) {
-					if(!(arg instanceof DeclExprNode)) continue;
-
-					ConstraintDeclNode declNode = ((DeclExprNode) arg).getConstraintDeclNode();
-					if(declNode != null) {
-						if(delete.contains(declNode)) {
-							arg.reportError("The deleted " + declNode.getUseString()
-									+ " \"" + declNode.ident + "\" must not be passed to an exec statement");
-							valid = false;
-						}
-						else if (maybeDeleted.contains(declNode)) {
-							declNode.maybeDeleted = true;
-
-							if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-								valid = false;
-
-								String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
-										+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
-								errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
-
-								if(declNode instanceof EdgeDeclNode) {
-									errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
-											+ " and a deleted node exists";
-								}
-								arg.reportError(errorMessage);
-							}
-						}
-					}
-				}
-			}
-		}
-		return valid;
-	}
-
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -382,48 +129,19 @@ public class IteratedNode extends ActionDeclNode  {
 		}
 
 		boolean abstr = true;
-
+		boolean rhsReuseOk = true;
+		boolean execParamsNotDeleted = true;
+		boolean sameNumberOfRewritePartsAndNoNestedRewriteParameters = true;
 		if(right != null) {
-			GraphNode right = this.right.graph;
-
-nodeAbstrLoop:
-            for (NodeDeclNode node : right.getNodes()) {
-                if (!node.inheritsType() && node.getDeclType().isAbstract()) {
-                    if ((node.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
-                        continue;
-                    }
-                    for (PatternGraphNode pattern = this.pattern; pattern != null;
-                            pattern = getParentPatternGraph(pattern)) {
-                        if (pattern.getNodes().contains(node)) {
-                            continue nodeAbstrLoop;
-                        }
-                    }
-                    error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
-                    abstr = false;
-                }
-            }
-
-edgeAbstrLoop:
-            for (EdgeDeclNode edge : right.getEdges()) {
-                if (!edge.inheritsType() && edge.getDeclType().isAbstract()) {
-                    if ((edge.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
-                        continue;
-                    }
-                    for (PatternGraphNode pattern = this.pattern; pattern != null;
-                            pattern = getParentPatternGraph(pattern)) {
-                        if (pattern.getEdges().contains(edge)) {
-                            continue edgeAbstrLoop;
-                        }
-                    }
-    				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
-    				abstr = false;
-    			}
-    		}
+			rhsReuseOk = checkRhsReuse(right);
+			execParamsNotDeleted = checkExecParamsNotDeleted(right);
+			sameNumberOfRewritePartsAndNoNestedRewriteParameters = SameNumberOfRewritePartsAndNoNestedRewriteParameters(right, "iterated/multiple/optional");
+			abstr = noAbstractElementInstantiatedNestedPattern(right);
 		}
 
-		return leftHandGraphsOk & checkFilters(pattern, filters) & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
-			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement
-			& checkExecParamsNotDeleted() & abstr;
+		return leftHandGraphsOk & checkFilters(pattern, filters) & sameNumberOfRewritePartsAndNoNestedRewriteParameters
+			& rhsReuseOk & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement
+			& execParamsNotDeleted & abstr;
 	}
 
 	private void constructIRaux(Rule rule) {
