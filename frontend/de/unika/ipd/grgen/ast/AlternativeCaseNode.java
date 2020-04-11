@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.Vector;
 
@@ -39,7 +38,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		setName(AlternativeCaseNode.class, "alternative case");
 	}
 
-	protected PatternGraphNode pattern;
 	protected CollectNode<RhsDeclNode> right;
 	private AlternativeCaseTypeNode type;
 
@@ -53,9 +51,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	 * @param right The right hand side(s).
 	 */
 	public AlternativeCaseNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
-		super(id, subpatternType);
-		this.pattern = left;
-		becomeParent(this.pattern);
+		super(id, subpatternType, left);
 		this.right = right;
 		becomeParent(this.right);
 	}
@@ -73,7 +69,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	protected Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -235,85 +231,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		return res;
 	}
 
-	private boolean checkLeft() {
-		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
-		boolean edgeReUse = false;
-		edgeReUse = true;
-
-		//get the negative graphs and the pattern of this TestDeclNode
-		// NOTE: the order affect the error coords
-		Collection<PatternGraphNode> leftHandGraphs = new LinkedList<PatternGraphNode>();
-		leftHandGraphs.add(pattern);
-		for (PatternGraphNode pgn : pattern.negs.getChildren()) {
-			leftHandGraphs.add(pgn);
-		}
-
-		GraphNode[] graphs = leftHandGraphs.toArray(new GraphNode[0]);
-		Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
-
-		for (int i=0; i<graphs.length; i++) {
-			for (int o=i+1; o<graphs.length; o++) {
-				for (BaseNode iBN : graphs[i].getConnections()) {
-					if (! (iBN instanceof ConnectionNode)) {
-						continue;
-					}
-					ConnectionNode iConn = (ConnectionNode)iBN;
-
-					for (BaseNode oBN : graphs[o].getConnections()) {
-						if (! (oBN instanceof ConnectionNode)) {
-							continue;
-						}
-						ConnectionNode oConn = (ConnectionNode)oBN;
-
-						if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
-							NodeCharacter oSrc, oTgt, iSrc, iTgt;
-							oSrc = oConn.getSrc();
-							oTgt = oConn.getTgt();
-							iSrc = iConn.getSrc();
-							iTgt = iConn.getTgt();
-
-							assert ! (oSrc instanceof NodeTypeChangeNode):
-								"no type changes in test actions";
-							assert ! (oTgt instanceof NodeTypeChangeNode):
-								"no type changes in test actions";
-							assert ! (iSrc instanceof NodeTypeChangeNode):
-								"no type changes in test actions";
-							assert ! (iTgt instanceof NodeTypeChangeNode):
-								"no type changes in test actions";
-
-							//check only if there's no dangling edge
-							if ( !((iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy())
-								&& !((oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy())
-								&& iSrc != oSrc ) {
-								alreadyReported.add(iConn.getEdge());
-								iConn.reportError("Reused edge does not connect the same nodes");
-								edgeReUse = false;
-							}
-
-							//check only if there's no dangling edge
-							if ( !((iTgt instanceof NodeDeclNode) && ((NodeDeclNode)iTgt).isDummy())
-								&& !((oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy())
-								&& iTgt != oTgt && !alreadyReported.contains(iConn.getEdge())) {
-								alreadyReported.add(iConn.getEdge());
-								iConn.reportError("Reused edge does not connect the same nodes");
-								edgeReUse = false;
-							}
-
-
-							if (iConn.getConnectionKind() != oConn.getConnectionKind()) {
-								alreadyReported.add(iConn.getEdge());
-								iConn.reportError("Reused edge does not have the same connection kind");
-								edgeReUse = false;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return edgeReUse;
-	}
-
 	private boolean SameNumberOfRewritePartsAndNoNestedRewriteParameters() {
 		boolean res = true;
 
@@ -454,7 +371,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 nodeAbstrLoop:
             for (NodeDeclNode node : right.getNodes()) {
-    			if (!node.inheritsType() && node.getDeclType().isAbstract()) {
+                if (!node.inheritsType() && node.getDeclType().isAbstract()) {
                     if ((node.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
                         continue;
                     }
@@ -497,12 +414,18 @@ edgeAbstrLoop:
 
 		// add Params to the IR
 		for(DeclNode decl : pattern.getParamDecls()) {
-			rule.addParameter(decl.checkIR(Entity.class));
+			Entity entity = decl.checkIR(Entity.class);
+			if(entity.isDefToBeYieldedTo())
+				rule.addDefParameter(entity);
+			else
+				rule.addParameter(entity);
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
 			} else if (decl instanceof EdgeCharacter) {
 				Edge e = ((EdgeCharacter)decl).getEdge();
 				patternGraph.addSingleEdge(e);
+			} else if(decl instanceof VarDeclNode) {
+				patternGraph.addVariable(((VarDeclNode) decl).getVariable());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
@@ -614,6 +537,7 @@ edgeAbstrLoop:
 
 		return altCaseRule;
 	}
+
 
 	// TODO use this to create IR patterns, that is currently not supported by
 	//      any backend

@@ -5,13 +5,16 @@
  * www.grgen.net
  */
 
+/**
+ * @author Edgar Jakumeit
+ */
+
 package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.Vector;
 
@@ -21,11 +24,11 @@ import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
-import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Variable;
 
 
 /**
@@ -36,7 +39,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		setName(SubpatternDeclNode.class, "subpattern declaration");
 	}
 
-	protected PatternGraphNode pattern;
 	protected CollectNode<RhsDeclNode> right;
 	private SubpatternTypeNode type;
 
@@ -50,9 +52,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	 * @param right The right hand side(s).
 	 */
 	public SubpatternDeclNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
-		super(id, subpatternType);
-		this.pattern = left;
-		becomeParent(this.pattern);
+		super(id, subpatternType, left);
 		this.right = right;
 		becomeParent(this.right);
 	}
@@ -121,62 +121,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 		
 		return type != null;
-	}
-
-	/**
-	 * Check that exec parameters are not deleted.
-	 *
-	 * The check consider the case that parameters are deleted due to
-	 * homomorphic matching.
-	 */
-	private boolean checkExecParamsNotDeleted() {
-		assert isResolved();
-
-		boolean valid = true;
-		
-		if(right.getChildren().size()==0)
-			return valid;
-		
-		Set<DeclNode> delete = right.get(0).getDelete(pattern);
-		Collection<DeclNode> maybeDeleted = right.get(0).getMaybeDeleted(pattern);
-
-		for (BaseNode x : right.get(0).graph.imperativeStmts.getChildren()) {
-			if(!(x instanceof ExecNode)) continue;
-
-			ExecNode exec = (ExecNode) x;
-			for(CallActionNode callAction : exec.callActions.getChildren()) {
-				for(ExprNode arg : callAction.params.getChildren()) {
-					if(!(arg instanceof DeclExprNode)) continue;
-
-					ConstraintDeclNode declNode = ((DeclExprNode) arg).getConstraintDeclNode();
-					if(declNode != null) {
-						if(delete.contains(declNode)) {
-							arg.reportError("The deleted " + declNode.getUseString()
-									+ " \"" + declNode.ident + "\" must not be passed to an exec statement");
-							valid = false;
-						}
-						else if (maybeDeleted.contains(declNode)) {
-							declNode.maybeDeleted = true;
-
-							if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-								valid = false;
-
-								String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
-										+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
-								errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
-
-								if(declNode instanceof EdgeDeclNode) {
-									errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
-											+ " and a deleted node exists";
-								}
-								arg.reportError(errorMessage);
-							}
-						}
-					}
-				}
-			}
-		}
-		return valid;
 	}
 
 	// TODO: pull this and the other code duplications up to ActionDeclNode
@@ -284,7 +228,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
     						alreadyReported.add(re);
     					}
     				}
-
+    				
     				if ( (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET)==ConnectionNode.REDIRECT_TARGET ) {
     					if(rTgt.isDummy()) {
 							res = false;
@@ -321,86 +265,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return res;
 	}
 
-
-	private boolean checkLeft() {
-		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
-		boolean edgeReUse = false;
-		edgeReUse = true;
-
-		//get the negative graphs and the pattern of this TestDeclNode
-		// NOTE: the order affect the error coords
-		Collection<PatternGraphNode> leftHandGraphs = new LinkedList<PatternGraphNode>();
-		leftHandGraphs.add(pattern);
-		for (PatternGraphNode pgn : pattern.negs.getChildren()) {
-			leftHandGraphs.add(pgn);
-		}
-
-		GraphNode[] graphs = leftHandGraphs.toArray(new GraphNode[0]);
-		Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
-
-		for (int i=0; i<graphs.length; i++) {
-			for (int o=i+1; o<graphs.length; o++) {
-				for (BaseNode iBN : graphs[i].getConnections()) {
-					if (! (iBN instanceof ConnectionNode)) {
-						continue;
-					}
-					ConnectionNode iConn = (ConnectionNode)iBN;
-
-					for (BaseNode oBN : graphs[o].getConnections()) {
-						if (! (oBN instanceof ConnectionNode)) {
-							continue;
-						}
-						ConnectionNode oConn = (ConnectionNode)oBN;
-
-						if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
-							NodeCharacter oSrc, oTgt, iSrc, iTgt;
-							oSrc = oConn.getSrc();
-							oTgt = oConn.getTgt();
-							iSrc = iConn.getSrc();
-							iTgt = iConn.getTgt();
-
-							assert ! (oSrc instanceof NodeTypeChangeNode):
-								"no type changes in test actions";
-							assert ! (oTgt instanceof NodeTypeChangeNode):
-								"no type changes in test actions";
-							assert ! (iSrc instanceof NodeTypeChangeNode):
-								"no type changes in test actions";
-							assert ! (iTgt instanceof NodeTypeChangeNode):
-								"no type changes in test actions";
-
-							//check only if there's no dangling edge
-							if ( !((iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy())
-								&& !((oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy())
-								&& iSrc != oSrc ) {
-								alreadyReported.add(iConn.getEdge());
-								iConn.reportError("Reused edge does not connect the same nodes");
-								edgeReUse = false;
-							}
-
-							//check only if there's no dangling edge
-							if ( !((iTgt instanceof NodeDeclNode) && ((NodeDeclNode)iTgt).isDummy())
-								&& !((oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy())
-								&& iTgt != oTgt && !alreadyReported.contains(iConn.getEdge())) {
-								alreadyReported.add(iConn.getEdge());
-								iConn.reportError("Reused edge does not connect the same nodes");
-								edgeReUse = false;
-							}
-
-
-							if (iConn.getConnectionKind() != oConn.getConnectionKind()) {
-								alreadyReported.add(iConn.getEdge());
-								iConn.reportError("Reused edge does not have the same connection kind");
-								edgeReUse = false;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return edgeReUse;
-	}
-
 	private boolean SameNumberOfRewritePartsAndNoNestedRewriteParameters() {
 		boolean res = true;
 
@@ -425,7 +289,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				}
 			}
 		}
-		
+
 		for(IteratedNode iter : pattern.iters.getChildren()) {
 			if(right.getChildren().size()!=iter.right.getChildren().size()) {
 				error.error(getCoords(), "Different number of replacement patterns/rewrite partss in subpattern " + ident.toString()
@@ -433,7 +297,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				res = false;
 				continue;
 			}
-			
+
 			if(right.getChildren().size()==0) continue;
 
 			Vector<DeclNode> parametersInNestedIterated =
@@ -448,7 +312,63 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 		return res;
 	}
-	
+
+	/**
+	 * Check that exec parameters are not deleted.
+	 *
+	 * The check consider the case that parameters are deleted due to
+	 * homomorphic matching.
+	 */
+	private boolean checkExecParamsNotDeleted() {
+		assert isResolved();
+
+		boolean valid = true;
+
+		if(right.getChildren().size()==0)
+			return valid;
+
+		Set<DeclNode> delete = right.get(0).getDelete(pattern);
+		Collection<DeclNode> maybeDeleted = right.get(0).getMaybeDeleted(pattern);
+
+		for (BaseNode x : right.get(0).graph.imperativeStmts.getChildren()) {
+			if(!(x instanceof ExecNode)) continue;
+
+			ExecNode exec = (ExecNode) x;
+			for(CallActionNode callAction : exec.callActions.getChildren()) {
+				for(ExprNode arg : callAction.params.getChildren()) {
+					if(!(arg instanceof DeclExprNode)) continue;
+
+					ConstraintDeclNode declNode = ((DeclExprNode) arg).getConstraintDeclNode();
+					if(declNode != null) {
+						if(delete.contains(declNode)) {
+							arg.reportError("The deleted " + declNode.getUseString()
+									+ " \"" + declNode.ident + "\" must not be passed to an exec statement");
+							valid = false;
+						}
+						else if (maybeDeleted.contains(declNode)) {
+							declNode.maybeDeleted = true;
+
+							if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+								valid = false;
+
+								String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
+										+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
+								errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
+
+								if(declNode instanceof EdgeDeclNode) {
+									errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
+											+ " and a deleted node exists";
+								}
+								arg.reportError(errorMessage);
+							}
+						}
+					}
+				}
+			}
+		}
+		return valid;
+	}
+
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -495,8 +415,9 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	}
 
 	private void constructIRaux(Rule rule) {
-		// add parameters to the IR
 		PatternGraph patternGraph = rule.getPattern();
+
+		// add Params to the IR
 		for(DeclNode decl : pattern.getParamDecls()) {
 			Entity entity = decl.checkIR(Entity.class);
 			if(entity.isDefToBeYieldedTo())
@@ -559,7 +480,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				}
 				for(Rule iter : patternGraph.getIters()) {
 					iter.getRight().addReplParameter(decl.checkIR(Node.class));
-					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());					
+					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());
 				}
 			} else if(decl instanceof VarDeclNode) {
 				for(Alternative alt : patternGraph.getAlts()) {
@@ -570,14 +491,19 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				}
 				for(Rule iter : patternGraph.getIters()) {
 					iter.getRight().addReplParameter(decl.checkIR(Variable.class));
-					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());					
+					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());
 				}
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
 		}
 	}
-	
+
+	protected PatternGraphNode getPattern() {
+		assert isResolved();
+		return pattern;
+	}
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -675,11 +601,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		assert isResolved();
 
 		return type;
-	}
-
-	protected PatternGraphNode getPattern() {
-		assert isResolved();
-		return pattern;
 	}
 
 	public static String getKindStr() {

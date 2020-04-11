@@ -57,6 +57,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -69,6 +70,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -87,6 +89,7 @@ public class RuleDeclNode extends TestDeclNode {
 			new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
 		for(IdentNode mtid : implementedMatchTypesUnresolved.getChildren()) {

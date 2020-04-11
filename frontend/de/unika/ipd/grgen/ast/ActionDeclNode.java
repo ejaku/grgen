@@ -29,8 +29,13 @@ import java.util.Queue;
 // (maybe a test must be modeled as a rule with 0 RHS in order to be able to unify with the other action decl nodes)
 public abstract class ActionDeclNode extends DeclNode
 {
-	public ActionDeclNode(IdentNode id, TypeNode type) {
+	protected PatternGraphNode pattern;
+
+	public ActionDeclNode(IdentNode id, TypeNode type, PatternGraphNode left) {
 		super(id, type);
+
+		this.pattern = left;
+		becomeParent(this.pattern);
 	}
 
 	/**
@@ -118,5 +123,84 @@ public abstract class ActionDeclNode extends DeclNode
 			return false;
 		}
 		return true;
+	}
+	
+	protected boolean checkLeft() {
+		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
+		boolean edgeReUse = false;
+		edgeReUse = true;
+
+		//get the negative graphs and the pattern of this TestDeclNode
+		// NOTE: the order affect the error coords
+		Collection<PatternGraphNode> leftHandGraphs = new LinkedList<PatternGraphNode>();
+		leftHandGraphs.add(pattern);
+		for (PatternGraphNode pgn : pattern.negs.getChildren()) {
+			leftHandGraphs.add(pgn);
+		}
+
+		GraphNode[] graphs = leftHandGraphs.toArray(new GraphNode[0]);
+		Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
+
+		for (int i=0; i<graphs.length; i++) {
+			for (int o=i+1; o<graphs.length; o++) {
+				for (BaseNode iBN : graphs[i].getConnections()) {
+					if (! (iBN instanceof ConnectionNode)) {
+						continue;
+					}
+					ConnectionNode iConn = (ConnectionNode)iBN;
+
+					for (BaseNode oBN : graphs[o].getConnections()) {
+						if (! (oBN instanceof ConnectionNode)) {
+							continue;
+						}
+						ConnectionNode oConn = (ConnectionNode)oBN;
+
+						if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
+							NodeCharacter oSrc, oTgt, iSrc, iTgt;
+							oSrc = oConn.getSrc();
+							oTgt = oConn.getTgt();
+							iSrc = iConn.getSrc();
+							iTgt = iConn.getTgt();
+
+							assert ! (oSrc instanceof NodeTypeChangeNode):
+								"no type changes in test actions";
+							assert ! (oTgt instanceof NodeTypeChangeNode):
+								"no type changes in test actions";
+							assert ! (iSrc instanceof NodeTypeChangeNode):
+								"no type changes in test actions";
+							assert ! (iTgt instanceof NodeTypeChangeNode):
+								"no type changes in test actions";
+
+							//check only if there's no dangling edge
+							if ( !((iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy())
+								&& !((oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy())
+								&& iSrc != oSrc ) {
+								alreadyReported.add(iConn.getEdge());
+								iConn.reportError("Reused edge does not connect the same nodes");
+								edgeReUse = false;
+							}
+
+							//check only if there's no dangling edge
+							if ( !((iTgt instanceof NodeDeclNode) && ((NodeDeclNode)iTgt).isDummy())
+								&& !((oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy())
+								&& iTgt != oTgt && !alreadyReported.contains(iConn.getEdge())) {
+								alreadyReported.add(iConn.getEdge());
+								iConn.reportError("Reused edge does not connect the same nodes");
+								edgeReUse = false;
+							}
+
+
+							if (iConn.getConnectionKind() != oConn.getConnectionKind()) {
+								alreadyReported.add(iConn.getEdge());
+								iConn.reportError("Reused edge does not have the same connection kind");
+								edgeReUse = false;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return edgeReUse;
 	}
 }
