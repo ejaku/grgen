@@ -175,10 +175,10 @@ public class PackageActionTypeNode extends CompoundTypeNode {
 	@Override
 	protected boolean checkLocal() {
 		boolean res = true;
-		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {	
+		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
 			res &= UnitNode.checkStatementsLHS(subpattern, subpattern.pattern);
-			if(subpattern.right.size()>0)
-				res &= UnitNode.checkStatementsRHS(subpattern, subpattern.right.get(0).graph);
+			if(subpattern.right != null)
+				res &= UnitNode.checkStatementsRHS(subpattern, subpattern.right.graph);
 		}
 		for(TestDeclNode action : actions.getChildren()) {
 			res &= UnitNode.checkStatementsLHS(action, action.pattern);

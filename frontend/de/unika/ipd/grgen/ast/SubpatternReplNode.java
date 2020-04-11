@@ -68,7 +68,7 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 
 	@Override
 	protected boolean checkLocal() {
-		Collection<RhsDeclNode> right = subpattern.type.right.getChildren();
+		RhsDeclNode right = subpattern.type.right;
 		String patternName = subpattern.type.pattern.nameOfGraph;
 
 		if((subpattern.context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
@@ -77,7 +77,7 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 		}
 		
 		// check whether the used pattern contains one rhs
-		if(right.size()!=1) {
+		if(right == null) {
 			error.error(getCoords(), "No dependent replacement specified in \"" + patternName + "\" ");
 			return false;
 		}
@@ -89,8 +89,8 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 	private boolean checkSubpatternSignatureAdhered() {
 		// check if the number of parameters is correct
 		String patternName = subpattern.type.pattern.nameOfGraph;
-		Collection<RhsDeclNode> right = subpattern.type.right.getChildren();
-		Vector<DeclNode> formalReplacementParameters = right.iterator().next().graph.getParamDecls();
+		RhsDeclNode right = subpattern.type.right;
+		Vector<DeclNode> formalReplacementParameters = right.graph.getParamDecls();
 		int expected = formalReplacementParameters.size();
 		int actual = replConnections.size();
 		if (expected != actual) {

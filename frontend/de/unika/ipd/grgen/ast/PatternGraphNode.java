@@ -496,15 +496,15 @@ public class PatternGraphNode extends GraphNode {
 		boolean result = true;
 		for(PatternGraphNode pattern : negs.getChildren()) {
 			for(IteratedNode iter : pattern.iters.getChildren()) {
-				if(iter.right.size()>0) {
-					iter.right.get(0).reportError("An iterated contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
+				if(iter.right != null) {
+					iter.right.reportError("An iterated contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
 					result = false;
 				}
 			}
 			for(AlternativeNode alt : pattern.alts.getChildren()) {
 				for(AlternativeCaseNode altCase : alt.getChildren()) {
-					if(altCase.right.size()>0) {
-						altCase.right.get(0).reportError("An alternative case contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
+					if(altCase.right != null) {
+						altCase.right.reportError("An alternative case contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
 						result = false;
 					}
 				}
@@ -512,15 +512,15 @@ public class PatternGraphNode extends GraphNode {
 		}
 		for(PatternGraphNode pattern : idpts.getChildren()) {
 			for(IteratedNode iter : pattern.iters.getChildren()) {
-				if(iter.right.size()>0) {
-					iter.right.get(0).reportError("An iterated contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
+				if(iter.right != null) {
+					iter.right.reportError("An iterated contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
 					result = false;
 				}
 			}
 			for(AlternativeNode alt : pattern.alts.getChildren()) {
 				for(AlternativeCaseNode altCase : alt.getChildren()) {
-					if(altCase.right.size()>0) {
-						altCase.right.get(0).reportError("An alternative case contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
+					if(altCase.right != null) {
+						altCase.right.reportError("An alternative case contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
 						result = false;
 					}
 				}

@@ -188,7 +188,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 
 		for(AlternativeNode alt : pattern.alts.getChildren()) {
 			for(AlternativeCaseNode altCase : alt.getChildren()) {
-				if(altCase.right.getChildren().size() != 0) {
+				if(altCase.right != null) {
 					error.error(getCoords(), "Different number of replacement patterns/rewrite parts in test " + ident.toString()
 							+ " and nested alternative case " + altCase.ident.toString());
 					res = false;
@@ -198,7 +198,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		}
 
 		for(IteratedNode iter : pattern.iters.getChildren()) {
-			if(iter.right.getChildren().size() != 0) {
+			if(iter.right != null) {
 				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in test " + ident.toString()
 						+ " and nested iterated/multiple/optional " + iter.ident.toString());
 				res = false;

@@ -234,10 +234,10 @@ public class UnitNode extends BaseNode {
 				res = checkModelTypes(res, packageType.getTypeDecls());
 			}
 		}
-		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {	
+		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
 			res &= checkStatementsLHS(subpattern, subpattern.pattern);
-			if(subpattern.right.size()>0)
-				res &= checkStatementsRHS(subpattern, subpattern.right.get(0).graph);
+			if(subpattern.right != null)
+				res &= checkStatementsRHS(subpattern, subpattern.right.graph);
 		}
 		for(TestDeclNode action : actions.getChildren()) {
 			res &= checkStatementsLHS(action, action.pattern);
@@ -281,14 +281,14 @@ public class UnitNode extends BaseNode {
 		for(AlternativeNode alt : curPattern.alts.getChildren()) {
 			for(AlternativeCaseNode altCase : alt.getChildren()) {
 				res &= checkStatementsLHS(root, altCase.pattern);
-				if(altCase.right.size()>0)
-					res &= checkStatementsRHS(root, altCase.right.get(0).graph);
+				if(altCase.right != null)
+					res &= checkStatementsRHS(root, altCase.right.graph);
 			}
 		}
 		for(IteratedNode iter : curPattern.iters.getChildren()) {
 			res &= checkStatementsLHS(root, iter.pattern);
-			if(iter.right.size()>0)
-				res &= checkStatementsRHS(root, iter.right.get(0).graph);
+			if(iter.right != null)
+				res &= checkStatementsRHS(root, iter.right.graph);
 		}
 		for(PatternGraphNode idpt : curPattern.idpts.getChildren()) {
 			res &= checkStatementsLHS(root, idpt);

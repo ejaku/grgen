@@ -550,7 +550,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		for(AlternativeNode alt : pattern.alts.getChildren()) {
 			for(AlternativeCaseNode altCase : alt.getChildren()) {
-				if(altCase.right.getChildren().size() != 1) {
+				if(altCase.right == null) {
 					error.error(getCoords(), "Different number of replacement patterns/rewrite parts in rule " + ident.toString()
 							+ " and nested alternative case " + altCase.ident.toString());
 					res = false;
@@ -560,7 +560,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 
 		for(IteratedNode iter : pattern.iters.getChildren()) {
-			if(iter.right.getChildren().size() != 1) {
+			if(iter.right == null) {
 				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in rule " + ident.toString()
 						+ " and nested iterated/multiple/optional " + iter.ident.toString());
 				res = false;

@@ -455,7 +455,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		CollectNode<IdentNode> sequenceChilds, int mod ]
 	@init{
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
-		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
+		RhsDeclNode rightHandSide = null;
 		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> retTypes = new CollectNode<BaseNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
@@ -526,15 +526,15 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		defEntitiesOrYieldings[conn, defVariablesToBeYieldedTo, evalss, new CollectNode<ExprNode>(), namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, left]
 		( rightReplace=replacePart[modifyParams, namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
-				rightHandSides.addChild(rightReplace);
+				rightHandSide = rightReplace;
 			}
 		| rightModify=modifyPart[dels, modifyParams, namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
-				rightHandSides.addChild(rightModify);
+				rightHandSide = rightModify;
 			}
-		)*
+		)?
 			{
-				id.setDecl(new SubpatternDeclNode(id, left, rightHandSides));
+				id.setDecl(new SubpatternDeclNode(id, left, rightHandSide));
 				patternChilds.addChild(id);
 			}
 		RBRACE { env.popScope(); }
@@ -1850,7 +1850,7 @@ alternativeCase [ AlternativeNode alt, AnonymousScopeNamer namer, int context ]
 		CollectNode<BaseNode> conn = new CollectNode<BaseNode>();
 		CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
 		CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
-		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
+		RhsDeclNode rightHandSide = null;
 	}
 	
 	: (name=altIdentDecl)? l=LBRACE { namer.defAltCase(name, getCoords(l)); } { env.pushScope(namer.altCase()); }
@@ -1859,15 +1859,15 @@ alternativeCase [ AlternativeNode alt, AnonymousScopeNamer namer, int context ]
 		(
 			rightReplace=replacePart[new CollectNode<BaseNode>(), namer, context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
-					rightHandSides.addChild(rightReplace);
+					rightHandSide = rightReplace;
 				}
 			| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), namer, context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
-					rightHandSides.addChild(rightModify);
+					rightHandSide = rightModify;
 				}
 		) ?
 		RBRACE { env.popScope(); }
-		{ alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSides)); namer.undefAltCase(); }
+		{ alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSide)); namer.undefAltCase(); }
 	;
 
 alternativeCasePure [ AlternativeNode alt, Token a, AnonymousScopeNamer namer, int context ]
@@ -1877,7 +1877,7 @@ alternativeCasePure [ AlternativeNode alt, Token a, AnonymousScopeNamer namer, i
 		CollectNode<BaseNode> conn = new CollectNode<BaseNode>();
 		CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
 		CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
-		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
+		RhsDeclNode rightHandSide = null;
 		IdentNode altCaseName = IdentNode.getInvalid();
 	}
 	
@@ -1887,15 +1887,15 @@ alternativeCasePure [ AlternativeNode alt, Token a, AnonymousScopeNamer namer, i
 		(
 			rightReplace=replacePart[new CollectNode<BaseNode>(), namer, context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
-					rightHandSides.addChild(rightReplace);
+					rightHandSide = rightReplace;
 				}
 			| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), namer, context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
-					rightHandSides.addChild(rightModify);
+					rightHandSide = rightModify;
 				}
 		) ?
 		{ env.popScope(); }
-		{ alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSides)); namer.undefAltCase(); }
+		{ alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSide)); namer.undefAltCase(); }
 	;
 
 iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res = null ]
@@ -1904,7 +1904,7 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 		CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
 		CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
-		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
+		RhsDeclNode rightHandSide = null;
 		IdentNode iterName = IdentNode.getInvalid();
 		int minMatches = -1;
 		int maxMatches = -1;
@@ -1922,15 +1922,15 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 		(
 			rightReplace=replacePart[new CollectNode<BaseNode>(), namer, context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
-					rightHandSides.addChild(rightReplace);
+					rightHandSide = rightReplace;
 				}
 			| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), namer, context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
-					rightHandSides.addChild(rightModify);
+					rightHandSide = rightModify;
 				}
 		) ?
 		RBRACE
-		{ res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); namer.undefIter(); }
+		{ res = new IteratedNode(namer.iter(), left, rightHandSide, minMatches, maxMatches); namer.undefIter(); }
 		filterDeclsIterated[name, res]
 		{ env.popScope(); }
 	| 
@@ -1940,11 +1940,11 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 		(
 			rightReplace=replacePart[new CollectNode<BaseNode>(), namer, context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
-					rightHandSides.addChild(rightReplace);
+					rightHandSide = rightReplace;
 				}
 			| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), namer, context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
-					rightHandSides.addChild(rightModify);
+					rightHandSide = rightModify;
 				}
 		) ?
 		RPAREN { env.popScope(); }
@@ -1956,7 +1956,7 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 	  	   ( COLON ( STAR { maxMatches=0; } | i=NUM_INTEGER { maxMatches = Integer.parseInt(i.getText()); } ) | { maxMatches = minMatches; } )
 		  RBRACK
 	  )
-		{ res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); namer.undefIter(); }
+		{ res = new IteratedNode(namer.iter(), left, rightHandSide, minMatches, maxMatches); namer.undefIter(); }
 	;
 
 negative [ AnonymousScopeNamer namer, int context ] returns [ PatternGraphNode res = null ]
