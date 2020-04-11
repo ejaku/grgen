@@ -1,0 +1,12 @@
+pattern p {
+	alternative {
+		foo {
+			alternative {
+				bar {
+					modify {
+					}
+				}
+			}
+		}
+	}
+}

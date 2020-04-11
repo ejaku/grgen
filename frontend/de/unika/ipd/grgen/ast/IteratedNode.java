@@ -131,15 +131,16 @@ public class IteratedNode extends ActionDeclNode  {
 		boolean abstr = true;
 		boolean rhsReuseOk = true;
 		boolean execParamsNotDeleted = true;
-		boolean sameNumberOfRewritePartsAndNoNestedRewriteParameters = true;
+		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, "iterated/multiple/optional");
+		boolean noNestedRewriteParameters = true;
 		if(right != null) {
 			rhsReuseOk = checkRhsReuse(right);
 			execParamsNotDeleted = checkExecParamsNotDeleted(right);
-			sameNumberOfRewritePartsAndNoNestedRewriteParameters = SameNumberOfRewritePartsAndNoNestedRewriteParameters(right, "iterated/multiple/optional");
+			noNestedRewriteParameters = noNestedRewriteParameters(right, "iterated/multiple/optional");
 			abstr = noAbstractElementInstantiatedNestedPattern(right);
 		}
 
-		return leftHandGraphsOk & checkFilters(pattern, filters) & sameNumberOfRewritePartsAndNoNestedRewriteParameters
+		return leftHandGraphsOk & checkFilters(pattern, filters) & sameNumberOfRewriteParts && noNestedRewriteParameters
 			& rhsReuseOk & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement
 			& execParamsNotDeleted & abstr;
 	}

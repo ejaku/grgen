@@ -1,0 +1,12 @@
+pattern p {
+	iterated {
+		.;
+		
+		iterated {
+			.;
+			
+			modify {
+			}
+		}
+	}
+}

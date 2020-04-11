@@ -145,15 +145,16 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		boolean abstr = true;
 		boolean rhsReuseOk = true;
 		boolean execParamsNotDeleted = true;
-		boolean sameNumberOfRewritePartsAndNoNestedRewriteParameters = true;
+		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, "subpattern");
+		boolean noNestedRewriteParameters = true;
 		if(right != null) {
 			rhsReuseOk = checkRhsReuse(right);
 			execParamsNotDeleted = checkExecParamsNotDeleted(right);
-			sameNumberOfRewritePartsAndNoNestedRewriteParameters = SameNumberOfRewritePartsAndNoNestedRewriteParameters(right, "subpattern");
+			noNestedRewriteParameters = noNestedRewriteParameters(right, "subpattern");
 			abstr = noAbstractElementInstantiated(right);
 		}
 
-		return leftHandGraphsOk & sameNumberOfRewritePartsAndNoNestedRewriteParameters
+		return leftHandGraphsOk & sameNumberOfRewriteParts && noNestedRewriteParameters
 			& rhsReuseOk & noReturnInPatternOk
 			& execParamsNotDeleted & abstr;
 	}

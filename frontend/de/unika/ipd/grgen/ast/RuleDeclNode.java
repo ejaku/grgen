@@ -349,32 +349,6 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 	}
 
-	private boolean SameNumberOfRewriteParts(String actionKind) {
-		boolean res = true;
-
-		for(AlternativeNode alt : pattern.alts.getChildren()) {
-			for(AlternativeCaseNode altCase : alt.getChildren()) {
-				if(altCase.right == null) {
-					error.error(getCoords(), "Different number of replacement patterns/rewrite parts in " + actionKind + " " + ident.toString()
-							+ " and nested alternative case " + altCase.ident.toString());
-					res = false;
-					continue;
-				}
-			}
-		}
-
-		for(IteratedNode iter : pattern.iters.getChildren()) {
-			if(iter.right == null) {
-				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in " + actionKind + " " + ident.toString()
-						+ " and nested iterated/multiple/optional " + iter.ident.toString());
-				res = false;
-				continue;
-			}
-		}
-
-		return res;
-	}
-
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -410,7 +384,7 @@ public class RuleDeclNode extends TestDeclNode {
 		calcMaybeRetyped();
 
 		return leftHandGraphsOk & checkRhsReuse(this.right)
-				& SameNumberOfRewriteParts("rule")
+				& sameNumberOfRewriteParts(this.right, "rule")
 				& noReturnInPatternOk & noAbstractElementInstantiated(this.right) & checkRetypedElemsNotDeleted()
 				& checkReturnedElemsNotDeleted() & checkElemsNotRetypedToDifferentTypes()
 				& checkReturnedElemsNotRetyped() & checkExecParamsNotDeleted(this.right)

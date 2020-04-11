@@ -400,7 +400,7 @@ public abstract class ActionDeclNode extends DeclNode
 		return valid;
 	}
 	
-	protected boolean SameNumberOfRewritePartsAndNoNestedRewriteParameters(RhsDeclNode right, String actionKind) {
+	protected boolean sameNumberOfRewriteParts(RhsDeclNode right, String actionKind) {
 		boolean res = true;
 
 		for(AlternativeNode alt : pattern.alts.getChildren()) {
@@ -409,18 +409,6 @@ public abstract class ActionDeclNode extends DeclNode
 					error.error(getCoords(), "Different number of replacement patterns/rewrite parts in " + actionKind + " " + ident.toString()
 							+ " and nested alternative case " + altCase.ident.toString());
 					res = false;
-					continue;
-				}
-
-				if(right == null) continue;
-
-				Vector<DeclNode> parametersInNestedAlternativeCase =
-					altCase.right.graph.getParamDecls();
-
-				if(parametersInNestedAlternativeCase.size()!=0) {
-					error.error(altCase.getCoords(), "No replacement parameters allowed in nested alternative cases; given in " + altCase.ident.toString());
-					res = false;
-					continue;
 				}
 			}
 		}
@@ -430,18 +418,38 @@ public abstract class ActionDeclNode extends DeclNode
 				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in " + actionKind + " " + ident.toString()
 						+ " and nested iterated/multiple/optional " + iter.ident.toString());
 				res = false;
-				continue;
 			}
+		}
 
-			if(right == null) continue;
+		return res;
+	}
 
-			Vector<DeclNode> parametersInNestedIterated =
-				iter.right.graph.getParamDecls();
+	protected boolean noNestedRewriteParameters(RhsDeclNode right, String actionKind) {
+		boolean res = true;
 
-			if(parametersInNestedIterated.size()!=0) {
+		for(AlternativeNode alt : pattern.alts.getChildren()) {
+			for(AlternativeCaseNode altCase : alt.getChildren()) {
+				if(altCase.right == null)
+					continue;
+
+				Vector<DeclNode> parametersInNestedAlternativeCase = altCase.right.graph.getParamDecls();
+
+				if(parametersInNestedAlternativeCase.size() != 0) {
+					error.error(altCase.getCoords(), "No replacement parameters allowed in nested alternative cases; given in " + altCase.ident.toString());
+					res = false;
+				}
+			}
+		}
+
+		for(IteratedNode iter : pattern.iters.getChildren()) {
+			if(iter.right == null)
+				continue;
+
+			Vector<DeclNode> parametersInNestedIterated = iter.right.graph.getParamDecls();
+
+			if(parametersInNestedIterated.size() != 0) {
 				error.error(iter.getCoords(), "No replacement parameters allowed in nested iterated/multiple/optional; given in " + iter.ident.toString());
 				res = false;
-				continue;
 			}
 		}
 

@@ -117,16 +117,17 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 		boolean rhsReuseOk = true;
 		boolean execParamsNotDeleted = true;
-		boolean sameNumberOfRewritePartsAndNoNestedRewriteParameters = true;
+		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, "alternative case");
+		boolean noNestedRewriteParameters = true;
 		boolean abstr = true;
 		if(right != null) {
 			rhsReuseOk = checkRhsReuse(right);
 			execParamsNotDeleted = checkExecParamsNotDeleted(right);
-			sameNumberOfRewritePartsAndNoNestedRewriteParameters = SameNumberOfRewritePartsAndNoNestedRewriteParameters(right, "alternative case");
+			noNestedRewriteParameters = noNestedRewriteParameters(right, "alternative case");
 			abstr = noAbstractElementInstantiatedNestedPattern(right);
 		}
 		
-		return leftHandGraphsOk & sameNumberOfRewritePartsAndNoNestedRewriteParameters
+		return leftHandGraphsOk & sameNumberOfRewriteParts && noNestedRewriteParameters
 			& rhsReuseOk & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement
 			& execParamsNotDeleted & abstr;
 	}
