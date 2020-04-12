@@ -589,9 +589,9 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * Generates a type condition if the given graph entity inherits its type
-	 * from another element via a typeof expression.
+	 * from another element via a typeof expression (dynamic type checks).
 	 */
-	private void genTypeCondsFromTypeof(PatternGraph gr, GraphEntity elem) {
+	private void genTypeConditionsFromTypeof(PatternGraph gr, GraphEntity elem) {
 		if (elem.inheritsType()) {
 			assert !elem.isCopy(); // must extend this function and lgsp nodes if left hand side copy/copyof are wanted meaning compare attributes of exact dynamic types
 
@@ -608,176 +608,314 @@ public class PatternGraphNode extends GraphNode {
 
 	@Override
 	protected IR constructIR() {
-		PatternGraph gr = new PatternGraph(nameOfGraph, modifiers);
-		gr.setDirectlyNestingLHSGraph(gr);
+		PatternGraph patternGraph = new PatternGraph(nameOfGraph, modifiers);
+		patternGraph.setDirectlyNestingLHSGraph(patternGraph);
 		
 		// mark this node as already visited
-		setIR(gr);
+		setIR(patternGraph);
 
-		if(this==getInvalid())
-			return gr;
+		if(this == getInvalid())
+			return patternGraph;
 		
-		gr.setIterationBreaking(iterationBreaking);
+		patternGraph.setIterationBreaking(iterationBreaking);
 
-		for (BaseNode connection : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter) connection;
-			conn.addToGraph(gr);
+		for(BaseNode connectionNode : connections.getChildren()) {
+			ConnectionCharacter conn = (ConnectionCharacter)connectionNode;
+			conn.addToGraph(patternGraph);
 		}
 
-		for(VarDeclNode n : defVariablesToBeYieldedTo.getChildren()) {
-			gr.addVariable(n.checkIR(Variable.class));
+		for(VarDeclNode varNode : defVariablesToBeYieldedTo.getChildren()) {
+			patternGraph.addVariable(varNode.checkIR(Variable.class));
 		}
 
-		for(BaseNode subpatternUsage : subpatterns.getChildren()) {
-			gr.addSubpatternUsage(subpatternUsage.checkIR(SubpatternUsage.class));
+		for(BaseNode subpatternUsageNode : subpatterns.getChildren()) {
+			patternGraph.addSubpatternUsage(subpatternUsageNode.checkIR(SubpatternUsage.class));
 		}
 
+		for(AlternativeNode alternativeNode : alts.getChildren()) {
+			patternGraph.addAlternative(alternativeNode.checkIR(Alternative.class));
+		}
+
+		for(IteratedNode iteratedNode : iters.getChildren()) {
+			patternGraph.addIterated(iteratedNode.checkIR(Rule.class));
+		}
+
+		for(PatternGraphNode negativeNode : negs.getChildren()) {
+			addNegatives(patternGraph, negativeNode);
+		}
+
+		for(PatternGraphNode independentNode : idpts.getChildren()) {
+			addIndependents(patternGraph, independentNode);
+		}
+
+		for(ExprNode condition : conditions.getChildren()) {
+			ExprNode conditionEvaluated = condition.evaluate(); // compile time evaluation (constant folding)
+			warnIfConditionIsConstant(conditionEvaluated);
+			patternGraph.addCondition(conditionEvaluated.checkIR(Expression.class));
+		}
+
+		for(EvalStatements yields : getYieldEvalStatements()) {
+			patternGraph.addYield(yields);
+		}
+
+		for(Node node : patternGraph.getNodes()) {
+			genTypeConditionsFromTypeof(patternGraph, node);
+		}
+		for(Edge edge : patternGraph.getEdges()) {
+			genTypeConditionsFromTypeof(patternGraph, edge);
+		}
+
+		for(Set<ConstraintDeclNode> homEntityNodes : getHoms()) {
+			addHoms(patternGraph, homEntityNodes);
+		}
+
+		for(TotallyHomNode totallyHomNode : totallyHoms.getChildren()) {
+			addTotallyHom(patternGraph, totallyHomNode);
+		}
+
+		for(Node node : patternGraph.getNodes()) {
+			ensureDefNodesAreHomToAllOthers(patternGraph, node);
+		}
+		for(Edge edge : patternGraph.getEdges()) {
+			ensureDefEdgesAreHomToAllOthers(patternGraph, edge);
+		}
+
+		for(Node node : patternGraph.getNodes()) {
+			ensureRetypedNodeHomToOldNode(patternGraph, node);
+		}
+		for(Edge edge : patternGraph.getEdges()) {
+			ensureRetypedEdgeHomToOldEdge(patternGraph, edge);
+		}
+
+		addElementsHiddenInUsedConstructs(patternGraph);
+
+		return patternGraph;
+	}
+
+	void addElementsHiddenInUsedConstructs(PatternGraph patternGraph)
+	{
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
-		for(SubpatternUsageNode n : subpatterns.getChildren()) {
-			addSubpatternUsageArgument(gr, n);
+		for(SubpatternUsageNode subpatternUsageNode : subpatterns.getChildren()) {
+			addSubpatternUsageArgument(patternGraph, subpatternUsageNode);
 		}
 
 		// add subpattern usage yield elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage yield)
-		for(SubpatternUsageNode n : subpatterns.getChildren()) {
-			addSubpatternUsageYieldArgument(gr, n);
-		}
-
-		for(AlternativeNode alternativeNode : alts.getChildren()) {
-			Alternative alternative = alternativeNode.checkIR(Alternative.class);
-			gr.addAlternative(alternative);
-		}
-
-		for(IteratedNode iterNode : iters.getChildren()) {
-			Rule iter = iterNode.checkIR(Rule.class);
-			gr.addIterated(iter);
-		}
-
-		for (ExprNode expr : conditions.getChildren()) {
-			ExprNode exprEvaluated = expr.evaluate(); // compile time evaluation (constant folding)
-			warnIfConditionIsConstant(exprEvaluated);
-			gr.addCondition(exprEvaluated.checkIR(Expression.class));
-		}
-
-		// add yield assignments to the IR
-		for (EvalStatements n : getYieldEvalStatements()) {
-			gr.addYield(n);
-		}
-		
-		// generate type conditions from dynamic type checks via typeof
-		for (Node n : gr.getNodes()) {
-			genTypeCondsFromTypeof(gr, n);
-		}
-		for (Edge e : gr.getEdges()) {
-			genTypeCondsFromTypeof(gr, e);
+		for(SubpatternUsageNode subpatternUsageNode : subpatterns.getChildren()) {
+			addSubpatternUsageYieldArgument(patternGraph, subpatternUsageNode);
 		}
 
 		// add elements only mentioned in typeof to the pattern
-		for (Node n : gr.getNodes()) {
-			addNodeFromTypeof(gr, n);
+		for(Node node : patternGraph.getNodes()) {
+			addNodeFromTypeof(patternGraph, node);
 		}
-		for (Edge e : gr.getEdges()) {
-			addEdgeFromTypeof(gr, e);
+		for(Edge edge : patternGraph.getEdges()) {
+			addEdgeFromTypeof(patternGraph, edge);
 		}
 
 		// add Condition elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the condition)
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
-		for(Expression cond : gr.getConditions()) {
-			cond.collectNeededEntities(needs);
+		for(Expression condition : patternGraph.getConditions()) {
+			condition.collectNeededEntities(needs);
 		}
-		addNeededEntities(gr, needs);
+		addNeededEntities(patternGraph, needs);
 
 		// add Yielded elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the yield)
 		needs = new NeededEntities(true, true, true, false, false, true, false, false);
-		for(EvalStatements yield : gr.getYields()) {
+		for(EvalStatements yield : patternGraph.getYields()) {
 			yield.collectNeededEntities(needs);
 		}
-		addNeededEntities(gr, needs);
-
-		for (Set<ConstraintDeclNode> homSet : getHoms()) {
-			addHoms(gr, homSet);
-        }
+		addNeededEntities(patternGraph, needs);
 
 		// add elements only mentioned in hom-declaration to the IR
 		// (they're declared in an enclosing graph and locally only show up in the hom-declaration)
-		for(Collection<? extends GraphEntity> homSet : gr.getHomomorphic())	{
-			addHomElements(gr, homSet);
+		for(Collection<? extends GraphEntity> homEntities : patternGraph.getHomomorphic())	{
+			addHomElements(patternGraph, homEntities);
 		}
-
-		for (TotallyHomNode hom : totallyHoms.getChildren()) {
-			addTotallyHom(gr, hom);
-        }
 
 		// add elements only mentioned in "map by / draw from storage" entities to the IR
 		// (they're declared in an enclosing graph and locally only show up in the "map by / draw from storage" node)
-		for(Node node : gr.getNodes()) {
-			addElementsFromStorageAccess(gr, node);
+		for(Node node : patternGraph.getNodes()) {
+			addElementsFromStorageAccess(patternGraph, node);
 		}
 
-		for(Node node : gr.getNodes()) {	
+		for(Node node : patternGraph.getNodes()) {	
 			// add old node of lhs retype
 			if(node instanceof RetypedNode && !node.isRHSEntity()) {
-				addNodeIfNotYetContained(gr, ((RetypedNode)node).getOldNode());
+				addNodeIfNotYetContained(patternGraph, ((RetypedNode)node).getOldNode());
 			}
 		}
-		
-		for(Edge edge : gr.getEdges()) {
-			addElementsFromStorageAccess(gr, edge);
+
+		for(Edge edge : patternGraph.getEdges()) {
+			addElementsFromStorageAccess(patternGraph, edge);
 		}
 
-		for(Edge edge : gr.getEdges()) {			
+		for(Edge edge : patternGraph.getEdges()) {
 			// add old edge of lhs retype
 			if(edge instanceof RetypedEdge && !edge.isRHSEntity()) {
-				addEdgeIfNotYetContained(gr, ((RetypedEdge)edge).getOldEdge());
+				addEdgeIfNotYetContained(patternGraph, ((RetypedEdge)edge).getOldEdge());
 			}
 		}
 
 		// add index access elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the index access)
 		needs = new NeededEntities(true, true, true, false, false, true, false, false);
-		for(Node node : gr.getNodes()) {
+		for(Node node : patternGraph.getNodes()) {
 			if(node.indexAccess!=null) {
 				node.indexAccess.collectNeededEntities(needs);
 			}
 		}
-		for(Edge edge : gr.getEdges()) {
+		for(Edge edge : patternGraph.getEdges()) {
 			if(edge.indexAccess!=null) {
 				edge.indexAccess.collectNeededEntities(needs);
 			}
 		}
-		addNeededEntities(gr, needs);
-		
-		// add negative parts to the IR
-		for (PatternGraphNode pgn : negs.getChildren()) {
-			addNegatives(gr, pgn);
+		addNeededEntities(patternGraph, needs);
+	}
+	
+	void addSubpatternUsageArgument(PatternGraph patternGraph, SubpatternUsageNode subpatternUsageNode) {
+		List<Expression> subpatternConnections = subpatternUsageNode.checkIR(SubpatternUsage.class).getSubpatternConnections();
+		for(Expression expr : subpatternConnections) {
+			if(expr instanceof GraphEntityExpression) {
+				GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
+				if(connection instanceof Node) {
+					addNodeIfNotYetContained(patternGraph, (Node)connection);
+				} else if(connection instanceof Edge) {
+					addEdgeIfNotYetContained(patternGraph, (Edge)connection);
+				} else {
+					assert(false);
+				}
+			} else {
+				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
+				expr.collectNeededEntities(needs);
+				for(Variable neededVariable : needs.variables) {
+					if(!patternGraph.hasVar(neededVariable)) {
+						patternGraph.addVariable(neededVariable);
+					}
+				}
+			}
+		}
+	}
+
+	void addSubpatternUsageYieldArgument(PatternGraph patternGraph, SubpatternUsageNode subpatternUsageNode) {
+		List<Expression> subpatternYields = subpatternUsageNode.checkIR(SubpatternUsage.class).getSubpatternYields();
+		for(Expression expr : subpatternYields) {
+			if(expr instanceof GraphEntityExpression) {
+				GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
+				if(connection instanceof Node) {
+					addNodeIfNotYetContained(patternGraph, (Node)connection);
+				} else if(connection instanceof Edge) {
+					addEdgeIfNotYetContained(patternGraph, (Edge)connection);
+				} else {
+					assert(false);
+				}
+			} else {
+				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
+				expr.collectNeededEntities(needs);
+				for(Variable neededVariable : needs.variables) {
+					if(!patternGraph.hasVar(neededVariable)) {
+						patternGraph.addVariable(neededVariable);
+					}
+				}
+			}
+		}
+	}
+
+	void addNodeFromTypeof(PatternGraph patternGraph, Node node) {
+		if(node.inheritsType()) {
+			addNodeIfNotYetContained(patternGraph, (Node)node.getTypeof());
+		}
+	}
+
+	void addEdgeFromTypeof(PatternGraph patternGraph, Edge edge) {
+		if(edge.inheritsType()) {
+			addEdgeIfNotYetContained(patternGraph, (Edge)edge.getTypeof());
+		}
+	}
+
+	void addHomElements(PatternGraph patternGraph, Collection<? extends GraphEntity> homEntities) {
+		for(GraphEntity homEntity : homEntities) {
+			if(homEntity instanceof Node) {
+				addNodeIfNotYetContained(patternGraph, (Node)homEntity);
+			} else {
+				addEdgeIfNotYetContained(patternGraph, (Edge)homEntity);
+			}
+		}
+	}
+
+	void addElementsFromStorageAccess(PatternGraph patternGraph, Node node) {
+		if(node.storageAccess != null) {
+			if(node.storageAccess.storageVariable != null) {
+				Variable storageVariable = node.storageAccess.storageVariable;
+				if(!patternGraph.hasVar(storageVariable)) {
+					patternGraph.addVariable(storageVariable);
+				}
+			} else if(node.storageAccess.storageAttribute != null) {
+				Qualification storageAttributeAccess = node.storageAccess.storageAttribute;
+				if(storageAttributeAccess.getOwner() instanceof Node) {
+					addNodeIfNotYetContained(patternGraph, (Node)storageAttributeAccess.getOwner());
+				} else if(storageAttributeAccess.getOwner() instanceof Edge) {
+					addEdgeIfNotYetContained(patternGraph, (Edge)storageAttributeAccess.getOwner());
+				}
+			}
 		}
 
-		// add independent parts to the IR
-		for (PatternGraphNode pgi : idpts.getChildren()) {
-			addIndependents(gr, pgi);
+		if(node.storageAccessIndex != null) {
+			if(node.storageAccessIndex.indexGraphEntity != null) {
+				GraphEntity indexGraphEntity = node.storageAccessIndex.indexGraphEntity;
+				if(indexGraphEntity instanceof Node) {
+					addNodeIfNotYetContained(patternGraph, (Node)indexGraphEntity);
+				} else if(indexGraphEntity instanceof Edge) {
+					addEdgeIfNotYetContained(patternGraph, (Edge)indexGraphEntity);
+				}
+			}
 		}
-		
-		// ensure def to be yielded to elements are hom to all others
-		// so backend doing some fake search planning for them is not scheduling checks for them
-		for (Node node : gr.getNodes()) {
-			ensureDefNodesAreHomToAllOthers(gr, node);
-		}
-		for (Edge edge : gr.getEdges()) {
-			ensureDefEdgesAreHomToAllOthers(gr, edge);
+	}
+
+	void addElementsFromStorageAccess(PatternGraph patternGraph, Edge edge) {
+		if(edge.storageAccess != null) {
+			if(edge.storageAccess.storageVariable != null) {
+				Variable storageVariable = edge.storageAccess.storageVariable;
+				if(!patternGraph.hasVar(storageVariable)) {
+					patternGraph.addVariable(storageVariable);
+				}
+			} else if(edge.storageAccess.storageAttribute != null) {
+				Qualification storageAttributeAccess = edge.storageAccess.storageAttribute;
+				if(storageAttributeAccess.getOwner() instanceof Node) {
+					addNodeIfNotYetContained(patternGraph, (Node)storageAttributeAccess.getOwner());
+				} else if(storageAttributeAccess.getOwner() instanceof Edge) {
+					addEdgeIfNotYetContained(patternGraph, (Edge)storageAttributeAccess.getOwner());
+				}
+			}
 		}
 
-		// ensure lhs retype elements are hom to their old element
-		for (Node node : gr.getNodes()) {
-			ensureRetypedNodeHomToOldNode(gr, node);
+		if(edge.storageAccessIndex != null) {
+			if(edge.storageAccessIndex.indexGraphEntity != null) {
+				GraphEntity indexGraphEntity = edge.storageAccessIndex.indexGraphEntity;
+				if(indexGraphEntity instanceof Node) {
+					addNodeIfNotYetContained(patternGraph, (Node)indexGraphEntity);
+				} else if(indexGraphEntity instanceof Edge) {
+					addEdgeIfNotYetContained(patternGraph, (Edge)indexGraphEntity);
+				}
+			}
 		}
-		for (Edge edge : gr.getEdges()) {
-			ensureRetypedEdgeHomToOldEdge(gr, edge);
-		}
+	}
 
-		return gr;
+	protected void addNeededEntities(PatternGraph patternGraph, NeededEntities needs) {
+		for(Node neededNode : needs.nodes) {
+			addNodeIfNotYetContained(patternGraph, neededNode);
+		}
+		for(Edge neededEdge : needs.edges) {
+			addEdgeIfNotYetContained(patternGraph, neededEdge);
+		}
+		for(Variable neededVariable : needs.variables) {
+			if(!patternGraph.hasVar(neededVariable)) {
+				patternGraph.addVariable(neededVariable);
+			}
+		}
 	}
 
 	void warnIfConditionIsConstant(ExprNode expr) {
@@ -790,224 +928,85 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addSubpatternUsageArgument(PatternGraph gr, SubpatternUsageNode n) {
-		List<Expression> connections = n.checkIR(SubpatternUsage.class).getSubpatternConnections();
-		for(Expression e : connections) {
-			if(e instanceof GraphEntityExpression) {
-				GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
-				if(connection instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)connection);
-				} else if(connection instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)connection);
-				} else {
-					assert(false);
-				}
-			} else {
-				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
-				e.collectNeededEntities(needs);
-				for(Variable neededVariable : needs.variables) {
-					if(!gr.hasVar(neededVariable)) {
-						gr.addVariable(neededVariable);
-					}
-				}
+	void addHoms(PatternGraph patternGraph, Set<ConstraintDeclNode> homEntityNodes) {
+		// homSet is not empty, first element defines type of all elements
+		if (homEntityNodes.iterator().next() instanceof NodeDeclNode) {
+			HashSet<Node> homNodes = new HashSet<Node>();
+			for(DeclNode node : homEntityNodes) {
+				homNodes.add(node.checkIR(Node.class));
 			}
-		}
-	}
-
-	void addSubpatternUsageYieldArgument(PatternGraph gr, SubpatternUsageNode n) {
-		List<Expression> yields = n.checkIR(SubpatternUsage.class).getSubpatternYields();
-		for(Expression e : yields) {
-			if(e instanceof GraphEntityExpression) {
-				GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
-				if(connection instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)connection);
-				} else if(connection instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)connection);
-				} else {
-					assert(false);
-				}
-			} else {
-				NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
-				e.collectNeededEntities(needs);
-				for(Variable neededVariable : needs.variables) {
-					if(!gr.hasVar(neededVariable)) {
-						gr.addVariable(neededVariable);
-					}
-				}
-			}
-		}
-	}
-
-	void addNodeFromTypeof(PatternGraph gr, Node n) {
-		if (n.inheritsType()) {
-			addNodeIfNotYetContained(gr, (Node)n.getTypeof());
-		}
-	}
-
-	void addEdgeFromTypeof(PatternGraph gr, Edge e) {
-		if (e.inheritsType()) {
-			addEdgeIfNotYetContained(gr, (Edge)e.getTypeof());
-		}
-	}
-
-	void addHoms(PatternGraph gr, Set<ConstraintDeclNode> homSet) {
-        // homSet is not empty, first element defines type of all elements
-		if (homSet.iterator().next() instanceof NodeDeclNode) {
-			HashSet<Node> homSetIR = new HashSet<Node>();
-    		for (DeclNode decl : homSet) {
-    			homSetIR.add(decl.checkIR(Node.class));
-    		}
-            gr.addHomomorphicNodes(homSetIR);
-        } else {
-			HashSet<Edge> homSetIR = new HashSet<Edge>();
-    		for (DeclNode decl : homSet) {
-    			homSetIR.add(decl.checkIR(Edge.class));
-    		}
-            gr.addHomomorphicEdges(homSetIR);
-        }
-    }
-
-	void addHomElements(PatternGraph gr, Collection<? extends GraphEntity> homSet)	{
-		for(GraphEntity entity : homSet) {
-			if(entity instanceof Node) {
-				addNodeIfNotYetContained(gr, (Node)entity);
-			} else {
-				addEdgeIfNotYetContained(gr, (Edge)entity);
-			}
-		}
-	}
-
-	void addTotallyHom(PatternGraph gr, TotallyHomNode hom) {
-		if(hom.node != null) {
-			HashSet<Node> homSetIR = new HashSet<Node>();
-			for(NodeDeclNode iso : hom.childrenNode) {
-				homSetIR.add(iso.checkIR(Node.class));
-			}
-			gr.addTotallyHomomorphic(hom.node.checkIR(Node.class), homSetIR);
+			patternGraph.addHomomorphicNodes(homNodes);
 		} else {
-			HashSet<Edge> homSetIR = new HashSet<Edge>();
-			for(EdgeDeclNode iso : hom.childrenEdge) {
-				homSetIR.add(iso.checkIR(Edge.class));
+			HashSet<Edge> homEdges = new HashSet<Edge>();
+			for(DeclNode edge : homEntityNodes) {
+				homEdges.add(edge.checkIR(Edge.class));
 			}
-			gr.addTotallyHomomorphic(hom.edge.checkIR(Edge.class), homSetIR);
-		}
-    }
-
-	void addElementsFromStorageAccess(PatternGraph gr, Node node) {
-		if(node.storageAccess!=null) {
-			if(node.storageAccess.storageVariable!=null) {
-				Variable storageVariable = node.storageAccess.storageVariable;
-				if(!gr.hasVar(storageVariable)) {
-					gr.addVariable(storageVariable);
-				}
-			} else if(node.storageAccess.storageAttribute!=null) {		
-				Qualification storageAttribute = node.storageAccess.storageAttribute;
-				if(storageAttribute.getOwner() instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)storageAttribute.getOwner());
-				} else if(storageAttribute.getOwner() instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)storageAttribute.getOwner());					
-				}
-			}
-		}
-
-		if(node.storageAccessIndex!=null) {
-			if(node.storageAccessIndex.indexGraphEntity!=null) {
-				GraphEntity indexGraphEntity = node.storageAccessIndex.indexGraphEntity;
-				if(indexGraphEntity instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)indexGraphEntity);
-				} else if(indexGraphEntity instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)indexGraphEntity);					
-				}
-			}
-		}		
-	}
-
-	void addElementsFromStorageAccess(PatternGraph gr, Edge edge) {
-		if(edge.storageAccess!=null) {
-			if(edge.storageAccess.storageVariable!=null) {
-				Variable storageVariable = edge.storageAccess.storageVariable;
-				if(!gr.hasVar(storageVariable)) {
-					gr.addVariable(storageVariable);
-				}
-			} else if(edge.storageAccess.storageAttribute!=null) {		
-				Qualification storageAttribute = edge.storageAccess.storageAttribute;
-				if(storageAttribute.getOwner() instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)storageAttribute.getOwner());					
-				} else if(storageAttribute.getOwner() instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)storageAttribute.getOwner());
-				}
-			}
-		}
-
-		if(edge.storageAccessIndex!=null) {
-			if(edge.storageAccessIndex.indexGraphEntity!=null) {
-				GraphEntity indexGraphEntity = edge.storageAccessIndex.indexGraphEntity;
-				if(indexGraphEntity instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)indexGraphEntity);					
-				} else if(indexGraphEntity instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)indexGraphEntity);
-				}
-			}
-		}		
-	}
-
-	void addNegatives(PatternGraph gr, PatternGraphNode pgn) {
-		PatternGraph neg = pgn.getPatternGraph();
-		gr.addNegGraph(neg);
-		if(neg.isIterationBreaking()) {
-			gr.setIterationBreaking(true);
+			patternGraph.addHomomorphicEdges(homEdges);
 		}
 	}
 
-	void addIndependents(PatternGraph gr, PatternGraphNode pgi) {
-		PatternGraph idpt = pgi.getPatternGraph();
-		gr.addIdptGraph(idpt);
-		if(idpt.isIterationBreaking()) {
-			gr.setIterationBreaking(true);
+	void addTotallyHom(PatternGraph patternGraph, TotallyHomNode totallyHomNode) {
+		if(totallyHomNode.node != null) {
+			HashSet<Node> totallyHomNodes = new HashSet<Node>();
+			for(NodeDeclNode node : totallyHomNode.childrenNode) {
+				totallyHomNodes.add(node.checkIR(Node.class));
+			}
+			patternGraph.addTotallyHomomorphic(totallyHomNode.node.checkIR(Node.class), totallyHomNodes);
+		} else {
+			HashSet<Edge> totallyHomEdges = new HashSet<Edge>();
+			for(EdgeDeclNode edge : totallyHomNode.childrenEdge) {
+				totallyHomEdges.add(edge.checkIR(Edge.class));
+			}
+			patternGraph.addTotallyHomomorphic(totallyHomNode.edge.checkIR(Edge.class), totallyHomEdges);
 		}
 	}
 
-	void ensureDefNodesAreHomToAllOthers(PatternGraph gr, Node node) {
+	void addNegatives(PatternGraph patternGraph, PatternGraphNode negativeNode) {
+		PatternGraph negative = negativeNode.getPatternGraph();
+		patternGraph.addNegGraph(negative);
+		if(negative.isIterationBreaking()) {
+			patternGraph.setIterationBreaking(true);
+		}
+	}
+
+	void addIndependents(PatternGraph patternGraph, PatternGraphNode independentNode) {
+		PatternGraph independent = independentNode.getPatternGraph();
+		patternGraph.addIdptGraph(independent);
+		if(independent.isIterationBreaking()) {
+			patternGraph.setIterationBreaking(true);
+		}
+	}
+
+	// ensure def to be yielded to elements are hom to all others
+	// so backend doing some fake search planning for them is not scheduling checks for them
+	void ensureDefNodesAreHomToAllOthers(PatternGraph patternGraph, Node node) {
 		if(node.isDefToBeYieldedTo()) {
-			gr.addHomToAll(node);
+			patternGraph.addHomToAll(node);
 		}
 	}
 	
-	void ensureDefEdgesAreHomToAllOthers(PatternGraph gr, Edge edge) {
+	void ensureDefEdgesAreHomToAllOthers(PatternGraph patternGraph, Edge edge) {
 		if(edge.isDefToBeYieldedTo()) {
-			gr.addHomToAll(edge);
+			patternGraph.addHomToAll(edge);
 		}
 	}
 
-	void ensureRetypedNodeHomToOldNode(PatternGraph gr, Node node) {
+	// ensure lhs retype elements are hom to their old element
+	void ensureRetypedNodeHomToOldNode(PatternGraph patternGraph, Node node) {
 		if(node instanceof RetypedNode && !node.isRHSEntity()) {
 			Vector<Node> homNodes = new Vector<Node>();
 			homNodes.add(node);
 			homNodes.add(((RetypedNode)node).getOldNode());
-			gr.addHomomorphicNodes(homNodes);
+			patternGraph.addHomomorphicNodes(homNodes);
 		}
 	}
 	
-	void ensureRetypedEdgeHomToOldEdge(PatternGraph gr, Edge edge) {
+	void ensureRetypedEdgeHomToOldEdge(PatternGraph patternGraph, Edge edge) {
 		if(edge instanceof RetypedEdge && !edge.isRHSEntity()) {
 			Vector<Edge> homEdges = new Vector<Edge>();
 			homEdges.add(edge);
 			homEdges.add(((RetypedEdge)edge).getOldEdge());
-			gr.addHomomorphicEdges(homEdges);
-		}
-	}
-
-	protected void addNeededEntities(PatternGraph gr, NeededEntities needs) {
-		for(Node neededNode : needs.nodes) {
-			addNodeIfNotYetContained(gr, neededNode);
-		}
-		for(Edge neededEdge : needs.edges) {
-			addEdgeIfNotYetContained(gr, neededEdge);
-		}
-		for(Variable neededVariable : needs.variables) {
-			if(!gr.hasVar(neededVariable)) {
-				gr.addVariable(neededVariable);
-			}
+			patternGraph.addHomomorphicEdges(homEdges);
 		}
 	}
 
