@@ -413,33 +413,7 @@ public class GraphNode extends BaseNode {
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
 		for(OrderedReplacementsNode ors : orderedReplacements.getChildren()) {
-			for(OrderedReplacementNode n : ors.getChildren()) {
-				// TODO: what's with all the other ordered replacement operations containing entitites?
-				if(!(n instanceof SubpatternReplNode))
-					continue;
-				SubpatternReplNode r = (SubpatternReplNode)n;
-				List<Expression> connections = r.checkIR(SubpatternDependentReplacement.class).getReplConnections();
-				for(Expression e : connections) {
-					if(e instanceof GraphEntityExpression) {
-						GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
-						if(connection instanceof Node) {
-							addNodeIfNotYetContained(gr, (Node)connection);
-						} else if(connection instanceof Edge) {
-							addEdgeIfNotYetContained(gr, (Edge)connection);
-						} else {
-							assert(false);
-						}
-					} else {
-						NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
-						e.collectNeededEntities(needs);
-						for(Variable neededVariable : needs.variables) {
-							if(!gr.hasVar(neededVariable)) {
-								gr.addVariable(neededVariable);
-							}
-						}
-					}
-				}
-			}
+			addSubpatternReplacementUsageArgument(gr, ors);
 		}
 
 		// don't add elements only mentioned in ordered replacements here to the pattern, it prevents them from being deleted
@@ -464,20 +438,7 @@ public class GraphNode extends BaseNode {
 		// add deferred exec elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the deferred exec)
 		for(ImperativeStmt impStmt : gr.getImperativeStmts()) {
-			if(impStmt instanceof Exec) {
-				Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities(false);
-				for(Entity entity : neededEntities) {
-					if(entity instanceof Node) {
-						addNodeIfNotYetContained(gr, (Node)entity);
-					} else if(entity instanceof Edge) {
-						addEdgeIfNotYetContained(gr, (Edge)entity);
-					} else {
-						if(!gr.hasVar((Variable)entity)) {
-							gr.addVariable((Variable)entity);
-						}
-					}
-				}
-			}
+			addElementsUsedInDeferredExec(gr, impStmt);
 		}
 
 		// ensure def to be yielded to elements are hom to all others
@@ -492,6 +453,53 @@ public class GraphNode extends BaseNode {
 		}
 
 		return gr;
+	}
+
+	void addSubpatternReplacementUsageArgument(PatternGraph gr, OrderedReplacementsNode ors) {
+		for(OrderedReplacementNode n : ors.getChildren()) {
+			// TODO: what's with all the other ordered replacement operations containing entitites?
+			if(!(n instanceof SubpatternReplNode))
+				continue;
+			SubpatternReplNode r = (SubpatternReplNode)n;
+			List<Expression> connections = r.checkIR(SubpatternDependentReplacement.class).getReplConnections();
+			for(Expression e : connections) {
+				if(e instanceof GraphEntityExpression) {
+					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
+					if(connection instanceof Node) {
+						addNodeIfNotYetContained(gr, (Node)connection);
+					} else if(connection instanceof Edge) {
+						addEdgeIfNotYetContained(gr, (Edge)connection);
+					} else {
+						assert(false);
+					}
+				} else {
+					NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
+					e.collectNeededEntities(needs);
+					for(Variable neededVariable : needs.variables) {
+						if(!gr.hasVar(neededVariable)) {
+							gr.addVariable(neededVariable);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void addElementsUsedInDeferredExec(PatternGraph gr, ImperativeStmt impStmt) {
+		if(impStmt instanceof Exec) {
+			Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities(false);
+			for(Entity entity : neededEntities) {
+				if(entity instanceof Node) {
+					addNodeIfNotYetContained(gr, (Node)entity);
+				} else if(entity instanceof Edge) {
+					addEdgeIfNotYetContained(gr, (Edge)entity);
+				} else {
+					if(!gr.hasVar((Variable)entity)) {
+						gr.addVariable((Variable)entity);
+					}
+				}
+			}
+		}
 	}
 
 	protected void addNodeIfNotYetContained(PatternGraph gr, Node neededNode) {
