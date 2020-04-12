@@ -13,7 +13,14 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.exprevals.DeclExprNode;
 import de.unika.ipd.grgen.ast.exprevals.ExprNode;
+import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Variable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -516,4 +523,127 @@ edgeAbstrLoop:
 	
 		return abstr;
 	}
+	
+	protected void constructIRaux(Rule constructedRule, RhsDeclNode right) {
+		// add Params to the IR
+		addParams(constructedRule);
+
+		// add replacement parameters to the IR
+		PatternGraph rightPattern = null;
+		if(right != null) {
+			rightPattern = right.getPatternGraph(pattern.getPatternGraph());
+		} else {
+			return;
+		}
+
+		// add replacement parameters to the current graph
+		for(DeclNode decl : right.graph.getParamDecls()) {
+			if(decl instanceof NodeCharacter) {
+				rightPattern.addReplParameter(decl.checkIR(Node.class));
+				rightPattern.addSingleNode(((NodeCharacter) decl).getNode());
+			} else if(decl instanceof VarDeclNode) {
+				rightPattern.addReplParameter(decl.checkIR(Variable.class));
+				rightPattern.addVariable(((VarDeclNode) decl).getVariable());
+			} else {
+				throw new IllegalArgumentException("unknown Class: " + decl);
+			}
+		}
+
+		// and also to the nested alternatives and iterateds
+		if(right != null) {
+			addReplacementParamsToNestedAlternativesAndIterateds(constructedRule, right);
+		}
+	}
+
+	protected void addParams(MatchingAction constructedMatchingAction) {
+		PatternGraph patternGraph = constructedMatchingAction.getPattern();
+
+		// (TODO: parameters were already added to the graph -> needed here again (?))
+		for(DeclNode decl : pattern.getParamDecls()) {
+			Entity entity = decl.checkIR(Entity.class);
+			if(entity.isDefToBeYieldedTo())
+				constructedMatchingAction.addDefParameter(entity);
+			else
+				constructedMatchingAction.addParameter(entity);
+			if(decl instanceof NodeCharacter) {
+				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
+			} else if (decl instanceof EdgeCharacter) {
+				Edge e = ((EdgeCharacter)decl).getEdge();
+				patternGraph.addSingleEdge(e);
+			} else if(decl instanceof VarDeclNode) {
+				patternGraph.addVariable(((VarDeclNode) decl).getVariable());
+			} else {
+				throw new IllegalArgumentException("unknown Class: " + decl);
+			}
+		}
+	}
+	
+	protected void addReplacementParamsToNestedAlternativesAndIterateds(Rule constructedRule, RhsDeclNode right) {
+		// add replacement parameters to the nested alternatives and iterateds
+		PatternGraph patternGraph = constructedRule.getPattern();
+		for(DeclNode decl : right.graph.getParamDecls()) {
+			if(decl instanceof NodeCharacter) {
+				for(Alternative alt : patternGraph.getAlts()) {
+					for(Rule altCase : alt.getAlternativeCases()) {
+						altCase.getRight().addReplParameter(decl.checkIR(Node.class));
+						altCase.getRight().addSingleNode(((NodeCharacter) decl).getNode());
+					}
+				}
+				for(Rule iter : patternGraph.getIters()) {
+					iter.getRight().addReplParameter(decl.checkIR(Node.class));
+					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());
+				}
+			} else if(decl instanceof VarDeclNode) {
+				for(Alternative alt : patternGraph.getAlts()) {
+					for(Rule altCase : alt.getAlternativeCases()) {
+						altCase.getRight().addReplParameter(decl.checkIR(Variable.class));
+						altCase.getRight().addVariable(((VarDeclNode) decl).getVariable());
+					}
+				}
+				for(Rule iter : patternGraph.getIters()) {
+					iter.getRight().addReplParameter(decl.checkIR(Variable.class));
+					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());
+				}
+			} else {
+				throw new IllegalArgumentException("unknown Class: " + decl);
+			}
+		}
+	}
+	
+	// TODO use this to create IR patterns, that is currently not supported by
+	//      any backend
+	/*private IR constructPatternIR() {
+		PatternGraph left = pattern.getPatternGraph();
+
+		// return if the pattern graph already constructed the IR object
+		// that may happens in recursive patterns
+		if (isIRAlreadySet()) {
+			return getIR();
+		}
+
+		Vector<PatternGraph> right = new Vector<PatternGraph>();
+		for (int i = 0; i < this.right.children.size(); i++) {
+			right.add(this.right.children.get(i).getPatternGraph(left));
+		}
+
+		// return if the pattern graph already constructed the IR object
+		// that may happens in recursive patterns
+		if (isIRAlreadySet()) {
+			return getIR();
+		}
+
+		Pattern pattern = new Pattern(getIdentNode().getIdent(), left, right);
+
+		constructImplicitNegs(left);
+		constructIRaux(pattern);
+
+		// add Eval statements to the IR
+		for (int i = 0; i < this.right.children.size(); i++) {
+			for (Assignment n : this.right.children.get(i).getAssignments()) {
+				pattern.addEval(i,n);
+			}
+		}
+
+		return pattern;
+	}*/
 }

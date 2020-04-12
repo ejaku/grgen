@@ -15,15 +15,10 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Alternative;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.Variable;
 
 
 /**
@@ -132,89 +127,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 			& execParamsNotDeleted & abstr;
 	}
 
-	private void constructIRaux(Rule rule) {
-		PatternGraph patternGraph = rule.getPattern();
-
-		// add Params to the IR
-		for(DeclNode decl : pattern.getParamDecls()) {
-			Entity entity = decl.checkIR(Entity.class);
-			if(entity.isDefToBeYieldedTo())
-				rule.addDefParameter(entity);
-			else
-				rule.addParameter(entity);
-			if(decl instanceof NodeCharacter) {
-				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
-			} else if (decl instanceof EdgeCharacter) {
-				Edge e = ((EdgeCharacter)decl).getEdge();
-				patternGraph.addSingleEdge(e);
-			} else if(decl instanceof VarDeclNode) {
-				patternGraph.addVariable(((VarDeclNode) decl).getVariable());
-			} else {
-				throw new IllegalArgumentException("unknown Class: " + decl);
-			}
-		}
-
-		// add replacement parameters to the IR
-		PatternGraph right = null;
-		if(this.right != null) {
-			right = this.right.getPatternGraph(pattern.getPatternGraph());
-		} else {
-			return;
-		}
-
-		// add replacement parameters to the current graph
-		for(DeclNode decl : this.right.graph.getParamDecls()) {
-			if(decl instanceof NodeCharacter) {
-				right.addReplParameter(decl.checkIR(Node.class));
-				right.addSingleNode(((NodeCharacter) decl).getNode());
-			} else if(decl instanceof VarDeclNode) {
-				right.addReplParameter(decl.checkIR(Variable.class));
-				right.addVariable(((VarDeclNode) decl).getVariable());
-			} else {
-				throw new IllegalArgumentException("unknown Class: " + decl);
-			}
-		}
-
-		// and also to the nested alternatives and iterateds
-		addReplacementParamsToNestedAlternativesAndIterateds(rule);
-	}
-
-	private void addReplacementParamsToNestedAlternativesAndIterateds(Rule rule) {
-		if(right == null) {
-			return;
-		}
-
-		// add replacement parameters to the nested alternatives and iterateds
-		PatternGraph patternGraph = rule.getPattern();
-		for(DeclNode decl : this.right.graph.getParamDecls()) {
-			if(decl instanceof NodeCharacter) {
-				for(Alternative alt : patternGraph.getAlts()) {
-					for(Rule altCase : alt.getAlternativeCases()) {
-						altCase.getRight().addReplParameter(decl.checkIR(Node.class));
-						altCase.getRight().addSingleNode(((NodeCharacter) decl).getNode());
-					}
-				}
-				for(Rule iter : patternGraph.getIters()) {
-					iter.getRight().addReplParameter(decl.checkIR(Node.class));
-					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());
-				}
-			} else if(decl instanceof VarDeclNode) {
-				for(Alternative alt : patternGraph.getAlts()) {
-					for(Rule altCase : alt.getAlternativeCases()) {
-						altCase.getRight().addReplParameter(decl.checkIR(Variable.class));
-						altCase.getRight().addVariable(((VarDeclNode) decl).getVariable());
-					}
-				}
-				for(Rule iter : patternGraph.getIters()) {
-					iter.getRight().addReplParameter(decl.checkIR(Variable.class));
-					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());
-				}
-			} else {
-				throw new IllegalArgumentException("unknown Class: " + decl);
-			}
-		}
-	}
-
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -226,75 +138,40 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
 		if (isIRAlreadySet()) {
-			addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR());
+			if(right != null) {
+				addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR(), right);
+			}
 			return getIR();
 		}
 
-		// TODO choose the right one
-		PatternGraph right = null;
-		if(this.right != null) {
-			right = this.right.getPatternGraph(left);
+		PatternGraph rightPattern = null;
+		if(right != null) {
+			rightPattern = right.getPatternGraph(left);
 		}
 
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
 		if (isIRAlreadySet()) {
-			addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR());
+			if(right != null) {
+				addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR(), right);
+			}
 			return getIR();
 		}
 
-		Rule altCaseRule = new Rule(getIdentNode().getIdent(), left, right);
+		Rule altCaseRule = new Rule(getIdentNode().getIdent(), left, rightPattern);
 
 		constructImplicitNegs(left);
-		constructIRaux(altCaseRule);
+		constructIRaux(altCaseRule, right);
 
 		// add Eval statements to the IR
-		if(this.right != null) {
-			for (EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
+		if(right != null) {
+			for (EvalStatements n : right.getRHSGraph().getYieldEvalStatements()) {
 				altCaseRule.addEval(n);
 			}
 		}
 
 		return altCaseRule;
 	}
-
-
-	// TODO use this to create IR patterns, that is currently not supported by
-	//      any backend
-	/*private IR constructPatternIR() {
-		PatternGraph left = pattern.getPatternGraph();
-
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			return getIR();
-		}
-
-		Vector<PatternGraph> right = new Vector<PatternGraph>();
-		for (int i = 0; i < this.right.children.size(); i++) {
-			right.add(this.right.children.get(i).getPatternGraph(left));
-		}
-
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			return getIR();
-		}
-
-		Pattern pattern = new Pattern(getIdentNode().getIdent(), left, right);
-
-		constructImplicitNegs(left);
-		constructIRaux(pattern);
-
-		// add Eval statements to the IR
-		for (int i = 0; i < this.right.children.size(); i++) {
-    		for (Assignment n : this.right.children.get(i).getAssignments()) {
-    			pattern.addEval(i,n);
-    		}
-		}
-
-		return pattern;
-	}*/
 
 	/**
 	 * add NACs for induced- or DPO-semantic
