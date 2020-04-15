@@ -333,14 +333,15 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
 
 \begin{rail}
   PrimaryExpr: CastExpr
-  		| MemberAccess
-  		| FunctionCall
-  		| VarIdent
-  		| '::' GlobalVarIdent
-  		| 'nameof' '(' NodeOrEdge? ')'
-  		| 'uniqueof' '(' NodeOrEdge? ')'
-  		| 'random' '(' ( IntExpr )? ')'
-  		| '(' Expression ')';
+		| MemberAccess
+		| FunctionCall
+		| IteratedQuery
+		| VarIdent
+		| '::' GlobalVarIdent
+		| 'nameof' '(' NodeOrEdge? ')'
+		| 'uniqueof' '(' NodeOrEdge? ')'
+		| 'random' '(' ( IntExpr )? ')'
+		| '(' Expression ')';
 \end{rail}\ixnterm{PrimaryExpr}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
 
 The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex} or \ref{sec:nameindex}) of the given graph element as \texttt{string}
@@ -366,6 +367,14 @@ The cast expression returns the original value casted to the new prefixed type.
 The member access \texttt{n.a} returns the value of the attribute \texttt{a} of the graph element \texttt{n}.
 A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or a (internal) user-defined function (see \ref{sub:functions}), or one of the following built-in functions contained in the built-in package \texttt{Math} or in the built-in package \texttt{Time} (for more on packages see \ref{sub:packageaction}):
 
+\begin{rail}
+  IteratedQuery: '[''?' IteratedIdent ']'
+\end{rail}\ixnterm{IteratedQuery}
+
+The iterated query expression \texttt{[?it]} returns an \texttt{array} of \texttt{match<r.it>} 
+where \texttt{it} is the name of a named iterated block (cf. \ref{namednested}) and \texttt{r} the name of the rule that contains it.
+You may apply the \texttt{extract<member>} method and then the array accumulation methods on it to get a value for further processing (cf. \ref{sec:arrayexpr}).
+
 \begin{description}
 \item[\texttt{Math::min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
 \item[\texttt{Math::max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or \texttt{float} or \texttt{double})
@@ -374,6 +383,8 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
 \item[\texttt{Math::floor(.)}] returns the floor of the argument, which must be of type \texttt{double}
 \item[\texttt{Math::round(.)}] returns the argument rounded, which must be of type \texttt{double}
 \item[\texttt{Math::truncate(.)}] returns the argument truncated, which must be of type \texttt{double}
+\item[\texttt{Math::sqr(.)}] returns the square of the first argument, it must be of type \texttt{double}
+\item[\texttt{Math::sqrt(.)}] returns the square root of the first argument, it must be of type \texttt{double}
 \item[\texttt{Math::pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
 \item[\texttt{Math::pow(.)}] returns $e$ to the power of the argument value, which must be of type \texttt{double}
 \item[\texttt{Math::log(.,.)}] returns the logarithm of the first argument value regarding the base given by the second value; both must be of type \texttt{double}

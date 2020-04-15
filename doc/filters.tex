@@ -15,14 +15,14 @@ All filters are used by \emph{filter calls} from the sequences (normally togethe
 Filter functions need to be \emph{defined}, i.e. declared and implemented before they can be \emph{used}.
 
 \begin{rail}
-	FilterFunctionDefinition: 'filter' FilterIdent '<' RuleIdent '>' (Parameters | ()) \\ lbrace (Statement+) rbrace;
+	FilterFunctionDefinition: 'filter' FilterIdent '<' ('class' MatchClassIdent | RuleIdent) '>' \\ (Parameters | ()) lbrace (Statement+) rbrace;
 \end{rail}\ixnterm{FilterFunctionDefinition}\ixkeyw{filter}
 
 A \indexed{filter function definition} is given in between the rules as a global construct.
-It specifies the name of the filter and the parameters supported, furthermore it specifies which rule the filter applies to, and it supplies a list of statements in the body. 
+It specifies the name of the filter and the parameters supported, furthermore it specifies which rule (cf. \ref{chaprulelang}) or match class (cf. \ref{cha:multiruleseq}) the filter applies to, and it supplies a list of statements in the body.
 
 The restrictions of a function body apply here, i.e. you are not allowed to manipulate the graph.
-In contrast to the function body is a \texttt{this} variable predefined, which gives access to the matches array to filter, of type \texttt{array<match<r>>}, where \texttt{r} denotes the name of the rule the filter is defined for.
+In contrast to the function body is a \texttt{this} variable predefined, which gives access to the matches array to filter, of type \texttt{array<match<r>>}, where \texttt{r} denotes the name of the rule the filter is defined for, or of type \texttt{array<match<class mc>>}, where \texttt{mc} denotes the name of the match class the filter is defined for.
 All the operations known for variables of array type (cf. \ref{sec:arrayexpr}) are available.
 
 \begin{example}
@@ -99,10 +99,10 @@ They filter based on certain conditions regarding that variable; filtering may m
 \begin{description}
 \item[\texttt{orderAscendingBy<v>}] orders the matches list ascendingly (from lowest ot highest value according to the \verb#<# operator), alongside the \texttt{v} contained in each match.
 \item[\texttt{orderDescendingBy<v>}] orders the matches list descendingly, alongside the \texttt{v} contained in each match.
+\item[\texttt{keepOneForEach<v>}] filters away all matches with duplicate \texttt{v} values, i.e. only one (prototypical) match is kept per \texttt{v} value. The list must have been grouped or ordered before, otherwise the result is undefined.
 %\item[\texttt{groupBy<v>}] ensures matches of equal \texttt{v} values are neighbours or only separated by matches of equal \texttt{v} values. Ordering subsumes this. (Grouping could be applied on types that only support the \verb#==# operator, though.)
 \item[\texttt{keepSameAsFirst<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the first match. May be used to ensure all matches of an indeterministically chosen value are rewritten, but typically you want to order the matches list before.
 \item[\texttt{keepSameAsLast<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the last match.
-\item[\texttt{keepOneForEach<v>}] filters away all matches with duplicate \texttt{v} values, i.e. only one (prototypical) match is kept per \texttt{v} value. The list must have been grouped or ordered before, otherwise the result is undefined.
 \end{description}
 
 The \texttt{orderAscendingBy<.(,.)*>} and \texttt{orderDescendingBy<.(,.)*>} allow to specify more than one variable, whereas \texttt{keepSameAsFirst<.>}, \texttt{keepSameAsLast<.>} and \texttt{keepOneForEach<.>} support only one variable.
@@ -116,7 +116,7 @@ It is highly recommended to use this \indexed{symmetry reduction} technique when
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Auto-Supplied Filters}
+\section{Auto-Supplied Filters}\label{filter:auto-supplied}
 
 A few filters (that do not need information from a specific match) are auto-supplied, they can be used without implementation and even without declaration. They allow to keep or remove a certain number of matches from the beginning or the end of the matches list.
 
@@ -133,15 +133,30 @@ The following auto-supplied filters may be used directly:
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Filter calls}
+\section{Filter Calls}\label{sec:filtercalls}
 
 \begin{rail}
 	FilterCalls: (backslash FilterCall)*;
-  FilterCall: ( FilterIdent ('(' Arguments ')'|()) | FilterIdent '<' VariableIdent '>' | 'auto' );
+	FilterCall: ( FilterIdent ('(' Arguments ')'|()) | FilterIdent '<' VariableIdent '>' | 'auto' );
 \end{rail}\ixnterm{FilterCalls}\ixnterm{FilterCall}\ixkeyw{auto}
+
+\begin{rail}
+	MatchClassFilterCalls: (backslash MatchClassFilterCall)*;
+	MatchClassFilterCall: ( MatchClass '.' FilterIdent ('(' Arguments ')'|()) | MatchClass '.' FilterIdent '<' VariableIdent '>' );
+\end{rail}\ixnterm{MatchClassFilterCalls}\ixnterm{MatchClassFilterCall}
 
 Filters are employed with \verb#r\f# notation at rule calls from the sequences language.
 This holds for user-implemented, auto-generated, and auto-supplied filters.
+Match class filters (defined on the match class) are employed with \verb#[[r]\mc.f]# notation at multi rule calls from the sequences language.
+This holds for user-implemented, auto-generated, and auto-supplied filters, too.
+
+The normal name resolving rules (regarding packages) apply in an extended version (point 2 added):
+\begin{enumerate}
+	\item content from the package specified with the prefix, if that is "global" then global content
+	\item content from the package the rule or match class is contained in to which the filter applies (so the filter is a dependent entity)
+	\item content from package context (which thus overrides global content)
+	\item global content 
+\end{enumerate}
 
 \begin{example}
 The following rule \texttt{deleteNode} yields to a def variable the amount of outgoing edges of a node, and deletes the node.
@@ -168,6 +183,10 @@ The rule may then be applied with a sequence like the following:
 \end{grshell}
 This way, the 50\% of the nodes with the smallest number of outgoing edges are deleted from the host graph (because they don't get filtered away), or rephrased: the 50\% of the nodes with the highest number of outgoing edges are kept (their matches at the end of the ordered matches list are filtered away).
 \end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Quick Reference Table}
 	
 %\makeatletter
 \begin{table}[htbp]

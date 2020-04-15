@@ -1,0 +1,315 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Nested and Subpattern Rewriting}
+
+%maybe todo: image visualizing LHS - RHS and orthogonal nesting
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Nested Pattern Rewriting}
+\indexmain{nested pattern rewrite}\label{sec:nestedrewrite}
+
+Until now we focused on the pattern matching of nested and subpatterns -- but we're not only interested in finding patterns combined from several pattern pieces, we want to rewrite the pattern pieces, too.
+So we will extend the language of the structure parser introduced so far into a language for a structure transducer.
+This does not hold for the application conditions, which are pure conditions, but for all the other language constructs introduced in this chapter.
+
+\begin{rail}  
+  NestedRewriting: ('replace' | 'modify') lbrace (()+RewriteStatement) rbrace;
+\end{rail}\ixnterm{NestedRewriting}\ixkeyw{replace}\ixkeyw{modify}
+
+Syntactically the rewrite is specified by a modify or replace clause nested directly within the scope of each nested pattern;
+in addition to the rewrite clause nested within the top level pattern.
+Semantically for every instance of a pattern piece matched its dependent rewrite is applied. 
+So in the same manner the complete pattern is assembled from pattern pieces, the complete rewrite gets assembled from rewrite pieces
+(or operationally: rewriting is done along the match tree by rewriting one pattern piece after the other).
+Note that \texttt{return} statements are not available as in the top level rewrite part of a rule, and the \texttt{exec} statements are slightly different.
+
+For a static pattern specification like the iterated block yielding dynamically a combined match of zero to many pattern matches, every submatch is rewritten, according to the rewrite specification applied to the host graph elements of the match bound to the pattern elements
+(if the pattern was matched zero times, no dependent rewrite will be triggered - but note that zero matches still means success for an iterated, so the dependent rewrite piece of the enclosing pattern will be applied).
+This allows e.g. for reversing all edges in the iterated-example (denoting containment in the class), as it is shown in the first of the following two examples.
+For the alternative construct the rewrite is specified directly at every nested pattern, i.e. alternative case as shown in the second of the following two examples); the rewrite of the matched case will be applied.
+
+Nodes and edges from the pattern containing the nested pattern containing the nested rewrite are only available for deletion or retyping inside the nested rewrite if it can be statically determined this is unambiguous, i.e. only happening once.
+So only the rewrites of alternative cases, optional patterns or subpatterns may contain deletions or retypings of elements not declared in their pattern (in contrast to iterated and multiple pattern rewrites).
+
+\begin{example}
+%This is an example for a rewrite part nested within an iterated block. - without the comment the two examples fit on one page
+  \begin{grgen}
+rule methods
+{
+  c:Class;
+  iterated {
+    c --> m:Method;
+
+    replace {
+      c <-- m;
+    }
+  } 
+
+  replace {
+    c;
+  }  
+}
+  \end{grgen}
+\end{example}
+
+\begin{example}
+%This is an example for a rewrite parts nested within alternative cases. - without the comment the two examples fit on one page
+  \begin{grgen}
+rule methodWithTwoOrThreeParameters(m:Method)
+{
+  alternative {
+    Two {
+      m <-- n:Name;
+      m <-e1:Edge- v1:Variable;
+      m <-e2:Edge- v2:Variable;
+      negative {
+        v1; v2; m <-- :Variable;
+      }
+
+      modify {
+        delete(e1); m --> v1;
+        delete(e2); m --> v2;	    
+      }
+    }
+    Three {
+      m <-- n:Name;
+      m <-e1:Edge- v1:Variable;
+      m <-e2:Edge- v2:Variable;
+      m <-e3:Edge- v3:Variable;
+
+      modify {
+        delete(e1); m --> v1;
+        delete(e2); m --> v2;
+        delete(e3); m --> v3;
+      }
+    }
+
+  //modify { can be omitted - see below
+  //}
+}
+  \end{grgen}
+\end{example}
+
+\begin{note} \label{omitmodify}
+In case you got a \texttt{rule} or \texttt{pattern} with an empty \texttt{modify} clause, with all the real work going on in an \texttt{alternative} or an \texttt{iterated}, you can omit the empty \texttt{modify} clause.
+This is a small syntactic convenience reducing noise which is strictly restricted to the top level pattern --- omitting rewrite parts of nested patterns specifies the entire pattern to be match-only (like a \texttt{test}; this must be consistent for all nested patterns).
+\end{note}
+
+\begin{example}
+This is an example which shows how to decide with an alternative on the target type of a retyping depending on the context.
+Please note the omitted rewrite (cf. \ref{omitmodify}).
+
+  \begin{grgen}
+rule alternativeRelabeling
+{
+  m:Method;
+  
+  alternative {
+    private {
+      if { m.access == Access::private; }
+
+      modify {
+        pm:PrivateMethod<m>;
+      }
+    }
+    static {
+      negative {
+        m <-- c;
+      }
+
+      modify {
+        sm:StaticMethod<m>;
+      }
+    }
+  } 
+}
+  \end{grgen}
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Subpattern Rewriting}
+\indexmain{subrule}\label{sec:subrule}
+
+Alongside the separation into subpattern declaration and subpattern entity declaration, 
+subpattern rewriting is separated into a nested rewrite specification given within the subpattern declaration defining how the rewrite looks like 
+and a subpattern rewrite application given within the rewrite part of the pattern containing the subpattern entity declaration requesting the rewrite to be actually applied.
+
+\pagebreak
+
+\begin{rail}  
+  SubpatternRewriting: ('replace' | 'modify') lbrace (()+RewriteStatement) rbrace;
+\end{rail}\ixnterm{SubpatternRewriting}\ixkeyw{replace}\ixkeyw{modify}
+
+The subpattern rewriting specifications within the subpattern declaration looks like a nested rewriting specification,
+but additionally there may be rewrite parameters given in the subpattern header (cf. \ref{subpatterndecl}) which can be referenced in the rewrite body.
+(Most elements can be handed in with normal parameters, but elements created in the rewrite part of the user of the subpattern can only be handed in at rewrite time.) 
+
+\begin{rail}  
+  SubpatternRewriteApplication: 
+    Ident '(' (Ident * ',') ')' ';' |
+    SubpatternOccurence |
+    SubpatternExecEmit
+	;
+\end{rail}\ixnterm{SubpatternRewriteApplication}
+
+\noindent The \emph{SubpatternRewriteApplication} is part of the \emph{RewriteStatement} already introduced (cf. \ref{replstmt}).
+The subpattern rewrite application is given within the rewrite part of the pattern containing the subpattern entity declaration,
+in call notation on the declared subpattern identifier.
+It causes the rewrite part of the subpattern to get used; if you leave it out, the subpattern is simply kept untouched.
+The \emph{SubpatternOccurence} is explained in the next subsection \ref{sub:delpressub}.
+The \emph{SubpatternExecEmit} is explained in chapter \ref{cha:imperativeandstate}.
+
+\pagebreak
+
+\begin{example}
+This is an example for a subpattern rewrite application.
+
+  \begin{grgen}
+pattern TwoParametersAddDelete(mp:Method)
+{
+  mp <-- v1:Variable;
+  mp <-- :Variable;
+
+  modify {
+    delete(v1);
+    mp <-- :Variable;
+  }
+}
+rule methodAndFurtherAddDelete
+{
+  m:Method <-- n:Name;
+  tp:TwoParametersAddDelete(m);
+
+  modify {
+    tp(); // trigger rewriting of the TwoParametersAddDelete instance
+  }
+}
+  \end{grgen}
+\end{example}
+
+
+\begin{example}
+This is another example for a subpattern rewrite application,
+reversing the direction of the edges on an iterated path.
+
+  \begin{grgen}
+pattern IteratedPathReverse(prev:Node)
+{
+  optional {
+    prev --> next:Node;
+    ipr:IteratedPathReverse(next);
+    
+    replace {
+      prev <-- next;
+      ipr();
+    }
+  }
+
+  replace {
+  }
+}
+  \end{grgen}
+\end{example}
+
+\begin{example}
+This is an example for rewrite parameters, connecting every node on an iterated path to a common node (i.e. the local rewrite graph to the containing rewrite graph).
+It can't be simulated by subpattern parameters which get defined at matching time because the common element is only created later on, at rewrite time.
+
+  \begin{grgen}
+pattern ChainFromToReverseToCommon(from:Node, to:Node) replace(common:Node)
+{
+  alternative {
+    rec {
+      from --> intermediate:Node;
+      cftrtc:ChainFromToReverseToCommon(intermediate, to);
+
+      replace {
+        from <-- intermediate;
+        from --> common;
+        cftrtc(common);
+      }
+    }
+    base {
+      from --> to;
+
+      replace {
+        from <-- to;
+        from --> common;
+        to --> common;
+      }
+    }
+  }
+
+  replace {
+    from; to;
+  }
+}
+  \end{grgen}
+
+  \begin{grgen}  
+rule chainFromToReverseToCommon()
+{
+  from:Node; to:Node;
+  cftrtc:ChainFromToReverseToCommon(from, to);
+
+  modify {
+    common:Node;
+    cftrtc(common);
+  }
+}
+  \end{grgen}
+\end{example}
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Deletion and Preservation of Subpatterns}\label{sub:delpressub}
+
+In addition to the fine-grain dependent rewrite, subpatterns may get deleted or kept as a whole.
+
+\begin{rail}  
+  SubpatternOccurence: 
+    Ident ';' |
+    'delete' '(' (Ident + ',') ')' ';';
+\end{rail}\ixkeyw{SubpatternOccurence}\ixkeyw{delete}
+
+In modify mode, they are kept by default, but deleted if the name of the declared subpattern entity is mentioned within a delete statement.
+In replace mode, they are deleted by default, but kept if the name of the declared subpattern entity is mentioned (using occurrence, same as with nodes or edges).
+
+\begin{example}
+  \begin{grgen}
+rule R {
+  m1:Method; m2:Method;
+  tp1:TwoParameters(m1);
+  tp2:TwoParameters(m2);
+
+  replace {
+    tp1; // is kept
+    // tp2 not included here - will be deleted
+    // tp1(); or tp2(); -- would apply dependent replacement
+    m1; m2;
+  }
+}
+  \end{grgen}
+\end{example}
+
+\begin{note}
+You may even give a SubpatternEntityDeclaration within a rewrite part which causes the subpattern to be created; 
+but this employment has several issues which can only be overcome by introducing explicit creation-only subpatterns
+-- so you better only use it if you think it should obviously work (examples for the issues are alternatives -- which case to instantiate? -- and abstract node or edge types -- what concrete type to choose?). 
+
+  \begin{grgen}
+pattern ForCreationOnly(mp:Method)
+{
+  // some complex pattern you want to instantiate several times 
+  // connecting it to the mp handed in
+}
+rule createSubpattern
+{
+  m:Method;
+  
+  modify {
+    :ForCreationOnly(m); // instantiate pattern ForCreationOnly
+  }
+}
+  \end{grgen}
+\end{note}
+

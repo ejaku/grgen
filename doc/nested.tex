@@ -1,8 +1,8 @@
 \chapter{Nested Patterns}\indexmain{nested patterns}
 \label{cha:nested}
 
-The extension of the rule set language described in the chapter \ref{chaprulelang} by nested patterns in this chapter \ref{cha:nested} and the following chapter \ref{cha:sub} greatly enhances the flexibility and expressiveness of pattern matching and rewriting.
-The following patterns to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns:
+The extension of the rule set language described in chapter \ref{chaprulelang} by nested patterns described in this chapter \ref{cha:nested} and the following chapter \ref{cha:sub} greatly enhances the flexibility and expressiveness of pattern matching and rewriting.
+The following patterns that allow to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns:
   \begin{example} \label{ex:proggraph}
     \begin{grgen}
 test method
@@ -201,13 +201,14 @@ rule moveMethod
 
 \begin{rail}  
   NestedPatternWithCardinality: 
-    ('iterated' | 'multiple' | 'optional') lbrace NestedBody rbrace;
+    ('iterated' | 'multiple' | 'optional') lbrace NestedBody rbrace FiltersDecl;
   NestedBody: (PatternStatement+) NestedRewriting?;
 \end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}\ixnterm{NestedPatternWithCardinality}
 
 The \indexmain{pattern cardinality} blocks allow to specify how often the nested pattern -- opening a scope -- is to be matched.
 Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
-(The nested body will be explained in Section~\ref{sec:nestedrewrite}.)
+The \emph{NestedRewriting} will be explained in Section~\ref{sec:nestedrewrite}.
+You find more on the \emph{FiltersDecl} in Chapter~\ref{sub:filters}, usage of the filters is explained in \ref{sub:iteratedfilter}.
 
 \subsection*{The Iterated Block} 
 The iterated block is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail).
@@ -422,124 +423,19 @@ The independent that is used to reference a parameter variable \texttt{v} from m
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Nested Pattern Rewriting}
-\indexmain{nested pattern rewrite}\label{sec:nestedrewrite}
+\section{Named nested patterns}\label{namednested}
 
-Until now we focused on the pattern matching of nested and subpatterns -- but we're not only interested in finding patterns combined from several pattern pieces, we want to rewrite the pattern pieces, too.
-So we will extend the language of the structure parser introduced so far into a language for a structure transducer.
-This does not hold for the application conditions, which are pure conditions, but for all the other language constructs introduced in this chapter.
+Nested patterns can be given names, this is done with the following syntax: 
 
 \begin{rail}  
-  NestedRewriting: ('replace' | 'modify') lbrace (()+RewriteStatement) rbrace;
-\end{rail}\ixnterm{NestedRewriting}\ixkeyw{replace}\ixkeyw{modify}
+  NamedNestedPattern: 
+    ('negative' | 'independent') IdentDecl lbrace etc rbrace;
+    ('iterated' | 'multiple' | 'optional') IdentDecl etc rbrace;
+    'alternative' IdentDecl lbrace etc rbrace;
+\end{rail}
 
-Syntactically the rewrite is specified by a modify or replace clause nested directly within the scope of each nested pattern;
-in addition to the rewrite clause nested within the top level pattern.
-Semantically for every instance of a pattern piece matched its dependent rewrite is applied. 
-So in the same manner the complete pattern is assembled from pattern pieces, the complete rewrite gets assembled from rewrite pieces
-(or operationally: rewriting is done along the match tree by rewriting one pattern piece after the other).
-Note that \texttt{return} statements are not available as in the top level rewrite part of a rule, and the \texttt{exec} statements are slightly different.
+As the already introduced syntax remains valid, on aggregate we extend the nested patterns with optional names to form \indexed{named nested pattern}.
 
-For a static pattern specification like the iterated block yielding dynamically a combined match of zero to many pattern matches, every submatch is rewritten, according to the rewrite specification applied to the host graph elements of the match bound to the pattern elements
-(if the pattern was matched zero times, no dependent rewrite will be triggered - but note that zero matches still means success for an iterated, so the dependent rewrite piece of the enclosing pattern will be applied).
-This allows e.g. for reversing all edges in the iterated-example (denoting containment in the class), as it is shown in the first of the following two examples.
-For the alternative construct the rewrite is specified directly at every nested pattern, i.e. alternative case as shown in the second of the following two examples); the rewrite of the matched case will be applied.
+Iterateds named this way can then be referenced in the result accumulation part with an iterated filtering specification.
+Alternatives and iterateds named this way can then be referenced in the rewrite part with an alternative rewrite order specification or an iterated rewrite order specification.
 
-Nodes and edges from the pattern containing the nested pattern containing the nested rewrite are only available for deletion or retyping inside the nested rewrite if it can be statically determined this is unambiguous, i.e. only happening once.
-So only the rewrites of alternative cases, optional patterns or subpatterns may contain deletions or retypings of elements not declared in their pattern (in contrast to iterated and multiple pattern rewrites).
-
-\begin{example}
-%This is an example for a rewrite part nested within an iterated block. - without the comment the two examples fit on one page
-  \begin{grgen}
-rule methods
-{
-  c:Class;
-  iterated {
-    c --> m:Method;
-
-    replace {
-      c <-- m;
-    }
-  } 
-
-  replace {
-    c;
-  }  
-}
-  \end{grgen}
-\end{example}
-
-\begin{example}
-%This is an example for a rewrite parts nested within alternative cases. - without the comment the two examples fit on one page
-  \begin{grgen}
-rule methodWithTwoOrThreeParameters(m:Method)
-{
-  alternative {
-    Two {
-      m <-- n:Name;
-      m <-e1:Edge- v1:Variable;
-      m <-e2:Edge- v2:Variable;
-      negative {
-        v1; v2; m <-- :Variable;
-      }
-
-      modify {
-        delete(e1); m --> v1;
-        delete(e2); m --> v2;	    
-      }
-    }
-    Three {
-      m <-- n:Name;
-      m <-e1:Edge- v1:Variable;
-      m <-e2:Edge- v2:Variable;
-      m <-e3:Edge- v3:Variable;
-
-      modify {
-        delete(e1); m --> v1;
-        delete(e2); m --> v2;
-        delete(e3); m --> v3;
-      }
-    }
-
-  //modify { can be omitted - see below
-  //}
-}
-  \end{grgen}
-\end{example}
-
-\begin{note} \label{omitmodify}
-In case you got a \texttt{rule} or \texttt{pattern} with an empty \texttt{modify} clause, with all the real work going on in an \texttt{alternative} or an \texttt{iterated}, you can omit the empty \texttt{modify} clause.
-This is a small syntactic convenience reducing noise which is strictly restricted to the top level pattern --- omitting rewrite parts of nested patterns specifies the entire pattern to be match-only (like a \texttt{test}; this must be consistent for all nested patterns).
-\end{note}
-
-\begin{example}
-This is an example which shows how to decide with an alternative on the target type of a retyping depending on the context.
-Please note the omitted rewrite (cf. \ref{omitmodify}).
-
-  \begin{grgen}
-rule alternativeRelabeling
-{
-  m:Method;
-  
-  alternative {
-    private {
-      if { m.access == Access::private; }
-
-      modify {
-        pm:PrivateMethod<m>;
-      }
-    }
-    static {
-      negative {
-        m <-- c;
-      }
-
-      modify {
-        sm:StaticMethod<m>;
-      }
-    }
-  } 
-}
-  \end{grgen}
-\end{example}

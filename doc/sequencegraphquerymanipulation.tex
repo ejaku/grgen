@@ -1,0 +1,139 @@
+\chapter{Sequence Graph Queries and Updates}\label{cha:graphquery}%\indexmain{sequence computations}\label{seqcomp}
+
+In this chapter we take a look at sequence computations, which are not concerned with controlling rules, but with querying the graph (sequence expressions) or directly manipulating the graph (sequence statements).
+Graph querying may occur in two ways, for one with global functions that return elementary data, for the other with pattern based queries (with rules/tests), that return an array of pattern matches.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Pattern Matching Based Queries}
+
+\begin{rail}
+  RuleQuery: '[' '?' Rule ']' ;
+  MultiRuleQuery: '[' '?' '[' (Rule + ',') ']' (MatchClassFilterCalls)? (MatchClassSpec)? ']' ;
+	MatchClassSpec: backslash '<' 'class' MatchClassIdent '>' ;
+\end{rail}\ixnterm{RuleQuery}\ixnterm{MultiRuleQuery}\ixnterm{MatchClassSpec}
+
+The \emph{RuleQuery} clause applies a single rule or test.
+Note that this is a \emph{Rule} as specified in \label{sec:ruleapplication}, that may receive input parameters, and may have filters applied to.
+The filter calls (which allow e.g. to order the matches list and rewrite only the top ones, or to filter symmetric matches) are explained in \ref{sub:filters}.
+
+The square braces (\texttt{[]}) and the \texttt{?} are part of the syntax, but act like the corresponding rule modifiers specified in \label{sec:ruleapplication}, switching for one a rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule, and for the other searching for all pattern matches.
+
+The execution semantics is: all matches of the rule pattern in the host graph is searched for, and returned as an \texttt{array} of \texttt{match<r>}.
+For dedicated query purpose, a test is to be preferred, as the rewrite part won't be applied anyway. 
+No values are returned in either case, and no return assignments specified.
+The data of interest is to be extracted from the array of matches, or the match (type) respectively.
+Towards this goal, esp. the array accumulation methods are to be applied, cf. Section~\ref{sec:arrayexpr}, and the filters before, cf. \ref{sub:filters}, as only the extract method is available from the array query methods.
+No debugging modifier \texttt{\%} may be applied, rule queries are evaluated silently.
+
+TODO: examples for queries.
+%Esp. interesting besides usage in shell eval: Use query to compute arguments for rule application.
+
+The \emph{MultiRuleQuery} clause applies multiple (distinct) rules or tests, that all implement the same match class.
+TODO: First explain with rule control.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph and Subgraph Based Queries and Updates}\label{sec:queryupdate}\label{sec:visited}
+
+The graph and subgraph oriented parts of the sequence expressions are built from four groups,
+the procedures for basic graph manipulation, the functions for querying the graph structure, the functions and procedures of the subgraph operations, and the visited flag query, assignment, and procedures.
+
+The first group is built from basic graph manipulation operators, as defined in \ref{procstab} and described in \ref{sub:procedures}.
+Elements may be added, removed, or retyped, and nodes may be merged or edges redirected.
+Not available are numerical functions, they are only offered by the computations of the rules. 
+
+\begin{example}
+The sequence computation \verb#{ (::x)=add(N); (::x)=retype(::x,M); rem(::x) }# adds a newly created node of type \texttt{N} to the graph (storing it in the global variable \verb#::x#), retypes it to \texttt{M}, and finally removes it again from the graph.
+\end{example}
+
+The second group is built from the operators querying primarily the connectedness of graph elements,
+as defined in \ref{sub:functions}.
+You may ask for one for the nodes or edges of a type.
+You may query for the other for the source or target or opposite node of an edge.
+Furthermore, you may query for adjacent nodes and incident edges,
+maybe even transitively for the reachability.
+Furthermore you may ask with a predicate whether nodes or edges are adjacent or incident to other nodes or edges, maybe even transitively for reachability.
+
+\begin{example}
+\verb#for{x:N in nodes(N); for{::y in outgoing(x); { ::z=target(::y); ::z.a = 42 } } }# 
+is a sequences that sets the attribute \texttt{a} to 42 for all nodes that are adjacent as targets to a source node \texttt{x} of type \texttt{N}.
+You will receive a runtime exception if the type of \verb#::z# does not possess an attribute \texttt{a}.
+
+A more realistic example is to check whether two nodes returned by some rule applications are reachable from each other, carrying out a change only in this case:\\
+\verb#(::x)=r() ;> (::y)=s() ;> if{ {{isReachable(::x,::y)}} ; doSomething(::x, ::y) }#
+\end{example}
+
+The third group is defined by functions and procedures that operate on (sub-)graphs, as defined in \ref{sub:functions} and \ref{sub:procedures}.
+They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
+To this end, parallelized graph isomorphy checking with the \texttt{equalsAny} function is especially of interest.
+You may import, clone, or compute induced subgraphs.
+You may export a subgraph or insert a subgraph into the hostgraph.
+
+\begin{example}
+\verb#( doSomething() ;> { File::export("graph"+i+".grs") } )*# is a sequence scheme for exporting a graph after each iteration step in a loop, gaining a series of snapshots on the hard drive.
+In a later step, you may then conditionally add exported graphs to the host graph: 
+\verb#if{cond; { ::g=File::import("graph"+n.a+".grs"); insert(::g) } }#
+\end{example}
+
+\begin{example}
+When you model a state space with \texttt{Graph} representative nodes (\emph{not} \texttt{graph} standing for a real (sub)graph), which are pointing with \texttt{contains} edges to the nodes contained in their state (i.e. subgraph), and store additionally a replica of the subgraph in a \texttt{sub} attribute of the \texttt{Graph} node, so it is readily available for comparisons,
+then the step of a state space enumeration with isomorphic state pruning is controlled with code like this:\\
+\verb#<< modifyCurrent(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)}#\\
+Inside the backtracking double angles, a new state is computed as first step by modifying the currently focused state received as input \texttt{gr:Graph} from the previous step. The modified subgraph is extracted for comparison by computing the \texttt{inducedSubgraph} from the nodes \texttt{adjacent} via \texttt{contains}-edges to the \texttt{gr}-node.\\
+\verb#;> for{others:Graph in nodes(Graph); {{sub!=others.sub}} } && #\\
+The extracted subgraph is compared with all already enumerated subgraphs that can be accessed by their \texttt{Graph} representative node. Only if none is isomorphic to it, do we continue with making the state persistent.\\
+\verb#/ {(ngr)=insertInduced(adj, gr)} && link(gr,ngr) && {ngr.sub=sub} /#\\
+During a backtracking pause, the modified subgraph is cloned and inserted flatly into the host graph again with \texttt{insertInduced}. A link is added from the old representative to this new representative, to reflect ancestry. Then the subgraph attribute of the new representative \texttt{ngr} is filled with the previously computed subgraph \texttt{sub}. Remark: the first \texttt{inducedSubgraph} above does not contain the representative node and thus is missing all containment edges, too. This \texttt{insertInduced} includes the representative node and thus the containment edges. Syntactical remark: \texttt{inducedSubgraph} is used in an assignment with a function call as RHS, whereas \texttt{insertInduced} is employed from a procedure call which requires parenthesis around the output arguments.\\
+\verb#&& stateStep(ngr, level+1) >>#\\
+Finally, we continue state space construction with the next step, modifying the just inserted subgraph.
+After this step returns (with \texttt{false} as result), do the backtracking double angles roll back the modification -- keeping the changes written during the pause untouched -- and execute \texttt{modifyCurrent} on the next match available in \texttt{gr}.
+\end{example}
+
+The fourth group are the visited flags related operations,
+as described in chapter \ref{sub:visitedaccess}.
+Available is an expression for reading a visited flag, an assignment for writing a visited flag, and procedures for managing the visited flags as defined in \ref{procstab}.
+
+\begin{example}
+Because of the need to allocate and deallocate them, the visited flags are typically used with code like this:
+\verb#flag:int ;> {(flag)=valloc()} ;> r(flag) ;> {vfree(flag)}#\\
+In addition, they may be read in the sequence expressions, and written in the sequence computations:
+\verb#if{ {{!n.visited[flag]}} ; { n.visited[flag] = true } }#
+\end{example}
+
+In the sequences only the sequence expressions are available to compute the parameters for the functions and procedures, compared to the full-fledged expressions of the computations language.
+
+%\pagebreak
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Query Looping and Counting Rule Execution}
+
+Instead of querying the graph with a sequence expression, and continuing processing with filters and array accumulation methods, is it possible to query it with a rule in a for loop of the sequences, processing the single matches one-by-one.
+
+\begin{rail}
+  ExtendedControl:
+    'for' lbrace Variable ':' Type\\
+    ('in' '[' '?' r ']' ';')\\
+    RewriteSequence rbrace
+    ;
+\end{rail}\ixkeyw{for}\label{formatch}
+
+The \texttt{for} matches loop allows to iterate through the matches found for an all-bracketed rule reduced to a test (or a test); i.e. the rule is not applied, we only iterate its matches.
+The loop variable must be of type \texttt{match<r>} with \texttt{r} being the name of the rule matched (the type must be statically known).
+The elements (esp. the nodes and edges) of the pattern of the matched rule can then be accessed by applying the \texttt{.}-operator on the loop variable, giving the name of the element of interest after the dot.
+Note: the elements must be assigned to a variable in order to access their attributes, a direct attribute access after the match access is not possible.
+Note: the match object allows only to access the top level nodes, edges, or variables.
+If you use subpatterns or nested patterns and want to access elements found by them, you have to \texttt{yield}(\ref{sub:yield}) them out to the top-level pattern.
+
+In contrast to a rule query that only allows to fetch data from the graph without modifying it, is it possible for a counted rule application to apply a rule (including its rewrite part), and to assign the size of the matches array as rudimentary query result to a variable.
+
+\begin{rail}
+  RuleExecution: (() 
+	| '(' (Variable+',') ')' '=') \\ ('count' '[' RuleModifier Rule ']' '=''>' Variable);
+\end{rail}\ixnterm{RuleExecution}
+
+The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{count} of matches of rule \texttt{r} to the variable \texttt{c}, and applies \texttt{r} on all the matches.
+With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried out.
+
+TODO: maybe quick reference table
+
+% todo: beispiele im text bringen

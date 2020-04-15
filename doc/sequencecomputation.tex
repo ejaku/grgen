@@ -1,6 +1,6 @@
 %TODO: durchgehen und alles was hier exklusiv ist in die computation-kapitel aufnehmen
 
-\chapter{Sequence Computations}\indexmain{sequence computations}\label{seqcomp}
+\chapter{Sequence Computations and Container Type}\indexmain{sequence computations}\label{seqcomp}
 
 In this chapter we take a look at sequence computations, which are not concerned with directly controlling rules, but with computing values (sequence expressions) or causing side effects (sequence statements), that are then used to control rules.
 
@@ -150,7 +150,11 @@ The example \verb#{ x:array<int>=array<int>[]; x.add(42); x[0]=1; {x.size()>0} }
     PrimarySequenceExpression;
 \end{rail}\ixnterm{SequenceExpression}
 
-Sequence expressions are a subset of the expressions introduced in \ref{sub:expr}, containing the boolean and comparison operators, but only the basic arithmetic operators.
+Sequence expressions are a subset of the expressions introduced in \ref{sub:expr}, containing 
+the boolean expressions,
+the relational (comparison) expressions,
+the arithmetic expressions, but not the bitwise expressions,
+and the string expressions.
 
 \begin{rail}
   ConditionalSequenceExpression: 
@@ -177,7 +181,8 @@ The relational operators work as specified in \ref{sub:expr} for numerical types
 
 \begin{rail}
   ArithmeticSequenceExpression:
-    SequenceExpression ('+' | '-' | '*' | '/' | percent) SequenceExpression;
+    SequenceExpression ('+' | '-' | '*' | '/' | percent) SequenceExpression |
+		'-' SequenceExpression;
 \end{rail}\ixnterm{ArithmeticSequenceExpression}
 
 The arithmetic operator plus is used to denote addition of numerical values or string concatenation,
@@ -217,7 +222,9 @@ this means esp. that a Variable may denote a graph global variable if prefixed w
     GraphElement '.' Attribute '[' SequenceExpression ']' |
     GraphElement '.' 'visited' '[' SequenceExpression ']' |
     FunctionMethodCall |
-    FunctionCall;
+    FunctionCall |
+		RuleQuery |
+		MultiRuleQuery;
   ;
 \end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
@@ -247,79 +254,7 @@ The sequence expression \verb#{{ def(y) && y.meth(x)>=y.a || @("$1").a+1 != func
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Graph and Subgraph Based Queries and Updates}\label{sec:queryupdate}\label{sec:visited}
-
-The graph and subgraph oriented parts of the sequence expressions are built from four groups,
-the procedures for basic graph manipulation, the functions for querying the graph structure, the functions and procedures of the subgraph operations, and the visited flag query, assignment, and procedures.
-
-The first group is built from basic graph manipulation operators, as defined in \ref{procstab} and described in \ref{sub:procedures}.
-Elements may be added, removed, or retyped, and nodes may be merged or edges redirected.
-Not available are numerical functions, they are only offered by the computations of the rules. 
-
-\begin{example}
-The sequence computation \verb#{ (::x)=add(N); (::x)=retype(::x,M); rem(::x) }# adds a newly created node of type \texttt{N} to the graph (storing it in the global variable \verb#::x#), retypes it to \texttt{M}, and finally removes it again from the graph.
-\end{example}
-
-The second group is built from the operators querying primarily the connectedness of graph elements,
-as defined in \ref{sub:functions}.
-You may ask for one for the nodes or edges of a type.
-You may query for the other for the source or target or opposite node of an edge.
-Furthermore, you may query for adjacent nodes and incident edges,
-maybe even transitively for the reachability.
-Furthermore you may ask with a predicate whether nodes or edges are adjacent or incident to other nodes or edges, maybe even transitively for reachability.
-
-\begin{example}
-\verb#for{x:N in nodes(N); for{::y in outgoing(x); { ::z=target(::y); ::z.a = 42 } } }# 
-is a sequences that sets the attribute \texttt{a} to 42 for all nodes that are adjacent as targets to a source node \texttt{x} of type \texttt{N}.
-You will receive a runtime exception if the type of \verb#::z# does not possess an attribute \texttt{a}.
-
-A more realistic example is to check whether two nodes returned by some rule applications are reachable from each other, carrying out a change only in this case:\\
-\verb#(::x)=r() ;> (::y)=s() ;> if{ {{isReachable(::x,::y)}} ; doSomething(::x, ::y) }#
-\end{example}
-
-The third group is defined by functions and procedures that operate on (sub-)graphs, as defined in \ref{sub:functions} and \ref{sub:procedures}.
-They are especially useful in state space enumeration, cf. \ref{sec:statespaceenum}.
-To this end, parallelized graph isomorphy checking with the \texttt{equalsAny} function is especially of interest.
-You may import, clone, or compute induced subgraphs.
-You may export a subgraph or insert a subgraph into the hostgraph.
-
-\begin{example}
-\verb#( doSomething() ;> { File::export("graph"+i+".grs") } )*# is a sequence scheme for exporting a graph after each iteration step in a loop, gaining a series of snapshots on the hard drive.
-In a later step, you may then conditionally add exported graphs to the host graph: 
-\verb#if{cond; { ::g=File::import("graph"+n.a+".grs"); insert(::g) } }#
-\end{example}
-
-\begin{example}
-When you model a state space with \texttt{Graph} representative nodes (\emph{not} \texttt{graph} standing for a real (sub)graph), which are pointing with \texttt{contains} edges to the nodes contained in their state (i.e. subgraph), and store additionally a replica of the subgraph in a \texttt{sub} attribute of the \texttt{Graph} node, so it is readily available for comparisons,
-then the step of a state space enumeration with isomorphic state pruning is controlled with code like this:\\
-\verb#<< modifyCurrent(gr) ;; {adj=adjacent(gr, contains); sub=inducedSubgraph(adj)}#\\
-Inside the backtracking double angles, a new state is computed as first step by modifying the currently focused state received as input \texttt{gr:Graph} from the previous step. The modified subgraph is extracted for comparison by computing the \texttt{inducedSubgraph} from the nodes \texttt{adjacent} via \texttt{contains}-edges to the \texttt{gr}-node.\\
-\verb#;> for{others:Graph in nodes(Graph); {{sub!=others.sub}} } && #\\
-The extracted subgraph is compared with all already enumerated subgraphs that can be accessed by their \texttt{Graph} representative node. Only if none is isomorphic to it, do we continue with making the state persistent.\\
-\verb#/ {(ngr)=insertInduced(adj, gr)} && link(gr,ngr) && {ngr.sub=sub} /#\\
-During a backtracking pause, the modified subgraph is cloned and inserted flatly into the host graph again with \texttt{insertInduced}. A link is added from the old representative to this new representative, to reflect ancestry. Then the subgraph attribute of the new representative \texttt{ngr} is filled with the previously computed subgraph \texttt{sub}. Remark: the first \texttt{inducedSubgraph} above does not contain the representative node and thus is missing all containment edges, too. This \texttt{insertInduced} includes the representative node and thus the containment edges. Syntactical remark: \texttt{inducedSubgraph} is used in an assignment with a function call as RHS, whereas \texttt{insertInduced} is employed from a procedure call which requires parenthesis around the output arguments.\\
-\verb#&& stateStep(ngr, level+1) >>#\\
-Finally, we continue state space construction with the next step, modifying the just inserted subgraph.
-After this step returns (with \texttt{false} as result), do the backtracking double angles roll back the modification -- keeping the changes written during the pause untouched -- and execute \texttt{modifyCurrent} on the next match available in \texttt{gr}.
-\end{example}
-
-The fourth group are the visited flags related operations,
-as described in chapter \ref{sub:visitedaccess}.
-Available is an expression for reading a visited flag, an assignment for writing a visited flag, and procedures for managing the visited flags as defined in \ref{procstab}.
-
-\begin{example}
-Because of the need to allocate and deallocate them, the visited flags are typically used with code like this:
-\verb#flag:int ;> {(flag)=valloc()} ;> r(flag) ;> {vfree(flag)}#\\
-In addition, they may be read in the sequence expressions, and written in the sequence computations:
-\verb#if{ {{!n.visited[flag]}} ; { n.visited[flag] = true } }#
-\end{example}
-
-In the sequences only the sequence expressions are available to compute the parameters for the functions and procedures, compared to the full-fledged expressions of the computations language.
-
-%\pagebreak
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Storage Handling in the Sequences}\label{sec:storages}\indexmain{storage}
+\section{Storages -- Container Type Handling in the Sequences}\label{sec:storages}\indexmain{storage}
 Storages are variables of container (set/map/array/deque) type (cf. \ref{sec:builtingenerictypes}) storing nodes or edges.
 They are primarily used in the sequences, from where they are handed in to the rules via \texttt{ref} parameters (but additionally container attributes in graph elements may be used as storages,
 esp. for doing data flow analyses, cf. \ref{subsub:flow}).
@@ -328,18 +263,46 @@ The splitting of transformations into passes mediated by container valued global
 They were already defined and described in \ref{cha:container}.
 Here we only give some refinements and explanations of the semantics.
 
-The methods \texttt{add,rem,clear} are available for all storages and allow to add elements to the container, remove elements from the container, or clear the container.
+\subsubsection*{Common methods and operators}
+
+The methods \texttt{add}, \texttt{rem}, \texttt{clear} are available for all storages and allow to add elements to the container, remove elements from the container, or clear the container.
 Their return value is the changed container, thus they allow to chain method calls on the container.
 
-The methods \texttt{size,empty,peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container and thus can't be chained.
+The methods \texttt{size}, \texttt{empty}, \texttt{peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container and thus can't be chained.
+
 The indexed query \texttt{v=m[k]} is available on map and array and deque types and returns the element at the specified index,
 the indexed assignment \texttt{a[i]=v} overwrites the element at the specified index.
-Further available is the sequence expression operator \texttt{in} for membership query.
 
-The infix operators, the methods specific to a certain container type (i.e. not available for all container types), and the change assignments in contrast are \emph{not} available in the sequence computations, they are \emph{only} supported by the computations in the rule language.
-The set copy constructor is supported, the other copy constructors are \emph{not} supported.
+Further available is the sequence expression operator \texttt{in} for membership query (it is not supported on string type, though), as well as all the relational operators (with their according meaning as specified already in Chapter \ref{cha:container}).
 
-\pagebreak
+All container constructors and copy constructors are supported.
+The change assignments known from rule language in contrast are \emph{not} available in the sequence computations.
+
+Further support is discussed in the following separated by type.
+
+\subsubsection*{Array Operations}
+All array methods are supported (the array is the central data structure in the sequence expressions to support graph queries), see \ref{sec:arrayexpr} for a list of them.
+From the array methods specifying and accessing a member of the array value type, \emph{only} the \texttt{extract<member>()} method is supported -- but the ordering methods are available as filter calls.
+
+From the infix operators, array concatenation is supported, as well as all the relational operators.
+
+\subsubsection*{Set Operations}
+From the set methods not already mentioned in the section on the common parts of all container types, only the \texttt{asArray()} method (cf. \ref{sec:setexpr}) is supported, all other methods are not available.
+
+From the infix operators, set union, intersection, and difference as supported, as well as all the relational operators.
+
+\subsubsection*{Map Operations}
+From the set methods not already mentioned in the section on the common parts of all container types, only the \texttt{asArray()} method (cf. \ref{sec:mapexpr}) is supported, all other methods are not available.
+
+From the infix operators, only the relational operators are available.
+
+\subsubsection*{Deque Operations}
+From the set methods not already mentioned in the section on the common parts of all container types, only the \texttt{asArray()} method (cf. \ref{sec:dequeexpr}) is supported, all other methods are not available.
+
+
+\subsubsection*{Container For Loop}
+
+From the infix operators, deque concatenation is supported, as well as all the relational operators.
 
 You may iterate in the sequences with a for loop over the elements contained in a storage.
 
@@ -377,7 +340,7 @@ Use the \texttt{copy(.:container):container} function to clone the container bef
 %The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} and assigns the newly created map of the same type containing a key value pair build from u mapping to v, where u is assumed to be a variable of node type and v to be a variable of edge type.
 %\end{example}
 
-\pagebreak
+%\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}

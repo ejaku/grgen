@@ -329,6 +329,8 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.lastIndexOf(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.indexOfOrdered(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitray one is returned
 \item[\texttt{.orderAscending()}] returns an array with the content of the input array ordered ascendingly, only available for basic types
+\item[\texttt{.orderDescending()}] returns an array with the content of the input array ordered descendingly, only available for basic types
+\item[\texttt{.keepOneForEach()}] returns an array with the content of the input array freed from duplicates, only available for basic types
 \item[\texttt{.reverse()}] returns an array with the content of the input array reversed
 \item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
 \item[\texttt{.asDeque()}] returns a deque of the array content, as \verb#deque<T># for \verb#array<T>#, in same order
@@ -337,15 +339,32 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.asString(separator)}] returns the array imploded to a string with the \texttt{separator:string} inserted in between the substrings from the array, only available for \verb#array<string># (a \texttt{string} contains an \texttt{asArray} method for reversal)
 \end{description}
 
+\noindent Some accumulation method calls are available on arrays of numbers:
+
+\begin{description}
+\item[\texttt{.sum()}] returns the sum of the elements in the array, as \texttt{T} for \texttt{array<T>}
+\item[\texttt{.prod()}] returns the product of the elements in the array, as \texttt{T} for \texttt{array<T>}
+\item[\texttt{.min()}] returns the minimum of the elements in the array, as \texttt{T} for \texttt{array<T>}
+\item[\texttt{.max()}] returns the maximum of the elements in the array, as \texttt{T} for \texttt{array<T>}
+\item[\texttt{.avg()}] returns the average (mean) of the elements in the array, as \texttt{double}
+\item[\texttt{.med()}] returns the median of the elements in the array that must be sorted, as \texttt{double}
+\item[\texttt{.medUnsorted()}] returns the median of the elements in the array, as \texttt{double}
+\item[\texttt{.var()}] returns the variance of the elements in the array, as \texttt{double}
+\item[\texttt{.dev()}] returns the deviation of the elements in the array, as \texttt{double}
+\end{description}
+
 \noindent Some query method calls are available only on arrays of node or edge types bearing attributes, inspecting the value of an attribute of the graph elements stored in the array, with the attribute defined with the operation, instead of the values contained in the array directly:
 
 \begin{description}
+\item[\texttt{.extract<attr>()}] returns for an \texttt{array<T>} an \texttt{array<S>}, where \texttt{S} is the type of the attribute \texttt{attr}.
+\item[\texttt{.orderAscendingBy<attr>()}] returns an array with the content of the input array ordered ascendingly; only available for an attribute of basic type, contained in a node or edge type, with the array storing graph elements of that type.
+\item[\texttt{.orderDescendingBy<attr>()}] returns an array with the content of the input array ordered descendingly; only available for an attribute of basic type, contained in a node or edge type, with the array storing graph elements of that type.
+\item[\texttt{.keepOneForEach<attr>()}] returns an array with the content of the input array freed from duplicates; only available for an attribute of basic type, contained in a node or edge type, with the array storing graph elements of that type.
 \item[\texttt{.indexOfBy<attr>(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitray one is returned
-\item[\texttt{.orderAscendingBy<attr>()}] returns an array with the content of the input array ordered ascendingly; only available for an attribute of basic type, contained in a node or edge type, with the array storing graph elements of that type.
 \end{description}
 %And again: the \verb#X_by<attr>#-versions inspect the value of the attribute of the graph element stored in the array.
 
@@ -448,7 +467,7 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
   Assignment: DequeEntity '=' DequeExpr ;
   IndexedAssignment: DequeEntity '[' IndexExpr ']' '=' Expr ;
   CompoundAssignment: DequeEntity DequeOperator '=' Expr ChangeAssignment? ;
-  DequeConstructor: 'deque' '<' Type '>' \\ ']' ( Expression*',' ) '[' ;
+  DequeConstructor: 'deque' '<' Type '>' \\ '[' ( Expression*',' ) ']' ;
   DequeCopyConstructor: 'deque' '<' Type '>' '(' DequeExpr ')' ;
 \end{rail}\ixnterm{MethodCall}\ixnterm{DequeExpr}\ixkeyw{in}\ixnterm{DequeOperator}\ixnterm{IndexedAssignemt}\ixnterm{CompoundAssignment}\ixnterm{DequeConstructor}\ixnterm{DequeCopyConstructor}
 

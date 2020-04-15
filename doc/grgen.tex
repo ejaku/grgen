@@ -6,7 +6,7 @@
 \lstset{breaklines=true, breakautoindent=true, breakatwhitespace=true}
 
 \lstdefinelanguage{LANGgrgen}
-{morekeywords={abstract,alternative,arbitrary,array,auto,break,case,class,copy,connect,const,continue,count,def,delete,directed,do,edge,else,emit,emitdebug,emithere,emitheredebug,enum,eval,evalhere,exact,exec,extends,external,false,filter,for,function,hom,if,in,independent,index,induced,iterated,map,match,modify,multiple,nameof,negative,node,null,optional,package,pattern,patternpath,procedure,deque,replace,return,rule,sequence,set,switch,test,true,typeof,undirected,using,visited,while,yield},
+{morekeywords={abstract,alternative,arbitrary,array,break,case,class,copy,connect,const,continue,count,def,delete,directed,do,edge,else,emit,emitdebug,emithere,emitheredebug,enum,eval,evalhere,exact,exec,extends,external,false,filter,for,function,hom,if,implements,in,independent,index,induced,iterated,map,match,modify,multiple,nameof,negative,node,null,optional,package,pattern,patternpath,procedure,deque,replace,return,rule,sequence,set,switch,test,true,typeof,undirected,using,visited,while,yield},
 sensitive=true,
 morecomment=[l]{//},
 morecomment=[s]{/*}{*/},
@@ -224,8 +224,8 @@ morestring=[b]",
 
   \vspace*{2.5cm}
   \Huge The \GrG\ User Manual\\[1ex]
-  \LARGE Refers to \GrG\ Release 4.5.7\\[1ex]
-%  \LARGE ---DRAFT---\\[1ex]
+  \LARGE Refers to \GrG\ Release 5.0\\[1ex]
+  \LARGE ---DRAFT---\\[1ex]
   \LARGE www.grgen.net\\[6ex]
   \includegraphics[width=0.9\linewidth]{fig/title}\\[6ex]
   \LARGE Edgar Jakumeit \\ Jakob Blomer \qquad Rubino Gei\ss \\[3ex]
@@ -282,6 +282,10 @@ license.  The license is available at
 
 \include{subpatterns}
 
+\include{nestedandsubpatternrewriting}
+
+\include{nestedandsubpatternyielding}
+
 \include{sequences}
 
 \include{rulelangadvanced}
@@ -299,6 +303,10 @@ license.  The license is available at
 \include{modeladvanced}
 
 \include{sequencecomputation}
+
+\include{sequencegraphquerymanipulation}
+
+\include{sequencesmultirulecalls}
 
 \include{sequencesadvanced}
 

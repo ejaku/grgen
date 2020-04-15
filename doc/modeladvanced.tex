@@ -89,6 +89,47 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{map<S,T>.range():set<T>}\\
 \texttt{map<int,T>.asArray():array<T>}\\
 \hline
+\texttt{deque<T>.size():int}\\
+\texttt{deque<T>.empty():boolean}\\
+\texttt{deque<T>.peek([int]):T}\\
+\texttt{deque<T>.indexOf(T[,int]):int}\\
+\texttt{deque<T>.lastIndexOf(T):int}\\
+\texttt{deque<T>.subdeque(int, int):deque<T>}\\
+\texttt{deque<T>.asArray():array<T>}\\
+\texttt{deque<T>.asSet():set<T>}\\
+\hline
+\end{tabular}
+\caption{Non-array function methods at a glance}
+\label{funcmethstab}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|}
+\hline
+\texttt{string.length():int}\\
+\texttt{string.startsWith():boolean}\\
+\texttt{string.endsWith():boolean}\\
+\texttt{string.indexOf(string[,int]):int}\\
+\texttt{string.lastIndexOf(string[,int]):int}\\
+\texttt{string.substring(int[,int]):string}\\
+\texttt{string.replace(int, int, string):string}\\
+\texttt{string.toLower():string}\\
+\texttt{string.toUpper():string}\\
+\texttt{string.asArray(string):array<string>}\\
+\hline
+\texttt{set<T>.size():int}\\
+\texttt{set<T>.empty():boolean}\\
+\texttt{set<T>.peek(int):T}\\
+\texttt{set<T>.asArray():array<T>}\\
+\hline
+\texttt{map<S,T>.size():int}\\
+\texttt{map<S,T>.empty():boolean}\\
+\texttt{map<S,T>.peek(int):S}\\
+\texttt{map<S,T>.domain():set<S>}\\
+\texttt{map<S,T>.range():set<T>}\\
+\texttt{map<int,T>.asArray():array<T>}\\
+\hline
 \texttt{array<T>.size():int}\\
 \texttt{array<T>.empty():boolean}\\
 \texttt{array<T>.peek([int]):T}\\
@@ -96,6 +137,8 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{array<T>.lastIndexOf(T[,int]):int}\\
 \texttt{array<T>.indexOfOrdered(T):int}\\
 \texttt{array<T>.orderAscending():array<T>}\\
+\texttt{array<T>.orderDescending():array<T>}\\
+\texttt{array<T>.keepOneForEach():array<T>}\\
 \texttt{array<T>.reverse():array<T>}\\
 \texttt{array<T>.subarray(int, int):array<T>}\\
 \texttt{array<T>.asDeque():deque<T>}\\
@@ -103,10 +146,23 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{array<T>.asMap():map<int,T>}\\
 \texttt{array<string>.asString(string):string}\\
 \hline
+\texttt{array<T>.sum():T}\\
+\texttt{array<T>.prod():T}\\
+\texttt{array<T>.min():T}\\
+\texttt{array<T>.max():T}\\
+\texttt{array<T>.avg():double}\\
+\texttt{array<T>.med():double}\\
+\texttt{array<T>.medUnsorted():double}\\
+\texttt{array<T>.var():double}\\
+\texttt{array<T>.dev():double}\\
+\hline
+\texttt{array<T>.extract<attr>():array<typeof(attr)>}\\
+\texttt{array<T>.orderAscendingBy<attr>():array<T>}\\
+\texttt{array<T>.orderDescendingBy<attr>():array<T>}\\
+\texttt{array<T>.keepOneForEach<attr>():array<T>}\\
 \texttt{array<T>.indexOfBy<attr>(typeof(attr)[,int]):int}\\
 \texttt{array<T>.lastIndexOfBy<attr>(typeof(attr)[,int]):int}\\
 \texttt{array<T>.indexOfOrderedBy<attr>(typeof(attr)):int}\\
-\texttt{array<T>.orderAscendingBy<attr>():array<T>}\\
 \hline
 \texttt{deque<T>.size():int}\\
 \texttt{deque<T>.empty():boolean}\\
@@ -118,8 +174,8 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{deque<T>.asSet():set<T>}\\
 \hline
 \end{tabular}
-\caption{Function methods at a glance}
-\label{funcmethstab}
+\caption{Array function methods at a glance}
+%\label{funcmethstab}
 \end{table}
 
 %-----------------------------------------------------------------------------------------------
@@ -341,8 +397,17 @@ The packages \texttt{Math}, \texttt{File}, \texttt{Time}, \texttt{Transaction}, 
 In every context where a rule, a test, a subpattern type, a filter function, a function, a procedure, or a sequence can be referenced, by noting down its declared identifier, 
 also an entity from a package can be referenced,
 by noting down its package as a prefix.
-The package prefix may be omitted inside the package for other entities from the same package.
+The package prefix may be omitted inside the package for other entities from the same package -- package content comes before global content.
 But only for them, outside that package you must always use the package prefixed form for referencing identifiers from the package.
+Inside a package you may use the \texttt{global} "package" in the form of \texttt{global::name} - it allows to access a global name from inside a package even if an entity with the same name is available locally.
+
+Altogether, the name resolving rules are:
+\begin{enumerate}
+	\item content from the package specified with the prefix, if that is "global" then global content
+	\item content from package context (which thus overrides global content)
+	\item global content 
+\end{enumerate}
+And as a refinement regarding point 2: there is no package context available for interpreted sequences (they only appear in the Shell/API outside of any packages of the rule language), so only rules 1 and 3 apply there.
 
 The packages in the actions are declared with the same syntax as the packages in the model, but are otherwise separate. 
 You cannot extend a model package with an actions package, or vice versa.

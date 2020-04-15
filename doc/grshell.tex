@@ -316,6 +316,12 @@ Graph elements required by rules must be provided using \texttt{Action(Para\-met
 For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
 
 \begin{rail}
+  GraphRewriteSequenceExpression: 'eval' SequenceExpression ;
+\end{rail}\ixkeyw{eval}\indexmain{graph rewrite sequence expressione}\ixnterm{GraphRewriteSequenceExpression}
+This evaluates the graph rewrite sequence expression \emph{SequenceExpression}.
+See Chapter~\ref{seqcomp} for graph rewrite sequences expressions (this command is esp. of interest for rule queries) and esp. Chapter~\ref{cha:graphquery} for rule queries.
+
+\begin{rail}
   GraphRewriteSequence: RewriteSequenceDefinition;
 \end{rail}\ixkeyw{def}\indexmain{graph rewrite sequence definition}\indexmain{sequence definition}
 This command allows to define a named sequence at runtime, for $RewriteSequenceDefinition$ have a look here  \ref{sec:sequencedefinition} in the rule application control language chapter.

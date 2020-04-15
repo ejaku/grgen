@@ -1,0 +1,150 @@
+\chapter{Multi Rule Application and Match Classes}\indexmain{multi rule application language}
+\label{cha:multiruleseq}
+
+In this chapter we'll take a look at different ways of applying multiple rules with a single construct, and at match classes, which allow to apply the same filter on the matches of different rules.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Rule Prefixed Sequence}\label{sec:ruleprefixedsequence}
+
+\begin{rail}
+  RulePrefixedSequence: '[' RulePrefixedSequenceAtom ']' ;
+  RulePrefixedSequenceAtom: 'for' lbrace (() | ReturnAssignment) Rule ';' Sequence rbrace ;
+\end{rail}\ixnterm{RulePrefixedSequence}\ixnterm{RulePrefixedSequenceAtom}
+
+The \emph{RulePrefixedSequence} searches for all matches of its contained rule, and then, for each match (one-by-one): rewrites it, and then executes the contained sequence.
+The result of the rule prefixed sequence is \texttt{true} when at least one of the executions of the contained sequence  yielded \texttt{true} (which is only possible if at least one match was found for the rule, otherwise the contained sequence won't be executed).
+
+Note that this is a \emph{Rule} as specified in Section~\ref{sec:ruleapplication}, that may receive input parameters, and may have filters applied to.
+Furthermore, its return values may get assigned.
+This happens like for a regular rule call, i.e. \emph{not} in the form of an array per return parameter like for an all-bracketed rule, but in the form of a scalar -- for every rewrite performed, the return parameters resulting of that rewrite are bound.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Multi Rule Application} \label{sec:multiruleapplication}
+
+The \emph{MultiRuleExecution} clause defines a version of all-bracketing (\texttt{[]}, cf. \ref{sec:ruleapplication}) extended to multiple rules.
+
+\begin{rail}
+  MultiRuleExecution: '[' '[' ((RuleExecutionAtom) + (',')) ']' (MatchClassFilterCalls)? ']' ;
+  RuleExecutionAtom: (() | ReturnAssignment) RuleModifier Rule;
+\end{rail}\ixnterm{MultiRuleExecution}\ixnterm{RuleExecutionAtom}
+
+The \emph{MultiRuleExecution} searches for all matches of all of its contained rules, and then rewrites all of them.
+If at least one was found, rule execution will succeed, otherwise it will fail. 
+Note that this is a \emph{Rule} as specified in Section~\ref{sec:ruleapplication}, that may receive input parameters, and may have filters applied to.
+Furthermore, its return values may get assigned.
+This happens in the form of one array per return parameter per rule, with type \verb#array<T># for return parameter type \verb#T#.
+The return parameter arrays are filled with as many values as there were succeeding rule applications.
+
+In addition, match class filters may be executed (on all of the matches of all of the rules), which defines one of the primary reasons why this construct exists.
+It is your responsibility to ensure that applying the different matches of the different rules does not lead to conflicts.
+
+The \emph{MultiRulePrefixedSequence} clause defines a version of the rule prefixed sequence (cf. \ref{sec:ruleprefixedsequence}) extended to multiple rules.
+
+\begin{rail}
+  MultiRulePrefixedSequence: '[' '[' ((RulePrefixedSequenceAtom) + (',')) ']' (MatchClassFilterCalls)? ']' ;
+\end{rail}\ixnterm{MultiRulePrefixedSequence}
+
+The \emph{MultiRulePrefixedSequence} searches for all matches of all of its contained rules, and then, rule-by-rule, for each match (one-by-one): rewrites it, and then executes the corresponding sequence.
+The result of the multi rule prefixed sequence is \texttt{true} when at least one of the executions of one of the contained sequences yielded \texttt{true} (which is only possible if at least one match was found for one of the rules, otherwise no contained sequence would be executed).
+
+Note that these are \emph{Rule}s as specified in Section~\ref{sec:ruleapplication}, that may receive input parameters, and may have filters applied to.
+Furthermore, their return values may get assigned.
+This happens like for a regular rule call, i.e. \emph{not} in the form of an array per return parameter like for an all-bracketed rule, but in the form of a scalar -- for every rewrite performed, the return parameters resulting of that rewrite are bound.
+
+In addition, match class filters may be executed (on all of the matches of all of the rules), which defines one of the primary reasons why this construct exists.
+It is your responsibility to ensure that applying the different matches of the different rules does not lead to conflicts.
+
+The match class filters may remove matches, or reorder them, the rewrites are performed in order of the globally filtered matches list, in contrast to the syntactic sequence of rule prefixed sequences within the construct.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Indeterministic Choice}\label{sec:indetchoice}
+
+A graph rewrite system shows two points of indeterminism, the rule to apply next, and the place where to apply it.
+
+The match found by GrGen for a rule application is indeterministic (the where).
+It is not random, though, but implementation-specific -- it esp. depends on the order of elements in the ringlists (cf. Section \ref{sec:generatedcode}), which is opaque to the outside.
+Note that the system is implemented to be as deterministic as possible (that's easier to develop with), so when you are debugging the same unaltered project, you get the same results.
+You can switch to a more random behavior with the random selection modifier that allows you to choose randomly from the matches found for a rule (searching for all matches, then randomly choosing one, compared to aborting search after the first one was found); it is denoted by a dollar prefix for the all-matches-brackets, and was introduced in Section \ref{sec:ruleapplication}.
+
+The rule to apply next is normally defined by the sequence it is called from, which is executed deterministically by default, following the execution order programmed with the logical and sequential connectives.
+The evaluation order of the operands is from left to right, but it can be changed with the random execution order modifier (denoted by a dollar prefix for the logical connective), which was introduced in Section \ref{sec:connectives}.
+
+Further evaluation order randomizations, e.g. for simulation purpose, are possible with the \indexed{indeterministic choice} operators, which execute chosen elements from a set of rules or sequences.
+
+\begin{rail} 
+  ExtendedControl: 
+	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
+	dollar (percent)? '.' '(' WeightedSequencesList ')' |
+	(dollar (percent)? )? lbrace '<' ((RuleExecution)+(',')) '>' rbrace
+	;
+  SequencesList:
+	RewriteSequence ((',' RewriteSequence)*())
+	;
+  WeightedSequencesList:
+	WeightedSequence ((',' WeightedSequence)*())
+	;
+  WeightedSequence:
+	FloatingNumber RewriteSequence
+	;
+\end{rail}\ixnterm{SequencesList}
+
+The \indexed{random-all-of operators} given in function call notation with the dollar sign plus operator symbol as name have the following semantics:
+The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
+The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
+(which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
+A \indexed{choice point} may be used to define the subsequence to be executed next.
+
+The \indexed{some-of-set braces} \verb/{<r,[s],$[t]>}/ matches all contained rules and then executes the ones which matched.
+The \indexed{one-of-set braces} \verb/${<r,[s],$[t]>}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
+(i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
+The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
+A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
+
+The \indexed{weighted one operator} \verb/$.(w1 s1, ..., wn sn)/ is executed like this:
+the weights \texttt{w1-wn} (numbers of type double) are added into a series of intervals,
+then a random number (uniform distribution) is drawn in between \texttt{0.0} and \texttt{w1+...+wn},
+the subsequence of the interval the number falls into is executed,
+the result of the sequence is the result of the chosen subsequence.
+
+% todo: beispiele im text bringen
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Match Classes}\label{sec:matchclass}
+
+\begin{rail}
+  MatchClass: 'match' 'class' IdentDecl \\
+    (lbrace (() | MatchClassDeclarations+) rbrace FiltersDecl);
+\end{rail}\ixkeyw{match}\ixkeyw{class}
+
+\begin{rail}
+  MatchClassDeclaration: GraphletNode ';' 
+	| GraphletEdge ';' 
+	| ('var'|'ref') IdentDecl ':' VarType
+	| DefVariableDecl;
+\end{rail}\ixnterm{MatchClassDeclarations}
+
+A match class allows to define a pattern interface that can be implemented by several actions (acting as a kind of view).
+It consists of def node, def edge, and def variable declarations (the primary target of filters), but also normal node, edge, and variable declarations may be given.
+Filter functions can then be defined for a match class (instead of a rule as normal), with syntax \texttt{filter f<class mc>}, see Chapter~\ref{sub:filters}.
+Alternatively, auto-generated filters may be declared at a match class --- the same that can be declared for a rule/test (with exception of \texttt{auto}, also cf. Chapter~\ref{sub:filters}).
+Together with the auto-supplied filters, they allow to filter the matches of a multi rule all call or multi rule backtracking construct, i.e. one filter can be applied on the matches of different rules.
+
+TODO: example
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Match Class Filter Calls}
+
+\begin{rail}
+	MatchClassFilterCalls: (backslash MatchClassFilterCall)*;
+  MatchClassFilterCall: ( MatchClassIdent '.' FilterIdent ('(' Arguments ')'|()) | MatchClassIdent '.' FilterIdent '<' VariableIdent '>' );
+\end{rail}\ixnterm{MatchClassFilterCalls}\ixnterm{MatchClassFilterCall}
+
+Match class filters (defined on the match class) are employed with \verb#\mc.f# notation at multi rule calls from the sequences language cf. \ref{sec:multiruleapplication} and \ref{sec:multitransaction}, i.e. the match class identifier must be given as a prefix before the regular filter call.
+This holds for user-implemented, auto-generated, and auto-supplied filters; the name resolving rules for filter calls apply, cf. Section~\ref{sec:filtercalls}.
+
+TODO: example.
+
+TODO: maybe quick reference table

@@ -79,17 +79,19 @@ In section \ref{sec:simplevarhandling} we visit simple variable handling.
 In section \ref{sec:extctrl} we have a look at advanced control, and in section \ref{sec:seqcomp} at the sequence computations.
 
 \begin{rail}
-  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (RuleModifier Rule | (RandomSelection)? '[' RuleModifier Rule ']' | 'count' '[' RuleModifier Rule ']' '=''>' Variable);
-  RandomSelection: dollar (percent)? ( Variable | (Variable ',' (Variable | '*')) )?;
+  RuleExecution: (ReturnAssignment)? (RuleModifier Rule | (RandomSel)? '[' RuleModifier Rule ']');
+  ReturnAssignment: '(' (Variable+',') ')' '=';
+  RandomSel: dollar (percent)? ( Variable | (Variable ',' (Variable | '*')) )?;
   RuleModifier: (() | percent) (() | '?');
   Rule: RuleIdent (() | '(' (Variable+',') ')') (FilterCalls)?;
-\end{rail}\ixnterm{RuleExecution}\ixnterm{RandomSelection}\ixnterm{RuleModifier}\ixnterm{Rule}
+\end{rail}\ixnterm{RuleExecution}\ixnterm{ReturnAssignment}\ixnterm{RuleModifier}\ixnterm{RandomSel}\ixnterm{Rule}
 
 The \emph{RuleExecution} clause applies a single rule or test.
 In case of a rule, the first found pattern match will be rewritten.
 Application will fail in case no match was found and succeed otherwise. 
 Variables and named graph elements can be passed into the rule.
 The returned graph elements can be assigned to variables again.
+
 The rule modifier \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
 The rule modifier \texttt{\%} is a multi-purpose flag. 
 In the \GrShell\ (see Chapter~\ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout};
@@ -103,21 +105,20 @@ In case of success, the output variables of the sequence definition are written 
 The break point \texttt{\%} can be applied to a sequence call, but neither the \texttt{?} operator nor all braces (\texttt{[]}).
 
 The square braces (\texttt{[]}) introduce a special kind of multiple rule execution:
-Every pattern match produced by the rule will be rewritten;
-if at least one was found, rule execution will succeed, otherwise it will fail. 
+every pattern match produced by the rule will be rewritten.
+If at least one was found, rule execution will succeed, otherwise it will fail. 
 If \emph{Rule} returns values, the value of each rule application will be returned.
 This happens in the form of an array, or better one array per return parameter, with type \verb#array<T># for return parameter type \verb#T#.
 The return parameter arrays are filled with as many values as there were succeeding rule applications.
 
-The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{count} of matches of rule \texttt{r} to the variable \texttt{c}, and applies \texttt{r} on all the matches.
-With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried out.
-
-The \indexed{random match selector} \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten (but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
-Rule application will fail in case no match was found and succeed otherwise (the return values are of array type, as with all-bracketed rule calls, even in case only one match is requested). 
-You may change the lower bound for success by giving a variable containing the value to apply before the comma-separated upper bound variable.
-In case a lower bound is given the upper bound may be set to unlimited with the \texttt{*}.
+The \indexed{random match selector} \texttt{\$[r]} searches for all matches and then randomly selects one of them to get rewritten. Rule application will fail in case no match was found and succeed otherwise (the return values are of array type, as with all-bracketed rule calls without random match selector). 
 An \texttt{\%} appended to the \texttt{\$} denotes a \indexed{choice point} 
 allowing the user to choose the match to be applied from the available ones in the debugger (see Chapter ~\ref{chapdebugger}).
+
+The generalized version \texttt{\$u[r]} searches for all matches and then randomly selects \texttt{u} of them to be rewritten, but at most as much as are available (\texttt{\$[r]} is equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r]}. So you specify an upper bound on the matches to be rewritten this way. Here also, rule application will fail in case no match was found and succeed otherwise (and array-typed values are returned).
+
+An even more generalized version \texttt{\$l,u[r]} allows you to increase the lower bound for rule application success by giving a variable containing the required minimum amount of matches before the comma-separated upper bound variable.
+In order to be allowed to give a lower bound, you have to specify an upper bound, yet it may be set to unlimited with the \texttt{*} wildcard.
 
 \begin{example}
 The sequence \verb#(u,v)=r(x,y)# applies the rule \texttt{r} with input from the variables \texttt{x} and \texttt{y} on the host graph 
@@ -265,6 +266,7 @@ So if one rewrite destroys other matches or creates new match opportunities the 
 in particular the semantics is unsafe, i.e.\ one needs to avoid deleting or retyping a graph element that is bound by another match (will be deleted/retyped there). On the other hand this version is more efficient and allows one to get along without marking already handled situations (to prevent a rule matching again and again because the match situation is still there after the rewrite; normally you would need some match preventing device like a negative or visited flags to handle such a situation).
 \end{note}
 
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick reference table}
