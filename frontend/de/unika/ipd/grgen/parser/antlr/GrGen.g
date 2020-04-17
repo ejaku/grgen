@@ -1280,10 +1280,14 @@ defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals, int context, Pa
 		(ASSIGN e=expr[context, false] { if(var!=null) var.setInitialization(e); } )?
 		(a=ASSIGN y=YIELD LPAREN e=expr[context, false]
 			{
-				curEval = new EvalStatementsNode(getCoords(y), "initialization_of_" + id.toString());
-				evals.addChild(curEval);
-				IdentNode varIdent = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, id.toString(), id.getCoords()));
-				curEval.addChild(new AssignNode(getCoords(a), new IdentExprNode(varIdent, true), e, context, true));
+				if(evals != null) {
+					curEval = new EvalStatementsNode(getCoords(y), "initialization_of_" + id.toString());
+					evals.addChild(curEval);
+					IdentNode varIdent = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, id.toString(), id.getCoords()));
+					curEval.addChild(new AssignNode(getCoords(a), new IdentExprNode(varIdent, true), e, context, true));
+				} else {
+					reportError(getCoords(y), "a yield expression can only appear in the pattern after the initialization of a def variable (not in the modify/replace part)");
+				}
 			}
 			RPAREN)?
 	;

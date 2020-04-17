@@ -1,0 +1,16 @@
+rule foo()
+{
+	iterated it {
+		.;
+	---
+		def var bar:double = 1;
+		
+		modify {
+		}
+	}
+
+	modify {
+	---
+		def var score:double = yield([?it].extract<bar>().sum());
+	}
+}
