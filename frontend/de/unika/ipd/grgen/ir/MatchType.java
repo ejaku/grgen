@@ -20,6 +20,11 @@ public class MatchType extends Type implements ContainedInPackage {
 		this.action = action;
 	}
 
+	protected MatchType(Rule action, Ident iterated) {
+		super("match type", iterated);
+		this.action = action;
+	}
+
 	public String getPackageContainedIn() {
 		return packageContainedIn;
 	}

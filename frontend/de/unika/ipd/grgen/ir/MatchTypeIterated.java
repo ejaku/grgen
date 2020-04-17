@@ -15,7 +15,7 @@ public class MatchTypeIterated extends MatchType implements ContainedInPackage {
 	private Rule iterated;
 
 	public MatchTypeIterated(Rule action, Rule iterated) {
-		super(action);
+		super(action, iterated.getIdent());
 		this.iterated = iterated;
 	}
 
