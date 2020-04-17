@@ -8,28 +8,168 @@ Graph querying may occur in two ways, for one with global functions that return 
 
 \begin{rail}
   RuleQuery: '[' '?' Rule ']' ;
-  MultiRuleQuery: '[' '?' '[' (Rule + ',') ']' (MatchClassFilterCalls)? (MatchClassSpec)? ']' ;
-	MatchClassSpec: backslash '<' 'class' MatchClassIdent '>' ;
-\end{rail}\ixnterm{RuleQuery}\ixnterm{MultiRuleQuery}\ixnterm{MatchClassSpec}
+\end{rail}\ixnterm{RuleQuery}
 
 The \emph{RuleQuery} clause applies a single rule or test.
-Note that this is a \emph{Rule} as specified in \label{sec:ruleapplication}, that may receive input parameters, and may have filters applied to.
+Note that this is a \emph{Rule} as specified in Section~\ref{sec:ruleapplication}, that may receive input parameters, and may have filters applied to.
 The filter calls (which allow e.g. to order the matches list and rewrite only the top ones, or to filter symmetric matches) are explained in \ref{sub:filters}.
 
 The square braces (\texttt{[]}) and the \texttt{?} are part of the syntax, but act like the corresponding rule modifiers specified in \label{sec:ruleapplication}, switching for one a rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule, and for the other searching for all pattern matches.
 
-The execution semantics is: all matches of the rule pattern in the host graph is searched for, and returned as an \texttt{array} of \texttt{match<r>}.
+The execution semantics is: all matches of the rule pattern in the host graph are searched for, and returned as an \texttt{array} of \texttt{match<r>}.
 For dedicated query purpose, a test is to be preferred, as the rewrite part won't be applied anyway. 
 No values are returned in either case, and no return assignments specified.
 The data of interest is to be extracted from the array of matches, or the match (type) respectively.
 Towards this goal, esp. the array accumulation methods are to be applied, cf. Section~\ref{sec:arrayexpr}, and the filters before, cf. \ref{sub:filters}, as only the extract method is available from the array query methods.
 No debugging modifier \texttt{\%} may be applied, rule queries are evaluated silently.
 
-TODO: examples for queries.
-%Esp. interesting besides usage in shell eval: Use query to compute arguments for rule application.
+\begin{example}
 
-The \emph{MultiRuleQuery} clause applies multiple (distinct) rules or tests, that all implement the same match class.
-TODO: First explain with rule control.
+  \begin{grgen}
+node class namedObject
+{
+	name:string;
+}
+
+edge class WORKS_FOR;
+
+edge class INTERESTED_IN
+{
+	weight : double;
+}
+  \end{grgen}
+
+  \begin{grgen}
+test interests(subject:namedObject<null>)
+{
+	subject -:INTERESTED_IN-> interest:namedObject;
+---
+	def var interestString:string = interest.name;
+} \ keepOneForEach<interestString>
+
+test weightedInterests(subject:namedObject<null>)
+{
+	subject -i:INTERESTED_IN-> interest:namedObject;
+---
+	def var weight:double = i.weight;
+} \ orderDescendingBy<weight>
+
+test sameCompanySharedInterest(subject:namedObject)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated it {
+		subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person;
+	}
+---
+	def var score:double = yield([?it].extract<interest>().size());
+	def ref interests:array<string> = yield([?it].extract<interest>().extract<name>());
+} \ orderDescendingBy<score>
+
+test sameCompanySharedWeightedInterestClipped(subject:namedObject, var clipAmount:int)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated it {
+		subject -is:INTERESTED_IN-> interest:namedObject <-ip:INTERESTED_IN- person;
+	---
+		def var sharedWeightedInterest:double = Math::min(is.weight, ip.weight);
+	} \ orderDescendingBy<sharedWeightedInterest>
+---
+	iterated it\orderDescendingBy<sharedWeightedInterest>\keepFirst(clipAmount);
+	def var score:double = yield([?it].extract<sharedWeightedInterest>().sum());
+	def var interestsString:string = yield([?it].extract<interest>().extract<name>().asString(","));
+} \ orderDescendingBy<score>
+
+test fetchByName(var name:string) : (namedObject)
+{
+	namedObj:namedObject;
+	if{ namedObj.name == name; }
+	return(namedObj);
+}
+  \end{grgen}\label{exsimplequeryrules}
+\end{example}
+
+
+\begin{example}\label{exsimplequery}
+
+Let us take a look at some example queries, based on Example~\ref{exsimplequeryrules}, which in turn is based on a test that you can find under \texttt{tests/queries} -- also including some example data.
+
+In the model we introduce a "generic" namedObject used for subjects, i.e. persons, and objects like companies or hobbies, and edges showing employment and interest for subjects (the model shows only a few general types, which is untypical for GrGen, but common for modelling with Neo4j/Cypher where the idea for this example stems from).
+
+We start with some simple queries, asking for the interests of a subject, and the intensity of the interest.
+In the rules file, they show up as tests containing the patterns to query for.
+Then we continue with some more complex queries, asking for the shared interests of persons working in the same company, and the intensity of the shared interest.
+In the rules file, they again show up as tests containing the patterns to query for.
+
+\vspace{3mm}
+
+In order to obtain all interests (\texttt{namedObject}s) all persons are interested in, we drop the following query in \GrShell:
+
+	\begin{grshell}
+eval [?interests(null)\keepOneForEach<interestString>]
+  \end{grshell}
+
+It fetches for an unspecified subject (\texttt{null}, thus for all subjects, due to the \texttt{null} specifier at the parameter in the test, which causes searching) all interests, in the form of \texttt{array<match<interests>>}. The array is freed from duplicates within the \texttt{interestString} member, so only matches with distinct \texttt{interestString}s remain (the first distinct value from the member in the array is kept).
+
+In order to obtain the overall intensity of interests of a single person, we use the following query in \GrShell:
+
+	\begin{grshell}
+eval [?weightedInterests(::subject)].extract<weight>().sum()
+  \end{grshell}
+
+From the array of matches is an array of the match members \texttt{weight} of type \texttt{array<double>} extracted (resulting from the equivalently named pattern element), and then reduced to a single scalar value with the array accumulation method \texttt{sum}.
+
+In order to obtain the interests of two persons, we use the following query in \GrShell:
+
+	\begin{grshell}
+eval [?interests(::subject)].extract<interestString>().asSet() | [?interests(::anotherSubject)].extract<interestString>().asSet()
+  \end{grshell}
+	
+It fetches the interests of \texttt{::subject} and \texttt{::anotherSubject}, in the form of \texttt{array<match<interests>>}, extracts the \texttt{interestString}s, resulting in two \texttt{array<string>}, transforms them to sets (of type \texttt{set<string>}), and finally joins them with set union \texttt{|}.
+
+\end{example}
+
+
+\begin{example}
+Let us continue Example~\ref{exsimplequery}. In order to obtain the persons working in the same company with the highest amount of shared interests, we drop the following query in \GrShell:
+
+  \begin{grshell}
+eval [?sameCompanySharedInterest(::subject)\orderDescendingBy<score>\keepFirst(3)]
+  \end{grshell}
+
+It searches for all matches of pattern \texttt{sameCompanySharedInterest} for the given subject, in the form of \texttt{array<match<sameCompanySharedInterest>>}.
+The array is then ordered descendingly alongside \texttt{score} (which just gives the amount of shared interests), and clipped to the first 3 matches, thus persons.
+Besides the order-by known from other query languages that shows up directly in the query expression, is a kind of group-by employed, in the test used, with a common pattern giving the shared part, and differences encapsulated in the iterated (we don't obtain a cartesian product of all matches and then group afterwards to factor out common parts, but match common parts and extend them by the differences to give the complete match).
+The interesting information from the iterated is extracted and accumulated with an iterated query (cf. \ref{sec:primexpr}), which returns an array of the matched iterated pattern (\texttt{array<match<sameCompanySharedInterest.it>>}).
+(It can be seen as an get-all-matches rule query inside a rule, and an iterated as a nested all-bracketed rule).
+
+We improve upon the last query by obtaining the persons working in the same company with the highest intensity of interest regarding their shared interests:
+
+  \begin{grshell}
+eval [?sameCompanySharedWeightedInterestClipped([?fetchByName("hans")][0].namedObj, ::clipAmount)]
+  \end{grshell}
+	
+It employs a subquery \texttt{fetchByName} to obtain a dedicated person, i.e. \texttt{namedObject} by name, reducing the resulting array of matches first to a single array element (the first one) and then to a single member of the match (using the name from the named graph would be preferable in a model fully fitting to the \GrG-technological space); utilizing a query to compute an argument is also of interest in regular rule applications.
+Furthermore, it computes the shared interest in an object as the smaller of the interests of both subjects in the object, accumulating over all objects the subjects are interested in, with a cut-off applied by a clipAmount.
+\end{example}
+
+\subsubsection*{Multi Rule Query}
+
+\begin{rail}
+  MultiRuleQuery: '[' '?' '[' (Rule + ',') ']' (MatchClassFilterCalls)? (MatchClassSpec)? ']' ;
+	MatchClassSpec: backslash '<' 'class' MatchClassIdent '>' ;
+\end{rail}\ixnterm{MultiRuleQuery}\ixnterm{MatchClassSpec}
+
+The \emph{MultiRuleQuery} clause applies multiple (distinct) rules or tests, that all implement the same match class, cf. Section~\ref{sec:matchclass}).
+It defines a query version of the \emph{MultiRuleExecution}, cf. Section~\ref{sec:multiruleapplication}.
+It does not allow return assignments in contrast to that one, as with all pattern-based query constructs only the pattern elements -- but all of them -- are accessible.
+In contrast to the \emph{MultiRuleExecution}, a \emph{MatchClassSpec} is required. 
+It defines the type of the result (it cannot be derived from the rules, as these may implement multiple match classes).
+
+\begin{example}
+The rules from Example~\ref{exmatchclass} can be applied as a query with e.g. \\
+\verb#[?[r,s]\Score.orderDescendingBy<score>\Score.keepFirst(3)\<class Score>]#.
+\end{example}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph and Subgraph Based Queries and Updates}\label{sec:queryupdate}\label{sec:visited}
@@ -111,8 +251,8 @@ Instead of querying the graph with a sequence expression, and continuing process
 
 \begin{rail}
   ExtendedControl:
-    'for' lbrace Variable ':' Type\\
-    ('in' '[' '?' r ']' ';')\\
+    'for' lbrace Variable ':' Type
+    ('in' '[' '?' RuleIdent ']' ';')\\
     RewriteSequence rbrace
     ;
 \end{rail}\ixkeyw{for}\label{formatch}
@@ -133,7 +273,5 @@ In contrast to a rule query that only allows to fetch data from the graph withou
 
 The \texttt{count}ed all bracketing \texttt{count[r]=>c} assigns the \indexed{count} of matches of rule \texttt{r} to the variable \texttt{c}, and applies \texttt{r} on all the matches.
 With \texttt{count[?r]=>c} the matches are only counted, no rewrites are carried out.
-
-TODO: maybe quick reference table
 
 % todo: beispiele im text bringen

@@ -1,49 +1,41 @@
 \chapter{Nested and Subpattern Yielding}%\chapter{Declarative and Imperative Pattern Parts}
 \indexmain{yielding}\label{cha:yielding}
 
-In this chapter we'll have a look at the split of the LHS pattern 
-into a top-down pattern matching and a bottom-up result accumulation part
-and of the RHS pattern
-into a declarative pattern based rewriting and an imperative computations part.
+In this chapter we explain an extension of the LHS and RHS patterns by yielding parts.
+The constructs seen so far are executed top-down alongside the contained nested and subpatterns, for one during matching and for the other during rewriting.
+The yielding parts are executed bottom-up for one after matching and for the other while rewriting, they allow to accumulate results.
 Syntactically, the split is denoted by a separator line \texttt{---}.
+The content before the split is mostly related to declarative pattern matching and rewriting, the content after the split supplements them by more powerful imperative features.
 
 \begin{table}[htbp]
   \centering
   \begin{tabularx}{\linewidth}{|l|X|X|} 
 		\hline
-     & declarative graph rewriting & imperative extensions \\
+     & top-down (declarative) & bottom-up (imperative extensions) \\
 		\hline
-    LHS pattern & top-down pattern matching & bottom-up result accumulation \\
+    LHS pattern & pattern matching & result accumulation \\
 		\hline
-    RHS pattern & declarative rewriting & imperative computations \\
+    RHS pattern & rewriting & result accumulation (computations) \\
 		\hline
   \end{tabularx}
   \caption{Pattern separator}
   \label{patternsepar}
 \end{table}
 
-On top of those splits, we have the buildup of the overall LHS pattern from its elementary LHS pattern and its nested and subpatterns,
-resulting in a match object tree (reflecting the LHS pattern parts),
-with match objects consisting of the pattern elements bound by top-down pattern matching,
-and of the def elements filled by bottom-up yielding (or iterated matches accumulation shortcuts).
+As a refinement regarding the execution semantics:
+we have two runs, the first matching run constructs a match object tree (reflecting the LHS pattern parts and their nesting structure),
+the second run walks the match object tree and carries out rewriting alongside it.
+After the rewriting run are the embedded execs executed (they get encapsulated and stored in closures during the walk, the top-level ones are executed directly).
 
-Rewriting is carried out during a recursive rewriting walk along the nesting structure of the match object tree.
-A match tree node is responsible for the rewriting induced by its local elementary RHS pattern (both declarative and imperative parts).
-A node may be visited multiple times, it is entered once from above when local processing begins and left once to above when local processing ends, 
-and left and entered again as many times as there are nested iterateds and alternatives or used subpatterns.
-After the recursive rewriting walk are the embedded exec executed (they get encapsulated and stored in closures during the walk, the top-level ones are executed directly).
-
-So data flows first top-down and then bottom-up during nested/subpattern processing (for the LHS strictly separated (IAG and SAG), for the RHS the user may choose an order of match attribute evaluation/nested object visiting (LAG with self-defined L)).
-%in previous chapters: match object tree assembly, reflecting pattern nesting - TODO: example for match tree structure - syntax relationship - first only inherited attributes; rewriting pass alongside nesting; LHS,RHS,nesting 
-%here extension by synthesized attributes - def elements and yields, extended eval, execs; flows
-TODO: non-def-elements: inherited attributes, matched/evaluated top-down, during AST construction, during Rewriting visit
-def-elements: synthesized attributes, evaluated bottom up, during AST construction, during Rewriting visit, plus order in between local attribute evaluations
-%nested and subpatterns (LHS only) --> rewriting of nested and subpatterns (extension to RHS, dependent replacement, 2nd IAG pass) --> def elements (extension of IAG by SAG, of both passes)
-%2 LAG durchläufe, bei erstem kein einfluss auf L möglich, limitiert auf IAG+SAG, bei zweiten auch default IAG+SAG, aber Ordnung kann erzwungen werden, L definiert)
-
-An additional difference in between declarative pattern based rewriting (graph modifications according to the RHS pattern and the attribute evaluations) and imperative rewriting besides the execs and emits is the availability of the full power of the computations in the attribute evaluation statements of the imperative extension part.
+The match objects consist of the pattern elements bound by top-down pattern matching,
+and of new LHS def elements that receive the data from bottom-up yielding
+(these amount to inherited and synthesized attributes in compiler construction parlance).
 
 %TODO: integrate
+% (or iterated matches accumulation shortcuts)
+%local pattern elements/graphlet vs nested/subpattern.
+%So data flows first top-down and then bottom-up during nested/subpattern processing (for the LHS strictly separated (IAG and SAG), for the RHS the user may choose an order of match attribute evaluation/nested object visiting (LAG with self-defined L)).
+%TODO: tell explicitly?:
 % - on LHS appear to the left of the separator the elementary pattern entities, nested patterns, and subpattern usages, and to the right of the separator the def elements and yield blocks
 %   (in subpattern usages, the input and output arguments are separated by the ---, too, the same holds for the %input and output parameters in the subpattern specifications)
 %   (the return (in tests) has to come right of the separator in case that one is given)
@@ -77,7 +69,7 @@ marking them as output parameters.
 
 \subsubsection*{Yield blocks} 
 
-These elements can then be yielded to from within \texttt{eval} statements inside a \texttt{yield} block
+These elements can then be yielded to by \texttt{eval} statements from within a \texttt{yield} block
 (maybe with iterated accumulation) and subpattern usages.
 A \texttt{yield} block is a constrained \texttt{eval} block that can be given in the pattern part;
 it does not allow to assign to or change non-\texttt{def} variables, or carry out graph-changing commands.
@@ -167,10 +159,10 @@ This is shown in the second example for LHS yielding, summing the integer attrib
 \begin{example}
   \begin{grgen}
 test sumOfWeight(start:Node) : (int,int)
-{	
+{
   iterated it {
     start --> n:N; // node class N { a:int; }
-	---
+  ---
     def var i:int;
     yield {
       yield i = n.a;
@@ -199,15 +191,15 @@ In case no accumulation is needed but a simple \indexed{count} of the iterated m
 test countOfEdges(start:Node) : (int)
 {
 	iterated it {
-    start -->;
-  } 
+		start -->;
+	} 
 ---
-  def var sum:int = 0;
-  yield {
-    yield sum = count(it);
-  }
+	def var sum:int = 0;
+	yield {
+		yield sum = count(it);
+	}
 
-  return (sum);
+	return (sum);
 }
   \end{grgen}
 \end{example}
@@ -220,9 +212,40 @@ test countOfEdges(start:Node) : (int)
 
 For more convenience, the notational shorthand of in-place yielding at a def variable declaration is available. The syntactic sugar with the syntax \texttt{def var v:T = yield(expr);} is de-sugared to a plain \texttt{def var v:T;} declaration and an assignment in an implicitly added \verb#yield { v = expr; }# block.
 It is not to be confused with separate initialization, combined: \texttt{def var v:T = init-expr = yields(expr)} --- the init-expr is evaluated before the yields of nested patterns and can thus be used to give a start value for bottom-up accumulation, the in-place yielding is evaluated after nested and subpatterns were matched and yielded (only then are iterated matches available).
-	
-TODO: examples
 
+The example from above can be formulated succintly with the yield expression.
+
+\begin{example}
+  \begin{grgen}
+test countOfEdges(start:Node) : (int)
+{
+	iterated it {
+		start -->;
+	} 
+---
+	def var sum:int = yield(count(it));
+	return (sum);
+}
+  \end{grgen}
+\end{example}
+
+Employing the way more general iterated query, the example looks as follows; for a larger example, see Example~\ref{exsimplequeryrules}.
+
+\begin{example}
+  \begin{grgen}
+test countOfEdges(start:Node) : (int)
+{
+	iterated it {
+		start -->;
+	} 
+---
+	def var sum:int = yield([?it].size());
+	return (sum);
+}
+  \end{grgen}
+\end{example}
+	
+	
 \subsubsection*{Iterated Filtering}\label{sub:iteratedfilter}
 
 A helper in iterated accumulation is iterated filtering, it allows to execute filters on the iterated matches array, reordering matches or even removing them (thus changing the result matches tree of rule application).
@@ -235,6 +258,23 @@ For this to work, the iterateds must be firstly given a name, as described in \r
 
 The syntax of the iterated filtering specification past the \texttt{iterated} \emph{IteratedIdent} part is the same as for filter calls on a rule, e.g. \verb#r\f#, see Chapter~\ref{sub:filters} for more on this.
 Note that the feature is limited to top-level iterateds for now.
+
+\begin{example}
+  \begin{grgen}
+test iteratedFiltering(start:Node) : (int)
+{
+	iterated it {
+		start --> n:N;
+	---
+		def var i:int = n.i;
+	} 
+---
+	iterated it \ orderDescendingBy<i> \ keepFirst(3);
+	def var sum:int = yield([?it].extract<i>().sum());
+	return (sum);
+}
+  \end{grgen}
+\end{example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -270,7 +310,7 @@ as temporary variables (but local variables introduced in the computation are pr
 
 \begin{example}
   \begin{grgen}
-rule R {
+rule r : (double) {
   n1:N; n2:N; n3:N;
   
   modify {
@@ -281,6 +321,7 @@ rule R {
     	n2.variance = Math::sqr(n2.v - mean); 
     	n3.variance = Math::sqr(n3.v - mean); 
     }
+    return(mean);
   }
 }
   \end{grgen}
@@ -288,7 +329,7 @@ rule R {
 
 \subsection{Yielding}\label{sub:yield} 
 
-These elements are then yielded to from within \texttt{eval} or \texttt{evalhere} statements, subpattern rewrite usages, and \texttt{exec} statements.
+These elements can then be yielded to from within \texttt{eval} or \texttt{evalhere} statements, subpattern rewrite usages, or \texttt{exec} statements.
 While the latter will be covered in chapter \ref{cha:imperativeandstate}, the former will be explained in the following.
 
 Yielding is specified by prepending the \texttt{yield}\indexmain{yield} keyword to the entity yielded to,
@@ -411,7 +452,6 @@ rule r(a:Node) : (Node, int)
     return(d, i);
   }
 }
-
 pattern P(n:Node --- def rm:Node)
 {
   n --> . --> m:Node;

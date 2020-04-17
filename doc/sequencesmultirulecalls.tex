@@ -132,7 +132,46 @@ Filter functions can then be defined for a match class (instead of a rule as nor
 Alternatively, auto-generated filters may be declared at a match class --- the same that can be declared for a rule/test (with exception of \texttt{auto}, also cf. Chapter~\ref{sub:filters}).
 Together with the auto-supplied filters, they allow to filter the matches of a multi rule all call or multi rule backtracking construct, i.e. one filter can be applied on the matches of different rules.
 
-TODO: example
+\begin{example}
+  \begin{grgen}
+node class N;
+
+edge class weighted
+{
+	weight:double;
+}
+
+edge class unweighted;
+  \end{grgen}
+
+  \begin{grgen}
+match class Score
+{
+	def var score:double;
+} \ orderDescendingBy<score>
+
+test t implements Score
+{
+	n:N;
+	iterated it {
+		n -:unweighted-> .;
+	}
+---	
+	def var score:double = yield([?it].size());
+} \ orderDescendingBy<score>
+
+test s implements Score
+{
+	n:N;
+	iterated it {
+		n -w:weighted-> .;		
+	}
+---	
+	def var score:double = yield([?it].extract<w>().extract<weight>().sum());
+} \ orderDescendingBy<score>
+  \end{grgen}\label{exmatchclass}
+\end{example}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Match Class Filter Calls}
@@ -145,6 +184,40 @@ TODO: example
 Match class filters (defined on the match class) are employed with \verb#\mc.f# notation at multi rule calls from the sequences language cf. \ref{sec:multiruleapplication} and \ref{sec:multitransaction}, i.e. the match class identifier must be given as a prefix before the regular filter call.
 This holds for user-implemented, auto-generated, and auto-supplied filters; the name resolving rules for filter calls apply, cf. Section~\ref{sec:filtercalls}.
 
-TODO: example.
+\begin{example}
+The rules from Example~\ref{exmatchclass} can be applied with e.g.\\
+\verb#[[r,s]\Score.orderDescendingBy<score>\Score.keepFirst(3)]#.
+\end{example}
 
-TODO: maybe quick reference table
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Quick Reference Table}
+
+Table~\ref{seqmultitab} lists the multi rule applications and some advanced single rule applications at a glance.
+
+%\makeatletter
+\begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
+\begin{tabularx}{\linewidth}{|lX|}
+\hline
+\texttt{for\{r;s\}} & For every match of \texttt{r}: Executes \texttt{r} then \texttt{s}. One \texttt{s} failing pins the execution result to false.\\
+\texttt{count[r]=>v} & Rewrites every pattern match produced by \texttt{r}, and writes the count of the matches found to \texttt{v}.\\
+\texttt{for\{v:match<r> in [?r]; s\}} & Execute \texttt{s} for every match \texttt{v} from \texttt{r}. One \texttt{s} failing pins the execution result to false.\\
+\hline
+\texttt{[[r1,r2]\textbackslash mc.f]} & Rewrites every match produced by \texttt{r1} and \texttt{r2} that was left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter.\\
+\texttt{[[for\{r1;s\},for\{r2;t\}]\textbackslash mc.f]} & For every match of \texttt{r1}: Executes \texttt{r1} then \texttt{s}. For every match of \texttt{r2}: Executes \texttt{r2} then \texttt{s}. For the matches left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter. One \texttt{s} or \texttt{t} failing pins the execution result to false.\\
+\hline
+\texttt{\{<r1,[r2],\$[r3]>\}} & Tries to match all contained rules, then rewrites all of the rules that matched. True if at least one matched.\\
+\texttt{\$\{<r1,[r2],\$[r3]>\}} & Tries to match all contained rules, then rewrites indeterministically one of the rules that matched. True if at least one matched.\\
+\texttt{\$.(0.5 s, 0.5 t)} & A random number is drawn, and the sequence into whose interval it falls is executed.\\
+\texttt{\$op(s,t)} & \texttt{s} and \texttt{t} are executed in random order as long as the outcome is not fixed, returning the disjunction resp. conjunction of their truth values. For \texttt{op} being one of the boolean operators \texttt{||,\&\&}.\\
+\texttt{\$op(s,t)} & \texttt{s} and \texttt{t} are executed in random order, returning the disjunction resp. conjunction of their truth values. For \texttt{op} being one of the boolean operators \texttt{|,\&}.\\
+\hline
+\end{tabularx}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}
+\end{minipage}\\
+\\ 
+{\small Let \texttt{r}, \texttt{r1}, \texttt{r2}, \texttt{r3} be rules or tests, \texttt{s}, \texttt{t} be sequences, \texttt{v} be a variable identifier, \texttt{mc} be a match class, \texttt{f} be a filter }
+\caption{Multi rule applications at a glance}
+\label{seqmultitab}
+\end{table}
+%\makeatother

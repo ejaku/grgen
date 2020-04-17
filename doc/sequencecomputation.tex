@@ -299,10 +299,9 @@ From the infix operators, only the relational operators are available.
 \subsubsection*{Deque Operations}
 From the set methods not already mentioned in the section on the common parts of all container types, only the \texttt{asArray()} method (cf. \ref{sec:dequeexpr}) is supported, all other methods are not available.
 
+From the infix operators, deque concatenation is supported, as well as all the relational operators.
 
 \subsubsection*{Container For Loop}
-
-From the infix operators, deque concatenation is supported, as well as all the relational operators.
 
 You may iterate in the sequences with a for loop over the elements contained in a storage.
 
@@ -352,18 +351,23 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
-\texttt{c;d}	& Computes c then d; the value of the computation is d\\
+\texttt{c;d} & Computes c then d; the value of the computation is d\\
 \hline
 \texttt{\{e\}} & An unspecified sequence expression executed for its result, defining the success of the computation.\\
 \hline
-\texttt{t=e}	& Simple assignment of an expression value to an assignment target\\
-%\texttt{t=e=f}	& Chained assignment \\
+\texttt{t=e} & Simple assignment of an expression value to an assignment target\\
+%\texttt{t=e=f} & Chained assignment \\
 \hline
-\texttt{e ? f : g}	& Returns f if e evaluates to true, otherwise g \\
-\texttt{e op f}	& For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
-\texttt{e op f}	& For \texttt{op} being one of comparison operators \texttt{==,!=,<,<=,>,>=,in} \\
-\texttt{e op f}	& For \texttt{op} being one of arithmetic operators \texttt{+,-,*,/,\%} \\
-\texttt{e + f}	& For string concatenation. \\
+\texttt{e ? f : g} & Returns f if e evaluates to true, otherwise g \\
+\texttt{e op f} & For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
+\texttt{e op f} & For \texttt{op} being one of comparison operators \texttt{==,!=,<,<=,>,>=,in} \\
+\texttt{e op f} & For \texttt{op} being one of arithmetic operators \texttt{+,-,*,/,\%} \\
+\texttt{e op f} & For \texttt{op} being one of the set operators \texttt{|,\&,\textbackslash} \\
+\texttt{e + f} & For string/array/deque concatenation. \\
+\texttt{op e} & For \texttt{op} being boolean \texttt{!} or arithmetic \texttt{-}\\
+\hline
+\texttt{[?r\textbackslash f]} & Rule query, returns every match produced by \texttt{r} that was left by the filter \texttt{f}, in the order left behind by the filter, as \texttt{array<match<r>>}. \\
+\texttt{[?[q,r]\textbackslash mc.f\textbackslash<mc>]} & Multi rule query, returns every match produced by \texttt{q} and \texttt{r} that was left by the filter \texttt{f} of match class \texttt{mc}, in the order left behind by the match class filter, as \texttt{array<match<class mc>>}. \\
 \hline
 \texttt{v} & Variable. Assignment target or expression.\\
 \texttt{v.name} & Attribute of graph element. Assignment target or expression.\\
@@ -372,21 +376,21 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{random(upperBound)} & Returns random number from [0;upper bound[, if upper bound is missing from [0.0;1.0[.\\
 \texttt{typeof(v)} & Returns the name of the type of the entity handed in.\\
 \hline
-\texttt{u=set<Node>\{\}}	& Example for container constructor, creates storage set and assigns to \texttt{u}.\\
-\texttt{u[e]}	& Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
+\texttt{u=set<Node>\{\}} & Example for container constructor, creates storage set and assigns to \texttt{u}.\\
+\texttt{u[e]} & Target value of \texttt{e} in \texttt{u}. Fails if \texttt{!(e in u)}. Assignment target or expression.\\
 \hline
-\texttt{f(...)}	& Calls one of the functions for graph querying defined in \ref{funcstab} and explained in \ref{cha:graph}. Or calls a user defined function. The numerical functions are \emph{not} available.\\
+\texttt{f(...)} & Calls one of the functions for graph querying defined in \ref{funcstab} and explained in \ref{cha:graph}. Or calls a user defined function. The numerical functions are \emph{not} available.\\
 \hline
-\texttt{(...)=p(...)}	& Calls one of the procedures for graph manipulation defined in \ref{procstab} and explained in \ref{cha:graph}. Or calls a user defined procedure.\\
+\texttt{(...)=p(...)} & Calls one of the procedures for graph manipulation defined in \ref{procstab} and explained in \ref{cha:graph}. Or calls a user defined procedure.\\
 \hline
-\texttt{v.fm(...)}	& Calls one of the function methods \texttt{size,empty,peek} for container querying defined in \ref{funcmethstab} and explained in \ref{cha:container}. Or calls a user defined function. The string function methods and other container function methods as well as infix operators are \emph{not} available.\\
+\texttt{v.fm(...)} & Calls one of the function methods \texttt{size,empty,peek} for container querying defined in \ref{funcmethstab} and explained in \ref{cha:container}. Or calls a user defined function. The string function methods and other container function methods as well as infix operators are \emph{not} available.\\
 \hline
-\texttt{(...)=v.pm(...)}	& Calls one of the procedure methods \texttt{add,rem,clear} for container manipulation defined in \ref{procmethstab} and explained in \ref{cha:container}. Or calls a user defined procedure. The change assignments are \emph{not} available.\\
+\texttt{(...)=v.pm(...)} & Calls one of the procedure methods \texttt{add,rem,clear} for container manipulation defined in \ref{procmethstab} and explained in \ref{cha:container}. Or calls a user defined procedure. The change assignments are \emph{not} available.\\
 \hline
 \end{tabularx}
 \end{minipage}\\
 \\ 
-{\small Let \texttt{c} and \texttt{d} be computations, \texttt{t} be an assignment target, \texttt{e}, \texttt{f}, \texttt{g} be expressions, \texttt{u}, \texttt{v}, \texttt{w} be variable identifiers }
+{\small Let \texttt{c} and \texttt{d} be computations, \texttt{t} be an assignment target, \texttt{e}, \texttt{f}, \texttt{g} be expressions, \texttt{u}, \texttt{v}, \texttt{w} be variable identifiers, \texttt{q} and \texttt{r} be rules, \texttt{mc} be a match class, \texttt{f} be a filter }
 \caption{Sequence computations at a glance}
 \label{comptab}
 \end{table}

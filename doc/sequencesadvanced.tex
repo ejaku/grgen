@@ -62,9 +62,10 @@ We want to execute a sequence \texttt{rs} and if it fails a rule \texttt{t} -- o
 Transactions as such are only helpful in a limited number of cases, but they are a key ingredient for backtracking, which is syntactically specified by double angle brackets (\texttt{<<r;;s>>}.
 The semantics of the construct are:
 First compute all matches for rule \texttt{r}, then start a transaction.
-For each match: execute the rewrite of the match, then execute \texttt{s}.
-If \texttt{s} failed then rollback and continue with the loop.
-If \texttt{s} succeeded then commit and break from the loop.
+For each match (one-by-one): rewrite the match, then execute \texttt{s}.
+If \texttt{s} failed then roll the effects on the graph back and continue with the matches processing loop.
+If \texttt{s} succeeded then commit the changes and break from the matches processing loop.
+The case one \texttt{s} succeeded, the overall sequence succeeds, otherwise it fails.
 On first sight this may not look very impressive, but this construct in combination with recursive sequences is the key operation for crawling through \indexed{search space}s or for the unfolding of \indexed{state space}s.
 
 The backtracking double angles separate matching from rewriting: first all matches are found, but then only one after the other is applied, without interference of the other matches.
@@ -137,26 +138,33 @@ So these constructs are not horribly inefficient, but they do have their price -
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Multi-Rule Transactions}\label{sec:multitransaction}
+\section{Multi-Rule Backtracking}\label{sec:multitransaction}
 
 \begin{rail}
   MultiBacktracking: '<<' MultiRuleExecution ';;' RewriteSequence '>>';
 \end{rail}\ixnterm{MultiBacktracking}
 
-The \emph{MultiBacktracking} clause searches for all matches of all contained rules and then executes the sequence for each found match, rolling back the changes in case the sequence fails, continuing with the next match,
-or committing the changes in case the sequence succeeds, ending the execution of the sequence (as success).
+The semantics of the \emph{MultiBacktracking} construct are:
+First compute all matches for all rules, then start a transaction.
+For each match (one-by-one): rewrite the match, then execute the contained sequence.
+If the contained sequence failed then roll the effects on the graph back and continue with the matches processing loop.
+If the contained sequence succeeded then commit the changes and break from the matches processing loop.
+The case one sequence succeeded, the overall sequence succeeds, otherwise it fails.
 
-Filters may be applied to the rules in the construct (e.g. \verb#r\f#), but especially: match class filters may be applied to the multi rule execution part \verb#([[...]\f])# -- they allow to bring the matches of the different rules into a global order, so only the most promising ones are followed, while the other ones are purged.
+Filters may be applied to the rules in the construct (e.g. \verb#r\f#), but especially: match class filters may be applied to the multi rule execution part \verb#([[...]\f])# -- they allow to bring the matches of the different rules into a global order, so only the most promising ones are followed, while the other ones are purged -- the default order follows syntactical appearance, first all matches of the first rule are processed, then all matches of the second rule, and so on.
 
 \begin{rail}
   MultiRulePrefixedSequenceBacktracking: '<<' MultiRulePrefixedSequence '>>';
 \end{rail}\ixnterm{MultiRulePrefixedSequenceBacktracking}
 
-The \emph{MultiRulePrefixedSequenceBacktracking} construct searches for all matches of all contained rules, and then, for each found match (one-by-one): starts a transaction, rewrites the match, and then executes the corresponding sequence, if the result is false, the effects on the graph are rolled back and the next match is tried, otherwise the changes are committed and the overall sequences succeeds (without processing further matches; if all matches lead to a failing sequence, the overall sequence fails)
+The semantics of the \emph{MultiRulePrefixedSequenceBacktracking} construct are:
+First compute all matches for all rules, then start a transaction.
+For each match (one-by-one): rewrite the match, then execute the corresponding sequence.
+If the corresponding sequence failed then roll the effects on the graph back and continue with the matches processing loop.
+If the corresponding sequence succeeded then commit the changes and break from the matches processing loop.
+The case one sequence succeeded, the overall sequence succeeds, otherwise it fails.
 
-Filters may be applied to the rules in the construct (e.g. \verb#r\f#), but especially: match class filters may be applied to the multi rule prefixed sequence part \verb#([[...]\f])# -- they allow to bring the matches of the different rules into a global order, so only the most promising ones are followed, while the other ones are purged.
-(note that as for the non-backtracking multi rule prefixed sequence, the rewrites are performed in order of the globally filtered matches list, in contrast to the syntactic sequence of rule prefixed sequences within the construct).
-
+Filters may be applied to the rules in the construct (e.g. \verb#r\f#), but especially: match class filters may be applied to the multi rule prefixed sequence part \verb#([[...]\f])# -- they allow to bring the matches of the different rules into a global order, so only the most promising ones are followed, while the other ones are purged -- the default order follows syntactical appearance, first all matches of the first rule are processed, then all matches of the second rule, and so on.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{For Loops}
@@ -206,18 +214,18 @@ Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite se
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
-\texttt{<s>}	& Execute \texttt{s} transactionally (rollback on failure).\\
-\texttt{<<r;;s>>}	& Backtracking: try the matches of rule \texttt{r} until \texttt{s} succeeds.\\
-\texttt{/ s /}	& Pause insertion: execute \texttt{s} outside of the enclosing transactions and sequences, i.e. the changes of \texttt{s} are not rolled back.\\
+\texttt{<s>} & Execute \texttt{s} transactionally (rollback on failure).\\
+\texttt{<<r;;s>>} & Backtracking: try the matches of \texttt{r} until \texttt{s} succeeds.\\
+\texttt{/ s /} & Pause insertion: execute \texttt{s} outside of the enclosing transactions and sequences, i.e. the changes of \texttt{s} are not rolled back.\\
 \hline
-\texttt{\$\{<r1,[r2],\$[r3]>\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
+\texttt{<<[[r1,r2]];;s>>} & Multi-Rule-Backtracking: try the matches of \texttt{r1} and \texttt{r2} until \texttt{s} succeeds. You may apply a match class filter \texttt{\textbackslash mc.f}, the matches are then tried in the order left behind by the match class filter.\\
+\texttt{<<[[for\{r1;s\},for\{r2;t\}]]>>} & Multi-Rule-Prefixed-Sequence-Backtracking: try the matches of \texttt{r1} and \texttt{r2} until \texttt{s} or \texttt{t} succeeds. You may apply a match class filter \texttt{\textbackslash mc.f}, the matches are then tried in the order left behind by the match class filter.\\
 \hline
-\texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
-\texttt{for\{v->w in u; t\}}	& Execute \texttt{t} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
-\texttt{for\{v:match<r> in [?r]; t\}}	& Execute \texttt{t} for every match \texttt{v} from rule \texttt{r}. One \texttt{t} failing pins the execution result to failure.\\
-\texttt{for\{v in func(...); s\}}	& Execute \texttt{s} for every node/edge in func, which may be nodes/edges, or incident/adjacent, or reachable/boundedReachable. One \texttt{s} failing pins the execution result to failure.\\
-\texttt{for\{v:int in [l:r]; t\}}	& Execute \texttt{t} for every \texttt{v} in the integer range starting at \texttt{l} and ending at \texttt{r}, upwards by one if \texttt{l<=r}, otherwise downwards by one. One \texttt{t} failing pins the execution result to failure.\\
-\texttt{for\{v:N in \{asc.(idx>7)\}; t\}}	& Execute \texttt{t} for every \texttt{v} in the index \texttt{idx}, in ascending order, from \texttt{7} exclusive on. One \texttt{t} failing pins the execution result to failure. \texttt{asc.} abbreviates \texttt{ascending}, is not valid syntax as such.\\
+\texttt{for\{v in u; s\}} & Execute \texttt{s} for every \texttt{v} in storage set \texttt{u}. One \texttt{s} failing pins the execution result to failure.\\
+\texttt{for\{v->w in u; s\}} & Execute \texttt{s} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{s} failing pins the execution result to failure.\\
+\texttt{for\{v in func(...); s\}} & Execute \texttt{s} for every node/edge in func, which may be nodes/edges, or incident/adjacent, or reachable/boundedReachable. One \texttt{s} failing pins the execution result to failure.\\
+\texttt{for\{v:int in [l:u]; s\}} & Execute \texttt{s} for every \texttt{v} in the integer range starting at \texttt{l} and ending at \texttt{u}, upwards by one if \texttt{l<=r}, otherwise downwards by one. One \texttt{s} failing pins the execution result to failure.\\
+\texttt{for\{v:N in \{asc.(idx>7)\}; s\}} & Execute \texttt{s} for every \texttt{v} in the index \texttt{idx}, in ascending order, from \texttt{7} exclusive on. One \texttt{s} failing pins the execution result to failure. \texttt{asc.} abbreviates \texttt{ascending}, is not valid syntax as such.\\
 \hline
 \texttt{\{comp\}}	& An unspecified sequence computation (see table \ref{comptab}).\\
 \hline
@@ -235,7 +243,7 @@ Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite se
 \end{tabularx}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}
 \end{minipage}\\
 \\ 
-{\small Let \texttt{r}, \texttt{s}, \texttt{t} be sequences, \texttt{u}, \texttt{v}, \texttt{w} be variable identifiers, \texttt{g} be a variable or attribute of graph type, \texttt{<op>} be $\in \{\texttt{|}, \texttt{\textasciicircum}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ }%and \texttt{n}, \texttt{m} $\in \N_0$.}
+{\small Let \texttt{r}, \texttt{r1}, \texttt{r2} be rules or tests, \texttt{s}, \texttt{t} be sequences, \texttt{u}, \texttt{v}, \texttt{w} be variable identifiers, \texttt{g} be a variable or attribute of graph type, \texttt{<op>} be $\in \{\texttt{|}, \texttt{\textasciicircum}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ }%and \texttt{n}, \texttt{m} $\in \N_0$.}
 \caption{Advanced sequences and graph nesting support at a glance}
 \label{seqtab}
 \end{table}
