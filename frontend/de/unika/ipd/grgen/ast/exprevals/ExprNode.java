@@ -121,17 +121,28 @@ public abstract class ExprNode extends BaseNode {
 		return this;
 	}
 
-	public boolean noDefElementInCondition() {
+	public boolean noDefElement(String containingConstruct) {
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElementInCondition();
+				res &= ((ExprNode)child).noDefElement(containingConstruct);
 			else if(child instanceof CollectNode<?>)
-				res &= ((CollectNode<?>)child).noDefElementInCondition();
+				res &= ((CollectNode<?>)child).noDefElement(containingConstruct);
 		}
 		return res;
 	}
-	
+
+	public boolean noIteratedReference(String containingConstruct) {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).noIteratedReference(containingConstruct);
+			else if(child instanceof CollectNode<?>)
+				res &= ((CollectNode<?>)child).noIteratedReference(containingConstruct);
+		}
+		return res;
+	}
+
 	public static IdentNode getEdgeRootOfMatchingDirectedness(ExprNode edgeTypeExpr)
 	{
 		IdentExprNode ident = (IdentExprNode)edgeTypeExpr;

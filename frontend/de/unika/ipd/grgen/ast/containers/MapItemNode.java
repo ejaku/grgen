@@ -74,12 +74,21 @@ public class MapItemNode extends BaseNode {
 	protected MapItem getMapItem() {
 		return checkIR(MapItem.class);
 	}
-	
-	public boolean noDefElementInCondition() {
+
+	public boolean noDefElement(String containingConstruct) {
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElementInCondition();
+				res &= ((ExprNode)child).noDefElement(containingConstruct);
+		}
+		return res;
+	}
+
+	public boolean noIteratedReference(String containingConstruct) {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).noIteratedReference(containingConstruct);
 		}
 		return res;
 	}

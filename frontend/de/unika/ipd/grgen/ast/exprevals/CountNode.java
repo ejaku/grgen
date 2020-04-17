@@ -80,10 +80,10 @@ public class CountNode extends ExprNode {
 	public TypeNode getType() {
 		return BasicTypeNode.intType;
 	}
-	
-	public boolean noDefElementInCondition() {
-		// this check is called only for conditions, and there a count can't be used as the match object does not exist yet
-		reportError("The matches of an iterated (here: "+iterated+") can't be counted from an if condition, only from a yield block or eval");
+
+	@Override
+	public boolean noIteratedReference(String containingConstruct) {
+		reportError("The matches of an iterated can't be accessed with a count(" + iteratedUnresolved + ") from a " + containingConstruct + ", only from a yield block or yield expression or eval");
 		return false;
 	}
 }

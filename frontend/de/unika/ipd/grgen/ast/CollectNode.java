@@ -96,17 +96,32 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 		return children.toString();
 	}
 	
-	public boolean noDefElementInCondition() {
+	public boolean noDefElement(String containingConstruct) {
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof SetItemNode)
-				res &= ((SetItemNode)child).noDefElementInCondition();
+				res &= ((SetItemNode)child).noDefElement(containingConstruct);
 			else if(child instanceof MapItemNode)
-				res &= ((MapItemNode)child).noDefElementInCondition();
+				res &= ((MapItemNode)child).noDefElement(containingConstruct);
 			else if(child instanceof ArrayItemNode)
-				res &= ((ArrayItemNode)child).noDefElementInCondition();
+				res &= ((ArrayItemNode)child).noDefElement(containingConstruct);
 			else if(child instanceof DequeItemNode)
-				res &= ((DequeItemNode)child).noDefElementInCondition();
+				res &= ((DequeItemNode)child).noDefElement(containingConstruct);
+		}
+		return res;
+	}
+	
+	public boolean noIteratedReference(String containingConstruct) {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof SetItemNode)
+				res &= ((SetItemNode)child).noIteratedReference(containingConstruct);
+			else if(child instanceof MapItemNode)
+				res &= ((MapItemNode)child).noIteratedReference(containingConstruct);
+			else if(child instanceof ArrayItemNode)
+				res &= ((ArrayItemNode)child).noIteratedReference(containingConstruct);
+			else if(child instanceof DequeItemNode)
+				res &= ((DequeItemNode)child).noIteratedReference(containingConstruct);
 		}
 		return res;
 	}

@@ -74,7 +74,7 @@ public class IteratedQueryExprNode extends ExprNode {
 	protected boolean checkLocal() {
 		return true;
 	}
-	
+
 	@Override
 	protected IR constructIR() {
 		return new IteratedQueryExpr(iteratedUnresolved.getIdent(),
@@ -84,5 +84,11 @@ public class IteratedQueryExprNode extends ExprNode {
 	@Override
 	public TypeNode getType() {
 		return arrayOfMatchType;
+	}
+
+	@Override
+	public boolean noIteratedReference(String containingConstruct) {
+		reportError("The matches of an iterated can't be accessed with an iterated query [?" + iteratedUnresolved + "] from a " + containingConstruct + ", only from a yield block or yield expression or eval");
+		return false;
 	}
 }

@@ -1,0 +1,10 @@
+test foo()
+{
+	if { [?it].extract<bar>().sum() > 10; } // on lhs only in yield expression allowed
+	
+	iterated it {
+		.;
+	---
+		def var bar:double = 1;
+	}
+}

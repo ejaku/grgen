@@ -84,11 +84,4 @@ public class UniqueofExprNode extends ExprNode {
 	public TypeNode getType() {
 		return BasicTypeNode.intType;
 	}
-	
-	public boolean noDefElementInCondition() {
-		if(entity!=null)
-			return entity.noDefElementInCondition();
-		else
-			return true;
-	}
 }

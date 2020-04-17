@@ -1,0 +1,10 @@
+test foo()
+{
+	iterated it {
+		.;
+	---
+		def var bar:double = 1;
+	}
+---
+	def var score:double = [?it].extract<bar>().sum(); // on lhs only in yield expression allowed
+}

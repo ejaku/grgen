@@ -104,23 +104,24 @@ public class TypeofNode extends ExprNode {
 	public TypeNode getType() {
 		return BasicTypeNode.typeType;
 	}
-	
-	public boolean noDefElementInCondition() {
+
+	@Override
+	public boolean noDefElement(String containingConstruct) {
 		if(entityEdgeDecl!=null) {
 			if(entityEdgeDecl.defEntityToBeYieldedTo) {
-				entityEdgeDecl.reportError("A def entity ("+entityEdgeDecl+") can't be accessed from an if");
+				entityEdgeDecl.reportError("A def entity ("+entityEdgeDecl+") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}
 		if(entityNodeDecl!=null) {
 			if(entityNodeDecl.defEntityToBeYieldedTo) {
-				entityNodeDecl.reportError("A def variable ("+entityNodeDecl+") can't be accessed from an if");
+				entityNodeDecl.reportError("A def variable ("+entityNodeDecl+") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}
 		if(entityVarDecl!=null) {
 			if(entityVarDecl.defEntityToBeYieldedTo) {
-				entityVarDecl.reportError("A def variable ("+entityVarDecl+") can't be accessed from an if");
+				entityVarDecl.reportError("A def variable ("+entityVarDecl+") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}

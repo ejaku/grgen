@@ -556,13 +556,24 @@ public class PatternGraphNode extends GraphNode {
 
 		return childs && expr && noReturnInNegOrIdpt 
 				&& noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
-				&& noDefElementInCondition();
+				&& noDefElementOrIteratedReferenceInCondition()
+				&& noIteratedReferenceInDefElementInitialization();
 	}
 
-	private boolean noDefElementInCondition() {
+	private boolean noDefElementOrIteratedReferenceInCondition() {
 		boolean res = true;
 		for(ExprNode cond : conditions.getChildren()) {
-			res &= cond.noDefElementInCondition();
+			res &= cond.noDefElement("if condition");
+			res &= cond.noIteratedReference("if condition");
+		}
+		return res;
+	}
+
+	private boolean noIteratedReferenceInDefElementInitialization() {
+		boolean res = true;
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+			if(var.initialization != null)
+				res &= var.initialization.noIteratedReference("def variable initialization");
 		}
 		return res;
 	}

@@ -157,19 +157,20 @@ public class DeclExprNode extends ExprNode {
 		else
 			return declNode.getIR();
 	}
-	
-	public boolean noDefElementInCondition() {
+
+	@Override
+	public boolean noDefElement(String containingConstruct) {
 		if(decl instanceof ConstraintDeclNode) {
 			ConstraintDeclNode entity = (ConstraintDeclNode)decl;
 			if(entity.defEntityToBeYieldedTo) {
-				declUnresolved.reportError("A def entity ("+entity+") can't be accessed from an if");
+				declUnresolved.reportError("A def entity ("+entity+") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}
 		if(decl instanceof VarDeclNode) {
 			VarDeclNode entity = (VarDeclNode)decl;
 			if(entity.defEntityToBeYieldedTo) {
-				declUnresolved.reportError("A def variable ("+entity+") can't be accessed from an if");
+				declUnresolved.reportError("A def variable ("+entity+") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}

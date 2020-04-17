@@ -84,11 +84,4 @@ public class NameofNode extends ExprNode {
 	public TypeNode getType() {
 		return BasicTypeNode.stringType;
 	}
-	
-	public boolean noDefElementInCondition() {
-		if(namedEntity!=null)
-			return namedEntity.noDefElementInCondition();
-		else
-			return true;
-	}
 }
