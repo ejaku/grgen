@@ -17,8 +17,8 @@ public class ArrayExtract extends Expression {
 	private Expression targetExpr;
 	private Entity member;
 	
-	public ArrayExtract(Expression targetExpr, Entity member) {
-		super("array extract", (ArrayType)targetExpr.getType());
+	public ArrayExtract(Expression targetExpr, ArrayType resultingType, Entity member) {
+		super("array extract", resultingType);
 		this.targetExpr = targetExpr;
 		this.member = member;
 	}

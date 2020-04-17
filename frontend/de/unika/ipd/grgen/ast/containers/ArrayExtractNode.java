@@ -17,6 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.ArrayExtract;
+import de.unika.ipd.grgen.ir.containers.ArrayType;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
@@ -168,7 +169,7 @@ public class ArrayExtractNode extends ExprNode
 		if(member != null)
 			accessedMember = member.checkIR(Entity.class);
 		
-		return new ArrayExtract(targetExpr.checkIR(Expression.class),
+		return new ArrayExtract(targetExpr.checkIR(Expression.class), extractedArrayType.checkIR(ArrayType.class),
 				accessedMember);
 	}
 }
