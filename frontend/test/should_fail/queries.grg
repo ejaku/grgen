@@ -1,0 +1,17 @@
+#using "queries.gm"
+
+test sameCompanySharedInterestBU(subject:namedObject)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated {
+		subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person;
+	---
+		yield {
+			interests.add(namedObject.name); // type name accessed
+			yield score = score + 1;
+		}
+	}
+---
+	def var score:double = 0;
+	def ref interests:array<string> = array<string>[];
+}

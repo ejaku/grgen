@@ -72,6 +72,18 @@ public class MemberAccessExprNode extends ExprNode
 			return false;
 		}
 
+		if(targetExpr instanceof IdentExprNode) {
+			IdentExprNode identExpr = (IdentExprNode)targetExpr;
+			if(identExpr.decl instanceof TypeDeclNode) {
+				TypeDeclNode typeNode = (TypeDeclNode)identExpr.decl;
+				reportError("Member access requires an entity, is given type " + typeNode.getIdentNode());
+			}
+		}
+		if(targetExpr instanceof TypeofNode) {
+			TypeofNode typeofExpr = (TypeofNode)targetExpr;
+			reportError("Member access requires an entity, is given type from typeof(" + typeofExpr.getEntity().getDecl().getIdentNode() + ")");
+		}
+		
 		TypeNode ownerType = targetExpr.getType();
 		
 		if(ownerType instanceof MatchTypeNode) {
