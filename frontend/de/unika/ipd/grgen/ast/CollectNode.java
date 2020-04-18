@@ -95,7 +95,7 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 	public String toString() {
 		return children.toString();
 	}
-	
+
 	public boolean noDefElement(String containingConstruct) {
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
@@ -110,7 +110,7 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 		}
 		return res;
 	}
-	
+
 	public boolean noIteratedReference(String containingConstruct) {
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
@@ -122,6 +122,21 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 				res &= ((ArrayItemNode)child).noIteratedReference(containingConstruct);
 			else if(child instanceof DequeItemNode)
 				res &= ((DequeItemNode)child).noIteratedReference(containingConstruct);
+		}
+		return res;
+	}
+
+	public boolean iteratedNotReferenced(String iterName) {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof SetItemNode)
+				res &= ((SetItemNode)child).iteratedNotReferenced(iterName);
+			else if(child instanceof MapItemNode)
+				res &= ((MapItemNode)child).iteratedNotReferenced(iterName);
+			else if(child instanceof ArrayItemNode)
+				res &= ((ArrayItemNode)child).iteratedNotReferenced(iterName);
+			else if(child instanceof DequeItemNode)
+				res &= ((DequeItemNode)child).iteratedNotReferenced(iterName);
 		}
 		return res;
 	}

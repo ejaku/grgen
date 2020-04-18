@@ -1,0 +1,26 @@
+rule foo()
+{	
+	iterated it {
+		.;
+	---
+		def var bar:double = 1;
+		
+		modify {
+		}
+	}
+	
+	alternative {
+		caseFoo {
+			.;
+		---
+			
+			modify {
+			---
+				def var score:double = [?it].extract<bar>().sum(); // no acces from nested part allowed
+			}
+		}
+	}
+	
+	modify {
+	}
+}

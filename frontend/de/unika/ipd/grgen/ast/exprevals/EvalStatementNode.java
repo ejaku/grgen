@@ -174,4 +174,15 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 	
 		return allEndWithReturn;
 	}
+
+	public boolean iteratedNotReferenced(String iterName)
+	{
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode) {
+				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
+			}
+		}
+		return res;
+	}
 }

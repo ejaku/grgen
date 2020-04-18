@@ -557,7 +557,8 @@ public class PatternGraphNode extends GraphNode {
 		return childs && expr && noReturnInNegOrIdpt 
 				&& noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
 				&& noDefElementOrIteratedReferenceInCondition()
-				&& noIteratedReferenceInDefElementInitialization();
+				&& noIteratedReferenceInDefElementInitialization()
+				&& iteratedNameIsNotAccessedInNestedPattern();
 	}
 
 	private boolean noDefElementOrIteratedReferenceInCondition() {
@@ -574,6 +575,33 @@ public class PatternGraphNode extends GraphNode {
 		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
 			if(var.initialization != null)
 				res &= var.initialization.noIteratedReference("def variable initialization");
+		}
+		return res;
+	}
+
+	private boolean iteratedNameIsNotAccessedInNestedPattern() {
+		boolean res = true;
+		for(IteratedNode iterForNameToCheck : iters.getChildren()) {
+			String iterName = iterForNameToCheck.getIdentNode().toString();
+			for(IteratedNode iter : iters.getChildren()) {
+				res &= iter.pattern.iteratedNotReferenced(iterName);
+				if(iter.right != null) {
+					res &= iter.right.graph.iteratedNotReferenced(iterName);
+					res &= iter.right.graph.iteratedNotReferencedInDefElementInitialization(iterName);
+				}
+			}
+			for(AlternativeNode alt : alts.getChildren()) {
+				for(AlternativeCaseNode altCase : alt.getChildren()) {
+					res &= altCase.pattern.iteratedNotReferenced(iterName);
+					if(altCase.right != null) {
+						res &= altCase.right.graph.iteratedNotReferenced(iterName);
+						res &= altCase.right.graph.iteratedNotReferencedInDefElementInitialization(iterName);
+					}
+				}
+			}
+			for(PatternGraphNode idpt : idpts.getChildren()) {
+				res &= idpt.iteratedNotReferenced(iterName);
+			}
 		}
 		return res;
 	}

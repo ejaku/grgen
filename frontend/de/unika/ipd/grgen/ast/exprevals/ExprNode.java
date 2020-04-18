@@ -143,6 +143,17 @@ public abstract class ExprNode extends BaseNode {
 		return res;
 	}
 
+	public boolean iteratedNotReferenced(String iterName) {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
+			else if(child instanceof CollectNode<?>)
+				res &= ((CollectNode<?>)child).iteratedNotReferenced(iterName);
+		}
+		return res;
+	}
+
 	public static IdentNode getEdgeRootOfMatchingDirectedness(ExprNode edgeTypeExpr)
 	{
 		IdentExprNode ident = (IdentExprNode)edgeTypeExpr;

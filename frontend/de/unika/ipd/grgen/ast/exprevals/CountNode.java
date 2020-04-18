@@ -86,4 +86,13 @@ public class CountNode extends ExprNode {
 		reportError("The matches of an iterated can't be accessed with a count(" + iteratedUnresolved + ") from a " + containingConstruct + ", only from a yield block or yield expression or eval");
 		return false;
 	}
+
+	@Override
+	public boolean iteratedNotReferenced(String iterName) {
+		if(iterated.getIdentNode().toString().equals(iterName)) {
+			reportError("The iterated can't be accessed by this nested count(" + iteratedUnresolved + ")");
+			return false;
+		}
+		return true;
+	}
 }

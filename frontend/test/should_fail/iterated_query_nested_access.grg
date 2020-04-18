@@ -1,0 +1,9 @@
+test foo()
+{	
+	iterated it {
+		.;
+	---
+		def var bar:double = 1;
+		def var score:double = yield([?it].extract<bar>().sum()); // no acces from nested part (including self) allowed
+	}
+}

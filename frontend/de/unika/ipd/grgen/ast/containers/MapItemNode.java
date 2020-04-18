@@ -92,4 +92,13 @@ public class MapItemNode extends BaseNode {
 		}
 		return res;
 	}
+
+	public boolean iteratedNotReferenced(String iterName) {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
+		}
+		return res;
+	}
 }

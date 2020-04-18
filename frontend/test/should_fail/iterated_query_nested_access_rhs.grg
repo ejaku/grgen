@@ -1,0 +1,19 @@
+rule foo()
+{	
+	iterated it {
+		.;
+	---
+		def var bar:double = 1;
+		
+		modify {
+		---
+			def var score:double;
+			eval {
+				yield score = [?it].extract<bar>().sum(); // no acces from nested part (including self) allowed
+			}
+		}
+	}
+	
+	modify {
+	}
+}

@@ -321,6 +321,25 @@ public class GraphNode extends BaseNode {
 		return edgeUsage && connCheck;
 	}
 
+	protected boolean iteratedNotReferenced(String iterName) {
+		boolean res = true;
+		for(EvalStatementsNode yieldEvalStatements : yieldsEvals.getChildren()) {
+			for(EvalStatementNode yieldEvalStatement : yieldEvalStatements.getChildren()) {
+				res &= yieldEvalStatement.iteratedNotReferenced(iterName);
+			}
+		}
+		return res;
+	}
+
+	protected boolean iteratedNotReferencedInDefElementInitialization(String iterName) {
+		boolean res = true;
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+			if(var.initialization != null)
+				res &= var.initialization.iteratedNotReferenced(iterName);
+		}
+		return res;
+	}
+
 	/**
 	 * Get an iterator iterating over all connections characters in this pattern.
 	 * These are the children of the collect node at position 0.
