@@ -4648,6 +4648,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
                 throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
+            String arrayValueType = TypesHelper.ExtractSrc(ContainerType(env));
+
+            // throws exceptions in case the rule does not exist, or it does not contain an element of the given name
+            String memberOrAttributeType = env.TypeOfMemberOrAttribute(arrayValueType, memberOrAttributeName);
         }
 
         public override string Type(SequenceCheckingEnvironment env)

@@ -73,17 +73,25 @@ namespace de.unika.ipd.grGen.libGr
                 String matchClassName = TypesHelper.GetMatchClassName(matchOrGraphElementType);
                 IMatchClass matchClass = actionsTypeInformation.matchClasses[matchClassName];
                 IPatternElement element = matchClass.GetPatternElement(memberOrAttribute);
+                if(element == null)
+                    throw new SequenceParserException(memberOrAttribute, SequenceParserError.UnknownMatchMember);
                 GrGenType elementType = element.Type;
                 return TypesHelper.DotNetTypeToXgrsType(elementType);
             }
             else if(matchOrGraphElementType.StartsWith("match<"))
             {
-                return TypeOfTopLevelEntityInRule(TypesHelper.GetRuleName(matchOrGraphElementType), memberOrAttribute);
+                String ruleName = TypesHelper.GetRuleName(matchOrGraphElementType);
+                if(!actionsTypeInformation.rulesToTopLevelEntities[ruleName].Contains(memberOrAttribute))
+                    throw new SequenceParserException(memberOrAttribute, SequenceParserError.UnknownMatchMember);
+                int indexOfEntity = actionsTypeInformation.rulesToTopLevelEntities[ruleName].IndexOf(memberOrAttribute);
+                return actionsTypeInformation.rulesToTopLevelEntityTypes[ruleName][indexOfEntity];
             }
             else
             {
                 GrGenType graphElementType = TypesHelper.GetNodeOrEdgeType(matchOrGraphElementType, Model);
                 AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                if(attributeType == null)
+                    throw new SequenceParserException(memberOrAttribute, SequenceParserError.UnknownAttribute);
                 return TypesHelper.AttributeTypeToXgrsType(attributeType);
             }
         }

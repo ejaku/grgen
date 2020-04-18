@@ -67,6 +67,11 @@ namespace de.unika.ipd.grGen.libGr
         UnknownAttribute,
 
         /// <summary>
+        /// The member (of match type) is not known
+        /// </summary>
+        UnknownMatchMember,
+
+        /// <summary>
         /// Type check error
         /// </summary>
         TypeMismatch,
@@ -414,6 +419,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.UnknownAttribute:
                     return "Unknown attribute \"" + this.Name + "\"!";
+
+                case SequenceParserError.UnknownMatchMember:
+                    return "Unknown member (of match type) \"" + this.Name + "\"!";
 
                 case SequenceParserError.UnknownProcedure:
                     return "Unknown procedure \"" + this.Name + "\")!";

@@ -67,6 +67,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 MatchClassFilterer matchClass = actions.GetMatchClass(TypesHelper.GetMatchClassName(matchOrGraphElementType));
                 IPatternElement element = matchClass.info.GetPatternElement(memberOrAttribute);
+                if(element == null)
+                    throw new SequenceParserException(memberOrAttribute, SequenceParserError.UnknownMatchMember);
                 GrGenType elementType = element.Type;
                 return TypesHelper.DotNetTypeToXgrsType(elementType);
             }
@@ -74,6 +76,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 IAction action = actions.GetAction(TypesHelper.GetRuleName(matchOrGraphElementType));
                 IPatternElement element = action.RulePattern.PatternGraph.GetPatternElement(memberOrAttribute);
+                if(element == null)
+                    throw new SequenceParserException(memberOrAttribute, SequenceParserError.UnknownMatchMember);
                 GrGenType elementType = element.Type;
                 return TypesHelper.DotNetTypeToXgrsType(elementType);
             }
@@ -81,6 +85,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 GrGenType graphElementType = TypesHelper.GetNodeOrEdgeType(matchOrGraphElementType, Model);
                 AttributeType attributeType = graphElementType.GetAttributeType(memberOrAttribute);
+                if(attributeType == null)
+                    throw new SequenceParserException(memberOrAttribute, SequenceParserError.UnknownAttribute);
                 return TypesHelper.AttributeTypeToXgrsType(attributeType);
             }
         }

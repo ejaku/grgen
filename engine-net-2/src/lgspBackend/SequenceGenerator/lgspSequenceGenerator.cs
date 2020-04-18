@@ -569,6 +569,10 @@ namespace de.unika.ipd.grGen.lgsp
                 Console.WriteLine("Unknown attribute \"" + ex.Name + "\"!");
                 return;
 
+            case SequenceParserError.UnknownMatchMember:
+                Console.WriteLine("Unknown member (of match type) \"" + ex.Name + "\"!");
+                return;
+
             case SequenceParserError.UnknownProcedure:
                 Console.WriteLine("Unknown procedure \"" + ex.Name + "\"!");
                 return;
