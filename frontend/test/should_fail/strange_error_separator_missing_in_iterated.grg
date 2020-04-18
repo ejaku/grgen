@@ -1,0 +1,16 @@
+rule foo()
+{	
+	iterated it {
+		.;
+	---
+		def var bar:double = 1;
+		
+		modify {
+		//---   <--- completely misleading error message when missing due to syntactic predicate/backtracking for iterated -- solution: split EBNF notation iterated parsing that requires syntactic predicate/backtracking from regular iterated
+			def var score:double = [?it].extract<bar>().sum();
+		}
+	}
+	
+	modify {
+	}
+}

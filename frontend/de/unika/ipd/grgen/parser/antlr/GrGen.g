@@ -932,7 +932,8 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpa
 			CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, PatternGraphNode directlyNestingLHSGraph]
 	: connectionsOrSubpattern[conn, subpatterns, subpatternRepls, context, directlyNestingLHSGraph] SEMI
-	| (iterated[AnonymousScopeNamer.getDummyNamer(), 0]) => iter=iterated[namer, context] { iters.addChild(iter); } // must scan ahead to end of () to see if *,+,?,[ is following in order to distinguish from one-case alternative ()
+	| (iteratedEBNFNotation[AnonymousScopeNamer.getDummyNamer(), 0]) => iter=iteratedEBNFNotation[namer, context] { iters.addChild(iter); } // must scan ahead to end of () to see if *,+,?,[ is following in order to distinguish from one-case alternative ()
+	| iter=iterated[namer, context] { iters.addChild(iter); }
 	| alt=alternative[namer, context] { alts.addChild(alt); }
 	| neg=negative[namer, context] { negs.addChild(neg); }
 	| idpt=independent[namer, context] { idpts.addChild(idpt); }
@@ -1882,7 +1883,6 @@ alternativeCasePure [ AlternativeNode alt, Token a, AnonymousScopeNamer namer, i
 		CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
 		CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
 		RhsDeclNode rightHandSide = null;
-		IdentNode altCaseName = IdentNode.getInvalid();
 	}
 	
 	: { namer.defAltCase(null, getCoords(a)); } { env.pushScope(namer.altCase()); }
@@ -1909,7 +1909,6 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 		CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		RhsDeclNode rightHandSide = null;
-		IdentNode iterName = IdentNode.getInvalid();
 		int minMatches = -1;
 		int maxMatches = -1;
 	}
@@ -1937,8 +1936,20 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res =
 		{ res = new IteratedNode(namer.iter(), left, rightHandSide, minMatches, maxMatches); namer.undefIter(); }
 		filterDeclsIterated[name, res]
 		{ env.popScope(); }
-	| 
-		l=LPAREN { namer.defIter(null, getCoords(l)); } { env.pushScope(namer.iter()); }
+	;
+
+iteratedEBNFNotation [ AnonymousScopeNamer namer, int context ] returns [ IteratedNode res = null ]
+	@init{
+		CollectNode<BaseNode> conn = new CollectNode<BaseNode>();
+		CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
+		CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
+		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
+		RhsDeclNode rightHandSide = null;
+		int minMatches = -1;
+		int maxMatches = -1;
+	}
+
+	: l=LPAREN { namer.defIter(null, getCoords(l)); } { env.pushScope(namer.iter()); }
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), conn, new CollectNode<ExprNode>(), namer, 0, context, namer.iter().toString()]
 		defEntitiesOrYieldings[conn, defVariablesToBeYieldedTo, evals, new CollectNode<ExprNode>(), namer, context, left]
 		(
