@@ -8,4 +8,6 @@ exec b([?t].empty())
 
 exec b([?r(::start1)].empty())
 
+exec { x:array<match<t>>=[?t]; emit("the value of variable \"rule\" of type evaluation is: ", x, "\n") }
+
 quit

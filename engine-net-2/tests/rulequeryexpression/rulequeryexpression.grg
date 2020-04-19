@@ -59,3 +59,13 @@ sequence seqExecRuleMultiRuleQuery
 {
 	b([?[r(::start1)]\<class empty>].empty())
 }
+
+sequence seqAssignArrayOfMatch
+{
+	{ x:array<match<t>>=[?t]; emit("the value of variable \"rule\" of type evaluation is: ", x, "\n") }
+}
+
+sequence seqAssignArrayOfMatchClass
+{
+	{ x:array<match<class empty>>=[?[t]\<class empty>]; emit("the value of variable \"rule\" of type evaluation is: ", x, "\n") }
+}

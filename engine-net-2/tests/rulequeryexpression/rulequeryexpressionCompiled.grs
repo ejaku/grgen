@@ -8,4 +8,6 @@ exec seqExecTestRuleQuery
 
 exec seqExecRuleRuleQuery
 
+exec seqAssignArrayOfMatch
+
 quit

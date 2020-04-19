@@ -477,6 +477,8 @@ options { k = 4; }
 		e2=seqInitSetExpr[xg, new SetTypeNode(typeName)] { res = e2; }
 	| ARRAY LT typeName=seqTypeIdentUse GT { xg.append("array<"+typeName+">"); } 
 		e3=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e3; }
+	| ARRAY LT { xg.append("array<"); } typeName=seqMatchTypeIdentUseInContainerType[xg, true] (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
+		e3=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e3; }
 	| DEQUE LT typeName=seqTypeIdentUse GT { xg.append("deque<"+typeName+">"); } 
 		e4=seqInitDequeExpr[xg, new DequeTypeNode(typeName)] { res = e4; }
 	| pen=IDENT d=DOUBLECOLON i=IDENT 
@@ -906,11 +908,26 @@ options { k = *; }
 			res = decl;
 		}
 	|
+		id=seqEntIdentDecl COLON ARRAY LT { if(emit) xg.append(id.toString()+":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] (GT GT { if(emit) xg.append("> >"); } | SR { if(emit) xg.append(">>"); }) // array of match decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
 		(seqEntIdentDecl COLON ARRAY LT seqTypeIdentUse GE) => 
 		id=seqEntIdentDecl COLON ARRAY LT type=seqTypeIdentUse // array decl; special to save user from splitting array<S>=x to array<S> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
 			if(emit) xg.append(id.toString()+":array<"+type.toString());
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
+		(seqEntIdentDecl COLON ARRAY LT type=seqMatchTypeIdentUseInContainerType[null, false] GT GE) =>
+		id=seqEntIdentDecl COLON ARRAY LT { if(emit) xg.append(id.toString()+":array<"); } type=seqMatchTypeIdentUseInContainerType[xg, emit] GT { if(emit) xg.append(">"); } // array of match decl; special to save user from splitting array<match<S> >=x to array<match<S> > =x as >= is GE not GT ASSIGN
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, new ArrayTypeNode(type));
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -954,6 +971,22 @@ options { k = *; }
 			if(emit) xg.append(decl.getIdentNode().getIdent() + ":" + decl.typeUnresolved);
 			xg.addVarDecl(decl);
 			res = decl;
+		}
+	;
+
+seqMatchTypeIdentUseInContainerType [ExecNode xg, boolean emit] returns [IdentNode res = null]
+options { k = 3; }
+	:
+		MATCH LT actionIdent=seqActionIdentUse // match decl
+		{
+			res = MatchTypeNode.getMatchTypeIdentNode(env, actionIdent);
+			if(emit) xg.append("match<" + actionIdent.toString());
+		}
+	|
+		MATCH LT CLASS matchClassIdent=seqTypeIdentUse // match class decl
+		{
+			res = matchClassIdent;
+			if(emit) xg.append("match<class " + matchClassIdent.toString());
 		}
 	;
 

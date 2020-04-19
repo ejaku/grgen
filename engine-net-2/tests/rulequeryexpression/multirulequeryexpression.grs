@@ -8,4 +8,6 @@ exec b([?[t]\<class empty>].empty())
 
 exec b([?[r(::start1)]\<class empty>].empty())
 
+exec { x:array<match<class empty>>=[?[t]\<class empty>]; emit("the value of variable \"rule\" of type evaluation is: ", x, "\n") }
+
 quit

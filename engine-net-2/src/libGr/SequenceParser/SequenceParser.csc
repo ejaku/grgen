@@ -621,30 +621,104 @@ String Type():
     String typeParam, typeParamDst;
 }
 { 
-    (type=TypeNonGeneric()
-    | LOOKAHEAD("set" "<" TypeNonGeneric() ">") "set" "<" typeParam=TypeNonGeneric() ">" { type = "set<"+typeParam+">"; }
-        (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
-    | LOOKAHEAD("map" "<" TypeNonGeneric() "," TypeNonGeneric() ">") "map" "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
-        (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
-    | LOOKAHEAD("array" "<" TypeNonGeneric() ">") "array" "<" typeParam=TypeNonGeneric() ">" { type = "array<"+typeParam+">"; }
-        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
-    | LOOKAHEAD("deque" "<" TypeNonGeneric() ">") "deque" "<" typeParam=TypeNonGeneric() ">" { type = "deque<"+typeParam+">"; }
-        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
-    // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
-    | LOOKAHEAD("set" "<" TypeNonGeneric() ">=") "set" "<" typeParam=TypeNonGeneric() { type = "set<"+typeParam+">"; }
-        (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
-    | LOOKAHEAD("map" "<" TypeNonGeneric() "," TypeNonGeneric() ">=") "map" "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() { type = "map<"+typeParam+","+typeParamDst+">"; }
-        (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
-    | LOOKAHEAD("array" "<" TypeNonGeneric() ">=") "array" "<" typeParam=TypeNonGeneric() { type = "array<"+typeParam+">"; }
-        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
-    | LOOKAHEAD("deque" "<" TypeNonGeneric() ">=") "deque" "<" typeParam=TypeNonGeneric() { type = "deque<"+typeParam+">"; }
-        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
-    // the match type exists only for the loop variable of the for matches loop
+    ( type=TypeNonGeneric()
+    | type=SetType()
+    | type=MapType()
+    | type=ArrayType()
+    | type=DequeType()
     | LOOKAHEAD("match" "<" Word() ">") "match" "<" typeParam=Word() ">" { type = "match<"+typeParam+">"; }    
+    | LOOKAHEAD("match" "<" "class" Word() ">") "match" "<" "class" typeParam=Word() ">" { type = "match<class "+typeParam+">"; }    
     )
     {
         return type;
     }
+}
+
+String SetType():
+{
+    String type;
+    String typeParam;
+}
+{ 
+    ( LOOKAHEAD("set" "<" TypeNonGeneric() ">") "set" "<" typeParam=TypeNonGeneric() ">" { type = "set<"+typeParam+">"; }
+        (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
+    // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
+    | LOOKAHEAD("set" "<" TypeNonGeneric() ">=") "set" "<" typeParam=TypeNonGeneric() { type = "set<"+typeParam+">"; }
+        (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
+    )
+    {
+        return type;
+    }
+}
+
+String MapType():
+{
+    String type;
+    String typeParam, typeParamDst;
+}
+{ 
+    ( LOOKAHEAD("map" "<" TypeNonGeneric() "," TypeNonGeneric() ">") "map" "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
+        (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+    // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
+    | LOOKAHEAD("map" "<" TypeNonGeneric() "," TypeNonGeneric() ">=") "map" "<" typeParam=TypeNonGeneric() "," typeParamDst=TypeNonGeneric() { type = "map<"+typeParam+","+typeParamDst+">"; }
+        (LOOKAHEAD(2) "{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+    )
+    {
+        return type;
+    }
+}
+
+String ArrayType():
+{
+    String type;
+    String typeParam;
+}
+{ 
+    ( LOOKAHEAD("array" "<" TypeNonGeneric() ">") "array" "<" typeParam=TypeNonGeneric() ">" { type = "array<"+typeParam+">"; }
+        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+    | LOOKAHEAD("array" "<" MatchTypeInContainerType() (">" ">" | ">>")) "array" "<" typeParam=MatchTypeInContainerType() (">" ">" | ">>") { type = "array<"+typeParam+">"; }
+        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+    // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
+    | LOOKAHEAD("array" "<" TypeNonGeneric() ">=") "array" "<" typeParam=TypeNonGeneric() { type = "array<"+typeParam+">"; }
+        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+    | LOOKAHEAD("array" "<" MatchTypeInContainerType() ">" ">=") "array" "<" typeParam=MatchTypeInContainerType() ">" { type = "array<"+typeParam+">"; }
+        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
+    )
+    {
+        return type;
+    }
+}
+
+String DequeType():
+{
+    String type;
+    String typeParam;
+}
+{ 
+    ( LOOKAHEAD("deque" "<" TypeNonGeneric() ">") "deque" "<" typeParam=TypeNonGeneric() ">" { type = "deque<"+typeParam+">"; }
+        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
+    // for below: keep >= which is from generic type closing plus a following assignment, it's tokenized into '>=' if written without whitespace, we'll eat the >= at the assignment
+    | LOOKAHEAD("deque" "<" TypeNonGeneric() ">=") "deque" "<" typeParam=TypeNonGeneric() { type = "deque<"+typeParam+">"; }
+        (LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at deque declaration, use d:deque<T> = deque<T>[] for initialization"); })?
+    )
+    {
+        return type;
+    }
+}
+
+String MatchTypeInContainerType():
+{
+    String type;
+    String typeParam;
+}
+{
+    (
+        LOOKAHEAD(3) "match" "<" typeParam=Word() { type = "match<"+typeParam+">"; }    
+            { return type; }
+    |
+        "match" "<" "class" typeParam=Word() { type = "match<class "+typeParam+">"; }    
+            { return type; }
+    )
 }
 
 String TypeNonGeneric():

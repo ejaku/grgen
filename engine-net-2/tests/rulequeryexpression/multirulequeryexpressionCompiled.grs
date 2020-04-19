@@ -8,4 +8,6 @@ exec seqExecTestMultiRuleQuery
 
 exec seqExecRuleMultiRuleQuery
 
+exec seqAssignArrayOfMatchClass
+
 quit
