@@ -98,17 +98,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="targetExpr">The target of the procedure method call</param>
         public void CheckProcedureMethodCall(SequenceExpression targetExpr, SequenceComputationProcedureMethodCall seqCompProcMethodCall)
         {
-            if(targetExpr.Type(this) == "")
+            String targetExprType = targetExpr.Type(this);
+            if(targetExprType == "")
             {
                 // only runtime checks possible (we could check whether the called procedure signature exists in at least one of the model types, if not it's a type error, can't work at runtime, but that kind of negative check is not worth the effort)
                 return;
             }
 
-            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetExpr.Type(this), Model);
+            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetExprType, Model);
             if(ownerType == null)
             {
                 // error, must be node or edge type
-                throw new SequenceParserException(targetExpr.Type(this), SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
+                throw new SequenceParserException(targetExprType, SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
             }
 
             if(ownerType.GetProcedureMethod(seqCompProcMethodCall.Name) == null)
@@ -166,17 +167,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="targetExpr">The target of the procedure function call</param>
         public void CheckFunctionMethodCall(SequenceExpression targetExpr, SequenceExpressionFunctionMethodCall seqExprFuncMethodCall)
         {
-            if(targetExpr.Type(this) == "")
+            String targetExprType = targetExpr.Type(this);
+            if(targetExprType == "")
             {
                 // only runtime checks possible (we could check whether the called procedure signature exists in at least one of the model types, if not it's a type error, can't work at runtime, but that kind of negative check is not worth the effort)
                 return;
             }
 
-            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetExpr.Type(this), Model);
+            GrGenType ownerType = TypesHelper.GetNodeOrEdgeType(targetExprType, Model);
             if(ownerType == null)
             {
                 // error, must be node or edge type
-                throw new SequenceParserException(targetExpr.Type(this), SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
+                throw new SequenceParserException(targetExprType, SequenceParserError.UserMethodsOnlyAvailableForGraphElements);
             }
 
             // check whether called function method exists
@@ -226,7 +228,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ArgumentExpressions[i].Check(this);
 
-                if(!TypesHelper.IsSameOrSubtype(ArgumentExpressions[i].Type(this), InputParameterType(i, invocation, ownerType), Model))
+                String argumentType = ArgumentExpressions[i].Type(this);
+                String paramterType = InputParameterType(i, invocation, ownerType);
+                if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
                     throw new SequenceParserException(invocation, -1, SequenceParserError.BadParameter, i);
             }
         }
@@ -240,7 +244,9 @@ namespace de.unika.ipd.grGen.libGr
             // Check return types
             for(int i = 0; i < ReturnVars.Length; ++i)
             {
-                if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, invocation, ownerType), ReturnVars[i].Type, Model))
+                String argumentType = ReturnVars[i].Type;
+                String paramterType = OutputParameterType(i, invocation, ownerType);
+                if(!TypesHelper.IsSameOrSubtype(paramterType, argumentType, Model))
                     throw new SequenceParserException(invocation, -1, SequenceParserError.BadReturnParameter, i);
             }
         }
@@ -254,18 +260,20 @@ namespace de.unika.ipd.grGen.libGr
             // Check return types
             for(int i = 0; i < ReturnVars.Length; ++i)
             {
-                if(ReturnVars[i].Type != "")
+                String argumentType = ReturnVars[i].Type;
+                String paramterType = OutputParameterType(i, invocation, null);
+                if(argumentType == "")
+                    continue; // only runtime checks possible
+
+                if(!argumentType.StartsWith("array<"))
                 {
-                    if(!ReturnVars[i].Type.StartsWith("array<"))
-                    {
-                        Console.Error.WriteLine("An all call expects all return parameters T in an array<T>");
-                        throw new SequenceParserException(invocation, -1, SequenceParserError.BadReturnParameter, i);
-                    }
-                    if(!TypesHelper.IsSameOrSubtype(OutputParameterType(i, invocation, null), ReturnVars[i].Type.Substring(6, ReturnVars[i].Type.Length - 7), Model))
-                    {
-                        Console.Error.WriteLine("The arrays of the all call are inconsemurable in their value types");
-                        throw new SequenceParserException(invocation, -1, SequenceParserError.BadReturnParameter, i);
-                    }
+                    Console.Error.WriteLine("An all call expects all return parameters T in an array<T>");
+                    throw new SequenceParserException(invocation, -1, SequenceParserError.BadReturnParameter, i);
+                }
+                if(!TypesHelper.IsSameOrSubtype(paramterType, argumentType.Substring(6, ReturnVars[i].Type.Length - 7), Model))
+                {
+                    Console.Error.WriteLine("The arrays of the all call are inconsemurable in their value types");
+                    throw new SequenceParserException(invocation, -1, SequenceParserError.BadReturnParameter, i);
                 }
             }
         }
@@ -288,7 +296,9 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     sequenceFilterCall.ArgumentExpressions[i].Check(this);
 
-                    if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, sequenceFilterCall), Model))
+                    String argumentType = sequenceFilterCall.ArgumentExpressions[i].Type(this);
+                    String paramterType = FilterFunctionParameterType(i, sequenceFilterCall);
+                    if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
                         throw new SequenceParserException(ruleName, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
@@ -319,7 +329,9 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     sequenceFilterCall.ArgumentExpressions[i].Check(this);
 
-                    if(!TypesHelper.IsSameOrSubtype(sequenceFilterCall.ArgumentExpressions[i].Type(this), FilterFunctionParameterType(i, sequenceFilterCall), Model))
+                    String argumentType = sequenceFilterCall.ArgumentExpressions[i].Type(this);
+                    String paramterType = FilterFunctionParameterType(i, sequenceFilterCall);
+                    if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
                         throw new SequenceParserException(matchClassName, filterCallName, SequenceParserError.FilterParameterError);
                 }
             }
@@ -328,9 +340,15 @@ namespace de.unika.ipd.grGen.libGr
         private int NumFilterFunctionParameters(SequenceFilterCall sequenceFilterCall)
         {
             if(sequenceFilterCall.Filter is IFilterAutoSupplied)
-                return ((IFilterAutoSupplied)sequenceFilterCall.Filter).Inputs.Length;
+            {
+                IFilterAutoSupplied filterAutoSupplied = (IFilterAutoSupplied)sequenceFilterCall.Filter;
+                return filterAutoSupplied.Inputs.Length;
+            }
             if(sequenceFilterCall.Filter is IFilterFunction)
-                return ((IFilterFunction)sequenceFilterCall.Filter).Inputs.Length;
+            {
+                IFilterFunction filterFunction = (IFilterFunction)sequenceFilterCall.Filter;
+                return filterFunction.Inputs.Length;
+            }
             return 0; // auto-generated
         }
 
@@ -358,9 +376,15 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceVariable subgraph;
             if(invocation is RuleInvocation)
-                subgraph = ((RuleInvocation)invocation).Subgraph;
+            {
+                RuleInvocation ruleInvocation = (RuleInvocation)invocation;
+                subgraph = ruleInvocation.Subgraph;
+            }
             else
-                subgraph = ((SequenceInvocation)invocation).Subgraph;
+            {
+                SequenceInvocation sequenceInvocation = (SequenceInvocation)invocation;
+                subgraph = sequenceInvocation.Subgraph;
+            }
             if(subgraph != null && !TypesHelper.IsSameOrSubtype("graph", subgraph.Type, Model))
                 throw new SequenceParserException(invocation.Name, subgraph.Type, SequenceParserError.SubgraphTypeError);
         }

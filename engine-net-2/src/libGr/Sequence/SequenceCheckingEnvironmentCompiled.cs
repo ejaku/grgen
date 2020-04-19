@@ -112,7 +112,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procInvocation.Name).Inputs.Length;
+                {
+                    IProcedureDefinition procDef = ownerType.GetProcedureMethod(procInvocation.Name);
+                    return procDef.Inputs.Length;
+                }
                 else
                     return actionsTypeInformation.proceduresToInputTypes[procInvocation.PackagePrefixedName].Count;
             }
@@ -120,7 +123,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetFunctionMethod(funcInvocation.Name).Inputs.Length;
+                {
+                    IFunctionDefinition funcDef = ownerType.GetFunctionMethod(funcInvocation.Name);
+                    return funcDef.Inputs.Length;
+                }
                 else
                     return actionsTypeInformation.functionsToInputTypes[funcInvocation.PackagePrefixedName].Count;
             }
@@ -143,7 +149,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procInvocation.Name).Outputs.Length;
+                {
+                    IProcedureDefinition procDef = ownerType.GetProcedureMethod(procInvocation.Name);
+                    return procDef.Outputs.Length;
+                }
                 else
                     return actionsTypeInformation.proceduresToOutputTypes[procInvocation.PackagePrefixedName].Count;
             }
@@ -166,7 +175,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procInvocation.Name).Inputs[i]);
+                {
+                    IProcedureDefinition procDef = ownerType.GetProcedureMethod(procInvocation.Name);
+                    return TypesHelper.DotNetTypeToXgrsType(procDef.Inputs[i]);
+                }
                 else
                     return actionsTypeInformation.proceduresToInputTypes[procInvocation.PackagePrefixedName][i];
             }
@@ -174,7 +186,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcInvocation.Name).Inputs[i]);
+                {
+                    IFunctionDefinition funcDef = ownerType.GetFunctionMethod(funcInvocation.Name);
+                    return TypesHelper.DotNetTypeToXgrsType(funcDef.Inputs[i]);
+                }
                 else
                     return actionsTypeInformation.functionsToInputTypes[funcInvocation.PackagePrefixedName][i];
             }
@@ -197,7 +212,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procInvocation.Name).Outputs[i]);
+                {
+                    IProcedureDefinition procDef = ownerType.GetProcedureMethod(procInvocation.Name);
+                    return TypesHelper.DotNetTypeToXgrsType(procDef.Outputs[i]);
+                }
                 else
                     return actionsTypeInformation.proceduresToOutputTypes[procInvocation.PackagePrefixedName][i];
             }

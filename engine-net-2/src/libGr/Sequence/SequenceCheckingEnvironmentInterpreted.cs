@@ -96,7 +96,8 @@ namespace de.unika.ipd.grGen.libGr
             if(invocation is RuleInvocation)
             {
                 RuleInvocation ruleInvocation = (RuleInvocation)invocation;
-                return SequenceBase.GetAction(ruleInvocation).RulePattern.Inputs.Length;
+                IAction action = SequenceBase.GetAction(ruleInvocation);
+                return action.RulePattern.Inputs.Length;
             }
             else if(invocation is SequenceInvocation)
             {
@@ -116,17 +117,29 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procInvocation.Name).Inputs.Length;
+                {
+                    IProcedureDefinition procDef = ownerType.GetProcedureMethod(procInvocation.Name);
+                    return procDef.Inputs.Length;
+                }
                 else
-                    return ((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef.Inputs.Length;
+                {
+                    SequenceComputationProcedureCallInterpreted procInvocationInterpreted = (SequenceComputationProcedureCallInterpreted)procInvocation;
+                    return procInvocationInterpreted.ProcedureDef.Inputs.Length;
+                }
             }
             else if(invocation is FunctionInvocation)
             {
                 FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetFunctionMethod(funcInvocation.Name).Inputs.Length;
+                {
+                    IFunctionDefinition funcDef = ownerType.GetFunctionMethod(funcInvocation.Name);
+                    return funcDef.Inputs.Length;
+                }
                 else
-                    return ((SequenceExpressionFunctionCallInterpreted)funcInvocation).FunctionDef.Inputs.Length;
+                {
+                    SequenceExpressionFunctionCallInterpreted funcInvocationInterpreted = (SequenceExpressionFunctionCallInterpreted)funcInvocation;
+                    return funcInvocationInterpreted.FunctionDef.Inputs.Length;
+                }
             }
             throw new Exception("Internal error");
         }
@@ -136,7 +149,8 @@ namespace de.unika.ipd.grGen.libGr
             if(invocation is RuleInvocation)
             {
                 RuleInvocation ruleInvocation = (RuleInvocation)invocation;
-                return SequenceBase.GetAction(ruleInvocation).RulePattern.Outputs.Length;
+                IAction action = SequenceBase.GetAction(ruleInvocation);
+                return action.RulePattern.Outputs.Length;
             }
             else if(invocation is SequenceInvocation)
             {
@@ -156,9 +170,15 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return ownerType.GetProcedureMethod(procInvocation.Name).Outputs.Length;
+                {
+                    IProcedureDefinition procDef = ownerType.GetProcedureMethod(procInvocation.Name);
+                    return procDef.Outputs.Length;
+                }
                 else
-                    return ((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef.Outputs.Length;
+                {
+                    SequenceComputationProcedureCallInterpreted procInvocationInterpreted = (SequenceComputationProcedureCallInterpreted)procInvocation;
+                    return procInvocationInterpreted.ProcedureDef.Outputs.Length;
+                }
             }
             throw new Exception("Internal error");
         }
@@ -168,7 +188,8 @@ namespace de.unika.ipd.grGen.libGr
             if(invocation is RuleInvocation)
             {
                 RuleInvocation ruleInvocation = (RuleInvocation)invocation;
-                return TypesHelper.DotNetTypeToXgrsType(SequenceBase.GetAction(ruleInvocation).RulePattern.Inputs[i]);
+                IAction action = SequenceBase.GetAction(ruleInvocation);
+                return TypesHelper.DotNetTypeToXgrsType(action.RulePattern.Inputs[i]);
             }
             else if(invocation is SequenceInvocation)
             {
@@ -188,17 +209,29 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procInvocation.Name).Inputs[i]);
+                {
+                    IProcedureDefinition procDef = ownerType.GetProcedureMethod(procInvocation.Name);
+                    return TypesHelper.DotNetTypeToXgrsType(procDef.Inputs[i]);
+                }
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef.Inputs[i]);
+                {
+                    SequenceComputationProcedureCallInterpreted procInvocationInterpreted = (SequenceComputationProcedureCallInterpreted)procInvocation;
+                    return TypesHelper.DotNetTypeToXgrsType(procInvocationInterpreted.ProcedureDef.Inputs[i]);
+                }
             }
             else if(invocation is FunctionInvocation)
             {
                 FunctionInvocation funcInvocation = (FunctionInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetFunctionMethod(funcInvocation.Name).Inputs[i]);
+                {
+                    IFunctionDefinition funcDef = ownerType.GetFunctionMethod(funcInvocation.Name);
+                    return TypesHelper.DotNetTypeToXgrsType(funcDef.Inputs[i]);
+                }
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(((SequenceExpressionFunctionCallInterpreted)funcInvocation).FunctionDef.Inputs[i]);
+                {
+                    SequenceExpressionFunctionCallInterpreted funcInvocationInterpreted = (SequenceExpressionFunctionCallInterpreted)funcInvocation;
+                    return TypesHelper.DotNetTypeToXgrsType(funcInvocationInterpreted.FunctionDef.Inputs[i]);
+                }
             }
             throw new Exception("Internal error");
         }
@@ -208,7 +241,8 @@ namespace de.unika.ipd.grGen.libGr
             if(invocation is RuleInvocation)
             {
                 RuleInvocation ruleInvocation = (RuleInvocation)invocation;
-                return TypesHelper.DotNetTypeToXgrsType(SequenceBase.GetAction(ruleInvocation).RulePattern.Outputs[i]);
+                IAction action = SequenceBase.GetAction(ruleInvocation);
+                return TypesHelper.DotNetTypeToXgrsType(action.RulePattern.Outputs[i]);
             }
             else if(invocation is SequenceInvocation)
             {
@@ -228,9 +262,15 @@ namespace de.unika.ipd.grGen.libGr
             {
                 ProcedureInvocation procInvocation = (ProcedureInvocation)invocation;
                 if(ownerType != null)
-                    return TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(procInvocation.Name).Outputs[i]);
+                {
+                    IProcedureDefinition procDef = ownerType.GetProcedureMethod(procInvocation.Name);
+                    return TypesHelper.DotNetTypeToXgrsType(procDef.Outputs[i]);
+                }
                 else
-                    return TypesHelper.DotNetTypeToXgrsType(((SequenceComputationProcedureCallInterpreted)procInvocation).ProcedureDef.Outputs[i]);
+                {
+                    SequenceComputationProcedureCallInterpreted procInvocationInterpreted = (SequenceComputationProcedureCallInterpreted)procInvocation;
+                    return TypesHelper.DotNetTypeToXgrsType(procInvocationInterpreted.ProcedureDef.Outputs[i]);
+                }
             }
             throw new Exception("Internal error");
         }
@@ -249,7 +289,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override bool IsRuleImplementingMatchClass(string rulePackagePrefixedName, string matchClassPackagePrefixedName)
         {
-            return actions.GetAction(rulePackagePrefixedName).RulePattern.GetImplementedMatchClass(matchClassPackagePrefixedName) != null;
+            IAction action = actions.GetAction(rulePackagePrefixedName);
+            return action.RulePattern.GetImplementedMatchClass(matchClassPackagePrefixedName) != null;
         }
     }
 }
