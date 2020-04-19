@@ -1363,13 +1363,24 @@ containerTypeUse returns [ TypeNode res = null ]
 		{ 
 			res = new SetTypeNode(keyType);
 		}
-	| ARRAY LT (keyType=typeIdentUse | keyType=matchTypeIdentUse) GT
+	| ARRAY arrayType=arrayTypeContinuation
 		{
-			res = new ArrayTypeNode(keyType);
+			res = arrayType;
 		}
 	| DEQUE LT keyType=typeIdentUse GT
 		{
 			res = new DequeTypeNode(keyType);
+		}
+	;
+
+arrayTypeContinuation returns [ ArrayTypeNode res = null ]
+	: LT keyType=typeIdentUse GT
+		{
+			res = new ArrayTypeNode(keyType);
+		}
+	| LT keyType=matchTypeIdentUseInContainerType (GT GT | SR)
+		{
+			res = new ArrayTypeNode(keyType);
 		}
 	;
 
@@ -1383,6 +1394,21 @@ matchTypeIdentUse returns [ IdentNode res = null ]
 				res = MatchTypeIteratedNode.getMatchTypeIdentNode(env, actionIdent, iterIdent);
 		}
 	| MATCH LT CLASS matchClassIdent=typeIdentUse GT
+		{
+			res = matchClassIdent;
+		}
+	;
+
+matchTypeIdentUseInContainerType returns [ IdentNode res = null ]
+	options { k = 3; }
+	: MATCH LT actionIdent=actionIdentUse (DOT iterIdent=iterIdentUse)?
+		{
+			if(iterIdent == null)
+				res = MatchTypeNode.getMatchTypeIdentNode(env, actionIdent);
+			else
+				res = MatchTypeIteratedNode.getMatchTypeIdentNode(env, actionIdent, iterIdent);
+		}
+	| MATCH LT CLASS matchClassIdent=typeIdentUse
 		{
 			res = matchClassIdent;
 		}
@@ -3847,10 +3873,14 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 	;
 
 initContainerExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
-	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[context, null, new MapTypeNode(keyType, valueType)] { res = e1; }
-	| SET LT valueType=typeIdentUse GT e2=initSetExpr[context, null, new SetTypeNode(valueType)] { res = e2; }
-	| ARRAY LT (valueType=typeIdentUse | valueType=matchTypeIdentUse) GT e3=initArrayExpr[context, null, new ArrayTypeNode(valueType)] { res = e3; }
-	| DEQUE LT valueType=typeIdentUse GT e4=initDequeExpr[context, null, new DequeTypeNode(valueType)] { res = e4; }
+	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+		e1=initMapExpr[context, null, new MapTypeNode(keyType, valueType)] { res = e1; }
+	| SET LT valueType=typeIdentUse GT
+		e2=initSetExpr[context, null, new SetTypeNode(valueType)] { res = e2; }
+	| ARRAY arrayType=arrayTypeContinuation
+		e3=initArrayExpr[context, null, arrayType] { res = e3; }
+	| DEQUE LT valueType=typeIdentUse GT
+		e4=initDequeExpr[context, null, new DequeTypeNode(valueType)] { res = e4; }
 	;
 
 constant returns [ ExprNode res = env.initExprNode() ]

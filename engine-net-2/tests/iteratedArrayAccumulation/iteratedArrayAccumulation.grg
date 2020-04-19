@@ -30,7 +30,7 @@ test t
 	}
 ---
 	def var score:int = yield([?it].size());
-	//def ref iters:array<match<t.it> > = yield([?it]);
+	//def ref iters:array<match<t.it>> = yield([?it]);
 	def ref nodes:array<Node> = yield([?it].extract<n>());
 	def ref nodesSet:set<Node> = yield([?it].extract<n>().asSet());	
 	//improved notation for:
@@ -52,10 +52,10 @@ test t2
 	}
 ---
 	def var score:int = yield([?it].extract<i>().sum());
-	def ref itersSorted:array<match<t2.it> > = yield([?it].orderAscendingBy<i>());
-	def ref itersSortedDescending:array<match<t2.it> > = yield([?it].orderDescendingBy<i>());
-	def ref itersWithoutDuplicates:array<match<t2.it> > = yield([?it].keepOneForEach<i>());
-	//def ref itersSet:set<match<t2.it> > = yield(itersSorted.asSet());
+	def ref itersSorted:array<match<t2.it>> = yield([?it].orderAscendingBy<i>());
+	def ref itersSortedDescending:array<match<t2.it>> = yield([?it].orderDescendingBy<i>());
+	def ref itersWithoutDuplicates:array<match<t2.it>> = yield([?it].keepOneForEach<i>());
+	//def ref itersSet:set<match<t2.it>> = yield(itersSorted.asSet());
 }
 
 rule r : (M)
@@ -78,14 +78,14 @@ rule r : (M)
 		
 		eval {
 			def var score:int = [?it].size();
-			def ref iters:array<match<r.it> > = [?it];
+			def ref iters:array<match<r.it>> = [?it];
 			def ref nodes:array<N> = [?it].extract<n>();
 			def ref nodesSet:set<N> = [?it].extract<n>().asSet();
 			def var score2:int = [?it].extract<i>().sum();
-			def ref itersSorted:array<match<r.it> > = [?it].orderAscendingBy<i>();
-			def ref itersSortedDescending:array<match<r.it> > = [?it].orderDescendingBy<i>();
-			def ref itersWithoutDuplicates:array<match<r.it> > = [?it].keepOneForEach<i>();
-			//def ref itersSet:set<match<r.it> > = itersSorted.asSet();
+			def ref itersSorted:array<match<r.it>> = [?it].orderAscendingBy<i>();
+			def ref itersSortedDescending:array<match<r.it>> = [?it].orderDescendingBy<i>();
+			def ref itersWithoutDuplicates:array<match<r.it>> = [?it].keepOneForEach<i>();
+			//def ref itersSet:set<match<r.it>> = itersSorted.asSet();
 			m.i = score + score2;
 		}
 		
@@ -103,6 +103,6 @@ rule r : (M)
 		}
 	}
 ---
-	def ref iters:array<match<t.it> > = yield([?it]);
-	def ref iters:array<match<t.it.itn> > = yield([?it][0].itn);
+	def ref iters:array<match<t.it>> = yield([?it]);
+	def ref iters:array<match<t.it.itn>> = yield([?it][0].itn);
 }*/

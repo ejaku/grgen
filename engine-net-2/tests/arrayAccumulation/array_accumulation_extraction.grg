@@ -74,7 +74,7 @@ filter fko<r>
 	}
 }
 
-function deleteAll(ref a:array<match<r> >) : array<match<r> >
+function deleteAll(ref a:array<match<r>>) : array<match<r>>
 {
 	for(i:int in [0:a.size()-1])
 	{
@@ -83,23 +83,23 @@ function deleteAll(ref a:array<match<r> >) : array<match<r> >
 	return(a);
 }
 
-test tb(ref a:array<match<r> >)
+test tb(ref a:array<match<r>>)
 {
 	if{ a.extract<i>().sum() < a.extract<j>().sum(); }
 }
 
 
-test tbo(ref a:array<match<r> >)
+test tbo(ref a:array<match<r>>)
 {
 	if{ a.orderAscendingBy<i>().subarray(0, 2).extract<i>().sum() < a.orderAscendingBy<j>().subarray(0, 2).extract<j>().sum(); }
 }
 
-test tbod(ref a:array<match<r> >)
+test tbod(ref a:array<match<r>>)
 {
 	if{ a.orderDescendingBy<i>().reverse().subarray(0, 2).extract<i>().sum() < a.orderDescendingBy<j>().reverse().subarray(0, 2).extract<j>().sum(); }
 }
 
-test tbko(ref a:array<match<r> >)
+test tbko(ref a:array<match<r>>)
 {
 	if{ a.keepOneForEach<i>().extract<i>().sum() < a.keepOneForEach<j>().extract<j>().sum(); }
 }
