@@ -1,0 +1,11 @@
+rule r
+{
+	modify {
+		eval {
+			def var x:int = 0;
+			if(true) {
+				x = 1;
+			}
+		}
+	}
+}

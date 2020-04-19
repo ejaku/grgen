@@ -1,0 +1,10 @@
+ref ::a:array<int>;
+
+rule r
+{
+	modify {
+		eval {
+			::a[42] = 42;
+		}
+	}
+}

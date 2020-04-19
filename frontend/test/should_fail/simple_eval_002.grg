@@ -1,0 +1,10 @@
+ref ::m:map<int,int>;
+
+rule r
+{
+	modify {
+		eval {
+			::m.add(42,42);
+		}
+	}
+}

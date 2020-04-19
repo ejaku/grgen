@@ -1,0 +1,10 @@
+rule r
+{
+	modify {
+		eval {
+			yield x = 1;
+		}
+		---
+		def var x:int = 0;
+	}
+}

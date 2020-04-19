@@ -558,7 +558,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()]
 		COLON retType=returnType
 		LBRACE
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE { env.popScope(); }
 		{
 			id.setDecl(new FunctionDeclNode(id, evals, params, retType, false));
@@ -567,7 +567,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| pr=PROCEDURE id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		LBRACE
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE { env.popScope(); }
 		{
 			id.setDecl(new ProcedureDeclNode(id, evals, params, retTypes, false));
@@ -625,7 +625,7 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 						PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE { env.popScope(); }
 		{
 			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, params, actionId);
@@ -641,7 +641,7 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 						PatternGraphNode.getInvalid(), BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, true),
 					BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION));
 			}
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE { env.popScope(); }
 		{
 			MatchClassFilterFunctionDeclNode mff = new MatchClassFilterFunctionDeclNode(id, evals, params, typeId);
@@ -2098,7 +2098,7 @@ simpleEvaluation [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer na
 			  evals.addChild(curEval);
 			}
 		LBRACE { env.pushScope(namer.eval()); }
-			( sc=simpleComputation[context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curEval.addChild(sc); } )*
+			( c=computation[false, true, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curEval.addChild(c); } )*
 		RBRACE { env.popScope(); namer.undefEval(); }
 	;
 
@@ -2114,7 +2114,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 			  evals.addChild(curEval);
 			}
 		LBRACE { env.pushScope(namer.eval()); }
-			( c=computation[false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curEval.addChild(c); } )*
+			( c=computation[false, false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curEval.addChild(c); } )*
 		RBRACE { env.popScope(); namer.undefEval(); }
 	| eh=EVALHERE
 			{ namer.defEval(null, getCoords(eh));
@@ -2122,7 +2122,7 @@ evaluation [ CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplaceme
 			  orderedReplacements.addChild(curOrderedRepl);
 			}
 		LBRACE { env.pushScope(namer.eval()); }
-			( c=computation[false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curOrderedRepl.addChild(c); } )*
+			( c=computation[false, false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, directlyNestingLHSGraph] { curOrderedRepl.addChild(c); } )*
 		RBRACE { env.popScope(); namer.undefEval(); }
 	;
 
@@ -2135,7 +2135,7 @@ yielding [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int
 			  curEval = new EvalStatementsNode(getCoords(y), namer.yield().toString());
 			  evals.addChild(curEval); }
 		LBRACE { env.pushScope(namer.yield()); }
-			( c=computation[true, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, directlyNestingLHSGraph] { curEval.addChild(c); } )*
+			( c=computation[true, false, context|BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, directlyNestingLHSGraph] { curEval.addChild(c); } )*
 		RBRACE { env.popScope(); namer.undefYield(); }
 	;
 	
@@ -2817,7 +2817,7 @@ inClassFunctionDecl [ IdentNode clsId, boolean isNode ] returns [ FunctionDeclNo
 							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()), ConnectionNode.DIRECTED, ConnectionNode.NO_REDIRECTION),
 						BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 			}
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE { env.popScope(); }
 		{
 			res = new FunctionDeclNode(id, evals, params, retType, true);
@@ -2846,7 +2846,7 @@ inClassProcedureDecl [ IdentNode clsId, boolean isNode ] returns [ ProcedureDecl
 							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()), ConnectionNode.DIRECTED, ConnectionNode.NO_REDIRECTION), 
 						BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 			}
-			( c=computation[false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
+			( c=computation[false, false, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphNode.getInvalid()] { evals.addChild(c); } )*
 		RBRACE { env.popScope(); }
 		{
 			res = new ProcedureDeclNode(id, evals, params, retTypes, true);
@@ -3160,96 +3160,14 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 //////////////////////////////////////////
 
 
-computations [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] 
+computations [ boolean onLHS, boolean isSimple, int context, PatternGraphNode directlyNestingLHSGraph ] 
 	returns [ CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>() ]
 	: ( 
-		c=computation[onLHS, context, directlyNestingLHSGraph] { evals.addChild(c); }
+		c=computation[onLHS, isSimple, context, directlyNestingLHSGraph] { evals.addChild(c); }
 	  )*
 	;
 
-simpleComputation [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
-options { k = 4; }
-	@init{
-		int cat = -1; // compound assign type
-		int ccat = CompoundAssignNode.NONE; // changed compound assign type
-		BaseNode tgtChanged = null;
-		boolean attributeMethodCall = false;
-		CollectNode<ProjectionExprNode> targetProjs = new CollectNode<ProjectionExprNode>();
-		CollectNode<EvalStatementNode> targets = new CollectNode<EvalStatementNode>();
-		MultiStatementNode ms = new MultiStatementNode();
-	}
-
-	: owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[context, false] SEMI//'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); }
-	|
-	  variable=entIdentUse a=ASSIGN e=expr[context, false] SEMI
-		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, false), e, context, false); }
-	|
-	  vis=visited[context] a=ASSIGN e=expr[context, false] SEMI
-		{ res = new AssignVisitedNode(getCoords(a), vis, e, context); }
-	|
-	  n=NAMEOF LPAREN (id=expr[context, false])? RPAREN a=ASSIGN e=expr[context, false] SEMI
-	    { res = new AssignNameofNode(getCoords(a), id, e, context); }
-	|
-	  owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI //'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx, context); }
-	|
-	  variable=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI
-		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, false), e, idx, context, false); }
-	| 
-	  owner=entIdentUse d=DOT member=entIdentUse 
-		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
-			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
-		e=expr[context, false] ( at=assignTo[context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
-			{ res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged); }
-			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
-	|
-	  variable=entIdentUse 
-		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
-			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
-		e=expr[context, false] ( at=assignTo[context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
-			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, false), cat, e, ccat, tgtChanged); }
-			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
-	|
-	  de=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] SEMI
-			{ res=new DefDeclStatementNode(de.getCoords(), de, context); }
-	|
-	  (l=LPAREN tgts=targets[false, getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
-		variable=entIdentUse d=DOT (member=entIdentUse DOT { attributeMethodCall = true; })?
-		i=IDENT params=paramExprs[context, false] SEMI
-			{ 
-				IdentNode method_ = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-				if(!attributeMethodCall) 
-				{
-					ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new IdentExprNode(variable, false), method_, params, context);
-					ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
-					for(ProjectionExprNode proj : targetProjs.getChildren()) {
-						proj.setProcedure(pmi);
-					}
-					for(EvalStatementNode eval : targets.getChildren()) {
-						eval.setCoords(getCoords(a));
-					}
-					ms.addStatement(ra);
-					res = ms;
-				}
-				else
-				{
-					ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new QualIdentNode(getCoords(d), variable, member), method_, params, context);
-					if(false) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed.");
-					ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
-					for(ProjectionExprNode proj : targetProjs.getChildren()) {
-						proj.setProcedure(pmi);
-					}
-					for(EvalStatementNode eval : targets.getChildren()) {
-						eval.setCoords(getCoords(a));
-					}
-					ms.addStatement(ra);
-					res = ms;
-				}
-			}
-	;
-
-computation [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+computation [ boolean onLHS, boolean isSimple, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 options { k = 5; }
 	@init{
 		int cat = -1; // compound assign type
@@ -3263,83 +3181,104 @@ options { k = 5; }
 		MultiStatementNode ms = new MultiStatementNode();
 	}
 
-	: (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[context, false] SEMI//'false' because this rule is not used for the assignments in enum item decls
+	: (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[context, false] SEMI//'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); }
-		{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
+		{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in yield, only yield assignment to a def variable allowed."); }
+		{ if(isSimple && dc!=null) reportError(getCoords(dc), "Assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
-	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[context, false] SEMI
+	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[context, false] SEMI
 		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context, onLHS); }
+		{ if(isSimple && dc!=null) reportError(getCoords(dc), "Assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
+		{ if(isSimple && yielded) reportError(getCoords(y), "Yield assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
 	  vis=visited[context] a=ASSIGN e=expr[context, false] SEMI
 		{ res = new AssignVisitedNode(getCoords(a), vis, e, context); }
-		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in LHS eval."); }
+		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in yield."); }
 	|
 	  n=NAMEOF LPAREN (id=expr[context, false])? RPAREN a=ASSIGN e=expr[context, false] SEMI
 	    { res = new AssignNameofNode(getCoords(a), id, e, context); }
-		{ if(onLHS) reportError(getCoords(d), "Name assignment is forbidden in LHS eval."); }
+		{ if(onLHS) reportError(getCoords(a), "Name assignment is forbidden in yield."); }
 	|
-	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI //'false' because this rule is not used for the assignments in enum item decls
+	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx, context); }
-		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }
+		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in yield, only yield indexed assignment to a def variable allowed."); }
+		{ if(isSimple && dc!=null) reportError(getCoords(dc), "Indexed assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
-	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI
+	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[context, false] RBRACK a=ASSIGN e=expr[context, false] SEMI
 		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx, context, onLHS); }
+		{ if(isSimple && dc!=null) reportError(getCoords(dc), "Indexed assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
+		{ if(isSimple && yielded) reportError(getCoords(y), "Yield indexed assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator."); }
 	| 
-	  (DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
-		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
-			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
+	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
+		(a=BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | a=BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
+			| a=BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | a=PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[context, false] ( at=assignTo[context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
 			{ res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged); }
-			{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
+			{ if(onLHS) reportError(getCoords(d), "Compound assignment to an attribute is forbidden in yield, only yield assignment to a def variable allowed."); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
+			{ if(isSimple && dc!=null) reportError(getCoords(dc), "Compound assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
-	  (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse 
-		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
-			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
+	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse 
+		(a=BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | a=BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
+			| a=BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | a=PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[context, false] ( at=assignTo[context] { ccat = $at.ccat; tgtChanged = $at.tgtChanged; } )? SEMI
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array|deque concatenation."); }
+			{ if(isSimple && dc!=null) reportError(getCoords(dc), "Compound assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator."); }
+			{ if(isSimple && yielded) reportError(getCoords(y), "Yield compound assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
 	  de=defEntityToBeYieldedTo[null, null, null, context, directlyNestingLHSGraph] SEMI
 			{ res=new DefDeclStatementNode(de.getCoords(), de, context); }
 	|
 	  r=RETURN ( retValues=paramExprs[context, false] { returnValues = retValues; } )? SEMI
 			{ res=new ReturnStatementNode(getCoords(r), returnValues); }
+			{ if(onLHS) reportError(getCoords(r), "Return statement is forbidden in yield."); }
+			{ if(isSimple) reportError(getCoords(r), "Return statement is forbidden in simple eval."); }
 	|
-	  f=FOR LPAREN { env.pushScope("for", getCoords(f)); } fc=forContent[getCoords(f), onLHS, context, directlyNestingLHSGraph]
+	  f=FOR LPAREN { env.pushScope("for", getCoords(f)); } fc=forContent[getCoords(f), onLHS, isSimple, context, directlyNestingLHSGraph]
 			{ res=fc; }
+			{ if(isSimple) reportError(getCoords(f), "For loop is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
 	  c=CONTINUE SEMI
 			{ res=new ContinueStatementNode(getCoords(c)); }
+			{ if(isSimple) reportError(getCoords(c), "continue statement is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
 	  b=BREAK SEMI
 			{ res=new BreakStatementNode(getCoords(b)); }
+			{ if(isSimple) reportError(getCoords(b), "break statement is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
-	  ie=ifelse[onLHS, context, directlyNestingLHSGraph]
+	  ie=ifelse[onLHS, isSimple, context, directlyNestingLHSGraph]
 			{ res=ie; }
+			{ if(isSimple) reportError(ie.getCoords(), "if statement is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
-	  sc=switchcase[onLHS, context, directlyNestingLHSGraph]
+	  sc=switchcase[onLHS, isSimple, context, directlyNestingLHSGraph]
 			{ res=sc; }
+			{ if(isSimple) reportError(sc.getCoords(), "switch statement is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
 	  w=WHILE LPAREN e=expr[context, false] RPAREN
 		LBRACE { env.pushScope("while", getCoords(w)); }
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 			{ res=new WhileStatementNode(getCoords(w), e, cs); }
+			{ if(isSimple) reportError(getCoords(w), "while statement is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
 	  d=DO 
 		LBRACE { env.pushScope("do", getCoords(d)); }
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 	  WHILE LPAREN e=expr[context, false] RPAREN
 			{ res=new DoWhileStatementNode(getCoords(d), cs, e); }
+			{ if(isSimple) reportError(getCoords(d), "do while statement is forbidden in simple eval, move it to full eval after --- separator."); }
 	|
 	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
-		( (y=YIELD { yielded = true; })? (DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
+		( (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
 		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) params=paramExprs[context, false] SEMI
 			{ 
 				if(!methodCall)
 				{
+					if(isSimple) {
+						reportError(getCoords(i), "Procedure call is forbidden in simple eval, move it to full eval after --- separator.");
+					}
 					if(env.isKnownProcedure(pack, i, params))
 					{
 						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
@@ -3380,6 +3319,12 @@ options { k = 5; }
 					IdentNode method_ = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
 					if(!attributeMethodCall) 
 					{
+						if(isSimple && dc!=null) {
+							reportError(getCoords(dc), "Method call on global variable is forbidden in simple eval, move it to full eval after --- separator.");
+						}
+						if(isSimple && yielded) {
+							reportError(getCoords(y), "Yield method call on a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+						}
 						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new IdentExprNode(variable, yielded), method_, params, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
@@ -3393,8 +3338,16 @@ options { k = 5; }
 					}
 					else
 					{
+						if(isSimple && dc!=null) {
+							reportError(getCoords(dc), "Method call on an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+						}
+						if(isSimple && yielded) {
+							reportError(getCoords(y), "Yield method call on an attribute of a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+						}
 						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new QualIdentNode(getCoords(d), variable, member), method_, params, context);
-						if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed.");
+						if(onLHS) {
+							reportError(getCoords(d), "Method call on an attribute is forbidden in yield, only yield method call to a def variable allowed.");
+						}
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(pmi);
@@ -3410,6 +3363,8 @@ options { k = 5; }
 	|
 	  exec=execStmt[null, context, directlyNestingLHSGraph] SEMI
 		{ res = new ExecStatementNode(exec, context); }
+		{ if(onLHS) reportError(exec.getCoords(), "exec statement is forbidden in yield."); }
+		{ if(isSimple) reportError(exec.getCoords(), "exec statement is forbidden in simple eval, move it to full eval after --- separator."); }
 	;
 
 targets	[boolean onLHS, Coords coords, MultiStatementNode ms, int context, PatternGraphNode directlyNestingLHSGraph] returns [ CollectNode<ProjectionExprNode> tgtProjs = new CollectNode<ProjectionExprNode>(), CollectNode<EvalStatementNode> tgts = new CollectNode<EvalStatementNode>() ]
@@ -3451,22 +3406,22 @@ options { k = 5; }
 		}
 	;
 
-ifelse [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+ifelse [ boolean onLHS, boolean isSimple, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 	@init{
 		CollectNode<EvalStatementNode> elseRemainder = new CollectNode<EvalStatementNode>();
 	}
 
 	: i=IF LPAREN e=expr[context, false] RPAREN 
 		LBRACE { env.pushScope("if", getCoords(i)); } 
-			cs=computations[onLHS, context, directlyNestingLHSGraph] 
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 	  (el=ELSE // allow else { statements } as well as else if{ expr; statements} else { statements}, and so on (nesting mapped to linear syntax)
 	      (
-			  ie = ifelse[onLHS, context, directlyNestingLHSGraph]
+			  ie = ifelse[onLHS, isSimple, context, directlyNestingLHSGraph]
 				  { elseRemainder.addChild(ie); }
 		  | 
 			  LBRACE { env.pushScope("else", getCoords(el)); }
-				ecs=computations[onLHS, context, directlyNestingLHSGraph]
+				ecs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 			  RBRACE { env.popScope(); }
 			      { elseRemainder = ecs; }
 		  )
@@ -3474,7 +3429,7 @@ ifelse [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] 
 			{ res=new ConditionStatementNode(getCoords(i), e, cs, elseRemainder); }
 	;
 
-switchcase [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+switchcase [ boolean onLHS, boolean isSimple, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 	@init{
 		CollectNode<CaseStatementNode> cases = new CollectNode<CaseStatementNode>();
 		int caseCounter = 1;
@@ -3502,7 +3457,7 @@ switchcase [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGrap
 					el=ELSE { branch = el; caseExpr = null; }
 				)
 				LBRACE { env.pushScope("case_"+caseCounter, getCoords(s)); } 
-					cs=computations[onLHS, context, directlyNestingLHSGraph]
+					cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 					{ cases.addChild(new CaseStatementNode(getCoords(branch), caseExpr, cs)); ++caseCounter; }
 				RBRACE { env.popScope(); } 
 			)+
@@ -3510,7 +3465,7 @@ switchcase [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGrap
 			{ res=new SwitchStatementNode(getCoords(s), e, cases); }
 	;
 
-forContent [ Coords f, boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+forContent [ Coords f, boolean onLHS, boolean isSimple, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 options { k = *; }
 	@init{
 		IdentNode iterIdentUse = null;
@@ -3519,18 +3474,18 @@ options { k = *; }
 
 	: variable=entIdentDecl IN i=IDENT RPAREN
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			iterIdentUse = new IdentNode(env.occurs(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i)));
 			iterVar = new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context);
 			res = new IteratedAccumulationYieldNode(f, iterVar, iterIdentUse, cs);
 		}
-	| variable=entIdentDecl COLON dres=forContentTypedIteration[f, variable, onLHS, context, directlyNestingLHSGraph]
+	| variable=entIdentDecl COLON dres=forContentTypedIteration[f, variable, onLHS, isSimple, context, directlyNestingLHSGraph]
 		{ res = dres; }
 	;
 
-forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
+forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean isSimple, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 options { k = *; }
 	@init{
 		IdentNode iterIdentUse = null;
@@ -3543,7 +3498,7 @@ options { k = *; }
 
 	: type=typeIdentUse IN i=IDENT RPAREN
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			containerIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
@@ -3552,7 +3507,7 @@ options { k = *; }
 		}
 	| indexType=typeIdentUse RARROW variable=entIdentDecl COLON type=typeIdentUse IN i=IDENT RPAREN
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			containerIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
@@ -3568,7 +3523,7 @@ options { k = *; }
 					reportError(function.getCoords(), "unknown function or wrong parameters in for loop over graph access function");
 			}
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
@@ -3576,7 +3531,7 @@ options { k = *; }
 		}
 	| MATCH LT actionIdent=actionIdentUse GT IN i=IDENT RPAREN
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
@@ -3585,7 +3540,7 @@ options { k = *; }
 		}
 	| MATCH LT CLASS matchClassIdent=typeIdentUse GT IN i=IDENT RPAREN
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			matchesIdentUse = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
@@ -3594,7 +3549,7 @@ options { k = *; }
 		}
 	| type=typeIdentUse IN LBRACK left=expr[context, false] COLON right=expr[context, false] RBRACK RPAREN
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
@@ -3602,7 +3557,7 @@ options { k = *; }
 		}
 	| type=typeIdentUse IN LBRACE idx=indexIdentUse EQUAL e=expr[context, false] RBRACE RPAREN
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
@@ -3610,7 +3565,7 @@ options { k = *; }
 		}
 	| type=typeIdentUse IN LBRACE i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[context, false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[context, false])?)? RPAREN RBRACE RPAREN
 		LBRACE
-			cs=computations[onLHS, context, directlyNestingLHSGraph]
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
