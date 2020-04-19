@@ -1,0 +1,15 @@
+rule r : (Node)
+{
+	x:Node --> x;
+	
+	modify {
+		y:Node --> y;
+		
+		def var i:int = 42;
+		eval {
+			yield i = i + 1;
+		}
+		
+		return(y);
+	}
+}

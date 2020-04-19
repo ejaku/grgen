@@ -1,0 +1,11 @@
+test t : (Node)
+{
+	x:Node --> x;
+	
+	def var i:int = 42;
+	yield {
+		yield i = i + 1;
+	}
+	
+	return(x);
+}

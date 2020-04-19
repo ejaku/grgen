@@ -589,7 +589,8 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 defEntitiesOrYieldings [CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 						CollectNode<EvalStatementsNode> evals, CollectNode<ExprNode> returnz,
 						AnonymousScopeNamer namer, int context, PatternGraphNode directlyNestingLHSGraph]
-	: ( TRIPLEMINUS
+	: reportErrorOnDefEntityOrYielding[context]
+	  ( TRIPLEMINUS
 		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, evals, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
 		| iteratedFiltering[evals, context]
 		| yielding[evals, namer, context, directlyNestingLHSGraph]
@@ -598,6 +599,16 @@ defEntitiesOrYieldings [CollectNode<BaseNode> conn, CollectNode<VarDeclNode> def
 	  )?
 	  { directlyNestingLHSGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo); }
 	  { directlyNestingLHSGraph.addYieldings(evals); }
+	;
+
+reportErrorOnDefEntityOrYielding [int context]
+	: ( 
+		( d=DEF { reportError(getCoords(d), "A def entity declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); }
+		//the iterated filter declaration collides with the iterated declaration, would require additional lookahead, but was not available before, so no help in transforming old grgen specifications, thus way less of importance -> left out
+		//| i=ITERATED ident=iterIdentUse (filter=filterUse[ident, context])+ SEMI { reportError(getCoords(i), "An iterated filter declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); } 
+		| y=YIELD { reportError(getCoords(y), "A yield block is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); }
+		)
+	  )?
 	;
 
 filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds, CollectNode<IdentNode> matchClassFilterChilds ]
@@ -1825,7 +1836,8 @@ defEntitiesOrEvals [CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVari
 						CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplacementsNode> orderedReplacements,
 						CollectNode<BaseNode> imperativeStmts, CollectNode<ExprNode> returnz,
 						AnonymousScopeNamer namer, int context, GraphNode graph, PatternGraphNode directlyNestingLHSGraph]
-	: ( TRIPLEMINUS
+	: reportErrorOnDefEntityOrEval
+	  ( TRIPLEMINUS
 		( defEntityToBeYieldedTo[conn, defVariablesToBeYieldedTo, null, context, directlyNestingLHSGraph] SEMI // single entity definitions to be filled by later yield assignments
 		| evaluation[evals, orderedReplacements, namer, context, directlyNestingLHSGraph]
 		| rets[returnz, context] SEMI
@@ -1836,6 +1848,20 @@ defEntitiesOrEvals [CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVari
 	  )?
 	  { graph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo); }
 	  { graph.addEvals(evals); }
+	;
+
+reportErrorOnDefEntityOrEval
+	: ( 
+		( d=DEF 
+			{ reportError(getCoords(d), "A def entity declaration is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing"); }
+		| (ro=ALTERNATIVE id=altIdentUse SEMI | ro=ITERATED id=iterIdentUse SEMI | ro=PATTERN id=entIdentUse SEMI) 
+			{ reportError(getCoords(ro), "An alternative or iterated or subpattern rewrite order specification is only allowed in the yield part. Likely a --- separating the pattern part from the rewrite part is missing"); }
+		| e=EXEC
+			{ reportError(getCoords(e), "An exec statement is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing"); }
+		| (e=EMIT | e=EMITDEBUG | e=EMITHERE | e=EMITHEREDEBUG)
+			{ reportError(getCoords(e), "An emit statement is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing"); }
+		)
+	  )?
 	;
 
 alternative [ AnonymousScopeNamer namer, int context ] returns [ AlternativeNode alt = null ]
