@@ -36,10 +36,10 @@ namespace de.unika.ipd.grGen.libGr
         Def,
         IsVisited,
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
-        ArrayIndexOf, ArrayLastIndexOf, ArrayIndexOfOrdered,
+        ArrayOrDequeIndexOf, ArrayOrDequeLastIndexOf, ArrayIndexOfOrdered,
         ArraySum, ArrayProd, ArrayMin, ArrayMax, ArrayAvg, ArrayMed, ArrayMedUnsorted, ArrayVar, ArrayDev,
         ArrayOrDequeAsSet, ArrayAsMap, ArrayAsDeque, ArrayAsString,
-        ArraySubarray,
+        ArraySubarray, DequeSubdeque,
         ArrayOrderAscending, ArrayOrderDescending, ArrayKeepOneForEach, ArrayReverse,
         ArrayExtract,
         ElementFromGraph, NodeByName, EdgeByName, NodeByUnique, EdgeByUnique,
@@ -3199,26 +3199,26 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionArrayIndexOf : SequenceExpressionContainer
+    public class SequenceExpressionArrayOrDequeIndexOf : SequenceExpressionContainer
     {
         public readonly SequenceExpression ValueToSearchForExpr;
         public readonly SequenceExpression StartPositionExpr;
 
-        public SequenceExpressionArrayIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
-            : base(SequenceExpressionType.ArrayIndexOf, containerExpr)
+        public SequenceExpressionArrayOrDequeIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
+            : base(SequenceExpressionType.ArrayOrDequeIndexOf, containerExpr)
         {
             ValueToSearchForExpr = valueToSearchForExpr;
             StartPositionExpr = startPositionExpr;
         }
 
-        protected SequenceExpressionArrayIndexOf(SequenceExpressionArrayIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        protected SequenceExpressionArrayOrDequeIndexOf(SequenceExpressionArrayOrDequeIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that, originalToCopy, procEnv)
         {
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            return new SequenceExpressionArrayIndexOf(this, originalToCopy, procEnv);
+            return new SequenceExpressionArrayOrDequeIndexOf(this, originalToCopy, procEnv);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -3230,8 +3230,8 @@ namespace de.unika.ipd.grGen.libGr
             if(containerType == "")
                 return;
 
-            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
-                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<"))
+                throw new SequenceParserException(Symbol, "array<T> or deque<T> type", containerType);
 
             if(ValueToSearchForExpr.Type(env) != "")
             {
@@ -3254,9 +3254,9 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             if(StartPositionExpr != null)
-                return ContainerHelper.IndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv));
+                return ContainerHelper.IndexOf(ContainerValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv));
             else
-                return ContainerHelper.IndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv));
+                return ContainerHelper.IndexOf(ContainerValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv));
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -3290,26 +3290,26 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionArrayLastIndexOf : SequenceExpressionContainer
+    public class SequenceExpressionArrayOrDequeLastIndexOf : SequenceExpressionContainer
     {
         public readonly SequenceExpression ValueToSearchForExpr;
         public readonly SequenceExpression StartPositionExpr;
 
-        public SequenceExpressionArrayLastIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
-            : base(SequenceExpressionType.ArrayLastIndexOf, containerExpr)
+        public SequenceExpressionArrayOrDequeLastIndexOf(SequenceExpression containerExpr, SequenceExpression valueToSearchForExpr, SequenceExpression startPositionExpr)
+            : base(SequenceExpressionType.ArrayOrDequeLastIndexOf, containerExpr)
         {
             ValueToSearchForExpr = valueToSearchForExpr;
             StartPositionExpr = startPositionExpr;
         }
 
-        protected SequenceExpressionArrayLastIndexOf(SequenceExpressionArrayLastIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        protected SequenceExpressionArrayOrDequeLastIndexOf(SequenceExpressionArrayOrDequeLastIndexOf that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that, originalToCopy, procEnv)
         {
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            return new SequenceExpressionArrayLastIndexOf(this, originalToCopy, procEnv);
+            return new SequenceExpressionArrayOrDequeLastIndexOf(this, originalToCopy, procEnv);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -3321,8 +3321,8 @@ namespace de.unika.ipd.grGen.libGr
             if(containerType == "")
                 return;
 
-            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("deque<"))
-                throw new SequenceParserException(Symbol, "array<T> type", containerType);
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<"))
+                throw new SequenceParserException(Symbol, "array<T> or deque<T> type", containerType);
 
             if(ValueToSearchForExpr.Type(env) != "")
             {
@@ -3332,6 +3332,9 @@ namespace de.unika.ipd.grGen.libGr
 
             if(StartPositionExpr != null && StartPositionExpr.Type(env) != "")
             {
+                if(containerType.StartsWith("deque<"))
+                    throw new SequenceParserException(Symbol, "array<T> type", containerType);
+
                 if(StartPositionExpr != null && StartPositionExpr.Type(env) != "int")
                     throw new SequenceParserException(Symbol, "int", ValueToSearchForExpr.Type(env));
             }
@@ -3347,7 +3350,7 @@ namespace de.unika.ipd.grGen.libGr
             if(StartPositionExpr != null)
                 return ContainerHelper.LastIndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv), (int)StartPositionExpr.Evaluate(procEnv));
             else
-                return ContainerHelper.LastIndexOf(ArrayValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv));
+                return ContainerHelper.LastIndexOf(ContainerValue(procEnv), ValueToSearchForExpr.Evaluate(procEnv));
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -4504,6 +4507,79 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return Name + ".subarray(" + Start.Symbol + "," + Length.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionDequeSubdeque : SequenceExpressionContainer
+    {
+        public readonly SequenceExpression Start;
+        public readonly SequenceExpression Length;
+
+        public SequenceExpressionDequeSubdeque(SequenceExpression containerExpr, SequenceExpression start, SequenceExpression length)
+            : base(SequenceExpressionType.DequeSubdeque, containerExpr)
+        {
+            Start = start;
+            Length = length;
+        }
+
+        protected SequenceExpressionDequeSubdeque(SequenceExpressionDequeSubdeque that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that, originalToCopy, procEnv)
+        {
+            Start = that.Start.CopyExpression(originalToCopy, procEnv);
+            Length = that.Length.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionDequeSubdeque(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string containerType = CheckAndReturnContainerType(env);
+            if(containerType == "")
+                return; // we can't check further types if the container is untyped, only runtime-check possible
+
+            if(containerType.StartsWith("set<") || containerType.StartsWith("map<") || containerType.StartsWith("array<"))
+                throw new SequenceParserException(Symbol, "deque<T> type", containerType);
+        }
+
+        public override string Type(SequenceCheckingEnvironment env)
+        {
+            return ContainerType(env);
+        }
+
+        public override object Execute(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.Subdeque(DequeValue(procEnv), (int)Start.Evaluate(procEnv), (int)Length.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionContainerConstructor> containerConstructors)
+        {
+            ContainerExpr.GetLocalVariables(variables, containerConstructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return ContainerExpr;
+                yield return Start;
+                yield return Length;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".subdeque(" + Start.Symbol + "," + Length.Symbol + ")"; }
         }
     }
 

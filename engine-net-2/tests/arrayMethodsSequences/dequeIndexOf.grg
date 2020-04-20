@@ -1,0 +1,59 @@
+rule indexOf(ref a:deque<int>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf(42)});
+		return(o);
+	}
+}
+
+rule indexOfString(ref a:deque<string>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf("a42")});
+		return(o);
+	}
+}
+
+rule indexOfStart(ref a:deque<int>, var i:int) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf(42, i)});
+		return(o);
+	}
+}
+
+rule indexOfStartString(ref a:deque<string>, var i:int) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.indexOf("a42", i)});
+		return(o);
+	}
+}
+
+rule lastIndexOf(ref a:deque<int>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.lastIndexOf(42)});
+		return(o);
+	}
+}
+
+rule lastIndexOfString(ref a:deque<string>) : (int)
+{
+	modify {
+	---
+		def var o:int;
+		exec({yield o=a.lastIndexOf("a42")});
+		return(o);
+	}
+}

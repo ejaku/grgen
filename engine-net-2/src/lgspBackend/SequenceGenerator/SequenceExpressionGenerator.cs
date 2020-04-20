@@ -266,10 +266,10 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionContainerConstructor((SequenceExpressionContainerConstructor)expr, source);
             case SequenceExpressionType.MapConstructor:
                 return GetSequenceExpressionMapConstructor((SequenceExpressionMapConstructor)expr, source);
-            case SequenceExpressionType.ArrayIndexOf:
-                return GetSequenceExpressionArrayIndexOf((SequenceExpressionArrayIndexOf)expr, source);
-            case SequenceExpressionType.ArrayLastIndexOf:
-                return GetSequenceExpressionArrayLastIndexOf((SequenceExpressionArrayLastIndexOf)expr, source);
+            case SequenceExpressionType.ArrayOrDequeIndexOf:
+                return GetSequenceExpressionArrayOrDequeIndexOf((SequenceExpressionArrayOrDequeIndexOf)expr, source);
+            case SequenceExpressionType.ArrayOrDequeLastIndexOf:
+                return GetSequenceExpressionArrayOrDequeLastIndexOf((SequenceExpressionArrayOrDequeLastIndexOf)expr, source);
             case SequenceExpressionType.ArrayIndexOfOrdered:
                 return GetSequenceExpressionArrayIndexOfOrdered((SequenceExpressionArrayIndexOfOrdered)expr, source);
             case SequenceExpressionType.ArraySum:
@@ -300,6 +300,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayAsString((SequenceExpressionArrayAsString)expr, source);
             case SequenceExpressionType.ArraySubarray:
                 return GetSequenceExpressionArraySubarray((SequenceExpressionArraySubarray)expr, source);
+            case SequenceExpressionType.DequeSubdeque:
+                return GetSequenceExpressionDequeSubdeque((SequenceExpressionDequeSubdeque)expr, source);
             case SequenceExpressionType.ArrayOrderAscending:
                 return GetSequenceExpressionArrayOrderAscending((SequenceExpressionArrayOrderAscending)expr, source);
             case SequenceExpressionType.ArrayOrderDescending:
@@ -1754,46 +1756,64 @@ namespace de.unika.ipd.grGen.lgsp
             return sb.ToString();
         }
 
-        private string GetSequenceExpressionArrayIndexOf(SequenceExpressionArrayIndexOf seqArrayIndexOf, SourceBuilder source)
+        private string GetSequenceExpressionArrayOrDequeIndexOf(SequenceExpressionArrayOrDequeIndexOf seqArrayOrDequeIndexOf, SourceBuilder source)
         {
-            string container = GetContainerValue(seqArrayIndexOf, source);
+            string container = GetContainerValue(seqArrayOrDequeIndexOf, source);
 
-            if(seqArrayIndexOf.ContainerType(env) == "")
+            if(seqArrayOrDequeIndexOf.ContainerType(env) == "")
             {
-                return "GRGEN_LIBGR.ContainerHelper.IndexOf((IList)(" + container + "), " 
-                    + GetSequenceExpression(seqArrayIndexOf.ValueToSearchForExpr, source)
-                    + (seqArrayIndexOf.StartPositionExpr != null ? "," + GetSequenceExpression(seqArrayIndexOf.StartPositionExpr, source) : "")
+                return "GRGEN_LIBGR.ContainerHelper.IndexOf(" + container + ", " 
+                    + GetSequenceExpression(seqArrayOrDequeIndexOf.ValueToSearchForExpr, source)
+                    + (seqArrayOrDequeIndexOf.StartPositionExpr != null ? "," + GetSequenceExpression(seqArrayOrDequeIndexOf.StartPositionExpr, source) : "")
                     + ")";
             }
-            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            else if(seqArrayOrDequeIndexOf.ContainerType(env).StartsWith("array<"))
             {
-                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayIndexOf.ContainerType(env), model);
-                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayIndexOf.ContainerType(env)), model);
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrDequeIndexOf.ContainerType(env), model);
+                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayOrDequeIndexOf.ContainerType(env)), model);
                 return "GRGEN_LIBGR.ContainerHelper.IndexOf((" + arrayType + ")(" + container + "), "
-                    + "(" + arrayValueType + ")(" + GetSequenceExpression(seqArrayIndexOf.ValueToSearchForExpr, source) + ")"
-                    + (seqArrayIndexOf.StartPositionExpr != null ? ", (int)(" + GetSequenceExpression(seqArrayIndexOf.StartPositionExpr, source) + ")" : "")
+                    + "(" + arrayValueType + ")(" + GetSequenceExpression(seqArrayOrDequeIndexOf.ValueToSearchForExpr, source) + ")"
+                    + (seqArrayOrDequeIndexOf.StartPositionExpr != null ? ", (int)(" + GetSequenceExpression(seqArrayOrDequeIndexOf.StartPositionExpr, source) + ")" : "")
+                    + ")";
+            }
+            else //if(seqArrayOrDequeIndexOf.ContainerType(env).StartsWith("deque<"))
+            {
+                string dequeType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrDequeIndexOf.ContainerType(env), model);
+                string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayOrDequeIndexOf.ContainerType(env)), model);
+                return "GRGEN_LIBGR.ContainerHelper.IndexOf((" + dequeType + ")(" + container + "), "
+                    + "(" + dequeValueType + ")(" + GetSequenceExpression(seqArrayOrDequeIndexOf.ValueToSearchForExpr, source) + ")"
+                    + (seqArrayOrDequeIndexOf.StartPositionExpr != null ? ", (int)(" + GetSequenceExpression(seqArrayOrDequeIndexOf.StartPositionExpr, source) + ")" : "")
                     + ")";
             }
         }
 
-        private string GetSequenceExpressionArrayLastIndexOf(SequenceExpressionArrayLastIndexOf seqArrayLastIndexOf, SourceBuilder source)
+        private string GetSequenceExpressionArrayOrDequeLastIndexOf(SequenceExpressionArrayOrDequeLastIndexOf seqArrayOrDequeLastIndexOf, SourceBuilder source)
         {
-            string container = GetContainerValue(seqArrayLastIndexOf, source);
+            string container = GetContainerValue(seqArrayOrDequeLastIndexOf, source);
 
-            if(seqArrayLastIndexOf.ContainerType(env) == "")
+            if(seqArrayOrDequeLastIndexOf.ContainerType(env) == "")
             {
-                return "GRGEN_LIBGR.ContainerHelper.LastIndexOf((IList)(" + container + "), "
-                    + GetSequenceExpression(seqArrayLastIndexOf.ValueToSearchForExpr, source)
-                    + (seqArrayLastIndexOf.StartPositionExpr != null ? "," + GetSequenceExpression(seqArrayLastIndexOf.StartPositionExpr, source) : "")
+                return "GRGEN_LIBGR.ContainerHelper.LastIndexOf(" + container + ", "
+                    + GetSequenceExpression(seqArrayOrDequeLastIndexOf.ValueToSearchForExpr, source)
+                    + (seqArrayOrDequeLastIndexOf.StartPositionExpr != null ? "," + GetSequenceExpression(seqArrayOrDequeLastIndexOf.StartPositionExpr, source) : "")
                     + ")";
             }
-            else //if(seqArraySum.ContainerType(env).StartsWith("array"))
+            else if(seqArrayOrDequeLastIndexOf.ContainerType(env).StartsWith("array<"))
             {
-                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayLastIndexOf.ContainerType(env), model);
-                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayLastIndexOf.ContainerType(env)), model);
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrDequeLastIndexOf.ContainerType(env), model);
+                string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayOrDequeLastIndexOf.ContainerType(env)), model);
                 return "GRGEN_LIBGR.ContainerHelper.LastIndexOf((" + arrayType + ")(" + container + "), "
-                    + "(" + arrayValueType + ")(" + GetSequenceExpression(seqArrayLastIndexOf.ValueToSearchForExpr, source) + ")"
-                    + (seqArrayLastIndexOf.StartPositionExpr != null ? ", (int)(" + GetSequenceExpression(seqArrayLastIndexOf.StartPositionExpr, source) + ")" : "")
+                    + "(" + arrayValueType + ")(" + GetSequenceExpression(seqArrayOrDequeLastIndexOf.ValueToSearchForExpr, source) + ")"
+                    + (seqArrayOrDequeLastIndexOf.StartPositionExpr != null ? ", (int)(" + GetSequenceExpression(seqArrayOrDequeLastIndexOf.StartPositionExpr, source) + ")" : "")
+                    + ")";
+            }
+            else //if(seqArrayOrDequeLastIndexOf.ContainerType(env).StartsWith("deque<"))
+            {
+                string dequeType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrDequeLastIndexOf.ContainerType(env), model);
+                string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqArrayOrDequeLastIndexOf.ContainerType(env)), model);
+                return "GRGEN_LIBGR.ContainerHelper.LastIndexOf((" + dequeType + ")(" + container + "), "
+                    + "(" + dequeValueType + ")(" + GetSequenceExpression(seqArrayOrDequeLastIndexOf.ValueToSearchForExpr, source) + ")"
+                    + (seqArrayOrDequeLastIndexOf.StartPositionExpr != null ? ", (int)(" + GetSequenceExpression(seqArrayOrDequeLastIndexOf.StartPositionExpr, source) + ")" : "")
                     + ")";
             }
         }
@@ -2030,12 +2050,31 @@ namespace de.unika.ipd.grGen.lgsp
                     + GetSequenceExpression(seqArraySubarray.Start, source) + ","
                     + GetSequenceExpression(seqArraySubarray.Length, source) + ")";
             }
-            else //if(seqArrayDev.ContainerType(env).StartsWith("array"))
+            else //if(seqArrayDev.ContainerType(env).StartsWith("array<"))
             {
                 string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArraySubarray.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.Subarray((" + arrayType + ")(" + container + "),"
                     + GetSequenceExpression(seqArraySubarray.Start, source) + ","
                     + GetSequenceExpression(seqArraySubarray.Length, source) + ")";
+            }
+        }
+
+        private string GetSequenceExpressionDequeSubdeque(SequenceExpressionDequeSubdeque seqDequeSubdeque, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqDequeSubdeque, source);
+
+            if(seqDequeSubdeque.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Subdeque((IDeque)(" + container + "),"
+                    + GetSequenceExpression(seqDequeSubdeque.Start, source) + ","
+                    + GetSequenceExpression(seqDequeSubdeque.Length, source) + ")";
+            }
+            else //if(seqArrayDev.ContainerType(env).StartsWith("deque<"))
+            {
+                string dequeType = TypesHelper.XgrsTypeToCSharpType(seqDequeSubdeque.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Subdeque((" + dequeType + ")(" + container + "),"
+                    + GetSequenceExpression(seqDequeSubdeque.Start, source) + ","
+                    + GetSequenceExpression(seqDequeSubdeque.Length, source) + ")";
             }
         }
 

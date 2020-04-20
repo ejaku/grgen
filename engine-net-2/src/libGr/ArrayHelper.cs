@@ -219,11 +219,6 @@ namespace de.unika.ipd.grGen.libGr
             return (IList)Activator.CreateInstance(listType, capacity);
         }
 
-        public static int IndexOf(IList a, object entry)
-        {
-            return a.IndexOf(entry);
-        }
-
         /// <summary>
         /// Returns the first position of entry in the array a
         /// </summary>
@@ -233,17 +228,6 @@ namespace de.unika.ipd.grGen.libGr
         public static int IndexOf<V>(List<V> a, V entry)
         {
             return a.IndexOf(entry);
-        }
-
-        public static int IndexOf(IList a, object entry, int startIndex)
-        {
-            for(int i = startIndex; i < a.Count; ++i)
-            {
-                if(a[i].Equals(entry))
-                    return i;
-            }
-
-            return -1;
         }
 
         public static int IndexOf<V>(List<V> a, V entry, int startIndex)
@@ -278,18 +262,6 @@ namespace de.unika.ipd.grGen.libGr
         public static int IndexOfOrdered(List<string> a, string entry)
         {
             return a.BinarySearch(entry, StringComparer.InvariantCulture);
-        }
-
-
-        public static int LastIndexOf(IList a, object entry)
-        {
-            for(int i = a.Count - 1; i >= 0; --i)
-            {
-                if(a[i].Equals(entry))
-                    return i;
-            }
-
-            return -1;
         }
 
         /// <summary>

@@ -1,0 +1,21 @@
+new graph arrayMethodsSequences/dequeIndexOf
+
+exec (::x)=indexOf(deque<int>[1,42,2,42,3])
+show var x
+
+exec (::x)=indexOfString(deque<string>["a1","a42","a2","a42","3"])
+show var x
+
+exec (::x)=indexOfStart(deque<int>[1,42,2,42,3], 2)
+show var x
+
+exec (::x)=indexOfStartString(deque<string>["a1","a42","a2","a42","3"], 2)
+show var x
+
+exec (::x)=lastIndexOf(deque<int>[1,42,2,42,3])
+show var x
+
+exec (::x)=lastIndexOfString(deque<string>["a1","a42","a2","a42","3"])
+show var x
+
+quit

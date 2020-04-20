@@ -1,0 +1,15 @@
+new graph arrayMethodsSequences/dequeIndexOf
+
+eval deque<int>[1,42,2,42,3].indexOf(42)
+
+eval deque<string>["a1","a42","a2","a42","3"].indexOf("a42")
+
+eval deque<int>[1,42,2,42,3].indexOf(42, 2)
+
+eval deque<string>["a1","a42","a2","a42","3"].indexOf("a42", 2)
+
+eval deque<int>[1,42,2,42,3].lastIndexOf(42)
+
+eval deque<string>["a1","a42","a2","a42","3"].lastIndexOf("a42")
+
+quit

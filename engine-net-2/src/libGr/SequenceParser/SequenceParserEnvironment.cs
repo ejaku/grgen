@@ -868,6 +868,11 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 if(argExprs.Count != 2) throw new ParseException("\"" + functionMethodName + "\" expects 2 parameters)");
                 return new SequenceExpressionArraySubarray(targetExpr, argExprs[0], argExprs[1]);
             }
+            else if(functionMethodName == "subdeque")
+            {
+                if(argExprs.Count != 2) throw new ParseException("\"" + functionMethodName + "\" expects 2 parameters)");
+                return new SequenceExpressionDequeSubdeque(targetExpr, argExprs[0], argExprs[1]);
+            }
             else if(functionMethodName == "asSet")
             {
                 if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
@@ -909,12 +914,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             else if(functionMethodName == "indexOf")
             {
                 if(argExprs.Count != 1 && argExprs.Count != 2) throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
-                return new SequenceExpressionArrayIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+                return new SequenceExpressionArrayOrDequeIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
             }
             else if(functionMethodName == "lastIndexOf")
             {
                 if(argExprs.Count != 1 && argExprs.Count != 2) throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
-                return new SequenceExpressionArrayLastIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
+                return new SequenceExpressionArrayOrDequeLastIndexOf(targetExpr, argExprs[0], argExprs.Count != 1 ? argExprs[1] : null);
             }
             else if(functionMethodName == "indexOfOrdered")
             {

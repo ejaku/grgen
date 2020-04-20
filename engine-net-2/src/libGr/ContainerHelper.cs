@@ -259,6 +259,60 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static int IndexOf(object obj, object entry)
+        {
+            if(obj is IList)
+            {
+                IList a = (IList)obj;
+                return a.IndexOf(entry);
+            }
+            else
+            {
+                IDeque a = (IDeque)obj;
+                return a.IndexOf(entry);
+            }
+        }
+
+        public static int IndexOf(object obj, object entry, int startIndex)
+        {
+            if(obj is IList)
+            {
+                IList a = (IList)obj;
+                for(int i = startIndex; i < a.Count; ++i)
+                {
+                    if(a[i].Equals(entry))
+                        return i;
+                }
+            }
+            else
+            {
+                IDeque a = (IDeque)obj;
+                return a.IndexOf(entry, startIndex);
+            }
+
+            return -1;
+        }
+
+        public static int LastIndexOf(object obj, object entry)
+        {
+            if(obj is IList)
+            {
+                IList a = (IList)obj;
+                for(int i = a.Count - 1; i >= 0; --i)
+                {
+                    if(a[i].Equals(entry))
+                        return i;
+                }
+            }
+            else
+            {
+                IDeque a = (IDeque)obj;
+                return a.LastIndexOf(entry);
+            }
+
+            return -1;
+        }
+
         public static object GetGraphElementAttributeOrElementOfMatch(object source, string attributeOrElementName)
         {
             if(source is IMatch)

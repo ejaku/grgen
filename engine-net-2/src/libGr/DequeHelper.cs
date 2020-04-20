@@ -206,17 +206,7 @@ namespace de.unika.ipd.grGen.libGr
             return a.IndexOf(entry);
         }
 
-        public static int IndexOf(IDeque a, object entry)
-        {
-            return a.IndexOf(entry);
-        }
-
         public static int IndexOf<V>(Deque<V> a, V entry, int index)
-        {
-            return a.IndexOf(entry, index);
-        }
-
-        public static int IndexOf(IDeque a, object entry, int index)
         {
             return a.IndexOf(entry, index);
         }
@@ -232,9 +222,16 @@ namespace de.unika.ipd.grGen.libGr
             return a.LastIndexOf(entry);
         }
 
-        public static int LastIndexOf(IDeque a, object entry)
+        public static IDeque Subdeque(IDeque a, int start, int length)
         {
-            return a.LastIndexOf(entry);
+            IDeque newDeque = (IDeque)Activator.CreateInstance(a.GetType());
+
+            for(int i = start; i < start + length; ++i)
+            {
+                newDeque.Add(a[i]);
+            }
+
+            return newDeque;
         }
 
         /// <summary>
