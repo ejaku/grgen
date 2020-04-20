@@ -1,0 +1,30 @@
+new graph map1/mapnorules
+
+new na:A
+new nb:B
+
+na.a
+exec { ::untyped = map<string,string>{ "foo"->"foo" }; ::na.a = ::na.a | ::untyped }
+na.a
+
+nb.b
+exec { ::untyped = map<string,string>{ "foo"->"foo" }; ::nb.b = ::nb.b | ::untyped }
+nb.b
+
+na.a
+exec { ::untyped = map<string,string>{ "foo"->"foo" }; ::na.a = ::na.a & ::untyped }
+na.a
+
+nb.b
+exec { ::untyped = map<string,string>{ "bar"->"bar" }; ::nb.b = ::nb.b & ::untyped }
+nb.b
+
+nb.a
+exec { ::untyped = map<string,string>{ "bar"->"bar" }; ::nb.a = ::nb.a \ ::untyped }
+nb.a
+
+nb.a
+exec { ::untyped = map<string,string>{ "bar"->"bar" }; ::nb.a = ::nb.a \ ::untyped }
+nb.a
+
+quit

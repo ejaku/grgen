@@ -1,0 +1,30 @@
+new graph map1/map_exec_untyped
+
+new na:A
+new nb:B
+
+na.a
+exec orFooNoEffect
+na.a
+
+nb.b
+exec orFoo
+nb.b
+
+na.a
+exec andFooOneRemains
+na.a
+
+nb.b
+exec andBarAllRemoved
+nb.b
+
+nb.a
+exec exceptBar
+nb.a
+
+nb.a
+exec exceptBarNoEffect
+nb.a
+
+quit

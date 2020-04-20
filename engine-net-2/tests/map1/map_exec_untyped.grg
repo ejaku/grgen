@@ -1,0 +1,59 @@
+#using "map.gm"
+
+rule orFooNoEffect()
+{
+    na:A\B;
+	
+	modify {
+	---
+		exec({ ::untyped = map<string,string>{ "foo"->"foo" }; na.a = na.a | ::untyped });
+	}
+}
+
+rule orFoo()
+{
+    nb:B;
+	modify {
+	---
+		exec({ ::untyped = map<string,string>{ "foo"->"foo" }; nb.b = nb.b | ::untyped });
+	}
+}
+
+rule andFooOneRemains()
+{
+    na:A\B;
+	
+	modify {
+	---
+		exec({ ::untyped = map<string,string>{ "foo"->"foo" }; na.a = na.a & ::untyped });
+	}
+}
+
+rule andBarAllRemoved()
+{
+    nb:B;
+	modify {
+	---
+		exec({ ::untyped = map<string,string>{ "bar"->"bar" }; nb.b = nb.b & ::untyped });
+	}
+}
+
+rule exceptBar()
+{
+    nb:B;
+
+	modify {
+	---
+		exec({ ::untyped = map<string,string>{ "bar"->"bar" }; nb.a = nb.a \ ::untyped });
+	}
+}
+
+rule exceptBarNoEffect()
+{
+    nb:B;
+	
+	modify {
+	---
+		exec({ ::untyped = map<string,string>{ "bar"->"bar" }; nb.a = nb.a \ ::untyped });
+	}
+}

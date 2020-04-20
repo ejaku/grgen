@@ -1,0 +1,28 @@
+rule r()
+{
+	n:Node; m:Node;
+---
+	
+	modify {
+	---
+		exec({ ::x = map<int,string>{1->"1",2->"2",3->"3"} & map<int,string>{2->"2",3->"3",4->"4"} });
+		exec(tmapnode(map<Node,Node>{n->m,m->n} & map<Node,Node>{n->n}));
+		exec({ ::x = map<int,string>{1->"1",2->"2",3->"3"} | map<int,string>{2->"2",3->"3",4->"4"} });
+		exec(tmapnode(map<Node,Node>{n->m,m->n} | map<Node,Node>{n->n}));
+		exec({ ::x = map<int,string>{1->"1",2->"2",3->"3"} \ map<int,string>{2->"2",3->"3",4->"4"} });
+		exec(tmapnode(map<Node,Node>{n->m,m->n} \ map<Node,Node>{n->n}));
+		exec({ ::x = map<int,string>{1->"1",2->"2",3->"3"} \ set<int>{2,3,4} });
+		exec(tmapnode(map<Node,Node>{n->m,m->n} \ set<Node>{n}));
+		
+		exec({ ::x = ::u & ::v });
+		exec(tmapnode(::u & ::v));
+		exec({ ::x = ::u | ::v });
+		exec(tmapnode(::u | ::v));
+		exec({ ::x = ::u \ ::v });
+		exec(tmapnode(::u \ ::v));
+	}
+}
+
+test tmapnode(ref m:map<Node,Node>)
+{
+}

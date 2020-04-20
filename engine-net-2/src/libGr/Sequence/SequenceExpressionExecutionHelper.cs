@@ -4015,7 +4015,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return (bool)leftValue & (bool)rightValue;
             }
-            if(balancedType.StartsWith("set<"))
+            if(balancedType.StartsWith("set<") || balancedType.StartsWith("map<"))
             {
                 return ContainerHelper.Intersect((IDictionary)leftValue, (IDictionary)rightValue);
             }
@@ -4030,7 +4030,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return (bool)leftValue | (bool)rightValue;
             }
-            if(balancedType.StartsWith("set<"))
+            if(balancedType.StartsWith("set<") || balancedType.StartsWith("map<"))
             {
                 return ContainerHelper.Union((IDictionary)leftValue, (IDictionary)rightValue);
             }
@@ -4041,7 +4041,7 @@ namespace de.unika.ipd.grGen.libGr
         public static object ExceptObjects(object leftValue, object rightValue,
             string balancedType, string leftType, string rightType, IGraph graph)
         {
-            if(balancedType.StartsWith("set<"))
+            if(balancedType.StartsWith("set<") || balancedType.StartsWith("map<"))
             {
                 return ContainerHelper.Except((IDictionary)leftValue, (IDictionary)rightValue);
             }

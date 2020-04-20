@@ -1,0 +1,14 @@
+enum et
+{
+	aloah, burgs, crorr = 7
+}
+
+node class A
+{
+    a:map<string,string> = { "foo"->"foo", "bar"->"bar" } ;
+}
+
+node class B extends A
+{
+    b:map<string,string> = { "blubb"->"blubb" } ;
+}

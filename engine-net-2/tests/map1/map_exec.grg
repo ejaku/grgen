@@ -1,0 +1,59 @@
+#using "map.gm"
+
+rule orFooNoEffect()
+{
+    na:A\B;
+	
+	modify {
+	---
+		exec({ na.a = na.a | map<string,string>{ "foo"->"foo" } });
+	}
+}
+
+rule orFoo()
+{
+    nb:B;
+	modify {
+	---
+		exec({ nb.b = nb.b | map<string,string>{ "foo"->"foo" } });
+	}
+}
+
+rule andFooOneRemains()
+{
+    na:A\B;
+	
+	modify {
+	---
+		exec({ na.a = na.a & map<string,string>{ "foo"->"foo" } });
+	}
+}
+
+rule andBarAllRemoved()
+{
+    nb:B;
+	modify {
+	---
+		exec({ nb.b = nb.b & map<string,string>{ "bar"->"bar" } });
+	}
+}
+
+rule exceptBar()
+{
+    nb:B;
+
+	modify {
+	---
+		exec({ nb.a = nb.a \ map<string,string>{ "bar"->"bar" } });
+	}
+}
+
+rule exceptBarNoEffect()
+{
+    nb:B;
+	
+	modify {
+	---
+		exec({ nb.a = nb.a \ map<string,string>{ "bar"->"bar" } });
+	}
+}

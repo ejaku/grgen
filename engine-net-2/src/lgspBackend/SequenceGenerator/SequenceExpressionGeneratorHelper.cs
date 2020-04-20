@@ -343,7 +343,7 @@ namespace de.unika.ipd.grGen.lgsp
         public static string ExceptStatic(string leftValue, string rightValue,
             string balancedType, string leftType, string rightType, IGraphModel model)
         {
-            if(balancedType.StartsWith("set<"))
+            if(balancedType.StartsWith("set<") || balancedType.StartsWith("map<"))
                 return "GRGEN_LIBGR.ContainerHelper.Except((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ")";
 
             return null;
@@ -354,7 +354,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(balancedType == "boolean")
                 return "((bool)" + leftValue + " | " + "(bool)" + rightValue + ")";
-            else if(balancedType.StartsWith("set<"))
+            else if(balancedType.StartsWith("set<") || balancedType.StartsWith("map<"))
                 return "GRGEN_LIBGR.ContainerHelper.Union((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ")";
 
             return null;
@@ -365,7 +365,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(balancedType == "boolean")
                 return "((bool)" + leftValue + " & " + "(bool)" + rightValue + ")";
-            else if(balancedType.StartsWith("set<"))
+            else if(balancedType.StartsWith("set<") || balancedType.StartsWith("map<"))
                 return "GRGEN_LIBGR.ContainerHelper.Intersect((IDictionary)" + leftValue + ", (IDictionary)" + rightValue + ")";
 
             return null;

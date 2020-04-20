@@ -1,0 +1,30 @@
+new graph map1/mapnorules
+
+new na:A
+new nb:B
+
+na.a
+exec { ::na.a = ::na.a | map<string,string>{ "foo"->"foo" } }
+na.a
+
+nb.b
+exec { ::nb.b = ::nb.b | map<string,string>{ "foo"->"foo" } }
+nb.b
+
+na.a
+exec { ::na.a = ::na.a & map<string,string>{ "foo"->"foo" } }
+na.a
+
+nb.b
+exec { ::nb.b = ::nb.b & map<string,string>{ "bar"->"bar" } }
+nb.b
+
+nb.a
+exec { ::nb.a = ::nb.a \ map<string,string>{ "bar"->"bar" } }
+nb.a
+
+nb.a
+exec { ::nb.a = ::nb.a \ map<string,string>{ "bar"->"bar" } }
+nb.a
+
+quit

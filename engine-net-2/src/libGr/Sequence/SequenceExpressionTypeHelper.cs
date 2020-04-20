@@ -119,6 +119,10 @@ namespace de.unika.ipd.grGen.libGr
                         return "";
                     if(left == right && left.StartsWith("set<"))
                         return left;
+                    if(left == right && left.StartsWith("map<"))
+                        return left;
+                    if(left.StartsWith("map<") && right.StartsWith("set<") && TypesHelper.ExtractSrc(left)==TypesHelper.ExtractSrc(right))
+                        return left;
                     return "-";
 
                 case SequenceExpressionType.StrictAnd:
@@ -128,6 +132,8 @@ namespace de.unika.ipd.grGen.libGr
                     if(left == right && left == "boolean")
                         return left;
                     if(left == right && left.StartsWith("set<"))
+                        return left;
+                    if(left == right && left.StartsWith("map<"))
                         return left;
                     return "-";
 

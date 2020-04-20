@@ -1,0 +1,11 @@
+new graph map1/map2
+
+xgrs addNode
+
+xgrs insertStringKey("die frage nach allem", 42)
+xgrs insertStringKey("die frage nach vielem", 43)
+xgrs insertStringKey("die frage nach allem", 44)
+xgrs dumpIntValueStringKey("die frage nach allem")
+xgrs dumpIntValueStringKey("die frage nach vielem")
+
+exit
