@@ -1,4 +1,159 @@
-﻿v4.5.7 (2020-02-08)
+﻿v5.0 (2020-04-??)
+ A --- separator is now needed in between top-down pattern matching/rewriting and bottom-up yielding for result accumulation,
+ in the rules and tests of the rule language (it splits the LHS and RHS patterns into two parts)
+ - on LHS appear to the left of the separator the elementary pattern entities, nested patterns, and subpattern usages, 
+   and to the right of the separator the def elements and yield blocks
+   in subpattern usages, the input and output arguments are separated by the ---, too, 
+   the same holds for the input and output parameters in the subpattern specifications
+   the return (in tests) has to come right of the separator in case that one is given
+ - on RHS appear to the left of the separator the pattern rewrite specifications and attribute changing eval blocks, 
+   and to the right of the separator the def elements, eval blocks supporting all computations, 
+   emit and exec statements, and the ordered statements (telling when the rewrite which nested/subpattern, emithere, evalhere)
+   in subpattern usages, the rewrite input and output arguments are separated by the ---, too, 
+   the same holds for the rewrite input and output parameters in the subpattern specifications
+   the return (in rules) has to come right of the separator in case that on is given
+ - the attribute changing eval block supports only a subset of the available computations, related to attribute assignment
+ - introduced a subpattern replacement (only-)ordering statement to be given in the imperative part
+   in between the other ordered statements, with syntax pattern <name>;
+   the subpattern replacement usage in the declarative part specifies that the subpattern is to be applied and the arguments
+   (without giving additionally its ordering, as before)
+
+ Changed deque constructor syntax from deque<T>]...[ to deque<T>[...] (in rule language as well as sequences)
+
+ Changed resolving so that package content comes before global content (was only partially the case before)
+ - extended package prefixed entity access (package::name) by the possibility to specify a fake package "global" (global::name) 
+ - it allows to access a global name from inside a package even if an entity with the same name is available locally
+ - resolving rules: 1) content from the package specified with the prefix, if that is "global" then global content,
+                    2) content from package context (which thus overrides global content),
+                    3) global content (regarding 2: there is no package context available for interpreted sequences
+                                        - they only appear in shell/api outside of any packages of the rule language)
+ - resolving rules for filters: in between rule 1 and 2 additionally:
+   content from the package the rule or match class is contained in to which the filter applies (so a dependent entity)
+ - auto-supplied and auto-generated filters are special cases fully relying on the rule/match class (no package prefix)
+
+ Added rule prefixed sequence to sequences:
+  [for{r;s}] computes all matches for r, then, for each match (one-by-one): rewrites it, and then executes the sequence s
+  the result of the rule prefixed sequence is true when at least one of the executions of sequence s yielded true
+  (which is only possible in case a match was found for the rule)
+
+ Added match classes to the rule language defining a kind of pattern interface that can be implemented by the actions 
+  (acting as a view/common part), with syntax: match class <name> { def-variable | def-node | def-edge | variable | node | edge }
+  used in a test/rule with an "implements <name>" after the signature before the body
+  They allow to define match class filter functions that make it possible to filter the matches of multi rule constructs,
+  similar to regular single-rule filter functions, with syntax filter f<class mc> { function computations }
+  These post-matches filter functions can be called from the multi rule constructs in the sequences,
+  a primary use case is to bring matches of multiple rules into a global order (with auto-generated filters)
+
+ Added multi rule all call and multi rule prefixed sequence to the sequences:
+ - [[r,t]] searches for all matches of all contained rules and rewrites the found ones
+ - [[for{r;s},for{t;q}]] computes all matches for the contained rules (here: r,t), then for each match (one-by-one):
+   rewrites it, and then executes the corresponding sequence (s for a match of r, q for a match of t)
+   the result of the multi rule prefixed sequence is true when at least one of the executions 
+   of one of the contained sequences yielded true (which is only possible in case a match was found for one of the rules)
+ - filters may be applied to the rules in the constructs (e.g. r\f), 
+   match class filters may be applied to the multi rule prefixed sequence ([[...]\mc.f])
+   (removing matches, or reordering them, the rewrites are performed in order 
+   - so applications r then t then r are possible for the multi rule prefixed sequence)
+
+ Added multi rule backtracking and multi rule prefixed sequence backtracking to the sequences:
+ - <<[[r,t]];;s>> finds all matches of all contained rules and executes then the sequence for each one of them,
+   rolling back the changes in case the sequence fails, continuing with the next match,
+   or committing the changes in case the sequence succeeds, ending the execution of the sequence (as success)
+ - <<[[for{r;s},for{t;q}]]>> computes all matches for the contained rules (here: r,t), then for each match (one-by-one):
+   starts a transaction, rewrites the match, and then executes the corresponding sequence (s for a match of r, q for a match of t),
+   if the result is false, the effects on the graph are rolled back and the next match is tried,
+   otherwise the changes are committed and the overall sequences succeeds
+   (without processing further matches; if all matches lead to a failing sequence, the overall sequence fails)
+ - filters may be applied to the rules in the constructs (e.g. r\f),
+   match class filters may be applied to the multi rule prefixed sequence ([[...]\mc.f])
+   (removing matches, or reordering them, the rewrites are performed in order 
+   - so applications r then t then r are possible for the multi rule prefixed sequence)
+
+ Added notational shorthand of in-place yielding at a def variable declaration in rule language,
+  with the syntax def var v:T = yield(expr); 
+  resulting in a def variable declaration and a yield block: def var v:T; yield { v = expr; }
+  not to be confused with separate initialization, combined: def var v:T = init-expr = yields(expr)
+  the init-expr is evaluated before the yields of nested patterns and can thus be used to give a start value 
+  for bottom-up accumulation; the in-place yielding is evaluated after nested and subpatterns were matched and yielded 
+  (only then are iterated matches available)
+
+ Allowed match types (match<r>, match<class mc>) as array value types (in rule language as well as sequences)
+
+ Added a rule query [?r] to the sequence expressions,
+   returning an array<match<r>> to be processed by filters and array methods
+ Added a multi rule query [?[r,...]\<class mc>] to sequence expressions,
+   returning an array<match<class mc>> to be processed by filters and array methods
+
+ Allowed iterated match types match<r.it> as array value types in rule language 
+
+ Added an iterated query expression [?it]:array<match<r.it>> to rule language, 
+   returning an array<match<r.it>>
+   with it being the name of a named iterated block (declared by: iterated it { content })
+
+ Added iterated filtering to rule language, with syntax iterated it\f; (for named iterated it)
+  noted down in LHS yielding part (but outside yield block); limited to top-level iterateds for now
+
+ Added support for accessing non-def variables in actions (thus in match objects) during filtering
+
+ Allowed chains of selecting expressions (like .attr, container[key], .method(), .visited[flag]) in sequence expressions
+
+ Extended sequence expressions by support for new operators:
+ - unary minus - (computing negation of numeric type)
+ - binary &, |, \  (computing intersection, union, difference on set<T> and map<S,T>)
+
+ Added Math::sqr(double):double and Math::sqrt(double):double methods (computing square / square root) to rule language
+
+ Added new array accumulation methods to rule language, on array<T> where T=numeric type: 
+  .sum():T, .prod():T, .min():T, .max():T, (sum, product, minimum value, maximum value)
+  .avg():double, .med():double, .medUnsorted():double (average/mean, median, median of not ordered array)
+  .var():double, .dev():double (variance, deviation)
+  
+ Added new array methods to rule language, on array<T> where T=numeric type or string:
+  .sortDescending(), .keepOneForEach() (orders descendingly, frees of duplicates)
+
+ Added new member of value type in array accessing methods to rule language, on array<T>, where
+  T=match<r>, or T=match<r.it>, T=match<class mc>, T=node/edge class,
+  and member:S is a member from the match type (pattern element/match class member), or an attribute from the node/edge type:
+  .extract<member>():array<S>
+  .sortDescendingBy<member>():array<T>
+  .keepOneForEach<member>():array<T>
+ Extended old array member of value type in array accessing methods supporting node/edge types 
+  to also support the match types/match classes 
+
+ Extended array type support in sequence expressions to capture now all array methods and operations (including new ones),
+  with exception of the member of value type in array accessing methods -- from them only extract is supported
+  (the targeted query matches processing is: filters for ordering or duplicate removal by member of value type, 
+   followed by extract for projection, followed by the array accumulation methods to reduce to a scalar value)
+
+ Added support for all set methods to sequence expressions,
+  missing was set<T>.asArray():array<T> 
+ Added support for all map methods to sequence expressions,
+  missing were map<S,T>.domain():set<S>, map<S,T>.range():set<T>, map<int,T>.asArray():array<T>
+ Added support for all deque methods to sequence expressions,
+  missing were deque<T>.subdeque(.,.):deque<T>, deque<T>.asArray():array<T>, deque<T>.asSet():set<T>, 
+  deque<T>.indexOf(.):int, deque<T>.indexOf(.,.):int, deque<T>.lastIndexOf(.):int to sequence expressions
+ Added support for all copy constructor to sequence expressions,
+  missing were map<S,T>(that), array<T>(that), deque<T>(that)
+ Added support for string.asArray(separator:string):array<T> to sequence expressions
+
+ Implemented eval command in GrShell that allows to evaluate a sequence expression 
+
+ Allowed .visited[flag] as element in the chains of selecting expressions in rule language expressions
+
+ Matches count (from performance info) now returns the number of matches found,
+  instead of the number of matches left after filtering (rewrites performed tells about that)
+
+ Removed auto keyword from rule language (the name of the automorphic matches filter is now parsed as an identifier like all the other auto-generated filters)
+
+ All def (to be yielded to) elements and variables (esp. container variables) are now initialized after the pattern elements 
+ (and preset elements), as these may be used in the def initialization
+ Ensured order of def variables is kept like in source code so initialization order is predictable
+
+ User manual adaptations to the breaking changes, addition of the new content, reorganization of content
+ 
+--------------------------------------------------------------------------------------------------------
+
+v4.5.7 (2020-02-08)
  Introduced a "for function[parallelize=true];" declaration to the model
   it causes the creation of (external) (method) functions that can be called from parallelized matchers
   (and implies "node edge unique;", similar to the index declarations and "for equalsAny[parallelize=k];" with k>1;
