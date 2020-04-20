@@ -218,6 +218,47 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        /// <summary>
+        /// Creates a new dictionary representing a set containing all values from the given list or deque.
+        /// </summary>
+        public static IDictionary ArrayOrDequeAsSet(object obj)
+        {
+            if(obj is IList)
+            {
+                IList a = (IList)obj;
+
+                Type valueType;
+                ContainerHelper.GetListType(a, out valueType);
+                IDictionary newDict = NewDictionary(valueType, typeof(SetValueType));
+
+                for(int i = 0; i < a.Count; ++i)
+                {
+                    newDict[a[i]] = null;
+                }
+
+                return newDict;
+            }
+            else if(obj is IDeque)
+            {
+                IDeque a = (IDeque)obj;
+
+                Type valueType;
+                ContainerHelper.GetDequeType(a, out valueType);
+                IDictionary newDict = NewDictionary(valueType, typeof(SetValueType));
+
+                for(int i = 0; i < a.Count; ++i)
+                {
+                    newDict[a[i]] = null;
+                }
+
+                return newDict;
+            }
+            else
+            {
+                throw new Exception("asSet() can only be used on array or deque");
+            }
+        }
+
         public static object GetGraphElementAttributeOrElementOfMatch(object source, string attributeOrElementName)
         {
             if(source is IMatch)

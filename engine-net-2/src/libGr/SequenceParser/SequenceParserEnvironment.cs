@@ -871,7 +871,17 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             else if(functionMethodName == "asSet")
             {
                 if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
-                return new SequenceExpressionArrayAsSet(targetExpr);
+                return new SequenceExpressionArrayOrDequeAsSet(targetExpr);
+            }
+            else if(functionMethodName == "domain")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionMapDomain(targetExpr);
+            }
+            else if(functionMethodName == "range")
+            {
+                if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionMapRange(targetExpr);
             }
             else if(functionMethodName == "asMap")
             {

@@ -15,4 +15,7 @@ show var x
 exec (::x)=asString(array<string>["1","2","3"])
 show var x
 
+exec (::x)=dequeAsSet(deque<int>[1,2,3])
+show var x
+
 quit

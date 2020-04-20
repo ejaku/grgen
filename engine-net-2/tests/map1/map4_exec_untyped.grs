@@ -1,0 +1,10 @@
+new graph map1/map4
+
+new n:A
+
+exec domainRangeExecUntyped
+
+n.ss
+n.is
+
+exit

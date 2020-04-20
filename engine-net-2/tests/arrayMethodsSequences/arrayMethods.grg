@@ -47,3 +47,13 @@ rule asString(ref a:array<string>) : (string)
 		return(o);
 	}
 }
+
+rule dequeAsSet(ref a:deque<int>) : (set<int>)
+{
+	modify {
+	---
+		def ref o:set<int>;
+		exec({yield o=a.asSet()});
+		return(o);
+	}
+}

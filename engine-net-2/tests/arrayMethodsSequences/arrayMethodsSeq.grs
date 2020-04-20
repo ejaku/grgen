@@ -15,4 +15,13 @@ show var x
 exec {::x=array<string>["1","2","3"].asString(",")}
 show var x
 
+exec {::x=deque<int>[1,2,3].asSet()}
+show var x
+
+exec {::y=array<int>[1,2,3]; ::x = ::y.asSet()}
+show var x
+
+exec {::y=deque<int>[1,2,3]; ::x = ::y.asSet()}
+show var x
+
 quit

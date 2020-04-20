@@ -11,3 +11,29 @@ rule domainRange()
 		}
     }
 }
+
+rule domainRangeExec
+{
+    a:A;
+
+	modify {
+	---
+		exec( {
+			a.ss = a.sim.domain();
+			a.is = a.sim.range();
+		} );
+	}
+}
+
+rule domainRangeExecUntyped
+{
+    a:A;
+
+	modify {
+	---
+		exec( {
+			::x=a.sim; a.ss = ::x.domain();
+			::x=a.sim; a.is = ::x.range();
+		} );
+	}
+}

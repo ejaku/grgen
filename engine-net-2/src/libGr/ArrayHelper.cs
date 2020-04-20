@@ -653,23 +653,6 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates a new dictionary representing a set containing all values from the given list.
         /// </summary>
-        public static IDictionary ArrayAsSet(IList a)
-        {
-            Type valueType;
-            ContainerHelper.GetListType(a, out valueType);
-            IDictionary newDict = NewDictionary(valueType, typeof(SetValueType));
-
-            for(int i = 0; i < a.Count; ++i)
-            {
-                newDict[a[i]] = null;
-            }
-
-            return newDict;
-        }
-
-        /// <summary>
-        /// Creates a new dictionary representing a set containing all values from the given list.
-        /// </summary>
         public static Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> ArrayAsSet<V>(List<V> a)
         {
             Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> newDict =

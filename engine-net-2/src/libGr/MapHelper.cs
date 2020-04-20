@@ -489,6 +489,21 @@ namespace de.unika.ipd.grGen.libGr
             return newDict;
         }
 
+        public static IDictionary Domain(IDictionary map)
+        {
+            Type keyType;
+            Type valueType;
+            ContainerHelper.GetDictionaryTypes(map, out keyType, out valueType);
+            IDictionary newDict = NewDictionary(keyType, typeof(SetValueType));
+
+            foreach(object key in map.Keys)
+            {
+                newDict[key] = null;
+            }
+
+            return newDict;
+        }
+
         /// <summary>
         /// Creates a new dictionary representing a set,
         /// containing all values from the given dictionary representing a map <paramref name="map"/>.
@@ -502,6 +517,21 @@ namespace de.unika.ipd.grGen.libGr
 
             // Add all values of dictionary representing map to new dictionary representing set
             foreach(V value in map.Values)
+            {
+                newDict[value] = null;
+            }
+
+            return newDict;
+        }
+
+        public static IDictionary Range(IDictionary map)
+        {
+            Type keyType;
+            Type valueType;
+            ContainerHelper.GetDictionaryTypes(map, out keyType, out valueType);
+            IDictionary newDict = NewDictionary(valueType, typeof(SetValueType));
+
+            foreach(object value in map.Values)
             {
                 newDict[value] = null;
             }

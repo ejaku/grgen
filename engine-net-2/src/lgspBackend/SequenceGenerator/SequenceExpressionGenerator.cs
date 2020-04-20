@@ -256,6 +256,10 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionContainerAsArray((SequenceExpressionContainerAsArray)expr, source);
             case SequenceExpressionType.StringAsArray:
                 return GetSequenceExpressionStringAsArray((SequenceExpressionStringAsArray)expr, source);
+            case SequenceExpressionType.MapDomain:
+                return GetSequenceExpressionMapDomain((SequenceExpressionMapDomain)expr, source);
+            case SequenceExpressionType.MapRange:
+                return GetSequenceExpressionMapRange((SequenceExpressionMapRange)expr, source);
             case SequenceExpressionType.SetConstructor:
             case SequenceExpressionType.ArrayConstructor:
             case SequenceExpressionType.DequeConstructor:
@@ -286,8 +290,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayVar((SequenceExpressionArrayVar)expr, source);
             case SequenceExpressionType.ArrayDev:
                 return GetSequenceExpressionArrayDev((SequenceExpressionArrayDev)expr, source);
-            case SequenceExpressionType.ArrayAsSet:
-                return GetSequenceExpressionArrayAsSet((SequenceExpressionArrayAsSet)expr, source);
+            case SequenceExpressionType.ArrayOrDequeAsSet:
+                return GetSequenceExpressionArrayOrDequeAsSet((SequenceExpressionArrayOrDequeAsSet)expr, source);
             case SequenceExpressionType.ArrayAsMap:
                 return GetSequenceExpressionArrayAsMap((SequenceExpressionArrayAsMap)expr, source);
             case SequenceExpressionType.ArrayAsDeque:
@@ -1674,6 +1678,36 @@ namespace de.unika.ipd.grGen.lgsp
                 + "(string)(" + GetSequenceExpression(seqStringAsArray.SeparatorExpr, source) + "))";
         }
 
+        private string GetSequenceExpressionMapDomain(SequenceExpressionMapDomain seqMapDomain, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqMapDomain, source);
+
+            if(seqMapDomain.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Domain((IDictionary)(" + container + "))";
+            }
+            else //if(seqMapDomain.ContainerType(env).StartsWith("map<"))
+            {
+                string mapType = TypesHelper.XgrsTypeToCSharpType(seqMapDomain.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Domain((" + mapType + ")(" + container + "))";
+            }
+        }
+
+        private string GetSequenceExpressionMapRange(SequenceExpressionMapRange seqMapRange, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqMapRange, source);
+
+            if(seqMapRange.ContainerType(env) == "")
+            {
+                return "GRGEN_LIBGR.ContainerHelper.Range((IDictionary)(" + container + "))";
+            }
+            else //if(seqMapDomain.ContainerType(env).StartsWith("map<"))
+            {
+                string mapType = TypesHelper.XgrsTypeToCSharpType(seqMapRange.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.Range((" + mapType + ")(" + container + "))";
+            }
+        }
+
         private string GetSequenceExpressionContainerConstructor(SequenceExpressionContainerConstructor seqConstr, SourceBuilder source)
         {
             StringBuilder sb = new StringBuilder();
@@ -1919,18 +1953,23 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private string GetSequenceExpressionArrayAsSet(SequenceExpressionArrayAsSet seqArrayAsSet, SourceBuilder source)
+        private string GetSequenceExpressionArrayOrDequeAsSet(SequenceExpressionArrayOrDequeAsSet seqArrayOrDequeAsSet, SourceBuilder source)
         {
-            string container = GetContainerValue(seqArrayAsSet, source);
+            string container = GetContainerValue(seqArrayOrDequeAsSet, source);
 
-            if(seqArrayAsSet.ContainerType(env) == "")
+            if(seqArrayOrDequeAsSet.ContainerType(env) == "")
             {
-                return "GRGEN_LIBGR.ContainerHelper.ArrayAsSet((IList)(" + container + "))";
+                return "GRGEN_LIBGR.ContainerHelper.ArrayOrDequeAsSet(" + container + ")";
             }
-            else //if(seqArrayAsSet.ContainerType(env).StartsWith("array"))
+            else if(seqArrayOrDequeAsSet.ContainerType(env).StartsWith("array<"))
             {
-                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayAsSet.ContainerType(env), model);
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrDequeAsSet.ContainerType(env), model);
                 return "GRGEN_LIBGR.ContainerHelper.ArrayAsSet((" + arrayType + ")(" + container + "))";
+            }
+            else //if(seqArrayOrDequeAsSet.ContainerType(env).StartsWith("deque<"))
+            {
+                string dequeType = TypesHelper.XgrsTypeToCSharpType(seqArrayOrDequeAsSet.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.DequeAsSet((" + dequeType + ")(" + container + "))";
             }
         }
 
