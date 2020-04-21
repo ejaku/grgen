@@ -1155,23 +1155,23 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The nodes from the enclosing graph(s) used in this graph or one of it's subgraphs.
         /// Includes inlined elements after inlining.
-        /// Set of names, with dummy bool due to lacking set class in c#
+        /// Map of names to pattern nodes.
         /// </summary>
-        public Dictionary<String, bool> neededNodes;
+        public Dictionary<String, PatternNode> neededNodes;
 
         /// <summary>
         /// The edges from the enclosing graph(s) used in this graph or one of it's subgraphs.
         /// Includes inlined elements after inlining.
-        /// Set of names, with dummy bool due to lacking set class in c#
+        /// Map of names to pattern edges.
         /// </summary>
-        public Dictionary<String, bool> neededEdges;
+        public Dictionary<String, PatternEdge> neededEdges;
 
         /// <summary>
         /// The variables from the enclosing graph(s) used in this graph or one of it's subgraphs.
         /// Includes inlined elements after inlining.
-        /// Map of names to types.
+        /// Map of names to pattern variables.
         /// </summary>
-        public Dictionary<String, GrGenType> neededVariables;
+        public Dictionary<String, PatternVariable> neededVariables;
 
         /// <summary>
         /// The subpatterns used by this pattern (directly as well as indirectly),

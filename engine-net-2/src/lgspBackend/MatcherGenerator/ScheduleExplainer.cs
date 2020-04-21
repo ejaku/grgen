@@ -64,9 +64,9 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.AppendFront("(preset: " + tgt.PatternElement.UnprefixedName + connectednessCheck + ")\n");
                 break;
             case SearchOperationType.Condition:
-                sb.AppendFront("if { depending on " + String.Join(",", ((PatternCondition)so.Element).NeededNodes)
-                    + (((PatternCondition)so.Element).NeededNodes.Length != 0 && ((PatternCondition)so.Element).NeededEdges.Length != 0 ? "," : "")
-                    + String.Join(",", ((PatternCondition)so.Element).NeededEdges) + " }\n");
+                sb.AppendFront("if { depending on " + String.Join(",", ((PatternCondition)so.Element).NeededNodeNames)
+                    + (((PatternCondition)so.Element).NeededNodeNames.Length != 0 && ((PatternCondition)so.Element).NeededEdgeNames.Length != 0 ? "," : "")
+                    + String.Join(",", ((PatternCondition)so.Element).NeededEdgeNames) + " }\n");
                 break;
             case SearchOperationType.NegativePattern:
                 sb.AppendFront("negative {\n");

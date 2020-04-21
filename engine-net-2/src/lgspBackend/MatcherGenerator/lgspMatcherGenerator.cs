@@ -1516,35 +1516,35 @@ namespace de.unika.ipd.grGen.lgsp
 
             GenerateTasksMemoryPool(sb, className, true, false, matchingPattern.patternGraph.branchingFactor);
 
-            Dictionary<string, bool> neededNodes = new Dictionary<string,bool>();
-            Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
-            Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
+            Dictionary<string, PatternNode> neededNodes = new Dictionary<string, PatternNode>();
+            Dictionary<string, PatternEdge> neededEdges = new Dictionary<string, PatternEdge>();
+            Dictionary<string, PatternVariable> neededVariables = new Dictionary<string, PatternVariable>();
             foreach(PatternGraph altCase in alternative.alternativeCases)
             {
-                foreach(KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                foreach(KeyValuePair<string, PatternNode> neededNode in altCase.neededNodes)
                 {
                     neededNodes[neededNode.Key] = neededNode.Value;
                 }
-                foreach(KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                foreach(KeyValuePair<string, PatternEdge> neededEdge in altCase.neededEdges)
                 {
                     neededEdges[neededEdge.Key] = neededEdge.Value;
                 }
-                foreach(KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                foreach(KeyValuePair<string, PatternVariable> neededVariable in altCase.neededVariables)
                 {
                     neededVariables[neededVariable.Key] = neededVariable.Value;
                 }
             }
-            foreach(KeyValuePair<string, bool> node in neededNodes)
+            foreach(KeyValuePair<string, PatternNode> node in neededNodes)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
             }
-            foreach(KeyValuePair<string, bool> edge in neededEdges)
+            foreach(KeyValuePair<string, PatternEdge> edge in neededEdges)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
             }
-            foreach(KeyValuePair<string, GrGenType> variable in neededVariables)
+            foreach(KeyValuePair<string, PatternVariable> variable in neededVariables)
             {
-                sb.AppendFront("public " + TypesHelper.TypeName(variable.Value) + " " + variable.Key + ";\n");
+                sb.AppendFront("public " + TypesHelper.TypeName(variable.Value.Type) + " " + variable.Key + ";\n");
             }
     
             foreach(PatternGraph altCase in alternative.alternativeCases)
@@ -1609,32 +1609,32 @@ namespace de.unika.ipd.grGen.lgsp
 
             GenerateTasksMemoryPool(sb, className, false, iter.isIterationBreaking, matchingPattern.patternGraph.branchingFactor);
 
-            Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
-            Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
-            Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
-            foreach(KeyValuePair<string, bool> neededNode in iter.neededNodes)
+            Dictionary<string, PatternNode> neededNodes = new Dictionary<string, PatternNode>();
+            Dictionary<string, PatternEdge> neededEdges = new Dictionary<string, PatternEdge>();
+            Dictionary<string, PatternVariable> neededVariables = new Dictionary<string, PatternVariable>();
+            foreach(KeyValuePair<string, PatternNode> neededNode in iter.neededNodes)
             {
                 neededNodes[neededNode.Key] = neededNode.Value;
             }
-            foreach(KeyValuePair<string, bool> neededEdge in iter.neededEdges)
+            foreach(KeyValuePair<string, PatternEdge> neededEdge in iter.neededEdges)
             {
                 neededEdges[neededEdge.Key] = neededEdge.Value;
             }
-            foreach(KeyValuePair<string, GrGenType> neededVariable in iter.neededVariables)
+            foreach(KeyValuePair<string, PatternVariable> neededVariable in iter.neededVariables)
             {
                 neededVariables[neededVariable.Key] = neededVariable.Value;
             }
-            foreach(KeyValuePair<string, bool> node in neededNodes)
+            foreach(KeyValuePair<string, PatternNode> node in neededNodes)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
             }
-            foreach(KeyValuePair<string, bool> edge in neededEdges)
+            foreach(KeyValuePair<string, PatternEdge> edge in neededEdges)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
             }
-            foreach(KeyValuePair<string, GrGenType> variable in neededVariables)
+            foreach(KeyValuePair<string, PatternVariable> variable in neededVariables)
             {
-                sb.AppendFront("public " + TypesHelper.TypeName(variable.Value) + " " + variable.Key + ";\n");
+                sb.AppendFront("public " + TypesHelper.TypeName(variable.Value.Type) + " " + variable.Key + ";\n");
             }
 
             GenerateIndependentsMatchObjects(sb, matchingPattern, iter);

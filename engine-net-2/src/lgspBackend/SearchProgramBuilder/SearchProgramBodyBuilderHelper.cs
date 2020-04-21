@@ -836,20 +836,20 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 Alternative alternative = patternGraph.alternativesPlusInlined[i];
 
-                Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
-                Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
-                Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
+                Dictionary<string, PatternNode> neededNodes = new Dictionary<string, PatternNode>();
+                Dictionary<string, PatternEdge> neededEdges = new Dictionary<string, PatternEdge>();
+                Dictionary<string, PatternVariable> neededVariables = new Dictionary<string, PatternVariable>();
                 foreach(PatternGraph altCase in alternative.alternativeCases)
                 {
-                    foreach(KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                    foreach(KeyValuePair<string, PatternNode> neededNode in altCase.neededNodes)
                     {
                         neededNodes[neededNode.Key] = neededNode.Value;
                     }
-                    foreach(KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                    foreach(KeyValuePair<string, PatternEdge> neededEdge in altCase.neededEdges)
                     {
                         neededEdges[neededEdge.Key] = neededEdge.Value;
                     }
-                    foreach(KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                    foreach(KeyValuePair<string, PatternVariable> neededVariable in altCase.neededVariables)
                     {
                         neededVariables[neededVariable.Key] = neededVariable.Value;
                     }
@@ -859,7 +859,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string[] connectionName = new string[numElements];
                 string[] argumentExpressions = new string[numElements];
                 int j = 0;
-                foreach(KeyValuePair<string, bool> node in neededNodes)
+                foreach(KeyValuePair<string, PatternNode> node in neededNodes)
                 {
                     connectionName[j] = node.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -867,7 +867,7 @@ namespace de.unika.ipd.grGen.lgsp
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
-                foreach(KeyValuePair<string, bool> edge in neededEdges)
+                foreach(KeyValuePair<string, PatternEdge> edge in neededEdges)
                 {
                     connectionName[j] = edge.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -875,7 +875,7 @@ namespace de.unika.ipd.grGen.lgsp
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
-                foreach(KeyValuePair<string, GrGenType> variable in neededVariables)
+                foreach(KeyValuePair<string, PatternVariable> variable in neededVariables)
                 {
                     connectionName[j] = variable.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -923,7 +923,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string[] connectionName = new string[numElements];
                 string[] argumentExpressions = new string[numElements]; 
                 int j = 0;
-                foreach(KeyValuePair<string, bool> node in iter.neededNodes)
+                foreach(KeyValuePair<string, PatternNode> node in iter.neededNodes)
                 {
                     connectionName[j] = node.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -931,7 +931,7 @@ namespace de.unika.ipd.grGen.lgsp
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
-                foreach(KeyValuePair<string, bool> edge in iter.neededEdges)
+                foreach(KeyValuePair<string, PatternEdge> edge in iter.neededEdges)
                 {
                     connectionName[j] = edge.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
@@ -939,7 +939,7 @@ namespace de.unika.ipd.grGen.lgsp
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
-                foreach(KeyValuePair<string, GrGenType> variable in iter.neededVariables)
+                foreach(KeyValuePair<string, PatternVariable> variable in iter.neededVariables)
                 {
                     connectionName[j] = variable.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();

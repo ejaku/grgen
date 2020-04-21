@@ -2925,9 +2925,9 @@ namespace de.unika.ipd.grGen.lgsp
             // check condition with current partial match
             CheckPartialMatchByCondition checkCondition =
                 new CheckPartialMatchByCondition(conditionExpression.ToString(),
-                    condition.NeededNodes,
-                    condition.NeededEdges,
-                    condition.NeededVariables);
+                    condition.NeededNodeNames,
+                    condition.NeededEdgeNames,
+                    condition.NeededVariableNames);
             insertionPoint = insertionPoint.Append(checkCondition);
 
             //---------------------------------------------------------------------------

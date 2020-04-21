@@ -746,7 +746,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if(nodes[i].Type.NumAttributes > 0)
                 {
                     pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingNodes[i], nodes[i]),
-                        new string[] { nodes[i].name }, new string[] { }, new string[] { }, new VarType[] { }));
+                        new string[] { nodes[i].name }, new string[] { }, new string[] { },
+                        new PatternNode[] { nodes[i] }, new PatternEdge[] { }, new PatternVariable[] { }));
                 }
             }
             for(int i = 0; i < numEdges; ++i)
@@ -754,7 +755,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edges[i].Type.NumAttributes > 0)
                 {
                     pcs.Add(new PatternCondition(new expression.AreAttributesEqual(correspondingEdges[i], edges[i]),
-                        new string[] { }, new string[] { edges[i].name }, new string[] { }, new VarType[] { }));
+                        new string[] { }, new string[] { edges[i].name }, new string[] { },
+                        new PatternNode[] { }, new PatternEdge[] { edges[i] }, new PatternVariable[] { }));
                 }
             }
             PatternCondition[] patternConditions = pcs.ToArray();

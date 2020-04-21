@@ -2015,14 +2015,41 @@ public class ActionsGen extends CSharpBase {
 				}
 				sb.append("\", ");
 			}
+			sb.append("}, ");
+			sb.append("new GRGEN_LGSP.PatternElement[] { ");
+			for(Expression expr : sub.getSubpatternYields()) {
+				if(expr instanceof VariableExpression) {
+					sb.append("null");
+				} else {
+					GraphEntityExpression ge = (GraphEntityExpression)expr;
+					sb.append(formatEntity(ge.getGraphEntity(), pathPrefixForElements, alreadyDefinedEntityToName));
+				}
+				sb.append(", ");
+			}
+			sb.append("}, ");
+			sb.append("\t\t\t\tnew GRGEN_LGSP.PatternVariable[] { ");
+			for(Expression expr : sub.getSubpatternYields()) {
+				if(expr instanceof VariableExpression) {
+					VariableExpression ve = (VariableExpression)expr;
+					sb.append(formatEntity(ve.getVariable(), pathPrefixForElements, alreadyDefinedEntityToName));
+				} else {
+					sb.append("null");
+				}
+				sb.append(", ");
+			}
 			sb.append("}, new string[] ");
 			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new string[] ");
 			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new string[] ");
 			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LIBGR.VarType[] ");
-			genVarTypeSet(sb, needs.variables, true);
+			sb.append("\n\t\t\t\t\t");
+			sb.append(", new GRGEN_LGSP.PatternNode[] ");
+			genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LGSP.PatternEdge[] ");
+			genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LGSP.PatternVariable[] ");
+			genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(");\n");
 			alreadyDefinedIdentifiableToName.put(sub, subName);
 			aux.append("\t\t\t" + subName + ".PointOfDefinition = " + patGraphVarName + ";\n");
@@ -2044,8 +2071,13 @@ public class ActionsGen extends CSharpBase {
 			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new string[] ");
 			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LIBGR.VarType[] ");
-			genVarTypeSet(sb, needs.variables, true);
+			sb.append("\n\t\t\t\t\t");
+			sb.append(", new GRGEN_LGSP.PatternNode[] ");
+			genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LGSP.PatternEdge[] ");
+			genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LGSP.PatternVariable[] ");
+			genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(");\n");
 			++i;
 		}
@@ -2071,8 +2103,13 @@ public class ActionsGen extends CSharpBase {
 			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new string[] ");
 			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LIBGR.VarType[] ");
-			genVarTypeSet(sb, needs.variables, true);
+						sb.append("\n\t\t\t\t\t");
+			sb.append(", new GRGEN_LGSP.PatternNode[] ");
+			genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LGSP.PatternEdge[] ");
+			genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LGSP.PatternVariable[] ");
+			genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(");\n");
 		}
 

@@ -1438,22 +1438,32 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of node names needed by this condition.
         /// </summary>
-        public readonly String[] NeededNodes;
+        public readonly String[] NeededNodeNames;
+
+        /// <summary>
+        /// An array of nodes needed by this condition.
+        /// </summary>
+        public readonly PatternNode[] NeededNodes;
 
         /// <summary>
         /// An array of edge names needed by this condition.
         /// </summary>
-        public readonly String[] NeededEdges;
+        public readonly String[] NeededEdgeNames;
+
+        /// <summary>
+        /// An array of edges needed by this condition.
+        /// </summary>
+        public readonly PatternEdge[] NeededEdges;
 
         /// <summary>
         /// An array of variable names needed by this condition.
         /// </summary>
-        public readonly String[] NeededVariables;
+        public readonly String[] NeededVariableNames;
 
         /// <summary>
-        /// An array of variable types (corresponding to the variable names) needed by this condition.
+        /// An array of variables needed by this condition.
         /// </summary>
-        public readonly VarType[] NeededVariableTypes;
+        public readonly PatternVariable[] NeededVariables;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1473,18 +1483,23 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs a PatternCondition object.
         /// </summary>
         /// <param name="conditionExpression">The condition expression to evaluate.</param>
-        /// <param name="neededNodes">An array of node names needed by this condition.</param>
-        /// <param name="neededEdges">An array of edge names needed by this condition.</param>
-        /// <param name="neededVariables">An array of variable names needed by this condition.</param>
-        /// <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this condition.</param>
+        /// <param name="neededNodeNames">An array of node names needed by this condition.</param>
+        /// <param name="neededEdgeNames">An array of edge names needed by this condition.</param>
+        /// <param name="neededVariableNames">An array of variable names needed by this condition.</param>
+        /// <param name="neededNodes">An array of nodes needed by this condition.</param>
+        /// <param name="neededEdges">An array of edges needed by this condition.</param>
+        /// <param name="neededVariables">An array of variables needed by this condition.</param>
         public PatternCondition(Expression conditionExpression, 
-            String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes)
+            String[] neededNodeNames, String[] neededEdgeNames, String[] neededVariableNames,
+            PatternNode[] neededNodes, PatternEdge[] neededEdges, PatternVariable[] neededVariables)
         {
             ConditionExpression = conditionExpression;
+            NeededNodeNames = neededNodeNames;
+            NeededEdgeNames = neededEdgeNames;
+            NeededVariableNames = neededVariableNames;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;
-            NeededVariableTypes = neededVariableTypes;
         }
 
         /// <summary>
@@ -1498,36 +1513,51 @@ namespace de.unika.ipd.grGen.lgsp
             originalCondition = original;
             originalSubpatternEmbedding = inlinedSubpatternEmbedding;
             ConditionExpression = (Expression)original.ConditionExpression.Copy(renameSuffix);
-            NeededNodes = new String[original.NeededNodes.Length];
-            for(int i = 0; i < original.NeededNodes.Length; ++i)
+
+            NeededNodeNames = new String[original.NeededNodeNames.Length];
+            NeededNodes = new PatternNode[original.NeededNodes.Length];
+            for(int i = 0; i < original.NeededNodeNames.Length; ++i)
             {
-                NeededNodes[i] = original.NeededNodes[i] + renameSuffix;
+                String neededNodeName = original.NeededNodeNames[i];
+                NeededNodeNames[i] = neededNodeName + renameSuffix;
+                PatternNode neededNode = original.NeededNodes[i];
+                NeededNodes[i] = neededNode; // maybe todo: inlining adaptations
             }
-            NeededEdges = new String[original.NeededEdges.Length];
-            for(int i = 0; i < original.NeededEdges.Length; ++i)
+            NeededEdgeNames = new String[original.NeededEdgeNames.Length];
+            NeededEdges = new PatternEdge[original.NeededEdges.Length];
+            for(int i = 0; i < original.NeededEdgeNames.Length; ++i)
             {
-                NeededEdges[i] = original.NeededEdges[i] + renameSuffix;
+                String neededEdgeName = original.NeededEdgeNames[i];
+                NeededEdgeNames[i] = neededEdgeName + renameSuffix;
+                PatternEdge neededEdge = original.NeededEdges[i];
+                NeededEdges[i] = neededEdge; // maybe todo: inlining adaptations
             }
-            NeededVariables = new String[original.NeededVariables.Length];
-            for(int i = 0; i < original.NeededVariables.Length; ++i)
+            NeededVariableNames = new String[original.NeededVariableNames.Length];
+            NeededVariables = new PatternVariable[original.NeededVariables.Length];
+            for(int i = 0; i < original.NeededVariableNames.Length; ++i)
             {
-                NeededVariables[i] = original.NeededVariables[i] + renameSuffix;
+                String neededVariableName = original.NeededVariableNames[i];
+                NeededVariableNames[i] = neededVariableName + renameSuffix;
+                PatternVariable neededVariable = original.NeededVariables[i];
+                NeededVariables[i] = neededVariable; // maybe todo: inlining adaptations
             }
-            NeededVariableTypes = (VarType[])original.NeededVariableTypes.Clone();
         }
 
         /// <summary>
         /// Constructs a PatternCondition object, for parallelization.
         /// </summary>
         private PatternCondition(Expression conditionExpression,
-            String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes,
+            String[] neededNodeNames, String[] neededEdgeNames, String[] neededVariableNames,
+            PatternNode[] neededNodes, PatternEdge[] neededEdges, PatternVariable[] neededVariables,
             PatternCondition originalCondition, PatternGraphEmbedding originalSubpatternEmbedding)
         {
             ConditionExpression = conditionExpression;
+            NeededNodeNames = neededNodeNames;
+            NeededEdgeNames = neededEdgeNames;
+            NeededVariableNames = neededVariableNames;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;
-            NeededVariableTypes = neededVariableTypes;
             this.originalCondition = originalCondition;
             this.originalSubpatternEmbedding = originalSubpatternEmbedding;
         }
@@ -1538,7 +1568,8 @@ namespace de.unika.ipd.grGen.lgsp
         public Object Clone()
         {
             PatternCondition condition = new PatternCondition(ConditionExpression.Copy(""), 
-                NeededNodes, NeededEdges, NeededVariables, NeededVariableTypes,
+                NeededNodeNames, NeededEdgeNames, NeededVariableNames,
+                NeededNodes, NeededEdges, NeededVariables,
                 originalCondition, originalSubpatternEmbedding);
             return condition;
         }
@@ -1562,22 +1593,32 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// An array of node names needed by this yielding.
         /// </summary>
-        public readonly String[] NeededNodes;
+        public readonly String[] NeededNodeNames;
+
+        /// <summary>
+        /// An array of nodes needed by this yielding.
+        /// </summary>
+        public readonly PatternNode[] NeededNodes;
 
         /// <summary>
         /// An array of edge names needed by this yielding.
         /// </summary>
-        public readonly String[] NeededEdges;
+        public readonly String[] NeededEdgeNames;
+
+        /// <summary>
+        /// An array of edges needed by this yielding.
+        /// </summary>
+        public readonly PatternEdge[] NeededEdges;
 
         /// <summary>
         /// An array of variable names needed by this yielding.
         /// </summary>
-        public readonly String[] NeededVariables;
+        public readonly String[] NeededVariableNames;
 
         /// <summary>
-        /// An array of variable types (corresponding to the variable names) needed by this yielding.
+        /// An array of variables needed by this yielding.
         /// </summary>
-        public readonly VarType[] NeededVariableTypes;
+        public readonly PatternVariable[] NeededVariables;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1598,19 +1639,24 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="name">The name of the yielding to execute.</param>
         /// <param name="elementaryYieldings">An array of elementary yieldings to execute.</param>
-        /// <param name="neededNodes">An array of node names needed by this yielding.</param>
-        /// <param name="neededEdges">An array of edge names needed by this yielding.</param>
-        /// <param name="neededVariables">An array of variable names needed by this yielding.</param>
-        /// <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this yielding.</param>
+        /// <param name="neededNodeNames">An array of node names needed by this yielding.</param>
+        /// <param name="neededEdgeNames">An array of edge names needed by this yielding.</param>
+        /// <param name="neededVariableNames">An array of variable names needed by this yielding.</param>
+        /// <param name="neededNodes">An array of nodes needed by this yielding.</param>
+        /// <param name="neededEdges">An array of edges needed by this yielding.</param>
+        /// <param name="neededVariables">An array of variables needed by this yielding.</param>
         public PatternYielding(String name, Yielding[] elementaryYieldings,
-            String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes)
+            String[] neededNodeNames, String[] neededEdgeNames, String[] neededVariableNames,
+            PatternNode[] neededNodes, PatternEdge[] neededEdges, PatternVariable[] neededVariables)
         {
             Name = name;
             ElementaryYieldings = elementaryYieldings;
+            NeededNodeNames = neededNodeNames;
+            NeededEdgeNames = neededEdgeNames;
+            NeededVariableNames = neededVariableNames;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;
-            NeededVariableTypes = neededVariableTypes;
         }
 
         /// <summary>
@@ -1629,37 +1675,51 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 ElementaryYieldings[i] = original.ElementaryYieldings[i].Copy(renameSuffix);
             }
-            NeededNodes = new String[original.NeededNodes.Length];
-            for(int i = 0; i < original.NeededNodes.Length; ++i)
+            NeededNodeNames = new String[original.NeededNodeNames.Length];
+            NeededNodes = new PatternNode[original.NeededNodes.Length];
+            for(int i = 0; i < original.NeededNodeNames.Length; ++i)
             {
-                NeededNodes[i] = original.NeededNodes[i] + renameSuffix;
+                String neededNodeName = original.NeededNodeNames[i];
+                NeededNodeNames[i] = neededNodeName + renameSuffix;
+                PatternNode neededNode = original.NeededNodes[i];
+                NeededNodes[i] = neededNode; // maybe todo: inlining adaptations
             }
-            NeededEdges = new String[original.NeededEdges.Length];
-            for(int i = 0; i < original.NeededEdges.Length; ++i)
+            NeededEdgeNames = new String[original.NeededEdgeNames.Length];
+            NeededEdges = new PatternEdge[original.NeededEdges.Length];
+            for(int i = 0; i < original.NeededEdgeNames.Length; ++i)
             {
-                NeededEdges[i] = original.NeededEdges[i] + renameSuffix;
+                String neededEdgeName = original.NeededEdgeNames[i];
+                NeededEdgeNames[i] = neededEdgeName + renameSuffix;
+                PatternEdge neededEdge = original.NeededEdges[i];
+                NeededEdges[i] = neededEdge; // maybe todo: inlining adaptations
             }
-            NeededVariables = new String[original.NeededVariables.Length];
-            for(int i = 0; i < original.NeededVariables.Length; ++i)
+            NeededVariableNames = new String[original.NeededVariableNames.Length];
+            NeededVariables = new PatternVariable[original.NeededVariables.Length];
+            for(int i = 0; i < original.NeededVariableNames.Length; ++i)
             {
-                NeededVariables[i] = original.NeededVariables[i] + renameSuffix;
+                String neededVariableName = original.NeededVariableNames[i];
+                NeededVariableNames[i] = neededVariableName + renameSuffix;
+                PatternVariable neededVariable = original.NeededVariables[i];
+                NeededVariables[i] = neededVariable; // maybe todo: inlining adaptations
             }
-            NeededVariableTypes = (VarType[])original.NeededVariableTypes.Clone();
         }
 
         /// <summary>
         /// Constructs a PatternYielding object, for parallelization.
         /// </summary>
         private PatternYielding(String name, Yielding[] elementaryYieldings,
-            String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes,
+            String[] neededNodeNames, String[] neededEdgeNames, String[] neededVariableNames,
+            PatternNode[] neededNodes, PatternEdge[] neededEdges, PatternVariable[] neededVariables,
             PatternYielding originalYielding, PatternGraphEmbedding originalSubpatternEmbedding)
         {
             Name = name;
             ElementaryYieldings = elementaryYieldings;
+            NeededNodeNames = neededNodeNames;
+            NeededEdgeNames = neededEdgeNames;
+            NeededVariableNames = neededVariableNames;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;
-            NeededVariableTypes = neededVariableTypes;
             this.originalYielding = originalYielding;
             this.originalSubpatternEmbedding = originalSubpatternEmbedding;
         }
@@ -1675,7 +1735,8 @@ namespace de.unika.ipd.grGen.lgsp
                 elementaryYieldings[i] = ElementaryYieldings[i].Copy("");
             }
             PatternYielding yielding = new PatternYielding(Name, elementaryYieldings, 
-                NeededNodes, NeededEdges, NeededVariables, NeededVariableTypes,
+                NeededNodeNames, NeededEdgeNames, NeededVariableNames,
+                NeededNodes, NeededEdges, NeededVariables,
                 originalYielding, originalSubpatternEmbedding);
             return yielding;
         }
@@ -1745,25 +1806,38 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public readonly String[] yields;
 
+        public readonly PatternElement[] yieldElements;
+        public readonly PatternVariable[] yieldVariables;
+
         /// <summary>
         /// An array of names of nodes needed by this subpattern embedding.
         /// </summary>
-        public readonly String[] neededNodes;
+        public readonly String[] neededNodeNames;
 
         /// <summary>
         /// An array of names of edges needed by this subpattern embedding.
         /// </summary>
-        public readonly String[] neededEdges;
+        public readonly String[] neededEdgeNames;
 
         /// <summary>
-        /// An array of names of variable needed by this subpattern embedding.
+        /// An array of names of variables needed by this subpattern embedding.
         /// </summary>
-        public readonly String[] neededVariables;
+        public readonly String[] neededVariableNames;
 
         /// <summary>
-        /// An array of variable types (corresponding to the variable names) needed by this embedding.
+        /// An array of nodes needed by this subpattern embedding.
         /// </summary>
-        public readonly VarType[] neededVariableTypes;
+        public readonly PatternNode[] neededNodes;
+
+        /// <summary>
+        /// An array of edges needed by this subpattern embedding.
+        /// </summary>
+        public readonly PatternEdge[] neededEdges;
+
+        /// <summary>
+        /// An array of variables needed by this subpattern embedding.
+        /// </summary>
+        public readonly PatternVariable[] neededVariables;
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -1794,25 +1868,36 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="matchingPatternOfEmbeddedGraph">The embedded subpattern.</param>
         /// <param name="connections">An array with the expressions defining how the subpattern is connected
         /// to the containing pattern (graph elements and basic variables) .</param>
-        /// <param name="yields">An array with the def elements and variables 
+        /// <param name="yields">An array with the names of the def elements and variables 
         /// from the containing pattern yielded to from the subpattern.</param>
-        /// <param name="neededNodes">An array with names of nodes needed by this embedding.</param>
-        /// <param name="neededEdges">An array with names of edges needed by this embedding.</param>
-        /// <param name="neededVariables">An array with names of variables needed by this embedding.</param>
-        /// <param name="neededVariableTypes">An array with types of variables needed by this embedding.</param>
+        /// <param name="yieldElements">An array with the def elements 
+        /// from the containing pattern yielded to from the subpattern.</param>
+        /// <param name="yieldVariables">An array with the variables 
+        /// from the containing pattern yielded to from the subpattern.</param>
+        /// <param name="neededNodeNames">An array with names of nodes needed by this embedding.</param>
+        /// <param name="neededEdgeNames">An array with names of edges needed by this embedding.</param>
+        /// <param name="neededVariableNames">An array with names of variables needed by this embedding.</param>
+        /// <param name="neededNodes">An array of nodes needed by this embedding.</param>
+        /// <param name="neededEdges">An array of edges needed by this embedding.</param>
+        /// <param name="neededVariables">An array of variables needed by this embedding.</param>
         public PatternGraphEmbedding(String name, LGSPMatchingPattern matchingPatternOfEmbeddedGraph,
-                Expression[] connections, String[] yields,
-                String[] neededNodes, String[] neededEdges,
-                String[] neededVariables, VarType[] neededVariableTypes)
+                Expression[] connections,
+                String[] yields, PatternElement[] yieldElements, PatternVariable[] yieldVariables,
+                String[] neededNodeNames, String[] neededEdgeNames, String[] neededVariableNames,
+                PatternNode[] neededNodes, PatternEdge[] neededEdges, PatternVariable[] neededVariables)
         {
             this.name = name;
             this.matchingPatternOfEmbeddedGraph = matchingPatternOfEmbeddedGraph;
             this.connections = connections;
             this.yields = yields;
+            this.yieldElements = yieldElements;
+            this.yieldVariables = yieldVariables;
+            this.neededNodeNames = neededNodeNames;
+            this.neededEdgeNames = neededEdgeNames;
+            this.neededVariableNames = neededVariableNames;
             this.neededNodes = neededNodes;
             this.neededEdges = neededEdges;
             this.neededVariables = neededVariables;
-            this.neededVariableTypes = neededVariableTypes;
 
             this.matchingPatternOfEmbeddedGraph.uses += 1;
         }
@@ -1838,26 +1923,41 @@ namespace de.unika.ipd.grGen.lgsp
                 connections[i] = original.connections[i].Copy(nameSuffix);
             }
             yields = new String[original.yields.Length];
+            yieldElements = new PatternElement[original.yieldElements.Length];
+            yieldVariables = new PatternVariable[original.yieldVariables.Length];
             for(int i = 0; i < original.yields.Length; ++i)
             {
                 yields[i] = original.yields[i] + nameSuffix;
+                yieldElements[i] = original.yieldElements[i]; // maybe todo: inlining adaptations
+                yieldVariables[i] = original.yieldVariables[i]; // maybe todo: inlining adaptations
             }
-            neededNodes = new String[original.neededNodes.Length];
-            for(int i = 0; i < original.neededNodes.Length; ++i)
+            neededNodeNames = new String[original.neededNodeNames.Length];
+            neededNodes = new PatternNode[original.neededNodes.Length];
+            for(int i = 0; i < original.neededNodeNames.Length; ++i)
             {
-                neededNodes[i] = original.neededNodes[i] + nameSuffix;
+                String neededNodeName = original.neededNodeNames[i];
+                neededNodeNames[i] = neededNodeName + nameSuffix;
+                PatternNode neededNode = original.neededNodes[i];
+                neededNodes[i] = neededNode; // maybe todo: inlining adaptations
             }
-            neededEdges = new String[original.neededEdges.Length];
-            for(int i = 0; i < original.neededEdges.Length; ++i)
+            neededEdgeNames = new String[original.neededEdgeNames.Length];
+            neededEdges = new PatternEdge[original.neededEdges.Length];
+            for(int i = 0; i < original.neededEdgeNames.Length; ++i)
             {
-                neededEdges[i] = original.neededEdges[i] + nameSuffix;
+                String neededEdgeName = original.neededEdgeNames[i];
+                neededEdgeNames[i] = neededEdgeName + nameSuffix;
+                PatternEdge neededEdge = original.neededEdges[i];
+                neededEdges[i] = neededEdge; // maybe todo: inlining adaptations
             }
-            neededVariables = new String[original.neededVariables.Length];
-            for(int i = 0; i < original.neededVariables.Length; ++i)
+            neededVariableNames = new String[original.neededVariableNames.Length];
+            neededVariables = new PatternVariable[original.neededVariables.Length];
+            for(int i = 0; i < original.neededVariableNames.Length; ++i)
             {
-                neededVariables[i] = original.neededVariables[i] + nameSuffix;
+                String neededVariableName = original.neededVariableNames[i];
+                neededVariableNames[i] = neededVariableName + nameSuffix;
+                PatternVariable neededVariable = original.neededVariables[i];
+                neededVariables[i] = neededVariable; // maybe todo: inlining adaptations
             }
-            neededVariableTypes = (VarType[])original.neededVariableTypes.Clone();
 
             originalEmbedding = original;
         }

@@ -363,21 +363,27 @@ namespace de.unika.ipd.grGen.lgsp
         private static void InsertConditionsIntoSchedule(PatternCondition[] conditions, List<SearchOperation> operations, bool lazyNegativeIndependentConditionEvaluation)
         {
             // get needed (in order to evaluate it) elements of each condition 
-            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[conditions.Length];
+            Dictionary<String, object>[] neededElements = new Dictionary<String, object>[conditions.Length];
             for(int i = 0; i < conditions.Length; ++i)
             {
-                neededElements[i] = new Dictionary<string, bool>();
-                foreach(String neededNode in conditions[i].NeededNodes)
+                neededElements[i] = new Dictionary<string, object>();
+                for(int j = 0; j < conditions[i].NeededNodeNames.Length; ++j)
                 {
-                    neededElements[i][neededNode] = true;
+                    String neededNodeName = conditions[i].NeededNodeNames[j];
+                    PatternNode neededNode = conditions[i].NeededNodes[j];
+                    neededElements[i][neededNodeName] = neededNode;
                 }
-                foreach(String neededEdge in conditions[i].NeededEdges)
+                for(int j = 0; j < conditions[i].NeededEdgeNames.Length; ++j)
                 {
-                    neededElements[i][neededEdge] = true;
+                    String neededEdgeName = conditions[i].NeededEdgeNames[j];
+                    PatternEdge neededEdge = conditions[i].NeededEdges[j];
+                    neededElements[i][neededEdgeName] = neededEdge;
                 }
-                foreach(String neededVariable in conditions[i].NeededVariables)
+                for(int j = 0; j <conditions[i].NeededVariableNames.Length; ++j)
                 {
-                    neededElements[i][neededVariable] = true;
+                    String neededVariableName = conditions[i].NeededVariableNames[j];
+                    PatternVariable neededVariable = conditions[i].NeededVariables[j];
+                    neededElements[i][neededVariableName] = neededVariable;
                 }
             }
 
@@ -442,7 +448,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return;
 
             // get the inlined parameter variables and the elements needed in order to compute their defining expression
-            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[numInlinedParameterVariables];
+            Dictionary<String, PatternElement>[] neededElements = new Dictionary<String, PatternElement>[numInlinedParameterVariables];
             PatternVariable[] inlinedParameterVariables = new PatternVariable[numInlinedParameterVariables];
             int curInlParamVar = 0;
             foreach(PatternVariable var in patternGraph.variablesPlusInlined)
@@ -452,14 +458,18 @@ namespace de.unika.ipd.grGen.lgsp
                 if(!patternGraph.WasInlinedHere(var.originalSubpatternEmbedding))
                     continue;
 
-                neededElements[curInlParamVar] = new Dictionary<string, bool>();
-                foreach(String neededNode in var.AssignmentDependencies.neededNodes)
+                neededElements[curInlParamVar] = new Dictionary<string, PatternElement>();
+                for(int i = 0;  i < var.AssignmentDependencies.neededNodeNames.Length; ++i)
                 {
-                    neededElements[curInlParamVar][neededNode] = true;
+                    String neededNodeName = var.AssignmentDependencies.neededNodeNames[i];
+                    PatternNode neededNode = var.AssignmentDependencies.neededNodes[i];
+                    neededElements[curInlParamVar][neededNodeName] = neededNode;
                 }
-                foreach(String neededEdge in var.AssignmentDependencies.neededEdges)
+                for(int i = 0; i < var.AssignmentDependencies.neededEdgeNames.Length; ++i)
                 {
-                    neededElements[curInlParamVar][neededEdge] = true;
+                    String neededEdgeName = var.AssignmentDependencies.neededEdgeNames[i];
+                    PatternEdge neededEdge = var.AssignmentDependencies.neededEdges[i];
+                    neededElements[curInlParamVar][neededEdgeName] = neededEdge;
                 }
                 inlinedParameterVariables[curInlParamVar] = var;
                 
