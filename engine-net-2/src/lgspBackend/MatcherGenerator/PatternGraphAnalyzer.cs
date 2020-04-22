@@ -402,7 +402,7 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.neededVariables[neededVariableName] = neededVariable;
                 }
             }
-            //    - in the pattern (if not def to be yielded, they are not needed top down)
+            //    - in the pattern (def to be yielded are needed top down because of their initialization - even if besides that only bottom-up accumulation)
             PatternNode[] nodes = inlined ? patternGraph.nodesPlusInlined : patternGraph.nodes;
             foreach(PatternNode node in nodes)
             {
@@ -410,6 +410,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(!node.DefToBeYieldedTo)
                         patternGraph.neededNodes[node.name] = node;
+                    else
+                        patternGraph.neededNodes[NamesOfEntities.CandidateVariable(node.name)] = node;
                 }
             }
             PatternEdge[] edges = inlined ? patternGraph.edgesPlusInlined : patternGraph.edges;
@@ -419,6 +421,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(!edge.DefToBeYieldedTo)
                         patternGraph.neededEdges[edge.name] = edge;
+                    else
+                        patternGraph.neededEdges[NamesOfEntities.CandidateVariable(edge.name)] = edge;
                 }
             }
             PatternVariable[] variables = inlined ? patternGraph.variablesPlusInlined : patternGraph.variables;
@@ -428,6 +432,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(!variable.DefToBeYieldedTo)
                         patternGraph.neededVariables[variable.name] = variable;
+                    else
+                        patternGraph.neededVariables[NamesOfEntities.Variable(variable.name)] = variable;
                 }
             }
             //    - as subpattern connections
@@ -460,17 +466,32 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(PatternNode node in nodes)
             {
                 if(node.PointOfDefinition == patternGraph)
-                    patternGraph.neededNodes.Remove(node.name);
+                {
+                    if(!node.DefToBeYieldedTo)
+                        patternGraph.neededNodes.Remove(node.name);
+                    else
+                        patternGraph.neededNodes.Remove(NamesOfEntities.CandidateVariable(node.name));
+                }
             }
             foreach(PatternEdge edge in edges)
             {
                 if(edge.PointOfDefinition == patternGraph)
-                    patternGraph.neededEdges.Remove(edge.name);
+                {
+                    if(!edge.DefToBeYieldedTo)
+                        patternGraph.neededEdges.Remove(edge.name);
+                    else
+                        patternGraph.neededEdges.Remove(NamesOfEntities.CandidateVariable(edge.name));
+                }
             }
             foreach(PatternVariable variable in variables)
             {
                 if(variable.PointOfDefinition == patternGraph)
-                    patternGraph.neededVariables.Remove(variable.name);
+                {
+                    if(!variable.DefToBeYieldedTo)
+                        patternGraph.neededVariables.Remove(variable.name);
+                    else
+                        patternGraph.neededVariables.Remove(NamesOfEntities.Variable(variable.name));
+                }
             }
         }
 

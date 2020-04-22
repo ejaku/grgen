@@ -1457,6 +1457,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             GenerateTasksMemoryPool(sb, className, false, false, matchingPattern.patternGraph.branchingFactor);
 
+            // generate task variables
             for(int i = 0; i < patternGraph.nodesPlusInlined.Length; ++i)
             {
                 PatternNode node = patternGraph.nodesPlusInlined[i];
@@ -1534,6 +1535,8 @@ namespace de.unika.ipd.grGen.lgsp
                     neededVariables[neededVariable.Key] = neededVariable.Value;
                 }
             }
+
+            // generate task variables
             foreach(KeyValuePair<string, PatternNode> node in neededNodes)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
@@ -1624,6 +1627,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 neededVariables[neededVariable.Key] = neededVariable.Value;
             }
+
+            // generate task variables
             foreach(KeyValuePair<string, PatternNode> node in neededNodes)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");

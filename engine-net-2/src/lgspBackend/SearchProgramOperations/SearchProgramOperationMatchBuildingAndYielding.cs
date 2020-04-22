@@ -305,27 +305,47 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Type = type;
             TargetPatternElementName = targetPatternElementName;
-            NestedMatchObjectName = nestedMatchObjectName;
+            NestedMatchOrTaskObjectName = nestedMatchObjectName;
             SourcePatternElementUnprefixedName = sourcePatternElementUnprefixedName;
+        }
+
+        public BubbleUpYieldAssignment(
+            EntityType type,
+            string targetPatternElementName,
+            string taskObjectName
+            )
+        {
+            Type = type;
+            TargetPatternElementName = targetPatternElementName;
+            NestedMatchOrTaskObjectName = taskObjectName;
+            SourcePatternElementUnprefixedName = null;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFrontFormat("BubbleUpYieldAssignemt {0} {1} = {2}.{3}\n",
-                NamesOfEntities.ToString(Type), TargetPatternElementName, NestedMatchObjectName, SourcePatternElementUnprefixedName);
+                NamesOfEntities.ToString(Type), TargetPatternElementName, NestedMatchOrTaskObjectName, SourcePatternElementUnprefixedName);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            string targetPatternElement = Type==EntityType.Variable ? NamesOfEntities.Variable(TargetPatternElementName) : NamesOfEntities.CandidateVariable(TargetPatternElementName);
-            string sourcePatternElement = NamesOfEntities.MatchName(SourcePatternElementUnprefixedName, Type);
-            sourceCode.AppendFrontFormat("{0} = {1}._{2}; // bubble up\n",
-                targetPatternElement, NestedMatchObjectName, sourcePatternElement);
+            string targetPatternElement = Type == EntityType.Variable ? NamesOfEntities.Variable(TargetPatternElementName) : NamesOfEntities.CandidateVariable(TargetPatternElementName);
+            if(SourcePatternElementUnprefixedName != null)
+            {
+                string sourcePatternElement = NamesOfEntities.MatchName(SourcePatternElementUnprefixedName, Type);
+                sourceCode.AppendFrontFormat("{0} = {1}._{2}; // bubble up (from match)\n",
+                    targetPatternElement, NestedMatchOrTaskObjectName, sourcePatternElement);
+            }
+            else
+            {
+                sourceCode.AppendFrontFormat("{0} = {1}.{0}; // bubble up (from task)\n",
+                    targetPatternElement, NestedMatchOrTaskObjectName);
+            }
         }
 
         readonly EntityType Type;
         readonly string TargetPatternElementName;
-        readonly string NestedMatchObjectName;
+        readonly string NestedMatchOrTaskObjectName;
         readonly string SourcePatternElementUnprefixedName;
     }
 

@@ -219,7 +219,8 @@ namespace de.unika.ipd.grGen.lgsp
                 case SearchOperationType.DefToBeYieldedTo:
                     return buildDefToBeYieldedTo(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
-                        op.Element);
+                        op.Element,
+                        patternGraph);
 
                 case SearchOperationType.Lookup:
                     return buildLookup(insertionPointWithinSearchProgram,
@@ -802,28 +803,33 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation buildDefToBeYieldedTo(
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
-            object target)
+            object target,
+            PatternGraph patternGraph)
         {
             if(target is PatternVariable)
             {
                 PatternVariable var = (PatternVariable)target;
 
-                String initializationExpression;
-                if(var.initialization != null)
+                // only variables of this pattern required declaration and initialization, variables from nesting patterns are handed in via the tasks object
+                if(var.pointOfDefinition == patternGraph)
                 {
-                    SourceBuilder builder = new SourceBuilder();
-                    var.initialization.Emit(builder);
-                    initializationExpression = builder.ToString();
+                    String initializationExpression;
+                    if(var.initialization != null)
+                    {
+                        SourceBuilder builder = new SourceBuilder();
+                        var.initialization.Emit(builder);
+                        initializationExpression = builder.ToString();
+                    }
+                    else
+                    {
+                        string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.type), model);
+                        initializationExpression = TypesHelper.DefaultValueString(typeName, model);
+                    }
+                    insertionPoint = insertionPoint.Append(
+                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.type), var.Name,
+                            initializationExpression)
+                    );
                 }
-                else
-                {
-                    string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.type), model);
-                    initializationExpression = TypesHelper.DefaultValueString(typeName, model);
-                }
-                insertionPoint = insertionPoint.Append(
-                    new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.type), var.Name,
-                        initializationExpression)
-                );
             }
             else
             {
@@ -831,35 +837,43 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     PatternNode node = (PatternNode)((SearchPlanNode)target).PatternElement;
 
-                    String initializationExpression;
-                    if(node.initialization != null)
+                    // only nodes of this pattern required declaration and initialization, nodes from nesting patterns are handed in via the tasks object
+                    if(node.pointOfDefinition == patternGraph)
                     {
-                        SourceBuilder builder = new SourceBuilder();
-                        node.initialization.Emit(builder);
-                        initializationExpression = builder.ToString();
+                        String initializationExpression;
+                        if(node.initialization != null)
+                        {
+                            SourceBuilder builder = new SourceBuilder();
+                            node.initialization.Emit(builder);
+                            initializationExpression = builder.ToString();
+                        }
+                        else
+                            initializationExpression = "null";
+                        insertionPoint = insertionPoint.Append(
+                            new DeclareDefElement(EntityType.Node, "GRGEN_LGSP.LGSPNode", node.Name, initializationExpression)
+                        );
                     }
-                    else
-                        initializationExpression = "null";
-                    insertionPoint = insertionPoint.Append(
-                        new DeclareDefElement(EntityType.Node, "GRGEN_LGSP.LGSPNode", node.Name, initializationExpression)
-                    );
                 }
                 else
                 {
                     PatternEdge edge = (PatternEdge)((SearchPlanNode)target).PatternElement;
 
-                    String initializationExpression;
-                    if(edge.initialization != null)
+                    // only edges of this pattern required declaration and initialization, edges from nesting patterns are handed in via the tasks object
+                    if(edge.pointOfDefinition == patternGraph)
                     {
-                        SourceBuilder builder = new SourceBuilder();
-                        edge.initialization.Emit(builder);
-                        initializationExpression = builder.ToString();
+                        String initializationExpression;
+                        if(edge.initialization != null)
+                        {
+                            SourceBuilder builder = new SourceBuilder();
+                            edge.initialization.Emit(builder);
+                            initializationExpression = builder.ToString();
+                        }
+                        else
+                            initializationExpression = "null";
+                        insertionPoint = insertionPoint.Append(
+                            new DeclareDefElement(EntityType.Edge, "GRGEN_LGSP.LGSPEdge", edge.Name, initializationExpression)
+                        );
                     }
-                    else
-                        initializationExpression = "null";
-                    insertionPoint = insertionPoint.Append(
-                        new DeclareDefElement(EntityType.Edge, "GRGEN_LGSP.LGSPEdge", edge.Name, initializationExpression)
-                    );
                 }
             }
 

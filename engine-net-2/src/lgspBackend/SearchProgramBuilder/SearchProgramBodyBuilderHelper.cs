@@ -469,6 +469,8 @@ namespace de.unika.ipd.grGen.lgsp
             String matchObjectName,
             bool inlined)
         {
+            string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
+
             // the match object is built now with our local elements
             // and the match objects of our children
             // now 1. copy all def entities we share with children to our local variables
@@ -502,6 +504,7 @@ namespace de.unika.ipd.grGen.lgsp
                     Debug.Assert(matchingPattern.defNames.Length == patternEmbedding.yields.Length);
                     for(int i = 0; i < patternEmbedding.yields.Length; ++i)
                     {
+                        // nesting pattern def elements used in the subpattern (explicitly via paramter passing, no "direct access") are bubbled up from the match object
                         BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
                             toBubbleUpYieldAssignmentType(matchingPattern.defs[i]),
                             patternEmbedding.yields[i],
@@ -540,8 +543,10 @@ namespace de.unika.ipd.grGen.lgsp
                     SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpIterated);
                     insertionPoint = bubbleUpIterated.NestedOperationsList;
 
-                    insertYieldAssignments(insertionPoint,
-                        patternGraph, nestedMatchObjectName + ".Root", iterated.iteratedPattern);
+                    // nesting pattern def elements used in the iterated are bubbled up from the tasks object
+                    string taskVar = NamesOfEntities.TaskVariable(iterated.iteratedPattern.name, negativeIndependentNamePrefix);
+                    insertYieldAssignmentsFromTask(insertionPoint,
+                        patternGraph, taskVar, iterated.iteratedPattern);
 
                     insertionPoint = continuationPoint;
                 }
@@ -586,8 +591,10 @@ namespace de.unika.ipd.grGen.lgsp
                         insertionPoint = bubbleUpAlternativeCase.NestedOperationsList;
                         first = false;
 
-                        insertYieldAssignments(insertionPoint,
-                            patternGraph, "altCaseMatch", alternativeCase);
+                        // nesting pattern def elements used in the alternative are bubbled up from the tasks object
+                        string taskVar = NamesOfEntities.TaskVariable(alternative.name, negativeIndependentNamePrefix);
+                        insertYieldAssignmentsFromTask(insertionPoint,
+                            patternGraph, taskVar, alternativeCase);
 
                         insertionPoint = continuationPoint;
                     }
@@ -612,6 +619,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                     String nestedMatchObjectName = NamesOfEntities.MatchedIndependentVariable(independent.pathPrefix + independent.name); ;
 
+                    // nesting pattern def variables used in the independent are bubbled up from the match object
                     insertionPoint = insertYieldAssignments(insertionPoint,
                         patternGraph, inlinedMatchObjectName ?? nestedMatchObjectName, independent);
                 }
@@ -733,7 +741,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Inserts code for bubbling yield assignments
+        /// Inserts code for bubbling yield assignments from matches object
         /// at the given position, returns position after inserted operations
         /// </summary>
         private SearchProgramOperation insertYieldAssignments(
@@ -806,6 +814,73 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Inserts code for bubbling yield assignments from tasks object
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertYieldAssignmentsFromTask(
+            SearchProgramOperation insertionPoint,
+            PatternGraph patternGraph,
+            String taskObjectName,
+            PatternGraph nestedPatternGraph)
+        {
+            foreach(PatternNode node in patternGraph.nodesPlusInlined)
+            {
+                if(!node.DefToBeYieldedTo)
+                    continue;
+
+                foreach(PatternNode nestedNode in nestedPatternGraph.nodesPlusInlined)
+                {
+                    if(nestedNode == node)
+                    {
+                        BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
+                                EntityType.Node,
+                                node.Name,
+                                taskObjectName);
+                        insertionPoint = insertionPoint.Append(bubble);
+                    }
+                }
+            }
+
+            foreach(PatternEdge edge in patternGraph.edgesPlusInlined)
+            {
+                if(!edge.DefToBeYieldedTo)
+                    continue;
+
+                foreach(PatternEdge nestedEdge in nestedPatternGraph.edgesPlusInlined)
+                {
+                    if(nestedEdge == edge)
+                    {
+                        BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
+                                EntityType.Edge,
+                                edge.Name,
+                                taskObjectName);
+                        insertionPoint = insertionPoint.Append(bubble);
+                    }
+                }
+            }
+
+            foreach(PatternVariable var in patternGraph.variablesPlusInlined)
+            {
+                if(!var.DefToBeYieldedTo)
+                    continue;
+
+                foreach(PatternVariable nestedVar in nestedPatternGraph.variablesPlusInlined)
+                {
+                    if(nestedVar == var)
+                    {
+                        BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
+                                EntityType.Variable,
+                                var.Name,
+                                taskObjectName);
+                        insertionPoint = insertionPoint.Append(bubble);
+                    }
+                }
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
         /// Inserts code to push the subpattern tasks to the open tasks stack 
         /// at the given position, returns position after inserted operations
         /// </summary>
@@ -859,28 +934,43 @@ namespace de.unika.ipd.grGen.lgsp
                 string[] connectionName = new string[numElements];
                 string[] argumentExpressions = new string[numElements];
                 int j = 0;
-                foreach(KeyValuePair<string, PatternNode> node in neededNodes)
+                foreach(KeyValuePair<string, PatternNode> neededNode in neededNodes)
                 {
-                    connectionName[j] = node.Key;
-                    SourceBuilder argumentExpression = new SourceBuilder();
-                    (new GraphEntityExpression(node.Key)).Emit(argumentExpression);
-                    argumentExpressions[j] = argumentExpression.ToString();
+                    connectionName[j] = neededNode.Key;
+                    if(neededNode.Value.DefToBeYieldedTo)
+                        argumentExpressions[j] = neededNode.Key; // already stored under full name, entity contained in tasks
+                    else
+                    {
+                        SourceBuilder argumentExpression = new SourceBuilder();
+                        (new GraphEntityExpression(neededNode.Key)).Emit(argumentExpression);
+                        argumentExpressions[j] = argumentExpression.ToString();
+                    }
                     ++j;
                 }
-                foreach(KeyValuePair<string, PatternEdge> edge in neededEdges)
+                foreach(KeyValuePair<string, PatternEdge> neededEdge in neededEdges)
                 {
-                    connectionName[j] = edge.Key;
-                    SourceBuilder argumentExpression = new SourceBuilder();
-                    (new GraphEntityExpression(edge.Key)).Emit(argumentExpression);
-                    argumentExpressions[j] = argumentExpression.ToString();
+                    connectionName[j] = neededEdge.Key;
+                    if(neededEdge.Value.DefToBeYieldedTo)
+                        argumentExpressions[j] = neededEdge.Key; // already stored under full name, entity contained in tasks
+                    else
+                    {
+                        SourceBuilder argumentExpression = new SourceBuilder();
+                        (new GraphEntityExpression(neededEdge.Key)).Emit(argumentExpression);
+                        argumentExpressions[j] = argumentExpression.ToString();
+                    }
                     ++j;
                 }
-                foreach(KeyValuePair<string, PatternVariable> variable in neededVariables)
+                foreach(KeyValuePair<string, PatternVariable> neededVariable in neededVariables)
                 {
-                    connectionName[j] = variable.Key;
-                    SourceBuilder argumentExpression = new SourceBuilder();
-                    (new VariableExpression(variable.Key)).Emit(argumentExpression);
-                    argumentExpressions[j] = argumentExpression.ToString();
+                    connectionName[j] = neededVariable.Key;
+                    if(neededVariable.Value.DefToBeYieldedTo)
+                        argumentExpressions[j] = neededVariable.Key; // already stored under full name, entity contained in tasks
+                    else
+                    {
+                        SourceBuilder argumentExpression = new SourceBuilder();
+                        (new VariableExpression(neededVariable.Key)).Emit(argumentExpression);
+                        argumentExpressions[j] = argumentExpression.ToString();
+                    }
                     ++j;
                 }
 
@@ -926,25 +1016,40 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(KeyValuePair<string, PatternNode> node in iter.neededNodes)
                 {
                     connectionName[j] = node.Key;
-                    SourceBuilder argumentExpression = new SourceBuilder();
-                    (new GraphEntityExpression(node.Key)).Emit(argumentExpression);
-                    argumentExpressions[j] = argumentExpression.ToString();
+                    if(node.Value.DefToBeYieldedTo)
+                        argumentExpressions[j] = node.Key; // already stored under full name, entity contained in task
+                    else
+                    {
+                        SourceBuilder argumentExpression = new SourceBuilder();
+                        (new GraphEntityExpression(node.Key)).Emit(argumentExpression);
+                        argumentExpressions[j] = argumentExpression.ToString();
+                    }
                     ++j;
                 }
                 foreach(KeyValuePair<string, PatternEdge> edge in iter.neededEdges)
                 {
                     connectionName[j] = edge.Key;
-                    SourceBuilder argumentExpression = new SourceBuilder();
-                    (new GraphEntityExpression(edge.Key)).Emit(argumentExpression);
-                    argumentExpressions[j] = argumentExpression.ToString();
+                    if(edge.Value.DefToBeYieldedTo)
+                        argumentExpressions[j] = edge.Key; // already stored under full name, entity contained in task
+                    else
+                    {
+                        SourceBuilder argumentExpression = new SourceBuilder();
+                        (new GraphEntityExpression(edge.Key)).Emit(argumentExpression);
+                        argumentExpressions[j] = argumentExpression.ToString();
+                    }
                     ++j;
                 }
                 foreach(KeyValuePair<string, PatternVariable> variable in iter.neededVariables)
                 {
                     connectionName[j] = variable.Key;
-                    SourceBuilder argumentExpression = new SourceBuilder();
-                    (new VariableExpression(variable.Key)).Emit(argumentExpression);
-                    argumentExpressions[j] = argumentExpression.ToString();
+                    if(variable.Value.DefToBeYieldedTo)
+                        argumentExpressions[j] = variable.Key; // already stored under full name, entity contained in task
+                    else
+                    {
+                        SourceBuilder argumentExpression = new SourceBuilder();
+                        (new VariableExpression(variable.Key)).Emit(argumentExpression);
+                        argumentExpressions[j] = argumentExpression.ToString();
+                    }
                     ++j;
                 }
 
@@ -979,6 +1084,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string[] argumentExpressions = new string[subpattern.connections.Length];
                 for(int j = 0; j < subpattern.connections.Length; ++j)
                 {
+                    // no def entites needed as for alternative/iterated as explicit parameter passing is used, instead of implicit access of entity from nesting pattern
                     SourceBuilder argumentExpression = new SourceBuilder();
                     subpattern.connections[j].Emit(argumentExpression);
                     argumentExpressions[j] = argumentExpression.ToString();
