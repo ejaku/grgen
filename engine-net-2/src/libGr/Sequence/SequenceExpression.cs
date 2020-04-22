@@ -8645,7 +8645,11 @@ namespace de.unika.ipd.grGen.libGr
             List<IMatches> MatchesList;
             List<IMatch> MatchList;
             MultiRuleCall.MatchAll(procEnv, out MatchesList, out MatchList);
-            return MatchList; //TODO evt stale matches?
+            // MatchAll clones single matches because of potentially multiple calls of same rule, overall list is created anew anyway
+            // - without that cloning an additional clone would be needed here like for the single rule query, 
+            // as the maches array must be available (at least) through continued sequence expression processing
+            // (and a new call could be made during that time, example: [[?r]] + [[?r]])
+            return MatchList;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,

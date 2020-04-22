@@ -75,6 +75,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
+            source.AppendFront(matchesName + " = (" + matchesType + ")" + matchesName + ".Clone();\n");
             source.AppendFrontFormat("{0}.AddRange({1});\n", matchListName, matchesName);
             source.Unindent();
             source.AppendFront("}\n");

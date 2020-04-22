@@ -2013,6 +2013,9 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.Recorder.Flush();
                 }
 #endif
+                // the action may be called again before processing of the matches finished (simple [?r] + [?r] sufficient) -> must clone matches
+                matches = matches.Clone();
+
                 return matches.ToList();
             }
             catch(NullReferenceException)
@@ -3386,6 +3389,12 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)rule;
                 IMatches matches = procEnv.MatchWithoutEvent(ruleInterpreted.Action, rule.Arguments, maxMatches);
 
+                // the rule may be called multiple times in the sequence (on different parameters), overwriting the matches object of the action
+                // normally it's safe to assume the rule is not called again until its matches were processed,
+                // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
+                // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires inspection of contained rules
+                matches = matches.Clone();
+
                 for(int j = 0; j < rule.Filters.Count; ++j)
                 {
                     SequenceFilterCallInterpreted filter = (SequenceFilterCallInterpreted)rule.Filters[j];
@@ -3785,11 +3794,7 @@ namespace de.unika.ipd.grGen.libGr
             }
 #endif
 
-            // the rule might be called again in the sequence, overwriting the matches object of the action
-            // normally it's safe to assume the rule is not called again until its matches were processed,
-            // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
-            // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
-            MatchListHelper.Clone(MatchesList, MatchList);
+            // cloning already occurred to allow multiple calls of the same rule
 
 #if LOG_SEQUENCE_EXECUTION
             for(int i = 0; i < matches.Count; ++i)
@@ -3872,6 +3877,13 @@ namespace de.unika.ipd.grGen.libGr
 
                 SequenceRulePrefixedSequence rulePrefixedSequence = (SequenceRulePrefixedSequence)RulePrefixedSequences[i];
                 IMatches matches = rulePrefixedSequence.Match(procEnv);
+
+                // the rule may be called multiple times in the sequence (on different parameters), overwriting the matches object of the action
+                // normally it's safe to assume the rule is not called again until its matches were processed,
+                // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
+                // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires inspection of contained rules
+                matches = matches.Clone();
+
                 MatchesList.Add(matches);
             }
 
@@ -4448,11 +4460,7 @@ namespace de.unika.ipd.grGen.libGr
             }
 #endif
 
-            // the rule might be called again in the sequence, overwriting the matches object of the action
-            // normally it's safe to assume the rule is not called again until its matches were processed,
-            // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
-            // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires call analysis
-            MatchListHelper.Clone(MatchesList, MatchList);
+            // cloning already occurred to allow multiple calls of the same rule
 
 #if LOG_SEQUENCE_EXECUTION
             for(int i = 0; i < matches.Count; ++i)
