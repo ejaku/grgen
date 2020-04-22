@@ -1,0 +1,72 @@
+new graph queries/queries
+
+dump add node namedObject shortinfotag name
+dump add edge INTERESTED_IN shortinfotag weight
+dump set edge WORKS_FOR thickness 3
+
+exec init
+
+#group by == common pattern=group and different iterated parts in test/rule, order by == orderDescendingBy
+#plus subquery for computing argument / fetching namedObject by name (with extraction of value of interest from match array and match object)
+eval [?sameCompanySharedInterest([?fetchByName("hans")][0].namedObj)\orderDescendingBy<score>]
+
+exec (::subject) = fetchByName("hans")
+exec (::anotherSubject) = fetchByName("luise")
+clipAmount = 1
+
+#debugging evals not supported, use according exec
+#debug exec [?sameCompanySharedInterest(::subject)\orderDescendingBy<score>]
+
+#group by == common pattern=group and different iterated parts in test/rule, order by == orderDescendingBy
+eval [?sameCompanySharedInterest(::subject)\orderDescendingBy<score>]
+
+#different version with same result
+eval [?sameCompanySharedInterestBU(::subject)\orderDescendingBy<score>]
+
+#group by == common pattern=group and different iterated parts in test/rule, order by == orderDescendingBy, nested helper def variables with subresults
+eval [?sameCompanySharedWeightedInterestClipped(::subject, ::clipAmount)]
+
+#different version with same result, all iterated matches still in place, would yield different results for rule with iterated rewriting
+#eval [?sameCompanySharedWeightedInterestClippedArray(::subject, ::clipAmount)]
+
+#distinct (for single element) == keepOneForEach<i> (filter)
+eval [?interests(null)\keepOneForEach<interestString>]
+
+#distinct (for single element) == keepOneForEach<i> (array)
+#eval [?interests(null)].keepOneForEach<interestString>()
+
+#distinct (for single element) == keepOneForEach (array)
+eval [?interests(null)].extract<interestString>().keepOneForEach()
+
+#distinct (for single element) == asSet (array to set)
+eval [?interests(null)].extract<interestString>().asSet()
+
+#limit == keepFirst(k) (filter), accumulation by extraction to element, accumulation method
+eval [?weightedInterests(::subject)\orderDescendingBy<weight>\keepFirst(2)].extract<weight>().sum()
+
+#limit == subarray(0,k) (array), accumulation by extraction to element, accumulation method
+eval [?weightedInterests(::subject)\orderDescendingBy<weight>].subarray(0, 2).extract<weight>().sum()
+
+#limit == subarray(0,k) (array), accumulation by extraction to element, accumulation method
+eval [?weightedInterests(null)].extract<weight>().sum()
+
+#union (same result type, different parameters) == [?[r,r]] multi rule query, with ordering on all results (potential implementation issue: same rule)
+#not possible, match class expected
+eval [?[sameCompanySharedInterestMC(::subject), sameCompanySharedInterestMC(::anotherSubject)]\ResultWithScore.orderDescendingBy<score>\<class ResultWithScore>]
+
+#union (same result type, different parameters) == [?r] + [?r] array concatenate
+eval [?sameCompanySharedInterest(::subject)] + [?sameCompanySharedInterest(::anotherSubject)]
+
+#union (common result type by match class) == [?[r,r]\<mc>]
+eval [?[sameCompanySharedInterestMC(::subject), sameCompanySharedWeightedInterestClippedMC(::anotherSubject, 3)]\ResultWithScore.orderDescendingBy<score>\<class ResultWithScore>]
+
+#union (for single element) == [?r].asSet() | [?r].asSet() set union
+eval [?interests(::subject)].extract<interestString>().asSet() | [?interests(::anotherSubject)].extract<interestString>().asSet()
+
+#intersection (for single element) == [?r].asSet() & [?r].asSet() set intersection
+eval [?interests(::subject)].extract<interestString>().asSet() & [?interests(::anotherSubject)].extract<interestString>().asSet()
+
+#difference (for single element) == [?r].asSet() \ [?r].asSet() set difference / without
+eval [?interests(::subject)].extract<interestString>().asSet() \ [?interests(::anotherSubject)].extract<interestString>().asSet()
+
+quit

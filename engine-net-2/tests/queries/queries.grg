@@ -1,0 +1,131 @@
+#using "queries.gm"
+
+// test with scenario inspired by neo4j manual (names should be rather handled by built-in names)
+
+rule init
+{
+	modify {
+		h:namedObject@(name = "hans") -:WORKS_FOR-> c:namedObject@(name = "MegaCorp") <-:WORKS_FOR- f:namedObject@(name = "frans");
+		h -:INTERESTED_IN@(weight=0.8)-> cy:namedObject@(name = "cycling") <-:INTERESTED_IN@(weight=0.4)- f;
+		h -:INTERESTED_IN@(weight=0.2)-> hi:namedObject@(name = "hiking") <-:INTERESTED_IN@(weight=0.4)- f;
+		h -:INTERESTED_IN@(weight=1.0)-> co:namedObject@(name = "coding");
+										 re:namedObject@(name = "reading") <-:INTERESTED_IN@(weight=0.5)- f;
+		h -:WORKS_FOR-> :namedObject@(name = "Oil Imperium");
+					    :namedObject@(name = "Ports of Call") <-:WORKS_FOR- f;
+		l:namedObject@(name = "luise") -:WORKS_FOR-> c;
+		l -:INTERESTED_IN@(weight=0.6)-> cy;
+		l -:INTERESTED_IN@(weight=0.6)-> co;
+		l -:INTERESTED_IN@(weight=0.3)-> re;
+	}
+}
+
+test fetchByName(var name:string) : (namedObject)
+{
+	namedObj:namedObject;
+	if{ namedObj.name == name; }
+	return(namedObj);
+}
+
+test interests(subject:namedObject<null>)
+{
+	subject -:INTERESTED_IN-> interest:namedObject;
+---
+	def var interestString:string = interest.name;
+} \ keepOneForEach<interestString>
+
+test weightedInterests(subject:namedObject<null>)
+{
+	subject -i:INTERESTED_IN-> interest:namedObject;
+---
+	def var weight:double = i.weight;
+} \ orderDescendingBy<weight>
+
+test sameCompanySharedInterest(subject:namedObject)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated it {
+		subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person;
+	}
+---
+	def var score:double = yield([?it].extract<interest>().size());
+	def ref interests:array<string> = yield([?it].extract<interest>().extract<name>());
+} \ orderDescendingBy<score>
+
+test sameCompanySharedInterestBU(subject:namedObject)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated {
+		subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person;
+	---
+		yield { // version with bottom-up yielding instead of top-down iterated match array access
+			interests.add(interest.name);
+			yield score = score + 1;
+		}
+	}
+---
+	def var score:double = 0;
+	def ref interests:array<string> = array<string>[];
+} \ orderDescendingBy<score>
+
+test sameCompanySharedWeightedInterestClipped(subject:namedObject, var clipAmount:int)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated it {
+		subject -is:INTERESTED_IN-> interest:namedObject <-ip:INTERESTED_IN- person;
+	---
+		def var sharedWeightedInterest:double = Math::min(is.weight, ip.weight);
+	} \ orderDescendingBy<sharedWeightedInterest>
+---
+	iterated it\orderDescendingBy<sharedWeightedInterest>\keepFirst(clipAmount); //todo: it2\...
+	def var score:double = yield([?it].extract<sharedWeightedInterest>().sum());
+	def var interestsString:string = yield([?it].extract<interest>().extract<name>().asString(","));
+	def ref interestsSet:set<namedObject> = yield([?it].extract<interest>().asSet());
+} \ orderDescendingBy<score>
+
+// sorting et al only supported by filters for now, potential future extension: member accessing array methods
+/*test sameCompanySharedWeightedInterestClippedArray(subject:namedObject, var clipAmount:int)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated it {
+		subject -is:INTERESTED_IN-> interest:namedObject <-ip:INTERESTED_IN- person;
+	---
+		def var sharedWeightedInterest:double = Math::min(is.weight, ip.weight);
+	}
+---
+	def ref weightedInterests:array<match<sameCompanySharedWeightedInterestClippedArray.it>> = 
+		[?it].orderAscendingBy<sharedWeightedInterest>.reverse().subarray(0, clipAmount);
+	def var score:double = weightedInterests.extract<sharedWeightedInterest>().sum();
+	def var interestsString:string = weightedInterests.extract<interest>().extract<name>().asString();
+	def ref interestsSet:set<namedObject> = weightedInterests.extract<interest>().asSet();
+} \ orderDescendingBy<score>*/
+
+match class ResultWithScore
+{
+	def var score:double;
+} \ orderDescendingBy<score>
+
+test sameCompanySharedInterestMC(subject:namedObject) implements ResultWithScore
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated it {
+		subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person;
+	}
+---
+	def var score:double = yield([?it].extract<interest>().size());
+	def ref interests:array<string> = yield([?it].extract<interest>().extract<name>());
+} \ orderDescendingBy<score>
+
+test sameCompanySharedWeightedInterestClippedMC(subject:namedObject, var clipAmount:int) implements ResultWithScore
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+	iterated it {
+		subject -is:INTERESTED_IN-> interest:namedObject <-ip:INTERESTED_IN- person;
+	---
+		def var sharedWeightedInterest:double = Math::min(is.weight, ip.weight);
+	} \ orderDescendingBy<sharedWeightedInterest>
+---
+	iterated it\orderDescendingBy<sharedWeightedInterest>\keepFirst(clipAmount); //todo: it2\...
+	def var score:double = yield([?it].extract<sharedWeightedInterest>().sum());
+	def var interestsString:string = yield([?it].extract<interest>().extract<name>().asString(","));
+	def ref interestsSet:set<namedObject> = yield([?it].extract<interest>().asSet());
+} \ orderDescendingBy<score>
