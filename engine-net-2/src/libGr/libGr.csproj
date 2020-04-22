@@ -158,6 +158,7 @@
     <Compile Include="Sequence\SequenceVariable.cs" />
     <Compile Include="IO\set.cs" />
     <Compile Include="SequenceParser\SimpleCharStream.cs" />
+    <Compile Include="SequentialTypeHelper.cs" />
     <Compile Include="SetHelper.cs" />
     <Compile Include="DictionaryHelper.cs" />
     <Compile Include="SetValueType.cs" />
