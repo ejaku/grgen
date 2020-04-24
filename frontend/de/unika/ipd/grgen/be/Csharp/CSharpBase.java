@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.*;
 import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.SourceBuilder;
 import de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase {
@@ -67,7 +68,7 @@ public abstract class CSharpBase {
 	/**
 	 * Dumps a C-like set representation.
 	 */
-	public void genSet(StringBuffer sb, Collection<? extends Identifiable> set, String pre, String post, boolean brackets) {
+	public void genSet(SourceBuilder sb, Collection<? extends Identifiable> set, String pre, String post, boolean brackets) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends Identifiable> iter = set.iterator(); iter.hasNext();) {
@@ -80,7 +81,7 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
-	public void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post,
+	public void genEntitySet(SourceBuilder sb, Collection<? extends Entity> set, String pre, String post,
 							 boolean brackets, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		if (brackets)
 			sb.append("{ ");
@@ -94,7 +95,7 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
-	public void genVarTypeSet(StringBuffer sb, Collection<? extends Entity> set, boolean brackets) {
+	public void genVarTypeSet(SourceBuilder sb, Collection<? extends Entity> set, boolean brackets) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
@@ -107,7 +108,7 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
-	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post,
+	public void genSubpatternUsageSet(SourceBuilder sb, Collection<? extends SubpatternUsage> set, String pre, String post,
 									  boolean brackets, String pathPrefix, HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName) {
 		if (brackets)
 			sb.append("{ ");
@@ -121,7 +122,7 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
-	public void genAlternativesSet(StringBuffer sb, Collection<? extends Rule> set,
+	public void genAlternativesSet(SourceBuilder sb, Collection<? extends Rule> set,
 								   String pre, String post, boolean brackets) {
 		if (brackets)
 			sb.append("{ ");
@@ -567,7 +568,7 @@ public abstract class CSharpBase {
 		return null;
 	}
 
-	public void genBinOpDefault(StringBuffer sb, Operator op, ExpressionGenerationState modifyGenerationState) {
+	public void genBinOpDefault(SourceBuilder sb, Operator op, ExpressionGenerationState modifyGenerationState) {
 		if(op.getOpCode()==Operator.BIT_SHR)
 		{
 			sb.append("((int)(((uint)");
@@ -586,7 +587,7 @@ public abstract class CSharpBase {
 		}
 	}
 
-	public strictfp void genExpression(StringBuffer sb, Expression expr,
+	public strictfp void genExpression(SourceBuilder sb, Expression expr,
 			ExpressionGenerationState modifyGenerationState) {
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
@@ -3130,22 +3131,14 @@ public abstract class CSharpBase {
 		return input.replace("\\", "\\\\").replace("\"", "\\\"");
 	}
 	
-	protected abstract void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState);
-	protected abstract void genMemberAccess(StringBuffer sb, Entity member);
+	protected abstract void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState);
+	protected abstract void genMemberAccess(SourceBuilder sb, Entity member);
 
-	protected void addAnnotations(StringBuilder sb, Identifiable ident, String targetName)
+	protected void addAnnotations(SourceBuilder sb, Identifiable ident, String targetName)
 	{
 		for(String annotationKey : ident.getAnnotations().keySet()) {
 			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
-			sb.append("\t\t\t" + targetName+ ".annotations.Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
-		}
-	}
-
-	protected void addAnnotations(StringBuffer sb, Identifiable ident, String targetName)
-	{
-		for(String annotationKey : ident.getAnnotations().keySet()) {
-			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
-			sb.append("\t\t\t" + targetName+ ".annotations.Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
+			sb.appendFront(targetName+ ".annotations.Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
 		}
 	}
 
@@ -3176,7 +3169,7 @@ public abstract class CSharpBase {
 		}
 	}
 
-	protected void genLocalContainersEvals(StringBuffer sb, Collection<EvalStatement> evals,
+	protected void genLocalContainersEvals(SourceBuilder sb, Collection<EvalStatement> evals,
 			List<String> staticInitializers, String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true, false, false);
 		for(EvalStatement eval : evals) {
@@ -3185,7 +3178,7 @@ public abstract class CSharpBase {
 		genLocalContainers(sb, needs, staticInitializers, false);
 	}
 
-	protected void genLocalContainers(StringBuffer sb, NeededEntities needs, List<String> staticInitializers, boolean neverAssigned) {
+	protected void genLocalContainers(SourceBuilder sb, NeededEntities needs, List<String> staticInitializers, boolean neverAssigned) {
 		// todo: more fine-grained never assigned, the important thing is that the constant constructor is temporary, not assigned to a variable
 		sb.append("\n");
 		for(Expression containerExpr : needs.containerExprs) {
@@ -3213,16 +3206,17 @@ public abstract class CSharpBase {
 		}
 	}
 
-	protected void genLocalMap(StringBuffer sb, MapInit mapInit, List<String> staticInitializers) {
+	protected void genLocalMap(SourceBuilder sb, MapInit mapInit, List<String> staticInitializers) {
 		String mapName = mapInit.getAnonymousMapName();
 		String attrType = formatAttributeType(mapInit.getType());
 		if(mapInit.isConstant()) {
-			sb.append("\t\tpublic static readonly " + attrType + " " + mapName + " = " +
+			sb.appendFront("public static readonly " + attrType + " " + mapName + " = " +
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + mapName);
-			sb.append("\t\tstatic void init_" + mapName + "() {\n");
+			sb.appendFront("static void init_" + mapName + "() {\n");
+			sb.indent();
 			for(MapItem item : mapInit.getMapItems()) {
-				sb.append("\t\t\t");
+				sb.appendFront("");
 				sb.append(mapName);
 				sb.append("[");
 				genExpression(sb, item.getKeyExpr(), null);
@@ -3230,9 +3224,10 @@ public abstract class CSharpBase {
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append(";\n");
 			}
-			sb.append("\t\t}\n");
+			sb.unindent();
+			sb.appendFront("}\n");
 		} else {
-			sb.append("\t\tpublic static " + attrType + " fill_" + mapName + "(");
+			sb.appendFront("public static " + attrType + " fill_" + mapName + "(");
 			int itemCounter = 0;
 			boolean first = true;
 			for(MapItem item : mapInit.getMapItems()) {
@@ -3249,37 +3244,40 @@ public abstract class CSharpBase {
 				++itemCounter;
 			}
 			sb.append(") {\n");
-			sb.append("\t\t\t" + attrType + " " + mapName + " = " +
+			sb.indent();
+			sb.appendFront(attrType + " " + mapName + " = " +
 					"new " + attrType + "();\n");
 	
 			int itemLength = mapInit.getMapItems().size();
 			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.append("\t\t\t" + mapName);
+				sb.appendFront(mapName);
 				sb.append("[" + "itemkey" + itemCounter + "] = itemvalue" + itemCounter + ";\n");
 			}
-			sb.append("\t\t\treturn " + mapName + ";\n");
-			sb.append("\t\t}\n");
+			sb.appendFront("return " + mapName + ";\n");
+			sb.unindent();
+			sb.appendFront("}\n");
 		}
 	}
 
-	protected void genLocalSet(StringBuffer sb, SetInit setInit, List<String> staticInitializers) {
+	protected void genLocalSet(SourceBuilder sb, SetInit setInit, List<String> staticInitializers) {
 		String setName = setInit.getAnonymousSetName();
 		String attrType = formatAttributeType(setInit.getType());
 		if(setInit.isConstant()) {
-			sb.append("\t\tpublic static readonly " + attrType + " " + setName + " = " +
+			sb.appendFront("public static readonly " + attrType + " " + setName + " = " +
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + setName);
-			sb.append("\t\tstatic void init_" + setName + "() {\n");
+			sb.appendFront("static void init_" + setName + "() {\n");
+			sb.indent();
 			for(SetItem item : setInit.getSetItems()) {
-				sb.append("\t\t\t");
-				sb.append(setName);
+				sb.appendFront(setName);
 				sb.append("[");
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append("] = null;\n");
 			}
-			sb.append("\t\t}\n");
+			sb.unindent();
+			sb.appendFront("}\n");
 		} else {
-			sb.append("\t\tpublic static " + attrType + " fill_" + setName + "(");
+			sb.appendFront("public static " + attrType + " fill_" + setName + "(");
 			int itemCounter = 0;
 			boolean first = true;
 			for(SetItem item : setInit.getSetItems()) {
@@ -3293,37 +3291,40 @@ public abstract class CSharpBase {
 				++itemCounter;
 			}
 			sb.append(") {\n");
-			sb.append("\t\t\t" + attrType + " " + setName + " = " +
+			sb.indent();
+			sb.appendFront(attrType + " " + setName + " = " +
 					"new " + attrType + "();\n");
 	
 			int itemLength = setInit.getSetItems().size();
 			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.append("\t\t\t" + setName);
+				sb.appendFront(setName);
 				sb.append("[" + "item" + itemCounter + "] = null;\n");
 			}
-			sb.append("\t\t\treturn " + setName + ";\n");
-			sb.append("\t\t}\n");
+			sb.appendFront("return " + setName + ";\n");
+			sb.unindent();
+			sb.appendFront("}\n");
 		}
 	}
 
-	protected void genLocalArray(StringBuffer sb, ArrayInit arrayInit, List<String> staticInitializers) {
+	protected void genLocalArray(SourceBuilder sb, ArrayInit arrayInit, List<String> staticInitializers) {
 		String arrayName = arrayInit.getAnonymousArrayName();
 		String attrType = formatAttributeType(arrayInit.getType());
 		if(arrayInit.isConstant()) {
-			sb.append("\t\tpublic static readonly " + attrType + " " + arrayName + " = " +
+			sb.appendFront("public static readonly " + attrType + " " + arrayName + " = " +
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + arrayName);
-			sb.append("\t\tstatic void init_" + arrayName + "() {\n");
+			sb.appendFront("static void init_" + arrayName + "() {\n");
+			sb.indent();
 			for(ArrayItem item : arrayInit.getArrayItems()) {
-				sb.append("\t\t\t");
-				sb.append(arrayName);
+				sb.appendFront(arrayName);
 				sb.append(".Add(");
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append(");\n");
 			}
-			sb.append("\t\t}\n");
+			sb.unindent();
+			sb.appendFront("}\n");
 		} else {
-			sb.append("\t\tpublic static " + attrType + " fill_" + arrayName + "(");
+			sb.appendFront("public static " + attrType + " fill_" + arrayName + "(");
 			int itemCounter = 0;
 			boolean first = true;
 			for(ArrayItem item : arrayInit.getArrayItems()) {
@@ -3337,37 +3338,41 @@ public abstract class CSharpBase {
 				++itemCounter;
 			}
 			sb.append(") {\n");
-			sb.append("\t\t\t" + attrType + " " + arrayName + " = " +
+			sb.indent();
+			sb.appendFront(attrType + " " + arrayName + " = " +
 					"new " + attrType + "();\n");
 	
 			int itemLength = arrayInit.getArrayItems().size();
 			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.append("\t\t\t" + arrayName);
+				sb.appendFront(arrayName);
 				sb.append(".Add(" + "item" + itemCounter + ");\n");
 			}
-			sb.append("\t\t\treturn " + arrayName + ";\n");
-			sb.append("\t\t}\n");
+			sb.appendFront("return " + arrayName + ";\n");
+			sb.unindent();
+			sb.appendFront("}\n");
 		}
 	}
 
-	protected void genLocalDeque(StringBuffer sb, DequeInit dequeInit, List<String> staticInitializers) {
+	protected void genLocalDeque(SourceBuilder sb, DequeInit dequeInit, List<String> staticInitializers) {
 		String dequeName = dequeInit.getAnonymousDequeName();
 		String attrType = formatAttributeType(dequeInit.getType());
 		if(dequeInit.isConstant()) {
-			sb.append("\t\tpublic static readonly " + attrType + " " + dequeName + " = " +
+			sb.appendFront("public static readonly " + attrType + " " + dequeName + " = " +
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + dequeName);
-			sb.append("\t\tstatic void init_" + dequeName + "() {\n");
+			sb.appendFront("static void init_" + dequeName + "() {\n");
+			sb.indent();
 			for(DequeItem item : dequeInit.getDequeItems()) {
-				sb.append("\t\t\t");
+				sb.appendFront("");
 				sb.append(dequeName);
 				sb.append(".Add(");
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append(");\n");
 			}
-			sb.append("\t\t}\n");
+			sb.unindent();
+			sb.appendFront("}\n");
 		} else {
-			sb.append("\t\tpublic static " + attrType + " fill_" + dequeName + "(");
+			sb.appendFront("public static " + attrType + " fill_" + dequeName + "(");
 			int itemCounter = 0;
 			boolean first = true;
 			for(DequeItem item : dequeInit.getDequeItems()) {
@@ -3381,37 +3386,45 @@ public abstract class CSharpBase {
 				++itemCounter;
 			}
 			sb.append(") {\n");
-			sb.append("\t\t\t" + attrType + " " + dequeName + " = " +
+			sb.indent();
+			sb.appendFront(attrType + " " + dequeName + " = " +
 					"new " + attrType + "();\n");
 	
 			int itemLength = dequeInit.getDequeItems().size();
 			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
-				sb.append("\t\t\t" + dequeName);
+				sb.appendFront(dequeName);
 				sb.append(".Enqueue(" + "item" + itemCounter + ");\n");
 			}
-			sb.append("\t\t\treturn " + dequeName + ";\n");
-			sb.append("\t\t}\n");
+			sb.appendFront("return " + dequeName + ";\n");
+			sb.unindent();
+			sb.appendFront("}\n");
 		}
 	}
 	
-	protected void generateArrayKeepOneForEach(StringBuffer sb, String arrayFunctionName, String matchInterfaceName, 
+	protected void generateArrayKeepOneForEach(SourceBuilder sb, String arrayFunctionName, String matchInterfaceName, 
 			String memberName, String memberType)
 	{
-		sb.append("\t\t\tpublic static List<" + matchInterfaceName + "> " + arrayFunctionName + "(List<" + matchInterfaceName + "> list)\n");
-		sb.append("\t\t\t{\n");
-		sb.append("\t\t\t\tList<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
+		sb.appendFront("public static List<" + matchInterfaceName + "> " + arrayFunctionName + "(List<" + matchInterfaceName + "> list)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
 		
-		sb.append("\t\t\t\tDictionary<" + memberType + ", GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<" + memberType + ", GRGEN_LIBGR.SetValueType>();\n");
-		sb.append("\t\t\t\tforeach(" + matchInterfaceName + " element in list)\n");
-		sb.append("\t\t\t\t{\n");
-		sb.append("\t\t\t\t\tif(!alreadySeenMembers.ContainsKey(element.@" + memberName + ")) {\n");
-		sb.append("\t\t\t\t\t\tnewList.Add(element);\n");
-		sb.append("\t\t\t\t\t\talreadySeenMembers.Add(element.@" + memberName + ", null);\n");
-		sb.append("\t\t\t\t\t}\n");
-		sb.append("\t\t\t\t}\n");
+		sb.appendFront("Dictionary<" + memberType + ", GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<" + memberType + ", GRGEN_LIBGR.SetValueType>();\n");
+		sb.appendFront("foreach(" + matchInterfaceName + " element in list)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("if(!alreadySeenMembers.ContainsKey(element.@" + memberName + ")) {\n");
+		sb.indent();
+		sb.appendFront("newList.Add(element);\n");
+		sb.appendFront("alreadySeenMembers.Add(element.@" + memberName + ", null);\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
 		
-		sb.append("\t\t\t\treturn newList;\n");
-		sb.append("\t\t\t}\n");
+		sb.appendFront("return newList;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
 	}
 
 	///////////////////////
