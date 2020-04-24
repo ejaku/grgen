@@ -81,7 +81,8 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 		String edgeTypePrefix = "";
 modloop:for(Model model : unit.getModels()) {
 			for(Type type : model.getTypes()) {
-				if(!(type instanceof InheritanceType)) continue;
+				if(!(type instanceof InheritanceType))
+					continue;
 
 				String typeName = type.getIdent().toString();
 				if(reservedWords.contains(typeName)) {
@@ -104,8 +105,9 @@ modloop:for(Model model : unit.getModels()) {
 				forceUnique = true;
 			if(model.isoParallel() > 0)
 				forceUnique = true;
-			for(@SuppressWarnings("unused") Index index : model.getIndices())
+			for(@SuppressWarnings("unused") Index index : model.getIndices()) {
 				forceUnique = true;
+			}
 		}
 
 		// Generate graph models for all top level models
@@ -131,5 +133,6 @@ modloop:for(Model model : unit.getModels()) {
 		System.out.println("done!");
 	}
 
-	public void done() {}
+	public void done() {
+	}
 }

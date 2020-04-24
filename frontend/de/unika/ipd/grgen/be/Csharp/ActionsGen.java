@@ -1181,48 +1181,33 @@ public class ActionsGen extends CSharpBase {
 		String matchTypeName = "IMatch_" + actionRule.getPattern().getNameOfGraph() + iteratedRuleSuffix;
 
 		for(Node node : pattern.getNodes()) {
-			sb.appendFront("public static List<" + formatType(node.getType()) + "> Extract_" + formatIdentifiable(node) + "(List<" + matchTypeName + "> matchList)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-			sb.appendFront("List<" + formatType(node.getType()) + "> resultList = new List<" + formatType(node.getType()) + ">(matchList.Count);\n");
-			sb.appendFront("foreach(" + matchTypeName + " match in matchList)\n");
-			sb.indent();
-			sb.appendFront("resultList.Add(match." + formatEntity(node) + ");\n");
-			sb.unindent();
-			sb.appendFront("return resultList;\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			genExtractMethod(sb, matchTypeName, node);
 		}
 		for(Edge edge : pattern.getEdges()) {
-			sb.appendFront("public static List<" + formatType(edge.getType()) + "> Extract_" + formatIdentifiable(edge) + "(List<" + matchTypeName + "> matchList)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-			sb.appendFront("List<" + formatType(edge.getType()) + "> resultList = new List<" + formatType(edge.getType()) + ">(matchList.Count);\n");
-			sb.appendFront("foreach(" + matchTypeName + " match in matchList)\n");
-			sb.indent();
-			sb.appendFront("resultList.Add(match." + formatEntity(edge) + ");\n");
-			sb.unindent();
-			sb.appendFront("return resultList;\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			genExtractMethod(sb, matchTypeName, edge);
 		}
 		for(Variable var : pattern.getVars()) {
-			sb.appendFront("public static List<" + formatType(var.getType()) + "> Extract_" + formatIdentifiable(var) + "(List<" + matchTypeName + "> matchList)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-			sb.appendFront("List<" + formatType(var.getType()) + "> resultList = new List<" + formatType(var.getType()) + ">(matchList.Count);\n");
-			sb.appendFront("foreach(" + matchTypeName + " match in matchList)\n");
-			sb.indent();
-			sb.appendFront("resultList.Add(match." + formatEntity(var) + ");\n");
-			sb.unindent();
-			sb.appendFront("return resultList;\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			genExtractMethod(sb, matchTypeName, var);
 		}
 
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
+	}
+
+	void genExtractMethod(SourceBuilder sb, String matchTypeName, Entity entity)
+	{
+		sb.appendFront("public static List<" + formatType(entity.getType()) + "> Extract_" + formatIdentifiable(entity) + "(List<" + matchTypeName + "> matchList)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("List<" + formatType(entity.getType()) + "> resultList = new List<" + formatType(entity.getType()) + ">(matchList.Count);\n");
+		sb.appendFront("foreach(" + matchTypeName + " match in matchList)\n");
+		sb.indent();
+		sb.appendFront("resultList.Add(match." + formatEntity(entity) + ");\n");
+		sb.unindent();
+		sb.appendFront("return resultList;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
 	}
 
 	/**
@@ -1324,43 +1309,13 @@ public class ActionsGen extends CSharpBase {
 		String matchTypeName = "IMatch_" + matchClass.getIdent().toString();
 
 		for(Node node : matchClass.getNodes()) {
-			sb.appendFront("public static List<" + formatType(node.getType()) + "> Extract_" + formatIdentifiable(node) + "(List<" + matchTypeName + "> matchList)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-			sb.appendFront("List<" + formatType(node.getType()) + "> resultList = new List<" + formatType(node.getType()) + ">(matchList.Count);\n");
-			sb.appendFront("foreach(" + matchTypeName + " match in matchList)\n");
-			sb.indent();
-			sb.appendFront("resultList.Add(match." + formatEntity(node) + ");\n");
-			sb.unindent();
-			sb.appendFront("return resultList;\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			genExtractMethod(sb, matchTypeName, node);
 		}
 		for(Edge edge : matchClass.getEdges()) {
-			sb.appendFront("public static List<" + formatType(edge.getType()) + "> Extract_" + formatIdentifiable(edge) + "(List<" + matchTypeName + "> matchList)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-			sb.appendFront("List<" + formatType(edge.getType()) + "> resultList = new List<" + formatType(edge.getType()) + ">(matchList.Count);\n");
-			sb.appendFront("foreach(" + matchTypeName + " match in matchList)\n");
-			sb.indent();
-			sb.appendFront("resultList.Add(match." + formatEntity(edge) + ");\n");
-			sb.unindent();
-			sb.appendFront("return resultList;\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			genExtractMethod(sb, matchTypeName, edge);
 		}
 		for(Variable var : matchClass.getVars()) {
-			sb.appendFront("public static List<" + formatType(var.getType()) + "> Extract_" + formatIdentifiable(var) + "(List<" + matchTypeName + "> matchList)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-			sb.appendFront("List<" + formatType(var.getType()) + "> resultList = new List<" + formatType(var.getType()) + ">(matchList.Count);\n");
-			sb.appendFront("foreach(" + matchTypeName + " match in matchList)\n");
-			sb.indent();
-			sb.appendFront("resultList.Add(match." + formatEntity(var) + ");\n");
-			sb.unindent();
-			sb.appendFront("return resultList;\n");
-			sb.unindent();
-			sb.appendFront("}\n");
+			genExtractMethod(sb, matchTypeName, var);
 		}
 
 		sb.unindent();
@@ -1738,7 +1693,13 @@ public class ActionsGen extends CSharpBase {
 		sb.appendFront(": base(");
 		sb.indent();
 		sb.append("\"" + formatIdentifiable(action) + "\",\n");
-		genRuleParamResult(sb, action, packageName, isSubpattern);
+		genRuleParam(sb, action, packageName); // no closing \n
+		if(!isSubpattern) {
+			genRuleResult(sb, (Rule)action, packageName);
+			genRuleFilter(sb, (Rule)action, packageName);
+			genRuleMatchClassInfo(sb, (Rule)action, packageName); // no closing \n
+		}
+		sb.append("\n");
 		sb.unindent();
 		sb.appendFront(")\n");
 		sb.unindent();
@@ -1846,6 +1807,32 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" }, \n");
 
 		sb.appendFront("new bool[" + pattern.getNodes().size() + ", " + pattern.getNodes().size() + "] ");
+		genNodeHomMatrix(sb, pattern);
+		sb.append(",\n");
+
+		sb.appendFront("new bool[" + pattern.getEdges().size() + ", " + pattern.getEdges().size() + "] ");
+		genEdgeHomMatrix(sb, pattern);
+		sb.append(",\n");
+
+		sb.appendFront(pathPrefixForElements + "isNodeHomomorphicGlobal,\n");
+
+		sb.appendFront(pathPrefixForElements + "isEdgeHomomorphicGlobal,\n");
+
+		sb.appendFront(pathPrefixForElements + "isNodeTotallyHomomorphic,\n");
+
+		sb.appendFront(pathPrefixForElements + "isEdgeTotallyHomomorphic\n");
+		
+		sb.unindent();
+		sb.appendFront(");\n");
+
+		linkEdgesToNodes(sb, pattern, patGraphVarName, alreadyDefinedEntityToName, pathPrefixForElements);
+
+		setEmbeddingGraph(sb, pattern, patGraphVarName, pathPrefixForElements);
+
+		sb.append("\n");
+	}
+
+	private void genNodeHomMatrix(SourceBuilder sb, PatternGraph pattern) {
 		if(pattern.getNodes().size() > 0) {
 			sb.append("{\n");
 			sb.indent();
@@ -1862,9 +1849,9 @@ public class ActionsGen extends CSharpBase {
 			sb.unindent();
 			sb.appendFront("}");
 		}
-		sb.append(",\n");
+	}
 
-		sb.appendFront("new bool[" + pattern.getEdges().size() + ", " + pattern.getEdges().size() + "] ");
+	private void genEdgeHomMatrix(SourceBuilder sb, PatternGraph pattern) {
 		if(pattern.getEdges().size() > 0) {
 			sb.append("{\n");
 			sb.indent();
@@ -1881,20 +1868,10 @@ public class ActionsGen extends CSharpBase {
 			sb.unindent();
 			sb.appendFront("}");
 		}
-		sb.append(",\n");
+	}
 
-		sb.appendFront(pathPrefixForElements + "isNodeHomomorphicGlobal,\n");
-
-		sb.appendFront(pathPrefixForElements + "isEdgeHomomorphicGlobal,\n");
-
-		sb.appendFront(pathPrefixForElements + "isNodeTotallyHomomorphic,\n");
-
-		sb.appendFront(pathPrefixForElements + "isEdgeTotallyHomomorphic\n");
-		
-		sb.unindent();
-		sb.appendFront(");\n");
-
-		// link edges to nodes
+	private void linkEdgesToNodes(SourceBuilder sb, PatternGraph pattern, String patGraphVarName,
+			HashMap<Entity, String> alreadyDefinedEntityToName, String pathPrefixForElements) {
 		for(Edge edge : pattern.getEdges()) {
 			String edgeName = alreadyDefinedEntityToName.get(edge)!=null ?
 					alreadyDefinedEntityToName.get(edge) : formatEntity(edge, pathPrefixForElements);
@@ -1909,8 +1886,10 @@ public class ActionsGen extends CSharpBase {
 				sb.appendFront(patGraphVarName + ".edgeToTargetNode.Add("+edgeName+", "+targetName+");\n");
 			}
 		}
+	}
 
-		// set embedding-member of contained graphs
+	private void setEmbeddingGraph(SourceBuilder sb, PatternGraph pattern, String patGraphVarName,
+			String pathPrefixForElements) {
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
@@ -1934,8 +1913,6 @@ public class ActionsGen extends CSharpBase {
 			String idptName = idpt.getNameOfGraph();
 			sb.appendFront(pathPrefixForElements+idptName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
-
-		sb.append("\n");
 	}
 
 	private void genElementsRequiredByPatternGraph(SourceBuilder sb, SourceBuilder aux, PatternGraph pattern,
@@ -1950,97 +1927,35 @@ public class ActionsGen extends CSharpBase {
 		{
 			sb.appendFront("bool[,] " + pathPrefixForElements + "isNodeHomomorphicGlobal = "
 					+ "new bool[" + pattern.getNodes().size() + ", " + pattern.getNodes().size() + "]");
-			if(pattern.getNodes().size() > 0) {
-				sb.append(" {\n");
-				sb.indent();
-				for(Node node1 : pattern.getNodes()) {
-					sb.appendFront("{ ");
-					for(Node node2 : pattern.getNodes()) {
-						if(pattern.isHomomorphicGlobal(alreadyDefinedEntityToName, node1, node2))
-							sb.append("true, ");
-						else
-							sb.append("false, ");
-					}
-					sb.append("},\n");
-				}
-				sb.unindent();
-				sb.appendFront("}");
-			}
+			genNodeGlobalHomMatrix(sb, pattern, alreadyDefinedEntityToName);
 			sb.append(";\n");
 	
 			sb.appendFront("bool[,] " + pathPrefixForElements + "isEdgeHomomorphicGlobal = "
 					+ "new bool[" + pattern.getEdges().size() + ", " + pattern.getEdges().size() + "]");
-			if(pattern.getEdges().size() > 0) {
-				sb.append(" {\n");
-				sb.indent();
-				for(Edge edge1 : pattern.getEdges()) {
-					sb.appendFront("{ ");
-					for(Edge edge2 : pattern.getEdges()) {
-						if(pattern.isHomomorphicGlobal(alreadyDefinedEntityToName, edge1, edge2))
-							sb.append("true, ");
-						else
-							sb.append("false, ");
-					}
-					sb.append("},\n");
-				}
-				sb.unindent();
-				sb.appendFront("}");
-			}
+			genEdgeGlobalHomMatrix(sb, pattern, alreadyDefinedEntityToName);
 			sb.append(";\n");
 	
 			sb.appendFront("bool[] " + pathPrefixForElements + "isNodeTotallyHomomorphic = "
 					+ "new bool[" + pattern.getNodes().size() + "]");
-			if(pattern.getNodes().size() > 0) {
-				sb.append(" { ");
-				for(Node node : pattern.getNodes()) {
-					if(pattern.isTotallyHomomorphic(node))
-						sb.append("true, ");
-					else
-						sb.append("false, ");
-				}
-				sb.append(" }");
-			}
+			genNodeTotallyHomArray(sb, pattern);
 			sb.append(";\n");
 	
 			sb.appendFront("bool[] " + pathPrefixForElements + "isEdgeTotallyHomomorphic = "
 					+ "new bool[" + pattern.getEdges().size() + "]");
-			if(pattern.getEdges().size() > 0) {
-				sb.append(" { ");
-				for(Edge edge : pattern.getEdges()) {
-					if(pattern.isTotallyHomomorphic(edge))
-						sb.append("true, ");
-					else
-						sb.append("false, ");
-				}
-				sb.append(" }");
-			}
+			genEdgeTotallyHomArray(sb, pattern);
 			sb.append(";\n");
 		}
 
 		for(Variable var : pattern.getVars()) {
-			if(alreadyDefinedEntityToName.get(var)!=null) {
+			if(alreadyDefinedEntityToName.get(var) != null) {
 				continue;
 			}
 
 			String varName = formatEntity(var, pathPrefixForElements);
-			sb.appendFront((isMatchClass ? "static " : "") + "GRGEN_LGSP.PatternVariable " + varName
-					+ " = new GRGEN_LGSP.PatternVariable(");
-			sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(var)
-					+ ")), \"" + varName + "\", \"" + formatIdentifiable(var) + "\", ");
-			sb.append(parameters.indexOf(var)+", ");
-			sb.append(var.isDefToBeYieldedTo() ? "true, " : "false, ");
-			if(var.initialization!=null) {
-				genExpressionTree(sb, var.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
-				sb.append(");\n");
-			} else {
-				sb.append("null);\n");				
-			}
+			genPatternVariable(sb, aux, patGraphVarName, className, alreadyDefinedEntityToName,
+					parameters, isMatchClass, pathPrefixForElements,
+					var, varName);
 			alreadyDefinedEntityToName.put(var, varName);
-			if(isMatchClass)
-				aux.appendFront(varName + ".pointOfDefinition = null;\n");
-			else
-				aux.appendFront(varName + ".pointOfDefinition = " + (parameters.indexOf(var)==-1 ? patGraphVarName : "null") + ";\n");
-			addAnnotations(aux, var, varName+".annotations");
 		}
 
 		// Dependencies because an element requires another element (e.g. match by storage access)
@@ -2050,96 +1965,35 @@ public class ActionsGen extends CSharpBase {
 			somethingSkipped = false;
 
 			for(Node node : pattern.getNodes()) {
-				if(alreadyDefinedEntityToName.get(node)!=null) {
+				if(alreadyDefinedEntityToName.get(node) != null) {
 					continue;
 				}
-				if(node.getDependencyLevel()>dependencyLevel) {
+				if(node.getDependencyLevel() > dependencyLevel) {
 					somethingSkipped = true;
 					continue;
 				}
-				
+
 				String nodeName = formatEntity(node, pathPrefixForElements);
-				sb.appendFront((isMatchClass ? "static " : "") + "GRGEN_LGSP.PatternNode " + nodeName + " = new GRGEN_LGSP.PatternNode(");
-				sb.append("(int) GRGEN_MODEL." + getPackagePrefixDot(node.getType()) + "NodeTypes.@" + formatIdentifiable(node.getType()) 
-						+ ", " + formatTypeClassRef(node.getType()) + ".typeVar"
-						+ ", \"" + formatElementInterfaceRef(node.getType()) + "\", ");
-				sb.append("\"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
-				sb.append(nodeName + "_AllowedTypes, ");
-				sb.append(nodeName + "_IsAllowedType, ");
-				appendPrio(sb, node, max);
-				sb.append(parameters.indexOf(node)+", ");
-				sb.append(node.getMaybeNull() ? "true, " : "false, ");
-				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
-						pathPrefixForElements, node);
-				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
-						pathPrefixForElements, node, parameters);
-				genNameLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
-						pathPrefixForElements, node, parameters);
-				genUniqueLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
-						pathPrefixForElements, node, parameters);
-				sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
-				sb.append(node.isDefToBeYieldedTo() ? "true," : "false,");
-				if(node.initialization!=null) {
-					genExpressionTree(sb, node.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
-					sb.append(");\n");
-				} else {
-					sb.append("null);\n");				
-				}
+				genPatternNode(sb, aux, pattern, pathPrefix, patGraphVarName, className,
+						alreadyDefinedEntityToName, parameters, max, isMatchClass, pathPrefixForElements,
+						node, nodeName);
 				alreadyDefinedEntityToName.put(node, nodeName);
-				if(isMatchClass)
-					aux.appendFront(nodeName + ".pointOfDefinition = null;\n");
-				else
-					aux.appendFront(nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
-				addAnnotations(aux, node, nodeName+".annotations");
-	
-				node.setPointOfDefinition(pattern);
 			}
 	
 			for(Edge edge : pattern.getEdges()) {
-				if(alreadyDefinedEntityToName.get(edge)!=null) {
+				if(alreadyDefinedEntityToName.get(edge) != null) {
 					continue;
 				}
-				if(edge.getDependencyLevel()>dependencyLevel) {
+				if(edge.getDependencyLevel() > dependencyLevel) {
 					somethingSkipped = true;
 					continue;
 				}
 
 				String edgeName = formatEntity(edge, pathPrefixForElements);
-				sb.appendFront((isMatchClass ? "static " : "") + "GRGEN_LGSP.PatternEdge " + edgeName + " = new GRGEN_LGSP.PatternEdge(");
-				sb.append((edge.hasFixedDirection() ? "true" : "false") + ", ");
-				sb.append("(int) GRGEN_MODEL." + getPackagePrefixDot(edge.getType()) + "EdgeTypes.@" + formatIdentifiable(edge.getType()) 
-						+ ", " + formatTypeClassRef(edge.getType()) + ".typeVar"
-						+ ", \"" + formatElementInterfaceRef(edge.getType()) + "\", ");
-				sb.append("\"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
-				sb.append(edgeName + "_AllowedTypes, ");
-				sb.append(edgeName + "_IsAllowedType, ");
-				appendPrio(sb, edge, max);
-				sb.append(parameters.indexOf(edge)+", ");
-				sb.append(edge.getMaybeNull()?"true, ":"false, ");
-				genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
-						pathPrefixForElements, edge);
-				genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
-						pathPrefixForElements, edge, parameters);
-				genNameLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
-						pathPrefixForElements, edge, parameters);
-				genUniqueLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
-						pathPrefixForElements, edge, parameters);
-				sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
-				sb.append(edge.isDefToBeYieldedTo() ? "true," : "false,");
-				if(edge.initialization!=null) {
-					genExpressionTree(sb, edge.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
-					sb.append(");\n");
-				} else {
-					sb.append("null);\n");				
-				}
+				genPatternEdge(sb, aux, pattern, pathPrefix, patGraphVarName, className,
+						alreadyDefinedEntityToName, parameters, max, isMatchClass, pathPrefixForElements,
+						edge, edgeName);
 				alreadyDefinedEntityToName.put(edge, edgeName);
-				if(isMatchClass)
-					aux.appendFront(edgeName + ".pointOfDefinition = null;\n");
-				else
-					aux.appendFront(edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
-				addAnnotations(aux, edge, edgeName+".annotations");
-	
-				edge.setPointOfDefinition(pattern);
 			}
 			
 			++dependencyLevel;
@@ -2149,140 +2003,23 @@ public class ActionsGen extends CSharpBase {
 			if(alreadyDefinedIdentifiableToName.get(sub)!=null) {
 				continue;
 			}
-			String subName = formatIdentifiable(sub, pathPrefixForElements);
-			sb.appendFront("GRGEN_LGSP.PatternGraphEmbedding " + subName
-					+ " = new GRGEN_LGSP.PatternGraphEmbedding(");
-			sb.append("\"" + formatIdentifiable(sub) + "\", ");
-			sb.append(getPackagePrefixDot(sub.getSubpatternAction()) + "Pattern_" + sub.getSubpatternAction().getIdent().toString() + ".Instance, \n");
-			sb.indent();
-			
-			sb.appendFront("new GRGEN_EXPR.Expression[] {\n");
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
-			for(Expression expr : sub.getSubpatternConnections()) {
-				expr.collectNeededEntities(needs);
-				sb.appendFront("\t");
-				genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
-				sb.append(",\n");
-			}
-			sb.appendFront("}, \n");
-			
-			sb.appendFront("new string[] { ");
-			for(Expression expr : sub.getSubpatternYields()) {
-				sb.append("\"");
-				if(expr instanceof VariableExpression) {
-					VariableExpression ve = (VariableExpression)expr;
-					sb.append(formatEntity(ve.getVariable(), pathPrefixForElements, alreadyDefinedEntityToName));
-				} else {
-					GraphEntityExpression ge = (GraphEntityExpression)expr;
-					sb.append(formatEntity(ge.getGraphEntity(), pathPrefixForElements, alreadyDefinedEntityToName));
-				}
-				sb.append("\", ");
-			}
-			sb.append("}, ");
-			sb.append("new GRGEN_LGSP.PatternElement[] { ");
-			for(Expression expr : sub.getSubpatternYields()) {
-				if(expr instanceof VariableExpression) {
-					sb.append("null");
-				} else {
-					GraphEntityExpression ge = (GraphEntityExpression)expr;
-					sb.append(formatEntity(ge.getGraphEntity(), pathPrefixForElements, alreadyDefinedEntityToName));
-				}
-				sb.append(", ");
-			}
-			sb.append("}, ");
-			sb.append("new GRGEN_LGSP.PatternVariable[] { ");
-			for(Expression expr : sub.getSubpatternYields()) {
-				if(expr instanceof VariableExpression) {
-					VariableExpression ve = (VariableExpression)expr;
-					sb.append(formatEntity(ve.getVariable(), pathPrefixForElements, alreadyDefinedEntityToName));
-				} else {
-					sb.append("null");
-				}
-				sb.append(", ");
-			}
-			sb.append("},\n");
-			sb.appendFront("new string[] ");
-			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new string[] ");
-			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new string[] ");
-			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(",\n");
-			sb.appendFront("new GRGEN_LGSP.PatternNode[] ");
-			genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LGSP.PatternEdge[] ");
-			genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LGSP.PatternVariable[] ");
-			genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
 
-			sb.unindent();
-			sb.append(");\n");
+			String subName = formatIdentifiable(sub, pathPrefixForElements);
+			genSubpatternEmbedding(sb, aux, patGraphVarName, className,
+					alreadyDefinedEntityToName, pathPrefixForElements, 
+					sub, subName);
 			alreadyDefinedIdentifiableToName.put(sub, subName);
-			aux.appendFront(subName + ".PointOfDefinition = " + patGraphVarName + ";\n");
-			addAnnotations(aux, sub, subName+".annotations");
 		}
 
 		int i = 0;
 		for(Expression expr : pattern.getConditions()) {
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
-			expr.collectNeededEntities(needs);
-			sb.appendFront("GRGEN_LGSP.PatternCondition " + pathPrefixForElements+"cond_"+i
-					+ " = new GRGEN_LGSP.PatternCondition(\n");
-			sb.indent();
-			sb.appendFront("");
-			genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(",\n");
-			sb.appendFront("new string[] ");
-			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new string[] ");
-			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new string[] ");
-			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(",\n");
-			sb.appendFront("new GRGEN_LGSP.PatternNode[] ");
-			genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LGSP.PatternEdge[] ");
-			genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LGSP.PatternVariable[] ");
-			genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(");\n");
-			sb.unindent();
+			String condName = pathPrefixForElements + "cond_" + i;
+			genPatternCondition(sb, className, alreadyDefinedEntityToName, pathPrefixForElements, expr, condName);
 			++i;
 		}
 
 		for(EvalStatements yields : pattern.getYields()) {
-			sb.appendFront("GRGEN_LGSP.PatternYielding " + pathPrefixForElements+yields.getName()
-					+ " = new GRGEN_LGSP.PatternYielding(");
-			sb.append("\"" + yields.getName() + "\",\n ");
-			sb.indent();
-			sb.appendFront("new GRGEN_EXPR.Yielding[] {\n");
-			sb.indent();
-
-			for(EvalStatement yield : yields.evalStatements) {
-				genYield(sb, yield, className, pathPrefixForElements, alreadyDefinedEntityToName);
-				sb.append(",\n");
-			}
-			
-			sb.unindent();
-			sb.appendFront("}, \n");
-
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
-			yields.collectNeededEntities(needs);
-			sb.appendFront("new string[] ");
-			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new string[] ");
-			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new string[] ");
-			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(",\n");
-			sb.appendFront("new GRGEN_LGSP.PatternNode[] ");
-			genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LGSP.PatternEdge[] ");
-			genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(", new GRGEN_LGSP.PatternVariable[] ");
-			genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
-			sb.append(");\n");
-			sb.unindent();
+			genPatternYielding(sb, className, alreadyDefinedEntityToName, pathPrefixForElements, yields);
 		}
 
 		for(Alternative alt : pattern.getAlts()) {
@@ -2302,13 +2039,7 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = alt.getNameOfGraph();
-			sb.appendFront("GRGEN_LGSP.Alternative " + pathPrefixForElements+altName + " = new GRGEN_LGSP.Alternative( ");
-			sb.append("\"" + altName + "\", ");
-			sb.append("\"" + pathPrefixForElements + "\", ");
-			sb.append("new GRGEN_LGSP.PatternGraph[] ");
-			genAlternativesSet(sb, alt.getAlternativeCases(), pathPrefixForElements+altName+"_", "", true);
-			sb.append(" );\n\n");
+			getPatternAlternative(sb, pathPrefixForElements, alt);
 		}
 
 		for(Rule iter : pattern.getIters()) {
@@ -2325,33 +2056,7 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		for(Rule iter : pattern.getIters()) {
-			PatternGraph iterPattern = iter.getLeft();
-			String iterName = iterPattern.getNameOfGraph();
-			sb.appendFront("GRGEN_LGSP.Iterated " + pathPrefixForElements+iterName+"_it" + " = new GRGEN_LGSP.Iterated( ");
-			sb.append(pathPrefixForElements + iterName + ", ");
-			sb.append(iter.getMinMatches() + ", ");
-			sb.append(iter.getMaxMatches() + ", ");
-			
-			sb.append("new GRGEN_LGSP.LGSPFilter[] {\n");
-			sb.indent();
-
-			genFilterAutoSupplied(sb, "keepFirst", packageName, "int");
-			genFilterAutoSupplied(sb, "keepLast", packageName, "int");
-			genFilterAutoSupplied(sb, "keepFirstFraction", packageName, "double");
-			genFilterAutoSupplied(sb, "keepLastFraction", packageName, "double");
-			genFilterAutoSupplied(sb, "removeFirst", packageName, "int");
-			genFilterAutoSupplied(sb, "removeLast", packageName, "int");
-			genFilterAutoSupplied(sb, "removeFirstFraction", packageName, "double");
-			genFilterAutoSupplied(sb, "removeLastFraction", packageName, "double");
-
-			for(Filter filter : iter.getFilters()) {
-				if(filter instanceof FilterAutoGenerated)
-					genFilterAutoGenerated(sb, (FilterAutoGenerated)filter, packageName);
-			}
-			
-			sb.unindent();
-			sb.appendFront("}\n");
-			sb.appendFront(");\n");
+			genPatternIterated(sb, packageName, pathPrefixForElements, iter);
 		}
 		
 		for(PatternGraph neg : pattern.getNegs()) {
@@ -2377,6 +2082,353 @@ public class ActionsGen extends CSharpBase {
 							  alreadyDefinedIdentifiableToNameClone,
 							  parameters, max);
 		}
+	}
+
+	private void genNodeGlobalHomMatrix(SourceBuilder sb, PatternGraph pattern,
+			HashMap<Entity, String> alreadyDefinedEntityToName) {
+		if(pattern.getNodes().size() > 0) {
+			sb.append(" {\n");
+			sb.indent();
+			for(Node node1 : pattern.getNodes()) {
+				sb.appendFront("{ ");
+				for(Node node2 : pattern.getNodes()) {
+					if(pattern.isHomomorphicGlobal(alreadyDefinedEntityToName, node1, node2))
+						sb.append("true, ");
+					else
+						sb.append("false, ");
+				}
+				sb.append("},\n");
+			}
+			sb.unindent();
+			sb.appendFront("}");
+		}
+	}
+
+	private void genEdgeGlobalHomMatrix(SourceBuilder sb, PatternGraph pattern,
+			HashMap<Entity, String> alreadyDefinedEntityToName) {
+		if(pattern.getEdges().size() > 0) {
+			sb.append(" {\n");
+			sb.indent();
+			for(Edge edge1 : pattern.getEdges()) {
+				sb.appendFront("{ ");
+				for(Edge edge2 : pattern.getEdges()) {
+					if(pattern.isHomomorphicGlobal(alreadyDefinedEntityToName, edge1, edge2))
+						sb.append("true, ");
+					else
+						sb.append("false, ");
+				}
+				sb.append("},\n");
+			}
+			sb.unindent();
+			sb.appendFront("}");
+		}
+	}
+
+	private void genNodeTotallyHomArray(SourceBuilder sb, PatternGraph pattern) {
+		if(pattern.getNodes().size() > 0) {
+			sb.append(" { ");
+			for(Node node : pattern.getNodes()) {
+				if(pattern.isTotallyHomomorphic(node))
+					sb.append("true, ");
+				else
+					sb.append("false, ");
+			}
+			sb.append(" }");
+		}
+	}
+
+	private void genEdgeTotallyHomArray(SourceBuilder sb, PatternGraph pattern) {
+		if(pattern.getEdges().size() > 0) {
+			sb.append(" { ");
+			for(Edge edge : pattern.getEdges()) {
+				if(pattern.isTotallyHomomorphic(edge))
+					sb.append("true, ");
+				else
+					sb.append("false, ");
+			}
+			sb.append(" }");
+		}
+	}
+
+	private String genPatternVariable(SourceBuilder sb, SourceBuilder aux, String patGraphVarName, 
+			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
+			List<Entity> parameters, boolean isMatchClass, String pathPrefixForElements, 
+			Variable var, String varName) {
+		sb.appendFront((isMatchClass ? "static " : "") + "GRGEN_LGSP.PatternVariable " + varName
+				+ " = new GRGEN_LGSP.PatternVariable(");
+		sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(var)
+				+ ")), \"" + varName + "\", \"" + formatIdentifiable(var) + "\", ");
+		sb.append(parameters.indexOf(var)+", ");
+		sb.append(var.isDefToBeYieldedTo() ? "true, " : "false, ");
+		if(var.initialization!=null) {
+			genExpressionTree(sb, var.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(");\n");
+		} else {
+			sb.append("null);\n");
+		}
+		if(isMatchClass)
+			aux.appendFront(varName + ".pointOfDefinition = null;\n");
+		else
+			aux.appendFront(varName + ".pointOfDefinition = " + (parameters.indexOf(var)==-1 ? patGraphVarName : "null") + ";\n");
+		addAnnotations(aux, var, varName+".annotations");
+		return varName;
+	}
+
+	private void genPatternNode(SourceBuilder sb, SourceBuilder aux, PatternGraph pattern, String pathPrefix,
+			String patGraphVarName, String className, HashMap<Entity, String> alreadyDefinedEntityToName,
+			List<Entity> parameters, double max, boolean isMatchClass, String pathPrefixForElements, 
+			Node node, String nodeName) {
+		sb.appendFront((isMatchClass ? "static " : "") + "GRGEN_LGSP.PatternNode " + nodeName + " = new GRGEN_LGSP.PatternNode(");
+		sb.append("(int) GRGEN_MODEL." + getPackagePrefixDot(node.getType()) + "NodeTypes.@" + formatIdentifiable(node.getType()) 
+				+ ", " + formatTypeClassRef(node.getType()) + ".typeVar"
+				+ ", \"" + formatElementInterfaceRef(node.getType()) + "\", ");
+		sb.append("\"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
+		sb.append(nodeName + "_AllowedTypes, ");
+		sb.append(nodeName + "_IsAllowedType, ");
+		appendPrio(sb, node, max);
+		sb.append(parameters.indexOf(node)+", ");
+		sb.append(node.getMaybeNull() ? "true, " : "false, ");
+		genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
+				pathPrefixForElements, node);
+		genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
+				pathPrefixForElements, node, parameters);
+		genNameLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
+				pathPrefixForElements, node, parameters);
+		genUniqueLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
+				pathPrefixForElements, node, parameters);
+		sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
+		sb.append(node.isDefToBeYieldedTo() ? "true," : "false,");
+		if(node.initialization!=null) {
+			genExpressionTree(sb, node.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(");\n");
+		} else {
+			sb.append("null);\n");
+		}
+		if(isMatchClass)
+			aux.appendFront(nodeName + ".pointOfDefinition = null;\n");
+		else
+			aux.appendFront(nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
+		addAnnotations(aux, node, nodeName+".annotations");
+
+		node.setPointOfDefinition(pattern);
+	}
+
+	private void genPatternEdge(SourceBuilder sb, SourceBuilder aux, PatternGraph pattern, String pathPrefix,
+			String patGraphVarName, String className, HashMap<Entity, String> alreadyDefinedEntityToName,
+			List<Entity> parameters, double max, boolean isMatchClass, String pathPrefixForElements, 
+			Edge edge, String edgeName) {
+		sb.appendFront((isMatchClass ? "static " : "") + "GRGEN_LGSP.PatternEdge " + edgeName + " = new GRGEN_LGSP.PatternEdge(");
+		sb.append((edge.hasFixedDirection() ? "true" : "false") + ", ");
+		sb.append("(int) GRGEN_MODEL." + getPackagePrefixDot(edge.getType()) + "EdgeTypes.@" + formatIdentifiable(edge.getType()) 
+				+ ", " + formatTypeClassRef(edge.getType()) + ".typeVar"
+				+ ", \"" + formatElementInterfaceRef(edge.getType()) + "\", ");
+		sb.append("\"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
+		sb.append(edgeName + "_AllowedTypes, ");
+		sb.append(edgeName + "_IsAllowedType, ");
+		appendPrio(sb, edge, max);
+		sb.append(parameters.indexOf(edge)+", ");
+		sb.append(edge.getMaybeNull()?"true, ":"false, ");
+		genStorageAccess(sb, pathPrefix, alreadyDefinedEntityToName,
+				pathPrefixForElements, edge);
+		genIndexAccess(sb, pathPrefix, className, alreadyDefinedEntityToName,
+				pathPrefixForElements, edge, parameters);
+		genNameLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
+				pathPrefixForElements, edge, parameters);
+		genUniqueLookup(sb, pathPrefix, className, alreadyDefinedEntityToName,
+				pathPrefixForElements, edge, parameters);
+		sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
+		sb.append(edge.isDefToBeYieldedTo() ? "true," : "false,");
+		if(edge.initialization!=null) {
+			genExpressionTree(sb, edge.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(");\n");
+		} else {
+			sb.append("null);\n");
+		}
+		if(isMatchClass)
+			aux.appendFront(edgeName + ".pointOfDefinition = null;\n");
+		else
+			aux.appendFront(edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
+		addAnnotations(aux, edge, edgeName+".annotations");
+
+		edge.setPointOfDefinition(pattern);
+	}
+
+	private void genSubpatternEmbedding(SourceBuilder sb, SourceBuilder aux, String patGraphVarName,
+			String className, HashMap<Entity, String> alreadyDefinedEntityToName, String pathPrefixForElements,
+			SubpatternUsage sub, String subName) {
+		sb.appendFront("GRGEN_LGSP.PatternGraphEmbedding " + subName
+				+ " = new GRGEN_LGSP.PatternGraphEmbedding(");
+		sb.append("\"" + formatIdentifiable(sub) + "\", ");
+		sb.append(getPackagePrefixDot(sub.getSubpatternAction()) + "Pattern_" + sub.getSubpatternAction().getIdent().toString() + ".Instance, \n");
+		sb.indent();
+		
+		sb.appendFront("new GRGEN_EXPR.Expression[] {\n");
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		for(Expression expr : sub.getSubpatternConnections()) {
+			expr.collectNeededEntities(needs);
+			sb.appendFront("\t");
+			genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(",\n");
+		}
+		sb.appendFront("}, \n");
+		
+		sb.appendFront("new string[] { ");
+		for(Expression expr : sub.getSubpatternYields()) {
+			sb.append("\"");
+			if(expr instanceof VariableExpression) {
+				VariableExpression ve = (VariableExpression)expr;
+				sb.append(formatEntity(ve.getVariable(), pathPrefixForElements, alreadyDefinedEntityToName));
+			} else {
+				GraphEntityExpression ge = (GraphEntityExpression)expr;
+				sb.append(formatEntity(ge.getGraphEntity(), pathPrefixForElements, alreadyDefinedEntityToName));
+			}
+			sb.append("\", ");
+		}
+		sb.append("}, ");
+		sb.append("new GRGEN_LGSP.PatternElement[] { ");
+		for(Expression expr : sub.getSubpatternYields()) {
+			if(expr instanceof VariableExpression) {
+				sb.append("null");
+			} else {
+				GraphEntityExpression ge = (GraphEntityExpression)expr;
+				sb.append(formatEntity(ge.getGraphEntity(), pathPrefixForElements, alreadyDefinedEntityToName));
+			}
+			sb.append(", ");
+		}
+		sb.append("}, ");
+		sb.append("new GRGEN_LGSP.PatternVariable[] { ");
+		for(Expression expr : sub.getSubpatternYields()) {
+			if(expr instanceof VariableExpression) {
+				VariableExpression ve = (VariableExpression)expr;
+				sb.append(formatEntity(ve.getVariable(), pathPrefixForElements, alreadyDefinedEntityToName));
+			} else {
+				sb.append("null");
+			}
+			sb.append(", ");
+		}
+		sb.append("},\n");
+		sb.appendFront("new string[] ");
+		genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new string[] ");
+		genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new string[] ");
+		genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(",\n");
+		sb.appendFront("new GRGEN_LGSP.PatternNode[] ");
+		genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_LGSP.PatternEdge[] ");
+		genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_LGSP.PatternVariable[] ");
+		genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+
+		sb.unindent();
+		sb.append(");\n");
+
+		aux.appendFront(subName + ".PointOfDefinition = " + patGraphVarName + ";\n");
+		
+		addAnnotations(aux, sub, subName+".annotations");
+	}
+
+	private void genPatternCondition(SourceBuilder sb, String className, HashMap<Entity, String> alreadyDefinedEntityToName,
+			String pathPrefixForElements, Expression expr, String condName) {
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		expr.collectNeededEntities(needs);
+		sb.appendFront("GRGEN_LGSP.PatternCondition " + condName + " = new GRGEN_LGSP.PatternCondition(\n");
+		sb.indent();
+		sb.appendFront("");
+		genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(",\n");
+		sb.appendFront("new string[] ");
+		genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new string[] ");
+		genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new string[] ");
+		genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(",\n");
+		sb.appendFront("new GRGEN_LGSP.PatternNode[] ");
+		genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_LGSP.PatternEdge[] ");
+		genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_LGSP.PatternVariable[] ");
+		genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(");\n");
+		sb.unindent();
+	}
+
+	private void genPatternYielding(SourceBuilder sb, String className,
+			HashMap<Entity, String> alreadyDefinedEntityToName, String pathPrefixForElements, EvalStatements yields) {
+		String yieldName = pathPrefixForElements + yields.getName();
+		sb.appendFront("GRGEN_LGSP.PatternYielding " + yieldName + " = new GRGEN_LGSP.PatternYielding(");
+		sb.append("\"" + yields.getName() + "\",\n ");
+		sb.indent();
+		sb.appendFront("new GRGEN_EXPR.Yielding[] {\n");
+		sb.indent();
+
+		for(EvalStatement yield : yields.evalStatements) {
+			genYield(sb, yield, className, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(",\n");
+		}
+		
+		sb.unindent();
+		sb.appendFront("}, \n");
+
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
+		yields.collectNeededEntities(needs);
+		sb.appendFront("new string[] ");
+		genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new string[] ");
+		genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new string[] ");
+		genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(",\n");
+		sb.appendFront("new GRGEN_LGSP.PatternNode[] ");
+		genEntitySet(sb, needs.nodes, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_LGSP.PatternEdge[] ");
+		genEntitySet(sb, needs.edges, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", new GRGEN_LGSP.PatternVariable[] ");
+		genEntitySet(sb, needs.variables, "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(");\n");
+		sb.unindent();
+	}
+
+	private void getPatternAlternative(SourceBuilder sb, String pathPrefixForElements, Alternative alt) {
+		String altName = alt.getNameOfGraph();
+		sb.appendFront("GRGEN_LGSP.Alternative " + pathPrefixForElements+altName + " = new GRGEN_LGSP.Alternative( ");
+		sb.append("\"" + altName + "\", ");
+		sb.append("\"" + pathPrefixForElements + "\", ");
+		sb.append("new GRGEN_LGSP.PatternGraph[] ");
+		genAlternativesSet(sb, alt.getAlternativeCases(), pathPrefixForElements+altName+"_", "", true);
+		sb.append(" );\n\n");
+	}
+
+	private void genPatternIterated(SourceBuilder sb, String packageName, String pathPrefixForElements, Rule iter) {
+		PatternGraph iterPattern = iter.getLeft();
+		String iterName = iterPattern.getNameOfGraph();
+		sb.appendFront("GRGEN_LGSP.Iterated " + pathPrefixForElements+iterName+"_it" + " = new GRGEN_LGSP.Iterated( ");
+		sb.append(pathPrefixForElements + iterName + ", ");
+		sb.append(iter.getMinMatches() + ", ");
+		sb.append(iter.getMaxMatches() + ", ");
+		
+		sb.append("new GRGEN_LGSP.LGSPFilter[] {\n");
+		sb.indent();
+
+		genFilterAutoSupplied(sb, "keepFirst", packageName, "int");
+		genFilterAutoSupplied(sb, "keepLast", packageName, "int");
+		genFilterAutoSupplied(sb, "keepFirstFraction", packageName, "double");
+		genFilterAutoSupplied(sb, "keepLastFraction", packageName, "double");
+		genFilterAutoSupplied(sb, "removeFirst", packageName, "int");
+		genFilterAutoSupplied(sb, "removeLast", packageName, "int");
+		genFilterAutoSupplied(sb, "removeFirstFraction", packageName, "double");
+		genFilterAutoSupplied(sb, "removeLastFraction", packageName, "double");
+
+		for(Filter filter : iter.getFilters()) {
+			if(filter instanceof FilterAutoGenerated)
+				genFilterAutoGenerated(sb, (FilterAutoGenerated)filter, packageName);
+		}
+		
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.appendFront(");\n");
 	}
 
 	private void genStorageAccess(SourceBuilder sb, String pathPrefix,
@@ -2410,7 +2462,7 @@ public class ActionsGen extends CSharpBase {
 	private void genIndexAccess(SourceBuilder sb, String pathPrefix, 
 			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
 			String pathPrefixForElements, GraphEntity entity, List<Entity> parameters) {
-		if(entity.indexAccess!=null) {
+		if(entity.indexAccess != null) {
 			if(entity.indexAccess instanceof IndexAccessEquality) {
 				IndexAccessEquality indexAccess = (IndexAccessEquality)entity.indexAccess;
 				NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
@@ -2458,7 +2510,7 @@ public class ActionsGen extends CSharpBase {
 	private void genNameLookup(SourceBuilder sb, String pathPrefix, 
 			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
 			String pathPrefixForElements, GraphEntity entity, List<Entity> parameters) {
-		if(entity.nameMapAccess!=null) {
+		if(entity.nameMapAccess != null) {
 			NameLookup nameMapAccess = entity.nameMapAccess;
 			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 			nameMapAccess.expr.collectNeededEntities(needs);
@@ -2476,7 +2528,7 @@ public class ActionsGen extends CSharpBase {
 	private void genUniqueLookup(SourceBuilder sb, String pathPrefix, 
 			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
 			String pathPrefixForElements, GraphEntity entity, List<Entity> parameters) {
-		if(entity.uniqueIndexAccess!=null) {
+		if(entity.uniqueIndexAccess != null) {
 			UniqueLookup uniqueIndexAccess = entity.uniqueIndexAccess;
 			NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 			uniqueIndexAccess.expr.collectNeededEntities(needs);
@@ -2491,7 +2543,7 @@ public class ActionsGen extends CSharpBase {
 		}		
 	}
 
-	private void genRuleParamResult(SourceBuilder sb, MatchingAction action, String packageName, boolean isSubpattern) {
+	private void genRuleParam(SourceBuilder sb, MatchingAction action, String packageName) {
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity ent : action.getParameters()) {
 			if(ent instanceof Variable) {
@@ -2523,50 +2575,52 @@ public class ActionsGen extends CSharpBase {
 		for(Entity ent : action.getDefParameters())
 			sb.append("\"" + formatIdentifiable(ent) + "\", ");
 		sb.append("}");
+	}
 
-		if(!isSubpattern) {
-			sb.append(",\n");
-			sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
-			for(Expression expr : action.getReturns()) {
-				if(expr instanceof GraphEntityExpression)
-					sb.append(formatTypeClassRef(expr.getType()) + ".typeVar, ");
-				else
-					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(expr.getType()) + ")), ");
-			}
-			sb.append("},\n");
-			
-			sb.appendFront("new GRGEN_LGSP.LGSPFilter[] {\n");
-			sb.indent();
-
-			genFilterAutoSupplied(sb, "keepFirst", packageName, "int");
-			genFilterAutoSupplied(sb, "keepLast", packageName, "int");
-			genFilterAutoSupplied(sb, "keepFirstFraction", packageName, "double");
-			genFilterAutoSupplied(sb, "keepLastFraction", packageName, "double");
-			genFilterAutoSupplied(sb, "removeFirst", packageName, "int");
-			genFilterAutoSupplied(sb, "removeLast", packageName, "int");
-			genFilterAutoSupplied(sb, "removeFirstFraction", packageName, "double");
-			genFilterAutoSupplied(sb, "removeLastFraction", packageName, "double");
-
-			for(Filter filter : action.getFilters()) {
-				if(filter instanceof FilterAutoGenerated) {
-					genFilterAutoGenerated(sb, (FilterAutoGenerated)filter, packageName);
-				} else {
-					genFilterFunction(sb, (FilterFunction)filter, packageName);
-				}
-			}
-			
-			sb.unindent();
-			sb.appendFront("},\n");
-			
-			Rule rule = (Rule)action;
-			sb.appendFront("new GRGEN_LIBGR.MatchClassInfo[] { ");
-			for(DefinedMatchType implementedMatchClass : rule.getImplementedMatchClasses()) {
-				sb.append(getPackagePrefixDot(implementedMatchClass) + "MatchClassInfo_" + implementedMatchClass.getIdent().toString() + ".Instance");
-				sb.append(", ");
-			}
-			sb.append("}");
+	private void genRuleResult(SourceBuilder sb, Rule rule, String packageName) {
+		sb.append(",\n");
+		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
+		for(Expression expr : rule.getReturns()) {
+			if(expr instanceof GraphEntityExpression)
+				sb.append(formatTypeClassRef(expr.getType()) + ".typeVar, ");
+			else
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(expr.getType()) + ")), ");
 		}
-		sb.append("\n");
+		sb.append("},\n");		
+	}
+
+	private void genRuleFilter(SourceBuilder sb, Rule rule, String packageName) {		
+		sb.appendFront("new GRGEN_LGSP.LGSPFilter[] {\n");
+		sb.indent();
+
+		genFilterAutoSupplied(sb, "keepFirst", packageName, "int");
+		genFilterAutoSupplied(sb, "keepLast", packageName, "int");
+		genFilterAutoSupplied(sb, "keepFirstFraction", packageName, "double");
+		genFilterAutoSupplied(sb, "keepLastFraction", packageName, "double");
+		genFilterAutoSupplied(sb, "removeFirst", packageName, "int");
+		genFilterAutoSupplied(sb, "removeLast", packageName, "int");
+		genFilterAutoSupplied(sb, "removeFirstFraction", packageName, "double");
+		genFilterAutoSupplied(sb, "removeLastFraction", packageName, "double");
+
+		for(Filter filter : rule.getFilters()) {
+			if(filter instanceof FilterAutoGenerated) {
+				genFilterAutoGenerated(sb, (FilterAutoGenerated)filter, packageName);
+			} else {
+				genFilterFunction(sb, (FilterFunction)filter, packageName);
+			}
+		}
+
+		sb.unindent();
+		sb.appendFront("},\n");
+	}
+
+	private void genRuleMatchClassInfo(SourceBuilder sb, Rule rule, String packageName) {			
+		sb.appendFront("new GRGEN_LIBGR.MatchClassInfo[] { ");
+		for(DefinedMatchType implementedMatchClass : rule.getImplementedMatchClasses()) {
+			sb.append(getPackagePrefixDot(implementedMatchClass) + "MatchClassInfo_" + implementedMatchClass.getIdent().toString() + ".Instance");
+			sb.append(", ");
+		}
+		sb.append("}");
 	}
 
 	private void genFilterAutoSupplied(SourceBuilder sb, String filterName, String packageName, String parameterType) {
@@ -2737,80 +2791,8 @@ public class ActionsGen extends CSharpBase {
 			}
 		}
 		for(ImperativeStmt istmt : rule.getRight().getImperativeStmts()) {
-			if (istmt instanceof Exec) {
-				Exec exec = (Exec) istmt;
-				sb.appendFront("public static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + pathPrefix + xgrsID
-						+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
-				sb.indent();
-				sb.appendFront("new string[] {");
-				for(Entity neededEntity : exec.getNeededEntities(false)) {
-					if(!neededEntity.isDefToBeYieldedTo()) {
-						sb.append("\"" + neededEntity.getIdent() + "\", ");
-					}
-				}
-				sb.append("},\n");
-				sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
-				for(Entity neededEntity : exec.getNeededEntities(false)) {
-					if(!neededEntity.isDefToBeYieldedTo()) {
-						if(neededEntity instanceof Variable) {
-							sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
-						} else {
-							GraphEntity gent = (GraphEntity)neededEntity;
-							sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
-						}
-					}
-				}
-				sb.append("},\n");
-				sb.appendFront("new string[] {");
-				for(Entity neededEntity : exec.getNeededEntities(false)) {
-					if(neededEntity.isDefToBeYieldedTo()) {
-						sb.append("\"" + neededEntity.getIdent() + "\", ");
-					}
-				}
-				sb.append("},\n");
-				sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
-				for(Entity neededEntity : exec.getNeededEntities(false)) {
-					if(neededEntity.isDefToBeYieldedTo()) {
-						if(neededEntity instanceof Variable) {
-							sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
-						} else {
-							GraphEntity gent = (GraphEntity)neededEntity;
-							sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
-						}
-					}
-				}
-				sb.append("},\n");
-				sb.appendFront((packageName!=null ? "\"" + packageName + "\"" : "null") + ",\n");
-				sb.appendFront("\"" + escapeBackslashAndDoubleQuotes(exec.getXGRSString()) + "\",\n");
-				sb.appendFront(exec.getLineNr() + "\n");
-				sb.unindent();
-				sb.appendFront(");\n");
-				
-				sb.appendFront("private static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
-				for(Entity neededEntity : exec.getNeededEntities(false)) {
-					if(!neededEntity.isDefToBeYieldedTo()) {
-						sb.append(", " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
-					}
-				}
-				for(Entity neededEntity : exec.getNeededEntities(false)) {
-					if(neededEntity.isDefToBeYieldedTo()) {
-						sb.append(", ref " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
-					}
-				}
-				sb.append(") {\n");
-				sb.indent();
-				for(Entity neededEntity : exec.getNeededEntities(false)) {
-					if(neededEntity.isDefToBeYieldedTo()) {
-						sb.appendFront(formatEntity(neededEntity) + " = ");
-						sb.append(getInitializationValue(neededEntity.getType()) + ";\n");
-						sb.append(";\n");
-					}
-				}
-				sb.appendFront("return true;\n");
-				sb.unindent();
-				sb.appendFront("}\n");
-				
-				++xgrsID;
+			if(istmt instanceof Exec) {
+				xgrsID = genExec(sb, pathPrefix, packageName, (Exec)istmt, xgrsID);
 			} else if(istmt instanceof Emit) {
 				// nothing to do
 			} else {
@@ -2885,7 +2867,83 @@ public class ActionsGen extends CSharpBase {
 		}
 		return xgrsID;
 	}
-	
+
+	private int genExec(SourceBuilder sb, String pathPrefix, String packageName, Exec exec, int xgrsID) {
+		sb.appendFront("public static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + pathPrefix + xgrsID
+				+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
+		sb.indent();
+		sb.appendFront("new string[] {");
+		for(Entity neededEntity : exec.getNeededEntities(false)) {
+			if(!neededEntity.isDefToBeYieldedTo()) {
+				sb.append("\"" + neededEntity.getIdent() + "\", ");
+			}
+		}
+		sb.append("},\n");
+		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity neededEntity : exec.getNeededEntities(false)) {
+			if(!neededEntity.isDefToBeYieldedTo()) {
+				if(neededEntity instanceof Variable) {
+					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
+				} else {
+					GraphEntity gent = (GraphEntity)neededEntity;
+					sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
+				}
+			}
+		}
+		sb.append("},\n");
+		sb.appendFront("new string[] {");
+		for(Entity neededEntity : exec.getNeededEntities(false)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				sb.append("\"" + neededEntity.getIdent() + "\", ");
+			}
+		}
+		sb.append("},\n");
+		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity neededEntity : exec.getNeededEntities(false)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				if(neededEntity instanceof Variable) {
+					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
+				} else {
+					GraphEntity gent = (GraphEntity)neededEntity;
+					sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
+				}
+			}
+		}
+		sb.append("},\n");
+		sb.appendFront((packageName!=null ? "\"" + packageName + "\"" : "null") + ",\n");
+		sb.appendFront("\"" + escapeBackslashAndDoubleQuotes(exec.getXGRSString()) + "\",\n");
+		sb.appendFront(exec.getLineNr() + "\n");
+		sb.unindent();
+		sb.appendFront(");\n");
+		
+		sb.appendFront("private static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
+		for(Entity neededEntity : exec.getNeededEntities(false)) {
+			if(!neededEntity.isDefToBeYieldedTo()) {
+				sb.append(", " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
+			}
+		}
+		for(Entity neededEntity : exec.getNeededEntities(false)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				sb.append(", ref " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
+			}
+		}
+		sb.append(") {\n");
+		sb.indent();
+		for(Entity neededEntity : exec.getNeededEntities(false)) {
+			if(neededEntity.isDefToBeYieldedTo()) {
+				sb.appendFront(formatEntity(neededEntity) + " = ");
+				sb.append(getInitializationValue(neededEntity.getType()) + ";\n");
+				sb.append(";\n");
+			}
+		}
+		sb.appendFront("return true;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		
+		++xgrsID;
+		return xgrsID;
+	}
+
 	private int genImperativeStatements(SourceBuilder sb, Rule rule, String pathPrefix, String packageName, ExecStatement execStmt, int xgrsID) {
 		sb.appendFront("public static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + pathPrefix + xgrsID
 				+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
@@ -2994,7 +3052,7 @@ public class ActionsGen extends CSharpBase {
 	private void genImperativeStatementClosures(SourceBuilder sb, Rule rule, String pathPrefix) {
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : rule.getRight().getImperativeStmts()) {
-			if (!(istmt instanceof Exec)) {
+			if(!(istmt instanceof Exec)) {
 				continue;
 			}
 			
@@ -3061,7 +3119,7 @@ public class ActionsGen extends CSharpBase {
 			for(EvalStatement childEvalStmt : condStmt.getTrueCaseStatements()) {
 				xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 			}
-			if(condStmt.getFalseCaseStatements()!=null) {
+			if(condStmt.getFalseCaseStatements() != null) {
 				for(EvalStatement childEvalStmt : condStmt.getFalseCaseStatements()) {
 					xgrsID = genImperativeStatements(sb, procedure, childEvalStmt, xgrsID);
 				}
@@ -5160,7 +5218,30 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.appendFront("public override GRGEN_LIBGR.IMatch Clone() { return new "+className+"(this); }\n");
 		sb.appendFront("public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
+
 		sb.appendFront("public "+className+" nextWithSameHash;\n");
+		
+		genCleanNextWithSameHash(sb, className);
+
+		if(parallelized)
+			sb.appendFront("public int duplicateMatchHash;\n");
+		
+		genCopyConstructor(sb, pattern, name, pathPrefixForElements, className);
+		
+		sb.appendFront("public "+className+"()\n");
+		sb.appendFront("{\n");
+		sb.appendFront("}\n");
+
+		sb.append("\n");
+		
+		genIsEqualMethod(sb, pattern, name, pathPrefixForElements, className);
+
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.append("\n");
+	}
+
+	private void genCleanNextWithSameHash(SourceBuilder sb, String className) {
 		sb.appendFront("public void CleanNextWithSameHash() {\n");
 		sb.indent();
 		sb.appendFront(className+" cur = this;\n");
@@ -5173,10 +5254,11 @@ public class ActionsGen extends CSharpBase {
 		sb.appendFront("}\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		if(parallelized)
-			sb.appendFront("public int duplicateMatchHash;\n");
-
 		sb.append("\n");
+	}
+
+	private void genCopyConstructor(SourceBuilder sb, PatternGraph pattern, String name, String pathPrefixForElements,
+			String className) {
 		sb.appendFront("public void CopyMatchContent("+className +" that)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -5185,16 +5267,17 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.unindent();
 		sb.appendFront("}\n");
+
 		sb.append("\n");
+
 		sb.appendFront("public "+className+"("+className +" that)\n");
 		sb.appendFront("{\n");
 		sb.appendFront("\tCopyMatchContent(that);\n");
 		sb.appendFront("}\n");
-		sb.appendFront("public "+className+"()\n");
-		sb.appendFront("{\n");
-		sb.appendFront("}\n");
+	}
 
-		sb.append("\n");
+	private void genIsEqualMethod(SourceBuilder sb, PatternGraph pattern, String name, String pathPrefixForElements,
+			String className) {
 		sb.appendFront("public bool IsEqual("+className +" that)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -5205,10 +5288,6 @@ public class ActionsGen extends CSharpBase {
 		sb.appendFront("return true;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
 	}
 
 	private void genMatchedEntitiesInterface(SourceBuilder sb, PatternGraph pattern, HashSet<String> elementsAlreadyDeclared,
@@ -6732,4 +6811,3 @@ public class ActionsGen extends CSharpBase {
 	private ModifyGen mgFuncComp;
 	private Model model;
 }
-

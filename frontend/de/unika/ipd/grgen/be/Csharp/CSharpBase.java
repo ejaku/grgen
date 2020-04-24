@@ -591,405 +591,7 @@ public abstract class CSharpBase {
 			ExpressionGenerationState modifyGenerationState) {
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
-			switch (op.arity()) {
-				case 1:
-					sb.append("(" + opSymbols[op.getOpCode()] + " ");
-					genExpression(sb, op.getOperand(0), modifyGenerationState);
-					sb.append(")");
-					break;
-				case 2:
-					switch(op.getOpCode())
-					{
-						case Operator.IN:
-						{
-							Type opType = op.getOperand(1).getType();
-							genExpression(sb, op.getOperand(1), modifyGenerationState);
-							boolean isDictionary = opType instanceof SetType || opType instanceof MapType;
-							sb.append(isDictionary ? ".ContainsKey(" : ".Contains(");
-							if(op.getOperand(0) instanceof GraphEntityExpression)
-								sb.append("(" + formatElementInterfaceRef(op.getOperand(0).getType()) + ")(");
-							genExpression(sb, op.getOperand(0), modifyGenerationState);
-							if(op.getOperand(0) instanceof GraphEntityExpression)
-								sb.append(")");
-							sb.append(")");
-							break;
-						}
-
-						case Operator.ADD:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof ArrayType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof DequeType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else 
-								genBinOpDefault(sb, op, modifyGenerationState);
-							break;
-						}
-
-						case Operator.BIT_OR:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.Union(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else genBinOpDefault(sb, op, modifyGenerationState);
-							break;
-						}
-
-						case Operator.BIT_AND:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.Intersect(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else genBinOpDefault(sb, op, modifyGenerationState);
-							break;
-						}
-
-						case Operator.EXCEPT:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.Except(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else genBinOpDefault(sb, op, modifyGenerationState);
-							break;
-						}
-
-						case Operator.EQ:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof ArrayType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof DequeType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof GraphType) {
-								sb.append("((GRGEN_LIBGR.IGraph)");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(modifyGenerationState.model().isEqualClassDefined()
-									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
-								sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(",");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else {
-								genBinOpDefault(sb, op, modifyGenerationState);
-							}
-							break;
-						}
-
-						case Operator.NE:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof ArrayType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof DequeType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof GraphType) {
-								sb.append("!((GRGEN_LIBGR.IGraph)");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(modifyGenerationState.model().isEqualClassDefined()
-									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
-								sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(",");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else {
-								genBinOpDefault(sb, op, modifyGenerationState);
-							}
-							break;
-						}
-
-						case Operator.SE:
-						{
-							sb.append("((GRGEN_LIBGR.IGraph)");
-							genExpression(sb, op.getOperand(0), modifyGenerationState);
-							sb.append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
-							genExpression(sb, op.getOperand(1), modifyGenerationState);
-							sb.append(")");
-							break;
-						}
-
-						case Operator.GT:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof ArrayType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof DequeType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof StringType) {
-								sb.append("(String.Compare(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(", StringComparison.InvariantCulture)>0)");
-							}
-							else if(modifyGenerationState.model().isLowerClassDefined()
-									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
-								sb.append("(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(",");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-								sb.append("&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(",");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append("))");
-							}
-							else {
-								genBinOpDefault(sb, op, modifyGenerationState);
-							}
-							break;
-						}
-
-						case Operator.GE:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof ArrayType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof DequeType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof StringType) {
-								sb.append("(String.Compare(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(", StringComparison.InvariantCulture)>=0)");
-							}
-							else if(modifyGenerationState.model().isLowerClassDefined()
-									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
-								sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(",");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else {
-								genBinOpDefault(sb, op, modifyGenerationState);
-							}
-							break;
-						}
-
-						case Operator.LT:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof ArrayType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof DequeType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof StringType) {
-								sb.append("(String.Compare(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(", StringComparison.InvariantCulture)<0)");
-							}
-							else if(modifyGenerationState.model().isLowerClassDefined()
-									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
-								sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(",");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else  {
-								genBinOpDefault(sb, op, modifyGenerationState);
-							}
-							break;
-						}
-
-						case Operator.LE:
-						{
-							Type opType = op.getOperand(0).getType();
-							if(opType instanceof MapType || opType instanceof SetType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof ArrayType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof DequeType) {
-								sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-							}
-							else if(opType instanceof StringType) {
-								sb.append("(String.Compare(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(", ");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(", StringComparison.InvariantCulture)<=0)");
-							}
-							else if(modifyGenerationState.model().isLowerClassDefined()
-									&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
-								sb.append("(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(",");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append(")");
-								sb.append("|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
-								genExpression(sb, op.getOperand(0), modifyGenerationState);
-								sb.append(",");
-								genExpression(sb, op.getOperand(1), modifyGenerationState);
-								sb.append("))");
-							}
-							else {
-								genBinOpDefault(sb, op, modifyGenerationState);
-							}
-							break;
-						}
-
-						default:
-							genBinOpDefault(sb, op, modifyGenerationState);
-							break;
-					}
-					break;
-				case 3:
-					if(op.getOpCode()==Operator.COND) {
-						sb.append("((");
-						genExpression(sb, op.getOperand(0), modifyGenerationState);
-						sb.append(") ? (");
-						genExpression(sb, op.getOperand(1), modifyGenerationState);
-						sb.append(") : (");
-						genExpression(sb, op.getOperand(2), modifyGenerationState);
-						sb.append("))");
-						break;
-					}
-					// FALLTHROUGH
-				default:
-					throw new UnsupportedOperationException(
-						"Unsupported operation arity (" + op.arity() + ")");
-			}
+			genOperator(sb, op, modifyGenerationState);
 		}
 		else if(expr instanceof Qualification) {
 			Qualification qual = (Qualification) expr;
@@ -2973,7 +2575,419 @@ public abstract class CSharpBase {
 			IteratedQueryExpr iq = (IteratedQueryExpr) expr;
 			sb.append("curMatch." + iq.getIteratedName().toString() + ".ToListExact()");
 		}
-		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
+		else
+			throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
+	}
+
+	public void genOperator(SourceBuilder sb, Operator op,
+			ExpressionGenerationState modifyGenerationState) {
+		switch(op.arity()) {
+			case 1:
+				sb.append("(" + opSymbols[op.getOpCode()] + " ");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(")");
+				break;
+			case 2:
+				genBinaryOperator(sb, op, modifyGenerationState);
+				break;
+			case 3:
+				if(op.getOpCode() == Operator.COND) {
+					sb.append("((");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(") ? (");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(") : (");
+					genExpression(sb, op.getOperand(2), modifyGenerationState);
+					sb.append("))");
+					break;
+				}
+				// FALLTHROUGH
+			default:
+				throw new UnsupportedOperationException(
+					"Unsupported operation arity (" + op.arity() + ")");
+		}
+	}
+
+	public void genBinaryOperator(SourceBuilder sb, Operator op,
+			ExpressionGenerationState modifyGenerationState) {
+		switch(op.getOpCode())
+		{
+			case Operator.IN:
+			{
+				Type opType = op.getOperand(1).getType();
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				boolean isDictionary = opType instanceof SetType || opType instanceof MapType;
+				sb.append(isDictionary ? ".ContainsKey(" : ".Contains(");
+				if(op.getOperand(0) instanceof GraphEntityExpression)
+					sb.append("(" + formatElementInterfaceRef(op.getOperand(0).getType()) + ")(");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				if(op.getOperand(0) instanceof GraphEntityExpression)
+					sb.append(")");
+				sb.append(")");
+				break;
+			}
+
+			case Operator.ADD:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof ArrayType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof DequeType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.Concatenate(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else 
+					genBinOpDefault(sb, op, modifyGenerationState);
+				break;
+			}
+
+			case Operator.BIT_OR:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.Union(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else
+					genBinOpDefault(sb, op, modifyGenerationState);
+				break;
+			}
+
+			case Operator.BIT_AND:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.Intersect(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else
+					genBinOpDefault(sb, op, modifyGenerationState);
+				break;
+			}
+
+			case Operator.EXCEPT:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.Except(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else
+					genBinOpDefault(sb, op, modifyGenerationState);
+				break;
+			}
+
+			case Operator.EQ:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof ArrayType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof DequeType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.Equal(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof GraphType) {
+					sb.append("((GRGEN_LIBGR.IGraph)");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(modifyGenerationState.model().isEqualClassDefined()
+						&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(",");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else {
+					genBinOpDefault(sb, op, modifyGenerationState);
+				}
+				break;
+			}
+
+			case Operator.NE:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof ArrayType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof DequeType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.NotEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof GraphType) {
+					sb.append("!((GRGEN_LIBGR.IGraph)");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(modifyGenerationState.model().isEqualClassDefined()
+						&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(",");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else {
+					genBinOpDefault(sb, op, modifyGenerationState);
+				}
+				break;
+			}
+
+			case Operator.SE:
+			{
+				sb.append("((GRGEN_LIBGR.IGraph)");
+				genExpression(sb, op.getOperand(0), modifyGenerationState);
+				sb.append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
+				genExpression(sb, op.getOperand(1), modifyGenerationState);
+				sb.append(")");
+				break;
+			}
+
+			case Operator.GT:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof ArrayType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof DequeType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.GreaterThan(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof StringType) {
+					sb.append("(String.Compare(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(", StringComparison.InvariantCulture)>0)");
+				}
+				else if(modifyGenerationState.model().isLowerClassDefined()
+						&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					sb.append("(!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(",");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+					sb.append("&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(",");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append("))");
+				}
+				else {
+					genBinOpDefault(sb, op, modifyGenerationState);
+				}
+				break;
+			}
+
+			case Operator.GE:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof ArrayType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof DequeType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.GreaterOrEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof StringType) {
+					sb.append("(String.Compare(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(", StringComparison.InvariantCulture)>=0)");
+				}
+				else if(modifyGenerationState.model().isLowerClassDefined()
+						&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					sb.append("!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(",");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else {
+					genBinOpDefault(sb, op, modifyGenerationState);
+				}
+				break;
+			}
+
+			case Operator.LT:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof ArrayType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof DequeType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.LessThan(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof StringType) {
+					sb.append("(String.Compare(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(", StringComparison.InvariantCulture)<0)");
+				}
+				else if(modifyGenerationState.model().isLowerClassDefined()
+						&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					sb.append("GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(",");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else  {
+					genBinOpDefault(sb, op, modifyGenerationState);
+				}
+				break;
+			}
+
+			case Operator.LE:
+			{
+				Type opType = op.getOperand(0).getType();
+				if(opType instanceof MapType || opType instanceof SetType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof ArrayType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof DequeType) {
+					sb.append("GRGEN_LIBGR.ContainerHelper.LessOrEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+				}
+				else if(opType instanceof StringType) {
+					sb.append("(String.Compare(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(", ");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(", StringComparison.InvariantCulture)<=0)");
+				}
+				else if(modifyGenerationState.model().isLowerClassDefined()
+						&& (opType instanceof ObjectType || opType instanceof ExternalType)) {
+					sb.append("(GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(",");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append(")");
+					sb.append("|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(");
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
+					sb.append(",");
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					sb.append("))");
+				}
+				else {
+					genBinOpDefault(sb, op, modifyGenerationState);
+				}
+				break;
+			}
+
+			default:
+				genBinOpDefault(sb, op, modifyGenerationState);
+				break;
+		}
 	}
 
 	protected String formatGlobalVariableRead(Entity globalVar)
