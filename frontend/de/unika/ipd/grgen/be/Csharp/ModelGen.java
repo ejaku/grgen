@@ -382,7 +382,9 @@ public class ModelGen extends CSharpBase {
 		sb.append("\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		genAttributeAccess(type, type.getMembers(), "");
+		for(Entity e : type.getMembers()) {
+			genAttributeAccess(type, e, "");
+		}
 		genMethodInterfaces(type, type.getFunctionMethods(), type.getProcedureMethods(), "");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -412,23 +414,20 @@ public class ModelGen extends CSharpBase {
 	}
 
 	/**
-	 * Generate the attribute accessor declarations of the given members.
+	 * Generate the attribute accessor declarations of the given member.
 	 * @param type The type for which the accessors are to be generated.
-	 * @param members A collection of member entities.
-	 * @param modifiers A string which may contain modifiers to be applied to the accessors.
+	 * @param member The member entity.
+	 * @param modifiers A string which may contain modifiers to be applied to the accessor.
 	 * 		It must either end with a space or be empty.
 	 */
-	private void genAttributeAccess(InheritanceType type, Collection<Entity> members,
-			String modifiers) {
-		for(Entity e : members) {
-			sb.appendFront(modifiers);
-			if(type.getOverriddenMember(e) != null)
-				sb.append("new ");
-			if(e.isConst()) {
-				sb.append(formatAttributeType(e) + " @" + formatIdentifiable(e) + " { get; }\n");
-			} else {
-				sb.append(formatAttributeType(e) + " @" + formatIdentifiable(e) + " { get; set; }\n");
-			}
+	private void genAttributeAccess(InheritanceType type, Entity member, String modifiers) {
+		sb.appendFront(modifiers);
+		if(type.getOverriddenMember(member) != null)
+			sb.append("new ");
+		if(member.isConst()) {
+			sb.append(formatAttributeType(member) + " @" + formatIdentifiable(member) + " { get; }\n");
+		} else {
+			sb.append(formatAttributeType(member) + " @" + formatIdentifiable(member) + " { get; set; }\n");
 		}
 	}
 
@@ -508,7 +507,7 @@ public class ModelGen extends CSharpBase {
 			sb.appendFront("{\n");
 			sb.indent();
 		}
-		else { // what's that?
+		else { // what's that? = for "Embedding the graph rewrite system GrGen.NET into C#" (see corresponding master thesis, mono c# compiler extension)
 			routedSB = getStubBuffer();
 			int lastDot = extName.lastIndexOf('.');
 			String extClassName;
@@ -542,8 +541,47 @@ public class ModelGen extends CSharpBase {
 
 		// Static initialization for constants = static members
 		initAllMembersConst(type, elemname, "this");
+		sb.append("\n");
 
-		// Generate constructor
+		genElementConstructor(type, elemname, typeref);
+		sb.append("\n");
+
+		genElementStaticTypeGetter(typeref);
+		sb.append("\n");
+		
+		genElementCloneMethod(type, routedSB, routedDeclName);
+		routedSB.append("\n");
+		genElementCopyConstructor(type, extName, typeref, routedSB, routedClassName, routedDeclName);
+		routedSB.append("\n");
+
+		genElementAttributeComparisonMethod(type, routedSB, routedClassName);
+		routedSB.append("\n");
+
+		genElementCreateMethods(type, isNode, elemref, allocName);
+		sb.append("\n");
+		
+		genElementRecycleMethod();
+		sb.append("\n");
+
+		genAttributesAndAttributeAccessImpl(type);
+
+		genMethods(type);
+
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		if(extName != null) {
+			stubsb.unindent();
+			stubsb.appendFront("}\n");		// close class stub
+			if(namespace != null) {
+				stubsb.unindent();
+				stubsb.appendFront("}\n");				// close namespace
+			}
+		}
+	}
+
+	private void genElementConstructor(InheritanceType type, String elemname, String typeref) {
+		boolean isNode = type instanceof NodeType;
 		if(isNode) {
 			sb.appendFront("public " + elemname + "() : base("+ typeref + ".typeVar)\n");
 			sb.appendFront("{\n");
@@ -551,7 +589,6 @@ public class ModelGen extends CSharpBase {
 			initAllMembersNonConst(type, "this", false, false);
 			sb.unindent();
 			sb.appendFront("}\n");
-			sb.append("\n");
 		}
 		else {
 			sb.appendFront("public " + elemname + "(GRGEN_LGSP.LGSPNode source, "
@@ -562,28 +599,35 @@ public class ModelGen extends CSharpBase {
 			initAllMembersNonConst(type, "this", false, false);
 			sb.unindent();
 			sb.appendFront("}\n");
-			sb.append("\n");
 		}
+	}
 
-		// Generate static type getter
+	private void genElementStaticTypeGetter(String typeref) {
 		sb.appendFront("public static " + typeref + " TypeInstance { get { return " + typeref + ".typeVar; } }\n");
-		sb.append("\n");
-		
-		// Generate the clone and copy constructor
+	}
+
+	private void genElementCloneMethod(InheritanceType type, SourceBuilder routedSB, String routedDeclName) {
+		boolean isNode = type instanceof NodeType;
 		if(isNode) {
 			routedSB.appendFront("public override GRGEN_LIBGR.INode Clone() {\n");
 			routedSB.appendFront("\treturn new " + routedDeclName + "(this);\n");
 			routedSB.appendFront("}\n");
-			routedSB.append("\n");
-			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem) : base("
-					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
 		} else {
 			routedSB.appendFront("public override GRGEN_LIBGR.IEdge Clone("
 						+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {\n");
 			routedSB.appendFront("\treturn new " + routedDeclName + "(this, (GRGEN_LGSP.LGSPNode) newSource, "
 						+ "(GRGEN_LGSP.LGSPNode) newTarget);\n");
 			routedSB.appendFront("}\n");
-			routedSB.append("\n");
+		}
+	}
+
+	private void genElementCopyConstructor(InheritanceType type, String extName, String typeref,
+			SourceBuilder routedSB, String routedClassName, String routedDeclName) {
+		boolean isNode = type instanceof NodeType;
+		if(isNode) {
+			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem) : base("
+					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
+		} else {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName
 						+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)\n");
 			routedSB.appendFront("\t: base("
@@ -612,9 +656,10 @@ public class ModelGen extends CSharpBase {
 		}
 		routedSB.unindent();
 		routedSB.appendFront("}\n");
+	}
 
-		// Generate the attribute comparison method
-		routedSB.append("\n");
+	private void genElementAttributeComparisonMethod(InheritanceType type, SourceBuilder routedSB,
+			String routedClassName) {
 		routedSB.appendFront("public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {\n");
 		routedSB.indent();
 		routedSB.appendFront("if(!(that is "+routedClassName+")) return false;\n");
@@ -646,9 +691,9 @@ public class ModelGen extends CSharpBase {
 		routedSB.appendFront(";\n");
 		routedSB.unindent();
 		routedSB.appendFront("}\n");
-		routedSB.append("\n");
+	}
 
-		// Generate element creators
+	private void genElementCreateMethods(InheritanceType type, boolean isNode, String elemref, String allocName) {
 		if(isNode) {
 			sb.appendFront("public static " + elemref + " CreateNode(GRGEN_LGSP.LGSPGraph graph)\n");
 			sb.appendFront("{\n");
@@ -692,7 +737,6 @@ public class ModelGen extends CSharpBase {
 			sb.appendFront("return node;\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-			sb.append("\n");
 		}
 		else {
 			sb.appendFront("public static " + elemref + " CreateEdge(GRGEN_LGSP.LGSPGraph graph, "
@@ -739,8 +783,10 @@ public class ModelGen extends CSharpBase {
 			sb.appendFront("return edge;\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-			sb.append("\n");
 		}
+	}
+
+	private void genElementRecycleMethod() {
 		sb.appendFront("public override void Recycle()\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -748,23 +794,6 @@ public class ModelGen extends CSharpBase {
 		sb.appendFront("\tpool[poolLevel++] = this;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		sb.append("\n");
-
-		genAttributesAndAttributeAccessImpl(type);
-
-		genMethods(type);
-
-		sb.unindent();
-		sb.appendFront("}\n");
-
-		if(extName != null) {
-			stubsb.unindent();
-			stubsb.appendFront("}\n");		// close class stub
-			if(namespace != null) {
-				stubsb.unindent();
-				stubsb.appendFront("}\n");				// close namespace
-			}
-		}
 	}
 
 	private void initAllMembersNonConst(InheritanceType type, String varName,
@@ -788,37 +817,54 @@ public class ModelGen extends CSharpBase {
 		// if there is explicit initialization code, it's not needed, too,
 		// but that's left for the compiler to optimize away
 		if(withDefaultInits) {
-			for(Entity member : type.getAllMembers()) {
-				if(member.isConst())
-					continue;
-
-				Type t = member.getType();
-				// handled down below, as containers must be created independent of initialization
-				if(t instanceof MapType || t instanceof SetType
-						|| t instanceof ArrayType || t instanceof DequeType)
-					continue;
-
-				String attrName = formatIdentifiable(member);
-				sb.appendFront(varName + ".@" + attrName + " = ");
-				if(t instanceof ByteType || t instanceof ShortType || t instanceof IntType 
-						|| t instanceof EnumType || t instanceof DoubleType ) {
-					sb.append("0;\n");
-				} else if(t instanceof FloatType) {
-					sb.append("0f;\n");
-				} else if(t instanceof LongType) {
-					sb.append("0L;\n");
-				} else if(t instanceof BooleanType) {
-					sb.append("false;\n");
-				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType 
-						|| t instanceof ExternalType || t instanceof GraphType || t instanceof InheritanceType) {
-					sb.append("null;\n");
-				} else {
-					throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
-				}
-			}
+			genDefaultInits(type, varName);
 		}
 
 		// create containers, i.e. maps, sets, arrays, deques
+		genContainerInits(type, varName);
+
+		// generate the user defined initializations, first for super types
+		for(InheritanceType superType : type.getAllSuperTypes()) {
+			genMemberInitsNonConst(superType, type, varName, withDefaultInits, isResetAllAttributes);
+		}
+		// then for current type
+		genMemberInitsNonConst(type, type, varName, withDefaultInits, isResetAllAttributes);
+
+		curMemberOwner = null;
+	}
+
+	private void genDefaultInits(InheritanceType type, String varName) {
+		for(Entity member : type.getAllMembers()) {
+			if(member.isConst())
+				continue;
+
+			Type t = member.getType();
+			// handled down below, as containers must be created independent of initialization
+			if(t instanceof MapType || t instanceof SetType
+					|| t instanceof ArrayType || t instanceof DequeType)
+				continue;
+
+			String attrName = formatIdentifiable(member);
+			sb.appendFront(varName + ".@" + attrName + " = ");
+			if(t instanceof ByteType || t instanceof ShortType || t instanceof IntType 
+					|| t instanceof EnumType || t instanceof DoubleType ) {
+				sb.append("0;\n");
+			} else if(t instanceof FloatType) {
+				sb.append("0f;\n");
+			} else if(t instanceof LongType) {
+				sb.append("0L;\n");
+			} else if(t instanceof BooleanType) {
+				sb.append("false;\n");
+			} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType 
+					|| t instanceof ExternalType || t instanceof GraphType || t instanceof InheritanceType) {
+				sb.append("null;\n");
+			} else {
+				throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
+			}
+		}
+	}
+
+	private void genContainerInits(InheritanceType type, String varName) {
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
 				continue;
@@ -844,16 +890,6 @@ public class ModelGen extends CSharpBase {
 				sb.append("new " + formatAttributeType(dequeType) + "();\n");
 			}
 		}
-
-		// generate the user defined initializations, first for super types
-		for(InheritanceType superType : type.getAllSuperTypes())
-			genMemberInitNonConst(superType, type, varName,
-					withDefaultInits, isResetAllAttributes);
-		// then for current type
-		genMemberInitNonConst(type, type, varName,
-				withDefaultInits, isResetAllAttributes);
-
-		curMemberOwner = null;
 	}
 
 	private int initializationOperationsCount(InheritanceType targetType) {
@@ -952,9 +988,9 @@ deque_init_loop:
 
 		// generate the user defined initializations, first for super types
 		for(InheritanceType superType : type.getAllSuperTypes())
-			genMemberInitConst(superType, type, staticInitializers);
+			genMemberInitsConst(superType, type, staticInitializers);
 		// then for current type
-		genMemberInitConst(type, type, staticInitializers);
+		genMemberInitsConst(type, type, staticInitializers);
 
 		sb.appendFront("static " + className + "() {\n");
 		sb.indent();
@@ -964,12 +1000,10 @@ deque_init_loop:
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		sb.append("\n");
-
 		curMemberOwner = null;
 	}
 
-	private void genMemberInitNonConst(InheritanceType type, InheritanceType targetType,
+	private void genMemberInitsNonConst(InheritanceType type, InheritanceType targetType,
 			String varName, boolean withDefaultInits, boolean isResetAllAttributes) {
 		if(rootTypes.contains(type.getIdent().toString())) // skip root types, they don't possess attributes
 			return;
@@ -978,6 +1012,24 @@ deque_init_loop:
 		// emit all initializations in base classes of members that are used for init'ing other members,
 		// i.e. prevent optimization of using only the closest initialization
 		// TODO: generalize to all types in between type and target type
+		
+		// init members of primitive value with explicit initialization
+		genMemberInitsNonConstPrimitiveType(type, targetType, varName);
+
+		// init members of map value with explicit initialization
+		genMemberInitsNonConstMapType(type, targetType, varName);
+
+		// init members of set value with explicit initialization
+		genMemberInitsNonConstSetType(type, targetType, varName);
+
+		// init members of array value with explicit initialization
+		genMemberInitsNonConstArrayType(type, targetType, varName);
+		
+		// init members of deque value with explicit initialization
+		genMemberInitsNonConstDequeType(type, targetType, varName);
+	}
+
+	private void genMemberInitsNonConstPrimitiveType(InheritanceType type, InheritanceType targetType, String varName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, false, false, true);
 		for(MemberInit memberInit : type.getMemberInits()) {
 			memberInit.getExpression().collectNeededEntities(needs);
@@ -985,8 +1037,7 @@ deque_init_loop:
 		for(MemberInit memberInit : targetType.getMemberInits()) {
 			memberInit.getExpression().collectNeededEntities(needs);
 		}
-		
-		// init members of primitive value with explicit initialization
+
 		for(MemberInit memberInit : type.getMemberInits()) {
 			Entity member = memberInit.getMember();
 			if(memberInit.getMember().isConst())
@@ -1000,8 +1051,9 @@ deque_init_loop:
 			genExpression(sb, memberInit.getExpression(), null);
 			sb.append(";\n");
 		}
+	}
 
-		// init members of map value with explicit initialization
+	private void genMemberInitsNonConstMapType(InheritanceType type, InheritanceType targetType, String varName) {
 		for(MapInit mapInit : type.getMapInits()) {
 			Entity member = mapInit.getMember();
 			if(mapInit.getMember().isConst())
@@ -1018,8 +1070,9 @@ deque_init_loop:
 				sb.append(";\n");
 			}
 		}
+	}
 
-		// init members of set value with explicit initialization
+	private void genMemberInitsNonConstSetType(InheritanceType type, InheritanceType targetType, String varName) {
 		for(SetInit setInit : type.getSetInits()) {
 			Entity member = setInit.getMember();
 			if(setInit.getMember().isConst())
@@ -1034,8 +1087,9 @@ deque_init_loop:
 				sb.append("] = null;\n");
 			}
 		}
+	}
 
-		// init members of array value with explicit initialization
+	private void genMemberInitsNonConstArrayType(InheritanceType type, InheritanceType targetType, String varName) {
 		for(ArrayInit arrayInit : type.getArrayInits()) {
 			Entity member = arrayInit.getMember();
 			if(arrayInit.getMember().isConst())
@@ -1050,8 +1104,9 @@ deque_init_loop:
 				sb.append(");\n");
 			}
 		}
-		
-		// init members of deque value with explicit initialization
+	}
+
+	private void genMemberInitsNonConstDequeType(InheritanceType type, InheritanceType targetType, String varName) {
 		for(DequeInit dequeInit : type.getDequeInits()) {
 			Entity member = dequeInit.getMember();
 			if(dequeInit.getMember().isConst())
@@ -1068,7 +1123,7 @@ deque_init_loop:
 		}
 	}
 
-	private void genMemberInitConst(InheritanceType type, InheritanceType targetType,
+	private void genMemberInitsConst(InheritanceType type, InheritanceType targetType,
 			List<String> staticInitializers) {
 		if(rootTypes.contains(type.getIdent().toString())) // skip root types, they don't possess attributes
 			return;
@@ -1077,6 +1132,27 @@ deque_init_loop:
 		HashSet<Entity> initializedConstMembers = new HashSet<Entity>();
 
 		// init const members of primitive value with explicit initialization
+		genMemberInitsConstPrimitiveType(type, targetType, initializedConstMembers);
+
+		// init const members of map value with explicit initialization
+		genMemberInitsConstMapType(type, targetType, staticInitializers, initializedConstMembers);
+
+		// init const members of set value with explicit initialization
+		genMemberInitsConstSetType(type, targetType, staticInitializers, initializedConstMembers);
+
+		// init const members of array value with explicit initialization
+		genMemberInitsConstArrayType(type, targetType, staticInitializers, initializedConstMembers);
+
+		// init const members of deque value with explicit initialization
+		genMemberInitsConstDequeType(type, targetType, staticInitializers, initializedConstMembers);
+
+		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
+
+		genMemberImplicitInitsNonConst(type, targetType, initializedConstMembers);
+	}
+
+	private void genMemberInitsConstPrimitiveType(InheritanceType type, InheritanceType targetType,
+			HashSet<Entity> initializedConstMembers) {
 		for(MemberInit memberInit : type.getMemberInits()) {
 			Entity member = memberInit.getMember();
 			if(!member.isConst())
@@ -1092,8 +1168,10 @@ deque_init_loop:
 
 			initializedConstMembers.add(member);
 		}
+	}
 
-		// init const members of map value with explicit initialization
+	private void genMemberInitsConstMapType(InheritanceType type, InheritanceType targetType,
+			List<String> staticInitializers, HashSet<Entity> initializedConstMembers) {
 		for(MapInit mapInit : type.getMapInits()) {
 			Entity member = mapInit.getMember();
 			if(!member.isConst())
@@ -1122,8 +1200,10 @@ deque_init_loop:
 
 			initializedConstMembers.add(member);
 		}
+	}
 
-		// init const members of set value with explicit initialization
+	private void genMemberInitsConstSetType(InheritanceType type, InheritanceType targetType,
+			List<String> staticInitializers, HashSet<Entity> initializedConstMembers) {
 		for(SetInit setInit : type.getSetInits()) {
 			Entity member = setInit.getMember();
 			if(!member.isConst())
@@ -1150,8 +1230,10 @@ deque_init_loop:
 
 			initializedConstMembers.add(member);
 		}
+	}
 
-		// init const members of array value with explicit initialization
+	private void genMemberInitsConstArrayType(InheritanceType type, InheritanceType targetType,
+			List<String> staticInitializers, HashSet<Entity> initializedConstMembers) {
 		for(ArrayInit arrayInit : type.getArrayInits()) {
 			Entity member = arrayInit.getMember();
 			if(!member.isConst())
@@ -1178,8 +1260,10 @@ deque_init_loop:
 
 			initializedConstMembers.add(member);
 		}
+	}
 
-		// init const members of deque value with explicit initialization
+	private void genMemberInitsConstDequeType(InheritanceType type, InheritanceType targetType,
+			List<String> staticInitializers, HashSet<Entity> initializedConstMembers) {
 		for(DequeInit dequeInit : type.getDequeInits()) {
 			Entity member = dequeInit.getMember();
 			if(!member.isConst())
@@ -1206,9 +1290,10 @@ deque_init_loop:
 
 			initializedConstMembers.add(member);
 		}
+	}
 
-		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
-
+	private void genMemberImplicitInitsNonConst(InheritanceType type, InheritanceType targetType,
+			HashSet<Entity> initializedConstMembers) {
 		for(Entity member : type.getMembers()) {
 			if(!member.isConst())
 				continue;
@@ -1222,10 +1307,10 @@ deque_init_loop:
 			String attrName = formatIdentifiable(member);
 
 			if(memberType instanceof MapType || memberType instanceof SetType
-					|| memberType instanceof ArrayType || memberType instanceof DequeType)
+					|| memberType instanceof ArrayType || memberType instanceof DequeType) {
 				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = " +
 						"new " + attrType + "();\n");
-			else
+			} else
 				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 		}
 	}
@@ -1307,55 +1392,67 @@ deque_init_loop:
 			routedSB = getStubBuffer();
 			extModifier = "override ";
 
-			genAttributeAccess(type, type.getAllMembers(), "public abstract ");
+			for(Entity e : type.getAllMembers()) {
+				genAttributeAccess(type, e, "public abstract ");
+			}
 		}
 
 		// Create the implementation of the attributes.
 		// If an external name is given for this type, this is written
 		// into the stub file with an "override" modifier on the accessors.
-
-		// member, getter, setter for attributes
-		for(Entity e : type.getAllMembers()) {
-			String attrType = formatAttributeType(e);
-			String attrName = formatIdentifiable(e);
-
-			if(e.isConst()) {
-				// no member for const attributes, no setter for const attributes
-				// they are class static, the member is created at the point of initialization
-				routedSB.appendFront("public " + extModifier + attrType + " @" + attrName + "\n");
-				routedSB.appendFront("{\n");
-				routedSB.appendFront("\tget { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
-				routedSB.appendFront("}\n");
-			} else {
-				// member, getter, setter for non-const attributes
-				routedSB.append("\n");
-				routedSB.appendFront("private " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
-				routedSB.appendFront("public " + extModifier + attrType + " @" + attrName + "\n");
-				routedSB.appendFront("{\n");
-				routedSB.indent();
-				routedSB.appendFront("get { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
-				routedSB.appendFront("set { " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = value; }\n");
-				routedSB.unindent();
-				routedSB.appendFront("}\n");
-			}
-
-			// what's that?
-			Entity overriddenMember = type.getOverriddenMember(e);
-			if(overriddenMember != null) {
-				routedSB.append("\n");
-				routedSB.appendFront("object "
-						+ formatElementInterfaceRef(overriddenMember.getOwner())
-						+ ".@" + attrName + "\n");
-				routedSB.appendFront("{\n");
-				routedSB.indent();
-				routedSB.appendFront("get { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
-				routedSB.appendFront("set { " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = (" + attrType + ") value; }\n");
-				routedSB.unindent();
-				routedSB.appendFront("}\n");
-			}
+		for(Entity member : type.getAllMembers()) {
+			genAttributeGetterSetterAndMember(type, routedSB, extModifier, member);
 		}
 
-		// get attribute by name
+		genGetAttributeByName(type);
+
+		genSetAttributeByName(type);
+
+		genResetAllAttributes(type);
+	}
+
+	private void genAttributeGetterSetterAndMember(InheritanceType type, SourceBuilder routedSB, String extModifier,
+			Entity member) {
+		String attrType = formatAttributeType(member);
+		String attrName = formatIdentifiable(member);
+
+		if(member.isConst()) {
+			// no member for const attributes, no setter for const attributes
+			// they are class static, the member is created at the point of initialization
+			routedSB.appendFront("public " + extModifier + attrType + " @" + attrName + "\n");
+			routedSB.appendFront("{\n");
+			routedSB.appendFront("\tget { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
+			routedSB.appendFront("}\n");
+		} else {
+			// member, getter, setter for non-const attributes
+			routedSB.append("\n");
+			routedSB.appendFront("private " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
+			routedSB.appendFront("public " + extModifier + attrType + " @" + attrName + "\n");
+			routedSB.appendFront("{\n");
+			routedSB.indent();
+			routedSB.appendFront("get { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
+			routedSB.appendFront("set { " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = value; }\n");
+			routedSB.unindent();
+			routedSB.appendFront("}\n");
+		}
+
+		// what's that?
+		Entity overriddenMember = type.getOverriddenMember(member);
+		if(overriddenMember != null) {
+			routedSB.append("\n");
+			routedSB.appendFront("object "
+					+ formatElementInterfaceRef(overriddenMember.getOwner())
+					+ ".@" + attrName + "\n");
+			routedSB.appendFront("{\n");
+			routedSB.indent();
+			routedSB.appendFront("get { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
+			routedSB.appendFront("set { " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = (" + attrType + ") value; }\n");
+			routedSB.unindent();
+			routedSB.appendFront("}\n");
+		}
+	}
+
+	private void genGetAttributeByName(InheritanceType type) {
 		sb.appendFront("public override object GetAttribute(string attrName)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1363,8 +1460,8 @@ deque_init_loop:
 			sb.appendFront("switch(attrName)\n");
 			sb.appendFront("{\n");
 			sb.indent();
-			for(Entity e : type.getAllMembers()) {
-				String name = formatIdentifiable(e);
+			for(Entity member : type.getAllMembers()) {
+				String name = formatIdentifiable(member);
 				sb.appendFront("case \"" + name + "\": return this.@" + name + ";\n");
 			}
 			sb.unindent();
@@ -1377,8 +1474,9 @@ deque_init_loop:
 
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
-		// set attribute by name
+	private void genSetAttributeByName(InheritanceType type) {
 		sb.appendFront("public override void SetAttribute(string attrName, object value)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1386,9 +1484,9 @@ deque_init_loop:
 			sb.appendFront("switch(attrName)\n");
 			sb.appendFront("{\n");
 			sb.indent();
-			for(Entity e : type.getAllMembers()) {
-				String name = formatIdentifiable(e);
-				if(e.isConst()) {
+			for(Entity member : type.getAllMembers()) {
+				String name = formatIdentifiable(member);
+				if(member.isConst()) {
 					sb.appendFront("case \"" + name + "\": ");
 					sb.append("throw new NullReferenceException(");
 					sb.append("\"The attribute " + name + " of the " + (type instanceof NodeType ? "node" : "edge")
@@ -1396,7 +1494,7 @@ deque_init_loop:
 							+ "\\\" is read only!\");\n");
 				} else {
 					sb.appendFront("case \"" + name + "\": this.@" + name + " = ("
-							+ formatAttributeType(e) + ") value; return;\n");
+							+ formatAttributeType(member) + ") value; return;\n");
 				}
 			}
 			sb.unindent();
@@ -1408,8 +1506,9 @@ deque_init_loop:
 				+ "\\\" does not have the attribute \\\"\" + attrName + \"\\\"!\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
-		// reset all attributes
+	private void genResetAllAttributes(InheritanceType type) {
 		sb.appendFront("public override void ResetAllAttributes()\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1466,6 +1565,28 @@ deque_init_loop:
 
 	private void genMethods(InheritanceType type) {
 		sb.append("\n");
+		
+		genApplyFunctionMethodDispatcher(type);
+
+		for(FunctionMethod fm : type.getAllFunctionMethods()) {
+			genFunctionMethod(fm);
+		}
+
+		//////////////////////////////////////////////////////////////
+		
+		genApplyProcedureMethodDispatcher(type);
+		
+		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
+			forceNotConstant(pm.getComputationStatements());
+			genParameterPassingReturnArray(type, pm);
+		}
+
+		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
+			genProcedureMethod(pm);
+		}
+	}
+
+	private void genApplyFunctionMethodDispatcher(InheritanceType type) {
 		sb.appendFront("public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1481,14 +1602,38 @@ deque_init_loop:
 		sb.appendFront("}\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
-		for(FunctionMethod fm : type.getAllFunctionMethods()) {
-			List<String> staticInitializers = new LinkedList<String>();
-			String pathPrefixForElements = "";
-			HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
-			genLocalContainersEvals(sb, fm.getComputationStatements(), staticInitializers,
-					pathPrefixForElements, alreadyDefinedEntityToName);
+	private void genFunctionMethod(FunctionMethod fm) {
+		List<String> staticInitializers = new LinkedList<String>();
+		String pathPrefixForElements = "";
+		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
+		genLocalContainersEvals(sb, fm.getComputationStatements(), staticInitializers,
+				pathPrefixForElements, alreadyDefinedEntityToName);
 
+		sb.appendFront("public " + formatType(fm.getReturnType()) + " ");
+		sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
+		for(Entity inParam : fm.getParameters()) {
+			sb.append(", ");
+			sb.append(formatType(inParam.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(inParam));
+		}
+		sb.append(")\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
+		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
+		for(EvalStatement evalStmt : fm.getComputationStatements()) {
+			modifyGenState.functionOrProcedureName = fm.getIdent().toString();
+			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
+		}
+		sb.unindent();
+		sb.appendFront("}\n");
+
+		if(model.areFunctionsParallel())
+		{
 			sb.appendFront("public " + formatType(fm.getReturnType()) + " ");
 			sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
 			for(Entity inParam : fm.getParameters()) {
@@ -1497,47 +1642,23 @@ deque_init_loop:
 				sb.append(" ");
 				sb.append(formatEntity(inParam));
 			}
+			sb.append(", int threadId");
 			sb.append(")\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 			sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
+			modifyGenState = mgFuncComp.new ModifyGenerationState(model, null, "", true, be.system.emitProfilingInstrumentation());
 			for(EvalStatement evalStmt : fm.getComputationStatements()) {
 				modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 				mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
 			}
 			sb.unindent();
-			sb.appendFront("}\n");
-
-			if(model.areFunctionsParallel())
-			{
-				sb.appendFront("public " + formatType(fm.getReturnType()) + " ");
-				sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
-				for(Entity inParam : fm.getParameters()) {
-					sb.append(", ");
-					sb.append(formatType(inParam.getType()));
-					sb.append(" ");
-					sb.append(formatEntity(inParam));
-				}
-				sb.append(", int threadId");
-				sb.append(")\n");
-				sb.appendFront("{\n");
-				sb.indent();
-				sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
-				sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-				modifyGenState = mgFuncComp.new ModifyGenerationState(model, null, "", true, be.system.emitProfilingInstrumentation());
-				for(EvalStatement evalStmt : fm.getComputationStatements()) {
-					modifyGenState.functionOrProcedureName = fm.getIdent().toString();
-					mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
-				}
-				sb.unindent();
-				sb.append("}\n");
-			}
+			sb.append("}\n");
 		}
+	}
 
-		//////////////////////////////////////////////////////////////
-		
+	private void genApplyProcedureMethodDispatcher(InheritanceType type) {
 		sb.appendFront("public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1552,61 +1673,57 @@ deque_init_loop:
 		sb.appendFront("}\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
-			forceNotConstant(pm.getComputationStatements());
-			genParameterPassingReturnArray(type, pm);
+	}
+
+	private void genProcedureMethod(ProcedureMethod pm) {
+		List<String> staticInitializers = new LinkedList<String>();
+		String pathPrefixForElements = "";
+		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
+		genLocalContainersEvals(sb, pm.getComputationStatements(), staticInitializers,
+				pathPrefixForElements, alreadyDefinedEntityToName);
+
+		sb.appendFront("public void ");
+		sb.append(pm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
+		for(Entity inParam : pm.getParameters()) {
+			sb.append(", ");
+			sb.append(formatType(inParam.getType()));
+			sb.append(" ");
+			sb.append(formatEntity(inParam));
 		}
-
-		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
-			List<String> staticInitializers = new LinkedList<String>();
-			String pathPrefixForElements = "";
-			HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
-			genLocalContainersEvals(sb, pm.getComputationStatements(), staticInitializers,
-					pathPrefixForElements, alreadyDefinedEntityToName);
-
-			sb.appendFront("public void ");
-			sb.append(pm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
+		int i = 0;
+		for(Type outType : pm.getReturnTypes()) {
+			sb.append(", out ");
+			sb.append(formatType(outType));
+			sb.append(" ");
+			sb.append("_out_param_" + i);
+			++i;
+		}
+		sb.append(")\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
+		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
+		ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
+		mgFuncComp.initEvalGen();
+		
+		if(be.system.mayFireDebugEvents()) {
+			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
+			sb.append("\"" + pm.getIdent().toString() + "\"");
 			for(Entity inParam : pm.getParameters()) {
 				sb.append(", ");
-				sb.append(formatType(inParam.getType()));
-				sb.append(" ");
 				sb.append(formatEntity(inParam));
 			}
-			int i = 0;
-			for(Type outType : pm.getReturnTypes()) {
-				sb.append(", out ");
-				sb.append(formatType(outType));
-				sb.append(" ");
-				sb.append("_out_param_" + i);
-				++i;
-			}
-			sb.append(")\n");
-			sb.appendFront("{\n");
-			sb.indent();
-			sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
-			sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-			ModifyGen.ModifyGenerationState modifyGenState = mgFuncComp.new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
-			mgFuncComp.initEvalGen();
-			
-			if(be.system.mayFireDebugEvents()) {
-				sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
-				sb.append("\"" + pm.getIdent().toString() + "\"");
-				for(Entity inParam : pm.getParameters()) {
-					sb.append(", ");
-					sb.append(formatEntity(inParam));
-				}
-				sb.append(");\n");
-			}
-
-			for(EvalStatement evalStmt : pm.getComputationStatements()) {
-				modifyGenState.functionOrProcedureName = pm.getIdent().toString();
-				mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
-			}
-			sb.unindent();
-			sb.appendFront("}\n");
+			sb.append(");\n");
 		}
+
+		for(EvalStatement evalStmt : pm.getComputationStatements()) {
+			modifyGenState.functionOrProcedureName = pm.getIdent().toString();
+			mgFuncComp.genEvalStmt(sb, modifyGenState, evalStmt);
+		}
+		sb.unindent();
+		sb.appendFront("}\n");
 	}
-	
+
 	////////////////////////////////////
 	// Type implementation generation //
 	////////////////////////////////////
@@ -2087,9 +2204,11 @@ deque_init_loop:
 			InheritanceType type, Set<InheritanceType> resTypes) {
 		if(type.isCastableTo(curType))
 			resTypes.add(curType);
-		else
-			for(InheritanceType superType : curType.getDirectSuperTypes())
+		else {
+			for(InheritanceType superType : curType.getDirectSuperTypes()) {
 				getFirstCommonAncestors(superType, type, resTypes);
+			}
+		}
 	}
 
 	private void genCreateWithCopyCommons(InheritanceType type) {
@@ -2121,6 +2240,46 @@ deque_init_loop:
 			return;
 		}
 
+		Map<BitSet, LinkedList<InheritanceType>> commonGroups = getCommonGroups(type);
+
+		if(commonGroups.size() != 0) {
+			if(isNode) {
+				sb.appendFront("GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;\n");
+				sb.appendFront(elemref + " newNode = new " + allocName + "();\n");
+			} else {
+				sb.appendFront("GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;\n");
+				sb.appendFront(elemref + " newEdge = new " + allocName
+						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			}
+			sb.appendFront("switch(old" + kindName + ".Type.TypeID)\n");
+			sb.appendFront("{\n");
+			sb.indent();
+			for(Map.Entry<BitSet, LinkedList<InheritanceType>> entry : commonGroups.entrySet()) {
+				emitCommonGroup(type, kindName, entry);
+			}
+			sb.unindent();
+			sb.appendFront("}\n");
+			sb.appendFront("return new" + kindName + ";\n");
+			sb.unindent();
+			sb.appendFront("}\n");
+			sb.append("\n");
+		}
+		else {
+			if(isNode)
+				sb.appendFront("return new " + allocName + "();\n");
+			else {
+				sb.appendFront("return new " + allocName
+						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
+			}
+			sb.unindent();
+			sb.appendFront("}\n");
+			sb.append("\n");
+		}
+	}
+
+	private Map<BitSet, LinkedList<InheritanceType>> getCommonGroups(InheritanceType type) {
+		boolean isNode = type instanceof NodeType;
+		
 		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();
 
 		Collection<? extends InheritanceType> typeSet =
@@ -2172,105 +2331,74 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			}
 			commonList.add(itype);
 		}
+		return commonGroups;
+	}
 
-		if(commonGroups.size() != 0) {
-			if(isNode) {
-				sb.appendFront("GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;\n");
-				sb.appendFront(elemref + " newNode = new " + allocName + "();\n");
-			} else {
-				sb.appendFront("GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;\n");
-				sb.appendFront(elemref + " newEdge = new " + allocName
-						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
-			}
-			sb.appendFront("switch(old" + kindName + ".Type.TypeID)\n");
-			sb.appendFront("{\n");
-			sb.indent();
-			for(Map.Entry<BitSet, LinkedList<InheritanceType>> entry : commonGroups.entrySet()) {
-				for(InheritanceType itype : entry.getValue()) {
-					sb.appendFront("case (int) GRGEN_MODEL." + getPackagePrefixDot(itype) + kindName + "Types.@"
-							+ formatIdentifiable(itype) + ":\n");
-				}
-				sb.indent();
-				BitSet bitset = entry.getKey();
-				HashSet<Entity> copiedAttribs = new HashSet<Entity>();
-				for(int i = bitset.nextSetBit(0); i >= 0; i = bitset.nextSetBit(i+1)) {
-					InheritanceType commonType = InheritanceType.getByTypeID(i);
-					Collection<Entity> members = commonType.getAllMembers();
-					if(members.size() != 0) {
-						sb.appendFront("// copy attributes for: "
-								+ formatIdentifiable(commonType) + "\n");
-						boolean alreadyCasted = false;
-						for(Entity member : members) {
-							if(member.isConst()) {
-								sb.appendFront("// is const: " + formatIdentifiable(member) + "\n");
-								continue;
-							}
-							if(member.getType().isVoid()) {
-								sb.appendFront("// is abstract: " + formatIdentifiable(member) + "\n");
-								continue;
-							}
-							if(copiedAttribs.contains(member)) {
-								sb.appendFront("// already copied: " + formatIdentifiable(member) + "\n");
-								continue;
-							}
-							if(!alreadyCasted) {
-								alreadyCasted = true;
-								sb.appendFront("{\n");
-								sb.indent();
-								sb.appendFront(formatVarDeclWithCast(formatElementInterfaceRef(commonType), "old")
-										+ "old" + kindName + ";\n");
-							}
-							copiedAttribs.add(member);
-							String memberName = formatIdentifiable(member);
-							// what's that?
-							if(type.getOverriddenMember(member) != null) {
-								// Workaround for Mono Bug 357287
-								// "Access to hiding properties of interfaces resolves wrong member"
-								// https://bugzilla.novell.com/show_bug.cgi?id=357287
-								sb.appendFront("new" + kindName + ".@" + memberName
-										+ " = (" + formatAttributeType(member) + ") old.@" + memberName
-										+ ";   // Mono workaround (bug #357287)\n");
-							} else {
-								if(member.getType() instanceof MapType || member.getType() instanceof SetType 
-										|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
-									sb.appendFront("new" + kindName + ".@" + memberName
-											+ " = new " + formatAttributeType(member.getType()) + "(old.@" + memberName + ");\n");
-								} else {
-									sb.appendFront("new" + kindName + ".@" + memberName
-											+ " = old.@" + memberName + ";\n");
-								}
-							}
-						}
-						if(alreadyCasted) {
-							sb.unindent();
-							sb.appendFront("}\n");
+	private void emitCommonGroup(InheritanceType type, String kindName,
+			Map.Entry<BitSet, LinkedList<InheritanceType>> entry) {
+		for(InheritanceType itype : entry.getValue()) {
+			sb.appendFront("case (int) GRGEN_MODEL." + getPackagePrefixDot(itype) + kindName + "Types.@"
+					+ formatIdentifiable(itype) + ":\n");
+		}
+		sb.indent();
+		BitSet bitset = entry.getKey();
+		HashSet<Entity> copiedAttribs = new HashSet<Entity>();
+		for(int i = bitset.nextSetBit(0); i >= 0; i = bitset.nextSetBit(i+1)) {
+			InheritanceType commonType = InheritanceType.getByTypeID(i);
+			Collection<Entity> members = commonType.getAllMembers();
+			if(members.size() != 0) {
+				sb.appendFront("// copy attributes for: "
+						+ formatIdentifiable(commonType) + "\n");
+				boolean alreadyCasted = false;
+				for(Entity member : members) {
+					if(member.isConst()) {
+						sb.appendFront("// is const: " + formatIdentifiable(member) + "\n");
+						continue;
+					}
+					if(member.getType().isVoid()) {
+						sb.appendFront("// is abstract: " + formatIdentifiable(member) + "\n");
+						continue;
+					}
+					if(copiedAttribs.contains(member)) {
+						sb.appendFront("// already copied: " + formatIdentifiable(member) + "\n");
+						continue;
+					}
+					if(!alreadyCasted) {
+						alreadyCasted = true;
+						sb.appendFront("{\n");
+						sb.indent();
+						sb.appendFront(formatVarDeclWithCast(formatElementInterfaceRef(commonType), "old")
+								+ "old" + kindName + ";\n");
+					}
+					copiedAttribs.add(member);
+					String memberName = formatIdentifiable(member);
+					// what's that?
+					if(type.getOverriddenMember(member) != null) {
+						// Workaround for Mono Bug 357287
+						// "Access to hiding properties of interfaces resolves wrong member"
+						// https://bugzilla.novell.com/show_bug.cgi?id=357287
+						sb.appendFront("new" + kindName + ".@" + memberName
+								+ " = (" + formatAttributeType(member) + ") old.@" + memberName
+								+ ";   // Mono workaround (bug #357287)\n");
+					} else {
+						if(member.getType() instanceof MapType || member.getType() instanceof SetType 
+								|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
+							sb.appendFront("new" + kindName + ".@" + memberName
+									+ " = new " + formatAttributeType(member.getType()) + "(old.@" + memberName + ");\n");
+						} else {
+							sb.appendFront("new" + kindName + ".@" + memberName
+									+ " = old.@" + memberName + ";\n");
 						}
 					}
 				}
-				sb.appendFront("break;\n");
-				sb.unindent();
-			}
-			sb.unindent();
-			sb.appendFront("}\n");
-			sb.appendFront("return new" + kindName + ";\n");
-			sb.unindent();
-			sb.appendFront("}\n");
-			sb.append("\n");
-		}
-		else {
-			if(isNode) {
-				sb.appendFront("return new " + allocName + "();\n");
-				sb.unindent();
-				sb.appendFront("}\n");
-				sb.append("\n");
-			} else {
-				sb.appendFront("return new " + allocName
-						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
-				sb.unindent();
-				sb.appendFront("}\n");
-				sb.append("\n");
+				if(alreadyCasted) {
+					sb.unindent();
+					sb.appendFront("}\n");
+				}
 			}
 		}
+		sb.appendFront("break;\n");
+		sb.unindent();
 	}
 
 	/**
@@ -2449,6 +2577,32 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		
 		sb.appendFront("private static " + comparerClassName + " thisComparer = new " + comparerClassName + "();\n");
 		
+		genCompareMethod(typeName, entity);
+
+		genIndexOfByMethod(typeName, attributeName, attributeTypeName);
+		genIndexOfByWithStartMethod(typeName, attributeName, attributeTypeName);
+
+		genLastIndexOfByMethod(typeName, attributeName, attributeTypeName);
+		genLastIndexOfByWithStartMethod(typeName, attributeName, attributeTypeName);
+
+		genIndexOfOrderedByMethod(typeName, attributeName, attributeTypeName);
+
+		genArrayOrderAscendingByMethod(typeName);
+		genArrayOrderDescendingByMethod(typeName, reverseComparerClassName);
+
+		generateArrayKeepOneForEach(sb, "ArrayKeepOneForEachBy", typeName, attributeName, attributeTypeName);
+
+		genArrayExtractMethod(typeName, attributeName, attributeTypeName);
+		
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.append("\n");
+	}
+
+	void genCompareMethod(String typeName, Entity entity)
+	{
+		String attributeName = formatIdentifiable(entity);
+			
 		sb.appendFront("public override int Compare(" + typeName + " a, " + typeName + " b)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2463,7 +2617,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.appendFront("return a.@" + attributeName + ".CompareTo(b.@" + attributeName + ");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
+	void genIndexOfByMethod(String typeName, String attributeName, String attributeTypeName)
+	{
 		sb.appendFront("public static int IndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2473,7 +2630,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("return -1;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
+	void genIndexOfByWithStartMethod(String typeName, String attributeName, String attributeTypeName)
+	{
 		sb.appendFront("public static int IndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry, int startIndex)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2483,7 +2643,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("return -1;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
+	void genLastIndexOfByMethod(String typeName, String attributeName, String attributeTypeName)
+	{
 		sb.appendFront("public static int LastIndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2493,7 +2656,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("return -1;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
+	void genLastIndexOfByWithStartMethod(String typeName, String attributeName, String attributeTypeName)
+	{
 		sb.appendFront("public static int LastIndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry, int startIndex)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2503,7 +2669,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("return -1;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
+	void genIndexOfOrderedByMethod(String typeName, String attributeName, String attributeTypeName)
+	{
 		sb.appendFront("public static int IndexOfOrderedBy(List<" + typeName + "> list, " + attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2511,7 +2680,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("return list.BinarySearch(nodeBearingAttributeForSearch, thisComparer);\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
+	void genArrayOrderAscendingByMethod(String typeName)
+	{
 		sb.appendFront("public static List<" + typeName + "> ArrayOrderAscendingBy(List<" + typeName + "> list)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2520,7 +2692,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("return newList;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
+	void genArrayOrderDescendingByMethod(String typeName, String reverseComparerClassName)
+	{
 		sb.appendFront("public static List<" + typeName + "> ArrayOrderDescendingBy(List<" + typeName + "> list)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2529,22 +2704,19 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("return newList;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+	}
 
-		generateArrayKeepOneForEach(sb, "ArrayKeepOneForEachBy", typeName, attributeName, attributeTypeName);
-
-		sb.appendFront("public static List<" + formatType(entity.getType()) + "> Extract(List<" + typeName + "> list)\n");
+	void genArrayExtractMethod(String typeName, String attributeName, String attributeTypeName)
+	{
+		sb.appendFront("public static List<" + attributeTypeName + "> Extract(List<" + typeName + "> list)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("List<" + formatType(entity.getType()) + "> resultList = new List<" + formatType(entity.getType()) + ">(list.Count);\n");
+		sb.appendFront("List<" + attributeTypeName + "> resultList = new List<" + attributeTypeName + ">(list.Count);\n");
 		sb.appendFront("foreach(" + typeName + " entry in list)\n");
 		sb.appendFront("\tresultList.Add(entry.@" + attributeName + ");\n");
 		sb.appendFront("return resultList;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		
-		sb.unindent();
-		sb.appendFront("}\n");
-		sb.append("\n");
 	}
 
 	void genAttributeArrayReverseComparer(InheritanceType type, Entity entity)
@@ -2560,6 +2732,16 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		
 		sb.appendFront("public static " + reverseComparerClassName + " thisComparer = new " + reverseComparerClassName + "();\n");
 		
+		genCompareMethodReverse(typeName, entity);
+		
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
+	void genCompareMethodReverse(String typeName, Entity entity)
+	{
+		String attributeName = formatIdentifiable(entity);
+
 		sb.appendFront("public override int Compare(" + typeName + " a, " + typeName + " b)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2574,11 +2756,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.appendFront("return -a.@" + attributeName + ".CompareTo(b.@" + attributeName + ");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		
-		sb.unindent();
-		sb.appendFront("}\n");
 	}
-	
+
 	////////////////////////////
 	// Index generation //
 	////////////////////////////
