@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
@@ -29,14 +28,6 @@ import de.unika.ipd.grgen.util.SourceBuilder;
 import de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase {
-	public interface ExpressionGenerationState {
-		Map<Expression, String> mapExprToTempVar();
-		boolean useVarForResult();
-		Model model();
-		boolean isToBeParallelizedActionExisting();
-		boolean emitProfilingInstrumentation();
-	}
-
 	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix) {
 		this.nodeTypePrefix = nodeTypePrefix;
 		this.edgeTypePrefix = edgeTypePrefix;
@@ -3454,6 +3445,6 @@ public abstract class CSharpBase {
 			"-", "*", "/", "%", "!", "~", "-"
 	};
 
-	private String nodeTypePrefix;
-	private String edgeTypePrefix;
+	protected String nodeTypePrefix;
+	protected String edgeTypePrefix;
 }
