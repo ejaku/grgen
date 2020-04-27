@@ -234,19 +234,64 @@
             Class representing an array subarray expression.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.ArrayOrderAscending">
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOrder">
             <summary>
             Class representing an array sort expression.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.ArrayOrderAscendingBy">
+        <member name="T:de.unika.ipd.grGen.expression.ArrayKeepOneForEach">
+            <summary>
+            Class representing an array keep one for each expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOrderByBase">
+            <summary>
+            Class representing an array ordering expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOrderBy">
             <summary>
             Class representing an array sort by expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfMatchTypeOrderBy">
+            <summary>
+            Class representing an array of action matches sort by expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfIteratedMatchTypeOrderBy">
+            <summary>
+            Class representing an array of iterated matches sort by expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayOfMatchClassTypeOrderBy">
+            <summary>
+            Class representing an array of match class matches sort by expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayReverse">
             <summary>
             Class representing an array reverse expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayExtract">
+            <summary>
+            Class representing an array extract (from match type of rule) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayExtractIterated">
+            <summary>
+            Class representing an array extract (from match type of rule iterated) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayExtractMatchClass">
+            <summary>
+            Class representing an array extract (from match class) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayExtractGraphElementType">
+            <summary>
+            Class representing an array extract from node/edge type expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ArrayAsSet">
@@ -267,6 +312,51 @@
         <member name="T:de.unika.ipd.grGen.expression.ArrayAsString">
             <summary>
             Class representing an array as string expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArraySum">
+            <summary>
+            Class representing an array sum expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayProd">
+            <summary>
+            Class representing an array prod(uct) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayMin">
+            <summary>
+            Class representing an array min(imum) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayMax">
+            <summary>
+            Class representing an array max(imum) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayAvg">
+            <summary>
+            Class representing an array avg (average/mean) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayMed">
+            <summary>
+            Class representing an array med(ian) (on already sorted array) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayMedUnordered">
+            <summary>
+            Class representing an array medUnordered (median on array not ordered) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayVar">
+            <summary>
+            Class representing an array var(iance) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.ArrayDev">
+            <summary>
+            Class representing an array (standard) dev(iation) expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.DequeSize">
@@ -626,6 +716,11 @@
             Class representing count of instances of an iterated pattern expression
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.IteratedQuery">
+            <summary>
+            Class representing the matches array of an iterated pattern expression / iterated query
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Qualification">
             <summary>
             Class representing qualification expression
@@ -877,14 +972,24 @@
             Class representing expression returning the arcus tangens value
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.expression.Log">
+        <member name="T:de.unika.ipd.grGen.expression.Sqr">
             <summary>
-            Class representing the logarithm function.
+            Class representing the square function.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Sqrt">
+            <summary>
+            Class representing the square root function.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Pow">
             <summary>
-            Class representing the to-the-power-of operator.
+            Class representing the to-the-power-of function.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Log">
+            <summary>
+            Class representing the logarithm function.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.GRAPH_EQ">
@@ -1521,6 +1626,16 @@
             Class representing a record statement
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.IteratedFiltering">
+            <summary>
+            Class representing an iterated filtering.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FilterInvocation">
+            <summary>
+            Class representing a filter invocation applied to an iterated.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.GraphStatisticsParserSerializer">
             <summary>
             A class for serializing and parsing the statistics from a graph (cf. LGSPGraphStatistics)
@@ -1625,6 +1740,14 @@
             We can't do this often cause compilation is very expensive.
             Using ILGenerator to build a dynamic method would be much better, but is much harder, too :(
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.GraphMatchingState.BuildPatternGraph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Builds a pattern graph out of the graph.
+            The pattern graph retains links to the original graph elements and uses them for attribute comparison.
+            </summary>
+            <param name="graph">The graph which is to be transfered into a pattern</param>
+            <returns></returns>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.FoundMatch">
             <summary>
@@ -3848,14 +3971,6 @@
             </summary>
             <param name="model">The model for which the matcher functions shall be generated.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.BuildPatternGraph(de.unika.ipd.grGen.lgsp.LGSPGraph)">
-            <summary>
-            Builds a pattern graph out of the graph.
-            The pattern graph retains links to the original graph elements and uses them for attribute comparison.
-            </summary>
-            <param name="graph">The graph which is to be transfered into a pattern</param>
-            <returns></returns>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionAndMatcher(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,System.Boolean)">
             <summary>
             Generates the action interface plus action implementation including the matcher source code 
@@ -4073,14 +4188,19 @@
             enumerator over submatches due to independents
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.ListElement`1">
+        <member name="T:de.unika.ipd.grGen.lgsp.MatchListElement`1">
             <summary>
-            Element of invasive linked list of T
+            Element of invasively linked list of T, and Match
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.ListElement`1.next">
+        <member name="F:de.unika.ipd.grGen.lgsp.MatchListElement`1.next">
             <summary>
             The next element in the linked list.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.MatchListElement`1.GetMember(System.String)">
+            <summary>
+            Returns value bound to the member of the given name or null if no such member exists
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2">
@@ -4166,6 +4286,12 @@
             Clone the matches
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Clone(System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IMatch,de.unika.ipd.grGen.libGr.IMatch})">
+            <summary>
+            Clones the matches.
+            </summary>
+            <param name="originalToClone">Receives mapping of original to cloned matches</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.#ctor(de.unika.ipd.grGen.libGr.IAction)">
             <summary>
             Constructs a new LGSPMatchesList instance.
@@ -4219,60 +4345,67 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.ToList">
             <summary>
+            Returns a copy of the content of the current matches list in form of an array.
+            Attention: matches may get stale when the rule is matched again.
+            This is only a convenience helper method, unrelated to ToListExact, and its pairing with FromListExact.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.ToListExact">
+            <summary>
             Returns the content of the current matches list in form of an array which can be efficiently indexed and reordered.
             The array is destroyed when this method is called again, the content is destroyed when the rule is matched again (there is only one array existing).
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FromList">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FromListExact">
             <summary>
             Reincludes the array handed out with ToList, REPLACING the current matches with the ones from the list.
             The list might have been reordered, matches might have been removed, or even added.
             Elements which were null-ed count as deleted; this gives an O(1) mechanism to remove from the array.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterKeepFirstFraction(System.Double)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_keepFirstFraction(System.Double)">
             <summary>
             For filtering with the auto-supplied filter keepFirstFraction
             </summary>
             <param name="fraction">The fraction of matches to keep</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterKeepLastFraction(System.Double)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_keepLastFraction(System.Double)">
             <summary>
             For filtering with the auto-supplied filter keepLastFraction
             </summary>
             <param name="fraction">The fraction of matches to keep</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterKeepFirst(System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_keepFirst(System.Int32)">
             <summary>
             For filtering with the auto-supplied filter keepFirst
             </summary>
             <param name="count">The number of matches to keep</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterKeepLast(System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_keepLast(System.Int32)">
             <summary>
             For filtering with the auto-supplied filter keepLast
             </summary>
             <param name="count">The number of matches to keep</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterRemoveFirstFraction(System.Double)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_removeFirstFraction(System.Double)">
             <summary>
             For filtering with the auto-supplied filter removeFirstFraction
             </summary>
             <param name="fraction">The fraction of matches to remove</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterRemoveLastFraction(System.Double)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_removeLastFraction(System.Double)">
             <summary>
             For filtering with the auto-supplied filter removeLastFraction
             </summary>
             <param name="fraction">The fraction of matches to remove</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterRemoveFirst(System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_removeFirst(System.Int32)">
             <summary>
             For filtering with the auto-supplied filter removeFirst
             </summary>
             <param name="count">The number of matches to remove</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterRemoveLast(System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_removeLast(System.Int32)">
             <summary>
             For filtering with the auto-supplied filter removeLast
             </summary>
@@ -4300,9 +4433,9 @@
             number of found matches in the list
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.array">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.arrayExact">
             <summary>
-            the array returned in a call of ToList
+            the array returned in a call of ToListExact
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPNamedGraph">
@@ -4443,6 +4576,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Variables">
             <summary>
             An array of all pattern variables.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.GetPatternElement(System.String)">
+            <summary>
+            Returns the pattern element with the given name if it is available, otherwise null.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.GetSource(de.unika.ipd.grGen.libGr.IPatternEdge)">
@@ -4755,6 +4893,16 @@
             An array of all yielding assignments plus the yielding assignments inlined into this pattern.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.isIteratedFilteringExisting">
+            <summary>
+            Tells whether an iterated filtering is existing in this pattern graph
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.isIteratedFilteringExistingPlusInlined">
+            <summary>
+            Tells whether an iterated filtering is existing in this pattern graph after inlining
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.isDefEntityExisting">
             <summary>
             Tells whether a def entity (node, edge, variable) is existing in this pattern graph
@@ -4927,21 +5075,21 @@
             <summary>
             The nodes from the enclosing graph(s) used in this graph or one of it's subgraphs.
             Includes inlined elements after inlining.
-            Set of names, with dummy bool due to lacking set class in c#
+            Map of names to pattern nodes.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.neededEdges">
             <summary>
             The edges from the enclosing graph(s) used in this graph or one of it's subgraphs.
             Includes inlined elements after inlining.
-            Set of names, with dummy bool due to lacking set class in c#
+            Map of names to pattern edges.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.neededVariables">
             <summary>
             The variables from the enclosing graph(s) used in this graph or one of it's subgraphs.
             Includes inlined elements after inlining.
-            Map of names to types.
+            Map of names to pattern variables.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.usedSubpatterns">
@@ -5059,6 +5207,21 @@
             An array of the available filters
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPRulePattern.GetFilter(System.String)">
+            <summary>
+            Returns the (package prefixed) filter, if it is available, otherwise null
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRulePattern.ImplementedMatchClasses">
+            <summary>
+            An array of the implemented match classes
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPRulePattern.GetImplementedMatchClass(System.String)">
+            <summary>
+            Returns the implemented match class, if it is available, otherwise null
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPRulePattern.outputs">
             <summary>
             An array of GrGen types corresponding to rule return values.
@@ -5069,19 +5232,39 @@
             An array of the available filters
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPRulePattern.implementedMatchClasses">
+            <summary>
+            An array of the implemented match classes
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPFilter">
             <summary>
-            A descprition of a filter of a rule
+            A description of a filter of a rule or match class
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPFilterAutoSupplied">
+            <summary>
+            A description of an auto-supplied filter of a rule or match class.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPFilterAutoSupplied.Inputs">
+            <summary>
+            An array of GrGen types corresponding to filter parameters.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPFilterAutoSupplied.InputNames">
+            <summary>
+            An array of the names corresponding to filter parameters.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPFilterAutoGenerated">
             <summary>
-            A descprition of a filter of a rule
+            A description of an auto-generated filter of a rule or match class
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPFilterFunction">
             <summary>
-            A descprition of a filter of a rule
+            A description of a filter function of a rule or match class
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPFilterFunction.Inputs">
@@ -5137,6 +5320,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.Procedures">
             <summary>
             All the procedure representations generated
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.MatchClasses">
+            <summary>
+            All the match class representations generated
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.Packages">
@@ -5839,24 +6027,34 @@
             The condition expression to evaluate
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededNodes">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededNodeNames">
             <summary>
             An array of node names needed by this condition.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededEdges">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededNodes">
+            <summary>
+            An array of nodes needed by this condition.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededEdgeNames">
             <summary>
             An array of edge names needed by this condition.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededVariables">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededEdges">
+            <summary>
+            An array of edges needed by this condition.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededVariableNames">
             <summary>
             An array of variable names needed by this condition.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededVariableTypes">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededVariables">
             <summary>
-            An array of variable types (corresponding to the variable names) needed by this condition.
+            An array of variables needed by this condition.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.originalCondition">
@@ -5869,15 +6067,17 @@
             Links to the original subpattern embedding which was inlined in case this condition was inlined, otherwise null.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.expression.Expression,System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.expression.Expression,System.String[],System.String[],System.String[],de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[])">
             <summary>
             Constructs a PatternCondition object.
             </summary>
             <param name="conditionExpression">The condition expression to evaluate.</param>
-            <param name="neededNodes">An array of node names needed by this condition.</param>
-            <param name="neededEdges">An array of edge names needed by this condition.</param>
-            <param name="neededVariables">An array of variable names needed by this condition.</param>
-            <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this condition.</param>
+            <param name="neededNodeNames">An array of node names needed by this condition.</param>
+            <param name="neededEdgeNames">An array of edge names needed by this condition.</param>
+            <param name="neededVariableNames">An array of variable names needed by this condition.</param>
+            <param name="neededNodes">An array of nodes needed by this condition.</param>
+            <param name="neededEdges">An array of edges needed by this condition.</param>
+            <param name="neededVariables">An array of variables needed by this condition.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.lgsp.PatternCondition,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,System.String)">
             <summary>
@@ -5887,7 +6087,7 @@
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.expression.Expression,System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[],de.unika.ipd.grGen.lgsp.PatternCondition,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.expression.Expression,System.String[],System.String[],System.String[],de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternCondition,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding)">
             <summary>
             Constructs a PatternCondition object, for parallelization.
             </summary>
@@ -5912,24 +6112,34 @@
             An array of elementary yieldings to execute (e.g. assignments to def variables).
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededNodes">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededNodeNames">
             <summary>
             An array of node names needed by this yielding.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededEdges">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededNodes">
+            <summary>
+            An array of nodes needed by this yielding.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededEdgeNames">
             <summary>
             An array of edge names needed by this yielding.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededVariables">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededEdges">
+            <summary>
+            An array of edges needed by this yielding.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededVariableNames">
             <summary>
             An array of variable names needed by this yielding.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededVariableTypes">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.NeededVariables">
             <summary>
-            An array of variable types (corresponding to the variable names) needed by this yielding.
+            An array of variables needed by this yielding.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternYielding.originalYielding">
@@ -5942,16 +6152,18 @@
             Links to the original subpattern embedding which was inlined in case this yielding was inlined, otherwise null.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(System.String,de.unika.ipd.grGen.expression.Yielding[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(System.String,de.unika.ipd.grGen.expression.Yielding[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[])">
             <summary>
             Constructs a PatternYielding object.
             </summary>
             <param name="name">The name of the yielding to execute.</param>
             <param name="elementaryYieldings">An array of elementary yieldings to execute.</param>
-            <param name="neededNodes">An array of node names needed by this yielding.</param>
-            <param name="neededEdges">An array of edge names needed by this yielding.</param>
-            <param name="neededVariables">An array of variable names needed by this yielding.</param>
-            <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this yielding.</param>
+            <param name="neededNodeNames">An array of node names needed by this yielding.</param>
+            <param name="neededEdgeNames">An array of edge names needed by this yielding.</param>
+            <param name="neededVariableNames">An array of variable names needed by this yielding.</param>
+            <param name="neededNodes">An array of nodes needed by this yielding.</param>
+            <param name="neededEdges">An array of edges needed by this yielding.</param>
+            <param name="neededVariables">An array of variables needed by this yielding.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(de.unika.ipd.grGen.lgsp.PatternYielding,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,System.String)">
             <summary>
@@ -5961,7 +6173,7 @@
             <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
             <param name="renameSuffix">The rename suffix to be applied to all the nodes, edges, and variables used.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(System.String,de.unika.ipd.grGen.expression.Yielding[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[],de.unika.ipd.grGen.lgsp.PatternYielding,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternYielding.#ctor(System.String,de.unika.ipd.grGen.expression.Yielding[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternYielding,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding)">
             <summary>
             Constructs a PatternYielding object, for parallelization.
             </summary>
@@ -6025,24 +6237,34 @@
             which the subpattern yields to the containing pattern.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededNodes">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededNodeNames">
             <summary>
             An array of names of nodes needed by this subpattern embedding.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededEdges">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededEdgeNames">
             <summary>
             An array of names of edges needed by this subpattern embedding.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededVariables">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededVariableNames">
             <summary>
-            An array of names of variable needed by this subpattern embedding.
+            An array of names of variables needed by this subpattern embedding.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededVariableTypes">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededNodes">
             <summary>
-            An array of variable types (corresponding to the variable names) needed by this embedding.
+            An array of nodes needed by this subpattern embedding.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededEdges">
+            <summary>
+            An array of edges needed by this subpattern embedding.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededVariables">
+            <summary>
+            An array of variables needed by this subpattern embedding.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.inlined">
@@ -6063,7 +6285,7 @@
             Links to the original subpattern embedding which was inlined in case this alternative was inlined, otherwise null.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.#ctor(System.String,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.expression.Expression[],System.String[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.#ctor(System.String,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.expression.Expression[],System.String[],de.unika.ipd.grGen.lgsp.PatternElement[],de.unika.ipd.grGen.lgsp.PatternVariable[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[])">
             <summary>
             Constructs a PatternGraphEmbedding object.
             </summary>
@@ -6071,12 +6293,18 @@
             <param name="matchingPatternOfEmbeddedGraph">The embedded subpattern.</param>
             <param name="connections">An array with the expressions defining how the subpattern is connected
             to the containing pattern (graph elements and basic variables) .</param>
-            <param name="yields">An array with the def elements and variables 
+            <param name="yields">An array with the names of the def elements and variables 
             from the containing pattern yielded to from the subpattern.</param>
-            <param name="neededNodes">An array with names of nodes needed by this embedding.</param>
-            <param name="neededEdges">An array with names of edges needed by this embedding.</param>
-            <param name="neededVariables">An array with names of variables needed by this embedding.</param>
-            <param name="neededVariableTypes">An array with types of variables needed by this embedding.</param>
+            <param name="yieldElements">An array with the def elements 
+            from the containing pattern yielded to from the subpattern.</param>
+            <param name="yieldVariables">An array with the variables 
+            from the containing pattern yielded to from the subpattern.</param>
+            <param name="neededNodeNames">An array with names of nodes needed by this embedding.</param>
+            <param name="neededEdgeNames">An array with names of edges needed by this embedding.</param>
+            <param name="neededVariableNames">An array with names of variables needed by this embedding.</param>
+            <param name="neededNodes">An array of nodes needed by this embedding.</param>
+            <param name="neededEdges">An array of edges needed by this embedding.</param>
+            <param name="neededVariables">An array of variables needed by this embedding.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.#ctor(de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String)">
             <summary>
@@ -6163,6 +6391,11 @@
             The upper bound to stop matching at, 0 means unlimited/as often as possible.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.Iterated.Filters">
+            <summary>
+            An array of the available filters
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.Iterated.iteratedPattern">
              <summary>
             The iterated pattern to be matched as often as possible within specified bounds.
@@ -6178,6 +6411,11 @@
             The upper bound to stop matching at, 0 means unlimited.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.Iterated.filters">
+            <summary>
+            An array of the available filters
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.Iterated.originalIterated">
             <summary>
             Links to the original iterated in case this iterated was inlined, otherwise null
@@ -6188,11 +6426,11 @@
             Links to the original subpattern embedding which was inlined in case this iterated was inlined, otherwise null.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.Iterated.#ctor(de.unika.ipd.grGen.lgsp.PatternGraph,System.Int32,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.Iterated.#ctor(de.unika.ipd.grGen.lgsp.PatternGraph,System.Int32,System.Int32,de.unika.ipd.grGen.lgsp.LGSPFilter[])">
             <summary>
             Constructs an Iterated object.
             </summary>
-            <param name="iterated">PatternGraph of the iterated.</param>
+            <param name="iteratedPattern">PatternGraph of the iterated.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.Iterated.#ctor(de.unika.ipd.grGen.lgsp.Iterated,de.unika.ipd.grGen.lgsp.PatternGraphEmbedding,de.unika.ipd.grGen.lgsp.PatternGraph,System.String,System.Collections.Generic.Dictionary{de.unika.ipd.grGen.lgsp.PatternNode,de.unika.ipd.grGen.lgsp.PatternNode},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.lgsp.PatternEdge,de.unika.ipd.grGen.lgsp.PatternEdge},System.Collections.Generic.Dictionary{de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternVariable})">
             <summary>
@@ -6422,6 +6660,16 @@
             Returns name of the rule pattern class
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MatchClassName(System.String,System.String)">
+            <summary>
+            Returns name of the match class
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.ComparerClassName(System.String,System.String,System.String)">
+            <summary>
+            Returns name of the comparer class
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.IndexSetType(System.String)">
             <summary>
             Returns name of the exact index set type
@@ -6435,6 +6683,11 @@
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MatchInterfaceName(System.String)">
             <summary>
             Returns name of the match interface
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MatchInterfaceName(System.String,System.String)">
+            <summary>
+            Returns the name of the match interface for an iterated in a pattern graph
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MatchedIndependentVariable(System.String)">
@@ -7529,7 +7782,7 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBodyBuilder.buildDefToBeYieldedTo(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,System.Object)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBodyBuilder.buildDefToBeYieldedTo(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,System.Object,de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
             Search program operations implementing the
             DefElementToBeYieldedTo search plan operation
@@ -7820,7 +8073,13 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBodyBuilderHelper.insertYieldAssignments(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.PatternGraph,System.String,de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
-            Inserts code for bubbling yield assignments
+            Inserts code for bubbling yield assignments from matches object
+            at the given position, returns position after inserted operations
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBodyBuilderHelper.insertYieldAssignmentsFromTask(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.PatternGraph,System.String,de.unika.ipd.grGen.lgsp.PatternGraph)">
+            <summary>
+            Inserts code for bubbling yield assignments from tasks object
             at the given position, returns position after inserted operations
             </summary>
         </member>
@@ -8723,24 +8982,29 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SequenceComputationGenerator">
             <summary>
-            The sequence computation generator contains code to generate sequence computations,
-            it is in use by the sequence generator, also supplying result variable handling to it.
+            The sequence computation generator contains code to generate sequence computations;
+            it is in use by the sequence generator.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SequenceComputationGenerator.GetResultVar(de.unika.ipd.grGen.libGr.SequenceBase)">
+        <member name="T:de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper">
+            <summary>
+            The sequence computation generator helper contains code for (sequence/sequence computation) result variable handling.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper.GetResultVar(de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             Returns a string containing a C# expression to get the value of the result variable of the sequence or sequence computation construct
             (every sequence part writes a success-value which is read by other parts determining execution flow)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SequenceComputationGenerator.SetResultVar(de.unika.ipd.grGen.libGr.SequenceBase,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper.SetResultVar(de.unika.ipd.grGen.libGr.SequenceBase,System.String)">
             <summary>
             Returns a string containing a C# assignment to set the result variable of the sequence or sequence computation construct
             to the value as computed by the C# expression in the string given
             (every sequence part writes a success-value which is read by other parts determining execution flow)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SequenceComputationGenerator.DeclareResultVar(de.unika.ipd.grGen.libGr.SequenceBase)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper.DeclareResultVar(de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             Returns a string containing a C# declaration of the result variable of the sequence (or sequence computation) construct
             </summary>
