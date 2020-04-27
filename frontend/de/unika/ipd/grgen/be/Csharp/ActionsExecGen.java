@@ -375,7 +375,7 @@ public class ActionsExecGen extends CSharpBase {
 			//sb.append("\t\t\tpublic static LGSPEmbeddedSequenceClosure rootOfFreeClosures = null;\n");
 
 			sb.unindent();
-			sb.append("}\n");
+			sb.appendFront("}\n");
 			
 			++xgrsID;
 		}
