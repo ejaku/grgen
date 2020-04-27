@@ -599,11 +599,11 @@ namespace spBench
             {
                 PatternCondition cond = patternGraph.Conditions[i];
                 neededElemsArray[i] = new Dictionary<String, bool>();
-                foreach(String nodeName in cond.NeededNodes)
+                foreach(String nodeName in cond.NeededNodeNames)
                 {
                     neededElemsArray[i].Add(nodeName, false);
                 }
-                foreach(String edgeName in cond.NeededEdges)
+                foreach(String edgeName in cond.NeededEdgeNames)
                 {
                     neededElemsArray[i].Add(edgeName, false);
                 }
@@ -914,8 +914,8 @@ namespace spBench
             case SearchOperationType.ActionPreset: typeStr = "p" + tgt.PatternElement.Name; break;
             case SearchOperationType.NegIdptPreset: typeStr = "np" + tgt.PatternElement.Name; break;
             case SearchOperationType.Condition:
-                typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
-                    + String.Join(",", ((PatternCondition) op.Element).NeededEdges) + ")";
+                typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodeNames) + ")("
+                    + String.Join(",", ((PatternCondition) op.Element).NeededEdgeNames) + ")";
                 break;
             case SearchOperationType.NegativePattern:
                 typeStr = " !(" + ScheduleToString(((ScheduledSearchPlan) op.Element).Operations) + " )";
