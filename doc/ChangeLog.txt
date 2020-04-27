@@ -1,4 +1,4 @@
-﻿v5.0 (2020-04-??)
+﻿v5.0 (2020-04-27)
  A --- separator is now needed in between top-down pattern matching/rewriting and bottom-up yielding for result accumulation,
  in the rules and tests of the rule language (it splits the LHS and RHS patterns into two parts)
  - on LHS appear to the left of the separator the elementary pattern entities, nested patterns, and subpattern usages, 
@@ -105,17 +105,17 @@
 
  Added new array accumulation methods to rule language, on array<T> where T=numeric type: 
   .sum():T, .prod():T, .min():T, .max():T, (sum, product, minimum value, maximum value)
-  .avg():double, .med():double, .medUnsorted():double (average/mean, median, median of not ordered array)
+  .avg():double, .med():double, .medUnordered():double (average/mean, median, median of not ordered array)
   .var():double, .dev():double (variance, deviation)
   
  Added new array methods to rule language, on array<T> where T=numeric type or string:
-  .sortDescending(), .keepOneForEach() (orders descendingly, frees of duplicates)
+  .orderDescending(), .keepOneForEach() (orders descendingly, frees of duplicates)
 
  Added new member of value type in array accessing methods to rule language, on array<T>, where
   T=match<r>, or T=match<r.it>, T=match<class mc>, T=node/edge class,
   and member:S is a member from the match type (pattern element/match class member), or an attribute from the node/edge type:
   .extract<member>():array<S>
-  .sortDescendingBy<member>():array<T>
+  .orderDescendingBy<member>():array<T>
   .keepOneForEach<member>():array<T>
  Extended old array member of value type in array accessing methods supporting node/edge types 
   to also support the match types/match classes 
@@ -143,14 +143,57 @@
  Matches count (from performance info) now returns the number of matches found,
   instead of the number of matches left after filtering (rewrites performed tells about that)
 
- Removed auto keyword from rule language (the name of the automorphic matches filter is now parsed as an identifier like all the other auto-generated filters)
+ Removed auto keyword from rule language
 
  All def (to be yielded to) elements and variables (esp. container variables) are now initialized after the pattern elements 
  (and preset elements), as these may be used in the def initialization
  Ensured order of def variables is kept like in source code so initialization order is predictable
 
- User manual adaptations to the breaking changes, addition of the new content, reorganization of content
+ Backtracking double angles (<<r;;s>>) define a scope now, so variables declared inside are not visible from the outside
  
+ Bugfixes:
+ - fix for iterated pattern yielding 
+   (top-down initialization was broken, expression from nesting pattern was emitted in nested pattern; 
+    and the iterateds were yielded to strictly independently, 
+    with a single match getting picked from the iterated matches afterwards, 
+    instead of bottom-up accumulation into the nesting pattern entity, as intended)
+ - bugfixes for keepSameAsFirst, keepSameAsLast, keepOneForEach auto-generated filter functions
+ - allowed entity in package with same name as global entity also if global entity comes before package entity in program code
+
+ - bugfix for containers of match types that occur with the same match type name in a package and the global namespace
+ - match type name resolving bug fix
+ - fix for package resolving/checking
+ - name resolving fix for variable declarations
+ - fixed bugs regarding package handling of match filter functions
+ - bugfix for nested named nested patterns (e.g. iterated)
+
+ - fix for for-reachable loop in sequences
+ - fix for for-matches-loop (missing type checks)
+ - bugfix regarding matched event for random selection rule all calls with lower bound
+ - bugfix for container expressions in exec statements
+ - bugfix for container constructor appearing in initialization of pattern variable 
+ - the accessed container in container expressions was not correctly checked
+ 
+ - fixes for some sequence strings displayed in the debugger
+
+ - added checks against double-declared auto-generated filters (and match class filters)
+ - added error message when an exec is used in a forbidden context
+ - added error message in case an iterated is referenced in a nested pattern
+ - improved error messages when accessing an unknown member of an action match or a match class
+ - an error is returned now when a non-def element is attempted to be written from an exec
+ 
+ - plus some more bug and error message fixes
+
+ API changes: 
+ - reduced filter call object, much easier to assemble for an API user now, 
+   storing only the arguments and delivering only the filter call string (used for dispatching)
+ - extended meta information about filters
+   (also added a representation for auto supplied filters to frontend-backend interface)
+ - introduced GetMember/GetPatternElement helper functions to IMatch/IPatternGraph/IMatchClass
+   to simplify by-name access to match/pattern/match class elements
+
+ User manual adaptations to the breaking changes, addition of new content, reorganization of content
+
 --------------------------------------------------------------------------------------------------------
 
 v4.5.7 (2020-02-08)

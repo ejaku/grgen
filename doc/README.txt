@@ -1,5 +1,5 @@
-GrGen.NET v4.5.7 (2020-02-08)
------------------------------
+GrGen.NET v5.0 (2020-04-27)
+---------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
