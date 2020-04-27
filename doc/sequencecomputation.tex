@@ -147,6 +147,7 @@ The example \verb#{ x:array<int>=array<int>[]; x.add(42); x[0]=1; {x.size()>0} }
     BooleanSequenceExpression |
     RelationalSequenceExpression |
     ArithmeticSequenceExpression |
+    ContainerSequenceExpression |
     PrimarySequenceExpression;
 \end{rail}\ixnterm{SequenceExpression}
 
@@ -155,6 +156,7 @@ the boolean expressions,
 the relational (comparison) expressions,
 the arithmetic expressions, but not the bitwise expressions,
 and the string expressions.
+The container sequence expressions are a subset of the container expressions introduced in \ref{cha:container}, they will be explained in \ref{sec:storages}.
 
 \begin{rail}
   ConditionalSequenceExpression: 
@@ -173,11 +175,11 @@ The boolean operators have the same semantics and same priority as in \ref{sub:e
 
 \begin{rail}
   RelationalSequenceExpression: 
-    SequenceExpression ('==' | '!=' | '<' | '<='| '>' | '>=' | 'in' | titilde) SequenceExpression;
+    SequenceExpression ('==' | '!=' | '<' | '<='| '>' | '>=' | titilde) SequenceExpression;
 \end{rail}\ixnterm{RelationalSequenceExpression}
 
 The equality operators work for every type and return whether the values to compare are equal or unequal.
-The relational operators work as specified in \ref{sub:expr} for numerical types, in \ref{cha:container} for container types, and \ref{cha:graph} for graph type.
+The relational operators work as specified in \ref{sub:expr} for numerical types and \ref{cha:graph} for graph type.
 
 \begin{rail}
   ArithmeticSequenceExpression:
@@ -257,7 +259,7 @@ The sequence expression \verb#{{ def(y) && y.meth(x)>=y.a || @("$1").a+1 != func
 \section{Storages -- Container Type Handling in the Sequences}\label{sec:storages}\indexmain{storage}
 Storages are variables of container (set/map/array/deque) type (cf. \ref{sec:builtingenerictypes}) storing nodes or edges.
 They are primarily used in the sequences, from where they are handed in to the rules via \texttt{ref} parameters (but additionally container attributes in graph elements may be used as storages,
-esp. for doing data flow analyses, cf. \ref{subsub:flow}).
+esp. for carrying out data flow analyses, cf. \ref{subsub:flow}).
 They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the container.
 The splitting of transformations into passes mediated by container valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:mergesplit}, \ref{subsub:copystructure} and \ref{subsub:flow} regarding a discussion on when to use which transformation combinators and for storage examples.
 They were already defined and described in \ref{cha:container}.
@@ -265,7 +267,7 @@ Here we only give some refinements and explanations of the semantics.
 
 \subsubsection*{Common methods and operators}
 
-The methods \texttt{add}, \texttt{rem}, \texttt{clear} are available for all storages and allow to add elements to the container, remove elements from the container, or clear the container.
+The methods \texttt{add}, \texttt{rem}, and \texttt{clear} are available for all storages and allow to add elements to the container, remove elements from the container, or clear the container.
 Their return value is the changed container, thus they allow to chain method calls on the container.
 
 The methods \texttt{size}, \texttt{empty}, \texttt{peek} in contrast return the size of the container, whether the container is empty, or a certain element from the container and thus can't be chained.
@@ -273,33 +275,46 @@ The methods \texttt{size}, \texttt{empty}, \texttt{peek} in contrast return the 
 The indexed query \texttt{v=m[k]} is available on map and array and deque types and returns the element at the specified index,
 the indexed assignment \texttt{a[i]=v} overwrites the element at the specified index.
 
-Further available is the sequence expression operator \texttt{in} for membership query (it is not supported on string type, though), as well as all the relational operators (with their according meaning as specified already in Chapter \ref{cha:container}).
+\begin{rail}
+  ContainerSequenceExpression: 
+    SequenceExpression ('|' | ampersand | backslash | '+') SequenceExpression;
+\end{rail}\ixnterm{ContainerSequenceExpression}
 
-All container constructors and copy constructors are supported.
+All infix container operators are available in the sequence expressions, they have the same semantics and same priority as in Chapter~\ref{cha:container}.
+
+\begin{rail}
+  RelationalSequenceExpression: 
+    SequenceExpression ('==' | '!=' | '<' | '<='| '>' | '>=' | 'in') SequenceExpression;
+\end{rail}\ixnterm{RelationalSequenceExpression}
+
+The relational (including equality) operators work as specified in Chapter~\ref{cha:container} for container types.
+Further available is the sequence expression operator \texttt{in} for membership query -- it is not supported on string type, though.
+
+All container constructors and copy constructors are supported, see Chapter~\ref{cha:container} for more on them.
 The change assignments known from rule language in contrast are \emph{not} available in the sequence computations.
 
 Further support is discussed in the following separated by type.
 
 \subsubsection*{Array Operations}
-All array methods are supported (the array is the central data structure in the sequence expressions to support graph queries), see \ref{sec:arrayexpr} for a list of them.
+All array methods are supported (the array of match is the central data structure in the sequence expressions to support pattern-based graph queries), see \ref{sec:arrayexpr} for a list of them.
 From the array methods specifying and accessing a member of the array value type, \emph{only} the \texttt{extract<member>()} method is supported -- but the ordering methods are available as filter calls.
 
-From the infix operators, array concatenation is supported, as well as all the relational operators.
+All infix operators are supported, which are array concatenation, as well as the relational operators.
 
 \subsubsection*{Set Operations}
-From the set methods not already mentioned in the section on the common parts of all container types, only the \texttt{asArray()} method (cf. \ref{sec:setexpr}) is supported, all other methods are not available.
+All set methods are supported, this is in addition to the ones already mentioned in the section on the common parts of all container types: \texttt{asArray()} (cf. \ref{sec:setexpr}).
 
-From the infix operators, set union, intersection, and difference as supported, as well as all the relational operators.
+All infix operators are supported, which are set union, intersection, and difference, as well as the relational operators.
 
 \subsubsection*{Map Operations}
-From the set methods not already mentioned in the section on the common parts of all container types, only the \texttt{asArray()} method (cf. \ref{sec:mapexpr}) is supported, all other methods are not available.
+All map methods are supported, these are in addition to the ones already mentioned in the section on the common parts of all container types: \texttt{domain()}, \texttt{range()}, and \texttt{asArray()} (cf. \ref{sec:mapexpr}).
 
-From the infix operators, only the relational operators are available.
+All infix operators are supported, which are map union, intersection, and difference (including sets as right value), as well as the relational operators.
 
 \subsubsection*{Deque Operations}
-From the set methods not already mentioned in the section on the common parts of all container types, only the \texttt{asArray()} method (cf. \ref{sec:dequeexpr}) is supported, all other methods are not available.
+All deque methods are supported, these are in addition to the ones already mentioned in the section on the common parts of all container types: \texttt{subdeque()}, \texttt{asArray()}, \texttt{asSet()}, \texttt{indexOf(.), \texttt{indexOf(.,.)}}, \texttt{lastIndexOf(.)} (cf. \ref{sec:dequeexpr}).
 
-From the infix operators, deque concatenation is supported, as well as all the relational operators.
+All infix operators are supported, which are deque concatenation, as well as the relational operators.
 
 \subsubsection*{Container For Loop}
 
@@ -362,8 +377,8 @@ Table~\ref{comptab} lists most of the operations of the graph rewrite computatio
 \texttt{e op f} & For \texttt{op} being one of the boolean operators \texttt{||,|,\&,\&\&,\^\ } \\
 \texttt{e op f} & For \texttt{op} being one of comparison operators \texttt{==,!=,<,<=,>,>=,in} \\
 \texttt{e op f} & For \texttt{op} being one of arithmetic operators \texttt{+,-,*,/,\%} \\
-\texttt{e op f} & For \texttt{op} being one of the set operators \texttt{|,\&,\textbackslash} \\
-\texttt{e + f} & For string/array/deque concatenation. \\
+\texttt{e op f} & For \texttt{op} being one of the set or map operators \texttt{|,\&,\textbackslash} \\
+\texttt{e + f} & For array or deque or string concatenation. \\
 \texttt{op e} & For \texttt{op} being boolean \texttt{!} or arithmetic \texttt{-}\\
 \hline
 \texttt{[?r\textbackslash f]} & Rule query, returns every match produced by \texttt{r} that was left by the filter \texttt{f}, in the order left behind by the filter, as \texttt{array<match<r>>}. \\
