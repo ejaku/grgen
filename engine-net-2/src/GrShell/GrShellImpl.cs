@@ -1034,6 +1034,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - delete ...                Deletes something\n"
                 + " - dump ...                  Dump related commands\n"
                 + " - echo <text>               Writes the given text to the console\n"
+                + " - eval <expr>               Evaluates the given graph rewrite sequence expression\n"
                 + " - (exec | xgrs) <xgrs>      Executes the given extended graph rewrite sequence\n"
                 + " - exit | quit               Exits the GrShell\n"
                 + " - export ...                Exports the current graph.\n"
