@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Fri Feb 07 19:18:48 CET 2020
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Apr 27 20:32:29 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -35,10 +35,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, container creation of Node
@@ -46,7 +46,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Node(this);
+		}
 
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
@@ -184,12 +186,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@BandPosition[] pool = new GRGEN_MODEL.@BandPosition[10];
-		
+
 		// explicit initializations of BandPosition for target BandPosition
 		// implicit initializations of BandPosition for target BandPosition
 		static @BandPosition() {
 		}
-		
+
 		public @BandPosition() : base(GRGEN_MODEL.NodeType_BandPosition.typeVar)
 		{
 			// implicit initialization, container creation of BandPosition
@@ -198,7 +200,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.NodeType_BandPosition TypeInstance { get { return GRGEN_MODEL.NodeType_BandPosition.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@BandPosition(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@BandPosition(this);
+		}
 
 		private @BandPosition(GRGEN_MODEL.@BandPosition oldElem) : base(GRGEN_MODEL.NodeType_BandPosition.typeVar)
 		{
@@ -375,6 +379,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	}
 
+	public class ReverseComparer_BandPosition_value : Comparer<GRGEN_MODEL.IBandPosition>
+	{
+		public static ReverseComparer_BandPosition_value thisComparer = new ReverseComparer_BandPosition_value();
+		public override int Compare(GRGEN_MODEL.IBandPosition a, GRGEN_MODEL.IBandPosition b)
+		{
+			return -a.@value.CompareTo(b.@value);
+		}
+	}
+
 	public class Comparer_BandPosition_value : Comparer<GRGEN_MODEL.IBandPosition>
 	{
 		private static GRGEN_MODEL.IBandPosition nodeBearingAttributeForSearch = new GRGEN_MODEL.@BandPosition();
@@ -422,6 +435,32 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IBandPosition> ArrayOrderDescendingBy(List<GRGEN_MODEL.IBandPosition> list)
+		{
+			List<GRGEN_MODEL.IBandPosition> newList = new List<GRGEN_MODEL.IBandPosition>(list);
+			newList.Sort(ReverseComparer_BandPosition_value.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IBandPosition> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IBandPosition> list)
+		{
+			List<GRGEN_MODEL.IBandPosition> newList = new List<GRGEN_MODEL.IBandPosition>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IBandPosition element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@value)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@value, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IBandPosition> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IBandPosition entry in list)
+				resultList.Add(entry.@value);
+			return resultList;
+		}
 	}
 
 
@@ -435,12 +474,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@State[] pool = new GRGEN_MODEL.@State[10];
-		
+
 		// explicit initializations of State for target State
 		// implicit initializations of State for target State
 		static @State() {
 		}
-		
+
 		public @State() : base(GRGEN_MODEL.NodeType_State.typeVar)
 		{
 			// implicit initialization, container creation of State
@@ -449,7 +488,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.NodeType_State TypeInstance { get { return GRGEN_MODEL.NodeType_State.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@State(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@State(this);
+		}
 
 		private @State(GRGEN_MODEL.@State oldElem) : base(GRGEN_MODEL.NodeType_State.typeVar)
 		{
@@ -590,12 +631,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@WriteValue[] pool = new GRGEN_MODEL.@WriteValue[10];
-		
+
 		// explicit initializations of WriteValue for target WriteValue
 		// implicit initializations of WriteValue for target WriteValue
 		static @WriteValue() {
 		}
-		
+
 		public @WriteValue() : base(GRGEN_MODEL.NodeType_WriteValue.typeVar)
 		{
 			// implicit initialization, container creation of WriteValue
@@ -604,7 +645,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.NodeType_WriteValue TypeInstance { get { return GRGEN_MODEL.NodeType_WriteValue.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@WriteValue(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@WriteValue(this);
+		}
 
 		private @WriteValue(GRGEN_MODEL.@WriteValue oldElem) : base(GRGEN_MODEL.NodeType_WriteValue.typeVar)
 		{
@@ -781,6 +824,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	}
 
+	public class ReverseComparer_WriteValue_value : Comparer<GRGEN_MODEL.IWriteValue>
+	{
+		public static ReverseComparer_WriteValue_value thisComparer = new ReverseComparer_WriteValue_value();
+		public override int Compare(GRGEN_MODEL.IWriteValue a, GRGEN_MODEL.IWriteValue b)
+		{
+			return -a.@value.CompareTo(b.@value);
+		}
+	}
+
 	public class Comparer_WriteValue_value : Comparer<GRGEN_MODEL.IWriteValue>
 	{
 		private static GRGEN_MODEL.IWriteValue nodeBearingAttributeForSearch = new GRGEN_MODEL.@WriteValue();
@@ -828,6 +880,32 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IWriteValue> ArrayOrderDescendingBy(List<GRGEN_MODEL.IWriteValue> list)
+		{
+			List<GRGEN_MODEL.IWriteValue> newList = new List<GRGEN_MODEL.IWriteValue>(list);
+			newList.Sort(ReverseComparer_WriteValue_value.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IWriteValue> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IWriteValue> list)
+		{
+			List<GRGEN_MODEL.IWriteValue> newList = new List<GRGEN_MODEL.IWriteValue>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IWriteValue element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@value)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@value, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IWriteValue> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IWriteValue entry in list)
+				resultList.Add(entry.@value);
+			return resultList;
+		}
 	}
 
 
@@ -860,6 +938,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -895,10 +974,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -907,8 +986,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
@@ -1014,6 +1094,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1049,10 +1130,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -1061,8 +1142,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
@@ -1168,6 +1250,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1206,12 +1289,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@right[] pool = new GRGEN_MODEL.@right[10];
-		
+
 		// explicit initializations of right for target right
 		// implicit initializations of right for target right
 		static @right() {
 		}
-		
+
 		public @right(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_right.typeVar, source, target)
 		{
@@ -1221,8 +1304,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.EdgeType_right TypeInstance { get { return GRGEN_MODEL.EdgeType_right.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@right(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@right(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @right(GRGEN_MODEL.@right oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_right.typeVar, newSource, newTarget)
@@ -1331,6 +1415,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return new GRGEN_MODEL.@right((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1369,12 +1454,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@readZero[] pool = new GRGEN_MODEL.@readZero[10];
-		
+
 		// explicit initializations of readZero for target readZero
 		// implicit initializations of readZero for target readZero
 		static @readZero() {
 		}
-		
+
 		public @readZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_readZero.typeVar, source, target)
 		{
@@ -1384,8 +1469,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.EdgeType_readZero TypeInstance { get { return GRGEN_MODEL.EdgeType_readZero.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@readZero(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@readZero(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @readZero(GRGEN_MODEL.@readZero oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_readZero.typeVar, newSource, newTarget)
@@ -1494,6 +1580,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return new GRGEN_MODEL.@readZero((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1532,12 +1619,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@readOne[] pool = new GRGEN_MODEL.@readOne[10];
-		
+
 		// explicit initializations of readOne for target readOne
 		// implicit initializations of readOne for target readOne
 		static @readOne() {
 		}
-		
+
 		public @readOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_readOne.typeVar, source, target)
 		{
@@ -1547,8 +1634,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.EdgeType_readOne TypeInstance { get { return GRGEN_MODEL.EdgeType_readOne.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@readOne(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@readOne(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @readOne(GRGEN_MODEL.@readOne oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_readOne.typeVar, newSource, newTarget)
@@ -1657,6 +1745,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return new GRGEN_MODEL.@readOne((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1695,12 +1784,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@moveLeft[] pool = new GRGEN_MODEL.@moveLeft[10];
-		
+
 		// explicit initializations of moveLeft for target moveLeft
 		// implicit initializations of moveLeft for target moveLeft
 		static @moveLeft() {
 		}
-		
+
 		public @moveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_moveLeft.typeVar, source, target)
 		{
@@ -1710,8 +1799,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.EdgeType_moveLeft TypeInstance { get { return GRGEN_MODEL.EdgeType_moveLeft.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@moveLeft(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@moveLeft(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @moveLeft(GRGEN_MODEL.@moveLeft oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_moveLeft.typeVar, newSource, newTarget)
@@ -1820,6 +1910,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return new GRGEN_MODEL.@moveLeft((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1858,12 +1949,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@moveRight[] pool = new GRGEN_MODEL.@moveRight[10];
-		
+
 		// explicit initializations of moveRight for target moveRight
 		// implicit initializations of moveRight for target moveRight
 		static @moveRight() {
 		}
-		
+
 		public @moveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_moveRight.typeVar, source, target)
 		{
@@ -1873,8 +1964,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static GRGEN_MODEL.EdgeType_moveRight TypeInstance { get { return GRGEN_MODEL.EdgeType_moveRight.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@moveRight(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@moveRight(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @moveRight(GRGEN_MODEL.@moveRight oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_moveRight.typeVar, newSource, newTarget)
@@ -1982,6 +2074,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 			return new GRGEN_MODEL.@moveRight((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -2344,7 +2437,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
+		new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};

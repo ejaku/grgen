@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Fri Feb 07 19:19:29 CET 2020
+// Generated from "..\..\tests\TNT\TNT.grg" on Mon Apr 27 20:32:50 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -35,10 +35,10 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, container creation of Node
@@ -46,7 +46,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Node(this);
+		}
 
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
@@ -183,12 +185,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@C[] pool = new GRGEN_MODEL.@C[10];
-		
+
 		// explicit initializations of C for target C
 		// implicit initializations of C for target C
 		static @C() {
 		}
-		
+
 		public @C() : base(GRGEN_MODEL.NodeType_C.typeVar)
 		{
 			// implicit initialization, container creation of C
@@ -197,7 +199,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.NodeType_C TypeInstance { get { return GRGEN_MODEL.NodeType_C.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@C(this);
+		}
 
 		private @C(GRGEN_MODEL.@C oldElem) : base(GRGEN_MODEL.NodeType_C.typeVar)
 		{
@@ -337,12 +341,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@H[] pool = new GRGEN_MODEL.@H[10];
-		
+
 		// explicit initializations of H for target H
 		// implicit initializations of H for target H
 		static @H() {
 		}
-		
+
 		public @H() : base(GRGEN_MODEL.NodeType_H.typeVar)
 		{
 			// implicit initialization, container creation of H
@@ -351,7 +355,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.NodeType_H TypeInstance { get { return GRGEN_MODEL.NodeType_H.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@H(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@H(this);
+		}
 
 		private @H(GRGEN_MODEL.@H oldElem) : base(GRGEN_MODEL.NodeType_H.typeVar)
 		{
@@ -491,12 +497,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@O[] pool = new GRGEN_MODEL.@O[10];
-		
+
 		// explicit initializations of O for target O
 		// implicit initializations of O for target O
 		static @O() {
 		}
-		
+
 		public @O() : base(GRGEN_MODEL.NodeType_O.typeVar)
 		{
 			// implicit initialization, container creation of O
@@ -505,7 +511,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.NodeType_O TypeInstance { get { return GRGEN_MODEL.NodeType_O.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@O(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@O(this);
+		}
 
 		private @O(GRGEN_MODEL.@O oldElem) : base(GRGEN_MODEL.NodeType_O.typeVar)
 		{
@@ -645,12 +653,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@N[] pool = new GRGEN_MODEL.@N[10];
-		
+
 		// explicit initializations of N for target N
 		// implicit initializations of N for target N
 		static @N() {
 		}
-		
+
 		public @N() : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
 			// implicit initialization, container creation of N
@@ -659,7 +667,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.NodeType_N TypeInstance { get { return GRGEN_MODEL.NodeType_N.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@N(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@N(this);
+		}
 
 		private @N(GRGEN_MODEL.@N oldElem) : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
@@ -799,12 +809,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@P[] pool = new GRGEN_MODEL.@P[10];
-		
+
 		// explicit initializations of P for target P
 		// implicit initializations of P for target P
 		static @P() {
 		}
-		
+
 		public @P() : base(GRGEN_MODEL.NodeType_P.typeVar)
 		{
 			// implicit initialization, container creation of P
@@ -813,7 +823,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.NodeType_P TypeInstance { get { return GRGEN_MODEL.NodeType_P.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@P(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@P(this);
+		}
 
 		private @P(GRGEN_MODEL.@P oldElem) : base(GRGEN_MODEL.NodeType_P.typeVar)
 		{
@@ -953,12 +965,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@S[] pool = new GRGEN_MODEL.@S[10];
-		
+
 		// explicit initializations of S for target S
 		// implicit initializations of S for target S
 		static @S() {
 		}
-		
+
 		public @S() : base(GRGEN_MODEL.NodeType_S.typeVar)
 		{
 			// implicit initialization, container creation of S
@@ -967,7 +979,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.NodeType_S TypeInstance { get { return GRGEN_MODEL.NodeType_S.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@S(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@S(this);
+		}
 
 		private @S(GRGEN_MODEL.@S oldElem) : base(GRGEN_MODEL.NodeType_S.typeVar)
 		{
@@ -1127,6 +1141,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
@@ -1161,10 +1176,10 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -1173,8 +1188,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
@@ -1280,6 +1296,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1315,10 +1332,10 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -1327,8 +1344,9 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
@@ -1433,6 +1451,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{

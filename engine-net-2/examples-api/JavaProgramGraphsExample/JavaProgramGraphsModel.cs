@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Fri Feb 07 19:19:12 CET 2020
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon Apr 27 20:32:42 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -35,10 +35,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, container creation of Node
@@ -46,7 +46,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Node(this);
+		}
 
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
@@ -184,12 +186,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Package[] pool = new GRGEN_MODEL.@Package[10];
-		
+
 		// explicit initializations of Package for target Package
 		// implicit initializations of Package for target Package
 		static @Package() {
 		}
-		
+
 		public @Package() : base(GRGEN_MODEL.NodeType_Package.typeVar)
 		{
 			// implicit initialization, container creation of Package
@@ -198,7 +200,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Package TypeInstance { get { return GRGEN_MODEL.NodeType_Package.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Package(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Package(this);
+		}
 
 		private @Package(GRGEN_MODEL.@Package oldElem) : base(GRGEN_MODEL.NodeType_Package.typeVar)
 		{
@@ -375,6 +379,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Package_name : Comparer<GRGEN_MODEL.IPackage>
+	{
+		public static ReverseComparer_Package_name thisComparer = new ReverseComparer_Package_name();
+		public override int Compare(GRGEN_MODEL.IPackage a, GRGEN_MODEL.IPackage b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+		}
+	}
+
 	public class Comparer_Package_name : Comparer<GRGEN_MODEL.IPackage>
 	{
 		private static GRGEN_MODEL.IPackage nodeBearingAttributeForSearch = new GRGEN_MODEL.@Package();
@@ -422,6 +435,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IPackage> ArrayOrderDescendingBy(List<GRGEN_MODEL.IPackage> list)
+		{
+			List<GRGEN_MODEL.IPackage> newList = new List<GRGEN_MODEL.IPackage>(list);
+			newList.Sort(ReverseComparer_Package_name.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IPackage> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IPackage> list)
+		{
+			List<GRGEN_MODEL.IPackage> newList = new List<GRGEN_MODEL.IPackage>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IPackage element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@name)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@name, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IPackage> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IPackage entry in list)
+				resultList.Add(entry.@name);
+			return resultList;
+		}
 	}
 
 
@@ -438,12 +477,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Classifier[] pool = new GRGEN_MODEL.@Classifier[10];
-		
+
 		// explicit initializations of Classifier for target Classifier
 		// implicit initializations of Classifier for target Classifier
 		static @Classifier() {
 		}
-		
+
 		public @Classifier() : base(GRGEN_MODEL.NodeType_Classifier.typeVar)
 		{
 			// implicit initialization, container creation of Classifier
@@ -452,7 +491,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Classifier TypeInstance { get { return GRGEN_MODEL.NodeType_Classifier.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Classifier(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Classifier(this);
+		}
 
 		private @Classifier(GRGEN_MODEL.@Classifier oldElem) : base(GRGEN_MODEL.NodeType_Classifier.typeVar)
 		{
@@ -669,6 +710,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Classifier_name : Comparer<GRGEN_MODEL.IClassifier>
+	{
+		public static ReverseComparer_Classifier_name thisComparer = new ReverseComparer_Classifier_name();
+		public override int Compare(GRGEN_MODEL.IClassifier a, GRGEN_MODEL.IClassifier b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+		}
+	}
+
 	public class Comparer_Classifier_name : Comparer<GRGEN_MODEL.IClassifier>
 	{
 		private static GRGEN_MODEL.IClassifier nodeBearingAttributeForSearch = new GRGEN_MODEL.@Classifier();
@@ -716,8 +766,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IClassifier> ArrayOrderDescendingBy(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<GRGEN_MODEL.IClassifier> newList = new List<GRGEN_MODEL.IClassifier>(list);
+			newList.Sort(ReverseComparer_Classifier_name.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IClassifier> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<GRGEN_MODEL.IClassifier> newList = new List<GRGEN_MODEL.IClassifier>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IClassifier element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@name)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@name, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IClassifier entry in list)
+				resultList.Add(entry.@name);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Classifier_visibility : Comparer<GRGEN_MODEL.IClassifier>
+	{
+		public static ReverseComparer_Classifier_visibility thisComparer = new ReverseComparer_Classifier_visibility();
+		public override int Compare(GRGEN_MODEL.IClassifier a, GRGEN_MODEL.IClassifier b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+		}
+	}
 
 	public class Comparer_Classifier_visibility : Comparer<GRGEN_MODEL.IClassifier>
 	{
@@ -766,8 +851,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IClassifier> ArrayOrderDescendingBy(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<GRGEN_MODEL.IClassifier> newList = new List<GRGEN_MODEL.IClassifier>(list);
+			newList.Sort(ReverseComparer_Classifier_visibility.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IClassifier> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<GRGEN_MODEL.IClassifier> newList = new List<GRGEN_MODEL.IClassifier>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IClassifier element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@visibility)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@visibility, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IClassifier entry in list)
+				resultList.Add(entry.@visibility);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Classifier_isAbstract : Comparer<GRGEN_MODEL.IClassifier>
+	{
+		public static ReverseComparer_Classifier_isAbstract thisComparer = new ReverseComparer_Classifier_isAbstract();
+		public override int Compare(GRGEN_MODEL.IClassifier a, GRGEN_MODEL.IClassifier b)
+		{
+			return -a.@isAbstract.CompareTo(b.@isAbstract);
+		}
+	}
 
 	public class Comparer_Classifier_isAbstract : Comparer<GRGEN_MODEL.IClassifier>
 	{
@@ -816,6 +936,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IClassifier> ArrayOrderDescendingBy(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<GRGEN_MODEL.IClassifier> newList = new List<GRGEN_MODEL.IClassifier>(list);
+			newList.Sort(ReverseComparer_Classifier_isAbstract.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IClassifier> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<GRGEN_MODEL.IClassifier> newList = new List<GRGEN_MODEL.IClassifier>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IClassifier element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isAbstract)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isAbstract, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IClassifier> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IClassifier entry in list)
+				resultList.Add(entry.@isAbstract);
+			return resultList;
+		}
 	}
 
 
@@ -830,14 +976,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Class[] pool = new GRGEN_MODEL.@Class[10];
-		
+
 		// explicit initializations of Classifier for target Class
 		// implicit initializations of Classifier for target Class
 		// explicit initializations of Class for target Class
 		// implicit initializations of Class for target Class
 		static @Class() {
 		}
-		
+
 		public @Class() : base(GRGEN_MODEL.NodeType_Class.typeVar)
 		{
 			// implicit initialization, container creation of Class
@@ -847,7 +993,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Class TypeInstance { get { return GRGEN_MODEL.NodeType_Class.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Class(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Class(this);
+		}
 
 		private @Class(GRGEN_MODEL.@Class oldElem) : base(GRGEN_MODEL.NodeType_Class.typeVar)
 		{
@@ -1088,6 +1236,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Class_name : Comparer<GRGEN_MODEL.IClass>
+	{
+		public static ReverseComparer_Class_name thisComparer = new ReverseComparer_Class_name();
+		public override int Compare(GRGEN_MODEL.IClass a, GRGEN_MODEL.IClass b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+		}
+	}
+
 	public class Comparer_Class_name : Comparer<GRGEN_MODEL.IClass>
 	{
 		private static GRGEN_MODEL.IClass nodeBearingAttributeForSearch = new GRGEN_MODEL.@Class();
@@ -1135,8 +1292,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IClass> ArrayOrderDescendingBy(List<GRGEN_MODEL.IClass> list)
+		{
+			List<GRGEN_MODEL.IClass> newList = new List<GRGEN_MODEL.IClass>(list);
+			newList.Sort(ReverseComparer_Class_name.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IClass> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IClass> list)
+		{
+			List<GRGEN_MODEL.IClass> newList = new List<GRGEN_MODEL.IClass>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IClass element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@name)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@name, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IClass> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IClass entry in list)
+				resultList.Add(entry.@name);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Class_visibility : Comparer<GRGEN_MODEL.IClass>
+	{
+		public static ReverseComparer_Class_visibility thisComparer = new ReverseComparer_Class_visibility();
+		public override int Compare(GRGEN_MODEL.IClass a, GRGEN_MODEL.IClass b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+		}
+	}
 
 	public class Comparer_Class_visibility : Comparer<GRGEN_MODEL.IClass>
 	{
@@ -1185,8 +1377,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IClass> ArrayOrderDescendingBy(List<GRGEN_MODEL.IClass> list)
+		{
+			List<GRGEN_MODEL.IClass> newList = new List<GRGEN_MODEL.IClass>(list);
+			newList.Sort(ReverseComparer_Class_visibility.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IClass> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IClass> list)
+		{
+			List<GRGEN_MODEL.IClass> newList = new List<GRGEN_MODEL.IClass>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IClass element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@visibility)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@visibility, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IClass> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IClass entry in list)
+				resultList.Add(entry.@visibility);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Class_isAbstract : Comparer<GRGEN_MODEL.IClass>
+	{
+		public static ReverseComparer_Class_isAbstract thisComparer = new ReverseComparer_Class_isAbstract();
+		public override int Compare(GRGEN_MODEL.IClass a, GRGEN_MODEL.IClass b)
+		{
+			return -a.@isAbstract.CompareTo(b.@isAbstract);
+		}
+	}
 
 	public class Comparer_Class_isAbstract : Comparer<GRGEN_MODEL.IClass>
 	{
@@ -1235,8 +1462,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IClass> ArrayOrderDescendingBy(List<GRGEN_MODEL.IClass> list)
+		{
+			List<GRGEN_MODEL.IClass> newList = new List<GRGEN_MODEL.IClass>(list);
+			newList.Sort(ReverseComparer_Class_isAbstract.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IClass> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IClass> list)
+		{
+			List<GRGEN_MODEL.IClass> newList = new List<GRGEN_MODEL.IClass>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IClass element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isAbstract)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isAbstract, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IClass> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IClass entry in list)
+				resultList.Add(entry.@isAbstract);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Class_isFinal : Comparer<GRGEN_MODEL.IClass>
+	{
+		public static ReverseComparer_Class_isFinal thisComparer = new ReverseComparer_Class_isFinal();
+		public override int Compare(GRGEN_MODEL.IClass a, GRGEN_MODEL.IClass b)
+		{
+			return -a.@isFinal.CompareTo(b.@isFinal);
+		}
+	}
 
 	public class Comparer_Class_isFinal : Comparer<GRGEN_MODEL.IClass>
 	{
@@ -1285,6 +1547,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IClass> ArrayOrderDescendingBy(List<GRGEN_MODEL.IClass> list)
+		{
+			List<GRGEN_MODEL.IClass> newList = new List<GRGEN_MODEL.IClass>(list);
+			newList.Sort(ReverseComparer_Class_isFinal.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IClass> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IClass> list)
+		{
+			List<GRGEN_MODEL.IClass> newList = new List<GRGEN_MODEL.IClass>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IClass element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isFinal)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isFinal, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IClass> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IClass entry in list)
+				resultList.Add(entry.@isFinal);
+			return resultList;
+		}
 	}
 
 
@@ -1298,14 +1586,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Interface[] pool = new GRGEN_MODEL.@Interface[10];
-		
+
 		// explicit initializations of Classifier for target Interface
 		// implicit initializations of Classifier for target Interface
 		// explicit initializations of Interface for target Interface
 		// implicit initializations of Interface for target Interface
 		static @Interface() {
 		}
-		
+
 		public @Interface() : base(GRGEN_MODEL.NodeType_Interface.typeVar)
 		{
 			// implicit initialization, container creation of Interface
@@ -1315,7 +1603,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Interface TypeInstance { get { return GRGEN_MODEL.NodeType_Interface.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Interface(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Interface(this);
+		}
 
 		private @Interface(GRGEN_MODEL.@Interface oldElem) : base(GRGEN_MODEL.NodeType_Interface.typeVar)
 		{
@@ -1537,6 +1827,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Interface_name : Comparer<GRGEN_MODEL.IInterface>
+	{
+		public static ReverseComparer_Interface_name thisComparer = new ReverseComparer_Interface_name();
+		public override int Compare(GRGEN_MODEL.IInterface a, GRGEN_MODEL.IInterface b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+		}
+	}
+
 	public class Comparer_Interface_name : Comparer<GRGEN_MODEL.IInterface>
 	{
 		private static GRGEN_MODEL.IInterface nodeBearingAttributeForSearch = new GRGEN_MODEL.@Interface();
@@ -1584,8 +1883,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IInterface> ArrayOrderDescendingBy(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<GRGEN_MODEL.IInterface> newList = new List<GRGEN_MODEL.IInterface>(list);
+			newList.Sort(ReverseComparer_Interface_name.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IInterface> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<GRGEN_MODEL.IInterface> newList = new List<GRGEN_MODEL.IInterface>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IInterface element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@name)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@name, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IInterface entry in list)
+				resultList.Add(entry.@name);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Interface_visibility : Comparer<GRGEN_MODEL.IInterface>
+	{
+		public static ReverseComparer_Interface_visibility thisComparer = new ReverseComparer_Interface_visibility();
+		public override int Compare(GRGEN_MODEL.IInterface a, GRGEN_MODEL.IInterface b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+		}
+	}
 
 	public class Comparer_Interface_visibility : Comparer<GRGEN_MODEL.IInterface>
 	{
@@ -1634,8 +1968,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IInterface> ArrayOrderDescendingBy(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<GRGEN_MODEL.IInterface> newList = new List<GRGEN_MODEL.IInterface>(list);
+			newList.Sort(ReverseComparer_Interface_visibility.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IInterface> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<GRGEN_MODEL.IInterface> newList = new List<GRGEN_MODEL.IInterface>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IInterface element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@visibility)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@visibility, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IInterface entry in list)
+				resultList.Add(entry.@visibility);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Interface_isAbstract : Comparer<GRGEN_MODEL.IInterface>
+	{
+		public static ReverseComparer_Interface_isAbstract thisComparer = new ReverseComparer_Interface_isAbstract();
+		public override int Compare(GRGEN_MODEL.IInterface a, GRGEN_MODEL.IInterface b)
+		{
+			return -a.@isAbstract.CompareTo(b.@isAbstract);
+		}
+	}
 
 	public class Comparer_Interface_isAbstract : Comparer<GRGEN_MODEL.IInterface>
 	{
@@ -1684,6 +2053,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IInterface> ArrayOrderDescendingBy(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<GRGEN_MODEL.IInterface> newList = new List<GRGEN_MODEL.IInterface>(list);
+			newList.Sort(ReverseComparer_Interface_isAbstract.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IInterface> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<GRGEN_MODEL.IInterface> newList = new List<GRGEN_MODEL.IInterface>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IInterface element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isAbstract)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isAbstract, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IInterface> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IInterface entry in list)
+				resultList.Add(entry.@isAbstract);
+			return resultList;
+		}
 	}
 
 
@@ -1701,12 +2096,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Variable[] pool = new GRGEN_MODEL.@Variable[10];
-		
+
 		// explicit initializations of Variable for target Variable
 		// implicit initializations of Variable for target Variable
 		static @Variable() {
 		}
-		
+
 		public @Variable() : base(GRGEN_MODEL.NodeType_Variable.typeVar)
 		{
 			// implicit initialization, container creation of Variable
@@ -1715,7 +2110,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Variable TypeInstance { get { return GRGEN_MODEL.NodeType_Variable.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Variable(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Variable(this);
+		}
 
 		private @Variable(GRGEN_MODEL.@Variable oldElem) : base(GRGEN_MODEL.NodeType_Variable.typeVar)
 		{
@@ -1949,6 +2346,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Variable_name : Comparer<GRGEN_MODEL.IVariable>
+	{
+		public static ReverseComparer_Variable_name thisComparer = new ReverseComparer_Variable_name();
+		public override int Compare(GRGEN_MODEL.IVariable a, GRGEN_MODEL.IVariable b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+		}
+	}
+
 	public class Comparer_Variable_name : Comparer<GRGEN_MODEL.IVariable>
 	{
 		private static GRGEN_MODEL.IVariable nodeBearingAttributeForSearch = new GRGEN_MODEL.@Variable();
@@ -1996,8 +2402,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IVariable> ArrayOrderDescendingBy(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<GRGEN_MODEL.IVariable> newList = new List<GRGEN_MODEL.IVariable>(list);
+			newList.Sort(ReverseComparer_Variable_name.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IVariable> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<GRGEN_MODEL.IVariable> newList = new List<GRGEN_MODEL.IVariable>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IVariable element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@name)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@name, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IVariable entry in list)
+				resultList.Add(entry.@name);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Variable_visibility : Comparer<GRGEN_MODEL.IVariable>
+	{
+		public static ReverseComparer_Variable_visibility thisComparer = new ReverseComparer_Variable_visibility();
+		public override int Compare(GRGEN_MODEL.IVariable a, GRGEN_MODEL.IVariable b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+		}
+	}
 
 	public class Comparer_Variable_visibility : Comparer<GRGEN_MODEL.IVariable>
 	{
@@ -2046,8 +2487,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IVariable> ArrayOrderDescendingBy(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<GRGEN_MODEL.IVariable> newList = new List<GRGEN_MODEL.IVariable>(list);
+			newList.Sort(ReverseComparer_Variable_visibility.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IVariable> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<GRGEN_MODEL.IVariable> newList = new List<GRGEN_MODEL.IVariable>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IVariable element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@visibility)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@visibility, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IVariable entry in list)
+				resultList.Add(entry.@visibility);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Variable_isStatic : Comparer<GRGEN_MODEL.IVariable>
+	{
+		public static ReverseComparer_Variable_isStatic thisComparer = new ReverseComparer_Variable_isStatic();
+		public override int Compare(GRGEN_MODEL.IVariable a, GRGEN_MODEL.IVariable b)
+		{
+			return -a.@isStatic.CompareTo(b.@isStatic);
+		}
+	}
 
 	public class Comparer_Variable_isStatic : Comparer<GRGEN_MODEL.IVariable>
 	{
@@ -2096,8 +2572,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IVariable> ArrayOrderDescendingBy(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<GRGEN_MODEL.IVariable> newList = new List<GRGEN_MODEL.IVariable>(list);
+			newList.Sort(ReverseComparer_Variable_isStatic.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IVariable> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<GRGEN_MODEL.IVariable> newList = new List<GRGEN_MODEL.IVariable>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IVariable element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isStatic)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isStatic, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IVariable entry in list)
+				resultList.Add(entry.@isStatic);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Variable_isFinal : Comparer<GRGEN_MODEL.IVariable>
+	{
+		public static ReverseComparer_Variable_isFinal thisComparer = new ReverseComparer_Variable_isFinal();
+		public override int Compare(GRGEN_MODEL.IVariable a, GRGEN_MODEL.IVariable b)
+		{
+			return -a.@isFinal.CompareTo(b.@isFinal);
+		}
+	}
 
 	public class Comparer_Variable_isFinal : Comparer<GRGEN_MODEL.IVariable>
 	{
@@ -2146,6 +2657,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IVariable> ArrayOrderDescendingBy(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<GRGEN_MODEL.IVariable> newList = new List<GRGEN_MODEL.IVariable>(list);
+			newList.Sort(ReverseComparer_Variable_isFinal.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IVariable> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<GRGEN_MODEL.IVariable> newList = new List<GRGEN_MODEL.IVariable>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IVariable element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isFinal)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isFinal, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IVariable> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IVariable entry in list)
+				resultList.Add(entry.@isFinal);
+			return resultList;
+		}
 	}
 
 
@@ -2164,12 +2701,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Operation[] pool = new GRGEN_MODEL.@Operation[10];
-		
+
 		// explicit initializations of Operation for target Operation
 		// implicit initializations of Operation for target Operation
 		static @Operation() {
 		}
-		
+
 		public @Operation() : base(GRGEN_MODEL.NodeType_Operation.typeVar)
 		{
 			// implicit initialization, container creation of Operation
@@ -2178,7 +2715,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Operation TypeInstance { get { return GRGEN_MODEL.NodeType_Operation.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Operation(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Operation(this);
+		}
 
 		private @Operation(GRGEN_MODEL.@Operation oldElem) : base(GRGEN_MODEL.NodeType_Operation.typeVar)
 		{
@@ -2431,6 +2970,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Operation_name : Comparer<GRGEN_MODEL.IOperation>
+	{
+		public static ReverseComparer_Operation_name thisComparer = new ReverseComparer_Operation_name();
+		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+		}
+	}
+
 	public class Comparer_Operation_name : Comparer<GRGEN_MODEL.IOperation>
 	{
 		private static GRGEN_MODEL.IOperation nodeBearingAttributeForSearch = new GRGEN_MODEL.@Operation();
@@ -2478,8 +3026,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IOperation> ArrayOrderDescendingBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>(list);
+			newList.Sort(ReverseComparer_Operation_name.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IOperation> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IOperation element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@name)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@name, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IOperation entry in list)
+				resultList.Add(entry.@name);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Operation_visibility : Comparer<GRGEN_MODEL.IOperation>
+	{
+		public static ReverseComparer_Operation_visibility thisComparer = new ReverseComparer_Operation_visibility();
+		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@visibility, b.@visibility);
+		}
+	}
 
 	public class Comparer_Operation_visibility : Comparer<GRGEN_MODEL.IOperation>
 	{
@@ -2528,8 +3111,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IOperation> ArrayOrderDescendingBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>(list);
+			newList.Sort(ReverseComparer_Operation_visibility.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IOperation> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IOperation element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@visibility)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@visibility, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IOperation entry in list)
+				resultList.Add(entry.@visibility);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Operation_isAbstract : Comparer<GRGEN_MODEL.IOperation>
+	{
+		public static ReverseComparer_Operation_isAbstract thisComparer = new ReverseComparer_Operation_isAbstract();
+		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		{
+			return -a.@isAbstract.CompareTo(b.@isAbstract);
+		}
+	}
 
 	public class Comparer_Operation_isAbstract : Comparer<GRGEN_MODEL.IOperation>
 	{
@@ -2578,8 +3196,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IOperation> ArrayOrderDescendingBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>(list);
+			newList.Sort(ReverseComparer_Operation_isAbstract.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IOperation> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IOperation element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isAbstract)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isAbstract, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IOperation entry in list)
+				resultList.Add(entry.@isAbstract);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Operation_isStatic : Comparer<GRGEN_MODEL.IOperation>
+	{
+		public static ReverseComparer_Operation_isStatic thisComparer = new ReverseComparer_Operation_isStatic();
+		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		{
+			return -a.@isStatic.CompareTo(b.@isStatic);
+		}
+	}
 
 	public class Comparer_Operation_isStatic : Comparer<GRGEN_MODEL.IOperation>
 	{
@@ -2628,8 +3281,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IOperation> ArrayOrderDescendingBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>(list);
+			newList.Sort(ReverseComparer_Operation_isStatic.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IOperation> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IOperation element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isStatic)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isStatic, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IOperation entry in list)
+				resultList.Add(entry.@isStatic);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Operation_isFinal : Comparer<GRGEN_MODEL.IOperation>
+	{
+		public static ReverseComparer_Operation_isFinal thisComparer = new ReverseComparer_Operation_isFinal();
+		public override int Compare(GRGEN_MODEL.IOperation a, GRGEN_MODEL.IOperation b)
+		{
+			return -a.@isFinal.CompareTo(b.@isFinal);
+		}
+	}
 
 	public class Comparer_Operation_isFinal : Comparer<GRGEN_MODEL.IOperation>
 	{
@@ -2678,6 +3366,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IOperation> ArrayOrderDescendingBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>(list);
+			newList.Sort(ReverseComparer_Operation_isFinal.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IOperation> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<GRGEN_MODEL.IOperation> newList = new List<GRGEN_MODEL.IOperation>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IOperation element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@isFinal)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@isFinal, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IOperation> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IOperation entry in list)
+				resultList.Add(entry.@isFinal);
+			return resultList;
+		}
 	}
 
 
@@ -2691,12 +3405,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@MethodBody[] pool = new GRGEN_MODEL.@MethodBody[10];
-		
+
 		// explicit initializations of MethodBody for target MethodBody
 		// implicit initializations of MethodBody for target MethodBody
 		static @MethodBody() {
 		}
-		
+
 		public @MethodBody() : base(GRGEN_MODEL.NodeType_MethodBody.typeVar)
 		{
 			// implicit initialization, container creation of MethodBody
@@ -2705,7 +3419,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_MethodBody TypeInstance { get { return GRGEN_MODEL.NodeType_MethodBody.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@MethodBody(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@MethodBody(this);
+		}
 
 		private @MethodBody(GRGEN_MODEL.@MethodBody oldElem) : base(GRGEN_MODEL.NodeType_MethodBody.typeVar)
 		{
@@ -2845,12 +3561,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Expression[] pool = new GRGEN_MODEL.@Expression[10];
-		
+
 		// explicit initializations of Expression for target Expression
 		// implicit initializations of Expression for target Expression
 		static @Expression() {
 		}
-		
+
 		public @Expression() : base(GRGEN_MODEL.NodeType_Expression.typeVar)
 		{
 			// implicit initialization, container creation of Expression
@@ -2859,7 +3575,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Expression TypeInstance { get { return GRGEN_MODEL.NodeType_Expression.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Expression(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Expression(this);
+		}
 
 		private @Expression(GRGEN_MODEL.@Expression oldElem) : base(GRGEN_MODEL.NodeType_Expression.typeVar)
 		{
@@ -3000,14 +3718,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Access[] pool = new GRGEN_MODEL.@Access[10];
-		
+
 		// explicit initializations of Expression for target Access
 		// implicit initializations of Expression for target Access
 		// explicit initializations of Access for target Access
 		// implicit initializations of Access for target Access
 		static @Access() {
 		}
-		
+
 		public @Access() : base(GRGEN_MODEL.NodeType_Access.typeVar)
 		{
 			// implicit initialization, container creation of Access
@@ -3017,7 +3735,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Access TypeInstance { get { return GRGEN_MODEL.NodeType_Access.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Access(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Access(this);
+		}
 
 		private @Access(GRGEN_MODEL.@Access oldElem) : base(GRGEN_MODEL.NodeType_Access.typeVar)
 		{
@@ -3197,6 +3917,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Access_this_ : Comparer<GRGEN_MODEL.IAccess>
+	{
+		public static ReverseComparer_Access_this_ thisComparer = new ReverseComparer_Access_this_();
+		public override int Compare(GRGEN_MODEL.IAccess a, GRGEN_MODEL.IAccess b)
+		{
+			return -a.@this_.CompareTo(b.@this_);
+		}
+	}
+
 	public class Comparer_Access_this_ : Comparer<GRGEN_MODEL.IAccess>
 	{
 		private static GRGEN_MODEL.IAccess nodeBearingAttributeForSearch = new GRGEN_MODEL.@Access();
@@ -3244,6 +3973,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IAccess> ArrayOrderDescendingBy(List<GRGEN_MODEL.IAccess> list)
+		{
+			List<GRGEN_MODEL.IAccess> newList = new List<GRGEN_MODEL.IAccess>(list);
+			newList.Sort(ReverseComparer_Access_this_.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IAccess> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IAccess> list)
+		{
+			List<GRGEN_MODEL.IAccess> newList = new List<GRGEN_MODEL.IAccess>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IAccess element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@this_)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@this_, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IAccess> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IAccess entry in list)
+				resultList.Add(entry.@this_);
+			return resultList;
+		}
 	}
 
 
@@ -3258,14 +4013,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Update[] pool = new GRGEN_MODEL.@Update[10];
-		
+
 		// explicit initializations of Expression for target Update
 		// implicit initializations of Expression for target Update
 		// explicit initializations of Update for target Update
 		// implicit initializations of Update for target Update
 		static @Update() {
 		}
-		
+
 		public @Update() : base(GRGEN_MODEL.NodeType_Update.typeVar)
 		{
 			// implicit initialization, container creation of Update
@@ -3275,7 +4030,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Update TypeInstance { get { return GRGEN_MODEL.NodeType_Update.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Update(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Update(this);
+		}
 
 		private @Update(GRGEN_MODEL.@Update oldElem) : base(GRGEN_MODEL.NodeType_Update.typeVar)
 		{
@@ -3455,6 +4212,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Update_this_ : Comparer<GRGEN_MODEL.IUpdate>
+	{
+		public static ReverseComparer_Update_this_ thisComparer = new ReverseComparer_Update_this_();
+		public override int Compare(GRGEN_MODEL.IUpdate a, GRGEN_MODEL.IUpdate b)
+		{
+			return -a.@this_.CompareTo(b.@this_);
+		}
+	}
+
 	public class Comparer_Update_this_ : Comparer<GRGEN_MODEL.IUpdate>
 	{
 		private static GRGEN_MODEL.IUpdate nodeBearingAttributeForSearch = new GRGEN_MODEL.@Update();
@@ -3502,6 +4268,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IUpdate> ArrayOrderDescendingBy(List<GRGEN_MODEL.IUpdate> list)
+		{
+			List<GRGEN_MODEL.IUpdate> newList = new List<GRGEN_MODEL.IUpdate>(list);
+			newList.Sort(ReverseComparer_Update_this_.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IUpdate> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IUpdate> list)
+		{
+			List<GRGEN_MODEL.IUpdate> newList = new List<GRGEN_MODEL.IUpdate>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IUpdate element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@this_)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@this_, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IUpdate> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IUpdate entry in list)
+				resultList.Add(entry.@this_);
+			return resultList;
+		}
 	}
 
 
@@ -3517,14 +4309,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Call[] pool = new GRGEN_MODEL.@Call[10];
-		
+
 		// explicit initializations of Expression for target Call
 		// implicit initializations of Expression for target Call
 		// explicit initializations of Call for target Call
 		// implicit initializations of Call for target Call
 		static @Call() {
 		}
-		
+
 		public @Call() : base(GRGEN_MODEL.NodeType_Call.typeVar)
 		{
 			// implicit initialization, container creation of Call
@@ -3534,7 +4326,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Call TypeInstance { get { return GRGEN_MODEL.NodeType_Call.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Call(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Call(this);
+		}
 
 		private @Call(GRGEN_MODEL.@Call oldElem) : base(GRGEN_MODEL.NodeType_Call.typeVar)
 		{
@@ -3733,6 +4527,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Call_this_ : Comparer<GRGEN_MODEL.ICall>
+	{
+		public static ReverseComparer_Call_this_ thisComparer = new ReverseComparer_Call_this_();
+		public override int Compare(GRGEN_MODEL.ICall a, GRGEN_MODEL.ICall b)
+		{
+			return -a.@this_.CompareTo(b.@this_);
+		}
+	}
+
 	public class Comparer_Call_this_ : Comparer<GRGEN_MODEL.ICall>
 	{
 		private static GRGEN_MODEL.ICall nodeBearingAttributeForSearch = new GRGEN_MODEL.@Call();
@@ -3780,8 +4583,43 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ICall> ArrayOrderDescendingBy(List<GRGEN_MODEL.ICall> list)
+		{
+			List<GRGEN_MODEL.ICall> newList = new List<GRGEN_MODEL.ICall>(list);
+			newList.Sort(ReverseComparer_Call_this_.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ICall> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ICall> list)
+		{
+			List<GRGEN_MODEL.ICall> newList = new List<GRGEN_MODEL.ICall>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ICall element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@this_)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@this_, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.ICall> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.ICall entry in list)
+				resultList.Add(entry.@this_);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_Call_super : Comparer<GRGEN_MODEL.ICall>
+	{
+		public static ReverseComparer_Call_super thisComparer = new ReverseComparer_Call_super();
+		public override int Compare(GRGEN_MODEL.ICall a, GRGEN_MODEL.ICall b)
+		{
+			return -a.@super.CompareTo(b.@super);
+		}
+	}
 
 	public class Comparer_Call_super : Comparer<GRGEN_MODEL.ICall>
 	{
@@ -3830,6 +4668,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ICall> ArrayOrderDescendingBy(List<GRGEN_MODEL.ICall> list)
+		{
+			List<GRGEN_MODEL.ICall> newList = new List<GRGEN_MODEL.ICall>(list);
+			newList.Sort(ReverseComparer_Call_super.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ICall> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ICall> list)
+		{
+			List<GRGEN_MODEL.ICall> newList = new List<GRGEN_MODEL.ICall>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ICall element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@super)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@super, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.ICall> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.ICall entry in list)
+				resultList.Add(entry.@super);
+			return resultList;
+		}
 	}
 
 
@@ -3843,14 +4707,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Instantiation[] pool = new GRGEN_MODEL.@Instantiation[10];
-		
+
 		// explicit initializations of Expression for target Instantiation
 		// implicit initializations of Expression for target Instantiation
 		// explicit initializations of Instantiation for target Instantiation
 		// implicit initializations of Instantiation for target Instantiation
 		static @Instantiation() {
 		}
-		
+
 		public @Instantiation() : base(GRGEN_MODEL.NodeType_Instantiation.typeVar)
 		{
 			// implicit initialization, container creation of Instantiation
@@ -3860,7 +4724,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Instantiation TypeInstance { get { return GRGEN_MODEL.NodeType_Instantiation.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Instantiation(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Instantiation(this);
+		}
 
 		private @Instantiation(GRGEN_MODEL.@Instantiation oldElem) : base(GRGEN_MODEL.NodeType_Instantiation.typeVar)
 		{
@@ -4004,14 +4870,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Operator[] pool = new GRGEN_MODEL.@Operator[10];
-		
+
 		// explicit initializations of Expression for target Operator
 		// implicit initializations of Expression for target Operator
 		// explicit initializations of Operator for target Operator
 		// implicit initializations of Operator for target Operator
 		static @Operator() {
 		}
-		
+
 		public @Operator() : base(GRGEN_MODEL.NodeType_Operator.typeVar)
 		{
 			// implicit initialization, container creation of Operator
@@ -4021,7 +4887,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Operator TypeInstance { get { return GRGEN_MODEL.NodeType_Operator.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Operator(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Operator(this);
+		}
 
 		private @Operator(GRGEN_MODEL.@Operator oldElem) : base(GRGEN_MODEL.NodeType_Operator.typeVar)
 		{
@@ -4201,6 +5069,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Operator_name : Comparer<GRGEN_MODEL.IOperator>
+	{
+		public static ReverseComparer_Operator_name thisComparer = new ReverseComparer_Operator_name();
+		public override int Compare(GRGEN_MODEL.IOperator a, GRGEN_MODEL.IOperator b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@name, b.@name);
+		}
+	}
+
 	public class Comparer_Operator_name : Comparer<GRGEN_MODEL.IOperator>
 	{
 		private static GRGEN_MODEL.IOperator nodeBearingAttributeForSearch = new GRGEN_MODEL.@Operator();
@@ -4248,6 +5125,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IOperator> ArrayOrderDescendingBy(List<GRGEN_MODEL.IOperator> list)
+		{
+			List<GRGEN_MODEL.IOperator> newList = new List<GRGEN_MODEL.IOperator>(list);
+			newList.Sort(ReverseComparer_Operator_name.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IOperator> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IOperator> list)
+		{
+			List<GRGEN_MODEL.IOperator> newList = new List<GRGEN_MODEL.IOperator>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IOperator element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@name)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@name, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IOperator> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IOperator entry in list)
+				resultList.Add(entry.@name);
+			return resultList;
+		}
 	}
 
 
@@ -4261,14 +5164,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Return[] pool = new GRGEN_MODEL.@Return[10];
-		
+
 		// explicit initializations of Expression for target Return
 		// implicit initializations of Expression for target Return
 		// explicit initializations of Return for target Return
 		// implicit initializations of Return for target Return
 		static @Return() {
 		}
-		
+
 		public @Return() : base(GRGEN_MODEL.NodeType_Return.typeVar)
 		{
 			// implicit initialization, container creation of Return
@@ -4278,7 +5181,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Return TypeInstance { get { return GRGEN_MODEL.NodeType_Return.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Return(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Return(this);
+		}
 
 		private @Return(GRGEN_MODEL.@Return oldElem) : base(GRGEN_MODEL.NodeType_Return.typeVar)
 		{
@@ -4421,14 +5326,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Block[] pool = new GRGEN_MODEL.@Block[10];
-		
+
 		// explicit initializations of Expression for target Block
 		// implicit initializations of Expression for target Block
 		// explicit initializations of Block for target Block
 		// implicit initializations of Block for target Block
 		static @Block() {
 		}
-		
+
 		public @Block() : base(GRGEN_MODEL.NodeType_Block.typeVar)
 		{
 			// implicit initialization, container creation of Block
@@ -4438,7 +5343,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Block TypeInstance { get { return GRGEN_MODEL.NodeType_Block.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Block(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Block(this);
+		}
 
 		private @Block(GRGEN_MODEL.@Block oldElem) : base(GRGEN_MODEL.NodeType_Block.typeVar)
 		{
@@ -4582,12 +5489,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Literal[] pool = new GRGEN_MODEL.@Literal[10];
-		
+
 		// explicit initializations of Literal for target Literal
 		// implicit initializations of Literal for target Literal
 		static @Literal() {
 		}
-		
+
 		public @Literal() : base(GRGEN_MODEL.NodeType_Literal.typeVar)
 		{
 			// implicit initialization, container creation of Literal
@@ -4596,7 +5503,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Literal TypeInstance { get { return GRGEN_MODEL.NodeType_Literal.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Literal(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Literal(this);
+		}
 
 		private @Literal(GRGEN_MODEL.@Literal oldElem) : base(GRGEN_MODEL.NodeType_Literal.typeVar)
 		{
@@ -4773,6 +5682,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_Literal_value : Comparer<GRGEN_MODEL.ILiteral>
+	{
+		public static ReverseComparer_Literal_value thisComparer = new ReverseComparer_Literal_value();
+		public override int Compare(GRGEN_MODEL.ILiteral a, GRGEN_MODEL.ILiteral b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@value, b.@value);
+		}
+	}
+
 	public class Comparer_Literal_value : Comparer<GRGEN_MODEL.ILiteral>
 	{
 		private static GRGEN_MODEL.ILiteral nodeBearingAttributeForSearch = new GRGEN_MODEL.@Literal();
@@ -4820,6 +5738,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ILiteral> ArrayOrderDescendingBy(List<GRGEN_MODEL.ILiteral> list)
+		{
+			List<GRGEN_MODEL.ILiteral> newList = new List<GRGEN_MODEL.ILiteral>(list);
+			newList.Sort(ReverseComparer_Literal_value.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ILiteral> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ILiteral> list)
+		{
+			List<GRGEN_MODEL.ILiteral> newList = new List<GRGEN_MODEL.ILiteral>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ILiteral element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@value)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@value, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.ILiteral> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.ILiteral entry in list)
+				resultList.Add(entry.@value);
+			return resultList;
+		}
 	}
 
 
@@ -4833,12 +5777,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Parameter[] pool = new GRGEN_MODEL.@Parameter[10];
-		
+
 		// explicit initializations of Parameter for target Parameter
 		// implicit initializations of Parameter for target Parameter
 		static @Parameter() {
 		}
-		
+
 		public @Parameter() : base(GRGEN_MODEL.NodeType_Parameter.typeVar)
 		{
 			// implicit initialization, container creation of Parameter
@@ -4847,7 +5791,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.NodeType_Parameter TypeInstance { get { return GRGEN_MODEL.NodeType_Parameter.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Parameter(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Parameter(this);
+		}
 
 		private @Parameter(GRGEN_MODEL.@Parameter oldElem) : base(GRGEN_MODEL.NodeType_Parameter.typeVar)
 		{
@@ -4981,7 +5927,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	// Edge types
 	//
 
-	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2, @belongsTo=3, @type_=4, @extends_=5, @imports=6, @implements=7, @parameter=8, @actualParameter=9, @binding=10, @link=11, @expression=12, @inBlock=13, @inClass=14 };
+	public enum EdgeTypes { @AEdge=0, @Edge=1, @UEdge=2, @belongsTo=3, @type_=4, @extends_=5, @imports=6, @implements_=7, @parameter=8, @actualParameter=9, @binding=10, @link=11, @expression=12, @inBlock=13, @inClass=14 };
 
 	// *** Edge AEdge ***
 
@@ -5006,6 +5952,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -5041,10 +5988,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -5053,8 +6000,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
@@ -5160,6 +6108,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -5195,10 +6144,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -5207,8 +6156,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
@@ -5314,6 +6264,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -5352,12 +6303,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@belongsTo[] pool = new GRGEN_MODEL.@belongsTo[10];
-		
+
 		// explicit initializations of belongsTo for target belongsTo
 		// implicit initializations of belongsTo for target belongsTo
 		static @belongsTo() {
 		}
-		
+
 		public @belongsTo(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, source, target)
 		{
@@ -5367,8 +6318,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_belongsTo TypeInstance { get { return GRGEN_MODEL.EdgeType_belongsTo.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@belongsTo(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@belongsTo(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @belongsTo(GRGEN_MODEL.@belongsTo oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, newSource, newTarget)
@@ -5477,6 +6429,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@belongsTo((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -5515,12 +6468,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@type_[] pool = new GRGEN_MODEL.@type_[10];
-		
+
 		// explicit initializations of type_ for target type_
 		// implicit initializations of type_ for target type_
 		static @type_() {
 		}
-		
+
 		public @type_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_type_.typeVar, source, target)
 		{
@@ -5530,8 +6483,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_type_ TypeInstance { get { return GRGEN_MODEL.EdgeType_type_.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@type_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@type_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @type_(GRGEN_MODEL.@type_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_type_.typeVar, newSource, newTarget)
@@ -5640,6 +6594,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@type_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -5678,12 +6633,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@extends_[] pool = new GRGEN_MODEL.@extends_[10];
-		
+
 		// explicit initializations of extends_ for target extends_
 		// implicit initializations of extends_ for target extends_
 		static @extends_() {
 		}
-		
+
 		public @extends_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, source, target)
 		{
@@ -5693,8 +6648,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_extends_ TypeInstance { get { return GRGEN_MODEL.EdgeType_extends_.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@extends_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@extends_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @extends_(GRGEN_MODEL.@extends_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, newSource, newTarget)
@@ -5803,6 +6759,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@extends_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -5841,12 +6798,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@imports[] pool = new GRGEN_MODEL.@imports[10];
-		
+
 		// explicit initializations of imports for target imports
 		// implicit initializations of imports for target imports
 		static @imports() {
 		}
-		
+
 		public @imports(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_imports.typeVar, source, target)
 		{
@@ -5856,8 +6813,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_imports TypeInstance { get { return GRGEN_MODEL.EdgeType_imports.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@imports(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@imports(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @imports(GRGEN_MODEL.@imports oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_imports.typeVar, newSource, newTarget)
@@ -5966,6 +6924,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@imports((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -5994,77 +6953,78 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
-	// *** Edge implements ***
+	// *** Edge implements_ ***
 
-	public interface Iimplements : GRGEN_LIBGR.IDEdge
+	public interface Iimplements_ : GRGEN_LIBGR.IDEdge
 	{
 	}
 
-	public sealed partial class @implements : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iimplements
+	public sealed partial class @implements_ : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iimplements_
 	{
 		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@implements[] pool = new GRGEN_MODEL.@implements[10];
-		
-		// explicit initializations of implements for target implements
-		// implicit initializations of implements for target implements
-		static @implements() {
+		private static GRGEN_MODEL.@implements_[] pool = new GRGEN_MODEL.@implements_[10];
+
+		// explicit initializations of implements_ for target implements_
+		// implicit initializations of implements_ for target implements_
+		static @implements_() {
 		}
-		
-		public @implements(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_implements.typeVar, source, target)
+
+		public @implements_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_implements_.typeVar, source, target)
 		{
-			// implicit initialization, container creation of implements
-			// explicit initializations of implements for target implements
+			// implicit initialization, container creation of implements_
+			// explicit initializations of implements_ for target implements_
 		}
 
-		public static GRGEN_MODEL.EdgeType_implements TypeInstance { get { return GRGEN_MODEL.EdgeType_implements.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_implements_ TypeInstance { get { return GRGEN_MODEL.EdgeType_implements_.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@implements(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@implements_(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
-		private @implements(GRGEN_MODEL.@implements oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_implements.typeVar, newSource, newTarget)
+		private @implements_(GRGEN_MODEL.@implements_ oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_implements_.typeVar, newSource, newTarget)
 		{
 		}
 
 		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
-			if(!(that is @implements)) return false;
-			@implements that_ = (@implements)that;
+			if(!(that is @implements_)) return false;
+			@implements_ that_ = (@implements_)that;
 			return true
 			;
 		}
 
-		public static GRGEN_MODEL.@implements CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@implements_ CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			GRGEN_MODEL.@implements edge;
+			GRGEN_MODEL.@implements_ edge;
 			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@implements(source, target);
+				edge = new GRGEN_MODEL.@implements_(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, container creation of implements
-				// explicit initializations of implements for target implements
+				// implicit initialization, container creation of implements_
+				// explicit initializations of implements_ for target implements_
 			}
 			graph.AddEdge(edge);
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@implements CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		public static GRGEN_MODEL.@implements_ CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
-			GRGEN_MODEL.@implements edge;
+			GRGEN_MODEL.@implements_ edge;
 			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@implements(source, target);
+				edge = new GRGEN_MODEL.@implements_(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, container creation of implements
-				// explicit initializations of implements for target implements
+				// implicit initialization, container creation of implements_
+				// explicit initializations of implements_ for target implements_
 			}
 			graph.AddEdge(edge, edgeName);
 			return edge;
@@ -6079,55 +7039,56 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"implements\" does not have the attribute \"" + attrName + "\"!");
+				"The edge type \"implements_\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"implements\" does not have the attribute \"" + attrName + "\"!");
+				"The edge type \"implements_\" does not have the attribute \"" + attrName + "\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, container creation of implements
-			// explicit initializations of implements for target implements
+			// implicit initialization, container creation of implements_
+			// explicit initializations of implements_ for target implements_
 		}
 
 		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
 		{
 			switch(name)
 			{
-				default: throw new NullReferenceException("implements does not have the function method " + name + "!");
+				default: throw new NullReferenceException("implements_ does not have the function method " + name + "!");
 			}
 		}
 		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
 		{
 			switch(name)
 			{
-				default: throw new NullReferenceException("implements does not have the procedure method " + name + "!");
+				default: throw new NullReferenceException("implements_ does not have the procedure method " + name + "!");
 			}
 		}
 	}
 
-	public sealed partial class EdgeType_implements : GRGEN_LIBGR.EdgeType
+	public sealed partial class EdgeType_implements_ : GRGEN_LIBGR.EdgeType
 	{
-		public static GRGEN_MODEL.EdgeType_implements typeVar = new GRGEN_MODEL.EdgeType_implements();
+		public static GRGEN_MODEL.EdgeType_implements_ typeVar = new GRGEN_MODEL.EdgeType_implements_();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, false, false, false, false, false, false, false, };
 		public override bool IsA(int typeID) { return isA[typeID]; }
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, };
 		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
-		public EdgeType_implements() : base((int) EdgeTypes.@implements)
+		public EdgeType_implements_() : base((int) EdgeTypes.@implements_)
 		{
 		}
-		public override string Name { get { return "implements"; } }
+		public override string Name { get { return "implements_"; } }
 		public override string Package { get { return null; } }
-		public override string PackagePrefixedName { get { return "implements"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimplements"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@implements"; } }
+		public override string PackagePrefixedName { get { return "implements_"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimplements_"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@implements_"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new GRGEN_MODEL.@implements((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@implements_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -6152,7 +7113,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new GRGEN_MODEL.@implements((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@implements_((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -6168,12 +7129,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@parameter[] pool = new GRGEN_MODEL.@parameter[10];
-		
+
 		// explicit initializations of parameter for target parameter
 		// implicit initializations of parameter for target parameter
 		static @parameter() {
 		}
-		
+
 		public @parameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, source, target)
 		{
@@ -6183,8 +7144,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_parameter TypeInstance { get { return GRGEN_MODEL.EdgeType_parameter.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@parameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@parameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @parameter(GRGEN_MODEL.@parameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, newSource, newTarget)
@@ -6315,6 +7277,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@parameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -6368,6 +7331,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_parameter_order : Comparer<GRGEN_MODEL.Iparameter>
+	{
+		public static ReverseComparer_parameter_order thisComparer = new ReverseComparer_parameter_order();
+		public override int Compare(GRGEN_MODEL.Iparameter a, GRGEN_MODEL.Iparameter b)
+		{
+			return -a.@order.CompareTo(b.@order);
+		}
+	}
+
 	public class Comparer_parameter_order : Comparer<GRGEN_MODEL.Iparameter>
 	{
 		private static GRGEN_MODEL.Iparameter nodeBearingAttributeForSearch = new GRGEN_MODEL.@parameter(null, null);
@@ -6415,6 +7387,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.Iparameter> ArrayOrderDescendingBy(List<GRGEN_MODEL.Iparameter> list)
+		{
+			List<GRGEN_MODEL.Iparameter> newList = new List<GRGEN_MODEL.Iparameter>(list);
+			newList.Sort(ReverseComparer_parameter_order.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.Iparameter> ArrayKeepOneForEachBy(List<GRGEN_MODEL.Iparameter> list)
+		{
+			List<GRGEN_MODEL.Iparameter> newList = new List<GRGEN_MODEL.Iparameter>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.Iparameter element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@order)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@order, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.Iparameter> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.Iparameter entry in list)
+				resultList.Add(entry.@order);
+			return resultList;
+		}
 	}
 
 
@@ -6428,12 +7426,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@actualParameter[] pool = new GRGEN_MODEL.@actualParameter[10];
-		
+
 		// explicit initializations of actualParameter for target actualParameter
 		// implicit initializations of actualParameter for target actualParameter
 		static @actualParameter() {
 		}
-		
+
 		public @actualParameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, source, target)
 		{
@@ -6443,8 +7441,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_actualParameter TypeInstance { get { return GRGEN_MODEL.EdgeType_actualParameter.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@actualParameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@actualParameter(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @actualParameter(GRGEN_MODEL.@actualParameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, newSource, newTarget)
@@ -6553,6 +7552,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@actualParameter((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -6591,12 +7591,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@binding[] pool = new GRGEN_MODEL.@binding[10];
-		
+
 		// explicit initializations of binding for target binding
 		// implicit initializations of binding for target binding
 		static @binding() {
 		}
-		
+
 		public @binding(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_binding.typeVar, source, target)
 		{
@@ -6606,8 +7606,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_binding TypeInstance { get { return GRGEN_MODEL.EdgeType_binding.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@binding(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@binding(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @binding(GRGEN_MODEL.@binding oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_binding.typeVar, newSource, newTarget)
@@ -6716,6 +7717,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@binding((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -6754,12 +7756,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@link[] pool = new GRGEN_MODEL.@link[10];
-		
+
 		// explicit initializations of link for target link
 		// implicit initializations of link for target link
 		static @link() {
 		}
-		
+
 		public @link(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_link.typeVar, source, target)
 		{
@@ -6769,8 +7771,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_link TypeInstance { get { return GRGEN_MODEL.EdgeType_link.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@link(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@link(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @link(GRGEN_MODEL.@link oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_link.typeVar, newSource, newTarget)
@@ -6879,6 +7882,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@link((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -6918,12 +7922,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@expression[] pool = new GRGEN_MODEL.@expression[10];
-		
+
 		// explicit initializations of expression for target expression
 		// implicit initializations of expression for target expression
 		static @expression() {
 		}
-		
+
 		public @expression(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_expression.typeVar, source, target)
 		{
@@ -6933,8 +7937,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_expression TypeInstance { get { return GRGEN_MODEL.EdgeType_expression.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@expression(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@expression(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @expression(GRGEN_MODEL.@expression oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_expression.typeVar, newSource, newTarget)
@@ -7065,6 +8070,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@expression((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -7118,6 +8124,15 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 	}
 
+	public class ReverseComparer_expression_order : Comparer<GRGEN_MODEL.Iexpression>
+	{
+		public static ReverseComparer_expression_order thisComparer = new ReverseComparer_expression_order();
+		public override int Compare(GRGEN_MODEL.Iexpression a, GRGEN_MODEL.Iexpression b)
+		{
+			return -a.@order.CompareTo(b.@order);
+		}
+	}
+
 	public class Comparer_expression_order : Comparer<GRGEN_MODEL.Iexpression>
 	{
 		private static GRGEN_MODEL.Iexpression nodeBearingAttributeForSearch = new GRGEN_MODEL.@expression(null, null);
@@ -7165,6 +8180,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.Iexpression> ArrayOrderDescendingBy(List<GRGEN_MODEL.Iexpression> list)
+		{
+			List<GRGEN_MODEL.Iexpression> newList = new List<GRGEN_MODEL.Iexpression>(list);
+			newList.Sort(ReverseComparer_expression_order.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.Iexpression> ArrayKeepOneForEachBy(List<GRGEN_MODEL.Iexpression> list)
+		{
+			List<GRGEN_MODEL.Iexpression> newList = new List<GRGEN_MODEL.Iexpression>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.Iexpression element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@order)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@order, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.Iexpression> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.Iexpression entry in list)
+				resultList.Add(entry.@order);
+			return resultList;
+		}
 	}
 
 
@@ -7178,12 +8219,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@inBlock[] pool = new GRGEN_MODEL.@inBlock[10];
-		
+
 		// explicit initializations of inBlock for target inBlock
 		// implicit initializations of inBlock for target inBlock
 		static @inBlock() {
 		}
-		
+
 		public @inBlock(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, source, target)
 		{
@@ -7193,8 +8234,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_inBlock TypeInstance { get { return GRGEN_MODEL.EdgeType_inBlock.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@inBlock(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@inBlock(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @inBlock(GRGEN_MODEL.@inBlock oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, newSource, newTarget)
@@ -7303,6 +8345,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return new GRGEN_MODEL.@inBlock((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -7341,12 +8384,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@inClass[] pool = new GRGEN_MODEL.@inClass[10];
-		
+
 		// explicit initializations of inClass for target inClass
 		// implicit initializations of inClass for target inClass
 		static @inClass() {
 		}
-		
+
 		public @inClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, source, target)
 		{
@@ -7356,8 +8399,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		public static GRGEN_MODEL.EdgeType_inClass TypeInstance { get { return GRGEN_MODEL.EdgeType_inClass.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@inClass(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@inClass(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @inClass(GRGEN_MODEL.@inClass oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, newSource, newTarget)
@@ -7465,6 +8509,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 			return new GRGEN_MODEL.@inClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -7923,7 +8968,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				GRGEN_MODEL.EdgeType_type_.typeVar,
 				GRGEN_MODEL.EdgeType_extends_.typeVar,
 				GRGEN_MODEL.EdgeType_imports.typeVar,
-				GRGEN_MODEL.EdgeType_implements.typeVar,
+				GRGEN_MODEL.EdgeType_implements_.typeVar,
 				GRGEN_MODEL.EdgeType_parameter.typeVar,
 				GRGEN_MODEL.EdgeType_actualParameter.typeVar,
 				GRGEN_MODEL.EdgeType_binding.typeVar,
@@ -7947,7 +8992,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				GRGEN_MODEL.EdgeType_type_.typeVar,
 				GRGEN_MODEL.EdgeType_extends_.typeVar,
 				GRGEN_MODEL.EdgeType_imports.typeVar,
-				GRGEN_MODEL.EdgeType_implements.typeVar,
+				GRGEN_MODEL.EdgeType_implements_.typeVar,
 				GRGEN_MODEL.EdgeType_parameter.typeVar,
 				GRGEN_MODEL.EdgeType_actualParameter.typeVar,
 				GRGEN_MODEL.EdgeType_binding.typeVar,
@@ -7961,7 +9006,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				GRGEN_MODEL.EdgeType_type_.typeVar,
 				GRGEN_MODEL.EdgeType_extends_.typeVar,
 				GRGEN_MODEL.EdgeType_imports.typeVar,
-				GRGEN_MODEL.EdgeType_implements.typeVar,
+				GRGEN_MODEL.EdgeType_implements_.typeVar,
 				GRGEN_MODEL.EdgeType_parameter.typeVar,
 				GRGEN_MODEL.EdgeType_actualParameter.typeVar,
 				GRGEN_MODEL.EdgeType_binding.typeVar,
@@ -8041,17 +9086,17 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.EdgeType_imports.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_imports.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_implements.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_implements.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				GRGEN_MODEL.EdgeType_implements.typeVar,
+			GRGEN_MODEL.EdgeType_implements_.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_implements_.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_implements_.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_implements.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_implements.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_implements_.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_implements_.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			GRGEN_MODEL.EdgeType_implements.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_implements.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				GRGEN_MODEL.EdgeType_implements.typeVar,
+			GRGEN_MODEL.EdgeType_implements_.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_implements_.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_implements_.typeVar,
 				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_implements.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_implements.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_implements_.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_implements_.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_parameter.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_parameter.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
@@ -8160,7 +9205,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 				case "type_" : return GRGEN_MODEL.EdgeType_type_.typeVar;
 				case "extends_" : return GRGEN_MODEL.EdgeType_extends_.typeVar;
 				case "imports" : return GRGEN_MODEL.EdgeType_imports.typeVar;
-				case "implements" : return GRGEN_MODEL.EdgeType_implements.typeVar;
+				case "implements_" : return GRGEN_MODEL.EdgeType_implements_.typeVar;
 				case "parameter" : return GRGEN_MODEL.EdgeType_parameter.typeVar;
 				case "actualParameter" : return GRGEN_MODEL.EdgeType_actualParameter.typeVar;
 				case "binding" : return GRGEN_MODEL.EdgeType_binding.typeVar;
@@ -8183,7 +9228,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			GRGEN_MODEL.EdgeType_type_.typeVar,
 			GRGEN_MODEL.EdgeType_extends_.typeVar,
 			GRGEN_MODEL.EdgeType_imports.typeVar,
-			GRGEN_MODEL.EdgeType_implements.typeVar,
+			GRGEN_MODEL.EdgeType_implements_.typeVar,
 			GRGEN_MODEL.EdgeType_parameter.typeVar,
 			GRGEN_MODEL.EdgeType_actualParameter.typeVar,
 			GRGEN_MODEL.EdgeType_binding.typeVar,
@@ -8202,7 +9247,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			typeof(GRGEN_MODEL.EdgeType_type_),
 			typeof(GRGEN_MODEL.EdgeType_extends_),
 			typeof(GRGEN_MODEL.EdgeType_imports),
-			typeof(GRGEN_MODEL.EdgeType_implements),
+			typeof(GRGEN_MODEL.EdgeType_implements_),
 			typeof(GRGEN_MODEL.EdgeType_parameter),
 			typeof(GRGEN_MODEL.EdgeType_actualParameter),
 			typeof(GRGEN_MODEL.EdgeType_binding),
@@ -8279,7 +9324,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 		public override void FailAssertion() { Debug.Assert(false); }
-		public override string MD5Hash { get { return "9ed13ad8bc778f9123d81b2ebb16880c"; } }
+		public override string MD5Hash { get { return "5bfee7e42e24d1e35caab475c3053a2e"; } }
 	}
 
 	//
@@ -8411,9 +9456,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return @GRGEN_MODEL.@imports.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@implements CreateEdgeimplements(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@implements_ CreateEdgeimplements_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @GRGEN_MODEL.@implements.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@implements_.CreateEdge(this, source, target);
 		}
 
 		public @GRGEN_MODEL.@parameter CreateEdgeparameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -8702,14 +9747,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			return @GRGEN_MODEL.@imports.CreateEdge(this, source, target, edgeName);
 		}
 
-		public @GRGEN_MODEL.@implements CreateEdgeimplements(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@implements_ CreateEdgeimplements_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @GRGEN_MODEL.@implements.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@implements_.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@implements CreateEdgeimplements(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
+		public @GRGEN_MODEL.@implements_ CreateEdgeimplements_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)
 		{
-			return @GRGEN_MODEL.@implements.CreateEdge(this, source, target, edgeName);
+			return @GRGEN_MODEL.@implements_.CreateEdge(this, source, target, edgeName);
 		}
 
 		public @GRGEN_MODEL.@parameter CreateEdgeparameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)

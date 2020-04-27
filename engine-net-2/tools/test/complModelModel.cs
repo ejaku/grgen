@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Fri Feb 07 19:18:50 CET 2020
+// Generated from "test.grg" on Mon Apr 27 20:32:30 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -35,10 +35,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, container creation of Node
@@ -46,7 +46,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Node(this);
+		}
 
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
@@ -184,12 +186,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@A1[] pool = new GRGEN_MODEL.@A1[10];
-		
+
 		// explicit initializations of A1 for target A1
 		// implicit initializations of A1 for target A1
 		static @A1() {
 		}
-		
+
 		public @A1() : base(GRGEN_MODEL.NodeType_A1.typeVar)
 		{
 			// implicit initialization, container creation of A1
@@ -198,7 +200,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_A1 TypeInstance { get { return GRGEN_MODEL.NodeType_A1.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A1(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@A1(this);
+		}
 
 		private @A1(GRGEN_MODEL.@A1 oldElem) : base(GRGEN_MODEL.NodeType_A1.typeVar)
 		{
@@ -376,6 +380,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_A1_a1 : Comparer<GRGEN_MODEL.IA1>
+	{
+		public static ReverseComparer_A1_a1 thisComparer = new ReverseComparer_A1_a1();
+		public override int Compare(GRGEN_MODEL.IA1 a, GRGEN_MODEL.IA1 b)
+		{
+			return -a.@a1.CompareTo(b.@a1);
+		}
+	}
+
 	public class Comparer_A1_a1 : Comparer<GRGEN_MODEL.IA1>
 	{
 		private static GRGEN_MODEL.IA1 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A1();
@@ -423,6 +436,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IA1> ArrayOrderDescendingBy(List<GRGEN_MODEL.IA1> list)
+		{
+			List<GRGEN_MODEL.IA1> newList = new List<GRGEN_MODEL.IA1>(list);
+			newList.Sort(ReverseComparer_A1_a1.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IA1> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IA1> list)
+		{
+			List<GRGEN_MODEL.IA1> newList = new List<GRGEN_MODEL.IA1>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IA1 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IA1> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IA1 entry in list)
+				resultList.Add(entry.@a1);
+			return resultList;
+		}
 	}
 
 
@@ -437,12 +476,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@A2[] pool = new GRGEN_MODEL.@A2[10];
-		
+
 		// explicit initializations of A2 for target A2
 		// implicit initializations of A2 for target A2
 		static @A2() {
 		}
-		
+
 		public @A2() : base(GRGEN_MODEL.NodeType_A2.typeVar)
 		{
 			// implicit initialization, container creation of A2
@@ -451,7 +490,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_A2 TypeInstance { get { return GRGEN_MODEL.NodeType_A2.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A2(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@A2(this);
+		}
 
 		private @A2(GRGEN_MODEL.@A2 oldElem) : base(GRGEN_MODEL.NodeType_A2.typeVar)
 		{
@@ -636,6 +677,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_A2_a2 : Comparer<GRGEN_MODEL.IA2>
+	{
+		public static ReverseComparer_A2_a2 thisComparer = new ReverseComparer_A2_a2();
+		public override int Compare(GRGEN_MODEL.IA2 a, GRGEN_MODEL.IA2 b)
+		{
+			return -a.@a2.CompareTo(b.@a2);
+		}
+	}
+
 	public class Comparer_A2_a2 : Comparer<GRGEN_MODEL.IA2>
 	{
 		private static GRGEN_MODEL.IA2 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A2();
@@ -683,6 +733,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IA2> ArrayOrderDescendingBy(List<GRGEN_MODEL.IA2> list)
+		{
+			List<GRGEN_MODEL.IA2> newList = new List<GRGEN_MODEL.IA2>(list);
+			newList.Sort(ReverseComparer_A2_a2.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IA2> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IA2> list)
+		{
+			List<GRGEN_MODEL.IA2> newList = new List<GRGEN_MODEL.IA2>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IA2 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IA2> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IA2 entry in list)
+				resultList.Add(entry.@a2);
+			return resultList;
+		}
 	}
 
 
@@ -697,12 +773,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@A3[] pool = new GRGEN_MODEL.@A3[10];
-		
+
 		// explicit initializations of A3 for target A3
 		// implicit initializations of A3 for target A3
 		static @A3() {
 		}
-		
+
 		public @A3() : base(GRGEN_MODEL.NodeType_A3.typeVar)
 		{
 			// implicit initialization, container creation of A3
@@ -711,7 +787,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_A3 TypeInstance { get { return GRGEN_MODEL.NodeType_A3.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A3(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@A3(this);
+		}
 
 		private @A3(GRGEN_MODEL.@A3 oldElem) : base(GRGEN_MODEL.NodeType_A3.typeVar)
 		{
@@ -889,6 +967,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_A3_a3 : Comparer<GRGEN_MODEL.IA3>
+	{
+		public static ReverseComparer_A3_a3 thisComparer = new ReverseComparer_A3_a3();
+		public override int Compare(GRGEN_MODEL.IA3 a, GRGEN_MODEL.IA3 b)
+		{
+			return -a.@a3.CompareTo(b.@a3);
+		}
+	}
+
 	public class Comparer_A3_a3 : Comparer<GRGEN_MODEL.IA3>
 	{
 		private static GRGEN_MODEL.IA3 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A3();
@@ -936,6 +1023,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IA3> ArrayOrderDescendingBy(List<GRGEN_MODEL.IA3> list)
+		{
+			List<GRGEN_MODEL.IA3> newList = new List<GRGEN_MODEL.IA3>(list);
+			newList.Sort(ReverseComparer_A3_a3.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IA3> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IA3> list)
+		{
+			List<GRGEN_MODEL.IA3> newList = new List<GRGEN_MODEL.IA3>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IA3 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IA3> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IA3 entry in list)
+				resultList.Add(entry.@a3);
+			return resultList;
+		}
 	}
 
 
@@ -950,12 +1063,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@A4[] pool = new GRGEN_MODEL.@A4[10];
-		
+
 		// explicit initializations of A4 for target A4
 		// implicit initializations of A4 for target A4
 		static @A4() {
 		}
-		
+
 		public @A4() : base(GRGEN_MODEL.NodeType_A4.typeVar)
 		{
 			// implicit initialization, container creation of A4
@@ -964,7 +1077,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_A4 TypeInstance { get { return GRGEN_MODEL.NodeType_A4.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A4(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@A4(this);
+		}
 
 		private @A4(GRGEN_MODEL.@A4 oldElem) : base(GRGEN_MODEL.NodeType_A4.typeVar)
 		{
@@ -1150,6 +1265,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_A4_a4 : Comparer<GRGEN_MODEL.IA4>
+	{
+		public static ReverseComparer_A4_a4 thisComparer = new ReverseComparer_A4_a4();
+		public override int Compare(GRGEN_MODEL.IA4 a, GRGEN_MODEL.IA4 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
+
 	public class Comparer_A4_a4 : Comparer<GRGEN_MODEL.IA4>
 	{
 		private static GRGEN_MODEL.IA4 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A4();
@@ -1197,6 +1321,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IA4> ArrayOrderDescendingBy(List<GRGEN_MODEL.IA4> list)
+		{
+			List<GRGEN_MODEL.IA4> newList = new List<GRGEN_MODEL.IA4>(list);
+			newList.Sort(ReverseComparer_A4_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IA4> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IA4> list)
+		{
+			List<GRGEN_MODEL.IA4> newList = new List<GRGEN_MODEL.IA4>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IA4 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IA4> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IA4 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
 
@@ -1211,12 +1361,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@A5[] pool = new GRGEN_MODEL.@A5[10];
-		
+
 		// explicit initializations of A5 for target A5
 		// implicit initializations of A5 for target A5
 		static @A5() {
 		}
-		
+
 		public @A5() : base(GRGEN_MODEL.NodeType_A5.typeVar)
 		{
 			// implicit initialization, container creation of A5
@@ -1225,7 +1375,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_A5 TypeInstance { get { return GRGEN_MODEL.NodeType_A5.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A5(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@A5(this);
+		}
 
 		private @A5(GRGEN_MODEL.@A5 oldElem) : base(GRGEN_MODEL.NodeType_A5.typeVar)
 		{
@@ -1404,6 +1556,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_A5_a5 : Comparer<GRGEN_MODEL.IA5>
+	{
+		public static ReverseComparer_A5_a5 thisComparer = new ReverseComparer_A5_a5();
+		public override int Compare(GRGEN_MODEL.IA5 a, GRGEN_MODEL.IA5 b)
+		{
+			return -a.@a5.CompareTo(b.@a5);
+		}
+	}
+
 	public class Comparer_A5_a5 : Comparer<GRGEN_MODEL.IA5>
 	{
 		private static GRGEN_MODEL.IA5 nodeBearingAttributeForSearch = new GRGEN_MODEL.@A5();
@@ -1451,6 +1612,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IA5> ArrayOrderDescendingBy(List<GRGEN_MODEL.IA5> list)
+		{
+			List<GRGEN_MODEL.IA5> newList = new List<GRGEN_MODEL.IA5>(list);
+			newList.Sort(ReverseComparer_A5_a5.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IA5> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IA5> list)
+		{
+			List<GRGEN_MODEL.IA5> newList = new List<GRGEN_MODEL.IA5>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IA5 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IA5> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IA5 entry in list)
+				resultList.Add(entry.@a5);
+			return resultList;
+		}
 	}
 
 
@@ -1465,14 +1652,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@B21[] pool = new GRGEN_MODEL.@B21[10];
-		
+
 		// explicit initializations of A2 for target B21
 		// implicit initializations of A2 for target B21
 		// explicit initializations of B21 for target B21
 		// implicit initializations of B21 for target B21
 		static @B21() {
 		}
-		
+
 		public @B21() : base(GRGEN_MODEL.NodeType_B21.typeVar)
 		{
 			// implicit initialization, container creation of B21
@@ -1482,7 +1669,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_B21 TypeInstance { get { return GRGEN_MODEL.NodeType_B21.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B21(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@B21(this);
+		}
 
 		private @B21(GRGEN_MODEL.@B21 oldElem) : base(GRGEN_MODEL.NodeType_B21.typeVar)
 		{
@@ -1693,6 +1882,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_B21_a2 : Comparer<GRGEN_MODEL.IB21>
+	{
+		public static ReverseComparer_B21_a2 thisComparer = new ReverseComparer_B21_a2();
+		public override int Compare(GRGEN_MODEL.IB21 a, GRGEN_MODEL.IB21 b)
+		{
+			return -a.@a2.CompareTo(b.@a2);
+		}
+	}
+
 	public class Comparer_B21_a2 : Comparer<GRGEN_MODEL.IB21>
 	{
 		private static GRGEN_MODEL.IB21 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B21();
@@ -1740,8 +1938,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB21> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB21> list)
+		{
+			List<GRGEN_MODEL.IB21> newList = new List<GRGEN_MODEL.IB21>(list);
+			newList.Sort(ReverseComparer_B21_a2.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB21> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB21> list)
+		{
+			List<GRGEN_MODEL.IB21> newList = new List<GRGEN_MODEL.IB21>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB21 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB21> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB21 entry in list)
+				resultList.Add(entry.@a2);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_B21_b21 : Comparer<GRGEN_MODEL.IB21>
+	{
+		public static ReverseComparer_B21_b21 thisComparer = new ReverseComparer_B21_b21();
+		public override int Compare(GRGEN_MODEL.IB21 a, GRGEN_MODEL.IB21 b)
+		{
+			return -a.@b21.CompareTo(b.@b21);
+		}
+	}
 
 	public class Comparer_B21_b21 : Comparer<GRGEN_MODEL.IB21>
 	{
@@ -1790,6 +2023,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB21> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB21> list)
+		{
+			List<GRGEN_MODEL.IB21> newList = new List<GRGEN_MODEL.IB21>(list);
+			newList.Sort(ReverseComparer_B21_b21.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB21> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB21> list)
+		{
+			List<GRGEN_MODEL.IB21> newList = new List<GRGEN_MODEL.IB21>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB21 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b21)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b21, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB21> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB21 entry in list)
+				resultList.Add(entry.@b21);
+			return resultList;
+		}
 	}
 
 
@@ -1804,14 +2063,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@B22[] pool = new GRGEN_MODEL.@B22[10];
-		
+
 		// explicit initializations of A2 for target B22
 		// implicit initializations of A2 for target B22
 		// explicit initializations of B22 for target B22
 		// implicit initializations of B22 for target B22
 		static @B22() {
 		}
-		
+
 		public @B22() : base(GRGEN_MODEL.NodeType_B22.typeVar)
 		{
 			// implicit initialization, container creation of B22
@@ -1821,7 +2080,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_B22 TypeInstance { get { return GRGEN_MODEL.NodeType_B22.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B22(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@B22(this);
+		}
 
 		private @B22(GRGEN_MODEL.@B22 oldElem) : base(GRGEN_MODEL.NodeType_B22.typeVar)
 		{
@@ -2032,6 +2293,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_B22_a2 : Comparer<GRGEN_MODEL.IB22>
+	{
+		public static ReverseComparer_B22_a2 thisComparer = new ReverseComparer_B22_a2();
+		public override int Compare(GRGEN_MODEL.IB22 a, GRGEN_MODEL.IB22 b)
+		{
+			return -a.@a2.CompareTo(b.@a2);
+		}
+	}
+
 	public class Comparer_B22_a2 : Comparer<GRGEN_MODEL.IB22>
 	{
 		private static GRGEN_MODEL.IB22 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B22();
@@ -2079,8 +2349,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB22> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB22> list)
+		{
+			List<GRGEN_MODEL.IB22> newList = new List<GRGEN_MODEL.IB22>(list);
+			newList.Sort(ReverseComparer_B22_a2.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB22> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB22> list)
+		{
+			List<GRGEN_MODEL.IB22> newList = new List<GRGEN_MODEL.IB22>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB22 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB22> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB22 entry in list)
+				resultList.Add(entry.@a2);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_B22_b22 : Comparer<GRGEN_MODEL.IB22>
+	{
+		public static ReverseComparer_B22_b22 thisComparer = new ReverseComparer_B22_b22();
+		public override int Compare(GRGEN_MODEL.IB22 a, GRGEN_MODEL.IB22 b)
+		{
+			return -a.@b22.CompareTo(b.@b22);
+		}
+	}
 
 	public class Comparer_B22_b22 : Comparer<GRGEN_MODEL.IB22>
 	{
@@ -2129,6 +2434,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB22> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB22> list)
+		{
+			List<GRGEN_MODEL.IB22> newList = new List<GRGEN_MODEL.IB22>(list);
+			newList.Sort(ReverseComparer_B22_b22.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB22> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB22> list)
+		{
+			List<GRGEN_MODEL.IB22> newList = new List<GRGEN_MODEL.IB22>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB22 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b22)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b22, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB22> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB22 entry in list)
+				resultList.Add(entry.@b22);
+			return resultList;
+		}
 	}
 
 
@@ -2143,14 +2474,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@B23[] pool = new GRGEN_MODEL.@B23[10];
-		
+
 		// explicit initializations of A2 for target B23
 		// implicit initializations of A2 for target B23
 		// explicit initializations of B23 for target B23
 		// implicit initializations of B23 for target B23
 		static @B23() {
 		}
-		
+
 		public @B23() : base(GRGEN_MODEL.NodeType_B23.typeVar)
 		{
 			// implicit initialization, container creation of B23
@@ -2160,7 +2491,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_B23 TypeInstance { get { return GRGEN_MODEL.NodeType_B23.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B23(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@B23(this);
+		}
 
 		private @B23(GRGEN_MODEL.@B23 oldElem) : base(GRGEN_MODEL.NodeType_B23.typeVar)
 		{
@@ -2371,6 +2704,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_B23_a2 : Comparer<GRGEN_MODEL.IB23>
+	{
+		public static ReverseComparer_B23_a2 thisComparer = new ReverseComparer_B23_a2();
+		public override int Compare(GRGEN_MODEL.IB23 a, GRGEN_MODEL.IB23 b)
+		{
+			return -a.@a2.CompareTo(b.@a2);
+		}
+	}
+
 	public class Comparer_B23_a2 : Comparer<GRGEN_MODEL.IB23>
 	{
 		private static GRGEN_MODEL.IB23 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B23();
@@ -2418,8 +2760,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB23> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB23> list)
+		{
+			List<GRGEN_MODEL.IB23> newList = new List<GRGEN_MODEL.IB23>(list);
+			newList.Sort(ReverseComparer_B23_a2.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB23> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB23> list)
+		{
+			List<GRGEN_MODEL.IB23> newList = new List<GRGEN_MODEL.IB23>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB23 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB23> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB23 entry in list)
+				resultList.Add(entry.@a2);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_B23_b23 : Comparer<GRGEN_MODEL.IB23>
+	{
+		public static ReverseComparer_B23_b23 thisComparer = new ReverseComparer_B23_b23();
+		public override int Compare(GRGEN_MODEL.IB23 a, GRGEN_MODEL.IB23 b)
+		{
+			return -a.@b23.CompareTo(b.@b23);
+		}
+	}
 
 	public class Comparer_B23_b23 : Comparer<GRGEN_MODEL.IB23>
 	{
@@ -2468,6 +2845,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB23> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB23> list)
+		{
+			List<GRGEN_MODEL.IB23> newList = new List<GRGEN_MODEL.IB23>(list);
+			newList.Sort(ReverseComparer_B23_b23.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB23> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB23> list)
+		{
+			List<GRGEN_MODEL.IB23> newList = new List<GRGEN_MODEL.IB23>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB23 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b23)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b23, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB23> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB23 entry in list)
+				resultList.Add(entry.@b23);
+			return resultList;
+		}
 	}
 
 
@@ -2482,14 +2885,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@B41[] pool = new GRGEN_MODEL.@B41[10];
-		
+
 		// explicit initializations of A4 for target B41
 		// implicit initializations of A4 for target B41
 		// explicit initializations of B41 for target B41
 		// implicit initializations of B41 for target B41
 		static @B41() {
 		}
-		
+
 		public @B41() : base(GRGEN_MODEL.NodeType_B41.typeVar)
 		{
 			// implicit initialization, container creation of B41
@@ -2499,7 +2902,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_B41 TypeInstance { get { return GRGEN_MODEL.NodeType_B41.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B41(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@B41(this);
+		}
 
 		private @B41(GRGEN_MODEL.@B41 oldElem) : base(GRGEN_MODEL.NodeType_B41.typeVar)
 		{
@@ -2711,6 +3116,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_B41_a4 : Comparer<GRGEN_MODEL.IB41>
+	{
+		public static ReverseComparer_B41_a4 thisComparer = new ReverseComparer_B41_a4();
+		public override int Compare(GRGEN_MODEL.IB41 a, GRGEN_MODEL.IB41 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
+
 	public class Comparer_B41_a4 : Comparer<GRGEN_MODEL.IB41>
 	{
 		private static GRGEN_MODEL.IB41 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B41();
@@ -2758,8 +3172,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB41> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB41> list)
+		{
+			List<GRGEN_MODEL.IB41> newList = new List<GRGEN_MODEL.IB41>(list);
+			newList.Sort(ReverseComparer_B41_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB41> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB41> list)
+		{
+			List<GRGEN_MODEL.IB41> newList = new List<GRGEN_MODEL.IB41>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB41 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB41> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB41 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_B41_b41 : Comparer<GRGEN_MODEL.IB41>
+	{
+		public static ReverseComparer_B41_b41 thisComparer = new ReverseComparer_B41_b41();
+		public override int Compare(GRGEN_MODEL.IB41 a, GRGEN_MODEL.IB41 b)
+		{
+			return -a.@b41.CompareTo(b.@b41);
+		}
+	}
 
 	public class Comparer_B41_b41 : Comparer<GRGEN_MODEL.IB41>
 	{
@@ -2808,6 +3257,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB41> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB41> list)
+		{
+			List<GRGEN_MODEL.IB41> newList = new List<GRGEN_MODEL.IB41>(list);
+			newList.Sort(ReverseComparer_B41_b41.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB41> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB41> list)
+		{
+			List<GRGEN_MODEL.IB41> newList = new List<GRGEN_MODEL.IB41>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB41 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b41)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b41, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB41> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB41 entry in list)
+				resultList.Add(entry.@b41);
+			return resultList;
+		}
 	}
 
 
@@ -2822,14 +3297,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@B42[] pool = new GRGEN_MODEL.@B42[10];
-		
+
 		// explicit initializations of A4 for target B42
 		// implicit initializations of A4 for target B42
 		// explicit initializations of B42 for target B42
 		// implicit initializations of B42 for target B42
 		static @B42() {
 		}
-		
+
 		public @B42() : base(GRGEN_MODEL.NodeType_B42.typeVar)
 		{
 			// implicit initialization, container creation of B42
@@ -2839,7 +3314,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_B42 TypeInstance { get { return GRGEN_MODEL.NodeType_B42.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B42(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@B42(this);
+		}
 
 		private @B42(GRGEN_MODEL.@B42 oldElem) : base(GRGEN_MODEL.NodeType_B42.typeVar)
 		{
@@ -3051,6 +3528,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_B42_a4 : Comparer<GRGEN_MODEL.IB42>
+	{
+		public static ReverseComparer_B42_a4 thisComparer = new ReverseComparer_B42_a4();
+		public override int Compare(GRGEN_MODEL.IB42 a, GRGEN_MODEL.IB42 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
+
 	public class Comparer_B42_a4 : Comparer<GRGEN_MODEL.IB42>
 	{
 		private static GRGEN_MODEL.IB42 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B42();
@@ -3098,8 +3584,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB42> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB42> list)
+		{
+			List<GRGEN_MODEL.IB42> newList = new List<GRGEN_MODEL.IB42>(list);
+			newList.Sort(ReverseComparer_B42_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB42> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB42> list)
+		{
+			List<GRGEN_MODEL.IB42> newList = new List<GRGEN_MODEL.IB42>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB42 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB42> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB42 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_B42_b42 : Comparer<GRGEN_MODEL.IB42>
+	{
+		public static ReverseComparer_B42_b42 thisComparer = new ReverseComparer_B42_b42();
+		public override int Compare(GRGEN_MODEL.IB42 a, GRGEN_MODEL.IB42 b)
+		{
+			return -a.@b42.CompareTo(b.@b42);
+		}
+	}
 
 	public class Comparer_B42_b42 : Comparer<GRGEN_MODEL.IB42>
 	{
@@ -3148,6 +3669,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB42> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB42> list)
+		{
+			List<GRGEN_MODEL.IB42> newList = new List<GRGEN_MODEL.IB42>(list);
+			newList.Sort(ReverseComparer_B42_b42.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB42> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB42> list)
+		{
+			List<GRGEN_MODEL.IB42> newList = new List<GRGEN_MODEL.IB42>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB42 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b42)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b42, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB42> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB42 entry in list)
+				resultList.Add(entry.@b42);
+			return resultList;
+		}
 	}
 
 
@@ -3161,14 +3708,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@B43[] pool = new GRGEN_MODEL.@B43[10];
-		
+
 		// explicit initializations of A4 for target B43
 		// implicit initializations of A4 for target B43
 		// explicit initializations of B43 for target B43
 		// implicit initializations of B43 for target B43
 		static @B43() {
 		}
-		
+
 		public @B43() : base(GRGEN_MODEL.NodeType_B43.typeVar)
 		{
 			// implicit initialization, container creation of B43
@@ -3178,7 +3725,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_B43 TypeInstance { get { return GRGEN_MODEL.NodeType_B43.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B43(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@B43(this);
+		}
 
 		private @B43(GRGEN_MODEL.@B43 oldElem) : base(GRGEN_MODEL.NodeType_B43.typeVar)
 		{
@@ -3371,6 +3920,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_B43_a4 : Comparer<GRGEN_MODEL.IB43>
+	{
+		public static ReverseComparer_B43_a4 thisComparer = new ReverseComparer_B43_a4();
+		public override int Compare(GRGEN_MODEL.IB43 a, GRGEN_MODEL.IB43 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
+
 	public class Comparer_B43_a4 : Comparer<GRGEN_MODEL.IB43>
 	{
 		private static GRGEN_MODEL.IB43 nodeBearingAttributeForSearch = new GRGEN_MODEL.@B43();
@@ -3418,6 +3976,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IB43> ArrayOrderDescendingBy(List<GRGEN_MODEL.IB43> list)
+		{
+			List<GRGEN_MODEL.IB43> newList = new List<GRGEN_MODEL.IB43>(list);
+			newList.Sort(ReverseComparer_B43_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IB43> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IB43> list)
+		{
+			List<GRGEN_MODEL.IB43> newList = new List<GRGEN_MODEL.IB43>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IB43 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IB43> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IB43 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
 
@@ -3432,7 +4016,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@C221[] pool = new GRGEN_MODEL.@C221[10];
-		
+
 		// explicit initializations of A2 for target C221
 		// implicit initializations of A2 for target C221
 		// explicit initializations of B22 for target C221
@@ -3441,7 +4025,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		// implicit initializations of C221 for target C221
 		static @C221() {
 		}
-		
+
 		public @C221() : base(GRGEN_MODEL.NodeType_C221.typeVar)
 		{
 			// implicit initialization, container creation of C221
@@ -3452,7 +4036,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_C221 TypeInstance { get { return GRGEN_MODEL.NodeType_C221.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C221(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@C221(this);
+		}
 
 		private @C221(GRGEN_MODEL.@C221 oldElem) : base(GRGEN_MODEL.NodeType_C221.typeVar)
 		{
@@ -3690,6 +4276,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_C221_a2 : Comparer<GRGEN_MODEL.IC221>
+	{
+		public static ReverseComparer_C221_a2 thisComparer = new ReverseComparer_C221_a2();
+		public override int Compare(GRGEN_MODEL.IC221 a, GRGEN_MODEL.IC221 b)
+		{
+			return -a.@a2.CompareTo(b.@a2);
+		}
+	}
+
 	public class Comparer_C221_a2 : Comparer<GRGEN_MODEL.IC221>
 	{
 		private static GRGEN_MODEL.IC221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C221();
@@ -3737,8 +4332,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC221> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC221> list)
+		{
+			List<GRGEN_MODEL.IC221> newList = new List<GRGEN_MODEL.IC221>(list);
+			newList.Sort(ReverseComparer_C221_a2.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC221> list)
+		{
+			List<GRGEN_MODEL.IC221> newList = new List<GRGEN_MODEL.IC221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC221 entry in list)
+				resultList.Add(entry.@a2);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C221_b22 : Comparer<GRGEN_MODEL.IC221>
+	{
+		public static ReverseComparer_C221_b22 thisComparer = new ReverseComparer_C221_b22();
+		public override int Compare(GRGEN_MODEL.IC221 a, GRGEN_MODEL.IC221 b)
+		{
+			return -a.@b22.CompareTo(b.@b22);
+		}
+	}
 
 	public class Comparer_C221_b22 : Comparer<GRGEN_MODEL.IC221>
 	{
@@ -3787,8 +4417,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC221> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC221> list)
+		{
+			List<GRGEN_MODEL.IC221> newList = new List<GRGEN_MODEL.IC221>(list);
+			newList.Sort(ReverseComparer_C221_b22.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC221> list)
+		{
+			List<GRGEN_MODEL.IC221> newList = new List<GRGEN_MODEL.IC221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b22)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b22, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC221 entry in list)
+				resultList.Add(entry.@b22);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C221_c221 : Comparer<GRGEN_MODEL.IC221>
+	{
+		public static ReverseComparer_C221_c221 thisComparer = new ReverseComparer_C221_c221();
+		public override int Compare(GRGEN_MODEL.IC221 a, GRGEN_MODEL.IC221 b)
+		{
+			return -a.@c221.CompareTo(b.@c221);
+		}
+	}
 
 	public class Comparer_C221_c221 : Comparer<GRGEN_MODEL.IC221>
 	{
@@ -3837,6 +4502,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC221> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC221> list)
+		{
+			List<GRGEN_MODEL.IC221> newList = new List<GRGEN_MODEL.IC221>(list);
+			newList.Sort(ReverseComparer_C221_c221.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC221> list)
+		{
+			List<GRGEN_MODEL.IC221> newList = new List<GRGEN_MODEL.IC221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@c221)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@c221, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC221 entry in list)
+				resultList.Add(entry.@c221);
+			return resultList;
+		}
 	}
 
 
@@ -3851,7 +4542,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@C222_411[] pool = new GRGEN_MODEL.@C222_411[10];
-		
+
 		// explicit initializations of A2 for target C222_411
 		// implicit initializations of A2 for target C222_411
 		// explicit initializations of B22 for target C222_411
@@ -3864,7 +4555,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		// implicit initializations of C222_411 for target C222_411
 		static @C222_411() {
 		}
-		
+
 		public @C222_411() : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
 		{
 			// implicit initialization, container creation of C222_411
@@ -3877,7 +4568,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_C222_411 TypeInstance { get { return GRGEN_MODEL.NodeType_C222_411.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C222_411(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@C222_411(this);
+		}
 
 		private @C222_411(GRGEN_MODEL.@C222_411 oldElem) : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
 		{
@@ -4186,6 +4879,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_C222_411_a2 : Comparer<GRGEN_MODEL.IC222_411>
+	{
+		public static ReverseComparer_C222_411_a2 thisComparer = new ReverseComparer_C222_411_a2();
+		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		{
+			return -a.@a2.CompareTo(b.@a2);
+		}
+	}
+
 	public class Comparer_C222_411_a2 : Comparer<GRGEN_MODEL.IC222_411>
 	{
 		private static GRGEN_MODEL.IC222_411 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C222_411();
@@ -4233,8 +4935,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>(list);
+			newList.Sort(ReverseComparer_C222_411_a2.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC222_411 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC222_411 entry in list)
+				resultList.Add(entry.@a2);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C222_411_b22 : Comparer<GRGEN_MODEL.IC222_411>
+	{
+		public static ReverseComparer_C222_411_b22 thisComparer = new ReverseComparer_C222_411_b22();
+		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		{
+			return -a.@b22.CompareTo(b.@b22);
+		}
+	}
 
 	public class Comparer_C222_411_b22 : Comparer<GRGEN_MODEL.IC222_411>
 	{
@@ -4283,8 +5020,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>(list);
+			newList.Sort(ReverseComparer_C222_411_b22.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC222_411 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b22)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b22, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC222_411 entry in list)
+				resultList.Add(entry.@b22);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C222_411_a4 : Comparer<GRGEN_MODEL.IC222_411>
+	{
+		public static ReverseComparer_C222_411_a4 thisComparer = new ReverseComparer_C222_411_a4();
+		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
 
 	public class Comparer_C222_411_a4 : Comparer<GRGEN_MODEL.IC222_411>
 	{
@@ -4333,8 +5105,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>(list);
+			newList.Sort(ReverseComparer_C222_411_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC222_411 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC222_411 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C222_411_b41 : Comparer<GRGEN_MODEL.IC222_411>
+	{
+		public static ReverseComparer_C222_411_b41 thisComparer = new ReverseComparer_C222_411_b41();
+		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		{
+			return -a.@b41.CompareTo(b.@b41);
+		}
+	}
 
 	public class Comparer_C222_411_b41 : Comparer<GRGEN_MODEL.IC222_411>
 	{
@@ -4383,8 +5190,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>(list);
+			newList.Sort(ReverseComparer_C222_411_b41.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC222_411 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b41)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b41, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC222_411 entry in list)
+				resultList.Add(entry.@b41);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C222_411_c222_411 : Comparer<GRGEN_MODEL.IC222_411>
+	{
+		public static ReverseComparer_C222_411_c222_411 thisComparer = new ReverseComparer_C222_411_c222_411();
+		public override int Compare(GRGEN_MODEL.IC222_411 a, GRGEN_MODEL.IC222_411 b)
+		{
+			return -a.@c222_411.CompareTo(b.@c222_411);
+		}
+	}
 
 	public class Comparer_C222_411_c222_411 : Comparer<GRGEN_MODEL.IC222_411>
 	{
@@ -4433,6 +5275,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>(list);
+			newList.Sort(ReverseComparer_C222_411_c222_411.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC222_411> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<GRGEN_MODEL.IC222_411> newList = new List<GRGEN_MODEL.IC222_411>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC222_411 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@c222_411)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@c222_411, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC222_411> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC222_411 entry in list)
+				resultList.Add(entry.@c222_411);
+			return resultList;
+		}
 	}
 
 
@@ -4446,7 +5314,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@C412_421_431_51[] pool = new GRGEN_MODEL.@C412_421_431_51[10];
-		
+
 		// explicit initializations of A4 for target C412_421_431_51
 		// implicit initializations of A4 for target C412_421_431_51
 		// explicit initializations of B41 for target C412_421_431_51
@@ -4461,7 +5329,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		// implicit initializations of C412_421_431_51 for target C412_421_431_51
 		static @C412_421_431_51() {
 		}
-		
+
 		public @C412_421_431_51() : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
 		{
 			// implicit initialization, container creation of C412_421_431_51
@@ -4475,7 +5343,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_C412_421_431_51 TypeInstance { get { return GRGEN_MODEL.NodeType_C412_421_431_51.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C412_421_431_51(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@C412_421_431_51(this);
+		}
 
 		private @C412_421_431_51(GRGEN_MODEL.@C412_421_431_51 oldElem) : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
 		{
@@ -4767,6 +5637,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_C412_421_431_51_a4 : Comparer<GRGEN_MODEL.IC412_421_431_51>
+	{
+		public static ReverseComparer_C412_421_431_51_a4 thisComparer = new ReverseComparer_C412_421_431_51_a4();
+		public override int Compare(GRGEN_MODEL.IC412_421_431_51 a, GRGEN_MODEL.IC412_421_431_51 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
+
 	public class Comparer_C412_421_431_51_a4 : Comparer<GRGEN_MODEL.IC412_421_431_51>
 	{
 		private static GRGEN_MODEL.IC412_421_431_51 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C412_421_431_51();
@@ -4814,8 +5693,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<GRGEN_MODEL.IC412_421_431_51> newList = new List<GRGEN_MODEL.IC412_421_431_51>(list);
+			newList.Sort(ReverseComparer_C412_421_431_51_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<GRGEN_MODEL.IC412_421_431_51> newList = new List<GRGEN_MODEL.IC412_421_431_51>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC412_421_431_51 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC412_421_431_51 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C412_421_431_51_b41 : Comparer<GRGEN_MODEL.IC412_421_431_51>
+	{
+		public static ReverseComparer_C412_421_431_51_b41 thisComparer = new ReverseComparer_C412_421_431_51_b41();
+		public override int Compare(GRGEN_MODEL.IC412_421_431_51 a, GRGEN_MODEL.IC412_421_431_51 b)
+		{
+			return -a.@b41.CompareTo(b.@b41);
+		}
+	}
 
 	public class Comparer_C412_421_431_51_b41 : Comparer<GRGEN_MODEL.IC412_421_431_51>
 	{
@@ -4864,8 +5778,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<GRGEN_MODEL.IC412_421_431_51> newList = new List<GRGEN_MODEL.IC412_421_431_51>(list);
+			newList.Sort(ReverseComparer_C412_421_431_51_b41.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<GRGEN_MODEL.IC412_421_431_51> newList = new List<GRGEN_MODEL.IC412_421_431_51>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC412_421_431_51 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b41)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b41, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC412_421_431_51 entry in list)
+				resultList.Add(entry.@b41);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C412_421_431_51_b42 : Comparer<GRGEN_MODEL.IC412_421_431_51>
+	{
+		public static ReverseComparer_C412_421_431_51_b42 thisComparer = new ReverseComparer_C412_421_431_51_b42();
+		public override int Compare(GRGEN_MODEL.IC412_421_431_51 a, GRGEN_MODEL.IC412_421_431_51 b)
+		{
+			return -a.@b42.CompareTo(b.@b42);
+		}
+	}
 
 	public class Comparer_C412_421_431_51_b42 : Comparer<GRGEN_MODEL.IC412_421_431_51>
 	{
@@ -4914,8 +5863,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<GRGEN_MODEL.IC412_421_431_51> newList = new List<GRGEN_MODEL.IC412_421_431_51>(list);
+			newList.Sort(ReverseComparer_C412_421_431_51_b42.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<GRGEN_MODEL.IC412_421_431_51> newList = new List<GRGEN_MODEL.IC412_421_431_51>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC412_421_431_51 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b42)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b42, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC412_421_431_51 entry in list)
+				resultList.Add(entry.@b42);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C412_421_431_51_a5 : Comparer<GRGEN_MODEL.IC412_421_431_51>
+	{
+		public static ReverseComparer_C412_421_431_51_a5 thisComparer = new ReverseComparer_C412_421_431_51_a5();
+		public override int Compare(GRGEN_MODEL.IC412_421_431_51 a, GRGEN_MODEL.IC412_421_431_51 b)
+		{
+			return -a.@a5.CompareTo(b.@a5);
+		}
+	}
 
 	public class Comparer_C412_421_431_51_a5 : Comparer<GRGEN_MODEL.IC412_421_431_51>
 	{
@@ -4964,6 +5948,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<GRGEN_MODEL.IC412_421_431_51> newList = new List<GRGEN_MODEL.IC412_421_431_51>(list);
+			newList.Sort(ReverseComparer_C412_421_431_51_a5.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC412_421_431_51> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<GRGEN_MODEL.IC412_421_431_51> newList = new List<GRGEN_MODEL.IC412_421_431_51>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC412_421_431_51 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a5)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a5, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC412_421_431_51> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC412_421_431_51 entry in list)
+				resultList.Add(entry.@a5);
+			return resultList;
+		}
 	}
 
 
@@ -4978,7 +5988,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@C432_422[] pool = new GRGEN_MODEL.@C432_422[10];
-		
+
 		// explicit initializations of A4 for target C432_422
 		// implicit initializations of A4 for target C432_422
 		// explicit initializations of B43 for target C432_422
@@ -4989,7 +5999,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		// implicit initializations of C432_422 for target C432_422
 		static @C432_422() {
 		}
-		
+
 		public @C432_422() : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
 		{
 			// implicit initialization, container creation of C432_422
@@ -5001,7 +6011,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_C432_422 TypeInstance { get { return GRGEN_MODEL.NodeType_C432_422.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C432_422(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@C432_422(this);
+		}
 
 		private @C432_422(GRGEN_MODEL.@C432_422 oldElem) : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
 		{
@@ -5258,6 +6270,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_C432_422_a4 : Comparer<GRGEN_MODEL.IC432_422>
+	{
+		public static ReverseComparer_C432_422_a4 thisComparer = new ReverseComparer_C432_422_a4();
+		public override int Compare(GRGEN_MODEL.IC432_422 a, GRGEN_MODEL.IC432_422 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
+
 	public class Comparer_C432_422_a4 : Comparer<GRGEN_MODEL.IC432_422>
 	{
 		private static GRGEN_MODEL.IC432_422 nodeBearingAttributeForSearch = new GRGEN_MODEL.@C432_422();
@@ -5305,8 +6326,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC432_422> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<GRGEN_MODEL.IC432_422> newList = new List<GRGEN_MODEL.IC432_422>(list);
+			newList.Sort(ReverseComparer_C432_422_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC432_422> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<GRGEN_MODEL.IC432_422> newList = new List<GRGEN_MODEL.IC432_422>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC432_422 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC432_422 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C432_422_b42 : Comparer<GRGEN_MODEL.IC432_422>
+	{
+		public static ReverseComparer_C432_422_b42 thisComparer = new ReverseComparer_C432_422_b42();
+		public override int Compare(GRGEN_MODEL.IC432_422 a, GRGEN_MODEL.IC432_422 b)
+		{
+			return -a.@b42.CompareTo(b.@b42);
+		}
+	}
 
 	public class Comparer_C432_422_b42 : Comparer<GRGEN_MODEL.IC432_422>
 	{
@@ -5355,8 +6411,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC432_422> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<GRGEN_MODEL.IC432_422> newList = new List<GRGEN_MODEL.IC432_422>(list);
+			newList.Sort(ReverseComparer_C432_422_b42.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC432_422> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<GRGEN_MODEL.IC432_422> newList = new List<GRGEN_MODEL.IC432_422>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC432_422 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b42)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b42, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC432_422 entry in list)
+				resultList.Add(entry.@b42);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_C432_422_c432_422 : Comparer<GRGEN_MODEL.IC432_422>
+	{
+		public static ReverseComparer_C432_422_c432_422 thisComparer = new ReverseComparer_C432_422_c432_422();
+		public override int Compare(GRGEN_MODEL.IC432_422 a, GRGEN_MODEL.IC432_422 b)
+		{
+			return -a.@c432_422.CompareTo(b.@c432_422);
+		}
+	}
 
 	public class Comparer_C432_422_c432_422 : Comparer<GRGEN_MODEL.IC432_422>
 	{
@@ -5405,6 +6496,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IC432_422> ArrayOrderDescendingBy(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<GRGEN_MODEL.IC432_422> newList = new List<GRGEN_MODEL.IC432_422>(list);
+			newList.Sort(ReverseComparer_C432_422_c432_422.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IC432_422> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<GRGEN_MODEL.IC432_422> newList = new List<GRGEN_MODEL.IC432_422>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IC432_422 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@c432_422)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@c432_422, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IC432_422> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IC432_422 entry in list)
+				resultList.Add(entry.@c432_422);
+			return resultList;
+		}
 	}
 
 
@@ -5419,7 +6536,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@D11_2221[] pool = new GRGEN_MODEL.@D11_2221[10];
-		
+
 		// explicit initializations of A1 for target D11_2221
 		// implicit initializations of A1 for target D11_2221
 		// explicit initializations of A2 for target D11_2221
@@ -5436,7 +6553,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		// implicit initializations of D11_2221 for target D11_2221
 		static @D11_2221() {
 		}
-		
+
 		public @D11_2221() : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
 		{
 			// implicit initialization, container creation of D11_2221
@@ -5451,7 +6568,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_D11_2221 TypeInstance { get { return GRGEN_MODEL.NodeType_D11_2221.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@D11_2221(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@D11_2221(this);
+		}
 
 		private @D11_2221(GRGEN_MODEL.@D11_2221 oldElem) : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
 		{
@@ -5817,6 +6936,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_D11_2221_a1 : Comparer<GRGEN_MODEL.ID11_2221>
+	{
+		public static ReverseComparer_D11_2221_a1 thisComparer = new ReverseComparer_D11_2221_a1();
+		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		{
+			return -a.@a1.CompareTo(b.@a1);
+		}
+	}
+
 	public class Comparer_D11_2221_a1 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
 		private static GRGEN_MODEL.ID11_2221 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D11_2221();
@@ -5864,8 +6992,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>(list);
+			newList.Sort(ReverseComparer_D11_2221_a1.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID11_2221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a1)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a1, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID11_2221 entry in list)
+				resultList.Add(entry.@a1);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D11_2221_a2 : Comparer<GRGEN_MODEL.ID11_2221>
+	{
+		public static ReverseComparer_D11_2221_a2 thisComparer = new ReverseComparer_D11_2221_a2();
+		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		{
+			return -a.@a2.CompareTo(b.@a2);
+		}
+	}
 
 	public class Comparer_D11_2221_a2 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
@@ -5914,8 +7077,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>(list);
+			newList.Sort(ReverseComparer_D11_2221_a2.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID11_2221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID11_2221 entry in list)
+				resultList.Add(entry.@a2);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D11_2221_b22 : Comparer<GRGEN_MODEL.ID11_2221>
+	{
+		public static ReverseComparer_D11_2221_b22 thisComparer = new ReverseComparer_D11_2221_b22();
+		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		{
+			return -a.@b22.CompareTo(b.@b22);
+		}
+	}
 
 	public class Comparer_D11_2221_b22 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
@@ -5964,8 +7162,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>(list);
+			newList.Sort(ReverseComparer_D11_2221_b22.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID11_2221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b22)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b22, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID11_2221 entry in list)
+				resultList.Add(entry.@b22);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D11_2221_a4 : Comparer<GRGEN_MODEL.ID11_2221>
+	{
+		public static ReverseComparer_D11_2221_a4 thisComparer = new ReverseComparer_D11_2221_a4();
+		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
 
 	public class Comparer_D11_2221_a4 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
@@ -6014,8 +7247,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>(list);
+			newList.Sort(ReverseComparer_D11_2221_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID11_2221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID11_2221 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D11_2221_b41 : Comparer<GRGEN_MODEL.ID11_2221>
+	{
+		public static ReverseComparer_D11_2221_b41 thisComparer = new ReverseComparer_D11_2221_b41();
+		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		{
+			return -a.@b41.CompareTo(b.@b41);
+		}
+	}
 
 	public class Comparer_D11_2221_b41 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
@@ -6064,8 +7332,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>(list);
+			newList.Sort(ReverseComparer_D11_2221_b41.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID11_2221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b41)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b41, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID11_2221 entry in list)
+				resultList.Add(entry.@b41);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D11_2221_c222_411 : Comparer<GRGEN_MODEL.ID11_2221>
+	{
+		public static ReverseComparer_D11_2221_c222_411 thisComparer = new ReverseComparer_D11_2221_c222_411();
+		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		{
+			return -a.@c222_411.CompareTo(b.@c222_411);
+		}
+	}
 
 	public class Comparer_D11_2221_c222_411 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
@@ -6114,8 +7417,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>(list);
+			newList.Sort(ReverseComparer_D11_2221_c222_411.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID11_2221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@c222_411)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@c222_411, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID11_2221 entry in list)
+				resultList.Add(entry.@c222_411);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D11_2221_d11_2221 : Comparer<GRGEN_MODEL.ID11_2221>
+	{
+		public static ReverseComparer_D11_2221_d11_2221 thisComparer = new ReverseComparer_D11_2221_d11_2221();
+		public override int Compare(GRGEN_MODEL.ID11_2221 a, GRGEN_MODEL.ID11_2221 b)
+		{
+			return -a.@d11_2221.CompareTo(b.@d11_2221);
+		}
+	}
 
 	public class Comparer_D11_2221_d11_2221 : Comparer<GRGEN_MODEL.ID11_2221>
 	{
@@ -6164,6 +7502,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>(list);
+			newList.Sort(ReverseComparer_D11_2221_d11_2221.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID11_2221> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<GRGEN_MODEL.ID11_2221> newList = new List<GRGEN_MODEL.ID11_2221>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID11_2221 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@d11_2221)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@d11_2221, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID11_2221> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID11_2221 entry in list)
+				resultList.Add(entry.@d11_2221);
+			return resultList;
+		}
 	}
 
 
@@ -6178,7 +7542,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@D2211_2222_31[] pool = new GRGEN_MODEL.@D2211_2222_31[10];
-		
+
 		// explicit initializations of A2 for target D2211_2222_31
 		// implicit initializations of A2 for target D2211_2222_31
 		// explicit initializations of B22 for target D2211_2222_31
@@ -6197,7 +7561,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		// implicit initializations of D2211_2222_31 for target D2211_2222_31
 		static @D2211_2222_31() {
 		}
-		
+
 		public @D2211_2222_31() : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
 		{
 			// implicit initialization, container creation of D2211_2222_31
@@ -6213,7 +7577,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.NodeType_D2211_2222_31 TypeInstance { get { return GRGEN_MODEL.NodeType_D2211_2222_31.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@D2211_2222_31(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@D2211_2222_31(this);
+		}
 
 		private @D2211_2222_31(GRGEN_MODEL.@D2211_2222_31 oldElem) : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
 		{
@@ -6607,6 +7973,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	}
 
+	public class ReverseComparer_D2211_2222_31_a2 : Comparer<GRGEN_MODEL.ID2211_2222_31>
+	{
+		public static ReverseComparer_D2211_2222_31_a2 thisComparer = new ReverseComparer_D2211_2222_31_a2();
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		{
+			return -a.@a2.CompareTo(b.@a2);
+		}
+	}
+
 	public class Comparer_D2211_2222_31_a2 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
 		private static GRGEN_MODEL.ID2211_2222_31 nodeBearingAttributeForSearch = new GRGEN_MODEL.@D2211_2222_31();
@@ -6654,8 +8029,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>(list);
+			newList.Sort(ReverseComparer_D2211_2222_31_a2.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID2211_2222_31 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a2)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a2, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID2211_2222_31 entry in list)
+				resultList.Add(entry.@a2);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D2211_2222_31_b22 : Comparer<GRGEN_MODEL.ID2211_2222_31>
+	{
+		public static ReverseComparer_D2211_2222_31_b22 thisComparer = new ReverseComparer_D2211_2222_31_b22();
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		{
+			return -a.@b22.CompareTo(b.@b22);
+		}
+	}
 
 	public class Comparer_D2211_2222_31_b22 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
@@ -6704,8 +8114,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>(list);
+			newList.Sort(ReverseComparer_D2211_2222_31_b22.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID2211_2222_31 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b22)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b22, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID2211_2222_31 entry in list)
+				resultList.Add(entry.@b22);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D2211_2222_31_c221 : Comparer<GRGEN_MODEL.ID2211_2222_31>
+	{
+		public static ReverseComparer_D2211_2222_31_c221 thisComparer = new ReverseComparer_D2211_2222_31_c221();
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		{
+			return -a.@c221.CompareTo(b.@c221);
+		}
+	}
 
 	public class Comparer_D2211_2222_31_c221 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
@@ -6754,8 +8199,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>(list);
+			newList.Sort(ReverseComparer_D2211_2222_31_c221.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID2211_2222_31 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@c221)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@c221, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID2211_2222_31 entry in list)
+				resultList.Add(entry.@c221);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D2211_2222_31_a4 : Comparer<GRGEN_MODEL.ID2211_2222_31>
+	{
+		public static ReverseComparer_D2211_2222_31_a4 thisComparer = new ReverseComparer_D2211_2222_31_a4();
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		{
+			return -a.@a4.CompareTo(b.@a4);
+		}
+	}
 
 	public class Comparer_D2211_2222_31_a4 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
@@ -6804,8 +8284,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>(list);
+			newList.Sort(ReverseComparer_D2211_2222_31_a4.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID2211_2222_31 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a4)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a4, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID2211_2222_31 entry in list)
+				resultList.Add(entry.@a4);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D2211_2222_31_b41 : Comparer<GRGEN_MODEL.ID2211_2222_31>
+	{
+		public static ReverseComparer_D2211_2222_31_b41 thisComparer = new ReverseComparer_D2211_2222_31_b41();
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		{
+			return -a.@b41.CompareTo(b.@b41);
+		}
+	}
 
 	public class Comparer_D2211_2222_31_b41 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
@@ -6854,8 +8369,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>(list);
+			newList.Sort(ReverseComparer_D2211_2222_31_b41.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID2211_2222_31 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b41)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b41, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID2211_2222_31 entry in list)
+				resultList.Add(entry.@b41);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D2211_2222_31_c222_411 : Comparer<GRGEN_MODEL.ID2211_2222_31>
+	{
+		public static ReverseComparer_D2211_2222_31_c222_411 thisComparer = new ReverseComparer_D2211_2222_31_c222_411();
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		{
+			return -a.@c222_411.CompareTo(b.@c222_411);
+		}
+	}
 
 	public class Comparer_D2211_2222_31_c222_411 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
@@ -6904,8 +8454,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>(list);
+			newList.Sort(ReverseComparer_D2211_2222_31_c222_411.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID2211_2222_31 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@c222_411)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@c222_411, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID2211_2222_31 entry in list)
+				resultList.Add(entry.@c222_411);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D2211_2222_31_a3 : Comparer<GRGEN_MODEL.ID2211_2222_31>
+	{
+		public static ReverseComparer_D2211_2222_31_a3 thisComparer = new ReverseComparer_D2211_2222_31_a3();
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		{
+			return -a.@a3.CompareTo(b.@a3);
+		}
+	}
 
 	public class Comparer_D2211_2222_31_a3 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
@@ -6954,8 +8539,43 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>(list);
+			newList.Sort(ReverseComparer_D2211_2222_31_a3.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID2211_2222_31 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@a3)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@a3, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID2211_2222_31 entry in list)
+				resultList.Add(entry.@a3);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_D2211_2222_31_d2211_2222_31 : Comparer<GRGEN_MODEL.ID2211_2222_31>
+	{
+		public static ReverseComparer_D2211_2222_31_d2211_2222_31 thisComparer = new ReverseComparer_D2211_2222_31_d2211_2222_31();
+		public override int Compare(GRGEN_MODEL.ID2211_2222_31 a, GRGEN_MODEL.ID2211_2222_31 b)
+		{
+			return -a.@d2211_2222_31.CompareTo(b.@d2211_2222_31);
+		}
+	}
 
 	public class Comparer_D2211_2222_31_d2211_2222_31 : Comparer<GRGEN_MODEL.ID2211_2222_31>
 	{
@@ -7004,6 +8624,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayOrderDescendingBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>(list);
+			newList.Sort(ReverseComparer_D2211_2222_31_d2211_2222_31.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ID2211_2222_31> ArrayKeepOneForEachBy(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<GRGEN_MODEL.ID2211_2222_31> newList = new List<GRGEN_MODEL.ID2211_2222_31>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.ID2211_2222_31 element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@d2211_2222_31)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@d2211_2222_31, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.ID2211_2222_31> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.ID2211_2222_31 entry in list)
+				resultList.Add(entry.@d2211_2222_31);
+			return resultList;
+		}
 	}
 
 
@@ -7018,7 +8664,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@D231_4121[] pool = new GRGEN_MODEL.@D231_4121[10];
-		
+
 		// explicit initializations of A2 for target D231_4121
 		// implicit initializations of A2 for target D231_4121
 		// explicit initializations of B23 for target D231_4121
@@ -7039,7 +8685,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		// implicit initializations of D231_4121 for target D231_4121
 		static @D231_4121() {
 		}
-		
+
 		public @D231_4121() : base(GRGEN_MODEL.NodeType_D231_4121.typeVar)
 		{
 			// implicit initialization, container creation of D231_4121
@@ -7410,6 +9056,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
@@ -7444,10 +9091,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -7456,8 +9103,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
@@ -7563,6 +9211,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -7598,10 +9247,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -7610,8 +9259,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
@@ -7716,6 +9366,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{

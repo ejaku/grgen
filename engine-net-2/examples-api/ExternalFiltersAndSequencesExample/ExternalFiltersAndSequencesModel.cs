@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Fri Feb 07 19:18:57 CET 2020
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Mon Apr 27 20:32:34 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	// Node types
 	//
 
-	public enum NodeTypes { @Node=0, @N=1 };
+	public enum NodeTypes { @Node=0, @N=1, @M=2 };
 
 	// *** Node Node ***
 
@@ -42,10 +42,10 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, container creation of Node
@@ -53,7 +53,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Node(this);
+		}
 
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
@@ -140,9 +142,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	public sealed partial class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
-		public static bool[] isA = new bool[] { true, false, };
+		public static bool[] isA = new bool[] { true, false, false, };
 		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { true, true, };
+		public static bool[] isMyType = new bool[] { true, true, true, };
 		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
@@ -201,12 +203,12 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@N[] pool = new GRGEN_MODEL.@N[10];
-		
+
 		// explicit initializations of N for target N
 		// implicit initializations of N for target N
 		static @N() {
 		}
-		
+
 		public @N() : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
 			// implicit initialization, container creation of N
@@ -220,7 +222,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 		public static GRGEN_MODEL.NodeType_N TypeInstance { get { return GRGEN_MODEL.NodeType_N.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@N(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@N(this);
+		}
 
 		private @N(GRGEN_MODEL.@N oldElem) : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
@@ -473,9 +477,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	public sealed partial class NodeType_N : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_N typeVar = new GRGEN_MODEL.NodeType_N();
-		public static bool[] isA = new bool[] { true, true, };
+		public static bool[] isA = new bool[] { true, true, false, };
 		public override bool IsA(int typeID) { return isA[typeID]; }
-		public static bool[] isMyType = new bool[] { false, true, };
+		public static bool[] isMyType = new bool[] { false, true, false, };
 		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
 		public static GRGEN_LIBGR.AttributeType AttributeType_i;
 		public static GRGEN_LIBGR.AttributeType AttributeType_s;
@@ -600,6 +604,15 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 	}
 
+	public class ReverseComparer_N_i : Comparer<GRGEN_MODEL.IN>
+	{
+		public static ReverseComparer_N_i thisComparer = new ReverseComparer_N_i();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return -a.@i.CompareTo(b.@i);
+		}
+	}
+
 	public class Comparer_N_i : Comparer<GRGEN_MODEL.IN>
 	{
 		private static GRGEN_MODEL.IN nodeBearingAttributeForSearch = new GRGEN_MODEL.@N();
@@ -647,8 +660,43 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
+			newList.Sort(ReverseComparer_N_i.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IN element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@i)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@i, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IN> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IN entry in list)
+				resultList.Add(entry.@i);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_N_s : Comparer<GRGEN_MODEL.IN>
+	{
+		public static ReverseComparer_N_s thisComparer = new ReverseComparer_N_s();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return -StringComparer.InvariantCulture.Compare(a.@s, b.@s);
+		}
+	}
 
 	public class Comparer_N_s : Comparer<GRGEN_MODEL.IN>
 	{
@@ -697,8 +745,43 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
+			newList.Sort(ReverseComparer_N_s.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			Dictionary<string, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<string, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IN element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@s)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@s, null);
+				}
+			}
+			return newList;
+		}
+		public static List<string> Extract(List<GRGEN_MODEL.IN> list)
+		{
+			List<string> resultList = new List<string>(list.Count);
+			foreach(GRGEN_MODEL.IN entry in list)
+				resultList.Add(entry.@s);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_N_b : Comparer<GRGEN_MODEL.IN>
+	{
+		public static ReverseComparer_N_b thisComparer = new ReverseComparer_N_b();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return -a.@b.CompareTo(b.@b);
+		}
+	}
 
 	public class Comparer_N_b : Comparer<GRGEN_MODEL.IN>
 	{
@@ -747,8 +830,43 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
+			newList.Sort(ReverseComparer_N_b.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IN element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@b)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@b, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IN> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IN entry in list)
+				resultList.Add(entry.@b);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_N_f : Comparer<GRGEN_MODEL.IN>
+	{
+		public static ReverseComparer_N_f thisComparer = new ReverseComparer_N_f();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return -a.@f.CompareTo(b.@f);
+		}
+	}
 
 	public class Comparer_N_f : Comparer<GRGEN_MODEL.IN>
 	{
@@ -797,8 +915,43 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
+			newList.Sort(ReverseComparer_N_f.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			Dictionary<float, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<float, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IN element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@f)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@f, null);
+				}
+			}
+			return newList;
+		}
+		public static List<float> Extract(List<GRGEN_MODEL.IN> list)
+		{
+			List<float> resultList = new List<float>(list.Count);
+			foreach(GRGEN_MODEL.IN entry in list)
+				resultList.Add(entry.@f);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_N_d : Comparer<GRGEN_MODEL.IN>
+	{
+		public static ReverseComparer_N_d thisComparer = new ReverseComparer_N_d();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return -a.@d.CompareTo(b.@d);
+		}
+	}
 
 	public class Comparer_N_d : Comparer<GRGEN_MODEL.IN>
 	{
@@ -847,8 +1000,43 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
+			newList.Sort(ReverseComparer_N_d.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			Dictionary<double, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<double, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IN element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@d)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@d, null);
+				}
+			}
+			return newList;
+		}
+		public static List<double> Extract(List<GRGEN_MODEL.IN> list)
+		{
+			List<double> resultList = new List<double>(list.Count);
+			foreach(GRGEN_MODEL.IN entry in list)
+				resultList.Add(entry.@d);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_N_enu : Comparer<GRGEN_MODEL.IN>
+	{
+		public static ReverseComparer_N_enu thisComparer = new ReverseComparer_N_enu();
+		public override int Compare(GRGEN_MODEL.IN a, GRGEN_MODEL.IN b)
+		{
+			return -a.@enu.CompareTo(b.@enu);
+		}
+	}
 
 	public class Comparer_N_enu : Comparer<GRGEN_MODEL.IN>
 	{
@@ -897,8 +1085,190 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IN> ArrayOrderDescendingBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>(list);
+			newList.Sort(ReverseComparer_N_enu.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IN> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.IN> newList = new List<GRGEN_MODEL.IN>();
+			Dictionary<GRGEN_MODEL.ENUM_Enu, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<GRGEN_MODEL.ENUM_Enu, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IN element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@enu)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@enu, null);
+				}
+			}
+			return newList;
+		}
+		public static List<GRGEN_MODEL.ENUM_Enu> Extract(List<GRGEN_MODEL.IN> list)
+		{
+			List<GRGEN_MODEL.ENUM_Enu> resultList = new List<GRGEN_MODEL.ENUM_Enu>(list.Count);
+			foreach(GRGEN_MODEL.IN entry in list)
+				resultList.Add(entry.@enu);
+			return resultList;
+		}
 	}
 
+
+	// *** Node M ***
+
+	public interface IM : GRGEN_LIBGR.INode
+	{
+	}
+
+	public sealed partial class @M : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IM
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@M[] pool = new GRGEN_MODEL.@M[10];
+
+		// explicit initializations of M for target M
+		// implicit initializations of M for target M
+		static @M() {
+		}
+
+		public @M() : base(GRGEN_MODEL.NodeType_M.typeVar)
+		{
+			// implicit initialization, container creation of M
+			// explicit initializations of M for target M
+		}
+
+		public static GRGEN_MODEL.NodeType_M TypeInstance { get { return GRGEN_MODEL.NodeType_M.typeVar; } }
+
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@M(this);
+		}
+
+		private @M(GRGEN_MODEL.@M oldElem) : base(GRGEN_MODEL.NodeType_M.typeVar)
+		{
+		}
+
+		public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {
+			if(!(that is @M)) return false;
+			@M that_ = (@M)that;
+			return true
+			;
+		}
+
+		public static GRGEN_MODEL.@M CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		{
+			GRGEN_MODEL.@M node;
+			if(poolLevel == 0)
+				node = new GRGEN_MODEL.@M();
+			else
+			{
+				node = pool[--poolLevel];
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, container creation of M
+				// explicit initializations of M for target M
+			}
+			graph.AddNode(node);
+			return node;
+		}
+
+		public static GRGEN_MODEL.@M CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)
+		{
+			GRGEN_MODEL.@M node;
+			if(poolLevel == 0)
+				node = new GRGEN_MODEL.@M();
+			else
+			{
+				node = pool[--poolLevel];
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, container creation of M
+				// explicit initializations of M for target M
+			}
+			graph.AddNode(node, nodeName);
+			return node;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The node type \"M\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The node type \"M\" does not have the attribute \"" + attrName + "\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, container creation of M
+			// explicit initializations of M for target M
+		}
+
+		public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("M does not have the function method " + name + "!");
+			}
+		}
+		public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)
+		{
+			switch(name)
+			{
+				default: throw new NullReferenceException("M does not have the procedure method " + name + "!");
+			}
+		}
+	}
+
+	public sealed partial class NodeType_M : GRGEN_LIBGR.NodeType
+	{
+		public static GRGEN_MODEL.NodeType_M typeVar = new GRGEN_MODEL.NodeType_M();
+		public static bool[] isA = new bool[] { true, false, true, };
+		public override bool IsA(int typeID) { return isA[typeID]; }
+		public static bool[] isMyType = new bool[] { false, false, true, };
+		public override bool IsMyType(int typeID) { return isMyType[typeID]; }
+		public NodeType_M() : base((int) NodeTypes.@M)
+		{
+		}
+		public override string Name { get { return "M"; } }
+		public override string Package { get { return null; } }
+		public override string PackagePrefixedName { get { return "M"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.IM"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ExternalFiltersAndSequences.@M"; } }
+		public override GRGEN_LIBGR.INode CreateNode()
+		{
+			return new GRGEN_MODEL.@M();
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }
+		public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override int NumFunctionMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name) { return null; }
+		public override int NumProcedureMethods { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods { get { yield break; } }
+		public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
+		{
+			return new GRGEN_MODEL.@M();
+		}
+
+	}
 
 	//
 	// Edge types
@@ -929,6 +1299,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -964,10 +1335,10 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -976,8 +1347,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
@@ -1083,6 +1455,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1118,10 +1491,10 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -1130,8 +1503,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
@@ -1237,6 +1611,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1275,12 +1650,12 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@E[] pool = new GRGEN_MODEL.@E[10];
-		
+
 		// explicit initializations of E for target E
 		// implicit initializations of E for target E
 		static @E() {
 		}
-		
+
 		public @E(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_E.typeVar, source, target)
 		{
@@ -1290,8 +1665,9 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 
 		public static GRGEN_MODEL.EdgeType_E TypeInstance { get { return GRGEN_MODEL.EdgeType_E.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@E(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@E(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @E(GRGEN_MODEL.@E oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_E.typeVar, newSource, newTarget)
@@ -1400,6 +1776,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			return new GRGEN_MODEL.@E((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1477,9 +1854,11 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				GRGEN_MODEL.NodeType_Node.typeVar,
 				GRGEN_MODEL.NodeType_N.typeVar,
+				GRGEN_MODEL.NodeType_M.typeVar,
 			};
 			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
 				GRGEN_MODEL.NodeType_N.typeVar,
+				GRGEN_MODEL.NodeType_M.typeVar,
 			};
 			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				GRGEN_MODEL.NodeType_Node.typeVar,
@@ -1498,6 +1877,18 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			GRGEN_MODEL.NodeType_N.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_N.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
 				GRGEN_MODEL.NodeType_Node.typeVar,
 			};
+			GRGEN_MODEL.NodeType_M.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_M.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_M.typeVar,
+			};
+			GRGEN_MODEL.NodeType_M.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_M.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_M.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_M.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_M.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_M.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_M.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
 		}
 		public bool IsNodeModel { get { return true; } }
 		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
@@ -1508,6 +1899,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 			{
 				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
 				case "N" : return GRGEN_MODEL.NodeType_N.typeVar;
+				case "M" : return GRGEN_MODEL.NodeType_M.typeVar;
 			}
 			return null;
 		}
@@ -1518,12 +1910,14 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		private GRGEN_LIBGR.NodeType[] types = {
 			GRGEN_MODEL.NodeType_Node.typeVar,
 			GRGEN_MODEL.NodeType_N.typeVar,
+			GRGEN_MODEL.NodeType_M.typeVar,
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_N),
+			typeof(GRGEN_MODEL.NodeType_M),
 		};
 		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
@@ -1704,7 +2098,7 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		}
 
 		public override void FailAssertion() { Debug.Assert(false); }
-		public override string MD5Hash { get { return "645eea4f3e21e49c90ac82a74ce000c7"; } }
+		public override string MD5Hash { get { return "d117fe33b154ad3192df1300b58f58ea"; } }
 	}
 
 	//
@@ -1724,6 +2118,11 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public GRGEN_MODEL.@N CreateNodeN()
 		{
 			return GRGEN_MODEL.@N.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@M CreateNodeM()
+		{
+			return GRGEN_MODEL.@M.CreateNode(this);
 		}
 
 		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1770,6 +2169,16 @@ namespace de.unika.ipd.grGen.Model_ExternalFiltersAndSequences
 		public GRGEN_MODEL.@N CreateNodeN(string nodeName)
 		{
 			return GRGEN_MODEL.@N.CreateNode(this, nodeName);
+		}
+
+		public GRGEN_MODEL.@M CreateNodeM()
+		{
+			return GRGEN_MODEL.@M.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@M CreateNodeM(string nodeName)
+		{
+			return GRGEN_MODEL.@M.CreateNode(this, nodeName);
 		}
 
 		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)

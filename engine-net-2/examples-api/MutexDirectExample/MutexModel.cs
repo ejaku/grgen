@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Fri Feb 07 19:19:19 CET 2020
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Apr 27 20:32:45 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -35,10 +35,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, container creation of Node
@@ -46,7 +46,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Node(this);
+		}
 
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
@@ -183,12 +185,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Process[] pool = new GRGEN_MODEL.@Process[10];
-		
+
 		// explicit initializations of Process for target Process
 		// implicit initializations of Process for target Process
 		static @Process() {
 		}
-		
+
 		public @Process() : base(GRGEN_MODEL.NodeType_Process.typeVar)
 		{
 			// implicit initialization, container creation of Process
@@ -197,7 +199,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.NodeType_Process TypeInstance { get { return GRGEN_MODEL.NodeType_Process.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Process(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Process(this);
+		}
 
 		private @Process(GRGEN_MODEL.@Process oldElem) : base(GRGEN_MODEL.NodeType_Process.typeVar)
 		{
@@ -337,12 +341,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Resource[] pool = new GRGEN_MODEL.@Resource[10];
-		
+
 		// explicit initializations of Resource for target Resource
 		// implicit initializations of Resource for target Resource
 		static @Resource() {
 		}
-		
+
 		public @Resource() : base(GRGEN_MODEL.NodeType_Resource.typeVar)
 		{
 			// implicit initialization, container creation of Resource
@@ -351,7 +355,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.NodeType_Resource TypeInstance { get { return GRGEN_MODEL.NodeType_Resource.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Resource(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Resource(this);
+		}
 
 		private @Resource(GRGEN_MODEL.@Resource oldElem) : base(GRGEN_MODEL.NodeType_Resource.typeVar)
 		{
@@ -491,12 +497,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@AnnotationTestNode[] pool = new GRGEN_MODEL.@AnnotationTestNode[10];
-		
+
 		// explicit initializations of AnnotationTestNode for target AnnotationTestNode
 		// implicit initializations of AnnotationTestNode for target AnnotationTestNode
 		static @AnnotationTestNode() {
 		}
-		
+
 		public @AnnotationTestNode() : base(GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar)
 		{
 			// implicit initialization, container creation of AnnotationTestNode
@@ -505,7 +511,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.NodeType_AnnotationTestNode TypeInstance { get { return GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@AnnotationTestNode(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@AnnotationTestNode(this);
+		}
 
 		private @AnnotationTestNode(GRGEN_MODEL.@AnnotationTestNode oldElem) : base(GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar)
 		{
@@ -666,6 +674,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			throw new Exception("The abstract edge type AEdge does not support source and target setting!");
@@ -700,10 +709,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -712,8 +721,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
@@ -819,6 +829,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -854,10 +865,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -866,8 +877,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
@@ -973,6 +985,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1011,12 +1024,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@next[] pool = new GRGEN_MODEL.@next[10];
-		
+
 		// explicit initializations of next for target next
 		// implicit initializations of next for target next
 		static @next() {
 		}
-		
+
 		public @next(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_next.typeVar, source, target)
 		{
@@ -1026,8 +1039,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_next TypeInstance { get { return GRGEN_MODEL.EdgeType_next.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@next(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@next(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @next(GRGEN_MODEL.@next oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_next.typeVar, newSource, newTarget)
@@ -1136,6 +1150,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@next((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1174,12 +1189,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@blocked[] pool = new GRGEN_MODEL.@blocked[10];
-		
+
 		// explicit initializations of blocked for target blocked
 		// implicit initializations of blocked for target blocked
 		static @blocked() {
 		}
-		
+
 		public @blocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_blocked.typeVar, source, target)
 		{
@@ -1189,8 +1204,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_blocked TypeInstance { get { return GRGEN_MODEL.EdgeType_blocked.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@blocked(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@blocked(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @blocked(GRGEN_MODEL.@blocked oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_blocked.typeVar, newSource, newTarget)
@@ -1299,6 +1315,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@blocked((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1337,12 +1354,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@held_by[] pool = new GRGEN_MODEL.@held_by[10];
-		
+
 		// explicit initializations of held_by for target held_by
 		// implicit initializations of held_by for target held_by
 		static @held_by() {
 		}
-		
+
 		public @held_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_held_by.typeVar, source, target)
 		{
@@ -1352,8 +1369,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_held_by TypeInstance { get { return GRGEN_MODEL.EdgeType_held_by.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@held_by(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@held_by(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @held_by(GRGEN_MODEL.@held_by oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_held_by.typeVar, newSource, newTarget)
@@ -1462,6 +1480,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@held_by((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1500,12 +1519,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@token[] pool = new GRGEN_MODEL.@token[10];
-		
+
 		// explicit initializations of token for target token
 		// implicit initializations of token for target token
 		static @token() {
 		}
-		
+
 		public @token(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_token.typeVar, source, target)
 		{
@@ -1515,8 +1534,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_token TypeInstance { get { return GRGEN_MODEL.EdgeType_token.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@token(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@token(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @token(GRGEN_MODEL.@token oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_token.typeVar, newSource, newTarget)
@@ -1625,6 +1645,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@token((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1663,12 +1684,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@release[] pool = new GRGEN_MODEL.@release[10];
-		
+
 		// explicit initializations of release for target release
 		// implicit initializations of release for target release
 		static @release() {
 		}
-		
+
 		public @release(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_release.typeVar, source, target)
 		{
@@ -1678,8 +1699,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_release TypeInstance { get { return GRGEN_MODEL.EdgeType_release.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@release(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@release(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @release(GRGEN_MODEL.@release oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_release.typeVar, newSource, newTarget)
@@ -1788,6 +1810,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@release((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1826,12 +1849,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@request[] pool = new GRGEN_MODEL.@request[10];
-		
+
 		// explicit initializations of request for target request
 		// implicit initializations of request for target request
 		static @request() {
 		}
-		
+
 		public @request(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_request.typeVar, source, target)
 		{
@@ -1841,8 +1864,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_request TypeInstance { get { return GRGEN_MODEL.EdgeType_request.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@request(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@request(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @request(GRGEN_MODEL.@request oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_request.typeVar, newSource, newTarget)
@@ -1951,6 +1975,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@request((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1990,12 +2015,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@annotationTestEdge[] pool = new GRGEN_MODEL.@annotationTestEdge[10];
-		
+
 		// explicit initializations of annotationTestEdge for target annotationTestEdge
 		// implicit initializations of annotationTestEdge for target annotationTestEdge
 		static @annotationTestEdge() {
 		}
-		
+
 		public @annotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, source, target)
 		{
@@ -2006,8 +2031,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public static GRGEN_MODEL.EdgeType_annotationTestEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@annotationTestEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@annotationTestEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @annotationTestEdge(GRGEN_MODEL.@annotationTestEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, newSource, newTarget)
@@ -2142,6 +2168,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return new GRGEN_MODEL.@annotationTestEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -2195,6 +2222,15 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	}
 
+	public class ReverseComparer_annotationTestEdge_attrib : Comparer<GRGEN_MODEL.IannotationTestEdge>
+	{
+		public static ReverseComparer_annotationTestEdge_attrib thisComparer = new ReverseComparer_annotationTestEdge_attrib();
+		public override int Compare(GRGEN_MODEL.IannotationTestEdge a, GRGEN_MODEL.IannotationTestEdge b)
+		{
+			return -a.@attrib.CompareTo(b.@attrib);
+		}
+	}
+
 	public class Comparer_annotationTestEdge_attrib : Comparer<GRGEN_MODEL.IannotationTestEdge>
 	{
 		private static GRGEN_MODEL.IannotationTestEdge nodeBearingAttributeForSearch = new GRGEN_MODEL.@annotationTestEdge(null, null);
@@ -2241,6 +2277,32 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			List<GRGEN_MODEL.IannotationTestEdge> newList = new List<GRGEN_MODEL.IannotationTestEdge>(list);
 			newList.Sort(thisComparer);
 			return newList;
+		}
+		public static List<GRGEN_MODEL.IannotationTestEdge> ArrayOrderDescendingBy(List<GRGEN_MODEL.IannotationTestEdge> list)
+		{
+			List<GRGEN_MODEL.IannotationTestEdge> newList = new List<GRGEN_MODEL.IannotationTestEdge>(list);
+			newList.Sort(ReverseComparer_annotationTestEdge_attrib.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IannotationTestEdge> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IannotationTestEdge> list)
+		{
+			List<GRGEN_MODEL.IannotationTestEdge> newList = new List<GRGEN_MODEL.IannotationTestEdge>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IannotationTestEdge element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@attrib)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@attrib, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IannotationTestEdge> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IannotationTestEdge entry in list)
+				resultList.Add(entry.@attrib);
+			return resultList;
 		}
 	}
 
@@ -2615,12 +2677,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_next.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 1, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_blocked.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 2147483647, 0, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_held_by.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_token.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_release.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_request.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, 0, 2147483647, 0, 2147483647, false),
+		new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_next.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 1, 0, 1, false),
+		new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_blocked.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 2147483647, 0, 2147483647, false),
+		new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_held_by.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
+		new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_token.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
+		new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_release.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, 2147483647, false),
+		new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_request.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, 0, 2147483647, 0, 2147483647, false),
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};

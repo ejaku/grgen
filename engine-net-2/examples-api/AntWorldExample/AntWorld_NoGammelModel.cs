@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Fri Feb 07 19:18:45 CET 2020
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Apr 27 20:32:27 CEST 2020
 
 using System;
 using System.Collections.Generic;
@@ -35,10 +35,10 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, container creation of Node
@@ -46,7 +46,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Node(this);
+		}
 
 		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
@@ -185,12 +187,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridNode[] pool = new GRGEN_MODEL.@GridNode[10];
-		
+
 		// explicit initializations of GridNode for target GridNode
 		// implicit initializations of GridNode for target GridNode
 		static @GridNode() {
 		}
-		
+
 		public @GridNode() : base(GRGEN_MODEL.NodeType_GridNode.typeVar)
 		{
 			// implicit initialization, container creation of GridNode
@@ -199,7 +201,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.NodeType_GridNode TypeInstance { get { return GRGEN_MODEL.NodeType_GridNode.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@GridNode(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@GridNode(this);
+		}
 
 		private @GridNode(GRGEN_MODEL.@GridNode oldElem) : base(GRGEN_MODEL.NodeType_GridNode.typeVar)
 		{
@@ -397,6 +401,15 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 	}
 
+	public class ReverseComparer_GridNode_food : Comparer<GRGEN_MODEL.IGridNode>
+	{
+		public static ReverseComparer_GridNode_food thisComparer = new ReverseComparer_GridNode_food();
+		public override int Compare(GRGEN_MODEL.IGridNode a, GRGEN_MODEL.IGridNode b)
+		{
+			return -a.@food.CompareTo(b.@food);
+		}
+	}
+
 	public class Comparer_GridNode_food : Comparer<GRGEN_MODEL.IGridNode>
 	{
 		private static GRGEN_MODEL.IGridNode nodeBearingAttributeForSearch = new GRGEN_MODEL.@GridNode();
@@ -444,8 +457,43 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IGridNode> ArrayOrderDescendingBy(List<GRGEN_MODEL.IGridNode> list)
+		{
+			List<GRGEN_MODEL.IGridNode> newList = new List<GRGEN_MODEL.IGridNode>(list);
+			newList.Sort(ReverseComparer_GridNode_food.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IGridNode> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IGridNode> list)
+		{
+			List<GRGEN_MODEL.IGridNode> newList = new List<GRGEN_MODEL.IGridNode>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IGridNode element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@food)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@food, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IGridNode> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IGridNode entry in list)
+				resultList.Add(entry.@food);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_GridNode_pheromones : Comparer<GRGEN_MODEL.IGridNode>
+	{
+		public static ReverseComparer_GridNode_pheromones thisComparer = new ReverseComparer_GridNode_pheromones();
+		public override int Compare(GRGEN_MODEL.IGridNode a, GRGEN_MODEL.IGridNode b)
+		{
+			return -a.@pheromones.CompareTo(b.@pheromones);
+		}
+	}
 
 	public class Comparer_GridNode_pheromones : Comparer<GRGEN_MODEL.IGridNode>
 	{
@@ -494,6 +542,32 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IGridNode> ArrayOrderDescendingBy(List<GRGEN_MODEL.IGridNode> list)
+		{
+			List<GRGEN_MODEL.IGridNode> newList = new List<GRGEN_MODEL.IGridNode>(list);
+			newList.Sort(ReverseComparer_GridNode_pheromones.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IGridNode> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IGridNode> list)
+		{
+			List<GRGEN_MODEL.IGridNode> newList = new List<GRGEN_MODEL.IGridNode>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IGridNode element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@pheromones)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@pheromones, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IGridNode> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IGridNode entry in list)
+				resultList.Add(entry.@pheromones);
+			return resultList;
+		}
 	}
 
 
@@ -507,14 +581,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridCornerNode[] pool = new GRGEN_MODEL.@GridCornerNode[10];
-		
+
 		// explicit initializations of GridNode for target GridCornerNode
 		// implicit initializations of GridNode for target GridCornerNode
 		// explicit initializations of GridCornerNode for target GridCornerNode
 		// implicit initializations of GridCornerNode for target GridCornerNode
 		static @GridCornerNode() {
 		}
-		
+
 		public @GridCornerNode() : base(GRGEN_MODEL.NodeType_GridCornerNode.typeVar)
 		{
 			// implicit initialization, container creation of GridCornerNode
@@ -524,7 +598,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.NodeType_GridCornerNode TypeInstance { get { return GRGEN_MODEL.NodeType_GridCornerNode.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@GridCornerNode(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@GridCornerNode(this);
+		}
 
 		private @GridCornerNode(GRGEN_MODEL.@GridCornerNode oldElem) : base(GRGEN_MODEL.NodeType_GridCornerNode.typeVar)
 		{
@@ -728,6 +804,15 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 	}
 
+	public class ReverseComparer_GridCornerNode_food : Comparer<GRGEN_MODEL.IGridCornerNode>
+	{
+		public static ReverseComparer_GridCornerNode_food thisComparer = new ReverseComparer_GridCornerNode_food();
+		public override int Compare(GRGEN_MODEL.IGridCornerNode a, GRGEN_MODEL.IGridCornerNode b)
+		{
+			return -a.@food.CompareTo(b.@food);
+		}
+	}
+
 	public class Comparer_GridCornerNode_food : Comparer<GRGEN_MODEL.IGridCornerNode>
 	{
 		private static GRGEN_MODEL.IGridCornerNode nodeBearingAttributeForSearch = new GRGEN_MODEL.@GridCornerNode();
@@ -775,8 +860,43 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IGridCornerNode> ArrayOrderDescendingBy(List<GRGEN_MODEL.IGridCornerNode> list)
+		{
+			List<GRGEN_MODEL.IGridCornerNode> newList = new List<GRGEN_MODEL.IGridCornerNode>(list);
+			newList.Sort(ReverseComparer_GridCornerNode_food.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IGridCornerNode> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IGridCornerNode> list)
+		{
+			List<GRGEN_MODEL.IGridCornerNode> newList = new List<GRGEN_MODEL.IGridCornerNode>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IGridCornerNode element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@food)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@food, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IGridCornerNode> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IGridCornerNode entry in list)
+				resultList.Add(entry.@food);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_GridCornerNode_pheromones : Comparer<GRGEN_MODEL.IGridCornerNode>
+	{
+		public static ReverseComparer_GridCornerNode_pheromones thisComparer = new ReverseComparer_GridCornerNode_pheromones();
+		public override int Compare(GRGEN_MODEL.IGridCornerNode a, GRGEN_MODEL.IGridCornerNode b)
+		{
+			return -a.@pheromones.CompareTo(b.@pheromones);
+		}
+	}
 
 	public class Comparer_GridCornerNode_pheromones : Comparer<GRGEN_MODEL.IGridCornerNode>
 	{
@@ -825,6 +945,32 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IGridCornerNode> ArrayOrderDescendingBy(List<GRGEN_MODEL.IGridCornerNode> list)
+		{
+			List<GRGEN_MODEL.IGridCornerNode> newList = new List<GRGEN_MODEL.IGridCornerNode>(list);
+			newList.Sort(ReverseComparer_GridCornerNode_pheromones.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IGridCornerNode> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IGridCornerNode> list)
+		{
+			List<GRGEN_MODEL.IGridCornerNode> newList = new List<GRGEN_MODEL.IGridCornerNode>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IGridCornerNode element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@pheromones)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@pheromones, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IGridCornerNode> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IGridCornerNode entry in list)
+				resultList.Add(entry.@pheromones);
+			return resultList;
+		}
 	}
 
 
@@ -839,14 +985,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@AntHill[] pool = new GRGEN_MODEL.@AntHill[10];
-		
+
 		// explicit initializations of GridNode for target AntHill
 		// implicit initializations of GridNode for target AntHill
 		// explicit initializations of AntHill for target AntHill
 		// implicit initializations of AntHill for target AntHill
 		static @AntHill() {
 		}
-		
+
 		public @AntHill() : base(GRGEN_MODEL.NodeType_AntHill.typeVar)
 		{
 			// implicit initialization, container creation of AntHill
@@ -857,7 +1003,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.NodeType_AntHill TypeInstance { get { return GRGEN_MODEL.NodeType_AntHill.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@AntHill(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@AntHill(this);
+		}
 
 		private @AntHill(GRGEN_MODEL.@AntHill oldElem) : base(GRGEN_MODEL.NodeType_AntHill.typeVar)
 		{
@@ -1083,6 +1231,15 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 	}
 
+	public class ReverseComparer_AntHill_food : Comparer<GRGEN_MODEL.IAntHill>
+	{
+		public static ReverseComparer_AntHill_food thisComparer = new ReverseComparer_AntHill_food();
+		public override int Compare(GRGEN_MODEL.IAntHill a, GRGEN_MODEL.IAntHill b)
+		{
+			return -a.@food.CompareTo(b.@food);
+		}
+	}
+
 	public class Comparer_AntHill_food : Comparer<GRGEN_MODEL.IAntHill>
 	{
 		private static GRGEN_MODEL.IAntHill nodeBearingAttributeForSearch = new GRGEN_MODEL.@AntHill();
@@ -1130,8 +1287,43 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IAntHill> ArrayOrderDescendingBy(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<GRGEN_MODEL.IAntHill> newList = new List<GRGEN_MODEL.IAntHill>(list);
+			newList.Sort(ReverseComparer_AntHill_food.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IAntHill> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<GRGEN_MODEL.IAntHill> newList = new List<GRGEN_MODEL.IAntHill>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IAntHill element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@food)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@food, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IAntHill entry in list)
+				resultList.Add(entry.@food);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_AntHill_pheromones : Comparer<GRGEN_MODEL.IAntHill>
+	{
+		public static ReverseComparer_AntHill_pheromones thisComparer = new ReverseComparer_AntHill_pheromones();
+		public override int Compare(GRGEN_MODEL.IAntHill a, GRGEN_MODEL.IAntHill b)
+		{
+			return -a.@pheromones.CompareTo(b.@pheromones);
+		}
+	}
 
 	public class Comparer_AntHill_pheromones : Comparer<GRGEN_MODEL.IAntHill>
 	{
@@ -1180,8 +1372,43 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IAntHill> ArrayOrderDescendingBy(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<GRGEN_MODEL.IAntHill> newList = new List<GRGEN_MODEL.IAntHill>(list);
+			newList.Sort(ReverseComparer_AntHill_pheromones.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IAntHill> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<GRGEN_MODEL.IAntHill> newList = new List<GRGEN_MODEL.IAntHill>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IAntHill element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@pheromones)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@pheromones, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IAntHill entry in list)
+				resultList.Add(entry.@pheromones);
+			return resultList;
+		}
 	}
 
+
+	public class ReverseComparer_AntHill_foodCountdown : Comparer<GRGEN_MODEL.IAntHill>
+	{
+		public static ReverseComparer_AntHill_foodCountdown thisComparer = new ReverseComparer_AntHill_foodCountdown();
+		public override int Compare(GRGEN_MODEL.IAntHill a, GRGEN_MODEL.IAntHill b)
+		{
+			return -a.@foodCountdown.CompareTo(b.@foodCountdown);
+		}
+	}
 
 	public class Comparer_AntHill_foodCountdown : Comparer<GRGEN_MODEL.IAntHill>
 	{
@@ -1230,6 +1457,32 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IAntHill> ArrayOrderDescendingBy(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<GRGEN_MODEL.IAntHill> newList = new List<GRGEN_MODEL.IAntHill>(list);
+			newList.Sort(ReverseComparer_AntHill_foodCountdown.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IAntHill> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<GRGEN_MODEL.IAntHill> newList = new List<GRGEN_MODEL.IAntHill>();
+			Dictionary<int, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IAntHill element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@foodCountdown)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@foodCountdown, null);
+				}
+			}
+			return newList;
+		}
+		public static List<int> Extract(List<GRGEN_MODEL.IAntHill> list)
+		{
+			List<int> resultList = new List<int>(list.Count);
+			foreach(GRGEN_MODEL.IAntHill entry in list)
+				resultList.Add(entry.@foodCountdown);
+			return resultList;
+		}
 	}
 
 
@@ -1244,12 +1497,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Ant[] pool = new GRGEN_MODEL.@Ant[10];
-		
+
 		// explicit initializations of Ant for target Ant
 		// implicit initializations of Ant for target Ant
 		static @Ant() {
 		}
-		
+
 		public @Ant() : base(GRGEN_MODEL.NodeType_Ant.typeVar)
 		{
 			// implicit initialization, container creation of Ant
@@ -1258,7 +1511,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.NodeType_Ant TypeInstance { get { return GRGEN_MODEL.NodeType_Ant.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Ant(this); }
+		public override GRGEN_LIBGR.INode Clone() {
+			return new GRGEN_MODEL.@Ant(this);
+		}
 
 		private @Ant(GRGEN_MODEL.@Ant oldElem) : base(GRGEN_MODEL.NodeType_Ant.typeVar)
 		{
@@ -1435,6 +1690,15 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 	}
 
+	public class ReverseComparer_Ant_hasFood : Comparer<GRGEN_MODEL.IAnt>
+	{
+		public static ReverseComparer_Ant_hasFood thisComparer = new ReverseComparer_Ant_hasFood();
+		public override int Compare(GRGEN_MODEL.IAnt a, GRGEN_MODEL.IAnt b)
+		{
+			return -a.@hasFood.CompareTo(b.@hasFood);
+		}
+	}
+
 	public class Comparer_Ant_hasFood : Comparer<GRGEN_MODEL.IAnt>
 	{
 		private static GRGEN_MODEL.IAnt nodeBearingAttributeForSearch = new GRGEN_MODEL.@Ant();
@@ -1482,6 +1746,32 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			newList.Sort(thisComparer);
 			return newList;
 		}
+		public static List<GRGEN_MODEL.IAnt> ArrayOrderDescendingBy(List<GRGEN_MODEL.IAnt> list)
+		{
+			List<GRGEN_MODEL.IAnt> newList = new List<GRGEN_MODEL.IAnt>(list);
+			newList.Sort(ReverseComparer_Ant_hasFood.thisComparer);
+			return newList;
+		}
+		public static List<GRGEN_MODEL.IAnt> ArrayKeepOneForEachBy(List<GRGEN_MODEL.IAnt> list)
+		{
+			List<GRGEN_MODEL.IAnt> newList = new List<GRGEN_MODEL.IAnt>();
+			Dictionary<bool, GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<bool, GRGEN_LIBGR.SetValueType>();
+			foreach(GRGEN_MODEL.IAnt element in list)
+			{
+				if(!alreadySeenMembers.ContainsKey(element.@hasFood)) {
+					newList.Add(element);
+					alreadySeenMembers.Add(element.@hasFood, null);
+				}
+			}
+			return newList;
+		}
+		public static List<bool> Extract(List<GRGEN_MODEL.IAnt> list)
+		{
+			List<bool> resultList = new List<bool>(list.Count);
+			foreach(GRGEN_MODEL.IAnt entry in list)
+				resultList.Add(entry.@hasFood);
+			return resultList;
+		}
 	}
 
 
@@ -1514,6 +1804,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1549,10 +1840,10 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -1561,8 +1852,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
@@ -1668,6 +1960,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1703,10 +1996,10 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -1715,8 +2008,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
@@ -1822,6 +2116,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -1860,12 +2155,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridEdge[] pool = new GRGEN_MODEL.@GridEdge[10];
-		
+
 		// explicit initializations of GridEdge for target GridEdge
 		// implicit initializations of GridEdge for target GridEdge
 		static @GridEdge() {
 		}
-		
+
 		public @GridEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_GridEdge.typeVar, source, target)
 		{
@@ -1875,8 +2170,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.EdgeType_GridEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_GridEdge.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@GridEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@GridEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @GridEdge(GRGEN_MODEL.@GridEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_GridEdge.typeVar, newSource, newTarget)
@@ -1985,6 +2281,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return new GRGEN_MODEL.@GridEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -2023,14 +2320,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@PathToHill[] pool = new GRGEN_MODEL.@PathToHill[10];
-		
+
 		// explicit initializations of GridEdge for target PathToHill
 		// implicit initializations of GridEdge for target PathToHill
 		// explicit initializations of PathToHill for target PathToHill
 		// implicit initializations of PathToHill for target PathToHill
 		static @PathToHill() {
 		}
-		
+
 		public @PathToHill(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_PathToHill.typeVar, source, target)
 		{
@@ -2041,8 +2338,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.EdgeType_PathToHill TypeInstance { get { return GRGEN_MODEL.EdgeType_PathToHill.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@PathToHill(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@PathToHill(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @PathToHill(GRGEN_MODEL.@PathToHill oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_PathToHill.typeVar, newSource, newTarget)
@@ -2154,6 +2452,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return new GRGEN_MODEL.@PathToHill((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -2192,12 +2491,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@AntPosition[] pool = new GRGEN_MODEL.@AntPosition[10];
-		
+
 		// explicit initializations of AntPosition for target AntPosition
 		// implicit initializations of AntPosition for target AntPosition
 		static @AntPosition() {
 		}
-		
+
 		public @AntPosition(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_AntPosition.typeVar, source, target)
 		{
@@ -2207,8 +2506,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.EdgeType_AntPosition TypeInstance { get { return GRGEN_MODEL.EdgeType_AntPosition.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@AntPosition(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@AntPosition(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @AntPosition(GRGEN_MODEL.@AntPosition oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_AntPosition.typeVar, newSource, newTarget)
@@ -2317,6 +2617,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 			return new GRGEN_MODEL.@AntPosition((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
+
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
@@ -2355,12 +2656,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@NextAnt[] pool = new GRGEN_MODEL.@NextAnt[10];
-		
+
 		// explicit initializations of NextAnt for target NextAnt
 		// implicit initializations of NextAnt for target NextAnt
 		static @NextAnt() {
 		}
-		
+
 		public @NextAnt(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_NextAnt.typeVar, source, target)
 		{
@@ -2370,8 +2671,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		public static GRGEN_MODEL.EdgeType_NextAnt TypeInstance { get { return GRGEN_MODEL.EdgeType_NextAnt.typeVar; } }
 
-		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@NextAnt(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {
+			return new GRGEN_MODEL.@NextAnt(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget);
+		}
 
 		private @NextAnt(GRGEN_MODEL.@NextAnt oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_NextAnt.typeVar, newSource, newTarget)
@@ -2479,6 +2781,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		{
 			return new GRGEN_MODEL.@NextAnt((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+
 
 		public override void SetSourceAndTarget(GRGEN_LIBGR.IEdge edge, GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -2847,7 +3150,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
+		new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_GridEdge.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, 1, 1, 1, 1, false),
 		};
 		private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {
 		};

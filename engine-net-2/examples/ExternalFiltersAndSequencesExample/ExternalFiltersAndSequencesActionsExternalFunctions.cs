@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalFiltersAndSequences.grg" on 07.02.2020 19:18:58 Mitteleuropäische Zeit
+// Generated from "ExternalFiltersAndSequences.grg" on 27.04.2020 20:39:22 Mitteleuropäische Zeit
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
@@ -12,47 +12,49 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 {
     public partial class Sequence_foo
     {
-        // You must implement the following function in the same partial class in ./..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static bool ApplyXGRS_foo(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, int var_v1, double var_v2, GRGEN_MODEL.ENUM_Enu var_v3, string var_v4, bool var_v5, ref int var_r1, ref double var_r2, ref GRGEN_MODEL.ENUM_Enu var_r3, ref string var_r4, ref bool var_r5)
     }
 
     public partial class Sequence_bar
     {
-        // You must implement the following function in the same partial class in ./..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static bool ApplyXGRS_bar(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, object var_v1, object var_v2, ref object var_r1)
     }
 
     public partial class Sequence_isnull
     {
-        // You must implement the following function in the same partial class in ./..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static bool ApplyXGRS_isnull(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, object var_v1)
     }
 
     public partial class Sequence_bla
     {
-        // You must implement the following function in the same partial class in ./..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static bool ApplyXGRS_bla(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_MODEL.IN var_v1, GRGEN_MODEL.IE var_v2, ref GRGEN_MODEL.IN var_r1, ref GRGEN_MODEL.IE var_r2)
     }
 
     public partial class Sequence_blo
     {
-        // You must implement the following function in the same partial class in ./..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static bool ApplyXGRS_blo(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_v1, GRGEN_LIBGR.IDEdge var_v2, ref GRGEN_LIBGR.INode var_r1, ref GRGEN_LIBGR.IEdge var_r2)
     }
 
     public partial class Sequence_createEdge
     {
-        // You must implement the following function in the same partial class in ./..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static bool ApplyXGRS_createEdge(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.INode var_n1, GRGEN_LIBGR.INode var_n2, ref GRGEN_LIBGR.IEdge var_e)
     }
 
     public partial class Sequence_huh
     {
-        // You must implement the following function in the same partial class in ./..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+        // You must implement the following function in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
         //public static bool ApplyXGRS_huh(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv)
     }
 
-    // You must implement the following filter functions in the same partial class in ./..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+    // ------------------------------------------------------
+
+    // You must implement the following filter functions in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
 
     public partial class MatchFilters
     {
@@ -81,12 +83,12 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
     public partial class MatchFilters
     {
-        public static void Filter_filterBase_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
+        public static void Filter_filterBase_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches)
         {
             if(matches.Count < 2)
             	return;
-            List<Rule_filterBase.IMatch_filterBase> matchesArray = matches.ToList();
-            if(matches.Count < 5 || Rule_filterBase.Instance.patternGraph.nodes.Length + Rule_filterBase.Instance.patternGraph.edges.Length < 1)
+            List<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matchesArray = matches.ToListExact();
+            if(matches.Count < 5 || GRGEN_ACTIONS.Rule_filterBase.Instance.patternGraph.nodes.Length + GRGEN_ACTIONS.Rule_filterBase.Instance.patternGraph.edges.Length < 1)
             {
                 for(int i = 0; i < matchesArray.Count; ++i)
                 {
@@ -103,23 +105,23 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             }
             else
             {
-                Dictionary<int, Rule_filterBase.Match_filterBase> foundMatchesOfSameMainPatternHash = new Dictionary<int, Rule_filterBase.Match_filterBase>();
+                Dictionary<int, GRGEN_ACTIONS.Rule_filterBase.Match_filterBase> foundMatchesOfSameMainPatternHash = new Dictionary<int, GRGEN_ACTIONS.Rule_filterBase.Match_filterBase>();
                 for(int i = 0; i < matchesArray.Count; ++i)
                 {
-                    Rule_filterBase.Match_filterBase match = (Rule_filterBase.Match_filterBase)matchesArray[i];
+                    GRGEN_ACTIONS.Rule_filterBase.Match_filterBase match = (GRGEN_ACTIONS.Rule_filterBase.Match_filterBase)matchesArray[i];
                     int duplicateMatchHash = 0;
                     for(int j = 0; j < match.NumberOfNodes; ++j) duplicateMatchHash ^= match.getNodeAt(j).GetHashCode();
                     for(int j = 0; j < match.NumberOfEdges; ++j) duplicateMatchHash ^= match.getEdgeAt(j).GetHashCode();
                     bool contained = foundMatchesOfSameMainPatternHash.ContainsKey(duplicateMatchHash);
                     if(contained)
                     {
-                        Rule_filterBase.Match_filterBase duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
+                        GRGEN_ACTIONS.Rule_filterBase.Match_filterBase duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
                         do
                         {
                             if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(match, duplicateMatchCandidate, procEnv.graph))
                             {
                                 matchesArray[i] = null;
-                                goto label_auto_Rule_filterBase;
+                                goto label_auto_GRGEN_ACTIONS_Rule_filterBase;
                             }
                         }
                         while((duplicateMatchCandidate = duplicateMatchCandidate.nextWithSameHash) != null);
@@ -128,25 +130,25 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
                     	foundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;
                     else
                     {
-                        Rule_filterBase.Match_filterBase duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
+                        GRGEN_ACTIONS.Rule_filterBase.Match_filterBase duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
                         while(duplicateMatchCandidate.nextWithSameHash != null) duplicateMatchCandidate = duplicateMatchCandidate.nextWithSameHash;
                         duplicateMatchCandidate.nextWithSameHash = match;
                     }
-label_auto_Rule_filterBase: ;
+label_auto_GRGEN_ACTIONS_Rule_filterBase: ;
                 }
-                foreach(Rule_filterBase.Match_filterBase toClean in foundMatchesOfSameMainPatternHash.Values) toClean.CleanNextWithSameHash();
+                foreach(GRGEN_ACTIONS.Rule_filterBase.Match_filterBase toClean in foundMatchesOfSameMainPatternHash.Values) toClean.CleanNextWithSameHash();
             }
-            matches.FromList();
+            matches.FromListExact();
         }
     }
     public partial class MatchFilters
     {
-        public static void Filter_filterBass_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
+        public static void Filter_filterBass_auto(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches)
         {
             if(matches.Count < 2)
             	return;
-            List<Rule_filterBass.IMatch_filterBass> matchesArray = matches.ToList();
-            if(matches.Count < 5 || Rule_filterBass.Instance.patternGraph.nodes.Length + Rule_filterBass.Instance.patternGraph.edges.Length < 1)
+            List<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matchesArray = matches.ToListExact();
+            if(matches.Count < 5 || GRGEN_ACTIONS.Rule_filterBass.Instance.patternGraph.nodes.Length + GRGEN_ACTIONS.Rule_filterBass.Instance.patternGraph.edges.Length < 1)
             {
                 for(int i = 0; i < matchesArray.Count; ++i)
                 {
@@ -163,23 +165,23 @@ label_auto_Rule_filterBase: ;
             }
             else
             {
-                Dictionary<int, Rule_filterBass.Match_filterBass> foundMatchesOfSameMainPatternHash = new Dictionary<int, Rule_filterBass.Match_filterBass>();
+                Dictionary<int, GRGEN_ACTIONS.Rule_filterBass.Match_filterBass> foundMatchesOfSameMainPatternHash = new Dictionary<int, GRGEN_ACTIONS.Rule_filterBass.Match_filterBass>();
                 for(int i = 0; i < matchesArray.Count; ++i)
                 {
-                    Rule_filterBass.Match_filterBass match = (Rule_filterBass.Match_filterBass)matchesArray[i];
+                    GRGEN_ACTIONS.Rule_filterBass.Match_filterBass match = (GRGEN_ACTIONS.Rule_filterBass.Match_filterBass)matchesArray[i];
                     int duplicateMatchHash = 0;
                     for(int j = 0; j < match.NumberOfNodes; ++j) duplicateMatchHash ^= match.getNodeAt(j).GetHashCode();
                     for(int j = 0; j < match.NumberOfEdges; ++j) duplicateMatchHash ^= match.getEdgeAt(j).GetHashCode();
                     bool contained = foundMatchesOfSameMainPatternHash.ContainsKey(duplicateMatchHash);
                     if(contained)
                     {
-                        Rule_filterBass.Match_filterBass duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
+                        GRGEN_ACTIONS.Rule_filterBass.Match_filterBass duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
                         do
                         {
                             if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(match, duplicateMatchCandidate, procEnv.graph))
                             {
                                 matchesArray[i] = null;
-                                goto label_auto_Rule_filterBass;
+                                goto label_auto_GRGEN_ACTIONS_Rule_filterBass;
                             }
                         }
                         while((duplicateMatchCandidate = duplicateMatchCandidate.nextWithSameHash) != null);
@@ -188,15 +190,47 @@ label_auto_Rule_filterBase: ;
                     	foundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;
                     else
                     {
-                        Rule_filterBass.Match_filterBass duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
+                        GRGEN_ACTIONS.Rule_filterBass.Match_filterBass duplicateMatchCandidate = foundMatchesOfSameMainPatternHash[duplicateMatchHash];
                         while(duplicateMatchCandidate.nextWithSameHash != null) duplicateMatchCandidate = duplicateMatchCandidate.nextWithSameHash;
                         duplicateMatchCandidate.nextWithSameHash = match;
                     }
-label_auto_Rule_filterBass: ;
+label_auto_GRGEN_ACTIONS_Rule_filterBass: ;
                 }
-                foreach(Rule_filterBass.Match_filterBass toClean in foundMatchesOfSameMainPatternHash.Values) toClean.CleanNextWithSameHash();
+                foreach(GRGEN_ACTIONS.Rule_filterBass.Match_filterBass toClean in foundMatchesOfSameMainPatternHash.Values) toClean.CleanNextWithSameHash();
             }
-            matches.FromList();
+            matches.FromListExact();
+        }
+    }
+    public partial class MatchFilters
+    {
+        public static void Filter_filterHass_orderAscendingBy_i(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> matches)
+        {
+            List<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> matchesArray = matches.ToListExact();
+            matchesArray.Sort(new Comparer_filterHass_orderAscendingBy_i());
+            matches.FromListExact();
+        }
+    }
+
+    // ------------------------------------------------------
+
+    // You must implement the following match class filter functions in the same partial class in ./ExternalFiltersAndSequencesActionsExternalFunctionsImpl.cs
+
+    public partial class MatchClassFilters
+    {
+        //public static void Filter_extshf(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches, System.Int32 f)
+    }
+
+    // ------------------------------------------------------
+
+    // The following match class filter functions are automatically generated, you don't need to supply any further implementation
+
+    public partial class MatchClassFilters
+    {
+        public static void Filter_shared_orderAscendingBy_v(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches)
+        {
+            List<IMatch_shared> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<IMatch_shared>(matches);
+            matchesArray.Sort(new Comparer_shared_orderAscendingBy_v());
+            GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);
         }
     }
 
