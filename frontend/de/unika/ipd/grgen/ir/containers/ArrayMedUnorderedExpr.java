@@ -12,11 +12,11 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayMedUnsortedExpr extends Expression {
+public class ArrayMedUnorderedExpr extends Expression {
 	private Expression targetExpr;
 
-	public ArrayMedUnsortedExpr(Expression targetExpr) {
-		super("array med unsorted expr", ((ArrayType)(targetExpr.getType())).valueType);
+	public ArrayMedUnorderedExpr(Expression targetExpr) {
+		super("array med unordered expr", ((ArrayType)(targetExpr.getType())).valueType);
 		this.targetExpr = targetExpr;
 	}
 

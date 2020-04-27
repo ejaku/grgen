@@ -2092,23 +2092,23 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing an array medUnsorted (median on array not sorted) expression.
+    /// Class representing an array medUnordered (median on array not ordered) expression.
     /// </summary>
-    public class ArrayMedUnsorted : Expression
+    public class ArrayMedUnordered : Expression
     {
-        public ArrayMedUnsorted(Expression target)
+        public ArrayMedUnordered(Expression target)
         {
             Target = target;
         }
 
         public override Expression Copy(string renameSuffix)
         {
-            return new ArrayMedUnsorted(Target.Copy(renameSuffix));
+            return new ArrayMedUnordered(Target.Copy(renameSuffix));
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.MedUnsorted(");
+            sourceCode.Append("GRGEN_LIBGR.ContainerHelper.MedUnordered(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }

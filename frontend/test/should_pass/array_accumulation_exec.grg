@@ -62,11 +62,11 @@ rule med {
 	}
 }
 
-rule medUnsorted {
+rule medUnordered {
 	a:A;
 
 	modify {
 	---
-		exec(td(array<int>[1,2].medUnsorted(), a.spiceArray.medUnsorted()));
+		exec(td(array<int>[1,2].medUnordered(), a.spiceArray.medUnordered()));
 	}
 }

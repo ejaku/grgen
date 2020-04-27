@@ -18,18 +18,18 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.ArrayMedUnsortedExpr;
+import de.unika.ipd.grgen.ir.containers.ArrayMedUnorderedExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayMedUnsortedNode extends ExprNode
+public class ArrayMedUnorderedNode extends ExprNode
 {
 	static {
-		setName(ArrayMedUnsortedNode.class, "array med unsorted");
+		setName(ArrayMedUnorderedNode.class, "array med unordered");
 	}
 
 	private ExprNode targetExpr;
 
-	public ArrayMedUnsortedNode(Coords coords, ExprNode targetExpr)
+	public ArrayMedUnorderedNode(Coords coords, ExprNode targetExpr)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
@@ -53,7 +53,7 @@ public class ArrayMedUnsortedNode extends ExprNode
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array medUnsorted expression must be of type array<T>");
+			targetExpr.reportError("This argument to array medUnordered expression must be of type array<T>");
 			return false;
 		}
 		return true;
@@ -66,6 +66,6 @@ public class ArrayMedUnsortedNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayMedUnsortedExpr(targetExpr.checkIR(Expression.class));
+		return new ArrayMedUnorderedExpr(targetExpr.checkIR(Expression.class));
 	}
 }

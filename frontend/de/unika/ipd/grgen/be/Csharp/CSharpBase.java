@@ -1470,13 +1470,13 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
-		else if (expr instanceof ArrayMedUnsortedExpr) {
-			ArrayMedUnsortedExpr amu = (ArrayMedUnsortedExpr)expr;
+		else if (expr instanceof ArrayMedUnorderedExpr) {
+			ArrayMedUnorderedExpr amu = (ArrayMedUnorderedExpr)expr;
 			if(modifyGenerationState!=null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(amu));
 			}
 			else {
-				sb.append("GRGEN_LIBGR.ContainerHelper.MedUnsorted(");
+				sb.append("GRGEN_LIBGR.ContainerHelper.MedUnordered(");
 				genExpression(sb, amu.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
 			}

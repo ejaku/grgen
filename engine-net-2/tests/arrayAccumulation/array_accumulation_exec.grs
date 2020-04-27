@@ -18,7 +18,7 @@ show var x
 exec med
 show var x
 
-exec medUnsorted
+exec medUnordered
 show var x
 
 exec variance

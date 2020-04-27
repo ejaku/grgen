@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.libGr
         IsVisited,
         InContainer, ContainerEmpty, ContainerSize, ContainerAccess, ContainerPeek,
         ArrayOrDequeIndexOf, ArrayOrDequeLastIndexOf, ArrayIndexOfOrdered,
-        ArraySum, ArrayProd, ArrayMin, ArrayMax, ArrayAvg, ArrayMed, ArrayMedUnsorted, ArrayVar, ArrayDev,
+        ArraySum, ArrayProd, ArrayMin, ArrayMax, ArrayAvg, ArrayMed, ArrayMedUnordered, ArrayVar, ArrayDev,
         ArrayOrDequeAsSet, ArrayAsMap, ArrayAsDeque, ArrayAsString,
         ArraySubarray, DequeSubdeque,
         ArrayOrderAscending, ArrayOrderDescending, ArrayKeepOneForEach, ArrayReverse,
@@ -3844,21 +3844,21 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionArrayMedUnsorted : SequenceExpressionContainer
+    public class SequenceExpressionArrayMedUnordered : SequenceExpressionContainer
     {
-        public SequenceExpressionArrayMedUnsorted(SequenceExpression containerExpr)
-            : base(SequenceExpressionType.ArrayMedUnsorted, containerExpr)
+        public SequenceExpressionArrayMedUnordered(SequenceExpression containerExpr)
+            : base(SequenceExpressionType.ArrayMedUnordered, containerExpr)
         {
         }
 
-        protected SequenceExpressionArrayMedUnsorted(SequenceExpressionArrayMedUnsorted that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        protected SequenceExpressionArrayMedUnordered(SequenceExpressionArrayMedUnordered that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
            : base(that, originalToCopy, procEnv)
         {
         }
 
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
-            return new SequenceExpressionArrayMedUnsorted(this, originalToCopy, procEnv);
+            return new SequenceExpressionArrayMedUnordered(this, originalToCopy, procEnv);
         }
 
         public override void Check(SequenceCheckingEnvironment env)
@@ -3878,7 +3878,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            return ContainerHelper.MedUnsorted(ArrayValue(procEnv));
+            return ContainerHelper.MedUnordered(ArrayValue(procEnv));
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -3902,7 +3902,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return Name + ".medUnsorted()"; }
+            get { return Name + ".medUnordered()"; }
         }
     }
 

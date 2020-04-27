@@ -284,8 +284,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionArrayAvg((SequenceExpressionArrayAvg)expr, source);
             case SequenceExpressionType.ArrayMed:
                 return GetSequenceExpressionArrayMed((SequenceExpressionArrayMed)expr, source);
-            case SequenceExpressionType.ArrayMedUnsorted:
-                return GetSequenceExpressionArrayMedUnsorted((SequenceExpressionArrayMedUnsorted)expr, source);
+            case SequenceExpressionType.ArrayMedUnordered:
+                return GetSequenceExpressionArrayMedUnordered((SequenceExpressionArrayMedUnordered)expr, source);
             case SequenceExpressionType.ArrayVar:
                 return GetSequenceExpressionArrayVar((SequenceExpressionArrayVar)expr, source);
             case SequenceExpressionType.ArrayDev:
@@ -1928,18 +1928,18 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private string GetSequenceExpressionArrayMedUnsorted(SequenceExpressionArrayMedUnsorted seqArrayMedUnsorted, SourceBuilder source)
+        private string GetSequenceExpressionArrayMedUnordered(SequenceExpressionArrayMedUnordered seqArrayMedUnordered, SourceBuilder source)
         {
-            string container = GetContainerValue(seqArrayMedUnsorted, source);
+            string container = GetContainerValue(seqArrayMedUnordered, source);
 
-            if(seqArrayMedUnsorted.ContainerType(env) == "")
+            if(seqArrayMedUnordered.ContainerType(env) == "")
             {
-                return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((IList)(" + container + "))";
+                return "GRGEN_LIBGR.ContainerHelper.MedUnordered((IList)(" + container + "))";
             }
-            else //if(seqArrayMedUnsorted.ContainerType(env).StartsWith("array"))
+            else //if(seqArrayMedUnordered.ContainerType(env).StartsWith("array"))
             {
-                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMedUnsorted.ContainerType(env), model);
-                return "GRGEN_LIBGR.ContainerHelper.MedUnsorted((" + arrayType + ")(" + container + "))";
+                string arrayType = TypesHelper.XgrsTypeToCSharpType(seqArrayMedUnordered.ContainerType(env), model);
+                return "GRGEN_LIBGR.ContainerHelper.MedUnordered((" + arrayType + ")(" + container + "))";
             }
         }
 

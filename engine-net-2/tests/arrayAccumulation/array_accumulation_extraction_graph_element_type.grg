@@ -44,7 +44,7 @@ rule r
 	---
 		eval {
 			::avg = array<A>[a,b,c].extract<intValue>().avg();
-			::med = n.aArray.extract<intValue>().medUnsorted();
+			::med = n.aArray.extract<intValue>().medUnordered();
 		}
 	}
 }
@@ -58,7 +58,7 @@ rule ro
 	---
 		eval {
 			::avg = array<A>[a,b,c].orderAscendingBy<intValue>().subarray(0, 2).extract<intValue>().avg();
-			::med = n.aArray.orderAscendingBy<intValue>().subarray(0, 2).extract<intValue>().medUnsorted();
+			::med = n.aArray.orderAscendingBy<intValue>().subarray(0, 2).extract<intValue>().medUnordered();
 		}
 	}
 }
@@ -72,7 +72,7 @@ rule rod
 	---
 		eval {
 			::avg = array<A>[a,b,c].orderDescendingBy<intValue>().reverse().subarray(0, 2).extract<intValue>().avg();
-			::med = n.aArray.orderDescendingBy<intValue>().reverse().subarray(0, 2).extract<intValue>().medUnsorted();
+			::med = n.aArray.orderDescendingBy<intValue>().reverse().subarray(0, 2).extract<intValue>().medUnordered();
 		}
 	}
 }
@@ -86,7 +86,7 @@ rule rko
 	---
 		eval {
 			::avg = array<A>[a,b,c].keepOneForEach<intValue>().extract<intValue>().avg();
-			::med = n.aArray.keepOneForEach<intValue>().extract<intValue>().medUnsorted();
+			::med = n.aArray.keepOneForEach<intValue>().extract<intValue>().medUnordered();
 		}
 	}
 }

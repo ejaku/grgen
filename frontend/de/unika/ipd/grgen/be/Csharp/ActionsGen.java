@@ -1208,7 +1208,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	/**
-	 * Generates the Array_sortAscendingBy_member/Array_sortDescendingBy_member function plus the Comparison helper (shared with the corresponding sortAscendingBy/sortDescendingBy filter)
+	 * Generates the Array_orderAscendingBy_member/Array_orderDescendingBy_member function plus the Comparison helper (shared with the corresponding orderAscendingBy/orderDescendingBy filter)
 	 */
 	void genArraySortBy(SourceBuilder sb, Rule actionRule, MemberBearerType memberBearerType, Rule iteratedRule)
 	{

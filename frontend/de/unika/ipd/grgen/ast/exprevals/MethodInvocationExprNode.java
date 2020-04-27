@@ -524,13 +524,13 @@ public class MethodInvocationExprNode extends ExprNode
 					result = new ArrayMedNode(getCoords(), targetExpr);
   				}
 			}
-			else if(methodName.equals("medUnsorted")) {
+			else if(methodName.equals("medUnordered")) {
 				if(params.size() != 0) {
-  					reportError("array<T>.medUnsorted() takes no parameters.");
+  					reportError("array<T>.medUnordered() takes no parameters.");
 					return false;
 				}
   				else {
-					result = new ArrayMedUnsortedNode(getCoords(), targetExpr);
+					result = new ArrayMedUnorderedNode(getCoords(), targetExpr);
   				}
 			}
 			else if(methodName.equals("var")) {

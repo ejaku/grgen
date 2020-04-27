@@ -802,9 +802,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase {
 			genExpressionTree(sb, am.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
-		else if (expr instanceof ArrayMedUnsortedExpr) {
-			ArrayMedUnsortedExpr amu = (ArrayMedUnsortedExpr)expr;
-			sb.append("new GRGEN_EXPR.ArrayMedUnsorted(");
+		else if (expr instanceof ArrayMedUnorderedExpr) {
+			ArrayMedUnorderedExpr amu = (ArrayMedUnorderedExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayMedUnordered(");
 			genExpressionTree(sb, amu.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}

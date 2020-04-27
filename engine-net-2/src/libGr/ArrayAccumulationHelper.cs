@@ -501,56 +501,56 @@ namespace de.unika.ipd.grGen.libGr
 
         /////////////////////////////////////////////////////////////////////////////////
 
-        public static double MedUnsorted(List<SByte> array)
+        public static double MedUnordered(List<SByte> array)
         {
             List<SByte> arrayOrdered = ArrayOrderAscending(array);
             return Med(arrayOrdered);
         }
 
-        public static double MedUnsorted(List<Int16> array)
+        public static double MedUnordered(List<Int16> array)
         {
             List<Int16> arrayOrdered = ArrayOrderAscending(array);
             return Med(arrayOrdered);
         }
 
-        public static double MedUnsorted(List<Int32> array)
+        public static double MedUnordered(List<Int32> array)
         {
             List<Int32> arrayOrdered = ArrayOrderAscending(array);
             return Med(arrayOrdered);
         }
 
-        public static double MedUnsorted(List<Int64> array)
+        public static double MedUnordered(List<Int64> array)
         {
             List<Int64> arrayOrdered = ArrayOrderAscending(array);
             return Med(arrayOrdered);
         }
 
-        public static double MedUnsorted(List<Single> array)
+        public static double MedUnordered(List<Single> array)
         {
             List<Single> arrayOrdered = ArrayOrderAscending(array);
             return Med(arrayOrdered);
         }
 
-        public static double MedUnsorted(List<Double> array)
+        public static double MedUnordered(List<Double> array)
         {
             List<Double> arrayOrdered = ArrayOrderAscending(array);
             return Med(arrayOrdered);
         }
 
-        public static double MedUnsorted(IList array)
+        public static double MedUnordered(IList array)
         {
             if(array is List<SByte>)
-                return MedUnsorted(array as List<SByte>);
+                return MedUnordered(array as List<SByte>);
             else if(array is List<Int16>)
-                return MedUnsorted(array as List<Int16>);
+                return MedUnordered(array as List<Int16>);
             else if(array is List<Int32>)
-                return MedUnsorted(array as List<Int32>);
+                return MedUnordered(array as List<Int32>);
             else if(array is List<Int64>)
-                return MedUnsorted(array as List<Int64>);
+                return MedUnordered(array as List<Int64>);
             else if(array is List<Single>)
-                return MedUnsorted(array as List<Single>);
+                return MedUnordered(array as List<Single>);
             else
-                return MedUnsorted(array as List<Double>);
+                return MedUnordered(array as List<Double>);
         }
 
         /////////////////////////////////////////////////////////////////////////////////

@@ -118,12 +118,12 @@ rule med : (double, double) {
 	}
 }
 
-rule medUnsorted : (double, double) {
+rule medUnordered : (double, double) {
 ---
 	def var x:double;
 
 	yield { 
-		yield x = array<int>[1,2,3].medUnsorted();
+		yield x = array<int>[1,2,3].medUnordered();
 	}
 	
 	modify {
@@ -131,7 +131,7 @@ rule medUnsorted : (double, double) {
 		def var y:double;
 
 		eval {
-			yield y = array<int>[1,2,3].medUnsorted();
+			yield y = array<int>[1,2,3].medUnordered();
 		}
 		
 		return(x,y);

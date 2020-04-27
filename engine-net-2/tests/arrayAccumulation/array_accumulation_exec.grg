@@ -50,10 +50,10 @@ rule med {
 	}
 }
 
-rule medUnsorted {
+rule medUnordered {
 	modify {
 	---
-		exec((::x) = td(array<int>[1,2,3].medUnsorted()));
+		exec((::x) = td(array<int>[1,2,3].medUnordered()));
 	}
 }
 

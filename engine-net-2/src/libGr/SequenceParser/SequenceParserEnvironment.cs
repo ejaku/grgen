@@ -828,10 +828,10 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayMed(targetExpr);
             }
-            else if(functionMethodName == "medUnsorted")
+            else if(functionMethodName == "medUnordered")
             {
                 if(argExprs.Count != 0) throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
-                return new SequenceExpressionArrayMedUnsorted(targetExpr);
+                return new SequenceExpressionArrayMedUnordered(targetExpr);
             }
             else if(functionMethodName == "var")
             {

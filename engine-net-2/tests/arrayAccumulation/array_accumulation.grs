@@ -24,7 +24,7 @@ exec (::x,::y)=med
 show var x
 show var y
 
-exec (::x,::y)=medUnsorted
+exec (::x,::y)=medUnordered
 show var x
 show var y
 

@@ -18,7 +18,7 @@ show var x
 exec {::x = array<int>[1,2,3].med()}
 show var x
 
-exec {::x = array<int>[3,1,2].medUnsorted()}
+exec {::x = array<int>[3,1,2].medUnordered()}
 show var x
 
 exec {::x = array<int>[1,2,3].var()}
