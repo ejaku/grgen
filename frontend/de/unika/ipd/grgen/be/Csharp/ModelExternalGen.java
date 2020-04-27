@@ -72,6 +72,7 @@ public class ModelExternalGen extends CSharpBase {
 
 			genExternalFunctionHeaders();
 
+			sb.unindent();
 			sb.appendFront("}\n");
 
 			sb.unindent();

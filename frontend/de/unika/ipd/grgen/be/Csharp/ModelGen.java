@@ -463,7 +463,7 @@ public class ModelGen extends CSharpBase {
 			stubsb.append("\n");
 
 			sb.append("\n");
-			sb.appendFront("\tpublic abstract class " + elemname + " : GRGEN_LGSP.LGSP"
+			sb.appendFront("public abstract class " + elemname + " : GRGEN_LGSP.LGSP"
 					+ kindStr + ", " + ielemref + "\n");
 			sb.appendFront("{\n");
 			sb.indent();
@@ -2036,7 +2036,7 @@ deque_init_loop:
 					sb.appendFront("\tcase \"" + formatIdentifiable(e) + "\" : return " +
 							formatAttributeTypeName(e) + ";\n");
 				else
-					sb.append("\tcase \"" + formatIdentifiable(e) + "\" : return " +
+					sb.appendFront("\tcase \"" + formatIdentifiable(e) + "\" : return " +
 							formatTypeClassRef(ownerType) + "." + formatAttributeTypeName(e) + ";\n");
 			}
 			sb.appendFront("}\n");
@@ -2286,15 +2286,15 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				boolean alreadyCasted = false;
 				for(Entity member : members) {
 					if(member.isConst()) {
-						sb.appendFront("// is const: " + formatIdentifiable(member) + "\n");
+						sb.appendFront("\t// is const: " + formatIdentifiable(member) + "\n");
 						continue;
 					}
 					if(member.getType().isVoid()) {
-						sb.appendFront("// is abstract: " + formatIdentifiable(member) + "\n");
+						sb.appendFront("\t// is abstract: " + formatIdentifiable(member) + "\n");
 						continue;
 					}
 					if(copiedAttribs.contains(member)) {
-						sb.appendFront("// already copied: " + formatIdentifiable(member) + "\n");
+						sb.appendFront("\t// already copied: " + formatIdentifiable(member) + "\n");
 						continue;
 					}
 					if(!alreadyCasted) {
