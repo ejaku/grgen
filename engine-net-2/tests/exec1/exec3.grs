@@ -1,0 +1,61 @@
+new graph exec1/exec3
+
+exec init
+
+show num nodes A
+show num nodes B
+
+exec r1
+
+show num nodes A
+show num nodes B
+
+clear graph 
+
+exec init
+
+show num nodes A
+show num nodes B
+
+exec r2
+
+show num nodes A
+show num nodes B
+
+clear graph 
+
+exec init
+
+show num nodes A
+show num nodes B
+
+exec r2b
+
+show num nodes A
+show num nodes B
+
+clear graph 
+
+exec init
+
+show num nodes A
+show num nodes B
+
+exec r3
+
+show num nodes A
+show num nodes B
+
+clear graph 
+
+exec init
+
+show num nodes A
+show num nodes B
+
+exec { proc() }
+
+show num nodes A
+show num nodes B
+
+quit

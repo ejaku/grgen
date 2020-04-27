@@ -45,7 +45,6 @@ public class ModelGen extends CSharpBase {
 		rootTypes.add("Edge");
 		rootTypes.add("AEdge");
 		rootTypes.add("UEdge");
-		evalGen = new ModifyEvalGen(backend, nodeTypePrefix, edgeTypePrefix);
 	}
 
 	/**
@@ -116,7 +115,7 @@ public class ModelGen extends CSharpBase {
 		sb.appendFront("//\n");
 		sb.append("\n");
 
-		IndexGen indexGen = new IndexGen(model, sb, nodeTypePrefix, edgeTypePrefix);
+		ModelIndexGen indexGen = new ModelIndexGen(model, sb, nodeTypePrefix, edgeTypePrefix);
 		indexGen.genIndexTypes();
 		indexGen.genIndexImplementations();
 		indexGen.genIndexSetType();
@@ -1558,6 +1557,7 @@ deque_init_loop:
 		sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
 		for(EvalStatement evalStmt : fm.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 			evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -1637,7 +1637,8 @@ deque_init_loop:
 		sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
-		evalGen.initEvalGen();
+		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix);
+		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix);
 		
 		if(be.system.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
@@ -3261,6 +3262,5 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private SourceBuilder stubsb = null;
 	private String curMemberOwner = null;
 	private HashSet<String> rootTypes;
-	private ModifyEvalGen evalGen;
 }
 

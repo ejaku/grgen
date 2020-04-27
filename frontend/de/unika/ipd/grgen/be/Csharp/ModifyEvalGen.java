@@ -27,26 +27,23 @@ public class ModifyEvalGen extends CSharpBase {
 	Model model;
 	SearchPlanBackend2 be;
 	
+	int tmpVarID;
 	
-	public ModifyEvalGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
+	ModifyExecGen execGen;
+	
+	public ModifyEvalGen(SearchPlanBackend2 backend, ModifyExecGen execGen, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
+		
+		tmpVarID = 0;
+		
+		this.execGen = execGen;
 	}
 
 	//////////////////////////
 	// Eval part generation //
 	//////////////////////////
-
-	// eval statement generation state, xgrs id is increased further with the execs
-	int tmpVarID;
-	int xgrsID;
-
-	public void initEvalGen() {
-		// init eval statement generation state
-		tmpVarID = 0;
-		xgrsID = 0;
-	}
 
 	public void genAllEvals(SourceBuilder sb, ModifyGenerationStateConst state, Collection<EvalStatements> evalStatements) {
 		for(Node node : state.newNodes()) {
@@ -271,7 +268,7 @@ public class ModifyEvalGen extends CSharpBase {
 			genContinueStatement(sb, state, (ContinueStatement) evalStmt);
 		}
 		else if(evalStmt instanceof ExecStatement) {
-			genExecStatement(sb, state, (ExecStatement) evalStmt);
+			execGen.genExecStatement(sb, state, (ExecStatement) evalStmt);
 		}
 		else if(evalStmt instanceof ReturnAssignment) {
 			genReturnAssignment(sb, state, (ReturnAssignment) evalStmt); // contains the procedure and method invocations
@@ -2271,58 +2268,6 @@ public class ModifyEvalGen extends CSharpBase {
 
 	private void genContinueStatement(SourceBuilder sb, ModifyGenerationStateConst state, ContinueStatement cs) {
 		sb.appendFront("continue;\n");
-	}
-
-	private void genExecStatement(SourceBuilder sb, ModifyGenerationStateConst state, ExecStatement es) {
-		Exec exec = es.getExec();
-		for(Entity neededEntity : exec.getNeededEntities(true)) {
-			if(neededEntity.isDefToBeYieldedTo()) {
-				if(neededEntity instanceof GraphEntity) {
-					sb.appendFront(formatElementInterfaceRef(neededEntity.getType()) + " ");
-					sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + " = ");
-					sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
-					sb.append(formatEntity(neededEntity) + ";\n");
-				}
-				else { // if(neededEntity instanceof Variable) 
-					sb.appendFront(formatAttributeType(neededEntity.getType()) + " ");
-					sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + " = ");
-					sb.append("("+formatAttributeType(neededEntity.getType())+")");
-					sb.append(formatEntity(neededEntity) + ";\n");
-				}
-			}
-		}
-		sb.appendFront("ApplyXGRS_" + state.name() + "_" + xgrsID + "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv");
-		for(Entity neededEntity : exec.getNeededEntities(true)) {
-			if(!neededEntity.isDefToBeYieldedTo()) {
-				sb.append(", ");
-				if(neededEntity.getType() instanceof InheritanceType) {
-					sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
-				}
-				sb.append(formatEntity(neededEntity));
-			}
-		}
-		for(Entity neededEntity : exec.getNeededEntities(true)) {
-			if(neededEntity.isDefToBeYieldedTo()) {
-				sb.append(", ref ");
-				sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID);
-			}
-		}
-		sb.append(");\n");
-		for(Entity neededEntity : exec.getNeededEntities(true)) {
-			if(neededEntity.isDefToBeYieldedTo()) {
-				sb.appendFront(formatEntity(neededEntity) + " = ");
-				if((neededEntity.getContext()&BaseNode.CONTEXT_COMPUTATION)!=BaseNode.CONTEXT_COMPUTATION) {
-					if(neededEntity instanceof Node) {
-						sb.append("(GRGEN_LGSP.LGSPNode)");
-					} else if(neededEntity instanceof Edge) {
-						sb.append("(GRGEN_LGSP.LGSPEdge)");
-					}
-				}
-				sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + ";\n");
-			}
-		}
-		
-		++xgrsID;
 	}
 
 	private void genReturnAssignment(SourceBuilder sb, ModifyGenerationStateConst state, ReturnAssignment ra) {

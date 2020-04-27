@@ -1,0 +1,107 @@
+#using "execModel.gm"
+
+rule init
+{
+	modify {
+		:A; :A;
+	}
+}
+
+rule retypeA
+{
+	a:A;
+	
+	modify {
+		:B<a>;
+	}
+}
+
+rule retypeB
+{
+	b:B;
+	
+	modify {
+		:A<b>;
+	}
+}
+
+rule delA
+{
+	a:A;
+	
+	modify {
+		delete(a);
+	}
+}
+
+rule delB
+{
+	b:B;
+	
+	modify {
+		delete(b);
+	}
+}
+
+rule r1
+{
+	modify {
+	---
+		exec(retypeA());
+		exec(delB());
+		exec(retypeA());
+		exec(delB());
+	}
+}
+
+rule r2
+{
+	modify {
+	---
+		// order is first evals, then exec, as in rule below (no exec allowed in evalhere)
+		eval { exec(retypeA()); }
+		exec(delB());
+		eval { exec(retypeA()); }
+		exec(delB());
+	}
+}
+
+rule r2b
+{
+	modify {
+	---
+		eval { exec(retypeA()); }
+		eval { exec(retypeA()); }
+		eval { exec(retypeB()); }
+		exec(delB());
+		exec(delB());
+	}
+}
+
+rule r3
+{
+	p:P();
+	
+	modify {
+		p();
+	}
+}
+
+pattern P
+{
+	modify {
+	---
+		exec(retypeA());
+		exec(delB());
+		exec(retypeA());
+		exec(delB());
+	}
+}
+
+procedure proc {
+	exec(retypeA());
+	exec(delB());
+	exec(retypeA());
+	exec(delB());
+	return;
+}

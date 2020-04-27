@@ -16,8 +16,8 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
-public class IndexGen extends CSharpBase {
-	public IndexGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix) {
+public class ModelIndexGen extends CSharpBase {
+	public ModelIndexGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
 		this.model = model;
 		this.sb = sb;
