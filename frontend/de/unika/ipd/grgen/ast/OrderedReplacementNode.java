@@ -24,4 +24,16 @@ public abstract class OrderedReplacementNode extends BaseNode {
 	protected OrderedReplacementNode() {
 		super();
 	}
+
+	public boolean noExecStatement(boolean inEvalHereContext) {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(!(child instanceof OrderedReplacementNode)) {
+				continue;
+			}
+			OrderedReplacementNode orderedReplacement = (OrderedReplacementNode)child;
+			res &= orderedReplacement.noExecStatement(inEvalHereContext);
+		}
+		return res;
+	}
 }

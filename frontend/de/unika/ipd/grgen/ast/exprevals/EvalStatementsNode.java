@@ -45,7 +45,7 @@ public class EvalStatementsNode extends BaseNode
 		}
 		return res;
 	}
-	
+
 	@Override
 	protected boolean resolveLocal() {
 		return true;
@@ -55,7 +55,15 @@ public class EvalStatementsNode extends BaseNode
 	protected boolean checkLocal() {
 		return true;
 	}
-	
+
+	public boolean noExecStatement() {
+		boolean res = true;
+		for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
+			res &= evalStatement.noExecStatement(false);
+		}
+		return res;
+	}
+
 	@Override
 	protected IR constructIR() {
 		EvalStatements es = new EvalStatements(name);

@@ -1,0 +1,22 @@
+rule retypeA
+{
+	modify {
+	}
+}
+
+rule r4
+{
+	q:Q();
+	
+	modify {
+		q();
+	}
+}
+
+pattern Q
+{
+	modify {
+	---
+		eval { exec([retypeA()]); }
+	}
+}

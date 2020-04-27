@@ -97,7 +97,14 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 							eval.reportError("procedure call not allowed in yield (only emit/emitdebug and Debug package functions)");
 						res = false;
 					}
-				}				
+				}
+			}
+			else if(eval instanceof ExecStatementNode)
+			{
+				if(root instanceof SubpatternDeclNode) {
+					eval.reportError("An exec inside an eval is forbidden in a subpattern -- move it outside the eval"
+							+ " (so it becomes a deferred exec, executed at the end of rewriting, on the by-then current graph and the local entities valid at the end of its local rewriting).");
+				}
 			}
 		}
 		
@@ -182,6 +189,19 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 			if(child instanceof ExprNode) {
 				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
 			}
+		}
+		return res;
+	}
+
+	@Override
+	public boolean noExecStatement(boolean inEvalHereContext) {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(!(child instanceof EvalStatementNode)) {
+				continue;
+			}
+			EvalStatementNode evalStatement = (EvalStatementNode)child;
+			res &= evalStatement.noExecStatement(inEvalHereContext);
 		}
 		return res;
 	}

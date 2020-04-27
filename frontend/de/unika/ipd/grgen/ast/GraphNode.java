@@ -318,7 +318,7 @@ public class GraphNode extends BaseNode {
 			}
 		}
 
-		return edgeUsage && connCheck;
+		return edgeUsage && connCheck && noExecStatementInEvalHere();
 	}
 
 	protected boolean iteratedNotReferenced(String iterName) {
@@ -338,6 +338,14 @@ public class GraphNode extends BaseNode {
 				res &= var.initialization.iteratedNotReferenced(iterName);
 		}
 		return res;
+	}
+
+	boolean noExecStatementInEvalHere() {
+		boolean result = true;
+		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+			result &= orderedRepls.noExecStatement();
+		}
+		return result;
 	}
 
 	/**

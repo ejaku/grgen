@@ -528,7 +528,28 @@ public class PatternGraphNode extends GraphNode {
 		}
 		return result;
 	}
-	
+
+	boolean noExecStatementInEvalsOfIteratedOrAlternative() {
+		boolean result = true;
+		for(IteratedNode iter : iters.getChildren()) {
+			if(iter.right != null) {
+				for(EvalStatementsNode evalStmts : iter.right.getRHSGraph().yieldsEvals.getChildren()) {
+					evalStmts.noExecStatement();
+				}
+			}
+		}
+		for(AlternativeNode alt : alts.getChildren()) {
+			for(AlternativeCaseNode altCase : alt.getChildren()) {
+				if(altCase.right != null) {
+					for(EvalStatementsNode evalStmts : altCase.right.getRHSGraph().yieldsEvals.getChildren()) {
+						evalStmts.noExecStatement();
+					}
+				}
+			}
+		}
+		return result;
+	}
+
 	@Override
 	protected boolean checkLocal() {
 		boolean childs = super.checkLocal();
@@ -558,7 +579,8 @@ public class PatternGraphNode extends GraphNode {
 				&& noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
 				&& noDefElementOrIteratedReferenceInCondition()
 				&& noIteratedReferenceInDefElementInitialization()
-				&& iteratedNameIsNotAccessedInNestedPattern();
+				&& iteratedNameIsNotAccessedInNestedPattern()
+				&& noExecStatementInEvalsOfIteratedOrAlternative();
 	}
 
 	private boolean noDefElementOrIteratedReferenceInCondition() {

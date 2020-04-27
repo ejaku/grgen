@@ -1,0 +1,35 @@
+rule retypeA
+{
+	modify {
+	}
+}
+
+rule r3
+{
+	alternative {
+		altCase {
+			modify {
+			---
+				eval { exec([retypeA()]); }
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule r4
+{
+	iterated {
+		.;
+	
+		modify {
+		---
+			eval { exec([retypeA()]); }
+		}
+	}
+	
+	modify {
+	}
+}

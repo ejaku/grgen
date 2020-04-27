@@ -53,7 +53,15 @@ public class OrderedReplacementsNode extends BaseNode
 	protected boolean checkLocal() {
 		return true;
 	}
-	
+
+	public boolean noExecStatement() {
+		boolean res = true;
+		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildren()) {
+			res &= orderedReplacement.noExecStatement(true);
+		}
+		return res;
+	}
+
 	@Override
 	protected IR constructIR() {
 		OrderedReplacements ors = new OrderedReplacements(name);
