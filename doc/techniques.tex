@@ -131,6 +131,7 @@ rule T2exec
   }
 
   modify { // then merge succ into this predecessor
+  ---
     exec([copyToPred(pred, succ)] ;> delSucc(succ));
   }
 }
@@ -171,6 +172,7 @@ rule split(succ:BB)
     modify {
       otherpred -newe:cf-> newsucc:copy<succ>;
       delete(other);
+    ---
       exec(copyCfSuccFromTo(succ, newsucc));
     }
   }
@@ -398,6 +400,7 @@ pattern CopySubgraph(root:Node, ref oldToNew:map<Node, Node>)
   modify {
     newroot:copy<root>; // copy nodes
     eval { oldToNew.add(root, newroot); }
+  ---
     exec( [CopyOutgoingEdge(root, oldToNew)] ); // deferred copy edges
   }
 }

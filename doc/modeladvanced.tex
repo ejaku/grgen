@@ -227,6 +227,7 @@ rule foo : (int)
 {
 	n:N;
 	modify {
+	---
 		def var i:int;
 		eval {
 			n.set_i(41);
@@ -266,6 +267,7 @@ rule foo : (int)
 {
 	n:N; // statically declared N, may match dynamically to node of type NN
 	modify {
+	---
 		def var i:int;
 		eval {
 			yield i = n.get();
@@ -336,6 +338,7 @@ rule r(var inp : Foo::Lol) {
 	if{ x.attr==Foo::Lol::Bla; }
 
 	modify {
+	---
 		eval{ add(Foo::N); }
 		eval{ y.attr = Foo::Lol::Blub; }
 	}
@@ -392,16 +395,15 @@ package Foo {
 			delete(e);
 		}
 	}
-	
 	rule r {
 		p:P();
 
 		modify {
 			p();
+		---
 			eval { Bar::proc(true); }
 		}
 	}
-	
 	filter f<r> {
 		return;
 	}
@@ -414,14 +416,13 @@ package Bar {
 
 		modify {
 			delete(e);
+		---
 			exec(Foo::r\Foo::f);
 		}
 	} \ auto
-		
 	function func : boolean {
 		return(true);
 	}
-	
 	procedure proc(var b:boolean) {
 		return;
 	}	

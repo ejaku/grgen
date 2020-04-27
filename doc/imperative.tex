@@ -16,6 +16,7 @@ rule AddRedundancy
   s: SourceNode;
   t: DestinationNode;
   modify {
+  ---
     emit ("Source node is ", s.name, ". Destination node is ", t.name, ".");
     exec ( (x:SourceNode) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
     exec ( [DuplicateCriticalEdge] );
@@ -63,6 +64,7 @@ The \texttt{yield} is a prefix to an assignment showing that the target is from 
 rule foo : (A,B)
 {
   modify {
+  ---
     def u:A; def v:B;
     exec( (a,b)=bar ;> yield u=a ;> yield v=b) );
     return(u,v);
@@ -116,6 +118,7 @@ rule caller
 
   modify {
     sub();
+  ---
     exec(r(n));
   }
 }
@@ -123,6 +126,7 @@ pattern Subpattern
 {
   n:Node;
   modify {
+  ---
     exec(s(n));
   }
 }

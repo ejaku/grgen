@@ -106,7 +106,6 @@ pattern Chain(begin:Node --- def end:Node)
     }
   }
 }
-
 pattern LinkChainTo(begin:Node) modify(n:Node)
 {
   alternative {
@@ -123,7 +122,7 @@ pattern LinkChainTo(begin:Node) modify(n:Node)
       negative {
         begin --> ;
       }
-		  
+
       modify {
       }
     }
@@ -131,7 +130,6 @@ pattern LinkChainTo(begin:Node) modify(n:Node)
 
   modify { }
 }
-
 rule linkChainEndToStartIndependent(begin:Node) : (Node)
 {	
   independent {
@@ -152,7 +150,8 @@ rule linkChainEndToStartIndependent(begin:Node) : (Node)
 The first example for LHS yielding follows within an independent a chain piece by piece to some a priori unknown end node, and yields this end node chain piece by chain piece again outwards to the chain start. There it is used as input to another chain (maybe the same chain, maybe overlapping due to the independent), linking all the nodes of this chain to the end node of the former.
 
 When yielding from an iterated pattern there's the problem that each yielding assignment from an iterated instance would overwrite the one def variable from outside the iterated, while one is interested most of the time in some accumulation of the values, e.g. summing integers or concatenating strings.
-This can be achieved with a \texttt{for} loop iterating a def variable inside an iterated for all the matches of the iterated pattern referenced by name, allowing to assign to an outside def variable a value computed from the def variable and the value of the iterated def variable.
+This can be achieved by reading and writing a variable defined in the nesting pattern (bottom-up -- the initialization in the nesting pattern defines the start value of accumulation (top-down)).
+Or with a \texttt{for} loop iterating a def variable inside an iterated for all the matches of the iterated pattern referenced by name, allowing to assign to an outside def variable a value computed from the def variable and the value of the iterated def variable.
 
 This is shown in the second example for LHS yielding, summing the integer attribute \texttt{a} of nodes of type \texttt{N} adjacent to a start node, matched with an iterated.
 
@@ -165,11 +164,13 @@ test sumOfWeight(start:Node) : (int,int)
   ---
     def var i:int;
     yield {
+      yield directSum = directSum + n.a;
       yield i = n.a;
       yield v = 42; // v is assigned 42 multiple times
     }
   } 
 ---
+  def var directSum:int = 0;
   def var sum:int = 0;
   def var v:int = 0;
   yield {
@@ -210,7 +211,8 @@ test countOfEdges(start:Node) : (int)
   YieldExpression: 'yield' '(' Expression ')' ;
 \end{rail}\ixnterm{YieldExpression}\ixkeyw{yield}
 
-For more convenience, the notational shorthand of in-place yielding at a def variable declaration is available. The syntactic sugar with the syntax \texttt{def var v:T = yield(expr);} is de-sugared to a plain \texttt{def var v:T;} declaration and an assignment in an implicitly added \verb#yield { v = expr; }# block.
+For more convenience, the notational shorthand of in-place yielding at a def variable declaration is available.
+The syntactic sugar with the syntax \texttt{def var v:T = yield(expr);} is de-sugared to a plain \texttt{def var v:T;} declaration and an assignment in an implicitly added \verb#yield { v = expr; }# block.
 It is not to be confused with separate initialization, combined: \texttt{def var v:T = init-expr = yields(expr)} --- the init-expr is evaluated before the yields of nested patterns and can thus be used to give a start value for bottom-up accumulation, the in-place yielding is evaluated after nested and subpatterns were matched and yielded (only then are iterated matches available).
 
 The example from above can be formulated succintly with the yield expression.
@@ -317,9 +319,9 @@ rule r : (double) {
   ---
     def var mean:double = array<double>(n1.v, n2.v, n3.v).avg();
     eval {
-    	n1.variance = Math::sqr(n1.v - mean); 
-    	n2.variance = Math::sqr(n2.v - mean); 
-    	n3.variance = Math::sqr(n3.v - mean); 
+      n1.variance = Math::sqr(n1.v - mean); 
+      n2.variance = Math::sqr(n2.v - mean); 
+      n3.variance = Math::sqr(n3.v - mean); 
     }
     return(mean);
   }
@@ -357,7 +359,7 @@ pattern Chain(begin:Node) modify(--- def end:Node)
       }
       
       modify {
-			---
+      ---
         eval {
           yield end = begin;
         }
@@ -389,13 +391,13 @@ rule outCount(head:Node) : (int)
   iterated {
     head --> .;
     modify {
-		---
+    ---
       eval { yield cnt = cnt + 1; }
     }
   }
 
   modify {
-	---
+  ---
     def var cnt:int = 0;
     return (cnt);
   }
@@ -439,14 +441,14 @@ rule r(a:Node) : (Node, int)
     a --> . --> c:N;
   ---
     yield { yield i = c.i; }
-		
+
     modify {
     }
   }
 ---	
   def var i:int;
   def d:Node;
-	
+
   modify {
     b --> u:Node;
     return(d, i);
@@ -474,11 +476,11 @@ rule r(a:Node) : (Node, int, Node, int) {
   a --> b:Node;
   optional o {
     a --> . --> c:N;
-	---
+  ---
     yield {	yield i = c.i; }
-		
+
     modify {
-		---
+    ---
       eval { yield j = i + u.i; }
     }
   }
@@ -486,7 +488,7 @@ rule r(a:Node) : (Node, int, Node, int) {
 ---	
   def var i:int;
   def d:Node;
-	
+
   modify {
     b --> u:N;
     p(u --- yield e);
@@ -499,7 +501,7 @@ pattern P(n:Node --- def rm:Node) modify(k:Node --- def x:Node) {
   n --> . --> m:Node;
 ---
   yield {	yield rm = m; }
-	
+
   modify {
     m --> k; m --> l:Node;
   ---

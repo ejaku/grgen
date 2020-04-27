@@ -354,6 +354,7 @@ rule r {
   n:N{ascending(foo>=5, foo<13)};
 
   modify {
+  ---
     emit("The value of attribute i is ", n.i, "\n");
   }
 }
@@ -365,6 +366,7 @@ or with a \texttt{for} loop from the sequences.
 \begin{grgen}
 rule rd {
   modify {
+  ---
     eval {
       for(n:N in {descending(foo<=13)}) {
         emit("The value of attribute i is ", n.i, "\n");
@@ -445,6 +447,7 @@ rule r() {
   n:N{ascending(qux>=l.i)};
 	
   modify {
+  ---
     emit("count outgoing(Node): ", bar[n], "\n");
   }
 }
@@ -517,7 +520,7 @@ The rule \texttt{r} \texttt{yield}s the name of the node matched to \texttt{n} o
 \begin{grgen}
 rule r() {
   n:Node -e:Edge->;
-
+---
   def var oldname:string;
   yield { yield oldname = nameof(n); }
 		
@@ -525,6 +528,7 @@ rule r() {
     eval {
       nameof(n) = nameof() + "_" + oldname;
     }
+  ---
     emit("The name of the graph element bound to e is ", nameof(e), "\n");
   }
 }
@@ -611,6 +615,7 @@ rule r() {
   if{ uniqueof(n) < uniqueof(m); }
 		
   modify {
+  ---
     emit("The unique id of the graph element bound to n is ", uniqueof(n), "\n");
   }
 }

@@ -56,6 +56,7 @@ The filter \texttt{filterMultiply} modifies the def variable \texttt{i} in the m
 rule incidency
 {
 	n:N;
+---
 	def var i:int;
 	yield { yield i = incident(n).size(); }
 	
@@ -63,7 +64,6 @@ rule incidency
 		eval { n.j = i; }
 	}
 }
-
 filter filterMultiply<incidency>(var f:int)
 {
 	for(m:match<incidency> in this)
@@ -164,10 +164,9 @@ Without filtering this behaviour would be pointless, but a filter ordering based
 \begin{grgen}
 rule deleteNode
 {
-	def var i:int;
-
 	n:Node;
-
+---
+	def var i:int;
 	yield {
 		yield i = outgoing(n).size();
 	}

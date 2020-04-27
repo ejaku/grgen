@@ -151,14 +151,15 @@ rule foo {
     if(!isIncoming(src, e));
     
     modify {
+    ---
         eval {
             if(incident(src, NiftyEdge, NiftyNode).size()>2)
             {
-	              for(ne:NiftyEdge in outgoing(src, NiftyEdge))
-	              {
-	                  ne.attr = 42;
-	              }
-	          }
+                for(ne:NiftyEdge in outgoing(src, NiftyEdge))
+                {
+                    ne.attr = 42;
+                }
+            }
         }
     }
 }
@@ -267,6 +268,7 @@ rule bar {
     if(isReachableOutgoing(src, tgt, NiftyEdge));
     
     modify {
+    ---
         eval {
             if(!(reachableIncoming(src) & reachableOutgoing(src)).empty())
             {
@@ -586,6 +588,7 @@ rule example
 	if{ unequalContainedSubgraphs(start1, start2); }
 	
 	modify {
+	---
 		eval {
 			insert(inducedSubgraph(adjacentOutgoing(start2, contains) | set<Node>{start2}));
 				// 1. computes the union of the set of the nodes outgoing from start2 with the set containing start2
@@ -629,6 +632,8 @@ If no \texttt{int} flag number is given, the default number for the first visite
 If no \texttt{int} flag number is given, the default number for the first visited flag of 0 is used; it still must have been allocated before.
 \end{description}
 
+\pagebreak
+
 \begin{rail}
   ProcedureName: 'valloc' | 'vfree' | 'vreset' | 'vfreenonreset';
 \end{rail}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{vreset}\ixkeyw{vfreenonreset}
@@ -669,6 +674,7 @@ procedure lengthOfLongestPath(start:Node, var lengthReached:int, var flag:int) :
 rule getLolp(start:Node) : (int)
 {
 	modify {
+	---
 		def var lolp:int;
 		eval {
 			(def var flag:int) = valloc();
