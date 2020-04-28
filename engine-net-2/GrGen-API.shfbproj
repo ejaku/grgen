@@ -30,7 +30,7 @@
     </WorkingPath>
     <HelpFileFormat>Website</HelpFileFormat>
     <FrameworkVersion>.NET Framework 2.0</FrameworkVersion>
-    <HelpTitle>GrGen.NET v4.5 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
+    <HelpTitle>GrGen.NET v5.0 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
     <PresentationStyle>VS2013</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
     <SyntaxFilters>C#</SyntaxFilters>
