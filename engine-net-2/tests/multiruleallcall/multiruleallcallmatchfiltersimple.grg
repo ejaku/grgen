@@ -1,0 +1,67 @@
+#using "multiruleallcallmatchfiltersimple.gm"
+
+rule init
+{
+	modify {
+		. <-:unweighted- n1:N@($="n1") -:weighted@(weight=0.1)-> .; // 2 n1 0.6
+		. <-:unweighted- n1 -:weighted@(weight=0.2)-> .;
+		                 n1 -:weighted@(weight=0.3)-> .;
+
+		. <-:unweighted- n2:N@($="n2") -:weighted@(weight=1.0)-> .; // 2 n2 *6.0* kept
+		. <-:unweighted- n2 -:weighted@(weight=2.0)-> .;
+		                 n2 -:weighted@(weight=3.0)-> .;
+
+		. <-:unweighted- n3:N@($="n3") -:weighted@(weight=1.0)-> .; // *3* n3 1.0 kept
+		. <-:unweighted- n3;
+		. <-:unweighted- n3;
+
+		. <-:unweighted- n4:N@($="n4") -:weighted@(weight=42.0)-> .; // 1 n4 *42* kept
+		
+		. <-:unweighted- n5:N@($="n5") -:weighted@(weight=1.0)-> .; // 2 n5 2
+		. <-:unweighted- n5 -:weighted@(weight=1.0)-> .;
+	}
+}
+
+match class Score
+{
+	def var score:double;
+} \ orderDescendingBy<score>
+
+rule r implements Score
+{
+	n:N;
+	iterated it {
+		n -w:weighted-> .;
+		
+		modify {
+		}
+	}
+---	
+	def var score:double = yield([?it].extract<w>().extract<weight>().sum());
+	
+	modify {
+		delete(n);
+	}
+} \ orderDescendingBy<score>
+
+rule s implements Score
+{
+	n:N;
+	iterated it {
+		n -:unweighted-> .;
+		
+		modify {
+		}
+	}
+---	
+	def var score:double = yield([?it].size());
+	
+	modify {
+		delete(n);
+	}
+} \ orderDescendingBy<score>
+
+sequence compiled
+{
+	[[r,s]\Score.orderDescendingBy<score>\Score.keepFirst(3)]
+}

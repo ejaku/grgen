@@ -1,0 +1,29 @@
+new graph "multiruleallcall/multiruleallcallmatchfiltersimple"
+
+exec init
+
+show num edges weighted
+show num edges unweighted
+
+exec [[r,s]\Score.orderDescendingBy<score>\Score.keepFirst(3)]
+
+show num edges weighted
+show num edges unweighted
+
+eval nodes(N)
+
+clear graph
+
+exec init
+
+show num edges weighted
+show num edges unweighted
+
+exec compiled
+
+show num edges weighted
+show num edges unweighted
+
+eval nodes(N)
+
+quit
