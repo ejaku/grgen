@@ -19,6 +19,6 @@ rule r
 {
 	modify {
 	---
-		exec( { emit([?[s,t]\orderDescendingBy<i>\<class mc>]) } );
+		exec( { emit([?[s,t]\mc.orderDescendingBy<i>\<class mc>]) } );
 	}
 }
