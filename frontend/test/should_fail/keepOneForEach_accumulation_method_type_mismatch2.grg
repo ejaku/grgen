@@ -1,0 +1,6 @@
+test t
+{
+---
+	def var i:int;
+	def j:Node;
+} \ keepOneForEach<i>Accumulate<j>By<sum>

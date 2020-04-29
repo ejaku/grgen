@@ -1,0 +1,6 @@
+test t
+{
+---
+	def var i:int;
+	def var j:int;
+} \ keepOneForEach<k>Accumulate<j>By<sum>

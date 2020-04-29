@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.containers.ArrayAccumulationMethodNode;
 import de.unika.ipd.grgen.ast.exprevals.DeclExprNode;
 import de.unika.ipd.grgen.ast.exprevals.ExprNode;
 import de.unika.ipd.grgen.ir.Alternative;
@@ -104,7 +105,7 @@ public abstract class ActionDeclNode extends DeclNode
 					|| filter.name.equals("groupBy") || filter.name.equals("keepSameAsFirst")
 					|| filter.name.equals("keepSameAsLast") || filter.name.equals("keepOneForEach")) {
 					for(String filterEntity : filter.entities) {
-						allFilterEntitiesExistAndAreOfAdmissibleType &= checkFilterVariable(pattern, filterNameWithEntitySuffix, filterEntity);
+						allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterVariable(getIdentNode(), filterNameWithEntitySuffix, filterEntity);
 					}
 					if(filter.name.equals("groupBy") || filter.name.equals("keepSameAsFirst")
 						|| filter.name.equals("keepSameAsLast") || filter.name.equals("keepOneForEach")) {
@@ -113,25 +114,48 @@ public abstract class ActionDeclNode extends DeclNode
 							allFilterEntitiesExistAndAreOfAdmissibleType = false;
 						}
 					}
+				} else if(filter.name.equals("keepOneForEachAccumulateBy")) {
+					if(filter.entities.size() != 3) {
+						getIdentNode().reportError(filterNameWithEntitySuffix + " must be declared with exactly one variable, one accumulation variable, and one accumulation method");
+						allFilterEntitiesExistAndAreOfAdmissibleType = false;
+					} else {
+						if(filter.entities.get(0).equals(filter.entities.get(1))) {
+							getIdentNode().reportError("The accumulation variable " + filter.entities.get(1) + " must be different from the variable.");
+							allFilterEntitiesExistAndAreOfAdmissibleType = false;
+						}
+						allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterEntity(getIdentNode(), filterNameWithEntitySuffix, filter.entities.get(0));
+						ArrayAccumulationMethodNode accumulationMethod = ArrayAccumulationMethodNode.getArrayMethodNode(filter.entities.get(2));
+						if(accumulationMethod == null) {
+							getIdentNode().reportError("The array accumulation method " + filter.entities.get(2) + " is not known.");
+							allFilterEntitiesExistAndAreOfAdmissibleType = false;
+							continue;
+						}
+						VarDeclNode filterAccumulationVariable = pattern.tryGetVar(filter.entities.get(1));
+						if(filterAccumulationVariable == null) {
+							getIdentNode().reportError(filterNameWithEntitySuffix + ": unknown accumulation variable " + filter.entities.get(1));
+							allFilterEntitiesExistAndAreOfAdmissibleType = false;
+							continue;
+						}
+						TypeNode filterAccumulationVariableType = filterAccumulationVariable.getDeclType();
+						if(!accumulationMethod.isValidTargetTypeOfAccumulation(filterAccumulationVariableType)) {
+							getIdentNode().reportError("The array accumulation method " + filter.entities.get(2)
+								+ " is not applicable to the type " + filterAccumulationVariableType + " of the accumulation variable " 
+								+ filter.entities.get(1) + " / its result cannot be assigned to the accumulation variable."
+								+ " (Accumulatable are: " + filterAccumulationVariableType.getAccumulatableTypesAsString()
+								+ "; a valid target type for all accumulation methods is double)");
+							allFilterEntitiesExistAndAreOfAdmissibleType = false;
+						}
+					}
+				} else if(filter.name.equals("auto")) {
+					// skip, don't assert
+				} else {
+					assert(false);
 				}
 			}
 		}
 		return allFilterEntitiesExistAndAreOfAdmissibleType;
 	}
 
-	private boolean checkFilterVariable(PatternGraphNode pattern, String filterNameWithEntitySuffix, String filterVariable) {
-		if(pattern.getVariable(filterVariable)==null) {
-			reportError(filterNameWithEntitySuffix + ": unknown variable " + filterVariable);
-			return false;
-		}
-		TypeNode filterVariableType = pattern.getVariable(filterVariable).getDeclType();
-		if(!filterVariableType.isOrderableType()) {
-			reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable + " must be of one of the following types: " + filterVariableType.getOrderableTypesAsString());
-			return false;
-		}
-		return true;
-	}
-	
 	protected boolean checkLeft() {
 		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
 		boolean edgeReUse = false;

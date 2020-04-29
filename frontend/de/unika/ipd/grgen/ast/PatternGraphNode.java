@@ -628,6 +628,38 @@ public class PatternGraphNode extends GraphNode {
 		return res;
 	}
 
+	public boolean checkFilterVariable(IdentNode errorTarget, String filterNameWithEntitySuffix, String filterVariable) {
+		VarDeclNode variable = tryGetVar(filterVariable);
+		if(variable == null) {
+			errorTarget.reportError(filterNameWithEntitySuffix + ": unknown variable " + filterVariable);
+			return false;
+		}
+		TypeNode filterVariableType = variable.getDeclType();
+		if(!filterVariableType.isOrderableType()) {
+			errorTarget.reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable + " must be of one of the following types: " + filterVariableType.getOrderableTypesAsString());
+			return false;
+		}
+		return true;
+	}
+
+	public boolean checkFilterEntity(IdentNode errorTarget, String filterNameWithEntitySuffix, String filterEntity) {
+		DeclNode entity = tryGetNode(filterEntity);
+		if(entity == null)
+			entity = tryGetEdge(filterEntity);
+		if(entity == null)
+			entity = tryGetVar(filterEntity);
+		if(entity == null) {
+			errorTarget.reportError(filterNameWithEntitySuffix + ": unknown entity " + filterEntity);
+			return false;
+		}
+		TypeNode filterVariableType = entity.getDeclType();
+		if(!filterVariableType.isFilterableType()) {
+			errorTarget.reportError(filterNameWithEntitySuffix + ": the entity " + filterEntity + " must be of one of the following types: " + filterVariableType.getFilterableTypesAsString());
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Get the correctly casted IR object.
 	 *
