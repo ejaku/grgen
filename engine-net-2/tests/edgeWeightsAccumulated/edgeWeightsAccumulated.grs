@@ -1,0 +1,10 @@
+new graph edgeWeightsAccumulated\edgeWeightsAccumulated
+
+exec init
+
+eval [?t\keepOneForEach<n>Accumulate<weight>By<sum>\orderDescendingBy<weight>]
+
+exec (::res) = s
+eval ::res
+
+quit

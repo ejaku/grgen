@@ -1,0 +1,4 @@
+edge class weighted
+{
+	weight:double;
+}

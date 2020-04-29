@@ -1,0 +1,27 @@
+#using "edgeWeightsAccumulated.gm"
+
+rule init
+{
+	modify {
+		n1:Node -:weighted@(weight=0.1)-> n1;
+		n1 -:weighted@(weight=0.5)-> n2;
+		n1 -:weighted@(weight=0.3)-> n3;
+		
+		n2:Node -:weighted@(weight=3.141592654)-> n3;
+		
+		n3:Node -:weighted@(weight=Math::e())-> n2;
+		n3 -:weighted@(weight=1.0)-> n2;
+	}
+}
+
+test t
+{
+	n:Node -w:weighted->;
+---
+	def var weight:double = w.weight;
+} \ keepOneForEach<n>Accumulate<weight>By<sum>, orderDescendingBy<weight>
+
+sequence s : (res:array<match<t>>)
+{
+	{ res = [?t\keepOneForEach<n>Accumulate<weight>By<sum>\orderDescendingBy<weight>] }
+}
