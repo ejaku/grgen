@@ -92,18 +92,20 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
 
     public partial class MatchFilters
     {
-        public static void Filter_f1(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
+        public static GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> Filter_f1(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
         {
             // just let pass
+            return matches;
         }
 
-        public static void Filter_nomnomnom(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
+        public static GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> Filter_nomnomnom(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> matches)
         {
             // eat away the single match of the empty rule
             matches.RemoveMatch(0);
+            return matches;
         }
 
-        public static void Filter_f2(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
+        public static GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> Filter_f2(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
         {
             // inspect matches carefully and manipulate as needed
             IEnumerator<Rule_filterBass.IMatch_filterBass> e = matches.GetEnumeratorExact();
@@ -113,9 +115,10 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
                 if(match.node_n.i != 42)
                     break;
             }
+            return matches;
         }
 
-        public static void Filter_f3(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
+        public static GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> Filter_f3(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> matches)
         {
             // inspect matches carefully and manipulate as needed, 
             // transforming to a List<IMatch> for easier manipulation and back to an IMatchesExact if needed
@@ -127,9 +130,10 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
             matchesArray.Add(match);
             matchesArray.Reverse();
             matches.FromListExact();
+            return matches;
         }
 
-        public static void Filter_f4(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> matches, System.Int32 i, System.String s)
+        public static GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> Filter_f4(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> matches, System.Int32 i, System.String s)
         {
             // inspect matches carefully and manipulate as needed, depending on input parameters
             // transforming to a List<IMatch> for easier manipulation and back to an IMatchesExact if needed
@@ -147,16 +151,18 @@ namespace de.unika.ipd.grGen.Action_ExternalFiltersAndSequences
                 }
             }
             matches.FromListExact();
+            return matches;
         }
     }
 
     public partial class MatchClassFilters
     {
-        public static void Filter_extshf(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches, System.Int32 f)
+        public static IList<GRGEN_LIBGR.IMatch> Filter_extshf(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, IList<GRGEN_LIBGR.IMatch> matches, System.Int32 f)
         {
             List<IMatch_shared> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<IMatch_shared>(matches);
             // some code, may set elements in matchesArray to null, they are then skipped when re-building matches in FromList
             GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);
+            return matches;
         }
     }
 }

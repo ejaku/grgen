@@ -1,0 +1,38 @@
+#using "compiled_rule_query_model.gm"
+
+rule init
+{
+	modify {
+		n1:N@(i=1);
+		n2:N@(i=2);
+		n3:N@(i=3);
+	}
+}
+
+match class mc
+{
+	def var i:int;
+} \ orderDescendingBy<i>
+
+test s implements mc
+{
+	n:N;
+---
+	def var i:int = n.i;
+
+}
+
+test t implements mc
+{
+	n:N;
+---
+	def var i:int = n.i;
+}
+
+rule r
+{
+	modify {
+	---
+		exec( { emit("the value of variable \"query\" of type evaluation is: ", [?[s,t]\mc.orderDescendingBy<i>\<class mc>], "\n") } );
+	}
+}

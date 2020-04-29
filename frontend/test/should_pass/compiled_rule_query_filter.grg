@@ -1,0 +1,13 @@
+test t
+{
+---
+	def var i:int;
+} \ orderDescendingBy<i>
+
+rule r
+{
+	modify {
+	---
+		exec( { emit([?t\orderDescendingBy<i>]) } );
+	}
+}

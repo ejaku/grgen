@@ -1,0 +1,7 @@
+new graph rulequeryexpression/compiled_multi_rule_query_filter
+
+exec init
+
+exec { emit("the value of variable \"query\" of type evaluation is: ", [?[s,t]\mc.orderDescendingBy<i>\<class mc>], "\n") }
+
+quit

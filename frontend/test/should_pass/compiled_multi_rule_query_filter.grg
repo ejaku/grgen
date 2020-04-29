@@ -1,0 +1,24 @@
+match class mc
+{
+	def var i:int;
+} \ orderDescendingBy<i>
+
+test s implements mc
+{
+---
+	def var i:int;
+}
+
+test t implements mc
+{
+---
+	def var i:int;
+}
+
+rule r
+{
+	modify {
+	---
+		exec( { emit([?[s,t]\orderDescendingBy<i>\<class mc>]) } );
+	}
+}

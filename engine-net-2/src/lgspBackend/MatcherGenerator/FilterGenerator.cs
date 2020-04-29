@@ -42,7 +42,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
 
-                    source.AppendFrontFormat("//public static void Filter_{0}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {1} matches", filter.Name, matchesListType);
+                    source.AppendFrontFormat("//public static {1} Filter_{0}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {1} matches", filter.Name, matchesListType);
                     for(int i = 0; i < filterFunction.Inputs.Length; ++i)
                     {
                         source.AppendFormat(", {0} {1}", TypesHelper.TypeName(filterFunction.Inputs[i]), filterFunction.InputNames[i]);
@@ -173,7 +173,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
 
-                    source.AppendFrontFormat("//public static void Filter_{0}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {1} matches", filter.Name, matchesListType);
+                    source.AppendFrontFormat("//public static {1} Filter_{0}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {1} matches", filter.Name, matchesListType);
                     for(int i = 0; i < filterFunction.Inputs.Length; ++i)
                     {
                         source.AppendFormat(", {0} {1}", TypesHelper.TypeName(filterFunction.Inputs[i]), filterFunction.InputNames[i]);
@@ -241,13 +241,13 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "auto";
             
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
                 rulePattern.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
 
             source.AppendFront("if(matches.Count < 2)\n");
-            source.AppendFront("\treturn;\n");
+            source.AppendFront("\treturn matches;\n");
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
             source.AppendFrontFormat("if(matches.Count < 5 || {0}.Instance.patternGraph.nodes.Length + {0}.Instance.patternGraph.edges.Length < 1)\n", rulePatternClassName);
@@ -325,6 +325,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
 
             source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -337,7 +338,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = ascending ? "orderAscendingBy_" + filter.EntitySuffixUnderscore : "orderDescendingBy_" + filter.EntitySuffixUnderscore;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
                 rulePattern.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
@@ -345,6 +346,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
             source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", rulePattern.name, filterName);
             source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -374,7 +376,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = ascending ? "orderAscendingBy_" + filter.EntitySuffixUnderscore : "orderDescendingBy_" + filter.EntitySuffixUnderscore;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
+            source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
                 rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
@@ -383,6 +385,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}_{2}());\n",
                 rulePattern.name, iterated.IteratedPattern.Name, filterName);
             source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -412,7 +415,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "IList<GRGEN_LIBGR.IMatch>";
             String filterName = ascending ? "orderAscendingBy_" + filter.EntitySuffixUnderscore : "orderDescendingBy_" + filter.EntitySuffixUnderscore;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                 matchClass.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
@@ -420,6 +423,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
             source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", matchClass.name, filterName);
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -474,7 +478,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(true) // does the type of the variable to group-by support ordering? then order, is more efficient than equality comparisons
             {
-                source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+                source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                     rulePattern.name, filterName, matchesListType);
                 source.AppendFront("{\n");
                 source.Indent();
@@ -482,6 +486,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
                 source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", rulePattern.name, filterName);
                 source.AppendFront("matches.FromListExact();\n");
+                source.AppendFront("return matches;\n");
 
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -532,7 +537,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(true) // does the type of the variable to group-by support ordering? then order, is more efficient than equality comparisons
             {
-                source.AppendFrontFormat("public static void Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
+                source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
                     rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
                 source.AppendFront("{\n");
                 source.Indent();
@@ -541,6 +546,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}_{2}());\n",
                     rulePattern.name, iterated.IteratedPattern.Name, filterName);
                 source.AppendFront("matches.FromListExact();\n");
+                source.AppendFront("return matches;\n");
 
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -591,7 +597,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // see GenerateGroupByFilter for potential optimization
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                 matchClass.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
@@ -599,6 +605,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
             source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", matchClass.name, filterName);
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -625,7 +632,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = sameAsFirst ? "keepSameAsFirst_" + filterVariable : "keepSameAsLast_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
                 rulePattern.name, filterName, matchesListType);
 
             source.AppendFront("{\n");
@@ -656,6 +663,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -668,7 +676,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = sameAsFirst ? "keepSameAsFirst_" + filterVariable : "keepSameAsLast_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
+            source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
                 rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
 
             source.AppendFront("{\n");
@@ -699,6 +707,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -710,7 +719,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "IList<GRGEN_LIBGR.IMatch>";
             String filterName = sameAsFirst ? "keepSameAsFirst_" + filterVariable : "keepSameAsLast_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                 matchClass.name, filterName, matchesListType);
 
             source.AppendFront("{\n");
@@ -741,6 +750,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -753,7 +763,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "keepOneForEach_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                  rulePattern.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
@@ -772,6 +782,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
 
             source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -784,7 +795,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "keepOneForEach_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
+            source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
                  rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
@@ -803,6 +814,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
 
             source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -814,7 +826,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "IList<GRGEN_LIBGR.IMatch>";
             String filterName = "keepOneForEach_" + filterVariable;
 
-            source.AppendFrontFormat("public static void Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                  matchClass.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
@@ -833,6 +845,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
+            source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");

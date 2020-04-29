@@ -1,0 +1,7 @@
+new graph rulequeryexpression/compiled_rule_query_filter
+
+exec init
+
+exec r
+
+quit

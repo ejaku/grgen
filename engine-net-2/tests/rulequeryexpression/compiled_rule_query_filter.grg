@@ -1,0 +1,25 @@
+#using "compiled_rule_query_model.gm"
+
+rule init
+{
+	modify {
+		n1:N@(i=1);
+		n2:N@(i=2);
+		n3:N@(i=3);
+	}
+}
+
+test t
+{
+	n:N;
+---
+	def var i:int = n.i;
+} \ orderDescendingBy<i>
+
+rule r
+{
+	modify {
+	---
+		exec( { emit("the value of variable \"query\" of type evaluation is: ", [?t\orderDescendingBy<i>], "\n") } );
+	}
+}
