@@ -1,0 +1,34 @@
+node class Person
+{
+	name:string;
+}
+
+enum LodgingType { House, Flat, HomeForTheElderly, Barracks, Staple, Nest }
+
+node class Lodging
+{
+	type:LodgingType;
+}
+
+enum HabitType { Smoking, Drinking, WatchingTV, Cycling, Hiking, Coding, Reading, CardPlaying, Shooting, Schnuffeln, Twittern }
+
+node class Habit
+{
+	type:HabitType;
+}
+
+enum Organ { Lung, Stomach, Liver, Kidney, Skin, Brain }
+
+node class Illness
+{
+	organ:Organ;
+	severity:double;
+}
+
+node class GoodHealth;
+
+edge class livesIn;
+edge class hasHabit;
+edge class inHealthState;
+
+edge class underQuarantine;

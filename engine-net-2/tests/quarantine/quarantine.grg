@@ -1,0 +1,121 @@
+#using "quarantine.gm"
+
+rule init
+{
+	modify {
+		p0:Person@(name="Otto");
+		p0 -:livesIn-> :Lodging@(type=LodgingType::HomeForTheElderly);
+		p0 -:hasHabit-> :Habit@(type=HabitType::Smoking); p0 -:hasHabit-> :Habit@(type=HabitType::Drinking); p0 -:hasHabit-> :Habit@(type=HabitType::CardPlaying);
+		p0 -:inHealthState-> :Illness@(organ=Organ::Lung, severity=90.0); p0 -:inHealthState-> :Illness@(organ=Organ::Liver, severity=30.0);
+		
+		p1:Person@(name="Hans");
+		p1 -:livesIn-> :Lodging@(type=LodgingType::House);
+		p1 -:hasHabit-> :Habit@(type=HabitType::Cycling); p1 -:hasHabit-> :Habit@(type=HabitType::Hiking); p1 -:hasHabit-> :Habit@(type=HabitType::Coding);
+		p1 -:inHealthState-> :GoodHealth;
+		
+		p2:Person@(name="Franz");
+		p2 -:livesIn-> :Lodging@(type=LodgingType::Flat);
+		p2 -:hasHabit-> :Habit@(type=HabitType::Reading); p2 -:hasHabit-> :Habit@(type=HabitType::Coding);
+		p2 -:inHealthState-> :Illness@(organ=Organ::Lung, severity=50.0);
+		
+		p3:Person@(name="Luise");
+		p3 -:livesIn-> :Lodging@(type=LodgingType::Flat);
+		p3 -:hasHabit-> :Habit@(type=HabitType::Cycling); p3 -:hasHabit-> :Habit@(type=HabitType::Coding); p3 -:hasHabit-> :Habit@(type=HabitType::Reading);
+		p3 -:inHealthState-> :GoodHealth;
+		
+		p4:Person@(name="Annabel");
+		p4 -:livesIn-> :Lodging@(type=LodgingType::House);
+		p4 -:hasHabit-> :Habit@(type=HabitType::Drinking); p4 -:hasHabit-> :Habit@(type=HabitType::Reading); p4 -:hasHabit-> :Habit@(type=HabitType::WatchingTV);
+		p4 -:inHealthState-> :Illness@(organ=Organ::Liver, severity=50.0); p4 -:inHealthState-> :Illness@(organ=Organ::Kidney, severity=50.0);
+		
+		p5:Person@(name="Gudrun");
+		p5 -:livesIn-> :Lodging@(type=LodgingType::HomeForTheElderly);
+		p5 -:hasHabit-> :Habit@(type=HabitType::Reading); p5 -:hasHabit-> :Habit@(type=HabitType::WatchingTV);
+		p5 -:inHealthState-> :GoodHealth;
+
+		p6:Person@(name="Wilhelm");
+		p6 -:livesIn-> :Lodging@(type=LodgingType::Barracks);
+		p6 -:hasHabit-> :Habit@(type=HabitType::Shooting); p6 -:hasHabit-> :Habit@(type=HabitType::CardPlaying);
+		p6 -:inHealthState-> :GoodHealth;
+		
+		p7:Person@(name="Häschen");
+		p7 -:livesIn-> :Lodging@(type=LodgingType::Staple);
+		p7 -:hasHabit-> :Habit@(type=HabitType::Schnuffeln);
+		p7 -:inHealthState-> :GoodHealth;
+		
+		p8:Person@(name="Vollmeise");
+		p8 -:livesIn-> :Lodging@(type=LodgingType::Nest);
+		p8 -:hasHabit-> :Habit@(type=HabitType::Twittern);
+		p8 -:inHealthState-> :Illness@(organ=Organ::Lung, severity=20.0);
+	}
+}
+
+match class QuarantineScore
+{
+	person:Person;
+	def var score:double;
+} \keepOneForEach<person>Accumulate<score>By<sum>, orderDescendingBy<score>
+// in iterated bottom-up yielding to nesting entity possible, in rules not available 
+// would require def parameters - shared over all independent matches
+// instead keepOneForEach<>Accumulate<>By<>
+// potential todo: RHS for match class, RHS is duplicated over rules
+
+rule quarantineByRiskLodging implements QuarantineScore
+{
+	person:Person -:livesIn-> l:Lodging;
+	if { l.type == LodgingType::HomeForTheElderly; }
+---
+	def var score:double = 100.0;
+	
+	modify {
+		person -:underQuarantine-> person;
+	}
+}
+
+rule quarantineByRiskHabit implements QuarantineScore
+{
+	person:Person -:hasHabit-> h:Habit;
+	if { h.type == HabitType::Smoking; }
+---
+	def var score:double = 100.0;
+
+	modify {
+		person -:underQuarantine-> person;
+	}
+}
+
+rule quarantineByRiskIllness implements QuarantineScore
+{
+	person:Person -:inHealthState-> i:Illness;
+	if { i.organ == Organ::Lung; }
+---
+	def var score:double = i.severity;
+
+	modify {
+		person -:underQuarantine-> person;
+	}
+}
+
+sequence printQuarantine
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]
+			\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>
+			\QuarantineScore.orderDescendingBy<score>\<class QuarantineScore>], "\n"); }
+}
+
+rule quarantineTopmost(var num:int)
+{
+	modify {
+	---
+		exec([[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]
+				\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>
+				\QuarantineScore.orderDescendingBy<score>
+				\QuarantineScore.keepFirst(num)]);
+	}
+}
+
+test underQuarantine
+{
+	person:Person -:underQuarantine-> person;
+}

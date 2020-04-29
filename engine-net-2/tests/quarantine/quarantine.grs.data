@@ -1,0 +1,17 @@
+1
+1
+[match<quarantineByRiskLodging>{person:$0,l:$1,_edge0:$31,score:290},match<quarantineByRiskLodging>{person:$1F,l:$20,_edge0:$4B,score:100},match<quarantineByRiskIllness>{person:$D,i:$11,_edge0:$3F,score:50},match<quarantineByRiskIllness>{person:$2D,i:$30,_edge0:$58,score:20}]
+6
+0
+7
+4
+[Franz,Gudrun,Otto]
+3
+1
+1
+[match<quarantineByRiskLodging>{person:$5C,l:$5D,_edge0:$8D,score:290},match<quarantineByRiskLodging>{person:$7B,l:$7C,_edge0:$A7,score:100},match<quarantineByRiskIllness>{person:$69,i:$6D,_edge0:$9B,score:50},match<quarantineByRiskIllness>{person:$89,i:$8C,_edge0:$B4,score:20}]
+6
+6
+3
+[Franz,Gudrun,Otto]
+3

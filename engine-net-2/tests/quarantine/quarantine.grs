@@ -1,0 +1,26 @@
+new graph "quarantine\quarantine"
+
+exec init
+
+exec printQuarantine
+
+exec quarantineTopmost(3)
+
+eval [?underQuarantine].extract<person>().extract<name>()
+
+clear graph
+
+exec init
+
+eval [?[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\
+		\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>\
+		\QuarantineScore.orderDescendingBy<score>\<class QuarantineScore>]
+
+exec [[quarantineByRiskLodging, quarantineByRiskHabit, quarantineByRiskIllness]\
+		\QuarantineScore.keepOneForEach<person>Accumulate<score>By<sum>\
+		\QuarantineScore.orderDescendingBy<score>\
+		\QuarantineScore.keepFirst(3)]
+
+eval [?underQuarantine].extract<person>().extract<name>()
+
+quit
