@@ -8649,6 +8649,13 @@ namespace de.unika.ipd.grGen.libGr
             // - without that cloning an additional clone would be needed here like for the single rule query, 
             // as the maches array must be available (at least) through continued sequence expression processing
             // (and a new call could be made during that time, example: [[?r]] + [[?r]])
+
+            foreach(SequenceFilterCall filter in MultiRuleCall.Filters)
+            {
+                SequenceFilterCallInterpreted filterInterpreted = (SequenceFilterCallInterpreted)filter;
+                filterInterpreted.Execute(procEnv, MatchList);
+            }
+
             return MatchList;
         }
 

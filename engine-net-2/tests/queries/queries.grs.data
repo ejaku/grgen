@@ -24,11 +24,11 @@
 3
 4.8
 9
-[match<sameCompanySharedInterestMC>{subject:$0,company:$1,person:$2,_edge0:$A,_edge1:$B,score:2,interests:[cycling,hiking]},match<sameCompanySharedInterestMC>{subject:$0,company:$1,person:$9,_edge0:$A,_edge1:$14,score:2,interests:[cycling,coding]},match<sameCompanySharedInterestMC>{subject:$9,company:$1,person:$0,_edge0:$14,_edge1:$A,score:2,interests:[cycling,coding]},match<sameCompanySharedInterestMC>{subject:$9,company:$1,person:$2,_edge0:$14,_edge1:$B,score:2,interests:[cycling,reading]}]
+[match<sameCompanySharedInterestMC>{subject:$9,company:$1,person:$0,_edge0:$14,_edge1:$A,score:2,interests:[cycling,coding]},match<sameCompanySharedInterestMC>{subject:$9,company:$1,person:$2,_edge0:$14,_edge1:$B,score:2,interests:[cycling,reading]},match<sameCompanySharedInterestMC>{subject:$0,company:$1,person:$2,_edge0:$A,_edge1:$B,score:2,interests:[cycling,hiking]},match<sameCompanySharedInterestMC>{subject:$0,company:$1,person:$9,_edge0:$A,_edge1:$14,score:2,interests:[cycling,coding]}]
 4
 [match<sameCompanySharedInterest>{subject:$0,company:$1,person:$2,_edge0:$A,_edge1:$B,score:2,interests:[cycling,hiking]},match<sameCompanySharedInterest>{subject:$0,company:$1,person:$9,_edge0:$A,_edge1:$14,score:2,interests:[cycling,coding]},match<sameCompanySharedInterest>{subject:$9,company:$1,person:$0,_edge0:$14,_edge1:$A,score:2,interests:[cycling,coding]},match<sameCompanySharedInterest>{subject:$9,company:$1,person:$2,_edge0:$14,_edge1:$B,score:2,interests:[cycling,reading]}]
 4
-[match<sameCompanySharedInterestMC>{subject:$0,company:$1,person:$2,_edge0:$A,_edge1:$B,score:2,interests:[cycling,hiking]},match<sameCompanySharedInterestMC>{subject:$0,company:$1,person:$9,_edge0:$A,_edge1:$14,score:2,interests:[cycling,coding]},match<sameCompanySharedWeightedInterestClippedMC>{subject:$9,company:$1,person:$0,_edge0:$14,_edge1:$A,score:1.2,interestsString:coding,cycling,interestsSet:{$5,$3},clipAmount:3},match<sameCompanySharedWeightedInterestClippedMC>{subject:$9,company:$1,person:$2,_edge0:$14,_edge1:$B,score:0.7,interestsString:cycling,reading,interestsSet:{$3,$6},clipAmount:3}]
+[match<sameCompanySharedInterestMC>{subject:$0,company:$1,person:$9,_edge0:$A,_edge1:$14,score:2,interests:[cycling,coding]},match<sameCompanySharedInterestMC>{subject:$0,company:$1,person:$2,_edge0:$A,_edge1:$B,score:2,interests:[cycling,hiking]},match<sameCompanySharedWeightedInterestClippedMC>{subject:$9,company:$1,person:$0,_edge0:$14,_edge1:$A,score:1.2,interestsString:coding,cycling,interestsSet:{$5,$3},clipAmount:3},match<sameCompanySharedWeightedInterestClippedMC>{subject:$9,company:$1,person:$2,_edge0:$14,_edge1:$B,score:0.7,interestsString:cycling,reading,interestsSet:{$3,$6},clipAmount:3}]
 4
 {cycling,hiking,coding,reading}
 6
