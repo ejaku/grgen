@@ -845,6 +845,16 @@ namespace de.unika.ipd.grGen.lgsp
                 if(var.Name == rulePattern.PatternGraph.Name + "_" + matchEntity)
                     return TypesHelper.TypeName(var.Type);
             }
+            foreach(IPatternNode node in rulePattern.patternGraph.nodes)
+            {
+                if(node.Name == rulePattern.patternGraph.Name + "_" + matchEntity)
+                    return TypesHelper.TypeName(node.Type);
+            }
+            foreach(IPatternEdge edge in rulePattern.patternGraph.edges)
+            {
+                if(edge.Name == rulePattern.patternGraph.Name + "_" + matchEntity)
+                    return TypesHelper.TypeName(edge.Type);
+            }
 
             return null;
         }
@@ -855,6 +865,16 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(var.Name == matchClass.Name + "_" + matchEntity)
                     return TypesHelper.TypeName(var.Type);
+            }
+            foreach(IPatternNode node in matchClass.nodes)
+            {
+                if(node.Name == matchClass.Name + "_" + matchEntity)
+                    return TypesHelper.TypeName(node.Type);
+            }
+            foreach(IPatternEdge edge in matchClass.edges)
+            {
+                if(edge.Name == matchClass.Name + "_" + matchEntity)
+                    return TypesHelper.TypeName(edge.Type);
             }
 
             return null;
