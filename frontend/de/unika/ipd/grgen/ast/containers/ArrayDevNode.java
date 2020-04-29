@@ -11,9 +11,6 @@
 
 package de.unika.ipd.grgen.ast.containers;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
@@ -21,32 +18,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArrayDevExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayDevNode extends ExprNode
+public class ArrayDevNode extends ArrayAccumulationMethodNode
 {
 	static {
 		setName(ArrayDevNode.class, "array dev");
 	}
 
-	private ExprNode targetExpr;
-
 	public ArrayDevNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
-	}
-
-	@Override
-	public Collection<? extends BaseNode> getChildren() {
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(targetExpr);
-		return children;
-	}
-
-	@Override
-	public Collection<String> getChildrenNames() {
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("targetExpr");
-		return childrenNames;
+		super(coords, targetExpr);
 	}
 
 	@Override
@@ -62,6 +42,11 @@ public class ArrayDevNode extends ExprNode
 	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.doubleType;
+	}
+
+	@Override
+	public boolean isValidTargetTypeOfAccumulation(TypeNode type) {
+		return type.isEqual(BasicTypeNode.doubleType);
 	}
 
 	@Override
