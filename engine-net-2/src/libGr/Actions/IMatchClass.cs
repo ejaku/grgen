@@ -103,17 +103,17 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(IPatternNode node in Nodes)
             {
-                if(node.Name == name)
+                if(node.UnprefixedName == name)
                     return node;
             }
             foreach(IPatternEdge edge in Edges)
             {
-                if(edge.Name == name)
+                if(edge.UnprefixedName == name)
                     return edge;
             }
             foreach(IPatternVariable variable in Variables)
             {
-                if(variable.Name == name)
+                if(variable.UnprefixedName == name)
                     return variable;
             }
             return null;
