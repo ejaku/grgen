@@ -125,8 +125,8 @@ public abstract class ActionDeclNode extends DeclNode
 			return false;
 		}
 		TypeNode filterVariableType = pattern.getVariable(filterVariable).getDeclType();
-		if(!filterVariableType.isFilterableType()) {
-			reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable + " must be of one of the following types: " + filterVariableType.getFilterableTypesAsString());
+		if(!filterVariableType.isOrderableType()) {
+			reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable + " must be of one of the following types: " + filterVariableType.getOrderableTypesAsString());
 			return false;
 		}
 		return true;

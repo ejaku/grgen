@@ -212,6 +212,24 @@ public abstract class TypeNode extends BaseNode {
 	}
 	
 	public boolean isFilterableType() {
+		if(isOrderableType())
+			return true;
+		if(this instanceof NodeTypeNode)
+			return true;
+		if(this instanceof EdgeTypeNode)
+			return true;
+		return false;
+	}
+
+	public boolean isOrderableType() {
+		if(isAccumulatableType())
+			return true;
+		if(isEqual(BasicTypeNode.stringType))
+			return true;
+		return false;
+	}
+
+	public boolean isAccumulatableType() {
 		if(isEqual(BasicTypeNode.byteType))
 			return true;
 		if(isEqual(BasicTypeNode.shortType))
@@ -224,13 +242,19 @@ public abstract class TypeNode extends BaseNode {
 			return true;
 		if(isEqual(BasicTypeNode.doubleType))
 			return true;
-		if(isEqual(BasicTypeNode.stringType))
-			return true;
 		return false;
 	}
 	
 	public String getFilterableTypesAsString() {
-		return "byte, short, int, long, float, double, string";
+		return getOrderableTypesAsString() + " or a node or edge class";
+	}
+	
+	public String getOrderableTypesAsString() {
+		return ", string";
+	}
+	
+	public String getAccumulatableTypesAsString() {
+		return "byte, short, int, long, float, double";
 	}
 }
 

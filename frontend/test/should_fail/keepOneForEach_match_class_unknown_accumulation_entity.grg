@@ -1,0 +1,5 @@
+match class mc
+{
+	def var i:int;
+	def var j:int;
+} \ keepOneForEach<i>Accumulate<k>By<sum>
