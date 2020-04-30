@@ -256,7 +256,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             source.AppendFront("if(matches.Count < 2)\n");
-            source.AppendFront("\treturn matches;\n");
+            source.AppendFrontIndented("return matches;\n");
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
             source.AppendFrontFormat("if(matches.Count < 5 || {0}.Instance.patternGraph.nodes.Length + {0}.Instance.patternGraph.edges.Length < 1)\n", rulePatternClassName);
@@ -267,14 +267,14 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFront("if(matchesArray[i] == null)\n");
-            source.AppendFront("\tcontinue;\n");
+            source.AppendFrontIndented("continue;\n");
             source.AppendFront("for(int j = i + 1; j < matchesArray.Count; ++j)\n");
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFront("if(matchesArray[j] == null)\n");
-            source.AppendFront("\tcontinue;\n");
+            source.AppendFrontIndented("continue;\n");
             source.AppendFront("if(GRGEN_LIBGR.SymmetryChecker.AreSymmetric(matchesArray[i], matchesArray[j], procEnv.graph))\n");
-            source.AppendFront("\tmatchesArray[j] = null;\n");
+            source.AppendFrontIndented("matchesArray[j] = null;\n");
             source.Unindent();
             source.AppendFront("}\n");
             source.Unindent();
@@ -316,7 +316,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
             source.AppendFront("if(!contained)\n");
-            source.AppendFront("\tfoundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;\n");
+            source.AppendFrontIndented("foundMatchesOfSameMainPatternHash[duplicateMatchHash] = match;\n");
             source.AppendFront("else\n");
             source.AppendFront("{\n");
             source.Indent();
@@ -655,9 +655,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("int pos = 0 + 1;\n");
                 source.AppendFront("while(pos < matchesArray.Count)\n");
                 source.AppendFront("{\n");
-                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[0].{0})\n", matchEntity);
-                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-                source.AppendFront("\t++pos;\n");
+                source.Indent();
+                source.AppendFrontFormat("if(matchesArray[pos].{0} != matchesArray[0].{0})\n", matchEntity);
+                source.AppendFrontIndented("matchesArray[pos] = null;\n");
+                source.AppendFront("++pos;\n");
+                source.Unindent();
                 source.AppendFront("}\n");
             }
             else
@@ -665,9 +667,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("int pos = matchesArray.Count-1 - 1;\n");
                 source.AppendFront("while(pos >= 0)\n");
                 source.AppendFront("{\n");
-                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[matchesArray.Count-1].{0})\n", matchEntity);
-                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-                source.AppendFront("\t--pos;\n");
+                source.Indent();
+                source.AppendFrontFormat("if(matchesArray[pos].{0} != matchesArray[matchesArray.Count-1].{0})\n", matchEntity);
+                source.AppendFrontIndented("matchesArray[pos] = null;\n");
+                source.AppendFront("--pos;\n");
+                source.Unindent();
                 source.AppendFront("}\n");
             }
 
@@ -699,9 +703,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("int pos = 0 + 1;\n");
                 source.AppendFront("while(pos < matchesArray.Count)\n");
                 source.AppendFront("{\n");
-                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[0].{0})\n", matchEntity);
-                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-                source.AppendFront("\t++pos;\n");
+                source.Indent();
+                source.AppendFrontFormat("if(matchesArray[pos].{0} != matchesArray[0].{0})\n", matchEntity);
+                source.AppendFrontIndented("matchesArray[pos] = null;\n");
+                source.AppendFront("++pos;\n");
+                source.Unindent();
                 source.AppendFront("}\n");
             }
             else
@@ -709,9 +715,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("int pos = matchesArray.Count-1 - 1;\n");
                 source.AppendFront("while(pos >= 0)\n");
                 source.AppendFront("{\n");
-                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[matchesArray.Count-1].{0})\n", matchEntity);
-                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-                source.AppendFront("\t--pos;\n");
+                source.Indent();
+                source.AppendFrontFormat("if(matchesArray[pos].{0} != matchesArray[matchesArray.Count-1].{0})\n", matchEntity);
+                source.AppendFrontIndented("matchesArray[pos] = null;\n");
+                source.AppendFront("--pos;\n");
+                source.Unindent();
                 source.AppendFront("}\n");
             }
 
@@ -742,9 +750,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("int pos = 0 + 1;\n");
                 source.AppendFront("while(pos < matchesArray.Count)\n");
                 source.AppendFront("{\n");
-                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[0].{0})\n", matchEntity);
-                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-                source.AppendFront("\t++pos;\n");
+                source.Indent();
+                source.AppendFrontFormat("if(matchesArray[pos].{0} != matchesArray[0].{0})\n", matchEntity);
+                source.AppendFrontIndented("matchesArray[pos] = null;\n");
+                source.AppendFront("++pos;\n");
+                source.Unindent();
                 source.AppendFront("}\n");
             }
             else
@@ -752,9 +762,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("int pos = matchesArray.Count-1 - 1;\n");
                 source.AppendFront("while(pos >= 0)\n");
                 source.AppendFront("{\n");
-                source.AppendFrontFormat("\tif(matchesArray[pos].{0} != matchesArray[matchesArray.Count-1].{0})\n", matchEntity);
-                source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-                source.AppendFront("\t--pos;\n");
+                source.Indent();
+                source.AppendFrontFormat("if(matchesArray[pos].{0} != matchesArray[matchesArray.Count-1].{0})\n", matchEntity);
+                source.AppendFrontIndented("matchesArray[pos] = null;\n");
+                source.AppendFront("--pos;\n");
+                source.Unindent();
                 source.AppendFront("}\n");
             }
 
@@ -784,10 +796,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("Dictionary<{0}, object> seenValues = new Dictionary<{0}, object>();\n", typeOfEntity);
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
-            source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-            source.AppendFront("\telse\n");
-            source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
+            source.AppendFrontIndented("matchesArray[pos] = null;\n");
+            source.AppendFront("else\n");
+            source.AppendFrontIndentedFormat("seenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
+            source.Unindent();
             source.AppendFront("}\n");
 
             source.AppendFront("matches.FromListExact();\n");
@@ -816,10 +830,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("Dictionary<{0}, object> seenValues = new Dictionary<{0}, object>();\n", typeOfEntity);
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
-            source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-            source.AppendFront("\telse\n");
-            source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
+            source.AppendFrontIndented("matchesArray[pos] = null;\n");
+            source.AppendFront("else\n");
+            source.AppendFrontIndentedFormat("seenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
+            source.Unindent();
             source.AppendFront("}\n");
 
             source.AppendFront("matches.FromListExact();\n");
@@ -847,10 +863,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("Dictionary<{0}, object> seenValues = new Dictionary<{0}, object>();\n", typeOfEntity);
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
-            source.AppendFront("\t\tmatchesArray[pos] = null;\n");
-            source.AppendFront("\telse\n");
-            source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
+            source.AppendFrontIndented("matchesArray[pos] = null;\n");
+            source.AppendFront("else\n");
+            source.AppendFrontIndentedFormat("seenValues.Add(matchesArray[pos].{0}, null);\n", matchEntity);
+            source.Unindent();
             source.AppendFront("}\n");
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
@@ -883,24 +901,32 @@ namespace de.unika.ipd.grGen.lgsp
                 typeOfEntity, typeOfAccumulationEntity);
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
-            source.AppendFrontFormat("\t\tseenValues[matchesArray[pos].{0}].Add(matchesArray[pos].{1});\n",
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
+            source.AppendFrontIndentedFormat("seenValues[matchesArray[pos].{0}].Add(matchesArray[pos].{1});\n",
                 matchEntity, accumulationEntity);
-            source.AppendFront("\telse {\n");
-            source.AppendFrontFormat("\t\tList<{0}> newList = new List<{0}>();\n", typeOfAccumulationEntity);
-            source.AppendFrontFormat("\t\tnewList.Add(matchesArray[pos].{0});\n", accumulationEntity);
-            source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, newList);\n", matchEntity);
-            source.AppendFront("\t}\n");
+            source.AppendFront("else {\n");
+            source.Indent();
+            source.AppendFrontFormat("List<{0}> newList = new List<{0}>();\n", typeOfAccumulationEntity);
+            source.AppendFrontFormat("newList.Add(matchesArray[pos].{0});\n", accumulationEntity);
+            source.AppendFrontFormat("seenValues.Add(matchesArray[pos].{0}, newList);\n", matchEntity);
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.Unindent();
             source.AppendFront("}\n");
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))", matchEntity);
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))", matchEntity);
             source.Append(" {\n");
-            source.AppendFrontFormat("\t\tmatchesArray[pos].{0} = {1}(seenValues[matchesArray[pos].{2}]);\n",
+            source.Indent();
+            source.AppendFrontFormat("matchesArray[pos].{0} = {1}(seenValues[matchesArray[pos].{2}]);\n",
                 accumulationEntity, getArrayAccumulationMethodImplementation(accumulationMethod), matchEntity);
-            source.AppendFrontFormat("\t\tseenValues.Remove(matchesArray[pos].{0});\n", matchEntity);
-            source.AppendFront("\t} else\n");
-            source.AppendFront("\t\tmatchesArray[pos] = null;\n");
+            source.AppendFrontFormat("seenValues.Remove(matchesArray[pos].{0});\n", matchEntity);
+            source.Unindent();
+            source.AppendFront("} else\n");
+            source.AppendFrontIndented("matchesArray[pos] = null;\n");
+            source.Unindent();
             source.AppendFront("}\n");
 
             source.AppendFront("matches.FromListExact();\n");
@@ -965,24 +991,32 @@ namespace de.unika.ipd.grGen.lgsp
                 typeOfEntity, typeOfAccumulationEntity);
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
-            source.AppendFrontFormat("\t\tseenValues[matchesArray[pos].{0}].Add(matchesArray[pos].{1});\n",
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
+            source.AppendFrontIndentedFormat("seenValues[matchesArray[pos].{0}].Add(matchesArray[pos].{1});\n",
                 matchEntity, accumulationEntity);
-            source.AppendFront("\telse {\n");
-            source.AppendFrontFormat("\t\tList<{0}> newList = new List<{0}>();\n", typeOfAccumulationEntity);
-            source.AppendFrontFormat("\t\tnewList.Add(matchesArray[pos].{0});\n", accumulationEntity);
-            source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, newList);\n", matchEntity);
-            source.AppendFront("\t}\n");
+            source.AppendFront("else {\n");
+            source.Indent();
+            source.AppendFrontFormat("List<{0}> newList = new List<{0}>();\n", typeOfAccumulationEntity);
+            source.AppendFrontFormat("newList.Add(matchesArray[pos].{0});\n", accumulationEntity);
+            source.AppendFrontFormat("seenValues.Add(matchesArray[pos].{0}, newList);\n", matchEntity);
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.Unindent();
             source.AppendFront("}\n");
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))", matchEntity);
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))", matchEntity);
             source.Append(" {\n");
-            source.AppendFrontFormat("\t\tmatchesArray[pos].{0} = {1}(seenValues[matchesArray[pos].{2}]);\n",
+            source.Indent();
+            source.AppendFrontFormat("matchesArray[pos].{0} = {1}(seenValues[matchesArray[pos].{2}]);\n",
                 accumulationEntity, getArrayAccumulationMethodImplementation(accumulationMethod), matchEntity);
-            source.AppendFrontFormat("\t\tseenValues.Remove(matchesArray[pos].{0});\n", matchEntity);
-            source.AppendFront("\t} else\n");
-            source.AppendFront("\t\tmatchesArray[pos] = null;\n");
+            source.AppendFrontFormat("seenValues.Remove(matchesArray[pos].{0});\n", matchEntity);
+            source.Unindent();
+            source.AppendFront("} else\n");
+            source.AppendFrontIndented("matchesArray[pos] = null;\n");
+            source.Unindent();
             source.AppendFront("}\n");
 
             source.AppendFront("matches.FromListExact();\n");
@@ -1052,24 +1086,32 @@ namespace de.unika.ipd.grGen.lgsp
                 typeOfEntity, typeOfAccumulationEntity);
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
-            source.AppendFrontFormat("\t\tseenValues[matchesArray[pos].{0}].Add(matchesArray[pos].{1});\n",
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
+            source.AppendFrontIndentedFormat("seenValues[matchesArray[pos].{0}].Add(matchesArray[pos].{1});\n",
                 matchEntity, accumulationEntity);
-            source.AppendFront("\telse {\n");
-            source.AppendFrontFormat("\t\tList<{0}> newList = new List<{0}>();\n", typeOfAccumulationEntity);
-            source.AppendFrontFormat("\t\tnewList.Add(matchesArray[pos].{0});\n", accumulationEntity);
-            source.AppendFrontFormat("\t\tseenValues.Add(matchesArray[pos].{0}, newList);\n", matchEntity);
-            source.AppendFront("\t}\n");
+            source.AppendFront("else {\n");
+            source.Indent();
+            source.AppendFrontFormat("List<{0}> newList = new List<{0}>();\n", typeOfAccumulationEntity);
+            source.AppendFrontFormat("newList.Add(matchesArray[pos].{0});\n", accumulationEntity);
+            source.AppendFrontFormat("seenValues.Add(matchesArray[pos].{0}, newList);\n", matchEntity);
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.Unindent();
             source.AppendFront("}\n");
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
-            source.AppendFrontFormat("\tif(seenValues.ContainsKey(matchesArray[pos].{0}))", matchEntity);
+            source.Indent();
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))", matchEntity);
             source.Append(" {\n");
-            source.AppendFrontFormat("\t\tmatchesArray[pos].{0} = {1}(seenValues[matchesArray[pos].{2}]);\n", 
+            source.Indent();
+            source.AppendFrontFormat("matchesArray[pos].{0} = {1}(seenValues[matchesArray[pos].{2}]);\n", 
                 accumulationEntity, getArrayAccumulationMethodImplementation(accumulationMethod), matchEntity);
-            source.AppendFrontFormat("\t\tseenValues.Remove(matchesArray[pos].{0});\n", matchEntity);
-            source.AppendFront("\t} else\n");
-            source.AppendFront("\t\tmatchesArray[pos] = null;\n");
+            source.AppendFrontFormat("seenValues.Remove(matchesArray[pos].{0});\n", matchEntity);
+            source.Unindent();
+            source.AppendFront("} else\n");
+            source.AppendFrontIndented("matchesArray[pos] = null;\n");
+            source.Unindent();
             source.AppendFront("}\n");
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
@@ -1153,7 +1195,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("\n");
 
             source.AppendFront("private " + filtererClassName + "()\n");
-            source.AppendFront("\t: base(" + infoClassName + ".Instance)\n");
+            source.AppendFrontIndented(": base(" + infoClassName + ".Instance)\n");
             source.AppendFront("{\n");
             source.AppendFront("}\n");
             source.AppendFront("\n");
@@ -1228,9 +1270,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFrontFormat("if(parameter is {0})\n", listTypeName);
-            source.AppendFrontFormat("\treturn (({0})parameter);\n", listTypeName);
+            source.AppendFrontIndentedFormat("return (({0})parameter);\n", listTypeName);
             source.AppendFrontFormat("else\n");
-            source.AppendFrontFormat("\treturn GRGEN_LIBGR.MatchListHelper.ToList<{0}>((IList<GRGEN_LIBGR.IMatch>)parameter);\n", typeName);
+            source.AppendFrontIndentedFormat("return GRGEN_LIBGR.MatchListHelper.ToList<{0}>((IList<GRGEN_LIBGR.IMatch>)parameter);\n", typeName);
             source.Unindent();
             source.AppendFront("}\n");
 
