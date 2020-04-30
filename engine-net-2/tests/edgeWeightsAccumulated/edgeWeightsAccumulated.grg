@@ -25,3 +25,25 @@ sequence s : (res:array<match<t>>)
 {
 	{ res = [?t\keepOneForEach<n>Accumulate<weight>By<sum>\orderDescendingBy<weight>] }
 }
+
+rule rit
+{
+	n:Node;
+	iterated it {
+		n -w:weighted->;
+	---
+		def var weight:double = w.weight;
+		
+		modify {
+			n -rw:resultWeighted-> n;
+			eval { rw.weight = weight; }
+		}
+	} \ keepOneForEach<n>Accumulate<weight>By<sum>, orderDescendingBy<weight>
+---
+	iterated it\keepOneForEach<n>Accumulate<weight>By<sum>\orderDescendingBy<weight>;
+}
+
+test resultWeighted
+{
+	-rw:resultWeighted->;
+}

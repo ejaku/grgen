@@ -1,0 +1,8 @@
+test t
+{
+	iterated it {
+	---
+		def var i:int;
+		def var j:int;
+	} \ keepOneForEach<i>Accumulate<j>By<blub>
+}

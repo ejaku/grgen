@@ -1,0 +1,8 @@
+test t
+{
+	iterated it {
+	---
+		def var i:int;
+		def -j:Edge->;
+	} \ keepOneForEach<i>Accumulate<j>By<sum>
+}

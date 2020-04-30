@@ -2,3 +2,8 @@ edge class weighted
 {
 	weight:double;
 }
+
+edge class resultWeighted
+{
+	weight:double;
+}
