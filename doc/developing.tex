@@ -94,7 +94,10 @@ The figure \ref{figincidenceexampleringlists} gives the ringlist implementation 
 
 In case attribute indices were declared, a balanced search tree (an AA-tree) is created for each of them.
 The tree is maintained by event handlers that listen to graph element creation and deletion, but esp. for attribute assignment.
- 
+
+Naming is implemented by the \texttt{LGSPNamedGraph}, the uniqueness constraints/the index by the \texttt{LGSPUniquenessEnsurer}/\texttt{LGSPUniquenessIndex}.
+The \texttt{LGSPGraphStatistics} class stores the graph analyzation results (element count and vstruct statistics).
+
 \subsection*{Pattern Matching and Search Programs}\indexmain{pattern matching implementation}\indexmain{search program}
 
 The pattern of an action (rule or test) is matched with a backtracking algorithm that is binding one pattern element after another to a graph element, while checking if it fits to the already bound parts. 
@@ -620,7 +623,6 @@ If you want to extend this code, you may be interested in the \texttt{Dump} meth
 Besides this pattern-matching related core functionality of \GrG, do you find in the \texttt{lgsp\-Backend/Expression\-Or\-Yielding} folder the classes emitting the code for the condition expressions and yielding statements.
 The generated code typically calls one of the helper method available in one of the \texttt{XXXHelper.cs} files in the \texttt{libGr} folder (defining the runtime library for the \GrG-languages).
 
-
 \subsubsection*{Nested and Subpattern Matching}
 
 The \texttt{Subpattern\-Action}-classes (cf. \ref{figbackendcodegen3}) do not only contain the matcher code, 
@@ -644,14 +646,12 @@ Afterwards, \texttt{insert\-Pop\-Subpattern\-Tasks} inserts the operations for c
 and \texttt{insert\-Match\-Object\-Building} the code for maintaining the result stack.
 
 
-\subsubsection*{Further Functionality}
+\subsubsection*{libGr and lgspBackend}
 
-The \texttt{src/GrGen} subdirectory contains the driver procedure of the \texttt{grgen.exe} compiler.
 The \texttt{src/libGr} subdirectory contains the libGr, offering the base interfaces you see on the API level for the model, the actions, the pattern graphs and the host graph.
-The interfaces are implemented by code from the libGr search plan (lgsp) backend and by the generated code.
+The interfaces are implemented by code from the libGr search plan (lgsp) backend in \texttt{src/lgspBackend} and by the generated code.
 The generated code defines a type-safe interface of named and typed entities, which is more convenient to use at API level, but bound to a specification.
 The libGr in contrast offers a "generic", name string and object or root type based interface.
-Also, the libGr offers several importers and exporters in the \texttt{src/libGr/IO} subfolder.
 
 In addition, it offers the graph rewrite sequence parser, which gets generated from \texttt{Sequence\-Parser.csc},
 and is building a graph rewrite sequence AST out of a sequence string, from the classes in \texttt{Sequence.cs}, further utilizing a \texttt{Symbol\-Table} and the \texttt{Sequence\-Parser\-Environment}.
@@ -672,9 +672,30 @@ They are purged on commit or executed on rollback.
 Backtracking is implemented with nested transactions.
 If you are changing the graph programmatically at API level (not using GrGen rules), you have to fire some of the events (esp. the ones for attribute assignment) on your own in case you want to use any of the mechanisms (graphical debugging, record and replay, transactions and backtracking, event based programming) above.
 
+The runtime library \texttt{libGr} further contains the interface \texttt{IGraphProcessingEnvironment} to the graph processing environment (built up from a series of environment interfaces with increasing functionality), offering e.g. graph global variables, sequence execution, convenient action execution, as well as graph change recording and transaction handling (implemented by the aforementioned classes in the \texttt{lgspBackend}).
+Additionally, it implements helper code in \texttt{XXXHelper.cs} files.
+
+The \texttt{ContainerHelper.cs} contains code that is common for all container types (cf. Chapter~\ref{cha:container}), the \texttt{DictionaryHelper.cs} contains code that is common for sets and maps, while the \texttt{SequentialTypeHelper.cs} contains code that is common for array and deques; code specific to each container type is available in correspondingly named files.
+The \texttt{GraphHelper.cs} contains code that implements the diverse graph query functions and graph manipulation procedures (cf. Chapter~\ref{cha:graph}), while the \texttt{GraphHelperParallel.cs} contains code that implements the diverse graph query functions in versions that can be employed from parallelized pattern matchers (which are not allowed to use the isomorphy checking flags contained in the graph elements that are employed by the non-parallel pattern matchers).
+The \texttt{EmitHelper.cs} contains code for uniform emitting/to-string-conversion of the diverse types supported by \GrG, the \texttt{TypesHelper.cs} contains type querying and type representation conversion functions (predominantly for internal use).
+
+The \texttt{libGr} offers also several importers and exporters in the \texttt{src/libGr/IO} subfolder, as well as dumpers into file formats meant for visualization.
+
+For graph comparison, a pattern may be created out of one of the graphs, and searched in the other one, by utilizing an \texttt{Interpretation\-Plan\-Builder} to build an \texttt{Interpretation\-Plan}, and by calling \texttt{Execute} on it (an interpretation plan is a simplified version of a search plan, that is executed at runtime instead of getting emitted into an actions file -- when it is utilized a certain number of times, it gets emitted and compiled (at runtime) in order to speed up pattern matching and thus graph comparison.
+Take a look at \texttt{lgspBackend/Graph\-Comparison} for the code and at Section~\ref{sec:relationalgraph}) for further explanations.
+
+The filter implementations of the auto-generated filters are generated by the \texttt{Filter\-Generator.cs}, the auto filter for filtering symmetric matches from automorphic patterns is further utilizing the \texttt{Symmetry\-Checker.cs}.
+The auto-supplied filters are available pre-implemented in the \texttt{libGr/matches\-Helper.cs} and the \texttt{lgsp\-Backend/Actions/lgsp\-Matches.cs} files.
+
+\subsubsection*{GrShell and Debugger}
+
 The \texttt{src/GrShell} subdirectory contains the GrShell application, which builds upon the sequence interpretation facilities offered by libGr, and the "generic" interface of libGr, because it has to be capable of coping with arbitrary used defined models and actions at runtime.
 The command line parser of GrShell gets generated out of \texttt{GrShell.csc}, the shell implementation is given in \texttt{GrShellImpl.cs}, execution starts in the \texttt{Main} method in \texttt{GrShell\-Driver.cs}, and sequence execution is supported by the \texttt{GrShell\-Sequence\-Applier\-And\-Debugger.cs}.
 Graphical debugging is offered by the \texttt{Debugger.cs} and several helper classes, esp. including the \texttt{YCompClient.cs}, which implements the protocol available for controlling yComp, communicating with yComp over a tcp connection to localhost.
+
+\subsubsection*{Further Things}
+
+The \texttt{src/GrGen} subdirectory contains the driver procedure of the \texttt{grgen.exe} compiler.
 
 The \texttt{examples} subdirectory of \texttt{engine-net-2} contains a bunch of examples for using \GrG~with GrShell.
 The \texttt{examples-api} subdirectory contains several examples of how to use \GrG~from the API.

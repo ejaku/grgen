@@ -149,30 +149,45 @@ rule linkChainEndToStartIndependent(begin:Node) : (Node)
 
 The first example for LHS yielding follows within an independent a chain piece by piece to some a priori unknown end node, and yields this end node chain piece by chain piece again outwards to the chain start. There it is used as input to another chain (maybe the same chain, maybe overlapping due to the independent), linking all the nodes of this chain to the end node of the former.
 
-When yielding from an iterated pattern there's the problem that each yielding assignment from an iterated instance would overwrite the one def variable from outside the iterated, while one is interested most of the time in some accumulation of the values, e.g. summing integers or concatenating strings.
-This can be achieved by reading and writing a variable defined in the nesting pattern (bottom-up -- the initialization in the nesting pattern defines the start value of accumulation (top-down)).
-Or with a \texttt{for} loop iterating a def variable inside an iterated for all the matches of the iterated pattern referenced by name, allowing to assign to an outside def variable a value computed from the def variable and the value of the iterated def variable.
-
-This is shown in the second example for LHS yielding, summing the integer attribute \texttt{a} of nodes of type \texttt{N} adjacent to a start node, matched with an iterated.
+When yielding from an iterated pattern there's the issue that a simple bottom-up assignment to a def variable from the outside would only overwrite the variable value multiple times, so we would end up with one of the values from the iterated pattern instances (indeterministically chosen -- multiple iterated variable values exist for a single nesting pattern variable).
+But we can also read entities from the nesting pattern, and thus use them as accumulation variables, for e.g. summing integers or concatenating strings.
+The start value of accumulation can be set with the initialization in the nesting pattern (and thus travels top-down).
 
 \begin{example}
   \begin{grgen}
 test sumOfWeight(start:Node) : (int,int)
 {
-  iterated it {
+  iterated {
     start --> n:N; // node class N { a:int; }
   ---
-    def var i:int;
     yield {
-      yield directSum = directSum + n.a;
-      yield i = n.a;
-      yield v = 42; // v is assigned 42 multiple times
+      yield sum = sum + n.a;
+      yield v = n.a; // v is in the end the n.a of one iterated instance
     }
   } 
 ---
-  def var directSum:int = 0;
   def var sum:int = 0;
   def var v:int = 0;
+  return (sum,v);
+}
+  \end{grgen}
+\end{example}
+
+Alternatively, a \texttt{for} iterated accumulation loop can be used, iterating a def variable inside an iterated for all the matches of the iterated pattern referenced by name, it allows to assign to an outside def variable a value computed from the def variable and the value of the iterated def variable.
+
+This is shown in the third example for LHS yielding, summing the integer attribute \texttt{a} of nodes of type \texttt{N} adjacent to a start node, matched with an iterated.
+
+\begin{example}
+  \begin{grgen}
+test sumOfWeight(start:Node) : (int)
+{
+  iterated it {
+    start --> n:N; // node class N { a:int; }
+  ---
+    def var i:int = n.a;
+  } 
+---
+  def var sum:int = 0;
   yield {
     for(i in it)
     {
@@ -180,7 +195,7 @@ test sumOfWeight(start:Node) : (int,int)
     }
   }
 
-  return (sum,v);
+  return (sum);
 }
   \end{grgen}
 \end{example}
@@ -231,7 +246,11 @@ test countOfEdges(start:Node) : (int)
   \end{grgen}
 \end{example}
 
-Employing the way more general iterated query, the example looks as follows; for a larger example, see Example~\ref{exsimplequeryrules}.
+
+A more general language device that benefits from the yield expression is the iterated query. 
+It is available in the rule language expressions within a rule (but only during yielding), and returns an array of the matches of the iterated (\texttt{array<match<r.it>>} for iterated \texttt{it} in rule \texttt{r}), cf. Section~\ref{sec:primexpr}, in contrast to the rule query from Chapter~\ref{cha:graphquery} that is available in the sequence expressions, and returns an array of matches of the rule (\texttt{array<match<r>>}).
+Similar to the \texttt{for} iterated accumulation loop, it accesses the matches of the iterated from the outside (in contrast to default bottom-up yielding from inside).
+Employing the iterated query, the example looks as follows; for a larger example, see Example~\ref{exsimplequeryrules}.
 
 \begin{example}
   \begin{grgen}
@@ -251,7 +270,7 @@ test countOfEdges(start:Node) : (int)
 \subsubsection*{Iterated Filtering}\label{sub:iteratedfilter}
 
 A helper in iterated accumulation is iterated filtering, it allows to execute filters on the iterated matches array, reordering matches or even removing them (thus changing the result matches tree of rule application).
-For this to work, the iterateds must be firstly given a name, as described in \ref{namednested}, so it can be referenced, and secondly, a filter must be declared on it, cf. Section~\label{cardinality} (unless only auto-supplied filters are to be applied, cf. \ref{filter:auto-supplied}).
+For this to work, the iterated must be firstly given a name, as described in \ref{namednested}, so it can be referenced, and secondly, a filter must be declared on it, cf. Section~\label{cardinality} (unless only auto-supplied filters are to be applied, cf. \ref{filter:auto-supplied}).
 
 \begin{rail}
   IteratedFiltering: 
@@ -278,6 +297,8 @@ test iteratedFiltering(start:Node) : (int)
   \end{grgen}
 \end{example}
 
+
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
