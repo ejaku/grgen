@@ -106,6 +106,7 @@ do_test()
 	elif grep -q -v "ERROR\|WARNING" < "$DIR/log"; then
 		echo " ... ABEND"
 		echo "ABEND  $FILE" >> "$LOG"
+		cat "$DIR/log" >> "$LOG"
 	else
 		echo " ... ERROR"
 		echo "ERROR  $FILE" >> "$LOG"
