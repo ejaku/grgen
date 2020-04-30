@@ -66,10 +66,28 @@ namespace de.unika.ipd.grGen.lgsp
             return this;
         }
 
+        public SourceBuilder AppendFrontIndented(String str)
+        {
+            Indent();
+            builder.Append(indentation);
+            builder.Append(str);
+            Unindent();
+            return this;
+        }
+
         public SourceBuilder AppendFrontFormat(String str, params object[] args)
         {
             builder.Append(indentation);
             builder.AppendFormat(str, args);
+            return this;
+        }
+
+        public SourceBuilder AppendFrontIndentedFormat(String str, params object[] args)
+        {
+            Indent();
+            builder.Append(indentation);
+            builder.AppendFormat(str, args);
+            Unindent();
             return this;
         }
 
