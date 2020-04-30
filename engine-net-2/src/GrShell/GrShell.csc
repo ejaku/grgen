@@ -783,7 +783,7 @@ object Constant():
     |
         "set" "<" typeName=TypeName() ">"
         {
-            srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+            srcType = TypesHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
             dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
             if(srcType!=null)
                 constant = ContainerHelper.NewDictionary(srcType, dstType);
@@ -797,8 +797,8 @@ object Constant():
     |
         "map" "<" typeName=TypeName() "," typeNameDst=TypeName() ">"
         {
-            srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
-            dstType = ContainerHelper.GetTypeFromNameForContainer(typeNameDst, impl.CurrentGraph.Model);
+            srcType = TypesHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+            dstType = TypesHelper.GetTypeFromNameForContainer(typeNameDst, impl.CurrentGraph.Model);
             if(srcType!=null && dstType!=null)
                 constant = ContainerHelper.NewDictionary(srcType, dstType);
             if(constant==null)
@@ -811,7 +811,7 @@ object Constant():
     |
         "array" "<" typeName=TypeName() ">"
         {
-            srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+            srcType = TypesHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
             if(srcType!=null)
                 constant = ContainerHelper.NewList(srcType);
             if(constant==null)
@@ -824,7 +824,7 @@ object Constant():
     |
         "deque" "<" typeName=TypeName() ">"
         {
-            srcType = ContainerHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
+            srcType = TypesHelper.GetTypeFromNameForContainer(typeName, impl.CurrentGraph.Model);
             if(srcType!=null)
                 constant = ContainerHelper.NewDeque(srcType);
             if(constant==null)

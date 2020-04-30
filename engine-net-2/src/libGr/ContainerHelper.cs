@@ -9,98 +9,11 @@
 
 using System;
 using System.Collections;
-using System.Reflection;
 
 namespace de.unika.ipd.grGen.libGr
 {
     public static partial class ContainerHelper
     {
-        /// <summary>
-        /// Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Deque
-        /// </summary>
-        /// <param name="typeName">Name of the type we want some type object for</param>
-        /// <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
-        /// <returns>The type object corresponding to the given string, null if type was not found</returns>
-        public static Type GetTypeFromNameForContainer(String typeName, IGraph graph)
-        {
-            return GetTypeFromNameForContainer(typeName, graph.Model);
-        }
-
-        /// <summary>
-        /// Returns type object for type name string, to be used for container class, i.e. Dictionary, List, Deque
-        /// </summary>
-        /// <param name="typeName">Name of the type we want some type object for</param>
-        /// <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
-        /// <returns>The type object corresponding to the given string, null if type was not found</returns>
-        public static Type GetTypeFromNameForContainer(String typeName, IGraphModel model)
-        {
-            if(typeName == null)
-                return null;
-
-            switch(typeName)
-            {
-            case "boolean": return typeof(bool);
-            case "byte": return typeof(sbyte);
-            case "short": return typeof(short);
-            case "int": return typeof(int);
-            case "long": return typeof(long);
-            case "float": return typeof(float);
-            case "double": return typeof(double);
-            case "string": return typeof(string);
-            case "object": return typeof(object);
-            case "graph": return typeof(IGraph);
-            }
-
-            if(model == null)
-                return null;
-
-            // No standard type, so check enums
-            foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
-            {
-                if(enumAttrType.PackagePrefixedName == typeName)
-                    return enumAttrType.EnumType;
-            }
-
-            Assembly assembly = Assembly.GetAssembly(model.GetType());
-
-            // check node and edge types
-            foreach(NodeType nodeType in model.NodeModel.Types)
-            {
-                if(nodeType.PackagePrefixedName == typeName)
-                {
-                    Type type = Type.GetType(nodeType.NodeInterfaceName); // available in libGr (INode)?
-                    if(type != null)
-                        return type;
-                    type = Type.GetType(nodeType.NodeInterfaceName + "," + assembly.FullName); // no -> search model assembly
-                    return type;
-                }
-            }
-            foreach(EdgeType edgeType in model.EdgeModel.Types)
-            {
-                if(edgeType.PackagePrefixedName == typeName)
-                {
-                    Type type = Type.GetType(edgeType.EdgeInterfaceName); // available in libGr (IEdge)?
-                    if(type != null)
-                        return type;
-                    type = Type.GetType(edgeType.EdgeInterfaceName + "," + assembly.FullName); // no -> search model assembly
-                    return type;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Returns the qualified type name for the type name given
-        /// </summary>
-        public static String GetQualifiedTypeName(String typeName, IGraphModel model)
-        {
-            if(typeName == "de.unika.ipd.grGen.libGr.SetValueType" || typeName == "SetValueType")
-                return "de.unika.ipd.grGen.libGr.SetValueType";
-            Type type = GetTypeFromNameForContainer(typeName, model);
-            return type != null ? type.Namespace + "." + type.Name : null;
-        }
-
         /// <summary>
         /// Creates a shallow clone of the given container.
         /// </summary>

@@ -1800,7 +1800,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type srcType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type srcType = TypesHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
             Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
             IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
 
@@ -1874,8 +1874,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type keyType = ContainerHelper.GetTypeFromNameForContainer(KeyType, procEnv.Graph.Model);
-            Type valueType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type keyType = TypesHelper.GetTypeFromNameForContainer(KeyType, procEnv.Graph.Model);
+            Type valueType = TypesHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
             IDictionary map = ContainerHelper.NewDictionary(keyType, valueType);
 
             for(int i = 0; i < MapKeyItems.Length; ++i)
@@ -1961,7 +1961,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type valueType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type valueType = TypesHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
             IList array = ContainerHelper.NewList(valueType);
 
             foreach(SequenceExpression arrayItem in ContainerItems)
@@ -2011,7 +2011,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type valueType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type valueType = TypesHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
             IDeque deque = ContainerHelper.NewDeque(valueType);
 
             foreach(SequenceExpression dequeItem in ContainerItems)
@@ -2081,7 +2081,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type srcType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type srcType = TypesHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
             Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
             IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
             ContainerHelper.FillSet(set, ValueType, SetToCopy.Evaluate(procEnv), procEnv.Graph.Model);
@@ -2167,8 +2167,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type srcType = ContainerHelper.GetTypeFromNameForContainer(KeyType, procEnv.Graph.Model);
-            Type dstType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type srcType = TypesHelper.GetTypeFromNameForContainer(KeyType, procEnv.Graph.Model);
+            Type dstType = TypesHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
             IDictionary map = ContainerHelper.NewDictionary(srcType, dstType);
             ContainerHelper.FillMap(map, KeyType, ValueType, MapToCopy.Evaluate(procEnv), procEnv.Graph.Model);
             return map;
@@ -2252,7 +2252,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type valueType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type valueType = TypesHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
             IList array = ContainerHelper.NewList(valueType);
             ContainerHelper.FillArray(array, ValueType, ArrayToCopy.Evaluate(procEnv), procEnv.Graph.Model);
             return array;
@@ -2334,7 +2334,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
-            Type valueType = ContainerHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
+            Type valueType = TypesHelper.GetTypeFromNameForContainer(ValueType, procEnv.Graph.Model);
             IDeque deque = ContainerHelper.NewDeque(valueType);
             ContainerHelper.FillDeque(deque, ValueType, DequeToCopy.Evaluate(procEnv), procEnv.Graph.Model);
             return deque;
