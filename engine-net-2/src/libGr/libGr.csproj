@@ -76,6 +76,8 @@
     <Compile Include="ArrayAccumulationHelper.cs" />
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="DequeHelper.cs" />
+    <Compile Include="DotNetTypesHelper.cs" />
+    <Compile Include="GrGenTypesHelper.cs" />
     <Compile Include="MapHelper.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="PatternsAndMatches\IAlternative.cs" />
