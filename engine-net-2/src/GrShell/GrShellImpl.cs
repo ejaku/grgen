@@ -2176,7 +2176,7 @@ namespace de.unika.ipd.grGen.grShell
                     throw new Exception("Set literal expected");
                 }
                 setmap = ContainerHelper.NewDictionary(
-                    TypesHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model),
+                    TypesHelper.GetType(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model),
                     typeof(de.unika.ipd.grGen.libGr.SetValueType));
                 foreach(object val in par.Values)
                 {
@@ -2191,8 +2191,8 @@ namespace de.unika.ipd.grGen.grShell
                     throw new Exception("Map literal expected");
                 }
                 setmap = ContainerHelper.NewDictionary(
-                    TypesHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model),
-                    TypesHelper.GetTypeFromNameForContainer(par.TgtType, curShellProcEnv.ProcEnv.NamedGraph.Model));
+                    TypesHelper.GetType(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model),
+                    TypesHelper.GetType(par.TgtType, curShellProcEnv.ProcEnv.NamedGraph.Model));
                 IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
                 foreach(object val in par.Values)
                 {
@@ -2209,7 +2209,7 @@ namespace de.unika.ipd.grGen.grShell
                     throw new Exception("Array literal expected");
                 }
                 array = ContainerHelper.NewList(
-                    TypesHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model));
+                    TypesHelper.GetType(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model));
                 foreach(object val in par.Values)
                 {
                     array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
@@ -2223,7 +2223,7 @@ namespace de.unika.ipd.grGen.grShell
                     throw new Exception("Deque literal expected");
                 }
                 deque = ContainerHelper.NewDeque(
-                    TypesHelper.GetTypeFromNameForContainer(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model));
+                    TypesHelper.GetType(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model));
                 foreach(object val in par.Values)
                 {
                     deque.Enqueue(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));

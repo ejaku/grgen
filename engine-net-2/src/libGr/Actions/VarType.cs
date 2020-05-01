@@ -13,6 +13,7 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    /// <summary>
     /// A representation of a GrGen variable type.
     /// </summary>
     public class VarType : GrGenType

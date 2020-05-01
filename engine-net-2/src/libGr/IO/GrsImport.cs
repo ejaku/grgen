@@ -746,7 +746,7 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.RANGLE);
 
                 IDictionary set = ContainerHelper.NewDictionary(
-                    TypesHelper.GetTypeFromNameForContainer(type, graph.Model),
+                    TypesHelper.GetType(type, graph.Model),
                     typeof(de.unika.ipd.grGen.libGr.SetValueType));
 
                 Match(TokenKind.LBRACE);
@@ -776,8 +776,8 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.RANGLE);
 
                 IDictionary map = ContainerHelper.NewDictionary(
-                    TypesHelper.GetTypeFromNameForContainer(type, graph.Model),
-                    TypesHelper.GetTypeFromNameForContainer(tgtType, graph.Model));
+                    TypesHelper.GetType(type, graph.Model),
+                    TypesHelper.GetType(tgtType, graph.Model));
 
                 Match(TokenKind.LBRACE);
                 if(LookaheadToken() != TokenKind.RBRACE)
@@ -808,7 +808,7 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.RANGLE);
 
                 IList array = ContainerHelper.NewList(
-                    TypesHelper.GetTypeFromNameForContainer(type, graph.Model));
+                    TypesHelper.GetType(type, graph.Model));
 
                 Match(TokenKind.LBOXBRACKET);
                 if(LookaheadToken() != TokenKind.RBOXBRACKET)
@@ -835,7 +835,7 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.RANGLE);
 
                 IDeque deque = ContainerHelper.NewDeque(
-                    TypesHelper.GetTypeFromNameForContainer(type, graph.Model));
+                    TypesHelper.GetType(type, graph.Model));
 
                 Match(TokenKind.LBOXBRACKET);
                 if(LookaheadToken() != TokenKind.RBOXBRACKET)

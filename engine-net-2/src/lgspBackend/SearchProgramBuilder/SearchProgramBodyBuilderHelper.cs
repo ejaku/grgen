@@ -113,7 +113,7 @@ namespace de.unika.ipd.grGen.lgsp
                 nodeFromEdge = new GetCandidateByDrawing(
                     GetCandidateByDrawingType.NodeFromEdge,
                     currentNode.PatternElement.Name,
-                    TypesHelper.XgrsTypeToCSharpTypeNodeEdge(env.model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName),
+                    TypesHelper.XgrsTypeToCSharpType(env.model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName, env.model),
                     edge.PatternElement.Name,
                     nodeType);
                 insertionPoint = insertionPoint.Append(nodeFromEdge);
@@ -127,7 +127,7 @@ namespace de.unika.ipd.grGen.lgsp
                     nodeFromEdge = new GetCandidateByDrawing(
                         GetCandidateByDrawingType.NodeFromEdge,
                         currentNode.PatternElement.Name,
-                        TypesHelper.XgrsTypeToCSharpTypeNodeEdge(env.model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName),
+                        TypesHelper.XgrsTypeToCSharpType(env.model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName, env.model),
                         edge.PatternElement.Name,
                         edge.PatternEdgeSource == currentNode ? edge.PatternEdgeTarget.PatternElement.Name
                             : edge.PatternEdgeSource.PatternElement.Name,
@@ -142,7 +142,7 @@ namespace de.unika.ipd.grGen.lgsp
                         nodeFromEdge = new GetCandidateByDrawing(
                             GetCandidateByDrawingType.NodeFromEdge,
                             currentNode.PatternElement.Name,
-                            TypesHelper.XgrsTypeToCSharpTypeNodeEdge(env.model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName),
+                            TypesHelper.XgrsTypeToCSharpType(env.model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName, env.model),
                             edge.PatternElement.Name,
                             ImplicitNodeType.Source);
                         insertionPoint = insertionPoint.Append(nodeFromEdge);
@@ -158,7 +158,7 @@ namespace de.unika.ipd.grGen.lgsp
                         nodeFromEdge = new GetCandidateByDrawing(
                             GetCandidateByDrawingType.NodeFromEdge,
                             currentNode.PatternElement.Name,
-                            TypesHelper.XgrsTypeToCSharpTypeNodeEdge(env.model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName),
+                            TypesHelper.XgrsTypeToCSharpType(env.model.NodeModel.Types[currentNode.PatternElement.TypeID].PackagePrefixedName, env.model),
                             edge.PatternElement.Name,
                             ImplicitNodeType.SourceOrTarget);
                         insertionPoint = insertionPoint.Append(nodeFromEdge);

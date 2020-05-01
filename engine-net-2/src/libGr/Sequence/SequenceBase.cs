@@ -247,7 +247,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(returnVars[i] == null)
                     {
                         string returnType = TypesHelper.DotNetTypeToXgrsType(Action.RulePattern.Outputs[i]);
-                        Type valueType = TypesHelper.GetTypeFromNameForContainer(returnType, procEnv.Graph.Model);
+                        Type valueType = TypesHelper.GetType(returnType, procEnv.Graph.Model);
                         returnVars[i] = ContainerHelper.NewList(valueType);
                         ReturnVars[i].SetVariableValue(returnVars[i], procEnv);
                     }

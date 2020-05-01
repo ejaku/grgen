@@ -19,56 +19,6 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public static partial class TypesHelper
     {
-        public static GrGenType GetNodeOrEdgeType(String typeName, IGraphModel model)
-        {
-            foreach(NodeType nodeType in model.NodeModel.Types)
-            {
-                if(nodeType.PackagePrefixedName == typeName)
-                    return nodeType;
-            }
-
-            foreach(EdgeType edgeType in model.EdgeModel.Types)
-            {
-                if(edgeType.PackagePrefixedName == typeName)
-                    return edgeType;
-            }
-
-            return null;
-        }
-
-        public static NodeType GetNodeType(String typeName, IGraphModel model)
-        {
-            foreach(NodeType nodeType in model.NodeModel.Types)
-            {
-                if(nodeType.PackagePrefixedName == typeName)
-                    return nodeType;
-            }
-
-            return null;
-        }
-
-        public static EdgeType GetEdgeType(String typeName, IGraphModel model)
-        {
-            foreach(EdgeType edgeType in model.EdgeModel.Types)
-            {
-                if(edgeType.PackagePrefixedName == typeName)
-                    return edgeType;
-            }
-
-            return null;
-        }
-
-        public static EnumAttributeType GetEnumAttributeType(String typeName, IGraphModel model)
-        {
-            foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
-            {
-                if(attrType.PackagePrefixedName == typeName)
-                    return attrType;
-            }
-
-            return null;
-        }
-
         public static String DotNetTypeToXgrsType(Type type)
         {
             if(type.IsGenericType)
@@ -105,30 +55,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Type typeOfVar = ((VarType)type).Type;
                 if(typeOfVar.IsGenericType)
-                {
-                    if(typeOfVar.Name == "Dictionary`2")
-                    {
-                        Type keyType;
-                        Type valueType;
-                        ContainerHelper.GetDictionaryTypes(typeOfVar, out keyType, out valueType);
-                        if(valueType.Name == "SetValueType")
-                            return "set<" + DotNetTypeToXgrsType(keyType.Name, keyType.FullName) + ">";
-                        else
-                            return "map<" + DotNetTypeToXgrsType(keyType.Name, keyType.FullName) + "," + DotNetTypeToXgrsType(valueType.Name, valueType.FullName) + ">";
-                    }
-                    else if(typeOfVar.Name == "List`1")
-                    {
-                        Type valueType;
-                        ContainerHelper.GetListType(typeOfVar, out valueType);
-                        return "array<" + DotNetTypeToXgrsType(valueType.Name, valueType.FullName) + ">";
-                    }
-                    else if(typeOfVar.Name == "Deque`1")
-                    {
-                        Type valueType;
-                        ContainerHelper.GetDequeType(typeOfVar, out valueType);
-                        return "deque<" + DotNetTypeToXgrsType(valueType.Name, valueType.FullName) + ">";
-                    }
-                }
+                    return DotNetTypeToXgrsType(typeOfVar);
                 return DotNetTypeToXgrsType(type.Name, typeOfVar.FullName);
             }
 
@@ -549,6 +476,58 @@ namespace de.unika.ipd.grGen.libGr
                 return ((IEdge)constant).Type;
             else
                 return constant;
+        }
+
+        // ------------------------------------------------------------------------------------------------
+
+        public static GrGenType GetNodeOrEdgeType(String typeName, IGraphModel model)
+        {
+            foreach(NodeType nodeType in model.NodeModel.Types)
+            {
+                if(nodeType.PackagePrefixedName == typeName)
+                    return nodeType;
+            }
+
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
+            {
+                if(edgeType.PackagePrefixedName == typeName)
+                    return edgeType;
+            }
+
+            return null;
+        }
+
+        public static NodeType GetNodeType(String typeName, IGraphModel model)
+        {
+            foreach(NodeType nodeType in model.NodeModel.Types)
+            {
+                if(nodeType.PackagePrefixedName == typeName)
+                    return nodeType;
+            }
+
+            return null;
+        }
+
+        public static EdgeType GetEdgeType(String typeName, IGraphModel model)
+        {
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
+            {
+                if(edgeType.PackagePrefixedName == typeName)
+                    return edgeType;
+            }
+
+            return null;
+        }
+
+        public static EnumAttributeType GetEnumAttributeType(String typeName, IGraphModel model)
+        {
+            foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
+            {
+                if(attrType.PackagePrefixedName == typeName)
+                    return attrType;
+            }
+
+            return null;
         }
     }
 }
