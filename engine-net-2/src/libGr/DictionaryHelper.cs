@@ -375,14 +375,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="owner">The node containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether at least one element was changed in a</returns>
-        public static bool UnionChanged<K>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
-            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
+        public static bool UnionChanged<K>(Dictionary<K, SetValueType> a,
+            Dictionary<K, SetValueType> b,
             IGraph graph, INode owner, AttributeType attrType)
         {
             bool changed = false;
 
             // Add all elements from b not contained in a (different values count as not contained, overwriting old value).
-            foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in b)
+            foreach(KeyValuePair<K, SetValueType> entry in b)
             {
                 if(!a.ContainsKey(entry.Key))
                 {
@@ -405,14 +405,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="owner">The edge containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether at least one element was changed in a</returns>
-        public static bool UnionChanged<K>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
-            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
+        public static bool UnionChanged<K>(Dictionary<K, SetValueType> a,
+            Dictionary<K, SetValueType> b,
             IGraph graph, IEdge owner, AttributeType attrType)
         {
             bool changed = false;
 
             // Add all elements from b not contained in a (different values count as not contained, overwriting old value).
-            foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in b)
+            foreach(KeyValuePair<K, SetValueType> entry in b)
             {
                 if(!a.ContainsKey(entry.Key))
                 {
@@ -499,13 +499,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="owner">The node containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether at least one element was changed in a</returns>
-        public static bool IntersectChanged<K>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
-            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
+        public static bool IntersectChanged<K>(Dictionary<K, SetValueType> a,
+            Dictionary<K, SetValueType> b,
             IGraph graph, INode owner, AttributeType attrType)
         {
             // First determine all elements from a not contained in b
             List<K> toBeRemoved = new List<K>(a.Count);
-            foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in a)
+            foreach(KeyValuePair<K, SetValueType> entry in a)
             {
                 if(!b.ContainsKey(entry.Key))
                     toBeRemoved.Add(entry.Key);
@@ -531,13 +531,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="owner">The edge containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether at least one element was changed in a</returns>
-        public static bool IntersectChanged<K>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
-            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
+        public static bool IntersectChanged<K>(Dictionary<K, SetValueType> a,
+            Dictionary<K, SetValueType> b,
             IGraph graph, IEdge owner, AttributeType attrType)
         {
             // First determine all elements from a not contained in b
             List<K> toBeRemoved = new List<K>(a.Count);
-            foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in a)
+            foreach(KeyValuePair<K, SetValueType> entry in a)
             {
                 if(!b.ContainsKey(entry.Key))
                     toBeRemoved.Add(entry.Key);
@@ -613,7 +613,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="owner">The node containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether at least one element was changed in a</returns>
-        public static bool ExceptChanged<K, W>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+        public static bool ExceptChanged<K, W>(Dictionary<K, SetValueType> a,
             Dictionary<K, W> b,
             IGraph graph, INode owner, AttributeType attrType)
         {
@@ -639,7 +639,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="owner">The edge containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether at least one element was changed in a</returns>
-        public static bool ExceptChanged<K, W>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+        public static bool ExceptChanged<K, W>(Dictionary<K, SetValueType> a,
             Dictionary<K, W> b,
             IGraph graph, IEdge owner, AttributeType attrType)
         {

@@ -167,7 +167,7 @@ namespace de.unika.ipd.grGen.grShell
             Type keyType;
             Type valueType;
             ContainerHelper.GetDictionaryTypes(value.GetType(), out keyType, out valueType);
-            if(valueType == typeof(de.unika.ipd.grGen.libGr.SetValueType))
+            if(valueType == typeof(SetValueType))
             {
                 foreach(DictionaryEntry entry in value)
                 {

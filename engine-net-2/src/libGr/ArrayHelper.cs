@@ -625,10 +625,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates a new dictionary representing a set containing all values from the given list.
         /// </summary>
-        public static Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> ArrayAsSet<V>(List<V> a)
+        public static Dictionary<V, SetValueType> ArrayAsSet<V>(List<V> a)
         {
-            Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> newDict =
-                new Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType>();
+            Dictionary<V, SetValueType> newDict =
+                new Dictionary<V, SetValueType>();
 
             for(int i = 0; i < a.Count; ++i)
             {

@@ -784,7 +784,7 @@ object Constant():
         "set" "<" typeName=TypeName() ">"
         {
             srcType = TypesHelper.GetType(typeName, impl.CurrentGraph.Model);
-            dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
+            dstType = typeof(SetValueType);
             if(srcType!=null)
                 constant = ContainerHelper.NewDictionary(srcType, dstType);
             if(constant==null)

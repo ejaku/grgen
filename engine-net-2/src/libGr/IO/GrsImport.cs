@@ -747,7 +747,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 IDictionary set = ContainerHelper.NewDictionary(
                     TypesHelper.GetType(type, graph.Model),
-                    typeof(de.unika.ipd.grGen.libGr.SetValueType));
+                    typeof(SetValueType));
 
                 Match(TokenKind.LBRACE);
                 if(LookaheadToken() != TokenKind.RBRACE)

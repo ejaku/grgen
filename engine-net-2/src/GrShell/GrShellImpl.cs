@@ -2177,7 +2177,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 setmap = ContainerHelper.NewDictionary(
                     TypesHelper.GetType(par.Type, curShellProcEnv.ProcEnv.NamedGraph.Model),
-                    typeof(de.unika.ipd.grGen.libGr.SetValueType));
+                    typeof(SetValueType));
                 foreach(object val in par.Values)
                 {
                     setmap[ParseAttributeValue(attrType.ValueType, (String)val, par.Key)] = null;

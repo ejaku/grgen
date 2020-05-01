@@ -154,11 +154,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates a new list containing all values from the given dictionary representing a set.
         /// </summary>
-        public static List<V> SetAsArray<V>(Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> a)
+        public static List<V> SetAsArray<V>(Dictionary<V, SetValueType> a)
         {
             List<V> newList = new List<V>();
 
-            foreach(KeyValuePair<V, de.unika.ipd.grGen.libGr.SetValueType> kvp in a)
+            foreach(KeyValuePair<V, SetValueType> kvp in a)
             {
                 newList.Add(kvp.Key);
             }

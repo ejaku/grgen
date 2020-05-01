@@ -1801,7 +1801,7 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             Type srcType = TypesHelper.GetType(ValueType, procEnv.Graph.Model);
-            Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
+            Type dstType = typeof(SetValueType);
             IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
 
             foreach(SequenceExpression setItem in ContainerItems)
@@ -2082,7 +2082,7 @@ namespace de.unika.ipd.grGen.libGr
         public override object Execute(IGraphProcessingEnvironment procEnv)
         {
             Type srcType = TypesHelper.GetType(ValueType, procEnv.Graph.Model);
-            Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
+            Type dstType = typeof(SetValueType);
             IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
             ContainerHelper.FillSet(set, ValueType, SetToCopy.Evaluate(procEnv), procEnv.Graph.Model);
             return set;
