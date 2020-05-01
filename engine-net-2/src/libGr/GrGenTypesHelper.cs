@@ -67,7 +67,9 @@ namespace de.unika.ipd.grGen.libGr
             return varType.Type.IsGenericType;
         }
 
-        private static String DotNetTypeToXgrsType(String typeName, String fullTypeName)
+        // no support for container types, use function with same name but Type input
+        // no support for external types -- chops off first character from external type name
+        public static String DotNetTypeToXgrsType(String typeName, String fullTypeName)
         {
             switch(typeName)
             {

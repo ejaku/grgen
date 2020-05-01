@@ -42,41 +42,12 @@ namespace de.unika.ipd.grGen.libGr
                 if(valueType == typeof(SetValueType))
                 {
                     type = "set<" + keyType.Name + ">";
-                    bool first = true;
-                    foreach(DictionaryEntry entry in setmap)
-                    {
-                        if(first)
-                            first = false;
-                        else
-                            sb.Append(",");
-
-                        if(attrValueType != null)
-                            sb.Append(ToString(entry.Key, attrValueType, graph));
-                        else
-                            sb.Append(ToStringAutomatic(entry.Key, graph));
-                    }
+                    AppendSet(sb, setmap, attrValueType, graph);
                 }
                 else
                 {
                     type = "map<" + keyType.Name + "," + valueType.Name + ">";
-                    bool first = true;
-                    foreach(DictionaryEntry entry in setmap)
-                    {
-                        if(first)
-                            first = false;
-                        else
-                            sb.Append(",");
-
-                        if(attrKeyType != null)
-                            sb.Append(ToString(entry.Key, attrKeyType, graph));
-                        else
-                            sb.Append(ToStringAutomatic(entry.Key, graph));
-                        sb.Append("->");
-                        if(attrValueType != null)
-                            sb.Append(ToString(entry.Value, attrValueType, graph));
-                        else
-                            sb.Append(ToStringAutomatic(entry.Value, graph));
-                    }
+                    AppendMap(sb, setmap, attrKeyType, attrValueType, graph);
                 }
             }
             else
@@ -84,6 +55,46 @@ namespace de.unika.ipd.grGen.libGr
 
             sb.Append("}");
             content = sb.ToString();
+        }
+
+        private static void AppendSet(StringBuilder sb, IDictionary set, AttributeType attrValueType, IGraph graph)
+        {
+            bool first = true;
+            foreach(DictionaryEntry entry in set)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",");
+
+                if(attrValueType != null)
+                    sb.Append(ToString(entry.Key, attrValueType, graph));
+                else
+                    sb.Append(ToStringAutomatic(entry.Key, graph));
+            }
+        }
+
+        private static void AppendMap(StringBuilder sb, IDictionary setmap, 
+            AttributeType attrKeyType, AttributeType attrValueType, IGraph graph)
+        {
+            bool first = true;
+            foreach(DictionaryEntry entry in setmap)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",");
+
+                if(attrKeyType != null)
+                    sb.Append(ToString(entry.Key, attrKeyType, graph));
+                else
+                    sb.Append(ToStringAutomatic(entry.Key, graph));
+                sb.Append("->");
+                if(attrValueType != null)
+                    sb.Append(ToString(entry.Value, attrValueType, graph));
+                else
+                    sb.Append(ToStringAutomatic(entry.Value, graph));
+            }
         }
 
         /// <summary>
@@ -108,24 +119,29 @@ namespace de.unika.ipd.grGen.libGr
             if(array != null)
             {
                 type = "array<" + valueType.Name + ">";
-                bool first = true;
-                foreach(Object entry in array)
-                {
-                    if(first)
-                        first = false;
-                    else
-                        sb.Append(",");
-                    if(attrValueType != null)
-                        sb.Append(ToString(entry, attrValueType, graph));
-                    else
-                        sb.Append(ToStringAutomatic(entry, graph));
-                }
+                AppendArray(sb, array, attrValueType, graph);
             }
             else
                 type = "<INVALID>";
 
             sb.Append("]");
             content = sb.ToString();
+        }
+
+        private static void AppendArray(StringBuilder sb, IList array, AttributeType attrValueType, IGraph graph)
+        {
+            bool first = true;
+            foreach(Object entry in array)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",");
+                if(attrValueType != null)
+                    sb.Append(ToString(entry, attrValueType, graph));
+                else
+                    sb.Append(ToStringAutomatic(entry, graph));
+            }
         }
 
         /// <summary>
@@ -150,25 +166,30 @@ namespace de.unika.ipd.grGen.libGr
             if(deque != null)
             {
                 type = "deque<" + valueType.Name + ">";
-                bool first = true;
-                foreach(Object entry in deque)
-                {
-                    if(first)
-                        first = false;
-                    else
-                        sb.Append(",");
-
-                    if(attrValueType != null)
-                        sb.Append(ToString(entry, attrValueType, graph));
-                    else
-                        sb.Append(ToStringAutomatic(entry, graph));
-                }
+                AppendDeque(sb, deque, attrValueType, graph);
             }
             else
                 type = "<INVALID>";
 
             sb.Append("[");
             content = sb.ToString();
+        }
+
+        private static void AppendDeque(StringBuilder sb, IDeque deque, AttributeType attrValueType, IGraph graph)
+        {
+            bool first = true;
+            foreach(Object entry in deque)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(",");
+
+                if(attrValueType != null)
+                    sb.Append(ToString(entry, attrValueType, graph));
+                else
+                    sb.Append(ToStringAutomatic(entry, graph));
+            }
         }
 
         /// <summary>
@@ -184,82 +205,50 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(attrType == null)
             {
-                if(value == null)
-                {
-                    type = "<INVALID>";
-                    content = ToString(value, attrType, graph);
-                    return;
-                }
-
-                if(value is IMatch)
-                {
-                    type = "IMatch";
-                    content = ToString((IMatch)value, graph);
-                    return;
-                }
-
-                Debug.Assert(value.GetType().Name != "Dictionary`2" 
-                    && value.GetType().Name != "List`1" && value.GetType().Name != "Deque`1");
-                switch(value.GetType().Name)
-                {
-                case "SByte": type = "sbyte"; break;
-                case "Int16": type = "short"; break;
-                case "Int32": type = "int"; break;
-                case "Int64": type = "long"; break;
-                case "Boolean": type = "bool"; break;
-                case "String": type = "string"; break;
-                case "Single": type = "float"; break;
-                case "Double": type = "double"; break;
-                case "de.unika.ipd.grGen.libGr.IGraph": type = "graph"; break;
-                default:
-                    type = "object";
-                    if(graph != null && value is Enum)
-                    {
-                        foreach(EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
-                        {
-                            if(value.GetType() == enumAttrType.EnumType)
-                            {
-                                type = enumAttrType.Name;
-                                break;
-                            }
-                        }
-                    }
-                    else if(value is IGraphElement)
-                        type = ((IGraphElement)value).Type.Name;
-                    break;
-                }
-
-                if(type != "object")
-                    content = ToString(value, attrType, graph);
-                else
-                    content = ToStringObject(value, attrType, graph);
+                ToString(value, out type, out content, graph);
                 return;
             }
 
             Debug.Assert(attrType.Kind != AttributeKind.SetAttr && attrType.Kind != AttributeKind.MapAttr
                 && attrType.Kind != AttributeKind.ArrayAttr && attrType.Kind != AttributeKind.DequeAttr);
-            switch(attrType.Kind)
+            type = TypesHelper.AttributeTypeToXgrsType(attrType);
+
+            if(type == "object")
+                content = ToStringObject(value, attrType, graph);
+            else
+                content = ToString(value, attrType, graph);
+        }
+
+        private static void ToString(object value, out string type, out string content, IGraph graph)
+        {
+            if(value == null)
             {
-            case AttributeKind.ByteAttr: type = "sbyte"; break;
-            case AttributeKind.ShortAttr: type = "short"; break;
-            case AttributeKind.IntegerAttr: type = "int"; break;
-            case AttributeKind.LongAttr: type = "long"; break;
-            case AttributeKind.BooleanAttr: type = "bool"; break;
-            case AttributeKind.StringAttr: type = "string"; break;
-            case AttributeKind.EnumAttr: type = attrType.EnumType.Name; break;
-            case AttributeKind.FloatAttr: type = "float"; break;
-            case AttributeKind.DoubleAttr: type = "double"; break;
-            case AttributeKind.ObjectAttr: type = "object"; break;
-            case AttributeKind.GraphAttr: type = "GRGEN_LIBGR.IGraph"; break;
-            case AttributeKind.NodeAttr: type = attrType.TypeName; break;
-            case AttributeKind.EdgeAttr: type = attrType.TypeName; break;
-            default: type = "<INVALID>"; break;
+                type = "<INVALID>";
+                content = ToString(value, null, graph);
+                return;
             }
 
-            if(type != "object")
-                content = ToString(value, attrType, graph);
+            if(value is IMatch)
+            {
+                type = "IMatch";
+                content = ToString((IMatch)value, graph);
+                return;
+            }
+
+            Debug.Assert(value.GetType().Name != "Dictionary`2"
+                && value.GetType().Name != "List`1" && value.GetType().Name != "Deque`1");
+            type = TypesHelper.DotNetTypeToXgrsType(value.GetType().Name, value.GetType().FullName);
+
+            foreach(ExternalType externalType in graph.Model.ExternalTypes)
+            {
+                if(externalType.Name == value.GetType().Name)
+                    type = "object";
+            }
+
+            if(type == "object")
+                content = ToStringObject(value, null, graph);
             else
-                content = ToStringObject(value, attrType, graph);
+                content = ToString(value, null, graph);
         }
 
         /// <summary>
