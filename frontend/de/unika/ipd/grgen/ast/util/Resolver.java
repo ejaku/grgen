@@ -14,7 +14,16 @@ package de.unika.ipd.grgen.ast.util;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CompoundTypeNode;
 import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.DefinedMatchTypeNode;
+import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.IteratedNode;
+import de.unika.ipd.grgen.ast.MatchTypeIteratedNode;
+import de.unika.ipd.grgen.ast.MatchTypeNode;
+import de.unika.ipd.grgen.ast.MemberDeclNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
+import de.unika.ipd.grgen.ast.ScopeOwner;
+import de.unika.ipd.grgen.ast.TestDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.util.Base;
 
@@ -66,5 +75,60 @@ public abstract class Resolver<T> extends Base {
 			return false;
 		}
 		return true;
+	}
+
+	public static DeclNode resolveMember(TypeNode type, IdentNode member) {
+		DeclNode result = null;
+
+		String memberName = member.toString();
+		if(type instanceof MatchTypeIteratedNode) {
+			MatchTypeIteratedNode matchTypeIterated = (MatchTypeIteratedNode)type;
+			if(!matchTypeIterated.resolve()) {
+				return null;
+			}
+			TestDeclNode test = matchTypeIterated.getTest();
+			IteratedNode iterated = matchTypeIterated.getIterated();
+			result = matchTypeIterated.tryGetMember(member.toString());
+			if(result == null) {
+				String actionName = test.getIdentNode().toString();
+				String iteratedName = iterated.getIdentNode().toString();
+				member.reportError("Unknown member " + memberName + ", can't find in iterated " + iteratedName + " of test/rule " + actionName);
+			}
+		} else if(type instanceof MatchTypeNode) {
+			MatchTypeNode matchType = (MatchTypeNode)type;
+			if(!matchType.resolve()) {
+				return null;
+			}
+			TestDeclNode test = matchType.getTest();
+			result = matchType.tryGetMember(member.toString());
+			if(result == null) {
+				String actionName = test.getIdentNode().toString();
+				member.reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
+			}
+		} else if(type instanceof DefinedMatchTypeNode) {
+			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)type;
+			if(!definedMatchType.resolve()) {
+				return null;
+			}
+			result = definedMatchType.tryGetMember(member.toString());
+			if(result == null) {
+				String matchClassName = definedMatchType.getIdentNode().toString();
+				member.reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
+			}
+		} else if(type instanceof InheritanceTypeNode) {
+			ScopeOwner o = (ScopeOwner) type;
+			o.fixupDefinition(member);
+			
+			InheritanceTypeNode inheritanceType = (InheritanceTypeNode)type;
+			result = (MemberDeclNode)inheritanceType.tryGetMember(member.getIdent().toString());
+			if(result == null) {
+				String className = inheritanceType.getIdentNode().toString();
+				member.reportError("Unknown member " + memberName + ", can't find in (node/edge/external) class " + className);
+			}
+		} else {
+			member.reportError("Unknown member " + memberName);
+		}
+
+		return result;
 	}
 }

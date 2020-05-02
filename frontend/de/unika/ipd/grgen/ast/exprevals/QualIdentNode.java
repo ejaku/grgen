@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.Qualification;
@@ -77,78 +78,37 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
 		boolean res = fixupDefinition(ownerUnresolved, ownerUnresolved.getScope());
-		if(!res) return false;
+		if(!res)
+			return false;
 
 		boolean successfullyResolved = true;
 		owner = ownerResolver.resolve(ownerUnresolved, this);
 		successfullyResolved = owner!=null && successfullyResolved;
 		boolean ownerResolveResult = owner!=null && owner.resolve();
 
-		if (!ownerResolveResult) {
+		if(!ownerResolveResult) {
 			// member can not be resolved due to inaccessible owner
 			return false;
 		}
 
-		if (ownerResolveResult && owner != null) {
-			if (owner instanceof NodeCharacter || owner instanceof EdgeCharacter) {
-				TypeNode ownerType = owner.getDeclType();
-				if(ownerType instanceof ScopeOwner) {
-					ScopeOwner o = (ScopeOwner) ownerType;
-					o.fixupDefinition(memberUnresolved);
-					member = memberResolver.resolve(memberUnresolved, this);
-					successfullyResolved = member!=null && successfullyResolved;
-				} else {
-					reportError("Left hand side of '.' does not own a scope");
-					successfullyResolved = false;
-				}
-			} else if(owner instanceof VarDeclNode && owner.getDeclType() instanceof MatchTypeNode) {
-				MatchTypeNode matchType = (MatchTypeNode)owner.getDeclType();
-				if(!matchType.resolve()) {
-					reportError("Unkown test/rule referenced by match type");
-					return false;
-				}
-				TestDeclNode test = matchType.getTest();
-				if(!test.resolve()) {
-					reportError("Error in test/rule referenced by match type");
-					return false;
-				}
-				member = matchType.tryGetMember(memberUnresolved.toString());
-				if(member == null) {
-					String memberName = memberUnresolved.toString();
-					String actionName = test.getIdentNode().toString();
-					reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
-					successfullyResolved = false;
-				}
-			} else if(owner instanceof VarDeclNode && owner.getDeclType() instanceof DefinedMatchTypeNode) {
-				DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)owner.getDeclType();
-				if(!definedMatchType.resolve()) {
-					reportError("Unkown match class referenced by match class type");
-					return false;
-				}
-				member = definedMatchType.tryGetMember(memberUnresolved.toString());
-				if(member == null) {
-					String memberName = memberUnresolved.toString();
-					String matchClassName = definedMatchType.getIdentNode().toString();
-					reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
-					successfullyResolved = false;
-				}
-			} else if(owner instanceof VarDeclNode) {
-				TypeNode ownerType = owner.getDeclType();
-				if(ownerType instanceof ScopeOwner) {
-					ScopeOwner o = (ScopeOwner) ownerType;
-					o.fixupDefinition(memberUnresolved);
-					member = memberResolver.resolve(memberUnresolved, this);
-					successfullyResolved = member!=null && successfullyResolved;
-				} else {
-					reportError("Left hand side of '.' does not own a scope");
-					successfullyResolved = false;
-				}
+		TypeNode ownerType = owner.getDeclType();
+
+		if(owner instanceof NodeCharacter || owner instanceof EdgeCharacter) {
+			if(ownerType instanceof ScopeOwner) {
+				ScopeOwner o = (ScopeOwner) ownerType;
+				o.fixupDefinition(memberUnresolved);
+				member = memberResolver.resolve(memberUnresolved, this);
+				successfullyResolved = member!=null && successfullyResolved;
 			} else {
-				reportError("Left hand side of '.' is neither a node nor an edge (nor a match type)");
+				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
 			}
+		} else if(owner instanceof VarDeclNode) {
+			member = Resolver.resolveMember(ownerType, memberUnresolved);
+			if(member == null)
+				successfullyResolved = false;
 		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge (nor a match type)");
+			reportError("Left hand side of '.' is neither a node nor an edge (nor a variable of node/edge or match or match class type)");
 			successfullyResolved = false;
 		}
 

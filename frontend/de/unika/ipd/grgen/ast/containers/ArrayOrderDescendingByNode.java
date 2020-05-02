@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.containers.ArrayOrderDescendingBy;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.Entity;
@@ -54,9 +54,6 @@ public class ArrayOrderDescendingByNode extends ExprNode
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<MemberDeclNode> memberResolver
-		= new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
-
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
@@ -74,70 +71,17 @@ public class ArrayOrderDescendingByNode extends ExprNode
 		}
 
 		TypeNode valueType = arrayType.valueType;
-		if(valueType instanceof MatchTypeIteratedNode) {
-			MatchTypeIteratedNode matchType = (MatchTypeIteratedNode)valueType;
-			if(!matchType.resolve()) {
-				return false;
-			}
-			TestDeclNode test = matchType.getTest();
-			IteratedNode iterated = matchType.getIterated();
-			member = matchType.tryGetMember(attribute.toString());
-			if(member == null) {
-				String memberName = attribute.toString();
-				String actionName = test.getIdentNode().toString();
-				String iteratedName = iterated.getIdentNode().toString();
-				reportError("Unknown member " + memberName + ", can't find in iterated " + iteratedName + " of test/rule " + actionName);
-				return false;
-			}
-		} else if(valueType instanceof MatchTypeNode) {
-			MatchTypeNode matchType = (MatchTypeNode)valueType;
-			if(!matchType.resolve()) {
-				return false;
-			}
-			TestDeclNode test = matchType.getTest();
-			member = matchType.tryGetMember(attribute.toString());
-			if(member == null) {
-				String memberName = attribute.toString();
-				String actionName = test.getIdentNode().toString();
-				reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
-				return false;
-			}
-		} else if(valueType instanceof DefinedMatchTypeNode) {
-			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)valueType;
-			if(!definedMatchType.resolve()) {
-				return false;
-			}
-			member = definedMatchType.tryGetMember(attribute.toString());
-			if(member == null) {
-				String memberName = attribute.toString();
-				String matchClassName = definedMatchType.getIdentNode().toString();
-				reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
-				return false;
-			}
-		} else {
-			ScopeOwner o = (ScopeOwner) arrayType.valueType;
-			o.fixupDefinition(attribute);
-			member = memberResolver.resolve(attribute, this);
-			if(member == null)
-				return false;
-				
-			if(((MemberDeclNode)member).isConst()) {
-				reportError("orderDescendingBy cannot be used on const attributes.");
-			}
-		}
+		member = Resolver.resolveMember(valueType, attribute);
+		if(member == null)
+			return false;
 
 		TypeNode memberType = getTypeOfElementToBeExtracted();
-		if(!(memberType.equals(BasicTypeNode.byteType))
-			&&!(memberType.equals(BasicTypeNode.shortType))
-			&& !(memberType.equals(BasicTypeNode.intType))
-			&& !(memberType.equals(BasicTypeNode.longType))
-			&& !(memberType.equals(BasicTypeNode.floatType))
-			&& !(memberType.equals(BasicTypeNode.doubleType))
-			&& !(memberType.equals(BasicTypeNode.stringType))
-			&& !(memberType.equals(BasicTypeNode.booleanType))
-			&& !(memberType instanceof EnumTypeNode)) {
-			targetExpr.reportError("array method orderDescendingBy only available for attributes of type byte,short,int,long,float,double,string,boolean,enum of a graph element");
+
+		if(!memberType.isOrderableType()) {
+			targetExpr.reportError("array method orderDescendingBy only available for graph element attributes of type " + memberType.getOrderableTypesAsString());
+			return false;
 		}
+
 		return true;
 	}
 

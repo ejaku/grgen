@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
@@ -63,9 +63,6 @@ public class MemberAccessExprNode extends ExprNode
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<MemberDeclNode> memberResolver
-	        = new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
-
 	@Override
 	protected boolean resolveLocal() {
 		if(!targetExpr.resolve()) {
@@ -85,43 +82,6 @@ public class MemberAccessExprNode extends ExprNode
 		}
 		
 		TypeNode ownerType = targetExpr.getType();
-		
-		if(ownerType instanceof MatchTypeNode) {
-			MatchTypeNode matchType = (MatchTypeNode)ownerType;
-			if(!matchType.resolve()) {
-				reportError("Unkown test/rule referenced by match type in filter function");
-				return false;
-			}
-			TestDeclNode test = matchType.getTest();
-			if(!test.resolve()) {
-				reportError("Error in test/rule referenced by match type in filter function");
-				return false;
-			}
-			member = matchType.tryGetMember(memberIdent.toString());
-			if(member == null) {
-				String memberName = memberIdent.toString();
-				String actionName = test.getIdentNode().toString();
-				reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName + " referenced by match type in filter function");
-				return false;
-			}
-			return true;
-		}
-
-		if(ownerType instanceof DefinedMatchTypeNode) {
-			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)ownerType;
-			if(!definedMatchType.resolve()) {
-				reportError("Unkown match class referenced by match class type in match class filter function");
-				return false;
-			}
-			member = definedMatchType.tryGetMember(memberIdent.toString());
-			if(member == null) {
-				String memberName = memberIdent.toString();
-				String matchClassName = definedMatchType.getIdentNode().toString();
-				reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName + " referenced by match class filter function");
-				return false;
-			}
-			return true;
-		}
 
 		if(ownerType instanceof UntypedExecVarTypeNode) {
 			member = new MemberDeclNode(memberIdent, BasicTypeNode.untypedType, false);
@@ -130,19 +90,7 @@ public class MemberAccessExprNode extends ExprNode
 			return true;
 		}
 
-		if(!(ownerType instanceof ScopeOwner)) {
-			reportError("Left hand side of '.' has no members.");
-			return false;
-		}
-
-		if(!(ownerType instanceof InheritanceTypeNode)) {
-			reportError("Only member access of nodes and edges supported.");
-			return false;
-		}
-
-		ScopeOwner o = (ScopeOwner) ownerType;
-		o.fixupDefinition(memberIdent);
-		member = memberResolver.resolve(memberIdent, this);
+		member = Resolver.resolveMember(ownerType, memberIdent);
 
 		return member != null;
 	}

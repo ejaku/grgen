@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.containers.ArrayExtract;
 import de.unika.ipd.grgen.ir.containers.ArrayType;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
@@ -79,60 +80,10 @@ public class ArrayExtractNode extends ExprNode
 		}
 
 		TypeNode valueType = arrayType.valueType;
-		if(valueType instanceof MatchTypeIteratedNode) {
-			MatchTypeIteratedNode matchType = (MatchTypeIteratedNode)valueType;
-			if(!matchType.resolve()) {
-				return false;
-			}
-			TestDeclNode test = matchType.getTest();
-			IteratedNode iterated = matchType.getIterated();
-			member = matchType.tryGetMember(attribute.toString());
-			if(member == null) {
-				String memberName = attribute.toString();
-				String actionName = test.getIdentNode().toString();
-				String iteratedName = iterated.getIdentNode().toString();
-				reportError("Unknown member " + memberName + ", can't find in iterated " + iteratedName + " of test/rule " + actionName);
-				return false;
-			}
-		} else if(valueType instanceof MatchTypeNode) {
-			MatchTypeNode matchType = (MatchTypeNode)valueType;
-			if(!matchType.resolve()) {
-				return false;
-			}
-			TestDeclNode test = matchType.getTest();
-			member = matchType.tryGetMember(attribute.toString());
-			if(member == null) {
-				String memberName = attribute.toString();
-				String actionName = test.getIdentNode().toString();
-				reportError("Unknown member " + memberName + ", can't find in test/rule " + actionName);
-				return false;
-			}
-		} else if(valueType instanceof DefinedMatchTypeNode) {
-			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)valueType;
-			if(!definedMatchType.resolve()) {
-				return false;
-			}
-			member = definedMatchType.tryGetMember(attribute.toString());
-			if(member == null) {
-				String memberName = attribute.toString();
-				String matchClassName = definedMatchType.getIdentNode().toString();
-				reportError("Unknown member " + memberName + ", can't find in match class type " + matchClassName);
-				return false;
-			}
-		} else if(valueType instanceof InheritanceTypeNode) {
-			ScopeOwner o = (ScopeOwner) valueType;
-			o.fixupDefinition(attribute);
-			InheritanceTypeNode inheritanceType = (InheritanceTypeNode)valueType;
-			member = (MemberDeclNode)inheritanceType.tryGetMember(attribute.getIdent().toString());
-			if(member == null) {
-				String memberName = attribute.toString();
-				reportError("Unknown member " + memberName + ", can't find in node/edge class type " + inheritanceType.getIdentNode().toString());
-				return false;
-			}
-		} else {
-			String memberName = attribute.toString();
-			reportError("Unknown member " + memberName);
-		}
+
+		member = Resolver.resolveMember(valueType, attribute);
+		if(member == null)
+			return false;
 
 		TypeNode type = getTypeOfElementToBeExtracted();
 		if(!(type instanceof DeclaredTypeNode)) {
@@ -150,7 +101,7 @@ public class ArrayExtractNode extends ExprNode
 	protected boolean checkLocal() {
 		return true;
 	}
-	
+
 	@Override
 	public TypeNode getType() {
 		assert(isResolved());
@@ -162,7 +113,7 @@ public class ArrayExtractNode extends ExprNode
 			return member.getDeclType();
 		return null;
 	}
-	
+
 	@Override
 	protected IR constructIR() {
 		Entity accessedMember = null;
