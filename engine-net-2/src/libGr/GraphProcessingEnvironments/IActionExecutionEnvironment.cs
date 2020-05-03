@@ -158,8 +158,20 @@ namespace de.unika.ipd.grGen.libGr
         /// Each element is a possibly empty array of objects that were returned by their rewrite.</returns>
         List<object[]> Replace(IMatches matches, int which);
 
-        #endregion Graph rewriting     
-        
+        /// <summary>
+        /// Matches a rewrite rule, without firing the Matched event, but with Cloning of the matches
+        /// (so they can stored, or used in an expression combining multiple queries like [?r] + [?r], 
+        /// or the action can be called multiple times in a multi rule all call query (on different parameters)).
+        /// </summary>
+        /// <param name="action">The rule to invoke</param>
+        /// <param name="arguments">The input arguments</param>
+        /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+        /// depends on MaxMatches)</param>
+        /// <returns>A matches object containing the found matches.</returns>
+        IMatches MatchForQuery(IAction action, object[] arguments, int localMaxMatches);
+
+        #endregion Graph rewriting
+
 
         #region Events
 

@@ -277,13 +277,13 @@ namespace de.unika.ipd.grGen.lgsp
             return retElemsList;
         }
 
-        public IMatchesExact<T> MatchForQuery<T>(IAction action, IGraph subgraph, object[] arguments,
+        public IMatches MatchForQuery(IAction action, IGraph subgraph, object[] arguments,
             int localMaxMatches, bool special)
         {
             if(subgraph != null)
                 SwitchToSubgraph(subgraph);
 
-            IMatchesExact<T> matches = MatchForQuery<T>(action, arguments, localMaxMatches);
+            IMatches matches = MatchForQuery(action, arguments, localMaxMatches);
 
             //subrule debugging must be changed to allow this
             //if(matches.Count > 0) {// ensure that Matched is only called when a match exists

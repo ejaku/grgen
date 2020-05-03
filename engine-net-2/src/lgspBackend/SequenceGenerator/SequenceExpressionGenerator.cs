@@ -757,7 +757,7 @@ namespace de.unika.ipd.grGen.lgsp
             String patternName = ruleCall.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             SourceBuilder matchesSourceBuilder = new SourceBuilder();
-            matchesSourceBuilder.AppendFormat("procEnv.MatchForQuery<{0}>({1}, {2}{3}, procEnv.MaxMatches, {4})",
+            matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)procEnv.MatchForQuery({1}, {2}{3}, procEnv.MaxMatches, {4}))",
                 matchType, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Action_" + ruleCall.Name + ".Instance",
                 ruleCall.Subgraph != null ? seqHelper.GetVar(ruleCall.Subgraph) : "null",
                 seqHelper.BuildParametersInObject(ruleCall, ruleCall.ArgumentExpressions, source), ruleCall.Special ? "true" : "false");
@@ -767,7 +767,7 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesSourceBuilder.Reset();
                 EmitFilterCall(matchesSourceBuilder, (SequenceFilterCallCompiled)ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
             }
-            return matchesSourceBuilder.ToString() + ".ToListExact()"; // TODO copy of list?
+            return matchesSourceBuilder.ToString() + ".ToListExact()";
         }
 
         private string GetSequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery seqMultiRuleQuery, SourceBuilder source)

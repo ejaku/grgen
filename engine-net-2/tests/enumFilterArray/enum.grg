@@ -1,0 +1,324 @@
+#using "enum.gm"
+
+rule init
+{
+	modify {
+		n1:N; n2:N; n3:N; n4:N; n5:N;
+		eval {
+			n1.e = ET::foo;
+			n2.e = ET::qux;
+			n3.e = ET::bar;
+			n4.e = ET::bar;
+			n5.e = ET::baz;
+		}
+	}
+}
+
+match class mc
+{
+	def var e:ET;
+} \ orderAscendingBy<e>, orderDescendingBy<e>, keepOneForEach<e>
+
+test t implements mc
+{
+	n:N;
+---
+	def var e:ET = n.e;
+} \ orderAscendingBy<e>, orderDescendingBy<e>, keepOneForEach<e>
+
+
+ref ::xmatch:array<match<t>>;
+ref ::ymatch:array<match<t>>;
+ref ::zmatch:array<match<t>>;
+
+rule texec
+{
+	modify
+	{
+	---
+		exec({::xmatch = [?t\orderAscendingBy<e>]});
+		exec({::ymatch = [?t\orderDescendingBy<e>]});
+		exec({::zmatch = [?t\keepOneForEach<e>]});
+	}
+}
+
+ref ::xmatchclass:array<match<class mc>>;
+ref ::ymatchclass:array<match<class mc>>;
+ref ::zmatchclass:array<match<class mc>>;
+
+rule texecmc
+{
+	modify
+	{
+	---
+		exec({::xmatchclass=[?[t]\mc.orderAscendingBy<e>\<class mc>]});
+		exec({::ymatchclass=[?[t]\mc.orderDescendingBy<e>\<class mc>]});
+		exec({::zmatchclass=[?[t]\mc.keepOneForEach<e>\<class mc>]});
+	}
+}
+
+ref ::xiterlhs:array<ET>;
+
+ref ::xiterrhs:array<ET>;
+
+rule rmatchiterascending
+{
+	iterated it {
+		n:N;
+	---
+		def var e:ET = n.e;
+		
+		modify {
+		}
+	} \ orderAscendingBy<e>
+---
+	iterated it\orderAscendingBy<e>;
+	def ref x:array<ET>;
+	yield {
+		yield x = [?it].extract<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::xiterlhs = x;
+			::xiterrhs=[?it].extract<e>();
+		}
+	}
+}
+
+ref ::yiterlhs:array<ET>;
+
+ref ::yiterrhs:array<ET>;
+
+rule rmatchiterdescending
+{
+	iterated it {
+		n:N;
+	---
+		def var e:ET = n.e;
+		
+		modify {
+		}
+	} \ orderDescendingBy<e>
+---
+	iterated it\orderDescendingBy<e>;
+	def ref y:array<ET>;
+	yield {
+		yield y = [?it].extract<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::yiterlhs = y;
+			::yiterrhs=[?it].extract<e>();
+		}
+	}
+}
+
+ref ::ziterlhs:array<ET>;
+
+ref ::ziterrhs:array<ET>;
+
+rule rmatchiterkeeponeforeach
+{
+	iterated it {
+		n:N;
+	---
+		def var e:ET = n.e;
+		
+		modify {
+		}
+	} \ keepOneForEach<e>
+---
+	iterated it\keepOneForEach<e>;
+	def ref z:array<ET>;
+	yield {
+		yield z = [?it].extract<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::ziterlhs = z;
+			::ziterrhs = [?it].extract<e>();
+		}
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+ref ::xnlhs:array<N>;
+ref ::ynlhs:array<N>;
+ref ::znlhs:array<N>;
+
+ref ::xnrhs:array<N>;
+ref ::ynrhs:array<N>;
+ref ::znrhs:array<N>;
+
+rule r(ref a:array<N>)
+{
+---
+	def ref x:array<N>;
+	def ref y:array<N>;
+	def ref z:array<N>;
+	yield {
+		yield x = a.orderAscendingBy<e>();
+		yield y = a.orderDescendingBy<e>();
+		yield z = a.keepOneForEach<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::xnlhs = x;
+			::ynlhs = y;
+			::znlhs = z;
+			::xnrhs = a.orderAscendingBy<e>();
+			::ynrhs = a.orderDescendingBy<e>();
+			::znrhs = a.keepOneForEach<e>();
+		}
+	}
+}
+
+ref ::xmatchlhs:array<match<t>>;
+ref ::ymatchlhs:array<match<t>>;
+ref ::zmatchlhs:array<match<t>>;
+
+ref ::xmatchrhs:array<match<t>>;
+ref ::ymatchrhs:array<match<t>>;
+ref ::zmatchrhs:array<match<t>>;
+
+rule rmatch(ref a:array<match<t>>)
+{
+---
+	def ref x:array<match<t>>;
+	def ref y:array<match<t>>;
+	def ref z:array<match<t>>;
+	yield {
+		yield x = a.orderAscendingBy<e>();
+		yield y = a.orderDescendingBy<e>();
+		yield z = a.keepOneForEach<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::xmatchlhs = x;
+			::ymatchlhs = y;
+			::zmatchlhs = z;
+			::xmatchrhs = a.orderAscendingBy<e>();
+			::ymatchrhs = a.orderDescendingBy<e>();
+			::zmatchrhs = a.keepOneForEach<e>();
+		}
+	}
+}
+
+ref ::xmatchclasslhs:array<match<class mc>>;
+ref ::ymatchclasslhs:array<match<class mc>>;
+ref ::zmatchclasslhs:array<match<class mc>>;
+
+ref ::xmatchclassrhs:array<match<class mc>>;
+ref ::ymatchclassrhs:array<match<class mc>>;
+ref ::zmatchclassrhs:array<match<class mc>>;
+
+rule rmatchclass(ref a:array<match<class mc>>)
+{
+---
+	def ref x:array<match<class mc>>;
+	def ref y:array<match<class mc>>;
+	def ref z:array<match<class mc>>;
+	yield {
+		yield x = a.orderAscendingBy<e>();
+		yield y = a.orderDescendingBy<e>();
+		yield z = a.keepOneForEach<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::xmatchclasslhs = x;
+			::ymatchclasslhs = y;
+			::zmatchclasslhs = z;
+			::xmatchclassrhs=a.orderAscendingBy<e>();
+			::ymatchclassrhs=a.orderDescendingBy<e>();
+			::zmatchclassrhs=a.keepOneForEach<e>();
+		}
+	}
+}
+
+rule rmatchiterascendingarray
+{
+	iterated it {
+		n:N;
+	---
+		def var e:ET = n.e;
+		
+		modify {
+		}
+	}
+---
+	def ref x:array<ET>;
+	yield {
+		yield x = [?it].orderAscendingBy<e>().extract<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::xiterlhs = x;
+			::xiterrhs=[?it].orderAscendingBy<e>().extract<e>();
+		}
+	}
+}
+
+rule rmatchiterdescendingarray
+{
+	iterated it {
+		n:N;
+	---
+		def var e:ET = n.e;
+		
+		modify {
+		}
+	}
+---
+	def ref y:array<ET>;
+	yield {
+		yield y = [?it].orderDescendingBy<e>().extract<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::yiterlhs = y;
+			::yiterrhs=[?it].orderDescendingBy<e>().extract<e>();
+		}
+	}
+}
+
+rule rmatchiterkeeponeforeacharray
+{
+	iterated it {
+		n:N;
+	---
+		def var e:ET = n.e;
+		
+		modify {
+		}
+	}
+---
+	def ref z:array<ET>;
+	yield {
+		yield z = [?it].keepOneForEach<e>().extract<e>();
+	}
+	
+	modify {
+	---
+		eval {
+			::ziterlhs = z;
+			::ziterrhs = [?it].keepOneForEach<e>().extract<e>();
+		}
+	}
+}

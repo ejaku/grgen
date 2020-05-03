@@ -776,7 +776,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
             String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
-            String typeOfEntity = getTypeOfFilterVariable(rulePattern, matchEntity);
+            String typeOfEntity = getTypeOfFilterVariable(rulePattern, iterated, matchEntity);
             GenerateKeepOneForEachFilter(source, matchEntity, typeOfEntity);
 
             source.AppendFront("matches.FromListExact();\n");

@@ -15,6 +15,7 @@ import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.containers.DequeTypeNode;
 import de.unika.ipd.grgen.ast.containers.MapTypeNode;
 import de.unika.ipd.grgen.ast.containers.SetTypeNode;
+import de.unika.ipd.grgen.ast.exprevals.EnumTypeNode;
 import de.unika.ipd.grgen.ir.Type;
 import java.awt.Color;
 import java.util.Collection;
@@ -226,6 +227,8 @@ public abstract class TypeNode extends BaseNode {
 			return true;
 		if(isEqual(BasicTypeNode.stringType))
 			return true;
+		if(this instanceof EnumTypeNode)
+			return true;
 		return false;
 	}
 
@@ -250,7 +253,7 @@ public abstract class TypeNode extends BaseNode {
 	}
 	
 	public String getOrderableTypesAsString() {
-		return ", string";
+		return getAccumulatableTypesAsString() + ", string";
 	}
 	
 	public String getAccumulatableTypesAsString() {

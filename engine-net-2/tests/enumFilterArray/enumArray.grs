@@ -1,0 +1,33 @@
+new graph enumFilterArray/enum
+
+exec init
+
+eval [?t\orderAscendingBy<e>]
+eval [?t\orderDescendingBy<e>]
+eval [?t\keepOneForEach<e>]
+
+eval [?[t]\mc.orderAscendingBy<e>\<class mc>]
+eval [?[t]\mc.orderDescendingBy<e>\<class mc>]
+eval [?[t]\mc.keepOneForEach<e>\<class mc>]
+
+exec texec
+show var xmatch
+show var ymatch
+show var zmatch
+
+exec texecmc
+show var xmatchclass
+show var ymatchclass
+show var zmatchclass
+
+exec rmatchiterascending
+exec rmatchiterdescending
+exec rmatchiterkeeponeforeach
+show var xiterlhs
+show var yiterlhs
+show var ziterlhs
+show var xiterrhs
+show var yiterrhs
+show var ziterrhs
+
+quit

@@ -1,0 +1,8 @@
+enum ET {
+	foo, bar, baz, qux
+}
+
+node class N
+{
+	e:ET;
+}

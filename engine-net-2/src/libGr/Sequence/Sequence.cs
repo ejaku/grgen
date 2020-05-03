@@ -1382,7 +1382,7 @@ namespace de.unika.ipd.grGen.libGr
             if(subgraph != null)
                 procEnv.SwitchToSubgraph(subgraph);
 
-            IMatches matches = procEnv.MatchWithoutEvent(action, arguments, localMaxMatches);
+            IMatches matches = procEnv.MatchForQuery(action, arguments, localMaxMatches);
 
             for(int i = 0; i < filters.Count; ++i)
             {
@@ -2002,6 +2002,8 @@ namespace de.unika.ipd.grGen.libGr
 #endif
                 FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
 
+                // MatchForQuery clones all matches, as query matches may be stored,
+                // or the action may be called again before processing of the matches finished (simple [?r] + [?r] sufficient)
                 IMatches matches = MatchForQuery(procEnv, Action,
                     subgraph != null ? (IGraph)subgraph.GetVariableValue(procEnv) : null,
                     Arguments, 0, Special, Filters);
@@ -2013,8 +2015,6 @@ namespace de.unika.ipd.grGen.libGr
                     procEnv.Recorder.Flush();
                 }
 #endif
-                // the action may be called again before processing of the matches finished (simple [?r] + [?r] sufficient) -> must clone matches
-                matches = matches.Clone();
 
                 return matches.ToList();
             }
@@ -3387,13 +3387,16 @@ namespace de.unika.ipd.grGen.libGr
                 FillArgumentsFromArgumentExpressions(rule.ArgumentExpressions, rule.Arguments, procEnv);
 
                 SequenceRuleCallInterpreted ruleInterpreted = (SequenceRuleCallInterpreted)rule;
-                IMatches matches = procEnv.MatchWithoutEvent(ruleInterpreted.Action, rule.Arguments, maxMatches);
+                IMatches matches = procEnv.MatchForQuery(ruleInterpreted.Action, rule.Arguments, maxMatches);
 
-                // the rule may be called multiple times in the sequence (on different parameters), overwriting the matches object of the action
+                // MatchForQuery clones all matches, as query matches may be stored,
+                // or the action may be called again before processing of the matches finished (simple [?r] + [?r] sufficient)
+                // or the rule may be called multiple times in the multi rule all call sequence (on different parameters), 
+                // overwriting the matches object of the action
                 // normally it's safe to assume the rule is not called again until its matches were processed,
                 // allowing for the one matches object memory optimization, but here we must clone to prevent bad side effect
-                // TODO: optimization; if it's ensured the sequence doesn't call this action again, we can omit this, requires inspection of contained rules
-                matches = matches.Clone();
+                // TODO: optimization; if it's ensured the sequence doesn't call this action again, and it's not a query, 
+                // we can omit this, requires inspection of contained rules
 
                 for(int j = 0; j < rule.Filters.Count; ++j)
                 {
