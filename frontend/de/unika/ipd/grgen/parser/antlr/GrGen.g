@@ -330,37 +330,23 @@ globalVarDecl
 		(
 			type=typeIdentUse
 			{
-				id.setDecl(new VarDeclNode(id, type, null, 0));
+				id.setDecl(new VarDeclNode(id, type, null, 0, false));
 				if(!modifier.getText().equals("var")) 
 					{ reportError(getCoords(modifier), "var keyword needed before non graph element and non container global variable"); }
 			}
 		|
-			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				id.setDecl(new VarDeclNode(id, new MapTypeNode(keyType, valueType), null, 0));
+			containerType=containerTypeUse
+			{
+				id.setDecl(new VarDeclNode(id, containerType, null, 0, false));
 				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before map global variable"); }
+					{ reportError(getCoords(modifier), "ref keyword needed before container typed def variable"); }
 			}
 		|
-			SET LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				id.setDecl(new VarDeclNode(id, new SetTypeNode(keyType), null, 0));
+			matchTypeIdent=matchTypeIdentUse
+			{
+				id.setDecl(new VarDeclNode(id, matchTypeIdent, null, 0, false));
 				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before set global variable"); }
-			}
-		|
-			ARRAY LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				id.setDecl(new VarDeclNode(id, new ArrayTypeNode(keyType), null, 0));
-				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before array global variable"); }
-			}
-		|
-			DEQUE LT keyType=typeIdentUse GT
-			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				id.setDecl(new VarDeclNode(id, new DequeTypeNode(keyType), null, 0));
-				if(!modifier.getText().equals("ref"))
-					{ reportError(getCoords(modifier), "ref keyword needed before deque global variable"); }
+					{ reportError(getCoords(modifier), "ref keyword needed before match typed def variable"); }
 			}
 		)
 		SEMI
