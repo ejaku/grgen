@@ -72,11 +72,11 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             if(Type == EntityType.Node)
-                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.CandidateVariable(NameOfEntity) + " = " + Initialization + ";\n");
+                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.CandidateVariable(NameOfEntity) + " = (" + TypeOfEntity + ")" + Initialization + ";\n");
             else if(Type == EntityType.Edge)
-                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.CandidateVariable(NameOfEntity) + " = " + Initialization + ";\n");
+                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.CandidateVariable(NameOfEntity) + " = (" + TypeOfEntity + ")" + Initialization + ";\n");
             else //if(Type == EntityType.Variable)
-                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.Variable(NameOfEntity) + " = " + Initialization + ";\n");
+                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.Variable(NameOfEntity) + " = (" + TypeOfEntity + ")" + Initialization + ";\n");
         }
 
         public readonly EntityType Type;
