@@ -76,8 +76,8 @@ public class ArrayKeepOneForEachByNode extends ExprNode
 			return false;
 
 		TypeNode memberType = getTypeOfElementToBeExtracted();
-		if(!memberType.isOrderableType()) {
-			targetExpr.reportError("array method keepOneForEach only available for graph element attributes of type " + memberType.getOrderableTypesAsString());
+		if(!memberType.isFilterableType()) {
+			targetExpr.reportError("array method keepOneForEach only available for graph element attributes of type " + memberType.getFilterableTypesAsString());
 			return false;
 		}
 

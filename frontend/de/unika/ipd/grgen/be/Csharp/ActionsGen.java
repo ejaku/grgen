@@ -1219,11 +1219,28 @@ public class ActionsGen extends CSharpBase {
 		Rule rule = iteratedRule != null ? iteratedRule : actionRule;
 		for(Variable var : rule.getPattern().getVars())
 		{
-			if(var.getType().isFilterableType()) {
+			if(var.getType().isOrderableType()) {
 				generateComparerAndArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, true);
 				generateComparerAndArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, false);
 				generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var);
 			}
+		}
+		
+		for(Variable var : rule.getPattern().getVars())
+		{
+			if(var.getType().isFilterableType() && !var.getType().isOrderableType()) {
+				generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var);
+			}
+		}
+
+		for(Node node : rule.getPattern().getNodes())
+		{
+			generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, node);
+		}
+
+		for(Edge edge : rule.getPattern().getEdges())
+		{
+			generateArrayKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, edge);
 		}
 
 		sb.unindent();
@@ -1276,7 +1293,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	void generateArrayKeepOneForEach(SourceBuilder sb, Identifiable memberBearer,
-			MemberBearerType memberBearerType, Rule iteratedRule, Variable var)
+			MemberBearerType memberBearerType, Rule iteratedRule, Entity entity)
 	{
 		String name = formatIdentifiable(memberBearer);
 		String iteratedNameComponent = iteratedRule != null ? "_" + formatIdentifiable(iteratedRule) : "";
@@ -1289,10 +1306,10 @@ public class ActionsGen extends CSharpBase {
 			memberBearerClass = "";
 		String matchInterfaceName = "GRGEN_ACTIONS." + getPackagePrefixDot(memberBearer)
 				+ memberBearerClass + "IMatch_" + name + iteratedNameComponent;
-		String functionName = "keepOneForEachBy_" + formatIdentifiable(var);
+		String functionName = "keepOneForEachBy_" + formatIdentifiable(entity);
 		String arrayFunctionName = "Array_" + name + iteratedNameComponent + "_" + functionName;
 
-		generateArrayKeepOneForEach(sb, arrayFunctionName, matchInterfaceName, formatEntity(var), formatType(var.getType()));
+		generateArrayKeepOneForEach(sb, arrayFunctionName, matchInterfaceName, formatEntity(entity), formatType(entity.getType()));
 	}
 
 	/**
@@ -1331,11 +1348,28 @@ public class ActionsGen extends CSharpBase {
 
 		for(Variable var : matchClass.getVars())
 		{
-			if(var.getType().isFilterableType()) {
+			if(var.getType().isOrderableType()) {
 				generateComparerAndArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, true);
 				generateComparerAndArrayOrderBy(sb, matchClass, MemberBearerType.MatchClass, null, var, false);
 				generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var);
 			}
+		}
+
+		for(Variable var : matchClass.getVars())
+		{
+			if(var.getType().isFilterableType() && !var.getType().isOrderableType()) {
+				generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, var);
+			}
+		}
+
+		for(Node node : matchClass.getNodes())
+		{
+			generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, node);
+		}
+
+		for(Edge edge : matchClass.getEdges())
+		{
+			generateArrayKeepOneForEach(sb, matchClass, MemberBearerType.MatchClass, null, edge);
 		}
 
 		sb.unindent();

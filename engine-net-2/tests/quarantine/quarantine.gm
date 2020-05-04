@@ -32,3 +32,8 @@ edge class hasHabit;
 edge class inHealthState;
 
 edge class underQuarantine;
+
+node class PersonWrapper
+{
+	person:Person;
+}

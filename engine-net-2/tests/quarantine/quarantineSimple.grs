@@ -1,0 +1,29 @@
+new graph "quarantine\quarantine"
+
+exec init
+exec addDuplicate
+
+eval [?quarantineByRiskLodging]
+
+exec printQuarantineSimpleLodgingOnly
+
+exec printQuarantineSimpleLodgingOnlyMC
+
+eval [?quarantineByRiskLodging\keepOneForEach<person>]
+
+eval [?[quarantineByRiskLodging]\QuarantineScore.keepOneForEach<person>\<class QuarantineScore>]
+
+exec quarantineByRiskLodgingIterated
+
+exec { ::persons = set<Person>(nodes(Person)).asArray() }
+exec { ::persons.add(nodeByName("$0")) }
+show var persons
+exec printQuarantineSimpleLodgingOnlyArray(::persons)
+
+exec [wrapPersons]
+exec { ::wrappedPersons = set<PersonWrapper>(nodes(PersonWrapper)).asArray() }
+exec { ::wrappedPersons.add(::wrappedPersons[0]) }
+show var wrappedPersons
+exec printQuarantineSimpleLodgingOnlyArrayWrapped(::wrappedPersons.asArray())
+
+quit

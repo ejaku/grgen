@@ -50,11 +50,21 @@ rule init
 	}
 }
 
+rule addDuplicate
+{
+	p0:Person;
+	if{ p0.name=="Otto"; }
+	
+	modify {
+		p0 -:livesIn-> :Lodging@(type=LodgingType::HomeForTheElderly);
+	}
+}
+
 match class QuarantineScore
 {
 	person:Person;
 	def var score:double;
-} \keepOneForEach<person>Accumulate<score>By<sum>, orderDescendingBy<score>
+} \keepOneForEach<person>Accumulate<score>By<sum>, keepOneForEach<person>, orderDescendingBy<score>
 // in iterated bottom-up yielding to nesting entity possible, in rules not available 
 // would require def parameters - shared over all independent matches
 // instead keepOneForEach<>Accumulate<>By<>
@@ -70,7 +80,7 @@ rule quarantineByRiskLodging implements QuarantineScore
 	modify {
 		person -:underQuarantine-> person;
 	}
-}
+} \ keepOneForEach<person>
 
 rule quarantineByRiskHabit implements QuarantineScore
 {
@@ -104,6 +114,18 @@ sequence printQuarantine
 			\QuarantineScore.orderDescendingBy<score>\<class QuarantineScore>], "\n"); }
 }
 
+sequence printQuarantineSimpleLodgingOnlyMC
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?[quarantineByRiskLodging]\QuarantineScore.keepOneForEach<person>\<class QuarantineScore>], "\n"); }
+}
+
+sequence printQuarantineSimpleLodgingOnly
+{
+	{ emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+		[?quarantineByRiskLodging\keepOneForEach<person>], "\n"); }
+}
+
 rule quarantineTopmost(var num:int)
 {
 	modify {
@@ -119,3 +141,56 @@ test underQuarantine
 {
 	person:Person -:underQuarantine-> person;
 }
+
+rule quarantineByRiskLodgingIterated
+{
+	iterated it {
+		person:Person -:livesIn-> l:Lodging;
+		if { l.type == LodgingType::HomeForTheElderly; }
+	---
+		def var score:double = 100.0;
+		
+		modify {
+		}
+	} \ keepOneForEach<person>
+---
+	iterated it\keepOneForEach<person>;
+
+	modify {
+	---
+		emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+			[?it], "\n");
+	}
+}
+
+rule printQuarantineSimpleLodgingOnlyArray(ref a:array<Person>)
+{
+	if { a.keepOneForEach().size() <= 9; }
+	
+	modify {
+	---
+		emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+			a.keepOneForEach(), "\n");
+	}
+}
+
+rule wrapPersons
+{
+	p:Person;
+	
+	modify {
+		:PersonWrapper@(person=p);
+	}
+}
+
+rule printQuarantineSimpleLodgingOnlyArrayWrapped(ref a:array<PersonWrapper>)
+{
+	if { a.keepOneForEach<person>().size() <= 9; }
+	
+	modify {
+	---
+		emit( "Evaluating Sequence Expression done after 0.0 ms with result: ",
+			a.keepOneForEach<person>(), "\n");
+	}
+}
+

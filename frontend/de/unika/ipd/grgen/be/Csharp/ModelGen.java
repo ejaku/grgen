@@ -2451,14 +2451,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	void genAttributeArrayHelpersAndComparers(InheritanceType type)
 	{
 		for(Entity entity : type.getAllMembers()) {
-			if(entity.getType().classify() == Type.IS_BYTE
-				|| entity.getType().classify() == Type.IS_SHORT
-				|| entity.getType().classify() == Type.IS_INTEGER
-				|| entity.getType().classify() == Type.IS_LONG
-				|| entity.getType().classify() == Type.IS_FLOAT
-				|| entity.getType().classify() == Type.IS_DOUBLE
-				|| entity.getType().classify() == Type.IS_BOOLEAN
-				|| entity.getType().classify() == Type.IS_STRING
+			if(entity.getType().isFilterableType()
 				|| entity.getType().classify() == Type.IS_EXTERNAL_TYPE
 				|| entity.getType().classify() == Type.IS_OBJECT)
 			{
@@ -2497,10 +2490,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		if(nonAbstractTypeOrSubtype == null)
 			return; // can't generate comparer for abstract types that have no concrete subtype
 
-		genAttributeArrayReverseComparer(type, entity);
+		if(entity.getType().isOrderableType())
+			genAttributeArrayReverseComparer(type, entity);
 
 		sb.append("\n");
-		sb.appendFront("public class " + comparerClassName + " : Comparer<" + typeName + ">\n");
+		if(entity.getType().isOrderableType())
+			sb.appendFront("public class " + comparerClassName + " : Comparer<" + typeName + ">\n");
+		else
+			sb.appendFront("public class " + comparerClassName + "\n");
 		sb.appendFront("{\n");
 		sb.indent();
 
@@ -2508,10 +2505,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
 		else
 			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "();\n");
-		
+
 		sb.appendFront("private static " + comparerClassName + " thisComparer = new " + comparerClassName + "();\n");
-		
-		genCompareMethod(typeName, entity);
+
+		if(entity.getType().isOrderableType())
+			genCompareMethod(typeName, entity);
 
 		genIndexOfByMethod(typeName, attributeName, attributeTypeName);
 		genIndexOfByWithStartMethod(typeName, attributeName, attributeTypeName);
@@ -2519,11 +2517,13 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		genLastIndexOfByMethod(typeName, attributeName, attributeTypeName);
 		genLastIndexOfByWithStartMethod(typeName, attributeName, attributeTypeName);
 
-		genIndexOfOrderedByMethod(typeName, attributeName, attributeTypeName);
+		if(entity.getType().isOrderableType()) {
+			genIndexOfOrderedByMethod(typeName, attributeName, attributeTypeName);
 
-		genArrayOrderAscendingByMethod(typeName);
-		genArrayOrderDescendingByMethod(typeName, reverseComparerClassName);
-
+			genArrayOrderAscendingByMethod(typeName);
+			genArrayOrderDescendingByMethod(typeName, reverseComparerClassName);
+		}
+		
 		generateArrayKeepOneForEach(sb, "ArrayKeepOneForEachBy", typeName, attributeName, attributeTypeName);
 
 		genArrayExtractMethod(typeName, attributeName, attributeTypeName);

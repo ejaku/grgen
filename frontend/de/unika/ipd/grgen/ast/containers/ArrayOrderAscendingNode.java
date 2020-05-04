@@ -57,16 +57,8 @@ public class ArrayOrderAscendingNode extends ExprNode
 			return false;
 		}
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
-		if(!(arrayType.valueType.equals(BasicTypeNode.byteType))
-			&&!(arrayType.valueType.equals(BasicTypeNode.shortType))
-			&& !(arrayType.valueType.equals(BasicTypeNode.intType))
-			&& !(arrayType.valueType.equals(BasicTypeNode.longType))
-			&& !(arrayType.valueType.equals(BasicTypeNode.floatType))
-			&& !(arrayType.valueType.equals(BasicTypeNode.doubleType))
-			&& !(arrayType.valueType.equals(BasicTypeNode.stringType))
-			&& !(arrayType.valueType.equals(BasicTypeNode.booleanType))
-			&& !(arrayType.valueType instanceof EnumTypeNode)) {
-			targetExpr.reportError("array orderAscending only available for arrays of type byte,short,int,long,float,double,string,boolean,enum");
+		if(!(arrayType.valueType.isOrderableType())) {
+			targetExpr.reportError("array orderAscending only available for arrays of type " + arrayType.valueType.getOrderableTypesAsString());
 		}
 		return true;
 	}

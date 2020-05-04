@@ -123,8 +123,8 @@ public abstract class Type extends Identifiable {
 		assert false;
 		return super.compareTo(id);
 	}
-	
-	public boolean isFilterableType() {
+
+	public boolean isOrderableType() {
 		if(classify()==IS_BYTE)
 			return true;
 		if(classify()==IS_SHORT)
@@ -138,6 +138,16 @@ public abstract class Type extends Identifiable {
 		if(classify()==IS_DOUBLE)
 			return true;
 		if(classify()==IS_STRING)
+			return true;
+		return false;
+	}
+
+	public boolean isFilterableType() {
+		if(isOrderableType())
+			return true;
+		if(classify()==IS_NODE)
+			return true;
+		if(classify()==IS_EDGE)
 			return true;
 		return false;
 	}
