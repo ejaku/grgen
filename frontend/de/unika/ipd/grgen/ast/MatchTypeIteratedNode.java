@@ -134,14 +134,21 @@ public class MatchTypeIteratedNode extends MatchTypeNode {
 
 	@Override
 	protected IR constructIR() {
-		Rule matchAction = action != null ? action.getAction() : subpattern.getAction();
-		Rule iter = (Rule)iterated.getIR();
-
-		// return if the keyType or valueType construction already constructed the IR object
-		if (isIRAlreadySet()) {
+		if(isIRAlreadySet()) {
 			return (MatchTypeIterated)getIR();
 		}
 
-		return new MatchTypeIterated(matchAction, iter);
+		MatchTypeIterated matchTypeIterated = new MatchTypeIterated(iterated.ident.getIdent());
+
+		setIR(matchTypeIterated);
+
+		Rule matchAction = action != null ? action.getAction() : subpattern.getAction();
+
+		Rule iter = (Rule)iterated.getIR();
+
+		matchTypeIterated.setAction(matchAction);
+		matchTypeIterated.setIterated(iter);
+
+		return matchTypeIterated;
 	}
 }

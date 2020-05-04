@@ -148,43 +148,31 @@ public class IteratedNode extends ActionDeclNode  {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	// TODO support only one rhs
 	@Override
 	protected IR constructIR() {
-		PatternGraph left = pattern.getPatternGraph();
-
 		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			if(right != null) {
-				addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR(), right);
-			}
+		// that may happen in recursive patterns (and other usages/references)
+		if(isIRAlreadySet()) {
 			return getIR();
 		}
+
+		Rule iteratedRule = new Rule(getIdentNode().getIdent(), minMatches, maxMatches);
+
+		// mark this node as already visited
+		setIR(iteratedRule);
+		
+		PatternGraph left = pattern.getPatternGraph();
 
 		PatternGraph rightPattern = null;
 		if(this.right != null) {
 			rightPattern = this.right.getPatternGraph(left);
 		}
 
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			if(right != null) {
-				addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR(), right);
-			}
-			return getIR();
-		}
-
-		Rule iteratedRule = new Rule(getIdentNode().getIdent(), left, rightPattern,
-				minMatches, maxMatches);
-
-		// mark this node as already visited
-		setIR(iteratedRule);
+		iteratedRule.initialize(left, rightPattern);
 
 		constructImplicitNegs(left);
 		constructIRaux(iteratedRule, right);
-		
+
 		// filters add themselves to the iterated rule when their IR is constructed
 		for(FilterAutoNode filter : filters) {
 			if(filter instanceof FilterAutoSuppliedNode) {
@@ -196,7 +184,7 @@ public class IteratedNode extends ActionDeclNode  {
 
 		// add Eval statements to the IR
 		if(this.right != null) {
-			for (EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
+			for(EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
 				iteratedRule.addEval(n);
 			}
 		}

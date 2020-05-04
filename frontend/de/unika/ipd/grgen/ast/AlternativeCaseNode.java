@@ -130,42 +130,34 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	// TODO support only one rhs
 	@Override
 	protected IR constructIR() {
-		PatternGraph left = pattern.getPatternGraph();
-
 		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			if(right != null) {
-				addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR(), right);
-			}
+		// that may happen in recursive patterns (and other usages/references)
+		if(isIRAlreadySet()) {
 			return getIR();
 		}
+
+		Rule altCaseRule = new Rule(getIdentNode().getIdent());
+
+		// mark this node as already visited
+		setIR(altCaseRule);
+
+		PatternGraph left = pattern.getPatternGraph();
 
 		PatternGraph rightPattern = null;
 		if(right != null) {
 			rightPattern = right.getPatternGraph(left);
 		}
 
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			if(right != null) {
-				addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR(), right);
-			}
-			return getIR();
-		}
-
-		Rule altCaseRule = new Rule(getIdentNode().getIdent(), left, rightPattern);
+		altCaseRule.initialize(left, rightPattern);
 
 		constructImplicitNegs(left);
 		constructIRaux(altCaseRule, right);
 
 		// add Eval statements to the IR
 		if(right != null) {
-			for (EvalStatements n : right.getRHSGraph().getYieldEvalStatements()) {
+			for(EvalStatements n : right.getRHSGraph().getYieldEvalStatements()) {
 				altCaseRule.addEval(n);
 			}
 		}

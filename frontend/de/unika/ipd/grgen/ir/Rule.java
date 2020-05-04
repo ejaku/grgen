@@ -35,7 +35,7 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 	private String packageContainedIn;
 	
 	/** The right hand side of the rule. */
-	private final PatternGraph right;
+	private PatternGraph right;
 	
 	/** The match classes that get implemented */
 	private final List<DefinedMatchType> implementedMatchClasses = new LinkedList<DefinedMatchType>();
@@ -56,20 +56,10 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 	/**
 	 * Make a new rule.
 	 * @param ident The identifier with which the rule was declared.
-	 * @param left The left side graph of the rule.
-	 * @param right The right side graph of the rule.
 	 */
-	public Rule(Ident ident, PatternGraph left, PatternGraph right) {
-		super("rule", ident, left);
+	public Rule(Ident ident) {
+		super("rule", ident);
 		setChildrenNames(childrenNames);
-		this.right = right;
-		if(right==null) {
-			left.setNameSuffix("test");
-		}
-		else {
-			left.setName("L");
-			right.setName("R");
-		}
 		this.minMatches = -1;
 		this.maxMatches = -1;
 		mightThereBeDeferredExecs = false;
@@ -78,24 +68,29 @@ public class Rule extends MatchingAction implements ContainedInPackage {
 	/**
 	 * Make a new iterated rule.
 	 * @param ident The identifier with which the rule was declared.
-	 * @param left The left side graph of the rule.
-	 * @param right The right side graph of the rule.
 	 */
-	public Rule(Ident ident, PatternGraph left, PatternGraph right,
-			int minMatches, int maxMatches) {
-		super("rule", ident, left);
+	public Rule(Ident ident, int minMatches, int maxMatches) {
+		super("rule", ident);
 		setChildrenNames(childrenNames);
-		this.right = right;
-		if(right==null) {
-			left.setNameSuffix("test");
-		}
-		else {
-			left.setName("L");
-			right.setName("R");
-		}
 		this.minMatches = minMatches;
 		this.maxMatches = maxMatches;
 		mightThereBeDeferredExecs = false;
+	}
+
+	/**
+	 * @param pattern The left side graph of the rule.
+	 * @param right The right side graph of the rule.
+	 */
+	public void initialize(PatternGraph pattern, PatternGraph right) {
+		super.setPattern(pattern);
+		this.right = right;
+		if(right==null) {
+			pattern.setNameSuffix("test");
+		}
+		else {
+			pattern.setName("L");
+			right.setName("R");
+		}
 	}
 
 	public String getPackageContainedIn() {

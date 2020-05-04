@@ -162,42 +162,34 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	// TODO support only one rhs
 	@Override
 	protected IR constructIR() {
-		PatternGraph left = pattern.getPatternGraph();
-
 		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			if(right != null) {
-				addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR(), right);
-			}
+		// that may happen in recursive patterns (and other usages/references)
+		if(isIRAlreadySet()) {
 			return getIR();
 		}
+
+		Rule rule = new Rule(getIdentNode().getIdent());
+
+		// mark this node as already visited
+		setIR(rule);
+
+		PatternGraph left = pattern.getPatternGraph();
 
 		PatternGraph rightPattern = null;
 		if(this.right != null) {
 			rightPattern = this.right.getPatternGraph(left);
 		}
 
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			if(right != null) {
-				addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR(), right);
-			}
-			return getIR();
-		}
+		rule.initialize(left, rightPattern);
 
-		Rule rule = new Rule(getIdentNode().getIdent(), left, rightPattern);
-		
 		constructImplicitNegs(left);
 		constructIRaux(rule, right);
 
 		// add Eval statements to the IR
 		if(this.right != null) {
-			for (EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
+			for(EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
 				rule.addEval(n);
 			}
 		}

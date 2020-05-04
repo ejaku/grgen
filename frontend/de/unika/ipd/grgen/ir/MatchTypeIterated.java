@@ -14,9 +14,12 @@ package de.unika.ipd.grgen.ir;
 public class MatchTypeIterated extends MatchType implements ContainedInPackage {
 	private Rule iterated;
 
-	public MatchTypeIterated(Rule action, Rule iterated) {
-		super(action, iterated.getIdent());
-		this.iterated = iterated;
+	public MatchTypeIterated(Ident iteratedIdent) {
+		super(iteratedIdent);
+	}
+
+	public void setIterated(Rule iterated) {
+		this.iterated = iterated; 
 	}
 
 	public Rule getIterated() {

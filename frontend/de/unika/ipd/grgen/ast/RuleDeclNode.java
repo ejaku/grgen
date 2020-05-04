@@ -445,6 +445,17 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
+		// return if the pattern graph already constructed the IR object
+		// that may happens in recursive patterns (and other usages/references)
+		if(isIRAlreadySet()) {
+			return getIR();
+		}
+
+		Rule rule = new Rule(getIdentNode().getIdent());
+
+		// mark this node as already visited
+		setIR(rule);
+
 		PatternGraph left = pattern.getPatternGraph();
 		for(DeclNode varCand : pattern.getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
@@ -453,24 +464,9 @@ public class RuleDeclNode extends TestDeclNode {
 			left.addVariable(var.checkIR(Variable.class));
 		}
 
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			return getIR();
-		}
-
 		PatternGraph right = this.right.getPatternGraph(left);
 
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			return getIR();
-		}
-
-		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
-
-		// mark this node as already visited
-		setIR(rule);
+		rule.initialize(left, right);
 
 		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildren()) {
 			DefinedMatchType implementedMatchClass = implementedMatchClassNode.checkIR(DefinedMatchType.class);
@@ -481,7 +477,7 @@ public class RuleDeclNode extends TestDeclNode {
 		constructIRaux(rule, this.right.graph.returns);
 
 		// add eval statements to the IR
-		for (EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
+		for(EvalStatements n : this.right.getRHSGraph().getYieldEvalStatements()) {
 			rule.addEval(n);
 		}
 

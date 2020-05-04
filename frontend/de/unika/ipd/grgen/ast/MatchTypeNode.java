@@ -114,13 +114,17 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor {
 
 	@Override
 	protected IR constructIR() {
-		Rule matchAction = action.getAction();
-
-		// return if the keyType or valueType construction already constructed the IR object
-		if (isIRAlreadySet()) {
+		if(isIRAlreadySet()) {
 			return (MatchType)getIR();
 		}
 
-		return new MatchType(matchAction);
+		MatchType matchType = new MatchType(action.ident.getIdent());
+
+		setIR(matchType);
+
+		Rule matchAction = action.getAction();
+		matchType.setAction(matchAction);
+
+		return matchType;
 	}
 }

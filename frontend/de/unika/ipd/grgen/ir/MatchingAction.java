@@ -27,7 +27,7 @@ public abstract class MatchingAction extends Action {
 	};
 
 	/** The graph pattern to match against. */
-	protected final PatternGraph pattern;
+	protected PatternGraph pattern;
 
 	/** A list of the pattern parameters */
 	private final List<Entity> params = new LinkedList<Entity>();
@@ -45,13 +45,19 @@ public abstract class MatchingAction extends Action {
 	/**
 	 * @param name The name of this action.
 	 * @param ident The identifier that identifies this object.
+	 */
+	protected MatchingAction(String name, Ident ident) {
+		super(name, ident);
+		setChildrenNames(childrenNames);
+	}
+
+	/**
 	 * @param pattern The graph pattern to match against.
 	 */
-	public MatchingAction(String name, Ident ident, PatternGraph pattern) {
-		super(name, ident);
+	protected void setPattern(PatternGraph pattern) {
+		assert(pattern != null);
 		this.pattern = pattern;
 		pattern.setNameSuffix("pattern");
-		setChildrenNames(childrenNames);
 	}
 
 	/** @return The graph pattern. */

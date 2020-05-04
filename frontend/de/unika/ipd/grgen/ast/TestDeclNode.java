@@ -368,6 +368,17 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 	
 	@Override
 	protected IR constructIR() {
+		// return if the pattern graph already constructed the IR object
+		// that may happen in recursive patterns (and other usages/references)
+		if(isIRAlreadySet()) {
+			return getIR();
+		}
+
+		Rule testRule = new Rule(getIdentNode().getIdent());
+
+		// mark this node as already visited
+		setIR(testRule);
+
 		PatternGraph left = pattern.getPatternGraph();
 		for(DeclNode varCand : pattern.getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
@@ -376,16 +387,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			left.addVariable(var.checkIR(Variable.class));
 		}
 
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			return getIR();
-		}
-
-		Rule testRule = new Rule(getIdentNode().getIdent(), left, null);
-
-		// mark this node as already visited
-		setIR(testRule);
+		testRule.initialize(left, null);
 
 		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildren()) {
 			DefinedMatchType implementedMatchClass = implementedMatchClassNode.checkIR(DefinedMatchType.class);
