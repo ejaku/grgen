@@ -58,7 +58,7 @@ public class ArrayOrderAscendingNode extends ExprNode
 		}
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
 		if(!(arrayType.valueType.isOrderableType())) {
-			targetExpr.reportError("array orderAscending only available for arrays of type " + arrayType.valueType.getOrderableTypesAsString());
+			targetExpr.reportError("array orderAscending only available for arrays of type " + TypeNode.getOrderableTypesAsString());
 		}
 		return true;
 	}

@@ -636,7 +636,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 		TypeNode filterVariableType = variable.getDeclType();
 		if(!filterVariableType.isOrderableType()) {
-			errorTarget.reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable + " must be of one of the following types: " + filterVariableType.getOrderableTypesAsString());
+			errorTarget.reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable + " must be of one of the following types: " + TypeNode.getOrderableTypesAsString());
 			return false;
 		}
 		return true;
@@ -654,7 +654,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 		TypeNode filterVariableType = entity.getDeclType();
 		if(!filterVariableType.isFilterableType()) {
-			errorTarget.reportError(filterNameWithEntitySuffix + ": the entity " + filterEntity + " must be of one of the following types: " + filterVariableType.getFilterableTypesAsString());
+			errorTarget.reportError(filterNameWithEntitySuffix + ": the entity " + filterEntity + " must be of one of the following types: " + TypeNode.getFilterableTypesAsString());
 			return false;
 		}
 		return true;

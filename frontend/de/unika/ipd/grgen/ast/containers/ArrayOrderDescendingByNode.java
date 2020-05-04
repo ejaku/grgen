@@ -78,7 +78,7 @@ public class ArrayOrderDescendingByNode extends ExprNode
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 
 		if(!memberType.isOrderableType()) {
-			targetExpr.reportError("array method orderDescendingBy only available for graph element attributes of type " + memberType.getOrderableTypesAsString());
+			targetExpr.reportError("array method orderDescendingBy only available for graph element attributes of type " + TypeNode.getOrderableTypesAsString());
 			return false;
 		}
 

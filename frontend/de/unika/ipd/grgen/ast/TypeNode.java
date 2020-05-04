@@ -250,15 +250,15 @@ public abstract class TypeNode extends BaseNode {
 		return false;
 	}
 	
-	public String getFilterableTypesAsString() {
+	public static String getFilterableTypesAsString() {
 		return getOrderableTypesAsString() + " or a node or edge class";
 	}
 	
-	public String getOrderableTypesAsString() {
+	public static String getOrderableTypesAsString() {
 		return getAccumulatableTypesAsString() + ", string, boolean";
 	}
 	
-	public String getAccumulatableTypesAsString() {
+	public static String getAccumulatableTypesAsString() {
 		return "byte, short, int, long, float, double";
 	}
 }

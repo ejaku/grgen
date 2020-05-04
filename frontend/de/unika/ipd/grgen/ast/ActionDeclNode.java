@@ -149,7 +149,7 @@ public abstract class ActionDeclNode extends DeclNode
 							getIdentNode().reportError("The array accumulation method " + filter.entities.get(2)
 								+ " is not applicable to the type " + filterAccumulationVariableType + " of the accumulation variable " 
 								+ filter.entities.get(1) + " / its result cannot be assigned to the accumulation variable."
-								+ " (Accumulatable are: " + filterAccumulationVariableType.getAccumulatableTypesAsString()
+								+ " (Accumulatable are: " + TypeNode.getAccumulatableTypesAsString()
 								+ "; a valid target type for all accumulation methods is double)");
 							allFilterEntitiesExistAndAreOfAdmissibleType = false;
 						}

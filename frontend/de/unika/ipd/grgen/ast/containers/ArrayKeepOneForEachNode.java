@@ -58,7 +58,7 @@ public class ArrayKeepOneForEachNode extends ExprNode
 		}
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
 		if(!(arrayType.valueType.isFilterableType())) {
-			targetExpr.reportError("array keepOneForEach only available for arrays of type " + arrayType.valueType.getFilterableTypesAsString());
+			targetExpr.reportError("array keepOneForEach only available for arrays of type " + TypeNode.getFilterableTypesAsString());
 		}
 		return true;
 	}
