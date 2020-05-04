@@ -1,0 +1,4 @@
+function med(ref a:array<string>) : double
+{
+	return(a.med());
+}

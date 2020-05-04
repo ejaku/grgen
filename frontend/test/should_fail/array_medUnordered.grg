@@ -1,0 +1,4 @@
+function medUnordered(ref a:array<string>) : double
+{
+	return(a.medUnordered());
+}

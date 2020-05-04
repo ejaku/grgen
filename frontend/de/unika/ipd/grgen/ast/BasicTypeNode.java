@@ -203,15 +203,22 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		return "basic type";
 	}
 	
-	public static TypeNode getOperationType(TypeNode inputType) {
+	// implements type promotion (byte/short->int, float->double)
+	public static TypeNode getArrayAccumulationResultType(TypeNode inputType) {
 		if(inputType==byteType)
-			return intType; // byte input -> upcast to int operation
+			return intType;
 		else if(inputType==shortType)
-			return intType; // short input -> upcast int operation
+			return intType;
+		else if(inputType==intType)
+			return intType;
+		else if(inputType==longType)
+			return longType;
 		else if(inputType==floatType)
-			return doubleType; // float input -> upcast to double operation
+			return doubleType;
+		else if(inputType==doubleType)
+			return doubleType;
 		else
-			return inputType;
+			return errorType;
 	}
 }
 

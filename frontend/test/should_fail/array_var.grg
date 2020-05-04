@@ -1,0 +1,4 @@
+function var(ref a:array<string>) : double
+{
+	return(a.var());
+}

@@ -33,7 +33,12 @@ public class ArrayMaxNode extends ArrayAccumulationMethodNode
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array max expression must be of type array<T>");
+			targetExpr.reportError("This argument to array max method must be of type array<T>");
+			return false;
+		}
+		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		if(!arrayType.valueType.isAccumulatableType()) {
+			targetExpr.reportError("The array value type of the array max method must be one of: " + TypeNode.getAccumulatableTypesAsString());
 			return false;
 		}
 		return true;
@@ -41,7 +46,8 @@ public class ArrayMaxNode extends ArrayAccumulationMethodNode
 
 	@Override
 	public TypeNode getType() {
-		return BasicTypeNode.getOperationType(((ArrayTypeNode)targetExpr.getType()).valueType);
+		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		return BasicTypeNode.getArrayAccumulationResultType(arrayType.valueType);
 	}
 
 	@Override

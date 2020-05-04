@@ -33,7 +33,12 @@ public class ArrayMedNode extends ArrayAccumulationMethodNode
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array med expression must be of type array<T>");
+			targetExpr.reportError("This argument to array med method must be of type array<T>");
+			return false;
+		}
+		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		if(!arrayType.valueType.isAccumulatableType()) {
+			targetExpr.reportError("The array value type of the array med method must be one of: " + TypeNode.getAccumulatableTypesAsString());
 			return false;
 		}
 		return true;

@@ -1,0 +1,4 @@
+function sum(ref a:array<string>) : double
+{
+	return(a.sum());
+}

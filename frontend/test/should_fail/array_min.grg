@@ -1,0 +1,4 @@
+function min(ref a:array<string>) : double
+{
+	return(a.min());
+}

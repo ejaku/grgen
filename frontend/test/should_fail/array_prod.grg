@@ -1,0 +1,4 @@
+function prod(ref a:array<string>) : double
+{
+	return(a.prod());
+}

@@ -1,0 +1,4 @@
+function dev(ref a:array<string>) : double
+{
+	return(a.dev());
+}

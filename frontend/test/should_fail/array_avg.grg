@@ -1,0 +1,4 @@
+function avg(ref a:array<string>) : double
+{
+	return(a.avg());
+}

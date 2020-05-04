@@ -1,0 +1,4 @@
+function max(ref a:array<string>) : double
+{
+	return(a.max());
+}
