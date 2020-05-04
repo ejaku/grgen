@@ -129,7 +129,7 @@ public abstract class Type extends Identifiable {
 			return true;
 		if(classify()==IS_SHORT)
 			return true;
-		if(classify()==IS_INTEGER)
+		if(classify()==IS_INTEGER) // includes ENUM
 			return true;
 		if(classify()==IS_LONG)
 			return true;
@@ -138,6 +138,8 @@ public abstract class Type extends Identifiable {
 		if(classify()==IS_DOUBLE)
 			return true;
 		if(classify()==IS_STRING)
+			return true;
+		if(classify()==IS_BOOLEAN)
 			return true;
 		return false;
 	}

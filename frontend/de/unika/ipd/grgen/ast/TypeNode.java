@@ -227,6 +227,8 @@ public abstract class TypeNode extends BaseNode {
 			return true;
 		if(isEqual(BasicTypeNode.stringType))
 			return true;
+		if(isEqual(BasicTypeNode.booleanType))
+			return true;
 		if(this instanceof EnumTypeNode)
 			return true;
 		return false;
@@ -253,7 +255,7 @@ public abstract class TypeNode extends BaseNode {
 	}
 	
 	public String getOrderableTypesAsString() {
-		return getAccumulatableTypesAsString() + ", string";
+		return getAccumulatableTypesAsString() + ", string, boolean";
 	}
 	
 	public String getAccumulatableTypesAsString() {

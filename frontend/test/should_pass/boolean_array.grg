@@ -1,0 +1,11 @@
+#using "boolean_array.gm"
+
+rule r(ref a:array<N>)
+{
+	modify {
+		eval {
+			def ref res:array<N> = a.orderAscendingBy<b>();
+			def ref res2:array<boolean> = a.extract<b>().orderAscending();
+		}
+	}
+}

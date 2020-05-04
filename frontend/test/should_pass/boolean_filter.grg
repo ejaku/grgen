@@ -1,0 +1,13 @@
+test t
+{
+---
+	def var b:boolean;
+} \ orderAscendingBy<b>
+
+rule apply
+{
+	modify {
+	---
+		exec([t\orderAscendingBy<b>]);
+	}
+}
