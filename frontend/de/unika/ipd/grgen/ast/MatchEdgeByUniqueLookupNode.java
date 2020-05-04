@@ -87,12 +87,14 @@ public class MatchEdgeByUniqueLookupNode extends EdgeDeclNode implements EdgeCha
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
 	protected IR constructIR() {
-		Edge edge = (Edge)super.constructIR();
-		if (isIRAlreadySet()) { // break endless recursion in case of cycle in usage
+		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
-		} else{
-			setIR(edge);
 		}
+		
+		Edge edge = (Edge)super.constructIR();
+
+		setIR(edge);
+
 		edge.setUniqueIndexAccess(new UniqueLookup(expr.checkIR(Expression.class)));
 		return edge;
 	}

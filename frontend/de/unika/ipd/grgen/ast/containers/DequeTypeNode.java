@@ -96,12 +96,6 @@ public class DequeTypeNode extends DeclaredTypeNode {
 	@Override
 	protected IR constructIR() {
 		Type vt = valueType.getType();
-
-		// return if the keyType or valueType construction already constructed the IR object
-		if (isIRAlreadySet()) {
-			return (DequeType)getIR();
-		}
-
 		return new DequeType(vt);
 	}
 }

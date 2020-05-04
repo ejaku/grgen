@@ -145,7 +145,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 	protected IR constructIR() {
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if (isIRAlreadySet()) {
+		if(isIRAlreadySet()) {
 			return getIR();
 		}
 

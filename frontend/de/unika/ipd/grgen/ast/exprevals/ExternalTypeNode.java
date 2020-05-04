@@ -107,14 +107,14 @@ public class ExternalTypeNode extends InheritanceTypeNode {
 	 */
 	@Override
 	protected IR constructIR() {
-		ExternalType et = new ExternalType(getDecl().getIdentNode().getIdent());
-
-		if (isIRAlreadySet()) { // break endless recursion in case of a member of node/edge type
+		if(isIRAlreadySet()) { // break endless recursion in case of a member of node/edge type
 			return getIR();
-		} else{
-			setIR(et);
 		}
 		
+		ExternalType et = new ExternalType(getDecl().getIdentNode().getIdent());
+
+		setIR(et);
+
 		constructIR(et);
 
 		return et;

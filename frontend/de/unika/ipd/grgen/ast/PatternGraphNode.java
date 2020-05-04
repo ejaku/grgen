@@ -701,6 +701,10 @@ public class PatternGraphNode extends GraphNode {
 
 	@Override
 	protected IR constructIR() {
+		if(isIRAlreadySet()) {
+			return getIR();
+		}
+
 		PatternGraph patternGraph = new PatternGraph(nameOfGraph, modifiers);
 		patternGraph.setDirectlyNestingLHSGraph(patternGraph);
 		

@@ -116,12 +116,6 @@ public class MapTypeNode extends DeclaredTypeNode {
 	protected MapType constructIR() {
 		Type kt = keyType.getType();
 		Type vt = valueType.getType();
-
-		// return if the keyType or valueType construction already constructed the IR object
-		if (isIRAlreadySet()) {
-			return (MapType)getIR();
-		}
-
 		return new MapType(kt, vt);
 	}
 }

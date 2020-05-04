@@ -212,7 +212,7 @@ public class DefinedMatchTypeNode extends DeclaredTypeNode implements MemberAcce
 
 	@Override
 	protected IR constructIR() {
-		if (isIRAlreadySet()) {
+		if(isIRAlreadySet()) {
 			return (DefinedMatchType)getIR();
 		}
 

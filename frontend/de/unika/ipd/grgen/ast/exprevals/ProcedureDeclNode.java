@@ -122,7 +122,7 @@ public class ProcedureDeclNode extends ProcedureBase {
 	protected IR constructIR() {
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if (isIRAlreadySet()) {
+		if(isIRAlreadySet()) {
 			return getIR();
 		}
 

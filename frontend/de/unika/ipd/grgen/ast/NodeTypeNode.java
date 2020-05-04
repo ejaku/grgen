@@ -109,14 +109,14 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 */
 	@Override
 	protected IR constructIR() {
+		if(isIRAlreadySet()) { // break endless recursion in case of a member of node or container of node type
+			return getIR();
+		}
+
 		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(),
 								   getIRModifiers(), getExternalName());
 
-		if (isIRAlreadySet()) { // break endless recursion in case of a member of node/edge type
-			return getIR();
-		} else{
-			setIR(nt);
-		}
+		setIR(nt);
 
 		constructIR(nt);
 

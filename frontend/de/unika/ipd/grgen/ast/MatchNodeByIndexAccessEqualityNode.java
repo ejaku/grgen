@@ -111,12 +111,14 @@ public class MatchNodeByIndexAccessEqualityNode extends NodeDeclNode implements 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
 	protected IR constructIR() {
-		Node node = (Node)super.constructIR();
-		if (isIRAlreadySet()) { // break endless recursion in case of cycle in usage
+		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
-		} else{
-			setIR(node);
 		}
+		
+		Node node = (Node)super.constructIR();
+
+		setIR(node);
+
 		node.setIndex(new IndexAccessEquality(index.checkIR(Index.class), 
 				expr.checkIR(Expression.class)));
 		return node;

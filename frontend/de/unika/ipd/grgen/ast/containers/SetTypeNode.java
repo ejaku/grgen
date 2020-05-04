@@ -100,12 +100,6 @@ public class SetTypeNode extends DeclaredTypeNode {
 	@Override
 	protected IR constructIR() {
 		Type vt = valueType.getType();
-
-		// return if the keyType or valueType construction already constructed the IR object
-		if (isIRAlreadySet()) {
-			return (SetType)getIR();
-		}
-
 		return new SetType(vt);
 	}
 }

@@ -154,14 +154,18 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
 	protected IR constructIR() {
-		Node node = (Node)super.constructIR();
-		if (isIRAlreadySet()) { // break endless recursion in case of cycle in usage
+		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
-		} else{
-			setIR(node);
 		}
-		if(storage!=null) node.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
-		else if(storageAttribute!=null) node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
+		
+		Node node = (Node)super.constructIR();
+
+		setIR(node);
+
+		if(storage!=null)
+			node.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
+		else if(storageAttribute!=null)
+			node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
 //		else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
 		node.setStorageIndex(new StorageAccessIndex(accessor.checkIR(GraphEntity.class)));
 		return node;

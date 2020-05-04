@@ -446,7 +446,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 */
 	protected IR constructIR() {
 		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns (and other usages/references)
+		// that may happen in recursive patterns (and other usages/references)
 		if(isIRAlreadySet()) {
 			return getIR();
 		}

@@ -87,12 +87,14 @@ public class MatchNodeByNameLookupNode extends NodeDeclNode implements NodeChara
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
 	protected IR constructIR() {
-		Node node = (Node)super.constructIR();
-		if (isIRAlreadySet()) { // break endless recursion in case of cycle in usage
+		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
-		} else{
-			setIR(node);
 		}
+		
+		Node node = (Node)super.constructIR();
+
+		setIR(node);
+
 		node.setNameMapAccess(new NameLookup(expr.checkIR(Expression.class)));
 		return node;
 	}

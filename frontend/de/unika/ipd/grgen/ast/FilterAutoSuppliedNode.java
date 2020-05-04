@@ -81,7 +81,7 @@ public class FilterAutoSuppliedNode extends FilterAutoNode {
 	protected IR constructIR() {
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
-		if (isIRAlreadySet()) {
+		if(isIRAlreadySet()) {
 			return getIR();
 		}
 

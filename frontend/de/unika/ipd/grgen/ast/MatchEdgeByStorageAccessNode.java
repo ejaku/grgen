@@ -154,14 +154,18 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
 	protected IR constructIR() {
-		Edge edge = (Edge)super.constructIR();
-		if (isIRAlreadySet()) { // break endless recursion in case of cycle in usage
+		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
-		} else{
-			setIR(edge);
 		}
-		if(storage!=null) edge.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
-		else if(storageAttribute!=null) edge.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
+		
+		Edge edge = (Edge)super.constructIR();
+
+		setIR(edge);
+
+		if(storage!=null)
+			edge.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
+		else if(storageAttribute!=null)
+			edge.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
 //		else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
 		edge.setStorageIndex(new StorageAccessIndex(accessor.checkIR(GraphEntity.class)));
 		return edge;

@@ -156,12 +156,14 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
 	protected IR constructIR() {
-		Edge edge = (Edge)super.constructIR();
-		if (isIRAlreadySet()) { // break endless recursion in case of cycle in usage
+		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
-		} else{
-			setIR(edge);
 		}
+		
+		Edge edge = (Edge)super.constructIR();
+
+		setIR(edge);
+
 		edge.setIndex(new IndexAccessOrdering(index.checkIR(Index.class), ascending, 
 				comp, expr!=null ? expr.checkIR(Expression.class) : null, 
 				comp2, expr2!=null ? expr2.checkIR(Expression.class) : null));

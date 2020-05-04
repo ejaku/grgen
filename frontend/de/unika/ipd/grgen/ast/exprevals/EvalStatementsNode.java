@@ -66,13 +66,13 @@ public class EvalStatementsNode extends BaseNode
 
 	@Override
 	protected IR constructIR() {
+		if(isIRAlreadySet()) {
+			return (EvalStatements)getIR();
+		}
+		
 		EvalStatements es = new EvalStatements(name);
 
-		if (isIRAlreadySet()) {
-			return (EvalStatements)getIR();
-		} else {
-			setIR(es);
-		}
+		setIR(es);
 		
 		for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
 			es.evalStatements.add(evalStatement.checkIR(EvalStatement.class));

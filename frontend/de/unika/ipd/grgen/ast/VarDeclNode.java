@@ -155,16 +155,16 @@ public class VarDeclNode extends DeclNode {
 
 	@Override
 	protected IR constructIR() {
+		if(isIRAlreadySet()) {
+			return (Variable)getIR();
+		}
+
 		Variable var = new Variable("Var", getIdentNode().getIdent(), type.getType(), 
 				defEntityToBeYieldedTo,
 				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getGraph() : null,
 				context);
 		
-		if (isIRAlreadySet()) {
-			return (Variable)getIR();
-		} else {
-			setIR(var);
-		}
+		setIR(var);
 		
 		if(initialization!=null) {
 			initialization = initialization.evaluate();
