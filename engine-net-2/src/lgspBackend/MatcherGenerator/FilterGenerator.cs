@@ -649,7 +649,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
+            String matchEntity = getFilterVariableName(rulePattern, filterVariable);
             GenerateKeepSameFilter(source, matchEntity, sameAsFirst);
 
             source.AppendFront("matches.FromListExact();\n");
@@ -674,7 +674,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
+            String matchEntity = getFilterVariableName(rulePattern, iterated, filterVariable);
             GenerateKeepSameFilter(source, matchEntity, sameAsFirst);
 
             source.AppendFront("matches.FromListExact();\n");
@@ -698,7 +698,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
-            String matchEntity = NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
+            String matchEntity = getFilterVariableName(matchClass, filterVariable);
             GenerateKeepSameFilter(source, matchEntity, sameAsFirst);
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");

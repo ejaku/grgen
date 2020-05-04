@@ -1,0 +1,31 @@
+test filterNode
+{
+	n:Node;	
+} \ keepSameAsFirst<n>, keepSameAsLast<n>, keepOneForEach<n>
+
+test filterNodeDef
+{
+	x:Node;
+---
+	def var n:Node = x;	
+} \ keepSameAsFirst<n>, keepSameAsLast<n>, keepOneForEach<n>
+
+test filterEdge
+{
+	-e:Edge->;	
+} \ keepSameAsFirst<e>, keepSameAsLast<e>, keepOneForEach<e>
+
+test filterEdgeDef
+{
+	-x:Edge->;
+---
+	def var e:Edge = x;	
+} \ keepSameAsFirst<e>, keepSameAsLast<e>, keepOneForEach<e>
+
+sequence seq
+{
+	[filterNode\keepSameAsFirst<n>\keepSameAsLast<n>\keepOneForEach<n>] ;>
+	[filterNodeDef\keepSameAsFirst<n>\keepSameAsLast<n>\keepOneForEach<n>] ;>
+	[filterEdge\keepSameAsFirst<e>\keepSameAsLast<e>\keepOneForEach<e>] ;>
+	[filterEdgeDef\keepSameAsFirst<e>\keepSameAsLast<e>\keepOneForEach<e>]
+}

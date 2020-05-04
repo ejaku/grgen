@@ -102,19 +102,18 @@ public abstract class ActionDeclNode extends DeclNode
 					alreadySeenFilters.add(filterNameWithEntitySuffix);
 				}
 				if(filter.name.equals("orderAscendingBy") || filter.name.equals("orderDescendingBy")
-					|| filter.name.equals("groupBy") || filter.name.equals("keepSameAsFirst")
-					|| filter.name.equals("keepSameAsLast")) {
+						|| filter.name.equals("groupBy")) {
 					for(String filterEntity : filter.entities) {
 						allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterVariable(getIdentNode(), filterNameWithEntitySuffix, filterEntity);
 					}
-					if(filter.name.equals("groupBy") || filter.name.equals("keepSameAsFirst")
-						|| filter.name.equals("keepSameAsLast")) {
+					if(filter.name.equals("groupBy")) {
 						if(filter.entities.size()!=1) {
 							reportError(filterNameWithEntitySuffix + " must be declared with exactly one variable, but is declared with " + filter.entities.size() + " variables");
 							allFilterEntitiesExistAndAreOfAdmissibleType = false;
 						}
 					}
-				} else if(filter.name.equals("keepOneForEach")) {
+				} else if(filter.name.equals("keepOneForEach")
+						|| filter.name.equals("keepSameAsFirst") || filter.name.equals("keepSameAsLast")) {
 					for(String filterEntity : filter.entities) {
 						allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterEntity(getIdentNode(), filterNameWithEntitySuffix, filterEntity);
 					}
