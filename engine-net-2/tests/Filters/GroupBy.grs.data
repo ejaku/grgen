@@ -1,0 +1,8 @@
+1
+1
+8
+16
+[match<filterInt>{n:$7,i:0},match<filterInt>{n:$6,i:0},match<filterInt>{n:$5,i:4},match<filterInt>{n:$4,i:4},match<filterInt>{n:$3,i:3},match<filterInt>{n:$2,i:2},match<filterInt>{n:$1,i:2},match<filterInt>{n:$0,i:1}]
+8
+8
+16

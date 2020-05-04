@@ -98,18 +98,11 @@ public class DefinedMatchTypeNode extends DeclaredTypeNode implements MemberAcce
 				} else {
 					alreadySeenFilters.add(filterNameWithEntitySuffix);
 				}
-				if(filter.name.equals("orderAscendingBy") || filter.name.equals("orderDescendingBy")
-						|| filter.name.equals("groupBy")) {
+				if(filter.name.equals("orderAscendingBy") || filter.name.equals("orderDescendingBy")) {
 					for(String filterEntity : filter.entities) {
 						allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterVariable(getIdentNode(), filter.name, filterEntity);
 					}
-					if(filter.name.equals("groupBy")) {
-						if(filter.entities.size() != 1) {
-							getIdentNode().reportError(filterNameWithEntitySuffix + " must be declared with exactly one variable, but is declared with " + filter.entities.size() + " variables");
-							allFilterEntitiesExistAndAreOfAdmissibleType = false;
-						}
-					}
-				} else if(filter.name.equals("keepOneForEach")
+				} else if(filter.name.equals("keepOneForEach") || filter.name.equals("groupBy")
 						|| filter.name.equals("keepSameAsFirst") || filter.name.equals("keepSameAsLast")) {
 					for(String filterEntity : filter.entities) {
 						allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterEntity(getIdentNode(), filter.name, filterEntity);

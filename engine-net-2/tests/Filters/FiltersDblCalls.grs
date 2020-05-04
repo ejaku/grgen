@@ -58,6 +58,15 @@ exec init
 show num nodes
 show num edges
 
+exec sdblgroup
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
 exec sdblascsamefirst
 show num nodes
 show num edges

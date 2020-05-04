@@ -73,6 +73,7 @@ sequence sintascfirstfrac { [filterInt\orderAscendingBy<i>\keepFirstFraction(0.5
 sequence sintdesclastfrac { [filterInt\orderDescendingBy<i>\keepLastFraction(0.5)] }
 sequence sintasclast { [filterInt\orderAscendingBy<i>\keepLast(4)] }
 sequence sintgroupeach { [filterInt\groupBy<i>\keepOneForEach<i>] }
+sequence sintgroup { [filterInt\groupBy<i>] }
 sequence sintascsamefirst { [filterInt\orderAscendingBy<i>\keepSameAsFirst<i>] }
 sequence sintdescsamelast { [filterInt\orderDescendingBy<i>\keepSameAsLast<i>] }
 sequence sintascremfirst { [filterInt\orderAscendingBy<i>\removeFirst(4)] }
@@ -86,6 +87,7 @@ sequence sdblascfirstfrac { [filterDouble\orderAscendingBy<d>\keepFirstFraction(
 sequence sdbldesclastfrac { [filterDouble\orderDescendingBy<d>\keepLastFraction(0.5)] }
 sequence sdblasclast { [filterDouble\orderAscendingBy<d>\keepLast(4)] }
 sequence sdblgroupeach { [filterDouble\groupBy<d>\keepOneForEach<d>] }
+sequence sdblgroup { [filterDouble\groupBy<d>] }
 sequence sdblascsamefirst { [filterDouble\orderAscendingBy<d>\keepSameAsFirst<d>] }
 sequence sdbldescsamelast { [filterDouble\orderDescendingBy<d>\keepSameAsLast<d>] }
 sequence sdblascremfirst { [filterDouble\orderAscendingBy<d>\removeFirst(4)] }
@@ -99,6 +101,7 @@ sequence sstrascfirstfrac { [filterString\orderAscendingBy<s>\keepFirstFraction(
 sequence sstrdesclastfrac { [filterString\orderDescendingBy<s>\keepLastFraction(0.5)] }
 sequence sstrasclast { [filterString\orderAscendingBy<s>\keepLast(4)] }
 sequence sstrgroupeach { [filterString\groupBy<s>\keepOneForEach<s>] }
+sequence sstrgroup { [filterString\groupBy<s>] }
 sequence sstrascsamefirst { [filterString\orderAscendingBy<s>\keepSameAsFirst<s>] }
 sequence sstrdescsamelast { [filterString\orderDescendingBy<s>\keepSameAsLast<s>] }
 sequence sstrascremfirst { [filterString\orderAscendingBy<s>\removeFirst(4)] }

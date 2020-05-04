@@ -485,56 +485,22 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "groupBy_" + filterVariable;
 
-            if(true) // does the type of the variable to group-by support ordering? then order, is more efficient than equality comparisons
-            {
-                source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
-                    rulePattern.name, filterName, matchesListType);
-                source.AppendFront("{\n");
-                source.Indent();
+            source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
+                rulePattern.name, filterName, matchesListType);
+            source.AppendFront("{\n");
+            source.Indent();
 
-                source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
-                source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", rulePattern.name, filterName);
-                source.AppendFront("matches.FromListExact();\n");
-                source.AppendFront("return matches;\n");
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-                source.Unindent();
-                source.AppendFront("}\n");
+            String matchEntity = getFilterVariableName(rulePattern, filterVariable);
+            String typeOfEntity = getTypeOfFilterVariable(rulePattern, matchEntity);
+            GenerateGroupByFilter(source, matchEntity, typeOfEntity, matchInterfaceName);
 
-                source.AppendFrontFormat("class Comparer_{0}_{1} : Comparer<{2}>\n", rulePattern.name, filterName, matchInterfaceName);
-                source.AppendFront("{\n");
-                source.Indent();
+            source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
-                source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFrontFormat("return left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
-                source.Unindent();
-                source.AppendFront("}\n");
-
-                source.Unindent();
-                source.AppendFront("}\n");
-            }
-            else
-            {
-                // handle also GenerateMatchClassGroupByFilter if tackled
-
-                // ensure that if two elements are equal, they are neighbours or only separated by equal elements
-                // not needed yet, as of now we only support numerical types and string, that support ordering in addition to equality comparison
-                /*List<T> matchesArray;
-                for(int i = 0; i < matchesArray.Count - 1; ++i)
-                {
-                    for(int j = i + 1; j < matchesArray.Count; ++j)
-                    {
-                        if(matchesArray[i] == matchesArray[j])
-                        {
-                            T tmp = matchesArray[i + 1];
-                            matchesArray[i + 1] = matchesArray[j];
-                            matchesArray[j] = tmp;
-                            break;
-                        }
-                    }
-                }*/
-            }
+            source.Unindent();
+            source.AppendFront("}\n");
         }
 
         private static void GenerateGroupByFilter(SourceBuilder source, LGSPRulePattern rulePattern, IIterated iterated, String filterVariable)
@@ -544,58 +510,22 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
             String filterName = "groupBy_" + filterVariable;
 
-            if(true) // does the type of the variable to group-by support ordering? then order, is more efficient than equality comparisons
-            {
-                source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
-                    rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
-                source.AppendFront("{\n");
-                source.Indent();
+            source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
+                rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
+            source.AppendFront("{\n");
+            source.Indent();
 
-                source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
-                source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}_{2}());\n",
-                    rulePattern.name, iterated.IteratedPattern.Name, filterName);
-                source.AppendFront("matches.FromListExact();\n");
-                source.AppendFront("return matches;\n");
+            source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-                source.Unindent();
-                source.AppendFront("}\n");
+            String matchEntity = getFilterVariableName(rulePattern, iterated, filterVariable);
+            String typeOfEntity = getTypeOfFilterVariable(rulePattern, iterated, matchEntity);
+            GenerateGroupByFilter(source, matchEntity, typeOfEntity, matchInterfaceName);
 
-                source.AppendFrontFormat("class Comparer_{0}_{1}_{2} : Comparer<{3}>\n",
-                    rulePattern.name, iterated.IteratedPattern.Name, filterName, matchInterfaceName);
-                source.AppendFront("{\n");
-                source.Indent();
+            source.AppendFront("matches.FromListExact();\n");
+            source.AppendFront("return matches;\n");
 
-                source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
-                source.AppendFront("{\n");
-                source.Indent();
-                source.AppendFrontFormat("return left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
-                source.Unindent();
-                source.AppendFront("}\n");
-
-                source.Unindent();
-                source.AppendFront("}\n");
-            }
-            else
-            {
-                // handle also GenerateMatchClassGroupByFilter if tackled
-
-                // ensure that if two elements are equal, they are neighbours or only separated by equal elements
-                // not needed yet, as of now we only support numerical types and string, that support ordering in addition to equality comparison
-                /*List<T> matchesArray;
-                for(int i = 0; i < matchesArray.Count - 1; ++i)
-                {
-                    for(int j = i + 1; j < matchesArray.Count; ++j)
-                    {
-                        if(matchesArray[i] == matchesArray[j])
-                        {
-                            T tmp = matchesArray[i + 1];
-                            matchesArray[i + 1] = matchesArray[j];
-                            matchesArray[j] = tmp;
-                            break;
-                        }
-                    }
-                }*/
-            }
+            source.Unindent();
+            source.AppendFront("}\n");
         }
 
         private static void GenerateMatchClassGroupByFilter(SourceBuilder source, MatchClassInfo matchClass, String filterVariable)
@@ -604,32 +534,47 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesListType = "IList<GRGEN_LIBGR.IMatch>";
             String filterName = "groupBy_" + filterVariable;
 
-            // see GenerateGroupByFilter for potential optimization
-
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                 matchClass.name, filterName, matchesListType);
             source.AppendFront("{\n");
             source.Indent();
 
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
-            source.AppendFrontFormat("matchesArray.Sort(new Comparer_{0}_{1}());\n", matchClass.name, filterName);
+
+            String matchEntity = getFilterVariableName(matchClass, filterVariable);
+            String typeOfEntity = getTypeOfFilterVariable(matchClass, matchEntity);
+            GenerateGroupByFilter(source, matchEntity, typeOfEntity, matchInterfaceName);
+
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
             source.AppendFront("return matches;\n");
 
             source.Unindent();
             source.AppendFront("}\n");
+        }
 
-            source.AppendFrontFormat("class Comparer_{0}_{1} : Comparer<{2}>\n", matchClass.name, filterName, matchInterfaceName);
+        private static void GenerateGroupByFilter(SourceBuilder source, String matchEntity, String typeOfEntity, String typeOfMatch)
+        {
+            source.AppendFrontFormat("Dictionary<{0}, List<{1}>> seenValues = new Dictionary<{0}, List<{1}>>();\n",
+                typeOfEntity, typeOfMatch);
+            source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
             source.Indent();
-
-            source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
-            source.AppendFront("{\n");
+            source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
+            source.AppendFrontIndentedFormat("seenValues[matchesArray[pos].{0}].Add(matchesArray[pos]);\n", matchEntity);
+            source.AppendFront("else {\n");
             source.Indent();
-            source.AppendFrontFormat("return left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+            source.AppendFrontFormat("List<{0}> newList = new List<{0}>();\n", typeOfMatch);
+            source.AppendFront("newList.Add(matchesArray[pos]);\n");
+            source.AppendFrontFormat("seenValues.Add(matchesArray[pos].{0}, newList);\n", matchEntity);
             source.Unindent();
             source.AppendFront("}\n");
-
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFront("matchesArray.Clear();\n");
+            source.AppendFrontFormat("foreach(List<{0}> entry in seenValues.Values)\n", typeOfMatch);
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFrontFormat("matchesArray.AddRange(entry);\n");
             source.Unindent();
             source.AppendFront("}\n");
         }

@@ -58,6 +58,15 @@ exec init
 show num nodes
 show num edges
 
+exec sstrgroup
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
 exec sstrascsamefirst
 show num nodes
 show num edges

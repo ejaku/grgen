@@ -58,6 +58,15 @@ exec init
 show num nodes
 show num edges
 
+exec [filterInt\groupBy<i>]
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
 exec [filterInt\orderAscendingBy<i>\keepSameAsFirst<i>]
 
 show num nodes

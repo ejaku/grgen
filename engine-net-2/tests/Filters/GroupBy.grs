@@ -1,0 +1,12 @@
+new graph "Filters/Filters"
+
+exec init
+show num nodes
+show num edges
+
+eval [?filterInt\groupBy<i>]
+
+show num nodes
+show num edges
+
+quit

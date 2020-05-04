@@ -58,6 +58,15 @@ exec init
 show num nodes
 show num edges
 
+exec sintgroup
+
+show num nodes
+show num edges
+clear graph
+exec init
+show num nodes
+show num edges
+
 exec sintascsamefirst
 show num nodes
 show num edges
