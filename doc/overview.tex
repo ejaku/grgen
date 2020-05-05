@@ -206,18 +206,18 @@ This process is programmed at specification time utilizing a graph model languag
 
 %------------------------------------------------------------------------------------
 \subsection{Graph Model Language}
-At the foundation you find the graph model (meta-model) language given with \texttt{class} definitions in the style of an object-oriented programming language, with some influences of data definition languages as offered by databases. 
+At the foundation do you find the graph model (meta-model) language, consisting of a series of \texttt{class} definitions in the style of an object-oriented programming language, which is showing some influence of data definition languages like they are offered by databases. 
 
 It allows you to specify \emph{node} and \emph{edge types}, with \emph{multiple inheritance} on the types (see Chapter \ref{chapmodellang}).
 They are used in building a typed, directed multigraph (supporting multiple edges of the same type between two nodes).
 In addition, you may declare undirected and arbitrarily directed edges; or may even register external types with \GrG.
 Furthermore, connection assertions allow you to restrict the ``shape'' of the graphs.
 
-Node and edge types can be equipped with \emph{typed attributes}, of the commonly known elementary types (integer and floating-point numbers, strings, booleans, and enums) or of some container types (available are hashmap and array based types).
+Node and edge types can be equipped with \emph{typed attributes}, of the commonly known elementary types (integer and floating-point numbers, strings, booleans, and enums) or of some container types (sets and maps based on hashmaps, as well as arrays and deques based on a field of contiguous memory cells).
 In addition, methods supporting dynamic dispatch may be given.%(they are seldom needed for tasks based on graph-representations, though). 
 
 Moreover, you may configure indices (see Chapter~\ref{cha:performance}): attribute indices for a quick lookup of a graph element based on the attribute value, or incidence count indices for a quick lookup based on the number of incident edges.
-Several indices are already built-in and automatically used by the pattern matchers, notably the type index for quick lookups based on element type, and the incident elements index giving access to the neighbouring elements in constant time.
+Several indices are already built-in and automatically used by the pattern matchers, notably the type index for quick lookups of graph elements based on element type, and the incident elements index giving access to the neighbouring elements in constant time (also available are a name-based and an unique-id based index).
 
 %------------------------------------------------------------------------------------
 \subsection{Rule and Computations Language}
@@ -241,15 +241,15 @@ The rewrite part supports two modes of specification: A rule can either express 
 A rich bouquet of single element rewrite operations is available on top of the basic ones with \emph{retyping} aka relabeling, that allows to change the type of a graph element while keeping its incident elements, with the creation of new nodes/edges of only dynamically known types or as exact copies of other nodes/edges, and with node merging and edge redirection constructs (see Chapter \ref{chapadvanced}).
 Besides changing the graph can you \texttt{emit} user-defined text to \texttt{stdout} or files (supporting model-to-text transformations; see Chapter \ref{cha:imperativeandstate}).
 
-A special class of computations are available with the post-match filter functions (see Chapter \ref{sub:filters}), that allow to inspect and manipulate the set of matches found when applying a rule (with all bracketing). 
-This way you can \emph{accumulate} information over the matches, or \emph{filter} the matches set for the most interesting matches.
+A special class of computations are available with the post-match filter functions (see Chapter \ref{sub:filters}), that allow to inspect and manipulate the array of matches found when applying a rule (with all bracketing). 
+This way you can \emph{accumulate} information over the matches, or \emph{filter} the matches array for the most interesting matches.
 Several filters for sorting and clipping are already supplied or can be generated automatically on request.
 Symmetry reduction is available with a filter for duplicate matches due to permuted elements from automorphic patterns.
 
-\GrG\ rules are \emph{modular} or \emph{local}: you just note down the functionality.
-Typically it is smeared into graph traversal code of global visiting passes.
-This limits the changes needed during development and maintenance, and together with the concise and easily editable patterns saves you from many large-scale tedious modifications that are normally needed in those cases.
-You are still free to build local (or even global) passes by combining rules and tests (tests are rules with only a LHS pattern) utilizing \emph{parameters}: input and output parameters are supported by rules and tests, the subpatterns, and functions and procedures.
+The notion of pure graph rewriting (graph grammars) comes without processing state -- the entire state is contained in the graph, which is declaratively queried by rule patterns.
+In their simple form, \GrG\ rules follow the idea of pure graph rewriting, and are \emph{modular} or \emph{local}: you just note down the functionality.
+This limits the changes needed during development and maintenance, and safes you together with the concise and easily editable patterns from many large-scale tedious modifications that are normally needed in those cases.
+You are still free to combine rules and tests (tests are rules with only a LHS pattern) utilizing processing state in the form of \emph{parameters}: both support input and output parameters (the same holds for subpatterns, as well as functions and procedures).
 They are typically used to define and advance the location of processing in the graph, but they are also used for attribute computations.
 In addition visited flags can be queried and written, for marking already processed elements.
 
@@ -259,9 +259,9 @@ Both combined allow to match \emph{entire tree like structures} within a single 
 Subpatterns and nested patterns are matched from the outermost to the innermost patterns with \emph{recursive descent}, handing already matched elements down; on \emph{ascend}, they can \texttt{yield} elements found out to the \texttt{def} elements of their containing pattern.
 The nested patterns and subpatterns also support \emph{nested rewrite parts}, so that complex structures are not only matched (parsing), but can also get rewritten (transduction) --- yielding \emph{structure directed transformation}, alongside structures defined by graphlets combined in an EBNF-grammar-like way\cite{EBNFAGTIVE}.
 
-Those features and their optimized implementation (offering e.g. pattern matcher parallelization with a simple annotation) crown \GrG\ the king of graph pattern matching and rewriting, and allow you to process graph representations at their natural level of abstraction, with a flexibility and performance coming near to what you can achieve by programming things by hand.
+Those features and their optimized implementation -- offering e.g. pattern matcher parallelization with a simple annotation -- crown \GrG\ the king of graph pattern matching and rewriting, and allow you to process graph representations at their natural level of abstraction, with a flexibility and performance coming near to what you can achieve by programming things by hand.
 
-A graph rewrite system described in those languages can be employed via an \emph{API} by .NET-applications, typically written in C\# (see Chapter \ref{cha:api}).
+A graph rewrite system described in these languages can be employed via an \emph{API} by .NET-applications, typically written in C\# (see Chapter \ref{cha:api}).
 %The API is provided in two versions --- for one named and typed entities which get generated, and for the other a string and object based interface on top of it offered by \LibGr. The \LibGr-based API is needed to work with arbitrary systems.
 The other way round you can include C\#-code into your specifications by using external types or calling external functions and procedures, as well as sequences (see Chapter \ref{chapextensions}).
 
@@ -275,10 +275,13 @@ The location where to apply a rule may be defined with \emph{parameters} handed 
 The sequences support \emph{variables} to store the locations (for data-flow orchestration).
 A rule may be applied for the \emph{first match} found, or for \emph{all matches} that are available with all-bracketing.
 
-The sequences offer a \emph{computations} sublanguage that supports calling procedures and functions, basic graph querying and modification, visited flags management, and storages manipulation (see Chapter \ref{seqcomp}).
-The first ones allow to bypass the rules of the layer below for simple tasks, and especially allow to extract, insert and compare subgraphs. 
+The sequences offer a \emph{computations} and \emph{expressions} sublanguage,
+for one to carry out small computation tasks in a rule application control scenario without having to descend to the rules, but esp. and for the other to \emph{directly query} the graph with pattern-based queries (see Chapter \ref{cha:graphquery}), whose results get then refined by filters, distilled by array accumulation methods, and combined by operators.
+
+The sequence computations support nearly all operations of the computations language.
+This includes esp. function and procedure calls, basic graph queries and modifications, extraction, insertion and comparison of \emph{subgraphs}, visited flags management, and storage manipulation (see Chapter \ref{seqcomp}).
 Visited flags used in marking processed elements must be allocated and freed, the sequence computations are the right place to do so.
-Most usages are related to \emph{storages} which are variables of container type storing graph elements, they esp. allow to build transformations following a wavefront running over the graph (see Chapter \ref{cha:container} for more on containers).
+Many usages are related to \emph{storages}, which are variables of container type storing graph elements, they esp. allow to build transformations following a wavefront running over the graph (see Chapter \ref{cha:container} for more on containers).
 
 The sequences can be abstracted into a \emph{sequence definition} that can then be called in the place of a rule.
 This way common parts can be reused, but especially is it possible to program a recursive strategy.
@@ -303,7 +306,7 @@ For graph creation 3 simple \texttt{new} commands are available, one for creatin
 The GRS exporter serializes with the same syntax, which is also expected by the GRS importer.
 Write a file in this simple format if the available import formats are not supported by your data source.
 
-For direct graph manipulation you find deletion and retyping commands in addition to the creation commands, and commands for assigning attributes of graph elements.
+For direct graph manipulation do you find deletion and retyping commands in addition to the creation commands, and commands for assigning attributes of graph elements.
 Moreover, \texttt{export} and \texttt{import} commands are available for serializing a graph to a file, and for unserializing a graph from a file (in \texttt{GRS}, \texttt{GXL} and \texttt{XMI/ecore} formats). 
 Changes that are occurring to a graph may be \texttt{record}ed to a \texttt{GRS} and later \texttt{replay}ed or simply \texttt{import}ed.
 Change recording allows for post-problem debugging, but allows also to use \GrG\ as a kind of embedded database that persists changes as they appear. %(at the price of replaying changes that are rendered futile by later changes).
@@ -311,8 +314,9 @@ Change recording allows for post-problem debugging, but allows also to use \GrG\
 The graph and the model can be queried furtheron for e.g. the defined types (utilizing a reflection-like interface) or the attributes of a graph element.
 The graph may be validated against the connection assertions specified in the model, or against a sequence that gets executed on a clone of the host graph.
 
-Regarding sequence execution you find the central \texttt{exec} command that is \emph{interpreting} the following sequence (in fact by delegating the parsing and execution to \texttt{libGr}).
-In addition, action \texttt{profile}s may be \texttt{show}n. They are available when \emph{profiling} instrumentation was switched on, telling about the number of search steps or graph accesses carried out.
+Regarding sequence execution do you find the central \texttt{exec} command that is \emph{interpreting} the following sequence (in fact by delegating the parsing and execution to \texttt{libGr}), and the \texttt{eval} command that is interpreting the following sequence expression (which allows to employ pattern-based queries).
+In addition, action \texttt{profile}s may be \texttt{show}n.
+They are available when \emph{profiling} instrumentation was switched on, telling about the number of search steps or graph accesses carried out.
 
 The actions can be replaced at runtime by loading another actions library; the backend could be, but currently there is only one available, the \texttt{lgspBackend}.
 This backend supports further custom commands, that start with a \texttt{custom graph} or \texttt{custom actions} prefix. 

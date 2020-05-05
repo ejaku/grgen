@@ -85,28 +85,34 @@ With filter functions and external filter functions, you may implement matches-l
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Auto-Generated Filters}
 
-Auto-generated filters need to be \emph{declared} at their rule before they can be \emph{used}, they are implemented by \GrG.
+Auto-generated filters need to be \emph{declared} at their rule or iterated pattern or match class before they can be \emph{used}, they are implemented by \GrG.
 
 \begin{rail}
   FiltersDecl: ( backslash (FilterDecl + ',') )?;
   FilterDecl: ( FilterIdent '<' (VariableIdent + ',') '>' | 'auto' );
 \end{rail}\ixnterm{FiltersDecl}\ixnterm{FilterDecl}\ixkeyw{auto}
 
-The \indexed{auto-generated filters} must be declared at the end of a rule definition (cf. \ref{ruledecls}).
-With exception of the \texttt{auto} filter for removal of automorphic matches they have to specify the name of a \texttt{def var} variable contained in the pattern, of integer, floating point, or string type; you \texttt{yield} a value computed from the elements and their attributes to it, per matched pattern.
-They filter based on certain conditions regarding that variable; filtering may mean to reorder a matches list alongside the chosen def variable.
+The \indexed{auto-generated filters} must be declared at the end of a rule definition (cf. \ref{ruledecls}), or iterated pattern definition (cf. \ref{cardinality}), or match class definition (cf. \ref{sec:matchclass}).
+With exception of the \texttt{auto} filter for removal of automorphic matches they have to specify the name of a \texttt{def} or non-\texttt{def} entity contained in the pattern (or in the iterated pattern or in the match class), which may be a variable of one of the basic types or a graph element type (not a container type), or a node or an edge.
+They filter based on certain conditions regarding that entity; filtering may mean to reorder a matches list alongside the chosen (def) variable.
+
+The allowed types depend on the filter (and the accumulation method).
+The ordering filters utilize the ordering relation, so they support only (def) variables of numeric type (\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double},) or \texttt{string} or \texttt{enum} type (also \texttt{boolean} is supported, even if not of much use).
+The other filters utilize the equality comparisons, so they support (def) variables of the types offering the ordering relation, plus node and edge types, or nodes or edges (i.e. entities).
+The accumulation variable of the \texttt{keepOneForEachAccumulateBy} filter must be of a numeric type, the exact type depends on the result type of the used array accumulation method (\texttt{double} is supported by all of them).
 
 \begin{description}
-\item[\texttt{orderAscendingBy<v>}] orders the matches list ascendingly (from lowest ot highest value according to the \verb#<# operator), alongside the \texttt{v} contained in each match.
+\item[\texttt{orderAscendingBy<v>}] orders the matches list ascendingly (from lowest to highest value according to the \verb#<# operator), alongside the \texttt{v} contained in each match.
 \item[\texttt{orderDescendingBy<v>}] orders the matches list descendingly, alongside the \texttt{v} contained in each match.
-\item[\texttt{keepOneForEach<v>}] filters away all matches with duplicate \texttt{v} values, i.e. only one (prototypical) match is kept per \texttt{v} value. The list must have been grouped or ordered before, otherwise the result is undefined.
-%\item[\texttt{groupBy<v>}] ensures matches of equal \texttt{v} values are neighbours or only separated by matches of equal \texttt{v} values. Ordering subsumes this. (Grouping could be applied on types that only support the \verb#==# operator, though.)
+\item[\texttt{keepOneForEach<v>}] filters away all matches with duplicate \texttt{v} values, i.e. only one (prototypical) match is kept per \texttt{v} value.
+\item[\texttt{keepOneForEach<v>Accumulate<w>By<m>}] filters away all matches with duplicate \texttt{v} values, i.e. only one (prototypical) match is kept per \texttt{v} value. The variable \texttt{w} receives the result of accumulating all \texttt{w} of equal \texttt{v} with the array accumulation method \texttt{m} (see Section \ref{sec:arrayexpr} for the available array accumulation methods).
+\item[\texttt{groupBy<v>}] ensures matches of equal \texttt{v} values are neighbours. Grouping can be applied on types that only support the \verb#==# operator.
 \item[\texttt{keepSameAsFirst<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the first match. May be used to ensure all matches of an indeterministically chosen value are rewritten, but typically you want to order the matches list before.
 \item[\texttt{keepSameAsLast<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the last match.
 \end{description}
 
-The \texttt{orderAscendingBy<.(,.)*>} and \texttt{orderDescendingBy<.(,.)*>} allow to specify more than one variable, whereas \texttt{keepSameAsFirst<.>}, \texttt{keepSameAsLast<.>} and \texttt{keepOneForEach<.>} support only one variable.
-The order-by filters order the matches in order of the def variables, e.g. \texttt{orderAscendingBy<v,w>} orders the matches primarily by \texttt{v} and secondarily by \texttt{w}, i.e in case the values of the first def variable are equal, the values of the second one decide.
+The \texttt{orderAscendingBy<.(,.)*>} and \texttt{orderDescendingBy<.(,.)*>} allow to specify more than one variable, all others (with exception of \texttt{keepOneForEachAccumulateBy} and \texttt{auto}) support only one variable.
+The order-by filters order the matches in order of the (def) variables, e.g. \texttt{orderAscendingBy<v,w>} orders the matches primarily by \texttt{v} and secondarily by \texttt{w}, i.e in case the values of the first def variable are equal, the values of the second one decide.
  
 Besides those variable-based filters you may use the automorphic matches filter to purge \indexed{symmetric matches}.
 In order to do so, specify the special filter named \texttt{auto} at the rule declaration, and use it with the same name at an application of that action (with the known backslash syntax).
@@ -150,6 +156,8 @@ This holds for user-implemented, auto-generated, and auto-supplied filters.
 Match class filters (defined on the match class) are employed with \verb#[[r]\mc.f]# notation at multi rule calls from the sequences language.
 This holds for user-implemented, auto-generated, and auto-supplied filters, too.
 
+\pagebreak
+
 The normal name resolving rules (regarding packages) apply in an extended version (point 2 added):
 \begin{enumerate}
 	\item content from the package specified with the prefix, if that is "global" then global content
@@ -183,6 +191,7 @@ The rule may then be applied with a sequence like the following:
 This way, the 50\% of the nodes with the smallest number of outgoing edges are deleted from the host graph (because they don't get filtered away), or rephrased: the 50\% of the nodes with the highest number of outgoing edges are kept (their matches at the end of the ordered matches list are filtered away).
 \end{example}
 
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}
@@ -192,26 +201,27 @@ This way, the 50\% of the nodes with the smallest number of outgoing edges are d
 \centering
 \begin{tabular}{|l|}
 \hline
-\texttt{orderAscendingBy<def-Var (, def-Var)*>}\\
-\texttt{orderDescendingBy<def-Var (, def-Var)*>}\\
-%\texttt{groupBy<def var:int|double|string>}\\
-\texttt{keepSameAsFirst<def-Var>}\\
-\texttt{keepSameAsLast<def-Var>}\\
-\texttt{keepOneForEach<def-Var>}\\
+\texttt{orderAscendingBy<var (, var)*>}\\
+\texttt{orderDescendingBy<var (, var)*>}\\
+\texttt{groupBy<entity>}\\
+\texttt{keepSameAsFirst<entity>}\\
+\texttt{keepSameAsLast<entity>}\\
+\texttt{keepOneForEach<entity>}\\
+\texttt{keepOneForEach<entity>Accumulate<accvar>By<method>}\\
 \texttt{auto}\\
 \hline
-\texttt{keepFirst(int-Number)}\\
-\texttt{keepLast(int-Number)}\\
-\texttt{keepFirstFraction(double-Number)}\\
-\texttt{keepLastFraction(double-Number)}\\
-\texttt{removeFirst(int-Number)}\\
-\texttt{removeLast(int-Number)}\\
-\texttt{removeFirstFraction(double-Number)}\\
-\texttt{removeLastFraction(double-Number)}\\
+\texttt{keepFirst(int)}\\
+\texttt{keepLast(int)}\\
+\texttt{keepFirstFraction(double)}\\
+\texttt{keepLastFraction(double)}\\
+\texttt{removeFirst(int)}\\
+\texttt{removeLast(int)}\\
+\texttt{removeFirstFraction(double)}\\
+\texttt{removeLastFraction(double)}\\
 \hline
 \end{tabular}
 \\
-{\small def-Var may be of type \texttt{int} or \texttt{double} or \texttt{string}}
+{\small Let \texttt{var} be a (def-)variable of a type $\in \{\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double}, \texttt{boolean}, \texttt{string}, \texttt{enum}\}$. Let \texttt{entity} be a (def-)variable of one of the types admissible for \texttt{var} or \texttt{Node} or \texttt{Edge} type or a (def-)node or a (def-)edge. Let \texttt{accvar} be a def-variable of a numeric type, the exactly required type depends on the result type of \texttt{method} }}
 \caption{Auto-generated and then auto-supplied filters at a glance}
 \label{filterstab}
 \end{table}

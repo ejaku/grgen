@@ -328,9 +328,9 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.lastIndexOf(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.indexOfOrdered(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitray one is returned
-\item[\texttt{.orderAscending()}] returns an array with the content of the input array ordered ascendingly, only available for basic types
-\item[\texttt{.orderDescending()}] returns an array with the content of the input array ordered descendingly, only available for basic types
-\item[\texttt{.keepOneForEach()}] returns an array with the content of the input array freed from duplicates, only available for basic types
+\item[\texttt{.orderAscending()}] returns an array with the content of the input array ordered ascendingly, only available for basic types that are orderable
+\item[\texttt{.orderDescending()}] returns an array with the content of the input array ordered descendingly, only available for basic types that are orderable
+\item[\texttt{.keepOneForEach()}] returns an array with the content of the input array freed from duplicates, only available for basic types or node and edge types
 \item[\texttt{.reverse()}] returns an array with the content of the input array reversed
 \item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
 \item[\texttt{.asDeque()}] returns a deque of the array content, as \verb#deque<T># for \verb#array<T>#, in same order
@@ -342,10 +342,10 @@ Array expressions consist of array membership checking, array value lookup, and 
 \noindent Some accumulation method calls are available on arrays of numbers:
 
 \begin{description}
-\item[\texttt{.sum()}] returns the sum of the elements in the array, as \texttt{T} for \texttt{array<T>}
-\item[\texttt{.prod()}] returns the product of the elements in the array, as \texttt{T} for \texttt{array<T>}
-\item[\texttt{.min()}] returns the minimum of the elements in the array, as \texttt{T} for \texttt{array<T>}
-\item[\texttt{.max()}] returns the maximum of the elements in the array, as \texttt{T} for \texttt{array<T>}
+\item[\texttt{.sum()}] returns the sum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
+\item[\texttt{.prod()}] returns the product of the elements in the array, as \texttt{T'} for \texttt{array<T>}
+\item[\texttt{.min()}] returns the minimum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
+\item[\texttt{.max()}] returns the maximum of the elements in the array, as \texttt{T'} for \texttt{array<T>}
 \item[\texttt{.avg()}] returns the average (mean) of the elements in the array, as \texttt{double}
 \item[\texttt{.med()}] returns the median of the elements in the array that must be ordered, as \texttt{double}
 \item[\texttt{.medUnordered()}] returns the median of the elements in the array, as \texttt{double}
@@ -353,22 +353,35 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.dev()}] returns the deviation of the elements in the array, as \texttt{double}
 \end{description}
 
-\noindent Some query method calls are available only on arrays of node or edge types bearing attributes, inspecting the value of an attribute of the graph elements stored in the array, with the attribute defined with the operation, instead of the values contained in the array directly:
+The input type \texttt{T} must be a numeric type, i.e. one of the integer types \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} or one of the floating point types \texttt{float} or \texttt{double}. 
+The result type \texttt{T'} is \texttt{int} for input types \texttt{byte} or \texttt{short} or \texttt{int}, it is \texttt{long} for input type \texttt{long}, it is \texttt{float} for input type \texttt{float}, and it is \texttt{double} for input type \texttt{double} (the same type is used for carrying out the accumulation, defining bounds and precision).
+
+Furthermore, several query method calls are available on 
+\begin{itemize}
+	\item arrays of node or edge types bearing attributes;
+	\item some also on arrays of match types having match member entities
+	\item and arrays of iterated match types having match member entities
+	\item and arrays of match class types having match class member entities
+\end{itemize}
+They inspect the value of the attribute or member defined with the query method of the graph elements or matches stored in the array, instead of the values contained in the array directly:
 
 \begin{description}
-\item[\texttt{.extract<attr>()}] returns for an \texttt{array<T>} an \texttt{array<S>}, where \texttt{S} is the type of the attribute \texttt{attr}.
-\item[\texttt{.orderAscendingBy<attr>()}] returns an array with the content of the input array ordered ascendingly; only available for an attribute of basic type, contained in a node or edge type, with the array storing graph elements of that type.
-\item[\texttt{.orderDescendingBy<attr>()}] returns an array with the content of the input array ordered descendingly; only available for an attribute of basic type, contained in a node or edge type, with the array storing graph elements of that type.
-\item[\texttt{.keepOneForEach<attr>()}] returns an array with the content of the input array freed from duplicates; only available for an attribute of basic type, contained in a node or edge type, with the array storing graph elements of that type.
-\item[\texttt{.indexOfBy<attr>(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
-\item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
-\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
-\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
-\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitray one is returned
+\item[\texttt{.extract<attr>()}] returns for an \texttt{array<T>} an \texttt{array<S>}, where \texttt{S} is the type of the attribute or member \texttt{attr}.
+\item[\texttt{.orderAscendingBy<attr>()}] returns an array with the content of the input array ordered ascendingly; available for an attribute or member \texttt{attr} of an orderable basic type.
+\item[\texttt{.orderDescendingBy<attr>()}] returns an array with the content of the input array ordered descendingly; available for an attribute or member \texttt{attr} of an orderable basic type.
+\item[\texttt{.keepOneForEach<attr>()}] returns an array with the content of the input array freed from duplicates; available for an attribute or member \texttt{attr} of basic type or a node or edge type.
+\item[\texttt{.indexOfBy<attr>(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found; only available for an attribute \texttt{attr} of a graph element type.
+\item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found; only available for an attribute \texttt{attr} of a graph element type.
+\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found; only available for an attribute \texttt{attr} of a graph element type.
+\item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found; only available for an attribute \texttt{attr} of a graph element type.
+\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found; only available for an attribute \texttt{attr} of a graph element type. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitrary one is returned.
 \end{description}
 %And again: the \verb#X_by<attr>#-versions inspect the value of the attribute of the graph element stored in the array.
 
-\noindent The update method calls on arrays are:
+The ordering methods utilize the ordering relation, so they support only members or attributes of numeric type (\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double},) or \texttt{string} or \texttt{enum} type -- also \texttt{boolean} is supported, even if not of much use).
+The other query methods utilize equality comparisons, so they support additionally members or attributes of node or edge type.
+
+The update method calls on arrays are:
 
 \begin{description}
 \item[Array addition:] \texttt{a.add(v)} adds the value \texttt{v} to the end of array \texttt{a}.
@@ -629,6 +642,7 @@ test neighbourneighbour(ref neighbours:map<City, City>) : City
 
 %These were the storage queries available in the pattern part.
 
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hints on container usage}

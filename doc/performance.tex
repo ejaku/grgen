@@ -1,6 +1,6 @@
 \chapter{Indices and Performance Optimization}\label{cha:performance} \indexmain{performance}\indexmain{optimization}
 
-The most important point to understand when optimizing for speed is that the expensive task is the search carried out during pattern matching. The effort for rewriting (the dominant theme in graph rewriting literature) is negligible.
+The most important point to understand when optimizing for speed is that the expensive task is the search carried out during pattern matching. The effort of rewriting (the dominant theme in graph rewriting literature) is negligible.
 
 Searching is carried out with a backtracking algorithm following a search plan in a fixed order, 
 binding one pattern element after another to a graph element, checking if it fits to the already bound parts.
@@ -624,7 +624,6 @@ rule r() {
 \end{example}
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Location Passing and Memorization}
 Often in a transformation, you know the location that needs processing from a previous step.
@@ -646,17 +645,42 @@ A sophisticated way of remembering facts about non-local properties is to comput
 This allows to replace searching for distant values, or global properties like reachability, by checking a local property, at the price of re-running an analysis every time the graph changes in an important way.
 
 Variables and storages can be seen as indices into the graph, indices that are typically more selective than the automatically supplied indices; 
-but in contrast to the automatically supplied ones, you must maintain them by hand.
+but you must maintain them by hand in contrast to the automatically supplied ones.
 Beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
 
 The approach of remembering state instead of searching when needed has a clear caveat: the code becomes susceptible to ordering effects (more brittle) and less readable. 
 As in normal programming, you must balance performance optimizations against maintainability.
 
+\subsubsection*{Traversal passes}
+
+In traditional graph programming, 
+typically functionality is smeared into (generic) graph traversal code of global passes (and orchestrated via processing state), carried out by recursive visiting calls.
+One pass taking care of different aspects in the performance optimized version,
+for each aspect its own pass in the easier to maintain and understand version.
+Index structures or state in helper variables may be used to get quicker to the parts of interest.
+
+In graph rewriting with local rules, index structures are a must, otherwise each rule application would amount to a traversal pass (an extreme waste of performance).
+In pure graph rewriting, they would be queried with every rule application.
+In a performance optimized -- and ofter easier to specify version -- parameters are used instead to process a certain spot in the graph.
+The price for these benefits is the need to synchronize the processing state with the graph state (to prevent stale elements after graph changes), or the computations with the processing state (all using rules have to be adapted when the processing state is changed).
+
+\begin{note}
+An aspect of the notion of graph rewriting is that no state is stored outside of the graph (a similar idea applies to database design), 
+with every rule application, the graph is queried (/searched) for the parts of interest.
+The benefit is that no stored state (elementary variables, storages, match-arrays) can get stale at changes,
+which excludes an entire class of hard-to-find errors,
+but it comes at the price of repeated searches to get again to (/find) the parts of interest.
+With its indices, \GrG~is well suited to this style of programming, as getting to the part of interest is quick, but when beneficial or needed, you can revert to a more imperative programming style based on an intermediate processing state.
+\end{note}
+
 \begin{note}
 If a simple specification is fast enough, keep it simple.
 If the program executes fast enough, let it carry out unneeded work.
 You must weight programming time esp. including the long term costs of maintenance against execution time.
+Be as declarative as possible, become only as imperative as needed.
+This may mean not to use state memorization and passing for faster execution, but to parallelize pattern matching instead (see following section).
 \end{note}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Profile and Parallelize}\label{sec:performanceparallel}
@@ -725,7 +749,7 @@ The \emph{EqualsAnyParallelization} clause in the model must specify the number 
 A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's already a graph existing that is isomorphic to the candidate.
 Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).
 
-\pagebreak
+%\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compilation and Static Knowledge}
@@ -807,7 +831,7 @@ on comparison code to check
 whether the node bound to the pattern node with the first loop
 is the same as the node that is reached later on from the other parts. 
 
-\pagebreak
+%\pagebreak
 
 That approach works very well for sparse graphs with low incidence counts.
 But for graphs with massively linked parts that need to be reached on different paths you may need to overwrite this behaviour with hashset based connectedness checks.
