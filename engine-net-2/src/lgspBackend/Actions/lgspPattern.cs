@@ -1574,9 +1574,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// A description of a filter of a rule or match class
     /// </summary>
-    public class LGSPFilter : IFilter
+    public abstract class LGSPFilter : IFilter
     {
-        public LGSPFilter(String name, String package, String packagePrefixedName, String packageOfApplyee)
+        protected LGSPFilter(String name, String package, String packagePrefixedName, String packageOfApplyee)
         {
             this.name = name;
             this.package = package;

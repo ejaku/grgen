@@ -18,24 +18,29 @@ namespace de.unika.ipd.grGen.libGr
     public interface IFilter
     {
         /// <summary>
-        /// The name of the filter (plain name in case of auto-generated filter) 
+        /// The name of the filter (full name in case of an auto-generated filter, without package prefix) 
         /// </summary>
         String Name { get; }
 
         /// <summary>
-        /// null if this is a global type, otherwise the package the type is contained in (only set for filter functions).
+        /// null if this is a global type, otherwise the package the type is contained in.
+        /// Always null for auto-supplied and auto-generated filters.
         /// </summary>
         String Package { get; }
 
         /// <summary>
         /// The name of the type in case of a global type,
-        /// the name of the type prefixed by the name of the package otherwise (only possible for filter functions).
+        /// the name of the type prefixed by the name of the package otherwise.
+        /// Auto-supplied and auto-generated filters come without a package
+        /// (they belong to a rule or match class, only those may be contained in a package).
         /// Gives the name string to be used in a call to denote the filter to be employed.
         /// </summary>
         String PackagePrefixedName { get; }
 
         /// <summary>
-        /// The package the rule/match class is contained in the filter is applyed to.
+        /// The package the rule/match class is contained in the filter belongs to,
+        /// i.e. the package of the applyee in a filter call.
+        /// (TODO: this is a filter definition description, applyee does not make sense for it, is a concept from a filter call.)
         /// </summary>
         String PackageOfApplyee { get; }
     }
