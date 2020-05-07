@@ -80,6 +80,7 @@
     <Compile Include="DequeHelper.cs" />
     <Compile Include="DotNetTypesHelper.cs" />
     <Compile Include="GrGenTypesHelper.cs" />
+    <Compile Include="INamed.cs" />
     <Compile Include="MapHelper.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="PatternsAndMatches\IAlternative.cs" />

@@ -15,27 +15,27 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A description of a filter of a rule or match class 
     /// </summary>
-    public interface IFilter
+    public interface IFilter : INamed
     {
         /// <summary>
         /// The name of the filter (full name in case of an auto-generated filter, without package prefix) 
         /// </summary>
-        String Name { get; }
+        new string Name { get; }
 
         /// <summary>
-        /// null if this is a global type, otherwise the package the type is contained in.
+        /// null if this is a global filter, otherwise the package the filter is contained in.
         /// Always null for auto-supplied and auto-generated filters.
         /// </summary>
-        String Package { get; }
+        new string Package { get; }
 
         /// <summary>
-        /// The name of the type in case of a global type,
-        /// the name of the type prefixed by the name of the package otherwise.
+        /// The name of the filter in case of a global filter,
+        /// the name of the filter prefixed by the name of the package otherwise.
         /// Auto-supplied and auto-generated filters come without a package
         /// (they belong to a rule or match class, only those may be contained in a package).
         /// Gives the name string to be used in a call to denote the filter to be employed.
         /// </summary>
-        String PackagePrefixedName { get; }
+        new string PackagePrefixedName { get; }
 
         /// <summary>
         /// The package the rule/match class is contained in the filter belongs to,

@@ -14,28 +14,28 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// An object representing an executable procedure.
     /// </summary>
-    public interface IProcedureDefinition
+    public interface IProcedureDefinition : INamed
     {
         /// <summary>
         /// The name of the procedure
         /// </summary>
-        String Name { get; }
+        new string Name { get; }
+
+        /// <summary>
+        /// null if this is a global procedure, otherwise the package the procedure is contained in.
+        /// </summary>
+        new string Package { get; }
+
+        /// <summary>
+        /// The name of the procedure in case of a global procedure,
+        /// the name of the procedure prefixed by the name of the package otherwise.
+        /// </summary>
+        new string PackagePrefixedName { get; }
 
         /// <summary>
         /// The annotations of the procedure
         /// </summary>
         Annotations Annotations { get; }
-
-        /// <summary>
-        /// null if this is a global type, otherwise the package the type is contained in.
-        /// </summary>
-        string Package { get; }
-
-        /// <summary>
-        /// The name of the type in case of a global type,
-        /// the name of the type prefixed by the name of the package otherwise.
-        /// </summary>
-        string PackagePrefixedName { get; }
 
         /// <summary>
         /// Names of the procedure parameters.

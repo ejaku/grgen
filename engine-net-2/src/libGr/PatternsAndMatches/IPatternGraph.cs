@@ -7,30 +7,28 @@
 
 // by Edgar Jakumeit, Moritz Kroll
 
-using System;
-
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// A pattern graph.
     /// </summary>
-    public interface IPatternGraph
+    public interface IPatternGraph : INamed
     {
         /// <summary>
         /// The name of the pattern graph
         /// </summary>
-        String Name { get; }
+        new string Name { get; }
 
         /// <summary>
         /// null if this is a global pattern graph, otherwise the package the pattern graph is contained in.
         /// </summary>
-        String Package { get; }
+        new string Package { get; }
 
         /// <summary>
         /// The name of the pattern graph in case of a global type,
         /// the name of the pattern graph is prefixed by the name of the package otherwise (package "::" name).
         /// </summary>
-        String PackagePrefixedName { get; }
+        new string PackagePrefixedName { get; }
 
         /// <summary>
         /// An array of all pattern nodes.

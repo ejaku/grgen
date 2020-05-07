@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A representation of a GrGen graph element type.
     /// </summary>
-    public abstract class GrGenType
+    public abstract class GrGenType : INamed
     {
         /// <summary>
         /// Initializes a GrGenType object.
@@ -38,18 +38,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of the type.
         /// </summary>
-        public abstract String Name { get; }
+        public abstract string Name { get; }
 
         /// <summary>
         /// null if this is a global type, otherwise the package the type is contained in.
         /// </summary>
-        public abstract String Package { get; }
+        public abstract string Package { get; }
 
         /// <summary>
         /// The name of the type in case of a global type,
         /// the name of the type prefixed by the name of the package otherwise.
         /// </summary>
-        public abstract String PackagePrefixedName { get; }
+        public abstract string PackagePrefixedName { get; }
 
         /// <summary>
         /// Array containing this type first and following all sub types.

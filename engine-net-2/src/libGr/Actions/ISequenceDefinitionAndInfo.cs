@@ -66,7 +66,7 @@ namespace de.unika.ipd.grGen.libGr
             ParameterTypes = parameterTypes;
             OutParameters = outParameters;
             OutParameterTypes = outParameterTypes;
-            Package = package;
+            this.package = package;
             XGRS = xgrs;
             LineNr = lineNr;
         }
@@ -98,7 +98,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// null if this is a global embedded sequence, otherwise the package the embedded sequence is contained in.
         /// </summary>
-        public readonly string Package;
+        public string Package
+        {
+            get { return package; }
+        }
+
+        public readonly string package;
 
         /// <summary>
         /// The XGRS string.
@@ -114,7 +119,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Represents a sequence definition.
     /// </summary>
-    public class DefinedSequenceInfo : EmbeddedSequenceInfo
+    public class DefinedSequenceInfo : EmbeddedSequenceInfo, INamed
     {
         /// <summary>
         /// Constructs an DefinedSequenceInfo object.
@@ -135,8 +140,8 @@ namespace de.unika.ipd.grGen.libGr
             String xgrs, int lineNr)
             : base(parameters, parameterTypes, outParameters, outParameterTypes, package, xgrs, lineNr)
         {
-            Name = name;
-            PackagePrefixedName = packagePrefixedName;
+            this.name = name;
+            this.packagePrefixedName = packagePrefixedName;
 
             annotations = new Annotations();
         }
@@ -144,13 +149,30 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name the sequence was defined with
         /// </summary>
-        public readonly string Name;
+        public string Name
+        {
+            get { return name; }
+        }
 
         /// <summary>
-        /// The name of the type in case of a global type,
-        /// the name of the type prefixed by the name of the package otherwise.
+        /// null if this is a global sequence, otherwise the package the sequence is contained in.
         /// </summary>
-        public readonly string PackagePrefixedName;
+        new public string Package
+        {
+            get { return package; }
+        }
+
+        /// <summary>
+        /// The name of the sequence in case of a global sequence,
+        /// the name of the sequence prefixed by the name of the package otherwise.
+        /// </summary>
+        public string PackagePrefixedName
+        {
+            get { return packagePrefixedName; }
+        }
+
+        public readonly string name;
+        public readonly string packagePrefixedName;
 
         /// <summary>
         /// The annotations of the sequence definition

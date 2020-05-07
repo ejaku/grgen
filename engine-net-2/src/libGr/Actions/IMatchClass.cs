@@ -16,28 +16,28 @@ namespace de.unika.ipd.grGen.libGr
     /// An object representing the shared elements from the patterns of several actions.
     /// (Match classes allow via their Filterer implementation part to filter the matches obtained from multiple actions (potentially employed by the multi rule all call or multi backtracking sequences)).
     /// </summary>
-    public interface IMatchClass
+    public interface IMatchClass : INamed
     {
         /// <summary>
         /// The name of the match class
         /// </summary>
-        String Name { get; }
+        new string Name { get; }
+
+        /// <summary>
+        /// null if this is a global match class, otherwise the package the match class is contained in.
+        /// </summary>
+        new string Package { get; }
+
+        /// <summary>
+        /// The name of the match class in case of a global match class,
+        /// the name of the match class prefixed by the name of the package otherwise.
+        /// </summary>
+        new string PackagePrefixedName { get; }
 
         /// <summary>
         /// The annotations of the match class
         /// </summary>
         Annotations Annotations { get; }
-
-        /// <summary>
-        /// null if this is a global type, otherwise the package the type is contained in.
-        /// </summary>
-        String Package { get; }
-
-        /// <summary>
-        /// The name of the type in case of a global type,
-        /// the name of the type prefixed by the name of the package otherwise.
-        /// </summary>
-        String PackagePrefixedName { get; }
 
         /// <summary>
         /// An array of all pattern nodes.

@@ -7,29 +7,27 @@
 
 // by Edgar Jakumeit, Moritz Kroll
 
-using System;
-
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// An interface representing a rule or sequence or procedure or function or filter invocation.
     /// </summary>
-    public interface Invocation
+    public interface Invocation : INamed
     {
         /// <summary>
         /// The name of the rule or sequence or procedure or function.
         /// </summary>
-        String Name { get; }
+        new string Name { get; }
 
         /// <summary>
         /// null if this is a call of a global rule/sequence/procedure/function, otherwise the package the call target is contained in.
         /// </summary>
-        String Package { get; }
+        new string Package { get; }
 
         /// <summary>
         /// The name of the rule or sequence or procedure or function, prefixed by the package it is contained in (separated by a double colon), if it is contained in a package.
         /// </summary>
-        String PackagePrefixedName { get; }
+        new string PackagePrefixedName { get; }
     }
 
     /// <summary>

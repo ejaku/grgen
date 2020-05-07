@@ -56,23 +56,36 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A description of a GrGen enum type.
     /// </summary>
-    public class EnumAttributeType
+    public class EnumAttributeType : INamed
     {
         /// <summary>
         /// The name of the enum type.
         /// </summary>
-        public readonly String Name;
+        public string Name
+        {
+            get { return name; }
+        }
 
         /// <summary>
-        /// null if this is a global type, otherwise the package the type is contained in.
+        /// null if this is a global enum type, otherwise the package the enum type is contained in.
         /// </summary>
-        public readonly String Package;
+        public string Package
+        {
+            get { return package; }
+        }
 
         /// <summary>
-        /// The name of the type in case of a global type,
-        /// the name of the type prefixed by the name of the package otherwise.
+        /// The name of the enum type in case of a global enum type,
+        /// the name of the enum type prefixed by the name of the package otherwise.
         /// </summary>
-        public readonly String PackagePrefixedName;
+        public string PackagePrefixedName
+        {
+            get { return packagePrefixedName; }
+        }
+
+        public readonly String name;
+        public readonly String package;
+        public readonly String packagePrefixedName;
 
         /// <summary>
         /// The .NET type for the enum type.
@@ -85,15 +98,15 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes an EnumAttributeType instance.
         /// </summary>
         /// <param name="name">The name of the enum type.</param>
-        /// <param name="name">The package the enum is contained in, or null if it is not contained in a package.</param>
-        /// <param name="name">The name of the enum type; prefixed by the package name plus a double colon, in case it is contain in a package.</param>
+        /// <param name="package">The package the enum is contained in, or null if it is not contained in a package.</param>
+        /// <param name="packagePrefixedName">The name of the enum type; prefixed by the package name plus a double colon, in case it is contain in a package.</param>
         /// <param name="enumType">The .NET type for the enum type.</param>
         /// <param name="memberArray">An array of all enum members.</param>
         public EnumAttributeType(String name, String package, String packagePrefixedName, Type enumType, EnumMember[] memberArray)
         {
-            Name = name;
-            Package = package;
-            PackagePrefixedName = packagePrefixedName;
+            this.name = name;
+            this.package = package;
+            this.packagePrefixedName = packagePrefixedName;
             EnumType = enumType;
             members = memberArray;
             Array.Sort<EnumMember>(members); // ensure the ordering needed for the binary search of the [] operator

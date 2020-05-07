@@ -7,7 +7,6 @@
 
 // by Moritz Kroll, Edgar Jakumeit
 
-using System;
 using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
@@ -16,23 +15,23 @@ namespace de.unika.ipd.grGen.libGr
     /// An object representing an executable rule.
     /// The core functions used by the sequences/GrGen itself, the IAction interface contains a lot more convenience helper functions for direct rule application that could be used from own code (and are a bit faster due to missing debug events).
     /// </summary>
-    public interface IActionCore
+    public interface IActionCore : INamed
     {
         /// <summary>
         /// The name of the action
         /// </summary>
-        String Name { get; }
+        new string Name { get; }
 
         /// <summary>
-        /// null if this is a global type, otherwise the package the type is contained in.
+        /// null if this is a global action, otherwise the package the action is contained in.
         /// </summary>
-        String Package { get; }
+        new string Package { get; }
 
         /// <summary>
-        /// The name of the type in case of a global type,
-        /// the name of the type prefixed by the name of the package otherwise.
+        /// The name of the action in case of a global type,
+        /// the name of the action prefixed by the name of the package otherwise.
         /// </summary>
-        String PackagePrefixedName { get; }
+        new string PackagePrefixedName { get; }
 
         /// <summary>
         /// The RulePattern object from which this IAction object has been created.

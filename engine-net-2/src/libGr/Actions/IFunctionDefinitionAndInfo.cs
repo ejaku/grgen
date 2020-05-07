@@ -14,28 +14,28 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// An object representing an executable function.
     /// </summary>
-    public interface IFunctionDefinition
+    public interface IFunctionDefinition : INamed
     {
         /// <summary>
         /// The name of the function.
         /// </summary>
-        string Name { get; }
+        new string Name { get; }
+
+        /// <summary>
+        /// null if this is a global function, otherwise the package the function is contained in.
+        /// </summary>
+        new string Package { get; }
+
+        /// <summary>
+        /// The name of the function in case of a global function,
+        /// the name of the function prefixed by the name of the package otherwise.
+        /// </summary>
+        new string PackagePrefixedName { get; }
 
         /// <summary>
         /// The annotations of the function
         /// </summary>
         Annotations Annotations { get; }
-
-        /// <summary>
-        /// null if this is a global type, otherwise the package the type is contained in.
-        /// </summary>
-        string Package { get; }
-
-        /// <summary>
-        /// The name of the type in case of a global type,
-        /// the name of the type prefixed by the name of the package otherwise.
-        /// </summary>
-        string PackagePrefixedName { get; }
 
         /// <summary>
         /// Names of the function parameters.
