@@ -69,7 +69,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             String originalMatch = "originalMatch_" + seqMulti.Id;
             source.AppendFrontFormat("foreach(GRGEN_LIBGR.IMatch {0} in {1})\n", originalMatch, originalMatchList);
-            source.AppendFrontFormat("\t{0}.Add({1}[{2}]);", matchListName, originalToCloneName, originalMatch);
+            source.AppendFrontIndentedFormat("{0}.Add({1}[{2}]);", matchListName, originalToCloneName, originalMatch);
 
             // apply the rules and the following sequence for every match found,
             // until the first rule and sequence execution succeeded

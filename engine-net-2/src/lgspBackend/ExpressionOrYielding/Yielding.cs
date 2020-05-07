@@ -991,13 +991,13 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
-                    sourceCode.AppendFront("\tcontinue;\n");
+                    sourceCode.AppendFrontIndented("continue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
-                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontIndented("continue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Opposite(node_{2});\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is AdjacentIncoming)
@@ -1028,13 +1028,13 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
-                    sourceCode.AppendFront("\tcontinue;\n");
+                    sourceCode.AppendFrontIndented("continue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
-                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontIndented("continue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Source;\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is AdjacentOutgoing)
@@ -1065,13 +1065,13 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
                     adjacent.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
-                    sourceCode.AppendFront("\tcontinue;\n");
+                    sourceCode.AppendFrontIndented("continue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
                 adjacent.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
-                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontIndented("continue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2}.Target;\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is Incident)
@@ -1102,13 +1102,13 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
-                    sourceCode.AppendFront("\tcontinue;\n");
+                    sourceCode.AppendFrontIndented("continue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Opposite(node_{0}).InstanceOf(", id);
                 incident.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
-                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontIndented("continue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is Incoming)
@@ -1139,13 +1139,13 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
-                    sourceCode.AppendFront("\tcontinue;\n");
+                    sourceCode.AppendFrontIndented("continue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Source.InstanceOf(", id);
                 incident.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
-                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontIndented("continue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is Outgoing)
@@ -1176,13 +1176,13 @@ namespace de.unika.ipd.grGen.expression
                     sourceCode.AppendFrontFormat("if(!edge_{0}.InstanceOf(", id);
                     incident.IncidentEdgeType.Emit(sourceCode);
                     sourceCode.Append("))\n");
-                    sourceCode.AppendFront("\tcontinue;\n");
+                    sourceCode.AppendFrontIndented("continue;\n");
                 }
 
                 sourceCode.AppendFrontFormat("if(!edge_{0}.Target.InstanceOf(", id);
                 incident.AdjacentNodeType.Emit(sourceCode);
                 sourceCode.Append("))\n");
-                sourceCode.AppendFront("\tcontinue;\n");
+                sourceCode.AppendFrontIndented("continue;\n");
                 sourceCode.AppendFrontFormat("{0} {1} = ({0})edge_{2};\n", VariableType, NamesOfEntities.Variable(Variable), id);
             }
             else if(Function is Reachable)

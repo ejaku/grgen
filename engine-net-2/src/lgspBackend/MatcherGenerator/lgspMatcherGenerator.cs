@@ -918,9 +918,9 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("if(parameter is {0})\n", listTypeName);
-            sb.AppendFrontFormat("\treturn (({0})parameter);\n", listTypeName);
+            sb.AppendFrontIndentedFormat("return (({0})parameter);\n", listTypeName);
             sb.AppendFrontFormat("else\n");
-            sb.AppendFrontFormat("\treturn GRGEN_LIBGR.MatchListHelper.ToList<{0}>((IList<GRGEN_LIBGR.IMatch>)parameter);\n", typeName);
+            sb.AppendFrontIndentedFormat("return GRGEN_LIBGR.MatchListHelper.ToList<{0}>((IList<GRGEN_LIBGR.IMatch>)parameter);\n", typeName);
             sb.Unindent();
             sb.AppendFront("}\n");
         }
@@ -1257,9 +1257,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 sb.AppendFront("if(Environment.ProcessorCount == 1)\n");
                 sb.AppendFront("{\n");
-                sb.AppendFront("\tDynamicMatch = myMatch;\n");
+                sb.AppendFrontIndented("DynamicMatch = myMatch;\n");
                 if(!isInitialStatic)
-                    sb.AppendFrontFormat("\tGRGEN_ACTIONS.Action_{0}.Instance.DynamicMatch = myMatch;\n", rulePattern.name);
+                    sb.AppendFrontIndentedFormat("GRGEN_ACTIONS.Action_{0}.Instance.DynamicMatch = myMatch;\n", rulePattern.name);
                 sb.AppendFront("}\n");
                 sb.AppendFront("else\n");
                 sb.AppendFront("{\n");
@@ -1284,7 +1284,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.AppendFront("}\n");
 
                 sb.AppendFront("for(int i=0; i<parallelTaskMatches.Length; ++i)\n");
-                sb.AppendFrontFormat("\tparallelTaskMatches[i] = new GRGEN_LGSP.LGSPMatchesList<{0}, {1}>(this);\n", matchClassName, matchInterfaceName);
+                sb.AppendFrontIndentedFormat("parallelTaskMatches[i] = new GRGEN_LGSP.LGSPMatchesList<{0}, {1}>(this);\n", matchClassName, matchInterfaceName);
                 sb.Unindent();
                 sb.AppendFront("}\n");
             }

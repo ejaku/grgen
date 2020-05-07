@@ -1570,7 +1570,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat("if({0} == {1})\n",
                     variableContainingCandidate, variableContainingParallelizedListHead);
-                sourceCode.AppendFront("\tbreak;\n");
+                sourceCode.AppendFrontIndented("break;\n");
                 sourceCode.AppendFrontFormat("{0} = {0}.lgspTypeNext;\n",
                     variableContainingCandidate);
                 sourceCode.AppendFront("++numThreadsSignaled;\n");
@@ -1694,7 +1694,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.Indent();
                 sourceCode.AppendFront("++numThreadsSignaled;\n");
                 sourceCode.AppendFront("if(numThreadsSignaled >= numWorkerThreads)\n");
-                sourceCode.AppendFront("\tbreak;\n");
+                sourceCode.AppendFrontIndented("break;\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
                 sourceCode.AppendFront("\n");
@@ -1738,7 +1738,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
                     sourceCode.AppendFrontFormat("if({0} == null || ({0} == {1} && numThreadsSignaled>0))\n",
                         variableContainingCandidate, variableContainingParallelizedListHead);
-                    sourceCode.AppendFront("\tbreak;\n");
+                    sourceCode.AppendFrontIndented("break;\n");
                     sourceCode.AppendFrontFormat("{0} = {0}.{1};\n",
                         variableContainingCandidate, memberOfEdgeContainingNextEdge);
                     sourceCode.AppendFront("++numThreadsSignaled;\n");
@@ -1775,7 +1775,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
                     sourceCode.AppendFrontFormat("if({0} == null || ({0} == {1} && numThreadsSignaled>0))\n",
                         variableContainingCandidate, variableContainingParallelizedListHead);
-                    sourceCode.AppendFront("\tbreak;\n");
+                    sourceCode.AppendFrontIndented("break;\n");
                     sourceCode.AppendFrontFormat("{0} = {1}==0 ? {0}.lgspInNext : {0}.lgspOutNext;\n",
                         variableContainingCandidate, directionRunCounter);
                     sourceCode.AppendFront("++numThreadsSignaled;\n");
@@ -1820,7 +1820,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
             sourceCode.AppendFront("if(parallelTaskMatches[i].Count == 0)\n");
-            sourceCode.AppendFront("\tcontinue;\n");
+            sourceCode.AppendFrontIndented("continue;\n");
             sourceCode.AppendFront("if(parallelTaskMatches[i].First.IterationNumber < minIterationValue)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
@@ -1939,20 +1939,20 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFront("}\n");
             sourceCode.AppendFront("else\n");
-            sourceCode.AppendFront("\tbreak;\n"); // break iteration, minIterationValueIndex == Int32.MaxValue
+            sourceCode.AppendFrontIndented("break;\n"); // break iteration, minIterationValueIndex == Int32.MaxValue
             sourceCode.Unindent();
             sourceCode.Append("continue_after_duplicate_match_removal_" + PatternName + ": ;\n");
             sourceCode.AppendFront("}\n");
 
             // emit adjust list heads
             sourceCode.AppendFront("for(int i=0; i<moveHeadAfterNodes[threadOfLastlyChosenMatch].Count; ++i)\n");
-            sourceCode.AppendFront("\tgraph.MoveHeadAfter(moveHeadAfterNodes[threadOfLastlyChosenMatch][i]);\n");
+            sourceCode.AppendFrontIndented("graph.MoveHeadAfter(moveHeadAfterNodes[threadOfLastlyChosenMatch][i]);\n");
             sourceCode.AppendFront("for(int i=0; i<moveHeadAfterEdges[threadOfLastlyChosenMatch].Count; ++i)\n");
-            sourceCode.AppendFront("\tgraph.MoveHeadAfter(moveHeadAfterEdges[threadOfLastlyChosenMatch][i]);\n");
+            sourceCode.AppendFrontIndented("graph.MoveHeadAfter(moveHeadAfterEdges[threadOfLastlyChosenMatch][i]);\n");
             sourceCode.AppendFront("for(int i=0; i<moveOutHeadAfter[threadOfLastlyChosenMatch].Count; ++i)\n");
-            sourceCode.AppendFront("\tmoveOutHeadAfter[threadOfLastlyChosenMatch][i].Key.MoveOutHeadAfter(moveOutHeadAfter[threadOfLastlyChosenMatch][i].Value);\n");
+            sourceCode.AppendFrontIndented("moveOutHeadAfter[threadOfLastlyChosenMatch][i].Key.MoveOutHeadAfter(moveOutHeadAfter[threadOfLastlyChosenMatch][i].Value);\n");
             sourceCode.AppendFront("for(int i=0; i<moveInHeadAfter[threadOfLastlyChosenMatch].Count; ++i)\n");
-            sourceCode.AppendFront("\tmoveInHeadAfter[threadOfLastlyChosenMatch][i].Key.MoveInHeadAfter(moveInHeadAfter[threadOfLastlyChosenMatch][i].Value);\n");
+            sourceCode.AppendFrontIndented("moveInHeadAfter[threadOfLastlyChosenMatch][i].Key.MoveInHeadAfter(moveInHeadAfter[threadOfLastlyChosenMatch][i].Value);\n");
 
             // emit cleaning of variables that must be empty for next run
             sourceCode.AppendFront("for(int i=0; i<numThreadsSignaled; ++i)\n");

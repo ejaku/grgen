@@ -823,13 +823,13 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("if(!{0}.InstanceOf(", iterationVariable);
                 source.Append(incidentEdgeTypeExpr);
                 source.Append("))\n");
-                source.AppendFront("\tcontinue;\n");
+                source.AppendFrontIndented("continue;\n");
             }
 
             // incident/adjacent needs a check for adjacent node, cause only incident edge can be type constrained in the loop
             source.AppendFrontFormat("if(!{0}.InstanceOf({1}))\n",
                 theOther, adjacentNodeTypeExpr);
-            source.AppendFront("\tcontinue;\n");
+            source.AppendFrontIndented("continue;\n");
 
             source.AppendFront(seqHelper.SetVar(seqFor.Var, targetVariableOfIteration));
 
@@ -1048,7 +1048,7 @@ namespace de.unika.ipd.grGen.lgsp
             EmitSequence(seqMin.Seq, source);
 
             source.AppendFront("if(!" + COMP_HELPER.GetResultVar(seqMin.Seq) + ")\n");
-            source.AppendFront("\tbreak;\n");
+            source.AppendFrontIndented("break;\n");
             source.AppendFrontFormat("++{0};\n", iterationVariableName);
             source.Unindent();
             source.AppendFront("}\n");
@@ -1066,7 +1066,7 @@ namespace de.unika.ipd.grGen.lgsp
             EmitSequence(seqMinMax.Seq, source);
 
             source.AppendFront("if(!" + COMP_HELPER.GetResultVar(seqMinMax.Seq) + ")\n");
-            source.AppendFront("\tbreak;\n");
+            source.AppendFrontIndented("break;\n");
             source.Unindent();
             source.AppendFront("}\n");
             source.AppendFront(COMP_HELPER.SetResultVar(seqMinMax, iterationVariableName + " >= " + seqMinMax.Min));
@@ -1137,7 +1137,7 @@ namespace de.unika.ipd.grGen.lgsp
             String sequencesToExecuteVarName = "sequencestoexecutevar_" + seqAll.Id;
             source.AppendFrontFormat("List<int> {0} = new List<int>({1});\n", sequencesToExecuteVarName, seqAll.Sequences.Count);
             source.AppendFrontFormat("for(int i = 0; i < {0}; ++i)\n", seqAll.Sequences.Count);
-            source.AppendFrontFormat("\t{0}.Add(i);\n", sequencesToExecuteVarName);
+            source.AppendFrontIndentedFormat("{0}.Add(i);\n", sequencesToExecuteVarName);
             source.AppendFrontFormat("while({0}.Count > 0 && {1})\n", sequencesToExecuteVarName, continueDecisionName);
             source.AppendFront("{\n");
             source.Indent();
@@ -1161,7 +1161,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(lazy)
                 {
                     source.AppendFrontFormat("if({0}" + COMP_HELPER.GetResultVar(seqAll) + ")\n", disjunction ? "" : "!");
-                    source.AppendFrontFormat("\t{0} = false;\n", continueDecisionName);
+                    source.AppendFrontIndentedFormat("{0} = false;\n", continueDecisionName);
                 }
                 source.AppendFront("break;\n");
                 source.Unindent();
@@ -1381,9 +1381,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("int " + transactionId + " = procEnv.TransactionManager.Start();\n");
             EmitSequence(seqTrans.Seq, source);
             source.AppendFront("if(" + COMP_HELPER.GetResultVar(seqTrans.Seq) + ")\n");
-            source.AppendFront("\tprocEnv.TransactionManager.Commit(" + transactionId + ");\n");
+            source.AppendFrontIndented("procEnv.TransactionManager.Commit(" + transactionId + ");\n");
             source.AppendFront("else\n");
-            source.AppendFront("\tprocEnv.TransactionManager.Rollback(" + transactionId + ");\n");
+            source.AppendFrontIndented("procEnv.TransactionManager.Rollback(" + transactionId + ");\n");
             source.AppendFront(COMP_HELPER.SetResultVar(seqTrans, COMP_HELPER.GetResultVar(seqTrans.Seq)));
         }
 
