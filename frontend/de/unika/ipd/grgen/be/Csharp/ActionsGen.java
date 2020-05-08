@@ -1278,15 +1278,7 @@ public class ActionsGen extends CSharpBase {
 		sb.appendFront("{\n");
 		sb.indent();
 
-		sb.appendFront("public override int Compare(" + matchInterfaceName + " left, " + matchInterfaceName + " right)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		if(ascending)
-			sb.appendFront("return left." + formatEntity(var) + ".CompareTo(right." + formatEntity(var) + ");\n");
-		else
-			sb.appendFront("return -left." + formatEntity(var) + ".CompareTo(right." + formatEntity(var) + ");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
+		genCompareMethod(sb, matchInterfaceName, formatEntity(var), var.getType(), ascending);
 
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -2684,8 +2676,24 @@ public class ActionsGen extends CSharpBase {
 					sb.append(", ");
 				sb.append("\"" + filterEntity + "\"");
 			}
-		} 
-		sb.append("} ");
+		}
+		sb.append("}, ");
+		sb.append("new GRGEN_LIBGR.GrGenType[] { ");
+		if(fag.getFilterEntityTypes()!=null) {
+			boolean first = true;
+			for(Type filterEntityType : fag.getFilterEntityTypes()) {
+				if(first)
+					first = false;
+				else
+					sb.append(", ");
+				if(filterEntityType instanceof InheritanceType) {
+					sb.append(formatTypeClassRef(filterEntityType) + ".typeVar");
+				} else {
+					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(filterEntityType) + "))");
+				}
+			}
+		}
+		sb.append("}");
 		sb.append("),\n");
 	}
 
@@ -2744,7 +2752,23 @@ public class ActionsGen extends CSharpBase {
 					sb.append(", ");
 				sb.append("\"" + filterEntity + "\"");
 			}
-		} 
+		}
+		sb.append("}, ");
+		sb.append("new GRGEN_LIBGR.GrGenType[] { ");
+		if(mfag.getFilterEntityTypes()!=null) {
+			boolean first = true;
+			for(Type filterEntityType : mfag.getFilterEntityTypes()) {
+				if(first)
+					first = false;
+				else
+					sb.append(", ");
+				if(filterEntityType instanceof InheritanceType) {
+					sb.append(formatTypeClassRef(filterEntityType) + ".typeVar");
+				} else {
+					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(filterEntityType) + "))");
+				}
+			}
+		}
 		sb.append("}");
 		sb.append("),\n");
 	}

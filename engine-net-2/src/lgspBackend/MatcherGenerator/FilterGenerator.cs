@@ -348,10 +348,13 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("{\n");
                 source.Indent();
 
-                source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
+                if(ascending)
+                    source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
+                else
+                    source.AppendFrontFormat("public override int Compare({0} right, {0} left)\n", matchInterfaceName);
                 source.AppendFront("{\n");
                 source.Indent();
-                EmitOrderByComparer(source, filter.Entities, ascending, false, 0);
+                EmitOrderByComparer(source, filter.Entities, filter.EntityTypes, false, 0);
                 source.Unindent();
                 source.AppendFront("}\n");
 
@@ -388,10 +391,13 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("{\n");
                 source.Indent();
 
-                source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
+                if(ascending)
+                    source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
+                else
+                    source.AppendFrontFormat("public override int Compare({0} right, {0} left)\n", matchInterfaceName);
                 source.AppendFront("{\n");
                 source.Indent();
-                EmitOrderByComparer(source, filter.Entities, ascending, false, 0);
+                EmitOrderByComparer(source, filter.Entities, filter.EntityTypes, false, 0);
                 source.Unindent();
                 source.AppendFront("}\n");
 
@@ -425,10 +431,13 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("{\n");
                 source.Indent();
 
-                source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
+                if(ascending)
+                    source.AppendFrontFormat("public override int Compare({0} left, {0} right)\n", matchInterfaceName);
+                else
+                    source.AppendFrontFormat("public override int Compare({0} right, {0} left)\n", matchInterfaceName);
                 source.AppendFront("{\n");
                 source.Indent();
-                EmitOrderByComparer(source, filter.Entities, ascending, false, 0);
+                EmitOrderByComparer(source, filter.Entities, filter.EntityTypes, false, 0);
                 source.Unindent();
                 source.AppendFront("}\n");
 
@@ -437,35 +446,43 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private static void EmitOrderByComparer(SourceBuilder source, List<String> filterVariables, bool ascending, bool leaf, int pos)
+        private static void EmitOrderByComparer(SourceBuilder source, List<String> filterVariables, List<GrGenType> variableTypes, bool leaf, int pos)
         {
             String filterVariable = filterVariables[pos];
+            GrGenType variableType = variableTypes[pos];
             if(pos + 1 < filterVariables.Count && !leaf)
             {
-                source.AppendFrontFormat("if(left.{0}.CompareTo(right.{0})==0)", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                if(variableType.Equals(VarType.GetVarType(typeof(string))))
+                    source.AppendFrontFormat("if(StringComparer.InvariantCulture.Compare(left.{0}, right.{0})==0)", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                else if(variableType.Equals(VarType.GetVarType(typeof(object))))
+                    source.AppendFrontFormat("if(AttributeTypeObjectCopierComparer.IsEqual(left.{0}, right.{0}))", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                else
+                    source.AppendFrontFormat("if(left.{0}.CompareTo(right.{0})==0)", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
                 source.Indent();
-                EmitOrderByComparer(source, filterVariables, ascending, false, pos + 1);
+                EmitOrderByComparer(source, filterVariables, variableTypes, false, pos + 1);
                 source.Unindent();
                 source.AppendFrontFormat("else");
                 source.Indent();
-                EmitOrderByComparer(source, filterVariables, ascending, true, pos);
+                EmitOrderByComparer(source, filterVariables, variableTypes, true, pos);
                 source.Unindent();
             }
             else
             {
-                if(ascending)
-                    source.AppendFrontFormat("return left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                if(variableType.Equals(VarType.GetVarType(typeof(string))))
+                    source.AppendFrontFormat("return StringComparer.InvariantCulture.Compare(left.{0}, right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                else if(variableType.Equals(VarType.GetVarType(typeof(object))))
+                    source.AppendFrontFormat("return AttributeTypeObjectCopierComparer.IsEqual(left.{0}, right.{0}) ? 0 : (AttributeTypeObjectCopierComparer.IsLower(left.{0}, right.{0}) ? -1 : 1);\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
                 else
-                    source.AppendFrontFormat("return -left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
+                    source.AppendFrontFormat("return left.{0}.CompareTo(right.{0});\n", NamesOfEntities.MatchName(filterVariable, EntityType.Variable));
             }
         }
 
-        private static void GenerateGroupByFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable)
+        private static void GenerateGroupByFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterEntity)
         {
             String rulePatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
-            String filterName = "groupBy_" + filterVariable;
+            String filterName = "groupBy_" + filterEntity;
 
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                 rulePattern.name, filterName, matchesListType);
@@ -474,8 +491,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(rulePattern, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(rulePattern, matchEntity);
+            String matchEntity = getFilterEntityName(rulePattern, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(rulePattern, matchEntity);
             EmitGroupByFilter(source, matchEntity, typeOfEntity, matchInterfaceName);
 
             source.AppendFront("matches.FromListExact();\n");
@@ -485,12 +502,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static void GenerateGroupByFilter(SourceBuilder source, LGSPRulePattern rulePattern, IIterated iterated, String filterVariable)
+        private static void GenerateGroupByFilter(SourceBuilder source, LGSPRulePattern rulePattern, IIterated iterated, String filterEntity)
         {
             String rulePatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name, iterated.IteratedPattern.Name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
-            String filterName = "groupBy_" + filterVariable;
+            String filterName = "groupBy_" + filterEntity;
 
             source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
                 rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
@@ -499,8 +516,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(rulePattern, iterated, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(rulePattern, iterated, matchEntity);
+            String matchEntity = getFilterEntityName(rulePattern, iterated, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(rulePattern, iterated, matchEntity);
             EmitGroupByFilter(source, matchEntity, typeOfEntity, matchInterfaceName);
 
             source.AppendFront("matches.FromListExact();\n");
@@ -510,11 +527,11 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static void GenerateMatchClassGroupByFilter(SourceBuilder source, MatchClassInfo matchClass, String filterVariable)
+        private static void GenerateMatchClassGroupByFilter(SourceBuilder source, MatchClassInfo matchClass, String filterEntity)
         {
             String matchInterfaceName = NamesOfEntities.MatchInterfaceName(matchClass.name);
             String matchesListType = "IList<GRGEN_LIBGR.IMatch>";
-            String filterName = "groupBy_" + filterVariable;
+            String filterName = "groupBy_" + filterEntity;
 
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                 matchClass.name, filterName, matchesListType);
@@ -523,8 +540,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(matchClass, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(matchClass, matchEntity);
+            String matchEntity = getFilterEntityName(matchClass, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(matchClass, matchEntity);
             EmitGroupByFilter(source, matchEntity, typeOfEntity, matchInterfaceName);
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
@@ -561,12 +578,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static void GenerateKeepSameFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable, bool sameAsFirst)
+        private static void GenerateKeepSameFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterEntity, bool sameAsFirst)
         {
             String rulePatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
-            String filterName = sameAsFirst ? "keepSameAsFirst_" + filterVariable : "keepSameAsLast_" + filterVariable;
+            String filterName = sameAsFirst ? "keepSameAsFirst_" + filterEntity : "keepSameAsLast_" + filterEntity;
 
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n", 
                 rulePattern.name, filterName, matchesListType);
@@ -576,7 +593,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(rulePattern, filterVariable);
+            String matchEntity = getFilterEntityName(rulePattern, filterEntity);
             EmitKeepSameFilter(source, matchEntity, sameAsFirst);
 
             source.AppendFront("matches.FromListExact();\n");
@@ -586,12 +603,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static void GenerateKeepSameFilter(SourceBuilder source, LGSPRulePattern rulePattern, IIterated iterated, String filterVariable, bool sameAsFirst)
+        private static void GenerateKeepSameFilter(SourceBuilder source, LGSPRulePattern rulePattern, IIterated iterated, String filterEntity, bool sameAsFirst)
         {
             String rulePatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name, iterated.IteratedPattern.Name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
-            String filterName = sameAsFirst ? "keepSameAsFirst_" + filterVariable : "keepSameAsLast_" + filterVariable;
+            String filterName = sameAsFirst ? "keepSameAsFirst_" + filterEntity : "keepSameAsLast_" + filterEntity;
 
             source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
                 rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
@@ -601,7 +618,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(rulePattern, iterated, filterVariable);
+            String matchEntity = getFilterEntityName(rulePattern, iterated, filterEntity);
             EmitKeepSameFilter(source, matchEntity, sameAsFirst);
 
             source.AppendFront("matches.FromListExact();\n");
@@ -611,11 +628,11 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static void GenerateMatchClassKeepSameFilter(SourceBuilder source, MatchClassInfo matchClass, String filterVariable, bool sameAsFirst)
+        private static void GenerateMatchClassKeepSameFilter(SourceBuilder source, MatchClassInfo matchClass, String filterEntity, bool sameAsFirst)
         {
             String matchInterfaceName = NamesOfEntities.MatchInterfaceName(matchClass.name);
             String matchesListType = "IList<GRGEN_LIBGR.IMatch>";
-            String filterName = sameAsFirst ? "keepSameAsFirst_" + filterVariable : "keepSameAsLast_" + filterVariable;
+            String filterName = sameAsFirst ? "keepSameAsFirst_" + filterEntity : "keepSameAsLast_" + filterEntity;
 
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                 matchClass.name, filterName, matchesListType);
@@ -625,7 +642,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(matchClass, filterVariable);
+            String matchEntity = getFilterEntityName(matchClass, filterEntity);
             EmitKeepSameFilter(source, matchEntity, sameAsFirst);
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
@@ -663,12 +680,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private static void GenerateKeepOneForEachFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterVariable)
+        private static void GenerateKeepOneForEachFilter(SourceBuilder source, LGSPRulePattern rulePattern, String filterEntity)
         {
             String rulePatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
-            String filterName = "keepOneForEach_" + filterVariable;
+            String filterName = "keepOneForEach_" + filterEntity;
 
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                  rulePattern.name, filterName, matchesListType);
@@ -677,8 +694,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(rulePattern, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(rulePattern, matchEntity);
+            String matchEntity = getFilterEntityName(rulePattern, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(rulePattern, matchEntity);
             EmitKeepOneForEachFilter(source, matchEntity, typeOfEntity);
 
             source.AppendFront("matches.FromListExact();\n");
@@ -688,12 +705,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static void GenerateKeepOneForEachFilter(SourceBuilder source, LGSPRulePattern rulePattern, IIterated iterated, String filterVariable)
+        private static void GenerateKeepOneForEachFilter(SourceBuilder source, LGSPRulePattern rulePattern, IIterated iterated, String filterEntity)
         {
             String rulePatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name, iterated.IteratedPattern.Name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
-            String filterName = "keepOneForEach_" + filterVariable;
+            String filterName = "keepOneForEach_" + filterEntity;
 
             source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
                  rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
@@ -702,8 +719,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(rulePattern, iterated, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(rulePattern, iterated, matchEntity);
+            String matchEntity = getFilterEntityName(rulePattern, iterated, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(rulePattern, iterated, matchEntity);
             EmitKeepOneForEachFilter(source, matchEntity, typeOfEntity);
 
             source.AppendFront("matches.FromListExact();\n");
@@ -713,11 +730,11 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static void GenerateMatchClassKeepOneForEachFilter(SourceBuilder source, MatchClassInfo matchClass, String filterVariable)
+        private static void GenerateMatchClassKeepOneForEachFilter(SourceBuilder source, MatchClassInfo matchClass, String filterEntity)
         {
             String matchInterfaceName = NamesOfEntities.MatchInterfaceName(matchClass.name);
             String matchesListType = "IList<GRGEN_LIBGR.IMatch>";
-            String filterName = "keepOneForEach_" + filterVariable;
+            String filterName = "keepOneForEach_" + filterEntity;
 
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                  matchClass.name, filterName, matchesListType);
@@ -726,8 +743,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(matchClass, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(matchClass, matchEntity);
+            String matchEntity = getFilterEntityName(matchClass, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(matchClass, matchEntity);
             EmitKeepOneForEachFilter(source, matchEntity, typeOfEntity);
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
@@ -752,12 +769,12 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void GenerateKeepOneForEachAccumulateByFilter(SourceBuilder source, LGSPRulePattern rulePattern,
-            String filterVariable, String accumulationVariable, String accumulationMethod)
+            String filterEntity, String accumulationVariable, String accumulationMethod)
         {
             String rulePatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
-            String filterName = "keepOneForEachAccumulateBy_" + filterVariable + "_" + accumulationVariable + "_" + accumulationMethod;
+            String filterName = "keepOneForEachAccumulateBy_" + filterEntity + "_" + accumulationVariable + "_" + accumulationMethod;
 
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                  rulePattern.name, filterName, matchesListType);
@@ -766,13 +783,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(rulePattern, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(rulePattern, matchEntity);
-            String accumulationEntity = getFilterVariableName(rulePattern, accumulationVariable);
-            String typeOfAccumulationEntity = getTypeOfFilterVariable(rulePattern, accumulationEntity);
+            String matchEntity = getFilterEntityName(rulePattern, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(rulePattern, matchEntity);
+            String accumulationMatchVariable = getFilterEntityName(rulePattern, accumulationVariable);
+            String typeOfAccumulationVariable = getTypeOfFilterEntity(rulePattern, accumulationMatchVariable);
 
             EmitKeepOneForEachAccumulateByFilter(source,
-                matchEntity, accumulationEntity, typeOfEntity, typeOfAccumulationEntity,
+                matchEntity, accumulationMatchVariable, typeOfEntity, typeOfAccumulationVariable,
                 getArrayAccumulationMethodImplementation(accumulationMethod));
 
             source.AppendFront("matches.FromListExact();\n");
@@ -782,18 +799,18 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static String getFilterVariableName(LGSPRulePattern rulePattern, String filterVariable)
+        private static String getFilterEntityName(LGSPRulePattern rulePattern, String filterEntity)
         {
-            IPatternElement patternElement = rulePattern.patternGraph.GetPatternElement(filterVariable);
+            IPatternElement patternElement = rulePattern.patternGraph.GetPatternElement(filterEntity);
             if(patternElement is IPatternNode)
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Node);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Node);
             else if(patternElement is IPatternEdge)
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Edge);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Edge);
             else
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Variable);
         }
 
-        private static String getTypeOfFilterVariable(LGSPRulePattern rulePattern, String matchEntity)
+        private static String getTypeOfFilterEntity(LGSPRulePattern rulePattern, String matchEntity)
         {
             foreach(IPatternVariable var in rulePattern.patternGraph.variables)
             {
@@ -815,12 +832,12 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void GenerateKeepOneForEachAccumulateByFilter(SourceBuilder source, LGSPRulePattern rulePattern, IIterated iterated,
-            String filterVariable, String accumulationVariable, String accumulationMethod)
+            String filterEntity, String accumulationVariable, String accumulationMethod)
         {
             String rulePatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(rulePattern.PatternGraph.Package) + rulePattern.GetType().Name;
             String matchInterfaceName = rulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(rulePattern.name, iterated.IteratedPattern.Name);
             String matchesListType = "GRGEN_LIBGR.IMatchesExact<" + matchInterfaceName + ">";
-            String filterName = "keepOneForEachAccumulateBy_" + filterVariable + "_" + accumulationVariable + "_" + accumulationMethod;
+            String filterName = "keepOneForEachAccumulateBy_" + filterEntity + "_" + accumulationVariable + "_" + accumulationMethod;
 
             source.AppendFrontFormat("public static {3} Filter_{0}_{1}_{2}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {3} matches)\n",
                  rulePattern.name, iterated.IteratedPattern.Name, filterName, matchesListType);
@@ -829,13 +846,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = matches.ToListExact();\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(rulePattern, iterated, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(rulePattern, iterated, matchEntity);
-            String accumulationEntity = getFilterVariableName(rulePattern, iterated, accumulationVariable);
-            String typeOfAccumulationEntity = getTypeOfFilterVariable(rulePattern, iterated, accumulationEntity);
+            String matchEntity = getFilterEntityName(rulePattern, iterated, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(rulePattern, iterated, matchEntity);
+            String accumulationMatchVariable = getFilterEntityName(rulePattern, iterated, accumulationVariable);
+            String typeOfAccumulationVariable = getTypeOfFilterEntity(rulePattern, iterated, accumulationMatchVariable);
 
             EmitKeepOneForEachAccumulateByFilter(source,
-                matchEntity, accumulationEntity, typeOfEntity, typeOfAccumulationEntity,
+                matchEntity, accumulationMatchVariable, typeOfEntity, typeOfAccumulationVariable,
                 getArrayAccumulationMethodImplementation(accumulationMethod));
 
             source.AppendFront("matches.FromListExact();\n");
@@ -845,18 +862,18 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static String getFilterVariableName(LGSPRulePattern rulePattern, IIterated iterated, String filterVariable)
+        private static String getFilterEntityName(LGSPRulePattern rulePattern, IIterated iterated, String filterEntity)
         {
-            IPatternElement patternElement = iterated.IteratedPattern.GetPatternElement(filterVariable);
+            IPatternElement patternElement = iterated.IteratedPattern.GetPatternElement(filterEntity);
             if(patternElement is IPatternNode)
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Node);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Node);
             else if(patternElement is IPatternEdge)
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Edge);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Edge);
             else
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Variable);
         }
 
-        private static String getTypeOfFilterVariable(LGSPRulePattern rulePattern, IIterated iterated, String matchEntity)
+        private static String getTypeOfFilterEntity(LGSPRulePattern rulePattern, IIterated iterated, String matchEntity)
         {
             foreach(IPatternVariable var in iterated.IteratedPattern.Variables)
             {
@@ -884,11 +901,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void GenerateMatchClassKeepOneForEachAccumulateByFilter(SourceBuilder source, MatchClassInfo matchClass, 
-            String filterVariable, String accumulationVariable, String accumulationMethod)
+            String filterEntity, String accumulationVariable, String accumulationMethod)
         {
             String matchInterfaceName = NamesOfEntities.MatchInterfaceName(matchClass.name);
             String matchesListType = "IList<GRGEN_LIBGR.IMatch>";
-            String filterName = "keepOneForEachAccumulateBy_" + filterVariable + "_" + accumulationVariable + "_" + accumulationMethod;
+            String filterName = "keepOneForEachAccumulateBy_" + filterEntity + "_" + accumulationVariable + "_" + accumulationMethod;
 
             source.AppendFrontFormat("public static {2} Filter_{0}_{1}(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv, {2} matches)\n",
                  matchClass.name, filterName, matchesListType);
@@ -897,13 +914,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFrontFormat("List<{0}> matchesArray = GRGEN_LIBGR.MatchListHelper.ToList<{0}>(matches);\n", matchInterfaceName);
 
-            String matchEntity = getFilterVariableName(matchClass, filterVariable);
-            String typeOfEntity = getTypeOfFilterVariable(matchClass, matchEntity);
-            String accumulationEntity = getFilterVariableName(matchClass, accumulationVariable);
-            String typeOfAccumulationEntity = getTypeOfFilterVariable(matchClass, accumulationEntity);
+            String matchEntity = getFilterEntityName(matchClass, filterEntity);
+            String typeOfEntity = getTypeOfFilterEntity(matchClass, matchEntity);
+            String accumulationMatchVariable = getFilterEntityName(matchClass, accumulationVariable);
+            String typeOfAccumulationVariable = getTypeOfFilterEntity(matchClass, accumulationMatchVariable);
 
             EmitKeepOneForEachAccumulateByFilter(source,
-                matchEntity, accumulationEntity, typeOfEntity, typeOfAccumulationEntity,
+                matchEntity, accumulationMatchVariable, typeOfEntity, typeOfAccumulationVariable,
                 getArrayAccumulationMethodImplementation(accumulationMethod));
 
             source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.FromList(matches, matchesArray);\n");
@@ -913,18 +930,18 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private static String getFilterVariableName(MatchClassInfo matchClass, String filterVariable)
+        private static String getFilterEntityName(MatchClassInfo matchClass, String filterEntity)
         {
-            IPatternElement patternElement = matchClass.GetPatternElement(filterVariable);
+            IPatternElement patternElement = matchClass.GetPatternElement(filterEntity);
             if(patternElement is IPatternNode)
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Node);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Node);
             else if(patternElement is IPatternEdge)
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Edge);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Edge);
             else
-                return NamesOfEntities.MatchName(filterVariable, EntityType.Variable);
+                return NamesOfEntities.MatchName(filterEntity, EntityType.Variable);
         }
 
-        private static String getTypeOfFilterVariable(MatchClassInfo matchClass, String matchEntity)
+        private static String getTypeOfFilterEntity(MatchClassInfo matchClass, String matchEntity)
         {
             foreach(IPatternVariable var in matchClass.variables)
             {
@@ -946,21 +963,21 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         private static void EmitKeepOneForEachAccumulateByFilter(SourceBuilder source,
-            String matchEntity, String accumulationEntity, String typeOfEntity, String typeOfAccumulationEntity,
+            String matchEntity, String accumulationVariable, String typeOfEntity, String typeOfAccumulationVariable,
             String accumulationMethod)
         {
             source.AppendFrontFormat("Dictionary<{0}, List<{1}>> seenValues = new Dictionary<{0}, List<{1}>>();\n",
-                typeOfEntity, typeOfAccumulationEntity);
+                typeOfEntity, typeOfAccumulationVariable);
             source.AppendFront("for(int pos = 0; pos < matchesArray.Count; ++pos)\n");
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFrontFormat("if(seenValues.ContainsKey(matchesArray[pos].{0}))\n", matchEntity);
             source.AppendFrontIndentedFormat("seenValues[matchesArray[pos].{0}].Add(matchesArray[pos].{1});\n",
-                matchEntity, accumulationEntity);
+                matchEntity, accumulationVariable);
             source.AppendFront("else {\n");
             source.Indent();
-            source.AppendFrontFormat("List<{0}> newList = new List<{0}>();\n", typeOfAccumulationEntity);
-            source.AppendFrontFormat("newList.Add(matchesArray[pos].{0});\n", accumulationEntity);
+            source.AppendFrontFormat("List<{0}> newList = new List<{0}>();\n", typeOfAccumulationVariable);
+            source.AppendFrontFormat("newList.Add(matchesArray[pos].{0});\n", accumulationVariable);
             source.AppendFrontFormat("seenValues.Add(matchesArray[pos].{0}, newList);\n", matchEntity);
             source.Unindent();
             source.AppendFront("}\n");
@@ -973,7 +990,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append(" {\n");
             source.Indent();
             source.AppendFrontFormat("matchesArray[pos].{0} = {1}(seenValues[matchesArray[pos].{2}]);\n",
-                accumulationEntity, accumulationMethod, matchEntity);
+                accumulationVariable, accumulationMethod, matchEntity);
             source.AppendFrontFormat("seenValues.Remove(matchesArray[pos].{0});\n", matchEntity);
             source.Unindent();
             source.AppendFront("} else\n");

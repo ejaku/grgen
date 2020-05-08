@@ -2509,7 +2509,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("private static " + comparerClassName + " thisComparer = new " + comparerClassName + "();\n");
 
 		if(entity.getType().isOrderableType())
-			genCompareMethod(typeName, entity);
+			genCompareMethod(sb, typeName, formatIdentifiable(entity), entity.getType(), true);
 
 		genIndexOfByMethod(typeName, attributeName, attributeTypeName);
 		genIndexOfByWithStartMethod(typeName, attributeName, attributeTypeName);
@@ -2531,26 +2531,6 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-	}
-
-	void genCompareMethod(String typeName, Entity entity)
-	{
-		String attributeName = formatIdentifiable(entity);
-			
-		sb.appendFront("public override int Compare(" + typeName + " a, " + typeName + " b)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		if(entity.getType().classify()==Type.IS_EXTERNAL_TYPE || entity.getType().classify()==Type.IS_OBJECT) {
-			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a, b)) return 0;\n");
-			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsLower(a, b)) return -1;\n");
-			sb.appendFront("return 1;\n");
-		}
-		else if(entity.getType() instanceof StringType)
-			sb.appendFront("return StringComparer.InvariantCulture.Compare(a.@" + attributeName + ", b.@" + attributeName + ");\n");
-		else
-			sb.appendFront("return a.@" + attributeName + ".CompareTo(b.@" + attributeName + ");\n");
-		sb.unindent();
-		sb.appendFront("}\n");
 	}
 
 	void genIndexOfByMethod(String typeName, String attributeName, String attributeTypeName)
@@ -2666,28 +2646,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		
 		sb.appendFront("public static " + reverseComparerClassName + " thisComparer = new " + reverseComparerClassName + "();\n");
 		
-		genCompareMethodReverse(typeName, entity);
+		genCompareMethod(sb, typeName, formatIdentifiable(entity), entity.getType(), false);
 		
-		sb.unindent();
-		sb.appendFront("}\n");
-	}
-
-	void genCompareMethodReverse(String typeName, Entity entity)
-	{
-		String attributeName = formatIdentifiable(entity);
-
-		sb.appendFront("public override int Compare(" + typeName + " a, " + typeName + " b)\n");
-		sb.appendFront("{\n");
-		sb.indent();
-		if(entity.getType().classify()==Type.IS_EXTERNAL_TYPE || entity.getType().classify()==Type.IS_OBJECT) {
-			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a, b)) return 0;\n");
-			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsLower(a, b)) return 1;\n");
-			sb.appendFront("return -1;\n");
-		}
-		else if(entity.getType() instanceof StringType)
-			sb.appendFront("return -StringComparer.InvariantCulture.Compare(a.@" + attributeName + ", b.@" + attributeName + ");\n");
-		else
-			sb.appendFront("return -a.@" + attributeName + ".CompareTo(b.@" + attributeName + ");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 	}

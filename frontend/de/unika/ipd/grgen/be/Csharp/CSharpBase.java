@@ -3406,22 +3406,44 @@ public abstract class CSharpBase {
 		}
 	}
 	
+	protected void genCompareMethod(SourceBuilder sb, String typeName,
+			String attributeOrMemberName, Type attributeOrMemberType, boolean ascending)
+	{
+		if(ascending)
+			sb.appendFront("public override int Compare(" + typeName + " a, " + typeName + " b)\n");
+		else
+			sb.appendFront("public override int Compare(" + typeName + " b, " + typeName + " a)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		if(attributeOrMemberType.classify()==Type.IS_EXTERNAL_TYPE || attributeOrMemberType.classify()==Type.IS_OBJECT) {
+			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsEqual(a.@" + attributeOrMemberName + ", b.@" + attributeOrMemberName + ")) return 0;\n");
+			sb.appendFront("if(AttributeTypeObjectCopierComparer.IsLower(a.@" + attributeOrMemberName + ", b.@" + attributeOrMemberName + ")) return -1;\n");
+			sb.appendFront("return 1;\n");
+		}
+		else if(attributeOrMemberType instanceof StringType)
+			sb.appendFront("return StringComparer.InvariantCulture.Compare(a.@" + attributeOrMemberName + ", b.@" + attributeOrMemberName + ");\n");
+		else
+			sb.appendFront("return a.@" + attributeOrMemberName + ".CompareTo(b.@" + attributeOrMemberName + ");\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
 	protected void generateArrayKeepOneForEach(SourceBuilder sb, String arrayFunctionName, String matchInterfaceName, 
-			String memberName, String memberType)
+			String attributeOrMemberName, String attributeOrMemberType)
 	{
 		sb.appendFront("public static List<" + matchInterfaceName + "> " + arrayFunctionName + "(List<" + matchInterfaceName + "> list)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("List<" + matchInterfaceName + "> newList = new List<" + matchInterfaceName + ">();\n");
 		
-		sb.appendFront("Dictionary<" + memberType + ", GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<" + memberType + ", GRGEN_LIBGR.SetValueType>();\n");
+		sb.appendFront("Dictionary<" + attributeOrMemberType + ", GRGEN_LIBGR.SetValueType> alreadySeenMembers = new Dictionary<" + attributeOrMemberType + ", GRGEN_LIBGR.SetValueType>();\n");
 		sb.appendFront("foreach(" + matchInterfaceName + " element in list)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("if(!alreadySeenMembers.ContainsKey(element.@" + memberName + ")) {\n");
+		sb.appendFront("if(!alreadySeenMembers.ContainsKey(element.@" + attributeOrMemberName + ")) {\n");
 		sb.indent();
 		sb.appendFront("newList.Add(element);\n");
-		sb.appendFront("alreadySeenMembers.Add(element.@" + memberName + ", null);\n");
+		sb.appendFront("alreadySeenMembers.Add(element.@" + attributeOrMemberName + ", null);\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();

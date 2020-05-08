@@ -337,6 +337,16 @@ public class PatternGraphNode extends GraphNode {
 		return null;
 	}
 
+	public DeclNode tryGetMember(String name) {
+		NodeDeclNode node = tryGetNode(name);
+		if(node != null)
+			return node;
+		EdgeDeclNode edge = tryGetEdge(name);
+		if(edge != null)
+			return edge;
+		return tryGetVar(name);
+	}
+
 	private void initHomMaps() {
 		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
 
