@@ -69,9 +69,9 @@ public class IteratedFilteringNode extends EvalStatementNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		if(!(actionUnresolved instanceof PackageIdentNode)) {
+		if(!(actionUnresolved instanceof PackageIdentNode))
 			fixupDefinition((IdentNode)actionUnresolved, actionUnresolved.getScope());
-		}
+
 		Pair<TestDeclNode, SubpatternDeclNode> actionOrSubpattern = actionOrSubpatternResolver.resolve(actionUnresolved, this);
 		if(actionOrSubpattern == null || actionOrSubpattern.fst == null && actionOrSubpattern.snd == null)
 			return false;
@@ -80,12 +80,11 @@ public class IteratedFilteringNode extends EvalStatementNode {
 		if(actionOrSubpattern.snd != null)
 			subpattern = actionOrSubpattern.snd;
 		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
-		return iterated!=null;
+		return iterated != null;
 	}
 
 	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
-	{
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
 		return true;
 	}
 
