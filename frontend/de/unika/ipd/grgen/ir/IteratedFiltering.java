@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ir;
 import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
+import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 
 public class IteratedFiltering extends EvalStatement {
@@ -49,5 +50,10 @@ public class IteratedFiltering extends EvalStatement {
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
+		for(FilterInvocation filterInvocation : filterInvocations) {
+			for(Expression filterArgument : filterInvocation.filterArguments) {
+				filterArgument.collectNeededEntities(needs);
+			}
+		}
 	}
 }
