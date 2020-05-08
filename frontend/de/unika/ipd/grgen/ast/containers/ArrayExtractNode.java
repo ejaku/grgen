@@ -86,7 +86,10 @@ public class ArrayExtractNode extends ExprNode
 			return false;
 
 		TypeNode type = getTypeOfElementToBeExtracted();
-		if(!(type instanceof DeclaredTypeNode)) {
+		if(!(type instanceof DeclaredTypeNode)
+				|| type instanceof SetTypeNode || type instanceof MapTypeNode
+				|| type instanceof ArrayTypeNode || type instanceof DequeTypeNode
+				|| type instanceof MatchTypeNode || type instanceof DefinedMatchTypeNode) {
 			reportError("The type "+ type + " is not an allowed type (basic type or node or edge class - set, map, array, deque are forbidden).");
 			return false;
 		}
