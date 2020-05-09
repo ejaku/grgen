@@ -1136,8 +1136,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("bool {0} = true;\n", continueDecisionName);
             String sequencesToExecuteVarName = "sequencestoexecutevar_" + seqAll.Id;
             source.AppendFrontFormat("List<int> {0} = new List<int>({1});\n", sequencesToExecuteVarName, seqAll.Sequences.Count);
-            source.AppendFrontFormat("for(int i = 0; i < {0}; ++i)\n", seqAll.Sequences.Count);
-            source.AppendFrontIndentedFormat("{0}.Add(i);\n", sequencesToExecuteVarName);
+            String index = "i";
+            source.AppendFrontFormat("for(int {0} = 0; {0} < {1}; ++{0})\n", index, seqAll.Sequences.Count);
+            source.AppendFrontIndentedFormat("{0}.Add({1});\n", sequencesToExecuteVarName, index);
             source.AppendFrontFormat("while({0}.Count > 0 && {1})\n", sequencesToExecuteVarName, continueDecisionName);
             source.AppendFront("{\n");
             source.Indent();

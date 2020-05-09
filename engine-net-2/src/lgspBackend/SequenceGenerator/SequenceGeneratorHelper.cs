@@ -259,42 +259,43 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     varName = GetUniqueId();
                 String typeName = actionsTypeInformation.rulesToOutputTypes[invocation.PackagePrefixedName][i];
-                
+
+                String tmpvarName = "tmpvar_" + varName;
                 sbReturnParameterDeclarations.Append(TypesHelper.XgrsTypeToCSharpType(typeName, model));
-                sbReturnParameterDeclarations.Append(" tmpvar_");
-                sbReturnParameterDeclarations.Append(varName);
+                sbReturnParameterDeclarations.Append(" ");
+                sbReturnParameterDeclarations.Append(tmpvarName);
                 sbReturnParameterDeclarations.Append("; ");
 
                 String returnListValueVarType = typeName;
+                String tmpvarListName = "tmpvarlist_" + varName;
                 if(ReturnVars.Length != 0 && ReturnVars[i].Type != "" && ReturnVars[i].Type.StartsWith("array<"))
                     returnListValueVarType = TypesHelper.ExtractSrc(ReturnVars[i].Type);
                 if(ReturnVars.Length != 0)
                 {
                     sbReturnParameterDeclarationsAllCall.Append("List<");
                     sbReturnParameterDeclarationsAllCall.Append(TypesHelper.XgrsTypeToCSharpType(returnListValueVarType, model));
-                    sbReturnParameterDeclarationsAllCall.Append("> tmpvarlist_");
-                    sbReturnParameterDeclarationsAllCall.Append(varName);
+                    sbReturnParameterDeclarationsAllCall.Append("> ");
+                    sbReturnParameterDeclarationsAllCall.Append(tmpvarListName);
                     sbReturnParameterDeclarationsAllCall.Append(" = new List<");
                     sbReturnParameterDeclarationsAllCall.Append(TypesHelper.XgrsTypeToCSharpType(returnListValueVarType, model));
                     sbReturnParameterDeclarationsAllCall.Append(">(); ");
                 }
 
-                sbReturnArguments.Append(", out tmpvar_");
-                sbReturnArguments.Append(varName);
+                sbReturnArguments.Append(", out ");
+                sbReturnArguments.Append(tmpvarName);
 
                 if(ReturnVars.Length != 0)
                 {
-                    sbReturnAssignments.Append(SetVar(ReturnVars[i], "tmpvar_" + varName));
+                    sbReturnAssignments.Append(SetVar(ReturnVars[i], tmpvarName));
 
-                    sbIntermediateReturnAssignmentsAllCall.Append("tmpvarlist_");
-                    sbIntermediateReturnAssignmentsAllCall.Append(varName);
+                    sbIntermediateReturnAssignmentsAllCall.Append(tmpvarListName);
                     sbIntermediateReturnAssignmentsAllCall.Append(".Add((");
                     sbIntermediateReturnAssignmentsAllCall.Append(TypesHelper.XgrsTypeToCSharpType(returnListValueVarType, model));
-                    sbIntermediateReturnAssignmentsAllCall.Append(")tmpvar_");
-                    sbIntermediateReturnAssignmentsAllCall.Append(varName);
+                    sbIntermediateReturnAssignmentsAllCall.Append(")");
+                    sbIntermediateReturnAssignmentsAllCall.Append(tmpvarName);
                     sbIntermediateReturnAssignmentsAllCall.Append("); ");
                     
-                    sbReturnAssignmentsAllCall.Append(SetVar(ReturnVars[i], "tmpvarlist_" + varName));
+                    sbReturnAssignmentsAllCall.Append(SetVar(ReturnVars[i], tmpvarListName));
                 }
             }
 
@@ -324,10 +325,11 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     varName = GetUniqueId();
                 String typeName = actionsTypeInformation.proceduresToOutputTypes[invocation.PackagePrefixedName][i];
-                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
-                returnArguments += ", out tmpvar_" + varName;
+                String tmpvarName = "tmpvar_" + varName;
+                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " " + tmpvarName + "; ";
+                returnArguments += ", out " + tmpvarName;
                 if(ReturnVars.Length != 0)
-                    returnAssignments += SetVar(ReturnVars[i], "tmpvar_" + varName);
+                    returnAssignments += SetVar(ReturnVars[i], tmpvarName);
             }
         }
 
@@ -349,10 +351,11 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     varName = GetUniqueId();
                 String typeName = TypesHelper.DotNetTypeToXgrsType(ownerType.GetProcedureMethod(invocation.Name).Outputs[i]);
-                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
-                returnArguments += ", out tmpvar_" + varName;
+                String tmpvarName = "tmpvar_" + varName;
+                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " " + tmpvarName + "; ";
+                returnArguments += ", out " + tmpvarName;
                 if(ReturnVars.Length != 0)
-                    returnAssignments += SetVar(ReturnVars[i], "tmpvar_" + varName);
+                    returnAssignments += SetVar(ReturnVars[i], tmpvarName);
             }
         }
 
