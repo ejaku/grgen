@@ -21,20 +21,18 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArraySubarrayNode extends ExprNode
+public class ArraySubarrayNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArraySubarrayNode.class, "array subarray");
 	}
 
-	private ExprNode targetExpr;
 	private ExprNode startExpr;
 	private ExprNode lengthExpr;
 
 	public ArraySubarrayNode(Coords coords, ExprNode targetExpr, ExprNode startExpr, ExprNode lengthExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.startExpr = becomeParent(startExpr);
 		this.lengthExpr = becomeParent(lengthExpr);
 	}

@@ -23,25 +23,20 @@ import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeClearNode extends ProcedureMethodInvocationBaseNode
+public class DequeClearNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(DequeClearNode.class, "deque clear statement");
 	}
 
-	private QualIdentNode target;
-	private VarDeclNode targetVar;
-
 	public DequeClearNode(Coords coords, QualIdentNode target)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		super(coords, target);
 	}
 
 	public DequeClearNode(Coords coords, VarDeclNode targetVar)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		super(coords, targetVar);
 	}
 
 	@Override

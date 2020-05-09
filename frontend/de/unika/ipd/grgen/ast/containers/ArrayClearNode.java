@@ -23,25 +23,20 @@ import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayClearNode extends ProcedureMethodInvocationBaseNode
+public class ArrayClearNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(ArrayClearNode.class, "array clear statement");
 	}
 
-	private QualIdentNode target;
-	private VarDeclNode targetVar;
-
 	public ArrayClearNode(Coords coords, QualIdentNode target)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		super(coords, target);
 	}
 
 	public ArrayClearNode(Coords coords, VarDeclNode targetVar)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		super(coords, targetVar);
 	}
 
 	@Override

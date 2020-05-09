@@ -18,18 +18,15 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ArrayAccumulationMethodNode extends ExprNode
+public abstract class ArrayAccumulationMethodNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayAccumulationMethodNode.class, "array accumulation method");
 	}
 
-	protected ExprNode targetExpr;
-
 	protected ArrayAccumulationMethodNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

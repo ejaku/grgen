@@ -21,18 +21,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeSizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeSizeNode extends ExprNode
+public class DequeSizeNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeSizeNode.class, "deque size expression");
 	}
 
-	private ExprNode targetExpr;
-
 	public DequeSizeNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

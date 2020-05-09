@@ -24,27 +24,23 @@ import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapRemoveItemNode extends ProcedureMethodInvocationBaseNode
+public class MapRemoveItemNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(MapRemoveItemNode.class, "map remove item statement");
 	}
 
-	private QualIdentNode target;
-	private VarDeclNode targetVar;
 	private ExprNode keyExpr;
 
 	public MapRemoveItemNode(Coords coords, QualIdentNode target, ExprNode keyExpr)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		super(coords, target);
 		this.keyExpr = becomeParent(keyExpr);
 	}
 
 	public MapRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode keyExpr)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		super(coords, targetVar);
 		this.keyExpr = becomeParent(keyExpr);
 	}
 
@@ -71,8 +67,8 @@ public class MapRemoveItemNode extends ProcedureMethodInvocationBaseNode
 
 	@Override
 	protected boolean checkLocal() {
+		TypeNode targetType = getTargetType();
 		if(target!=null) {
-			TypeNode targetType = target.getDecl().getDeclType();
 			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
 			TypeNode keyType = keyExpr.getType();
 			if (!keyType.isEqual(targetKeyType))
@@ -86,7 +82,6 @@ public class MapRemoveItemNode extends ProcedureMethodInvocationBaseNode
 			}
 			return true;
 		} else {
-			TypeNode targetType = targetVar.getDeclType();
 			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
 			return checkType(keyExpr, targetKeyType, "map remove item statement", "key");
 		}

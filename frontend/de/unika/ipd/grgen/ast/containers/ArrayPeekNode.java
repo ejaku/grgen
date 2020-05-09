@@ -21,26 +21,23 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArrayPeekExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayPeekNode extends ExprNode
+public class ArrayPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayPeekNode.class, "array peek");
 	}
 
-	private ExprNode targetExpr;
 	private ExprNode numberExpr;
 
 	public ArrayPeekNode(Coords coords, ExprNode targetExpr, ExprNode numberExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.numberExpr = becomeParent(numberExpr);
 	}
 
 	public ArrayPeekNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

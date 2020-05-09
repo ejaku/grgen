@@ -21,18 +21,15 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayKeepOneForEachNode extends ExprNode
+public class ArrayKeepOneForEachNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayKeepOneForEachNode.class, "array keep one for each");
 	}
 
-	private ExprNode targetExpr;
-
 	public ArrayKeepOneForEachNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

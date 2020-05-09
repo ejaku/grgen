@@ -21,18 +21,15 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayReverseNode extends ExprNode
+public class ArrayReverseNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayReverseNode.class, "array reverse");
 	}
 
-	private ExprNode targetExpr;
-
 	public ArrayReverseNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

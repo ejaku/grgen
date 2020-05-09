@@ -21,18 +21,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeEmptyExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeEmptyNode extends ExprNode
+public class DequeEmptyNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeEmptyNode.class, "deque empty expression");
 	}
 
-	private ExprNode targetExpr;
-
 	public DequeEmptyNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

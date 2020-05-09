@@ -21,26 +21,23 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequePeekExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequePeekNode extends ExprNode
+public class DequePeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequePeekNode.class, "deque peek");
 	}
 
-	private ExprNode targetExpr;
 	private ExprNode numberExpr;
 
 	public DequePeekNode(Coords coords, ExprNode targetExpr, ExprNode numberExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.numberExpr = becomeParent(numberExpr);
 	}
 
 	public DequePeekNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

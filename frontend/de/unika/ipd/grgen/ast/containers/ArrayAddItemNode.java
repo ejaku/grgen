@@ -24,21 +24,18 @@ import de.unika.ipd.grgen.ir.containers.ArrayAddItem;
 import de.unika.ipd.grgen.ir.containers.ArrayVarAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayAddItemNode extends ProcedureMethodInvocationBaseNode
+public class ArrayAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(ArrayAddItemNode.class, "array add item statement");
 	}
 
-	private QualIdentNode target;
-	private VarDeclNode targetVar;
 	private ExprNode valueExpr;
 	private ExprNode indexExpr;
 
 	public ArrayAddItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr, ExprNode indexExpr)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		super(coords, target);
 		this.valueExpr = becomeParent(valueExpr);
 		if(indexExpr!=null)
 			this.indexExpr = becomeParent(indexExpr);
@@ -46,8 +43,7 @@ public class ArrayAddItemNode extends ProcedureMethodInvocationBaseNode
 
 	public ArrayAddItemNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr, ExprNode indexExpr)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		super(coords, targetVar);
 		this.valueExpr = becomeParent(valueExpr);
 		if(indexExpr!=null)
 			this.indexExpr = becomeParent(indexExpr);
@@ -80,8 +76,8 @@ public class ArrayAddItemNode extends ProcedureMethodInvocationBaseNode
 
 	@Override
 	protected boolean checkLocal() {
+		TypeNode targetType = getTargetType();
 		if(target!=null) {
-			TypeNode targetType = target.getDecl().getDeclType();
 			TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
 			TypeNode valueType = valueExpr.getType();
 			if (!valueType.isEqual(targetValueType))
@@ -107,7 +103,6 @@ public class ArrayAddItemNode extends ProcedureMethodInvocationBaseNode
 			return true;
 		} else {
 			boolean success = true;
-			TypeNode targetType = targetVar.getDeclType();
 			TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
 			if(indexExpr!=null)
 				success &= checkType(indexExpr, IntTypeNode.intType, "array add item with index statement", "index");

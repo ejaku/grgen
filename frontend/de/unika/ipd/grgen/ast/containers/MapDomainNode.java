@@ -21,19 +21,17 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapDomainExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapDomainNode extends ExprNode
+public class MapDomainNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapSizeNode.class, "map domain expression");
 	}
 
-	private ExprNode targetExpr;
 	private SetTypeNode setTypeNode;
 
 	public MapDomainNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

@@ -23,25 +23,20 @@ import de.unika.ipd.grgen.ir.containers.SetClear;
 import de.unika.ipd.grgen.ir.containers.SetVarClear;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetClearNode extends ProcedureMethodInvocationBaseNode
+public class SetClearNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(SetClearNode.class, "set clear statement");
 	}
 
-	private QualIdentNode target;
-	private VarDeclNode targetVar;
-
 	public SetClearNode(Coords coords, QualIdentNode target)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		super(coords, target);
 	}
 
 	public SetClearNode(Coords coords, VarDeclNode targetVar)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		super(coords, targetVar);
 	}
 
 	@Override

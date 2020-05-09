@@ -21,18 +21,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArraySizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArraySizeNode extends ExprNode
+public class ArraySizeNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArraySizeNode.class, "array size expression");
 	}
 
-	private ExprNode targetExpr;
-
 	public ArraySizeNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

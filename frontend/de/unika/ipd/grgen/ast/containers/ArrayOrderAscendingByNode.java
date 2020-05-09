@@ -23,20 +23,18 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayOrderAscendingByNode extends ExprNode
+public class ArrayOrderAscendingByNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayOrderAscendingByNode.class, "array order ascending by");
 	}
 
-	private ExprNode targetExpr;
 	private IdentNode attribute;
 	private DeclNode member;
 	
 	public ArrayOrderAscendingByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.attribute = attribute; 
 	}
 

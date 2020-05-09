@@ -21,27 +21,24 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayIndexOfNode extends ExprNode
+public class ArrayIndexOfNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayIndexOfNode.class, "array index of");
 	}
 
-	private ExprNode targetExpr;
 	private ExprNode valueExpr;
 	private ExprNode startIndexExpr;
 
 	public ArrayIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
 	public ArrayIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr, ExprNode startIndexExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.valueExpr = becomeParent(valueExpr);
 		this.startIndexExpr = becomeParent(startIndexExpr);
 	}

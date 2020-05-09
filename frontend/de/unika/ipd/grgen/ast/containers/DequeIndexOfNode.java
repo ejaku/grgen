@@ -21,27 +21,24 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeIndexOfNode extends ExprNode
+public class DequeIndexOfNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeIndexOfNode.class, "deque index of");
 	}
 
-	private ExprNode targetExpr;
 	private ExprNode valueExpr;
 	private ExprNode startIndexExpr;
 
 	public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
 	public DequeIndexOfNode(Coords coords, ExprNode targetExpr, ExprNode valueExpr, ExprNode startIndexExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.valueExpr = becomeParent(valueExpr);
 		this.startIndexExpr = becomeParent(startIndexExpr);
 	}

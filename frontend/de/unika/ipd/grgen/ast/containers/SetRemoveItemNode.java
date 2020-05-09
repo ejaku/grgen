@@ -24,27 +24,23 @@ import de.unika.ipd.grgen.ir.containers.SetRemoveItem;
 import de.unika.ipd.grgen.ir.containers.SetVarRemoveItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetRemoveItemNode extends ProcedureMethodInvocationBaseNode
+public class SetRemoveItemNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(SetRemoveItemNode.class, "set remove item statement");
 	}
 
-	private QualIdentNode target;
-	private VarDeclNode targetVar;
 	private ExprNode valueExpr;
 
 	public SetRemoveItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		super(coords, target);
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
 	public SetRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		super(coords, targetVar);
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
@@ -71,8 +67,8 @@ public class SetRemoveItemNode extends ProcedureMethodInvocationBaseNode
 
 	@Override
 	protected boolean checkLocal() {
+		TypeNode targetType = getTargetType();
 		if(target!=null) {
-			TypeNode targetType = target.getDecl().getDeclType();
 			TypeNode targetValueType = ((SetTypeNode)targetType).valueType;
 			TypeNode valueType = valueExpr.getType();
 			if (!valueType.isEqual(targetValueType))
@@ -86,7 +82,6 @@ public class SetRemoveItemNode extends ProcedureMethodInvocationBaseNode
 			}
 			return true;
 		} else {
-			TypeNode targetType = targetVar.getDeclType();
 			TypeNode targetValueType = ((SetTypeNode)targetType).valueType;
 			return checkType(valueExpr, targetValueType, "value", "set remove item statement");
 		}

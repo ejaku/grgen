@@ -21,19 +21,17 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapRangeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapRangeNode extends ExprNode
+public class MapRangeNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapSizeNode.class, "map range expression");
 	}
 
-	private ExprNode targetExpr;
 	private SetTypeNode setTypeNode;
 
 	public MapRangeNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

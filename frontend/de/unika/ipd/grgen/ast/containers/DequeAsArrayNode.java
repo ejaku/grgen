@@ -21,19 +21,17 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeAsArrayExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeAsArrayNode extends ExprNode
+public class DequeAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeAsArrayNode.class, "deque as array expression");
 	}
 
-	private ExprNode targetExpr;
 	private ArrayTypeNode arrayTypeNode;
 	
 	public DequeAsArrayNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

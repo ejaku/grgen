@@ -21,18 +21,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArrayEmptyExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayEmptyNode extends ExprNode
+public class ArrayEmptyNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayEmptyNode.class, "array empty expression");
 	}
 
-	private ExprNode targetExpr;
-
 	public ArrayEmptyNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

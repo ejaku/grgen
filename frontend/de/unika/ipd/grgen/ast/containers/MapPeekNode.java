@@ -21,19 +21,17 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapPeekExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapPeekNode extends ExprNode
+public class MapPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapPeekNode.class, "map peek");
 	}
 
-	private ExprNode targetExpr;
 	private ExprNode numberExpr;
 
 	public MapPeekNode(Coords coords, ExprNode targetExpr, ExprNode numberExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 		this.numberExpr = becomeParent(numberExpr);
 	}
 

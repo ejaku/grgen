@@ -21,17 +21,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapEmptyExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapEmptyNode extends ExprNode
+public class MapEmptyNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapEmptyNode.class, "map empty expression");
 	}
 
-	private ExprNode targetExpr;
-
 	public MapEmptyNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
+		super(coords, targetExpr);
 		this.targetExpr = becomeParent(targetExpr);
 	}
 

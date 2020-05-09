@@ -21,18 +21,15 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayOrderDescendingNode extends ExprNode
+public class ArrayOrderDescendingNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayOrderDescendingNode.class, "array order descending");
 	}
 
-	private ExprNode targetExpr;
-
 	public ArrayOrderDescendingNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

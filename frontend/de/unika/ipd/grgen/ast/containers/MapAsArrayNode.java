@@ -21,19 +21,17 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapAsArrayExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapAsArrayNode extends ExprNode
+public class MapAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapAsArrayNode.class, "map as array expression");
 	}
 
-	private ExprNode targetExpr;
 	private ArrayTypeNode arrayTypeNode;
 
 	public MapAsArrayNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

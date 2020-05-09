@@ -21,18 +21,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapSizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapSizeNode extends ExprNode
+public class MapSizeNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapSizeNode.class, "map size expression");
 	}
 
-	private ExprNode targetExpr;
-
 	public MapSizeNode(Coords coords, ExprNode targetExpr)
 	{
-		super(coords);
-		this.targetExpr = becomeParent(targetExpr);
+		super(coords, targetExpr);
 	}
 
 	@Override

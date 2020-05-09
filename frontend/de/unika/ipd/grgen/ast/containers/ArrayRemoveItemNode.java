@@ -24,28 +24,24 @@ import de.unika.ipd.grgen.ir.containers.ArrayRemoveItem;
 import de.unika.ipd.grgen.ir.containers.ArrayVarRemoveItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayRemoveItemNode extends ProcedureMethodInvocationBaseNode
+public class ArrayRemoveItemNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(ArrayRemoveItemNode.class, "array remove item statement");
 	}
 
-	private QualIdentNode target;
-	private VarDeclNode targetVar;
 	private ExprNode valueExpr;
 
 	public ArrayRemoveItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		super(coords, target);
 		if(valueExpr!=null)
 			this.valueExpr = becomeParent(valueExpr);
 	}
 
 	public ArrayRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		super(coords, targetVar);
 		if(valueExpr!=null)
 			this.valueExpr = becomeParent(valueExpr);
 	}
@@ -75,8 +71,8 @@ public class ArrayRemoveItemNode extends ProcedureMethodInvocationBaseNode
 
 	@Override
 	protected boolean checkLocal() {
+		//TypeNode targetType = getTargetType();
 		if(target!=null) {
-			//TypeNode targetType = target.getDecl().getDeclType();
 			//TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
 			if(valueExpr!=null) {
 				TypeNode valueType = valueExpr.getType();
@@ -91,7 +87,6 @@ public class ArrayRemoveItemNode extends ProcedureMethodInvocationBaseNode
 			}
 			return true;
 		} else {
-			//TypeNode targetType = target.getDeclType();
 			//TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
 			if(valueExpr!=null)
 				return checkType(valueExpr, IntTypeNode.intType, "index value", "array remove item statement");

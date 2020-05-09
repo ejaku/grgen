@@ -24,28 +24,24 @@ import de.unika.ipd.grgen.ir.containers.DequeRemoveItem;
 import de.unika.ipd.grgen.ir.containers.DequeVarRemoveItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeRemoveItemNode extends ProcedureMethodInvocationBaseNode
+public class DequeRemoveItemNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(DequeRemoveItemNode.class, "deque remove item statement");
 	}
 
-	private QualIdentNode target;
-	private VarDeclNode targetVar;
 	private ExprNode valueExpr;
 
 	public DequeRemoveItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
 	{
-		super(coords);
-		this.target = becomeParent(target);
+		super(coords, target);
 		if(valueExpr!=null)
 			this.valueExpr = becomeParent(valueExpr);
 	}
 
 	public DequeRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
 	{
-		super(coords);
-		this.targetVar = becomeParent(targetVar);
+		super(coords, targetVar);
 		if(valueExpr!=null)
 			this.valueExpr = becomeParent(valueExpr);
 	}
