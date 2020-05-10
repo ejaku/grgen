@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using System;
+using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using COMP_HELPER = de.unika.ipd.grGen.lgsp.SequenceComputationGeneratorHelper;
 
@@ -195,14 +196,7 @@ namespace de.unika.ipd.grGen.lgsp
         public void EmitSequenceComputationDebugAdd(SequenceComputationDebugAdd seqDebug, SourceBuilder source)
         {
             source.AppendFront("procEnv.DebugEntering(");
-            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
-            {
-                String argExpr = exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source);
-                if(i == 0)
-                    source.AppendFormat("(string){0}", argExpr);
-                else
-                    source.AppendFormat(", {0}", argExpr);
-            }
+            EmitDebugProcedureArguments(seqDebug.ArgExprs, source);
             source.Append(");\n");
             source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
@@ -210,14 +204,7 @@ namespace de.unika.ipd.grGen.lgsp
         public void EmitSequenceComputationDebugRem(SequenceComputationDebugRem seqDebug, SourceBuilder source)
         {
             source.AppendFront("procEnv.DebugExiting(");
-            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
-            {
-                String argExpr = exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source);
-                if(i == 0)
-                    source.AppendFormat("(string){0}", argExpr);
-                else
-                    source.AppendFormat(", {0}", argExpr);
-            }
+            EmitDebugProcedureArguments(seqDebug.ArgExprs, source);
             source.Append(");\n");
             source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
@@ -225,14 +212,7 @@ namespace de.unika.ipd.grGen.lgsp
         public void EmitSequenceComputationDebugEmit(SequenceComputationDebugEmit seqDebug, SourceBuilder source)
         {
             source.AppendFront("procEnv.DebugEmitting(");
-            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
-            {
-                String argExpr = exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source);
-                if(i == 0)
-                    source.AppendFormat("(string){0}", argExpr);
-                else
-                    source.AppendFormat(", {0}", argExpr);
-            }
+            EmitDebugProcedureArguments(seqDebug.ArgExprs, source);
             source.Append(");\n");
             source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
@@ -240,18 +220,22 @@ namespace de.unika.ipd.grGen.lgsp
         public void EmitSequenceComputationDebugHalt(SequenceComputationDebugHalt seqDebug, SourceBuilder source)
         {
             source.AppendFront("procEnv.DebugHalting(");
-            for(int i = 0; i < seqDebug.ArgExprs.Count; ++i)
-            {
-                String argExpr = exprGen.GetSequenceExpression(seqDebug.ArgExprs[i], source);
-                if(i == 0)
-                    source.AppendFormat("(string) {0}", argExpr);
-                else
-                    source.AppendFormat(", {0}", argExpr);
-            }
+            EmitDebugProcedureArguments(seqDebug.ArgExprs, source);
             source.Append(");\n");
             source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
         }
 
+        private void EmitDebugProcedureArguments(IList<SequenceExpression> arguments, SourceBuilder source)
+        {
+            for(int i = 0; i < arguments.Count; ++i)
+            {
+                String argExpr = exprGen.GetSequenceExpression(arguments[i], source);
+                if(i == 0)
+                    source.AppendFormat("(string){0}", argExpr);
+                else
+                    source.AppendFormat(", {0}", argExpr);
+            }
+        }
         public void EmitSequenceComputationDebugHighlight(SequenceComputationDebugHighlight seqDebug, SourceBuilder source)
         {
             source.AppendFront("List<object> values = new List<object>();\n");
@@ -695,23 +679,20 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationContainerAddUnknownType(SequenceComputationContainerAdd seqAdd, String container, SourceBuilder source)
         {
-            string element = "elem_" + seqAdd.Id ;
-            string attrType = "attrType_" + seqAdd.Id;
             if(seqAdd.Attribute != null)
-            {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqAdd.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqAdd.Attribute.AttributeName);
-            }
+                EmitAttributeEventInitialization(seqAdd.Attribute, source);
             string containerVar = "tmp_eval_once_" + seqAdd.Id;
             source.AppendFrontFormat("object {0} = {1};\n", containerVar, container);
             string sourceValue = "srcval_" + seqAdd.Id;
             source.AppendFrontFormat("object {0} = {1};\n",
                 sourceValue, exprGen.GetSequenceExpression(seqAdd.Expr, source));
-            string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
-            String destinationExpr = seqAdd.ExprDst == null ? null : exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
+            string destinationValue = null;
+            string destinationExpr = null;
+            if(seqAdd.ExprDst != null)
+            {
+                destinationValue = "dstval_" + seqAdd.Id;
+                destinationExpr = exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
+            }
             source.AppendFrontFormat("if({0} is IList)\n", containerVar);
             source.AppendFront("{\n");
             source.Indent();
@@ -726,40 +707,16 @@ namespace de.unika.ipd.grGen.lgsp
                 if(seqAdd.Attribute != null)
                 {
                     if(destinationValue != null)
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                            element, attrType, sourceValue, destinationValue);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                            element, attrType, sourceValue, destinationValue);
-                    }
+                        EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, destinationValue, source);
                     else
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                            element, attrType, sourceValue);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                            element, attrType, sourceValue);
-                    }
+                        EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
                 }
-                if(destinationValue == null)
-                    source.AppendFrontFormat("{0}.Add({1});\n", array, sourceValue);
-                else
+                if(destinationValue != null)
                     source.AppendFrontFormat("{0}.Insert({1}, {2});\n", array, destinationValue, sourceValue);
+                else
+                    source.AppendFrontFormat("{0}.Add({1});\n", array, sourceValue);
                 if(seqAdd.Attribute != null)
-                {
-                    if(fireDebugEvents)
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                            element, attrType);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                            element, attrType);
-                    }
-                }
+                    EmitAttributeChangedEvent(seqAdd.Attribute, source);
             }
 
             source.Unindent();
@@ -778,40 +735,16 @@ namespace de.unika.ipd.grGen.lgsp
                 if(seqAdd.Attribute != null)
                 {
                     if(destinationValue != null)
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                            element, attrType, sourceValue, destinationValue);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                            element, attrType, sourceValue, destinationValue);
-                    }
+                        EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, destinationValue, source);
                     else
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                            element, attrType, sourceValue);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                            element, attrType, sourceValue);
-                    }
+                        EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
                 }
-                if(destinationValue == null)
-                    source.AppendFrontFormat("{0}.Enqueue({1});\n", deque, sourceValue);
-                else
+                if(destinationValue != null)
                     source.AppendFrontFormat("{0}.EnqueueAt({1}, {2});\n", deque, destinationValue, sourceValue);
+                else
+                    source.AppendFrontFormat("{0}.Enqueue({1});\n", deque, sourceValue);
                 if(seqAdd.Attribute != null)
-                {
-                    if(fireDebugEvents)
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                            element, attrType);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                            element, attrType);
-                    }
-                }
+                    EmitAttributeChangedEvent(seqAdd.Attribute, source);
             }
 
             source.Unindent();
@@ -825,41 +758,17 @@ namespace de.unika.ipd.grGen.lgsp
             string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
             if(seqAdd.Attribute != null)
             {
-                if(seqAdd.ExprDst != null) // must be map
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, destinationValue, sourceValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, destinationValue, sourceValue);
-                }
+                if(destinationValue != null) // must be map
+                    EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, destinationValue, sourceValue, source);
                 else
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, sourceValue, destinationValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, sourceValue, destinationValue);
-                }
+                    EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
             }
-            if(destinationValue == null)
-                source.AppendFrontFormat("{0}[{1}] = null;\n", dictionary, sourceValue);
-            else
+            if(destinationValue != null)
                 source.AppendFrontFormat("{0}[{1}] = {2};\n", dictionary, sourceValue, destinationValue);
+            else
+                source.AppendFrontFormat("{0}[{1}] = null;\n", dictionary, sourceValue);
             if(seqAdd.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqAdd.Attribute, source);
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -868,179 +777,101 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationContainerAddArray(SequenceComputationContainerAdd seqAdd, String container, SourceBuilder source)
         {
-            string element = "elem_" + seqAdd.Id;
-            string attrType = "attrType_" + seqAdd.Id;
             string array = container;
             string arrayValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.ContainerType(env)), model);
             string sourceValue = "srcval_" + seqAdd.Id;
             source.AppendFrontFormat("{0} {1} = ({0}){2};\n",
                 arrayValueType, sourceValue, exprGen.GetSequenceExpression(seqAdd.Expr, source));
-            string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
-            string destinationExpr = seqAdd.ExprDst == null ? null : exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
-            if(destinationValue != null)
+            string destinationValue = null;
+            string destinationExpr = null;
+            if(seqAdd.ExprDst != null)
+            {
+                destinationValue = "dstval_" + seqAdd.Id;
+                destinationExpr = exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
                 source.AppendFrontFormat("int {0} = (int){1};\n", destinationValue, destinationExpr);
+            }
             if(seqAdd.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqAdd.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqAdd.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqAdd.Attribute, source);
 
                 if(destinationValue != null)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, sourceValue, destinationValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, sourceValue, destinationValue);
-                }
+                    EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, destinationValue, source);
                 else
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                        element, attrType, sourceValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                        element, attrType, sourceValue);
-                }
+                    EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
             }
-            if(destinationValue == null)
-                source.AppendFrontFormat("{0}.Add({1});\n", array, sourceValue);
-            else
+            if(destinationValue != null)
                 source.AppendFrontFormat("{0}.Insert({1}, {2});\n", array, destinationValue, sourceValue);
+            else
+                source.AppendFrontFormat("{0}.Add({1});\n", array, sourceValue);
             if(seqAdd.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqAdd.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
         }
 
         public void EmitSequenceComputationContainerAddDeque(SequenceComputationContainerAdd seqAdd, String container, SourceBuilder source)
         {
-            string element = "elem_" + seqAdd.Id;
-            string attrType = "attrType_" + seqAdd.Id;
             string deque = container;
             string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.ContainerType(env)), model);
             string sourceValue = "srcval_" + seqAdd.Id;
             source.AppendFrontFormat("{0} {1} = ({0}){2};\n",
                 dequeValueType, sourceValue, exprGen.GetSequenceExpression(seqAdd.Expr, source));
-            string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
-            string destinationExpr = seqAdd.ExprDst == null ? null : exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
-            if(destinationValue != null)
+            string destinationValue = null;
+            string destinationExpr = null;
+            if(seqAdd.ExprDst != null)
+            {
+                destinationValue = "dstval_" + seqAdd.Id;
+                destinationExpr = exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
                 source.AppendFrontFormat("int {0} = (int){1};\n", destinationValue, destinationExpr);
+            }
             if(seqAdd.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqAdd.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqAdd.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqAdd.Attribute, source);
 
                 if(destinationValue != null)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, sourceValue, destinationValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, sourceValue, destinationValue);
-                }
+                    EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, destinationValue, source);
                 else
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                        element, attrType, sourceValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                        element, attrType, sourceValue);
-                }
+                    EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
             }
-            if(destinationValue == null)
-                source.AppendFrontFormat("{0}.Enqueue({1});\n", deque, sourceValue);
-            else
+            if(destinationValue != null)
                 source.AppendFrontFormat("{0}.EnqueueAt({1}, {2});\n", deque, destinationValue, sourceValue);
+            else
+                source.AppendFrontFormat("{0}.Enqueue({1});\n", deque, sourceValue);
             if(seqAdd.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqAdd.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
         }
 
         public void EmitSequenceComputationContainerAddSetMap(SequenceComputationContainerAdd seqAdd, String container, SourceBuilder source)
         {
-            string element = "elem_" + seqAdd.Id;
-            string attrType = "attrType_" + seqAdd.Id;
             string dictionary = container;
             string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.ContainerType(env)), model);
             string sourceValue = " srcval_" + seqAdd.Id;
             source.AppendFrontFormat("{0} {1} = ({0}){2};\n",
                 dictSrcType, sourceValue, exprGen.GetSequenceExpression(seqAdd.Expr, source));
             string dictDstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqAdd.ContainerType(env)), model);
-            string destinationValue = seqAdd.ExprDst == null ? null : "dstval_" + seqAdd.Id;
-            string destinationExpr = seqAdd.ExprDst == null ? null : exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
-            if(destinationValue != null)
+            string destinationValue = null;
+            string destinationExpr = null;
+            if(seqAdd.ExprDst != null)
+            {
+                destinationValue = "dstval_" + seqAdd.Id;
+                destinationExpr = exprGen.GetSequenceExpression(seqAdd.ExprDst, source);
                 source.AppendFrontFormat("{0} {1} = ({0}){2};\n", dictDstType, destinationValue, destinationExpr);
+            }
             if(seqAdd.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqAdd.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqAdd.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqAdd.Attribute, source);
 
                 if(destinationValue != null) // must be map
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, destinationValue, sourceValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, {3});\n",
-                        element, attrType, destinationValue, sourceValue);
-                }
+                    EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, destinationValue, sourceValue, source);
                 else
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                        element, attrType, sourceValue, destinationValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.PutElement, {2}, null);\n",
-                        element, attrType, sourceValue, destinationValue);
-                }
+                    EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
             }
-            if(destinationValue == null)
-                source.AppendFrontFormat("{0}[{1}] = null;\n", dictionary, sourceValue);
-            else
+            if(destinationValue != null)
                 source.AppendFrontFormat("{0}[{1}] = {2};\n", dictionary, sourceValue, destinationValue);
+            else
+                source.AppendFrontFormat("{0}[{1}] = null;\n", dictionary, sourceValue);
             if(seqAdd.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqAdd.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
         }
 
@@ -1060,20 +891,17 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationContainerRemUnknownType(SequenceComputationContainerRem seqDel, String container, SourceBuilder source)
         {
-            String element = "elem_" + seqDel.Id;
-            String attrType = "attrType_" + seqDel.Id;
             if(seqDel.Attribute != null)
-            {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqDel.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqDel.Attribute.AttributeName);
-            }
+                EmitAttributeEventInitialization(seqDel.Attribute, source);
             string containerVar = "tmp_eval_once_" + seqDel.Id;
             source.AppendFrontFormat("object {0} = {1};\n", containerVar, container);
-            string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
-            string sourceExpr = seqDel.Expr == null ? null : exprGen.GetSequenceExpression(seqDel.Expr, source);
+            string sourceValue = null;
+            string sourceExpr = null;
+            if(seqDel.Expr != null)
+            {
+                sourceValue = "srcval_" + seqDel.Id;
+                sourceExpr = exprGen.GetSequenceExpression(seqDel.Expr, source);
+            }
 
             source.AppendFrontFormat("if({0} is IList)\n", containerVar);
             source.AppendFront("{\n");
@@ -1089,40 +917,16 @@ namespace de.unika.ipd.grGen.lgsp
                 if(seqDel.Attribute != null)
                 {
                     if(sourceValue != null)
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                            element, attrType, sourceValue);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                            element, attrType, sourceValue);
-                    }
+                        EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", sourceValue, source);
                     else
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n",
-                            element, attrType);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n",
-                            element, attrType);
-                    }
+                        EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", "null", source);
                 }
                 if(sourceValue == null)
                     source.AppendFrontFormat("{0}.RemoveAt({0}.Count - 1);\n", array);
                 else
                     source.AppendFrontFormat("{0}.RemoveAt({1});\n", array, sourceValue);
                 if(seqDel.Attribute != null)
-                {
-                    if(fireDebugEvents)
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                            element, attrType);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                            element, attrType);
-                    }
-                }
+                    EmitAttributeChangedEvent(seqDel.Attribute, source);
             }
 
             source.Unindent();
@@ -1141,40 +945,16 @@ namespace de.unika.ipd.grGen.lgsp
                 if(seqDel.Attribute != null)
                 {
                     if(sourceValue != null)
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                            element, attrType, sourceValue);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                            element, attrType, sourceValue);
-                    }
+                        EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", sourceValue, source);
                     else
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n",
-                            element, attrType);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n",
-                            element, attrType);
-                    }
+                        EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", "null", source);
                 }
                 if(sourceValue == null)
                     source.AppendFrontFormat("{0}.Dequeue();\n", deque);
                 else
                     source.AppendFrontFormat("{0}.DequeueAt({1});\n", deque, sourceValue);
                 if(seqDel.Attribute != null)
-                {
-                    if(fireDebugEvents)
-                    {
-                        source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                        source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                            element, attrType);
-                        source.AppendFront("else\n");
-                        source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                            element, attrType);
-                    }
-                }
+                    EmitAttributeChangedEvent(seqDel.Attribute, source);
             }
 
             source.Unindent();
@@ -1188,17 +968,13 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("object {0} = {1};\n", sourceValue, sourceExpr);
             if(seqDel.Attribute != null)
             {
+                string attrType = "attrType_" + seqDel.Attribute.Id;
                 source.AppendFrontFormat("if(GRGEN_LIBGR.TypesHelper.ExtractDst(GRGEN_LIBGR.TypesHelper.AttributeTypeToXgrsType({0})) == \"SetValueType\")\n",
                     attrType);
                 source.AppendFront("{\n");
                 source.Indent();
 
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, {2}, null);\n",
-                    element, attrType, sourceValue);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, {2}, null);\n",
-                    element, attrType, sourceValue);
+                EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, sourceValue, "null", source);
 
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -1206,12 +982,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("{\n");
                 source.Indent();
 
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, sourceValue);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, sourceValue);
+                EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", sourceValue, source);
 
                 source.Unindent();
                 source.AppendFront("}\n");
@@ -1221,17 +992,7 @@ namespace de.unika.ipd.grGen.lgsp
             else
                 source.AppendFrontFormat("{0}.Remove({1});\n", dictionary, sourceValue);
             if(seqDel.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqDel.Attribute, source);
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1240,118 +1001,64 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationContainerRemArray(SequenceComputationContainerRem seqDel, String container, SourceBuilder source)
         {
-            String element = "elem_" + seqDel.Id;
-            String attrType = "attrType_" + seqDel.Id;
             string array = container;
-            string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
-            string sourceExpr = seqDel.Expr == null ? null : exprGen.GetSequenceExpression(seqDel.Expr, source);
-            if(sourceValue != null)
+            string sourceValue = null;
+            string sourceExpr = null;
+            if(seqDel.Expr != null)
+            {
+                sourceValue = "srcval_" + seqDel.Id;
+                sourceExpr = exprGen.GetSequenceExpression(seqDel.Expr, source);
                 source.AppendFrontFormat("int {0} = (int){1};\n", sourceValue, sourceExpr);
+            }
             if(seqDel.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqDel.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqDel.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqDel.Attribute, source);
 
                 if(sourceValue != null)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                        element, attrType, sourceValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                        element, attrType, sourceValue);
-                }
+                    EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", sourceValue, source);
                 else
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n",
-                        element, attrType);
-                }
+                    EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", "null", source);
             }
             if(sourceValue == null)
                 source.AppendFrontFormat("{0}.RemoveAt({0}.Count - 1);\n", array);
             else
                 source.AppendFrontFormat("{0}.RemoveAt({1});\n", array, sourceValue);
             if(seqDel.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqDel.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
         }
 
         public void EmitSequenceComputationContainerRemDeque(SequenceComputationContainerRem seqDel, string container, SourceBuilder source)
         {
-            String element = "elem_" + seqDel.Id;
-            String attrType = "attrType_" + seqDel.Id;
             string deque = container;
-            string sourceValue = seqDel.Expr == null ? null : "srcval_" + seqDel.Id;
-            string sourceExpr = seqDel.Expr == null ? null : exprGen.GetSequenceExpression(seqDel.Expr, source);
-            if(sourceValue != null)
+            string sourceValue = null;
+            string sourceExpr = null;
+            if(seqDel.Expr != null)
+            {
+                sourceValue = "srcval_" + seqDel.Id;
+                sourceExpr = exprGen.GetSequenceExpression(seqDel.Expr, source);
                 source.AppendFrontFormat("int {0} = (int){1};\n", sourceValue, sourceExpr);
+            }
             if(seqDel.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqDel.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqDel.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqDel.Attribute, source);
 
                 if(sourceValue != null)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                        element, attrType, sourceValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                        element, attrType, sourceValue);
-                }
+                    EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", sourceValue, source);
                 else
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, null);\n",
-                        element, attrType);
-                }
+                    EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", "null", source);
             }
             if(sourceValue == null)
                 source.AppendFrontFormat("{0}.Dequeue();\n", deque);
             else
                 source.AppendFrontFormat("{0}.DequeueAt({1});\n", deque, sourceValue);
             if(seqDel.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqDel.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
         }
 
         public void EmitSequenceComputationContainerRemSetMap(SequenceComputationContainerRem seqDel, string container, SourceBuilder source)
         {
-            String element = "elem_" + seqDel.Id;
-            String attrType = "attrType_" + seqDel.Id;
             string dictionary = container;
             string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqDel.ContainerType(env)), model);
             string sourceValue = "srcval_" + seqDel.Id;
@@ -1359,44 +1066,16 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("{0} {1} = ({0}){2};\n", dictSrcType, sourceValue, sourceExpr);
             if(seqDel.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqDel.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqDel.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqDel.Attribute, source);
 
                 if(TypesHelper.ExtractDst(seqDel.ContainerType(env)) == "SetValueType")
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, {2}, null);\n",
-                        element, attrType, sourceValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, {2}, null);\n",
-                        element, attrType, sourceValue);
-                }
+                    EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, sourceValue, "null", source);
                 else
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                        element, attrType, sourceValue);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                        element, attrType, sourceValue);
-                }
+                    EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", sourceValue, source);
             }
             source.AppendFrontFormat("{0}.Remove({1});\n", dictionary, sourceValue);
             if(seqDel.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqDel.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
         }
 
@@ -1416,16 +1095,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationContainerClearUnknownType(SequenceComputationContainerClear seqClear, String container, SourceBuilder source)
         {
-            String element = "elem_" + seqClear.Id;
-            String attrType = "attrType_" + seqClear.Id;
             if(seqClear.Attribute != null)
-            {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqClear.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqClear.Attribute.AttributeName);
-            }
+                EmitAttributeEventInitialization(seqClear.Attribute, source);
             string containerVar = "tmp_eval_once_" + seqClear.Id;
             source.AppendFrontFormat("object {0} = {1};\n", containerVar, container);
 
@@ -1440,28 +1111,13 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("for(int {0} = {1}.Count; {0} >= 0; --{0})\n", index, array);
                 source.Indent();
 
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, index);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, index);
+                EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", index, source);
 
                 source.Unindent();
             }
             source.AppendFrontFormat("{0}.Clear();\n", array);
             if(seqClear.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqClear.Attribute, source);
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1476,28 +1132,13 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("for(int {0} = {1}.Count; {0} >= 0; --{0})\n", index, deque);
                 source.Indent();
 
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, index);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, index);
+                EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", index, source);
 
                 source.Unindent();
             }
             source.AppendFrontFormat("{0}.Clear();\n", deque);
             if(seqClear.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqClear.Attribute, source);
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1508,6 +1149,7 @@ namespace de.unika.ipd.grGen.lgsp
             string dictionary = "((System.Collections.IDictionary)" + containerVar + ")";
             if(seqClear.Attribute != null)
             {
+                string attrType = "attrType_" + seqClear.Attribute.Id;
                 source.AppendFrontFormat("if(GRGEN_LIBGR.TypesHelper.ExtractDst(GRGEN_LIBGR.TypesHelper.AttributeTypeToXgrsType({0})) == \"SetValueType\")\n",
                     attrType);
                 source.AppendFront("{\n");
@@ -1516,12 +1158,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("foreach(DictionaryEntry {0} in {1})\n", kvp, dictionary);
                 source.Indent();
 
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, {2}, null);\n",
-                    element, attrType, kvp);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, {2}, null);\n",
-                    element, attrType, kvp);
+                EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, kvp, "null", source);
 
                 source.Unindent();
                 source.Unindent();
@@ -1532,12 +1169,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFrontFormat("foreach(DictionaryEntry {0} in {1})\n", kvp, dictionary);
                 source.Indent();
 
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, kvp);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, kvp);
+                EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", kvp, source);
 
                 source.Unindent();
                 source.Unindent();
@@ -1545,17 +1177,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             source.AppendFrontFormat("{0}.Clear();\n", dictionary);
             if(seqClear.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqClear.Attribute, source);
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1564,100 +1186,52 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationContainerClearArray(SequenceComputationContainerClear seqClear, String container, SourceBuilder source)
         {
-            String element = "elem_" + seqClear.Id;
-            String attrType = "attrType_" + seqClear.Id;
             string array = container;
             if(seqClear.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqClear.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqClear.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqClear.Attribute, source);
 
                 String index = "i_" + seqClear.Id;
                 source.AppendFrontFormat("for(int {0} = {1}.Count; {0} >= 0; --{0})\n", index, array);
                 source.Indent();
 
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, index);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, index);
+                EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", index, source);
 
                 source.Unindent();
             }
             source.AppendFrontFormat("{0}.Clear();\n", array);
             if(seqClear.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqClear.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
         }
 
         public void EmitSequenceComputationContainerClearDeque(SequenceComputationContainerClear seqClear, String container, SourceBuilder source)
         {
-            String element = "elem_" + seqClear.Id;
-            String attrType = "attrType_" + seqClear.Id;
             string deque = container;
             if(seqClear.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqClear.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqClear.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqClear.Attribute, source);
 
                 String index = "i_" + seqClear.Id;
                 source.AppendFrontFormat("for(int {0} = {1}.Count; {0} >= 0; --{0})\n", index, deque);
                 source.Indent();
 
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, index);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                    element, attrType, index);
+                EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", index, source);
 
                 source.Unindent();
             }
             source.AppendFrontFormat("{0}.Clear();\n", deque);
             if(seqClear.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqClear.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
         }
 
         public void EmitSequenceComputationContainerClearSetMap(SequenceComputationContainerClear seqClear, String container, SourceBuilder source)
         {
-            String element = "elem_" + seqClear.Id;
-            String attrType = "attrType_" + seqClear.Id;
             string dictionary = container;
             if(seqClear.Attribute != null)
             {
-                String attrSourceExpr = exprGen.GetSequenceExpression(seqClear.Attribute.Source, source);
-                source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                    element, attrSourceExpr);
-                source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                    attrType, element, seqClear.Attribute.AttributeName);
+                EmitAttributeEventInitialization(seqClear.Attribute, source);
 
                 if(TypesHelper.ExtractDst(seqClear.ContainerType(env)) == "SetValueType")
                 {
@@ -1665,12 +1239,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFrontFormat("foreach(DictionaryEntry {0} in {1})\n", kvp, dictionary);
                     source.Indent();
 
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, {2}, null);\n",
-                        element, attrType, kvp);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, {2}, null);\n",
-                        element, attrType, kvp);
+                    EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, kvp, "null", source);
 
                     source.Unindent();
                 }
@@ -1680,29 +1249,14 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFrontFormat("foreach(DictionaryEntry {0} in {1})\n", kvp, dictionary);
                     source.Indent();
 
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                        element, attrType, kvp);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.RemoveElement, null, {2});\n",
-                        element, attrType, kvp);
+                    EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", kvp, source);
 
                     source.Unindent();
                 }
             }
             source.AppendFrontFormat("{0}.Clear();\n", dictionary);
             if(seqClear.Attribute != null)
-            {
-                if(fireDebugEvents)
-                {
-                    source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                    source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                        element, attrType);
-                    source.AppendFront("else\n");
-                    source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                        element, attrType);
-                }
-            }
+                EmitAttributeChangedEvent(seqClear.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
         }
 
@@ -1715,6 +1269,29 @@ namespace de.unika.ipd.grGen.lgsp
                 String attributeSourceExpr = exprGen.GetSequenceExpression(container.Attribute.Source, source);
                 return "((GRGEN_LIBGR.IGraphElement)" + attributeSourceExpr + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
             }
+        }
+
+        private void EmitAttributeEventInitialization(SequenceExpressionAttributeAccess attrAccess, SourceBuilder source)
+        {
+            string element = "elem_" + attrAccess.Id;
+            string attrType = "attrType_" + attrAccess.Id;
+
+            String attrSourceExpr = exprGen.GetSequenceExpression(attrAccess.Source, source);
+            source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
+                element, attrSourceExpr);
+            source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
+                attrType, element, attrAccess.AttributeName);
+        }
+
+        private void EmitAttributeChangingEvent(SequenceExpressionAttributeAccess attrAccess, AttributeChangeType attrChangeType,
+            String newValue, String keyValue, SourceBuilder source)
+        {
+            EmitAttributeChangingEvent(attrAccess.Id, attrChangeType, newValue, keyValue, source);
+        }
+
+        private void EmitAttributeChangedEvent(SequenceExpressionAttributeAccess attrAccess, SourceBuilder source)
+        {
+            EmitAttributeChangedEvent(attrAccess.Id, source);
         }
 
         #endregion Container procedures
@@ -1903,60 +1480,48 @@ namespace de.unika.ipd.grGen.lgsp
 
         void EmitAssignmentAttribute(AssignmentTargetAttribute tgtAttr, string sourceValueComputation, SourceBuilder source)
         {
-            String element = "elem_" + tgtAttr.Id;
-            String attrType = "attrType_" + tgtAttr.Id;
-            String value = "value_" + tgtAttr.Id;
-            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+            string element = "elem_" + tgtAttr.Id;
+            string attrType = "attrType_" + tgtAttr.Id;
+            string value = "value_" + tgtAttr.Id;
+            EmitAttributeEventInitialization(tgtAttr, element, attrType, value, sourceValueComputation, source);
+
+            EmitAttributeChangingEvent(tgtAttr.Id, AttributeChangeType.Assign, value, "null", source);
+
+            source.AppendFrontFormat("{0}.SetAttribute(\"{1}\", {2});\n", element, tgtAttr.AttributeName, value);
+
+            EmitAttributeChangedEvent(tgtAttr.Id, source);
+
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
+        }
+
+        private void EmitAttributeEventInitialization(AssignmentTargetAttribute tgtAttr, String element, String attrType, 
+            String value, string sourceValueComputation, SourceBuilder source)
+        {
             source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
                 element, seqHelper.GetVar(tgtAttr.DestVar));
             source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0};\n", attrType);
+            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
             source.AppendFrontFormat("{0} = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer({1}, \"{2}\", {0}, out {3});\n",
                 value, element, tgtAttr.AttributeName, attrType);
-
-            source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-            source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.Assign, {2}, null);\n",
-                element, attrType, value);
-            source.AppendFront("else\n");
-            source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.Assign, {2}, null);\n",
-                element, attrType, value);
-
-            source.AppendFrontFormat("{0}.SetAttribute(\"{1}\", {2});\n", element, tgtAttr.AttributeName, value);
-            if(fireDebugEvents)
-            {
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                    element, attrType);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                    element, attrType);
-            }
-            source.AppendFront(COMP_HELPER.SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
         }
 
         void EmitAssignmentAttributeIndexed(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, string sourceValueComputation, SourceBuilder source)
         {
-            String element = "elem_" + tgtAttrIndexedVar.Id;
-            String attrType = "attrType_" + tgtAttrIndexedVar.Id;
+            string element = "elem_" + tgtAttrIndexedVar.Id;
+            string attrType = "attrType_" + tgtAttrIndexedVar.Id;
             string value = "value_" + tgtAttrIndexedVar.Id;
-            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+            EmitAttributeEventInitialization(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
+
             source.AppendFront(COMP_HELPER.SetResultVar(tgtAttrIndexedVar, value));
-            source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
-                element, seqHelper.GetVar(tgtAttrIndexedVar.DestVar));
+
             string container = "container_" + tgtAttrIndexedVar.Id;
             source.AppendFrontFormat("object {0} = {1}.GetAttribute(\"{2}\");\n",
                 container, element, tgtAttrIndexedVar.AttributeName);
             string key = "key_" + tgtAttrIndexedVar.Id;
-            source.AppendFrontFormat("object {0} = {1};\n",
-                key, exprGen.GetSequenceExpression(tgtAttrIndexedVar.KeyExpression, source));
-            source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
-                attrType, element, tgtAttrIndexedVar.AttributeName);
+            string keyExpr = exprGen.GetSequenceExpression(tgtAttrIndexedVar.KeyExpression, source);
+            source.AppendFrontFormat("object {0} = {1};\n", key, keyExpr);
 
-            source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-            source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.AssignElement, {2}, {3});\n",
-                element, attrType, value, key);
-            source.AppendFront("else\n");
-            source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.AssignElement, {2}, {3});\n",
-                element, attrType, value, key);
+            EmitAttributeChangingEvent(tgtAttrIndexedVar.Id, AttributeChangeType.AssignElement, value, key, source);
 
             if(tgtAttrIndexedVar.DestVar.Type == "")
             {
@@ -2002,15 +1567,17 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            if(fireDebugEvents)
-            {
-                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
-                source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
-                    element, attrType);
-                source.AppendFront("else\n");
-                source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
-                    element, attrType);
-            }
+            EmitAttributeChangedEvent(tgtAttrIndexedVar.Id, source);
+        }
+
+        private void EmitAttributeEventInitialization(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
+            String value, String sourceValueComputation, SourceBuilder source)
+        {
+            source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
+                element, seqHelper.GetVar(tgtAttrIndexedVar.DestVar));
+            source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
+                attrType, element, tgtAttrIndexedVar.AttributeName);
+            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }
 
         void EmitAssignmentAttributeIndexedUnknownType(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, string sourceValueComputation,
@@ -2081,5 +1648,33 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         #endregion Assignment (Assignments by target type)
+
+        private void EmitAttributeChangingEvent(int id, AttributeChangeType attrChangeType,
+            String newValue, String keyValue, SourceBuilder source)
+        {
+            string element = "elem_" + id;
+            string attrType = "attrType_" + id;
+            source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
+            source.AppendFrontIndentedFormat("graph.ChangingNodeAttribute((GRGEN_LIBGR.INode){0}, {1}, GRGEN_LIBGR.AttributeChangeType.{2}, {3}, {4});\n",
+                element, attrType, attrChangeType.ToString(), newValue, keyValue);
+            source.AppendFront("else\n");
+            source.AppendFrontIndentedFormat("graph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1}, GRGEN_LIBGR.AttributeChangeType.{2}, {3}, {4});\n",
+                element, attrType, attrChangeType.ToString(), newValue, keyValue);
+        }
+
+        private void EmitAttributeChangedEvent(int id, SourceBuilder source)
+        {
+            string element = "elem_" + id;
+            string attrType = "attrType_" + id;
+            if(fireDebugEvents)
+            {
+                source.AppendFrontFormat("if({0} is GRGEN_LIBGR.INode)\n", element);
+                source.AppendFrontIndentedFormat("graph.ChangedNodeAttribute((GRGEN_LIBGR.INode){0}, {1});\n",
+                    element, attrType);
+                source.AppendFront("else\n");
+                source.AppendFrontIndentedFormat("graph.ChangedEdgeAttribute((GRGEN_LIBGR.IEdge){0}, {1});\n",
+                    element, attrType);
+            }
+        }
     }
 }
