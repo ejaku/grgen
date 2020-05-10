@@ -104,25 +104,17 @@ namespace de.unika.ipd.grGen.lgsp
             String parameters = "";
             for(int i = 0; i < ArgumentExpressions.Length; i++)
             {
-                if(ArgumentExpressions[i] != null)
-                {
-                    String typeName;
-                    if(actionsTypeInformation.rulesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
-                        typeName = actionsTypeInformation.rulesToInputTypes[invocation.PackagePrefixedName][i];
-                    else if(actionsTypeInformation.sequencesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
-                        typeName = actionsTypeInformation.sequencesToInputTypes[invocation.PackagePrefixedName][i];
-                    else if(actionsTypeInformation.proceduresToInputTypes.ContainsKey(invocation.PackagePrefixedName))
-                        typeName = actionsTypeInformation.proceduresToInputTypes[invocation.PackagePrefixedName][i];
-                    else
-                        typeName = actionsTypeInformation.functionsToInputTypes[invocation.PackagePrefixedName][i];
-                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], source);
-                }
+                String typeName;
+                if(actionsTypeInformation.rulesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
+                    typeName = actionsTypeInformation.rulesToInputTypes[invocation.PackagePrefixedName][i];
+                else if(actionsTypeInformation.sequencesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
+                    typeName = actionsTypeInformation.sequencesToInputTypes[invocation.PackagePrefixedName][i];
+                else if(actionsTypeInformation.proceduresToInputTypes.ContainsKey(invocation.PackagePrefixedName))
+                    typeName = actionsTypeInformation.proceduresToInputTypes[invocation.PackagePrefixedName][i];
                 else
-                {
-                    // the sequence parser always emits all argument expressions, for interpreted and compiled
-                    throw new Exception("Internal error: missing argument expressions");
-                }
+                    typeName = actionsTypeInformation.functionsToInputTypes[invocation.PackagePrefixedName][i];
+                String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
+                parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], source);
             }
             return parameters;
         }
@@ -152,17 +144,9 @@ namespace de.unika.ipd.grGen.lgsp
             String parameters = "";
             for(int i = 0; i < ArgumentExpressions.Length; i++)
             {
-                if(ArgumentExpressions[i] != null)
-                {
-                    String typeName = TypesHelper.DotNetTypeToXgrsType(procedureMethod.Inputs[i]);
-                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
-                    parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], source);
-                }
-                else
-                {
-                    // the sequence parser always emits all argument expressions, for interpreted and compiled
-                    throw new Exception("Internal error: missing argument expressions");
-                }
+                String typeName = TypesHelper.DotNetTypeToXgrsType(procedureMethod.Inputs[i]);
+                String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
+                parameters += ", " + cast + exprGen.GetSequenceExpression(ArgumentExpressions[i], source);
             }
             return parameters;
         }
@@ -193,23 +177,15 @@ namespace de.unika.ipd.grGen.lgsp
             declarations = "";
             for(int i = 0; i < ArgumentExpressions.Length; i++)
             {
-                if(ArgumentExpressions[i] != null)
-                {
-                    String typeName;
-                    if(actionsTypeInformation.rulesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
-                        typeName = actionsTypeInformation.rulesToInputTypes[invocation.PackagePrefixedName][i];
-                    else 
-                        typeName = actionsTypeInformation.sequencesToInputTypes[invocation.PackagePrefixedName][i];
-                    String type = TypesHelper.XgrsTypeToCSharpType(typeName, model);
-                    String name = "tmpvar_" + GetUniqueId();
-                    declarations += type + " " + name + " = " + "(" + type + ")" + exprGen.GetSequenceExpression(ArgumentExpressions[i], source) + ";";
-                    parameters += ", " + name;
-                }
-                else
-                {
-                    // the sequence parser always emits all argument expressions, for interpreted and compiled
-                    throw new Exception("Internal error: missing argument expressions");
-                }
+                String typeName;
+                if(actionsTypeInformation.rulesToInputTypes.ContainsKey(invocation.PackagePrefixedName))
+                    typeName = actionsTypeInformation.rulesToInputTypes[invocation.PackagePrefixedName][i];
+                else 
+                    typeName = actionsTypeInformation.sequencesToInputTypes[invocation.PackagePrefixedName][i];
+                String type = TypesHelper.XgrsTypeToCSharpType(typeName, model);
+                String name = "tmpvar_" + GetUniqueId();
+                declarations += type + " " + name + " = " + "(" + type + ")" + exprGen.GetSequenceExpression(ArgumentExpressions[i], source) + ";";
+                parameters += ", " + name;
             }
             return parameters;
         }
