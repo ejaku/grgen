@@ -179,12 +179,15 @@ public abstract class ActionDeclNode extends DeclNode
 		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
 		boolean isLhsEdgeReuseOk = true;
 
-		//get the negative graphs and the pattern of this TestDeclNode
+		//get the negative and independent graphs and the pattern of this TestDeclNode
 		// NOTE: the order affect the error coords
 		Collection<PatternGraphNode> leftHandGraphs = new LinkedList<PatternGraphNode>();
 		leftHandGraphs.add(pattern);
 		for(PatternGraphNode neg : pattern.negs.getChildren()) {
 			leftHandGraphs.add(neg);
+		}
+		for(PatternGraphNode idpt : pattern.idpts.getChildren()) {
+			leftHandGraphs.add(idpt);
 		}
 
 		GraphNode[] graphs = leftHandGraphs.toArray(new GraphNode[0]);
