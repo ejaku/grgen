@@ -197,16 +197,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return rule;
 	}
 
-	/**
-	 * add NACs for induced- or DPO-semantic
-	 */
-	private void constructImplicitNegs(PatternGraph left) {
-		PatternGraphNode leftNode = pattern;
-		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
-			left.addNegGraph(neg);
-		}
-	}
-
 	@Override
 	public SubpatternTypeNode getDeclType() {
 		assert isResolved();

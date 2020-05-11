@@ -297,28 +297,34 @@ public class GraphNode extends BaseNode {
 	protected boolean checkLocal() {
 		boolean connCheck = connectionsChecker.check(connections, error);
 
-		boolean edgeUsage = true;
+		boolean isRhsEdgeUseOk = true;
 
 		if(connCheck) {
 			//check, that each named edge is only used once in a pattern
-			HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
-			for (BaseNode n : connections.getChildren()) {
-				ConnectionCharacter cc = (ConnectionCharacter)n;
-				EdgeCharacter ec = cc.getEdge();
-
-				// add() returns false iff edges already contains ec
-				if (ec != null
-						&& !(cc instanceof ConnectionNode
-								&& cc.getSrc() instanceof DummyNodeDeclNode
-								&& cc.getTgt() instanceof DummyNodeDeclNode)
-						&& !edges.add(ec)) {
-					((EdgeDeclNode) ec).reportError("This (named) edge is used more than once in a graph of this action");
-					edgeUsage = false;
-				}
-			}
+			isRhsEdgeUseOk = isRhsEdgeReuseOk();
 		}
 
-		return edgeUsage && connCheck && noExecStatementInEvalHere();
+		return isRhsEdgeUseOk && connCheck && noExecStatementInEvalHere();
+	}
+
+	private boolean isRhsEdgeReuseOk() {
+		boolean edgeUsage = true;
+		HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
+		for (BaseNode n : connections.getChildren()) {
+			ConnectionCharacter cc = (ConnectionCharacter)n;
+			EdgeCharacter ec = cc.getEdge();
+
+			// add() returns false iff edges already contains ec
+			if (ec != null
+					&& !(cc instanceof ConnectionNode
+							&& cc.getSrc() instanceof DummyNodeDeclNode
+							&& cc.getTgt() instanceof DummyNodeDeclNode)
+					&& !edges.add(ec)) {
+				((EdgeDeclNode) ec).reportError("Edge " + ec + " is used more than once in a graph of this action");
+				edgeUsage = false;
+			}
+		}
+		return edgeUsage;
 	}
 
 	protected boolean iteratedNotReferenced(String iterName) {

@@ -33,7 +33,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	private AlternativeCaseTypeNode type;
 
 	/** Type for this declaration. */
-	private static final TypeNode subpatternType = new AlternativeCaseTypeNode();
+	private static final TypeNode alternativeCaseType = new AlternativeCaseTypeNode();
 
 	/**
 	 * Make a new alternative case rule.
@@ -42,7 +42,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	 * @param right The right hand side.
 	 */
 	public AlternativeCaseNode(IdentNode id, PatternGraphNode left, RhsDeclNode right) {
-		super(id, subpatternType, left);
+		super(id, alternativeCaseType, left);
 		this.right = right;
 		becomeParent(this.right);
 	}
@@ -71,7 +71,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		return childrenNames;
 	}
 
-	protected static final DeclarationTypeResolver<AlternativeCaseTypeNode> typeResolver =
+	private static final DeclarationTypeResolver<AlternativeCaseTypeNode> typeResolver =
 		new DeclarationTypeResolver<AlternativeCaseTypeNode>(AlternativeCaseTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -163,16 +163,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		}
 
 		return altCaseRule;
-	}
-
-	/**
-	 * add NACs for induced- or DPO-semantic
-	 */
-	private void constructImplicitNegs(PatternGraph left) {
-		PatternGraphNode leftNode = pattern;
-		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
-			left.addNegGraph(neg);
-		}
 	}
 
 	@Override

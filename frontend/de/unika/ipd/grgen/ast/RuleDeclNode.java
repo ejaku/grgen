@@ -37,7 +37,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	protected RhsDeclNode right;
-	protected RuleTypeNode type;
+	private RuleTypeNode type;
 
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new RuleTypeNode();
@@ -111,8 +111,8 @@ public class RuleDeclNode extends TestDeclNode {
 		return type != null && returnFormalParameters != null && implementedMatchTypes != null && filtersOk;
 	}
 
-	protected Set<DeclNode> getDelete() {
-		return right.getDelete(pattern);
+	protected Set<DeclNode> getDeleted() {
+		return right.getDeleted(pattern);
 	}
 
 	/**
@@ -125,38 +125,47 @@ public class RuleDeclNode extends TestDeclNode {
 		assert isResolved();
 
 		boolean valid = true;
-		Set<DeclNode> delete = right.getDelete(pattern);
+		Set<DeclNode> deleted = right.getDeleted(pattern);
 		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 
 		for(ExprNode expr : right.graph.returns.getChildren()) {
-			if(!(expr instanceof DeclExprNode))
-				continue;
+			valid &= checkReturnedElemNotDeleted(expr, deleted, maybeDeleted);
+		}
+		
+		return valid;
+	}
 
-			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
-			if(retElem == null)
-				continue;
+	private boolean checkReturnedElemNotDeleted(ExprNode expr,
+			Set<DeclNode> deleted, Collection<DeclNode> maybeDeleted) {
+		boolean valid = true;
+		
+		if(!(expr instanceof DeclExprNode))
+			return valid;
 
-			if(delete.contains(retElem)) {
+		ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
+		if(retElem == null)
+			return valid;
+
+		if(deleted.contains(retElem)) {
+			valid = false;
+
+			expr.reportError("The deleted " + retElem.getUseString()
+					+ " \"" + retElem.ident + "\" must not be returned");
+		} else if(maybeDeleted.contains(retElem)) {
+			retElem.maybeDeleted = true;
+
+			if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
 				valid = false;
 
-				expr.reportError("The deleted " + retElem.getUseString()
-						+ " \"" + retElem.ident + "\" must not be returned");
-			} else if(maybeDeleted.contains(retElem)) {
-				retElem.maybeDeleted = true;
+				String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
+						+ ", possibly it's homomorphic with a deleted " + retElem.getUseString();
+				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
-				if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-					valid = false;
-
-					String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
-							+ ", possibly it's homomorphic with a deleted " + retElem.getUseString();
-					errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
-
-					if(retElem instanceof EdgeDeclNode) {
-						errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
-								+ " and a deleted node exists";
-					}
-					expr.reportError(errorMessage);
+				if(retElem instanceof EdgeDeclNode) {
+					errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
+							+ " and a deleted node exists";
 				}
+				expr.reportError(errorMessage);
 			}
 		}
 		
@@ -202,39 +211,43 @@ public class RuleDeclNode extends TestDeclNode {
 		boolean valid = true;
 
 		for(Set<ConstraintDeclNode> homSet : pattern.getHoms()) {
-			boolean multipleRetypes = false;
-			InheritanceTypeNode type = null;
+			valid &= checkElemsInHomSetNotRetypedToDifferentTypes(homSet);
+		}
 
+		return valid;
+	}
+
+	private boolean checkElemsInHomSetNotRetypedToDifferentTypes(Set<ConstraintDeclNode> homSet) {
+		boolean multipleRetypes = false;
+
+		InheritanceTypeNode type = null;
+		for(ConstraintDeclNode elem : homSet) {
+			ConstraintDeclNode retypedElem = elem.getRetypedElement();
+
+			if(retypedElem != null) {
+				InheritanceTypeNode currentType = retypedElem.getDeclType();
+
+				if(type != null && currentType != type) {
+					multipleRetypes = true;
+					break;
+				}
+
+				type = currentType;
+			}
+		}
+
+		if(multipleRetypes) {
 			for(ConstraintDeclNode elem : homSet) {
 				ConstraintDeclNode retypedElem = elem.getRetypedElement();
 
 				if(retypedElem != null) {
-					InheritanceTypeNode currentType = retypedElem.getDeclType();
-
-					if(type != null && currentType != type) {
-						multipleRetypes = true;
-						break;
-					}
-
-					type = currentType;
-				}
-			}
-
-			if(multipleRetypes) {
-				valid = false;
-
-				for(ConstraintDeclNode elem : homSet) {
-					ConstraintDeclNode retypedElem = elem.getRetypedElement();
-
-					if(retypedElem != null) {
-						retypedElem.reportError("The " + elem.getUseString() + " "
-								+ elem + " must not retyped to different types");
-					}
+					retypedElem.reportError("The " + elem.getUseString() + " "
+							+ elem + " must not retyped to different types");
 				}
 			}
 		}
-
-		return valid;
+		
+		return !multipleRetypes;
 	}
 
 	/**
@@ -245,7 +258,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		boolean valid = true;
 
-		for(DeclNode decl : getDelete()) {
+		for(DeclNode decl : getDeleted()) {
 			if(!(decl instanceof ConstraintDeclNode))
 				continue;
 
@@ -289,7 +302,7 @@ public class RuleDeclNode extends TestDeclNode {
 		assert isResolved();
 
 		boolean valid = true;
-		Set<DeclNode> delete = right.getDelete(pattern);
+		Set<DeclNode> delete = right.getDeleted(pattern);
 		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 
 		for(BaseNode x : right.graph.imperativeStmts.getChildren()) {

@@ -213,7 +213,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 	}
 
 	@Override
-	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
+	protected Set<DeclNode> getDeleted(PatternGraphNode pattern) {
 		assert isResolved();
 
 		if(deletedElements != null) return deletedElements;
@@ -310,7 +310,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 	@Override
 	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
-		Set<DeclNode> deletes = getDelete(pattern);
+		Set<DeclNode> deletes = getDeleted(pattern);
 
 		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for (BaseNode x : graph.getConnections()) {
@@ -341,7 +341,7 @@ public class ModifyDeclNode extends RhsDeclNode {
     {
 	    Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 
-	    Collection<DeclNode> delete = getDelete(pattern);
+	    Collection<DeclNode> delete = getDeleted(pattern);
 
 	    for (BaseNode n : pattern.getConnections()) {
 	        if (n instanceof ConnectionNode) {

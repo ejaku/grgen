@@ -16,6 +16,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
+import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -107,19 +108,6 @@ import de.unika.ipd.grgen.parser.Coords;
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
-/*	public MemberDeclNode getDecl() {
-		assert isResolved();
-
-		return member;
-	}
-
-	protected DeclNode getOwner() {
-		assert isResolved();
-
-		return owner;
-	}*/
-
 	public DefinedMatchTypeNode getOwner() {
 		assert isResolved();
 		return owner;
@@ -132,14 +120,15 @@ import de.unika.ipd.grgen.parser.Coords;
 
 	@Override
 	protected IR constructIR() {
-		return null;
+		assert false;
+		return Bad.getBad();
 	}
 
 	public static String getKindStr() {
-		return "reference match class filter of match class";
+		return "match class . filter";
 	}
 
 	public static String getUseStr() {
-		return "reference match class filter of match class";
+		return "match class . filter";
 	}
 }

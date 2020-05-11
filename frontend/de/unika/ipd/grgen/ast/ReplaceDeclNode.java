@@ -71,7 +71,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	}
 
 	@Override
-	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
+	protected Set<DeclNode> getDeleted(PatternGraphNode pattern) {
 		if(deletedElements != null) return deletedElements;
 
 		LinkedHashSet<DeclNode> coll = new LinkedHashSet<DeclNode>();

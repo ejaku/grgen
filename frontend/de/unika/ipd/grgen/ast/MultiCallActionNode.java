@@ -142,6 +142,6 @@ public class MultiCallActionNode extends BaseNode {
 	@Override
 	protected IR constructIR() {
 		assert false;
-		return Bad.getBad(); // TODO fix this
+		return Bad.getBad();
 	}
 }

@@ -84,7 +84,7 @@ public class IteratedNode extends ActionDeclNode  {
 		return childrenNames;
 	}
 
-	protected static final DeclarationTypeResolver<IteratedTypeNode> typeResolver =
+	private static final DeclarationTypeResolver<IteratedTypeNode> typeResolver =
 		new DeclarationTypeResolver<IteratedTypeNode>(IteratedTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -190,16 +190,6 @@ public class IteratedNode extends ActionDeclNode  {
 		}
 
 		return iteratedRule;
-	}
-
-	/**
-	 * add NACs for induced- or DPO-semantic
-	 */
-	private void constructImplicitNegs(PatternGraph left) {
-		PatternGraphNode leftNode = pattern;
-		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
-			left.addNegGraph(neg);
-		}
 	}
 
 	@Override

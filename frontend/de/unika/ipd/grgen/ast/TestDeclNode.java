@@ -115,62 +115,22 @@ public class TestDeclNode extends ActionDeclNode {
 	/**
 	 * Check if actual return arguments are conformant to the formal return parameters.
 	 */
-	// TODO is this method called twice for RuleDeclNode?
 	protected boolean checkReturns(CollectNode<ExprNode> returnArgs) {
 		boolean res = true;
 
 		int declaredNumRets = returnFormalParameters.size();
 		int actualNumRets = returnArgs.size();
-retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
+		for(int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			ExprNode retExpr = returnArgs.get(i);
-			TypeNode retExprType = retExpr.getType();
-
 			TypeNode retDeclType = returnFormalParameters.get(i);
-			if(!retExprType.isCompatibleTo(retDeclType)) {
-				res = false;
-				String exprTypeName;
-				if(retExprType instanceof InheritanceTypeNode)
-					exprTypeName = ((InheritanceTypeNode) retExprType).getIdentNode().toString();
-				else
-					exprTypeName = retExprType.toString();
-				ident.reportError("Cannot convert " + (i + 1) + ". return parameter from \""
-						+ exprTypeName + "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
-				continue;
-			}
-
-			if(!(retExpr instanceof DeclExprNode)) continue;
-			ConstraintDeclNode retElem = ((DeclExprNode) retExpr).getConstraintDeclNode();
-			if(retElem == null) continue;
-
-			InheritanceTypeNode declaredRetType = retElem.getDeclType();
-
-			Set<? extends ConstraintDeclNode> homSet;
-			if(retElem instanceof NodeDeclNode)
-				homSet = pattern.getHomomorphic((NodeDeclNode) retElem);
-			else
-				homSet = pattern.getHomomorphic((EdgeDeclNode) retElem);
-
-			for(ConstraintDeclNode homElem : homSet) {
-				if(homElem == retElem) continue;
-
-				ConstraintDeclNode retypedElem = homElem.getRetypedElement();
-				if(retypedElem == null) continue;
-
-				InheritanceTypeNode retypedElemType = retypedElem.getDeclType();
-				if(retypedElemType.isA(declaredRetType)) continue;
-
-				res = false;
-				returnArgs.reportError("Return parameter \"" + retElem.getIdentNode() + "\" is homomorphic to \""
-						+ homElem.getIdentNode() + "\", which gets retyped to the incompatible type \""
-						+ retypedElemType.getIdentNode() + "\"");
-				continue retLoop;
-			 }
+			
+			res &= checkReturns(i, retExpr, retDeclType);
 		}
 
 		//check the number of returned elements
-		if (actualNumRets != declaredNumRets) {
+		if(actualNumRets != declaredNumRets) {
 			res = false;
-			if (declaredNumRets == 0) {
+			if(declaredNumRets == 0) {
 				returnArgs.reportError("No return values declared for rule \"" + ident + "\"");
 			} else if(actualNumRets == 0) {
 				reportError("Missing return statement for rule \"" + ident + "\"");
@@ -178,6 +138,60 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 				returnArgs.reportError("Return statement has wrong number of parameters");
 			}
 		}
+		
+		return res;
+	}
+
+	private boolean checkReturns(int i, ExprNode retExpr, TypeNode retDeclType) {
+		boolean res = true;
+
+		TypeNode retExprType = retExpr.getType();
+
+		if(!retExprType.isCompatibleTo(retDeclType)) {
+			res = false;
+			String exprTypeName;
+			if(retExprType instanceof InheritanceTypeNode)
+				exprTypeName = ((InheritanceTypeNode) retExprType).getIdentNode().toString();
+			else
+				exprTypeName = retExprType.toString();
+			ident.reportError("Cannot convert " + (i + 1) + ". return parameter from \""
+					+ exprTypeName + "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
+			return res;
+		}
+
+		if(!(retExpr instanceof DeclExprNode))
+			return res;
+		ConstraintDeclNode retElem = ((DeclExprNode) retExpr).getConstraintDeclNode();
+		if(retElem == null)
+			return res;
+
+		InheritanceTypeNode declaredRetType = retElem.getDeclType();
+
+		Set<? extends ConstraintDeclNode> homSet;
+		if(retElem instanceof NodeDeclNode)
+			homSet = pattern.getHomomorphic((NodeDeclNode) retElem);
+		else
+			homSet = pattern.getHomomorphic((EdgeDeclNode) retElem);
+
+		for(ConstraintDeclNode homElem : homSet) {
+			if(homElem == retElem)
+				continue;
+
+			ConstraintDeclNode retypedElem = homElem.getRetypedElement();
+			if(retypedElem == null)
+				continue;
+
+			InheritanceTypeNode retypedElemType = retypedElem.getDeclType();
+			if(retypedElemType.isA(declaredRetType))
+				continue;
+
+			res = false;
+			retExpr.reportError("Return parameter \"" + retElem.getIdentNode() + "\" is homomorphic to \""
+					+ homElem.getIdentNode() + "\", which gets retyped to the incompatible type \""
+					+ retypedElemType.getIdentNode() + "\"");
+			return res;
+		}
+		
 		return res;
 	}
 
@@ -218,60 +232,16 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		for(NodeDeclNode node : pattern.getNodes()) {
 			knownNodes.put(node.getIdentNode().toString(), node);
 		}
-
 		for(NodeDeclNode node : matchType.getNodes()) {
-			String nodeName = node.getIdentNode().toString();
-			if(!knownNodes.containsKey(nodeName)) {
-				getIdentNode().reportError("Action " + actionName + " does not implement the node " + nodeName + " expected from " + matchTypeName);
-				isOk = false;
-			} else {
-				NodeDeclNode nodeFromPattern = knownNodes.get(nodeName);
-				NodeTypeNode type = node.getDeclType();
-				NodeTypeNode typeOfNodeFromPattern = nodeFromPattern.getDeclType();
-				if(!type.isEqual(typeOfNodeFromPattern)) {
-					getIdentNode().reportError("The type of the node " + nodeName + " from the action " + actionName + " does not equal the type of the node from the match class " + matchTypeName 
-							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfNodeFromPattern) + " is declared.");
-					isOk = false;
-				}
-				if(nodeFromPattern.defEntityToBeYieldedTo && !node.defEntityToBeYieldedTo) {
-					getIdentNode().reportError("The node " + nodeName + " from the action " + actionName + " is a def to be yielded to node, while it is a node to be matched (or received as input to the pattern) in the match class " + matchTypeName);
-					isOk = false;
-				}
-				if(!nodeFromPattern.defEntityToBeYieldedTo && node.defEntityToBeYieldedTo) {
-					getIdentNode().reportError("The node " + nodeName + " from the action " + actionName + " is a node to be matched (or received as input to the pattern), while it is a def to be yielded to node in the match class " + matchTypeName);
-					isOk = false;
-				}
-			}
+			isOk = checkNodeImplemented(node, actionName, matchTypeName, knownNodes);
 		}
 
 		HashMap<String, EdgeDeclNode> knownEdges = new HashMap<String, EdgeDeclNode>();
 		for(EdgeDeclNode edge : pattern.getEdges()) {
 			knownEdges.put(edge.getIdentNode().toString(), edge);
 		}
-
 		for(EdgeDeclNode edge: matchType.getEdges()) {
-			String edgeName = edge.getIdentNode().toString();
-			if(!knownEdges.containsKey(edgeName)) {
-				getIdentNode().reportError("Action " + actionName + " does not implement the edge " + edgeName + " expected from " + matchTypeName);
-				isOk = false;
-			} else {
-				EdgeDeclNode edgeFromPattern = knownEdges.get(edgeName);
-				EdgeTypeNode type = edge.getDeclType();
-				EdgeTypeNode typeOfEdgeFromPattern = edgeFromPattern.getDeclType();
-				if(!type.isEqual(typeOfEdgeFromPattern)) {
-					getIdentNode().reportError("The type of the edge " + edgeName + " from the action " + actionName + " does not equal the type of the edge from the match class " + matchTypeName 
-							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfEdgeFromPattern) + " is declared.");
-					isOk = false;
-				}
-				if(edgeFromPattern.defEntityToBeYieldedTo && !edge.defEntityToBeYieldedTo) {
-					getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName + " is a def to be yielded to edge, while it is an edge to be matched (or received as input to the pattern) in the match class " + matchTypeName);
-					isOk = false;
-				}
-				if(!edgeFromPattern.defEntityToBeYieldedTo && edge.defEntityToBeYieldedTo) {
-					getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName + " is an edge to be matched (or received as input to the pattern), while it is a def to be yielded to edge in the match class " + matchTypeName);
-					isOk = false;
-				}
-			}
+			isOk = checkEdgeImplemented(edge, actionName, matchTypeName, knownEdges);
 		}
 
 		HashMap<String, VarDeclNode> knownVariables = new HashMap<String, VarDeclNode>();
@@ -284,32 +254,100 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			VarDeclNode var = (VarDeclNode)varCand;
 			knownVariables.put(var.getIdentNode().toString(), var);
 		}
-		
 		for(VarDeclNode var : matchType.getVariables()) {
-			String varName = var.getIdentNode().toString();
-			if(!knownVariables.containsKey(varName)) {
-				getIdentNode().reportError("Action " + actionName + " does not implement the variable " + varName + " expected from " + matchTypeName);
-				isOk = false;
-			} else {
-				VarDeclNode varFromPattern = knownVariables.get(varName);
-				TypeNode type = var.getDeclType();
-				TypeNode typeOfVarFromPattern = varFromPattern.getDeclType();
-				if(!type.isEqual(typeOfVarFromPattern)) {
-					getIdentNode().reportError("The type of the variable " + varName + " from the action " + actionName + " does not equal the type of the variable from the match class " + matchTypeName 
-							+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfVarFromPattern) + " is declared.");
-					isOk = false;
-				}
-				if(varFromPattern.defEntityToBeYieldedTo && !var.defEntityToBeYieldedTo) {
-					getIdentNode().reportError("The variable " + varName + " from the action " + actionName + " is a def to be yielded to var, while it is a var to be received as input to the pattern in the match class " + matchTypeName);
-					isOk = false;
-				}
-				if(!varFromPattern.defEntityToBeYieldedTo && var.defEntityToBeYieldedTo) {
-					getIdentNode().reportError("The variable " + varName + " from the action " + actionName + " is a variable to be received as input to the pattern, while it is a def to be yielded to var in the match class " + matchTypeName);
-					isOk = false;
-				}
-			}
+			isOk = checkVariableImplemented(var, actionName, matchTypeName, knownVariables);
 		}
 
+		return isOk;
+	}
+
+	private boolean checkNodeImplemented(NodeDeclNode node,
+			String actionName, String matchTypeName, HashMap<String, NodeDeclNode> knownNodes) {
+		boolean isOk = true;
+		
+		String nodeName = node.getIdentNode().toString();
+		if(!knownNodes.containsKey(nodeName)) {
+			getIdentNode().reportError("Action " + actionName + " does not implement the node " + nodeName + " expected from " + matchTypeName);
+			isOk = false;
+		} else {
+			NodeDeclNode nodeFromPattern = knownNodes.get(nodeName);
+			NodeTypeNode type = node.getDeclType();
+			NodeTypeNode typeOfNodeFromPattern = nodeFromPattern.getDeclType();
+			if(!type.isEqual(typeOfNodeFromPattern)) {
+				getIdentNode().reportError("The type of the node " + nodeName + " from the action " + actionName + " does not equal the type of the node from the match class " + matchTypeName 
+						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfNodeFromPattern) + " is declared.");
+				isOk = false;
+			}
+			if(nodeFromPattern.defEntityToBeYieldedTo && !node.defEntityToBeYieldedTo) {
+				getIdentNode().reportError("The node " + nodeName + " from the action " + actionName + " is a def to be yielded to node, while it is a node to be matched (or received as input to the pattern) in the match class " + matchTypeName);
+				isOk = false;
+			}
+			if(!nodeFromPattern.defEntityToBeYieldedTo && node.defEntityToBeYieldedTo) {
+				getIdentNode().reportError("The node " + nodeName + " from the action " + actionName + " is a node to be matched (or received as input to the pattern), while it is a def to be yielded to node in the match class " + matchTypeName);
+				isOk = false;
+			}
+		}
+		
+		return isOk;
+	}
+
+	private boolean checkEdgeImplemented(EdgeDeclNode edge,
+			String actionName, String matchTypeName, HashMap<String, EdgeDeclNode> knownEdges) {
+		boolean isOk = true;
+		
+		String edgeName = edge.getIdentNode().toString();
+		if(!knownEdges.containsKey(edgeName)) {
+			getIdentNode().reportError("Action " + actionName + " does not implement the edge " + edgeName + " expected from " + matchTypeName);
+			isOk = false;
+		} else {
+			EdgeDeclNode edgeFromPattern = knownEdges.get(edgeName);
+			EdgeTypeNode type = edge.getDeclType();
+			EdgeTypeNode typeOfEdgeFromPattern = edgeFromPattern.getDeclType();
+			if(!type.isEqual(typeOfEdgeFromPattern)) {
+				getIdentNode().reportError("The type of the edge " + edgeName + " from the action " + actionName + " does not equal the type of the edge from the match class " + matchTypeName 
+						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfEdgeFromPattern) + " is declared.");
+				isOk = false;
+			}
+			if(edgeFromPattern.defEntityToBeYieldedTo && !edge.defEntityToBeYieldedTo) {
+				getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName + " is a def to be yielded to edge, while it is an edge to be matched (or received as input to the pattern) in the match class " + matchTypeName);
+				isOk = false;
+			}
+			if(!edgeFromPattern.defEntityToBeYieldedTo && edge.defEntityToBeYieldedTo) {
+				getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName + " is an edge to be matched (or received as input to the pattern), while it is a def to be yielded to edge in the match class " + matchTypeName);
+				isOk = false;
+			}
+		}
+		
+		return isOk;
+	}
+
+	private boolean checkVariableImplemented(VarDeclNode var,
+			String actionName, String matchTypeName, HashMap<String, VarDeclNode> knownVariables) {
+		boolean isOk = true;
+		
+		String varName = var.getIdentNode().toString();
+		if(!knownVariables.containsKey(varName)) {
+			getIdentNode().reportError("Action " + actionName + " does not implement the variable " + varName + " expected from " + matchTypeName);
+			isOk = false;
+		} else {
+			VarDeclNode varFromPattern = knownVariables.get(varName);
+			TypeNode type = var.getDeclType();
+			TypeNode typeOfVarFromPattern = varFromPattern.getDeclType();
+			if(!type.isEqual(typeOfVarFromPattern)) {
+				getIdentNode().reportError("The type of the variable " + varName + " from the action " + actionName + " does not equal the type of the variable from the match class " + matchTypeName 
+						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfVarFromPattern) + " is declared.");
+				isOk = false;
+			}
+			if(varFromPattern.defEntityToBeYieldedTo && !var.defEntityToBeYieldedTo) {
+				getIdentNode().reportError("The variable " + varName + " from the action " + actionName + " is a def to be yielded to var, while it is a var to be received as input to the pattern in the match class " + matchTypeName);
+				isOk = false;
+			}
+			if(!varFromPattern.defEntityToBeYieldedTo && var.defEntityToBeYieldedTo) {
+				getIdentNode().reportError("The variable " + varName + " from the action " + actionName + " is a variable to be received as input to the pattern, while it is a def to be yielded to var in the match class " + matchTypeName);
+				isOk = false;
+			}
+		}
+		
 		return isOk;
 	}
 
@@ -399,17 +437,4 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 
 		return testRule;
 	}
-
-	/**
-     * add NACs for induced- or DPO-semantic
-     */
-    protected void constructImplicitNegs(PatternGraph left)
-    {
-    	PatternGraphNode leftNode = pattern;
-    	for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
-    		left.addNegGraph(neg);
-    	}
-    }
 }
-
-

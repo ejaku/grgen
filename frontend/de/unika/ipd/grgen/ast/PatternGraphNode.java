@@ -1138,7 +1138,7 @@ public class PatternGraphNode extends GraphNode {
     		for (BaseNode m : homChildren) {
     			ConstraintDeclNode decl = (ConstraintDeclNode) m;
 
-    			Set<DeclNode> deletedEntities = getRule().getDelete();
+    			Set<DeclNode> deletedEntities = getRule().getDeleted();
     			if (deletedEntities.contains(decl)) {
     				deleteHomSet.add(decl);
     			} else {
@@ -1338,7 +1338,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		if (isDangling()) {
-			Set<DeclNode> deletedNodes = getRule().getDelete();
+			Set<DeclNode> deletedNodes = getRule().getDeleted();
 			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
 
 			for (BaseNode exactNode : exactNodes) {

@@ -83,7 +83,7 @@ public abstract class RhsDeclNode extends DeclNode {
 
 	protected Collection<DeclNode> getMaybeDeleted(PatternGraphNode pattern) {
 		Collection<DeclNode> ret = new LinkedHashSet<DeclNode>();
-		ret.addAll(getDelete(pattern));
+		ret.addAll(getDeleted(pattern));
 
 		// check if a deleted node exists
 		Collection<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
@@ -293,7 +293,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	}
 
 	/** only used in checks against usage of deleted elements */
-	protected abstract Set<DeclNode> getDelete(PatternGraphNode pattern);
+	protected abstract Set<DeclNode> getDeleted(PatternGraphNode pattern);
 
 	/**
 	 * Return all reused edges (with their nodes), that excludes new edges of
