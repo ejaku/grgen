@@ -54,7 +54,6 @@ public abstract class RhsDeclNode extends DeclNode {
 		super(id, rhsType);
 		this.graph = graph;
 		becomeParent(this.graph);
-
 	}
 
 	/** returns children of this node */
@@ -82,64 +81,65 @@ public abstract class RhsDeclNode extends DeclNode {
 	}
 
 	protected Collection<DeclNode> getMaybeDeleted(PatternGraphNode pattern) {
+		// add deleted entities
 		Collection<DeclNode> ret = new LinkedHashSet<DeclNode>();
 		ret.addAll(getDeleted(pattern));
 
-		// check if a deleted node exists
+		// extract deleted nodes, then add homomorphic nodes
 		Collection<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
-		for (DeclNode declNode : ret) {
-
-			if (declNode instanceof NodeDeclNode) {
-	        	nodes.add((NodeDeclNode) declNode);
-	        }
-        }
-
-
-		if (nodes.size() > 0) {
-			// add homomorphic nodes
-			for (NodeDeclNode node : nodes) {
-				ret.addAll(pattern.getHomomorphic(node));
-            }
-
-    		Collection<ConnectionNode> conns = getResultingConnections(pattern);
-    		for (ConnectionNode conn : conns) {
-    			if (sourceOrTargetNodeIncluded(pattern, ret, conn.getEdge())) {
-    				ret.add(conn.getEdge());
-    			}
-            }
-
-			// nodes of dangling edges are homomorphic to all other nodes,
-    		// especially the deleted ones :-)
-    		for (ConnectionNode conn : conns) {
-    			EdgeDeclNode edge = conn.getEdge();
-    			while (edge instanceof EdgeTypeChangeNode) {
-    				edge = ((EdgeTypeChangeNode) edge).getOldEdge();
-    			}
-    			boolean srcIsDummy = true;
-    			boolean tgtIsDummy = true;
-    			for (ConnectionNode innerConn : conns) {
-        			if (edge.equals(innerConn.getEdge())) {
-        				srcIsDummy &= innerConn.getSrc().isDummy();
-        				tgtIsDummy &= innerConn.getTgt().isDummy();
-        			}
-                }
-
-    			if (srcIsDummy || tgtIsDummy) {
-    				ret.add(edge);
-    			}
-            }
+		for(DeclNode declNode : ret) {
+			if(declNode instanceof NodeDeclNode) {
+				nodes.add((NodeDeclNode) declNode);
+			}
+		}
+		for(NodeDeclNode node : nodes) {
+			ret.addAll(pattern.getHomomorphic(node));
 		}
 
-		// add homomorphic edges
+		// check if a deleted node exists
+		if(nodes.size() > 0) {
+			Collection<ConnectionNode> conns = getResultingConnections(pattern);
+
+			// edges of deleted nodes are deleted, too --> add them
+			for(ConnectionNode conn : conns) {
+				if(sourceOrTargetNodeIncluded(pattern, ret, conn.getEdge())) {
+					ret.add(conn.getEdge());
+				}
+			}
+
+			// nodes of dangling edges are homomorphic to all other nodes,
+			// especially the deleted ones :-)
+			for(ConnectionNode conn : conns) {
+				EdgeDeclNode edge = conn.getEdge();
+				while(edge instanceof EdgeTypeChangeNode) {
+					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+				}
+				boolean srcIsDummy = true;
+				boolean tgtIsDummy = true;
+				for(ConnectionNode innerConn : conns) {
+					if(edge.equals(innerConn.getEdge())) {
+						srcIsDummy &= innerConn.getSrc().isDummy();
+						tgtIsDummy &= innerConn.getTgt().isDummy();
+					}
+				}
+
+				// so maybe the dangling edge is deleted by one of the node deletions --> add it
+				if(srcIsDummy || tgtIsDummy) {
+					ret.add(edge);
+				}
+			}
+		}
+
+		// extract deleted edges, then add homomorphic edges
 		Collection<EdgeDeclNode> edges = new LinkedHashSet<EdgeDeclNode>();
-		for (DeclNode declNode : ret) {
-	        if (declNode instanceof EdgeDeclNode) {
-	        	edges.add((EdgeDeclNode) declNode);
-	        }
-        }
-		for (EdgeDeclNode edge : edges) {
+		for(DeclNode declNode : ret) {
+			if(declNode instanceof EdgeDeclNode) {
+				edges.add((EdgeDeclNode) declNode);
+			}
+		}
+		for(EdgeDeclNode edge : edges) {
 			ret.addAll(pattern.getHomomorphic(edge));
-        }
+		}
 
 		return ret;
 	}
@@ -165,8 +165,8 @@ public abstract class RhsDeclNode extends DeclNode {
 	private boolean checkEdgeParameters() {
 		boolean res = true;
 
-		for (DeclNode replParam : graph.getParamDecls()) {
-			if (replParam instanceof EdgeDeclNode) {
+		for(DeclNode replParam : graph.getParamDecls()) {
+			if(replParam instanceof EdgeDeclNode) {
 				replParam.reportError("edges not supported as replacement parameters: "
 								+ replParam.ident.toString());
 				res = false;
@@ -309,20 +309,19 @@ public abstract class RhsDeclNode extends DeclNode {
 	protected abstract void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern);
 
 	protected boolean sourceOrTargetNodeIncluded(PatternGraphNode pattern, Collection<? extends BaseNode> coll,
-            EdgeDeclNode edgeDecl)
-    {
-    	for (BaseNode n : pattern.getConnections()) {
-            if (n instanceof ConnectionNode) {
-            	ConnectionNode conn = (ConnectionNode) n;
-            	if (conn.getEdge().equals(edgeDecl)) {
-            		if (coll.contains(conn.getSrc())
-            				|| coll.contains(conn.getTgt())) {
-            			return true;
-            		}
-            	}
-            }
-        }
-    	return false;
-    }
+			EdgeDeclNode edgeDecl)
+	{
+		for(BaseNode n : pattern.getConnections()) {
+			if(n instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode) n;
+				if(conn.getEdge().equals(edgeDecl)) {
+					if(coll.contains(conn.getSrc())
+							|| coll.contains(conn.getTgt())) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
-
