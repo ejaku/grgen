@@ -19,29 +19,34 @@ import de.unika.ipd.grgen.ir.exprevals.*;;
 /**
  * An emit statement.
  */
-public class Emit extends IR implements ImperativeStmt, OrderedReplacement {
+public class Emit extends IR implements ImperativeStmt, OrderedReplacement
+{
 
 	private List<Expression> arguments;
 	private boolean isDebug;
 
-	public Emit(List<Expression> arguments, boolean isDebug) {
+	public Emit(List<Expression> arguments, boolean isDebug)
+	{
 		super("emit");
 		this.arguments = arguments;
 		this.isDebug = isDebug;
 	}
 
-	public boolean isDebug() {
+	public boolean isDebug()
+	{
 		return isDebug;
 	}
-	
+
 	/**
 	 * Returns Arguments
 	 */
-	public List<Expression> getArguments() {
+	public List<Expression> getArguments()
+	{
 		return Collections.unmodifiableList(arguments);
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		for(Expression expr : arguments) {
 			expr.collectNeededEntities(needs);
 		}

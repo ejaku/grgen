@@ -18,18 +18,21 @@ import de.unika.ipd.grgen.ir.exprevals.*;
 /**
  * A Type type.
  */
-public class TypeType extends PrimitiveType {
-
-	public TypeType(Ident ident) {
+public class TypeType extends PrimitiveType
+{
+	public TypeType(Ident ident)
+	{
 		super("type type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_TYPE;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.typeType.checkIR(Type.class);
 	}
 }

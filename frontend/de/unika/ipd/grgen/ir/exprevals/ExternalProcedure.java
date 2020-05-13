@@ -20,26 +20,29 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * An external procedure.
  */
-public class ExternalProcedure extends ProcedureBase {
+public class ExternalProcedure extends ProcedureBase
+{
 	/** A list of the pattern parameters */
 	private final List<Type> paramTypes = new LinkedList<Type>();
-
 
 	/**
 	 * @param name The name of the external procedure.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public ExternalProcedure(String name, Ident ident) {
+	public ExternalProcedure(String name, Ident ident)
+	{
 		super(name, ident);
 	}
 
 	/** Add a parameter type to the external procedure. */
-	public void addParameterType(Type paramType) {
+	public void addParameterType(Type paramType)
+	{
 		paramTypes.add(paramType);
 	}
 
 	/** Get all parameter types of this external procedure. */
-	public List<Type> getParameterTypes() {
+	public List<Type> getParameterTypes()
+	{
 		return Collections.unmodifiableList(paramTypes);
 	}
 }

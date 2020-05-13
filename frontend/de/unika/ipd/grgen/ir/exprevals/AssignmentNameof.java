@@ -11,33 +11,36 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-
 /**
  * Represents a nameof assignment statement in the IR.
  */
-public class AssignmentNameof extends AssignmentBase {
+public class AssignmentNameof extends AssignmentBase
+{
 
 	/** The lhs of the assignment. */
 	private Expression target;
 
-	public AssignmentNameof(Expression target, Expression expr) {
+	public AssignmentNameof(Expression target, Expression expr)
+	{
 		super("assignment nameof");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Expression getTarget() {
+	public Expression getTarget()
+	{
 		return target;
 	}
 
-	public String toString() {
-		return "nameof(" + (getTarget()!=null ? getTarget().toString() : "") + ") = " + getExpression();
+	public String toString()
+	{
+		return "nameof(" + (getTarget() != null ? getTarget().toString() : "") + ") = " + getExpression();
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(target!=null)
-			target.collectNeededEntities(needs);		
+		if(target != null)
+			target.collectNeededEntities(needs);
 		getExpression().collectNeededEntities(needs);
 	}
 }

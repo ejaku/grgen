@@ -13,18 +13,21 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 /**
  * A single precision floating point type.
  */
-public class FloatType extends PrimitiveType {
-
-	public FloatType(Ident ident) {
+public class FloatType extends PrimitiveType
+{
+	public FloatType(Ident ident)
+	{
 		super("float type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_FLOAT;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.floatType.checkIR(Type.class);
 	}
 }

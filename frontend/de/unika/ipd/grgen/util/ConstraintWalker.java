@@ -35,8 +35,8 @@ public class ConstraintWalker extends PostWalker
 		 */
 		public void visit(Walkable n)
 		{
-			for (int i = 0; i < classes.length; i++) {
-				if (classes[i].isInstance(n)) {
+			for(int i = 0; i < classes.length; i++) {
+				if(classes[i].isInstance(n)) {
 					visitor.visit(n);
 					return;
 				}

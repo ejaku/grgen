@@ -24,7 +24,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 	protected TypeExprNode constraints;
 
 	public int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
-				 // or CONTEXT_RHS if declaration is located on right hand side
+						// or CONTEXT_RHS if declaration is located on right hand side
 
 	public PatternGraphNode directlyNestingLHSGraph;
 	public boolean defEntityToBeYieldedTo;
@@ -37,13 +37,13 @@ public abstract class ConstraintDeclNode extends DeclNode
 	protected boolean maybeNull = false;
 
 	ExprNode initialization = null;
-	
-	CollectNode<NameOrAttributeInitializationNode> nameOrAttributeInits = 
-		new CollectNode<NameOrAttributeInitializationNode>();
 
+	CollectNode<NameOrAttributeInitializationNode> nameOrAttributeInits =
+			new CollectNode<NameOrAttributeInitializationNode>();
 
 	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints,
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo) {
+			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
+	{
 		super(id, type);
 		this.constraints = constraints;
 		becomeParent(this.constraints);
@@ -54,32 +54,35 @@ public abstract class ConstraintDeclNode extends DeclNode
 	}
 
 	/** sets an expression to be used to initialize the graph entity, only used for local variables, not pattern elements */
-	public void setInitialization(ExprNode initialization) {
+	public void setInitialization(ExprNode initialization)
+	{
 		this.initialization = initialization;
 	}
-	
-	public void addNameOrAttributeInitialization(NameOrAttributeInitializationNode nameOrAttributeInit) {
+
+	public void addNameOrAttributeInitialization(NameOrAttributeInitializationNode nameOrAttributeInit)
+	{
 		this.nameOrAttributeInits.addChild(nameOrAttributeInit);
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return initializationIsWellTyped() && onlyPatternElementsAreAllowedToBeConstrained();
 	}
 
-	private boolean initializationIsWellTyped() {
-		if(initialization==null)
+	private boolean initializationIsWellTyped()
+	{
+		if(initialization == null)
 			return true;
 
 		TypeNode targetType = getDeclType();
 		TypeNode exprType = initialization.getType();
 
-		if (exprType.isEqual(targetType))
+		if(exprType.isEqual(targetType))
 			return true;
 
 		if(targetType instanceof NodeTypeNode && exprType instanceof NodeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode)
-		{
+				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode) {
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(superTypes.contains(targetType)) {
@@ -87,12 +90,13 @@ public abstract class ConstraintDeclNode extends DeclNode
 			}
 		}
 
-		error.error(getCoords(), "can't initialize "+targetType+" with "+exprType);
+		error.error(getCoords(), "can't initialize " + targetType + " with " + exprType);
 		return false;
 	}
 
-	private boolean onlyPatternElementsAreAllowedToBeConstrained() {
-		if(constraints!=TypeExprNode.getEmpty()) {
+	private boolean onlyPatternElementsAreAllowedToBeConstrained()
+	{
+		if(constraints != TypeExprNode.getEmpty()) {
 			if((context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
 				constraints.reportError("replacement elements are not allowed to be type constrained, only pattern elements are");
 				return false;
@@ -101,33 +105,38 @@ public abstract class ConstraintDeclNode extends DeclNode
 		return true;
 	}
 
-	protected final TypeExpr getConstraints() {
+	protected final TypeExpr getConstraints()
+	{
 		return constraints.checkIR(TypeExpr.class);
 	}
 
 	/** @returns True, if this element has eventually been deleted due to homomorphy */
-	protected boolean isMaybeDeleted() {
+	protected boolean isMaybeDeleted()
+	{
 		return maybeDeleted;
 	}
 
 	/** @returns True, if this element has eventually been retyped due to homomorphy */
-	protected boolean isMaybeRetyped() {
+	protected boolean isMaybeRetyped()
+	{
 		return maybeRetyped;
 	}
 
 	/** @returns the retyped version of this element or null. */
-	protected ConstraintDeclNode getRetypedElement() {
+	protected ConstraintDeclNode getRetypedElement()
+	{
 		return retypedElem;
 	}
 
 	public abstract InheritanceTypeNode getDeclType();
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "node or edge declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "node or edge";
 	}
 }
-

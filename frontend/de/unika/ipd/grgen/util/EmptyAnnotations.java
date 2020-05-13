@@ -14,52 +14,60 @@ package de.unika.ipd.grgen.util;
 import java.util.HashSet;
 import java.util.Set;
 
-
 /**
  * Empty annotations.
  */
-public class EmptyAnnotations implements Annotations {
-
+public class EmptyAnnotations implements Annotations
+{
 	private static final Annotations EMPTY = new EmptyAnnotations();
 
-	public static Annotations get() {
+	public static Annotations get()
+	{
 		return EMPTY;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#containsKey(java.lang.String) */
-	public boolean containsKey(String key) {
+	public boolean containsKey(String key)
+	{
 		return false;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#get(java.lang.String) */
-	public Object get(String key) {
+	public Object get(String key)
+	{
 		return null;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#put(java.lang.String, java.lang.Object) */
-	public void put(String key, Object value) {
+	public void put(String key, Object value)
+	{
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isInteger(java.lang.String) */
-	public boolean isInteger(String key) {
+	public boolean isInteger(String key)
+	{
 		return false;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isBoolean(java.lang.String) */
-	public boolean isBoolean(String key) {
+	public boolean isBoolean(String key)
+	{
 		return false;
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isString(java.lang.String) */
-	public boolean isString(String key) {
+	public boolean isString(String key)
+	{
 		return false;
 	}
 
-	public boolean isFlagSet(String key) {
+	public boolean isFlagSet(String key)
+	{
 		return false;
 	}
 
-	public Set<String> keySet() {
+	public Set<String> keySet()
+	{
 		return new HashSet<String>();
 	}
 }

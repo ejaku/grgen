@@ -20,50 +20,58 @@ import de.unika.ipd.grgen.ir.exprevals.RecordProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class RecordProcNode extends ProcedureInvocationBaseNode {
+public class RecordProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(RecordProcNode.class, "record procedure");
 	}
 
 	private ExprNode exprToRecord;
 
-	public RecordProcNode(Coords coords, ExprNode exprToEmit) {
+	public RecordProcNode(Coords coords, ExprNode exprToEmit)
+	{
 		super(coords);
 
 		this.exprToRecord = becomeParent(exprToEmit);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(exprToRecord);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("exprToRecord");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		// any type goes, must be converted toString in implementation
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new RecordProc(exprToRecord.checkIR(Expression.class));
 	}
 }

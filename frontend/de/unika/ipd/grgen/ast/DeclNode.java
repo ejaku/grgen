@@ -32,17 +32,18 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	// TODO this should not be public
 	public BaseNode typeUnresolved;
 
-
 	/** An invalid declaration. */
 	private static final DeclNode invalidDecl = new InvalidDeclNode(IdentNode.getInvalid());
 
 	/** Get an invalid declaration. */
-	public static final DeclNode getInvalid() {
+	public static final DeclNode getInvalid()
+	{
 		return invalidDecl;
 	}
 
 	/** Get an invalid declaration for an IdentNode. */
-	public static final DeclNode getInvalid(IdentNode id) {
+	public static final DeclNode getInvalid(IdentNode id)
+	{
 		return new InvalidDeclNode(id);
 	}
 
@@ -51,7 +52,8 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	 * @param n The identifier that is declared
 	 * @param t The type with which it is declared
 	 */
-	protected DeclNode(IdentNode n, BaseNode t) {
+	protected DeclNode(IdentNode n, BaseNode t)
+	{
 		super(n.getCoords());
 		n.setDecl(this);
 		this.ident = n;
@@ -61,7 +63,8 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	}
 
 	/** @return The ident node of the declaration */
-	public IdentNode getIdentNode() {
+	public IdentNode getIdentNode()
+	{
 		return ident;
 	}
 
@@ -69,17 +72,20 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	public abstract TypeNode getDeclType();
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
-	public DeclNode getDecl() {
+	public DeclNode getDecl()
+	{
 		return this;
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeColor() */
 	@Override
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.BLUE;
 	}
 
-	public Entity getEntity() {
+	public Entity getEntity()
+	{
 		return checkIR(Entity.class);
 	}
 
@@ -89,14 +95,14 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	//	return new Entity("entity", getIdentNode().getIdent(), type, false);
 	//}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "declaration";
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return ident.toString();
 	}
 }
-
-

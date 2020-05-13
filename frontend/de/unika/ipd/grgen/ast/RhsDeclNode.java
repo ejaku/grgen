@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -30,11 +29,11 @@ import de.unika.ipd.grgen.ir.OrderedReplacements;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Variable;
 
-
 /**
  * AST node for a replacement right-hand side.
  */
-public abstract class RhsDeclNode extends DeclNode {
+public abstract class RhsDeclNode extends DeclNode
+{
 	static {
 		setName(RhsDeclNode.class, "right-hand side declaration");
 	}
@@ -50,7 +49,8 @@ public abstract class RhsDeclNode extends DeclNode {
 	 * @param id The identifier of this RHS.
 	 * @param graph The right hand side graph.
 	 */
-	public RhsDeclNode(IdentNode id, GraphNode graph) {
+	public RhsDeclNode(IdentNode id, GraphNode graph)
+	{
 		super(id, rhsType);
 		this.graph = graph;
 		becomeParent(this.graph);
@@ -58,7 +58,8 @@ public abstract class RhsDeclNode extends DeclNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -68,7 +69,8 @@ public abstract class RhsDeclNode extends DeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -76,11 +78,13 @@ public abstract class RhsDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
-	public GraphNode getRHSGraph() {
+	public GraphNode getRHSGraph()
+	{
 		return graph;
 	}
 
-	protected Collection<DeclNode> getMaybeDeleted(PatternGraphNode pattern) {
+	protected Collection<DeclNode> getMaybeDeleted(PatternGraphNode pattern)
+	{
 		// add deleted entities
 		Collection<DeclNode> ret = new LinkedHashSet<DeclNode>();
 		ret.addAll(getDeleted(pattern));
@@ -89,7 +93,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		Collection<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
 		for(DeclNode declNode : ret) {
 			if(declNode instanceof NodeDeclNode) {
-				nodes.add((NodeDeclNode) declNode);
+				nodes.add((NodeDeclNode)declNode);
 			}
 		}
 		for(NodeDeclNode node : nodes) {
@@ -112,7 +116,7 @@ public abstract class RhsDeclNode extends DeclNode {
 			for(ConnectionNode conn : conns) {
 				EdgeDeclNode edge = conn.getEdge();
 				while(edge instanceof EdgeTypeChangeNode) {
-					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
 				}
 				boolean srcIsDummy = true;
 				boolean tgtIsDummy = true;
@@ -134,7 +138,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		Collection<EdgeDeclNode> edges = new LinkedHashSet<EdgeDeclNode>();
 		for(DeclNode declNode : ret) {
 			if(declNode instanceof EdgeDeclNode) {
-				edges.add((EdgeDeclNode) declNode);
+				edges.add((EdgeDeclNode)declNode);
 			}
 		}
 		for(EdgeDeclNode edge : edges) {
@@ -147,12 +151,13 @@ public abstract class RhsDeclNode extends DeclNode {
 	/** only used in checks against usage of deleted elements */
 	protected abstract Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern);
 
-	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver
-		= new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
+	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver =
+			new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
@@ -162,13 +167,13 @@ public abstract class RhsDeclNode extends DeclNode {
 	 * Edges as replacement parameters are not really needed but very troublesome,
 	 * keep them out for now.
 	 */
-	private boolean checkEdgeParameters() {
+	private boolean checkEdgeParameters()
+	{
 		boolean res = true;
 
 		for(DeclNode replParam : graph.getParamDecls()) {
 			if(replParam instanceof EdgeDeclNode) {
-				replParam.reportError("edges not supported as replacement parameters: "
-								+ replParam.ident.toString());
+				replParam.reportError("edges not supported as replacement parameters: " + replParam.ident.toString());
 				res = false;
 			}
 		}
@@ -180,7 +185,8 @@ public abstract class RhsDeclNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return checkEdgeParameters();
 	}
 
@@ -188,7 +194,8 @@ public abstract class RhsDeclNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		assert false;
 
 		return null;
@@ -208,7 +215,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		}
 
 		for(Node neededNode : needs.nodes) {
-			if(neededNode.directlyNestingLHSGraph!=left) {
+			if(neededNode.directlyNestingLHSGraph != left) {
 				if(!right.getDeletedElements().contains(neededNode)) {
 					if(!right.hasNode(neededNode)) {
 						right.addSingleNode(neededNode);
@@ -218,17 +225,17 @@ public abstract class RhsDeclNode extends DeclNode {
 			}
 		}
 		for(Edge neededEdge : needs.edges) {
-			if(neededEdge.directlyNestingLHSGraph!=left) {
+			if(neededEdge.directlyNestingLHSGraph != left) {
 				if(!right.getDeletedElements().contains(neededEdge)) {
 					if(!right.hasEdge(neededEdge)) {
-						right.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+						right.addSingleEdge(neededEdge); // TODO: maybe we lose context here
 						right.addHomToAll(neededEdge);
 					}
 				}
 			}
 		}
 		for(Variable neededVariable : needs.variables) {
-			if(neededVariable.directlyNestingLHSGraph!=left) {
+			if(neededVariable.directlyNestingLHSGraph != left) {
 				if(!right.hasVar(neededVariable)) {
 					right.addVariable(neededVariable);
 				}
@@ -250,12 +257,12 @@ public abstract class RhsDeclNode extends DeclNode {
 				if(orderedReplacement instanceof EvalStatement)
 					((EvalStatement)orderedReplacement).collectNeededEntities(needs);
 				else if(orderedReplacement instanceof Emit)
-					((Emit)orderedReplacement).collectNeededEntities(needs);					
+					((Emit)orderedReplacement).collectNeededEntities(needs);
 			}
 		}
 
 		for(Node neededNode : needs.nodes) {
-			if(neededNode.directlyNestingLHSGraph!=left) {
+			if(neededNode.directlyNestingLHSGraph != left) {
 				if(!right.getDeletedElements().contains(neededNode)) {
 					if(!right.hasNode(neededNode)) {
 						right.addSingleNode(neededNode);
@@ -265,17 +272,17 @@ public abstract class RhsDeclNode extends DeclNode {
 			}
 		}
 		for(Edge neededEdge : needs.edges) {
-			if(neededEdge.directlyNestingLHSGraph!=left) {
+			if(neededEdge.directlyNestingLHSGraph != left) {
 				if(!right.getDeletedElements().contains(neededEdge)) {
 					if(!right.hasEdge(neededEdge)) {
-						right.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+						right.addSingleEdge(neededEdge); // TODO: maybe we lose context here
 						right.addHomToAll(neededEdge);
 					}
 				}
 			}
 		}
 		for(Variable neededVariable : needs.variables) {
-			if(neededVariable.directlyNestingLHSGraph!=left) {
+			if(neededVariable.directlyNestingLHSGraph != left) {
 				if(!right.hasVar(neededVariable)) {
 					right.addVariable(neededVariable);
 				}
@@ -286,7 +293,8 @@ public abstract class RhsDeclNode extends DeclNode {
 	protected abstract PatternGraph getPatternGraph(PatternGraph left);
 
 	@Override
-	public RhsTypeNode getDeclType() {
+	public RhsTypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return type;
@@ -313,10 +321,9 @@ public abstract class RhsDeclNode extends DeclNode {
 	{
 		for(BaseNode n : pattern.getConnections()) {
 			if(n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) n;
+				ConnectionNode conn = (ConnectionNode)n;
 				if(conn.getEdge().equals(edgeDecl)) {
-					if(coll.contains(conn.getSrc())
-							|| coll.contains(conn.getTgt())) {
+					if(coll.contains(conn.getSrc()) || coll.contains(conn.getTgt())) {
 						return true;
 					}
 				}

@@ -14,25 +14,30 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapVarRemoveItem extends ProcedureInvocationBase {
+public class MapVarRemoveItem extends ProcedureInvocationBase
+{
 	Variable target;
 	Expression keyExpr;
 
-	public MapVarRemoveItem(Variable target, Expression keyExpr) {
+	public MapVarRemoveItem(Variable target, Expression keyExpr)
+	{
 		super("map var remove item");
 		this.target = target;
 		this.keyExpr = keyExpr;
 	}
 
-	public Variable getTarget() {
+	public Variable getTarget()
+	{
 		return target;
 	}
 
-	public Expression getKeyExpr() {
+	public Expression getKeyExpr()
+	{
 		return keyExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
@@ -43,7 +48,7 @@ public class MapVarRemoveItem extends ProcedureInvocationBase {
 
 		getKeyExpr().collectNeededEntities(needs);
 
-		if(getNext()!=null) {
+		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);
 		}
 	}

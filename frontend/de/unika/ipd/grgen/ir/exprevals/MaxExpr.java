@@ -11,25 +11,30 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class MaxExpr extends Expression {
+public class MaxExpr extends Expression
+{
 	private Expression leftExpr;
 	private Expression rightExpr;
 
-	public MaxExpr(Expression leftExpr, Expression rightExpr) {
+	public MaxExpr(Expression leftExpr, Expression rightExpr)
+	{
 		super("max expr", leftExpr.getType());
 		this.leftExpr = leftExpr;
 		this.rightExpr = rightExpr;
 	}
 
-	public Expression getLeftExpr() {
+	public Expression getLeftExpr()
+	{
 		return leftExpr;
 	}
 
-	public Expression getRightExpr() {
+	public Expression getRightExpr()
+	{
 		return rightExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		leftExpr.collectNeededEntities(needs);
 		rightExpr.collectNeededEntities(needs);
 	}

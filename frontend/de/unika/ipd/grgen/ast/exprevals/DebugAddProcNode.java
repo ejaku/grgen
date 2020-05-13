@@ -20,44 +20,51 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DebugAddProcNode extends ProcedureInvocationBaseNode {
+public class DebugAddProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(DebugAddProcNode.class, "debug add procedure");
 	}
 
 	private CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();
 
-	public DebugAddProcNode(Coords coords) {
+	public DebugAddProcNode(Coords coords)
+	{
 		super(coords);
 
 		this.exprs = becomeParent(exprs);
 	}
 
-	public void addExpression(ExprNode expr) {
+	public void addExpression(ExprNode expr)
+	{
 		exprs.addChild(expr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(exprs);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("exprs");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(exprs.get(0).getType().equals(BasicTypeNode.stringType))) {
 			reportError("the first/message argument of Debug::add() must be of string type");
 			return false;
@@ -65,12 +72,14 @@ public class DebugAddProcNode extends ProcedureInvocationBaseNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Vector<Expression> expressions = new Vector<Expression>();
 		for(ExprNode expr : exprs.getChildren()) {
 			expressions.add(expr.checkIR(Expression.class));

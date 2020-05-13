@@ -18,7 +18,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A function base.
  */
-public abstract class FunctionBase extends Identifiable {
+public abstract class FunctionBase extends Identifiable
+{
 	/** The return-parameter type */
 	protected Type retType = null;
 
@@ -27,14 +28,16 @@ public abstract class FunctionBase extends Identifiable {
 	 * @param ident The identifier that identifies this object.
 	 * @param retType The return type of this function.
 	 */
-	public FunctionBase(String name, Ident ident, Type retType) {
+	public FunctionBase(String name, Ident ident, Type retType)
+	{
 		super(name, ident);
 
 		this.retType = retType;
 	}
 
 	/** Get the return type of this external function. */
-	public Type getReturnType() {
+	public Type getReturnType()
+	{
 		return retType;
 	}
 

@@ -13,12 +13,14 @@ import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 /**
  * Class for initializing a single attribute of a type, or the name
  */
-public class NameOrAttributeInitialization extends IR {
+public class NameOrAttributeInitialization extends IR
+{
 	public GraphEntity owner;
 	public Entity attribute;
 	public Expression expr;
-	
-	public NameOrAttributeInitialization() {
+
+	public NameOrAttributeInitialization()
+	{
 		super("name or attribute init");
 	}
 

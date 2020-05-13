@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class ShortMaxExpr extends Expression {
-	public ShortMaxExpr() {
+public class ShortMaxExpr extends Expression
+{
+	public ShortMaxExpr()
+	{
 		super("shortmax expr", ShortType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

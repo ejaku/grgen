@@ -20,23 +20,28 @@ import de.unika.ipd.grgen.ir.ExecVariable;
 /**
  * Declaration of a variable in an exec, explicit sequence local or implicit graph global.
  */
-public class ExecVarDeclNode extends DeclNode {
-	private static final DeclarationResolver<DeclNode> declOfTypeResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
+public class ExecVarDeclNode extends DeclNode
+{
+	private static final DeclarationResolver<DeclNode> declOfTypeResolver =
+			new DeclarationResolver<DeclNode>(DeclNode.class);
 
 	private TypeNode type;
 
-	public ExecVarDeclNode(IdentNode id, IdentNode type) {
+	public ExecVarDeclNode(IdentNode id, IdentNode type)
+	{
 		super(id, type);
-    }
+	}
 
-	public ExecVarDeclNode(IdentNode id, TypeNode type) {
+	public ExecVarDeclNode(IdentNode id, TypeNode type)
+	{
 		super(id, type);
 		this.type = type;
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -45,7 +50,8 @@ public class ExecVarDeclNode extends DeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -58,9 +64,11 @@ public class ExecVarDeclNode extends DeclNode {
 	 * false, if there was some error.
 	 */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		// Type was already known at construction?
-		if(type != null) return true;
+		if(type != null)
+			return true;
 
 		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
 		if(typeDecl instanceof InvalidDeclNode) {
@@ -77,28 +85,32 @@ public class ExecVarDeclNode extends DeclNode {
 	 * false, if there was some error.
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	/** @return The type node of the declaration */
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved() : this + " was not resolved";
 		return type;
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "exec variable declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "exec variable";
 	}
 
 	@Override
-	protected ExecVariable constructIR() {
+	protected ExecVariable constructIR()
+	{
 		return new ExecVariable("ExecVar", getIdentNode().getIdent(), type.getType(), 0);
 	}
 }
-

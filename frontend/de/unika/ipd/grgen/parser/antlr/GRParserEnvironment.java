@@ -26,7 +26,8 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 /**
  * Ease the ANTLR parser calling
  */
-public class GRParserEnvironment extends ParserEnvironment {
+public class GRParserEnvironment extends ParserEnvironment
+{
 	private boolean hadError = false;
 	private Stack<SubunitInclude> includes = new Stack<SubunitInclude>();
 	private HashSet<String> filesOnStack = new HashSet<String>();
@@ -38,11 +39,13 @@ public class GRParserEnvironment extends ParserEnvironment {
 
 	private String filename;
 
-	public GRParserEnvironment(Sys system) {
+	public GRParserEnvironment(Sys system)
+	{
 		super(system);
 	}
 
-    public void pushFile(Lexer lexer, File file) throws RecognitionException {
+	public void pushFile(Lexer lexer, File file) throws RecognitionException
+	{
 		if(baseDir != null && !file.isAbsolute())
 			file = new File(baseDir, file.getPath());
 
@@ -58,26 +61,26 @@ public class GRParserEnvironment extends ParserEnvironment {
 		try {
 			// save current lexer's state
 			CharStream input = lexer.getCharStream();
-	        int marker = input.mark();
-	        includes.push(new SubunitInclude(input, marker));
+			int marker = input.mark();
+			includes.push(new SubunitInclude(input, marker));
 
-	        // switch on new input stream
-	        ANTLRFileStream stream = new ANTLRFileStream(file.getPath());
-	        lexer.setCharStream(stream);
-	        lexer.reset();
-	        filename = file.getPath();
-    	}
-    	catch (IOException e) {
+			// switch on new input stream
+			ANTLRFileStream stream = new ANTLRFileStream(file.getPath());
+			lexer.setCharStream(stream);
+			lexer.reset();
+			filename = file.getPath();
+		} catch(IOException e) {
 			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + lexer.getLine()
 					+ "," + lexer.getCharPositionInLine() + "] included file could not be found: \""
 					+ filePath + "\"");
 			System.exit(1);
-	  	}
+		}
 	}
 
-    public boolean popFile(Lexer lexer) {
-    	// We've got EOF on an include (not a model using or the initial parser).
-    	if(includes.size() > 1 && includes.peek().charStream != null){
+	public boolean popFile(Lexer lexer)
+	{
+		// We've got EOF on an include (not a model using or the initial parser).
+		if(includes.size() > 1 && includes.peek().charStream != null) {
 			filesOnStack.remove(lexer.getSourceName());
 
 			SubunitInclude include = includes.pop();
@@ -85,17 +88,19 @@ public class GRParserEnvironment extends ParserEnvironment {
 			lexer.getCharStream().rewind(include.marking);
 			filename = lexer.getCharStream().getSourceName();
 			return true;
-    	}
+		}
 
-    	return false;
+		return false;
 	}
 
 	@Override
-	public String getFilename() {
+	public String getFilename()
+	{
 		return filename;
 	}
 
-    public UnitNode parseActions(File inputFile) {
+	public UnitNode parseActions(File inputFile)
+	{
 		UnitNode root = null;
 
 		baseDir = inputFile.getParentFile();
@@ -113,16 +118,14 @@ public class GRParserEnvironment extends ParserEnvironment {
 				parser.setEnv(this);
 				root = parser.textActions();
 				hadError = hadError || parser.hadError();
-			}
-			catch(RecognitionException e) {
+			} catch(RecognitionException e) {
 				e.printStackTrace(System.err);
 				System.err.println("parser exception: " + e.getMessage());
 				System.exit(1);
 			}
 
 			includes.pop();
-		}
-		catch(IOException e) {
+		} catch(IOException e) {
 			System.err.println("input file not found: " + e.getMessage());
 			System.exit(1);
 		}
@@ -130,7 +133,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 		return root;
 	}
 
-    public ModelNode parseModel(File inputFile) {
+	public ModelNode parseModel(File inputFile)
+	{
 		ModelNode root = null;
 
 		String filePath = inputFile.getAbsolutePath();
@@ -142,7 +146,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 		}
 
 		root = models.get(filePath);
-		if(root != null) return root;
+		if(root != null)
+			return root;
 
 		modelsOnStack.add(filePath);
 
@@ -160,8 +165,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 				parser.setEnv(this);
 				root = parser.textTypes();
 				hadError = hadError || parser.hadError();
-			}
-			catch(RecognitionException e) {
+			} catch(RecognitionException e) {
 				e.printStackTrace(System.err);
 				System.err.println("parser exception: " + e.getMessage());
 				System.exit(1);
@@ -170,8 +174,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			filename = oldFilename;
 
 			includes.pop();
-		}
-		catch(IOException e) {
+		} catch(IOException e) {
 			System.err.println("cannot load graph model: " + e.getMessage());
 			System.exit(1);
 		}
@@ -183,7 +186,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 		return root;
 	}
 
-	public boolean hadError() {
+	public boolean hadError()
+	{
 		return hadError;
 	}
 }

@@ -24,7 +24,8 @@ import java.util.Set;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class Model extends Identifiable implements NodeEdgeEnumBearer {
+public class Model extends Identifiable implements NodeEdgeEnumBearer
+{
 	private List<Model> usedModels = new LinkedList<Model>();
 	private List<PackageType> packages = new LinkedList<PackageType>();
 	private List<Type> types = new LinkedList<Type>();
@@ -48,13 +49,13 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
 
-
-	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined, 
+	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
 			boolean isUniqueDefined, boolean isUniqueIndexDefined,
-			boolean areFunctionsParallel, int isoParallel) {
+			boolean areFunctionsParallel, int isoParallel)
+	{
 		super("model", ident);
-		
+
 		this.isEmitClassDefined = isEmitClassDefined;
 		this.isEmitGraphClassDefined = isEmitGraphClassDefined;
 		this.isCopyClassDefined = isCopyClassDefined;
@@ -66,7 +67,8 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 		this.isoParallel = isoParallel;
 	}
 
-	public void addUsedModel(Model model) {
+	public void addUsedModel(Model model)
+	{
 		usedModels.add(model);
 		for(Type type : model.getTypes())
 			addType(type);
@@ -76,59 +78,75 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 			addExternalFunction(externalFunc);
 	}
 
-	public void addPackage(PackageType p) {
+	public void addPackage(PackageType p)
+	{
 		packages.add(p);
 	}
 
-	public Collection<PackageType> getPackages() {
+	public Collection<PackageType> getPackages()
+	{
 		return Collections.unmodifiableCollection(packages);
 	}
 
 	/** Add the given type to the type model. */
-	public void addType(Type type) {
+	public void addType(Type type)
+	{
 		types.add(type);
-		if(type instanceof NodeType) nodeTypes.add((NodeType) type);
-		else if(type instanceof EdgeType) edgeTypes.add((EdgeType) type);
-		else if(type instanceof EnumType) enumTypes.add((EnumType) type);
-		else if(type instanceof ExternalType) externalTypes.add((ExternalType) type);
+		if(type instanceof NodeType)
+			nodeTypes.add((NodeType)type);
+		else if(type instanceof EdgeType)
+			edgeTypes.add((EdgeType)type);
+		else if(type instanceof EnumType)
+			enumTypes.add((EnumType)type);
+		else if(type instanceof ExternalType)
+			externalTypes.add((ExternalType)type);
 		else if(!(type instanceof PrimitiveType))
 			assert false : "Unexpected type added to model: " + type;
 	}
 
-	public void addIndex(Index index) {
+	public void addIndex(Index index)
+	{
 		indices.add(index);
 	}
 
-	public Collection<Index> getIndices() {
+	public Collection<Index> getIndices()
+	{
 		return Collections.unmodifiableCollection(indices);
 	}
 
-	public void addExternalFunction(ExternalFunction externalFunc) {
+	public void addExternalFunction(ExternalFunction externalFunc)
+	{
 		externalFuncs.add(externalFunc);
 	}
 
-	public Collection<ExternalFunction> getExternalFunctions() {
+	public Collection<ExternalFunction> getExternalFunctions()
+	{
 		return Collections.unmodifiableCollection(externalFuncs);
 	}
 
-	public void addExternalProcedure(ExternalProcedure externalProc) {
+	public void addExternalProcedure(ExternalProcedure externalProc)
+	{
 		externalProcs.add(externalProc);
 	}
 
-	public Collection<ExternalProcedure> getExternalProcedures() {
+	public Collection<ExternalProcedure> getExternalProcedures()
+	{
 		return Collections.unmodifiableCollection(externalProcs);
 	}
 
 	/** @return The types in the type model. */
-	public Collection<Type> getTypes() {
+	public Collection<Type> getTypes()
+	{
 		return Collections.unmodifiableCollection(types);
 	}
 
-	public Collection<NodeType> getNodeTypes() {
+	public Collection<NodeType> getNodeTypes()
+	{
 		return Collections.unmodifiableCollection(nodeTypes);
 	}
 
-	public Collection<NodeType> getAllNodeTypes() {
+	public Collection<NodeType> getAllNodeTypes()
+	{
 		if(allNodeTypes == null) {
 			Collection<NodeType> allNodeTypes = new ArrayList<NodeType>();
 			allNodeTypes.addAll(getNodeTypes());
@@ -140,16 +158,18 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 				nt.setNodeOrEdgeTypeID(true, typeID);
 				++typeID;
 			}
-			this.allNodeTypes  = Collections.unmodifiableCollection(allNodeTypes);
+			this.allNodeTypes = Collections.unmodifiableCollection(allNodeTypes);
 		}
 		return allNodeTypes;
 	}
-	
-	public Collection<EdgeType> getEdgeTypes() {
+
+	public Collection<EdgeType> getEdgeTypes()
+	{
 		return Collections.unmodifiableCollection(edgeTypes);
 	}
 
-	public Collection<EdgeType> getAllEdgeTypes() {
+	public Collection<EdgeType> getAllEdgeTypes()
+	{
 		if(allEdgeTypes == null) {
 			Collection<EdgeType> allEdgeTypes = new ArrayList<EdgeType>();
 			allEdgeTypes.addAll(getEdgeTypes());
@@ -166,75 +186,91 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 		return allEdgeTypes;
 	}
 
-	public Collection<EnumType> getEnumTypes() {
+	public Collection<EnumType> getEnumTypes()
+	{
 		return Collections.unmodifiableCollection(enumTypes);
 	}
 
-	public Collection<ExternalType> getExternalTypes() {
+	public Collection<ExternalType> getExternalTypes()
+	{
 		return Collections.unmodifiableCollection(externalTypes);
 	}
 
-	public Collection<Model> getUsedModels() {
+	public Collection<Model> getUsedModels()
+	{
 		return Collections.unmodifiableCollection(usedModels);
 	}
-	
-	public boolean isEmitClassDefined() {
+
+	public boolean isEmitClassDefined()
+	{
 		return isEmitClassDefined;
 	}
 
-	public boolean isEmitGraphClassDefined() {
+	public boolean isEmitGraphClassDefined()
+	{
 		return isEmitGraphClassDefined;
 	}
 
-	public boolean isCopyClassDefined() {
+	public boolean isCopyClassDefined()
+	{
 		return isCopyClassDefined;
 	}
 
-	public boolean isEqualClassDefined() {
+	public boolean isEqualClassDefined()
+	{
 		return isEqualClassDefined;
 	}
 
-	public boolean isLowerClassDefined() {
+	public boolean isLowerClassDefined()
+	{
 		return isLowerClassDefined;
 	}
 
-	public boolean isUniqueDefined() {
+	public boolean isUniqueDefined()
+	{
 		return isUniqueDefined;
 	}
 
-	public void forceUniqueDefined() {
+	public void forceUniqueDefined()
+	{
 		isUniqueDefined = true;
 	}
 
-	public boolean isUniqueIndexDefined() {
+	public boolean isUniqueIndexDefined()
+	{
 		return isUniqueIndexDefined;
 	}
 
-	public void forceFunctionsParallel() {
+	public void forceFunctionsParallel()
+	{
 		areFunctionsParallel = true;
 	}
-	
-	public boolean areFunctionsParallel() {
+
+	public boolean areFunctionsParallel()
+	{
 		return areFunctionsParallel;
 	}
 
-	public int isoParallel() {
+	public int isoParallel()
+	{
 		return isoParallel;
 	}
 
 	/** Canonicalize the type model. */
-	protected void canonicalizeLocal() {
+	protected void canonicalizeLocal()
+	{
 		//Collections.sort(types, Identifiable.COMPARATOR);
 		//Collections.sort(types);
 
 		for(Type ty : types) {
 			ty.canonicalize();
-			if (ty instanceof EdgeType)
+			if(ty instanceof EdgeType)
 				((EdgeType)ty).canonicalizeConnectionAsserts();
 		}
 	}
 
-	public void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb)
+	{
 		sb.append(this);
 		sb.append('[');
 
@@ -248,10 +284,10 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer {
 		sb.append(']');
 	}
 
-	public void addFields(Map<String, Object> fields) {
+	public void addFields(Map<String, Object> fields)
+	{
 		super.addFields(fields);
 		fields.put("usedModels", usedModels.iterator());
 		fields.put("types", types.iterator());
 	}
 }
-

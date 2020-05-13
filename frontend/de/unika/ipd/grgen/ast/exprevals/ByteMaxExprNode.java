@@ -15,39 +15,46 @@ import de.unika.ipd.grgen.ir.exprevals.ByteMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ByteMaxExprNode extends ExprNode {
+public class ByteMaxExprNode extends ExprNode
+{
 	static {
 		setName(ByteMaxExprNode.class, "bytemax expr");
 	}
 
-	public ByteMaxExprNode(Coords coords) {
+	public ByteMaxExprNode(Coords coords)
+	{
 		super(coords);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ByteMaxExpr();
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.byteType;
 	}
 }

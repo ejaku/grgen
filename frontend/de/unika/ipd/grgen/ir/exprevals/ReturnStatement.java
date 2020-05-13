@@ -14,16 +14,19 @@ package de.unika.ipd.grgen.ir.exprevals;
 /**
  * Represents a return statement of a function in the IR.
  */
-public class ReturnStatement extends EvalStatement {
+public class ReturnStatement extends EvalStatement
+{
 
 	private Expression returnValueExpr;
 
-	public ReturnStatement(Expression returnValueExpr) {
+	public ReturnStatement(Expression returnValueExpr)
+	{
 		super("return statement");
 		this.returnValueExpr = returnValueExpr;
 	}
 
-	public Expression getReturnValueExpr() {
+	public Expression getReturnValueExpr()
+	{
 		return returnValueExpr;
 	}
 

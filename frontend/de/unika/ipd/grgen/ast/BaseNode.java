@@ -36,25 +36,25 @@ import de.unika.ipd.grgen.util.Walkable;
  * children/sibling storing scheme. This reimplemented here.
  * AST root node is UnitNode.
  */
-public abstract class BaseNode extends Base
-	implements GraphDumpable, Walkable {
+public abstract class BaseNode extends Base implements GraphDumpable, Walkable
+{
 	public static final int CONTEXT_LHS_OR_RHS = 1;
 	public static final int CONTEXT_LHS = 0;
 	public static final int CONTEXT_RHS = 1;
-	public static final int CONTEXT_ACTION_OR_PATTERN = 1<<1;
-	public static final int CONTEXT_ACTION = 0<<1;
-	public static final int CONTEXT_PATTERN = 1<<1;
-	public static final int CONTEXT_TEST_OR_RULE = 1<<2; // only valid if CONTEXT_ACTION
-	public static final int CONTEXT_TEST = 0<<2;
-	public static final int CONTEXT_RULE = 1<<2;
-	public static final int CONTEXT_NEGATIVE = 1<<3;
-	public static final int CONTEXT_INDEPENDENT = 1<<4;
-	public static final int CONTEXT_PARAMETER = 1<<5;
-	public static final int CONTEXT_COMPUTATION = 1<<6;
-	public static final int CONTEXT_FUNCTION_OR_PROCEDURE = 1<<7;
-	public static final int CONTEXT_FUNCTION = 0<<7;
-	public static final int CONTEXT_PROCEDURE = 1<<7;
-	public static final int CONTEXT_METHOD = 1<<8;
+	public static final int CONTEXT_ACTION_OR_PATTERN = 1 << 1;
+	public static final int CONTEXT_ACTION = 0 << 1;
+	public static final int CONTEXT_PATTERN = 1 << 1;
+	public static final int CONTEXT_TEST_OR_RULE = 1 << 2; // only valid if CONTEXT_ACTION
+	public static final int CONTEXT_TEST = 0 << 2;
+	public static final int CONTEXT_RULE = 1 << 2;
+	public static final int CONTEXT_NEGATIVE = 1 << 3;
+	public static final int CONTEXT_INDEPENDENT = 1 << 4;
+	public static final int CONTEXT_PARAMETER = 1 << 5;
+	public static final int CONTEXT_COMPUTATION = 1 << 6;
+	public static final int CONTEXT_FUNCTION_OR_PROCEDURE = 1 << 7;
+	public static final int CONTEXT_FUNCTION = 0 << 7;
+	public static final int CONTEXT_PROCEDURE = 1 << 7;
+	public static final int CONTEXT_METHOD = 1 << 8;
 
 	/**
 	 * AST global name map, that maps from Class to String.
@@ -70,13 +70,11 @@ public abstract class BaseNode extends Base
 	/** Print verbose error messages. */
 	private static boolean verboseErrorMsg = true;
 
-
 	/** coordinates for builtin types and declarations */
 	public static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
 
 	/** Location in the source corresponding to this node */
 	private Coords coords = Coords.getInvalid();
-
 
 	/** The current scope, with which the scopes of the new BaseNodes are initialized. */
 	private static Scope currScope = Scope.getInvalid();
@@ -84,10 +82,8 @@ public abstract class BaseNode extends Base
 	/** The scope in which this node occurred. */
 	private Scope scope;
 
-
 	/** The parent node of this node. */
 	protected Set<BaseNode> parents = new LinkedHashSet<BaseNode>();
-
 
 	/** Has this base node already been resolved? */
 	private boolean resolved = false;
@@ -104,20 +100,18 @@ public abstract class BaseNode extends Base
 	/** The result of the check, if checked. */
 	private boolean checkResult = false;
 
-
 	/** The IR object for this node. */
 	private IR irObject = null;
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Make a new base node with given coordinates.
 	 * @param coords The coordinates of this node.
 	 */
-	protected BaseNode(Coords coords) {
+	protected BaseNode(Coords coords)
+	{
 		this();
 		this.coords = coords;
 	}
@@ -127,7 +121,8 @@ public abstract class BaseNode extends Base
 	 * It is assumed, that the location is set afterwards using
 	 * {@link #setLocation(Location)}.
 	 */
-	protected BaseNode() {
+	protected BaseNode()
+	{
 		this.scope = currScope;
 	}
 
@@ -135,7 +130,8 @@ public abstract class BaseNode extends Base
 	 * Ordinary to string cast method
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
+	public String toString()
+	{
 		return getName();
 	}
 
@@ -144,7 +140,8 @@ public abstract class BaseNode extends Base
 	 * @param cls The class.
 	 * @return stripped class name.
 	 */
-	protected static String shortClassName(Class<?> cls) {
+	protected static String shortClassName(Class<?> cls)
+	{
 		String s = cls.getName();
 		return s.substring(s.lastIndexOf('.') + 1);
 	}
@@ -157,9 +154,9 @@ public abstract class BaseNode extends Base
 	 * @param cls A class to get its name.
 	 * @return The registered name of the class or the class name.
 	 */
-	public static String getName(Class<? extends BaseNode> cls) {
-		return names.containsKey(cls) ? names.get(cls)
-			: "<" + shortClassName(cls) + ">";
+	public static String getName(Class<? extends BaseNode> cls)
+	{
+		return names.containsKey(cls) ? names.get(cls) : "<" + shortClassName(cls) + ">";
 	}
 
 	/**
@@ -167,7 +164,8 @@ public abstract class BaseNode extends Base
 	 * @param cls The AST node class.
 	 * @param name A human readable name for that class.
 	 */
-	protected static void setName(Class<? extends BaseNode> cls, String name) {
+	protected static void setName(Class<? extends BaseNode> cls, String name)
+	{
 		names.put(cls, name);
 	}
 
@@ -175,7 +173,8 @@ public abstract class BaseNode extends Base
 	 * Get the name of this node.
 	 * @return The name
 	 */
-	public String getName() {
+	public String getName()
+	{
 		Class<? extends BaseNode> cls = getClass();
 		String name = getName(cls);
 
@@ -189,16 +188,17 @@ public abstract class BaseNode extends Base
 	 * Set the name of the node.
 	 * @param name The new name.
 	 */
-	protected final void setName(String name) {
+	protected final void setName(String name)
+	{
 		names.put(getClass(), name);
 	}
 
-	public final String getKindString() {
+	public final String getKindString()
+	{
 		String res = "<unknown>";
 		try {
-			res = (String) getClass().getMethod("getKindStr").invoke(null);
-		}
-		catch (Exception e) {
+			res = (String)getClass().getMethod("getKindStr").invoke(null);
+		} catch(Exception e) {
 			assert false : e.toString();
 		}
 		return res;
@@ -208,22 +208,24 @@ public abstract class BaseNode extends Base
 	 * Get a string characterising the kind of this class, for example "base node".
 	 * @return The characterisation.
 	 */
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "base node";
 	}
 
-	public final String getUseString() {
+	public final String getUseString()
+	{
 		String res = "<unknown>";
 		try {
-			res = (String) getClass().getMethod("getUseStr").invoke(null);
-		}
-		catch (Exception e) {
+			res = (String)getClass().getMethod("getUseStr").invoke(null);
+		} catch(Exception e) {
 			assert false : e.toString();
 		}
 		return res;
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "base node";
 	}
 
@@ -231,7 +233,8 @@ public abstract class BaseNode extends Base
 	 * Gets an error node
 	 * @return an error node
 	 */
-	public static BaseNode getErrorNode() {
+	public static BaseNode getErrorNode()
+	{
 		return NULL;
 	}
 
@@ -241,7 +244,8 @@ public abstract class BaseNode extends Base
 	 * @return extra info for the node (return null, if no extra info
 	 * shall be available).
 	 */
-	protected String extraNodeInfo() {
+	protected String extraNodeInfo()
+	{
 		return null;
 	}
 
@@ -250,14 +254,16 @@ public abstract class BaseNode extends Base
 	 * @param verbose If true, the AST classes generate slightly more verbose
 	 * error messages.
 	 */
-	public static void setVerbose(boolean verbose) {
+	public static void setVerbose(boolean verbose)
+	{
 		verboseErrorMsg = verbose;
 	}
 
 	/**
 	 * @return true, if this node is an error node
 	 */
-	public boolean isError() {
+	public boolean isError()
+	{
 		return false;
 	}
 
@@ -265,13 +271,14 @@ public abstract class BaseNode extends Base
 	 * Report an error message concerning this node
 	 * @param msg The message to report.
 	 */
-	public final void reportError(String msg) {
-
+	public final void reportError(String msg)
+	{
 		// error.error(getCoords(), "At " + getName() + ": " + msg + ".");
 		error.error(getCoords(), msg);
 	}
 
-	public final void reportWarning(String msg) {
+	public final void reportWarning(String msg)
+	{
 		error.warning(getCoords(), msg);
 	}
 
@@ -279,7 +286,8 @@ public abstract class BaseNode extends Base
 	 * Get the coordinates within the source code of this node.
 	 * @return The coordinates.
 	 */
-	public final Coords getCoords() {
+	public final Coords getCoords()
+	{
 		return coords;
 	}
 
@@ -287,7 +295,8 @@ public abstract class BaseNode extends Base
 	 * Set the coordinates within the source code of this node.
 	 * @param coords The coordinates.
 	 */
-	public final void setCoords(Coords coords) {
+	public final void setCoords(Coords coords)
+	{
 		this.coords = coords;
 	}
 
@@ -295,7 +304,8 @@ public abstract class BaseNode extends Base
 	 * Get the scope of this AST node.
 	 * @return The scope in which the node was created.
 	 */
-	public final Scope getScope() {
+	public final Scope getScope()
+	{
 		return scope;
 	}
 
@@ -305,13 +315,14 @@ public abstract class BaseNode extends Base
 	 * or left.
 	 * @param scope The new current scope.
 	 */
-	public static void setCurrScope(Scope scope) {
+	public static void setCurrScope(Scope scope)
+	{
 		currScope = scope;
 	}
 
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 	// Children, Parents, AST structure handling
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	/** returns children of this node */
 	public abstract Collection<? extends BaseNode> getChildren();
@@ -321,12 +332,14 @@ public abstract class BaseNode extends Base
 
 	/** implementation of Walkable by getChildren
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Collection<? extends BaseNode> getWalkableChildren() {
+	public Collection<? extends BaseNode> getWalkableChildren()
+	{
 		return getChildren();
 	}
 
 	/** helper: remove ourself as parent of child to throw out, become parent of child to adopt instead */
-	protected final void switchParenthood(BaseNode throwOut, BaseNode adopt) {
+	protected final void switchParenthood(BaseNode throwOut, BaseNode adopt)
+	{
 		throwOut.parents.remove(this);
 		adopt.parents.add(this);
 	}
@@ -335,16 +348,18 @@ public abstract class BaseNode extends Base
 	 * helper: become parent of child to adopt
 	 * @return The given parameter
 	 **/
-	public final <T extends BaseNode> T becomeParent(T adopt) {
-		if(adopt!=null) {
+	public final <T extends BaseNode> T becomeParent(T adopt)
+	{
+		if(adopt != null) {
 			adopt.parents.add(this);
 		}
 		return adopt;
 	}
 
 	/** helper: if resolution yielded some new node, become parent of it and return it; otherwise just return old node */
-	protected final <T extends BaseNode> T ownedResolutionResult(T original, T resolved) {
-		if(resolved!=null && resolved!=original) {
+	protected final <T extends BaseNode> T ownedResolutionResult(T original, T resolved)
+	{
+		if(resolved != null && resolved != original) {
 			becomeParent(resolved);
 			return resolved;
 		} else {
@@ -353,12 +368,13 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected final <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved) {
+	protected final <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved)
+	{
 		assert isResolved() : this;
-		if(firstResolved != null){
+		if(firstResolved != null) {
 			return firstResolved;
 		}
-		if(secondResolved != null){
+		if(secondResolved != null) {
 			return secondResolved;
 		}
 		assert false : this;
@@ -366,15 +382,16 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected final <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved, T thirdResolved) {
+	protected final <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved, T thirdResolved)
+	{
 		assert isResolved() : this;
-		if(firstResolved != null){
+		if(firstResolved != null) {
 			return firstResolved;
 		}
-		if(secondResolved != null){
+		if(secondResolved != null) {
 			return secondResolved;
 		}
-		if(thirdResolved != null){
+		if(thirdResolved != null) {
 			return thirdResolved;
 		}
 		assert false : this;
@@ -382,20 +399,22 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved. */
-	protected final <T extends BaseNode> T getValidVersion(T unresolved, T resolved) {
-		if(isResolved()){
+	protected final <T extends BaseNode> T getValidVersion(T unresolved, T resolved)
+	{
+		if(isResolved()) {
 			return resolved;
 		}
 		return unresolved;
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved) {
-		if(isResolved()){
-			if(firstResolved != null){
+	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved)
+	{
+		if(isResolved()) {
+			if(firstResolved != null) {
 				return firstResolved;
 			}
-			if(secondResolved != null){
+			if(secondResolved != null) {
 				return secondResolved;
 			}
 		}
@@ -403,15 +422,17 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved, T thirdResolved) {
-		if(isResolved()){
-			if(firstResolved != null){
+	protected final <T extends BaseNode> T getValidVersion(T unresolved,
+			T firstResolved, T secondResolved, T thirdResolved)
+	{
+		if(isResolved()) {
+			if(firstResolved != null) {
 				return firstResolved;
 			}
-			if(secondResolved != null){
+			if(secondResolved != null) {
 				return secondResolved;
 			}
-			if(thirdResolved != null){
+			if(thirdResolved != null) {
 				return thirdResolved;
 			}
 		}
@@ -419,18 +440,20 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved, T thirdResolved, T fourthResolved) {
-		if(isResolved()){
-			if(firstResolved != null){
+	protected final <T extends BaseNode> T getValidVersion(T unresolved,
+			T firstResolved, T secondResolved, T thirdResolved, T fourthResolved)
+	{
+		if(isResolved()) {
+			if(firstResolved != null) {
 				return firstResolved;
 			}
-			if(secondResolved != null){
+			if(secondResolved != null) {
 				return secondResolved;
 			}
-			if(thirdResolved != null){
+			if(thirdResolved != null) {
 				return thirdResolved;
 			}
-			if(fourthResolved != null){
+			if(fourthResolved != null) {
 				return fourthResolved;
 			}
 		}
@@ -438,14 +461,16 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return new vector containing elements of the currently valid member vector. Currently valid depends on vector was already resolved. */
-	protected final <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved, Vector<? extends T> resolved) {
+	protected final <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved,
+			Vector<? extends T> resolved)
+	{
 		Vector<T> result = new Vector<T>();
 		if(isResolved()) {
-			for(int i=0; i<resolved.size(); ++i) {
+			for(int i = 0; i < resolved.size(); ++i) {
 				result.add(resolved.get(i));
 			}
 		} else {
-			for(int i=0; i<unresolved.size(); ++i) {
+			for(int i = 0; i < unresolved.size(); ++i) {
 				result.add(unresolved.get(i));
 			}
 		}
@@ -455,17 +480,18 @@ public abstract class BaseNode extends Base
 	/** Return new vector containing elements of the currently valid member vector.
 	 *  Currently valid depends on vector was already resolved and resolution result. */
 	protected final <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved,
-																   Vector<? extends T> firstResolved, Vector<? extends T> secondResolved) {
+			Vector<? extends T> firstResolved, Vector<? extends T> secondResolved)
+	{
 		Vector<T> result = new Vector<T>();
 		if(isResolved()) {
-			for(int i=0; i<firstResolved.size(); ++i) {
+			for(int i = 0; i < firstResolved.size(); ++i) {
 				result.add(firstResolved.get(i));
 			}
-			for(int i=0; i<secondResolved.size(); ++i) {
+			for(int i = 0; i < secondResolved.size(); ++i) {
 				result.add(secondResolved.get(i));
 			}
 		} else {
-			for(int i=0; i<unresolved.size(); ++i) {
+			for(int i = 0; i < unresolved.size(); ++i) {
 				result.add(unresolved.get(i));
 			}
 		}
@@ -474,19 +500,21 @@ public abstract class BaseNode extends Base
 
 	/** Check whether this AST node is a root node (i.e. it has no predecessors)
 	 * @return true, if it's a root node, false, if not. */
-	protected final boolean isRoot() {
+	protected final boolean isRoot()
+	{
 		return parents.isEmpty();
 	}
 
 	/** Get the parent nodes of this node.
 	 * Mostly only one parent (syntax tree), few nodes with multiple parents (syntax DAG), root node without parents.*/
-	protected final Collection<BaseNode> getParents() {
+	protected final Collection<BaseNode> getParents()
+	{
 		return Collections.unmodifiableCollection(parents);
 	}
 
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 	// Resolving, Checking, Type Checking
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Finish up the AST.
@@ -495,7 +523,8 @@ public abstract class BaseNode extends Base
 	 * @param node The root node of the AST.
 	 * @return true, if everything went right, false, if not.
 	 */
-	public static final boolean manifestAST(UnitNode node) {
+	public static final boolean manifestAST(UnitNode node)
+	{
 		// resolve AST
 		boolean resolved = node.resolve();
 
@@ -517,7 +546,8 @@ public abstract class BaseNode extends Base
 	 * @return true, if resolution of the AST beginning with this node finished successfully;
 	 * false, if there was some error.
 	 */
-	public final boolean resolve() {
+	public final boolean resolve()
+	{
 		if(isResolved()) {
 			return resolutionResult();
 		}
@@ -530,18 +560,17 @@ public abstract class BaseNode extends Base
 		}
 
 		for(BaseNode c : getChildren()) {
-			boolean res = (c!=null) && c.resolve();
+			boolean res = (c != null) && c.resolve();
 			//assert(res || this instanceof InvalidDeclNode);
 			successfullyResolved &= res;
 		}
-		
+
 		if(!successfullyResolved) {
 			debug.report(NOTE, getCoords(), "child resolve ERROR in " + this);
 		}
 
 		return successfullyResolved;
 	}
-
 
 	/**
 	 * local resolving of the current node to be implemented by the subclasses, called from the resolve AST walk
@@ -551,18 +580,21 @@ public abstract class BaseNode extends Base
 	protected abstract boolean resolveLocal();
 
 	/** Mark this node as resolved and set the result of the resolution. */
-	private void nodeResolvedSetResult(boolean resolveResult) {
+	private void nodeResolvedSetResult(boolean resolveResult)
+	{
 		resolved = true;
 		this.resolveResult = resolveResult;
 	}
 
 	/** Returns whether this node has been resolved already. */
-	protected final boolean isResolved() {
+	protected final boolean isResolved()
+	{
 		return resolved;
 	}
 
 	/** Returns the result of the resolution (as set by nodeResolvedSetResult earlier on). */
-	public final boolean resolutionResult() {
+	public final boolean resolutionResult()
+	{
 		assert isResolved() : this;
 		return resolveResult;
 	}
@@ -576,7 +608,8 @@ public abstract class BaseNode extends Base
 	 * @return true, if checking of the AST beginning with this node finished successfully;
 	 * false, if there was some error.
 	 */
-	protected final boolean check() {
+	protected final boolean check()
+	{
 		debug.report(NOTE, getCoords(), "check in: " + getId() + "(" + getClass() + ")");
 
 		if(!resolutionResult()) {
@@ -619,38 +652,44 @@ public abstract class BaseNode extends Base
 	protected abstract boolean checkLocal();
 
 	/** Mark this node as checked and set the result of the check. */
-	protected final void nodeCheckedSetResult(boolean checkResult) {
+	protected final void nodeCheckedSetResult(boolean checkResult)
+	{
 		checked = true;
 		this.checkResult = checkResult;
 	}
 
 	/** Has this node already been checked? */
-	protected final boolean isChecked() {
+	protected final boolean isChecked()
+	{
 		return checked;
 	}
 
 	/** Yields result of checking this AST node */
-	protected final boolean getChecked() {
-		assert isChecked(): this;
+	protected final boolean getChecked()
+	{
+		assert isChecked() : this;
 		return checkResult;
 	}
 
 	/** Mark this node as visited during check walk. */
-	protected final void setCheckVisited() {
+	protected final void setCheckVisited()
+	{
 		checkVisited = true;
 	}
 
 	/** Has this node already been visited during check? */
-	protected final boolean visitedDuringCheck() {
+	protected final boolean visitedDuringCheck()
+	{
 		return checkVisited;
 	}
-	
+
 	/*
 	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
 	 * TODO: fully extract and unify this method to a common place/remove code duplication
 	 * better yet: move it to own pass before resolving
 	 */
-	public static boolean fixupDefinition(BaseNode elem, Scope scope) {
+	public static boolean fixupDefinition(BaseNode elem, Scope scope)
+	{
 		if(!(elem instanceof IdentNode)) {
 			return true;
 		}
@@ -662,7 +701,8 @@ public abstract class BaseNode extends Base
 	 * TODO: fully extract and unify this method to a common place/remove code duplication
 	 * better yet: move it to own pass before resolving
 	 */
-	public static boolean fixupDefinition(IdentNode id, Scope scope) {
+	public static boolean fixupDefinition(IdentNode id, Scope scope)
+	{
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.
@@ -698,12 +738,13 @@ public abstract class BaseNode extends Base
 	 * TODO: fully extract and unify this method to a common place/remove code duplication
 	 * better yet: move it to own pass before resolving
 	 */
-	public static boolean tryFixupDefinition(BaseNode elem, Scope scope) {
+	public static boolean tryFixupDefinition(BaseNode elem, Scope scope)
+	{
 		if(!(elem instanceof IdentNode)) {
 			return false;
 		}
 		IdentNode id = (IdentNode)elem;
-		
+
 		debug.report(NOTE, "try Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.
@@ -723,14 +764,15 @@ public abstract class BaseNode extends Base
 			return false;
 		}
 	}
-	
+
 	/*
 	 * This sets the symbol defintion to the right place, if the defintion is behind the actual position.
 	 * TODO: fully extract and unify this method to a common place/remove code duplication
 	 * better yet: move it to own pass before resolving
 	 * notice: getLocalDef here versus getCurrDef above
 	 */
-	protected static boolean fixupDefinition(IdentNode id, Scope scope, boolean reportErr) {
+	protected static boolean fixupDefinition(IdentNode id, Scope scope, boolean reportErr)
+	{
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.
@@ -752,11 +794,9 @@ public abstract class BaseNode extends Base
 		return res;
 	}
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 	// IR handling
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Get the IR object for this AST node.
@@ -766,7 +806,8 @@ public abstract class BaseNode extends Base
 	 * node, {@link #constructIR()} is just called once.
 	 * @return The constructed/stored IR object.
 	 */
-	public final IR getIR() {
+	public final IR getIR()
+	{
 		if(irObject == null)
 			setIR(constructIR());
 		return irObject;
@@ -777,20 +818,22 @@ public abstract class BaseNode extends Base
 	 *
 	 * This method ensures that, you cannot set two different IR object.
 	 */
-	protected final void setIR(IR ir) {
-		if (irObject == null) {
+	protected final void setIR(IR ir)
+	{
+		if(irObject == null) {
 			irObject = ir;
 			return;
 		}
 
-		if (irObject != ir) {
+		if(irObject != ir) {
 			assert false : "Another IR object already exists.";
 		}
 
 		return;
 	}
 
-	protected final boolean isIRAlreadySet() {
+	protected final boolean isIRAlreadySet()
+	{
 		return irObject != null;
 	}
 
@@ -801,13 +844,14 @@ public abstract class BaseNode extends Base
 	 * @param cls The class to check the IR object for.
 	 * @return The IR object.
 	 */
-	public final <T extends IR> T checkIR(Class<T> cls) {
+	public final <T extends IR> T checkIR(Class<T> cls)
+	{
 		IR ir = getIR();
 
 		debug.report(NOTE, getCoords(), "checking ir object in \"" + getName()
-						 + "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"");
+				+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"");
 		assert cls.isInstance(ir) : "checking ir object in \"" + getName()
-			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
+				+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
 
 		return cls.cast(ir);
 	}
@@ -817,32 +861,36 @@ public abstract class BaseNode extends Base
 	 * This method should never be called. It is used by {@link #getIR()}.
 	 * @return The constructed IR object.
 	 */
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return IR.getBad();
 	}
 
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 	// graph dumping
-//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeColor()
 	 */
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.WHITE;
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeId()
 	 */
-	public final String getNodeId() {
+	public final String getNodeId()
+	{
 		return getId();
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeInfo()
 	 */
-	public String getNodeInfo() {
+	public String getNodeInfo()
+	{
 		String extra = extraNodeInfo();
 		return "ID: " + getId() + (extra != null ? "\n" + extra : "");
 	}
@@ -850,28 +898,31 @@ public abstract class BaseNode extends Base
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeLabel()
 	 */
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return this.getName();
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeShape()
 	 */
-	public int getNodeShape() {
+	public int getNodeShape()
+	{
 		return GraphDumper.DEFAULT;
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
 	 */
-	public final String getEdgeLabel(int edge) {
+	public final String getEdgeLabel(int edge)
+	{
 		Collection<String> childrenNames = getChildrenNames();
 		// iterate to corresponding children name
 		int currentEdge = -1;
 		for(Iterator<String> it = childrenNames.iterator(); it.hasNext();) {
 			++currentEdge;
 			String name = it.next();
-			if(currentEdge==edge) {
+			if(currentEdge == edge) {
 				return name;
 			}
 		}
@@ -879,28 +930,28 @@ public abstract class BaseNode extends Base
 	}
 
 	private TypeDeclNode findType(String rootName)
-    {
-    	// get root node
-    	BaseNode root = this;
-    	while (!root.isRoot()) {
-    		root = root.getParents().iterator().next();
-    	}
+	{
+		// get root node
+		BaseNode root = this;
+		while(!root.isRoot()) {
+			root = root.getParents().iterator().next();
+		}
 
-    	// find a root-type
-    	TypeDeclNode rootType = null;
-    	ModelNode model = ((UnitNode) root).getStdModel();
-    	assert model.isResolved();
-    	Collection<TypeDeclNode> types = model.decls.getChildren();
+		// find a root-type
+		TypeDeclNode rootType = null;
+		ModelNode model = ((UnitNode)root).getStdModel();
+		assert model.isResolved();
+		Collection<TypeDeclNode> types = model.decls.getChildren();
 
-    	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
-    		TypeDeclNode candidate = it.next();
-    		String name = candidate.ident.getSymbol().getText();
-    		if (name.equals(rootName)) {
-    			rootType = candidate;
-    		}
-    	}
-    	return rootType;
-    }
+		for(Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
+			TypeDeclNode candidate = it.next();
+			String name = candidate.ident.getSymbol().getText();
+			if(name.equals(rootName)) {
+				rootType = candidate;
+			}
+		}
+		return rootType;
+	}
 
 	protected final TypeDeclNode getNodeRootType()
 	{
@@ -908,18 +959,17 @@ public abstract class BaseNode extends Base
 	}
 
 	protected final TypeDeclNode getArbitraryEdgeRootType()
-    {
-    	return findType("AEdge");
-    }
+	{
+		return findType("AEdge");
+	}
 
 	protected final TypeDeclNode getDirectedEdgeRootType()
-    {
-    	return findType("Edge");
-    }
+	{
+		return findType("Edge");
+	}
 
 	protected final TypeDeclNode getUndirectedEdgeRootType()
-    {
-    	return findType("UEdge");
-    }
+	{
+		return findType("UEdge");
+	}
 }
-

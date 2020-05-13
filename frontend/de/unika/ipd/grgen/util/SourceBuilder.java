@@ -14,67 +14,74 @@ package de.unika.ipd.grgen.util;
 
 public class SourceBuilder
 {
-    public SourceBuilder() {
-        stringBuilder = new StringBuilder(16);
-        indentationLevel = 0;
-    }
+	public SourceBuilder()
+	{
+		stringBuilder = new StringBuilder(16);
+		indentationLevel = 0;
+	}
 
-    public SourceBuilder indent()
-    {
-        ++indentationLevel;
-        return this;
-    }
-    
-    public SourceBuilder unindent()
-    {
-        --indentationLevel;
-        return this;
-    }
-    
-    public SourceBuilder append(String str) {
-        stringBuilder.append(str);
-        return this;
-    }
+	public SourceBuilder indent()
+	{
+		++indentationLevel;
+		return this;
+	}
 
-    public SourceBuilder appendFront(String str) {
-        for(int i = 0; i < indentationLevel; ++i) {
-            stringBuilder.append("\t");
-        }
-        stringBuilder.append(str);
-        return this;
-    }
+	public SourceBuilder unindent()
+	{
+		--indentationLevel;
+		return this;
+	}
 
-    public SourceBuilder append(boolean b) {
-        stringBuilder.append(b);
-        return this;
-    }
+	public SourceBuilder append(String str)
+	{
+		stringBuilder.append(str);
+		return this;
+	}
 
-    public String getIndent()
-    {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < indentationLevel; ++i) 
-        {
-            sb.append("\t");
-        }
-        return sb.toString();
-    }
+	public SourceBuilder appendFront(String str)
+	{
+		for(int i = 0; i < indentationLevel; ++i) {
+			stringBuilder.append("\t");
+		}
+		stringBuilder.append(str);
+		return this;
+	}
 
-    public StringBuilder getStringBuilder() {
-        return stringBuilder;
-    }
-    
-    public int length() {
-        return stringBuilder.length();
-    }
-    
-    public void delete(int start, int end) {
-        stringBuilder.delete(start, end);
-    }
-    
-    public String toString() {
-        return stringBuilder.toString();
-    }
+	public SourceBuilder append(boolean b)
+	{
+		stringBuilder.append(b);
+		return this;
+	}
 
-    private StringBuilder stringBuilder;
-    private int indentationLevel;
+	public String getIndent()
+	{
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < indentationLevel; ++i) {
+			sb.append("\t");
+		}
+		return sb.toString();
+	}
+
+	public StringBuilder getStringBuilder()
+	{
+		return stringBuilder;
+	}
+
+	public int length()
+	{
+		return stringBuilder.length();
+	}
+
+	public void delete(int start, int end)
+	{
+		stringBuilder.delete(start, end);
+	}
+
+	public String toString()
+	{
+		return stringBuilder.toString();
+	}
+
+	private StringBuilder stringBuilder;
+	private int indentationLevel;
 }

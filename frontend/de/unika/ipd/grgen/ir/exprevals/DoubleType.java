@@ -13,18 +13,22 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A double precision floating point type.
  */
-public class DoubleType extends PrimitiveType {
+public class DoubleType extends PrimitiveType
+{
 
-	public DoubleType(Ident ident) {
+	public DoubleType(Ident ident)
+	{
 		super("double type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_DOUBLE;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.doubleType.checkIR(Type.class);
 	}
 }

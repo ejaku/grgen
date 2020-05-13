@@ -13,7 +13,8 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.EdgeType;
 
-public class ArbitraryEdgeTypeNode extends EdgeTypeNode {
+public class ArbitraryEdgeTypeNode extends EdgeTypeNode
+{
 	static {
 		setName(ArbitraryEdgeTypeNode.class, "arbitrary edge type");
 	}
@@ -27,20 +28,24 @@ public class ArbitraryEdgeTypeNode extends EdgeTypeNode {
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public ArbitraryEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
-			int modifiers, String externalName) {
+	public ArbitraryEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas,
+			CollectNode<BaseNode> body, int modifiers, String externalName)
+	{
 		super(ext, cas, body, modifiers, externalName);
 	}
 
-	protected final void setDirectednessIR(EdgeType edgeType) {
+	protected final void setDirectednessIR(EdgeType edgeType)
+	{
 		edgeType.setDirectedness(EdgeType.Directedness.Arbitrary);
-    }
+	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "arbitrary edge type";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "arbitrary edge type";
 	}
 }

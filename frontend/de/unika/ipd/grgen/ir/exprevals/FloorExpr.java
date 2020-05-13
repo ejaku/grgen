@@ -7,19 +7,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class FloorExpr extends Expression {
+public class FloorExpr extends Expression
+{
 	private Expression expr;
 
-	public FloorExpr(Expression expr) {
+	public FloorExpr(Expression expr)
+	{
 		super("floor expr", expr.getType());
 		this.expr = expr;
 	}
 
-	public Expression getExpr() {
+	public Expression getExpr()
+	{
 		return expr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		expr.collectNeededEntities(needs);
 	}
 }

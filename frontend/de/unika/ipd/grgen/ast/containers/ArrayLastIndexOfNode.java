@@ -44,27 +44,30 @@ public class ArrayLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(valueExpr);
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			children.add(startIndexExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("valueExpr");
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			childrenNames.add("startIndex");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array lastIndexOf expression must be of type array<T>");
@@ -72,36 +75,36 @@ public class ArrayLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 		}
 		TypeNode valueType = valueExpr.getType();
 		ArrayTypeNode arrayType = ((ArrayTypeNode)targetExpr.getType());
-		if (!valueType.isEqual(arrayType.valueType))
-		{
+		if(!valueType.isEqual(arrayType.valueType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(arrayType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to "
-						+ "array lastIndexOf method must be of type " +arrayType.valueType.toString());
+				valueExpr.reportError("Argument (value) to array lastIndexOf method must be of type "
+						+ arrayType.valueType.toString());
 				return false;
 			}
 		}
-		if(startIndexExpr!=null
-				&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
-				startIndexExpr.reportError("Argument (start index) to array lastIndexOf expression must be of type int");
-				return false;
-				}
+		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
+			startIndexExpr.reportError("Argument (start index) to array lastIndexOf expression must be of type int");
+			return false;
+		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(startIndexExpr!=null)
+	protected IR constructIR()
+	{
+		if(startIndexExpr != null)
 			return new ArrayLastIndexOfExpr(targetExpr.checkIR(Expression.class),
 					valueExpr.checkIR(Expression.class),
 					startIndexExpr.checkIR(Expression.class));
 		else
 			return new ArrayLastIndexOfExpr(targetExpr.checkIR(Expression.class),
-				valueExpr.checkIR(Expression.class));
+					valueExpr.checkIR(Expression.class));
 	}
 }

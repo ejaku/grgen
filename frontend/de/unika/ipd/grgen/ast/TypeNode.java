@@ -28,34 +28,36 @@ import java.util.Set;
 /**
  * Base class for all AST nodes representing types.
  */
-public abstract class TypeNode extends BaseNode {
+public abstract class TypeNode extends BaseNode
+{
 	/** A map, that maps each basic type to a set of all other basic types
 	 *  that are compatible to the type. */
-	private static final Map<TypeNode, HashSet<TypeNode>> compatibleMap =
-		new HashMap<TypeNode, HashSet<TypeNode>>();
+	private static final Map<TypeNode, HashSet<TypeNode>> compatibleMap = new HashMap<TypeNode, HashSet<TypeNode>>();
 
 	/** A map, that maps each type to a set of all other types
 	 * that are castable to the type. */
-	private static final Map<TypeNode, HashSet<TypeNode>> castableMap =
-		new HashMap<TypeNode, HashSet<TypeNode>>();
+	private static final Map<TypeNode, HashSet<TypeNode>> castableMap = new HashMap<TypeNode, HashSet<TypeNode>>();
 
 	// Cache variables
 	private Set<TypeNode> compatibleToTypes;
 	private Set<TypeNode> castableToTypes;
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "type";
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
@@ -71,14 +73,15 @@ public abstract class TypeNode extends BaseNode {
 	 * @return		the compatibility distance, Integer.MAX_VALUE if no compatibility could
 	 * 				be found
 	 */
-	public int compatibilityDistance(TypeNode type) {
-		if ( this.isEqual(type) )
+	public int compatibilityDistance(TypeNode type)
+	{
+		if(this.isEqual(type))
 			return 0;
-		if ( this.isCompatibleTo(type) )
+		if(this.isCompatibleTo(type))
 			return 1;
 
-		for (TypeNode t : getCompatibleToTypes()) {
-			if (t.isCompatibleTo(type))
+		for(TypeNode t : getCompatibleToTypes()) {
+			if(t.isCompatibleTo(type))
 				return 2;
 		}
 
@@ -90,7 +93,8 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t A type.
 	 * @return true, if this type is compatible or equal to <code>t</code>
 	 */
-	public boolean isCompatibleTo(TypeNode t) {
+	public boolean isCompatibleTo(TypeNode t)
+	{
 		if(isEqual(t))
 			return true;
 
@@ -103,12 +107,14 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t A type.
 	 * @return true, if this type is just castable to <code>t</code>.
 	 */
-	public boolean isCastableTo(TypeNode t) {
+	public boolean isCastableTo(TypeNode t)
+	{
 		return getCastableToTypes().contains(t);
 	}
 
 	@Override
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.MAGENTA;
 	}
 
@@ -117,7 +123,8 @@ public abstract class TypeNode extends BaseNode {
 	 * The cast must always succeed.
 	 * @return The IR object as type.
 	 */
-	public Type getType() {
+	public Type getType()
+	{
 		return checkIR(Type.class);
 	}
 
@@ -126,14 +133,15 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t The type to check for.
 	 * @return true, if this and <code>t</code> are of the same type.
 	 */
-	public boolean isEqual(TypeNode t) {
+	public boolean isEqual(TypeNode t)
+	{
 		if(t == this)
 			return true;
 		else if(t instanceof SetTypeNode && this instanceof SetTypeNode)
 			return ((SetTypeNode)t).valueType == ((SetTypeNode)this).valueType;
 		else if(t instanceof MapTypeNode && this instanceof MapTypeNode)
 			return ((MapTypeNode)t).keyType == ((MapTypeNode)this).keyType
-				&& ((MapTypeNode)t).valueType == ((MapTypeNode)this).valueType;
+					&& ((MapTypeNode)t).valueType == ((MapTypeNode)this).valueType;
 		else if(t instanceof ArrayTypeNode && this instanceof ArrayTypeNode)
 			return ((ArrayTypeNode)t).valueType == ((ArrayTypeNode)this).valueType;
 		else if(t instanceof DequeTypeNode && this instanceof DequeTypeNode)
@@ -146,31 +154,35 @@ public abstract class TypeNode extends BaseNode {
 	 * Check, if the type is a basic type (integer, boolean, string, void).
 	 * @return true, if the type is a basic type.
 	 */
-	public boolean isBasic() {
+	public boolean isBasic()
+	{
 		return false;
 	}
 
 	/**
 	 * Returns a collection of all compatible types which are compatible to this one.
 	 */
-	public final Collection<TypeNode> getCompatibleToTypes() {
+	public final Collection<TypeNode> getCompatibleToTypes()
+	{
 		if(compatibleToTypes == null) {
 			compatibleToTypes = new HashSet<TypeNode>();
 			doGetCompatibleToTypes(compatibleToTypes);
 			compatibleToTypes.add(this);
-			compatibleToTypes = Collections.unmodifiableSet(compatibleToTypes);	
-		}		
+			compatibleToTypes = Collections.unmodifiableSet(compatibleToTypes);
+		}
 		return compatibleToTypes;
 	}
 
-	public static void addCompatibility(TypeNode a, TypeNode b) {
-		if(compatibleMap.get(a)==null)
+	public static void addCompatibility(TypeNode a, TypeNode b)
+	{
+		if(compatibleMap.get(a) == null)
 			compatibleMap.put(a, new HashSet<TypeNode>());
 		compatibleMap.get(a).add(b);
 	}
 
-	public static void addCastability(TypeNode from, TypeNode to) {
-		if(castableMap.get(from)==null)
+	public static void addCastability(TypeNode from, TypeNode to)
+	{
+		if(castableMap.get(from) == null)
 			castableMap.put(from, new HashSet<TypeNode>());
 		castableMap.get(from).add(to);
 	}
@@ -178,14 +190,15 @@ public abstract class TypeNode extends BaseNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
 	 */
-	public void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+	public void doGetCompatibleToTypes(Collection<TypeNode> coll)
+	{
 		debug.report(NOTE, "compatible types to " + getName() + ":");
 
 		Collection<TypeNode> compat = compatibleMap.get(this);
 		if(compat == null)
 			return;
 
-		if (debug.willReport(NOTE)) {
+		if(debug.willReport(NOTE)) {
 			for(BaseNode curNode : compat) {
 				debug.report(NOTE, "" + curNode.getName());
 			}
@@ -196,7 +209,8 @@ public abstract class TypeNode extends BaseNode {
 	/**
 	 * Returns a collection of all types this one is castable (implicitly and explicitly) to.
 	 */
-	protected final Collection<TypeNode> getCastableToTypes() {
+	protected final Collection<TypeNode> getCastableToTypes()
+	{
 		if(castableToTypes == null) {
 			castableToTypes = new HashSet<TypeNode>();
 			doGetCastableToTypes(castableToTypes);
@@ -206,13 +220,15 @@ public abstract class TypeNode extends BaseNode {
 		return castableToTypes;
 	}
 
-	private void doGetCastableToTypes(Collection<TypeNode> coll) {
+	private void doGetCastableToTypes(Collection<TypeNode> coll)
+	{
 		Collection<TypeNode> castable = castableMap.get(this);
 		if(castable != null)
 			coll.addAll(castable);
 	}
-	
-	public boolean isFilterableType() {
+
+	public boolean isFilterableType()
+	{
 		if(isOrderableType())
 			return true;
 		if(this instanceof NodeTypeNode)
@@ -222,7 +238,8 @@ public abstract class TypeNode extends BaseNode {
 		return false;
 	}
 
-	public boolean isOrderableType() {
+	public boolean isOrderableType()
+	{
 		if(isAccumulatableType())
 			return true;
 		if(isEqual(BasicTypeNode.stringType))
@@ -234,7 +251,8 @@ public abstract class TypeNode extends BaseNode {
 		return false;
 	}
 
-	public boolean isAccumulatableType() {
+	public boolean isAccumulatableType()
+	{
 		if(isEqual(BasicTypeNode.byteType))
 			return true;
 		if(isEqual(BasicTypeNode.shortType))
@@ -249,17 +267,19 @@ public abstract class TypeNode extends BaseNode {
 			return true;
 		return false;
 	}
-	
-	public static String getFilterableTypesAsString() {
+
+	public static String getFilterableTypesAsString()
+	{
 		return getOrderableTypesAsString() + " or a node or edge class";
 	}
-	
-	public static String getOrderableTypesAsString() {
+
+	public static String getOrderableTypesAsString()
+	{
 		return getAccumulatableTypesAsString() + ", string, boolean";
 	}
-	
-	public static String getAccumulatableTypesAsString() {
+
+	public static String getAccumulatableTypesAsString()
+	{
 		return "byte, short, int, long, float, double";
 	}
 }
-

@@ -19,12 +19,14 @@ public class DoubleTypeNode extends BasicTypeNode
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new DoubleType(getIdentNode().getIdent());
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "double";
 	}
 };

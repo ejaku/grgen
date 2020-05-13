@@ -11,24 +11,29 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class StringStartsWith extends Expression {
+public class StringStartsWith extends Expression
+{
 	private Expression stringExpr, stringToSearchForExpr;
 
-	public StringStartsWith(Expression stringExpr, Expression stringToSearchForExpr) {
+	public StringStartsWith(Expression stringExpr, Expression stringToSearchForExpr)
+	{
 		super("string startsWith", BooleanType.getType());
 		this.stringExpr = stringExpr;
 		this.stringToSearchForExpr = stringToSearchForExpr;
 	}
 
-	public Expression getStringExpr() {
+	public Expression getStringExpr()
+	{
 		return stringExpr;
 	}
 
-	public Expression getStringToSearchForExpr() {
+	public Expression getStringToSearchForExpr()
+	{
 		return stringToSearchForExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		stringExpr.collectNeededEntities(needs);
 		stringToSearchForExpr.collectNeededEntities(needs);
 	}

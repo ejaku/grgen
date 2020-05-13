@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * An operator in an expression.
  */
-public class Operator extends Expression {
+public class Operator extends Expression
+{
 	public static final int COND = 0;
 	public static final int LOG_OR = 1;
 	public static final int LOG_AND = 2;
@@ -50,9 +51,9 @@ public class Operator extends Expression {
 
 	// THIS ARRAY MUST BE IN THE SAME ORDER AS CSharpBase.opSymbols! (append new operator at the end)
 	public static final String[] opNames = {
-		"COND",	"LOG_OR", "LOG_AND", "BIT_OR", "BIT_XOR", "BIT_AND",
-		"EQ", "NE", "LT", "LE", "GT", "GE", "SHL", "SHR", "BIT_SHR", "ADD",
-		"SUB", "MUL", "DIV", "MOD", "LOG_NOT", "BIT_NOT", "NEG", "IN", "EXCEPT", "SE"
+			"COND", "LOG_OR", "LOG_AND", "BIT_OR", "BIT_XOR", "BIT_AND",
+			"EQ", "NE", "LT", "LE", "GT", "GE", "SHL", "SHR", "BIT_SHR", "ADD",
+			"SUB", "MUL", "DIV", "MOD", "LOG_NOT", "BIT_NOT", "NEG", "IN", "EXCEPT", "SE"
 	};
 
 	/** The operands of the expression. */
@@ -61,21 +62,22 @@ public class Operator extends Expression {
 	/** The opcode of the operator. */
 	private int opCode;
 
-
-
 	/** @param type The type of the operator. */
-	public Operator(Type type, int opCode) {
+	public Operator(Type type, int opCode)
+	{
 		super("operator", type);
 		this.opCode = opCode;
 	}
 
 	/** @return The opcode of this operator. */
-	public int getOpCode() {
+	public int getOpCode()
+	{
 		return opCode;
 	}
 
 	/** @return The number of operands. */
-	public int arity() {
+	public int arity()
+	{
 		return operands.size();
 	}
 
@@ -84,31 +86,38 @@ public class Operator extends Expression {
 	 * @param index The index of the operand
 	 * @return The operand, if <code>index</code> was valid, <code>null</code> if not.
 	 */
-	public Expression getOperand(int index) {
+	public Expression getOperand(int index)
+	{
 		return index >= 0 || index < operands.size() ? operands.get(index) : null;
 	}
 
 	/** Adds an operand e to the expression. */
-	public void addOperand(Expression e) {
+	public void addOperand(Expression e)
+	{
 		operands.add(e);
 	}
 
-	public String getEdgeLabel(int edge) {
+	public String getEdgeLabel(int edge)
+	{
 		return "op " + edge;
 	}
 
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return getType().getIdent() + " " + opNames[opCode].toLowerCase()
-			+ "(" + opCode + ")";
+				+ "(" + opCode + ")";
 	}
 
-	public Collection<Expression> getWalkableChildren() {
+	public Collection<Expression> getWalkableChildren()
+	{
 		return operands;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
-		for(Expression child : getWalkableChildren())
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		for(Expression child : getWalkableChildren()) {
 			child.collectNeededEntities(needs);
+		}
 	}
 }

@@ -24,7 +24,8 @@ import de.unika.ipd.grgen.ir.NodeType;
  * inherit the connection assertions from the parent edges;
  * after resolving it gets replaced by the connection assertions of the parent nodes.
  */
-public class ConnAssertNode extends BaseNode {
+public class ConnAssertNode extends BaseNode
+{
 	static {
 		setName(ConnAssertNode.class, "conn assert");
 	}
@@ -43,8 +44,9 @@ public class ConnAssertNode extends BaseNode {
 	 * Construct a new connection assertion node.
 	 */
 	public ConnAssertNode(IdentNode src, RangeSpecNode srcRange,
-						  IdentNode tgt, RangeSpecNode tgtRange,
-						  boolean bothDirections) {
+			IdentNode tgt, RangeSpecNode tgtRange,
+			boolean bothDirections)
+	{
 		super(src.getCoords());
 		this.srcUnresolved = src;
 		becomeParent(this.srcUnresolved);
@@ -61,14 +63,16 @@ public class ConnAssertNode extends BaseNode {
 	/**
 	 * Construct a new copy extends = inherit connection assertions from the parent connection assertion node.
 	 */
-	public ConnAssertNode(Coords coords) {
+	public ConnAssertNode(Coords coords)
+	{
 		super(coords);
 		this.copyExtends = true;
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		if(!copyExtends) {
 			children.add(getValidVersion(srcUnresolved, src));
@@ -81,7 +85,8 @@ public class ConnAssertNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		if(!copyExtends) {
 			childrenNames.add("src");
@@ -92,12 +97,15 @@ public class ConnAssertNode extends BaseNode {
 		return childrenNames;
 	}
 
-	private static DeclarationTypeResolver<NodeTypeNode> nodeResolver =	new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
+	private static DeclarationTypeResolver<NodeTypeNode> nodeResolver =
+			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
-		if(copyExtends) return true;
+	protected boolean resolveLocal()
+	{
+		if(copyExtends)
+			return true;
 
 		src = nodeResolver.resolve(srcUnresolved, this);
 		tgt = nodeResolver.resolve(tgtUnresolved, this);
@@ -110,12 +118,14 @@ public class ConnAssertNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		assert !copyExtends; // must have been replaced by copies of the connection assertions of the parents befor entering this phase
 
 		long srcLower = srcRange.getLower();
@@ -126,8 +136,6 @@ public class ConnAssertNode extends BaseNode {
 		long tgtUpper = tgtRange.getUpper();
 		NodeType tgtType = tgt.checkIR(NodeType.class);
 
-		return new ConnAssert(srcType, srcLower, srcUpper,
-							  tgtType, tgtLower, tgtUpper,
-							  bothDirections);
+		return new ConnAssert(srcType, srcLower, srcUpper, tgtType, tgtLower, tgtUpper, bothDirections);
 	}
 }

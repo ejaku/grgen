@@ -11,23 +11,28 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class RecordProc extends ProcedureInvocationBase {
+public class RecordProc extends ProcedureInvocationBase
+{
 	private Expression toRecordExpr;
 
-	public RecordProc(Expression toRecordExpr) {
+	public RecordProc(Expression toRecordExpr)
+	{
 		super("record procedure");
 		this.toRecordExpr = toRecordExpr;
 	}
 
-	public Expression getToRecordExpr() {
+	public Expression getToRecordExpr()
+	{
 		return toRecordExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		toRecordExpr.collectNeededEntities(needs);
 	}

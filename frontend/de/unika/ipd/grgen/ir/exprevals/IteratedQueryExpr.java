@@ -15,18 +15,22 @@ import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Type;
 
-public class IteratedQueryExpr extends Expression {
+public class IteratedQueryExpr extends Expression
+{
 	Ident iteratedName;
-	
-	public IteratedQueryExpr(Ident iteratedName, Rule iterated, Type targetType) {
+
+	public IteratedQueryExpr(Ident iteratedName, Rule iterated, Type targetType)
+	{
 		super("iterated query", targetType);
 		this.iteratedName = iteratedName;
 	}
 
-	public Ident getIteratedName() {
+	public Ident getIteratedName()
+	{
 		return iteratedName;
 	}
-	
-	public void collectNeededEntities(NeededEntities needs) {
+
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

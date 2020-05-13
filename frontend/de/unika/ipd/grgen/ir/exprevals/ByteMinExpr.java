@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class ByteMinExpr extends Expression {
-	public ByteMinExpr() {
+public class ByteMinExpr extends Expression
+{
+	public ByteMinExpr()
+	{
 		super("bytemin expr", ByteType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

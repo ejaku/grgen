@@ -7,26 +7,30 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class InsertProc extends ProcedureInvocationBase {
+public class InsertProc extends ProcedureInvocationBase
+{
 	private final Expression graphExpr;
 
-	public InsertProc(Expression graphExpr) {
+	public InsertProc(Expression graphExpr)
+	{
 		super("insert procedure");
 		this.graphExpr = graphExpr;
 	}
 
-	public Expression getGraphExpr() {
+	public Expression getGraphExpr()
+	{
 		return graphExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		graphExpr.collectNeededEntities(needs);
 	}
 }
-

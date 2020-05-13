@@ -14,8 +14,8 @@ package de.unika.ipd.grgen.util.report;
 /**
  * The error reported class.
  */
-public class ErrorReporter extends Reporter {
-
+public class ErrorReporter extends Reporter
+{
 	public static final int ERROR = 1;
 	public static final int WARNING = 2;
 	public static final int NOTE = 4;
@@ -28,7 +28,8 @@ public class ErrorReporter extends Reporter {
 		"error", "warning", "note"
 	};*/
 
-	private static String getMsg(int level, String msg) {
+	private static String getMsg(int level, String msg)
+	{
 		//return levelNames[level] + ": " + msg;
 		return msg;
 	}
@@ -36,10 +37,10 @@ public class ErrorReporter extends Reporter {
 	/**
 	 * Create a new error reporter.
 	 */
-	public ErrorReporter() {
+	public ErrorReporter()
+	{
 		setMask(ERROR | WARNING | NOTE);
 	}
-
 
 	/**
 	 * Report an error at a given location.
@@ -47,7 +48,8 @@ public class ErrorReporter extends Reporter {
 	 * @param loc The location.
 	 * @param msg The error message.
 	 */
-	public void error(Location loc, String msg) {
+	public void error(Location loc, String msg)
+	{
 		if(msg.equals("mismatched input '$' expecting RPAREN"))
 			report(ERROR, loc, getMsg(ERROR, msg) + " -- forgot \"@\"?");
 		else
@@ -59,7 +61,8 @@ public class ErrorReporter extends Reporter {
 	 * Report an error.
 	 * @param msg
 	 */
-	public void error(String msg) {
+	public void error(String msg)
+	{
 		report(ERROR, getMsg(ERROR, msg));
 		++errCount;
 	}
@@ -70,7 +73,8 @@ public class ErrorReporter extends Reporter {
 	 * @param loc The location.
 	 * @param msg The warning message.
 	 */
-	public void warning(Location loc, String msg) {
+	public void warning(Location loc, String msg)
+	{
 		report(WARNING, loc, getMsg(WARNING, msg));
 		++warnCount;
 	}
@@ -79,7 +83,8 @@ public class ErrorReporter extends Reporter {
 	 * report a warning.
 	 * @param msg The warning message.
 	 */
-	public void warning(String msg) {
+	public void warning(String msg)
+	{
 		report(WARNING, getMsg(WARNING, msg));
 		++warnCount;
 	}
@@ -90,7 +95,8 @@ public class ErrorReporter extends Reporter {
 	 * @param loc The location.
 	 * @param msg The note message.
 	 */
-	public void note(Location loc, String msg) {
+	public void note(Location loc, String msg)
+	{
 		report(NOTE, loc, getMsg(NOTE, msg));
 	}
 
@@ -98,7 +104,8 @@ public class ErrorReporter extends Reporter {
 	 * Report a note.
 	 * @param msg The note message.
 	 */
-	public void note(String msg) {
+	public void note(String msg)
+	{
 		report(NOTE, getMsg(NOTE, msg));
 	}
 
@@ -106,7 +113,8 @@ public class ErrorReporter extends Reporter {
 	 * Returns the number of occured errors.
 	 * @return
 	 */
-	public static int getErrorCount() {
+	public static int getErrorCount()
+	{
 		return errCount;
 	}
 
@@ -114,8 +122,8 @@ public class ErrorReporter extends Reporter {
 	 * Returns the number of occured warnings.
 	 * @return
 	 */
-	public static int getWarnCount() {
+	public static int getWarnCount()
+	{
 		return warnCount;
 	}
-
 }

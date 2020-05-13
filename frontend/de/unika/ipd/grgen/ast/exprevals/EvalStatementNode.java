@@ -21,30 +21,33 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		super(coords);
 	}
 
-	protected boolean checkType(ExprNode value, TypeNode targetType, String statement, String parameter) {
+	protected boolean checkType(ExprNode value, TypeNode targetType, String statement, String parameter)
+	{
 		TypeNode givenType = value.getType();
 		TypeNode expectedType = targetType;
 		if(!givenType.isCompatibleTo(expectedType)) {
 			String givenTypeName;
 			if(givenType instanceof InheritanceTypeNode)
-				givenTypeName = ((InheritanceTypeNode) givenType).getIdentNode().toString();
+				givenTypeName = ((InheritanceTypeNode)givenType).getIdentNode().toString();
 			else
 				givenTypeName = givenType.toString();
 			String expectedTypeName;
 			if(expectedType instanceof InheritanceTypeNode)
-				expectedTypeName = ((InheritanceTypeNode) expectedType).getIdentNode().toString();
+				expectedTypeName = ((InheritanceTypeNode)expectedType).getIdentNode().toString();
 			else
 				expectedTypeName = expectedType.toString();
-			reportError("Cannot convert parameter " + parameter + " of " + statement + " from \""
-					+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
+			reportError("Cannot convert parameter " + parameter + " of " + statement + " from \"" + givenTypeName
+					+ "\" to \"" + expectedTypeName + "\"");
 			return false;
 		}
 		return true;
 	}
-	
+
 	public abstract boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop);
-	
-	public static boolean checkStatements(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop, CollectNode<EvalStatementNode> evals, boolean evalsAreTopLevel) {
+
+	public static boolean checkStatements(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop,
+			CollectNode<EvalStatementNode> evals, boolean evalsAreTopLevel)
+	{
 		// check computation statement structure
 		boolean res = true;
 
@@ -83,14 +86,14 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 			} else if(eval instanceof ReturnAssignmentNode) {
 				if(root instanceof FunctionDeclNode || isLHS) {
 					ReturnAssignmentNode node = (ReturnAssignmentNode)eval;
-					if(node.builtinProcedure==null 
-							|| (!node.builtinProcedure.getProcedureName().equals("emit")
-									&& !node.builtinProcedure.getProcedureName().equals("emitdebug")
-									&& !node.builtinProcedure.getProcedureName().equals("addDebug")
-									&& !node.builtinProcedure.getProcedureName().equals("remDebug")
-									&& !node.builtinProcedure.getProcedureName().equals("emitDebug")
-									&& !node.builtinProcedure.getProcedureName().equals("haltDebug")
-									&& !node.builtinProcedure.getProcedureName().equals("highlightDebug"))) {
+					if(node.builtinProcedure == null
+						|| (!node.builtinProcedure.getProcedureName().equals("emit")
+							&& !node.builtinProcedure.getProcedureName().equals("emitdebug")
+							&& !node.builtinProcedure.getProcedureName().equals("addDebug")
+							&& !node.builtinProcedure.getProcedureName().equals("remDebug")
+							&& !node.builtinProcedure.getProcedureName().equals("emitDebug")
+							&& !node.builtinProcedure.getProcedureName().equals("haltDebug")
+							&& !node.builtinProcedure.getProcedureName().equals("highlightDebug"))) {
 						if(root instanceof FunctionDeclNode)
 							eval.reportError("procedure call not allowed in function (only emit/emitdebug and the Debug package functions)");
 						else
@@ -98,16 +101,14 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 						res = false;
 					}
 				}
-			}
-			else if(eval instanceof ExecStatementNode)
-			{
+			} else if(eval instanceof ExecStatementNode) {
 				if(root instanceof SubpatternDeclNode) {
 					eval.reportError("An exec inside an eval is forbidden in a subpattern -- move it outside the eval"
 							+ " (so it becomes a deferred exec, executed at the end of rewriting, on the by-then current graph and the local entities valid at the end of its local rewriting).");
 				}
 			}
 		}
-		
+
 		if(evalsAreTopLevel) {
 			if(root instanceof FunctionDeclNode) {
 				if(!(last instanceof ReturnStatementNode)) {
@@ -117,7 +118,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 							res = false;
 						}
 					} else {
-						if(last!=null && last.getCoords().hasLocation())
+						if(last != null && last.getCoords().hasLocation())
 							last.reportError("function must end with a return statement");
 						else
 							root.reportError("function must end with a return statement");
@@ -133,7 +134,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 							res = false;
 						}
 					} else {
-						if(last!=null && last.getCoords().hasLocation())
+						if(last != null && last.getCoords().hasLocation())
 							last.reportError("procedure must end with a return statement");
 						else
 							root.reportError("procedure must end with a return statement");
@@ -148,13 +149,14 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		// but this is far from sufficient, needed for other kinds of assignments, too
 		// and for reads, expressions, too 
 		// -- massive externsion/refactoring needed (or clever hack?) cause grgen was built for not distinguishing order of entities
-		
+
 		return res;
 	}
-	
-	public static boolean allCasesEndWithReturn(ConditionStatementNode condition) {
+
+	public static boolean allCasesEndWithReturn(ConditionStatementNode condition)
+	{
 		boolean allEndWithReturn = true;
-		
+
 		EvalStatementNode last = null;
 		for(EvalStatementNode eval : condition.trueCaseStatements.getChildren()) {
 			last = eval;
@@ -178,7 +180,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				return false;
 			}
 		}
-	
+
 		return allEndWithReturn;
 	}
 
@@ -194,7 +196,8 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 	}
 
 	@Override
-	public boolean noExecStatement(boolean inEvalHereContext) {
+	public boolean noExecStatement(boolean inEvalHereContext)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(!(child instanceof EvalStatementNode)) {

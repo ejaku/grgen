@@ -13,20 +13,24 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapEmptyExpr extends Expression {
+public class MapEmptyExpr extends Expression
+{
 	Expression targetExpr;
 
-	public MapEmptyExpr(Expression targetExpr) {
+	public MapEmptyExpr(Expression targetExpr)
+	{
 		super("map empty expression", BooleanType.getType());
 		this.targetExpr = targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 }

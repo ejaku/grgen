@@ -17,11 +17,11 @@ import java.util.HashMap;
  * A symbol table.
  * It maps strings to symbols.
  */
-public class SymbolTable {
+public class SymbolTable
+{
 	public static final int IRRELEVANT = 0;
 
-	private static final SymbolTable INVALID =
-		new SymbolTable("<invalid>", IRRELEVANT);
+	private static final SymbolTable INVALID = new SymbolTable("<invalid>", IRRELEVANT);
 
 	/** The string - symbol map. */
 	private final HashMap<String, Symbol> symbolMap = new HashMap<String, Symbol>();
@@ -32,14 +32,16 @@ public class SymbolTable {
 	/** Id/Classification of the symbol table */
 	private final int id;
 
-	public static final SymbolTable getInvalid() {
+	public static final SymbolTable getInvalid()
+	{
 		return INVALID;
 	}
 
 	/**
 	 * Make a new symbol table.
 	 */
-	public SymbolTable(String name, int id) {
+	public SymbolTable(String name, int id)
+	{
 		this.name = name;
 		this.id = id;
 	}
@@ -51,9 +53,10 @@ public class SymbolTable {
 	 * @return true, if both symbol tables denote the same namespace,
 	 * false if not.
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if(obj instanceof SymbolTable)
-			return name.equals(((SymbolTable) obj).name);
+			return name.equals(((SymbolTable)obj).name);
 
 		return false;
 	}
@@ -62,7 +65,8 @@ public class SymbolTable {
 	 * Get the name of the symbol table.
 	 * @return The symbol table's name.
 	 */
-	public final String getName() {
+	public final String getName()
+	{
 		return name;
 	}
 
@@ -71,7 +75,8 @@ public class SymbolTable {
 	 * according to the equals method.
 	 * @return The hashcode.
 	 */
-	public int hashCode() {
+	public int hashCode()
+	{
 		return name.hashCode();
 	}
 
@@ -79,7 +84,8 @@ public class SymbolTable {
 	 * Get the textual representation of a symbol table.
 	 * @return The textual representation.
 	 */
-	public String toString() {
+	public String toString()
+	{
 		return symbolMap.toString();
 	}
 
@@ -88,12 +94,14 @@ public class SymbolTable {
 	 * @param text
 	 * @return The keyword symbol.
 	 */
-	public Symbol enterKeyword(String text) {
+	public Symbol enterKeyword(String text)
+	{
 		assert !symbolMap.containsKey(text) : "keywords cannot be put twice "
-			+ "in the symbol table";
+				+ "in the symbol table";
 
 		Symbol sym = new Symbol(text, this) {
-			public boolean isKeyword() {
+			public boolean isKeyword()
+			{
 				return true;
 			}
 		};
@@ -107,7 +115,8 @@ public class SymbolTable {
 	 * @param text The string.
 	 * @return The corresponding symbol.
 	 */
-	public Symbol get(String text) {
+	public Symbol get(String text)
+	{
 		if(!symbolMap.containsKey(text))
 			symbolMap.put(text, new Symbol(text, this));
 
@@ -119,12 +128,14 @@ public class SymbolTable {
 	 * @param text The string.
 	 * @return Whether the symbol is defined.
 	 */
-	public boolean test(String text) {
+	public boolean test(String text)
+	{
 		return symbolMap.containsKey(text);
 	}
 
 	/** returns the id/classification of this symbol table */
-	int getSymbolTableId() {
+	int getSymbolTableId()
+	{
 		return id;
 	}
 }

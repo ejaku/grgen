@@ -16,36 +16,40 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class CanonizeExprNode extends ExprNode {
+public class CanonizeExprNode extends ExprNode
+{
 	static {
 		setName(CanonizeExprNode.class, "canonize expr");
 	}
 
 	private ExprNode graphExpr;
 
-
-	public CanonizeExprNode(Coords coords, ExprNode graphExpr) {
+	public CanonizeExprNode(Coords coords, ExprNode graphExpr)
+	{
 		super(coords);
 
 		this.graphExpr = becomeParent(graphExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(graphExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("graph");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(graphExpr.getType().isEqual(BasicTypeNode.graphType)) {
 			return true;
 		} else {
@@ -55,12 +59,14 @@ public class CanonizeExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new CanonizeExpr(graphExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.stringType;
 	}
 }

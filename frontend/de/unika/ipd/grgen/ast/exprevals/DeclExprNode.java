@@ -29,7 +29,8 @@ import de.unika.ipd.grgen.ir.exprevals.VariableExpression;
 /**
  * An expression that results from a declared identifier.
  */
-public class DeclExprNode extends ExprNode {
+public class DeclExprNode extends ExprNode
+{
 	static {
 		setName(DeclExprNode.class, "decl expression");
 	}
@@ -42,10 +43,11 @@ public class DeclExprNode extends ExprNode {
 	 * @param coords The source code coordinates.
 	 * @param declCharacter Some base node, that is a decl character.
 	 */
-	public DeclExprNode(BaseNode declCharacter) {
+	public DeclExprNode(BaseNode declCharacter)
+	{
 		super(declCharacter.getCoords());
 		this.declUnresolved = declCharacter;
-		this.decl = (DeclaredCharacter) declCharacter;
+		this.decl = (DeclaredCharacter)declCharacter;
 		becomeParent(this.declUnresolved);
 	}
 
@@ -54,24 +56,27 @@ public class DeclExprNode extends ExprNode {
 	 * @param coords The source code coordinates.
 	 * @param declCharacter Some base node, that is a decl character.
 	 */
-	public DeclExprNode(EnumExprNode declCharacter) {
+	public DeclExprNode(EnumExprNode declCharacter)
+	{
 		super(declCharacter.getCoords());
 		this.declUnresolved = declCharacter;
-		this.decl = (DeclaredCharacter) declCharacter;
+		this.decl = (DeclaredCharacter)declCharacter;
 		becomeParent(this.declUnresolved);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add((BaseNode) decl);
+		children.add((BaseNode)decl);
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("decl");
 		return childrenNames;
@@ -81,11 +86,12 @@ public class DeclExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!(declUnresolved instanceof PackageIdentNode)) {
 			tryFixupDefinition(declUnresolved, declUnresolved.getScope());
 		}
-		
+
 		if(!memberResolver.resolve(declUnresolved))
 			return false;
 
@@ -101,51 +107,58 @@ public class DeclExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return decl.getDecl().getDeclType();
 	}
 
 	/**
 	 * Gets the ConstraintDeclNode this DeclExprNode resolved to, or null if it is something else.
 	 */
-	public ConstraintDeclNode getConstraintDeclNode() {
+	public ConstraintDeclNode getConstraintDeclNode()
+	{
 		assert isResolved();
-		if(decl instanceof ConstraintDeclNode) return (ConstraintDeclNode)decl;
+		if(decl instanceof ConstraintDeclNode)
+			return (ConstraintDeclNode)decl;
 		return null;
 	}
 
 	/** returns the node this DeclExprNode was resolved to. */
-	public BaseNode getResolvedNode() {
+	public BaseNode getResolvedNode()
+	{
 		assert isResolved();
 		return (BaseNode)decl;
 	}
-	
-	public boolean isEnumValue() {
+
+	public boolean isEnumValue()
+	{
 		return declUnresolved instanceof EnumExprNode;
 	}
 
-
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
-	public ExprNode evaluate() {
+	public ExprNode evaluate()
+	{
 		ExprNode res = this;
 		DeclNode declNode = decl.getDecl();
 
 		if(declNode instanceof EnumItemNode)
-			res = ((EnumItemNode) declNode).getValue();
+			res = ((EnumItemNode)declNode).getValue();
 
 		return res;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
-		BaseNode declNode = (BaseNode) decl;
+	protected IR constructIR()
+	{
+		BaseNode declNode = (BaseNode)decl;
 		if(declNode instanceof MemberDeclNode)
 			return new MemberExpression(declNode.checkIR(Entity.class));
 		else if(declNode instanceof VarDeclNode)
@@ -153,28 +166,30 @@ public class DeclExprNode extends ExprNode {
 		else if(declNode instanceof ExecVarDeclNode)
 			return new ExecVariableExpression(declNode.checkIR(ExecVariable.class));
 		else if(declNode instanceof ConstraintDeclNode)
-			return new GraphEntityExpression((GraphEntity) declNode.getIR());
+			return new GraphEntityExpression((GraphEntity)declNode.getIR());
 		else
 			return declNode.getIR();
 	}
 
 	@Override
-	public boolean noDefElement(String containingConstruct) {
+	public boolean noDefElement(String containingConstruct)
+	{
 		if(decl instanceof ConstraintDeclNode) {
 			ConstraintDeclNode entity = (ConstraintDeclNode)decl;
 			if(entity.defEntityToBeYieldedTo) {
-				declUnresolved.reportError("A def entity ("+entity+") can't be accessed from a " + containingConstruct);
+				declUnresolved.reportError("A def entity (" + entity
+						+ ") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}
 		if(decl instanceof VarDeclNode) {
 			VarDeclNode entity = (VarDeclNode)decl;
 			if(entity.defEntityToBeYieldedTo) {
-				declUnresolved.reportError("A def variable ("+entity+") can't be accessed from a " + containingConstruct);
+				declUnresolved.reportError("A def variable (" + entity
+						+ ") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}
 		return true;
 	}
 }
-

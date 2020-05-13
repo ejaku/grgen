@@ -10,7 +10,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-
 import java.util.Collection;
 import java.util.Vector;
 
@@ -31,7 +30,8 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node representing a member initialization.
  * children: LHS:IdentNode, RHS:ExprNode
  */
-public class MemberInitNode extends BaseNode {
+public class MemberInitNode extends BaseNode
+{
 	static {
 		setName(MemberInitNode.class, "member init");
 	}
@@ -45,7 +45,8 @@ public class MemberInitNode extends BaseNode {
 	 * @param member The member to be initialized.
 	 * @param expr The expression, that is assigned.
 	 */
-	public MemberInitNode(Coords coords, IdentNode member, ExprNode expr) {
+	public MemberInitNode(Coords coords, IdentNode member, ExprNode expr)
+	{
 		super(coords);
 		this.lhsUnresolved = member;
 		becomeParent(this.lhsUnresolved);
@@ -55,7 +56,8 @@ public class MemberInitNode extends BaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(lhsUnresolved, lhs));
 		children.add(rhs);
@@ -64,7 +66,8 @@ public class MemberInitNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("lhs");
 		childrenNames.add("rhs");
@@ -75,10 +78,12 @@ public class MemberInitNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
-		if(!lhsResolver.resolve(lhsUnresolved)) return false;
+		if(!lhsResolver.resolve(lhsUnresolved))
+			return false;
 		lhs = lhsResolver.getResult(DeclNode.class);
 		return lhsResolver.finish();
 	}
@@ -87,7 +92,8 @@ public class MemberInitNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return typeCheckLocal();
 	}
 
@@ -96,11 +102,12 @@ public class MemberInitNode extends BaseNode {
 	 * to the type of the target. Inserts implicit cast if compatible.
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
-	private boolean typeCheckLocal() {
+	private boolean typeCheckLocal()
+	{
 		TypeNode targetType = lhs.getDeclType();
 		TypeNode exprType = rhs.getType();
 
-		if (exprType.isEqual(targetType))
+		if(exprType.isEqual(targetType))
 			return true;
 
 		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
@@ -112,7 +119,8 @@ public class MemberInitNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(rhs instanceof MapInitNode) {
 			MapInit mapInit = rhs.checkIR(MapInit.class);
 			mapInit.setMember(lhs.checkIR(Entity.class));
@@ -134,7 +142,8 @@ public class MemberInitNode extends BaseNode {
 		}
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "member initialization";
 	}
 }

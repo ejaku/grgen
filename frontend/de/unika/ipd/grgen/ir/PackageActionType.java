@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.ir.exprevals.Procedure;
 /**
  * A package type, for packages from the actions (in contrast to the models).
  */
-public class PackageActionType extends PrimitiveType implements ActionsBearer {
+public class PackageActionType extends PrimitiveType implements ActionsBearer
+{
 	private final List<Rule> subpatternRules = new LinkedList<Rule>();
 
 	private final List<Rule> actionRules = new LinkedList<Rule>();
@@ -42,79 +43,96 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer {
 
 	/** Make a new package action type.
 	 *  @param ident The identifier of this package. */
-	public PackageActionType(Ident ident) {
+	public PackageActionType(Ident ident)
+	{
 		super("package action type", ident);
 	}
 
 	/** Add a subpattern-rule to the unit. */
-	public void addSubpatternRule(Rule subpatternRule) {
+	public void addSubpatternRule(Rule subpatternRule)
+	{
 		subpatternRules.add(subpatternRule);
 	}
 
-	public Collection<Rule> getSubpatternRules() {
+	public Collection<Rule> getSubpatternRules()
+	{
 		return Collections.unmodifiableCollection(subpatternRules);
 	}
-	
+
 	/** Add an action-rule to the unit. */
-	public void addActionRule(Rule actionRule) {
+	public void addActionRule(Rule actionRule)
+	{
 		actionRules.add(actionRule);
 	}
 
-	public Collection<Rule> getActionRules() {
+	public Collection<Rule> getActionRules()
+	{
 		return Collections.unmodifiableCollection(actionRules);
 	}
 
 	/** Add a filter function to the unit. */
-	public void addFilterFunction(FilterFunction filterFunction) {
+	public void addFilterFunction(FilterFunction filterFunction)
+	{
 		filterFunctions.add(filterFunction);
 	}
 
-	public Collection<FilterFunction> getFilterFunctions() {
+	public Collection<FilterFunction> getFilterFunctions()
+	{
 		return Collections.unmodifiableCollection(filterFunctions);
 	}
 
 	/** Add a match class to the unit. */
-	public void addMatchClass(DefinedMatchType matchClass) {
+	public void addMatchClass(DefinedMatchType matchClass)
+	{
 		matchClasses.add(matchClass);
 	}
 
-	public Collection<DefinedMatchType> getMatchClasses() {
+	public Collection<DefinedMatchType> getMatchClasses()
+	{
 		return Collections.unmodifiableCollection(matchClasses);
 	}
 
 	/** Add a match filter function to the unit. */
-	public void addMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction) {
+	public void addMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction)
+	{
 		matchClassFilterFunctions.add(matchClassFilterFunction);
 	}
 
-	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions() {
+	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
+	{
 		return Collections.unmodifiableCollection(matchClassFilterFunctions);
 	}
 
 	/** Add a function to the unit. */
-	public void addFunction(Function function) {
+	public void addFunction(Function function)
+	{
 		functions.add(function);
 	}
 
-	public Collection<Function> getFunctions() {
+	public Collection<Function> getFunctions()
+	{
 		return Collections.unmodifiableCollection(functions);
 	}
 
 	/** Add a procedure to the unit. */
-	public void addProcedure(Procedure procedure) {
+	public void addProcedure(Procedure procedure)
+	{
 		procedures.add(procedure);
 	}
 
-	public Collection<Procedure> getProcedures() {
+	public Collection<Procedure> getProcedures()
+	{
 		return Collections.unmodifiableCollection(procedures);
 	}
 
 	/** Add a sequence to the unit. */
-	public void addSequence(Sequence sequence) {
+	public void addSequence(Sequence sequence)
+	{
 		sequences.add(sequence);
 	}
 
-	public Collection<Sequence> getSequences() {
+	public Collection<Sequence> getSequences()
+	{
 		return Collections.unmodifiableCollection(sequences);
 	}
 }

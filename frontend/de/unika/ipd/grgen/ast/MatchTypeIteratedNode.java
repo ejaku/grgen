@@ -24,28 +24,33 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 
-public class MatchTypeIteratedNode extends MatchTypeNode {
+public class MatchTypeIteratedNode extends MatchTypeNode
+{
 	static {
 		setName(MatchTypeIteratedNode.class, "match type iterated");
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "match<" + actionUnresolved.toString() + "." + iteratedUnresolved.toString() + "> type";
 	}
 
-	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode actionIdent, IdentNode iteratedIdent) {
+	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode actionIdent, IdentNode iteratedIdent)
+	{
 		String actionString = actionIdent.toString();
 		String iteratedString = iteratedIdent.toString();
 		String matchTypeString = "match<" + actionString + "." + iteratedString + ">";
-		IdentNode matchTypeIteratedIdentNode = new IdentNode(env.define(ParserEnvironment.TYPES, matchTypeString, iteratedIdent.getCoords()));
+		IdentNode matchTypeIteratedIdentNode = new IdentNode(
+				env.define(ParserEnvironment.TYPES, matchTypeString, iteratedIdent.getCoords()));
 		MatchTypeIteratedNode matchTypeIteratedNode = new MatchTypeIteratedNode(actionIdent, iteratedIdent);
-		TypeDeclNode typeDeclNode = new TypeDeclNode(matchTypeIteratedIdentNode, matchTypeIteratedNode); 
+		TypeDeclNode typeDeclNode = new TypeDeclNode(matchTypeIteratedIdentNode, matchTypeIteratedNode);
 		matchTypeIteratedIdentNode.setDecl(typeDeclNode);
 		return matchTypeIteratedIdentNode;
 	}
-	
-	public static IdentNode getMatchTypeIdentNode(ParserEnvironment env, IdentNode actionIdent, IdentNode iteratedIdent) {
+
+	public static IdentNode getMatchTypeIdentNode(ParserEnvironment env, IdentNode actionIdent, IdentNode iteratedIdent)
+	{
 		Occurrence actionOccurrence = actionIdent.occ;
 		Symbol actionSymbol = actionOccurrence.getSymbol();
 		String actionString = actionSymbol.getText();
@@ -56,7 +61,8 @@ public class MatchTypeIteratedNode extends MatchTypeNode {
 			PackageIdentNode packageActionIdent = (PackageIdentNode)actionIdent;
 			Occurrence packageOccurrence = packageActionIdent.owningPackage;
 			Symbol packageSymbol = packageOccurrence.getSymbol();
-			return new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, packageSymbol.getText(), packageOccurrence.getCoords()), 
+			return new PackageIdentNode(
+					env.occurs(ParserEnvironment.PACKAGES, packageSymbol.getText(), packageOccurrence.getCoords()),
 					env.occurs(ParserEnvironment.TYPES, matchTypeString, iteratedOccurrence.getCoords()));
 		} else {
 			return new IdentNode(env.occurs(ParserEnvironment.TYPES, matchTypeString, iteratedOccurrence.getCoords()));
@@ -64,18 +70,20 @@ public class MatchTypeIteratedNode extends MatchTypeNode {
 	}
 
 	private SubpatternDeclNode subpattern;
-	
+
 	private IdentNode iteratedUnresolved;
 	private IteratedNode iterated;
 
 	// the match type node instances are created in ParserEnvironment as needed
-	public MatchTypeIteratedNode(IdentNode actionIdent, IdentNode iteratedIdent) {
+	public MatchTypeIteratedNode(IdentNode actionIdent, IdentNode iteratedIdent)
+	{
 		super(actionIdent);
 		iteratedUnresolved = becomeParent(iteratedIdent);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		//children.add(getValidVersion(actionUnresolved, action, subpattern));
@@ -84,7 +92,8 @@ public class MatchTypeIteratedNode extends MatchTypeNode {
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		//childrenNames.add("actionOrSubpattern");
@@ -92,11 +101,14 @@ public class MatchTypeIteratedNode extends MatchTypeNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<TestDeclNode, SubpatternDeclNode> actionOrSubpatternResolver = new DeclarationPairResolver<TestDeclNode, SubpatternDeclNode>(TestDeclNode.class, SubpatternDeclNode.class);
-	private static final DeclarationResolver<IteratedNode> iteratedResolver = new DeclarationResolver<IteratedNode>(IteratedNode.class);
+	private static final DeclarationPairResolver<TestDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
+			new DeclarationPairResolver<TestDeclNode, SubpatternDeclNode>(TestDeclNode.class, SubpatternDeclNode.class);
+	private static final DeclarationResolver<IteratedNode> iteratedResolver =
+			new DeclarationResolver<IteratedNode>(IteratedNode.class);
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!(actionUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition((IdentNode)actionUnresolved, actionUnresolved.getScope());
 		}
@@ -108,16 +120,18 @@ public class MatchTypeIteratedNode extends MatchTypeNode {
 		if(actionOrSubpattern.snd != null)
 			subpattern = actionOrSubpattern.snd;
 		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
-		return iterated!=null;
+		return iterated != null;
 	}
-	
-	public IteratedNode getIterated() {
+
+	public IteratedNode getIterated()
+	{
 		assert(isResolved());
 		return iterated;
 	}
 
 	@Override
-	public DeclNode tryGetMember(String name) {
+	public DeclNode tryGetMember(String name)
+	{
 		NodeDeclNode node = iterated.getLeft().tryGetNode(name);
 		if(node != null)
 			return node;
@@ -128,12 +142,14 @@ public class MatchTypeIteratedNode extends MatchTypeNode {
 	}
 
 	/** Returns the IR object for this match type node. */
-	public MatchTypeIterated getMatchTypeIterated() {
+	public MatchTypeIterated getMatchTypeIterated()
+	{
 		return checkIR(MatchTypeIterated.class);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(isIRAlreadySet()) {
 			return (MatchTypeIterated)getIR();
 		}

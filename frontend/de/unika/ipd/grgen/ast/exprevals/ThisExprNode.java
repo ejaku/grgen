@@ -15,37 +15,44 @@ import de.unika.ipd.grgen.ir.exprevals.ThisExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ThisExprNode extends ExprNode {
+public class ThisExprNode extends ExprNode
+{
 	static {
 		setName(ThisExprNode.class, "this");
 	}
 
-	public ThisExprNode(Coords coords) {
+	public ThisExprNode(Coords coords)
+	{
 		super(coords);
 	}
 
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		return children;
 	}
 
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ThisExpr();
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.graphType;
 	}
 }

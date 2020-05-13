@@ -16,12 +16,11 @@ import de.unika.ipd.grgen.ir.Edge;
 /**
  * Something, that looks like an edge.
  */
-public interface EdgeCharacter {
-
+public interface EdgeCharacter
+{
 	/**
 	 * Get the IR edge for this AST edge.
 	 * @return The IR edge.
 	 */
 	Edge getEdge();
-
 }

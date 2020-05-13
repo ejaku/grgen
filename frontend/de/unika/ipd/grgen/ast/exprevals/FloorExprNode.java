@@ -16,36 +16,40 @@ import de.unika.ipd.grgen.ir.exprevals.FloorExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class FloorExprNode extends ExprNode {
+public class FloorExprNode extends ExprNode
+{
 	static {
 		setName(FloorExprNode.class, "floor expr");
 	}
 
 	private ExprNode argumentExpr;
 
-
-	public FloorExprNode(Coords coords, ExprNode argumentExpr) {
+	public FloorExprNode(Coords coords, ExprNode argumentExpr)
+	{
 		super(coords);
 
 		this.argumentExpr = becomeParent(argumentExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(argumentExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("arg");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
@@ -54,12 +58,14 @@ public class FloorExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new FloorExpr(argumentExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return argumentExpr.getType();
 	}
 }

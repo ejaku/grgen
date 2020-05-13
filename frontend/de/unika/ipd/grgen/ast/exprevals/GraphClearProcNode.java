@@ -19,43 +19,51 @@ import de.unika.ipd.grgen.ir.exprevals.GraphClearProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphClearProcNode extends ProcedureInvocationBaseNode {
+public class GraphClearProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(GraphClearProcNode.class, "graph clear procedure");
 	}
 
-	public GraphClearProcNode(Coords coords) {
+	public GraphClearProcNode(Coords coords)
+	{
 		super(coords);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new GraphClearProc();
 	}
 }

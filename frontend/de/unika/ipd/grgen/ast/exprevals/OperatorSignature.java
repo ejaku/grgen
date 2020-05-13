@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Operator Description class.
  */
-public class OperatorSignature extends FunctionSignature {
+public class OperatorSignature extends FunctionSignature
+{
 	public static final int ERROR = 0;
 	public static final int LOG_OR = 1;
 	public static final int LOG_AND = 2;
@@ -66,7 +67,7 @@ public class OperatorSignature extends FunctionSignature {
 		Integer one = new Integer(1);
 		Integer zero = new Integer(0);
 
-		for (int i = 0; i < OPERATORS; i++)
+		for(int i = 0; i < OPERATORS; i++)
 			arities.put(new Integer(i), two);
 
 		arities.put(new Integer(COND), new Integer(3));
@@ -142,8 +143,8 @@ public class OperatorSignature extends FunctionSignature {
 	 *            an Evaluator
 	 */
 	public static final void makeOp(int id, TypeNode resultType,
-			TypeNode[] operandTypes, Evaluator evaluator) {
-
+			TypeNode[] operandTypes, Evaluator evaluator)
+	{
 		Integer operatorId = new Integer(id);
 
 		HashSet<OperatorSignature> typeMap = operators.get(operatorId);
@@ -161,8 +162,9 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter a binary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public static final void makeBinOp(int id, TypeNode resultType, TypeNode leftType,
-			TypeNode rightType, Evaluator evaluator) {
+	public static final void makeBinOp(int id, TypeNode resultType,
+			TypeNode leftType, TypeNode rightType, Evaluator evaluator)
+	{
 		makeOp(id, resultType, new TypeNode[] { leftType, rightType }, evaluator);
 	}
 
@@ -170,44 +172,44 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter an unary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public static final void makeUnOp(int id, TypeNode resultType, TypeNode operandType,
-			Evaluator evaluator) {
+	public static final void makeUnOp(int id, TypeNode resultType,
+			TypeNode operandType, Evaluator evaluator)
+	{
 		makeOp(id, resultType, new TypeNode[] { operandType }, evaluator);
 	}
 
 	/**
 	 * A class that represents an evaluator for constant expressions.
 	 */
-	static class Evaluator {
-
-		public ExprNode evaluate(ExprNode expr, OperatorSignature operator,
-				ExprNode[] arguments) {
+	static class Evaluator
+	{
+		public ExprNode evaluate(ExprNode expr, OperatorSignature operator, ExprNode[] arguments)
+		{
 			debug.report(NOTE, "id: " + operator.id + ", name: " + names.get(new Integer(operator.id)));
 
 			ExprNode resExpr = expr;
 			TypeNode[] paramTypes = operator.getOperandTypes();
 
 			// Check, if the arity matches.
-			if (arguments.length == paramTypes.length) {
-
+			if(arguments.length == paramTypes.length) {
 				// Check the types of the arguments.
-				for (int i = 0; i < arguments.length; i++) {
+				for(int i = 0; i < arguments.length; i++) {
 					debug.report(NOTE, "parameter type: " + paramTypes[i]
 							+ " argument type: " + arguments[i].getType());
-					if (!paramTypes[i].isEqual(arguments[i].getType()))
+					if(!paramTypes[i].isEqual(arguments[i].getType()))
 						return resExpr;
 				}
 
 				// If we're here, all checks succeeded.
 				try {
 					resExpr = eval(expr.getCoords(), operator, arguments);
-				} catch (NotEvaluatableException e) {
+				} catch(NotEvaluatableException e) {
 					debug.report(NOTE, e.toString());
 				}
 			}
 
 			if(debug.willReport(NOTE)) {
-				ConstNode c = (resExpr instanceof ConstNode) ? (ConstNode) resExpr : ConstNode.getInvalid();
+				ConstNode c = (resExpr instanceof ConstNode) ? (ConstNode)resExpr : ConstNode.getInvalid();
 				debug.report(NOTE, "result: " + resExpr.getClass() + ", value: " + c.getValue());
 			}
 
@@ -217,18 +219,21 @@ public class OperatorSignature extends FunctionSignature {
 		/**
 		 * NOTE: recalculate the serialVersionUID if you change the class.
 		 */
-		class NotEvaluatableException extends Exception {
+		class NotEvaluatableException extends Exception
+		{
 			private static final long serialVersionUID = -4866769730405704919L;
 
 			private Coords coords;
 
-			public NotEvaluatableException(Coords coords) {
+			public NotEvaluatableException(Coords coords)
+			{
 				super();
 				this.coords = coords;
 			}
 
 			@Override
-			public String getMessage() {
+			public String getMessage()
+			{
 				return "Expression not evaluatable at " + coords.toString();
 			}
 		}
@@ -236,46 +241,48 @@ public class OperatorSignature extends FunctionSignature {
 		/**
 		 * NOTE: recalculate the serialVersionUID if you change the class.
 		 */
-		class ValueException extends Exception {
+		class ValueException extends Exception
+		{
 			private static final long serialVersionUID = 991159946682342406L;
 
 			private Coords coords;
 
-			public ValueException(Coords coords) {
+			public ValueException(Coords coords)
+			{
 				super();
 				this.coords = coords;
 			}
 
 			@Override
-			public String getMessage() {
-				return "Expression not constant or value has wrong type at "
-						+ coords.toString();
+			public String getMessage()
+			{
+				return "Expression not constant or value has wrong type at " + coords.toString();
 			}
 		}
 
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			return null;
 		}
 
-		private Object checkValue(ExprNode e, Class<?> type)
-				throws ValueException {
-			if (!(e instanceof ConstNode))
+		private Object checkValue(ExprNode e, Class<?> type) throws ValueException
+		{
+			if(!(e instanceof ConstNode))
 				throw new ValueException(e.getCoords());
 
 			Object v = ((ConstNode)e).getValue();
-			if (!type.isInstance(v))
+			if(!type.isInstance(v))
 				throw new ValueException(e.getCoords());
 
 			return v;
 		}
 
-		protected Object getArgValue(ExprNode[] args, OperatorSignature op,
-				int pos) throws ValueException {
+		protected Object getArgValue(ExprNode[] args, OperatorSignature op, int pos) throws ValueException
+		{
 			TypeNode[] paramTypes = op.getOperandTypes();
 
-			if (paramTypes[pos].isBasic()) {
-				BasicTypeNode paramType = (BasicTypeNode) paramTypes[pos];
+			if(paramTypes[pos].isBasic()) {
+				BasicTypeNode paramType = (BasicTypeNode)paramTypes[pos];
 
 				return checkValue(args[pos], paramType.getValueType());
 			} else
@@ -284,279 +291,347 @@ public class OperatorSignature extends FunctionSignature {
 	}
 
 	public static final Evaluator objectEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			ObjectTypeNode.Value a0, a1;
 
-			if (getArity(op.getOpId()) != 2)
+			if(getArity(op.getOpId()) != 2)
 				throw new NotEvaluatableException(coords);
 
 			try {
-				a0 = (ObjectTypeNode.Value) getArgValue(e, op, 0);
-				a1 = (ObjectTypeNode.Value) getArgValue(e, op, 1);
-			} catch (ValueException x) {
+				a0 = (ObjectTypeNode.Value)getArgValue(e, op, 0);
+				a1 = (ObjectTypeNode.Value)getArgValue(e, op, 1);
+			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch (op.id) {
-				case EQ: return new BoolConstNode(coords, a0.equals(a1));
-				case NE: return new BoolConstNode(coords, !a0.equals(a1));
+			switch(op.id) {
+			case EQ:
+				return new BoolConstNode(coords, a0.equals(a1));
+			case NE:
+				return new BoolConstNode(coords, !a0.equals(a1));
 
-				default: throw new NotEvaluatableException(coords);
+			default:
+				throw new NotEvaluatableException(coords);
 			}
 		}
 	};
 
 	private static final Evaluator subgraphEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			throw new NotEvaluatableException(coords);
 		}
 	};
 
 	private static final Evaluator nullEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 
-			if (getArity(op.getOpId()) != 2)
+			if(getArity(op.getOpId()) != 2)
 				throw new NotEvaluatableException(coords);
 
 			try {
 				getArgValue(e, op, 0);
 				getArgValue(e, op, 1);
-			} catch (ValueException x) {
+			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch (op.id) {
-				case EQ: return new BoolConstNode(coords, true);
-				case NE: return new BoolConstNode(coords, false);
+			switch(op.id) {
+			case EQ:
+				return new BoolConstNode(coords, true);
+			case NE:
+				return new BoolConstNode(coords, false);
 
-				default: throw new NotEvaluatableException(coords);
+			default:
+				throw new NotEvaluatableException(coords);
 			}
 		}
 	};
 
 	private static final Evaluator stringEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			String a0;
 			Object aobj1;
 
 			try {
-				a0 = (String) getArgValue(e, op, 0);
+				a0 = (String)getArgValue(e, op, 0);
 				aobj1 = getArgValue(e, op, 1);
-			} catch (ValueException x) {
+			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
 			if(op.id == ADD)
 				return new StringConstNode(coords, a0 + aobj1);
 
-			String a1 = (String) aobj1;
+			String a1 = (String)aobj1;
 
-			switch (op.id) {
-				case EQ:  return new BoolConstNode(coords, a0.equals(a1));
-				case NE:  return new BoolConstNode(coords, !a0.equals(a1));
-				//case GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
-				//case GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
-				//case LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
-				//case LT:  return new BoolConstNode(coords, a0.compareTo(a1) < 0);
-				//case IN:  return new BoolConstNode(coords, a1.contains(a0));
+			switch(op.id) {
+			case EQ:
+				return new BoolConstNode(coords, a0.equals(a1));
+			case NE:
+				return new BoolConstNode(coords, !a0.equals(a1));
+			//case GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
+			//case GT:  return new BoolConstNode(coords, a0.compareTo(a1) > 0);
+			//case LE:  return new BoolConstNode(coords, a0.compareTo(a1) <= 0);
+			//case LT:  return new BoolConstNode(coords, a0.compareTo(a1) < 0);
+			//case IN:  return new BoolConstNode(coords, a1.contains(a0));
 
-				default:  throw new NotEvaluatableException(coords);
+			default:
+				throw new NotEvaluatableException(coords);
 			}
 		}
 	};
 
 	private static final Evaluator intEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			int a0, a1;
 
 			try {
-				a0 = (Integer) getArgValue(e, op, 0);
+				a0 = (Integer)getArgValue(e, op, 0);
 				a1 = 0;
-				if (getArity(op.getOpId()) > 1)
-					a1 = (Integer) getArgValue(e, op, 1);
-			} catch (ValueException x) {
+				if(getArity(op.getOpId()) > 1)
+					a1 = (Integer)getArgValue(e, op, 1);
+			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch (op.id) {
-				case EQ:      return new BoolConstNode(coords, a0 == a1);
-				case NE:      return new BoolConstNode(coords, a0 != a1);
-				case LT:      return new BoolConstNode(coords, a0 < a1);
-				case LE:      return new BoolConstNode(coords, a0 <= a1);
-				case GT:      return new BoolConstNode(coords, a0 > a1);
-				case GE:      return new BoolConstNode(coords, a0 >= a1);
+			switch(op.id) {
+			case EQ:
+				return new BoolConstNode(coords, a0 == a1);
+			case NE:
+				return new BoolConstNode(coords, a0 != a1);
+			case LT:
+				return new BoolConstNode(coords, a0 < a1);
+			case LE:
+				return new BoolConstNode(coords, a0 <= a1);
+			case GT:
+				return new BoolConstNode(coords, a0 > a1);
+			case GE:
+				return new BoolConstNode(coords, a0 >= a1);
 
-				case ADD:     return new IntConstNode(coords, a0 + a1);
-				case SUB:     return new IntConstNode(coords, a0 - a1);
-				case MUL:     return new IntConstNode(coords, a0 * a1);
-				case DIV:     return new IntConstNode(coords, a0 / a1);
-				case MOD:     return new IntConstNode(coords, a0 % a1);
-				case SHL:     return new IntConstNode(coords, a0 << a1);
-				case SHR:     return new IntConstNode(coords, a0 >> a1);
-				case BIT_SHR: return new IntConstNode(coords, a0 >>> a1);
-				case BIT_OR:  return new IntConstNode(coords, a0 | a1);
-				case BIT_AND: return new IntConstNode(coords, a0 & a1);
-				case BIT_XOR: return new IntConstNode(coords, a0 ^ a1);
-				case BIT_NOT: return new IntConstNode(coords, ~a0);
-				case NEG:     return new IntConstNode(coords, -a0);
+			case ADD:
+				return new IntConstNode(coords, a0 + a1);
+			case SUB:
+				return new IntConstNode(coords, a0 - a1);
+			case MUL:
+				return new IntConstNode(coords, a0 * a1);
+			case DIV:
+				return new IntConstNode(coords, a0 / a1);
+			case MOD:
+				return new IntConstNode(coords, a0 % a1);
+			case SHL:
+				return new IntConstNode(coords, a0 << a1);
+			case SHR:
+				return new IntConstNode(coords, a0 >> a1);
+			case BIT_SHR:
+				return new IntConstNode(coords, a0 >>> a1);
+			case BIT_OR:
+				return new IntConstNode(coords, a0 | a1);
+			case BIT_AND:
+				return new IntConstNode(coords, a0 & a1);
+			case BIT_XOR:
+				return new IntConstNode(coords, a0 ^ a1);
+			case BIT_NOT:
+				return new IntConstNode(coords, ~a0);
+			case NEG:
+				return new IntConstNode(coords, -a0);
 
-				default:      throw new NotEvaluatableException(coords);
+			default:
+				throw new NotEvaluatableException(coords);
 			}
 		}
 	};
 
 	private static final Evaluator longEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			long a0, a1;
 
 			try {
-				a0 = (Long) getArgValue(e, op, 0);
+				a0 = (Long)getArgValue(e, op, 0);
 				a1 = 0;
-				if (getArity(op.getOpId()) > 1)
-					a1 = (Long) getArgValue(e, op, 1);
-			} catch (ValueException x) {
+				if(getArity(op.getOpId()) > 1)
+					a1 = (Long)getArgValue(e, op, 1);
+			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch (op.id) {
-				case EQ:      return new BoolConstNode(coords, a0 == a1);
-				case NE:      return new BoolConstNode(coords, a0 != a1);
-				case LT:      return new BoolConstNode(coords, a0 < a1);
-				case LE:      return new BoolConstNode(coords, a0 <= a1);
-				case GT:      return new BoolConstNode(coords, a0 > a1);
-				case GE:      return new BoolConstNode(coords, a0 >= a1);
+			switch(op.id) {
+			case EQ:
+				return new BoolConstNode(coords, a0 == a1);
+			case NE:
+				return new BoolConstNode(coords, a0 != a1);
+			case LT:
+				return new BoolConstNode(coords, a0 < a1);
+			case LE:
+				return new BoolConstNode(coords, a0 <= a1);
+			case GT:
+				return new BoolConstNode(coords, a0 > a1);
+			case GE:
+				return new BoolConstNode(coords, a0 >= a1);
 
-				case ADD:     return new LongConstNode(coords, a0 + a1);
-				case SUB:     return new LongConstNode(coords, a0 - a1);
-				case MUL:     return new LongConstNode(coords, a0 * a1);
-				case DIV:     return new LongConstNode(coords, a0 / a1);
-				case MOD:     return new LongConstNode(coords, a0 % a1);
-				case SHL:     return new LongConstNode(coords, a0 << a1);
-				case SHR:     return new LongConstNode(coords, a0 >> a1);
-				case BIT_SHR: return new LongConstNode(coords, a0 >>> a1);
-				case BIT_OR:  return new LongConstNode(coords, a0 | a1);
-				case BIT_AND: return new LongConstNode(coords, a0 & a1);
-				case BIT_XOR: return new LongConstNode(coords, a0 ^ a1);
-				case BIT_NOT: return new LongConstNode(coords, ~a0);
-				case NEG:     return new LongConstNode(coords, -a0);
+			case ADD:
+				return new LongConstNode(coords, a0 + a1);
+			case SUB:
+				return new LongConstNode(coords, a0 - a1);
+			case MUL:
+				return new LongConstNode(coords, a0 * a1);
+			case DIV:
+				return new LongConstNode(coords, a0 / a1);
+			case MOD:
+				return new LongConstNode(coords, a0 % a1);
+			case SHL:
+				return new LongConstNode(coords, a0 << a1);
+			case SHR:
+				return new LongConstNode(coords, a0 >> a1);
+			case BIT_SHR:
+				return new LongConstNode(coords, a0 >>> a1);
+			case BIT_OR:
+				return new LongConstNode(coords, a0 | a1);
+			case BIT_AND:
+				return new LongConstNode(coords, a0 & a1);
+			case BIT_XOR:
+				return new LongConstNode(coords, a0 ^ a1);
+			case BIT_NOT:
+				return new LongConstNode(coords, ~a0);
+			case NEG:
+				return new LongConstNode(coords, -a0);
 
-				default:      throw new NotEvaluatableException(coords);
+			default:
+				throw new NotEvaluatableException(coords);
 			}
 		}
 	};
 
 	private static final Evaluator floatEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			float a0, a1;
 
 			try {
-				a0 = (Float) getArgValue(e, op, 0);
+				a0 = (Float)getArgValue(e, op, 0);
 				a1 = 0;
-				if (getArity(op.getOpId()) > 1)
-					a1 = (Float) getArgValue(e, op, 1);
-			} catch (ValueException x) {
+				if(getArity(op.getOpId()) > 1)
+					a1 = (Float)getArgValue(e, op, 1);
+			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch (op.id) {
-				case EQ:  return new BoolConstNode(coords, a0 == a1);
-				case NE:  return new BoolConstNode(coords, a0 != a1);
-				case LT:  return new BoolConstNode(coords, a0 < a1);
-				case LE:  return new BoolConstNode(coords, a0 <= a1);
-				case GT:  return new BoolConstNode(coords, a0 > a1);
-				case GE:  return new BoolConstNode(coords, a0 >= a1);
+			switch(op.id) {
+			case EQ:
+				return new BoolConstNode(coords, a0 == a1);
+			case NE:
+				return new BoolConstNode(coords, a0 != a1);
+			case LT:
+				return new BoolConstNode(coords, a0 < a1);
+			case LE:
+				return new BoolConstNode(coords, a0 <= a1);
+			case GT:
+				return new BoolConstNode(coords, a0 > a1);
+			case GE:
+				return new BoolConstNode(coords, a0 >= a1);
 
-				case ADD: return new FloatConstNode(coords, a0 + a1);
-				case SUB: return new FloatConstNode(coords, a0 - a1);
-				case MUL: return new FloatConstNode(coords, a0 * a1);
-				case DIV: return new FloatConstNode(coords, a0 / a1);
-				case MOD: return new FloatConstNode(coords, a0 % a1);
+			case ADD:
+				return new FloatConstNode(coords, a0 + a1);
+			case SUB:
+				return new FloatConstNode(coords, a0 - a1);
+			case MUL:
+				return new FloatConstNode(coords, a0 * a1);
+			case DIV:
+				return new FloatConstNode(coords, a0 / a1);
+			case MOD:
+				return new FloatConstNode(coords, a0 % a1);
 
-				default:  throw new NotEvaluatableException(coords);
+			default:
+				throw new NotEvaluatableException(coords);
 			}
 		}
 	};
 
 	private static final Evaluator doubleEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			double a0, a1;
 
 			try {
-				a0 = (Double) getArgValue(e, op, 0);
+				a0 = (Double)getArgValue(e, op, 0);
 				a1 = 0;
-				if (getArity(op.getOpId()) > 1)
-					a1 = (Double) getArgValue(e, op, 1);
-			} catch (ValueException x) {
+				if(getArity(op.getOpId()) > 1)
+					a1 = (Double)getArgValue(e, op, 1);
+			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch (op.id) {
-				case EQ:  return new BoolConstNode(coords, a0 == a1);
-				case NE:  return new BoolConstNode(coords, a0 != a1);
-				case LT:  return new BoolConstNode(coords, a0 < a1);
-				case LE:  return new BoolConstNode(coords, a0 <= a1);
-				case GT:  return new BoolConstNode(coords, a0 > a1);
-				case GE:  return new BoolConstNode(coords, a0 >= a1);
+			switch(op.id) {
+			case EQ:
+				return new BoolConstNode(coords, a0 == a1);
+			case NE:
+				return new BoolConstNode(coords, a0 != a1);
+			case LT:
+				return new BoolConstNode(coords, a0 < a1);
+			case LE:
+				return new BoolConstNode(coords, a0 <= a1);
+			case GT:
+				return new BoolConstNode(coords, a0 > a1);
+			case GE:
+				return new BoolConstNode(coords, a0 >= a1);
 
-				case ADD: return new DoubleConstNode(coords, a0 + a1);
-				case SUB: return new DoubleConstNode(coords, a0 - a1);
-				case MUL: return new DoubleConstNode(coords, a0 * a1);
-				case DIV: return new DoubleConstNode(coords, a0 / a1);
-				case MOD: return new DoubleConstNode(coords, a0 % a1);
+			case ADD:
+				return new DoubleConstNode(coords, a0 + a1);
+			case SUB:
+				return new DoubleConstNode(coords, a0 - a1);
+			case MUL:
+				return new DoubleConstNode(coords, a0 * a1);
+			case DIV:
+				return new DoubleConstNode(coords, a0 / a1);
+			case MOD:
+				return new DoubleConstNode(coords, a0 % a1);
 
-				default:  throw new NotEvaluatableException(coords);
+			default:
+				throw new NotEvaluatableException(coords);
 			}
 		}
 	};
 
 	private static final Evaluator typeEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			boolean is_node1, is_node2;
 
-			if (e[0] instanceof TypeConstNode) {
-				TypeNode type = (TypeNode) ((TypeConstNode) e[0]).getValue();
+			if(e[0] instanceof TypeConstNode) {
+				TypeNode type = (TypeNode)((TypeConstNode)e[0]).getValue();
 				is_node1 = type instanceof NodeTypeNode;
-			} else if (e[0] instanceof TypeofNode) {
-				TypeNode type = ((TypeofNode) e[0]).getEntity().getDeclType();
+			} else if(e[0] instanceof TypeofNode) {
+				TypeNode type = ((TypeofNode)e[0]).getEntity().getDeclType();
 				is_node1 = type instanceof NodeTypeNode;
 			} else
 				throw new NotEvaluatableException(coords);
 
-			if (e[1] instanceof TypeConstNode) {
-				TypeNode type = (TypeNode) ((TypeConstNode) e[1]).getValue();
+			if(e[1] instanceof TypeConstNode) {
+				TypeNode type = (TypeNode)((TypeConstNode)e[1]).getValue();
 				is_node2 = type instanceof NodeTypeNode;
-			} else if (e[0] instanceof TypeofNode) {
-				TypeNode type = ((TypeofNode) e[1]).getEntity().getDeclType();
+			} else if(e[0] instanceof TypeofNode) {
+				TypeNode type = ((TypeofNode)e[1]).getEntity().getDeclType();
 				is_node2 = type instanceof NodeTypeNode;
 			} else
 				throw new NotEvaluatableException(coords);
 
-			if (is_node1 != is_node2) {
+			if(is_node1 != is_node2) {
 				error.warning(coords, "comparison between node and edge types will always fail");
-				switch (op.id) {
-					case EQ:
-					case LT:
-					case GT:
-					case LE:
-					case GE: return new BoolConstNode(coords, false);
+				switch(op.id) {
+				case EQ:
+				case LT:
+				case GT:
+				case LE:
+				case GE:
+					return new BoolConstNode(coords, false);
 
-					case NE: return new BoolConstNode(coords, true);
+				case NE:
+					return new BoolConstNode(coords, true);
 				}
 			}
 			throw new NotEvaluatableException(coords);
@@ -564,121 +639,124 @@ public class OperatorSignature extends FunctionSignature {
 	};
 
 	private static final Evaluator booleanEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			boolean a0, a1;
 
 			try {
-				a0 = (Boolean) getArgValue(e, op, 0);
+				a0 = (Boolean)getArgValue(e, op, 0);
 				a1 = false;
-				if (getArity(op.getOpId()) > 1)
-					a1 = (Boolean) getArgValue(e, op, 1);
-			} catch (ValueException x) {
+				if(getArity(op.getOpId()) > 1)
+					a1 = (Boolean)getArgValue(e, op, 1);
+			} catch(ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
-			switch (op.id) {
-				case EQ:      return new BoolConstNode(coords, a0 == a1);
-				case NE:      return new BoolConstNode(coords, a0 != a1);
-				case LOG_AND: return new BoolConstNode(coords, a0 && a1);
-				case LOG_OR:  return new BoolConstNode(coords, a0 || a1);
-				case LOG_NOT: return new BoolConstNode(coords, !a0);
-				case BIT_OR:  return new BoolConstNode(coords, a0 | a1);
-				case BIT_AND: return new BoolConstNode(coords, a0 & a1);
-				case BIT_XOR: return new BoolConstNode(coords, a0 ^ a1);
+			switch(op.id) {
+			case EQ:
+				return new BoolConstNode(coords, a0 == a1);
+			case NE:
+				return new BoolConstNode(coords, a0 != a1);
+			case LOG_AND:
+				return new BoolConstNode(coords, a0 && a1);
+			case LOG_OR:
+				return new BoolConstNode(coords, a0 || a1);
+			case LOG_NOT:
+				return new BoolConstNode(coords, !a0);
+			case BIT_OR:
+				return new BoolConstNode(coords, a0 | a1);
+			case BIT_AND:
+				return new BoolConstNode(coords, a0 & a1);
+			case BIT_XOR:
+				return new BoolConstNode(coords, a0 ^ a1);
 
-				default:      throw new NotEvaluatableException(coords);
+			default:
+				throw new NotEvaluatableException(coords);
 			}
 		}
 	};
 
 	public static final Evaluator condEvaluator = new Evaluator() {
-		public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[] args) {
+		public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[] args)
+		{
 			try {
-				return (Boolean) getArgValue(args, op, 0) ? args[1] : args[2];
-			} catch (ValueException x) {
+				return (Boolean)getArgValue(args, op, 0) ? args[1] : args[2];
+			} catch(ValueException x) {
 				return expr;
 			}
 		}
 	};
 
 	public static final Evaluator mapEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate in, map access if map const
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
+			throw new NotEvaluatableException(coords); // MAP TODO: evaluate in, map access if map const
 		}
 	};
 
 	public static final Evaluator setEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			switch(op.id) {
-				case IN:
-				{
-					if(e[1] instanceof ArithmeticOpNode)
-					{
-						ArithmeticOpNode opNode = (ArithmeticOpNode) e[1];
-						if(opNode.getOpId() == BIT_AND)
-						{
-							ExprNode set1 = opNode.children.get(0);
-							ExprNode set2 = opNode.children.get(1);
-							ExprNode in1 = new ArithmeticOpNode(set1.getCoords(), IN, e[0], set1).evaluate();
-							ExprNode in2 = new ArithmeticOpNode(set2.getCoords(), IN, e[0], set2).evaluate();
-							return new ArithmeticOpNode(opNode.getCoords(), LOG_AND, in1, in2).evaluate();
-						}
-						else if(opNode.getOpId() == BIT_OR)
-						{
-							ExprNode set1 = opNode.children.get(0);
-							ExprNode set2 = opNode.children.get(1);
-							ExprNode in1 = new ArithmeticOpNode(set1.getCoords(), IN, e[0], set1).evaluate();
-							ExprNode in2 = new ArithmeticOpNode(set2.getCoords(), IN, e[0], set2).evaluate();
-							return new ArithmeticOpNode(opNode.getCoords(), LOG_OR, in1, in2).evaluate();
-						}
-					} else if(e[0] instanceof ConstNode) {
-						ConstNode val = (ConstNode) e[0];
-
-						SetInitNode setInit = null;
-						if(e[1] instanceof SetInitNode) {
-							setInit = (SetInitNode) e[1];
-						}
-						else if(e[1] instanceof MemberAccessExprNode) {
-							MemberDeclNode member = ((MemberAccessExprNode) e[1]).getDecl();
-							if(member.isConst() && member.getConstInitializer() != null)
-								setInit = (SetInitNode) member.getConstInitializer();
-						}
-						if(setInit != null) {
-							if(setInit.contains(val))
-								return new BoolConstNode(coords, true);
-							else if(setInit.isConstant())
-								return new BoolConstNode(coords, false);
-							// Otherwise not decideable because of non-constant entries in set
-						}
+			case IN: {
+				if(e[1] instanceof ArithmeticOpNode) {
+					ArithmeticOpNode opNode = (ArithmeticOpNode)e[1];
+					if(opNode.getOpId() == BIT_AND) {
+						ExprNode set1 = opNode.children.get(0);
+						ExprNode set2 = opNode.children.get(1);
+						ExprNode in1 = new ArithmeticOpNode(set1.getCoords(), IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOpNode(set2.getCoords(), IN, e[0], set2).evaluate();
+						return new ArithmeticOpNode(opNode.getCoords(), LOG_AND, in1, in2).evaluate();
+					} else if(opNode.getOpId() == BIT_OR) {
+						ExprNode set1 = opNode.children.get(0);
+						ExprNode set2 = opNode.children.get(1);
+						ExprNode in1 = new ArithmeticOpNode(set1.getCoords(), IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOpNode(set2.getCoords(), IN, e[0], set2).evaluate();
+						return new ArithmeticOpNode(opNode.getCoords(), LOG_OR, in1, in2).evaluate();
 					}
-					break;
+				} else if(e[0] instanceof ConstNode) {
+					ConstNode val = (ConstNode)e[0];
+
+					SetInitNode setInit = null;
+					if(e[1] instanceof SetInitNode) {
+						setInit = (SetInitNode)e[1];
+					} else if(e[1] instanceof MemberAccessExprNode) {
+						MemberDeclNode member = ((MemberAccessExprNode)e[1]).getDecl();
+						if(member.isConst() && member.getConstInitializer() != null)
+							setInit = (SetInitNode)member.getConstInitializer();
+					}
+					if(setInit != null) {
+						if(setInit.contains(val))
+							return new BoolConstNode(coords, true);
+						else if(setInit.isConstant())
+							return new BoolConstNode(coords, false);
+						// Otherwise not decideable because of non-constant entries in set
+					}
 				}
+				break;
+			}
 			}
 			throw new NotEvaluatableException(coords);
 		}
 	};
 
 	public static final Evaluator arrayEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
+			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
 		}
 	};
 
 	public static final Evaluator dequeEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
-			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
+			throw new NotEvaluatableException(coords); // MAP TODO: evaluate
 		}
 	};
 
 	public static final Evaluator untypedEvaluator = new Evaluator() {
-		protected ExprNode eval(Coords coords, OperatorSignature op,
-				ExprNode[] e) throws NotEvaluatableException {
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
 			throw new NotEvaluatableException(coords);
 		}
 	};
@@ -785,7 +863,7 @@ public class OperatorSignature extends FunctionSignature {
 
 		makeUnOp(NEG, LONG, LONG, longEvaluator);
 		makeUnOp(BIT_NOT, LONG, LONG, longEvaluator);
-		
+
 		// Float arithmetic
 		makeBinOp(ADD, FLOAT, FLOAT, FLOAT, floatEvaluator);
 		makeBinOp(SUB, FLOAT, FLOAT, FLOAT, floatEvaluator);
@@ -828,10 +906,9 @@ public class OperatorSignature extends FunctionSignature {
 		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, condEvaluator);
 		// makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, condEvaluator);
 
-
 		/////////////////////////////////////////////////////////////////////////////////////////
 		// Operators to handle the untyped type that may appear in the sequence expressions due to untyped graph global variables
-		
+
 		// Comparison operators
 		makeBinOp(EQ, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
 		makeBinOp(NE, BOOLEAN, UNTYPED, UNTYPED, untypedEvaluator);
@@ -873,10 +950,10 @@ public class OperatorSignature extends FunctionSignature {
 		makeOp(COND, BOOLEAN, new TypeNode[] { UNTYPED, BOOLEAN, BOOLEAN }, condEvaluator);
 		makeOp(COND, TYPE, new TypeNode[] { UNTYPED, TYPE, TYPE }, condEvaluator);
 		makeOp(COND, OBJECT, new TypeNode[] { UNTYPED, OBJECT, OBJECT }, condEvaluator);
-		
-		makeOp(COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED}, untypedEvaluator);
 
-		makeOp(COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED}, untypedEvaluator);
+		makeOp(COND, UNTYPED, new TypeNode[] { BOOLEAN, UNTYPED, UNTYPED }, untypedEvaluator);
+
+		makeOp(COND, UNTYPED, new TypeNode[] { UNTYPED, UNTYPED, UNTYPED }, untypedEvaluator);
 	}
 
 	/**
@@ -886,7 +963,8 @@ public class OperatorSignature extends FunctionSignature {
 	 *            The ID of the operator.
 	 * @return The arity of the operator.
 	 */
-	protected static int getArity(int id) {
+	protected static int getArity(int id)
+	{
 		return arities.get(new Integer(id)).intValue();
 	}
 
@@ -897,7 +975,8 @@ public class OperatorSignature extends FunctionSignature {
 	 *            ID of the operator.
 	 * @return The name of the operator.
 	 */
-	protected static String getName(int id) {
+	protected static String getName(int id)
+	{
 		return names.get(new Integer(id));
 	}
 
@@ -908,7 +987,8 @@ public class OperatorSignature extends FunctionSignature {
 	 *            An operator ID.
 	 * @return true, if the ID is a valid operator ID, false if not.
 	 */
-	private static boolean isValidId(int id) {
+	private static boolean isValidId(int id)
+	{
 		return id >= 0 && id < OPERATORS;
 	}
 
@@ -923,7 +1003,8 @@ public class OperatorSignature extends FunctionSignature {
 	 *            The operands.
 	 * @return The "nearest" operator.
 	 */
-	protected static OperatorSignature getNearestOperator(int id, TypeNode[] operandTypes) {
+	protected static OperatorSignature getNearestOperator(int id, TypeNode[] operandTypes)
+	{
 		Integer operatorId = new Integer(id);
 		OperatorSignature resultingOperator = INVALID;
 		int nearestDistance = Integer.MAX_VALUE;
@@ -940,7 +1021,7 @@ public class OperatorSignature extends FunctionSignature {
 				hasUntyped = true;
 			else if(operandTypes[i] instanceof EnumTypeNode) {
 				if(isEnum == null) {
-					isEnum = new boolean[operandTypes.length];	// initialized to false
+					isEnum = new boolean[operandTypes.length]; // initialized to false
 					checkEnums = true;
 				}
 				isEnum[i] = true;
@@ -976,7 +1057,7 @@ public class OperatorSignature extends FunctionSignature {
 				}
 			}
 
-			if (distance < nearestDistance) {
+			if(distance < nearestDistance) {
 				nearestDistance = distance;
 				resultingOperator = operatorCandidate;
 				if(nearestDistance == 0)
@@ -987,16 +1068,16 @@ public class OperatorSignature extends FunctionSignature {
 		// Don't allow "null+a.obj" to be turned into "(string) null + (string) a.obj".
 		// But allow "a + b" being enums to be turned into "(int) a + (int) b".
 		// Also allow "a == b" being void (abstract attribute) to become "(string) a == (string) b".
-		if(!hasVoid && (checkEnums && nearestDistance >= 4				// costs doubled
-						|| !checkEnums && nearestDistance >= 2)) {
+		if(!hasVoid && (checkEnums && nearestDistance >= 4 // costs doubled
+				|| !checkEnums && nearestDistance >= 2)) {
 			resultingOperator = INVALID;
 		}
-		
+
 		// Don't allow untyped to get introduced on type mismatches (one argument untyped -> untyped as result ok)
-		if(resultingOperator.getResultType()==BasicTypeNode.untypedType && !hasUntyped) {
+		if(resultingOperator.getResultType() == BasicTypeNode.untypedType && !hasUntyped) {
 			resultingOperator = INVALID;
 		}
-		
+
 		debug.report(NOTE, "selected: " + resultingOperator);
 
 		return resultingOperator;
@@ -1005,9 +1086,10 @@ public class OperatorSignature extends FunctionSignature {
 	/**
 	 * An invalid operator signature.
 	 */
-	private static final OperatorSignature INVALID = new OperatorSignature(
-			ERROR, BasicTypeNode.errorType, new TypeNode[] {}, emptyEvaluator) {
-		protected boolean isValid() {
+	private static final OperatorSignature INVALID = new OperatorSignature(ERROR, BasicTypeNode.errorType,
+			new TypeNode[] {}, emptyEvaluator) {
+		protected boolean isValid()
+		{
 			return false;
 		}
 	};
@@ -1031,9 +1113,8 @@ public class OperatorSignature extends FunctionSignature {
 	 * @param evaluator
 	 *            The evaluator for this operator signature.
 	 */
-	private OperatorSignature(int id, TypeNode resultType, TypeNode[] operandTypes,
-			Evaluator evaluator) {
-
+	private OperatorSignature(int id, TypeNode resultType, TypeNode[] operandTypes, Evaluator evaluator)
+	{
 		super(resultType, operandTypes);
 		this.id = id;
 		this.evaluator = evaluator;
@@ -1051,7 +1132,8 @@ public class OperatorSignature extends FunctionSignature {
 	 * @return
 	 *            The possibly simplified value of the expression.
 	 */
-	protected ExprNode evaluate(ArithmeticOpNode expr, ExprNode[] arguments) {
+	protected ExprNode evaluate(ArithmeticOpNode expr, ExprNode[] arguments)
+	{
 		return evaluator.evaluate(expr, this, arguments);
 	}
 
@@ -1060,11 +1142,13 @@ public class OperatorSignature extends FunctionSignature {
 	 *
 	 * @return true, if the signature is ok, false, if not.
 	 */
-	protected boolean isValid() {
+	protected boolean isValid()
+	{
 		return true;
 	}
 
-	protected int getOpId() {
+	protected int getOpId()
+	{
 		return id;
 	}
 
@@ -1072,11 +1156,12 @@ public class OperatorSignature extends FunctionSignature {
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		String res = getResultType().toString() + " ";
 		res += names.get(new Integer(id)) + "(";
 		TypeNode[] opTypes = getOperandTypes();
-		for (int i = 0; i < opTypes.length; i++) {
+		for(int i = 0; i < opTypes.length; i++) {
 			res += (i == 0 ? "" : ",") + opTypes[i];
 		}
 		res += ")";

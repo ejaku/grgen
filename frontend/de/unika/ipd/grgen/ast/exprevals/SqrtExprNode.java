@@ -20,36 +20,40 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.SqrtExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SqrtExprNode extends ExprNode {
+public class SqrtExprNode extends ExprNode
+{
 	static {
 		setName(SqrtExprNode.class, "sqrt expr");
 	}
 
 	private ExprNode expr;
 
-
-	public SqrtExprNode(Coords coords, ExprNode expr) {
+	public SqrtExprNode(Coords coords, ExprNode expr)
+	{
 		super(coords);
 
 		this.expr = becomeParent(expr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(expr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("expr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(expr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
@@ -58,12 +62,14 @@ public class SqrtExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new SqrtExpr(expr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.doubleType;
 	}
 }

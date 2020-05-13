@@ -7,19 +7,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class TruncateExpr extends Expression {
+public class TruncateExpr extends Expression
+{
 	private Expression expr;
 
-	public TruncateExpr(Expression expr) {
+	public TruncateExpr(Expression expr)
+	{
 		super("truncate expr", expr.getType());
 		this.expr = expr;
 	}
 
-	public Expression getExpr() {
+	public Expression getExpr()
+	{
 		return expr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		expr.collectNeededEntities(needs);
 	}
 }

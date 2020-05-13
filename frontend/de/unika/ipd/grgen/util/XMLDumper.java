@@ -20,8 +20,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
-public class XMLDumper {
-
+public class XMLDumper
+{
 	private final PrintStream ps;
 
 	private int indent = 0;
@@ -33,16 +33,19 @@ public class XMLDumper {
 
 	private final Collection<XMLDumpable> visited = new HashSet<XMLDumpable>();
 
-	public XMLDumper(PrintStream ps) {
+	public XMLDumper(PrintStream ps)
+	{
 		this(ps, "  ");
 	}
 
-	public XMLDumper(PrintStream ps, String indentString) {
+	public XMLDumper(PrintStream ps, String indentString)
+	{
 		this.ps = ps;
 		this.indentString = indentString;
 	}
 
-	public void dump(XMLDumpable dumpable) {
+	public void dump(XMLDumpable dumpable)
+	{
 		if(visited.contains(dumpable)) {
 			dumpRef(dumpable);
 			return;
@@ -81,7 +84,7 @@ public class XMLDumper {
 				Object obj = it.next();
 
 				// the cast was checked some lines above
-				Iterator<?> childs = (Iterator<?>) fields.get(obj);
+				Iterator<?> childs = (Iterator<?>)fields.get(obj);
 				String tag = obj.toString();
 
 				if(childs.hasNext()) {
@@ -95,7 +98,7 @@ public class XMLDumper {
 						Object d = childs.next();
 
 						assert d instanceof XMLDumpable;
-						dump((XMLDumpable) d);
+						dump((XMLDumpable)d);
 					}
 
 					indent--;
@@ -114,7 +117,8 @@ public class XMLDumper {
 			ps.println("/>");
 	}
 
-	private void dumpRef(XMLDumpable dumpable) {
+	private void dumpRef(XMLDumpable dumpable)
+	{
 		indent();
 		ps.print('<');
 		ps.print(dumpable.getRefTagName());
@@ -123,10 +127,10 @@ public class XMLDumper {
 		ps.println("\"/>");
 	}
 
-	private void indent() {
-		for(int i = 0; i < indent; i++)
+	private void indent()
+	{
+		for(int i = 0; i < indent; i++) {
 			ps.print(indentString);
+		}
 	}
-
 }
-

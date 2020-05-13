@@ -43,10 +43,11 @@ public class SetInitNode extends ExprNode
 	private DeclNode lhs;
 	private SetTypeNode setType;
 
-	public SetInitNode(Coords coords, IdentNode member, SetTypeNode setType) {
+	public SetInitNode(Coords coords, IdentNode member, SetTypeNode setType)
+	{
 		super(coords);
 
-		if(member!=null) {
+		if(member != null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
 			this.setType = setType;
@@ -54,78 +55,82 @@ public class SetInitNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(setItems);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("setItems");
 		return childrenNames;
 	}
 
-	public void addSetItem(SetItemNode item) {
+	public void addSetItem(SetItemNode item)
+	{
 		setItems.addChild(item);
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
 	@Override
-	protected boolean resolveLocal() {
-		if(lhsUnresolved!=null) {
+	protected boolean resolveLocal()
+	{
+		if(lhsUnresolved != null) {
 			if(!lhsResolver.resolve(lhsUnresolved))
 				return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
 		} else {
-			if(setType==null)
+			if(setType == null)
 				setType = createSetType();
 			return setType.resolve();
 		}
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean success = true;
 
 		SetTypeNode setType;
-		if(lhs!=null) {
+		if(lhs != null) {
 			TypeNode type = lhs.getDeclType();
-			assert type instanceof SetTypeNode: "Lhs should be a Set<Value>";
-			setType = (SetTypeNode) type;
+			assert type instanceof SetTypeNode : "Lhs should be a Set<Value>";
+			setType = (SetTypeNode)type;
 		} else {
 			setType = this.setType;
 		}
 
 		for(SetItemNode item : setItems.getChildren()) {
 			if(item.valueExpr.getType() != setType.valueType) {
-				if(this.setType!=null) {
+				if(this.setType != null) {
 					ExprNode oldValueExpr = item.valueExpr;
 					item.valueExpr = item.valueExpr.adjustType(setType.valueType, getCoords());
 					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \""
-								+ setType.valueType + "\" of set.");
+								+ "\" of initializer doesn't fit to value type \"" + setType.valueType + "\" of set.");
 					}
 				} else {
 					success = false;
 					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
-							+ "\" of initializer doesn't fit to value type \""
-							+ setType.valueType + "\" of set (all items must be of exactly the same type).");
+							+ "\" of initializer doesn't fit to value type \"" + setType.valueType
+							+ "\" of set (all items must be of exactly the same type).");
 				}
 			}
 		}
 
-		if(lhs==null && this.setType==null) {
+		if(lhs == null && this.setType == null) {
 			this.setType = setType;
 		}
 
-		if(!isConstant() && lhs!=null) {
+		if(!isConstant() && lhs != null) {
 			reportError("Only constant items allowed in set initialization in model");
 			success = false;
 		}
@@ -133,7 +138,8 @@ public class SetInitNode extends ExprNode
 		return success;
 	}
 
-	protected SetTypeNode createSetType() {
+	protected SetTypeNode createSetType()
+	{
 		TypeNode itemTypeNode = setItems.getChildren().iterator().next().valueExpr.getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new SetTypeNode(itemTypeIdent);
@@ -143,7 +149,8 @@ public class SetInitNode extends ExprNode
 	 * Checks whether the set only contains constants.
 	 * @return True, if all set items are constant.
 	 */
-	public boolean isConstant() {
+	public boolean isConstant()
+	{
 		for(SetItemNode item : setItems.getChildren()) {
 			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
 				return false;
@@ -151,7 +158,8 @@ public class SetInitNode extends ExprNode
 		return true;
 	}
 
-	protected boolean isEnumValue(ExprNode expr) {
+	protected boolean isEnumValue(ExprNode expr)
+	{
 		if(!(expr instanceof DeclExprNode))
 			return false;
 		if(!(((DeclExprNode)expr).isEnumValue()))
@@ -159,10 +167,11 @@ public class SetInitNode extends ExprNode
 		return true;
 	}
 
-	public boolean contains(ConstNode node) {
+	public boolean contains(ConstNode node)
+	{
 		for(SetItemNode item : setItems.getChildren()) {
 			if(item.valueExpr instanceof ConstNode) {
-				ConstNode itemConst = (ConstNode) item.valueExpr;
+				ConstNode itemConst = (ConstNode)item.valueExpr;
 				if(node.getValue().equals(itemConst.getValue()))
 					return true;
 			}
@@ -171,36 +180,41 @@ public class SetInitNode extends ExprNode
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
-		if(lhs!=null) {
+		if(lhs != null) {
 			TypeNode type = lhs.getDeclType();
-			return (SetTypeNode) type;
+			return (SetTypeNode)type;
 		} else {
 			return setType;
 		}
 	}
 
-	public CollectNode<SetItemNode> getItems() {
+	public CollectNode<SetItemNode> getItems()
+	{
 		return setItems;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Vector<SetItem> items = new Vector<SetItem>();
 		for(SetItemNode item : setItems.getChildren()) {
 			items.add(item.getSetItem());
 		}
-		Entity member = lhs!=null ? lhs.getEntity() : null;
-		SetType type = setType!=null ? setType.checkIR(SetType.class) : null;
+		Entity member = lhs != null ? lhs.getEntity() : null;
+		SetType type = setType != null ? setType.checkIR(SetType.class) : null;
 		return new SetInit(items, member, type, isConstant());
 	}
 
-	public SetInit getSetInit() {
+	public SetInit getSetInit()
+	{
 		return checkIR(SetInit.class);
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "set initialization";
 	}
 }

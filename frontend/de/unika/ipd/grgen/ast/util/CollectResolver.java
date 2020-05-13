@@ -18,23 +18,25 @@ public class CollectResolver<T extends BaseNode>
 {
 	private Resolver<T> resolver;
 
-	public CollectResolver(Resolver<T> resolver) {
+	public CollectResolver(Resolver<T> resolver)
+	{
 		this.resolver = resolver;
 	}
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R */
-	public CollectNode<T> resolve(CollectNode<?> collect, BaseNode parent) {
+	public CollectNode<T> resolve(CollectNode<?> collect, BaseNode parent)
+	{
 		CollectNode<T> res = new CollectNode<T>();
 		res.setCoords(collect.getCoords());
 
-		for (BaseNode elem : collect.getChildren()) {
-	        T resolved = resolver.resolve(elem, collect);
-	        if (resolved == null) {
-	        	return null;
-	        }
-	        res.addChild(resolved);
-        }
+		for(BaseNode elem : collect.getChildren()) {
+			T resolved = resolver.resolve(elem, collect);
+			if(resolved == null) {
+				return null;
+			}
+			res.addChild(resolved);
+		}
 		parent.becomeParent(res);
 		return res;
 	}

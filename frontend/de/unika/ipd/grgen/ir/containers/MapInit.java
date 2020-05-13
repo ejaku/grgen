@@ -16,7 +16,8 @@ import java.util.Collection;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapInit extends Expression {
+public class MapInit extends Expression
+{
 	private Collection<MapItem> mapItems;
 	private Entity member;
 	private MapType mapType;
@@ -24,51 +25,60 @@ public class MapInit extends Expression {
 	private int anonymousMapId;
 	private static int anonymousMapCounter;
 
-	public MapInit(Collection<MapItem> mapItems, Entity member, MapType mapType, boolean isConst) {
-		super("map init", member!=null ? member.getType() : mapType);
+	public MapInit(Collection<MapItem> mapItems, Entity member, MapType mapType, boolean isConst)
+	{
+		super("map init", member != null ? member.getType() : mapType);
 		this.mapItems = mapItems;
 		this.member = member;
 		this.mapType = mapType;
 		this.isConst = isConst;
-		if(member==null) {
+		if(member == null) {
 			anonymousMapId = anonymousMapCounter;
 			++anonymousMapCounter;
 		}
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		for(MapItem mapItem : mapItems) {
 			mapItem.collectNeededEntities(needs);
 		}
 	}
 
-	public Collection<MapItem> getMapItems() {
+	public Collection<MapItem> getMapItems()
+	{
 		return mapItems;
 	}
 
-	public void setMember(Entity entity) {
-		assert(member==null && entity!=null);
+	public void setMember(Entity entity)
+	{
+		assert(member == null && entity != null);
 		member = entity;
 	}
 
-	public Entity getMember() {
+	public Entity getMember()
+	{
 		return member;
 	}
 
-	public MapType getMapType() {
+	public MapType getMapType()
+	{
 		return mapType;
 	}
 
-	public void forceNotConstant() {
+	public void forceNotConstant()
+	{
 		isConst = false;
 	}
 
-	public boolean isConstant() {
+	public boolean isConstant()
+	{
 		return isConst;
 	}
 
-	public String getAnonymousMapName() {
+	public String getAnonymousMapName()
+	{
 		return "anonymous_map_" + anonymousMapId;
 	}
 }

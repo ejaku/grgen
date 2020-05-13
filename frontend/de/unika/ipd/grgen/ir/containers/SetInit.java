@@ -16,7 +16,8 @@ import java.util.Collection;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class SetInit extends Expression {
+public class SetInit extends Expression
+{
 	private Collection<SetItem> setItems;
 	private Entity member;
 	private SetType setType;
@@ -24,51 +25,60 @@ public class SetInit extends Expression {
 	private int anonymousSetId;
 	private static int anonymousSetCounter;
 
-	public SetInit(Collection<SetItem> setItems, Entity member, SetType setType, boolean isConst) {
-		super("set init", member!=null ? member.getType() : setType);
+	public SetInit(Collection<SetItem> setItems, Entity member, SetType setType, boolean isConst)
+	{
+		super("set init", member != null ? member.getType() : setType);
 		this.setItems = setItems;
 		this.member = member;
 		this.setType = setType;
 		this.isConst = isConst;
-		if(member==null) {
+		if(member == null) {
 			anonymousSetId = anonymousSetCounter;
 			++anonymousSetCounter;
 		}
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		for(SetItem setItem : setItems) {
 			setItem.collectNeededEntities(needs);
 		}
 	}
 
-	public Collection<SetItem> getSetItems() {
+	public Collection<SetItem> getSetItems()
+	{
 		return setItems;
 	}
 
-	public void setMember(Entity entity) {
-		assert(member==null && entity!=null);
+	public void setMember(Entity entity)
+	{
+		assert(member == null && entity != null);
 		member = entity;
 	}
 
-	public Entity getMember() {
+	public Entity getMember()
+	{
 		return member;
 	}
 
-	public SetType getSetType() {
+	public SetType getSetType()
+	{
 		return setType;
 	}
 
-	public void forceNotConstant() {
+	public void forceNotConstant()
+	{
 		isConst = false;
 	}
-	
-	public boolean isConstant() {
+
+	public boolean isConstant()
+	{
 		return isConst;
 	}
 
-	public String getAnonymousSetName() {
+	public String getAnonymousSetName()
+	{
 		return "anonymous_set_" + anonymousSetId;
 	}
 }

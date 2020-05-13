@@ -13,31 +13,37 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayIndexOfOrderedByExpr extends Expression {
+public class ArrayIndexOfOrderedByExpr extends Expression
+{
 	private Expression targetExpr;
 	private Entity member;
 	private Expression valueExpr;
 
-	public ArrayIndexOfOrderedByExpr(Expression targetExpr, Entity member, Expression valueExpr) {
+	public ArrayIndexOfOrderedByExpr(Expression targetExpr, Entity member, Expression valueExpr)
+	{
 		super("array indexOfOrderedBy expr", IntType.getType());
 		this.targetExpr = targetExpr;
 		this.member = member;
 		this.valueExpr = valueExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Entity getMember() {
+	public Entity getMember()
+	{
 		return member;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);

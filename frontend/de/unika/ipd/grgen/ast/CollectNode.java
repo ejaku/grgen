@@ -26,49 +26,58 @@ import de.unika.ipd.grgen.ast.containers.*;
  * This node collects a statically unknown number of children AST nodes,
  * originating in unbounded list constructs in the parsing syntax.
  */
-public class CollectNode<T extends BaseNode> extends BaseNode {
+public class CollectNode<T extends BaseNode> extends BaseNode
+{
 	static {
 		setName(CollectNode.class, "collect");
 	}
 
 	private Vector<T> children = new Vector<T>();
 
-	public void addChild(T n) {
+	public void addChild(T n)
+	{
 		becomeParent(n);
 		children.add(n);
 	}
 
-	public void addChildAtFront(T n) {
+	public void addChildAtFront(T n)
+	{
 		becomeParent(n);
 		children.add(0, n);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<T> getChildren() {
-		return children;
-	}
-	
-	public Vector<T> getChildrenAsVector() {
+	public Collection<T> getChildren()
+	{
 		return children;
 	}
 
-	public T get(int i) {
+	public Vector<T> getChildrenAsVector()
+	{
+		return children;
+	}
+
+	public T get(int i)
+	{
 		return children.get(i);
 	}
 
-	public T set(int i, T n) {
+	public T set(int i, T n)
+	{
 		becomeParent(n);
 		return children.set(i, n);
 	}
 
-	public int size() {
+	public int size()
+	{
 		return children.size();
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
 		return childrenNames;
@@ -76,27 +85,32 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true; // local resolution done via call to resolveChildren from parent node
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.GRAY;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return children.toString();
 	}
 
-	public boolean noDefElement(String containingConstruct) {
+	public boolean noDefElement(String containingConstruct)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof SetItemNode)
@@ -111,7 +125,8 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 		return res;
 	}
 
-	public boolean noIteratedReference(String containingConstruct) {
+	public boolean noIteratedReference(String containingConstruct)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof SetItemNode)
@@ -126,7 +141,8 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 		return res;
 	}
 
-	public boolean iteratedNotReferenced(String iterName) {
+	public boolean iteratedNotReferenced(String iterName)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof SetItemNode)

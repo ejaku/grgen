@@ -18,21 +18,24 @@ import de.unika.ipd.grgen.ir.exprevals.VoidType;
  * TODO: Why compatible to no other type? The error node within an compiler
  * should be compatible to every other node, to protect against error avalanches
  */
-public class ErrorTypeNode extends TypeNode {
+public class ErrorTypeNode extends TypeNode
+{
 	static {
 		setName(ErrorTypeNode.class, "error type");
 	}
 
 	private IdentNode id;
 
-	public ErrorTypeNode(IdentNode id) {
+	public ErrorTypeNode(IdentNode id)
+	{
 		this.id = id;
 		setCoords(id.getCoords());
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -40,23 +43,27 @@ public class ErrorTypeNode extends TypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new VoidType(id.getIdent());
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "error type";
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "error type";
 	}
-};
+}

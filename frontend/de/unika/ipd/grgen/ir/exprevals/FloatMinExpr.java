@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class FloatMinExpr extends Expression {
-	public FloatMinExpr() {
+public class FloatMinExpr extends Expression
+{
+	public FloatMinExpr()
+	{
 		super("floatmin expr", FloatType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

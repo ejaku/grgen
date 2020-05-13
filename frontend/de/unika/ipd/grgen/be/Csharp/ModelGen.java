@@ -33,11 +33,13 @@ import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.util.SourceBuilder;
 import de.unika.ipd.grgen.ir.containers.*;
 
-public class ModelGen extends CSharpBase {
+public class ModelGen extends CSharpBase
+{
 	private final int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
 	private final static String ATTR_IMPL_SUFFIX = "_M0no_suXx_h4rD";
 
-	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
+	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix)
+	{
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
 		rootTypes = new HashSet<String>();
@@ -50,7 +52,8 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates the model sourcecode for the current unit.
 	 */
-	public void genModel(Model model) {
+	public void genModel(Model model)
+	{
 		this.model = model;
 		sb = new SourceBuilder();
 		stubsb = null;
@@ -78,7 +81,7 @@ public class ModelGen extends CSharpBase {
 
 		for(PackageType pt : model.getPackages()) {
 			System.out.println("    generating package " + pt.getIdent() + "...");
-	
+
 			sb.append("\n");
 			sb.appendFront("//-----------------------------------------------------------\n");
 			sb.appendFront("namespace ");
@@ -87,10 +90,10 @@ public class ModelGen extends CSharpBase {
 			sb.appendFront("//-----------------------------------------------------------\n");
 			sb.appendFront("{\n");
 			sb.indent();
-	
+
 			genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(),
 					pt, pt.getIdent().toString());
-	
+
 			sb.append("\n");
 			sb.appendFront("//-----------------------------------------------------------\n");
 			sb.unindent();
@@ -100,7 +103,7 @@ public class ModelGen extends CSharpBase {
 
 		genBearer(model.getAllNodeTypes(), model.getAllEdgeTypes(),
 				model, null);
-		
+
 		ModelExternalGen modelExternalGen = new ModelExternalGen(model, sb, nodeTypePrefix, edgeTypePrefix);
 		modelExternalGen.genExternalTypeObject();
 		for(ExternalType et : model.getExternalTypes()) {
@@ -148,12 +151,11 @@ public class ModelGen extends CSharpBase {
 			writeFile(be.path, stubFilename, stubsb.toString());
 		}
 
-		
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// generate the external functions and types stub file
 		// only if there are external functions or external procedures or external types required 
 		// or the emit class is to be generated or the copy class is to be generated
-		if(model.getExternalTypes().isEmpty() 
+		if(model.getExternalTypes().isEmpty()
 				&& model.getExternalFunctions().isEmpty()
 				&& model.getExternalProcedures().isEmpty()
 				&& !model.isEmitClassDefined()
@@ -176,15 +178,17 @@ public class ModelGen extends CSharpBase {
 		System.out.println("    writing to " + be.path + " / " + filename);
 		writeFile(be.path, filename, sb.toString());
 
-		if(be.path.compareTo(new File("."))==0) {
+		if(be.path.compareTo(new File(".")) == 0) {
 			System.out.println("    no copy needed for " + be.path + " / " + filename);
 		} else {
-			System.out.println("    copying " + be.path + " / " + filename + " to " + be.path.getAbsoluteFile().getParent() + " / " + filename);
+			System.out.println("    copying " + be.path + " / " + filename + " to "
+					+ be.path.getAbsoluteFile().getParent() + " / " + filename);
 			copyFile(new File(be.path, filename), new File(be.path.getAbsoluteFile().getParent(), filename));
 		}
 	}
 
-	private SourceBuilder getStubBuffer() {
+	private SourceBuilder getStubBuffer()
+	{
 		if(stubsb == null) {
 			stubsb = new SourceBuilder();
 			stubsb.appendFront("// This file has been generated automatically by GrGen (www.grgen.net)\n"
@@ -203,8 +207,9 @@ public class ModelGen extends CSharpBase {
 
 	private void genBearer(Collection<? extends InheritanceType> allNodeTypes,
 			Collection<? extends InheritanceType> allEdgeTypes,
-			NodeEdgeEnumBearer bearer, String packageName) {
-		
+			NodeEdgeEnumBearer bearer, String packageName)
+	{
+
 		System.out.println("    generating enums...");
 		sb.append("\n");
 		genEnums(bearer);
@@ -218,7 +223,8 @@ public class ModelGen extends CSharpBase {
 		genTypes(allEdgeTypes, bearer, packageName, false);
 	}
 
-	private void genEnums(NodeEdgeEnumBearer bearer) {
+	private void genEnums(NodeEdgeEnumBearer bearer)
+	{
 		sb.appendFront("//\n");
 		sb.appendFront("// Enums\n");
 		sb.appendFront("//\n");
@@ -238,7 +244,7 @@ public class ModelGen extends CSharpBase {
 		for(EnumType enumt : bearer.getEnumTypes()) {
 			sb.appendFront("public static GRGEN_LIBGR.EnumAttributeType @" + formatIdentifiable(enumt)
 					+ " = new GRGEN_LIBGR.EnumAttributeType(\"" + formatIdentifiable(enumt) + "\", "
-					+ (!getPackagePrefix(enumt).equals("") ? "\""+getPackagePrefix(enumt)+"\"" : "null") + ", "
+					+ (!getPackagePrefix(enumt).equals("") ? "\"" + getPackagePrefix(enumt) + "\"" : "null") + ", "
 					+ "\"" + getPackagePrefixDoubleColon(enumt) + formatIdentifiable(enumt) + "\", "
 					+ "typeof(GRGEN_MODEL." + getPackagePrefixDot(enumt) + "ENUM_" + formatIdentifiable(enumt) + "), "
 					+ "new GRGEN_LIBGR.EnumMember[] {\n");
@@ -257,11 +263,11 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates code for all given element types.
 	 */
-	private void genTypes(Collection<? extends InheritanceType> allTypes, 
-			NodeEdgeEnumBearer bearer, String packageName, boolean isNode) {
-		Collection<? extends InheritanceType> curTypes = 
-			isNode ? bearer.getNodeTypes() : bearer.getEdgeTypes();
-		
+	private void genTypes(Collection<? extends InheritanceType> allTypes,
+			NodeEdgeEnumBearer bearer, String packageName, boolean isNode)
+	{
+		Collection<? extends InheritanceType> curTypes = isNode ? bearer.getNodeTypes() : bearer.getEdgeTypes();
+
 		sb.appendFront("//\n");
 		sb.appendFront("// " + formatNodeOrEdge(isNode) + " types\n");
 		sb.appendFront("//\n");
@@ -287,7 +293,8 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates all code for a given type.
 	 */
-	private void genType(Collection<? extends InheritanceType> allTypes, InheritanceType type, String packageName) {
+	private void genType(Collection<? extends InheritanceType> allTypes, InheritanceType type, String packageName)
+	{
 		sb.append("\n");
 		sb.appendFront("// *** " + formatNodeOrEdge(type) + " " + formatIdentifiable(type) + " ***\n");
 		sb.append("\n");
@@ -307,7 +314,8 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates the element interface for the given type
 	 */
-	private void genElementInterface(InheritanceType type) {
+	private void genElementInterface(InheritanceType type)
+	{
 		String iname = "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
 		sb.appendFront("public interface " + iname + " : ");
 		genDirectSuperTypeList(type);
@@ -325,21 +333,25 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generate a list of direct supertypes of the given type.
 	 */
-	private void genDirectSuperTypeList(InheritanceType type) {
+	private void genDirectSuperTypeList(InheritanceType type)
+	{
 		String iprefix = "I" + getNodeOrEdgeTypePrefix(type);
 		Collection<InheritanceType> directSuperTypes = type.getDirectSuperTypes();
 
 		boolean first = true;
-		for(Iterator<InheritanceType> i = directSuperTypes.iterator(); i.hasNext(); ) {
+		for(Iterator<InheritanceType> i = directSuperTypes.iterator(); i.hasNext();) {
 			InheritanceType superType = i.next();
 			if(rootTypes.contains(superType.getIdent().toString())) {
-				if(first) first = false;
-				else sb.append(", ");
+				if(first)
+					first = false;
+				else
+					sb.append(", ");
 				sb.append(getRootElementInterfaceRef(superType));
-			}
-			else {
-				if(first) first = false;
-				else sb.append(", ");
+			} else {
+				if(first)
+					first = false;
+				else
+					sb.append(", ");
 				sb.append(getPackagePrefixDot(superType) + iprefix + formatIdentifiable(superType));
 			}
 		}
@@ -352,7 +364,8 @@ public class ModelGen extends CSharpBase {
 	 * @param modifiers A string which may contain modifiers to be applied to the accessor.
 	 * 		It must either end with a space or be empty.
 	 */
-	private void genAttributeAccess(InheritanceType type, Entity member, String modifiers) {
+	private void genAttributeAccess(InheritanceType type, Entity member, String modifiers)
+	{
 		sb.appendFront(modifiers);
 		if(type.getOverriddenMember(member) != null)
 			sb.append("new ");
@@ -364,11 +377,13 @@ public class ModelGen extends CSharpBase {
 	}
 
 	private void genMethodInterfaces(InheritanceType type, Collection<FunctionMethod> functionMethods,
-			Collection<ProcedureMethod> procedureMethods, String modifiers) {
+			Collection<ProcedureMethod> procedureMethods, String modifiers)
+	{
 		// METHOD-TODO - inheritance?
 		for(FunctionMethod fm : functionMethods) {
 			sb.appendFront(formatType(fm.getReturnType()) + " ");
-			sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
+			sb.append(fm.getIdent().toString()
+					+ "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
 			for(Entity inParam : fm.getParameters()) {
 				sb.append(", ");
 				sb.append(formatType(inParam.getType()));
@@ -376,10 +391,11 @@ public class ModelGen extends CSharpBase {
 				sb.append(formatEntity(inParam));
 			}
 			sb.append(");\n");
-			
+
 			if(model.areFunctionsParallel()) {
 				sb.appendFront(formatType(fm.getReturnType()) + " ");
-				sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
+				sb.append(fm.getIdent().toString()
+						+ "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
 				for(Entity inParam : fm.getParameters()) {
 					sb.append(", ");
 					sb.append(formatType(inParam.getType()));
@@ -392,7 +408,8 @@ public class ModelGen extends CSharpBase {
 		}
 		for(ProcedureMethod pm : procedureMethods) {
 			sb.appendFront("void ");
-			sb.append(pm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
+			sb.append(pm.getIdent().toString()
+					+ "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph");
 			for(Entity inParam : pm.getParameters()) {
 				sb.append(", ");
 				sb.append(formatType(inParam.getType()));
@@ -418,7 +435,8 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates the element implementation for the given type
 	 */
-	private void genElementImplementation(InheritanceType type) {
+	private void genElementImplementation(InheritanceType type)
+	{
 		boolean isNode = type instanceof NodeType;
 		String kindStr = isNode ? "Node" : "Edge";
 		String elemname = formatElementClassName(type);
@@ -438,8 +456,7 @@ public class ModelGen extends CSharpBase {
 					+ kindStr + ", " + ielemref + "\n");
 			sb.appendFront("{\n");
 			sb.indent();
-		}
-		else { // what's that? = for "Embedding the graph rewrite system GrGen.NET into C#" (see corresponding master thesis, mono c# compiler extension)
+		} else { // what's that? = for "Embedding the graph rewrite system GrGen.NET into C#" (see corresponding master thesis, mono c# compiler extension)
 			routedSB = getStubBuffer();
 			int lastDot = extName.lastIndexOf('.');
 			String extClassName;
@@ -450,8 +467,7 @@ public class ModelGen extends CSharpBase {
 				stubsb.appendFront("namespace " + namespace + "\n");
 				stubsb.appendFront("{\n");
 				stubsb.indent();
-			}
-			else
+			} else
 				extClassName = extName;
 			routedClassName = extClassName;
 			routedDeclName = extClassName;
@@ -480,7 +496,7 @@ public class ModelGen extends CSharpBase {
 
 		genElementStaticTypeGetter(typeref);
 		sb.append("\n");
-		
+
 		genElementCloneMethod(type, routedSB, routedDeclName);
 		routedSB.append("\n");
 		genElementCopyConstructor(type, extName, typeref, routedSB, routedClassName, routedDeclName);
@@ -491,7 +507,7 @@ public class ModelGen extends CSharpBase {
 
 		genElementCreateMethods(type, isNode, elemref, allocName);
 		sb.append("\n");
-		
+
 		genElementRecycleMethod();
 		sb.append("\n");
 
@@ -504,28 +520,28 @@ public class ModelGen extends CSharpBase {
 
 		if(extName != null) {
 			stubsb.unindent();
-			stubsb.appendFront("}\n");		// close class stub
+			stubsb.appendFront("}\n"); // close class stub
 			if(namespace != null) {
 				stubsb.unindent();
-				stubsb.appendFront("}\n");				// close namespace
+				stubsb.appendFront("}\n"); // close namespace
 			}
 		}
 	}
 
-	private void genElementConstructor(InheritanceType type, String elemname, String typeref) {
+	private void genElementConstructor(InheritanceType type, String elemname, String typeref)
+	{
 		boolean isNode = type instanceof NodeType;
 		if(isNode) {
-			sb.appendFront("public " + elemname + "() : base("+ typeref + ".typeVar)\n");
+			sb.appendFront("public " + elemname + "() : base(" + typeref + ".typeVar)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			initAllMembersNonConst(type, "this", false, false);
 			sb.unindent();
 			sb.appendFront("}\n");
-		}
-		else {
+		} else {
 			sb.appendFront("public " + elemname + "(GRGEN_LGSP.LGSPNode source, "
-						+ "GRGEN_LGSP.LGSPNode target)\n");
-			sb.appendFront("\t: base("+ typeref + ".typeVar, source, target)\n");
+					+ "GRGEN_LGSP.LGSPNode target)\n");
+			sb.appendFront("\t: base(" + typeref + ".typeVar, source, target)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			initAllMembersNonConst(type, "this", false, false);
@@ -534,11 +550,13 @@ public class ModelGen extends CSharpBase {
 		}
 	}
 
-	private void genElementStaticTypeGetter(String typeref) {
+	private void genElementStaticTypeGetter(String typeref)
+	{
 		sb.appendFront("public static " + typeref + " TypeInstance { get { return " + typeref + ".typeVar; } }\n");
 	}
 
-	private void genElementCloneMethod(InheritanceType type, SourceBuilder routedSB, String routedDeclName) {
+	private void genElementCloneMethod(InheritanceType type, SourceBuilder routedSB, String routedDeclName)
+	{
 		boolean isNode = type instanceof NodeType;
 		if(isNode) {
 			routedSB.appendFront("public override GRGEN_LIBGR.INode Clone() {\n");
@@ -546,22 +564,23 @@ public class ModelGen extends CSharpBase {
 			routedSB.appendFront("}\n");
 		} else {
 			routedSB.appendFront("public override GRGEN_LIBGR.IEdge Clone("
-						+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {\n");
+					+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {\n");
 			routedSB.appendFront("\treturn new " + routedDeclName + "(this, (GRGEN_LGSP.LGSPNode) newSource, "
-						+ "(GRGEN_LGSP.LGSPNode) newTarget);\n");
+					+ "(GRGEN_LGSP.LGSPNode) newTarget);\n");
 			routedSB.appendFront("}\n");
 		}
 	}
 
 	private void genElementCopyConstructor(InheritanceType type, String extName, String typeref,
-			SourceBuilder routedSB, String routedClassName, String routedDeclName) {
+			SourceBuilder routedSB, String routedClassName, String routedDeclName)
+	{
 		boolean isNode = type instanceof NodeType;
 		if(isNode) {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
 		} else {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName
-						+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)\n");
+					+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)\n");
 			routedSB.appendFront("\t: base("
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
 		}
@@ -574,16 +593,18 @@ public class ModelGen extends CSharpBase {
 				continue;
 
 			String attrName = formatIdentifiable(member);
-			if(member.getType() instanceof MapType || member.getType() instanceof SetType 
+			if(member.getType() instanceof MapType || member.getType() instanceof SetType
 					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
-						+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+								+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else if(model.isCopyClassDefined()
 					&& (member.getType().classify() == Type.IS_EXTERNAL_TYPE
 							|| member.getType().classify() == Type.IS_OBJECT)) {
-				routedSB.appendFront("AttributeTypeObjectCopierComparer.Copy(" + "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
+				routedSB.appendFront("AttributeTypeObjectCopierComparer.Copy("
+						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else {
-				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
+				routedSB.appendFront(attrName + ModelGen.ATTR_IMPL_SUFFIX + " = "
+						+ "oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 			}
 		}
 		routedSB.unindent();
@@ -591,11 +612,12 @@ public class ModelGen extends CSharpBase {
 	}
 
 	private void genElementAttributeComparisonMethod(InheritanceType type, SourceBuilder routedSB,
-			String routedClassName) {
+			String routedClassName)
+	{
 		routedSB.appendFront("public override bool AreAttributesEqual(GRGEN_LIBGR.IGraphElement that) {\n");
 		routedSB.indent();
-		routedSB.appendFront("if(!(that is "+routedClassName+")) return false;\n");
-		routedSB.appendFront(routedClassName+" that_ = ("+routedClassName+")that;\n");
+		routedSB.appendFront("if(!(that is " + routedClassName + ")) return false;\n");
+		routedSB.appendFront(routedClassName + " that_ = (" + routedClassName + ")that;\n");
 		routedSB.appendFront("return true\n");
 		routedSB.indent();
 		for(Entity member : type.getAllMembers()) {
@@ -603,20 +625,23 @@ public class ModelGen extends CSharpBase {
 				continue;
 
 			String attrName = formatIdentifiable(member);
-			if(member.getType() instanceof MapType || member.getType() instanceof SetType 
+			if(member.getType() instanceof MapType || member.getType() instanceof SetType
 					|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
-				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
-						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+				routedSB.appendFront("&& GRGEN_LIBGR.ContainerHelper.Equal("
+								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
+								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else if(model.isEqualClassDefined()
 					&& (member.getType().classify() == Type.IS_EXTERNAL_TYPE
 							|| member.getType().classify() == Type.IS_OBJECT)) {
-				routedSB.appendFront("&& AttributeTypeObjectCopierComparer.IsEqual(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
-						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
+				routedSB.appendFront("&& AttributeTypeObjectCopierComparer.IsEqual("
+								+ attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
+								+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else if(member.getType().classify() == Type.IS_GRAPH) {
 				routedSB.appendFront("&& GRGEN_LIBGR.GraphHelper.Equal(" + attrName + ModelGen.ATTR_IMPL_SUFFIX + ", "
 						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ")\n");
 			} else {
-				routedSB.appendFront("&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
+				routedSB.appendFront("&& " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " == "
+						+ "that_." + attrName + ModelGen.ATTR_IMPL_SUFFIX + "\n");
 			}
 		}
 		routedSB.unindent();
@@ -625,7 +650,8 @@ public class ModelGen extends CSharpBase {
 		routedSB.appendFront("}\n");
 	}
 
-	private void genElementCreateMethods(InheritanceType type, boolean isNode, String elemref, String allocName) {
+	private void genElementCreateMethods(InheritanceType type, boolean isNode, String elemref, String allocName)
+	{
 		if(isNode) {
 			sb.appendFront("public static " + elemref + " CreateNode(GRGEN_LGSP.LGSPGraph graph)\n");
 			sb.appendFront("{\n");
@@ -648,8 +674,9 @@ public class ModelGen extends CSharpBase {
 			sb.unindent();
 			sb.appendFront("}\n");
 			sb.append("\n");
-					
-			sb.appendFront("public static " + elemref + " CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, string nodeName)\n");
+
+			sb.appendFront("public static " + elemref + " CreateNode(GRGEN_LGSP.LGSPNamedGraph graph, "
+					+ "string nodeName)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			sb.appendFront(elemref + " node;\n");
@@ -669,10 +696,9 @@ public class ModelGen extends CSharpBase {
 			sb.appendFront("return node;\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		}
-		else {
+		} else {
 			sb.appendFront("public static " + elemref + " CreateEdge(GRGEN_LGSP.LGSPGraph graph, "
-						+ "GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)\n");
+					+ "GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			sb.appendFront(elemref + " edge;\n");
@@ -695,7 +721,7 @@ public class ModelGen extends CSharpBase {
 			sb.append("\n");
 
 			sb.appendFront("public static " + elemref + " CreateEdge(GRGEN_LGSP.LGSPNamedGraph graph, "
-						+ "GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)\n");
+					+ "GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			sb.appendFront(elemref + " edge;\n");
@@ -718,7 +744,8 @@ public class ModelGen extends CSharpBase {
 		}
 	}
 
-	private void genElementRecycleMethod() {
+	private void genElementRecycleMethod()
+	{
 		sb.appendFront("public override void Recycle()\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -729,15 +756,15 @@ public class ModelGen extends CSharpBase {
 	}
 
 	private void initAllMembersNonConst(InheritanceType type, String varName,
-			boolean withDefaultInits, boolean isResetAllAttributes) {
+			boolean withDefaultInits, boolean isResetAllAttributes)
+	{
 		curMemberOwner = varName;
 
 		// if we don't currently create the method ResetAllAttributes
 		// we replace the initialization code by a call to ResetAllAttributes, if it gets to large
 		if(!isResetAllAttributes
-				&& initializationOperationsCount(type) > MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING)
-		{
-			sb.appendFront(varName +  ".ResetAllAttributes();\n");
+				&& initializationOperationsCount(type) > MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING) {
+			sb.appendFront(varName + ".ResetAllAttributes();\n");
 			curMemberOwner = null;
 			return;
 		}
@@ -765,7 +792,8 @@ public class ModelGen extends CSharpBase {
 		curMemberOwner = null;
 	}
 
-	private void genDefaultInits(InheritanceType type, String varName) {
+	private void genDefaultInits(InheritanceType type, String varName)
+	{
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
 				continue;
@@ -778,8 +806,8 @@ public class ModelGen extends CSharpBase {
 
 			String attrName = formatIdentifiable(member);
 			sb.appendFront(varName + ".@" + attrName + " = ");
-			if(t instanceof ByteType || t instanceof ShortType || t instanceof IntType 
-					|| t instanceof EnumType || t instanceof DoubleType ) {
+			if(t instanceof ByteType || t instanceof ShortType || t instanceof IntType
+					|| t instanceof EnumType || t instanceof DoubleType) {
 				sb.append("0;\n");
 			} else if(t instanceof FloatType) {
 				sb.append("0f;\n");
@@ -787,7 +815,7 @@ public class ModelGen extends CSharpBase {
 				sb.append("0L;\n");
 			} else if(t instanceof BooleanType) {
 				sb.append("false;\n");
-			} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType 
+			} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType
 					|| t instanceof ExternalType || t instanceof GraphType || t instanceof InheritanceType) {
 				sb.append("null;\n");
 			} else {
@@ -796,7 +824,8 @@ public class ModelGen extends CSharpBase {
 		}
 	}
 
-	private void genContainerInits(InheritanceType type, String varName) {
+	private void genContainerInits(InheritanceType type, String varName)
+	{
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
 				continue;
@@ -809,22 +838,23 @@ public class ModelGen extends CSharpBase {
 			String attrName = formatIdentifiable(member);
 			sb.appendFront(varName + ".@" + attrName + " = ");
 			if(t instanceof MapType) {
-				MapType mapType = (MapType) t;
+				MapType mapType = (MapType)t;
 				sb.append("new " + formatAttributeType(mapType) + "();\n");
 			} else if(t instanceof SetType) {
-				SetType setType = (SetType) t;
+				SetType setType = (SetType)t;
 				sb.append("new " + formatAttributeType(setType) + "();\n");
 			} else if(t instanceof ArrayType) {
-				ArrayType arrayType = (ArrayType) t;
+				ArrayType arrayType = (ArrayType)t;
 				sb.append("new " + formatAttributeType(arrayType) + "();\n");
 			} else if(t instanceof DequeType) {
-				DequeType dequeType = (DequeType) t;
+				DequeType dequeType = (DequeType)t;
 				sb.append("new " + formatAttributeType(dequeType) + "();\n");
 			}
 		}
 	}
 
-	private int initializationOperationsCount(InheritanceType targetType) {
+	private int initializationOperationsCount(InheritanceType targetType)
+	{
 		int initializationOperations = 0;
 
 		// attribute initializations from super classes not overridden in target class
@@ -911,7 +941,8 @@ deque_init_loop:
 	}
 
 	private void initAllMembersConst(InheritanceType type, String className,
-			String varName) {
+			String varName)
+	{
 		curMemberOwner = varName;
 
 		List<String> staticInitializers = new LinkedList<String>();
@@ -936,15 +967,17 @@ deque_init_loop:
 	}
 
 	private void genMemberInitsNonConst(InheritanceType type, InheritanceType targetType,
-			String varName, boolean withDefaultInits, boolean isResetAllAttributes) {
+			String varName, boolean withDefaultInits, boolean isResetAllAttributes)
+	{
 		if(rootTypes.contains(type.getIdent().toString())) // skip root types, they don't possess attributes
 			return;
-		sb.appendFront("// explicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
+		sb.appendFront("// explicit initializations of " + formatIdentifiable(type)
+				+ " for target " + formatIdentifiable(targetType) + "\n");
 
 		// emit all initializations in base classes of members that are used for init'ing other members,
 		// i.e. prevent optimization of using only the closest initialization
 		// TODO: generalize to all types in between type and target type
-		
+
 		// init members of primitive value with explicit initialization
 		genMemberInitsNonConstPrimitiveType(type, targetType, varName);
 
@@ -956,12 +989,13 @@ deque_init_loop:
 
 		// init members of array value with explicit initialization
 		genMemberInitsNonConstArrayType(type, targetType, varName);
-		
+
 		// init members of deque value with explicit initialization
 		genMemberInitsNonConstDequeType(type, targetType, varName);
 	}
 
-	private void genMemberInitsNonConstPrimitiveType(InheritanceType type, InheritanceType targetType, String varName) {
+	private void genMemberInitsNonConstPrimitiveType(InheritanceType type, InheritanceType targetType, String varName)
+	{
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, false, false, true);
 		for(MemberInit memberInit : type.getMemberInits()) {
 			memberInit.getExpression().collectNeededEntities(needs);
@@ -974,7 +1008,7 @@ deque_init_loop:
 			Entity member = memberInit.getMember();
 			if(memberInit.getMember().isConst())
 				continue;
-			if(!needs.members.contains(member) 
+			if(!needs.members.contains(member)
 					&& !generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
 				continue;
 
@@ -985,7 +1019,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genMemberInitsNonConstMapType(InheritanceType type, InheritanceType targetType, String varName) {
+	private void genMemberInitsNonConstMapType(InheritanceType type, InheritanceType targetType, String varName)
+	{
 		for(MapInit mapInit : type.getMapInits()) {
 			Entity member = mapInit.getMember();
 			if(mapInit.getMember().isConst())
@@ -1004,7 +1039,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genMemberInitsNonConstSetType(InheritanceType type, InheritanceType targetType, String varName) {
+	private void genMemberInitsNonConstSetType(InheritanceType type, InheritanceType targetType, String varName)
+	{
 		for(SetInit setInit : type.getSetInits()) {
 			Entity member = setInit.getMember();
 			if(setInit.getMember().isConst())
@@ -1021,7 +1057,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genMemberInitsNonConstArrayType(InheritanceType type, InheritanceType targetType, String varName) {
+	private void genMemberInitsNonConstArrayType(InheritanceType type, InheritanceType targetType, String varName)
+	{
 		for(ArrayInit arrayInit : type.getArrayInits()) {
 			Entity member = arrayInit.getMember();
 			if(arrayInit.getMember().isConst())
@@ -1038,7 +1075,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genMemberInitsNonConstDequeType(InheritanceType type, InheritanceType targetType, String varName) {
+	private void genMemberInitsNonConstDequeType(InheritanceType type, InheritanceType targetType, String varName)
+	{
 		for(DequeInit dequeInit : type.getDequeInits()) {
 			Entity member = dequeInit.getMember();
 			if(dequeInit.getMember().isConst())
@@ -1056,10 +1094,12 @@ deque_init_loop:
 	}
 
 	private void genMemberInitsConst(InheritanceType type, InheritanceType targetType,
-			List<String> staticInitializers) {
+			List<String> staticInitializers)
+	{
 		if(rootTypes.contains(type.getIdent().toString())) // skip root types, they don't possess attributes
 			return;
-		sb.appendFront("// explicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
+		sb.appendFront("// explicit initializations of " + formatIdentifiable(type)
+				+ " for target " + formatIdentifiable(targetType) + "\n");
 
 		HashSet<Entity> initializedConstMembers = new HashSet<Entity>();
 
@@ -1078,13 +1118,15 @@ deque_init_loop:
 		// init const members of deque value with explicit initialization
 		genMemberInitsConstDequeType(type, targetType, staticInitializers, initializedConstMembers);
 
-		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
+		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type)
+				+ " for target " + formatIdentifiable(targetType) + "\n");
 
 		genMemberImplicitInitsNonConst(type, targetType, initializedConstMembers);
 	}
 
 	private void genMemberInitsConstPrimitiveType(InheritanceType type, InheritanceType targetType,
-			HashSet<Entity> initializedConstMembers) {
+			HashSet<Entity> initializedConstMembers)
+	{
 		for(MemberInit memberInit : type.getMemberInits()) {
 			Entity member = memberInit.getMember();
 			if(!member.isConst())
@@ -1103,7 +1145,8 @@ deque_init_loop:
 	}
 
 	private void genMemberInitsConstMapType(InheritanceType type, InheritanceType targetType,
-			List<String> staticInitializers, HashSet<Entity> initializedConstMembers) {
+			List<String> staticInitializers, HashSet<Entity> initializedConstMembers)
+	{
 		for(MapInit mapInit : type.getMapInits()) {
 			Entity member = mapInit.getMember();
 			if(!member.isConst())
@@ -1135,7 +1178,8 @@ deque_init_loop:
 	}
 
 	private void genMemberInitsConstSetType(InheritanceType type, InheritanceType targetType,
-			List<String> staticInitializers, HashSet<Entity> initializedConstMembers) {
+			List<String> staticInitializers, HashSet<Entity> initializedConstMembers)
+	{
 		for(SetInit setInit : type.getSetInits()) {
 			Entity member = setInit.getMember();
 			if(!member.isConst())
@@ -1165,7 +1209,8 @@ deque_init_loop:
 	}
 
 	private void genMemberInitsConstArrayType(InheritanceType type, InheritanceType targetType,
-			List<String> staticInitializers, HashSet<Entity> initializedConstMembers) {
+			List<String> staticInitializers, HashSet<Entity> initializedConstMembers)
+	{
 		for(ArrayInit arrayInit : type.getArrayInits()) {
 			Entity member = arrayInit.getMember();
 			if(!member.isConst())
@@ -1195,7 +1240,8 @@ deque_init_loop:
 	}
 
 	private void genMemberInitsConstDequeType(InheritanceType type, InheritanceType targetType,
-			List<String> staticInitializers, HashSet<Entity> initializedConstMembers) {
+			List<String> staticInitializers, HashSet<Entity> initializedConstMembers)
+	{
 		for(DequeInit dequeInit : type.getDequeInits()) {
 			Entity member = dequeInit.getMember();
 			if(!member.isConst())
@@ -1225,7 +1271,8 @@ deque_init_loop:
 	}
 
 	private void genMemberImplicitInitsNonConst(InheritanceType type, InheritanceType targetType,
-			HashSet<Entity> initializedConstMembers) {
+			HashSet<Entity> initializedConstMembers)
+	{
 		for(Entity member : type.getMembers()) {
 			if(!member.isConst())
 				continue;
@@ -1240,8 +1287,8 @@ deque_init_loop:
 
 			if(memberType instanceof MapType || memberType instanceof SetType
 					|| memberType instanceof ArrayType || memberType instanceof DequeType) {
-				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = " +
-						"new " + attrType + "();\n");
+				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX
+						+ " = " + "new " + attrType + "();\n");
 			} else
 				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 		}
@@ -1256,20 +1303,16 @@ deque_init_loop:
 		// -> don't generate initialization of type if there exists a subtype of type,
 		// which is a supertype of the target type, and which contains an initialization
 
-		Set<InheritanceType> childrenOfFocusedType =
-			new LinkedHashSet<InheritanceType>(type.getAllSubTypes());
+		Set<InheritanceType> childrenOfFocusedType = new LinkedHashSet<InheritanceType>(type.getAllSubTypes());
 		childrenOfFocusedType.remove(type); // we want children only, comes with type itself included
 
-		Set<InheritanceType> targetTypeAndParents =
-			new LinkedHashSet<InheritanceType>(targetType.getAllSuperTypes());
+		Set<InheritanceType> targetTypeAndParents = new LinkedHashSet<InheritanceType>(targetType.getAllSuperTypes());
 		targetTypeAndParents.add(targetType); // we want it inclusive target, comes exclusive
 
-		Set<InheritanceType> intersection =
-			new LinkedHashSet<InheritanceType>(childrenOfFocusedType);
+		Set<InheritanceType> intersection = new LinkedHashSet<InheritanceType>(childrenOfFocusedType);
 		intersection.retainAll(targetTypeAndParents); // the set is empty if type==targetType
 
-		for(InheritanceType relevantChildrenOfFocusedType : intersection)
-		{
+		for(InheritanceType relevantChildrenOfFocusedType : intersection) {
 			// if a type below focused type contains an initialization for current member
 			// then we skip the initialization of the focused type
 			for(MemberInit tmi : relevantChildrenOfFocusedType.getMemberInits()) {
@@ -1297,24 +1340,26 @@ deque_init_loop:
 		return true;
 	}
 
-	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState) {
+	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
+	{
 		Entity owner = qual.getOwner();
 		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
 				formatIdentifiable(owner.getType()) + ") ");
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(qual.getMember()));
 	}
 
-	protected void genMemberAccess(SourceBuilder sb, Entity member) {
+	protected void genMemberAccess(SourceBuilder sb, Entity member)
+	{
 		if(curMemberOwner != null)
 			sb.append(curMemberOwner + ".");
 		sb.append("@" + formatIdentifiable(member));
 	}
 
-
 	/**
 	 * Generate the attribute accessor implementations of the given type
 	 */
-	private void genAttributesAndAttributeAccessImpl(InheritanceType type) {
+	private void genAttributesAndAttributeAccessImpl(InheritanceType type)
+	{
 		SourceBuilder routedSB = sb;
 		String extName = type.getExternalName();
 		String extModifier = "";
@@ -1344,7 +1389,8 @@ deque_init_loop:
 	}
 
 	private void genAttributeGetterSetterAndMember(InheritanceType type, SourceBuilder routedSB, String extModifier,
-			Entity member) {
+			Entity member)
+	{
 		String attrType = formatAttributeType(member);
 		String attrName = formatIdentifiable(member);
 
@@ -1384,7 +1430,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genGetAttributeByName(InheritanceType type) {
+	private void genGetAttributeByName(InheritanceType type)
+	{
 		sb.appendFront("public override object GetAttribute(string attrName)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1408,7 +1455,8 @@ deque_init_loop:
 		sb.appendFront("}\n");
 	}
 
-	private void genSetAttributeByName(InheritanceType type) {
+	private void genSetAttributeByName(InheritanceType type)
+	{
 		sb.appendFront("public override void SetAttribute(string attrName, object value)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1440,7 +1488,8 @@ deque_init_loop:
 		sb.appendFront("}\n");
 	}
 
-	private void genResetAllAttributes(InheritanceType type) {
+	private void genResetAllAttributes(InheritanceType type)
+	{
 		sb.appendFront("public override void ResetAllAttributes()\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1449,7 +1498,8 @@ deque_init_loop:
 		sb.appendFront("}\n");
 	}
 
-	private void genParameterPassingMethodCall(InheritanceType type, FunctionMethod fm) {
+	private void genParameterPassingMethodCall(InheritanceType type, FunctionMethod fm)
+	{
 		sb.appendFront("case \"" + fm.getIdent().toString() + "\":\n");
 		sb.appendFront("\treturn @" + fm.getIdent().toString() + "(actionEnv, graph");
 		int i = 0;
@@ -1460,7 +1510,8 @@ deque_init_loop:
 		sb.append(");\n");
 	}
 
-	private void genParameterPassingMethodCall(InheritanceType type, ProcedureMethod pm) {
+	private void genParameterPassingMethodCall(InheritanceType type, ProcedureMethod pm)
+	{
 		sb.appendFront("case \"" + pm.getIdent().toString() + "\":\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1477,13 +1528,14 @@ deque_init_loop:
 			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
 			++i;
 		}
-		for(i=0; i<pm.getReturnTypes().size(); ++i) {
+		for(i = 0; i < pm.getReturnTypes().size(); ++i) {
 			sb.append(", out ");
 			sb.append("_out_param_" + i);
 		}
 		sb.append(");\n");
-		for(i=0; i<pm.getReturnTypes().size(); ++i) {
-			sb.appendFront("ReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString() + "[" + i + "] = ");
+		for(i = 0; i < pm.getReturnTypes().size(); ++i) {
+			sb.appendFront("ReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString()
+					+ "[" + i + "] = ");
 			sb.append("_out_param_" + i + ";\n");
 		}
 		sb.appendFront("return ReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString() + ";\n");
@@ -1491,13 +1543,17 @@ deque_init_loop:
 		sb.appendFront("}\n");
 	}
 
-	private void genParameterPassingReturnArray(InheritanceType type, ProcedureMethod pm) {
-		sb.appendFront("private static object[] ReturnArray_" + pm.getIdent().toString() + "_" + type.getIdent().toString() + " = new object[" + pm.getReturnTypes().size() + "]; // helper array for multi-value-returns, to allow for contravariant parameter assignment\n");
+	private void genParameterPassingReturnArray(InheritanceType type, ProcedureMethod pm)
+	{
+		sb.appendFront("private static object[] ReturnArray_" + pm.getIdent().toString() + "_"
+				+ type.getIdent().toString() + " = new object[" + pm.getReturnTypes().size()
+				+ "]; // helper array for multi-value-returns, to allow for contravariant parameter assignment\n");
 	}
 
-	private void genMethods(InheritanceType type) {
+	private void genMethods(InheritanceType type)
+	{
 		sb.append("\n");
-		
+
 		genApplyFunctionMethodDispatcher(type);
 
 		for(FunctionMethod fm : type.getAllFunctionMethods()) {
@@ -1505,9 +1561,9 @@ deque_init_loop:
 		}
 
 		//////////////////////////////////////////////////////////////
-		
+
 		genApplyProcedureMethodDispatcher(type);
-		
+
 		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
 			forceNotConstant(pm.getComputationStatements());
 			genParameterPassingReturnArray(type, pm);
@@ -1518,8 +1574,10 @@ deque_init_loop:
 		}
 	}
 
-	private void genApplyFunctionMethodDispatcher(InheritanceType type) {
-		sb.appendFront("public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)\n");
+	private void genApplyFunctionMethodDispatcher(InheritanceType type)
+	{
+		sb.appendFront("public override object ApplyFunctionMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, "
+				+ "string name, object[] arguments)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("switch(name)\n");
@@ -1529,14 +1587,16 @@ deque_init_loop:
 			forceNotConstant(fm.getComputationStatements());
 			genParameterPassingMethodCall(type, fm);
 		}
-		sb.appendFront("default: throw new NullReferenceException(\"" + formatIdentifiable(type) + " does not have the function method \" + name + \"!\");\n");
+		sb.appendFront("default: throw new NullReferenceException(\"" + formatIdentifiable(type)
+				+ " does not have the function method \" + name + \"!\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
 
-	private void genFunctionMethod(FunctionMethod fm) {
+	private void genFunctionMethod(FunctionMethod fm)
+	{
 		List<String> staticInitializers = new LinkedList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
@@ -1544,7 +1604,8 @@ deque_init_loop:
 				pathPrefixForElements, alreadyDefinedEntityToName);
 
 		sb.appendFront("public " + formatType(fm.getReturnType()) + " ");
-		sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
+		sb.append(fm.getIdent().toString()
+				+ "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
 		for(Entity inParam : fm.getParameters()) {
 			sb.append(", ");
 			sb.append(formatType(inParam.getType()));
@@ -1556,7 +1617,8 @@ deque_init_loop:
 		sb.indent();
 		sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
+		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
+				be.system.emitProfilingInstrumentation());
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix);
 		for(EvalStatement evalStmt : fm.getComputationStatements()) {
 			modifyGenState.functionOrProcedureName = fm.getIdent().toString();
@@ -1565,10 +1627,10 @@ deque_init_loop:
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		if(model.areFunctionsParallel())
-		{
+		if(model.areFunctionsParallel()) {
 			sb.appendFront("public " + formatType(fm.getReturnType()) + " ");
-			sb.append(fm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
+			sb.append(fm.getIdent().toString()
+					+ "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
 			for(Entity inParam : fm.getParameters()) {
 				sb.append(", ");
 				sb.append(formatType(inParam.getType()));
@@ -1591,8 +1653,10 @@ deque_init_loop:
 		}
 	}
 
-	private void genApplyProcedureMethodDispatcher(InheritanceType type) {
-		sb.appendFront("public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, string name, object[] arguments)\n");
+	private void genApplyProcedureMethodDispatcher(InheritanceType type)
+	{
+		sb.appendFront("public override object[] ApplyProcedureMethod(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph,"
+				+ " string name, object[] arguments)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("switch(name)\n");
@@ -1601,14 +1665,16 @@ deque_init_loop:
 		for(ProcedureMethod pm : type.getAllProcedureMethods()) {
 			genParameterPassingMethodCall(type, pm);
 		}
-		sb.appendFront("default: throw new NullReferenceException(\"" + formatIdentifiable(type) + " does not have the procedure method \" + name + \"!\");\n");
+		sb.appendFront("default: throw new NullReferenceException(\"" + formatIdentifiable(type)
+				+ " does not have the procedure method \" + name + \"!\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
 
-	private void genProcedureMethod(ProcedureMethod pm) {
+	private void genProcedureMethod(ProcedureMethod pm)
+	{
 		List<String> staticInitializers = new LinkedList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
@@ -1616,7 +1682,8 @@ deque_init_loop:
 				pathPrefixForElements, alreadyDefinedEntityToName);
 
 		sb.appendFront("public void ");
-		sb.append(pm.getIdent().toString() + "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
+		sb.append(pm.getIdent().toString()
+				+ "(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv_, GRGEN_LIBGR.IGraph graph_");
 		for(Entity inParam : pm.getParameters()) {
 			sb.append(", ");
 			sb.append(formatType(inParam.getType()));
@@ -1636,10 +1703,11 @@ deque_init_loop:
 		sb.indent();
 		sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false, be.system.emitProfilingInstrumentation());
+		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
+				be.system.emitProfilingInstrumentation());
 		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix);
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix);
-		
+
 		if(be.system.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
 			sb.append("\"" + pm.getIdent().toString() + "\"");
@@ -1665,7 +1733,9 @@ deque_init_loop:
 	/**
 	 * Generates the type implementation
 	 */
-	private void genTypeImplementation(Collection<? extends InheritanceType> allTypes, InheritanceType type, String packageName) {
+	private void genTypeImplementation(Collection<? extends InheritanceType> allTypes, InheritanceType type,
+			String packageName)
+	{
 		String typeident = formatIdentifiable(type);
 		String typename = formatTypeClassName(type);
 		String typeref = formatTypeClassRef(type);
@@ -1685,7 +1755,8 @@ deque_init_loop:
 		genIsMyType(allTypes, type);
 		genAttributeAttributes(type);
 
-		sb.appendFront("public " + typename + "() : base((int) " + formatNodeOrEdge(type) + "Types.@" + typeident + ")\n");
+		sb.appendFront("public " + typename + "() "
+				+ ": base((int) " + formatNodeOrEdge(type) + "Types.@" + typeident + ")\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genAttributeInit(type);
@@ -1694,29 +1765,33 @@ deque_init_loop:
 		sb.appendFront("}\n");
 
 		sb.appendFront("public override string Name { get { return \"" + typeident + "\"; } }\n");
-		sb.appendFront("public override string Package { get { return " + (!getPackagePrefix(type).equals("") ? "\""+getPackagePrefix(type)+"\"" : "null") + "; } }\n");
-		sb.appendFront("public override string PackagePrefixedName { get { return \"" + getPackagePrefixDoubleColon(type) + typeident + "\"; } }\n");
+		sb.appendFront("public override string Package { get { return "
+				+ (!getPackagePrefix(type).equals("") ? "\"" + getPackagePrefix(type) + "\"" : "null") + "; } }\n");
+		sb.appendFront("public override string PackagePrefixedName { get { return \""
+				+ getPackagePrefixDoubleColon(type) + typeident + "\"; } }\n");
 		if(type.getIdent().toString().equals("Node")) {
-				sb.appendFront("public override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
-						+ "\"de.unika.ipd.grGen.libGr.INode\"; } }\n");
+			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
+					+ "\"de.unika.ipd.grGen.libGr.INode\"; } }\n");
 		} else if(type.getIdent().toString().equals("AEdge")) {
-				sb.appendFront("public override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
-						+ "\"de.unika.ipd.grGen.libGr.IEdge\"; } }\n");
+			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
+					+ "\"de.unika.ipd.grGen.libGr.IEdge\"; } }\n");
 		} else if(type.getIdent().toString().equals("Edge")) {
-			sb.appendFront("public override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
+			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.IDEdge\"; } }\n");
 		} else if(type.getIdent().toString().equals("UEdge")) {
-			sb.appendFront("public override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
+			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
 					+ "\"de.unika.ipd.grGen.libGr.IUEdge\"; } }\n");
 		} else {
-			sb.appendFront("public override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
-				+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "."
-				+ getPackagePrefixDot(type) + "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type) + "\"; } }\n");
+			sb.appendFront("public override string " + formatNodeOrEdge(type) + "InterfaceName { get { return "
+					+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "."
+					+ getPackagePrefixDot(type) + "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type)
+					+ "\"; } }\n");
 		}
 		if(type.isAbstract()) {
-			sb.appendFront("public override string "+formatNodeOrEdge(type)+"ClassName { get { return null; } }\n");
+			sb.appendFront("public override string " + formatNodeOrEdge(type) + "ClassName { get { return null; } }\n");
 		} else {
-			sb.appendFront("public override string "+formatNodeOrEdge(type)+"ClassName { get { return \"de.unika.ipd.grGen.Model_"
+			sb.appendFront("public override string " + formatNodeOrEdge(type)
+					+ "ClassName { get { return \"de.unika.ipd.grGen.Model_"
 					+ model.getIdent() + "." + getPackagePrefixDot(type) + formatElementClassName(type) + "\"; } }\n");
 		}
 
@@ -1731,27 +1806,26 @@ deque_init_loop:
 				sb.appendFront("return new " + allocName + "();\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		}
-		else {
-			EdgeType edgeType = (EdgeType) type;
+		} else {
+			EdgeType edgeType = (EdgeType)type;
 			sb.appendFront("public override GRGEN_LIBGR.Directedness Directedness "
 					+ "{ get { return GRGEN_LIBGR.Directedness.");
 			switch(edgeType.getDirectedness()) {
-				case Arbitrary:
-					sb.append("Arbitrary; } }\n");
-					break;
-				case Directed:
-					sb.append("Directed; } }\n");
-					break;
-				case Undirected:
-					sb.append("Undirected; } }\n");
-					break;
-				default:
-					throw new UnsupportedOperationException("Illegal directedness of edge type \""
-							+ formatIdentifiable(type) + "\"");
+			case Arbitrary:
+				sb.append("Arbitrary; } }\n");
+				break;
+			case Directed:
+				sb.append("Directed; } }\n");
+				break;
+			case Undirected:
+				sb.append("Undirected; } }\n");
+				break;
+			default:
+				throw new UnsupportedOperationException("Illegal directedness of edge type \""
+						+ formatIdentifiable(type) + "\"");
 			}
 			sb.appendFront("public override GRGEN_LIBGR.IEdge CreateEdge("
-						+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)\n");
+					+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			if(type.isAbstract())
@@ -1771,14 +1845,16 @@ deque_init_loop:
 				sb.appendFront("throw new Exception(\"The abstract edge type "
 						+ typeident + " does not support source and target setting!\");\n");
 			else
-				sb.appendFront("((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget" 
+				sb.appendFront("((GRGEN_LGSP.LGSPEdge)edge).SetSourceAndTarget"
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 		}
 
-		sb.appendFront("public override bool IsAbstract { get { return " + (type.isAbstract() ? "true" : "false") + "; } }\n");
-		sb.appendFront("public override bool IsConst { get { return " + (type.isConst() ? "true" : "false") + "; } }\n");
+		sb.appendFront("public override bool IsAbstract { get { return "
+				+ (type.isAbstract() ? "true" : "false") + "; } }\n");
+		sb.appendFront("public override bool IsConst { get { return "
+				+ (type.isConst() ? "true" : "false") + "; } }\n");
 
 		sb.appendFront("public override GRGEN_LIBGR.Annotations Annotations { get { return annotations; } }\n");
 		sb.appendFront("public GRGEN_LIBGR.Annotations annotations = new GRGEN_LIBGR.Annotations();\n");
@@ -1787,11 +1863,13 @@ deque_init_loop:
 		genAttributeTypesEnumerator(type);
 		genGetAttributeType(type);
 
-		sb.appendFront("public override int NumFunctionMethods { get { return " + type.getAllFunctionMethods().size() + "; } }\n");
+		sb.appendFront("public override int NumFunctionMethods { get { return "
+				+ type.getAllFunctionMethods().size() + "; } }\n");
 		genFunctionMethodsEnumerator(type);
 		genGetFunctionMethod(type);
 
-		sb.appendFront("public override int NumProcedureMethods { get { return " + type.getAllProcedureMethods().size() + "; } }\n");
+		sb.appendFront("public override int NumProcedureMethods { get { return "
+				+ type.getAllProcedureMethods().size() + "; } }\n");
 		genProcedureMethodsEnumerator(type);
 		genGetProcedureMethod(type);
 
@@ -1803,13 +1881,13 @@ deque_init_loop:
 		genCreateWithCopyCommons(type);
 		sb.unindent();
 		sb.appendFront("}\n");
-		
+
 		// generate function method info classes
 		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
 		for(FunctionMethod fm : allFunctionMethods) {
 			genFunctionMethodInfo(fm, type, packageName);
 		}
-		
+
 		// generate procedure method info classes
 		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
 		for(ProcedureMethod pm : allProcedureMethods) {
@@ -1817,7 +1895,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genIsA(Collection<? extends InheritanceType> types, InheritanceType type) {
+	private void genIsA(Collection<? extends InheritanceType> types, InheritanceType type)
+	{
 		sb.appendFront("public static bool[] isA = new bool[] { ");
 		for(InheritanceType nt : types) {
 			if(type.isCastableTo(nt))
@@ -1829,7 +1908,8 @@ deque_init_loop:
 		sb.appendFront("public override bool IsA(int typeID) { return isA[typeID]; }\n");
 	}
 
-	private void genIsMyType(Collection<? extends InheritanceType> types, InheritanceType type) {
+	private void genIsMyType(Collection<? extends InheritanceType> types, InheritanceType type)
+	{
 		sb.appendFront("public static bool[] isMyType = new bool[] { ");
 		for(InheritanceType nt : types) {
 			if(nt.isCastableTo(type))
@@ -1841,33 +1921,40 @@ deque_init_loop:
 		sb.appendFront("public override bool IsMyType(int typeID) { return isMyType[typeID]; }\n");
 	}
 
-	private void genAttributeAttributes(InheritanceType type) {
+	private void genAttributeAttributes(InheritanceType type)
+	{
 		for(Entity member : type.getMembers()) { // only for locally defined members
 			sb.appendFront("public static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member) + ";\n");
 
 			// attribute types T/S of map<T,S>/set<T>/array<T>/deque<T>
 			if(member.getType() instanceof MapType) {
-				sb.appendFront("public static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_domain_type;\n");
-				sb.appendFront("public static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_range_type;\n");
+				sb.appendFront("public static GRGEN_LIBGR.AttributeType "
+						+ formatAttributeTypeName(member) + "_map_domain_type;\n");
+				sb.appendFront("public static GRGEN_LIBGR.AttributeType "
+						+ formatAttributeTypeName(member) + "_map_range_type;\n");
 			}
 			if(member.getType() instanceof SetType) {
-				sb.appendFront("public static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_set_member_type;\n");
+				sb.appendFront("public static GRGEN_LIBGR.AttributeType "
+						+ formatAttributeTypeName(member) + "_set_member_type;\n");
 			}
 			if(member.getType() instanceof ArrayType) {
-				sb.appendFront("public static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_array_member_type;\n");
+				sb.appendFront("public static GRGEN_LIBGR.AttributeType "
+						+ formatAttributeTypeName(member) + "_array_member_type;\n");
 			}
 			if(member.getType() instanceof DequeType) {
-				sb.appendFront("public static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_deque_member_type;\n");
+				sb.appendFront("public static GRGEN_LIBGR.AttributeType "
+						+ formatAttributeTypeName(member) + "_deque_member_type;\n");
 			}
 		}
 	}
 
-	private void genAttributeInit(InheritanceType type) {
+	private void genAttributeInit(InheritanceType type)
+	{
 		for(Entity e : type.getMembers()) {
 			String attributeTypeName = formatAttributeTypeName(e);
 			Type t = e.getType();
 
-			if (t instanceof MapType) {
+			if(t instanceof MapType) {
 				MapType mt = (MapType)t;
 
 				// attribute types T of map<T,S>
@@ -1881,8 +1968,7 @@ deque_init_loop:
 				sb.append("\"" + formatIdentifiable(e) + "_map_range_type\", this, ");
 				genAttributeInitTypeDependentStuff(mt.getValueType(), e);
 				sb.append(");\n");
-			}
-			else if (t instanceof SetType) {
+			} else if(t instanceof SetType) {
 				SetType st = (SetType)t;
 
 				// attribute type T of set<T>
@@ -1890,8 +1976,7 @@ deque_init_loop:
 				sb.append("\"" + formatIdentifiable(e) + "_set_member_type\", this, ");
 				genAttributeInitTypeDependentStuff(st.getValueType(), e);
 				sb.append(");\n");
-			}
-			else if (t instanceof ArrayType) {
+			} else if(t instanceof ArrayType) {
 				ArrayType at = (ArrayType)t;
 
 				// attribute type T of set<T>
@@ -1899,8 +1984,7 @@ deque_init_loop:
 				sb.append("\"" + formatIdentifiable(e) + "_array_member_type\", this, ");
 				genAttributeInitTypeDependentStuff(at.getValueType(), e);
 				sb.append(");\n");
-			}
-			else if (t instanceof DequeType) {
+			} else if(t instanceof DequeType) {
 				DequeType qt = (DequeType)t;
 
 				// attribute type T of deque<T>
@@ -1915,37 +1999,42 @@ deque_init_loop:
 			genAttributeInitTypeDependentStuff(t, e);
 			sb.append(");\n");
 
-			addAnnotations(sb, e, attributeTypeName+".annotations");
+			addAnnotations(sb, e, attributeTypeName + ".annotations");
 		}
 	}
 
-	private void genAttributeInitTypeDependentStuff(Type t, Entity e) {
-		if (t instanceof EnumType) {
-			sb.append(getAttributeKind(t) + ", GRGEN_MODEL." + getPackagePrefixDot(t) + "Enums.@" + formatIdentifiable(t) + ", "
+	private void genAttributeInitTypeDependentStuff(Type t, Entity e)
+	{
+		if(t instanceof EnumType) {
+			sb.append(getAttributeKind(t)
+					+ ", GRGEN_MODEL." + getPackagePrefixDot(t) + "Enums.@" + formatIdentifiable(t) + ", "
 					+ "null, null, "
 					+ "null, null, null, typeof(" + formatAttributeType(t) + ")");
-		} else if (t instanceof MapType) {
+		} else if(t instanceof MapType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_map_range_type" + ", "
 					+ formatAttributeTypeName(e) + "_map_domain_type" + ", "
 					+ "null, null, null, typeof(" + formatAttributeType(t) + ")");
-		} else if (t instanceof SetType) {
+		} else if(t instanceof SetType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_set_member_type" + ", null, "
 					+ "null, null, null, typeof(" + formatAttributeType(t) + ")");
-		} else if (t instanceof ArrayType) {
+		} else if(t instanceof ArrayType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_array_member_type" + ", null, "
 					+ "null, null, null, typeof(" + formatAttributeType(t) + ")");
-		} else if (t instanceof DequeType) {
+		} else if(t instanceof DequeType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_deque_member_type" + ", null, "
 					+ "null, null, null, typeof(" + formatAttributeType(t) + ")");
-		} else if (t instanceof NodeType || t instanceof EdgeType) {
+		} else if(t instanceof NodeType || t instanceof EdgeType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ "null, null, "
 					+ "\"" + formatIdentifiable(t) + "\","
-					+ (((ContainedInPackage)t).getPackageContainedIn()!="" ? "\""+((ContainedInPackage)t).getPackageContainedIn()+"\"" : "null") + ","
+					+ (((ContainedInPackage)t).getPackageContainedIn() != ""
+							? "\"" + ((ContainedInPackage)t).getPackageContainedIn() + "\""
+							: "null")
+					+ ","
 					+ "\"" + getPackagePrefixDoubleColon(t) + formatIdentifiable(t) + "\","
 					+ "typeof(" + formatElementInterfaceRef(t) + ")");
 		} else {
@@ -1955,45 +2044,48 @@ deque_init_loop:
 		}
 	}
 
-	private String getAttributeKind(Type t) {
-		if (t instanceof ByteType)
+	private String getAttributeKind(Type t)
+	{
+		if(t instanceof ByteType)
 			return "GRGEN_LIBGR.AttributeKind.ByteAttr";
-		else if (t instanceof ShortType)
+		else if(t instanceof ShortType)
 			return "GRGEN_LIBGR.AttributeKind.ShortAttr";
-		else if (t instanceof IntType)
+		else if(t instanceof IntType)
 			return "GRGEN_LIBGR.AttributeKind.IntegerAttr";
-		else if (t instanceof LongType)
+		else if(t instanceof LongType)
 			return "GRGEN_LIBGR.AttributeKind.LongAttr";
-		else if (t instanceof FloatType)
+		else if(t instanceof FloatType)
 			return "GRGEN_LIBGR.AttributeKind.FloatAttr";
-		else if (t instanceof DoubleType)
+		else if(t instanceof DoubleType)
 			return "GRGEN_LIBGR.AttributeKind.DoubleAttr";
-		else if (t instanceof BooleanType)
+		else if(t instanceof BooleanType)
 			return "GRGEN_LIBGR.AttributeKind.BooleanAttr";
-		else if (t instanceof StringType)
+		else if(t instanceof StringType)
 			return "GRGEN_LIBGR.AttributeKind.StringAttr";
-		else if (t instanceof EnumType)
+		else if(t instanceof EnumType)
 			return "GRGEN_LIBGR.AttributeKind.EnumAttr";
-		else if (t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType)
+		else if(t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType)
 			return "GRGEN_LIBGR.AttributeKind.ObjectAttr";
-		else if (t instanceof MapType)
+		else if(t instanceof MapType)
 			return "GRGEN_LIBGR.AttributeKind.MapAttr";
-		else if (t instanceof SetType)
+		else if(t instanceof SetType)
 			return "GRGEN_LIBGR.AttributeKind.SetAttr";
-		else if (t instanceof ArrayType)
+		else if(t instanceof ArrayType)
 			return "GRGEN_LIBGR.AttributeKind.ArrayAttr";
-		else if (t instanceof DequeType)
+		else if(t instanceof DequeType)
 			return "GRGEN_LIBGR.AttributeKind.DequeAttr";
-		else if (t instanceof NodeType)
+		else if(t instanceof NodeType)
 			return "GRGEN_LIBGR.AttributeKind.NodeAttr";
-		else if (t instanceof EdgeType)
+		else if(t instanceof EdgeType)
 			return "GRGEN_LIBGR.AttributeKind.EdgeAttr";
-		else if (t instanceof GraphType)
+		else if(t instanceof GraphType)
 			return "GRGEN_LIBGR.AttributeKind.GraphAttr";
-		else throw new IllegalArgumentException("Unknown Type: " + t);
+		else
+			throw new IllegalArgumentException("Unknown Type: " + t);
 	}
 
-	private void genAttributeTypesEnumerator(InheritanceType type) {
+	private void genAttributeTypesEnumerator(InheritanceType type)
+	{
 		Collection<Entity> allMembers = type.getAllMembers();
 		sb.appendFront("public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes");
 
@@ -2018,7 +2110,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genGetAttributeType(InheritanceType type) {
+	private void genGetAttributeType(InheritanceType type)
+	{
 		Collection<Entity> allMembers = type.getAllMembers();
 		sb.appendFront("public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)");
 
@@ -2046,7 +2139,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genFunctionMethodsEnumerator(InheritanceType type) {
+	private void genFunctionMethodsEnumerator(InheritanceType type)
+	{
 		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
 		sb.appendFront("public override IEnumerable<GRGEN_LIBGR.IFunctionDefinition> FunctionMethods");
 
@@ -2067,7 +2161,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genGetFunctionMethod(InheritanceType type) {
+	private void genGetFunctionMethod(InheritanceType type)
+	{
 		Collection<FunctionMethod> allFunctionMethods = type.getAllFunctionMethods();
 		sb.appendFront("public override GRGEN_LIBGR.IFunctionDefinition GetFunctionMethod(string name)");
 
@@ -2090,7 +2185,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genProcedureMethodsEnumerator(InheritanceType type) {
+	private void genProcedureMethodsEnumerator(InheritanceType type)
+	{
 		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
 		sb.appendFront("public override IEnumerable<GRGEN_LIBGR.IProcedureDefinition> ProcedureMethods");
 
@@ -2111,7 +2207,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genGetProcedureMethod(InheritanceType type) {
+	private void genGetProcedureMethod(InheritanceType type)
+	{
 		Collection<ProcedureMethod> allProcedureMethods = type.getAllProcedureMethods();
 		sb.appendFront("public override GRGEN_LIBGR.IProcedureDefinition GetProcedureMethod(string name)");
 
@@ -2135,7 +2232,8 @@ deque_init_loop:
 	}
 
 	private void getFirstCommonAncestors(InheritanceType curType,
-			InheritanceType type, Set<InheritanceType> resTypes) {
+			InheritanceType type, Set<InheritanceType> resTypes)
+	{
 		if(type.isCastableTo(curType))
 			resTypes.add(curType);
 		else {
@@ -2145,7 +2243,8 @@ deque_init_loop:
 		}
 	}
 
-	private void genCreateWithCopyCommons(InheritanceType type) {
+	private void genCreateWithCopyCommons(InheritanceType type)
+	{
 		boolean isNode = type instanceof NodeType;
 		String elemref = formatElementClassRef(type);
 		String extName = type.getExternalName();
@@ -2154,14 +2253,13 @@ deque_init_loop:
 
 		if(isNode) {
 			sb.appendFront("public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons("
-						+ "GRGEN_LIBGR.INode oldINode)\n");
+					+ "GRGEN_LIBGR.INode oldINode)\n");
 			sb.appendFront("{\n");
 			sb.indent();
-		}
-		else {
+		} else {
 			sb.appendFront("public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons("
-						+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, "
-						+ "GRGEN_LIBGR.IEdge oldIEdge)\n");
+					+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, "
+					+ "GRGEN_LIBGR.IEdge oldIEdge)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 		}
@@ -2197,8 +2295,7 @@ deque_init_loop:
 			sb.unindent();
 			sb.appendFront("}\n");
 			sb.append("\n");
-		}
-		else {
+		} else {
 			if(isNode)
 				sb.appendFront("return new " + allocName + "();\n");
 			else {
@@ -2211,48 +2308,54 @@ deque_init_loop:
 		}
 	}
 
-	private Map<BitSet, LinkedList<InheritanceType>> getCommonGroups(InheritanceType type) {
+	private Map<BitSet, LinkedList<InheritanceType>> getCommonGroups(InheritanceType type)
+	{
 		boolean isNode = type instanceof NodeType;
-		
+
 		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();
 
-		Collection<? extends InheritanceType> typeSet =
-			isNode ? (Collection<? extends InheritanceType>) model.getAllNodeTypes()
-			: (Collection<? extends InheritanceType>) model.getAllEdgeTypes();
+		Collection<? extends InheritanceType> typeSet = isNode
+				? (Collection<? extends InheritanceType>)model.getAllNodeTypes()
+				: (Collection<? extends InheritanceType>)model.getAllEdgeTypes();
 		for(InheritanceType itype : typeSet) {
-			if(itype.isAbstract()) continue;
+			if(itype.isAbstract())
+				continue;
 
 			Set<InheritanceType> firstCommonAncestors = new LinkedHashSet<InheritanceType>();
 			getFirstCommonAncestors(itype, type, firstCommonAncestors);
 
 			TreeSet<InheritanceType> sortedCommonTypes = new TreeSet<InheritanceType>(
-				new Comparator<InheritanceType>() {
-					public int compare(InheritanceType o1, InheritanceType o2) {
-						return o2.getMaxDist() - o1.getMaxDist();
-					}
-				});
+					new Comparator<InheritanceType>() {
+						public int compare(InheritanceType o1, InheritanceType o2)
+						{
+							return o2.getMaxDist() - o1.getMaxDist();
+						}
+					});
 
 			sortedCommonTypes.addAll(firstCommonAncestors);
 			Iterator<InheritanceType> iter = sortedCommonTypes.iterator();
 			while(iter.hasNext()) {
 				InheritanceType commonType = iter.next();
-				if(!firstCommonAncestors.contains(commonType)) continue;
+				if(!firstCommonAncestors.contains(commonType))
+					continue;
 				for(InheritanceType superType : commonType.getAllSuperTypes()) {
 					firstCommonAncestors.remove(superType);
 				}
 			}
 
 			boolean mustCopyAttribs = false;
-commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
+commonLoop:
+			for(InheritanceType commonType : firstCommonAncestors) {
 				for(Entity member : commonType.getAllMembers()) {
-					if(member.getType().isVoid())   // is it an abstract member?
+					if(member.getType().isVoid()) // is it an abstract member?
 						continue;
 					mustCopyAttribs = true;
 					break commonLoop;
 				}
 			}
 
-			if(!mustCopyAttribs) continue;
+			if(!mustCopyAttribs)
+				continue;
 
 			BitSet commonTypesBitset = new BitSet();
 			for(InheritanceType commonType : firstCommonAncestors) {
@@ -2269,7 +2372,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	}
 
 	private void emitCommonGroup(InheritanceType type, String kindName,
-			Map.Entry<BitSet, LinkedList<InheritanceType>> entry) {
+			Map.Entry<BitSet, LinkedList<InheritanceType>> entry)
+	{
 		for(InheritanceType itype : entry.getValue()) {
 			sb.appendFront("case (int) GRGEN_MODEL." + getPackagePrefixDot(itype) + kindName + "Types.@"
 					+ formatIdentifiable(itype) + ":\n");
@@ -2277,7 +2381,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.indent();
 		BitSet bitset = entry.getKey();
 		HashSet<Entity> copiedAttribs = new HashSet<Entity>();
-		for(int i = bitset.nextSetBit(0); i >= 0; i = bitset.nextSetBit(i+1)) {
+		for(int i = bitset.nextSetBit(0); i >= 0; i = bitset.nextSetBit(i + 1)) {
 			InheritanceType commonType = InheritanceType.getByTypeID(i);
 			Collection<Entity> members = commonType.getAllMembers();
 			if(members.size() != 0) {
@@ -2315,10 +2419,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 								+ " = (" + formatAttributeType(member) + ") old.@" + memberName
 								+ ";   // Mono workaround (bug #357287)\n");
 					} else {
-						if(member.getType() instanceof MapType || member.getType() instanceof SetType 
+						if(member.getType() instanceof MapType || member.getType() instanceof SetType
 								|| member.getType() instanceof ArrayType || member.getType() instanceof DequeType) {
 							sb.appendFront("new" + kindName + ".@" + memberName
-									+ " = new " + formatAttributeType(member.getType()) + "(old.@" + memberName + ");\n");
+									+ " = new " + formatAttributeType(member.getType())
+									+ "(old.@" + memberName + ");\n");
 						} else {
 							sb.appendFront("new" + kindName + ".@" + memberName
 									+ " = old.@" + memberName + ";\n");
@@ -2338,7 +2443,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	/**
 	 * Generates the function info for the given function method
 	 */
-	private void genFunctionMethodInfo(FunctionMethod fm, InheritanceType type, String packageName) {
+	private void genFunctionMethodInfo(FunctionMethod fm, InheritanceType type, String packageName)
+	{
 		String functionMethodName = formatIdentifiable(fm);
 		String className = formatFunctionMethodInfoName(fm, type);
 
@@ -2353,8 +2459,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("private " + className + "()\n");
 		sb.appendFront("\t\t\t: base(\n");
 		sb.appendFront("\t\t\t\t\"" + functionMethodName + "\",\n");
-		sb.appendFront("\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
-		sb.append("\"" + (packageName!=null ? packageName + "::" + functionMethodName : functionMethodName) + "\",\n");
+		sb.appendFront("\t\t\t\t" + (packageName != null ? "\"" + packageName + "\"" : "null") + ", ");
+		sb.append("\"" + (packageName != null
+				? packageName + "::" + functionMethodName
+				: functionMethodName) + "\",\n");
 		sb.appendFront("\t\t\t\tfalse,\n");
 		sb.appendFront("\t\t\t\tnew String[] { ");
 		for(Entity inParam : fm.getParameters()) {
@@ -2363,7 +2471,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append(" },\n");
 		sb.appendFront("\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : fm.getParameters()) {
-			if(inParam.getType() instanceof InheritanceType  && !(inParam.getType() instanceof ExternalType)) {
+			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
 			} else {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParam.getType()) + ")), ");
@@ -2379,8 +2487,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("\t\t\t  )\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
-		
-		sb.appendFront("public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
+
+		sb.appendFront("public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, "
+				+ "object[] arguments)\n");
 		sb.appendFront("{\n");
 		sb.appendFront("\tthrow new Exception(\"Not implemented, can't call function method without this object!\");\n");
 		sb.appendFront("}\n");
@@ -2393,7 +2502,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	/**
 	 * Generates the procedure info for the given procedure method
 	 */
-	private void genProcedureMethodInfo(ProcedureMethod pm, InheritanceType type, String packageName) {
+	private void genProcedureMethodInfo(ProcedureMethod pm, InheritanceType type, String packageName)
+	{
 		String procedureMethodName = formatIdentifiable(pm);
 		String className = formatProcedureMethodInfoName(pm, type);
 
@@ -2408,8 +2518,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("private " + className + "()\n");
 		sb.appendFront("\t\t\t: base(\n");
 		sb.appendFront("\t\t\t\t\"" + procedureMethodName + "\",\n");
-		sb.appendFront("\t\t\t\t" + (packageName!=null ? "\"" + packageName + "\"" : "null") + ", ");
-		sb.append("\"" + (packageName!=null ? packageName + "::" + procedureMethodName : procedureMethodName) + "\",\n");
+		sb.appendFront("\t\t\t\t" + (packageName != null ? "\"" + packageName + "\"" : "null") + ", ");
+		sb.append("\"" + (packageName != null
+				? packageName + "::" + procedureMethodName
+				: procedureMethodName) + "\",\n");
 		sb.appendFront("\t\t\t\tfalse,\n");
 		sb.appendFront("\t\t\t\tnew String[] { ");
 		for(Entity inParam : pm.getParameters()) {
@@ -2437,8 +2549,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("\t\t\t  )\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
-		
-		sb.appendFront("public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
+
+		sb.appendFront("public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph,"
+				+ " object[] arguments)\n");
 		sb.appendFront("{\n");
 		sb.appendFront("\tthrow new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
 		sb.appendFront("}\n");
@@ -2452,10 +2565,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	{
 		for(Entity entity : type.getAllMembers()) {
 			if(entity.getType().isFilterableType()
-				|| entity.getType().classify() == Type.IS_EXTERNAL_TYPE
-				|| entity.getType().classify() == Type.IS_OBJECT)
-			{
-				if((entity.getType().classify() == Type.IS_EXTERNAL_TYPE || entity.getType().classify() == Type.IS_OBJECT)
+					|| entity.getType().classify() == Type.IS_EXTERNAL_TYPE
+					|| entity.getType().classify() == Type.IS_OBJECT) {
+				if((entity.getType().classify() == Type.IS_EXTERNAL_TYPE
+						|| entity.getType().classify() == Type.IS_OBJECT)
 						&& !(model.isEqualClassDefined() && model.isLowerClassDefined()))
 					continue;
 				if(entity.isConst())
@@ -2472,21 +2585,19 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		String attributeTypeName = formatAttributeType(entity.getType());
 		String comparerClassName = "Comparer_" + type.getIdent().toString() + "_" + attributeName;
 		String reverseComparerClassName = "ReverseComparer_" + type.getIdent().toString() + "_" + attributeName;
-		
+
 		InheritanceType nonAbstractTypeOrSubtype = null;
-		if(!type.isAbstract() && type.getExternalName() == null) 
+		if(!type.isAbstract() && type.getExternalName() == null)
 			nonAbstractTypeOrSubtype = type;
-		else
-		{
+		else {
 			for(InheritanceType subtype : type.getAllSubTypes()) {
-				if(!subtype.isAbstract() && type.getExternalName() == null)
-				{
+				if(!subtype.isAbstract() && type.getExternalName() == null) {
 					nonAbstractTypeOrSubtype = subtype;
 					break;
 				}
 			}
 		}
-		
+
 		if(nonAbstractTypeOrSubtype == null)
 			return; // can't generate comparer for abstract types that have no concrete subtype
 
@@ -2501,10 +2612,13 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("{\n");
 		sb.indent();
 
-		if(type instanceof EdgeType)
-			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
-		else
-			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "();\n");
+		if(type instanceof EdgeType) {
+			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
+					+ "new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "(null, null);\n");
+		} else {
+			sb.appendFront("private static " + formatElementInterfaceRef(type) + " nodeBearingAttributeForSearch = "
+					+ "new " + formatElementClassRef(nonAbstractTypeOrSubtype) + "();\n");
+		}
 
 		sb.appendFront("private static " + comparerClassName + " thisComparer = new " + comparerClassName + "();\n");
 
@@ -2523,11 +2637,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			genArrayOrderAscendingByMethod(typeName);
 			genArrayOrderDescendingByMethod(typeName, reverseComparerClassName);
 		}
-		
+
 		generateArrayKeepOneForEach(sb, "ArrayKeepOneForEachBy", typeName, attributeName, attributeTypeName);
 
 		genArrayExtractMethod(typeName, attributeName, attributeTypeName);
-		
+
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -2548,7 +2662,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 	void genIndexOfByWithStartMethod(String typeName, String attributeName, String attributeTypeName)
 	{
-		sb.appendFront("public static int IndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry, int startIndex)\n");
+		sb.appendFront("public static int IndexOfBy(IList<" + typeName + "> list, "
+				+ attributeTypeName + " entry, int startIndex)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i = startIndex; i < list.Count; ++i)\n");
@@ -2561,7 +2676,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 	void genLastIndexOfByMethod(String typeName, String attributeName, String attributeTypeName)
 	{
-		sb.appendFront("public static int LastIndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry)\n");
+		sb.appendFront("public static int LastIndexOfBy(IList<" + typeName + "> list, "
+				+ attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i = list.Count - 1; i >= 0; --i)\n");
@@ -2574,7 +2690,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 	void genLastIndexOfByWithStartMethod(String typeName, String attributeName, String attributeTypeName)
 	{
-		sb.appendFront("public static int LastIndexOfBy(IList<" + typeName + "> list, " + attributeTypeName + " entry, int startIndex)\n");
+		sb.appendFront("public static int LastIndexOfBy(IList<" + typeName + "> list, "
+				+ attributeTypeName + " entry, int startIndex)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i = startIndex; i >= 0; --i)\n");
@@ -2587,7 +2704,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 	void genIndexOfOrderedByMethod(String typeName, String attributeName, String attributeTypeName)
 	{
-		sb.appendFront("public static int IndexOfOrderedBy(List<" + typeName + "> list, " + attributeTypeName + " entry)\n");
+		sb.appendFront("public static int IndexOfOrderedBy(List<" + typeName + "> list, "
+				+ attributeTypeName + " entry)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("nodeBearingAttributeForSearch.@" + attributeName + " = entry;\n");
@@ -2625,7 +2743,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("public static List<" + attributeTypeName + "> Extract(List<" + typeName + "> list)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("List<" + attributeTypeName + "> resultList = new List<" + attributeTypeName + ">(list.Count);\n");
+		sb.appendFront("List<" + attributeTypeName + "> resultList = new List<"
+				+ attributeTypeName + ">(list.Count);\n");
 		sb.appendFront("foreach(" + typeName + " entry in list)\n");
 		sb.appendFront("\tresultList.Add(entry.@" + attributeName + ");\n");
 		sb.appendFront("return resultList;\n");
@@ -2643,15 +2762,16 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("public class " + reverseComparerClassName + " : Comparer<" + typeName + ">\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		
-		sb.appendFront("public static " + reverseComparerClassName + " thisComparer = new " + reverseComparerClassName + "();\n");
-		
+
+		sb.appendFront("public static " + reverseComparerClassName + " thisComparer = "
+				+ "new " + reverseComparerClassName + "();\n");
+
 		genCompareMethod(sb, typeName, formatIdentifiable(entity), entity.getType(), false);
-		
+
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
-	
+
 	////////////////////////////
 	// Model class generation //
 	////////////////////////////
@@ -2659,7 +2779,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	/**
 	 * Generates the model class for the edge or node types.
 	 */
-	private void genModelClass(Collection<? extends InheritanceType> types, boolean isNode) {
+	private void genModelClass(Collection<? extends InheritanceType> types, boolean isNode)
+	{
 		String kindStr = isNode ? "Node" : "Edge";
 
 		sb.appendFront("//\n");
@@ -2673,7 +2794,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 		InheritanceType rootType = genModelConstructor(isNode, types);
 
-		sb.appendFront("public bool IsNodeModel { get { return " + (isNode?"true":"false") +"; } }\n");
+		sb.appendFront("public bool IsNodeModel { get { return " + (isNode ? "true" : "false") + "; } }\n");
 		sb.appendFront("public GRGEN_LIBGR." + kindStr + "Type RootType { get { return "
 				+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
 		sb.appendFront("GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return "
@@ -2685,7 +2806,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("{\n");
 		sb.indent();
 		for(InheritanceType type : types) {
-			sb.appendFront("case \"" + getPackagePrefixDoubleColon(type) + formatIdentifiable(type) + "\" : return " + formatTypeClassRef(type) + ".typeVar;\n");
+			sb.appendFront("case \"" + getPackagePrefixDoubleColon(type) + formatIdentifiable(type) + "\" : "
+					+ "return " + formatTypeClassRef(type) + ".typeVar;\n");
 		}
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -2734,7 +2856,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("}\n");
 	}
 
-	private InheritanceType genModelConstructor(boolean isNode, Collection<? extends InheritanceType> types) {
+	private InheritanceType genModelConstructor(boolean isNode, Collection<? extends InheritanceType> types)
+	{
 		String kindStr = (isNode ? "Node" : "Edge");
 		InheritanceType rootType = null;
 
@@ -2802,7 +2925,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	/**
 	 * Generates the graph model class.
 	 */
-	private void genGraphModel() {
+	private void genGraphModel()
+	{
 		String modelName = model.getIdent().toString();
 		sb.appendFront("//\n");
 		sb.appendFront("// IGraphModel (LGSPGraphModel) implementation\n");
@@ -2811,7 +2935,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("public sealed class " + modelName + "GraphModel : GRGEN_LGSP.LGSPGraphModel\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		
+
 		sb.appendFront("public " + modelName + "GraphModel()\n");
 		sb.appendFront("{\n");
 		sb.appendFront("\tFullyInitializeExternalTypes();\n");
@@ -2824,7 +2948,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("}\n");
 	}
 
-	private void genGraphClass() {
+	private void genGraphClass()
+	{
 		String modelName = model.getIdent().toString();
 
 		sb.appendFront("//\n");
@@ -2834,7 +2959,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("public class " + modelName + "Graph : GRGEN_LGSP.LGSPGraph\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		
+
 		sb.appendFront("public " + modelName + "Graph() : base(new " + modelName + "GraphModel(), GetGraphName())\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
@@ -2862,7 +2987,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("}\n");
 	}
 
-	private void genNamedGraphClass() {
+	private void genNamedGraphClass()
+	{
 		String modelName = model.getIdent().toString();
 
 		sb.appendFront("//\n");
@@ -2872,8 +2998,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("public class " + modelName + "NamedGraph : GRGEN_LGSP.LGSPNamedGraph\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		
-		sb.appendFront("public " + modelName + "NamedGraph() : base(new " + modelName + "GraphModel(), GetGraphName(), 0)\n");
+
+		sb.appendFront("public " + modelName + "NamedGraph() "
+				+ ": base(new " + modelName + "GraphModel(), GetGraphName(), 0)\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -2900,7 +3027,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("}\n");
 	}
 
-	private void genCreateNodeConvenienceHelper(NodeType nodeType, boolean isNamed) {
+	private void genCreateNodeConvenienceHelper(NodeType nodeType, boolean isNamed)
+	{
 		if(nodeType.isAbstract())
 			return;
 
@@ -2911,7 +3039,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("\treturn " + elemref + ".CreateNode(this);\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(!isNamed)
 			return;
 
@@ -2922,10 +3050,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\n");
 	}
 
-	private void genCreateEdgeConvenienceHelper(EdgeType edgeType, boolean isNamed) {
+	private void genCreateEdgeConvenienceHelper(EdgeType edgeType, boolean isNamed)
+	{
 		if(edgeType.isAbstract())
 			return;
-		
+
 		String name = getPackagePrefix(edgeType) + formatIdentifiable(edgeType);
 		String elemref = formatElementClassRef(edgeType);
 		sb.appendFront("public @" + elemref + " CreateEdge" + name);
@@ -2946,7 +3075,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\n");
 	}
 
-	private void genGraphModelBody(String modelName) {
+	private void genGraphModelBody(String modelName)
+	{
 		sb.appendFront("private " + modelName + "NodeModel nodeModel = new " + modelName + "NodeModel();\n");
 		sb.appendFront("private " + modelName + "EdgeModel edgeModel = new " + modelName + "EdgeModel();\n");
 
@@ -2956,12 +3086,12 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		genIndexDescriptions();
 		genIndicesGraphBinding();
 		sb.append("\n");
-		
+
 		sb.appendFront("public override string ModelName { get { return \"" + modelName + "\"; } }\n");
-		
+
 		sb.appendFront("public override GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }\n");
 		sb.appendFront("public override GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
-		
+
 		sb.appendFront("public override IEnumerable<string> Packages "
 				+ "{ get { return packages; } }\n");
 		sb.appendFront("public override IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes "
@@ -2981,10 +3111,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("return null;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		sb.appendFront("public override bool GraphElementUniquenessIsEnsured { get { return " + (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
-		sb.appendFront("public override bool GraphElementsAreAccessibleByUniqueId { get { return " + (model.isUniqueIndexDefined() ? "true" : "false") + "; } }\n");
-		sb.appendFront("public override bool AreFunctionsParallelized { get { return " + model.areFunctionsParallel() + "; } }\n");
-		sb.appendFront("public override int BranchingFactorForEqualsAny { get { return " + model.isoParallel() + "; } }\n");
+		sb.appendFront("public override bool GraphElementUniquenessIsEnsured { get { return "
+				+ (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
+		sb.appendFront("public override bool GraphElementsAreAccessibleByUniqueId { get { return "
+				+ (model.isUniqueIndexDefined() ? "true" : "false") + "; } }\n");
+		sb.appendFront("public override bool AreFunctionsParallelized { get { return "
+				+ model.areFunctionsParallel() + "; } }\n");
+		sb.appendFront("public override int BranchingFactorForEqualsAny { get { return "
+				+ model.isoParallel() + "; } }\n");
 
 		genGraphModelBodyAccessToExternalParts();
 
@@ -2993,7 +3127,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("public override string MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
 	}
 
-	private void genGraphModelBodyAccessToExternalParts() {
+	private void genGraphModelBodyAccessToExternalParts()
+	{
 		if(model.isEmitClassDefined()) {
 			sb.append("\n");
 			sb.appendFront("public override object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
@@ -3020,7 +3155,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.appendFront("\treturn AttributeTypeObjectEmitterParser.AsGraph(attribute, attrType, graph);\n");
 			sb.appendFront("}\n");
 		}
-			
+
 		genExternalTypes();
 		sb.appendFront("public override GRGEN_LIBGR.ExternalType[] ExternalTypes { get { return externalTypes; } }\n");
 
@@ -3030,7 +3165,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.indent();
 		sb.appendFront("externalType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { } );\n");
 		for(ExternalType et : model.getExternalTypes()) {
-			sb.appendFront("externalType_" + et.getIdent() + ".InitDirectSupertypes( new GRGEN_LIBGR.ExternalType[] { ");
+			sb.appendFront("externalType_" + et.getIdent() + ".InitDirectSupertypes( "
+					+ "new GRGEN_LIBGR.ExternalType[] { ");
 			boolean directSupertypeAvailable = false;
 			for(InheritanceType superType : et.getDirectSuperTypes()) {
 				sb.append("externalType_" + superType.getIdent() + ", ");
@@ -3065,11 +3201,13 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		}
 	}
 
-	private void genExternalTypes() {
+	private void genExternalTypes()
+	{
 		sb.append("\n");
 		sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_object = new ExternalType_object();\n");
 		for(ExternalType et : model.getExternalTypes()) {
-			sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_" + et.getIdent() + " = new ExternalType_" + et.getIdent() + "();\n");
+			sb.appendFront("public static GRGEN_LIBGR.ExternalType externalType_" + et.getIdent()
+					+ " = new ExternalType_" + et.getIdent() + "();\n");
 		}
 
 		sb.appendFront("private GRGEN_LIBGR.ExternalType[] externalTypes = { ");
@@ -3080,7 +3218,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append(" };\n");
 	}
 
-	private void genPackages() {
+	private void genPackages()
+	{
 		sb.appendFront("private string[] packages = {\n");
 		sb.indent();
 		for(PackageType pt : model.getPackages()) {
@@ -3090,13 +3229,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("};\n");
 	}
 
-	private void genValidates() {
+	private void genValidates()
+	{
 		sb.appendFront("private GRGEN_LIBGR.ValidateInfo[] validateInfos = {\n");
 
 		for(EdgeType edgeType : model.getEdgeTypes()) {
 			genValidate(edgeType);
 		}
-		
+
 		for(PackageType pt : model.getPackages()) {
 			for(EdgeType edgeType : pt.getEdgeTypes()) {
 				genValidate(edgeType);
@@ -3106,7 +3246,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("};\n");
 	}
 
-	private void genValidate(EdgeType edgeType) {
+	private void genValidate(EdgeType edgeType)
+	{
 		for(ConnAssert ca : edgeType.getConnAsserts()) {
 			sb.appendFront("new GRGEN_LIBGR.ValidateInfo(");
 			sb.append(formatTypeClassRef(edgeType) + ".typeVar, ");
@@ -3121,7 +3262,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		}
 	}
 
-	private void genIndexDescriptions() {
+	private void genIndexDescriptions()
+	{
 		sb.appendFront("private static GRGEN_LIBGR.IndexDescription[] indexDescriptions = {\n");
 
 		for(Index index : model.getIndices()) {
@@ -3130,7 +3272,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			else
 				genIndexDescription((IncidenceCountIndex)index);
 		}
-		
+
 		/*for(PackageType pt : model.getPackages()) {
 			for(AttributeIndex index : pt.getIndices()) {
 				genIndexDescription(index);
@@ -3140,7 +3282,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("};\n");
 	}
 
-	private void genIndexDescription(AttributeIndex index) {
+	private void genIndexDescription(AttributeIndex index)
+	{
 		sb.appendFront("new GRGEN_LIBGR.AttributeIndexDescription(");
 		sb.append("\"" + index.getIdent() + "\", ");
 		sb.append(formatTypeClassName(index.type) + ".typeVar, ");
@@ -3148,7 +3291,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("),\n");
 	}
 
-	private void genIndexDescription(IncidenceCountIndex index) {
+	private void genIndexDescription(IncidenceCountIndex index)
+	{
 		sb.appendFront("new GRGEN_LIBGR.IncidenceCountIndexDescription(");
 		sb.append("\"" + index.getIdent() + "\", ");
 		switch(index.Direction()) {
@@ -3168,13 +3312,16 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("),\n");
 	}
 
-	private void genIndicesGraphBinding() {
+	private void genIndicesGraphBinding()
+	{
 		sb.appendFront("public override GRGEN_LIBGR.IUniquenessHandler CreateUniquenessHandler(GRGEN_LIBGR.IGraph graph) {\n");
 		sb.indent();
 		if(model.isUniqueIndexDefined())
-			sb.appendFront("return new GRGEN_LGSP.LGSPUniquenessIndex((GRGEN_LGSP.LGSPGraph)graph); // must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
+			sb.appendFront("return new GRGEN_LGSP.LGSPUniquenessIndex((GRGEN_LGSP.LGSPGraph)graph); "
+					+ "// must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
 		else if(model.isUniqueDefined())
-			sb.appendFront("return new GRGEN_LGSP.LGSPUniquenessEnsurer((GRGEN_LGSP.LGSPGraph)graph); // must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
+			sb.appendFront("return new GRGEN_LGSP.LGSPUniquenessEnsurer((GRGEN_LGSP.LGSPGraph)graph); "
+					+ "// must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
 		else
 			sb.appendFront("return null;\n");
 		sb.unindent();
@@ -3183,17 +3330,22 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("public override GRGEN_LIBGR.IIndexSet CreateIndexSet(GRGEN_LIBGR.IGraph graph) {\n");
 		sb.appendFront("\treturn new " + model.getIdent() + "IndexSet((GRGEN_LGSP.LGSPGraph)graph);\n");
 		sb.appendFront("}\n");
-		
-		sb.appendFront("public override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {\n");
+
+		sb.appendFront("public override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, "
+				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {\n");
 		sb.indent();
-		if(model.isUniqueDefined())
-			sb.appendFront("((GRGEN_LGSP.LGSPUniquenessEnsurer)graph.UniquenessHandler).FillAsClone((GRGEN_LGSP.LGSPUniquenessEnsurer)originalGraph.UniquenessHandler, oldToNewMap);\n");
-		sb.appendFront("((" + model.getIdent() + "IndexSet)graph.Indices).FillAsClone((GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);\n");
+		if(model.isUniqueDefined()) {
+			sb.appendFront("((GRGEN_LGSP.LGSPUniquenessEnsurer)graph.UniquenessHandler).FillAsClone("
+					+ "(GRGEN_LGSP.LGSPUniquenessEnsurer)originalGraph.UniquenessHandler, oldToNewMap);\n");
+		}
+		sb.appendFront("((" + model.getIdent()+ "IndexSet)graph.Indices).FillAsClone("
+				+ "(GRGEN_LGSP.LGSPGraph)originalGraph, oldToNewMap);\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
-	
-	private void genEnumAttributeTypes() {
+
+	private void genEnumAttributeTypes()
+	{
 		sb.appendFront("private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {\n");
 		sb.indent();
 		for(EnumType enumt : model.getEnumTypes()) {
@@ -3208,7 +3360,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.appendFront("};\n");
 	}
 
-	private void genEnumAttributeType(EnumType enumt) {
+	private void genEnumAttributeType(EnumType enumt)
+	{
 		sb.appendFront("GRGEN_MODEL." + getPackagePrefixDot(enumt) + "Enums.@" + formatIdentifiable(enumt) + ",\n");
 	}
 
@@ -3223,4 +3376,3 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private String curMemberOwner = null;
 	private HashSet<String> rootTypes;
 }
-

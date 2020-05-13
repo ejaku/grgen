@@ -9,8 +9,8 @@ package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 
-public class Pair<R extends BaseNode, S extends BaseNode> {
+public class Pair<R extends BaseNode, S extends BaseNode>
+{
 	public R fst = null;
 	public S snd = null;
 }
-

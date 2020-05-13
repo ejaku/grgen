@@ -20,15 +20,17 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the edges of an edge type.
  */
-public class EdgesExprNode extends ExprNode {
+public class EdgesExprNode extends ExprNode
+{
 	static {
 		setName(EdgesExprNode.class, "edges expr");
 	}
 
 	private ExprNode edgeType;
 	private SetTypeNode setTypeNode;
-	
-	public EdgesExprNode(Coords coords, ExprNode edgeType) {
+
+	public EdgesExprNode(Coords coords, ExprNode edgeType)
+	{
 		super(coords);
 		this.edgeType = edgeType;
 		becomeParent(this.edgeType);
@@ -36,7 +38,8 @@ public class EdgesExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(edgeType);
 		return children;
@@ -44,7 +47,8 @@ public class EdgesExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("edge type");
 		return childrenNames;
@@ -52,14 +56,16 @@ public class EdgesExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		setTypeNode = new SetTypeNode(getEdgeRootOfMatchingDirectedness(edgeType));
 		return setTypeNode.resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
 			reportError("argument of edges(.) must be an edge type");
 			return false;
@@ -68,12 +74,14 @@ public class EdgesExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new EdgesExpr(edgeType.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return setTypeNode;
-	}	
+	}
 }

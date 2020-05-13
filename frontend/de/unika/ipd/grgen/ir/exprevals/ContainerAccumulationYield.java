@@ -19,38 +19,44 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an accumulation yielding of a container variable in the IR.
  */
-public class ContainerAccumulationYield extends EvalStatement {
-
+public class ContainerAccumulationYield extends EvalStatement
+{
 	private Variable iterationVar;
 	private Variable indexVar;
 	private Variable containerVar;
 	private Collection<EvalStatement> accumulationStatements = new LinkedList<EvalStatement>();
 
-	public ContainerAccumulationYield(Variable iterationVar, Variable indexVar, 
-			Variable containerVar) {
+	public ContainerAccumulationYield(Variable iterationVar, Variable indexVar,
+			Variable containerVar)
+	{
 		super("container accumulation yield");
 		this.iterationVar = iterationVar;
 		this.indexVar = indexVar;
 		this.containerVar = containerVar;
 	}
 
-	public void addAccumulationStatement(EvalStatement accumulationStatement) {
+	public void addAccumulationStatement(EvalStatement accumulationStatement)
+	{
 		accumulationStatements.add(accumulationStatement);
 	}
 
-	public Variable getIterationVar() {
+	public Variable getIterationVar()
+	{
 		return iterationVar;
 	}
 
-	public Variable getIndexVar() {
+	public Variable getIndexVar()
+	{
 		return indexVar;
 	}
 
-	public Variable getContainer() {
+	public Variable getContainer()
+	{
 		return containerVar;
 	}
 
-	public Collection<EvalStatement> getAccumulationStatements() {
+	public Collection<EvalStatement> getAccumulationStatements()
+	{
 		return accumulationStatements;
 	}
 
@@ -58,8 +64,9 @@ public class ContainerAccumulationYield extends EvalStatement {
 	{
 		if(!isGlobalVariable(containerVar))
 			needs.add(containerVar);
-		for(EvalStatement accumulationStatement : accumulationStatements)
+		for(EvalStatement accumulationStatement : accumulationStatements) {
 			accumulationStatement.collectNeededEntities(needs);
+		}
 		if(needs.variables != null)
 			needs.variables.remove(iterationVar);
 		if(indexVar != null)

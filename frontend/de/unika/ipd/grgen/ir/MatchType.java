@@ -11,32 +11,39 @@
 
 package de.unika.ipd.grgen.ir;
 
-public class MatchType extends Type implements ContainedInPackage {
+public class MatchType extends Type implements ContainedInPackage
+{
 	private String packageContainedIn;
 	private Rule action;
 
-	public MatchType(Ident ident) {
+	public MatchType(Ident ident)
+	{
 		super("match type", ident);
 	}
 
-	public void setAction(Rule action) {
+	public void setAction(Rule action)
+	{
 		this.action = action;
 	}
 
-	public String getPackageContainedIn() {
+	public String getPackageContainedIn()
+	{
 		return packageContainedIn;
 	}
 
-	public void setPackageContainedIn(String packageContainedIn) {
+	public void setPackageContainedIn(String packageContainedIn)
+	{
 		this.packageContainedIn = packageContainedIn;
 	}
 
-	public Rule getAction() {
+	public Rule getAction()
+	{
 		return action;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_MATCH;
 	}
 }

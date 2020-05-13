@@ -17,33 +17,39 @@ import java.util.LinkedList;
 /**
  * Represents a case statement of a switch statement in the IR.
  */
-public class CaseStatement extends EvalStatement {
+public class CaseStatement extends EvalStatement
+{
 
 	private Expression caseConstantExpr; // null for the "else" (aka default) case
 	private Collection<EvalStatement> statements = new LinkedList<EvalStatement>();
 
-	public CaseStatement(Expression caseConstExpr) {
+	public CaseStatement(Expression caseConstExpr)
+	{
 		super("case statement");
 		this.caseConstantExpr = caseConstExpr;
 	}
-	
-	public void addStatement(EvalStatement statement) {
+
+	public void addStatement(EvalStatement statement)
+	{
 		statements.add(statement);
 	}
 
-	public Expression getCaseConstantExpr() {
+	public Expression getCaseConstantExpr()
+	{
 		return caseConstantExpr;
 	}
 
-	public Collection<EvalStatement> getStatements() {
+	public Collection<EvalStatement> getStatements()
+	{
 		return statements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(caseConstantExpr!=null)
+		if(caseConstantExpr != null)
 			caseConstantExpr.collectNeededEntities(needs);
-		for(EvalStatement statement : statements)
+		for(EvalStatement statement : statements) {
 			statement.collectNeededEntities(needs);
+		}
 	}
 }

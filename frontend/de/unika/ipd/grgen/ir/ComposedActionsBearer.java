@@ -22,7 +22,8 @@ import de.unika.ipd.grgen.ir.exprevals.Procedure;
  * Offers all the actions in the unit including all the packages for flat iteration.
  * TODO: offer this by implementing iterators instead of collection building
  */
-public class ComposedActionsBearer implements ActionsBearer {
+public class ComposedActionsBearer implements ActionsBearer
+{
 	Unit unit;
 
 	Collection<Rule> subpatRules;
@@ -33,13 +34,15 @@ public class ComposedActionsBearer implements ActionsBearer {
 	Collection<Function> functions;
 	Collection<Procedure> procedures;
 	Collection<Sequence> sequences;
-	
-	public ComposedActionsBearer(Unit unit) {
+
+	public ComposedActionsBearer(Unit unit)
+	{
 		this.unit = unit;
 	}
-	
-	public Collection<Rule> getSubpatternRules() {
-		if(subpatRules==null) {
+
+	public Collection<Rule> getSubpatternRules()
+	{
+		if(subpatRules == null) {
 			ArrayList<Rule> subpatRules = new ArrayList<Rule>(unit.getSubpatternRules());
 			for(ActionsBearer p : unit.getPackages()) {
 				subpatRules.addAll(p.getSubpatternRules());
@@ -49,8 +52,9 @@ public class ComposedActionsBearer implements ActionsBearer {
 		return subpatRules;
 	}
 
-	public Collection<Rule> getActionRules() {
-		if(rules==null) {
+	public Collection<Rule> getActionRules()
+	{
+		if(rules == null) {
 			ArrayList<Rule> rules = new ArrayList<Rule>(unit.getActionRules());
 			for(ActionsBearer p : unit.getPackages()) {
 				rules.addAll(p.getActionRules());
@@ -59,9 +63,10 @@ public class ComposedActionsBearer implements ActionsBearer {
 		}
 		return rules;
 	}
-	
-	public Collection<FilterFunction> getFilterFunctions() {
-		if(filterFunctions==null) {
+
+	public Collection<FilterFunction> getFilterFunctions()
+	{
+		if(filterFunctions == null) {
 			ArrayList<FilterFunction> filterFunctions = new ArrayList<FilterFunction>(unit.getFilterFunctions());
 			for(ActionsBearer p : unit.getPackages()) {
 				filterFunctions.addAll(p.getFilterFunctions());
@@ -71,8 +76,9 @@ public class ComposedActionsBearer implements ActionsBearer {
 		return filterFunctions;
 	}
 
-	public Collection<DefinedMatchType> getMatchClasses() {
-		if(matchClasses==null) {
+	public Collection<DefinedMatchType> getMatchClasses()
+	{
+		if(matchClasses == null) {
 			ArrayList<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>(unit.getMatchClasses());
 			for(ActionsBearer p : unit.getPackages()) {
 				matchClasses.addAll(p.getMatchClasses());
@@ -82,9 +88,11 @@ public class ComposedActionsBearer implements ActionsBearer {
 		return matchClasses;
 	}
 
-	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions() {
-		if(matchClassFilterFunctions==null) {
-			ArrayList<MatchClassFilterFunction> matchClassFilterFunctions = new ArrayList<MatchClassFilterFunction>(unit.getMatchClassFilterFunctions());
+	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
+	{
+		if(matchClassFilterFunctions == null) {
+			ArrayList<MatchClassFilterFunction> matchClassFilterFunctions =
+					new ArrayList<MatchClassFilterFunction>(unit.getMatchClassFilterFunctions());
 			for(ActionsBearer p : unit.getPackages()) {
 				matchClassFilterFunctions.addAll(p.getMatchClassFilterFunctions());
 			}
@@ -92,9 +100,10 @@ public class ComposedActionsBearer implements ActionsBearer {
 		}
 		return matchClassFilterFunctions;
 	}
-	
-	public Collection<Function> getFunctions() {
-		if(functions==null) {
+
+	public Collection<Function> getFunctions()
+	{
+		if(functions == null) {
 			ArrayList<Function> functions = new ArrayList<Function>(unit.getFunctions());
 			for(ActionsBearer p : unit.getPackages()) {
 				functions.addAll(p.getFunctions());
@@ -103,9 +112,10 @@ public class ComposedActionsBearer implements ActionsBearer {
 		}
 		return functions;
 	}
-	
-	public Collection<Procedure> getProcedures() {
-		if(procedures==null) {
+
+	public Collection<Procedure> getProcedures()
+	{
+		if(procedures == null) {
 			ArrayList<Procedure> procedures = new ArrayList<Procedure>(unit.getProcedures());
 			for(ActionsBearer p : unit.getPackages()) {
 				procedures.addAll(p.getProcedures());
@@ -114,9 +124,10 @@ public class ComposedActionsBearer implements ActionsBearer {
 		}
 		return procedures;
 	}
-	
-	public Collection<Sequence> getSequences() {
-		if(sequences==null) {
+
+	public Collection<Sequence> getSequences()
+	{
+		if(sequences == null) {
 			ArrayList<Sequence> sequences = new ArrayList<Sequence>(unit.getSequences());
 			for(ActionsBearer p : unit.getPackages()) {
 				sequences.addAll(p.getSequences());

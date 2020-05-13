@@ -14,9 +14,11 @@ package de.unika.ipd.grgen.ir.exprevals;
 /**
  * Represents a break statement in the IR.
  */
-public class BreakStatement extends EvalStatement {
+public class BreakStatement extends EvalStatement
+{
 
-	public BreakStatement() {
+	public BreakStatement()
+	{
 		super("break statement");
 	}
 

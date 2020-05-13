@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.RuleQueryExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class RuleQueryExprNode extends ExprNode {
+public class RuleQueryExprNode extends ExprNode
+{
 	static {
 		setName(RuleQueryExprNode.class, "rule query");
 	}
@@ -29,7 +30,8 @@ public class RuleQueryExprNode extends ExprNode {
 	private TypeNode arrayOfMatchTypeUnresolved;
 	private TypeNode arrayOfMatchType;
 
-	public RuleQueryExprNode(Coords coords, CallActionNode callAction, TypeNode arrayOfMatchType) {
+	public RuleQueryExprNode(Coords coords, CallActionNode callAction, TypeNode arrayOfMatchType)
+	{
 		super(coords);
 
 		this.callAction = becomeParent(callAction);
@@ -37,7 +39,8 @@ public class RuleQueryExprNode extends ExprNode {
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(callAction);
 		children.add(getValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
@@ -45,7 +48,8 @@ public class RuleQueryExprNode extends ExprNode {
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("callAction");
 		childrenNames.add("arrayOfMatchType");
@@ -53,7 +57,8 @@ public class RuleQueryExprNode extends ExprNode {
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(arrayOfMatchTypeUnresolved.resolve()) {
 			arrayOfMatchType = arrayOfMatchTypeUnresolved;
 		}
@@ -61,21 +66,25 @@ public class RuleQueryExprNode extends ExprNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
-	
-	public CallActionNode getCallAction() {
+
+	public CallActionNode getCallAction()
+	{
 		return callAction;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new RuleQueryExpr(getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return arrayOfMatchType;
 	}
 }

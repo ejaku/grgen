@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Am ast node telling whether an end edge is incident to a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
  */
-public class IsIncidentEdgeExprNode extends ExprNode {
+public class IsIncidentEdgeExprNode extends ExprNode
+{
 	static {
 		setName(IsIncidentEdgeExprNode.class, "is incident edge expr");
 	}
@@ -30,15 +31,16 @@ public class IsIncidentEdgeExprNode extends ExprNode {
 	private ExprNode adjacentTypeExpr;
 
 	private int direction;
-	
+
 	public static final int INCIDENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
-	
+
 	public IsIncidentEdgeExprNode(Coords coords, 
 			ExprNode startNodeExpr, ExprNode endNodeExpr,
 			ExprNode incidentTypeExpr, int direction,
-			ExprNode adjacentTypeExpr) {
+			ExprNode adjacentTypeExpr)
+	{
 		super(coords);
 		this.startNodeExpr = startNodeExpr;
 		becomeParent(this.startNodeExpr);
@@ -53,7 +55,8 @@ public class IsIncidentEdgeExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(startNodeExpr);
 		children.add(endEdgeExpr);
@@ -64,7 +67,8 @@ public class IsIncidentEdgeExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("start node expr");
 		childrenNames.add("end edge expr");
@@ -75,13 +79,15 @@ public class IsIncidentEdgeExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
 			reportError("first argument of isIncidentEdge(.,.,.,.) must be a node");
 			return false;
@@ -102,17 +108,19 @@ public class IsIncidentEdgeExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
 		return new IsIncidentEdgeExpr(startNodeExpr.checkIR(Expression.class),
-								endEdgeExpr.checkIR(Expression.class), 
-								incidentTypeExpr.checkIR(Expression.class), direction,
-								adjacentTypeExpr.checkIR(Expression.class),
-								getType().getType());
+				endEdgeExpr.checkIR(Expression.class),
+				incidentTypeExpr.checkIR(Expression.class), direction,
+				adjacentTypeExpr.checkIR(Expression.class),
+				getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BooleanTypeNode.booleanType;
 	}
 }

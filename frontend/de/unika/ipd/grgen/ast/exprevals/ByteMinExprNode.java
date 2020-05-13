@@ -15,39 +15,46 @@ import de.unika.ipd.grgen.ir.exprevals.ByteMinExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ByteMinExprNode extends ExprNode {
+public class ByteMinExprNode extends ExprNode
+{
 	static {
 		setName(ByteMinExprNode.class, "bytemin expr");
 	}
 
-	public ByteMinExprNode(Coords coords) {
+	public ByteMinExprNode(Coords coords)
+	{
 		super(coords);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ByteMinExpr();
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.byteType;
 	}
 }

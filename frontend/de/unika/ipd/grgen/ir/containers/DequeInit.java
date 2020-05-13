@@ -16,7 +16,8 @@ import java.util.Collection;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class DequeInit extends Expression {
+public class DequeInit extends Expression
+{
 	private Collection<DequeItem> dequeItems;
 	private Entity member;
 	private DequeType dequeType;
@@ -24,51 +25,60 @@ public class DequeInit extends Expression {
 	private int anonymousDequeId;
 	private static int anonymousDequeCounter;
 
-	public DequeInit(Collection<DequeItem> dequeItems, Entity member, DequeType dequeType, boolean isConst) {
-		super("deque init", member!=null ? member.getType() : dequeType);
+	public DequeInit(Collection<DequeItem> dequeItems, Entity member, DequeType dequeType, boolean isConst)
+	{
+		super("deque init", member != null ? member.getType() : dequeType);
 		this.dequeItems = dequeItems;
 		this.member = member;
 		this.dequeType = dequeType;
 		this.isConst = isConst;
-		if(member==null) {
+		if(member == null) {
 			anonymousDequeId = anonymousDequeCounter;
 			++anonymousDequeCounter;
 		}
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		for(DequeItem dequeItem : dequeItems) {
 			dequeItem.collectNeededEntities(needs);
 		}
 	}
 
-	public Collection<DequeItem> getDequeItems() {
+	public Collection<DequeItem> getDequeItems()
+	{
 		return dequeItems;
 	}
 
-	public void setMember(Entity entity) {
-		assert(member==null && entity!=null);
+	public void setMember(Entity entity)
+	{
+		assert(member == null && entity != null);
 		member = entity;
 	}
 
-	public Entity getMember() {
+	public Entity getMember()
+	{
 		return member;
 	}
 
-	public DequeType getDequeType() {
+	public DequeType getDequeType()
+	{
 		return dequeType;
 	}
 
-	public void forceNotConstant() {
+	public void forceNotConstant()
+	{
 		isConst = false;
 	}
 
-	public boolean isConstant() {
+	public boolean isConstant()
+	{
 		return isConst;
 	}
 
-	public String getAnonymousDequeName() {
+	public String getAnonymousDequeName()
+	{
 		return "anonymous_deque_" + anonymousDequeId;
 	}
 }

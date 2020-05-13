@@ -12,24 +12,29 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayAsString extends Expression {
+public class ArrayAsString extends Expression
+{
 	private Expression targetExpr, valueExpr;
 
-	public ArrayAsString(Expression targetExpr, Expression valueExpr) {
+	public ArrayAsString(Expression targetExpr, Expression valueExpr)
+	{
 		super("array asString expr", StringType.getType());
 		this.targetExpr = targetExpr;
 		this.valueExpr = valueExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);

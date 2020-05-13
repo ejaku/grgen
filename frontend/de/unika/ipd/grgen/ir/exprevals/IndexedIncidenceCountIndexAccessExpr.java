@@ -13,26 +13,31 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.IncidenceCountIndex;
 
-public class IndexedIncidenceCountIndexAccessExpr extends Expression {
+public class IndexedIncidenceCountIndexAccessExpr extends Expression
+{
 	IncidenceCountIndex target;
 	Expression keyExpr;
 
-	public IndexedIncidenceCountIndexAccessExpr(IncidenceCountIndex target, Expression keyExpr) {
+	public IndexedIncidenceCountIndexAccessExpr(IncidenceCountIndex target, Expression keyExpr)
+	{
 		super("indexed incidence count index access expression", IntType.getType());
 		this.target = target;
 		this.keyExpr = keyExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		keyExpr.collectNeededEntities(needs);
 	}
 
-	public IncidenceCountIndex getTarget() {
+	public IncidenceCountIndex getTarget()
+	{
 		return target;
 	}
 
-	public Expression getKeyExpr() {
+	public Expression getKeyExpr()
+	{
 		return keyExpr;
 	}
 }

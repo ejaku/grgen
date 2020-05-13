@@ -11,19 +11,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class StringToLower extends Expression {
+public class StringToLower extends Expression
+{
 	private Expression stringExpr;
 
-	public StringToLower(Expression stringExpr) {
+	public StringToLower(Expression stringExpr)
+	{
 		super("string toLower", StringType.getType());
 		this.stringExpr = stringExpr;
 	}
 
-	public Expression getStringExpr() {
+	public Expression getStringExpr()
+	{
 		return stringExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		stringExpr.collectNeededEntities(needs);
 	}
 }

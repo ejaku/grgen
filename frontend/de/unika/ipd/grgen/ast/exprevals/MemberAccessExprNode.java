@@ -34,19 +34,20 @@ public class MemberAccessExprNode extends ExprNode
 	private ExprNode targetExpr; // resulting from primary expression, most often an IdentExprNode
 	private IdentNode memberIdent;
 	private DeclNode member;
-	
-	public MemberAccessExprNode(Coords coords, ExprNode targetExpr, IdentNode memberIdent) {
+
+	public MemberAccessExprNode(Coords coords, ExprNode targetExpr, IdentNode memberIdent)
+	{
 		super(coords);
-		this.targetExpr  = becomeParent(targetExpr);
+		this.targetExpr = becomeParent(targetExpr);
 		this.memberIdent = becomeParent(memberIdent);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		if(isResolved() && resolutionResult()) {
-			if(targetExpr.getType() instanceof MatchTypeNode
-				|| targetExpr.getType() instanceof DefinedMatchTypeNode) {
+			if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
 				return children; // behave like a nop in case we're a match access
 			}
 		}
@@ -56,7 +57,8 @@ public class MemberAccessExprNode extends ExprNode
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("memberIdent");
@@ -64,7 +66,8 @@ public class MemberAccessExprNode extends ExprNode
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!targetExpr.resolve()) {
 			return false;
 		}
@@ -78,9 +81,10 @@ public class MemberAccessExprNode extends ExprNode
 		}
 		if(targetExpr instanceof TypeofNode) {
 			TypeofNode typeofExpr = (TypeofNode)targetExpr;
-			reportError("Member access requires an entity, is given type from typeof(" + typeofExpr.getEntity().getDecl().getIdentNode() + ")");
+			reportError("Member access requires an entity, is given type from typeof("
+					+ typeofExpr.getEntity().getDecl().getIdentNode() + ")");
 		}
-		
+
 		TypeNode ownerType = targetExpr.getType();
 
 		if(ownerType instanceof UntypedExecVarTypeNode) {
@@ -96,22 +100,26 @@ public class MemberAccessExprNode extends ExprNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	protected final ExprNode getTarget() {
+	protected final ExprNode getTarget()
+	{
 		return targetExpr; // resulting from primary expression, most often an IdentExprNode
 	}
 
-	protected final MemberDeclNode getDecl() {
+	protected final MemberDeclNode getDecl()
+	{
 		assert isResolved();
 
 		return member instanceof MemberDeclNode ? (MemberDeclNode)member : null;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		TypeNode declType = null;
 		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
 			declType = member.getDeclType();
@@ -122,31 +130,31 @@ public class MemberAccessExprNode extends ExprNode
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(targetExpr.getType() instanceof MatchTypeNode || targetExpr.getType() instanceof DefinedMatchTypeNode) {
 			return new MatchAccess(targetExpr.checkIR(Expression.class), member.checkIR(Entity.class));
 		}
-		
+
 		if(targetExpr.getIR() instanceof VariableExpression) {
-			return new Qualification(
-				targetExpr.checkIR(VariableExpression.class).getVariable(),
-				member.checkIR(Entity.class));
+			return new Qualification(targetExpr.checkIR(VariableExpression.class).getVariable(),
+					member.checkIR(Entity.class));
 		} else if(targetExpr.getIR() instanceof GraphEntityExpression) {
-			return new Qualification(
-				targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(), 
-				member.checkIR(Entity.class));
+			return new Qualification(targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(),
+					member.checkIR(Entity.class));
 		} else {
-			return new Qualification(
-				targetExpr.checkIR(Expression.class), // normally a Cast (or an untyped exec var)
-				member.checkIR(Entity.class));
+			return new Qualification(targetExpr.checkIR(Expression.class), // normally a Cast (or an untyped exec var)
+					member.checkIR(Entity.class));
 		}
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "member";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "member access";
 	}
 }

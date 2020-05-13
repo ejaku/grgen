@@ -15,11 +15,11 @@ import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.Type;
 
-
 /**
  * Something that can give IDs for types.
  */
-public interface TypeID {
+public interface TypeID
+{
 
 	int getId(NodeType nt);
 

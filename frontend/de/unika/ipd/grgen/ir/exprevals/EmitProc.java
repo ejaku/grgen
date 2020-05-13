@@ -9,29 +9,35 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import java.util.Collection;
 
-public class EmitProc extends ProcedureInvocationBase {
+public class EmitProc extends ProcedureInvocationBase
+{
 	private Collection<Expression> exprs;
 	private boolean isDebug;
 
-	public EmitProc(Collection<Expression> expressions, boolean isDebug) {
+	public EmitProc(Collection<Expression> expressions, boolean isDebug)
+	{
 		super("emit procedure");
 		this.exprs = expressions;
 		this.isDebug = isDebug;
 	}
 
-	public Collection<Expression> getExpressions() {
+	public Collection<Expression> getExpressions()
+	{
 		return exprs;
 	}
-	
-	public boolean isDebug() {
+
+	public boolean isDebug()
+	{
 		return isDebug;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		for(Expression expr : exprs) {
 			expr.collectNeededEntities(needs);

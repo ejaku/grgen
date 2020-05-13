@@ -29,7 +29,7 @@ public class UntypedFunctionMethodInvocationExprNode extends FunctionMethodInvoc
 	static {
 		setName(UntypedFunctionMethodInvocationExprNode.class, "untyped function method invocation expression");
 	}
-	
+
 	public UntypedFunctionMethodInvocationExprNode(Coords coords, CollectNode<ExprNode> arguments)
 	{
 		super(coords);
@@ -37,36 +37,42 @@ public class UntypedFunctionMethodInvocationExprNode extends FunctionMethodInvoc
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(arguments);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("arguments");
 		return childrenNames;
 	}
 
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
-	
+
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert isResolved();
 		return BasicTypeNode.untypedType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		UntypedFunctionMethodInvocationExpr ufmi = new UntypedFunctionMethodInvocationExpr(
 				BasicTypeNode.untypedType.checkIR(Type.class));
 		for(ExprNode expr : arguments.getChildren()) {

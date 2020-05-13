@@ -17,8 +17,8 @@ import de.unika.ipd.grgen.util.EmptyAnnotations;
 /**
  * A node in a graph.
  */
-public class Node extends GraphEntity {
-
+public class Node extends GraphEntity
+{
 	/** Type of the node. */
 	protected final NodeType type;
 
@@ -29,7 +29,6 @@ public class Node extends GraphEntity {
 	public PatternGraph directlyNestingLHSGraph;
 
 	protected boolean maybeNull;
-
 
 	/**
 	 * Make a new node.
@@ -43,7 +42,9 @@ public class Node extends GraphEntity {
 	 */
 	public Node(Ident ident, NodeType type, Annotations annots,
 			PatternGraph directlyNestingLHSGraph,
-			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+			boolean maybeDeleted, boolean maybeRetyped,
+			boolean isDefToBeYieldedTo, int context)
+	{
 		super("node", ident, type, annots,
 				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 		this.type = type;
@@ -60,21 +61,26 @@ public class Node extends GraphEntity {
 	 */
 	public Node(Ident ident, NodeType type,
 			PatternGraph directlyNestingLHSGraph,
-			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+			boolean maybeDeleted, boolean maybeRetyped,
+			boolean isDefToBeYieldedTo, int context)
+	{
 		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph,
 				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
 
-	public void setMaybeNull(boolean maybeNull) {
+	public void setMaybeNull(boolean maybeNull)
+	{
 		this.maybeNull = maybeNull;
 	}
 
-	public boolean getMaybeNull() {
+	public boolean getMaybeNull()
+	{
 		return maybeNull;
 	}
 
 	/** @return The type of the node. */
-	public NodeType getNodeType() {
+	public NodeType getNodeType()
+	{
 		return type;
 	}
 
@@ -83,7 +89,8 @@ public class Node extends GraphEntity {
 	 * @param retyped The retyped node
 	 * @param graph The graph where the node gets retyped
 	 */
-	public void setRetypedNode(Node retyped, Graph graph) {
+	public void setRetypedNode(Node retyped, Graph graph)
+	{
 		super.setRetypedEntity(retyped, graph);
 	}
 
@@ -92,19 +99,22 @@ public class Node extends GraphEntity {
 	 * @param graph The graph where the node might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public RetypedNode getRetypedNode(Graph graph) {
-		if(super.getRetypedEntity(graph)!=null)
+	public RetypedNode getRetypedNode(Graph graph)
+	{
+		if(super.getRetypedEntity(graph) != null)
 			return (RetypedNode)super.getRetypedEntity(graph);
 		else
 			return null;
 	}
 
-	public void setPointOfDefinition(PatternGraph pointOfDefinition) {
-		assert this.pointOfDefinition==null && pointOfDefinition!=null;
+	public void setPointOfDefinition(PatternGraph pointOfDefinition)
+	{
+		assert this.pointOfDefinition == null && pointOfDefinition != null;
 		this.pointOfDefinition = pointOfDefinition;
 	}
 
-	public PatternGraph getPointOfDefinition() {
+	public PatternGraph getPointOfDefinition()
+	{
 		return pointOfDefinition;
 	}
 }

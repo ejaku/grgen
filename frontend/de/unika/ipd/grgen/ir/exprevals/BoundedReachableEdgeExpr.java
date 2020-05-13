@@ -9,7 +9,8 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class BoundedReachableEdgeExpr extends Expression {
+public class BoundedReachableEdgeExpr extends Expression
+{
 	private final Expression startNodeExpr;
 	private final Expression depthExpr;
 	private final Expression incidentEdgeTypeExpr;
@@ -22,7 +23,8 @@ public class BoundedReachableEdgeExpr extends Expression {
 
 	public BoundedReachableEdgeExpr(Expression startNodeExpression, Expression depthExpression,
 			Expression incidentEdgeTypeExpr, int direction,
-			Expression adjacentNodeTypeExpr, Type type) {
+			Expression adjacentNodeTypeExpr, Type type)
+	{
 		super("bounded reachable edge expression", type);
 		this.startNodeExpr = startNodeExpression;
 		this.depthExpr = depthExpression;
@@ -31,28 +33,34 @@ public class BoundedReachableEdgeExpr extends Expression {
 		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
 	}
 
-	public Expression getStartNodeExpr() {
+	public Expression getStartNodeExpr()
+	{
 		return startNodeExpr;
 	}
 
-	public Expression getDepthExpr() {
+	public Expression getDepthExpr()
+	{
 		return depthExpr;
 	}
 
-	public Expression getIncidentEdgeTypeExpr() {
+	public Expression getIncidentEdgeTypeExpr()
+	{
 		return incidentEdgeTypeExpr;
 	}
 
-	public int Direction() {
+	public int Direction()
+	{
 		return direction;
 	}
 
-	public Expression getAdjacentNodeTypeExpr() {
+	public Expression getAdjacentNodeTypeExpr()
+	{
 		return adjacentNodeTypeExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		startNodeExpr.collectNeededEntities(needs);
 		depthExpr.collectNeededEntities(needs);
@@ -60,4 +68,3 @@ public class BoundedReachableEdgeExpr extends Expression {
 		adjacentNodeTypeExpr.collectNeededEntities(needs);
 	}
 }
-

@@ -22,9 +22,10 @@ import java.util.Map;
 /**
  * IR class that represents edge types.
  */
-public class EdgeType extends InheritanceType implements ContainedInPackage {
+public class EdgeType extends InheritanceType implements ContainedInPackage
+{
 	private String packageContainedIn;
-	
+
 	/** The connection assertions. */
 	private final List<ConnAssert> connectionAsserts = new LinkedList<ConnAssert>();
 
@@ -41,42 +42,56 @@ public class EdgeType extends InheritanceType implements ContainedInPackage {
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeType(Ident ident, int modifiers, String externalName) {
+	public EdgeType(Ident ident, int modifiers, String externalName)
+	{
 		super("edge type", ident, modifiers, externalName);
 	}
 
-	public Directedness getDirectedness() { return directedness; }
-	public void setDirectedness(Directedness dir) { directedness = dir; }
+	public Directedness getDirectedness()
+	{
+		return directedness;
+	}
+
+	public void setDirectedness(Directedness dir)
+	{
+		directedness = dir;
+	}
 
 	/**
 	 * Sorts the Connection assertion of this edge type,
 	 * so that the computed graph model digest is stable according to semantically equivalent connection assertions.
 	 * The order of the sorting is given by the <code>compareTo</code> method.
 	 */
-	public void canonicalizeConnectionAsserts() {
+	public void canonicalizeConnectionAsserts()
+	{
 		Collections.sort(connectionAsserts, new Comparator<ConnAssert>() {
-					public int compare(ConnAssert ca1, ConnAssert ca2) {
-						return ca1.compareTo(ca2);
-					}
-				});
+			public int compare(ConnAssert ca1, ConnAssert ca2)
+			{
+				return ca1.compareTo(ca2);
+			}
+		});
 	}
 
 	/** Add the given connection assertion to this edge type. */
-	public void addConnAssert(ConnAssert ca) {
+	public void addConnAssert(ConnAssert ca)
+	{
 		connectionAsserts.add(ca);
 	}
 
 	/** Get all connection assertions. */
-	public Collection<ConnAssert> getConnAsserts() {
+	public Collection<ConnAssert> getConnAsserts()
+	{
 		return Collections.unmodifiableCollection(connectionAsserts);
 	}
 
-	public void addFields(Map<String, Object> fields) {
+	public void addFields(Map<String, Object> fields)
+	{
 		super.addFields(fields);
 		fields.put("conn_asserts", connectionAsserts.iterator());
 	}
 
-	public void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb)
+	{
 		super.addToDigest(sb);
 
 		sb.append('[');
@@ -89,17 +104,20 @@ public class EdgeType extends InheritanceType implements ContainedInPackage {
 		}
 		sb.append(']');
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_EDGE;
 	}
-	
-	public String getPackageContainedIn() {
+
+	public String getPackageContainedIn()
+	{
 		return packageContainedIn;
 	}
-	
-	public void setPackageContainedIn(String packageContainedIn) {
+
+	public void setPackageContainedIn(String packageContainedIn)
+	{
 		this.packageContainedIn = packageContainedIn;
 	}
 }

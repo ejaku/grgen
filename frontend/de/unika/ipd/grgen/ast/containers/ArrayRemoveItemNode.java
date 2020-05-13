@@ -35,49 +35,52 @@ public class ArrayRemoveItemNode extends ContainerProcedureMethodInvocationBaseN
 	public ArrayRemoveItemNode(Coords coords, QualIdentNode target, ExprNode valueExpr)
 	{
 		super(coords, target);
-		if(valueExpr!=null)
+		if(valueExpr != null)
 			this.valueExpr = becomeParent(valueExpr);
 	}
 
 	public ArrayRemoveItemNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
 	{
 		super(coords, targetVar);
-		if(valueExpr!=null)
+		if(valueExpr != null)
 			this.valueExpr = becomeParent(valueExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(target!=null ? target : targetVar);
-		if(valueExpr!=null)
+		children.add(target != null ? target : targetVar);
+		if(valueExpr != null)
 			children.add(valueExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
-		if(valueExpr!=null)
+		if(valueExpr != null)
 			childrenNames.add("valueExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		//TypeNode targetType = getTargetType();
-		if(target!=null) {
+		if(target != null) {
 			//TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
-			if(valueExpr!=null) {
+			if(valueExpr != null) {
 				TypeNode valueType = valueExpr.getType();
-				if (!valueType.isEqual(IntTypeNode.intType))
-				{
+				if(!valueType.isEqual(IntTypeNode.intType)) {
 					valueExpr = becomeParent(valueExpr.adjustType(IntTypeNode.intType, getCoords()));
 					if(valueExpr == ConstNode.getInvalid()) {
 						valueExpr.reportError("Argument to array remove item statement must be of type int");
@@ -88,24 +91,26 @@ public class ArrayRemoveItemNode extends ContainerProcedureMethodInvocationBaseN
 			return true;
 		} else {
 			//TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
-			if(valueExpr!=null)
+			if(valueExpr != null)
 				return checkType(valueExpr, IntTypeNode.intType, "index value", "array remove item statement");
 			else
 				return true;
 		}
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(target!=null)
+	protected IR constructIR()
+	{
+		if(target != null)
 			return new ArrayRemoveItem(target.checkIR(Qualification.class),
-					valueExpr!=null ? valueExpr.checkIR(Expression.class) : null);
+					valueExpr != null ? valueExpr.checkIR(Expression.class) : null);
 		else
 			return new ArrayVarRemoveItem(targetVar.checkIR(Variable.class),
-					valueExpr!=null ? valueExpr.checkIR(Expression.class) : null);
+					valueExpr != null ? valueExpr.checkIR(Expression.class) : null);
 	}
 }

@@ -11,17 +11,18 @@ public class MutableInteger
 {
 	int value;
 
-	public MutableInteger (int v) {
+	public MutableInteger(int v)
+	{
 		value = v;
 	}
 
 	public int getValue()
-    {
-    	return value;
-    }
+	{
+		return value;
+	}
 
 	public void setValue(int value)
-    {
-    	this.value = value;
-    }
+	{
+		this.value = value;
+	}
 }

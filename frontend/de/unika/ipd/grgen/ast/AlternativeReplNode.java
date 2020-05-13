@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.AlternativeReplacement;
 import de.unika.ipd.grgen.ir.IR;
 
-public class AlternativeReplNode extends OrderedReplacementNode {
+public class AlternativeReplNode extends OrderedReplacementNode
+{
 	static {
 		setName(AlternativeReplNode.class, "alternative repl node");
 	}
@@ -27,21 +28,23 @@ public class AlternativeReplNode extends OrderedReplacementNode {
 	private IdentNode alternativeUnresolved;
 	private AlternativeNode alternative;
 
-
-	public AlternativeReplNode(IdentNode n) {
+	public AlternativeReplNode(IdentNode n)
+	{
 		this.alternativeUnresolved = n;
 		becomeParent(this.alternativeUnresolved);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(alternativeUnresolved, alternative));
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("alternative");
 		return childrenNames;
@@ -52,18 +55,21 @@ public class AlternativeReplNode extends OrderedReplacementNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		alternative = alternativeResolver.resolve(alternativeUnresolved, this);
-		return alternative!=null;
+		return alternative != null;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new AlternativeReplacement("alternative replacement", alternativeUnresolved.getIdent(),
 				alternative.checkIR(Alternative.class));
 	}

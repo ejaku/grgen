@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node that represents a totally homomorph node and a set of nodes it must be isomorph to
  */
-public class TotallyHomNode extends BaseNode {
+public class TotallyHomNode extends BaseNode
+{
 	static {
 		setName(TotallyHomNode.class, "totally homomorph");
 	}
@@ -32,18 +33,21 @@ public class TotallyHomNode extends BaseNode {
 	private BaseNode entity;
 	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 
-	public TotallyHomNode(Coords coords) {
+	public TotallyHomNode(Coords coords)
+	{
 		super(coords);
 	}
 
-	public void setTotallyHom(BaseNode n) {
-		assert(entity==null);
+	public void setTotallyHom(BaseNode n)
+	{
+		assert(entity == null);
 		becomeParent(n);
 		entity = n;
 
 	}
 
-	public void addChild(BaseNode n) {
+	public void addChild(BaseNode n)
+	{
 		assert(!isResolved());
 		becomeParent(n);
 		childrenUnresolved.add(n);
@@ -51,7 +55,8 @@ public class TotallyHomNode extends BaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(entity, node, edge));
 		children.addAll(getValidVersionVector(childrenUnresolved, childrenNode, childrenEdge));
@@ -60,36 +65,39 @@ public class TotallyHomNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("totally homomorph entity");
 		// nameless isomorph children
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver = new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
+	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver =
+			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		Pair<NodeDeclNode, EdgeDeclNode> resolved = declResolver.resolve(entity, this);
 		boolean successfullyResolved = resolved != null;
-		if(resolved!=null) {
-			if(resolved.fst!=null) {
+		if(resolved != null) {
+			if(resolved.fst != null) {
 				node = resolved.fst;
 			} else {
 				edge = resolved.snd;
 			}
 		}
 
-		for(int i=0; i<childrenUnresolved.size(); ++i) {
+		for(int i = 0; i < childrenUnresolved.size(); ++i) {
 			resolved = declResolver.resolve(childrenUnresolved.get(i), this);
 			successfullyResolved = (resolved != null) && successfullyResolved;
-			if (resolved != null) {
-				if(resolved.fst!=null) {
+			if(resolved != null) {
+				if(resolved.fst != null) {
 					childrenNode.add(resolved.fst);
 				}
-				if(resolved.snd!=null) {
+				if(resolved.snd != null) {
 					childrenEdge.add(resolved.snd);
 				}
 			}
@@ -106,15 +114,16 @@ public class TotallyHomNode extends BaseNode {
 	 * and additionally one entity may not be used in two different hom
 	 * statements
 	 */
-	protected boolean checkLocal() {
-		if (node!=null) {
-			if (!childrenEdge.isEmpty()) {
+	protected boolean checkLocal()
+	{
+		if(node != null) {
+			if(!childrenEdge.isEmpty()) {
 				this.reportError("totally hom statement independent(.)  may only contain nodes or edges at a time");
 				return false;
 			}
 		}
-		if (edge!=null) {
-			if (!childrenNode.isEmpty()) {
+		if(edge != null) {
+			if(!childrenNode.isEmpty()) {
 				this.reportError("totally hom statement independent(.)  may only contain nodes or edges at a time");
 				return false;
 			}
@@ -127,7 +136,7 @@ public class TotallyHomNode extends BaseNode {
 		for(BaseNode n : childrenEdge) {
 			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
 		}
-		if (edge!=null) {
+		if(edge != null) {
 			warnEdgeTypes();
 		}
 
@@ -136,27 +145,28 @@ public class TotallyHomNode extends BaseNode {
 
 	/** Checks whether all edges are compatible to each other.*/
 	private void warnEdgeTypes()
-    {
-	    boolean isDirectedEdge = edge.getDeclType() instanceof DirectedEdgeTypeNode;
-	    boolean isUndirectedEdge = edge.getDeclType() instanceof UndirectedEdgeTypeNode;
+	{
+		boolean isDirectedEdge = edge.getDeclType() instanceof DirectedEdgeTypeNode;
+		boolean isUndirectedEdge = edge.getDeclType() instanceof UndirectedEdgeTypeNode;
 
-		for (int i=0; i < childrenEdge.size(); i++ ) {
+		for(int i = 0; i < childrenEdge.size(); i++) {
 			TypeNode type = childrenEdge.get(i).getDeclType();
-			if (type instanceof DirectedEdgeTypeNode) {
+			if(type instanceof DirectedEdgeTypeNode) {
 				isDirectedEdge = true;
 			}
-			if (type instanceof UndirectedEdgeTypeNode) {
+			if(type instanceof UndirectedEdgeTypeNode) {
 				isUndirectedEdge = true;
 			}
-        }
+		}
 
-		if (isDirectedEdge && isUndirectedEdge) {
+		if(isDirectedEdge && isUndirectedEdge) {
 			reportWarning("Hom statement may only contain directed or undirected edges at a time");
 		}
-    }
+	}
 
 	@Override
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.PINK;
 	}
 }

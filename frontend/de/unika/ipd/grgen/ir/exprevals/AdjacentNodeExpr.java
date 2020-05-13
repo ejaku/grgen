@@ -9,7 +9,8 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class AdjacentNodeExpr extends Expression {
+public class AdjacentNodeExpr extends Expression
+{
 	private final Expression startNodeExpr;
 	private final Expression incidentEdgeTypeExpr;
 	private final int direction;
@@ -21,7 +22,8 @@ public class AdjacentNodeExpr extends Expression {
 
 	public AdjacentNodeExpr(Expression startNodeExpression,
 			Expression incidentEdgeTypeExpr, int direction,
-			Expression adjacentNodeTypeExpr, Type type) {
+			Expression adjacentNodeTypeExpr, Type type)
+	{
 		super("adjacent node expression", type);
 		this.startNodeExpr = startNodeExpression;
 		this.incidentEdgeTypeExpr = incidentEdgeTypeExpr;
@@ -29,28 +31,32 @@ public class AdjacentNodeExpr extends Expression {
 		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
 	}
 
-	public Expression getStartNodeExpr() {
+	public Expression getStartNodeExpr()
+	{
 		return startNodeExpr;
 	}
 
-	public Expression getIncidentEdgeTypeExpr() {
+	public Expression getIncidentEdgeTypeExpr()
+	{
 		return incidentEdgeTypeExpr;
 	}
 
-	public int Direction() {
+	public int Direction()
+	{
 		return direction;
 	}
 
-	public Expression getAdjacentNodeTypeExpr() {
+	public Expression getAdjacentNodeTypeExpr()
+	{
 		return adjacentNodeTypeExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		startNodeExpr.collectNeededEntities(needs);
 		incidentEdgeTypeExpr.collectNeededEntities(needs);
 		adjacentNodeTypeExpr.collectNeededEntities(needs);
 	}
 }
-

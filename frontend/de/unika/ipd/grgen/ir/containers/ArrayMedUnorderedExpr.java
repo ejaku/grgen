@@ -12,19 +12,23 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayMedUnorderedExpr extends Expression {
+public class ArrayMedUnorderedExpr extends Expression
+{
 	private Expression targetExpr;
 
-	public ArrayMedUnorderedExpr(Expression targetExpr) {
+	public ArrayMedUnorderedExpr(Expression targetExpr)
+	{
 		super("array med unordered expr", ((ArrayType)(targetExpr.getType())).valueType);
 		this.targetExpr = targetExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}

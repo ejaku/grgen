@@ -9,19 +9,22 @@ package de.unika.ipd.grgen.ir;
 
 //import de.unika.ipd.grgen.ast.BasicTypeNode;
 
-public class UntypedExecVarType extends Type {
+public class UntypedExecVarType extends Type
+{
 	/** @param ident The name of the type. */
-	public UntypedExecVarType(Ident ident) {
+	public UntypedExecVarType(Ident ident)
+	{
 		super("untyped exec var type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_UNTYPED_EXEC_VAR_TYPE;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return null;
 	}
 }
-

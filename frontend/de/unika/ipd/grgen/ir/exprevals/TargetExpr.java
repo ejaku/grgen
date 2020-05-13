@@ -9,21 +9,24 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class TargetExpr extends Expression {
+public class TargetExpr extends Expression
+{
 	private final Expression edge;
 
-	public TargetExpr(Expression edge, Type type) {
+	public TargetExpr(Expression edge, Type type)
+	{
 		super("target expression", type);
 		this.edge = edge;
 	}
 
-	public Expression getEdgeExpr() {
+	public Expression getEdgeExpr()
+	{
 		return edge;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		edge.collectNeededEntities(needs);
 	}
 }
-

@@ -16,51 +16,62 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class DefinedMatchType extends CompoundType implements ContainedInPackage {
+public class DefinedMatchType extends CompoundType implements ContainedInPackage
+{
 	private String packageContainedIn;
 	private PatternGraph pattern;
 	private ArrayList<MatchClassFilter> matchClassFilters;
-	
-	public DefinedMatchType(String name, Ident ident, PatternGraph pattern) {
+
+	public DefinedMatchType(String name, Ident ident, PatternGraph pattern)
+	{
 		super(name, ident);
 		this.pattern = pattern;
 		matchClassFilters = new ArrayList<MatchClassFilter>();
 	}
 
-	public String getPackageContainedIn() {
+	public String getPackageContainedIn()
+	{
 		return packageContainedIn;
 	}
-	
-	public void setPackageContainedIn(String packageContainedIn) {
+
+	public void setPackageContainedIn(String packageContainedIn)
+	{
 		this.packageContainedIn = packageContainedIn;
 	}
 
-	public void addMatchClassFilter(MatchClassFilter filter) {
+	public void addMatchClassFilter(MatchClassFilter filter)
+	{
 		matchClassFilters.add(filter);
 	}
 
-	public List<MatchClassFilter> getMatchClassFilters() {
+	public List<MatchClassFilter> getMatchClassFilters()
+	{
 		return Collections.unmodifiableList(matchClassFilters);
 	}
 
-	public PatternGraph getPatternGraph() {
+	public PatternGraph getPatternGraph()
+	{
 		return pattern;
 	}
 
-	public Collection<Node> getNodes() {
+	public Collection<Node> getNodes()
+	{
 		return pattern.getNodes();
 	}
 
-	public Collection<Edge> getEdges() {
+	public Collection<Edge> getEdges()
+	{
 		return pattern.getEdges();
 	}
-	
-	public Collection<Variable> getVars() {
+
+	public Collection<Variable> getVars()
+	{
 		return pattern.getVars();
 	}
-		
+
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_DEFINED_MATCH;
 	}
 }

@@ -24,11 +24,11 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Coords;
 
-
 /**
  * A cast operator for expressions.
  */
-public class CastNode extends ExprNode {
+public class CastNode extends ExprNode
+{
 	static {
 		setName(CastNode.class, "cast expression");
 	}
@@ -44,7 +44,8 @@ public class CastNode extends ExprNode {
 	 * Make a new cast node.
 	 * @param coords The source code coordinates.
 	 */
-	public CastNode(Coords coords) {
+	public CastNode(Coords coords)
+	{
 		super(coords);
 	}
 
@@ -54,7 +55,8 @@ public class CastNode extends ExprNode {
 	 * @param targetType The target type.
 	 * @param expr The expression to be casted.
 	 */
-	public CastNode(Coords coords, BaseNode targetType, ExprNode expr) {
+	public CastNode(Coords coords, BaseNode targetType, ExprNode expr)
+	{
 		super(coords);
 		this.typeUnresolved = targetType;
 		becomeParent(this.typeUnresolved);
@@ -70,7 +72,8 @@ public class CastNode extends ExprNode {
 	 * @param expr The expression to be casted.
 	 * @param resolveResult Resolution result (should be true)
 	 */
-	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, BaseNode parent) {
+	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, BaseNode parent)
+	{
 		this(coords, targetType, expr);
 		parent.becomeParent(this);
 
@@ -80,7 +83,8 @@ public class CastNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(expr);
@@ -89,7 +93,8 @@ public class CastNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("type");
 		childrenNames.add("expr");
@@ -97,18 +102,19 @@ public class CastNode extends ExprNode {
 	}
 
 	private static DeclarationTypeResolver<TypeNode> typeResolver =
-		new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
 		if(typeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)typeUnresolved);
 		else
 			fixupDefinition(typeUnresolved, typeUnresolved.getScope());
 		type = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = type!=null && successfullyResolved;
+		successfullyResolved = type != null && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -118,7 +124,8 @@ public class CastNode extends ExprNode {
 	 * and the first node is a type node identifier.
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return typeCheckLocal();
 	}
 
@@ -127,40 +134,38 @@ public class CastNode extends ExprNode {
 	 * Check if the expression can be casted to the given type.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#typeCheckLocal()
 	 */
-	private boolean typeCheckLocal() {
+	private boolean typeCheckLocal()
+	{
 		TypeNode fromType = expr.getType();
-		if(fromType instanceof NodeTypeNode && type instanceof NodeTypeNode)
-		{
+		if(fromType instanceof NodeTypeNode && type instanceof NodeTypeNode) {
 			// we support up- and down-casts, but no cross-casts of nodes
 			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
 			((NodeTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
-			((NodeTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);			
+			((NodeTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
 			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
 		}
-		if(fromType instanceof EdgeTypeNode && type instanceof EdgeTypeNode)
-		{
+		if(fromType instanceof EdgeTypeNode && type instanceof EdgeTypeNode) {
 			// we support up- and down-casts, but no cross-casts of edges
 			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
 			((EdgeTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
-			((EdgeTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);			
+			((EdgeTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
 			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
 		}
 		if(fromType instanceof ObjectTypeNode && !(type instanceof NodeTypeNode) && !(type instanceof EdgeTypeNode))
 			return true; // object is castable to anything besides nodes and edges
 		if(type instanceof ObjectTypeNode && !(fromType instanceof NodeTypeNode) && !(fromType instanceof EdgeTypeNode))
 			return true; // anything besides nodes and edges can be casted into an object
-		if(fromType instanceof ExternalTypeNode && type instanceof ExternalTypeNode)
-		{
+		if(fromType instanceof ExternalTypeNode && type instanceof ExternalTypeNode) {
 			// we support up- and down-casts, but no cross-casts of external types
 			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
 			((ExternalTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
-			((ExternalTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);			
+			((ExternalTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
 			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
 		}
-		
+
 		boolean result = fromType.isCastableTo(type);
 		if(!result) {
 			reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + type + "\"");
@@ -175,29 +180,31 @@ public class CastNode extends ExprNode {
 	 * @return The possibly simplified value of the expression.
 	 */
 	@Override
-	public ExprNode evaluate() {
+	public ExprNode evaluate()
+	{
 		assert isResolved();
 
 		expr = expr.evaluate();
-		return expr instanceof ConstNode ? ((ConstNode)expr).castTo(type): this;
+		return expr instanceof ConstNode ? ((ConstNode)expr).castTo(type) : this;
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
 	 */
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert isResolved();
 
 		return type;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Type type = this.type.checkIR(Type.class);
 		Expression expr = this.expr.checkIR(Expression.class);
 
 		return new Cast(type, expr);
 	}
 }
-

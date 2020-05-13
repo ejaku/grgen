@@ -12,29 +12,35 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArraySubarrayExpr extends Expression {
+public class ArraySubarrayExpr extends Expression
+{
 	private Expression targetExpr, startExpr, lengthExpr;
 
-	public ArraySubarrayExpr(Expression targetExpr, Expression startExpr, Expression lengthExpr) {
+	public ArraySubarrayExpr(Expression targetExpr, Expression startExpr, Expression lengthExpr)
+	{
 		super("array subarray expr", (ArrayType)targetExpr.getType());
 		this.targetExpr = targetExpr;
 		this.startExpr = startExpr;
 		this.lengthExpr = lengthExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Expression getStartExpr() {
+	public Expression getStartExpr()
+	{
 		return startExpr;
 	}
 
-	public Expression getLengthExpr() {
+	public Expression getLengthExpr()
+	{
 		return lengthExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		startExpr.collectNeededEntities(needs);

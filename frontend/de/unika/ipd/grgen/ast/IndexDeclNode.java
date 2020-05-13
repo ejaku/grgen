@@ -11,18 +11,17 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 /**
  * AST node base base class representing index declarations (attribute index and incidence index being its specializations)
  */
-public abstract class IndexDeclNode extends DeclNode {
+public abstract class IndexDeclNode extends DeclNode
+{
 	static {
 		setName(IndexDeclNode.class, "index declaration");
 	}
 
-	public IndexDeclNode(IdentNode id, TypeNode indexType) {
+	public IndexDeclNode(IdentNode id, TypeNode indexType)
+	{
 		super(id, indexType);
 	}
 }
-
-

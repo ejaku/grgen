@@ -20,11 +20,11 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 
-
 /**
  * AST node for an alternative case pattern, maybe including replacements.
  */
-public class AlternativeCaseNode extends ActionDeclNode  {
+public class AlternativeCaseNode extends ActionDeclNode
+{
 	static {
 		setName(AlternativeCaseNode.class, "alternative case");
 	}
@@ -41,7 +41,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 */
-	public AlternativeCaseNode(IdentNode id, PatternGraphNode left, RhsDeclNode right) {
+	public AlternativeCaseNode(IdentNode id, PatternGraphNode left, RhsDeclNode right)
+	{
 		super(id, alternativeCaseType, left);
 		this.right = right;
 		becomeParent(this.right);
@@ -49,7 +50,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -61,7 +63,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -76,7 +79,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
@@ -90,7 +94,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(right != null)
 			right.warnElemAppearsInsideAndOutsideDelete(pattern);
 
@@ -121,17 +126,23 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 			noNestedRewriteParameters = noNestedRewriteParameters(right, "alternative case");
 			abstr = noAbstractElementInstantiatedNestedPattern(right);
 		}
-		
-		return leftHandGraphsOk & sameNumberOfRewriteParts && noNestedRewriteParameters
-			& rhsReuseOk & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement
-			& execParamsNotDeleted & abstr;
+
+		return leftHandGraphsOk
+				& sameNumberOfRewriteParts
+				& noNestedRewriteParameters
+				& rhsReuseOk
+				& noReturnInPatternOk
+				& noReturnInAlterntiveCaseReplacement
+				& execParamsNotDeleted
+				& abstr;
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the pattern graph already constructed the IR object
 		// that may happen in recursive patterns (and other usages/references)
 		if(isIRAlreadySet()) {
@@ -166,17 +177,20 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	}
 
 	@Override
-	public AlternativeCaseTypeNode getDeclType() {
+	public AlternativeCaseTypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return type;
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "alternative case node";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "alternative case";
 	}
 }

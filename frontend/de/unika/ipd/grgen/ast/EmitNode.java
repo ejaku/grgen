@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +26,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  *
  */
-public class EmitNode extends OrderedReplacementNode {
+public class EmitNode extends OrderedReplacementNode
+{
 	static {
 		setName(EmitNode.class, "emit");
 	}
@@ -35,12 +35,14 @@ public class EmitNode extends OrderedReplacementNode {
 	private Vector<ExprNode> childrenUnresolved = new Vector<ExprNode>();
 	private boolean isDebug;
 
-	public EmitNode(Coords coords, boolean isDebug) {
+	public EmitNode(Coords coords, boolean isDebug)
+	{
 		super(coords);
 		this.isDebug = isDebug;
 	}
 
-	public void addChild(ExprNode n) {
+	public void addChild(ExprNode n)
+	{
 		assert(!isResolved());
 		becomeParent(n);
 		childrenUnresolved.add(n);
@@ -48,13 +50,15 @@ public class EmitNode extends OrderedReplacementNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		return childrenUnresolved;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
 		return childrenNames;
@@ -62,13 +66,15 @@ public class EmitNode extends OrderedReplacementNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		if (childrenUnresolved.isEmpty()) {
+	protected boolean checkLocal()
+	{
+		if(childrenUnresolved.isEmpty()) {
 			reportError("Emit statement is empty");
 			return false;
 		}
@@ -76,17 +82,18 @@ public class EmitNode extends OrderedReplacementNode {
 	}
 
 	@Override
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.PINK;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		List<Expression> arguments = new ArrayList<Expression>();
 		for(BaseNode child : getChildren())
 			arguments.add(child.checkIR(Expression.class));
-		Emit res= new Emit(arguments, isDebug);
+		Emit res = new Emit(arguments, isDebug);
 		return res;
 	}
 }
-

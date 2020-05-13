@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A procedure base.
  */
-public abstract class ProcedureBase extends Identifiable {
+public abstract class ProcedureBase extends Identifiable
+{
 	/** A list of the return types */
 	protected List<Type> returnTypes = new LinkedList<Type>();
 
@@ -28,20 +29,23 @@ public abstract class ProcedureBase extends Identifiable {
 	 * @param name The name of the procedure.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public ProcedureBase(String name, Ident ident) {
+	public ProcedureBase(String name, Ident ident)
+	{
 		super(name, ident);
 	}
 
 	/** Add a return type to the procedure. */
-	public void addReturnType(Type returnType) {
+	public void addReturnType(Type returnType)
+	{
 		returnTypes.add(returnType);
 	}
 
 	/** Get all return types of this procedure. */
-	public List<Type> getReturnTypes() {
+	public List<Type> getReturnTypes()
+	{
 		return Collections.unmodifiableList(returnTypes);
 	}
-	
+
 	/** Get all parameter types of this procedure. */
 	public abstract List<Type> getParameterTypes();
 }

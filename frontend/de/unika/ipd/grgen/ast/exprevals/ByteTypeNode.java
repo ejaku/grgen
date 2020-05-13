@@ -21,12 +21,14 @@ public class ByteTypeNode extends BasicTypeNode
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ByteType(getIdentNode().getIdent());
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "byte";
 	}
 };

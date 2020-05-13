@@ -14,11 +14,14 @@ package de.unika.ipd.grgen.ir.exprevals;
 import de.unika.ipd.grgen.ir.Type;
 
 // dummy class for rule queries from compiled sequences
-public class RuleQueryExpr extends Expression {
-	public RuleQueryExpr(Type targetType) {
+public class RuleQueryExpr extends Expression
+{
+	public RuleQueryExpr(Type targetType)
+	{
 		super("rule query", targetType);
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

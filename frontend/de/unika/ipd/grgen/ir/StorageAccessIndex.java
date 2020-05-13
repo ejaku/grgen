@@ -10,21 +10,23 @@ package de.unika.ipd.grgen.ir;
 /**
  * Class for the different kinds of indexes available for accessing a storage for binding a pattern element
  */
-public class StorageAccessIndex {
-//	public Variable indexVariable = null;
-//	public Qualification indexAttribute = null;
+public class StorageAccessIndex
+{
+	//public Variable indexVariable = null;
+	//public Qualification indexAttribute = null;
 	public GraphEntity indexGraphEntity = null;
-//	public GraphEntity indexGlobalVariable = null;
+	//public GraphEntity indexGlobalVariable = null;
 
-//	public StorageAccessIndex(Variable indexVariable) {
-//		this.indexVariable = indexVariable;
-//	}
+	//public StorageAccessIndex(Variable indexVariable) {
+	//	this.indexVariable = indexVariable;
+	//}
 
-//	public StorageAccessIndex(Qualification indexAttribute) {
-//		this.indexAttribute = indexAttribute;
-//	}
+	//public StorageAccessIndex(Qualification indexAttribute) {
+	//	this.indexAttribute = indexAttribute;
+	//}
 
-	public StorageAccessIndex(GraphEntity indexGraphEntityOrGlobalVariable) {
+	public StorageAccessIndex(GraphEntity indexGraphEntityOrGlobalVariable)
+	{
 		PatternGraph directlyNestingLHSGraph;
 		if(indexGraphEntityOrGlobalVariable instanceof Node) {
 			directlyNestingLHSGraph = ((Node)indexGraphEntityOrGlobalVariable).directlyNestingLHSGraph;
@@ -34,7 +36,7 @@ public class StorageAccessIndex {
 		if(directlyNestingLHSGraph != null) {
 			this.indexGraphEntity = indexGraphEntityOrGlobalVariable;
 		} else {
-//			this.indexGlobalVariable = indexGraphEntityOrGlobalVariable;
+			//this.indexGlobalVariable = indexGraphEntityOrGlobalVariable;
 		}
 	}
 }

@@ -7,25 +7,30 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class Visited extends Expression {
+public class Visited extends Expression
+{
 	private Expression visitorID;
 	private Expression entity;
 
-	public Visited(Expression visitorID, Expression entity) {
+	public Visited(Expression visitorID, Expression entity)
+	{
 		super("visited", BooleanType.getType());
 		this.visitorID = visitorID;
 		this.entity = entity;
 	}
 
-	public Expression getVisitorID() {
+	public Expression getVisitorID()
+	{
 		return visitorID;
 	}
 
-	public Expression getEntity() {
+	public Expression getEntity()
+	{
 		return entity;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		entity.collectNeededEntities(needs);
 		visitorID.collectNeededEntities(needs);

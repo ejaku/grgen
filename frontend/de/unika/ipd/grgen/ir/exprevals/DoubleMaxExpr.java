@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class DoubleMaxExpr extends Expression {
-	public DoubleMaxExpr() {
+public class DoubleMaxExpr extends Expression
+{
+	public DoubleMaxExpr()
+	{
 		super("doublemax expr", DoubleType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

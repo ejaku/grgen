@@ -14,19 +14,23 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayVarClear extends ProcedureInvocationBase {
+public class ArrayVarClear extends ProcedureInvocationBase
+{
 	Variable target;
 
-	public ArrayVarClear(Variable target) {
+	public ArrayVarClear(Variable target)
+	{
 		super("array var clear");
 		this.target = target;
 	}
 
-	public Variable getTarget() {
+	public Variable getTarget()
+	{
 		return target;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
@@ -35,7 +39,7 @@ public class ArrayVarClear extends ProcedureInvocationBase {
 		if(!isGlobalVariable(target))
 			needs.add(target);
 
-		if(getNext()!=null) {
+		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);
 		}
 	}

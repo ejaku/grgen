@@ -7,15 +7,17 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class GraphRedirectSourceAndTargetProc extends ProcedureInvocationBase {
+public class GraphRedirectSourceAndTargetProc extends ProcedureInvocationBase
+{
 	private Expression edge;
 	private Expression newSource;
 	private Expression newTarget;
 	private Expression oldSourceName; // optional
 	private Expression oldTargetName; // optional
 
-	public GraphRedirectSourceAndTargetProc(Expression edge, Expression newSource, Expression newTarget, 
-			Expression oldSourceName, Expression oldTargetName) {
+	public GraphRedirectSourceAndTargetProc(Expression edge, Expression newSource, Expression newTarget,
+			Expression oldSourceName, Expression oldTargetName)
+	{
 		super("graph redirect source and target procedure");
 		this.edge = edge;
 		this.newSource = newSource;
@@ -24,31 +26,38 @@ public class GraphRedirectSourceAndTargetProc extends ProcedureInvocationBase {
 		this.oldTargetName = oldTargetName;
 	}
 
-	public Expression getEdge() {
+	public Expression getEdge()
+	{
 		return edge;
 	}
 
-	public Expression getNewSource() {
+	public Expression getNewSource()
+	{
 		return newSource;
 	}
 
-	public Expression getNewTarget() {
+	public Expression getNewTarget()
+	{
 		return newTarget;
 	}
 
-	public Expression getOldSourceName() {
+	public Expression getOldSourceName()
+	{
 		return oldSourceName;
 	}
 
-	public Expression getOldTargetName() {
+	public Expression getOldTargetName()
+	{
 		return oldTargetName;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		edge.collectNeededEntities(needs);
 		newSource.collectNeededEntities(needs);

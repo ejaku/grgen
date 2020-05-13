@@ -23,14 +23,16 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the copy of a subgraph, or a match, or a container.
  */
-public class CopyExprNode extends ExprNode {
+public class CopyExprNode extends ExprNode
+{
 	static {
 		setName(CopyExprNode.class, "copy expr");
 	}
 
 	private ExprNode sourceExpr;
-		
-	public CopyExprNode(Coords coords, ExprNode sourceExpr) {
+
+	public CopyExprNode(Coords coords, ExprNode sourceExpr)
+	{
 		super(coords);
 		this.sourceExpr = sourceExpr;
 		becomeParent(this.sourceExpr);
@@ -38,7 +40,8 @@ public class CopyExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(sourceExpr);
 		return children;
@@ -46,7 +49,8 @@ public class CopyExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("source expression");
 		return childrenNames;
@@ -54,13 +58,15 @@ public class CopyExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(sourceExpr.getType() instanceof GraphTypeNode)
 				&& !(sourceExpr.getType() instanceof MatchTypeNode)
 				&& !(sourceExpr.getType() instanceof DefinedMatchTypeNode)
@@ -74,14 +80,15 @@ public class CopyExprNode extends ExprNode {
 		return true;
 	}
 
-	@Override 
-	protected IR constructIR() {
-		return new CopyExpr(sourceExpr.checkIR(Expression.class), 
-								getType().getType());
+	@Override
+	protected IR constructIR()
+	{
+		return new CopyExpr(sourceExpr.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		if(sourceExpr.getType() instanceof MatchTypeNode
 				|| sourceExpr.getType() instanceof DefinedMatchTypeNode
 				|| sourceExpr.getType() instanceof SetTypeNode

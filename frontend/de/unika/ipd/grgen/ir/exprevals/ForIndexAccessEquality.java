@@ -19,40 +19,46 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents a for index access for a certain value in the IR.
  */
-public class ForIndexAccessEquality extends EvalStatement {
-
+public class ForIndexAccessEquality extends EvalStatement
+{
 	private Variable iterationVar;
 	private IndexAccessEquality iae;
 	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
 
 	public ForIndexAccessEquality(Variable iterationVar,
-			IndexAccessEquality iae) {
+			IndexAccessEquality iae)
+	{
 		super("for index access equality");
 		this.iterationVar = iterationVar;
 		this.iae = iae;
 	}
 
-	public void addLoopedStatement(EvalStatement loopedStatement) {
+	public void addLoopedStatement(EvalStatement loopedStatement)
+	{
 		loopedStatements.add(loopedStatement);
 	}
 
-	public Variable getIterationVar() {
+	public Variable getIterationVar()
+	{
 		return iterationVar;
 	}
-	
-	public IndexAccessEquality getIndexAcccessEquality() {
+
+	public IndexAccessEquality getIndexAcccessEquality()
+	{
 		return iae;
 	}
 
-	public Collection<EvalStatement> getLoopedStatements() {
+	public Collection<EvalStatement> getLoopedStatements()
+	{
 		return loopedStatements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		iae.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements)
+		for(EvalStatement loopedStatement : loopedStatements) {
 			loopedStatement.collectNeededEntities(needs);
+		}
 		if(needs.variables != null)
 			needs.variables.remove(iterationVar);
 	}

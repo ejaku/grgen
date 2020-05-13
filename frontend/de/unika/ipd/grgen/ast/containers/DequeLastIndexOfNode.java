@@ -36,7 +36,8 @@ public class DequeLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(valueExpr);
@@ -44,7 +45,8 @@ public class DequeLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("valueExpr");
@@ -52,7 +54,8 @@ public class DequeLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof DequeTypeNode)) {
 			targetExpr.reportError("This argument to deque lastIndexOf expression must be of type deque<T>");
@@ -60,12 +63,11 @@ public class DequeLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 		}
 		TypeNode valueType = valueExpr.getType();
 		DequeTypeNode dequeType = ((DequeTypeNode)targetExpr.getType());
-		if (!valueType.isEqual(dequeType.valueType))
-		{
+		if(!valueType.isEqual(dequeType.valueType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(dequeType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to "
-						+ "deque lastIndexOf method must be of type " +dequeType.valueType.toString());
+				valueExpr.reportError("Argument (value) to deque lastIndexOf method must be of type "
+						+ dequeType.valueType.toString());
 				return false;
 			}
 		}
@@ -73,12 +75,14 @@ public class DequeLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new DequeLastIndexOfExpr(targetExpr.checkIR(Expression.class),
 				valueExpr.checkIR(Expression.class));
 	}

@@ -16,7 +16,8 @@ import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class Evaluation extends IR {
+public class Evaluation extends IR
+{
 	/**
 	 * The evaluations constituting an Evaluation of a rule.
 	 * They are organized in a list, since their order is vital.
@@ -24,18 +25,20 @@ public class Evaluation extends IR {
 	 */
 	private LinkedList<IR> evaluations = new LinkedList<IR>();
 
-	Evaluation() {
+	Evaluation()
+	{
 		super("eval");
 	}
 
 	/** Adds an element to the list of evaluations. */
-	public void add(IR aeval) {
+	public void add(IR aeval)
+	{
 		evaluations.add(aeval);
 	}
 
 	/** @return the list of evaluations as collection */
-	public Collection<? extends IR> getWalkableChildren() {
+	public Collection<? extends IR> getWalkableChildren()
+	{
 		return evaluations;
 	}
 }
-

@@ -32,10 +32,8 @@ import de.unika.ipd.grgen.ir.exprevals.VariableExpression;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Symbol;
 
-/**
- *
- */
-public class ExecNode extends BaseNode {
+public class ExecNode extends BaseNode
+{
 	static {
 		setName(ExecNode.class, "exec");
 	}
@@ -53,16 +51,18 @@ public class ExecNode extends BaseNode {
 	private CollectNode<DeclNode> usage = new CollectNode<DeclNode>();
 	private CollectNode<DeclNode> writeUsage = new CollectNode<DeclNode>();
 
-	public ExecNode(Coords coords) {
+	public ExecNode(Coords coords)
+	{
 		super(coords);
 		becomeParent(multiCallActions);
 		becomeParent(callActions);
 	}
 
-	public void append(Object n) {
+	public void append(Object n)
+	{
 		assert !isResolved();
 		if(n instanceof ConstNode) {
-			ConstNode constant = (ConstNode) n;
+			ConstNode constant = (ConstNode)n;
 			TypeNode type = constant.getType();
 			Object value = constant.getValue();
 
@@ -71,8 +71,7 @@ public class ExecNode extends BaseNode {
 					sb.append("null");
 				else
 					sb.append("\"" + value + "\"");
-			}
-			else if(type instanceof IntTypeNode || type instanceof DoubleTypeNode
+			} else if(type instanceof IntTypeNode || type instanceof DoubleTypeNode
 					|| type instanceof ByteTypeNode || type instanceof ShortTypeNode)
 				sb.append(value);
 			else if(type instanceof FloatTypeNode)
@@ -80,54 +79,54 @@ public class ExecNode extends BaseNode {
 			else if(type instanceof LongTypeNode)
 				sb.append(value + "L");
 			else if(type instanceof BooleanTypeNode)
-				sb.append(((Boolean) value).booleanValue() ? "true" : "false");
+				sb.append(((Boolean)value).booleanValue() ? "true" : "false");
 			else if(type instanceof NullTypeNode)
 				sb.append("null");
 			else
 				throw new UnsupportedOperationException("unsupported type");
-		}
-		else if(n instanceof IdentExprNode) {
-			IdentExprNode identExpr = (IdentExprNode) n;
+		} else if(n instanceof IdentExprNode) {
+			IdentExprNode identExpr = (IdentExprNode)n;
 			sb.append(identExpr.getIdent());
-		}
-		else if(n instanceof DeclExprNode) {
-			DeclExprNode declExpr = (DeclExprNode) n;
+		} else if(n instanceof DeclExprNode) {
+			DeclExprNode declExpr = (DeclExprNode)n;
 			sb.append(declExpr.declUnresolved);
-		}
-		else if(n instanceof RangeSpecNode) {
-			RangeSpecNode rangeSpec = (RangeSpecNode) n;
+		} else if(n instanceof RangeSpecNode) {
+			RangeSpecNode rangeSpec = (RangeSpecNode)n;
 			if(rangeSpec.getUpper() == RangeSpecNode.UNBOUND) {
 				if(rangeSpec.getLower() == 0) {
 					sb.append("[*]");
 				} else if(rangeSpec.getLower() == 1) {
 					sb.append("[+]");
 				} else {
-					sb.append("["+rangeSpec.getLower()+":*]");
+					sb.append("[" + rangeSpec.getLower() + ":*]");
 				}
 			} else {
 				if(rangeSpec.getLower() == rangeSpec.getUpper()) {
 					if(rangeSpec.getLower() != 1) {
-						sb.append("["+rangeSpec.getLower()+"]");
+						sb.append("[" + rangeSpec.getLower() + "]");
 					}
 				} else {
-					sb.append("["+rangeSpec.getLower()+":"+rangeSpec.getUpper()+"]");
+					sb.append("[" + rangeSpec.getLower() + ":" + rangeSpec.getUpper() + "]");
 				}
 			}
-		}
-		else sb.append(n);
+		} else
+			sb.append(n);
 	}
 
-	private String getXGRSString() {
+	private String getXGRSString()
+	{
 		return sb.toString();
 	}
 
-	public void addMultiCallAction(MultiCallActionNode m) {
+	public void addMultiCallAction(MultiCallActionNode m)
+	{
 		assert !isResolved();
 		becomeParent(m);
 		multiCallActions.addChild(m);
 	}
-	
-	public void addCallAction(CallActionNode n) {
+
+	public void addCallAction(CallActionNode n)
+	{
 		assert !isResolved();
 		becomeParent(n);
 		callActions.addChild(n);
@@ -136,7 +135,8 @@ public class ExecNode extends BaseNode {
 	/**
 	 * Registers an explicit sequence-local variable declaration
 	 */
-	public void addVarDecl(ExecVarDeclNode varDecl) {
+	public void addVarDecl(ExecVarDeclNode varDecl)
+	{
 		assert !isResolved();
 		becomeParent(varDecl);
 		varDecls.addChild(varDecl);
@@ -149,13 +149,15 @@ public class ExecNode extends BaseNode {
 	 * c) the implicit declaration of a graph-global variable at the first occurance
 	 * which appears outside of a call (i.e. is not a rule call (input) parameter)
 	 */
-	public void addUsage(IdentNode id) {
+	public void addUsage(IdentNode id)
+	{
 		assert !isResolved();
 		becomeParent(id);
 		usageUnresolved.addChild(id);
 	}
 
-	public void addWriteUsage(IdentNode id) {
+	public void addWriteUsage(IdentNode id)
+	{
 		assert !isResolved();
 		becomeParent(id);
 		writeUsageUnresolved.addChild(id);
@@ -163,7 +165,8 @@ public class ExecNode extends BaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> res = new Vector<BaseNode>();
 		res.add(multiCallActions);
 		res.add(callActions);
@@ -175,7 +178,8 @@ public class ExecNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("multi call actions");
 		childrenNames.add("call actions");
@@ -193,9 +197,9 @@ public class ExecNode extends BaseNode {
 	 * (which makes sense for every other construct of the grgen language);
 	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
 	 */
-	public void addImplicitDefinitions() {
-		for(IdentNode id : usageUnresolved.getChildren())
-		{
+	public void addImplicitDefinitions()
+	{
+		for(IdentNode id : usageUnresolved.getChildren()) {
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
 
 			// Get the definition of the ident's symbol local to the owned scope.
@@ -216,9 +220,8 @@ public class ExecNode extends BaseNode {
 				addVarDecl(evd);
 			}
 		}
-		
-		for(IdentNode id : writeUsageUnresolved.getChildren())
-		{
+
+		for(IdentNode id : writeUsageUnresolved.getChildren()) {
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
 
 			// Get the definition of the ident's symbol local to the owned scope.
@@ -243,94 +246,102 @@ public class ExecNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		addImplicitDefinitions();
 		Quadruple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<VarDeclNode>> resolve =
 			graphElementUsageOutsideOfCallResolver.resolve(usageUnresolved);
 
-		if (resolve != null) {
-			if (resolve.first != null) {
-				for (ExecVarDeclNode c : resolve.first.getChildren()) {
+		if(resolve != null) {
+			if(resolve.first != null) {
+				for(ExecVarDeclNode c : resolve.first.getChildren()) {
 					usage.addChild(c);
 				}
 			}
 
-			if (resolve.second != null) {
-				for (NodeDeclNode c : resolve.second.getChildren()) {
+			if(resolve.second != null) {
+				for(NodeDeclNode c : resolve.second.getChildren()) {
 					usage.addChild(c);
 				}
 			}
 
-			if (resolve.third != null) {
-				for (EdgeDeclNode c : resolve.third.getChildren()) {
+			if(resolve.third != null) {
+				for(EdgeDeclNode c : resolve.third.getChildren()) {
 					usage.addChild(c);
 				}
 			}
 
-			if (resolve.fourth != null) {
-				for (VarDeclNode c : resolve.fourth.getChildren()) {
+			if(resolve.fourth != null) {
+				for(VarDeclNode c : resolve.fourth.getChildren()) {
 					usage.addChild(c);
 				}
 			}
 
 			becomeParent(usage);
 		}
-		
+
 		Quadruple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<VarDeclNode>> writeResolve =
 				graphElementUsageOutsideOfCallResolver.resolve(writeUsageUnresolved);
 
-			if (writeResolve != null) {
-				if (writeResolve.first != null) {
-					for (ExecVarDeclNode c : writeResolve.first.getChildren()) {
-						writeUsage.addChild(c);
-					}
+		if(writeResolve != null) {
+			if(writeResolve.first != null) {
+				for(ExecVarDeclNode c : writeResolve.first.getChildren()) {
+					writeUsage.addChild(c);
 				}
-
-				if (writeResolve.second != null) {
-					for (NodeDeclNode c : writeResolve.second.getChildren()) {
-						if(!c.defEntityToBeYieldedTo) {
-							reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement (violated by " + c.getIdentNode().toString() + ").");
-						}
-						writeUsage.addChild(c);
-					}
-				}
-
-				if (writeResolve.third != null) {
-					for (EdgeDeclNode c : writeResolve.third.getChildren()) {
-						if(!c.defEntityToBeYieldedTo) {
-							reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement (violated by " + c.getIdentNode().toString() + ").");
-						}
-						writeUsage.addChild(c);
-					}
-				}
-
-				if (writeResolve.fourth != null) {
-					for (VarDeclNode c : writeResolve.fourth.getChildren()) {
-						if(!c.defEntityToBeYieldedTo) {
-							reportError("Only a def (to be yielded to) variable is allowed to be written from an exec statement (violated by " + c.getIdentNode().toString() + ").");
-						}
-						writeUsage.addChild(c);
-					}
-				}
-
-				becomeParent(writeUsage);
 			}
+
+			if(writeResolve.second != null) {
+				for(NodeDeclNode c : writeResolve.second.getChildren()) {
+					if(!c.defEntityToBeYieldedTo) {
+						reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement (violated by "
+										+ c.getIdentNode().toString() + ").");
+					}
+					writeUsage.addChild(c);
+				}
+			}
+
+			if(writeResolve.third != null) {
+				for(EdgeDeclNode c : writeResolve.third.getChildren()) {
+					if(!c.defEntityToBeYieldedTo) {
+						reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement (violated by "
+										+ c.getIdentNode().toString() + ").");
+					}
+					writeUsage.addChild(c);
+				}
+			}
+
+			if(writeResolve.fourth != null) {
+				for(VarDeclNode c : writeResolve.fourth.getChildren()) {
+					if(!c.defEntityToBeYieldedTo) {
+						reportError(
+								"Only a def (to be yielded to) variable is allowed to be written from an exec statement (violated by "
+										+ c.getIdentNode().toString() + ").");
+					}
+					writeUsage.addChild(c);
+				}
+			}
+
+			becomeParent(writeUsage);
+		}
 
 		return resolve != null && writeResolve != null;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.PINK;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Set<ExecVarDeclNode> localVars = new HashSet<ExecVarDeclNode>();
 		for(ExecVarDeclNode node : varDecls.getChildren())
 			localVars.add(node);
@@ -350,7 +361,8 @@ public class ExecNode extends BaseNode {
 		for(CallActionNode callActionNode : callActions.getChildren()) {
 			callActionNode.checkPost();
 			for(ExprNode param : callActionNode.getParams().getChildren()) {
-				if(localVars.contains(param)) continue;
+				if(localVars.contains(param))
+					continue;
 				parameters.add(param.checkIR(Expression.class));
 			}
 		}

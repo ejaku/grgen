@@ -16,7 +16,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * An external function method.
  */
-public class ExternalFunctionMethod extends ExternalFunction {
+public class ExternalFunctionMethod extends ExternalFunction
+{
 	/** The owner of the function method. */
 	protected Type owner = null;
 
@@ -24,15 +25,18 @@ public class ExternalFunctionMethod extends ExternalFunction {
 	 * @param name The name of the external function.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public ExternalFunctionMethod(String name, Ident ident, Type retType) {
+	public ExternalFunctionMethod(String name, Ident ident, Type retType)
+	{
 		super(name, ident, retType);
 	}
 
-	public Type getOwner() {
+	public Type getOwner()
+	{
 		return owner;
 	}
 
-	public void setOwner(Type type) {
+	public void setOwner(Type type)
+	{
 		owner = type;
 	}
 }

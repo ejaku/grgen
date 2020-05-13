@@ -12,29 +12,33 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import java.util.Vector;
 
-
 /**
  * Represents an assignment of procedure invocation return values statement in the IR.
  */
-public class ReturnAssignment extends EvalStatement {
+public class ReturnAssignment extends EvalStatement
+{
 	ProcedureInvocationBase procedureInvocation;
 	Vector<AssignmentBase> targets = new Vector<AssignmentBase>();
 
-	public ReturnAssignment(ProcedureInvocationBase procedureInvocation) {
+	public ReturnAssignment(ProcedureInvocationBase procedureInvocation)
+	{
 		super("return assignment");
-		
+
 		this.procedureInvocation = procedureInvocation;
 	}
-	
-	public void addAssignment(AssignmentBase target) {
+
+	public void addAssignment(AssignmentBase target)
+	{
 		targets.add(target);
 	}
-	
-	public ProcedureInvocationBase getProcedureInvocation() {
+
+	public ProcedureInvocationBase getProcedureInvocation()
+	{
 		return procedureInvocation;
 	}
-	
-	public Vector<AssignmentBase> getTargets() {
+
+	public Vector<AssignmentBase> getTargets()
+	{
 		return targets;
 	}
 

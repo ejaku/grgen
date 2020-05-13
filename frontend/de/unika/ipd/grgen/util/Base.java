@@ -18,8 +18,8 @@ import de.unika.ipd.grgen.util.report.Reporter;
  * Base class for all grgen facilities.
  * This class defines basic facilities and behaviour for all grgen classes.
  */
-public class Base implements Id {
-
+public class Base implements Id
+{
 	/** static id counter */
 	private static long currId = 1;
 
@@ -27,7 +27,7 @@ public class Base implements Id {
 	private String id;
 
 	/** constants for debug reporting */
-	public static final int NOTE = 4;	//NOTE: changed from 1 to 4
+	public static final int NOTE = 4; //NOTE: changed from 1 to 4
 
 	/** The debug reporter for debugging */
 	public static Reporter debug;
@@ -40,7 +40,8 @@ public class Base implements Id {
 	 * @param debug The debug reporter
 	 * @param error The error reporter
 	 */
-	public static void setReporters(Reporter debug, ErrorReporter error) {
+	public static void setReporters(Reporter debug, ErrorReporter error)
+	{
 		Base.debug = debug;
 		Base.error = error;
 	}
@@ -48,14 +49,16 @@ public class Base implements Id {
 	/**
 	 * Get a new ID for this object.
 	 */
-	public Base() {
+	public Base()
+	{
 		id = "" + currId++;
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.ID#getId()
 	 */
-	public String getId() {
+	public String getId()
+	{
 		return id;
 	}
 }

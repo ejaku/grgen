@@ -12,24 +12,29 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class DequeLastIndexOfExpr extends Expression {
+public class DequeLastIndexOfExpr extends Expression
+{
 	private Expression targetExpr, valueExpr;
 
-	public DequeLastIndexOfExpr(Expression targetExpr, Expression valueExpr) {
+	public DequeLastIndexOfExpr(Expression targetExpr, Expression valueExpr)
+	{
 		super("deque lastIndexOf expr", IntType.getType());
 		this.targetExpr = targetExpr;
 		this.valueExpr = valueExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);

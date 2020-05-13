@@ -24,7 +24,8 @@ import de.unika.ipd.grgen.ir.exprevals.PrimitiveType;
 /**
  * A package type.
  */
-public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer {
+public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
+{
 	private List<Type> types = new LinkedList<Type>();
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
@@ -32,12 +33,14 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer {
 
 	/** Make a new package type.
 	 *  @param ident The identifier of this package. */
-	public PackageType(Ident ident) {
+	public PackageType(Ident ident)
+	{
 		super("package type", ident);
 	}
 
 	/** Add the given type to the type model. */
-	public void addType(Type type) {
+	public void addType(Type type)
+	{
 		types.add(type);
 		if(type instanceof NodeType) {
 			NodeType nt = (NodeType)type;
@@ -55,35 +58,41 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer {
 			assert false : "Unexpected type added to package: " + type;
 	}
 
-	public Collection<Type> getTypes() {
+	public Collection<Type> getTypes()
+	{
 		return Collections.unmodifiableCollection(types);
 	}
 
-	public Collection<NodeType> getNodeTypes() {
+	public Collection<NodeType> getNodeTypes()
+	{
 		return Collections.unmodifiableCollection(nodeTypes);
 	}
 
-	public Collection<EdgeType> getEdgeTypes() {
+	public Collection<EdgeType> getEdgeTypes()
+	{
 		return Collections.unmodifiableCollection(edgeTypes);
 	}
 
-	public Collection<EnumType> getEnumTypes() {
+	public Collection<EnumType> getEnumTypes()
+	{
 		return Collections.unmodifiableCollection(enumTypes);
 	}
 
 	/** Canonicalize the type model. */
-	protected void canonicalizeLocal() {
+	protected void canonicalizeLocal()
+	{
 		//Collections.sort(types, Identifiable.COMPARATOR);
 		//Collections.sort(types);
 
 		for(Type ty : types) {
 			ty.canonicalize();
-			if (ty instanceof EdgeType)
+			if(ty instanceof EdgeType)
 				((EdgeType)ty).canonicalizeConnectionAsserts();
 		}
 	}
 
-	public void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb)
+	{
 		sb.append(this);
 		sb.append('[');
 

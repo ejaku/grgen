@@ -24,25 +24,33 @@ public class UntypedExecVarTypeNode extends BasicTypeNode
 	}
 
 	// TODO: No instance is ever used! Probably useless...
-	public static class Value {
+	public static class Value
+	{
 		public static Value NULL = new Value() {
-			public String toString() { return "Untyped null"; }
+			public String toString()
+			{
+				return "Untyped null";
+			}
 		};
 
-		private Value() {}
+		private Value()
+		{
+		}
 
-		public boolean equals(Object val) {
-			return (this == val);
+		public boolean equals(Object val)
+		{
+			return(this == val);
 		}
 	}
 
 	public UntypedExecVarTypeNode()
 	{
 	}
-	
+
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -50,31 +58,36 @@ public class UntypedExecVarTypeNode extends BasicTypeNode
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
 	@Override
-	public boolean isCompatibleTo(TypeNode t) {
+	public boolean isCompatibleTo(TypeNode t)
+	{
 		// compatible to everything
 		return true;
 	}
 
 	@Override
-	public boolean isCastableTo(TypeNode t) {
+	public boolean isCastableTo(TypeNode t)
+	{
 		return isCompatibleTo(t);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// TODO: Check whether this is OK
 		return new UntypedExecVarType(getIdentNode().getIdent());
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "untyped";
 	}
 }

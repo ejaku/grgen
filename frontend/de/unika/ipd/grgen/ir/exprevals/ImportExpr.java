@@ -9,22 +9,25 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class ImportExpr extends Expression {
+public class ImportExpr extends Expression
+{
 	private final Expression pathExpr;
 
-	public ImportExpr(Expression pathExpr, Type type) {
+	public ImportExpr(Expression pathExpr, Type type)
+	{
 		super("import expression", type);
-		this.pathExpr= pathExpr;
+		this.pathExpr = pathExpr;
 	}
 
-	public Expression getPathExpr() {
+	public Expression getPathExpr()
+	{
 		return pathExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		pathExpr.collectNeededEntities(needs);
 		needs.needsGraph();
 	}
 }
-

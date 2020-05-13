@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.parser.Coords;
  * A type constraint expression AST node.
  * TODO: Only one operand, operands-collect node is senseless? - if yes remove it
  */
-public class TypeConstraintNode extends TypeExprNode {
+public class TypeConstraintNode extends TypeExprNode
+{
 	static {
 		setName(TypeConstraintNode.class, "type expr constraint");
 	}
@@ -33,13 +34,15 @@ public class TypeConstraintNode extends TypeExprNode {
 	private CollectNode<InheritanceTypeNode> operands;
 	private CollectNode<IdentNode> operandsUnresolved;
 
-	public TypeConstraintNode(Coords coords, CollectNode<IdentNode> collect) {
+	public TypeConstraintNode(Coords coords, CollectNode<IdentNode> collect)
+	{
 		super(coords, SET);
 		this.operandsUnresolved = collect;
 		becomeParent(this.operandsUnresolved);
 	}
 
-	public TypeConstraintNode(IdentNode typeIdentUse) {
+	public TypeConstraintNode(IdentNode typeIdentUse)
+	{
 		super(typeIdentUse.getCoords(), SET);
 		this.operandsUnresolved = new CollectNode<IdentNode>();
 		becomeParent(this.operandsUnresolved);
@@ -48,7 +51,8 @@ public class TypeConstraintNode extends TypeExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(operandsUnresolved, operands));
 		return children;
@@ -56,7 +60,8 @@ public class TypeConstraintNode extends TypeExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("operands");
 		return childrenNames;
@@ -67,19 +72,22 @@ public class TypeConstraintNode extends TypeExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		operands = operandsResolver.resolve(operandsUnresolved, this);
 
 		return operands != null;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		TypeExprConst cnst = new TypeExprConst();
 
 		for(InheritanceTypeNode n : operands.getChildren()) {
@@ -90,4 +98,3 @@ public class TypeConstraintNode extends TypeExprNode {
 		return cnst;
 	}
 }
-

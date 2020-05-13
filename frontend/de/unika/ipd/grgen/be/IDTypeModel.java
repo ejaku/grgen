@@ -14,7 +14,8 @@ package de.unika.ipd.grgen.be;
 /**
  * A type model that uses IDs.
  */
-public interface IDTypeModel extends TypeID {
+public interface IDTypeModel extends TypeID
+{
 
 	String getTypeName(boolean forNode, int obj);
 

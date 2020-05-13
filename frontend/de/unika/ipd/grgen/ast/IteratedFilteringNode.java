@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.IteratedFiltering;
 import de.unika.ipd.grgen.ir.Rule;
 
-public class IteratedFilteringNode extends EvalStatementNode {
+public class IteratedFilteringNode extends EvalStatementNode
+{
 	static {
 		setName(IteratedFilteringNode.class, "iterated filtering node");
 	}
@@ -34,11 +35,12 @@ public class IteratedFilteringNode extends EvalStatementNode {
 
 	private IdentNode iteratedUnresolved;
 	private IteratedNode iterated;
-	
+
 	private CollectNode<FilterInvocationNode> filters;
 
-
-	public IteratedFilteringNode(IdentNode actionUnresolved, IdentNode iteratedUnresolved, CollectNode<FilterInvocationNode> filtersUnresolved) {
+	public IteratedFilteringNode(IdentNode actionUnresolved, IdentNode iteratedUnresolved,
+			CollectNode<FilterInvocationNode> filtersUnresolved)
+	{
 		super(iteratedUnresolved.getCoords());
 		this.actionUnresolved = becomeParent(actionUnresolved);
 		this.iteratedUnresolved = becomeParent(iteratedUnresolved);
@@ -46,7 +48,8 @@ public class IteratedFilteringNode extends EvalStatementNode {
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		//children.add(getValidVersion(iteratedUnresolved, iterated));
 		children.add(filters);
@@ -54,7 +57,8 @@ public class IteratedFilteringNode extends EvalStatementNode {
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		//childrenNames.add("iterated");
 		childrenNames.add("filters");
@@ -62,13 +66,14 @@ public class IteratedFilteringNode extends EvalStatementNode {
 	}
 
 	private static final DeclarationPairResolver<TestDeclNode, SubpatternDeclNode> actionOrSubpatternResolver =
-		new DeclarationPairResolver<TestDeclNode, SubpatternDeclNode>(TestDeclNode.class, SubpatternDeclNode.class);
+			new DeclarationPairResolver<TestDeclNode, SubpatternDeclNode>(TestDeclNode.class, SubpatternDeclNode.class);
 	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-		new DeclarationResolver<IteratedNode>(IteratedNode.class);
+			new DeclarationResolver<IteratedNode>(IteratedNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!(actionUnresolved instanceof PackageIdentNode))
 			fixupDefinition((IdentNode)actionUnresolved, actionUnresolved.getScope());
 
@@ -84,18 +89,21 @@ public class IteratedFilteringNode extends EvalStatementNode {
 	}
 
 	@Override
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		IteratedFiltering iteratedFiltering = new IteratedFiltering("iterated filtering", 
+	protected IR constructIR()
+	{
+		IteratedFiltering iteratedFiltering = new IteratedFiltering("iterated filtering",
 				action != null ? action.checkIR(Rule.class) : subpattern.checkIR(Rule.class),
 				iterated.checkIR(Rule.class));
 		for(FilterInvocationNode filter : filters.getChildren()) {

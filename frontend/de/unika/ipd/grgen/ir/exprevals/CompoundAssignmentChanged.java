@@ -15,11 +15,11 @@ import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
 
-
 /**
  * Represents a compound assignment changed statement in the IR.
  */
-public class CompoundAssignmentChanged extends CompoundAssignment {
+public class CompoundAssignmentChanged extends CompoundAssignment
+{
 
 	/** The change assignment. */
 	private Qualification changedTarget;
@@ -27,25 +27,30 @@ public class CompoundAssignmentChanged extends CompoundAssignment {
 	/** The operation of the change assignment */
 	private int changedOperation;
 
-
 	public CompoundAssignmentChanged(Qualification target,
 			int compoundAssignmentType, Expression expr,
-			int changedAssignmentType, Qualification changedTarget) {
+			int changedAssignmentType, Qualification changedTarget)
+	{
 		super(target, compoundAssignmentType, expr);
 		this.changedOperation = changedAssignmentType;
 		this.changedTarget = changedTarget;
 	}
 
-	public Qualification getChangedTarget() {
+	public Qualification getChangedTarget()
+	{
 		return changedTarget;
 	}
 
-	public int getChangedOperation() {
+	public int getChangedOperation()
+	{
 		return changedOperation;
 	}
 
-	public String toString() {
-		return super.toString() + (changedOperation==UNION?" |> ":changedOperation==INTERSECTION?" &> ":" => ") + changedTarget.toString();
+	public String toString()
+	{
+		return super.toString()
+				+ (changedOperation == UNION ? " |> " : changedOperation == INTERSECTION ? " &> " : " => ")
+				+ changedTarget.toString();
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
@@ -54,7 +59,7 @@ public class CompoundAssignmentChanged extends CompoundAssignment {
 
 		Entity entity = changedTarget.getOwner();
 		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity) entity);
+			needs.add((GraphEntity)entity);
 
 		// Temporarily do not collect variables for changed target
 		HashSet<Variable> varSet = needs.variables;

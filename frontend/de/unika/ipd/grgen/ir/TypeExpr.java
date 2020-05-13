@@ -16,9 +16,11 @@ package de.unika.ipd.grgen.ir;
 import java.util.Collection;
 import java.util.Collections;
 
-public abstract class TypeExpr extends IR {
+public abstract class TypeExpr extends IR
+{
 
-	public TypeExpr() {
+	public TypeExpr()
+	{
 		super("type expr");
 	}
 
@@ -30,9 +32,9 @@ public abstract class TypeExpr extends IR {
 	public abstract Collection<InheritanceType> evaluate();
 
 	public static final TypeExpr EMPTY = new TypeExpr() {
-		public Collection<InheritanceType> evaluate() {
+		public Collection<InheritanceType> evaluate()
+		{
 			return Collections.emptySet();
 		}
 	};
 }
-

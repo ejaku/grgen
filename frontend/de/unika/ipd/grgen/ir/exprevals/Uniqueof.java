@@ -9,25 +9,28 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class Uniqueof extends Expression {
+public class Uniqueof extends Expression
+{
 	/** The entity whose unique id we want to know. */
 	private final Expression entity;
 
-	public Uniqueof(Expression entity, Type type) {
+	public Uniqueof(Expression entity, Type type)
+	{
 		super("uniqueof", type);
 		this.entity = entity;
 	}
 
-	public Expression getEntity() {
+	public Expression getEntity()
+	{
 		return entity;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
-		if(entity==null || entity.getType() instanceof GraphType)
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		if(entity == null || entity.getType() instanceof GraphType)
 			needs.needsGraph();
-		if(entity!=null)
+		if(entity != null)
 			entity.collectNeededEntities(needs);
 	}
 }
-

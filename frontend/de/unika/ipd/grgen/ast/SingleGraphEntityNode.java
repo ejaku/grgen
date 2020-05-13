@@ -29,11 +29,12 @@ public class SingleGraphEntityNode extends BaseNode
 	private NodeDeclNode entityNode;
 	private SubpatternUsageNode entitySubpattern;
 
-	public SingleGraphEntityNode(IdentNode ent) {
+	public SingleGraphEntityNode(IdentNode ent)
+	{
 		super(ent.getCoords());
 		entityUnresolved = ent;
 		becomeParent(this.entityUnresolved);
-    }
+	}
 
 	@Override
 	protected boolean checkLocal()
@@ -59,7 +60,7 @@ public class SingleGraphEntityNode extends BaseNode
 	}
 
 	private static final DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode> entityResolver =
-		new DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode>(NodeDeclNode.class, SubpatternUsageNode.class);
+			new DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode>(NodeDeclNode.class, SubpatternUsageNode.class);
 
 	@Override
 	protected boolean resolveLocal()
@@ -69,7 +70,7 @@ public class SingleGraphEntityNode extends BaseNode
 
 		Pair<NodeDeclNode, SubpatternUsageNode> pair = entityResolver.resolve(entityUnresolved, this);
 
-		if (pair != null) {
+		if(pair != null) {
 			entityNode = pair.fst;
 			entitySubpattern = pair.snd;
 		}
@@ -78,23 +79,26 @@ public class SingleGraphEntityNode extends BaseNode
 	}
 
 	protected SubpatternUsageNode getEntitySubpattern()
-    {
-	    assert isResolved();
+	{
+		assert isResolved();
 
 		return entitySubpattern;
-    }
+	}
 
-	protected NodeDeclNode getEntityNode() {
+	protected NodeDeclNode getEntityNode()
+	{
 		assert isResolved();
 
 		return entityNode;
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "single graph entity";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "SingleGraphEntityNode";
 	}
 }

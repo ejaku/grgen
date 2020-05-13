@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.exprevals.LogExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class LogExprNode extends ExprNode {
+public class LogExprNode extends ExprNode
+{
 	static {
 		setName(LogExprNode.class, "log expr");
 	}
@@ -28,39 +29,45 @@ public class LogExprNode extends ExprNode {
 	private ExprNode leftExpr;
 	private ExprNode rightExpr;
 
-
-	public LogExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr) {
+	public LogExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr)
+	{
 		super(coords);
 
 		this.leftExpr = becomeParent(leftExpr);
 		this.rightExpr = becomeParent(rightExpr);
 	}
 
-	public LogExprNode(Coords coords, ExprNode leftExpr) {
+	public LogExprNode(Coords coords, ExprNode leftExpr)
+	{
 		super(coords);
 
 		this.leftExpr = becomeParent(leftExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(leftExpr);
-		if(rightExpr!=null) children.add(rightExpr);
+		if(rightExpr != null)
+			children.add(rightExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("left");
-		if(rightExpr!=null) childrenNames.add("right");
+		if(rightExpr != null)
+			childrenNames.add("right");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		if(rightExpr!=null) {
+	protected boolean checkLocal()
+	{
+		if(rightExpr != null) {
 			if(leftExpr.getType().isEqual(BasicTypeNode.doubleType)
 					&& rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 				return true;
@@ -77,16 +84,17 @@ public class LogExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(rightExpr!=null) 
-			return new LogExpr(leftExpr.checkIR(Expression.class),
-					rightExpr.checkIR(Expression.class));
+	protected IR constructIR()
+	{
+		if(rightExpr != null)
+			return new LogExpr(leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
 		else
 			return new LogExpr(leftExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.doubleType;
 	}
 }

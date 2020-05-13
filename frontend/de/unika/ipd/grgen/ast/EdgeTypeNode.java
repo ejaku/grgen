@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 
-public abstract class EdgeTypeNode extends InheritanceTypeNode {
+public abstract class EdgeTypeNode extends InheritanceTypeNode
+{
 	static {
 		setName(EdgeTypeNode.class, "edge type");
 	}
@@ -40,8 +41,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 					MapInitNode.class, SetInitNode.class, ArrayInitNode.class, DequeInitNode.class,
 					FunctionDeclNode.class, ProcedureDeclNode.class));
 
-	private static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
-    		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));
+	private static final CollectResolver<EdgeTypeNode> extendResolver =
+			new CollectResolver<EdgeTypeNode>(new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));
 
 	private CollectNode<EdgeTypeNode> extend;
 	private CollectNode<ConnAssertNode> cas;
@@ -56,7 +57,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
 	public EdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
-						int modifiers, String externalName) {
+			int modifiers, String externalName)
+	{
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);
 		this.bodyUnresolved = body;
@@ -69,7 +71,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(extendUnresolved, extend));
 		children.add(getValidVersion(bodyUnresolved, body));
@@ -79,7 +82,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("extends");
 		childrenNames.add("body");
@@ -89,13 +93,14 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		body = bodyResolver.resolve(bodyUnresolved, this);
 		extend = extendResolver.resolve(extendUnresolved, this);
 
 		// Initialize direct sub types
-		if (extend != null) {
-			for (InheritanceTypeNode type : extend.getChildren()) {
+		if(extend != null) {
+			for(InheritanceTypeNode type : extend.getChildren()) {
 				type.addDirectSubType(this);
 			}
 		}
@@ -110,38 +115,39 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 		boolean res = super.checkLocal();
 
 		// check all super types to ensure their copy extends are resolved
-    	for(EdgeTypeNode parent : extend.getChildren()) {
-    		if(!parent.visitedDuringCheck()) { // only if not already visited
-    			parent.check();
-    		}
-    	}
+		for(EdgeTypeNode parent : extend.getChildren()) {
+			if(!parent.visitedDuringCheck()) { // only if not already visited
+				parent.check();
+			}
+		}
 
 		// "resolve" connection assertion inheritance,
 		// after resolve to ensure everything is available, before IR building
 		// remember connection assertions to copy and copy after iteration to prevent iterator from becoming stale
 		Vector<ConnAssertNode> connAssertsToCopy = new Vector<ConnAssertNode>();
 		boolean alreadyCopiedExtends = false;
-		for(Iterator<ConnAssertNode> it = cas.getChildren().iterator(); it.hasNext(); ) {
+		for(Iterator<ConnAssertNode> it = cas.getChildren().iterator(); it.hasNext();) {
 			ConnAssertNode ca = it.next();
-	        if(ca.copyExtends) {
-	        	if(alreadyCopiedExtends) {
-	        		reportWarning("more than one copy extends only causes double work without benefit");
-	        	}
+			if(ca.copyExtends) {
+				if(alreadyCopiedExtends) {
+					reportWarning("more than one copy extends only causes double work without benefit");
+				}
 
-	        	for(EdgeTypeNode parent : extend.getChildren()) {
-	        		for(ConnAssertNode caToCopy : parent.cas.getChildren()) {
-	        			if(caToCopy.copyExtends) {
-	        				reportError("internal error: copy extends in parent while copying connection assertions from parent");
-	        				res = false;
-	        				assert false;
-	        			}
-	        			connAssertsToCopy.add(caToCopy);
-	        		}
-	        	}
+				for(EdgeTypeNode parent : extend.getChildren()) {
+					for(ConnAssertNode caToCopy : parent.cas.getChildren()) {
+						if(caToCopy.copyExtends) {
+							reportError(
+									"internal error: copy extends in parent while copying connection assertions from parent");
+							res = false;
+							assert false;
+						}
+						connAssertsToCopy.add(caToCopy);
+					}
+				}
 
-	            it.remove();
-	            alreadyCopiedExtends = true;
-	        }
+				it.remove();
+				alreadyCopiedExtends = true;
+			}
 		}
 
 		for(ConnAssertNode caToCopy : connAssertsToCopy) {
@@ -157,38 +163,42 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.
 	 */
-	protected final EdgeType getEdgeType() {
+	protected final EdgeType getEdgeType()
+	{
 		return checkIR(EdgeType.class);
 	}
 
 	@Override
-	protected CollectNode<? extends InheritanceTypeNode> getExtends() {
+	protected CollectNode<? extends InheritanceTypeNode> getExtends()
+	{
 		return extend;
 	}
 
 	@Override
-	public void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+	public void doGetCompatibleToTypes(Collection<TypeNode> coll)
+	{
 		assert isResolved();
 
 		for(EdgeTypeNode inh : extend.getChildren()) {
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
-    }
+	}
 
 	@Override
-	protected Collection<EdgeTypeNode> getDirectSuperTypes() {
+	protected Collection<EdgeTypeNode> getDirectSuperTypes()
+	{
 		assert isResolved();
 
-	    return extend.getChildren();
-    }
+		return extend.getChildren();
+	}
 
 	@Override
-    protected void getMembers(Map<String, DeclNode> members)
-    {
-    	assert isResolved();
+	protected void getMembers(Map<String, DeclNode> members)
+	{
+		assert isResolved();
 
-    	for(BaseNode n : body.getChildren()) {
+		for(BaseNode n : body.getChildren()) {
 			if(n instanceof FunctionDeclNode) {
 				FunctionDeclNode function = (FunctionDeclNode)n;
 				if(!function.isChecked())
@@ -201,7 +211,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 								continue;
 							if(function.ident.toString().equals(functionBase.ident.toString()))
 								checkSignatureAdhered(functionBase, function);
-						} 
+						}
 					}
 				}
 			} else if(n instanceof ProcedureDeclNode) {
@@ -216,49 +226,47 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 								continue;
 							if(procedure.ident.toString().equals(procedureBase.ident.toString()))
 								checkSignatureAdhered(procedureBase, procedure);
-						} 
+						}
 					}
 				}
 			} else if(n instanceof DeclNode) {
-    			DeclNode decl = (DeclNode)n;
+				DeclNode decl = (DeclNode)n;
 
-    			DeclNode old=members.put(decl.getIdentNode().toString(), decl);
-    			if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
-    				// TODO this should be part of a check (that return false)
-    				error.error(decl.getCoords(), "member " + decl.toString() +" of " +
-    								getUseString() + " " + getIdentNode() +
-    								" already defined in " + old.getParents() + "." // TODO improve error message
-    						   );
-    			}
-    		}
-    	}
-    }
+				DeclNode old = members.put(decl.getIdentNode().toString(), decl);
+				if(old != null && !(old instanceof AbstractMemberDeclNode)) {
+					// TODO this should be part of a check (that return false)
+					error.error(decl.getCoords(), "member " + decl.toString() + " of " + getUseString() + " "
+							+ getIdentNode() + " already defined in " + old.getParents() + "." // TODO improve error message
+					);
+				}
+			}
+		}
+	}
 
 	protected abstract void setDirectednessIR(EdgeType inhType);
 
 	/**
-     * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-     */
+	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+	 */
 	@Override
-    protected IR constructIR()
-    {
+	protected IR constructIR()
+	{
 		if(isIRAlreadySet()) { // break endless recursion in case of a member of edge or container of edge typ
 			return getIR();
 		}
 
-		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(),
-    							   getIRModifiers(), getExternalName());
+		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(), getIRModifiers(), getExternalName());
 
 		setIR(et);
 
-    	constructIR(et); // from InheritanceTypeNode
+		constructIR(et); // from InheritanceTypeNode
 
-    	setDirectednessIR(et); // from Undirected/Arbitrary/Directed-EdgeTypeNode
+		setDirectednessIR(et); // from Undirected/Arbitrary/Directed-EdgeTypeNode
 
-    	for(ConnAssertNode can : cas.getChildren()) {
-    		et.addConnAssert(can.checkIR(ConnAssert.class));
-    	}
+		for(ConnAssertNode can : cas.getChildren()) {
+			et.addConnAssert(can.checkIR(ConnAssert.class));
+		}
 
-    	return et;
-    }
+		return et;
+	}
 }

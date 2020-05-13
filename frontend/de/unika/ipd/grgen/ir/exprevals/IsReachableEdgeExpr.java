@@ -9,7 +9,8 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class IsReachableEdgeExpr extends Expression {
+public class IsReachableEdgeExpr extends Expression
+{
 	private final Expression startNodeExpr;
 	private final Expression endEdgeExpr;
 	private final Expression incidentEdgeTypeExpr;
@@ -22,7 +23,8 @@ public class IsReachableEdgeExpr extends Expression {
 
 	public IsReachableEdgeExpr(Expression startNodeExpression, Expression endNodeExpression,
 			Expression incidentEdgeTypeExpr, int direction,
-			Expression adjacentNodeTypeExpr, Type type) {
+			Expression adjacentNodeTypeExpr, Type type)
+	{
 		super("is reachable edge expression", type);
 		this.startNodeExpr = startNodeExpression;
 		this.endEdgeExpr = endNodeExpression;
@@ -31,28 +33,34 @@ public class IsReachableEdgeExpr extends Expression {
 		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
 	}
 
-	public Expression getStartNodeExpr() {
+	public Expression getStartNodeExpr()
+	{
 		return startNodeExpr;
 	}
 
-	public Expression getEndEdgeExpr() {
+	public Expression getEndEdgeExpr()
+	{
 		return endEdgeExpr;
 	}
 
-	public Expression getIncidentEdgeTypeExpr() {
+	public Expression getIncidentEdgeTypeExpr()
+	{
 		return incidentEdgeTypeExpr;
 	}
 
-	public int Direction() {
+	public int Direction()
+	{
 		return direction;
 	}
 
-	public Expression getAdjacentNodeTypeExpr() {
+	public Expression getAdjacentNodeTypeExpr()
+	{
 		return adjacentNodeTypeExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		startNodeExpr.collectNeededEntities(needs);
 		endEdgeExpr.collectNeededEntities(needs);
@@ -60,4 +68,3 @@ public class IsReachableEdgeExpr extends Expression {
 		adjacentNodeTypeExpr.collectNeededEntities(needs);
 	}
 }
-

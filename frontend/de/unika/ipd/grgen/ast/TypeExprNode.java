@@ -36,21 +36,21 @@ public abstract class TypeExprNode extends BaseNode
 	};
 
 	protected static final int[] irOp = {
-		-1, -1, TypeExprSetOperator.UNION,
-			TypeExprSetOperator.DIFFERENCE, TypeExprSetOperator.INTERSECT
+		-1, -1, TypeExprSetOperator.UNION, TypeExprSetOperator.DIFFERENCE, TypeExprSetOperator.INTERSECT
 	};
 
 	/** Opcode of the set operation. */
 	protected final int op;
 
-	private static final TypeExprNode EMPTY =
-		new TypeConstraintNode(Coords.getInvalid(), new CollectNode<IdentNode>());
+	private static final TypeExprNode EMPTY = new TypeConstraintNode(Coords.getInvalid(), new CollectNode<IdentNode>());
 
-	public static final TypeExprNode getEmpty() {
+	public static final TypeExprNode getEmpty()
+	{
 		return EMPTY;
 	}
 
-	protected TypeExprNode(Coords coords, int op) {
+	protected TypeExprNode(Coords coords, int op)
+	{
 		super(coords);
 		this.op = op;
 		assert op >= 0 && op <= LAST : "Illegal type constraint expr opcode";
@@ -58,13 +58,14 @@ public abstract class TypeExprNode extends BaseNode
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
 	@Override
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.CYAN;
 	}
 
 	@Override
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return "type expr " + opName[op];
 	}
 }
-

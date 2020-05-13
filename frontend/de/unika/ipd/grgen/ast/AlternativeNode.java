@@ -21,7 +21,8 @@ import de.unika.ipd.grgen.ir.Rule;
 /**
  * AST node that represents an alternative, containing the alternative graph patterns
  */
-public class AlternativeNode extends DeclNode {
+public class AlternativeNode extends DeclNode
+{
 	static {
 		setName(AlternativeNode.class, "alternative");
 	}
@@ -31,11 +32,13 @@ public class AlternativeNode extends DeclNode {
 
 	private Vector<AlternativeCaseNode> children = new Vector<AlternativeCaseNode>();
 
-	public AlternativeNode(IdentNode id) {
+	public AlternativeNode(IdentNode id)
+	{
 		super(id, alternativeType);
 	}
 
-	public void addChild(AlternativeCaseNode n) {
+	public void addChild(AlternativeCaseNode n)
+	{
 		assert(!isResolved());
 		becomeParent(n);
 		children.add(n);
@@ -43,13 +46,15 @@ public class AlternativeNode extends DeclNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<AlternativeCaseNode> getChildren() {
+	public Collection<AlternativeCaseNode> getChildren()
+	{
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	protected Collection<String> getChildrenNames() {
+	protected Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
 		return childrenNames;
@@ -57,14 +62,16 @@ public class AlternativeNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
-		if (children.isEmpty()) {
+	protected boolean checkLocal()
+	{
+		if(children.isEmpty()) {
 			this.reportError("alternative is empty");
 			return false;
 		}
@@ -74,9 +81,10 @@ public class AlternativeNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Alternative alternative = new Alternative(ident.getIdent());
-		for (AlternativeCaseNode alternativeCaseNode : children) {
+		for(AlternativeCaseNode alternativeCaseNode : children) {
 			Rule alternativeCaseRule = alternativeCaseNode.checkIR(Rule.class);
 			alternative.addAlternativeCase(alternativeCaseRule);
 		}
@@ -84,7 +92,8 @@ public class AlternativeNode extends DeclNode {
 	}
 
 	@Override
-	public AlternativeTypeNode getDeclType() {
+	public AlternativeTypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return alternativeType;

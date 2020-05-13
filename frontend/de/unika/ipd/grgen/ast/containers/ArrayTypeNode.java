@@ -22,13 +22,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArrayType;
 import de.unika.ipd.grgen.ir.Type;
 
-public class ArrayTypeNode extends DeclaredTypeNode {
+public class ArrayTypeNode extends DeclaredTypeNode
+{
 	static {
 		setName(ArrayTypeNode.class, "array type");
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "array<" + valueTypeUnresolved.toString() + "> type";
 	}
 
@@ -36,35 +38,41 @@ public class ArrayTypeNode extends DeclaredTypeNode {
 	public TypeNode valueType;
 
 	// the array type node instances are created in ParserEnvironment as needed
-	public ArrayTypeNode(IdentNode valueTypeIdent) {
+	public ArrayTypeNode(IdentNode valueTypeIdent)
+	{
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static final DeclarationTypeResolver<TypeNode> typeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(valueTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)valueTypeUnresolved);
 		else if(valueTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
 
-		if(valueType == null) return false;
+		if(valueType == null)
+			return false;
 
 		if(valueType instanceof InheritanceTypeNode) {
 			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
@@ -94,7 +102,8 @@ public class ArrayTypeNode extends DeclaredTypeNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Type vt = valueType.getType();
 		return new ArrayType(vt);
 	}

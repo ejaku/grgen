@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class IntMinExpr extends Expression {
-	public IntMinExpr() {
+public class IntMinExpr extends Expression
+{
+	public IntMinExpr()
+	{
 		super("intmin expr", IntType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

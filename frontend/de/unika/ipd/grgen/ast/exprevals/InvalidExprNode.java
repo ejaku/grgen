@@ -16,18 +16,21 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * representing invalid expressions.
  */
-public class InvalidExprNode extends ExprNode {
+public class InvalidExprNode extends ExprNode
+{
 	static {
 		setName(InvalidExprNode.class, "invalid expression");
 	}
 
-	public InvalidExprNode() {
+	public InvalidExprNode()
+	{
 		super(Coords.getInvalid());
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -35,7 +38,8 @@ public class InvalidExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
@@ -43,28 +47,32 @@ public class InvalidExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.errorType;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "invalid expression";
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "invalid expression";
 	}
-};
-
+}

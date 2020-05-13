@@ -14,21 +14,24 @@ package de.unika.ipd.grgen.ast;
 /**
  * AST node class representing auto-supplied and auto-generated filters
  */
-public abstract class FilterAutoNode extends DeclNode {
+public abstract class FilterAutoNode extends DeclNode
+{
 	static {
 		setName(FilterAutoNode.class, "auto filter");
 	}
-	
+
 	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode(); // dummy type
 
-	public FilterAutoNode(IdentNode ident) {
+	public FilterAutoNode(IdentNode ident)
+	{
 		super(ident, filterFunctionType);
 	}
-	
+
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
-	
+
 		return filterFunctionType;
 	}
 }

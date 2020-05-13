@@ -35,10 +35,11 @@ public class MapCopyConstructorNode extends ExprNode
 	private ExprNode mapToCopy;
 	private BaseNode lhsUnresolved;
 
-	public MapCopyConstructorNode(Coords coords, IdentNode member, MapTypeNode mapType, ExprNode mapToCopy) {
+	public MapCopyConstructorNode(Coords coords, IdentNode member, MapTypeNode mapType, ExprNode mapToCopy)
+	{
 		super(coords);
 
-		if(member!=null) {
+		if(member != null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
 			this.mapType = mapType;
@@ -47,22 +48,25 @@ public class MapCopyConstructorNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(mapToCopy);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("mapToCopy");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
-		if(mapType!=null) {
+	protected boolean resolveLocal()
+	{
+		if(mapType != null) {
 			return mapType.resolve();
 		} else {
 			return true;
@@ -70,41 +74,42 @@ public class MapCopyConstructorNode extends ExprNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean success = true;
 
-		if(lhsUnresolved!=null) {
+		if(lhsUnresolved != null) {
 			reportError("Map copy constructor not allowed in map initialization in model");
 			success = false;
 		} else {
-			if(mapToCopy.getType() instanceof MapTypeNode)
-			{
+			if(mapToCopy.getType() instanceof MapTypeNode) {
 				MapTypeNode sourceMapType = (MapTypeNode)mapToCopy.getType();
 				success &= checkCopyConstructorTypes(mapType.keyType, sourceMapType.keyType, "Map", " (key type)");
 				success &= checkCopyConstructorTypes(mapType.valueType, sourceMapType.valueType, "Map", " (value type)");
-			}
-			else
-			{
+			} else {
 				reportError("Map copy constructor expects map type");
 				success = false;
 			}
-		} 
+		}
 
 		return success;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
 		return mapType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new MapCopyConstructor(mapToCopy.checkIR(Expression.class), mapType.checkIR(MapType.class));
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "map copy constructor";
 	}
 }

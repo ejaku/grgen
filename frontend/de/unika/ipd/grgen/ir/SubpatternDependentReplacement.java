@@ -15,22 +15,26 @@ import java.util.List;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class SubpatternDependentReplacement extends Identifiable implements OrderedReplacement{
+public class SubpatternDependentReplacement extends Identifiable implements OrderedReplacement
+{
 	SubpatternUsage subpatternUsage;
 	List<Expression> replConnections;
 
 	public SubpatternDependentReplacement(String name, Ident ident,
-			SubpatternUsage subpatternUsage, List<Expression> replConnections) {
+			SubpatternUsage subpatternUsage, List<Expression> replConnections)
+	{
 		super(name, ident);
 		this.subpatternUsage = subpatternUsage;
 		this.replConnections = replConnections;
 	}
 
-	public SubpatternUsage getSubpatternUsage() {
+	public SubpatternUsage getSubpatternUsage()
+	{
 		return subpatternUsage;
 	}
 
-	public List<Expression> getReplConnections() {
+	public List<Expression> getReplConnections()
+	{
 		return replConnections;
 	}
 }

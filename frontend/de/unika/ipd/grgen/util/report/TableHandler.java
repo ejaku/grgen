@@ -18,31 +18,31 @@ import java.util.Vector;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-
 /**
  * A reporter that is a table model. So reported messages can be viewed
  * using a JTable.
  */
-public class TableHandler implements TableModel, Handler {
-
+public class TableHandler implements TableModel, Handler
+{
 	private static final String[] msgNames = {
-		"error", "warning", "note", "debug", "note"
+			"error", "warning", "note", "debug", "note"
 	};
 
 	private static final int COL_DEGREE = 0;
 	private static final int COL_MSG = 1;
 
 	private static final String[] columnNames = {
-		"degree", "message"
+			"degree", "message"
 	};
 
-	private static class Message {
-
+	private static class Message
+	{
 		byte degree;
 		String msg;
 
-		public Message(int degree, String msg) {
-			this.degree = (byte) degree;
+		public Message(int degree, String msg)
+		{
+			this.degree = (byte)degree;
 			this.msg = msg;
 
 			if(degree < 0 || degree > 4)
@@ -58,7 +58,8 @@ public class TableHandler implements TableModel, Handler {
 	 * Add a listener.
 	 * @param listener The listener.
 	 */
-	public void addTableModelListener(TableModelListener listener) {
+	public void addTableModelListener(TableModelListener listener)
+	{
 		listeners.add(listener);
 	}
 
@@ -66,42 +67,49 @@ public class TableHandler implements TableModel, Handler {
 	 * Remove a listener.
 	 * @param listener The listener.
 	 */
-	public void removeTableModelListener(TableModelListener listener) {
+	public void removeTableModelListener(TableModelListener listener)
+	{
 		listeners.remove(listener);
 	}
 
 	/**
 	 *
 	 */
-	public Class<String> getColumnClass(int arg0) {
+	public Class<String> getColumnClass(int arg0)
+	{
 		return String.class;
 	}
+
 	/**
 	 *
 	 */
 
-	public int getColumnCount() {
+	public int getColumnCount()
+	{
 		return columnNames.length;
 	}
 
 	/**
 	 *
 	 */
-	public String getColumnName(int col) {
+	public String getColumnName(int col)
+	{
 		return columnNames[col];
 	}
 
 	/**
 	 *
 	 */
-	public int getRowCount() {
+	public int getRowCount()
+	{
 		return messages.size();
 	}
 
 	/**
 	 *
 	 */
-	public Object getValueAt(int row, int col) {
+	public Object getValueAt(int row, int col)
+	{
 		Message m = messages.get(row);
 		String res = "";
 
@@ -123,31 +131,36 @@ public class TableHandler implements TableModel, Handler {
 	 * @param col The column.
 	 * @return We always return false here.
 	 */
-	public boolean isCellEditable(int row, int col) {
+	public boolean isCellEditable(int row, int col)
+	{
 		return false;
 	}
 
 	/**
 	 * Editing is not allowed, so empty body here.
 	 */
-	public void setValueAt(Object arg0, int arg1, int arg2) {
+	public void setValueAt(Object arg0, int arg1, int arg2)
+	{
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Handler#entering(java.lang.String)
 	 */
-	public void entering(String s) {
+	public void entering(String s)
+	{
 		// left empty.
 	}
 
-	public void leaving() {
+	public void leaving()
+	{
 		// left empty.
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Handler#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
 	 */
-	public void report(int level, Location loc, String msg) {
+	public void report(int level, Location loc, String msg)
+	{
 		messages.add(new Message(level, msg));
 	}
 }

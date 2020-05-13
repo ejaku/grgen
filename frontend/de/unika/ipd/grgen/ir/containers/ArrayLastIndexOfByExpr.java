@@ -13,20 +13,23 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayLastIndexOfByExpr extends Expression {
+public class ArrayLastIndexOfByExpr extends Expression
+{
 	private Expression targetExpr;
 	private Entity member;
 	private Expression valueExpr;
 	private Expression startIndexExpr;
 
-	public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr) {
+	public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr)
+	{
 		super("array lastIndexOfBy expr", IntType.getType());
 		this.targetExpr = targetExpr;
 		this.member = member;
 		this.valueExpr = valueExpr;
 	}
 
-	public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr, Expression startIndexExpr) {
+	public ArrayLastIndexOfByExpr(Expression targetExpr, Entity member, Expression valueExpr, Expression startIndexExpr)
+	{
 		super("array indexOfBy expr", IntType.getType());
 		this.targetExpr = targetExpr;
 		this.member = member;
@@ -34,23 +37,28 @@ public class ArrayLastIndexOfByExpr extends Expression {
 		this.startIndexExpr = startIndexExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Entity getMember() {
+	public Entity getMember()
+	{
 		return member;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public Expression getStartIndexExpr() {
+	public Expression getStartIndexExpr()
+	{
 		return startIndexExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);

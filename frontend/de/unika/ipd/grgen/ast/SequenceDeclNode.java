@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.ExecVariable;
@@ -21,11 +20,11 @@ import de.unika.ipd.grgen.ir.Sequence;
 import java.util.Collection;
 import java.util.Vector;
 
-
 /**
  * AST node for a graph rewrite sequence definition.
  */
-public class SequenceDeclNode extends DeclNode {
+public class SequenceDeclNode extends DeclNode
+{
 	static {
 		setName(SequenceDeclNode.class, "sequence declaration");
 	}
@@ -41,7 +40,8 @@ public class SequenceDeclNode extends DeclNode {
 
 	/** Make a sequence definition. */
 	public SequenceDeclNode(IdentNode id, ExecNode exec,
-			CollectNode<ExecVarDeclNode> inParams, CollectNode<ExecVarDeclNode> outParams) {
+			CollectNode<ExecVarDeclNode> inParams, CollectNode<ExecVarDeclNode> outParams)
+	{
 		super(id, sequenceType);
 		this.exec = exec;
 		becomeParent(this.exec);
@@ -52,7 +52,8 @@ public class SequenceDeclNode extends DeclNode {
 	}
 
 	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(exec);
@@ -62,7 +63,8 @@ public class SequenceDeclNode extends DeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("exec");
@@ -72,27 +74,31 @@ public class SequenceDeclNode extends DeclNode {
 	}
 
 	protected static final DeclarationTypeResolver<SequenceTypeNode> typeResolver =
-		new DeclarationTypeResolver<SequenceTypeNode>(SequenceTypeNode.class);
+			new DeclarationTypeResolver<SequenceTypeNode>(SequenceTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-    /** Returns the IR object for this sequence node. */
-    protected Sequence getSequence() {
-        return checkIR(Sequence.class);
-    }
+	/** Returns the IR object for this sequence node. */
+	protected Sequence getSequence()
+	{
+		return checkIR(Sequence.class);
+	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Sequence sequence = new Sequence(getIdentNode().getIdent(), exec.checkIR(Exec.class));
 		for(ExecVarDeclNode inParam : inParams.getChildren()) {
 			sequence.addInParam(inParam.checkIR(ExecVariable.class));
@@ -104,18 +110,20 @@ public class SequenceDeclNode extends DeclNode {
 	}
 
 	@Override
-	public SequenceTypeNode getDeclType() {
+	public SequenceTypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return type;
 	}
-	
-	public static String getKindStr() {
+
+	public static String getKindStr()
+	{
 		return "sequence declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "sequence";
 	}
 }
-

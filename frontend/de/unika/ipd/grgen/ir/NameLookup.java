@@ -13,13 +13,15 @@ import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 /**
  * Class for accessing the name map, binding a pattern element
  */
-public class NameLookup {
+public class NameLookup
+{
 	public Expression expr;
-	
-	public NameLookup(Expression expr) {
+
+	public NameLookup(Expression expr)
+	{
 		this.expr = expr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		expr.collectNeededEntities(needs);

@@ -18,43 +18,61 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
 
-interface ModifyGenerationStateConst extends ExpressionGenerationState {
+interface ModifyGenerationStateConst extends ExpressionGenerationState
+{
 	String name();
-	
+
 	Collection<Node> commonNodes();
+
 	Collection<Edge> commonEdges();
+
 	Collection<SubpatternUsage> commonSubpatternUsages();
 
 	Collection<Node> newNodes();
+
 	Collection<Edge> newEdges();
+
 	Collection<SubpatternUsage> newSubpatternUsages();
 
 	Collection<Node> delNodes();
+
 	Collection<Edge> delEdges();
+
 	Collection<SubpatternUsage> delSubpatternUsages();
-	
+
 	Collection<Node> yieldedNodes();
+
 	Collection<Edge> yieldedEdges();
+
 	Collection<Variable> yieldedVariables();
 
 	Collection<Node> newOrRetypedNodes();
+
 	Collection<Edge> newOrRetypedEdges();
+
 	Collection<GraphEntity> accessViaInterface();
 
 	Map<GraphEntity, HashSet<Entity>> neededAttributes();
+
 	Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete();
 
 	Collection<Variable> neededVariables();
 
 	Collection<Node> nodesNeededAsElements();
+
 	Collection<Edge> edgesNeededAsElements();
+
 	Collection<Node> nodesNeededAsAttributes();
+
 	Collection<Edge> edgesNeededAsAttributes();
+
 	Collection<Node> nodesNeededAsTypes();
+
 	Collection<Edge> edgesNeededAsTypes();
 
 	Map<GraphEntity, HashSet<Entity>> forceAttributeToVar();
-	
+
 	String matchClassName();
+
 	String packagePrefix();
 }

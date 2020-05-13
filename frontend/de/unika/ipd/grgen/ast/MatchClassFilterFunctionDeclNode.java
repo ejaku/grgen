@@ -24,25 +24,27 @@ import de.unika.ipd.grgen.ir.MatchClassFilterFunction;
 import de.unika.ipd.grgen.ir.MatchClassFilterFunctionExternal;
 import de.unika.ipd.grgen.ir.MatchClassFilterFunctionInternal;
 
-
 /**
  * AST node class representing match class filter function declarations
  */
-public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchClassFilterCharacter {
+public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchClassFilterCharacter
+{
 	static {
 		setName(MatchClassFilterFunctionDeclNode.class, "match class filter function declaration");
 	}
 
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
-	
+
 	public CollectNode<EvalStatementNode> evals;
 	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode();
 
 	protected IdentNode matchTypeUnresolved;
 	protected DefinedMatchTypeNode matchType;
 
-	public MatchClassFilterFunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, IdentNode matchType) {
+	public MatchClassFilterFunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals,
+			CollectNode<BaseNode> params, IdentNode matchType)
+	{
 		super(id, filterFunctionType);
 		this.evals = evals;
 		becomeParent(this.evals);
@@ -53,10 +55,11 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		if(evals!=null)
+		if(evals != null)
 			children.add(evals);
 		children.add(paramsUnresolved);
 		children.add(matchTypeUnresolved);
@@ -65,10 +68,11 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
-		if(evals!=null)
+		if(evals != null)
 			childrenNames.add("evals");
 		childrenNames.add("params");
 		childrenNames.add("matchType");
@@ -76,11 +80,12 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	}
 
 	private static final DeclarationTypeResolver<DefinedMatchTypeNode> matchTypeResolver =
-		new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class);
+			new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!(matchTypeUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition(matchTypeUnresolved, matchTypeUnresolved.getScope());
 		}
@@ -90,50 +95,53 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		params = new CollectNode<DeclNode>();
-		for (BaseNode param : paramsUnresolved.getChildren()) {
-			if (param instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) param;
+		for(BaseNode param : paramsUnresolved.getChildren()) {
+			if(param instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)param;
 				params.addChild(conn.getEdge().getDecl());
-			}
-			else if (param instanceof SingleNodeConnNode) {
-				NodeDeclNode node = ((SingleNodeConnNode) param).getNode();
+			} else if(param instanceof SingleNodeConnNode) {
+				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
 				params.addChild(node);
-			}
-			else if(param instanceof VarDeclNode) {
-				params.addChild((VarDeclNode) param);
-			}
-			else
+			} else if(param instanceof VarDeclNode) {
+				params.addChild((VarDeclNode)param);
+			} else
 				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
 		}
 
 		return true;
 	}
 
-	public String getFilterName() {
+	public String getFilterName()
+	{
 		return getIdentNode().toString();
 	}
 
-	public DefinedMatchTypeNode getMatchTypeNode() {
+	public DefinedMatchTypeNode getMatchTypeNode()
+	{
 		return matchType;
 	}
 
 	/** Returns the IR object for this match class function filter node. */
-	public MatchClassFilterFunction getMatchClassFilterFunction() {
+	public MatchClassFilterFunction getMatchClassFilterFunction()
+	{
 		return checkIR(MatchClassFilterFunction.class);
 	}
 
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
-	
+
 		return filterFunctionType;
 	}
-	
-	public Vector<TypeNode> getParameterTypes() {
+
+	public Vector<TypeNode> getParameterTypes()
+	{
 		assert isChecked();
-		
+
 		Vector<TypeNode> types = new Vector<TypeNode>();
 		for(DeclNode decl : params.getChildren()) {
 			types.add(decl.getDeclType());
@@ -143,7 +151,8 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
 		if(isIRAlreadySet()) {
@@ -151,7 +160,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 		}
 
 		MatchClassFilterFunction filterFunction;
-		if(evals!=null)
+		if(evals != null)
 			filterFunction = new MatchClassFilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIdent());
 		else
 			filterFunction = new MatchClassFilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIdent());
@@ -162,13 +171,13 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 		DefinedMatchType definedMatchType = matchType.checkIR(DefinedMatchType.class);
 		filterFunction.setMatchClass(definedMatchType);
 		definedMatchType.addMatchClassFilter(filterFunction);
-		
+
 		// add Params to the IR
 		for(DeclNode decl : params.getChildren()) {
 			filterFunction.addParameter(decl.checkIR(Entity.class));
 		}
 
-		if(evals!=null) {
+		if(evals != null) {
 			// add Computation Statements to the IR
 			for(EvalStatementNode eval : evals.getChildren()) {
 				((MatchClassFilterFunctionInternal)filterFunction).addComputationStatement(eval.checkIR(EvalStatement.class));
@@ -177,14 +186,14 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 
 		return filterFunction;
 	}
-	
-	public static String getKindStr() {
+
+	public static String getKindStr()
+	{
 		return "match class filter function declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "match class filter function";
 	}
 }
-
-

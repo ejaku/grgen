@@ -11,23 +11,28 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class DeleteFileProc extends ProcedureInvocationBase {
+public class DeleteFileProc extends ProcedureInvocationBase
+{
 	private Expression pathExpr;
 
-	public DeleteFileProc(Expression pathExpr) {
+	public DeleteFileProc(Expression pathExpr)
+	{
 		super("deleteFile procedure");
 		this.pathExpr = pathExpr;
 	}
 
-	public Expression getPathExpr() {
+	public Expression getPathExpr()
+	{
 		return pathExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		pathExpr.collectNeededEntities(needs);
 	}
 }

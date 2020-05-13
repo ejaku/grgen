@@ -14,26 +14,31 @@ package de.unika.ipd.grgen.ir;
 /**
  * An auto-supplied filter.
  */
-public class FilterAutoSupplied extends IR implements Filter {
+public class FilterAutoSupplied extends IR implements Filter
+{
 	protected String name;
 
 	/** The action we're a filter for */
 	protected Rule action;
 
-	public FilterAutoSupplied(String name) {
+	public FilterAutoSupplied(String name)
+	{
 		super(name);
 		this.name = name;
 	}
-	
-	public void setAction(Rule action) {
+
+	public void setAction(Rule action)
+	{
 		this.action = action;
 	}
-	
-	public Rule getAction() {
+
+	public Rule getAction()
+	{
 		return action;
 	}
-	
-	public String getFilterName() {
+
+	public String getFilterName()
+	{
 		return name;
 	}
 }

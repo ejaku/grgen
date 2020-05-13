@@ -23,12 +23,14 @@ import de.unika.ipd.grgen.ir.exprevals.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
+public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
+{
 	static {
 		setName(EnumExprNode.class, "enum access expression");
 	}
 
-	public EnumExprNode(Coords coords, IdentNode owner, IdentNode member) {
+	public EnumExprNode(Coords coords, IdentNode owner, IdentNode member)
+	{
 		super(coords, owner, member);
 	}
 
@@ -38,7 +40,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(ownerUnresolved, owner));
 		children.add(getValidVersion(memberUnresolved, member));
@@ -46,23 +49,25 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	}
 	// TODO Missing getChildrenNames()...
 
+	private static final DeclarationTypeResolver<EnumTypeNode> ownerResolver =
+			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
 
-	private static final DeclarationTypeResolver<EnumTypeNode> ownerResolver = new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
-
-	private static final DeclarationResolver<EnumItemNode> memberResolver = new DeclarationResolver<EnumItemNode>(EnumItemNode.class);
+	private static final DeclarationResolver<EnumItemNode> memberResolver =
+			new DeclarationResolver<EnumItemNode>(EnumItemNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
 		owner = ownerResolver.resolve(ownerUnresolved, this);
-		successfullyResolved = owner!=null && successfullyResolved;
+		successfullyResolved = owner != null && successfullyResolved;
 
 		if(owner != null) {
 			owner.fixupDefinition(memberUnresolved);
 
 			member = memberResolver.resolve(memberUnresolved, this);
-			successfullyResolved = member!=null && successfullyResolved;
+			successfullyResolved = member != null && successfullyResolved;
 		} else {
 			successfullyResolved = false;
 		}
@@ -72,14 +77,16 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
 	@Override
-	public EnumItemNode getDecl() {
+	public EnumItemNode getDecl()
+	{
 		assert isResolved();
 
 		return member;
 	}
 
 	@Override
-	protected DeclNode getOwner() {
+	protected DeclNode getOwner()
+	{
 		assert isResolved();
 
 		return DeclNode.getInvalid();
@@ -90,10 +97,10 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	 * @return An enum expression IR object.
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		EnumType et = owner.checkIR(EnumType.class);
 		EnumItem it = member.checkIR(EnumItem.class);
 		return new EnumExpression(et, it);
 	}
 }
-

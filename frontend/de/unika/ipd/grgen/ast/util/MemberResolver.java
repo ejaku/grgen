@@ -45,7 +45,8 @@ public class MemberResolver<T> extends Base
 	 * @returns True, if the BaseNode was resolved.
 	 *          False, when an error occurred (the error is reported).
 	 */
-	public boolean resolve(BaseNode node) {
+	public boolean resolve(BaseNode node)
+	{
 		triedClasses.clear();
 		validClasses = 0;
 
@@ -55,23 +56,23 @@ public class MemberResolver<T> extends Base
 			return true;
 		}
 
-		IdentNode identNode = (IdentNode) orginalNode;
+		IdentNode identNode = (IdentNode)orginalNode;
 		unresolvedNode = identNode.getDecl();
 
-		if (unresolvedNode instanceof InvalidDeclNode) {
+		if(unresolvedNode instanceof InvalidDeclNode) {
 			DeclNode scopeDecl = identNode.getScope().getIdentNode().getDecl();
-			if(scopeDecl instanceof ActionDeclNode || scopeDecl instanceof SequenceDeclNode 
-					|| scopeDecl instanceof ProcedureDeclNode || scopeDecl instanceof FunctionDeclNode 
+			if(scopeDecl instanceof ActionDeclNode || scopeDecl instanceof SequenceDeclNode
+					|| scopeDecl instanceof ProcedureDeclNode || scopeDecl instanceof FunctionDeclNode
 					|| scopeDecl instanceof FilterFunctionDeclNode || scopeDecl instanceof InvalidDeclNode) {
 				identNode.reportError("Undefined identifier \"" + identNode.toString() + "\"");
 				return false;
 			} else {
 				if(scopeDecl.getDeclType() instanceof EnumTypeNode) {
-					identNode.reportError("Resolving failure, see error messages before; unexpected enum member " + identNode.toString()
-							+ " of " + scopeDecl.getDeclType());
+					identNode.reportError("Resolving failure, see error messages before; unexpected enum member "
+							+ identNode.toString() + " of " + scopeDecl.getDeclType());
 					return false;
 				}
-				InheritanceTypeNode typeNode = (InheritanceTypeNode) scopeDecl.getDeclType();
+				InheritanceTypeNode typeNode = (InheritanceTypeNode)scopeDecl.getDeclType();
 				Map<String, DeclNode> allMembers = typeNode.getAllMembers();
 				unresolvedNode = allMembers.get(identNode.toString());
 				if(unresolvedNode == null) {
@@ -84,7 +85,8 @@ public class MemberResolver<T> extends Base
 		return true;
 	}
 
-	public T getResult() {
+	public T getResult()
+	{
 		return resolvedNode;
 	}
 
@@ -92,10 +94,10 @@ public class MemberResolver<T> extends Base
 	 * Returns the last resolved BaseNode, if it has the given type.
 	 * Otherwise it returns null.
 	 */
-	public <S extends T> S getResult(Class<S> cls) {
+	public <S extends T> S getResult(Class<S> cls)
+	{
 		triedClasses.add(cls);
-		if(cls.isInstance(unresolvedNode))
-		{
+		if(cls.isInstance(unresolvedNode)) {
 			validClasses++;
 			resolvedNode = cls.cast(unresolvedNode);
 			return cls.cast(unresolvedNode);
@@ -107,19 +109,22 @@ public class MemberResolver<T> extends Base
 	/**
 	 * Reports an error with all failed classes for the last resolved BaseNode.
 	 */
-	public void failed() {
+	public void failed()
+	{
 		Class<?>[] classes = new Class<?>[triedClasses.size()];
 		orginalNode.reportError("\"" + orginalNode + "\" is a " + orginalNode.getUseString() + " but a "
-		        + Util.getStrListWithOr(triedClasses.toArray(classes), BaseNode.class, "getUseStr")
-		        + " is expected");
+				+ Util.getStrListWithOr(triedClasses.toArray(classes), BaseNode.class, "getUseStr")
+				+ " is expected");
 	}
 
 	/**
 	 * Returns true, if exactly one valid result was returned for the last resolved BaseNode.
 	 * Otherwise it reports an error with all expected classes.
 	 */
-	public boolean finish() {
-		if(validClasses == 1) return true;
+	public boolean finish()
+	{
+		if(validClasses == 1)
+			return true;
 		failed();
 		return false;
 	}

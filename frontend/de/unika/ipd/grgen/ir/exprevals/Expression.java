@@ -23,14 +23,16 @@ public abstract class Expression extends IR
 	/** The type of the expression. */
 	protected Type type;
 
-	public Expression(String name, Type type) {
+	public Expression(String name, Type type)
+	{
 		super(name);
 		setChildrenNames(childrenNames);
 		this.type = type;
 	}
 
 	/** @return The type of the expression. */
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
@@ -40,14 +42,15 @@ public abstract class Expression extends IR
 	 * @param needs A NeededEntities instance aggregating the needed elements.
 	 */
 	public abstract void collectNeededEntities(NeededEntities needs);
-	
-	public static boolean isGlobalVariable(Entity entity) {
+
+	public static boolean isGlobalVariable(Entity entity)
+	{
 		if(entity instanceof Node && !(entity instanceof RetypedNode)) {
-			return ((Node)entity).directlyNestingLHSGraph==null;
+			return ((Node)entity).directlyNestingLHSGraph == null;
 		} else if(entity instanceof Edge && !(entity instanceof RetypedEdge)) {
-			return ((Edge)entity).directlyNestingLHSGraph==null;
+			return ((Edge)entity).directlyNestingLHSGraph == null;
 		} else if(entity instanceof Variable) {
-			return ((Variable)entity).directlyNestingLHSGraph==null;
+			return ((Variable)entity).directlyNestingLHSGraph == null;
 		}
 		return false;
 	}

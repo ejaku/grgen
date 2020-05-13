@@ -20,41 +20,46 @@ import de.unika.ipd.grgen.ir.exprevals.VFreeProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class VFreeProcNode extends ProcedureInvocationBaseNode {
+public class VFreeProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(VFreeProcNode.class, "vfree procedure");
 	}
 
 	private ExprNode visFlagExpr;
 
-
-	public VFreeProcNode(Coords coords, ExprNode visFlagExpr) {
+	public VFreeProcNode(Coords coords, ExprNode visFlagExpr)
+	{
 		super(coords);
 
 		this.visFlagExpr = becomeParent(visFlagExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(visFlagExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("visFlagExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!visFlagExpr.getType().isEqual(BasicTypeNode.intType)) {
 			visFlagExpr.reportError("Argument (visited flag id) to vfree statement must be of type int");
 			return false;
@@ -62,12 +67,14 @@ public class VFreeProcNode extends ProcedureInvocationBaseNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new VFreeProc(visFlagExpr.checkIR(Expression.class));
 	}
 }

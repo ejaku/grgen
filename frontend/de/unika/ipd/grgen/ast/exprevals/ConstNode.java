@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.parser.Coords;
  * Constant expressions.
  * A constant is 0-ary operator.
  */
-public abstract class ConstNode extends OpNode {
+public abstract class ConstNode extends OpNode
+{
 	/** The value of the constant. */
 	protected Object value;
 
@@ -33,14 +34,16 @@ public abstract class ConstNode extends OpNode {
 	private static final ConstNode INVALID = new InvalidConstNode(
 		Coords.getBuiltin(), "invalid const", "invalid value");
 
-	public static final ConstNode getInvalid() {
+	public static final ConstNode getInvalid()
+	{
 		return INVALID;
 	}
 
 	/**
 	 * @param coords The source code coordinates.
 	 */
-	public ConstNode(Coords coords, String name, Object value) {
+	public ConstNode(Coords coords, String name, Object value)
+	{
 		super(coords, OperatorSignature.CONST);
 		this.value = value;
 		this.name = name;
@@ -48,7 +51,8 @@ public abstract class ConstNode extends OpNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -56,7 +60,8 @@ public abstract class ConstNode extends OpNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
@@ -64,7 +69,8 @@ public abstract class ConstNode extends OpNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
@@ -72,7 +78,8 @@ public abstract class ConstNode extends OpNode {
 	 * Get the value of the constant.
 	 * @return The value.
 	 */
-	public Object getValue() {
+	public Object getValue()
+	{
 		return value;
 	}
 
@@ -80,12 +87,14 @@ public abstract class ConstNode extends OpNode {
 	 * Include the constants value in its string representation.
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
+	public String toString()
+	{
 		return OperatorSignature.getName(getOpId()) + " " + value.toString();
 	}
 
 	@Override
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return toString();
 	}
 
@@ -93,7 +102,8 @@ public abstract class ConstNode extends OpNode {
 	 * Just a convenience function.
 	 * @return The IR object.
 	 */
-	protected Constant getConstant() {
+	protected Constant getConstant()
+	{
 		return checkIR(Constant.class);
 	}
 
@@ -101,7 +111,8 @@ public abstract class ConstNode extends OpNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new Constant(getType().getType(), value);
 	}
 
@@ -109,7 +120,8 @@ public abstract class ConstNode extends OpNode {
 	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
 	 */
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.errorType;
 	}
 
@@ -118,12 +130,13 @@ public abstract class ConstNode extends OpNode {
 	 * @param type The new type.
 	 * @return A new constant with the corresponding value and a new type.
 	 */
-	protected final ConstNode castTo(TypeNode type) {
+	protected final ConstNode castTo(TypeNode type)
+	{
 		ConstNode res = getInvalid();
 
-		if (getType().isEqual(type)) {
+		if(getType().isEqual(type)) {
 			res = this;
-		} else if (getType().isCastableTo(type)) {
+		} else if(getType().isCastableTo(type)) {
 			res = doCastTo(type);
 		}
 

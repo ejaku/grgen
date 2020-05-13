@@ -9,10 +9,10 @@ package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 
-public class Quadruple<R extends BaseNode, S extends BaseNode, T extends BaseNode, U extends BaseNode> {
+public class Quadruple<R extends BaseNode, S extends BaseNode, T extends BaseNode, U extends BaseNode>
+{
 	public R first = null;
 	public S second = null;
 	public T third = null;
 	public U fourth = null;
 }
-

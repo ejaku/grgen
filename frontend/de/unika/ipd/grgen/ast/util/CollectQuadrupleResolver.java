@@ -18,7 +18,8 @@ public class CollectQuadrupleResolver<R extends BaseNode, S extends BaseNode, T 
 {
 	private Resolver<? extends Quadruple<R, S, T, U>> resolver;
 
-	public CollectQuadrupleResolver(Resolver<? extends Quadruple<R, S, T, U>> resolver) {
+	public CollectQuadrupleResolver(Resolver<? extends Quadruple<R, S, T, U>> resolver)
+	{
 		this.resolver = resolver;
 	}
 
@@ -26,46 +27,47 @@ public class CollectQuadrupleResolver<R extends BaseNode, S extends BaseNode, T 
 	 * resolves the collect node to collect nodes of type R, S, T and U via
 	 * the given resolver
 	 */
-	public Quadruple<CollectNode<R>, CollectNode<S>, CollectNode<T>, CollectNode<U>> resolve(CollectNode<?> collect) {
+	public Quadruple<CollectNode<R>, CollectNode<S>, CollectNode<T>, CollectNode<U>> resolve(CollectNode<?> collect)
+	{
 		CollectNode<R> first = null;
 		CollectNode<S> second = null;
 		CollectNode<T> third = null;
 		CollectNode<U> fourth = null;
 
-		for (BaseNode elem : collect.getChildren()) {
-	        Quadruple<R, S, T, U> quadruple = resolver.resolve(elem, collect);
-	        if (quadruple == null) {
-	        	return null;
-	        }
-	        if (quadruple.first != null) {
-	        	if (first == null) {
-	        		first = new CollectNode<R>();
+		for(BaseNode elem : collect.getChildren()) {
+			Quadruple<R, S, T, U> quadruple = resolver.resolve(elem, collect);
+			if(quadruple == null) {
+				return null;
+			}
+			if(quadruple.first != null) {
+				if(first == null) {
+					first = new CollectNode<R>();
 					first.setCoords(collect.getCoords());
-	        	}
-	        	first.addChild(quadruple.first);
-	        }
-	        if (quadruple.second != null) {
-	        	if (second == null) {
-	        		second = new CollectNode<S>();
+				}
+				first.addChild(quadruple.first);
+			}
+			if(quadruple.second != null) {
+				if(second == null) {
+					second = new CollectNode<S>();
 					second.setCoords(collect.getCoords());
-	        	}
-	        	second.addChild(quadruple.second);
-	        }
-	        if (quadruple.third != null) {
-	        	if (third == null) {
-	        		third = new CollectNode<T>();
+				}
+				second.addChild(quadruple.second);
+			}
+			if(quadruple.third != null) {
+				if(third == null) {
+					third = new CollectNode<T>();
 					third.setCoords(collect.getCoords());
-	        	}
-	        	third.addChild(quadruple.third);
-	        }
-	        if (quadruple.fourth != null) {
-	        	if (fourth == null) {
-	        		fourth = new CollectNode<U>();
+				}
+				third.addChild(quadruple.third);
+			}
+			if(quadruple.fourth != null) {
+				if(fourth == null) {
+					fourth = new CollectNode<U>();
 					fourth.setCoords(collect.getCoords());
-	        	}
-	        	fourth.addChild(quadruple.fourth);
-	        }
-        }
+				}
+				fourth.addChild(quadruple.fourth);
+			}
+		}
 
 		Quadruple<CollectNode<R>, CollectNode<S>, CollectNode<T>, CollectNode<U>> res = new Quadruple<CollectNode<R>, CollectNode<S>, CollectNode<T>, CollectNode<U>>();
 		res.first = first;

@@ -26,7 +26,8 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * A compound type member declaration.
  */
-public class MemberDeclNode extends DeclNode {
+public class MemberDeclNode extends DeclNode
+{
 	static {
 		setName(MemberDeclNode.class, "member declaration");
 	}
@@ -39,14 +40,16 @@ public class MemberDeclNode extends DeclNode {
 	 * @param n Identifier which declared the member.
 	 * @param t Type with which the member was declared.
 	 */
-	public MemberDeclNode(IdentNode n, BaseNode t, boolean isConst) {
+	public MemberDeclNode(IdentNode n, BaseNode t, boolean isConst)
+	{
 		super(n, t);
 		this.isConst = isConst;
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -55,41 +58,49 @@ public class MemberDeclNode extends DeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		return childrenNames;
 	}
 
-	public boolean isConst() {
+	public boolean isConst()
+	{
 		return isConst;
 	}
 
-	public BaseNode getConstInitializer() {
+	public BaseNode getConstInitializer()
+	{
 		return constInitializer;
 	}
 
-	public void setConstInitializer(BaseNode init) {
+	public void setConstInitializer(BaseNode init)
+	{
 		constInitializer = init;
 	}
 
-	private static final DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static final DeclarationTypeResolver<TypeNode> typeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(typeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)typeUnresolved);
-		else if(typeUnresolved instanceof IdentNode)
+		else if(typeUnresolved instanceof IdentNode) {
 			fixupDefinition((IdentNode)typeUnresolved, ((IdentNode)typeUnresolved).getScope().getIdentNode().getScope());
+		}
 		type = typeResolver.resolve(typeUnresolved, this);
-		return type!=null;
+		return type != null;
 	}
 
 	/** @return The type node of the declaration */
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return type;
@@ -102,21 +113,25 @@ public class MemberDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return typeChecker.check(type, error);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Type type = getDeclType().checkIR(Type.class);
 		return new Entity("entity", getIdentNode().getIdent(), type, isConst, false, 0);
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "member declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "member access";
 	}
 }

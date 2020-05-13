@@ -22,24 +22,26 @@ import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 
-
 /**
  * AST node class representing function declarations
  */
-public class FunctionDeclNode extends FunctionBase {
+public class FunctionDeclNode extends FunctionBase
+{
 	static {
 		setName(FunctionDeclNode.class, "function declaration");
 	}
 
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
-	
+
 	public CollectNode<EvalStatementNode> evals;
 	static final FunctionTypeNode functionType = new FunctionTypeNode();
-	
+
 	boolean isMethod;
 
-	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, BaseNode ret, boolean isMethod) {
+	public FunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params,
+			BaseNode ret, boolean isMethod)
+	{
 		super(id, functionType);
 		this.evals = evals;
 		becomeParent(this.evals);
@@ -52,7 +54,8 @@ public class FunctionDeclNode extends FunctionBase {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(evals);
@@ -63,7 +66,8 @@ public class FunctionDeclNode extends FunctionBase {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("evals");
@@ -74,42 +78,43 @@ public class FunctionDeclNode extends FunctionBase {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		params = new CollectNode<DeclNode>();
-		for (BaseNode param : paramsUnresolved.getChildren()) {
-	        if (param instanceof ConnectionNode) {
-	        	ConnectionNode conn = (ConnectionNode) param;
-	        	params.addChild(conn.getEdge().getDecl());
-	        }
-	        else if (param instanceof SingleNodeConnNode) {
-	        	NodeDeclNode node = ((SingleNodeConnNode) param).getNode();
-	        	params.addChild(node);
-	        }
-			else if(param instanceof VarDeclNode) {
-				params.addChild((VarDeclNode) param);
-			}
-			else
+		for(BaseNode param : paramsUnresolved.getChildren()) {
+			if(param instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)param;
+				params.addChild(conn.getEdge().getDecl());
+			} else if(param instanceof SingleNodeConnNode) {
+				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
+				params.addChild(node);
+			} else if(param instanceof VarDeclNode) {
+				params.addChild((VarDeclNode)param);
+			} else
 				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
-        }
+		}
 
 		return true;
 	}
 
 	/** Returns the IR object for this function node. */
-    public Function getFunction() {
-        return checkIR(Function.class);
-    }
-    
+	public Function getFunction()
+	{
+		return checkIR(Function.class);
+	}
+
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
-	
+
 		return functionType;
 	}
-	
-	public Vector<TypeNode> getParameterTypes() {
+
+	public Vector<TypeNode> getParameterTypes()
+	{
 		assert isChecked();
-		
+
 		Vector<TypeNode> types = new Vector<TypeNode>();
 		for(DeclNode decl : params.getChildren()) {
 			types.add(decl.getDeclType());
@@ -119,16 +124,17 @@ public class FunctionDeclNode extends FunctionBase {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
 		if(isIRAlreadySet()) {
 			return getIR();
 		}
 
-		Function function = isMethod ?
-				new FunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class)) :
-				new Function(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class));
+		Function function = isMethod
+				? new FunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class))
+				: new Function(getIdentNode().toString(), getIdentNode().getIdent(), ret.checkIR(Type.class));
 
 		// mark this node as already visited
 		setIR(function);
@@ -145,14 +151,14 @@ public class FunctionDeclNode extends FunctionBase {
 
 		return function;
 	}
-	
-	public static String getKindStr() {
+
+	public static String getKindStr()
+	{
 		return "function declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "function";
 	}
 }
-
-

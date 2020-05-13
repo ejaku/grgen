@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
@@ -30,11 +29,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
-
 /**
  * AST node for a modify right-hand side.
  */
-public class ModifyDeclNode extends RhsDeclNode {
+public class ModifyDeclNode extends RhsDeclNode
+{
 	static {
 		setName(ModifyDeclNode.class, "modify declaration");
 	}
@@ -46,20 +45,21 @@ public class ModifyDeclNode extends RhsDeclNode {
 	private Set<DeclNode> deletedElements;
 	private Set<BaseNode> reusedNodes;
 
-
 	/**
 	 * Make a new modify right-hand side.
 	 * @param id The identifier of this RHS.
 	 * @param graph The right hand side graph.
 	 */
-	public ModifyDeclNode(IdentNode id, GraphNode graph, CollectNode<IdentNode> dels) {
+	public ModifyDeclNode(IdentNode id, GraphNode graph, CollectNode<IdentNode> dels)
+	{
 		super(id, graph);
 		this.deleteUnresolved = dels;
 		becomeParent(this.deleteUnresolved);
 	}
 
 	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -69,7 +69,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -85,7 +86,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		Triple<CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<SubpatternUsageNode>> resolve =
 			deleteResolver.resolve(deleteUnresolved);
 
@@ -129,13 +131,13 @@ public class ModifyDeclNode extends RhsDeclNode {
 					ent.setPatternGraphDefYieldedIsToBeDeleted(right);
 				if(ent instanceof Node) {
 					Node node = el.checkIR(Node.class);
-					if(!left.hasNode(node) && node.directlyNestingLHSGraph!=left) {
+					if(!left.hasNode(node) && node.directlyNestingLHSGraph != left) {
 						left.addSingleNode(node);
 						left.addHomToAll(node);
 					}
 				} else {
 					Edge edge = el.checkIR(Edge.class);
-					if(!left.hasEdge(edge) && edge.directlyNestingLHSGraph!=left) {
+					if(!left.hasEdge(edge) && edge.directlyNestingLHSGraph != left) {
 						left.addSingleEdge(edge);
 						left.addHomToAll(edge);
 					}
@@ -151,7 +153,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 			}
 		}
 		for(Edge e : left.getEdges()) {
-			if(        !deleteSet.contains(e)
+			if(!deleteSet.contains(e)
 					&& !deleteSet.contains(left.getSource(e))
 					&& !deleteSet.contains(left.getTarget(e))) {
 				right.addConnection(left.getSource(e), e, left.getTarget(e), e.hasFixedDirection(), false, false);
@@ -159,7 +161,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 				right.addDeletedElement(e);
 			}
 		}
-		
+
 		// add elements only mentioned in typeof to the pattern
 		for(Node n : right.getNodes()) {
 			if(n.inheritsType()) {
@@ -180,12 +182,12 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 		for(SubpatternUsage sub : left.getSubpatternUsages()) {
 			boolean subHasDepModify = false;
-			for(OrderedReplacements orderedRepls: right.getOrderedReplacements()) {
-				for(OrderedReplacement orderedRepl: orderedRepls.orderedReplacements) {
+			for(OrderedReplacements orderedRepls : right.getOrderedReplacements()) {
+				for(OrderedReplacement orderedRepl : orderedRepls.orderedReplacements) {
 					if(!(orderedRepl instanceof SubpatternDependentReplacement))
 						continue;
 					SubpatternDependentReplacement subRepl = (SubpatternDependentReplacement)orderedRepl;
-					if(sub==subRepl.getSubpatternUsage()) {
+					if(sub == subRepl.getSubpatternUsage()) {
 						subHasDepModify = true;
 						break;
 					}
@@ -195,7 +197,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 			for(BaseNode n : delete.getChildren()) {
 				if(n instanceof SubpatternUsageNode) {
 					SubpatternUsage su = n.checkIR(SubpatternUsage.class);
-					if(sub==su) {
+					if(sub == su) {
 						subInDeleteSet = true;
 					}
 				}
@@ -213,7 +215,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 	}
 
 	@Override
-	protected Set<DeclNode> getDeleted(PatternGraphNode pattern) {
+	protected Set<DeclNode> getDeleted(PatternGraphNode pattern)
+	{
 		assert isResolved();
 
 		if(deletedElements != null)
@@ -229,14 +232,14 @@ public class ModifyDeclNode extends RhsDeclNode {
 		// add edges with deleted source or target
 		for(BaseNode n : pattern.getConnections()) {
 			if(n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) n;
+				ConnectionNode conn = (ConnectionNode)n;
 				if(coll.contains(conn.getSrc()) || coll.contains(conn.getTgt()))
 					coll.add(conn.getEdge());
 			}
 		}
 		for(BaseNode n : graph.getConnections()) {
 			if(n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) n;
+				ConnectionNode conn = (ConnectionNode)n;
 				if(coll.contains(conn.getSrc()) || coll.contains(conn.getTgt()))
 					coll.add(conn.getEdge());
 			}
@@ -252,16 +255,17 @@ public class ModifyDeclNode extends RhsDeclNode {
 	 * the right-hand side.
 	 */
 	@Override
-	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern) {
+	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern)
+	{
 		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 		Collection<EdgeDeclNode> lhs = pattern.getEdges();
 
 		for(BaseNode node : graph.getConnections()) {
 			if(node instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) node;
+				ConnectionNode conn = (ConnectionNode)node;
 				EdgeDeclNode edge = conn.getEdge();
 				while(edge instanceof EdgeTypeChangeNode) {
-					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
 				}
 
 				// add connection only if source and target are reused
@@ -273,14 +277,14 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 		for(BaseNode node : pattern.getConnections()) {
 			if(node instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) node;
+				ConnectionNode conn = (ConnectionNode)node;
 				EdgeDeclNode edge = conn.getEdge();
 				while(edge instanceof EdgeTypeChangeNode) {
-					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
 				}
 
 				// add connection only if source and target are reused
-				if(!delete.getChildren().contains(edge) 
+				if(!delete.getChildren().contains(edge)
 						&& !sourceOrTargetNodeIncluded(pattern, delete.getChildren(), edge)) {
 					res.add(conn);
 				}
@@ -294,7 +298,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 	 * Return all reused nodes, that excludes new nodes of the right-hand side.
 	 */
 	@Override
-	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern) {
+	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern)
+	{
 		if(reusedNodes != null)
 			return reusedNodes;
 
@@ -312,7 +317,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 	}
 
 	@Override
-	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
+	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern)
+	{
 		Set<DeclNode> deletes = getDeleted(pattern);
 
 		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
@@ -348,7 +354,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 		for(BaseNode n : pattern.getConnections()) {
 			if(n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) n;
+				ConnectionNode conn = (ConnectionNode)n;
 				if(!delete.contains(conn.getEdge())
 						&& !delete.contains(conn.getSrc())
 						&& !delete.contains(conn.getTgt())) {

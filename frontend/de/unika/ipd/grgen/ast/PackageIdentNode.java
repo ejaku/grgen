@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.parser.Symbol;
 /**
  * AST node that represents an Identifier in a package (name that appears within the specification),
  */
- public class PackageIdentNode extends IdentNode {
+public class PackageIdentNode extends IdentNode
+{
 	static {
 		setName(PackageIdentNode.class, "package identifier");
 	}
@@ -36,14 +37,16 @@ import de.unika.ipd.grgen.parser.Symbol;
 	 * @param owningPackage The occurrence of the symbol of the package owning the identifier.
 	 * @param occ The occurrence of the symbol of the identifier.
 	 */
-	public PackageIdentNode(Symbol.Occurrence owningPackage, Symbol.Occurrence occ) {
+	public PackageIdentNode(Symbol.Occurrence owningPackage, Symbol.Occurrence occ)
+	{
 		super(occ);
-		this.owningPackage = owningPackage; 
+		this.owningPackage = owningPackage;
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -51,7 +54,8 @@ import de.unika.ipd.grgen.parser.Symbol;
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
@@ -59,13 +63,16 @@ import de.unika.ipd.grgen.parser.Symbol;
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		// there must be exactly one definition
 		return super.checkLocal() && (getOwnerSymbol().toString().equals("global") || getOwnerSymDef().isValid());
 	}
 
-	public Symbol.Definition getOwnerSymDef() {
-		if(owningPackage.getDefinition()==null || !owningPackage.getDefinition().isValid()) {
+	public Symbol.Definition getOwnerSymDef()
+	{
+		if(owningPackage.getDefinition() == null 
+			|| !owningPackage.getDefinition().isValid()) {
 			Symbol.Definition def = owningPackage.getScope().getCurrDef(getOwnerSymbol());
 			if(def.isValid())
 				setOwnerSymDef(def);
@@ -73,11 +80,13 @@ import de.unika.ipd.grgen.parser.Symbol;
 		return owningPackage.getDefinition();
 	}
 
-	public void setOwnerSymDef(Symbol.Definition def) {
+	public void setOwnerSymDef(Symbol.Definition def)
+	{
 		owningPackage.setDefinition(def);
 	}
 
-	public DeclNode getOwnerDecl() {
+	public DeclNode getOwnerDecl()
+	{
 		Symbol.Definition def = getOwnerSymDef();
 
 		if(def.isValid()) {
@@ -91,11 +100,13 @@ import de.unika.ipd.grgen.parser.Symbol;
 		}
 	}
 
-	public Symbol getOwnerSymbol() {
+	public Symbol getOwnerSymbol()
+	{
 		return owningPackage.getSymbol();
 	}
 
-	public DeclNode getDecl() {
+	public DeclNode getDecl()
+	{
 		Resolver.resolveOwner(this);
 		if(getOwnerSymbol().toString().equals("global")) {
 			fixupDefinition(this, getScope().getRoot(), true);
@@ -104,11 +115,13 @@ import de.unika.ipd.grgen.parser.Symbol;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return owningPackage.getSymbol().toString() + "::" + occ.getSymbol().toString();
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "identifier";
 	}
 
@@ -116,7 +129,8 @@ import de.unika.ipd.grgen.parser.Symbol;
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
 	 */
 	@Override
-	protected String extraNodeInfo() {
+	protected String extraNodeInfo()
+	{
 		return "package: " + owningPackage + "occurrence: " + occ + "\ndefinition: " + getSymDef();
 	}
 
@@ -135,7 +149,8 @@ import de.unika.ipd.grgen.parser.Symbol;
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected Ident constructIR() {
+	protected Ident constructIR()
+	{
 		//Symbol.Definition def = getSymDef();
 		//return Ident.get(toString(), def, getAnnotations());
 		// TODO: remove

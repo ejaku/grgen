@@ -13,34 +13,39 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class EnumExpression extends Constant {
+public class EnumExpression extends Constant
+{
 	private EnumItem item;
 
 	// Constructor for later initialization when EnumType and EnumItem have been constructed.
 	// See EnumTypeNode.constructIR().
-	public EnumExpression(int value) {
+	public EnumExpression(int value)
+	{
 		super(null, value);
 		setName("enum expression");
 	}
 
-	public EnumExpression(EnumType type, EnumItem item) {
+	public EnumExpression(EnumType type, EnumItem item)
+	{
 		super(type, item.getValue().getValue());
 		this.item = item;
 		setName("enum expression");
 	}
 
-	public void lateInit(EnumType type, EnumItem item) {
+	public void lateInit(EnumType type, EnumItem item)
+	{
 		this.type = type;
 		this.item = item;
 	}
 
-	public EnumItem getEnumItem() {
+	public EnumItem getEnumItem()
+	{
 		return item;
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return item + " " + getValue();
 	}
 }
-

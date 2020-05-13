@@ -16,7 +16,8 @@ public class EvalStatements extends IR
 {
 	public List<EvalStatement> evalStatements = new LinkedList<EvalStatement>();
 
-	public EvalStatements(String name) {
+	public EvalStatements(String name)
+	{
 		super(name);
 	}
 

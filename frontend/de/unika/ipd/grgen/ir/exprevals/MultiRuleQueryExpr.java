@@ -14,11 +14,14 @@ package de.unika.ipd.grgen.ir.exprevals;
 import de.unika.ipd.grgen.ir.Type;
 
 // dummy class for multi rule queries from compiled sequences
-public class MultiRuleQueryExpr extends Expression {
-	public MultiRuleQueryExpr(Type targetType) {
+public class MultiRuleQueryExpr extends Expression
+{
+	public MultiRuleQueryExpr(Type targetType)
+	{
 		super("multi rule query", targetType);
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

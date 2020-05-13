@@ -17,7 +17,8 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ContainerFunctionMethodInvocationBaseExprNode extends ExprNode
 {
 	static {
-		setName(ContainerFunctionMethodInvocationBaseExprNode.class, "container function method invocation base expression");
+		setName(ContainerFunctionMethodInvocationBaseExprNode.class,
+				"container function method invocation base expression");
 	}
 
 	protected ExprNode targetExpr;

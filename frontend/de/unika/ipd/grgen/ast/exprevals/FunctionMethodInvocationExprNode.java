@@ -34,11 +34,12 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 
 	private IdentNode ownerUnresolved;
 	private DeclNode owner;
-	
+
 	private IdentNode functionUnresolved;
 	private FunctionDeclNode functionDecl;
-	
-	public FunctionMethodInvocationExprNode(IdentNode owner, IdentNode functionUnresolved, CollectNode<ExprNode> arguments)
+
+	public FunctionMethodInvocationExprNode(IdentNode owner, IdentNode functionUnresolved,
+			CollectNode<ExprNode> arguments)
 	{
 		super(functionUnresolved.getCoords());
 		this.ownerUnresolved = becomeParent(owner);
@@ -47,7 +48,8 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(ownerUnresolved, owner));
 		children.add(getValidVersion(functionUnresolved, functionDecl));
@@ -56,7 +58,8 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("owner");
 		childrenNames.add("function method");
@@ -64,10 +67,13 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<DeclNode> ownerResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
-	private static final DeclarationResolver<FunctionDeclNode> resolver = new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class);
+	private static final DeclarationResolver<DeclNode> ownerResolver =
+			new DeclarationResolver<DeclNode>(DeclNode.class);
+	private static final DeclarationResolver<FunctionDeclNode> resolver =
+			new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class);
 
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
@@ -77,19 +83,19 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 
 		boolean successfullyResolved = true;
 		owner = ownerResolver.resolve(ownerUnresolved, this);
-		successfullyResolved = owner!=null && successfullyResolved;
-		boolean ownerResolveResult = owner!=null && owner.resolve();
+		successfullyResolved = owner != null && successfullyResolved;
+		boolean ownerResolveResult = owner != null && owner.resolve();
 
-		if (!ownerResolveResult) {
+		if(!ownerResolveResult) {
 			// member can not be resolved due to inaccessible owner
 			return false;
 		}
 
-		if (ownerResolveResult && owner != null 
+		if(ownerResolveResult && owner != null
 				&& (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = owner.getDeclType();
 			if(ownerType instanceof ScopeOwner) {
-				ScopeOwner o = (ScopeOwner) ownerType;
+				ScopeOwner o = (ScopeOwner)ownerType;
 				res = o.fixupDefinition(functionUnresolved);
 
 				functionDecl = resolver.resolve(functionUnresolved, this);
@@ -98,7 +104,7 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 					return false;
 				}
 
-				successfullyResolved = functionDecl!=null && successfullyResolved;
+				successfullyResolved = functionDecl != null && successfullyResolved;
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -112,20 +118,22 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return checkSignatureAdhered(functionDecl, functionUnresolved);
 	}
-	
+
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert isResolved();
 		return functionDecl.getReturnType();
 	}
 
 	@Override
-	protected IR constructIR() {
-		FunctionMethodInvocationExpr ci = new FunctionMethodInvocationExpr(
-				owner.checkIR(Entity.class),
+	protected IR constructIR()
+	{
+		FunctionMethodInvocationExpr ci = new FunctionMethodInvocationExpr(owner.checkIR(Entity.class),
 				functionDecl.ret.checkIR(Type.class),
 				functionDecl.checkIR(Function.class));
 		for(ExprNode expr : arguments.getChildren()) {

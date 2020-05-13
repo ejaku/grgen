@@ -21,11 +21,12 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 	private Class<T> cls;
 
 	/**
- 	 * Make a new type declaration resolver.
- 	 *
+	 * Make a new type declaration resolver.
+	 *
 	 * @param cls A class, the resolved node must be an instance of.
 	 */
-	public DeclarationTypeResolver(Class<T> cls) {
+	public DeclarationTypeResolver(Class<T> cls)
+	{
 		this.cls = cls;
 	}
 
@@ -33,7 +34,8 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 	 * Resolves n to node of type R, via declaration type if n is an identifier, via simple cast otherwise
 	 * returns null if n's declaration or n can't be cast to R.
 	 */
-	public T resolve(BaseNode n, BaseNode parent) {
+	public T resolve(BaseNode n, BaseNode parent)
+	{
 		if(n instanceof IdentNode) {
 			T resolved = resolve((IdentNode)n);
 			parent.becomeParent(resolved);
@@ -51,12 +53,12 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 	 * Resolves n to node of type R, via declaration type
 	 * returns null if n's declaration can't be cast to R.
 	 */
-	public T resolve(IdentNode n) {
+	public T resolve(IdentNode n)
+	{
 		// ensure that the used types are resolved
-		DeclarationResolver<DeclNode> declResolver =
-			new DeclarationResolver<DeclNode>(DeclNode.class);
+		DeclarationResolver<DeclNode> declResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
 		DeclNode decl = declResolver.resolve(n);
-		if (decl != null) {
+		if(decl != null) {
 			decl.resolve();
 		}
 

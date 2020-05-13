@@ -19,15 +19,17 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node retrieving an edge from a name.
  */
-public class EdgeByNameExprNode extends ExprNode {
+public class EdgeByNameExprNode extends ExprNode
+{
 	static {
 		setName(EdgeByNameExprNode.class, "edge by name expr");
 	}
 
 	private ExprNode name;
 	private ExprNode edgeType;
-	
-	public EdgeByNameExprNode(Coords coords, ExprNode name, ExprNode edgeType) {
+
+	public EdgeByNameExprNode(Coords coords, ExprNode name, ExprNode edgeType)
+	{
 		super(coords);
 		this.name = name;
 		becomeParent(this.name);
@@ -37,7 +39,8 @@ public class EdgeByNameExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(name);
 		children.add(edgeType);
@@ -46,7 +49,8 @@ public class EdgeByNameExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("name");
 		childrenNames.add("edgeType");
@@ -55,13 +59,15 @@ public class EdgeByNameExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(name.getType() instanceof StringTypeNode)) {
 			reportError("first argument of edgeByName(.,.) must be of type string");
 			return false;
@@ -74,12 +80,15 @@ public class EdgeByNameExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new EdgeByNameExpr(name.checkIR(Expression.class), edgeType.checkIR(Expression.class), getType().getType());
+	protected IR constructIR()
+	{
+		return new EdgeByNameExpr(name.checkIR(Expression.class),
+				edgeType.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return edgeType.getType();
 	}
 }

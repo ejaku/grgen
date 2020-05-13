@@ -20,11 +20,11 @@ import de.unika.ipd.grgen.ir.InheritanceType;
 import java.util.Collection;
 import java.util.Vector;
 
-
 /**
  * AST node class representing attribute index declarations
  */
-public class AttributeIndexDeclNode extends IndexDeclNode {
+public class AttributeIndexDeclNode extends IndexDeclNode
+{
 	static {
 		setName(AttributeIndexDeclNode.class, "attribute index declaration");
 	}
@@ -37,7 +37,8 @@ public class AttributeIndexDeclNode extends IndexDeclNode {
 	private static final AttributeIndexTypeNode attributeIndexType =
 		new AttributeIndexTypeNode();
 
-	public AttributeIndexDeclNode(IdentNode id, IdentNode type, IdentNode member) {
+	public AttributeIndexDeclNode(IdentNode id, IdentNode type, IdentNode member)
+	{
 		super(id, attributeIndexType);
 		this.typeUnresolved = type;
 		becomeParent(this.typeUnresolved);
@@ -47,7 +48,8 @@ public class AttributeIndexDeclNode extends IndexDeclNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -57,7 +59,8 @@ public class AttributeIndexDeclNode extends IndexDeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -72,19 +75,21 @@ public class AttributeIndexDeclNode extends IndexDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		TypeDeclNode resolved = typeResolver.resolve(typeUnresolved, this);
-		if(resolved == null) return false;
+		if(resolved == null)
+			return false;
 		//if(!resolved.resolve()) return false;
-		
+
 		type = resolved.getDeclType();
-		
+
 		if(!(type instanceof InheritanceTypeNode)) {
 			typeUnresolved.reportError("Type used for indexing with \"" + getIdentNode() + "\" must be a node or edge type ");
 			return false;
 		}
 
-		ScopeOwner o = (ScopeOwner) type;
+		ScopeOwner o = (ScopeOwner)type;
 		o.fixupDefinition(memberUnresolved);
 		member = memberResolver.resolve(memberUnresolved, this);
 
@@ -93,23 +98,24 @@ public class AttributeIndexDeclNode extends IndexDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
-	
+
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
-	
+
 		return attributeIndexType;
 	}
 
 	@Override
-	protected IR constructIR() {
-		AttributeIndex attributeIndex = new AttributeIndex(getIdentNode().toString(),
-				getIdentNode().getIdent(), type.checkIR(InheritanceType.class), member.checkIR(Entity.class));
+	protected IR constructIR()
+	{
+		AttributeIndex attributeIndex = new AttributeIndex(getIdentNode().toString(), getIdentNode().getIdent(),
+				type.checkIR(InheritanceType.class), member.checkIR(Entity.class));
 		return attributeIndex;
-	}	
+	}
 }
-
-

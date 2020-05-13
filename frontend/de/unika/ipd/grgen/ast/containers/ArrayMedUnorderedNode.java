@@ -30,7 +30,8 @@ public class ArrayMedUnorderedNode extends ArrayAccumulationMethodNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array medUnordered method must be of type array<T>");
@@ -38,24 +39,28 @@ public class ArrayMedUnorderedNode extends ArrayAccumulationMethodNode
 		}
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
 		if(!arrayType.valueType.isAccumulatableType()) {
-			targetExpr.reportError("The array value type of the array medUnordered method must be one of: " + TypeNode.getAccumulatableTypesAsString());
+			targetExpr.reportError("The array value type of the array medUnordered method must be one of: "
+					+ TypeNode.getAccumulatableTypesAsString());
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.doubleType;
 	}
 
 	@Override
-	public boolean isValidTargetTypeOfAccumulation(TypeNode type) {
+	public boolean isValidTargetTypeOfAccumulation(TypeNode type)
+	{
 		return type.isEqual(BasicTypeNode.doubleType);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ArrayMedUnorderedExpr(targetExpr.checkIR(Expression.class));
 	}
 }

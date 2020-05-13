@@ -24,7 +24,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a case statement from a switch statement.
  */
-public class CaseStatementNode extends EvalStatementNode {
+public class CaseStatementNode extends EvalStatementNode
+{
 	static {
 		setName(CaseStatementNode.class, "CaseStatement");
 	}
@@ -33,7 +34,8 @@ public class CaseStatementNode extends EvalStatementNode {
 	CollectNode<EvalStatementNode> statements;
 
 	public CaseStatementNode(Coords coords, ExprNode caseConstExpr,
-			CollectNode<EvalStatementNode> statements) {
+			CollectNode<EvalStatementNode> statements)
+	{
 		super(coords);
 		this.caseConstantExpr = caseConstExpr;
 		becomeParent(caseConstExpr);
@@ -43,9 +45,10 @@ public class CaseStatementNode extends EvalStatementNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(caseConstantExpr!=null)
+		if(caseConstantExpr != null)
 			children.add(caseConstantExpr);
 		children.add(statements);
 		return children;
@@ -53,33 +56,40 @@ public class CaseStatementNode extends EvalStatementNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
-		if(caseConstantExpr!=null)
+		if(caseConstantExpr != null)
 			childrenNames.add("caseConstant");
 		childrenNames.add("statements");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
-	
+
 	@Override
-	protected IR constructIR() {
-		CaseStatement caseStmt = new CaseStatement(caseConstantExpr!=null ? caseConstantExpr.checkIR(Expression.class) : null);
-		for(EvalStatementNode statement : statements.getChildren())
+	protected IR constructIR()
+	{
+		CaseStatement caseStmt = new CaseStatement(
+				caseConstantExpr != null ? caseConstantExpr.checkIR(Expression.class) : null);
+		for(EvalStatementNode statement : statements.getChildren()) {
 			caseStmt.addStatement(statement.checkIR(EvalStatement.class));
+		}
 		return caseStmt;
 	}
 }

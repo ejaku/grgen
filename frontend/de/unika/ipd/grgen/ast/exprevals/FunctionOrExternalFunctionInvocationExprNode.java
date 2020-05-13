@@ -31,7 +31,8 @@ import de.unika.ipd.grgen.ir.Type;
 public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 {
 	static {
-		setName(FunctionOrExternalFunctionInvocationExprNode.class, "function or external function invocation expression");
+		setName(FunctionOrExternalFunctionInvocationExprNode.class,
+				"function or external function invocation expression");
 	}
 
 	private IdentNode functionOrExternalFunctionUnresolved;
@@ -39,7 +40,8 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	private FunctionDeclNode functionDecl;
 	private CollectNode<ExprNode> arguments;
 
-	public FunctionOrExternalFunctionInvocationExprNode(IdentNode functionOrExternalFunctionUnresolved, CollectNode<ExprNode> arguments)
+	public FunctionOrExternalFunctionInvocationExprNode(IdentNode functionOrExternalFunctionUnresolved,
+			CollectNode<ExprNode> arguments)
 	{
 		super(functionOrExternalFunctionUnresolved.getCoords());
 		this.functionOrExternalFunctionUnresolved = becomeParent(functionOrExternalFunctionUnresolved);
@@ -47,7 +49,8 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(functionOrExternalFunctionUnresolved, functionDecl, externalFunctionDecl));
 		children.add(arguments);
@@ -55,7 +58,8 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("function or external function");
 		childrenNames.add("arguments");
@@ -65,11 +69,14 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	private static final DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode> resolver =
 			new DeclarationPairResolver<FunctionDeclNode, ExternalFunctionDeclNode>(FunctionDeclNode.class, ExternalFunctionDeclNode.class);
 
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!(functionOrExternalFunctionUnresolved instanceof PackageIdentNode)) {
-			fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved, functionOrExternalFunctionUnresolved.getScope());
+			fixupDefinition((IdentNode)functionOrExternalFunctionUnresolved,
+					functionOrExternalFunctionUnresolved.getScope());
 		}
-		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved = resolver.resolve(functionOrExternalFunctionUnresolved, this);
+		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved =
+				resolver.resolve(functionOrExternalFunctionUnresolved, this);
 		if(resolved == null) {
 			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
 			return false;
@@ -80,18 +87,20 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return checkSignatureAdhered();
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
-	private boolean checkSignatureAdhered() {
-		FunctionBase fb = functionDecl!=null ? functionDecl : externalFunctionDecl;
-		
+	private boolean checkSignatureAdhered()
+	{
+		FunctionBase fb = functionDecl != null ? functionDecl : externalFunctionDecl;
+
 		// check if the number of parameters are correct
 		int expected = fb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
-		if (expected != actual) {
+		if(expected != actual) {
 			String patternName = fb.ident.toString();
 			functionOrExternalFunctionUnresolved.reportError("The function \"" + patternName + "\" needs "
 					+ expected + " parameters, given are " + actual);
@@ -100,41 +109,44 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 
 		// check if the types of the parameters are correct
 		boolean res = true;
-		for (int i = 0; i < arguments.size(); ++i) {
+		for(int i = 0; i < arguments.size(); ++i) {
 			ExprNode actualParameter = arguments.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			TypeNode formalParameterType = fb.getParameterTypes().get(i);
-			
+
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
 				String exprTypeName = getTypeName(actualParameterType);
 				String paramTypeName = getTypeName(formalParameterType);
-				functionOrExternalFunctionUnresolved.reportError("Cannot convert " + (i + 1) + ". function argument from \""
-						+ exprTypeName + "\" to \"" + paramTypeName + "\"");
+				functionOrExternalFunctionUnresolved.reportError("Cannot convert " + (i + 1)
+						+ ". function argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
 
 		return res;
 	}
-	
-	private String getTypeName(TypeNode type) {
+
+	private String getTypeName(TypeNode type)
+	{
 		String typeName;
 		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode) type).getIdentNode().toString();
+			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
 		else
 			typeName = type.toString();
 		return typeName;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert isResolved();
-		return functionDecl!=null ? functionDecl.getReturnType() : externalFunctionDecl.getReturnType();
+		return functionDecl != null ? functionDecl.getReturnType() : externalFunctionDecl.getReturnType();
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(functionDecl!=null) {
+	protected IR constructIR()
+	{
+		if(functionDecl != null) {
 			FunctionInvocationExpr fi = new FunctionInvocationExpr(
 					functionDecl.ret.checkIR(Type.class),
 					functionDecl.checkIR(Function.class));

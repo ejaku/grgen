@@ -14,12 +14,14 @@ package de.unika.ipd.grgen.ir;
 /**
  * An index, base class for attribute index and incidence index.
  */
-public abstract class Index extends Identifiable {
+public abstract class Index extends Identifiable
+{
 	/**
 	 * @param name The name of the attribute index.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public Index(String name, Ident ident) {
+	public Index(String name, Ident ident)
+	{
 		super(name, ident);
 	}
 }

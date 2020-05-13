@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class ByteMaxExpr extends Expression {
-	public ByteMaxExpr() {
+public class ByteMaxExpr extends Expression
+{
+	public ByteMaxExpr()
+	{
 		super("bytemax expr", ByteType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

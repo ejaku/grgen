@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.StringReplace;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringReplaceNode extends ExprNode {
+public class StringReplaceNode extends ExprNode
+{
 	static {
 		setName(StringReplaceNode.class, "string replace");
 	}
@@ -30,19 +31,20 @@ public class StringReplaceNode extends ExprNode {
 	private ExprNode lengthExpr;
 	private ExprNode replaceStrExpr;
 
-
 	public StringReplaceNode(Coords coords, ExprNode stringExpr,
-			ExprNode startExpr, ExprNode lengthExpr, ExprNode replaceStrExpr) {
+			ExprNode startExpr, ExprNode lengthExpr, ExprNode replaceStrExpr)
+	{
 		super(coords);
 
-		this.stringExpr     = becomeParent(stringExpr);
-		this.startExpr      = becomeParent(startExpr);
-		this.lengthExpr     = becomeParent(lengthExpr);
+		this.stringExpr = becomeParent(stringExpr);
+		this.startExpr = becomeParent(startExpr);
+		this.lengthExpr = becomeParent(lengthExpr);
 		this.replaceStrExpr = becomeParent(replaceStrExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
 		children.add(startExpr);
@@ -52,7 +54,8 @@ public class StringReplaceNode extends ExprNode {
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
 		childrenNames.add("start");
@@ -62,31 +65,30 @@ public class StringReplaceNode extends ExprNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("This argument to substring expression must be of type string");
 			return false;
 		}
 		if(!startExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startExpr.reportError("First argument (start position) to "
-					+ "substring expression must be of type int");
+			startExpr.reportError("First argument (start position) to substring expression must be of type int");
 			return false;
 		}
 		if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
-			lengthExpr.reportError("Second argument (length) to substring "
-					+ "expression must be of type int");
+			lengthExpr.reportError("Second argument (length) to substring expression must be of type int");
 			return false;
 		}
 		if(!replaceStrExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			replaceStrExpr.reportError("Third argument (replacement string) "
-					+ "to substring expression must be of type string");
+			replaceStrExpr.reportError("Third argument (replacement string) to substring expression must be of type string");
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new StringReplace(stringExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class),
 				lengthExpr.checkIR(Expression.class),
@@ -94,7 +96,8 @@ public class StringReplaceNode extends ExprNode {
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.stringType;
 	}
 }

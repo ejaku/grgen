@@ -16,14 +16,14 @@ package de.unika.ipd.grgen.util;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class MultiplexOutputStream extends OutputStream {
-
+public class MultiplexOutputStream extends OutputStream
+{
 	private final OutputStream[] mux = new OutputStream[32];
 
 	private int fill = 0;
 
-	public void addStream(OutputStream s) {
-
+	public void addStream(OutputStream s)
+	{
 		if(fill == mux.length - 1) {
 			OutputStream[] newMux = new OutputStream[2 * fill];
 			System.arraycopy(mux, 0, newMux, 0, mux.length);
@@ -47,9 +47,11 @@ public class MultiplexOutputStream extends OutputStream {
 	 *             an <code>IOException</code> may be thrown if the
 	 *             output stream has been closed.
 	 */
-	public void write(int b) throws IOException {
-		for(int i = 0; i < fill; i++)
+	public void write(int b) throws IOException
+	{
+		for(int i = 0; i < fill; i++) {
 			mux[i].write(b);
+		}
 	}
 
 	/**
@@ -80,9 +82,11 @@ public class MultiplexOutputStream extends OutputStream {
 	 *             an <code>IOException</code> is thrown if the output
 	 *             stream is closed.
 	 */
-	public void write(byte[] b, int off, int len) throws IOException {
-		for(int i = 0; i < fill; i++)
+	public void write(byte[] b, int off, int len) throws IOException
+	{
+		for(int i = 0; i < fill; i++) {
 			mux[i].write(b, off, len);
+		}
 	}
 
 	/**
@@ -95,7 +99,8 @@ public class MultiplexOutputStream extends OutputStream {
 	 * @exception  IOException  if an I/O error occurs.
 	 * @see        java.io.OutputStream#write(byte[], int, int)
 	 */
-	public void write(byte[] b) throws IOException {
+	public void write(byte[] b) throws IOException
+	{
 		write(b, 0, b.length);
 	}
 
@@ -117,9 +122,11 @@ public class MultiplexOutputStream extends OutputStream {
 	 *
 	 * @exception  IOException  if an I/O error occurs.
 	 */
-	public void flush() throws IOException {
-		for(int i = 0; i < fill; i++)
+	public void flush() throws IOException
+	{
+		for(int i = 0; i < fill; i++) {
 			mux[i].flush();
+		}
 	}
 
 	/**
@@ -132,14 +139,10 @@ public class MultiplexOutputStream extends OutputStream {
 	 *
 	 * @exception  IOException  if an I/O error occurs.
 	 */
-	public void close() throws IOException {
-		for(int i = 0; i < fill; i++)
+	public void close() throws IOException
+	{
+		for(int i = 0; i < fill; i++) {
 			mux[i].close();
+		}
 	}
-
-
-
-
-
 }
-

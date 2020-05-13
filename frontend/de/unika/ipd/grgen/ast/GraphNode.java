@@ -51,7 +51,8 @@ import java.util.Vector;
  * or to be used as base class for PatternGraphNode
  * representing the graph pattern of the pattern part of some rule
  */
-public class GraphNode extends BaseNode {
+public class GraphNode extends BaseNode
+{
 	static {
 		setName(GraphNode.class, "graph");
 	}
@@ -87,9 +88,9 @@ public class GraphNode extends BaseNode {
 	public GraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
-			CollectNode<OrderedReplacementsNode> orderedReplacements,
-			CollectNode<ExprNode> returns, CollectNode<BaseNode> imperativeStmts,
-			int context, PatternGraphNode directlyNestingLHSGraph) {
+			CollectNode<OrderedReplacementsNode> orderedReplacements, CollectNode<ExprNode> returns,
+			CollectNode<BaseNode> imperativeStmts, int context, PatternGraphNode directlyNestingLHSGraph)
+	{
 		super(coords);
 		this.nameOfGraph = nameOfGraph;
 		this.connectionsUnresolved = connections;
@@ -110,7 +111,7 @@ public class GraphNode extends BaseNode {
 
 		// if we're constructed as part of a PatternGraphNode
 		// then this code will be executed by the PatternGraphNode, so don't do it here
-		if(directlyNestingLHSGraph!=null) {
+		if(directlyNestingLHSGraph != null) {
 			this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 			// treat non-var parameters like connections
 			addParamsToConnections(params);
@@ -120,7 +121,7 @@ public class GraphNode extends BaseNode {
 	public void addEvals(CollectNode<EvalStatementsNode> yieldsEvals)
 	{
 		this.yieldsEvals = yieldsEvals;
-		becomeParent(this.yieldsEvals);	
+		becomeParent(this.yieldsEvals);
 	}
 
 	public void addDefVariablesToBeYieldedTo(CollectNode<VarDeclNode> defVariablesToBeYieldedTo)
@@ -130,7 +131,8 @@ public class GraphNode extends BaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(params);
@@ -146,7 +148,8 @@ public class GraphNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
 		childrenNames.add("params");
@@ -161,66 +164,69 @@ public class GraphNode extends BaseNode {
 	}
 
 	private static final CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode> connectionsResolver =
-		new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(
-			new DeclarationTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(
-				ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));
+			new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(
+					new DeclarationTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(
+							ConnectionNode.class, SingleNodeConnNode.class, SingleGraphEntityNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		Triple<CollectNode<ConnectionNode>, CollectNode<SingleNodeConnNode>, CollectNode<SingleGraphEntityNode>> resolve =
-			connectionsResolver.resolve(connectionsUnresolved);
+				connectionsResolver.resolve(connectionsUnresolved);
 
-		if (resolve != null) {
-			if (resolve.first != null) {
-    			for (ConnectionNode conn : resolve.first.getChildren()) {
-                    connections.addChild(conn);
-					if(!conn.resolve()) return false;
+		if(resolve != null) {
+			if(resolve.first != null) {
+				for(ConnectionNode conn : resolve.first.getChildren()) {
+					connections.addChild(conn);
+					if(!conn.resolve())
+						return false;
 					if(conn.getEdge().getDeclType().isAbstract()
 							|| conn.getSrc().getDeclType().isAbstract()
 							|| conn.getTgt().getDeclType().isAbstract())
 						hasAbstractElements = true;
-                }
+				}
 			}
 
-        	if (resolve.second != null) {
-            	for (SingleNodeConnNode conn : resolve.second.getChildren()) {
-                    connections.addChild(conn);
-					if(!conn.resolve()) return false;
+			if(resolve.second != null) {
+				for(SingleNodeConnNode conn : resolve.second.getChildren()) {
+					connections.addChild(conn);
+					if(!conn.resolve())
+						return false;
 					if(conn.getNode().getDeclType().isAbstract())
 						hasAbstractElements = true;
-                }
+				}
 			}
 
-        	if (resolve.third != null) {
-        		for (SingleGraphEntityNode ent : resolve.third.getChildren()) {
-        			// resolve the entity
-        			if (!ent.resolve()) {
-        				return false;
-        			}
+			if(resolve.third != null) {
+				for(SingleGraphEntityNode ent : resolve.third.getChildren()) {
+					// resolve the entity
+					if(!ent.resolve()) {
+						return false;
+					}
 
-        			// add reused single node to connections
-        			if (ent.getEntityNode() != null) {
-        				connections.addChild(new SingleNodeConnNode(ent.getEntityNode()));
-        			}
+					// add reused single node to connections
+					if(ent.getEntityNode() != null) {
+						connections.addChild(new SingleNodeConnNode(ent.getEntityNode()));
+					}
 
-        			// add reused subpattern to subpatterns
-        			if (ent.getEntitySubpattern() != null) {
-        				subpatterns.addChild(ent.getEntitySubpattern());
-        			}
-                }
-    		}
+					// add reused subpattern to subpatterns
+					if(ent.getEntitySubpattern() != null) {
+						subpatterns.addChild(ent.getEntitySubpattern());
+					}
+				}
+			}
 
-        	becomeParent(connections);
-        	becomeParent(subpatterns);
-        }
+			becomeParent(connections);
+			becomeParent(subpatterns);
+		}
 
 		boolean paramsOK = true;
-    	for (BaseNode n : params.getChildren()) {
+		for(BaseNode n : params.getChildren()) {
 			if(!(n instanceof VarDeclNode))
 				continue;
 
-			VarDeclNode paramVar = (VarDeclNode) n;
+			VarDeclNode paramVar = (VarDeclNode)n;
 			if(paramVar.resolve()) {
 				if(!(paramVar.getDeclType() instanceof BasicTypeNode)
 						&& !(paramVar.getDeclType() instanceof EnumTypeNode)
@@ -229,13 +235,13 @@ public class GraphNode extends BaseNode {
 						&& !(paramVar.getDeclType() instanceof ArrayTypeNode)
 						&& !(paramVar.getDeclType() instanceof DequeTypeNode)
 						&& !(paramVar.getDeclType() instanceof ExternalTypeNode)) {
-					paramVar.typeUnresolved.reportError("Type of variable \""
-							+ paramVar.getIdentNode() + "\" must be a basic type (like int or string), or an enum, or a container type (set|map|array|deque)");
+					paramVar.typeUnresolved.reportError("Type of variable \"" + paramVar.getIdentNode()
+							+ "\" must be a basic type (like int or string), or an enum, or a container type (set|map|array|deque)");
 					paramsOK = false;
 				}
-			}
-			else paramsOK = false;
-        }
+			} else
+				paramsOK = false;
+		}
 
 		boolean resSubUsages = true;
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
@@ -246,8 +252,8 @@ public class GraphNode extends BaseNode {
 						subUsage.reportError("Cannot instantiate pattern with abstract elements");
 						resSubUsages = false;
 					}
-				}
-				else resSubUsages = false;
+				} else
+					resSubUsages = false;
 			}
 		}
 
@@ -258,8 +264,7 @@ public class GraphNode extends BaseNode {
 		while(it.hasNext()) {
 			SubpatternReplNode subpatternRepl = it.next();
 			for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
-				if(!orderedRepls.getChildren().isEmpty())
-				{
+				if(!orderedRepls.getChildren().isEmpty()) {
 					Iterator<OrderedReplacementNode> subCand = orderedRepls.getChildren().iterator();
 					OrderedReplacementNode orderedRepl = subCand.next();
 					if(orderedRepl instanceof SubpatternReplNode) {
@@ -277,7 +282,8 @@ public class GraphNode extends BaseNode {
 		}
 		for(int i = subpatternRepls.getChildren().size() - 1; i >= 0; --i) {
 			SubpatternReplNode subpatternRepl = subpatternRepls.get(i);
-			OrderedReplacementsNode orderedRepls = new OrderedReplacementsNode(subpatternRepl.getCoords(), subpatternRepl.getSubpatternIdent().getIdent().toString());
+			OrderedReplacementsNode orderedRepls = new OrderedReplacementsNode(subpatternRepl.getCoords(),
+					subpatternRepl.getSubpatternIdent().getIdent().toString());
 			orderedRepls.addChild(subpatternRepl);
 			orderedReplacements.addChildAtFront(orderedRepls);
 		}
@@ -286,15 +292,16 @@ public class GraphNode extends BaseNode {
 		return resolve != null && paramsOK && resSubUsages;
 	}
 
-	private static final Checker connectionsChecker
-		= new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
+	private static final Checker connectionsChecker =
+			new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
 
 	/**
 	 * A pattern node contains just a collect node with connection nodes as its children.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean connCheck = connectionsChecker.check(connections, error);
 
 		boolean isRhsEdgeUseOk = true;
@@ -307,10 +314,11 @@ public class GraphNode extends BaseNode {
 		return isRhsEdgeUseOk && connCheck && noExecStatementInEvalHere();
 	}
 
-	private boolean isRhsEdgeReuseOk() {
+	private boolean isRhsEdgeReuseOk()
+	{
 		boolean edgeUsage = true;
 		HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
-		for (BaseNode n : connections.getChildren()) {
+		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter cc = (ConnectionCharacter)n;
 			EdgeCharacter ec = cc.getEdge();
 
@@ -327,7 +335,8 @@ public class GraphNode extends BaseNode {
 		return edgeUsage;
 	}
 
-	protected boolean iteratedNotReferenced(String iterName) {
+	protected boolean iteratedNotReferenced(String iterName)
+	{
 		boolean res = true;
 		for(EvalStatementsNode yieldEvalStatements : yieldsEvals.getChildren()) {
 			for(EvalStatementNode yieldEvalStatement : yieldEvalStatements.getChildren()) {
@@ -337,7 +346,8 @@ public class GraphNode extends BaseNode {
 		return res;
 	}
 
-	protected boolean iteratedNotReferencedInDefElementInitialization(String iterName) {
+	protected boolean iteratedNotReferencedInDefElementInitialization(String iterName)
+	{
 		boolean res = true;
 		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
 			if(var.initialization != null)
@@ -346,7 +356,8 @@ public class GraphNode extends BaseNode {
 		return res;
 	}
 
-	boolean noExecStatementInEvalHere() {
+	boolean noExecStatementInEvalHere()
+	{
 		boolean result = true;
 		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
 			result &= orderedRepls.noExecStatement();
@@ -359,7 +370,8 @@ public class GraphNode extends BaseNode {
 	 * These are the children of the collect node at position 0.
 	 * @return The iterator.
 	 */
-	protected Collection<BaseNode> getConnections() {
+	protected Collection<BaseNode> getConnections()
+	{
 		assert isResolved();
 
 		return connections.getChildren();
@@ -372,10 +384,12 @@ public class GraphNode extends BaseNode {
 	 * @return A set containing the declarations of all nodes occurring
 	 * in this graph pattern.
 	 */
-	public Set<NodeDeclNode> getNodes() {
+	public Set<NodeDeclNode> getNodes()
+	{
 		assert isResolved();
 
-		if(nodes != null) return nodes;
+		if(nodes != null)
+			return nodes;
 
 		LinkedHashSet<NodeDeclNode> coll = new LinkedHashSet<NodeDeclNode>();
 
@@ -388,10 +402,12 @@ public class GraphNode extends BaseNode {
 		return nodes;
 	}
 
-	public Set<EdgeDeclNode> getEdges() {
+	public Set<EdgeDeclNode> getEdges()
+	{
 		assert isResolved();
 
-		if(edges != null) return edges;
+		if(edges != null)
+			return edges;
 
 		LinkedHashSet<EdgeDeclNode> coll = new LinkedHashSet<EdgeDeclNode>();
 
@@ -404,7 +420,8 @@ public class GraphNode extends BaseNode {
 		return edges;
 	}
 
-	public CollectNode<VarDeclNode> getDefVariablesToBeYieldedTo() {
+	public CollectNode<VarDeclNode> getDefVariablesToBeYieldedTo()
+	{
 		return defVariablesToBeYieldedTo;
 	}
 
@@ -412,7 +429,8 @@ public class GraphNode extends BaseNode {
 	 * Get the correctly casted IR object.
 	 * @return The IR object.
 	 */
-	protected PatternGraph getGraph() {
+	protected PatternGraph getGraph()
+	{
 		return checkIR(PatternGraph.class);
 	}
 
@@ -422,7 +440,8 @@ public class GraphNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		PatternGraph gr = new PatternGraph(nameOfGraph, 0);
 		gr.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getGraph());
 
@@ -454,7 +473,7 @@ public class GraphNode extends BaseNode {
 
 		// don't add elements only mentioned in typeof here to the pattern, it prevents them from being deleted
 		// in general we must be cautious with adding stuff to rhs because of that problem
-		
+
 		Set<Node> nodesToAdd = new HashSet<Node>();
 		Set<Edge> edgesToAdd = new HashSet<Edge>();
 
@@ -476,11 +495,11 @@ public class GraphNode extends BaseNode {
 
 		// ensure def to be yielded to elements are hom to all others
 		// so backend doing some fake search planning for them is not scheduling checks for them
-		for (Node node : gr.getNodes()) {
+		for(Node node : gr.getNodes()) {
 			if(node.isDefToBeYieldedTo())
 				gr.addHomToAll(node);
 		}
-		for (Edge edge : gr.getEdges()) {
+		for(Edge edge : gr.getEdges()) {
 			if(edge.isDefToBeYieldedTo())
 				gr.addHomToAll(edge);
 		}
@@ -488,7 +507,8 @@ public class GraphNode extends BaseNode {
 		return gr;
 	}
 
-	void addSubpatternReplacementUsageArgument(PatternGraph gr, OrderedReplacementsNode ors) {
+	void addSubpatternReplacementUsageArgument(PatternGraph gr, OrderedReplacementsNode ors)
+	{
 		for(OrderedReplacementNode n : ors.getChildren()) {
 			// TODO: what's with all the other ordered replacement operations containing entitites?
 			if(!(n instanceof SubpatternReplNode))
@@ -518,7 +538,8 @@ public class GraphNode extends BaseNode {
 		}
 	}
 
-	void addElementsUsedInDeferredExec(PatternGraph gr, ImperativeStmt impStmt) {
+	void addElementsUsedInDeferredExec(PatternGraph gr, ImperativeStmt impStmt)
+	{
 		if(impStmt instanceof Exec) {
 			Set<Entity> neededEntities = ((Exec)impStmt).getNeededEntities(false);
 			for(Entity entity : neededEntities) {
@@ -535,23 +556,25 @@ public class GraphNode extends BaseNode {
 		}
 	}
 
-	protected void addNodeIfNotYetContained(PatternGraph gr, Node neededNode) {
+	protected void addNodeIfNotYetContained(PatternGraph gr, Node neededNode)
+	{
 		if(!gr.hasNode(neededNode)) {
 			gr.addSingleNode(neededNode);
 			gr.addHomToAll(neededNode);
 		}
 	}
 
-	protected void addEdgeIfNotYetContained(PatternGraph gr, Edge neededEdge) {
+	protected void addEdgeIfNotYetContained(PatternGraph gr, Edge neededEdge)
+	{
 		if(!gr.hasEdge(neededEdge)) {
-			gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+			gr.addSingleEdge(neededEdge); // TODO: maybe we lose context here
 			gr.addHomToAll(neededEdge);
 		}
 	}
 
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
-    {
-    	for (BaseNode n : params.getChildren()) {
+	{
+		for(BaseNode n : params.getChildren()) {
 			// directly nesting lhs pattern is null for parameters of lhs/rhs pattern
 			// because it doesn't exist at the time the parameters are parsed -> patch it in here
 			if(n instanceof VarDeclNode) {
@@ -569,46 +592,46 @@ public class GraphNode extends BaseNode {
 				((EdgeDeclNode)cn.edgeUnresolved).directlyNestingLHSGraph = directlyNestingLHSGraph;
 			}
 
-            connectionsUnresolved.addChild(n);
-        }
-    }
+			connectionsUnresolved.addChild(n);
+		}
+	}
 
-	protected Vector<DeclNode> getParamDecls() {
+	protected Vector<DeclNode> getParamDecls()
+	{
 		Vector<DeclNode> res = new Vector<DeclNode>();
 
-		for (BaseNode para : params.getChildren()) {
-	        if (para instanceof ConnectionNode) {
-	        	ConnectionNode conn = (ConnectionNode) para;
-	        	res.add(conn.getEdge().getDecl());
-	        }
-	        else if (para instanceof SingleNodeConnNode) {
-	        	NodeDeclNode node = ((SingleNodeConnNode) para).getNode();
-	        	res.add(node);
-	        }
-			else if(para instanceof VarDeclNode) {
-				res.add((VarDeclNode) para);
-			}
-			else
+		for(BaseNode para : params.getChildren()) {
+			if(para instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)para;
+				res.add(conn.getEdge().getDecl());
+			} else if(para instanceof SingleNodeConnNode) {
+				NodeDeclNode node = ((SingleNodeConnNode)para).getNode();
+				res.add(node);
+			} else if(para instanceof VarDeclNode) {
+				res.add((VarDeclNode)para);
+			} else
 				throw new UnsupportedOperationException("Unsupported parameter (" + para + ")");
-        }
+		}
 
 		return res;
 	}
 
-	public Collection<EvalStatements> getYieldEvalStatements() {
+	public Collection<EvalStatements> getYieldEvalStatements()
+	{
 		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
 
-		for (EvalStatementsNode n : yieldsEvals.getChildren()) {
+		for(EvalStatementsNode n : yieldsEvals.getChildren()) {
 			ret.add(n.checkIR(EvalStatements.class));
 		}
 
 		return ret;
 	}
-	
-	public Collection<OrderedReplacements> getOrderedReplacements() {
+
+	public Collection<OrderedReplacements> getOrderedReplacements()
+	{
 		Collection<OrderedReplacements> ret = new LinkedList<OrderedReplacements>();
 
-		for (OrderedReplacementsNode n : orderedReplacements.getChildren()) {
+		for(OrderedReplacementsNode n : orderedReplacements.getChildren()) {
 			ret.add(n.checkIR(OrderedReplacements.class));
 		}
 

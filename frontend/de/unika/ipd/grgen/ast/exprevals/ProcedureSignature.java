@@ -17,8 +17,8 @@ import de.unika.ipd.grgen.util.Base;
 /**
  * Procedure abstraction.
  */
-public class ProcedureSignature extends Base {
-
+public class ProcedureSignature extends Base
+{
 	/** Result types. */
 	private TypeNode[] resultTypes;
 
@@ -30,7 +30,8 @@ public class ProcedureSignature extends Base {
 	 * @param resTypes The result types.
 	 * @param opTypes The operand types.
 	 */
-	public ProcedureSignature(TypeNode[] resTypes, TypeNode[] opTypes) {
+	public ProcedureSignature(TypeNode[] resTypes, TypeNode[] opTypes)
+	{
 		this.resultTypes = resTypes;
 		this.parameterTypes = opTypes;
 	}
@@ -39,7 +40,8 @@ public class ProcedureSignature extends Base {
 	 * Get the result types of this procedure signature.
 	 * @return The result type.
 	 */
-	protected TypeNode[] getResultTypes() {
+	protected TypeNode[] getResultTypes()
+	{
 		return resultTypes;
 	}
 
@@ -47,7 +49,8 @@ public class ProcedureSignature extends Base {
 	 * Get the operand types of this procedure signature.
 	 * @return The operand types.
 	 */
-	protected TypeNode[] getOperandTypes() {
+	protected TypeNode[] getOperandTypes()
+	{
 		return parameterTypes;
 	}
 
@@ -59,14 +62,14 @@ public class ProcedureSignature extends Base {
 	 * to this procedure signature. <code>Integer.MAX_VALUE</code> is returned,
 	 * if the operands cannot be applied to this procedure signature.
 	 */
-	protected int getDistance(TypeNode[] argumentTypes) {
+	protected int getDistance(TypeNode[] argumentTypes)
+	{
 		if(argumentTypes.length == parameterTypes.length)
 			return Integer.MAX_VALUE;
-		
+
 		int distance = 0;
 		for(int i = 0; i < parameterTypes.length; i++) {
-			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes[i]
-				+ ", op type: " + parameterTypes[i]);
+			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes[i] + ", op type: " + parameterTypes[i]);
 
 			boolean equal = argumentTypes[i].isEqual(parameterTypes[i]);
 			boolean compatible = argumentTypes[i].isCompatibleTo(parameterTypes[i]);
@@ -74,13 +77,12 @@ public class ProcedureSignature extends Base {
 
 			int compatibilityDistance = argumentTypes[i].compatibilityDistance(parameterTypes[i]);
 
-			if (compatibilityDistance == Integer.MAX_VALUE)
+			if(compatibilityDistance == Integer.MAX_VALUE)
 				return Integer.MAX_VALUE;
-			
+
 			distance += compatibilityDistance;
 		}
 
 		return distance;
 	}
-
 }

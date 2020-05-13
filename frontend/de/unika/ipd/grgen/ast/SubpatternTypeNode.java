@@ -10,18 +10,19 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-
 /**
  * Type of pattern decl node declaration.
  */
-public class SubpatternTypeNode extends TypeNode {
+public class SubpatternTypeNode extends TypeNode
+{
 	static {
 		setName(SubpatternTypeNode.class, "subpattern type");
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -29,10 +30,10 @@ public class SubpatternTypeNode extends TypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
-};
-
+}

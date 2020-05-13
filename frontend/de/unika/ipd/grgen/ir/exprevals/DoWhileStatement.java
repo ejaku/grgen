@@ -17,32 +17,37 @@ import java.util.LinkedList;
 /**
  * Represents a do while statement in the IR.
  */
-public class DoWhileStatement extends EvalStatement {
-
+public class DoWhileStatement extends EvalStatement
+{
 	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
 	private Expression conditionExpr;
 
-	public DoWhileStatement(Expression conditionExpr) {
+	public DoWhileStatement(Expression conditionExpr)
+	{
 		super("do while statement");
 		this.conditionExpr = conditionExpr;
 	}
 
-	public void addLoopedStatement(EvalStatement loopedStatement) {
+	public void addLoopedStatement(EvalStatement loopedStatement)
+	{
 		loopedStatements.add(loopedStatement);
 	}
 
-	public Expression getConditionExpr() {
+	public Expression getConditionExpr()
+	{
 		return conditionExpr;
 	}
 
-	public Collection<EvalStatement> getLoopedStatements() {
+	public Collection<EvalStatement> getLoopedStatements()
+	{
 		return loopedStatements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		conditionExpr.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements)
+		for(EvalStatement loopedStatement : loopedStatements) {
 			loopedStatement.collectNeededEntities(needs);
+		}
 	}
 }

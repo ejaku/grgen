@@ -11,16 +11,19 @@
 
 package de.unika.ipd.grgen.ir;
 
-public class IteratedReplacement extends Identifiable implements OrderedReplacement{
+public class IteratedReplacement extends Identifiable implements OrderedReplacement
+{
 	Rule iterated;
 
 	public IteratedReplacement(String name, Ident ident,
-			Rule iterated) {
+			Rule iterated)
+	{
 		super(name, ident);
 		this.iterated = iterated;
 	}
 
-	public Rule getIterated() {
+	public Rule getIterated()
+	{
 		return iterated;
 	}
 }

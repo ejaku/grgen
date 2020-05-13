@@ -14,8 +14,10 @@ package de.unika.ipd.grgen.ir;
 /**
  * An external match class filter function.
  */
-public class MatchClassFilterFunctionExternal extends MatchClassFilterFunction {
-	public MatchClassFilterFunctionExternal(String name, Ident ident) {
+public class MatchClassFilterFunctionExternal extends MatchClassFilterFunction
+{
+	public MatchClassFilterFunctionExternal(String name, Ident ident)
+	{
 		super(name, ident);
 	}
 }

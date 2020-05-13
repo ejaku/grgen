@@ -17,8 +17,8 @@ import de.unika.ipd.grgen.util.Base;
 /**
  * Function abstraction.
  */
-public class FunctionSignature extends Base {
-
+public class FunctionSignature extends Base
+{
 	/** Result type of the function. */
 	private TypeNode resultType;
 
@@ -30,7 +30,8 @@ public class FunctionSignature extends Base {
 	 * @param resType The result type.
 	 * @param opTypes The operand types.
 	 */
-	public FunctionSignature(TypeNode resType, TypeNode[] opTypes) {
+	public FunctionSignature(TypeNode resType, TypeNode[] opTypes)
+	{
 		this.resultType = resType;
 		this.parameterTypes = opTypes;
 	}
@@ -39,7 +40,8 @@ public class FunctionSignature extends Base {
 	 * Get the result type of this function signature.
 	 * @return The result type.
 	 */
-	protected TypeNode getResultType() {
+	protected TypeNode getResultType()
+	{
 		return resultType;
 	}
 
@@ -47,7 +49,8 @@ public class FunctionSignature extends Base {
 	 * Get the operand types of this function signature.
 	 * @return The operand types.
 	 */
-	protected TypeNode[] getOperandTypes() {
+	protected TypeNode[] getOperandTypes()
+	{
 		return parameterTypes;
 	}
 
@@ -59,14 +62,14 @@ public class FunctionSignature extends Base {
 	 * to this function signature. <code>Integer.MAX_VALUE</code> is returned,
 	 * if the operands cannot be applied to this functions signature.
 	 */
-	protected int getDistance(TypeNode[] argumentTypes) {
+	protected int getDistance(TypeNode[] argumentTypes)
+	{
 		if(argumentTypes.length != parameterTypes.length)
 			return Integer.MAX_VALUE;
 
 		int distance = 0;
 		for(int i = 0; i < parameterTypes.length; i++) {
-			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes[i]
-				+ ", operand type: " + parameterTypes[i]);
+			debug.report(NOTE, "" + i + ": arg type: " + argumentTypes[i] + ", operand type: " + parameterTypes[i]);
 
 			boolean equal = argumentTypes[i].isEqual(parameterTypes[i]);
 			boolean compatible = argumentTypes[i].isCompatibleTo(parameterTypes[i]);
@@ -74,13 +77,12 @@ public class FunctionSignature extends Base {
 
 			int compatibilityDistance = argumentTypes[i].compatibilityDistance(parameterTypes[i]);
 
-			if (compatibilityDistance == Integer.MAX_VALUE)
+			if(compatibilityDistance == Integer.MAX_VALUE)
 				return Integer.MAX_VALUE;
-			
+
 			distance += compatibilityDistance;
 		}
 
 		return distance;
 	}
-
 }

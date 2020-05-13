@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ast.BaseNode;
 /**
  * An instantiation of a type.
  */
-public class Entity extends Identifiable {
+public class Entity extends Identifiable
+{
 
 	protected static final String[] childrenNames = { "type" };
 
@@ -32,16 +33,15 @@ public class Entity extends Identifiable {
 
 	/** Is the entity constant - (only) relevant in backend for node/edge attributes. */
 	protected boolean isConst = false;
-	
+
 	/** Is the entity a defined entity only, to be filled with yields from nested patterns? */
 	protected boolean isDefToBeYieldedTo = false;
-	
+
 	/** Only in case of isDefToBeYieldedTo: gives the pattern graph in which the entity is to be deleted (can't use LHS\RHS for deciding this)*/
 	protected PatternGraph patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
-	
+
 	/** Context of the declaration */
 	protected int context;
-
 
 	/**
 	 * Make a new entity of a given type
@@ -52,7 +52,8 @@ public class Entity extends Identifiable {
 	 * @param isDefToBeYieldedTo Is the entity a defined entity only, to be filled with yields from nested patterns.
 	 * @param context The context of the declaration
 	 */
-	public Entity(String name, Ident ident, Type type, boolean isConst, boolean isDefToBeYieldedTo, int context) {
+	public Entity(String name, Ident ident, Type type, boolean isConst, boolean isDefToBeYieldedTo, int context)
+	{
 		super(name, ident);
 		setChildrenNames(childrenNames);
 		this.type = type;
@@ -62,12 +63,14 @@ public class Entity extends Identifiable {
 	}
 
 	/** @return The entity's type. */
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
 	/** @return The entity's owner. */
-	public Type getOwner() {
+	public Type getOwner()
+	{
 		return owner;
 	}
 
@@ -76,58 +79,69 @@ public class Entity extends Identifiable {
 	 * This function is just called from other IR classes.
 	 * @param type The owner of the entity.
 	 */
-	protected void setOwner(Type type) {
+	protected void setOwner(Type type)
+	{
 		owner = type;
 	}
 
 	/** @return true, if the entity has an owner, else false */
-	public boolean hasOwner() {
+	public boolean hasOwner()
+	{
 		return owner != null;
 	}
 
-	public void addFields(Map<String, Object> fields) {
+	public void addFields(Map<String, Object> fields)
+	{
 		super.addFields(fields);
 		fields.put("type", Collections.singleton(type));
 		fields.put("owner", Collections.singleton(owner));
 	}
 
 	/** @return true, if this is a retyped entity, i.e. the result of a retype, else false */
-	public boolean isRetyped() {
+	public boolean isRetyped()
+	{
 		return false;
 	}
 
 	/** @return true, if this is a constant entity, else false */
-	public boolean isConst() {
+	public boolean isConst()
+	{
 		return isConst;
 	}
 
 	/** @return true, if this is an entity declared in the right pattern, else false */
-	public boolean isRHSEntity() {
-		return (context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS;
+	public boolean isRHSEntity()
+	{
+		return (context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS;
 	}
-	
+
 	/** @return true, if this is a defined only entity to be filled from nested patterns, else false */
-	public boolean isDefToBeYieldedTo() {
+	public boolean isDefToBeYieldedTo()
+	{
 		return isDefToBeYieldedTo;
 	}
-	
-	public int getContext() {
+
+	public int getContext()
+	{
 		return context;
 	}
 
-	public void setPatternGraphDefYieldedIsToBeDeleted(PatternGraph graph) {
+	public void setPatternGraphDefYieldedIsToBeDeleted(PatternGraph graph)
+	{
 		assert isDefToBeYieldedTo;
 		patternGraphDefYieldedIsToBeDeleted = graph;
 	}
 
 	/** @return the pattern graph this defined entity to be yielded to is to be deleted, else null; null if not isDefToBeYieldedTo*/
-	public PatternGraph patternGraphDefYieldedIsToBeDeleted() {
+	public PatternGraph patternGraphDefYieldedIsToBeDeleted()
+	{
 		return patternGraphDefYieldedIsToBeDeleted;
 	}
 
 	/** The only walkable child here is the type
 	 *  @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Set<? extends IR> getWalkableChildren() {
+	public Set<? extends IR> getWalkableChildren()
+	{
 		return Collections.singleton(type);
 	}
 }

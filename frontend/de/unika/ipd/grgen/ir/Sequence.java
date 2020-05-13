@@ -18,44 +18,53 @@ import java.util.Vector;
 /**
  * A graph rewrite sequence definition.
  */
-public class Sequence extends Identifiable implements ContainedInPackage {
+public class Sequence extends Identifiable implements ContainedInPackage
+{
 	private String packageContainedIn;
 
 	private Exec exec;
-	
+
 	private List<ExecVariable> inParams = new Vector<ExecVariable>();
 	private List<ExecVariable> outParams = new Vector<ExecVariable>();
 
-	public Sequence(Ident ident, Exec exec) {
+	public Sequence(Ident ident, Exec exec)
+	{
 		super("sequence", ident);
 		this.exec = exec;
 	}
 
-	public String getPackageContainedIn() {
+	public String getPackageContainedIn()
+	{
 		return packageContainedIn;
 	}
-	
-	public void setPackageContainedIn(String packageContainedIn) {
+
+	public void setPackageContainedIn(String packageContainedIn)
+	{
 		this.packageContainedIn = packageContainedIn;
 	}
 
-	public Exec getExec() {
+	public Exec getExec()
+	{
 		return exec;
 	}
 
-	public void addInParam(ExecVariable inParam) {
+	public void addInParam(ExecVariable inParam)
+	{
 		inParams.add(inParam);
 	}
 
-	public List<ExecVariable> getInParameters() {
+	public List<ExecVariable> getInParameters()
+	{
 		return Collections.unmodifiableList(inParams);
 	}
 
-	public void addOutParam(ExecVariable outParam) {
+	public void addOutParam(ExecVariable outParam)
+	{
 		outParams.add(outParam);
 	}
 
-	public List<ExecVariable> getOutParameters() {
+	public List<ExecVariable> getOutParameters()
+	{
 		return Collections.unmodifiableList(outParams);
 	}
 }

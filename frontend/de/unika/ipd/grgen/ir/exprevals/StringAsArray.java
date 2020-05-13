@@ -13,24 +13,29 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.Type;
 
-public class StringAsArray extends Expression {
+public class StringAsArray extends Expression
+{
 	private Expression stringExpr, stringToSplitAtExpr;
 
-	public StringAsArray(Expression stringExpr, Expression stringToSplitAtExpr, Type targetType) {
+	public StringAsArray(Expression stringExpr, Expression stringToSplitAtExpr, Type targetType)
+	{
 		super("string asArray", targetType);
 		this.stringExpr = stringExpr;
 		this.stringToSplitAtExpr = stringToSplitAtExpr;
 	}
 
-	public Expression getStringExpr() {
+	public Expression getStringExpr()
+	{
 		return stringExpr;
 	}
 
-	public Expression getStringToSplitAtExpr() {
+	public Expression getStringToSplitAtExpr()
+	{
 		return stringToSplitAtExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		stringExpr.collectNeededEntities(needs);
 		stringToSplitAtExpr.collectNeededEntities(needs);
 	}

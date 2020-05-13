@@ -1,9 +1,9 @@
- /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 3.6
- * Copyright (C) 2003-2013 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
- * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
- * www.grgen.net
- */
+/*
+* GrGen: graph rewrite generator tool -- release GrGen.NET 3.6
+* Copyright (C) 2003-2013 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+* licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
+* www.grgen.net
+*/
 
 package de.unika.ipd.grgen.ast.exprevals;
 
@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node for adding an edge to graph.
  */
-public class GraphAddEdgeProcNode extends ProcedureInvocationBaseNode {
+public class GraphAddEdgeProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(GraphAddEdgeProcNode.class, "graph add edge procedure");
 	}
@@ -27,11 +28,11 @@ public class GraphAddEdgeProcNode extends ProcedureInvocationBaseNode {
 	private ExprNode edgeType;
 	private ExprNode sourceNode;
 	private ExprNode targetNode;
-	
+
 	Vector<TypeNode> returnTypes;
-		
-	public GraphAddEdgeProcNode(Coords coords, ExprNode edgeType,
-			ExprNode sourceNode, ExprNode targetNode) {
+
+	public GraphAddEdgeProcNode(Coords coords, ExprNode edgeType, ExprNode sourceNode, ExprNode targetNode)
+	{
 		super(coords);
 		this.edgeType = edgeType;
 		becomeParent(this.edgeType);
@@ -43,7 +44,8 @@ public class GraphAddEdgeProcNode extends ProcedureInvocationBaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(edgeType);
 		children.add(sourceNode);
@@ -53,7 +55,8 @@ public class GraphAddEdgeProcNode extends ProcedureInvocationBaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("edge type");
 		childrenNames.add("source node");
@@ -63,7 +66,8 @@ public class GraphAddEdgeProcNode extends ProcedureInvocationBaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
 			reportError("first argument of add(.,.,.) must be an edge type");
 			return false;
@@ -79,15 +83,16 @@ public class GraphAddEdgeProcNode extends ProcedureInvocationBaseNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		GraphAddEdgeProc addEdge = new GraphAddEdgeProc(edgeType.checkIR(Expression.class),
-										sourceNode.checkIR(Expression.class), 
-										targetNode.checkIR(Expression.class));
+				sourceNode.checkIR(Expression.class), targetNode.checkIR(Expression.class));
 		for(TypeNode type : getType()) {
 			addEdge.addReturnType(type.getType());
 		}
@@ -95,8 +100,9 @@ public class GraphAddEdgeProcNode extends ProcedureInvocationBaseNode {
 	}
 
 	@Override
-	public Vector<TypeNode> getType() {
-		if(returnTypes==null) {
+	public Vector<TypeNode> getType()
+	{
+		if(returnTypes == null) {
 			returnTypes = new Vector<TypeNode>();
 			returnTypes.add(edgeType.getType());
 		}

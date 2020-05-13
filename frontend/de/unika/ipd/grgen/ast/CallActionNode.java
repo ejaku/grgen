@@ -41,7 +41,8 @@ import de.unika.ipd.grgen.parser.Symbol;
 /**
  * Call of an action with parameters and returns.
  */
-public class CallActionNode extends BaseNode {
+public class CallActionNode extends BaseNode
+{
 
 	static {
 		setName(CallActionNode.class, "call action");
@@ -54,7 +55,7 @@ public class CallActionNode extends BaseNode {
 	private CollectNode<BaseNode> filterFunctionsUnresolved; // only IdentNode in CallActionNode
 
 	private boolean isAllBracketed;
-	
+
 	private TestDeclNode action;
 	private SequenceDeclNode sequence;
 	private ExecVarDeclNode booleVar;
@@ -69,7 +70,9 @@ public class CallActionNode extends BaseNode {
 	 * @param    returnsUnresolved   a  CollectNode<BaseNode>
 	 */
 	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<BaseNode> paramsUnresolved,
-			CollectNode<BaseNode> returnsUnresolved, CollectNode<BaseNode> filterFunctionsUnresolved, boolean isAllBracketed) {
+			CollectNode<BaseNode> returnsUnresolved, CollectNode<BaseNode> filterFunctionsUnresolved,
+			boolean isAllBracketed)
+	{
 		super(coords);
 		this.actionUnresolved = ruleUnresolved;
 		this.paramsUnresolved = paramsUnresolved;
@@ -80,18 +83,20 @@ public class CallActionNode extends BaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(actionUnresolved,action,sequence,booleVar));
-		children.add(getValidVersion(paramsUnresolved,params));
-		children.add(getValidVersion(returnsUnresolved,returns));
-		children.add(getValidVersion(filterFunctionsUnresolved,filterFunctions));
+		children.add(getValidVersion(actionUnresolved, action, sequence, booleVar));
+		children.add(getValidVersion(paramsUnresolved, params));
+		children.add(getValidVersion(returnsUnresolved, returns));
+		children.add(getValidVersion(filterFunctionsUnresolved, filterFunctions));
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("action");
 		childrenNames.add("params");
@@ -105,15 +110,17 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return    a  CollectNode<IdentNode>
 	 */
-	protected CollectNode<ExprNode> getParams() {
+	protected CollectNode<ExprNode> getParams()
+	{
 		assert isResolved();
 		return params;
 	}
 
-	public TestDeclNode getAction() {
+	public TestDeclNode getAction()
+	{
 		return action;
 	}
-	
+
 	/*
 	 * This introduces an ExecVar definition if an identifier is not defined
 	 * to support the usage-is-definition policy of the graph global variables in the sequences.
@@ -122,9 +129,9 @@ public class CallActionNode extends BaseNode {
 	 * (which makes sense for every other construct of the grgen language);
 	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
 	 */
-	public void addImplicitDefinitions() {
-		for(int i=0; i<returnsUnresolved.size(); ++i)
-		{
+	public void addImplicitDefinitions()
+	{
+		for(int i = 0; i < returnsUnresolved.size(); ++i) {
 			if(!(returnsUnresolved.get(i) instanceof IdentNode)) {
 				continue;
 			}
@@ -166,7 +173,8 @@ public class CallActionNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
 		addImplicitDefinitions();
 		if(!(actionUnresolved instanceof PackageIdentNode)) {
@@ -174,17 +182,17 @@ public class CallActionNode extends BaseNode {
 		}
 
 		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
-			actionResolver.resolve(actionUnresolved, this);
-		if(resolved!=null) {
-			if(resolved.first!=null)
+				actionResolver.resolve(actionUnresolved, this);
+		if(resolved != null) {
+			if(resolved.first != null)
 				action = resolved.first;
-			else if(resolved.second!=null)
+			else if(resolved.second != null)
 				sequence = resolved.second;
 			else
 				booleVar = resolved.third;
 		}
 
-		successfullyResolved = resolved!=null && (action!=null || sequence!=null || booleVar!=null) && successfullyResolved;
+		successfullyResolved &= resolved != null && (action != null || sequence != null || booleVar != null);
 
 		if(action != null) {
 			for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
@@ -197,20 +205,21 @@ public class CallActionNode extends BaseNode {
 		}
 
 		params = paramNodeResolver.resolve(paramsUnresolved, this);
-		successfullyResolved = params!=null && successfullyResolved;
+		successfullyResolved &= params != null;
 
 		returns = varDeclNodeResolver.resolve(returnsUnresolved, this);
-		successfullyResolved = returns!=null && successfullyResolved;
+		successfullyResolved &= returns != null;
 
 		filterFunctions = filterResolver.resolve(filterFunctionsUnresolved, this);
-		successfullyResolved = filterFunctions!=null && successfullyResolved;
-		
+		successfullyResolved &= filterFunctions != null;
+
 		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean res = true;
 
 		/* cannot be checked here, because type info is not yet computed
@@ -222,27 +231,30 @@ public class CallActionNode extends BaseNode {
 	}
 
 	/** check after the IR is built */
-	protected boolean checkPost() {
+	protected boolean checkPost()
+	{
 		boolean res = true;
 
-		if(action!=null) {
+		if(action != null) {
 			res &= checkParams(action.pattern.getParamDecls(), params.getChildren());
 			res &= checkReturns(action.returnFormalParameters.getChildren(), returns);
-		} else if(sequence!=null) {
+		} else if(sequence != null) {
 			Vector<TypeNode> outTypes = new Vector<TypeNode>();
 			for(ExecVarDeclNode varDecl : sequence.outParams.getChildren())
 				outTypes.add(varDecl.getDeclType());
 			res &= checkParams(sequence.inParams.getChildren(), params.getChildren());
 			res &= checkReturns(outTypes, returns);
 		}
-		
-		if(action!=null) {
+
+		if(action != null) {
 			for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
-				if(filter.action!=action)
-					reportError("Filter " + filter.getIdentNode().toString() + " is defined for action " + filter.action.getIdentNode().toString() + ". It can't be applied to action " + action.getIdentNode().toString());				
+				if(filter.action != action)
+					reportError("Filter " + filter.getIdentNode().toString()
+							+ " is defined for action " + filter.action.getIdentNode().toString()
+							+ ". It can't be applied to action " + action.getIdentNode().toString());
 			}
 		} else {
-			if(filterFunctionsUnresolved.size()>0)
+			if(filterFunctionsUnresolved.size() > 0)
 				reportError("Match filters can only be applied on tests or rules.");
 		}
 
@@ -255,11 +267,13 @@ public class CallActionNode extends BaseNode {
 	 * @param    actualParams        a  Collection<? extends DeclNode>
 	 * @return   a  boolean
 	 */
-	private boolean checkParams(Collection<? extends DeclNode> formalParams, Collection<? extends ExprNode> actualParams) {
+	private boolean checkParams(Collection<? extends DeclNode> formalParams,
+			Collection<? extends ExprNode> actualParams)
+	{
 		boolean res = true;
 		if(formalParams.size() != actualParams.size()) {
 			error.error(getCoords(), "Formal and actual parameter(s) of " + actionUnresolved.toString()
-					+ " mismatch in number (" + formalParams.size() + " vs. " + actualParams.size() +")");
+					+ " mismatch in number (" + formalParams.size() + " vs. " + actualParams.size() + ")");
 			res = false;
 		} else if(actualParams.size() > 0) {
 			Iterator<? extends ExprNode> iterAP = actualParams.iterator();
@@ -273,13 +287,14 @@ public class CallActionNode extends BaseNode {
 				} else {
 					formalParameterType = formalParam.getDecl().getDeclType();
 				}
-				Type     formalParamType = formalParameterType.getType();
+				Type formalParamType = formalParameterType.getType();
 
-				ExprNode actualParam     = iterAP.next();
+				ExprNode actualParam = iterAP.next();
 				TypeNode actualParameterType = actualParam.getType();
-				Type     actualParamType = actualParameterType.getType();
+				Type actualParamType = actualParameterType.getType();
 
-				if(actualParamType.classify()==Type.IS_UNTYPED_EXEC_VAR_TYPE) continue;
+				if(actualParamType.classify() == Type.IS_UNTYPED_EXEC_VAR_TYPE)
+					continue;
 
 				boolean incommensurable = false;
 
@@ -289,67 +304,63 @@ public class CallActionNode extends BaseNode {
 						&& formalParamType.classify() != Type.IS_EDGE) {
 					// Do types match?
 					if(actualParamType.classify() != formalParamType.classify())
-						incommensurable = true;		// No => illegal
+						incommensurable = true; // No => illegal
 					else {
 						if(actualParamType instanceof SetType) {
 							SetType apt = (SetType)actualParamType;
 							SetType fpt = (SetType)formalParamType;
-							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
-								reportError("Set value types are incommensurable. ("+paramCounter+". argument)");
+							if(apt.getValueType().classify() != fpt.getValueType().classify()) {
+								reportError("Set value types are incommensurable. (" + paramCounter + ". argument)");
 								incommensurable = true;
 							}
-						}
-						else if(actualParamType instanceof MapType) {
+						} else if(actualParamType instanceof MapType) {
 							MapType apt = (MapType)actualParamType;
 							MapType fpt = (MapType)formalParamType;
-							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
-								reportError("Map value types are incommensurable. ("+paramCounter+". argument)");
+							if(apt.getValueType().classify() != fpt.getValueType().classify()) {
+								reportError("Map value types are incommensurable. (" + paramCounter + ". argument)");
 								incommensurable = true;
 							}
-							if(apt.getKeyType().classify()!=fpt.getKeyType().classify()) {
-								reportError("Map key types are incommensurable. ("+paramCounter+". argument)");
+							if(apt.getKeyType().classify() != fpt.getKeyType().classify()) {
+								reportError("Map key types are incommensurable. (" + paramCounter + ". argument)");
 								incommensurable = true;
 							}
-						}
-						else if(actualParamType instanceof ArrayType) {
+						} else if(actualParamType instanceof ArrayType) {
 							ArrayType apt = (ArrayType)actualParamType;
 							ArrayType fpt = (ArrayType)formalParamType;
-							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
-								reportError("Array value types are incommensurable. ("+paramCounter+". argument)");
+							if(apt.getValueType().classify() != fpt.getValueType().classify()) {
+								reportError("Array value types are incommensurable. (" + paramCounter + ". argument)");
 								incommensurable = true;
 							}
-						}
-						else if(actualParamType instanceof DequeType) {
+						} else if(actualParamType instanceof DequeType) {
 							DequeType apt = (DequeType)actualParamType;
 							DequeType fpt = (DequeType)formalParamType;
-							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
-								reportError("Deque value types are incommensurable. ("+paramCounter+". argument)");
+							if(apt.getValueType().classify() != fpt.getValueType().classify()) {
+								reportError("Deque value types are incommensurable. (" + paramCounter + ". argument)");
 								incommensurable = true;
 							}
 						}
 					}
 				}
 				// No, are formal and actual param types of same kind?
-				else if(!(isEdgeCompatible(actualParamType) && formalParamType instanceof EdgeType ||
-						 isNodeCompatible(actualParamType) && formalParamType instanceof NodeType))
-					incommensurable = true;			// No => illegal
+				else if(!(isEdgeCompatible(actualParamType) && formalParamType instanceof EdgeType
+						|| isNodeCompatible(actualParamType) && formalParamType instanceof NodeType))
+					incommensurable = true; // No => illegal
 
 				if(incommensurable) {
-					reportError("Actual param type \"" + actualParamType
-							+ "\" and formal param type \"" + formalParamType
-							+ "\" are incommensurable. ("+paramCounter+". argument)");
+					reportError("Actual param type \"" + actualParamType + "\" and formal param type \""
+							+ formalParamType + "\" are incommensurable. (" + paramCounter + ". argument)");
 					res = false;
-				}
-				else if(actualParamType instanceof InheritanceType) {
+				} else if(actualParamType instanceof InheritanceType) {
 					if(!actualParameterType.isCompatibleTo(formalParameterType)) {
-						reportError("The "+paramCounter+". argument is not the same or a subtype of the formal parameter");
+						reportError("The " + paramCounter
+								+ ". argument is not the same or a subtype of the formal parameter");
 					} else {
 						InheritanceType fpt = (InheritanceType)formalParamType;
 						InheritanceType apt = (InheritanceType)actualParamType;
-						if(fpt!=apt && !fpt.isRoot() && !apt.isRoot()
+						if(fpt != apt && !fpt.isRoot() && !apt.isRoot()
 								&& Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
 							reportWarning("Formal param type \"" + formalParamType
-									+ "\" will never match to actual param type \"" + actualParamType +  "\".");
+									+ "\" will never match to actual param type \"" + actualParamType + "\".");
 					}
 				}
 				++paramCounter;
@@ -378,23 +389,27 @@ public class CallActionNode extends BaseNode {
 	 * @param    actualReturns a  CollectNode<ExecVarDeclNode>
 	 * @return   a  boolean
 	 */
-	private boolean checkReturns(Collection<? extends TypeNode> formalReturns, CollectNode<ExecVarDeclNode> actualReturns) {
+	private boolean checkReturns(Collection<? extends TypeNode> formalReturns,
+			CollectNode<ExecVarDeclNode> actualReturns)
+	{
 		boolean res = true;
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.size() > 0 && formalReturns.size() != actualReturns.size()) {
-			error.error(getCoords(), "Formal and actual return-parameter(s) of " + actionUnresolved.toString()
-					+ " mismatch in number (formal:" + formalReturns.size()
-					+ " vs. actual:" + actualReturns.size() +")");
+			error.error(getCoords(),
+					"Formal and actual return-parameter(s) of " + actionUnresolved.toString()
+							+ " mismatch in number (formal:" + formalReturns.size() + " vs. actual:"
+							+ actualReturns.size() + ")");
 			res = false;
 		} else if(actualReturns.size() > 0) {
 			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildren().iterator();
 			for(TypeNode formalReturn : formalReturns) {
-				Type     formalReturnType = formalReturn.getType();
+				Type formalReturnType = formalReturn.getType();
 
-				DeclNode actualReturn     = iterAR.next();
-				Type     actualReturnType = actualReturn.getDecl().getDeclType().getType();
+				DeclNode actualReturn = iterAR.next();
+				Type actualReturnType = actualReturn.getDecl().getDeclType().getType();
 
-				if(actualReturnType.classify()==Type.IS_UNTYPED_EXEC_VAR_TYPE) continue;
+				if(actualReturnType.classify() == Type.IS_UNTYPED_EXEC_VAR_TYPE)
+					continue;
 
 				boolean incommensurable = false;
 
@@ -403,22 +418,22 @@ public class CallActionNode extends BaseNode {
 					if(isAllBracketed) {
 						// Do types match?
 						if(actualReturnType.classify() != Type.IS_ARRAY)
-							incommensurable = true;		// No => illegal
+							incommensurable = true; // No => illegal
 						else if(((ArrayType)actualReturnType).getValueType().classify() != formalReturnType.classify())
 							incommensurable = true;
 					}
 					// Do types match?
 					else if(actualReturnType.classify() != formalReturnType.classify())
-						incommensurable = true;		// No => illegal
+						incommensurable = true; // No => illegal
 				}
 				// No, are formal and actual return types of same kind?
-				else if(!(actualReturnType instanceof EdgeType && formalReturnType instanceof EdgeType ||
-						 actualReturnType instanceof NodeType && formalReturnType instanceof NodeType))
-					incommensurable = true;			// No => illegal
+				else if(!(actualReturnType instanceof EdgeType && formalReturnType instanceof EdgeType
+						|| actualReturnType instanceof NodeType && formalReturnType instanceof NodeType))
+					incommensurable = true; // No => illegal
 
 				if(incommensurable) {
-					reportError("Actual return type \"" + actualReturnType
-							+ "\" and formal return type \"" + (isAllBracketed ? "array<" + formalReturnType + ">" : formalReturnType)
+					reportError("Actual return type \"" + actualReturnType + "\" and formal return type \""
+							+ (isAllBracketed ? "array<" + formalReturnType + ">" : formalReturnType)
 							+ "\" of action " + actionUnresolved.toString() + " are incommensurable.");
 					res = false;
 				}
@@ -427,8 +442,9 @@ public class CallActionNode extends BaseNode {
 					InheritanceType frt = (InheritanceType)formalReturnType;
 					InheritanceType art = (InheritanceType)actualReturnType;
 					if(!frt.isCastableTo(art)) {
-						reportError("Instances of formal return type \"" + formalReturnType + "\" cannot be assigned to a variable \"" +
-										actualReturn + "\" of type \"" + actualReturnType +  "\" (action " + actionUnresolved.toString() + ").");
+						reportError("Instances of formal return type \"" + formalReturnType
+								+ "\" cannot be assigned to a variable \"" + actualReturn + "\" of type \""
+								+ actualReturnType + "\" (action " + actionUnresolved.toString() + ").");
 						res = false;
 					}
 				}
@@ -439,7 +455,8 @@ public class CallActionNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		assert false;
 		return Bad.getBad(); // TODO fix this
 	}

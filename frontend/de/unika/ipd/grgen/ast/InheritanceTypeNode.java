@@ -71,15 +71,17 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	/** Contains all sub types of this type (not including this itself) */
 	private Collection<InheritanceTypeNode> allSubTypes = null;
 
-	public void addDirectSubType(InheritanceTypeNode type) {
+	public void addDirectSubType(InheritanceTypeNode type)
+	{
 		directSubTypes.add(type);
 	}
 
 	/** Returns all sub types of this type (not including itself). */
-	protected Collection<InheritanceTypeNode> getAllSubTypes() {
+	protected Collection<InheritanceTypeNode> getAllSubTypes()
+	{
 		assert isResolved();
 
-		if (allSubTypes == null) {
+		if(allSubTypes == null) {
 			allSubTypes = new HashSet<InheritanceTypeNode>();
 
 			for(InheritanceTypeNode type : directSubTypes) {
@@ -90,14 +92,16 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		return allSubTypes;
 	}
 
-	protected boolean isA(InheritanceTypeNode type) {
+	protected boolean isA(InheritanceTypeNode type)
+	{
 		assert type != null;
-		return this==type || getAllSuperTypes().contains(type);
+		return this == type || getAllSuperTypes().contains(type);
 	}
 
 	/** Returns all super types of this type (not including itself). */
-	protected Collection<InheritanceTypeNode> getAllSuperTypes() {
-		if(allSuperTypes==null) {
+	protected Collection<InheritanceTypeNode> getAllSuperTypes()
+	{
+		if(allSuperTypes == null) {
 			allSuperTypes = new HashSet<InheritanceTypeNode>();
 
 			for(InheritanceTypeNode type : getDirectSuperTypes()) {
@@ -108,7 +112,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		return allSuperTypes;
 	}
 
-	public CollectNode<BaseNode> getBody() {
+	public CollectNode<BaseNode> getBody()
+	{
 		return body;
 	}
 
@@ -121,9 +126,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		for(DeclNode member : getAllMembers().values()) {
 			if(member instanceof AbstractMemberDeclNode && !isAbstract()) {
-				error.error(getIdentNode().getCoords(),
-						getUseStr() + " \"" + getIdentNode() + "\" must be declared abstract, because member \"" +
-						member + "\" is abstract.");
+				error.error(getIdentNode().getCoords(), getUseStr() + " \"" + getIdentNode()
+						+ "\" must be declared abstract, because member \"" + member + "\" is abstract.");
 				res = false;
 			}
 		}
@@ -132,8 +136,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			if(n instanceof DeclNode && !(n instanceof ConstructorDeclNode)) {
 				DeclNode directMember = (DeclNode)n;
 				if(directMember.getIdentNode().getIdent().toString().equals(getIdentNode().getIdent().toString())) {
-					error.error(getIdentNode().getCoords(),
-							"the member \"" + directMember.getIdentNode() + "\" must be named differently than its containing " + getUseStr() + " \"" + getIdentNode() + "\"");
+					error.error(getIdentNode().getCoords(), "the member \"" + directMember.getIdentNode()
+									+ "\" must be named differently than its containing " + getUseStr() + " \""
+									+ getIdentNode() + "\"");
 				}
 			}
 		}
@@ -142,7 +147,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		Vector<ConstructorDeclNode> constrs = new Vector<ConstructorDeclNode>();
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof ConstructorDeclNode)
-				constrs.add((ConstructorDeclNode) n);
+				constrs.add((ConstructorDeclNode)n);
 		}
 
 		for(int i = 0; i < constrs.size(); i++) {
@@ -158,13 +163,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				for(; p < numParams1 && p < numParams2; p++) {
 					ConstructorParamNode param1 = params1.get(p);
 					ConstructorParamNode param2 = params2.get(p);
-					if(param1.rhs != null && param2.rhs != null)
-					{
-						ambiguous = true;  // non-optional part is identical => ambiguous
+					if(param1.rhs != null && param2.rhs != null) {
+						ambiguous = true; // non-optional part is identical => ambiguous
 						break;
-					}
-					else if(param1.lhs.getDeclType() != param2.lhs.getDeclType())
-						break;           // found a difference => not ambiguous
+					} else if(param1.lhs.getDeclType() != param2.lhs.getDeclType())
+						break; // found a difference => not ambiguous
 				}
 
 				// Constructors are also ambiguous, if both have identical parameter types,
@@ -175,8 +178,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 					ambiguous = true;
 
 				if(ambiguous) {
-					c1.reportError("Constructor is ambiguous (see constructor at "
-							+ c2.getCoords() + ")");
+					c1.reportError("Constructor is ambiguous (see constructor at " + c2.getCoords() + ")");
 					res = false;
 				}
 			}
@@ -191,14 +193,16 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	 * @return The IR object as type.
 	 */
 	@Override
-	public InheritanceType getType() {
+	public InheritanceType getType()
+	{
 		return checkIR(InheritanceType.class);
 	}
 
 	protected abstract CollectNode<? extends InheritanceTypeNode> getExtends();
 
 	@Override
-    public boolean fixupDefinition(IdentNode id) {
+	public boolean fixupDefinition(IdentNode id)
+	{
 		assert isResolved();
 
 		if(fixupDefinition(id, getScope(), false))
@@ -208,7 +212,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
 			if(inh.fixupDefinition(id)) {
 				Symbol.Definition newDef = id.getSymDef();
-				if(def == null) def = newDef;
+				if(def == null)
+					def = newDef;
 				else if(def != newDef) {
 					error.error(getIdentNode().getCoords(), "Identifier " + id
 							+ " is ambiguous (other definition at " + def.getCoords() + ")."
@@ -219,30 +224,35 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		}
 
 		return def != null;
-    }
+	}
 
-	protected void setModifiers(int modifiers) {
+	protected void setModifiers(int modifiers)
+	{
 		this.modifiers = modifiers;
 	}
 
-	protected final boolean isAbstract() {
+	protected final boolean isAbstract()
+	{
 		return (modifiers & MOD_ABSTRACT) != 0;
 	}
 
-	public final boolean isConst() {
+	public final boolean isConst()
+	{
 		return (modifiers & MOD_CONST) != 0;
 	}
 
-	protected final int getIRModifiers() {
-		return (isAbstract() ? InheritanceType.ABSTRACT : 0)
-			| (isConst() ? InheritanceType.CONST : 0);
+	protected final int getIRModifiers()
+	{
+		return (isAbstract() ? InheritanceType.ABSTRACT : 0) | (isConst() ? InheritanceType.CONST : 0);
 	}
 
-	protected void setExternalName(String extName) {
+	protected void setExternalName(String extName)
+	{
 		externalName = extName;
 	}
 
-	protected final String getExternalName() {
+	protected final String getExternalName()
+	{
 		return externalName;
 	}
 
@@ -258,7 +268,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	/** Returns all members (including inherited ones) of this type. */
 	public Map<String, DeclNode> getAllMembers()
 	{
-		if(allMembers==null) {
+		if(allMembers == null) {
 			allMembers = new LinkedHashMap<String, DeclNode>();
 
 			for(InheritanceTypeNode superType : getDirectSuperTypes()) {
@@ -271,7 +281,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		return allMembers;
 	}
 
-	protected boolean checkStatementsInMethods() {
+	protected boolean checkStatementsInMethods()
+	{
 		boolean res = true;
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof FunctionDeclNode) {
@@ -280,13 +291,14 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			} else if(n instanceof ProcedureDeclNode) {
 				ProcedureDeclNode procedure = (ProcedureDeclNode)n;
 				res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evals, true);
-			} 
+			}
 		}
 		return res;
 	}
-	
+
 	/** Check whether the override adheres to the signature of the base declaration */
-	protected boolean checkSignatureAdhered(FunctionBase base, FunctionBase override) {
+	protected boolean checkSignatureAdhered(FunctionBase base, FunctionBase override)
+	{
 		String functionName = base.ident.toString();
 
 		Vector<TypeNode> baseParams = base.getParameterTypes();
@@ -296,8 +308,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		int numBaseParams = baseParams.size();
 		int numOverrideParams = overrideParams.size();
 		if(numBaseParams != numOverrideParams) {
-			override.reportError("The function method \"" + functionName + "\" is declared with "
-					+ numBaseParams + " parameters in the base class, but overriden here with " + numOverrideParams);
+			override.reportError("The function method \"" + functionName + "\" is declared with " + numBaseParams
+					+ " parameters in the base class, but overriden here with " + numOverrideParams);
 			return false;
 		}
 
@@ -306,13 +318,14 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(int i = 0; i < numBaseParams; ++i) {
 			TypeNode baseParam = baseParams.get(i);
 			TypeNode overrideParam = overrideParams.get(i);
-			
+
 			if(!baseParam.isEqual(overrideParam)) {
 				res = false;
-				override.reportError("The function method \"" + functionName + "\" differs in its " + (i+1) + ". parameter from the base class");
+				override.reportError("The function method \"" + functionName + "\" differs in its " + (i + 1)
+						+ ". parameter from the base class");
 			}
 		}
-		
+
 		// check if the return type is correct
 		if(!base.getReturnType().isEqual(override.getReturnType())) {
 			override.reportError("The function method \"" + functionName + "\" differs in its return type from the base class");
@@ -322,7 +335,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	}
 
 	/** Check whether the override adheres to the signature of the base declaration */
-	protected boolean checkSignatureAdhered(ProcedureBase base, ProcedureBase override) {
+	protected boolean checkSignatureAdhered(ProcedureBase base, ProcedureBase override)
+	{
 		String procedureName = base.ident.toString();
 
 		Vector<TypeNode> baseParams = base.getParameterTypes();
@@ -332,8 +346,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		int numBaseParams = baseParams.size();
 		int numOverrideParams = overrideParams.size();
 		if(numBaseParams != numOverrideParams) {
-			override.reportError("The procedure method \"" + procedureName + "\" is declared with "
-					+ numBaseParams + " parameters in the base class, but overriden here with " + numOverrideParams);
+			override.reportError("The procedure method \"" + procedureName + "\" is declared with " + numBaseParams
+					+ " parameters in the base class, but overriden here with " + numOverrideParams);
 			return false;
 		}
 
@@ -342,10 +356,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(int i = 0; i < numBaseParams; ++i) {
 			TypeNode baseParam = baseParams.get(i);
 			TypeNode overrideParam = overrideParams.get(i);
-			
+
 			if(!baseParam.isEqual(overrideParam)) {
 				res = false;
-				override.reportError("The procedure method \"" + procedureName + "\" differs in its " + (i+1) + ". parameter from the base class");
+				override.reportError("The procedure method \"" + procedureName + "\" differs in its " + (i + 1)
+						+ ". parameter from the base class");
 			}
 		}
 
@@ -357,7 +372,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		int numOverrideReturnParams = overrideReturnParams.size();
 		if(numBaseReturnParams != numOverrideReturnParams) {
 			override.reportError("The procedure method \"" + procedureName + "\" is declared with "
-					+ numBaseReturnParams + " return parameters in the base class, but overriden here with " + numOverrideReturnParams);
+					+ numBaseReturnParams + " return parameters in the base class, but overriden here with "
+					+ numOverrideReturnParams);
 			return false;
 		}
 
@@ -365,23 +381,24 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(int i = 0; i < numBaseReturnParams; ++i) {
 			TypeNode baseReturnParam = baseReturnParams.get(i);
 			TypeNode overrideReturnParam = overrideReturnParams.get(i);
-			
+
 			if(!baseReturnParam.isEqual(overrideReturnParam)) {
 				res = false;
-				override.reportError("The procedure method \"" + procedureName + "\" differs in its " + (i+1) + ". return parameter from the base class");
+				override.reportError("The procedure method \"" + procedureName + "\" differs in its " + (i + 1)
+						+ ". return parameter from the base class");
 			}
 		}
 
 		return res;
 	}
 
-	protected void constructIR(InheritanceType inhType) {
+	protected void constructIR(InheritanceType inhType)
+	{
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof ConstructorDeclNode) {
-				ConstructorDeclNode cd = (ConstructorDeclNode) n;
+				ConstructorDeclNode cd = (ConstructorDeclNode)n;
 				inhType.addConstructor(cd.getConstructor());
-			}
-			else if(n instanceof DeclNode) {
+			} else if(n instanceof DeclNode) {
 				DeclNode decl = (DeclNode)n;
 				if(n instanceof FunctionDeclNode) {
 					inhType.addFunctionMethod(n.checkIR(FunctionMethod.class));
@@ -390,8 +407,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				} else {
 					inhType.addMember(decl.getEntity());
 				}
-			}
-			else if(n instanceof MemberInitNode) {
+			} else if(n instanceof MemberInitNode) {
 				MemberInitNode mi = (MemberInitNode)n;
 				IR init = mi.getIR();
 				if(init instanceof MapInit) {
@@ -405,31 +421,28 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				} else {
 					inhType.addMemberInit(mi.checkIR(MemberInit.class));
 				}
-			}
-			else if(n instanceof MapInitNode) {
-				MapInitNode mi = (MapInitNode) n;
+			} else if(n instanceof MapInitNode) {
+				MapInitNode mi = (MapInitNode)n;
 				inhType.addMapInit(mi.getMapInit());
-			}
-			else if(n instanceof SetInitNode) {
-				SetInitNode si = (SetInitNode) n;
+			} else if(n instanceof SetInitNode) {
+				SetInitNode si = (SetInitNode)n;
 				inhType.addSetInit(si.getSetInit());
-			}
-			else if(n instanceof ArrayInitNode) {
-				ArrayInitNode ai = (ArrayInitNode) n;
+			} else if(n instanceof ArrayInitNode) {
+				ArrayInitNode ai = (ArrayInitNode)n;
 				inhType.addArrayInit(ai.getArrayInit());
-			}
-			else if(n instanceof DequeInitNode) {
-				DequeInitNode di = (DequeInitNode) n;
+			} else if(n instanceof DequeInitNode) {
+				DequeInitNode di = (DequeInitNode)n;
 				inhType.addDequeInit(di.getDequeInit());
 			}
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
 			inhType.addDirectSuperType((InheritanceType)inh.getType());
 		}
-    }
+	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return getIdentNode().toString() + "(" + super.toString() + ")";
 	}
 }

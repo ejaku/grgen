@@ -11,29 +11,35 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class StringSubstring extends Expression {
+public class StringSubstring extends Expression
+{
 	private Expression stringExpr, startExpr, lengthExpr;
 
-	public StringSubstring(Expression stringExpr, Expression startExpr, Expression lengthExpr) {
+	public StringSubstring(Expression stringExpr, Expression startExpr, Expression lengthExpr)
+	{
 		super("string substring", StringType.getType());
 		this.stringExpr = stringExpr;
 		this.startExpr = startExpr;
 		this.lengthExpr = lengthExpr;
 	}
 
-	public Expression getStringExpr() {
+	public Expression getStringExpr()
+	{
 		return stringExpr;
 	}
 
-	public Expression getStartExpr() {
+	public Expression getStartExpr()
+	{
 		return startExpr;
 	}
 
-	public Expression getLengthExpr() {
+	public Expression getLengthExpr()
+	{
 		return lengthExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		stringExpr.collectNeededEntities(needs);
 		startExpr.collectNeededEntities(needs);
 		if(lengthExpr != null)

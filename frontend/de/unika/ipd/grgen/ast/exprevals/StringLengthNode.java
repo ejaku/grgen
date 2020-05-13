@@ -20,36 +20,40 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.StringLength;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringLengthNode extends ExprNode {
+public class StringLengthNode extends ExprNode
+{
 	static {
 		setName(StringLengthNode.class, "string length");
 	}
 
 	private ExprNode stringExpr;
 
-
-	public StringLengthNode(Coords coords, ExprNode stringExpr) {
+	public StringLengthNode(Coords coords, ExprNode stringExpr)
+	{
 		super(coords);
 
 		this.stringExpr = becomeParent(stringExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("This argument to string length expression must be of type string");
 			return false;
@@ -58,12 +62,14 @@ public class StringLengthNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new StringLength(stringExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 }

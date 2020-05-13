@@ -22,26 +22,32 @@ public class NullTypeNode extends BasicTypeNode
 	}
 
 	@Override
-	public boolean isCompatibleTo(TypeNode t) {
+	public boolean isCompatibleTo(TypeNode t)
+	{
 		// null is compatible to all graph element types, object, string, and graph
-		if(!(t instanceof BasicTypeNode)) return true;
-		if(t == BasicTypeNode.objectType || t == BasicTypeNode.stringType || t == BasicTypeNode.graphType) return true;
+		if(!(t instanceof BasicTypeNode))
+			return true;
+		if(t == BasicTypeNode.objectType || t == BasicTypeNode.stringType || t == BasicTypeNode.graphType)
+			return true;
 		return false;
 	}
 
 	@Override
-	public boolean isCastableTo(TypeNode t) {
+	public boolean isCastableTo(TypeNode t)
+	{
 		return isCompatibleTo(t);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// TODO: Check whether this is OK
 		return new ObjectType(getIdentNode().getIdent());
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "null";
 	}
 }

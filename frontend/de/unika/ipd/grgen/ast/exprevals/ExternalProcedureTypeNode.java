@@ -15,14 +15,16 @@ import de.unika.ipd.grgen.ast.*;
 /**
  * Type of external procedure node declaration.
  */
-public class ExternalProcedureTypeNode extends TypeNode {
+public class ExternalProcedureTypeNode extends TypeNode
+{
 	static {
 		setName(ExternalProcedureTypeNode.class, "external procedure type");
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -30,10 +32,10 @@ public class ExternalProcedureTypeNode extends TypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
-};
-
+}

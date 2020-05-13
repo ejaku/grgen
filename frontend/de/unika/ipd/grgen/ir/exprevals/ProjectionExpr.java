@@ -13,33 +13,40 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.Type;
 
-public class ProjectionExpr extends Expression {
+public class ProjectionExpr extends Expression
+{
 	private int index;
 	private ProcedureBase procedure;
 	private String projectedValueVarName;
 
-	public ProjectionExpr(int index, ProcedureBase procedure, Type type) {
+	public ProjectionExpr(int index, ProcedureBase procedure, Type type)
+	{
 		super("projection expr", type);
 		this.index = index;
 		this.procedure = procedure;
 	}
 
-	public int getIndex() {
+	public int getIndex()
+	{
 		return index;
 	}
 
-	public ProcedureBase getProcedure() {
+	public ProcedureBase getProcedure()
+	{
 		return procedure;
 	}
 
-	public String getProjectedValueVarName() {
+	public String getProjectedValueVarName()
+	{
 		return projectedValueVarName;
 	}
 
-	public void setProjectedValueVarName(String projectedValueVarName) {
+	public void setProjectedValueVarName(String projectedValueVarName)
+	{
 		this.projectedValueVarName = projectedValueVarName;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

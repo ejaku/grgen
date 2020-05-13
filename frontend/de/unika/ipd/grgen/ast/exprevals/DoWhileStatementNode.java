@@ -24,7 +24,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a do while statement.
  */
-public class DoWhileStatementNode extends EvalStatementNode {
+public class DoWhileStatementNode extends EvalStatementNode
+{
 	static {
 		setName(DoWhileStatementNode.class, "DoWhileStatement");
 	}
@@ -32,9 +33,10 @@ public class DoWhileStatementNode extends EvalStatementNode {
 	CollectNode<EvalStatementNode> loopedStatements;
 	private ExprNode conditionExpr;
 
-	public DoWhileStatementNode(Coords coords, 
+	public DoWhileStatementNode(Coords coords,
 			CollectNode<EvalStatementNode> loopedStatements,
-			ExprNode conditionExpr) {
+			ExprNode conditionExpr)
+	{
 		super(coords);
 		this.loopedStatements = loopedStatements;
 		becomeParent(this.loopedStatements);
@@ -44,7 +46,8 @@ public class DoWhileStatementNode extends EvalStatementNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(loopedStatements);
 		children.add(conditionExpr);
@@ -53,7 +56,8 @@ public class DoWhileStatementNode extends EvalStatementNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("loopedStatements");
 		childrenNames.add("condition");
@@ -61,28 +65,33 @@ public class DoWhileStatementNode extends EvalStatementNode {
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
 			conditionExpr.reportError("do-while condition must be of type boolean");
 			return false;
 		}
 		return true;
 	}
-	
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		DoWhileStatement dws = new DoWhileStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode loopedStatement : loopedStatements.getChildren())
+		for(EvalStatementNode loopedStatement : loopedStatements.getChildren()) {
 			dws.addLoopedStatement(loopedStatement.checkIR(EvalStatement.class));
+		}
 		return dws;
 	}
 }

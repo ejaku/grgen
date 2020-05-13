@@ -19,31 +19,35 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class IntConstNode extends ConstNode
 {
-	public IntConstNode(Coords coords, int v) {
+	public IntConstNode(Coords coords, int v)
+	{
 		super(coords, "integer", new Integer(v));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 
 	@Override
-	protected ConstNode doCastTo(TypeNode type) {
-		Integer value = (Integer) getValue();
+	protected ConstNode doCastTo(TypeNode type)
+	{
+		Integer value = (Integer)getValue();
 
-		if (type.isEqual(BasicTypeNode.byteType)) {
+		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)(int)value);
-		} else if (type.isEqual(BasicTypeNode.shortType)) {
+		} else if(type.isEqual(BasicTypeNode.shortType)) {
 			return new ShortConstNode(getCoords(), (short)(int)value);
-		} else if (type.isEqual(BasicTypeNode.longType)) {
+		} else if(type.isEqual(BasicTypeNode.longType)) {
 			return new LongConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.floatType)) {
+		} else if(type.isEqual(BasicTypeNode.floatType)) {
 			return new FloatConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.doubleType)) {
+		} else if(type.isEqual(BasicTypeNode.doubleType)) {
 			return new DoubleConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.stringType)) {
+		} else if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
-		} else throw new UnsupportedOperationException();
+		} else
+			throw new UnsupportedOperationException();
 	}
 }

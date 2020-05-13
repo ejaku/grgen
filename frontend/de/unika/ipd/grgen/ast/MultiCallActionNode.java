@@ -21,18 +21,20 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Call of multiple actions.
  */
-public class MultiCallActionNode extends BaseNode {
-
+public class MultiCallActionNode extends BaseNode
+{
 	static {
 		setName(MultiCallActionNode.class, "multiple call action");
 	}
 
 	private CollectNode<CallActionNode> actionCalls;
-	
+
 	private CollectNode<BaseNode> matchClassFilterFunctionsUnresolved;
 	protected CollectNode<MatchTypeQualIdentNode> matchClassFilterFunctions;
 
-	public MultiCallActionNode(Coords coords, CollectNode<CallActionNode> actionCalls, CollectNode<BaseNode> matchClassFilterFunctions) {
+	public MultiCallActionNode(Coords coords, CollectNode<CallActionNode> actionCalls,
+			CollectNode<BaseNode> matchClassFilterFunctions)
+	{
 		super(coords);
 		this.actionCalls = actionCalls;
 		this.matchClassFilterFunctionsUnresolved = matchClassFilterFunctions;
@@ -40,7 +42,8 @@ public class MultiCallActionNode extends BaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(actionCalls);
 		children.add(getValidVersion(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
@@ -49,7 +52,8 @@ public class MultiCallActionNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("actionCalls");
 		childrenNames.add("matchClassFilter");
@@ -58,23 +62,26 @@ public class MultiCallActionNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		matchClassFilterFunctions = new CollectNode<MatchTypeQualIdentNode>();
 		for(BaseNode matchClassFilterFunctionUnresolved : matchClassFilterFunctionsUnresolved.getChildren()) {
 			matchClassFilterFunctions.addChild((MatchTypeQualIdentNode)matchClassFilterFunctionUnresolved);
 		}
-			
+
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true; // only checking of children necessary
 	}
 
 	/** check after the IR is built */
-	protected boolean checkPost() {
+	protected boolean checkPost()
+	{
 		boolean res = true;
 
 		// all actions must implement the match classes of the employed filters
@@ -93,31 +100,32 @@ public class MultiCallActionNode extends BaseNode {
 	}
 
 	public static void checkWhetherCalledActionImplementsMatchClass(String matchClassReferencedByFilterFunction,
-			String nameOfFilterFunction, CallActionNode actionCall) {
+			String nameOfFilterFunction, CallActionNode actionCall)
+	{
 		String nameOfAction = actionCall.getAction().getIdentNode().toString();
 		boolean isMatchClassOfFilterImplementedByAction = false;
-		for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses())
-		{
+		for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses()) {
 			String matchClassImplementedByAction = matchType.getIdentNode().toString();
 			if(matchClassReferencedByFilterFunction.equals(matchClassImplementedByAction)) {
 				isMatchClassOfFilterImplementedByAction = true;
 			}
 		}
-		
+
 		if(!isMatchClassOfFilterImplementedByAction) {
 			if(actionCall.getAction().getImplementedMatchClasses().isEmpty()) {
 				if(nameOfFilterFunction != null) {
-					actionCall.reportError("Match filter " + nameOfFilterFunction + " is defined for match class " + matchClassReferencedByFilterFunction + ". "
-							+ "The action " + nameOfAction + " implements no match classes.");
+					actionCall.reportError("Match filter " + nameOfFilterFunction + " is defined for match class "
+							+ matchClassReferencedByFilterFunction + ". " + "The action " + nameOfAction
+							+ " implements no match classes.");
 				} else {
-					actionCall.reportError("The multi rule query is defined for match class " + matchClassReferencedByFilterFunction + ". "
-							+ "The action " + nameOfAction + " implements no match classes.");
+					actionCall.reportError(
+							"The multi rule query is defined for match class " + matchClassReferencedByFilterFunction
+									+ ". " + "The action " + nameOfAction + " implements no match classes.");
 				}
 			} else {
 				StringBuilder matchClassesImplementedByAction = new StringBuilder();
 				boolean first = true;
-				for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses())
-				{
+				for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses()) {
 					String matchTypeNameImplementedByAction = matchType.getIdentNode().toString();
 					if(first) {
 						first = false;
@@ -128,11 +136,13 @@ public class MultiCallActionNode extends BaseNode {
 				}
 
 				if(nameOfFilterFunction != null) {
-					actionCall.reportError("Match filter " + nameOfFilterFunction + " is defined for match class " + matchClassReferencedByFilterFunction + ". "
-							+ "The action " + nameOfAction + " implements only " + matchClassesImplementedByAction + ".");
+					actionCall.reportError("Match filter " + nameOfFilterFunction + " is defined for match class "
+							+ matchClassReferencedByFilterFunction + ". " + "The action " + nameOfAction
+							+ " implements only " + matchClassesImplementedByAction + ".");
 				} else {
-					actionCall.reportError("The multi rule query is defined for match class " + matchClassReferencedByFilterFunction + ". "
-							+ "The action " + nameOfAction + " implements only " + matchClassesImplementedByAction + ".");
+					actionCall.reportError("The multi rule query is defined for match class "
+							+ matchClassReferencedByFilterFunction + ". " + "The action " + nameOfAction
+							+ " implements only " + matchClassesImplementedByAction + ".");
 				}
 			}
 		}
@@ -140,7 +150,8 @@ public class MultiCallActionNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		assert false;
 		return Bad.getBad();
 	}

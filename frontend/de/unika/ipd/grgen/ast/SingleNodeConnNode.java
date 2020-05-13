@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.ir.Graph;
  * that occur without any edge connection to the rest of the graph.
  * children: NODE:NodeDeclNode|IdentNode
  */
-public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter {
+public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
+{
 	static {
 		setName(SingleNodeConnNode.class, "single node");
 	}
@@ -33,8 +34,8 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	private NodeDeclNode node;
 	public BaseNode nodeUnresolved;
 
-
-	public SingleNodeConnNode(BaseNode n) {
+	public SingleNodeConnNode(BaseNode n)
+	{
 		super(n.getCoords());
 		this.nodeUnresolved = n;
 		becomeParent(this.nodeUnresolved);
@@ -42,7 +43,8 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(nodeUnresolved, node));
 		return children;
@@ -50,19 +52,23 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("node");
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class); // optional
+	private static final DeclarationResolver<NodeDeclNode> nodeResolver =
+			new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class); // optional
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean res = fixupDefinition(nodeUnresolved, nodeUnresolved.getScope());
-		if(!res) return false;
+		if(!res)
+			return false;
 
 		node = nodeResolver.resolve(nodeUnresolved, this);
 		return node != null;
@@ -70,14 +76,16 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 
 	/** Get the node child of this node.
 	 * @return The node child. */
-	public NodeDeclNode getNode() {
+	public NodeDeclNode getNode()
+	{
 		assert isResolved();
 
 		return node;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#addToGraph(de.unika.ipd.grgen.ir.Graph) */
-	public void addToGraph(Graph gr) {
+	public void addToGraph(Graph gr)
+	{
 		assert isResolved();
 
 		gr.addSingleNode(node.getNode());
@@ -87,46 +95,56 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return nodeChecker.check(node, error);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdge(java.util.Set) */
-	public void addEdge(Set<EdgeDeclNode> set) {
+	public void addEdge(Set<EdgeDeclNode> set)
+	{
 	}
 
-	public EdgeCharacter getEdge() {
+	public EdgeCharacter getEdge()
+	{
 		return null;
 	}
 
-	public NodeCharacter getSrc() {
+	public NodeCharacter getSrc()
+	{
 		assert isResolved();
 
 		return node;
 	}
 
-	public void setSrc(NodeDeclNode src) {
+	public void setSrc(NodeDeclNode src)
+	{
 	}
 
-	public NodeCharacter getTgt() {
+	public NodeCharacter getTgt()
+	{
 		return null;
 	}
 
-	public void setTgt(NodeDeclNode tgt) {
+	public void setTgt(NodeDeclNode tgt)
+	{
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set) */
-	public void addNodes(Set<NodeDeclNode> set) {
+	public void addNodes(Set<NodeDeclNode> set)
+	{
 		assert isResolved();
 
 		set.add(node);
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "single node connection";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "SingleNodeConnNode";
 	}
 }

@@ -16,33 +16,38 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents a compound assignment var changed visited statement in the IR.
  */
-public class CompoundAssignmentVarChangedVisited extends CompoundAssignmentVar {
-
+public class CompoundAssignmentVarChangedVisited extends CompoundAssignmentVar
+{
 	/** The change assignment. */
 	private Visited changedTarget;
 
 	/** The operation of the change assignment */
 	private int changedOperation;
 
-
 	public CompoundAssignmentVarChangedVisited(Variable target,
 			int compoundAssignmentType, Expression expr,
-			int changedAssignmentType, Visited changedTarget) {
+			int changedAssignmentType, Visited changedTarget)
+	{
 		super(target, compoundAssignmentType, expr);
 		this.changedOperation = changedAssignmentType;
 		this.changedTarget = changedTarget;
 	}
 
-	public Visited getChangedTarget() {
+	public Visited getChangedTarget()
+	{
 		return changedTarget;
 	}
 
-	public int getChangedOperation() {
+	public int getChangedOperation()
+	{
 		return changedOperation;
 	}
 
-	public String toString() {
-		return super.toString() + (changedOperation==UNION?" |> ":changedOperation==INTERSECTION?" &> ":" => ") + changedTarget.toString();
+	public String toString()
+	{
+		return super.toString()
+				+ (changedOperation == UNION ? " |> " : changedOperation == INTERSECTION ? " &> " : " => ")
+				+ changedTarget.toString();
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

@@ -19,16 +19,18 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node for adding a copy of a node to graph.
  */
-public class GraphAddCopyNodeProcNode extends ProcedureInvocationBaseNode {
+public class GraphAddCopyNodeProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(GraphAddCopyNodeProcNode.class, "graph add copy node procedure");
 	}
 
 	private ExprNode oldNode;
-	
+
 	Vector<TypeNode> returnTypes;
 
-	public GraphAddCopyNodeProcNode(Coords coords, ExprNode nodeType) {
+	public GraphAddCopyNodeProcNode(Coords coords, ExprNode nodeType)
+	{
 		super(coords);
 		this.oldNode = nodeType;
 		becomeParent(this.oldNode);
@@ -36,7 +38,8 @@ public class GraphAddCopyNodeProcNode extends ProcedureInvocationBaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(oldNode);
 		return children;
@@ -44,7 +47,8 @@ public class GraphAddCopyNodeProcNode extends ProcedureInvocationBaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("old node");
 		return childrenNames;
@@ -52,7 +56,8 @@ public class GraphAddCopyNodeProcNode extends ProcedureInvocationBaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(oldNode.getType() instanceof NodeTypeNode)) {
 			reportError("argument of addCopy(.) must be a node");
 			return false;
@@ -60,12 +65,14 @@ public class GraphAddCopyNodeProcNode extends ProcedureInvocationBaseNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		GraphAddCopyNodeProc addCopyNode = new GraphAddCopyNodeProc(oldNode.checkIR(Expression.class));
 		for(TypeNode type : getType()) {
 			addCopyNode.addReturnType(type.getType());
@@ -74,8 +81,9 @@ public class GraphAddCopyNodeProcNode extends ProcedureInvocationBaseNode {
 	}
 
 	@Override
-	public Vector<TypeNode> getType() {
-		if(returnTypes==null) {
+	public Vector<TypeNode> getType()
+	{
+		if(returnTypes == null) {
 			returnTypes = new Vector<TypeNode>();
 			returnTypes.add(oldNode.getType());
 		}

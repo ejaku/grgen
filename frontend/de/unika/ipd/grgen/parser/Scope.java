@@ -24,8 +24,8 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
 /**
  * A namespace.
  */
-public class Scope {
-
+public class Scope
+{
 	/**
 	 * The id of this scope. It is basically the number of the child of
 	 * the super scope.
@@ -64,7 +64,8 @@ public class Scope {
 	 * Get an invalid scope.
 	 * @return An invalid scope.
 	 */
-	public static Scope getInvalid() {
+	public static Scope getInvalid()
+	{
 		return INVALID;
 	}
 
@@ -73,7 +74,8 @@ public class Scope {
 	 * This constructor may only used for initial root scopes.
 	 * @param reporter An error reporter for error message reporting.
 	 */
-	public Scope(ErrorReporter reporter) {
+	public Scope(ErrorReporter reporter)
+	{
 		this.parent = null;
 		// this.id = 0;
 		this.reporter = reporter;
@@ -87,7 +89,8 @@ public class Scope {
 	 * @param ident The ident node of this scope (commonly this is the ident
 	 * that opened the scope).
 	 */
-	private Scope(Scope parent, int id, IdentNode ident) {
+	private Scope(Scope parent, int id, IdentNode ident)
+	{
 		this.parent = parent;
 		// this.id = id;
 		this.ident = ident;
@@ -101,7 +104,8 @@ public class Scope {
 	 * @return true, if the symbol was defined in <b>this</b> scope, false
 	 * otherwise.
 	 */
-	public boolean definedHere(Symbol sym) {
+	public boolean definedHere(Symbol sym)
+	{
 		return getLocalDef(sym).isValid();
 	}
 
@@ -113,7 +117,8 @@ public class Scope {
 	 * @return true, if a definition of this symbol is visible in this scope,
 	 * false, if not.
 	 */
-	public boolean defined(Symbol sym) {
+	public boolean defined(Symbol sym)
+	{
 		return getCurrDef(sym).isValid();
 	}
 
@@ -123,7 +128,8 @@ public class Scope {
 	 * @return The definition of the symbol, or an invalid definition,
 	 * if the symbol has not been defined in this scope.
 	 */
-	public Symbol.Definition getLocalDef(Symbol sym) {
+	public Symbol.Definition getLocalDef(Symbol sym)
+	{
 		Symbol.Definition res = Symbol.Definition.getInvalid();
 
 		if(defs.containsKey(sym))
@@ -139,7 +145,8 @@ public class Scope {
 	 * or an invalid definition, if the symbol's definition is not visible
 	 * in this scope.
 	 */
-	public Definition getCurrDef(Symbol symbol) {
+	public Definition getCurrDef(Symbol symbol)
+	{
 		Symbol.Definition def = getLocalDef(symbol);
 
 		if(!(def.isValid() || isRoot()))
@@ -159,7 +166,8 @@ public class Scope {
 	 * @param coords The source code coordinates.
 	 * @return The symbol's occurrence.
 	 */
-	public Symbol.Occurrence occurs(Symbol sym, Coords coords) {
+	public Symbol.Occurrence occurs(Symbol sym, Coords coords)
+	{
 		Symbol.Occurrence occ = sym.occurs(this, coords);
 		occFixup.add(occ);
 
@@ -171,7 +179,8 @@ public class Scope {
 	 * @param sym The symbol that is occurring as a definition.
 	 * @return The symbol's definition.
 	 */
-	public Symbol.Definition define(Symbol sym) {
+	public Symbol.Definition define(Symbol sym)
+	{
 		return define(sym, new Coords());
 	}
 
@@ -183,7 +192,8 @@ public class Scope {
 	 * @param coords The source code coordinates for the definition.
 	 * @return The symbol's definition.
 	 */
-	public Symbol.Definition define(Symbol sym, Coords coords) {
+	public Symbol.Definition define(Symbol sym, Coords coords)
+	{
 		Symbol.Definition def = Symbol.Definition.getInvalid();
 
 		if(sym.isKeyword() && sym.getDefinitionCount() > 0) {
@@ -191,15 +201,17 @@ public class Scope {
 			def = Symbol.Definition.getInvalid(); // do not redefine a keyword
 		} else if(definedHere(sym)) {
 			def = getLocalDef(sym); // the previous definition
-			reporter.error(coords, "Symbol \"" + sym + "\" has already been defined in this scope (at: " + def.coords + ")");
+			reporter.error(coords,
+					"Symbol \"" + sym + "\" has already been defined in this scope (at: " + def.coords + ")");
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol
-		} else if(defined(sym) 
-				&& sym.getSymbolTable().getSymbolTableId()!=ParserEnvironment.ITERATEDS
-				&& this.getIdentNode().getSymbol().getSymbolTable().getSymbolTableId()!=ParserEnvironment.PACKAGES) {
+		} else if(defined(sym)
+				&& sym.getSymbolTable().getSymbolTableId() != ParserEnvironment.ITERATEDS
+				&& this.getIdentNode().getSymbol().getSymbolTable().getSymbolTableId() != ParserEnvironment.PACKAGES) {
 			def = getCurrDef(sym); // the previous definition
-			reporter.error(coords, "Symbol \"" + sym + "\" has already been defined in some parent scope (at: " + def.coords + ")");
+			reporter.error(coords,
+					"Symbol \"" + sym + "\" has already been defined in some parent scope (at: " + def.coords + ")");
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol from a parent scope
-		} else{
+		} else {
 			try {
 				def = sym.define(this, coords);
 				defs.put(sym, def);
@@ -222,7 +234,8 @@ public class Scope {
 	 * unique in this scope.
 	 */
 	public Symbol.Definition defineAnonymous(String name, SymbolTable symTab,
-											 Coords coords) {
+			Coords coords)
+	{
 		int currId = 0;
 		if(anonIds.containsKey(name))
 			currId = anonIds.get(name).intValue();
@@ -237,7 +250,8 @@ public class Scope {
 	 * @param name The name of the new subscope.
 	 * @return The newly entered scope.
 	 */
-	public Scope newScope(IdentNode name) {
+	public Scope newScope(IdentNode name)
+	{
 		Scope s = new Scope(this, childs.size(), name);
 		childs.add(s);
 		return s;
@@ -248,7 +262,8 @@ public class Scope {
 	 * @param name The name of the new subscope.
 	 * @return The newly entered scope.
 	 */
-	public Scope newOrReuseScope(IdentNode name) {
+	public Scope newOrReuseScope(IdentNode name)
+	{
 		for(Scope child : childs) {
 			if(child.getIdentNode().toString().equals(name))
 				return child;
@@ -262,8 +277,8 @@ public class Scope {
 	 * Leave a scope.
 	 * @return The parent scope of the one to leave.
 	 */
-	public Scope leaveScope() {
-
+	public Scope leaveScope()
+	{
 		// fixup all occurrences by entering the correct definition.
 		for(Iterator<Symbol.Occurrence> it = occFixup.iterator(); it.hasNext();) {
 			Symbol.Occurrence occ = it.next();
@@ -277,7 +292,8 @@ public class Scope {
 	 * Check, if a scope is the root scope.
 	 * @return true, if the scope is the root scope, false, if not.
 	 */
-	public boolean isRoot() {
+	public boolean isRoot()
+	{
 		return parent == null;
 	}
 
@@ -285,21 +301,23 @@ public class Scope {
 	 * Get the parent of the scope.
 	 * @return The parent of the scope, or null, if it is the root scope.
 	 */
-	public Scope getParent() {
+	public Scope getParent()
+	{
 		return parent;
 	}
 
-	public Scope getRoot() {
+	public Scope getRoot()
+	{
 		Scope curScope = this;
-		while(!curScope.isRoot())
-		{
+		while(!curScope.isRoot()) {
 			curScope = curScope.getParent();
 		}
 		return curScope;
 	}
-	
-	public String getName() {
-		if(ident==null)
+
+	public String getName()
+	{
+		if(ident == null)
 			return "<ROOT>";
 		return ident.toString();
 	}
@@ -307,11 +325,13 @@ public class Scope {
 	/**
 	 * Returns the defining ident.
 	 */
-	public IdentNode getIdentNode() {
+	public IdentNode getIdentNode()
+	{
 		return ident;
 	}
 
-	public String getPath() {
+	public String getPath()
+	{
 		String res = "";
 		if(!isRoot())
 			res = res + parent + ".";
@@ -321,9 +341,8 @@ public class Scope {
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
+	public String toString()
+	{
 		return getName();
 	}
-
 }
-

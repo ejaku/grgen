@@ -15,28 +15,33 @@ import java.util.List;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class SubpatternUsage extends Identifiable {
+public class SubpatternUsage extends Identifiable
+{
 	Rule subpatternAction;
 	List<Expression> subpatternConnections;
 	List<Expression> subpatternYields;
 
 	public SubpatternUsage(String name, Ident ident, Rule subpatternAction,
-			List<Expression> connections, List<Expression> yields) {
+			List<Expression> connections, List<Expression> yields)
+	{
 		super(name, ident);
 		this.subpatternAction = subpatternAction;
 		this.subpatternConnections = connections;
 		this.subpatternYields = yields;
 	}
 
-	public Rule getSubpatternAction() {
+	public Rule getSubpatternAction()
+	{
 		return subpatternAction;
 	}
 
-	public List<Expression> getSubpatternConnections() {
+	public List<Expression> getSubpatternConnections()
+	{
 		return subpatternConnections;
 	}
 
-	public List<Expression> getSubpatternYields() {
+	public List<Expression> getSubpatternYields()
+	{
 		return subpatternYields;
 	}
 }

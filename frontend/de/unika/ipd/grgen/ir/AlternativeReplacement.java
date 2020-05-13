@@ -11,16 +11,19 @@
 
 package de.unika.ipd.grgen.ir;
 
-public class AlternativeReplacement extends Identifiable implements OrderedReplacement{
+public class AlternativeReplacement extends Identifiable implements OrderedReplacement
+{
 	Alternative alternative;
 
 	public AlternativeReplacement(String name, Ident ident,
-			Alternative alternative) {
+			Alternative alternative)
+	{
 		super(name, ident);
 		this.alternative = alternative;
 	}
 
-	public Alternative getAlternative() {
+	public Alternative getAlternative()
+	{
 		return alternative;
 	}
 }

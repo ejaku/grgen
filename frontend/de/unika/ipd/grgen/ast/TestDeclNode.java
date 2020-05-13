@@ -30,11 +30,11 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Variable;
 
-
 /**
  * AST node class representing tests
  */
-public class TestDeclNode extends ActionDeclNode {
+public class TestDeclNode extends ActionDeclNode
+{
 	static {
 		setName(TestDeclNode.class, "test declaration");
 	}
@@ -48,28 +48,32 @@ public class TestDeclNode extends ActionDeclNode {
 
 	private static final TypeNode testType = new TestTypeNode();
 
-	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, 
-			CollectNode<IdentNode> implementedMatchTypes, CollectNode<BaseNode> rets) {
+	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern,
+			CollectNode<IdentNode> implementedMatchTypes, CollectNode<BaseNode> rets)
+	{
 		super(id, type, pattern);
 		this.returnFormalParametersUnresolved = rets;
 		becomeParent(this.returnFormalParametersUnresolved);
-		implementedMatchTypesUnresolved	= implementedMatchTypes;
+		implementedMatchTypesUnresolved = implementedMatchTypes;
 		becomeParent(implementedMatchTypesUnresolved);
 		this.filters = new ArrayList<FilterAutoNode>();
 	}
 
 	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode<IdentNode> implementedMatchTypes,
-			CollectNode<BaseNode> rets) {
+			CollectNode<BaseNode> rets)
+	{
 		this(id, testType, pattern, implementedMatchTypes, rets);
 	}
 
-	public void addFilters(ArrayList<FilterAutoNode> filters) {
+	public void addFilters(ArrayList<FilterAutoNode> filters)
+	{
 		this.filters.addAll(filters);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -81,7 +85,8 @@ public class TestDeclNode extends ActionDeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -91,15 +96,17 @@ public class TestDeclNode extends ActionDeclNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<TestTypeNode> typeResolver = new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
-	private static final CollectResolver<DefinedMatchTypeNode> matchTypeResolver = new CollectResolver<DefinedMatchTypeNode>(
-			new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class));
-	private static final CollectResolver<TypeNode> retTypeResolver = new CollectResolver<TypeNode>(
-			new DeclarationTypeResolver<TypeNode>(TypeNode.class));
+	private static final DeclarationTypeResolver<TestTypeNode> typeResolver =
+			new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
+	private static final CollectResolver<DefinedMatchTypeNode> matchTypeResolver =
+			new CollectResolver<DefinedMatchTypeNode>(new DeclarationTypeResolver<DefinedMatchTypeNode>(DefinedMatchTypeNode.class));
+	private static final CollectResolver<TypeNode> retTypeResolver =
+			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 		for(IdentNode mtid : implementedMatchTypesUnresolved.getChildren()) {
 			if(!(mtid instanceof PackageIdentNode)) {
@@ -109,13 +116,17 @@ public class TestDeclNode extends ActionDeclNode {
 		implementedMatchTypes = matchTypeResolver.resolve(implementedMatchTypesUnresolved, this);
 		returnFormalParameters = retTypeResolver.resolve(returnFormalParametersUnresolved, this);
 
-		return type != null && returnFormalParameters != null && implementedMatchTypes != null && resolveFilters(filters);
+		return type != null
+				&& returnFormalParameters != null
+				&& implementedMatchTypes != null
+				&& resolveFilters(filters);
 	}
 
 	/**
 	 * Check if actual return arguments are conformant to the formal return parameters.
 	 */
-	protected boolean checkReturns(CollectNode<ExprNode> returnArgs) {
+	protected boolean checkReturns(CollectNode<ExprNode> returnArgs)
+	{
 		boolean res = true;
 
 		int declaredNumRets = returnFormalParameters.size();
@@ -123,7 +134,7 @@ public class TestDeclNode extends ActionDeclNode {
 		for(int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			ExprNode retExpr = returnArgs.get(i);
 			TypeNode retDeclType = returnFormalParameters.get(i);
-			
+
 			res &= checkReturns(i, retExpr, retDeclType);
 		}
 
@@ -138,11 +149,12 @@ public class TestDeclNode extends ActionDeclNode {
 				returnArgs.reportError("Return statement has wrong number of parameters");
 			}
 		}
-		
+
 		return res;
 	}
 
-	private boolean checkReturns(int i, ExprNode retExpr, TypeNode retDeclType) {
+	private boolean checkReturns(int i, ExprNode retExpr, TypeNode retDeclType)
+	{
 		boolean res = true;
 
 		TypeNode retExprType = retExpr.getType();
@@ -151,17 +163,17 @@ public class TestDeclNode extends ActionDeclNode {
 			res = false;
 			String exprTypeName;
 			if(retExprType instanceof InheritanceTypeNode)
-				exprTypeName = ((InheritanceTypeNode) retExprType).getIdentNode().toString();
+				exprTypeName = ((InheritanceTypeNode)retExprType).getIdentNode().toString();
 			else
 				exprTypeName = retExprType.toString();
-			ident.reportError("Cannot convert " + (i + 1) + ". return parameter from \""
-					+ exprTypeName + "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
+			ident.reportError("Cannot convert " + (i + 1) + ". return parameter from \"" + exprTypeName
+					+ "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
 			return res;
 		}
 
 		if(!(retExpr instanceof DeclExprNode))
 			return res;
-		ConstraintDeclNode retElem = ((DeclExprNode) retExpr).getConstraintDeclNode();
+		ConstraintDeclNode retElem = ((DeclExprNode)retExpr).getConstraintDeclNode();
 		if(retElem == null)
 			return res;
 
@@ -169,9 +181,9 @@ public class TestDeclNode extends ActionDeclNode {
 
 		Set<? extends ConstraintDeclNode> homSet;
 		if(retElem instanceof NodeDeclNode)
-			homSet = pattern.getHomomorphic((NodeDeclNode) retElem);
+			homSet = pattern.getHomomorphic((NodeDeclNode)retElem);
 		else
-			homSet = pattern.getHomomorphic((EdgeDeclNode) retElem);
+			homSet = pattern.getHomomorphic((EdgeDeclNode)retElem);
 
 		for(ConstraintDeclNode homElem : homSet) {
 			if(homElem == retElem)
@@ -191,12 +203,13 @@ public class TestDeclNode extends ActionDeclNode {
 					+ retypedElemType.getIdentNode() + "\"");
 			return res;
 		}
-		
+
 		return res;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean edgeReUse = checkLeft();
 
 		boolean returnParams = true;
@@ -207,27 +220,31 @@ public class TestDeclNode extends ActionDeclNode {
 		if(!(this instanceof RuleDeclNode))
 			noRewriteParts = sameNumberOfRewriteParts(null, "test");
 
-		return checkFilters(pattern, filters) && noRewriteParts && edgeReUse && returnParams && checkMatchTypesImplemented();
+		return checkFilters(pattern, filters)
+				& noRewriteParts
+				& edgeReUse
+				& returnParams
+				& checkMatchTypesImplemented();
 	}
 
 	public boolean checkMatchTypesImplemented()
 	{
 		boolean isOk = true;
-		
+
 		for(DefinedMatchTypeNode matchType : implementedMatchTypes.getChildren()) {
 			isOk &= checkMatchTypeImplemented(matchType);
 		}
-		
+
 		return isOk;
 	}
 
 	public boolean checkMatchTypeImplemented(DefinedMatchTypeNode matchType)
 	{
 		boolean isOk = true;
-		
+
 		String actionName = getIdentNode().toString();
 		String matchTypeName = matchType.getIdentNode().toString();
-		
+
 		HashMap<String, NodeDeclNode> knownNodes = new HashMap<String, NodeDeclNode>();
 		for(NodeDeclNode node : pattern.getNodes()) {
 			knownNodes.put(node.getIdentNode().toString(), node);
@@ -240,7 +257,7 @@ public class TestDeclNode extends ActionDeclNode {
 		for(EdgeDeclNode edge : pattern.getEdges()) {
 			knownEdges.put(edge.getIdentNode().toString(), edge);
 		}
-		for(EdgeDeclNode edge: matchType.getEdges()) {
+		for(EdgeDeclNode edge : matchType.getEdges()) {
 			isOk = checkEdgeImplemented(edge, actionName, matchTypeName, knownEdges);
 		}
 
@@ -262,113 +279,141 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	private boolean checkNodeImplemented(NodeDeclNode node,
-			String actionName, String matchTypeName, HashMap<String, NodeDeclNode> knownNodes) {
+			String actionName, String matchTypeName, HashMap<String, NodeDeclNode> knownNodes)
+	{
 		boolean isOk = true;
-		
+
 		String nodeName = node.getIdentNode().toString();
 		if(!knownNodes.containsKey(nodeName)) {
-			getIdentNode().reportError("Action " + actionName + " does not implement the node " + nodeName + " expected from " + matchTypeName);
+			getIdentNode().reportError("Action " + actionName + " does not implement the node " + nodeName
+					+ " expected from " + matchTypeName);
 			isOk = false;
 		} else {
 			NodeDeclNode nodeFromPattern = knownNodes.get(nodeName);
 			NodeTypeNode type = node.getDeclType();
 			NodeTypeNode typeOfNodeFromPattern = nodeFromPattern.getDeclType();
 			if(!type.isEqual(typeOfNodeFromPattern)) {
-				getIdentNode().reportError("The type of the node " + nodeName + " from the action " + actionName + " does not equal the type of the node from the match class " + matchTypeName 
-						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfNodeFromPattern) + " is declared.");
+				getIdentNode().reportError("The type of the node " + nodeName + " from the action " + actionName
+						+ " does not equal the type of the node from the match class " + matchTypeName
+						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, "
+						+ getTypeName(typeOfNodeFromPattern) + " is declared.");
 				isOk = false;
 			}
 			if(nodeFromPattern.defEntityToBeYieldedTo && !node.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The node " + nodeName + " from the action " + actionName + " is a def to be yielded to node, while it is a node to be matched (or received as input to the pattern) in the match class " + matchTypeName);
+				getIdentNode().reportError("The node " + nodeName + " from the action " + actionName
+						+ " is a def to be yielded to node, while it is a node to be matched (or received as input to the pattern) in the match class "
+						+ matchTypeName);
 				isOk = false;
 			}
 			if(!nodeFromPattern.defEntityToBeYieldedTo && node.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The node " + nodeName + " from the action " + actionName + " is a node to be matched (or received as input to the pattern), while it is a def to be yielded to node in the match class " + matchTypeName);
+				getIdentNode().reportError("The node " + nodeName + " from the action " + actionName
+						+ " is a node to be matched (or received as input to the pattern), while it is a def to be yielded to node in the match class "
+						+ matchTypeName);
 				isOk = false;
 			}
 		}
-		
+
 		return isOk;
 	}
 
 	private boolean checkEdgeImplemented(EdgeDeclNode edge,
-			String actionName, String matchTypeName, HashMap<String, EdgeDeclNode> knownEdges) {
+			String actionName, String matchTypeName, HashMap<String, EdgeDeclNode> knownEdges)
+	{
 		boolean isOk = true;
-		
+
 		String edgeName = edge.getIdentNode().toString();
 		if(!knownEdges.containsKey(edgeName)) {
-			getIdentNode().reportError("Action " + actionName + " does not implement the edge " + edgeName + " expected from " + matchTypeName);
+			getIdentNode().reportError("Action " + actionName + " does not implement the edge " + edgeName
+					+ " expected from " + matchTypeName);
 			isOk = false;
 		} else {
 			EdgeDeclNode edgeFromPattern = knownEdges.get(edgeName);
 			EdgeTypeNode type = edge.getDeclType();
 			EdgeTypeNode typeOfEdgeFromPattern = edgeFromPattern.getDeclType();
 			if(!type.isEqual(typeOfEdgeFromPattern)) {
-				getIdentNode().reportError("The type of the edge " + edgeName + " from the action " + actionName + " does not equal the type of the edge from the match class " + matchTypeName 
-						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfEdgeFromPattern) + " is declared.");
+				getIdentNode().reportError("The type of the edge " + edgeName + " from the action " + actionName
+						+ " does not equal the type of the edge from the match class " + matchTypeName
+						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, "
+						+ getTypeName(typeOfEdgeFromPattern) + " is declared.");
 				isOk = false;
 			}
 			if(edgeFromPattern.defEntityToBeYieldedTo && !edge.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName + " is a def to be yielded to edge, while it is an edge to be matched (or received as input to the pattern) in the match class " + matchTypeName);
+				getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName
+						+ " is a def to be yielded to edge, while it is an edge to be matched (or received as input to the pattern) in the match class "
+						+ matchTypeName);
 				isOk = false;
 			}
 			if(!edgeFromPattern.defEntityToBeYieldedTo && edge.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName + " is an edge to be matched (or received as input to the pattern), while it is a def to be yielded to edge in the match class " + matchTypeName);
+				getIdentNode().reportError("The edge " + edgeName + " from the action " + actionName
+						+ " is an edge to be matched (or received as input to the pattern), while it is a def to be yielded to edge in the match class "
+						+ matchTypeName);
 				isOk = false;
 			}
 		}
-		
+
 		return isOk;
 	}
 
 	private boolean checkVariableImplemented(VarDeclNode var,
-			String actionName, String matchTypeName, HashMap<String, VarDeclNode> knownVariables) {
+			String actionName, String matchTypeName, HashMap<String, VarDeclNode> knownVariables)
+	{
 		boolean isOk = true;
-		
+
 		String varName = var.getIdentNode().toString();
 		if(!knownVariables.containsKey(varName)) {
-			getIdentNode().reportError("Action " + actionName + " does not implement the variable " + varName + " expected from " + matchTypeName);
+			getIdentNode().reportError("Action " + actionName + " does not implement the variable " + varName
+					+ " expected from " + matchTypeName);
 			isOk = false;
 		} else {
 			VarDeclNode varFromPattern = knownVariables.get(varName);
 			TypeNode type = var.getDeclType();
 			TypeNode typeOfVarFromPattern = varFromPattern.getDeclType();
 			if(!type.isEqual(typeOfVarFromPattern)) {
-				getIdentNode().reportError("The type of the variable " + varName + " from the action " + actionName + " does not equal the type of the variable from the match class " + matchTypeName 
-						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, " + getTypeName(typeOfVarFromPattern) + " is declared.");
+				getIdentNode().reportError("The type of the variable " + varName + " from the action " + actionName
+						+ " does not equal the type of the variable from the match class " + matchTypeName
+						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, "
+						+ getTypeName(typeOfVarFromPattern) + " is declared.");
 				isOk = false;
 			}
 			if(varFromPattern.defEntityToBeYieldedTo && !var.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The variable " + varName + " from the action " + actionName + " is a def to be yielded to var, while it is a var to be received as input to the pattern in the match class " + matchTypeName);
+				getIdentNode().reportError("The variable " + varName + " from the action " + actionName
+						+ " is a def to be yielded to var, while it is a var to be received as input to the pattern in the match class "
+						+ matchTypeName);
 				isOk = false;
 			}
 			if(!varFromPattern.defEntityToBeYieldedTo && var.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The variable " + varName + " from the action " + actionName + " is a variable to be received as input to the pattern, while it is a def to be yielded to var in the match class " + matchTypeName);
+				getIdentNode().reportError("The variable " + varName + " from the action " + actionName
+						+ " is a variable to be received as input to the pattern, while it is a def to be yielded to var in the match class "
+						+ matchTypeName);
 				isOk = false;
 			}
 		}
-		
+
 		return isOk;
 	}
 
-	private String getTypeName(TypeNode type) {
+	private String getTypeName(TypeNode type)
+	{
 		String typeName;
 		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode) type).getIdentNode().toString();
+			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
 		else
 			typeName = type.toString();
 		return typeName;
 	}
 
-	public boolean checkControlFlow() {
+	public boolean checkControlFlow()
+	{
 		return true;
 	}
 
-	public Collection<DefinedMatchTypeNode> getImplementedMatchClasses() {
+	public Collection<DefinedMatchTypeNode> getImplementedMatchClasses()
+	{
 		return implementedMatchTypes.getChildren();
 	}
 
-	protected void constructIRaux(MatchingAction constructedMatchingAction, CollectNode<ExprNode> aReturns) {
+	protected void constructIRaux(MatchingAction constructedMatchingAction, CollectNode<ExprNode> aReturns)
+	{
 		// add Params to the IR
 		addParams(constructedMatchingAction);
 
@@ -378,7 +423,7 @@ public class TestDeclNode extends ActionDeclNode {
 			// actual return-parameter
 			constructedMatchingAction.addReturn(aReturn);
 		}
-		
+
 		// filters add themselves to the rule when their IR is constructed
 		for(FilterAutoNode filter : filters) {
 			if(filter instanceof FilterAutoSuppliedNode) {
@@ -390,22 +435,26 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return type;
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "action declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "action";
 	}
-	
+
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the pattern graph already constructed the IR object
 		// that may happen in recursive patterns (and other usages/references)
 		if(isIRAlreadySet()) {

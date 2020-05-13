@@ -13,8 +13,8 @@ package de.unika.ipd.grgen.util;
 
 import java.awt.Color;
 
-public interface GraphDumpable {
-
+public interface GraphDumpable
+{
 	/**
 	 * Get the unique id of a node.
 	 * Only one node with this id can be in the graph.
@@ -54,5 +54,4 @@ public interface GraphDumpable {
 	 * @return The label for edge <code>edge</code>
 	 */
 	String getEdgeLabel(int edge);
-
 }

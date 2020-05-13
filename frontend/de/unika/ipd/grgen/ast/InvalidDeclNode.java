@@ -11,10 +11,12 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+
 /**
  * AST node class representing invalid declarations.
  */
-public class InvalidDeclNode extends DeclNode {
+public class InvalidDeclNode extends DeclNode
+{
 
 	static {
 		setName(InvalidDeclNode.class, "invalid declaration");
@@ -25,7 +27,8 @@ public class InvalidDeclNode extends DeclNode {
 	/**
 	 * Create a resolved and checked invalid DeclNode.
 	 */
-	public InvalidDeclNode(IdentNode id) {
+	public InvalidDeclNode(IdentNode id)
+	{
 		super(id, BasicTypeNode.getErrorType(id));
 		resolve();
 		check();
@@ -33,7 +36,8 @@ public class InvalidDeclNode extends DeclNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -42,18 +46,21 @@ public class InvalidDeclNode extends DeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		return childrenNames;
 	}
 
-	private static DeclarationResolver<ErrorTypeNode> typeResolver = new DeclarationResolver<ErrorTypeNode>(ErrorTypeNode.class);
+	private static DeclarationResolver<ErrorTypeNode> typeResolver =
+			new DeclarationResolver<ErrorTypeNode>(ErrorTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
@@ -61,20 +68,24 @@ public class InvalidDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "undeclared identifier";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "undeclared identifier";
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "undeclared identifier";
 	}
 

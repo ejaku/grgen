@@ -19,14 +19,16 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node that checks whether a path exists.
  */
-public class ExistsFileExprNode extends ExprNode {
+public class ExistsFileExprNode extends ExprNode
+{
 	static {
 		setName(ExistsFileExprNode.class, "exists file expr");
 	}
 
 	private ExprNode pathExpr;
-		
-	public ExistsFileExprNode(Coords coords, ExprNode pathExpr) {
+
+	public ExistsFileExprNode(Coords coords, ExprNode pathExpr)
+	{
 		super(coords);
 		this.pathExpr = pathExpr;
 		becomeParent(this.pathExpr);
@@ -34,7 +36,8 @@ public class ExistsFileExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(pathExpr);
 		return children;
@@ -42,7 +45,8 @@ public class ExistsFileExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("pathExpr");
 		return childrenNames;
@@ -50,13 +54,15 @@ public class ExistsFileExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(pathExpr.getType() instanceof StringTypeNode)) {
 			pathExpr.reportError("string (with file path) expected as argument to existsFile");
 			return false;
@@ -65,13 +71,14 @@ public class ExistsFileExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new ExistsFileExpr(pathExpr.checkIR(Expression.class), 
-								getType().getType());
+	protected IR constructIR()
+	{
+		return new ExistsFileExpr(pathExpr.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.booleanType;
 	}
 }

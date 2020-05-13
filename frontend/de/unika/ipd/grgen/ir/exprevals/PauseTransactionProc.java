@@ -11,16 +11,20 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class PauseTransactionProc extends ProcedureInvocationBase {
-	public PauseTransactionProc() {
+public class PauseTransactionProc extends ProcedureInvocationBase
+{
+	public PauseTransactionProc()
+	{
 		super("pause transaction procedure");
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 	}
 }

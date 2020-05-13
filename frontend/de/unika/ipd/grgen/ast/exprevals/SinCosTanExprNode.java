@@ -20,20 +20,21 @@ import de.unika.ipd.grgen.ir.exprevals.SinCosTanExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SinCosTanExprNode extends ExprNode {
+public class SinCosTanExprNode extends ExprNode
+{
 	static {
 		setName(SinCosTanExprNode.class, "sincostan expr");
 	}
 
 	int which;
 	private ExprNode argumentExpr;
-	
+
 	public static final int SIN = 0;
 	public static final int COS = 1;
 	public static final int TAN = 2;
 
-
-	public SinCosTanExprNode(Coords coords, int which, ExprNode argumentExpr) {
+	public SinCosTanExprNode(Coords coords, int which, ExprNode argumentExpr)
+	{
 		super(coords);
 
 		this.which = which;
@@ -41,21 +42,24 @@ public class SinCosTanExprNode extends ExprNode {
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(argumentExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("arg");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
@@ -64,13 +68,15 @@ public class SinCosTanExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// assumes that the which:int of the AST node uses the same values as the which of the IR expression
 		return new SinCosTanExpr(which, argumentExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return argumentExpr.getType();
 	}
 }

@@ -17,38 +17,44 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 /**
  * A procedure method invocation.
  */
-public class ProcedureMethodInvocation extends ProcedureInvocationBase {
+public class ProcedureMethodInvocation extends ProcedureInvocationBase
+{
 	/** The owner of the procedure method. */
 	private Entity owner;
 
 	/** The procedure of the procedure method invocation. */
 	protected Procedure procedure;
 
-
-	public ProcedureMethodInvocation(Entity owner, Procedure procedure) {
+	public ProcedureMethodInvocation(Entity owner, Procedure procedure)
+	{
 		super("procedure method invocation");
 
 		this.owner = owner;
 		this.procedure = procedure;
 	}
 
-	public Entity getOwner() {
+	public Entity getOwner()
+	{
 		return owner;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return procedure;
 	}
 
-	public Procedure getProcedure() {
+	public Procedure getProcedure()
+	{
 		return procedure;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		if(!isGlobalVariable(owner))
-			needs.add((GraphEntity) owner);
-		for(Expression child : getWalkableChildren())
+			needs.add((GraphEntity)owner);
+		for(Expression child : getWalkableChildren()) {
 			child.collectNeededEntities(needs);
+		}
 	}
 }

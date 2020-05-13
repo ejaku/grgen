@@ -19,15 +19,17 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node retrieving a node from a unique id.
  */
-public class NodeByUniqueExprNode extends ExprNode {
+public class NodeByUniqueExprNode extends ExprNode
+{
 	static {
 		setName(NodeByUniqueExprNode.class, "node by unique expr");
 	}
 
 	private ExprNode unique;
 	private ExprNode nodeType;
-	
-	public NodeByUniqueExprNode(Coords coords, ExprNode unique, ExprNode nodeType) {
+
+	public NodeByUniqueExprNode(Coords coords, ExprNode unique, ExprNode nodeType)
+	{
 		super(coords);
 		this.unique = unique;
 		becomeParent(this.unique);
@@ -37,7 +39,8 @@ public class NodeByUniqueExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(unique);
 		children.add(nodeType);
@@ -46,7 +49,8 @@ public class NodeByUniqueExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("name");
 		childrenNames.add("nodeType");
@@ -55,13 +59,15 @@ public class NodeByUniqueExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(unique.getType() instanceof IntTypeNode)) {
 			reportError("first argument of nodeByUnique(.,.) must be of type int");
 			return false;
@@ -74,12 +80,15 @@ public class NodeByUniqueExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new NodeByUniqueExpr(unique.checkIR(Expression.class), nodeType.checkIR(Expression.class), getType().getType());
+	protected IR constructIR()
+	{
+		return new NodeByUniqueExpr(unique.checkIR(Expression.class),
+				nodeType.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return nodeType.getType();
 	}
 }

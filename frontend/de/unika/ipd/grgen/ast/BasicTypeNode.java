@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ast.exprevals.*;
 /**
  * A basic type AST node such as string or int
  */
-public abstract class BasicTypeNode extends DeclaredTypeNode {
+public abstract class BasicTypeNode extends DeclaredTypeNode
+{
 	public static final BasicTypeNode stringType = new StringTypeNode();
 	public static final BasicTypeNode typeType = new TypeTypeNode();
 	public static final BasicTypeNode byteType = new ByteTypeNode();
@@ -39,13 +40,14 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 
 	public static final TypeNode errorType = new ErrorTypeNode(IdentNode.getInvalid());
 
-
-	public static TypeNode getErrorType(IdentNode id) {
+	public static TypeNode getErrorType(IdentNode id)
+	{
 		return new ErrorTypeNode(id);
 	}
 
 	private static Object invalidValueType = new Object() {
-		public String toString() {
+		public String toString()
+		{
 			return "invalid value";
 		}
 	};
@@ -69,11 +71,11 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		valueMap.put(objectType, ObjectTypeNode.Value.class);
 		valueMap.put(nullType, NullConstNode.Value.class);
 		valueMap.put(untypedType, UntypedExecVarTypeNode.Value.class);
-		
+
 		//////////////////////////////////////////////////////////
 		//implicit casts; upcasts for arithmetic, and everything to string (easy emitting)
 		//////////////////////////////////////////////////////////
-		
+
 		addCompatibility(enumItemType, byteType);
 		addCompatibility(enumItemType, shortType);
 		addCompatibility(enumItemType, intType);
@@ -167,7 +169,8 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -175,19 +178,22 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.TypeNode#isBasic() */
-	public final boolean isBasic() {
+	public final boolean isBasic()
+	{
 		return true;
 	}
 
 	/** Return the Java class, that represents a value of a constant in this type. */
-	public final Class<?> getValueType() {
+	public final Class<?> getValueType()
+	{
 		if(!valueMap.containsKey(this)) {
 			return invalidValueType.getClass();
 		} else {
@@ -195,30 +201,32 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		}
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "basic type";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "basic type";
 	}
-	
+
 	// implements type promotion (byte/short->int, float->double)
-	public static TypeNode getArrayAccumulationResultType(TypeNode inputType) {
-		if(inputType==byteType)
+	public static TypeNode getArrayAccumulationResultType(TypeNode inputType)
+	{
+		if(inputType == byteType)
 			return intType;
-		else if(inputType==shortType)
+		else if(inputType == shortType)
 			return intType;
-		else if(inputType==intType)
+		else if(inputType == intType)
 			return intType;
-		else if(inputType==longType)
+		else if(inputType == longType)
 			return longType;
-		else if(inputType==floatType)
+		else if(inputType == floatType)
 			return doubleType;
-		else if(inputType==doubleType)
+		else if(inputType == doubleType)
 			return doubleType;
 		else
 			return errorType;
 	}
 }
-

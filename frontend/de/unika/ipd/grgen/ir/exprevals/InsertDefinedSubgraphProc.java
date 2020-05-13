@@ -7,33 +7,38 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class InsertDefinedSubgraphProc extends ProcedureInvocationBase {
+public class InsertDefinedSubgraphProc extends ProcedureInvocationBase
+{
 	private final Expression edgeSetExpr;
 	private final Expression edgeExpr;
 
-	public InsertDefinedSubgraphProc(Expression var, Expression edge) {
+	public InsertDefinedSubgraphProc(Expression var, Expression edge)
+	{
 		super("insert defined subgraph procedure");
 		this.edgeSetExpr = var;
 		this.edgeExpr = edge;
 	}
 
-	public Expression getSetExpr() {
+	public Expression getSetExpr()
+	{
 		return edgeSetExpr;
 	}
 
-	public Expression getEdgeExpr() {
+	public Expression getEdgeExpr()
+	{
 		return edgeExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		edgeSetExpr.collectNeededEntities(needs);
 		edgeExpr.collectNeededEntities(needs);
 	}
 }
-

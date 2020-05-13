@@ -10,18 +10,19 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-
 /**
  * Type of sequence decl node declaration.
  */
-public class SequenceTypeNode extends TypeNode {
+public class SequenceTypeNode extends TypeNode
+{
 	static {
 		setName(SequenceTypeNode.class, "sequence type");
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -29,10 +30,10 @@ public class SequenceTypeNode extends TypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
-};
-
+}

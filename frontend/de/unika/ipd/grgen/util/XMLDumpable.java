@@ -18,8 +18,8 @@ import java.util.Map;
 /**
  * Something that can be serialized to an XML file.
  */
-public interface XMLDumpable {
-
+public interface XMLDumpable
+{
 	/**
 	 * Get the name of the tag.
 	 * @return The tag string.
@@ -54,6 +54,4 @@ public interface XMLDumpable {
 	 * @return A unique ID.
 	 */
 	String getXMLId();
-
 }
-

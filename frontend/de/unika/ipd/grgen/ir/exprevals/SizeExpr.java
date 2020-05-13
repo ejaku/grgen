@@ -11,13 +11,16 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class SizeExpr extends Expression {
+public class SizeExpr extends Expression
+{
 
-	public SizeExpr() {
+	public SizeExpr()
+	{
 		super("size expr", IntType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 	}
 }

@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.StringIndexOf;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringIndexOfNode extends ExprNode {
+public class StringIndexOfNode extends ExprNode
+{
 	static {
 		setName(StringIndexOfNode.class, "string indexOf");
 	}
@@ -29,46 +30,49 @@ public class StringIndexOfNode extends ExprNode {
 	private ExprNode stringToSearchForExpr;
 	private ExprNode startIndexExpr;
 
-
-	public StringIndexOfNode(Coords coords, ExprNode stringExpr,
-			ExprNode stringToSearchForExpr) {
+	public StringIndexOfNode(Coords coords, ExprNode stringExpr, ExprNode stringToSearchForExpr)
+	{
 		super(coords);
 
-		this.stringExpr            = becomeParent(stringExpr);
+		this.stringExpr = becomeParent(stringExpr);
 		this.stringToSearchForExpr = becomeParent(stringToSearchForExpr);
 	}
 
-	public StringIndexOfNode(Coords coords, ExprNode stringExpr,
-			ExprNode stringToSearchForExpr, ExprNode startIndexExpr) {
+	public StringIndexOfNode(Coords coords, ExprNode stringExpr, ExprNode stringToSearchForExpr,
+			ExprNode startIndexExpr)
+	{
 		super(coords);
 
-		this.stringExpr            = becomeParent(stringExpr);
+		this.stringExpr = becomeParent(stringExpr);
 		this.stringToSearchForExpr = becomeParent(stringToSearchForExpr);
-		this.startIndexExpr        = becomeParent(startIndexExpr);
+		this.startIndexExpr = becomeParent(startIndexExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
 		children.add(stringToSearchForExpr);
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			children.add(startIndexExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
 		childrenNames.add("stringToSearchFor");
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			childrenNames.add("startIndex");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("This argument to string indexOf expression must be of type string");
 			return false;
@@ -78,8 +82,8 @@ public class StringIndexOfNode extends ExprNode {
 					+ "search for) to string indexOf expression must be of type string");
 			return false;
 		}
-		if(startIndexExpr!=null
-			&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
+		if(startIndexExpr != null
+				&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
 			startIndexExpr.reportError("Argument (start index) to string indexOf expression must be of type int");
 			return false;
 		}
@@ -87,8 +91,9 @@ public class StringIndexOfNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(startIndexExpr!=null)
+	protected IR constructIR()
+	{
+		if(startIndexExpr != null)
 			return new StringIndexOf(stringExpr.checkIR(Expression.class),
 					stringToSearchForExpr.checkIR(Expression.class),
 					startIndexExpr.checkIR(Expression.class));
@@ -98,7 +103,8 @@ public class StringIndexOfNode extends ExprNode {
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 }

@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.IteratedReplacement;
 import de.unika.ipd.grgen.ir.Rule;
 
-public class IteratedReplNode extends OrderedReplacementNode {
+public class IteratedReplNode extends OrderedReplacementNode
+{
 	static {
 		setName(IteratedReplNode.class, "iterated repl node");
 	}
@@ -27,43 +28,48 @@ public class IteratedReplNode extends OrderedReplacementNode {
 	private IdentNode iteratedUnresolved;
 	private IteratedNode iterated;
 
-
-	public IteratedReplNode(IdentNode n) {
+	public IteratedReplNode(IdentNode n)
+	{
 		this.iteratedUnresolved = n;
 		becomeParent(this.iteratedUnresolved);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iteratedUnresolved, iterated));
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("iterated");
 		return childrenNames;
 	}
 
 	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-		new DeclarationResolver<IteratedNode>(IteratedNode.class);
+			new DeclarationResolver<IteratedNode>(IteratedNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
-		return iterated!=null;
+		return iterated != null;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new IteratedReplacement("iterated replacement", iteratedUnresolved.getIdent(),
 				iterated.checkIR(Rule.class));
 	}

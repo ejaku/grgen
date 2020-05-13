@@ -12,32 +12,36 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-
 /**
  * Represents an assignment statement in the IR.
  */
-public class AssignmentVar extends AssignmentBase {
+public class AssignmentVar extends AssignmentBase
+{
 
 	/** The lhs of the assignment. */
 	private Variable target;
 
-	public AssignmentVar(Variable target, Expression expr) {
+	public AssignmentVar(Variable target, Expression expr)
+	{
 		super("assignment var");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	protected AssignmentVar(String name, Variable target, Expression expr) {
+	protected AssignmentVar(String name, Variable target, Expression expr)
+	{
 		super(name);
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Variable getTarget() {
+	public Variable getTarget()
+	{
 		return target;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getTarget() + " = " + getExpression();
 	}
 

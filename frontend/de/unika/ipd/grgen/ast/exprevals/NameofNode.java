@@ -19,14 +19,16 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the name of some node/edge or the graph.
  */
-public class NameofNode extends ExprNode {
+public class NameofNode extends ExprNode
+{
 	static {
 		setName(NameofNode.class, "nameof");
 	}
 
 	private ExprNode namedEntity; // null if name of main graph is requested
 
-	public NameofNode(Coords coords, ExprNode namedEntity) {
+	public NameofNode(Coords coords, ExprNode namedEntity)
+	{
 		super(coords);
 		this.namedEntity = namedEntity;
 		becomeParent(this.namedEntity);
@@ -34,18 +36,20 @@ public class NameofNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(namedEntity!=null)
+		if(namedEntity != null)
 			children.add(namedEntity);
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
-		if(namedEntity!=null)
+		if(namedEntity != null)
 			childrenNames.add("named entity");
 		return childrenNames;
 	}
@@ -54,11 +58,12 @@ public class NameofNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(namedEntity != null) {
 			if(namedEntity.getType().isEqual(BasicTypeNode.graphType)) {
 				return true;
-			} 
+			}
 			if(namedEntity.getType() instanceof EdgeTypeNode) {
 				return true;
 			}
@@ -73,15 +78,17 @@ public class NameofNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(namedEntity==null) {
+	protected IR constructIR()
+	{
+		if(namedEntity == null) {
 			return new Nameof(null, getType().getType());
 		}
 		return new Nameof(namedEntity.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.stringType;
 	}
 }

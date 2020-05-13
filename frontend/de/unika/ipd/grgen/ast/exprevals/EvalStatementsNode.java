@@ -20,43 +20,50 @@ public class EvalStatementsNode extends BaseNode
 {
 	public String name;
 	public CollectNode<EvalStatementNode> evalStatements;
-	
-	public EvalStatementsNode(Coords coords, String name) {
+
+	public EvalStatementsNode(Coords coords, String name)
+	{
 		super(coords);
 		this.name = name;
 		evalStatements = new CollectNode<EvalStatementNode>();
 	}
-	
-	public void addChild(EvalStatementNode c) {
+
+	public void addChild(EvalStatementNode c)
+	{
 		//assert(c!=null);
 		evalStatements.addChild(c);
 	}
-	
+
 	@Override
-	public Collection<EvalStatementNode> getChildren() {
+	public Collection<EvalStatementNode> getChildren()
+	{
 		return evalStatements.getChildren();
 	}
 
 	@Override
-	protected Collection<String> getChildrenNames() {
+	protected Collection<String> getChildrenNames()
+	{
 		LinkedList<String> res = new LinkedList<String>();
-		for(int i=0; i<getChildren().size(); ++i) {
-			res.add("eval"+i);
+		for(int i = 0; i < getChildren().size(); ++i) {
+			res.add("eval" + i);
 		}
 		return res;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	public boolean noExecStatement() {
+	public boolean noExecStatement()
+	{
 		boolean res = true;
 		for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
 			res &= evalStatement.noExecStatement(false);
@@ -65,15 +72,16 @@ public class EvalStatementsNode extends BaseNode
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(isIRAlreadySet()) {
 			return (EvalStatements)getIR();
 		}
-		
+
 		EvalStatements es = new EvalStatements(name);
 
 		setIR(es);
-		
+
 		for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
 			es.evalStatements.add(evalStatement.checkIR(EvalStatement.class));
 		}

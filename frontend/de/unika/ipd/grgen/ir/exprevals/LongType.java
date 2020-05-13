@@ -13,17 +13,21 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 /**
  * A long type.
  */
-public class LongType extends PrimitiveType {
-	public LongType(Ident ident) {
+public class LongType extends PrimitiveType
+{
+	public LongType(Ident ident)
+	{
 		super("long type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_LONG;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.longType.checkIR(Type.class);
 	}
 }

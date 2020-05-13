@@ -18,7 +18,8 @@ import java.util.List;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-class ModifyGenerationTask {
+class ModifyGenerationTask
+{
 	public static final int TYPE_OF_TASK_NONE = 0;
 	public static final int TYPE_OF_TASK_MODIFY = 1;
 	public static final int TYPE_OF_TASK_CREATION = 2;
@@ -34,7 +35,8 @@ class ModifyGenerationTask {
 	boolean isSubpattern;
 	boolean mightThereBeDeferredExecs;
 
-	public ModifyGenerationTask() {
+	public ModifyGenerationTask()
+	{
 		typeOfTask = TYPE_OF_TASK_NONE;
 		left = null;
 		right = null;

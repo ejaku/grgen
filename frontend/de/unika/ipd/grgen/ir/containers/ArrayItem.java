@@ -14,19 +14,23 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayItem extends IR {
+public class ArrayItem extends IR
+{
 	Expression valueExpr;
 
-	public ArrayItem(Expression valueExpr) {
+	public ArrayItem(Expression valueExpr)
+	{
 		super("array item");
 		this.valueExpr = valueExpr;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		valueExpr.collectNeededEntities(needs);
 	}
 }

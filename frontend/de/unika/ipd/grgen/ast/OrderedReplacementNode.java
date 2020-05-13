@@ -13,19 +13,23 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class OrderedReplacementNode extends BaseNode {
+public abstract class OrderedReplacementNode extends BaseNode
+{
 	// no functionality, allows ordering of subpattern replacement nodes and emit here nodes
 	// in one container of the ordered replacement node type
 
-	protected OrderedReplacementNode(Coords coords) {
+	protected OrderedReplacementNode(Coords coords)
+	{
 		super(coords);
 	}
 
-	protected OrderedReplacementNode() {
+	protected OrderedReplacementNode()
+	{
 		super();
 	}
 
-	public boolean noExecStatement(boolean inEvalHereContext) {
+	public boolean noExecStatement(boolean inEvalHereContext)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(!(child instanceof OrderedReplacementNode)) {

@@ -11,31 +11,38 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class LogExpr extends Expression {
+public class LogExpr extends Expression
+{
 	private Expression leftExpr;
 	private Expression rightExpr;
 
-	public LogExpr(Expression leftExpr, Expression rightExpr) {
+	public LogExpr(Expression leftExpr, Expression rightExpr)
+	{
 		super("log expr", leftExpr.getType());
 		this.leftExpr = leftExpr;
 		this.rightExpr = rightExpr;
 	}
 
-	public LogExpr(Expression leftExpr) {
+	public LogExpr(Expression leftExpr)
+	{
 		super("log expr", leftExpr.getType());
 		this.leftExpr = leftExpr;
 	}
 
-	public Expression getLeftExpr() {
+	public Expression getLeftExpr()
+	{
 		return leftExpr;
 	}
 
-	public Expression getRightExpr() {
+	public Expression getRightExpr()
+	{
 		return rightExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		leftExpr.collectNeededEntities(needs);
-		if(rightExpr!=null) rightExpr.collectNeededEntities(needs);
+		if(rightExpr != null)
+			rightExpr.collectNeededEntities(needs);
 	}
 }

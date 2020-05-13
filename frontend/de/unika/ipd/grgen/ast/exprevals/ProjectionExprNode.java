@@ -16,53 +16,61 @@ import de.unika.ipd.grgen.ir.exprevals.ProcedureInvocationBase;
 import de.unika.ipd.grgen.ir.exprevals.ProjectionExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ProjectionExprNode extends ExprNode {
+public class ProjectionExprNode extends ExprNode
+{
 	static {
 		setName(ProjectionExprNode.class, "projection expr");
 	}
 
 	private int index;
 	private ProcedureInvocationBaseNode procedure;
-	
-	public ProjectionExprNode(Coords coords, int index) {
+
+	public ProjectionExprNode(Coords coords, int index)
+	{
 		super(coords);
 
 		this.index = index;
 	}
 
-	public void setProcedure(ProcedureInvocationBaseNode procedure) {
+	public void setProcedure(ProcedureInvocationBaseNode procedure)
+	{
 		this.procedure = procedure;
 		becomeParent(procedure);
 	}
 
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		return children;
 	}
 
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new ProjectionExpr(index, 
-				procedure.checkIR(ProcedureInvocationBase.class).getProcedureBase(), 
+	protected IR constructIR()
+	{
+		return new ProjectionExpr(index,
+				procedure.checkIR(ProcedureInvocationBase.class).getProcedureBase(),
 				procedure.getType().get(index).getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		if(index >= procedure.getType().size()) {
 			return BasicTypeNode.getErrorType(IdentNode.getInvalid());
 		}
-		
+
 		return procedure.getType().get(index);
 	}
 }

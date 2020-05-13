@@ -7,19 +7,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class CeilExpr extends Expression {
+public class CeilExpr extends Expression
+{
 	private Expression expr;
 
-	public CeilExpr(Expression expr) {
+	public CeilExpr(Expression expr)
+	{
 		super("ceil expr", expr.getType());
 		this.expr = expr;
 	}
 
-	public Expression getExpr() {
+	public Expression getExpr()
+	{
 		return expr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		expr.collectNeededEntities(needs);
 	}
 }

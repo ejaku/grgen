@@ -16,8 +16,8 @@ import java.util.Set;
 /**
  * A collection of annotations.
  */
-public interface Annotations {
-
+public interface Annotations
+{
 	boolean containsKey(String key);
 
 	Object get(String key);

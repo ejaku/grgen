@@ -7,26 +7,30 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class GraphAddNodeProc extends ProcedureInvocationBase {
+public class GraphAddNodeProc extends ProcedureInvocationBase
+{
 	private final Expression nodeType;
 
-	public GraphAddNodeProc(Expression nodeType) {
+	public GraphAddNodeProc(Expression nodeType)
+	{
 		super("graph add node procedure");
 		this.nodeType = nodeType;
 	}
 
-	public Expression getNodeTypeExpr() {
+	public Expression getNodeTypeExpr()
+	{
 		return nodeType;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		nodeType.collectNeededEntities(needs);
 	}
 }
-

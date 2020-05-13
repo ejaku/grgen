@@ -20,18 +20,20 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the opposite node of an edge and a node.
  */
-public class OppositeExprNode extends ExprNode {
+public class OppositeExprNode extends ExprNode
+{
 	static {
 		setName(OppositeExprNode.class, "opposite expr");
 	}
 
 	private ExprNode edge;
 	private ExprNode node;
-	
+
 	private IdentNode nodeTypeUnresolved;
 	private NodeTypeNode nodeType;
-	
-	public OppositeExprNode(Coords coords, ExprNode edge, ExprNode node, IdentNode nodeType) {
+
+	public OppositeExprNode(Coords coords, ExprNode edge, ExprNode node, IdentNode nodeType)
+	{
 		super(coords);
 		this.edge = edge;
 		becomeParent(this.edge);
@@ -43,7 +45,8 @@ public class OppositeExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(edge);
 		children.add(node);
@@ -53,7 +56,8 @@ public class OppositeExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("edge");
 		childrenNames.add("node");
@@ -62,18 +66,20 @@ public class OppositeExprNode extends ExprNode {
 	}
 
 	private static final DeclarationTypeResolver<NodeTypeNode> nodeTypeResolver =
-		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
+			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		nodeType = nodeTypeResolver.resolve(nodeTypeUnresolved, this);
-		return nodeType!=null && getType().resolve();
+		return nodeType != null && getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(edge.getType() instanceof EdgeTypeNode)) {
 			reportError("first argument of opposite(.,.) must be an edge type");
 			return false;
@@ -86,12 +92,14 @@ public class OppositeExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new OppositeExpr(edge.checkIR(Expression.class), node.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return nodeType;
 	}
 }

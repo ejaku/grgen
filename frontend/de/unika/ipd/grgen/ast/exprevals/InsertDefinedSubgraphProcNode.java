@@ -20,17 +20,19 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding an inserted edge of the insertion of a defined subgraph of an edge set.
  */
-public class InsertDefinedSubgraphProcNode extends ProcedureInvocationBaseNode {
+public class InsertDefinedSubgraphProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(InsertDefinedSubgraphProcNode.class, "insert defined subgraph procedure");
 	}
 
 	private ExprNode edgeSetExpr;
 	private ExprNode edgeExpr;
-		
+
 	Vector<TypeNode> returnTypes;
 
-	public InsertDefinedSubgraphProcNode(Coords coords, ExprNode edgeSetExpr, ExprNode edgeExpr) {
+	public InsertDefinedSubgraphProcNode(Coords coords, ExprNode edgeSetExpr, ExprNode edgeExpr)
+	{
 		super(coords);
 		this.edgeSetExpr = edgeSetExpr;
 		becomeParent(this.edgeSetExpr);
@@ -40,7 +42,8 @@ public class InsertDefinedSubgraphProcNode extends ProcedureInvocationBaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(edgeSetExpr);
 		children.add(edgeExpr);
@@ -49,7 +52,8 @@ public class InsertDefinedSubgraphProcNode extends ProcedureInvocationBaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("edgeSetExpr");
 		childrenNames.add("edgeExpr");
@@ -58,7 +62,8 @@ public class InsertDefinedSubgraphProcNode extends ProcedureInvocationBaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(edgeSetExpr.getType() instanceof SetTypeNode)) {
 			edgeSetExpr.reportError("set expected as 1st argument to insertDefinedSubgraph");
 			return false;
@@ -82,15 +87,16 @@ public class InsertDefinedSubgraphProcNode extends ProcedureInvocationBaseNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		InsertDefinedSubgraphProc insertDefined = new InsertDefinedSubgraphProc(
-														edgeSetExpr.checkIR(Expression.class), 
-														edgeExpr.checkIR(Expression.class));
+	protected IR constructIR()
+	{
+		InsertDefinedSubgraphProc insertDefined = new InsertDefinedSubgraphProc(edgeSetExpr.checkIR(Expression.class),
+				edgeExpr.checkIR(Expression.class));
 		for(TypeNode type : getType()) {
 			insertDefined.addReturnType(type.getType());
 		}
@@ -98,8 +104,9 @@ public class InsertDefinedSubgraphProcNode extends ProcedureInvocationBaseNode {
 	}
 
 	@Override
-	public Vector<TypeNode> getType() {
-		if(returnTypes==null) {
+	public Vector<TypeNode> getType()
+	{
+		if(returnTypes == null) {
 			returnTypes = new Vector<TypeNode>();
 			returnTypes.add(edgeExpr.getType());
 		}

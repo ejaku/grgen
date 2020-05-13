@@ -18,8 +18,11 @@ import de.unika.ipd.grgen.ir.exprevals.EnumType;
 /**
  * A type bearing nodes, edges, and enums.
  */
-public interface NodeEdgeEnumBearer {
+public interface NodeEdgeEnumBearer
+{
 	public Collection<NodeType> getNodeTypes();
+
 	public Collection<EdgeType> getEdgeTypes();
+
 	public Collection<EnumType> getEnumTypes();
 }

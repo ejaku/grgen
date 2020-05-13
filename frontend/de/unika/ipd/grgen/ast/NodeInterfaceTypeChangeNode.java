@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.ir.NodeType;
 /**
  *
  */
-public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
+public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCharacter
+{
 	static {
 		setName(NodeTypeChangeNode.class, "node interface type change decl");
 	}
@@ -31,9 +32,9 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 	private IdentNode interfaceTypeUnresolved;
 	TypeDeclNode interfaceType = null;
 
-
 	public NodeInterfaceTypeChangeNode(IdentNode id, BaseNode type, int context, IdentNode interfaceType,
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
+			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull)
+	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull, false);
 		this.interfaceTypeUnresolved = interfaceType;
 		becomeParent(this.interfaceTypeUnresolved);
@@ -41,7 +42,8 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
@@ -52,7 +54,8 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -61,25 +64,32 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<TypeDeclNode> typeResolver = new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
+	private static final DeclarationResolver<TypeDeclNode> typeResolver =
+			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = super.resolveLocal();
 		interfaceType = typeResolver.resolve(interfaceTypeUnresolved, this);
-		if(interfaceType==null) return false;
-		if(!interfaceType.resolve()) return false;
+		if(interfaceType == null)
+			return false;
+		if(!interfaceType.resolve())
+			return false;
 		if(!(interfaceType.getDeclType() instanceof NodeTypeNode)) {
-			interfaceTypeUnresolved.reportError("Interface type of node \"" + getIdentNode() + "\" must be a node type  (use edge syntax for edges, var for variables, ref for containers)");
+			interfaceTypeUnresolved.reportError("Interface type of node \"" + getIdentNode()
+					+ "\" must be a node type  (use edge syntax for edges, var for variables, ref for containers)");
 			return false;
 		}
-		if(!successfullyResolved) return false;
+		if(!successfullyResolved)
+			return false;
 
 		NodeTypeNode interfaceNodeTypeNode = (NodeTypeNode)interfaceType.getDeclType();
 		NodeTypeNode nodeTypeNode = (NodeTypeNode)typeTypeDecl.getDeclType();
 		if(!nodeTypeNode.isA(interfaceNodeTypeNode)) {
-			interfaceTypeUnresolved.reportWarning("parameter interface type of "+ident.toString()+" is not supertype of parameter type");
+			interfaceTypeUnresolved.reportWarning("parameter interface type of "
+					+ ident.toString() + " is not supertype of parameter type");
 		}
 		return successfullyResolved;
 	}
@@ -88,18 +98,19 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
-		boolean res = super.checkLocal()
-			& nodeChecker.check(interfaceType, error);
-		if (!res) {
+		boolean res = super.checkLocal() & nodeChecker.check(interfaceType, error);
+		if(!res) {
 			return false;
 		}
 
 		return res & onlyPatternNodesCanChangeInterfaceType();
 	}
 
-	private boolean onlyPatternNodesCanChangeInterfaceType() {
+	private boolean onlyPatternNodesCanChangeInterfaceType()
+	{
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 			return true;
 		}
@@ -112,7 +123,8 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Node node = (Node)super.constructIR();
 		NodeTypeNode ntn = (NodeTypeNode)interfaceType.getDeclType();
 		NodeType nt = ntn.getNodeType();
@@ -120,4 +132,3 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 		return node;
 	}
 }
-

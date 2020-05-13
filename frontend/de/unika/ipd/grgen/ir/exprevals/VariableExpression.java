@@ -16,31 +16,38 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A variable expression node.
  */
-public class VariableExpression extends Expression {
+public class VariableExpression extends Expression
+{
 	private Variable var;
 
-	public VariableExpression(Variable var) {
+	public VariableExpression(Variable var)
+	{
 		super("variable", var.getType());
 		this.var = var;
 	}
 
 	/** Returns the variable of this variable expression. */
-	public Variable getVariable() {
+	public Variable getVariable()
+	{
 		return var;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		if(!isGlobalVariable(var))
 			needs.add(var);
 	}
 
-	public boolean equals(Object other) {
-		if(!(other instanceof VariableExpression)) return false;
-		return var == ((VariableExpression) other).getVariable();
+	public boolean equals(Object other)
+	{
+		if(!(other instanceof VariableExpression))
+			return false;
+		return var == ((VariableExpression)other).getVariable();
 	}
 
-	public int hashCode() {
+	public int hashCode()
+	{
 		return var.hashCode();
 	}
 }

@@ -24,8 +24,8 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.ForIndexAccessEquality;
 import de.unika.ipd.grgen.parser.Coords;
 
-
-public class ForIndexAccessEqualityYieldNode extends EvalStatementNode  {
+public class ForIndexAccessEqualityYieldNode extends EvalStatementNode
+{
 	static {
 		setName(ForIndexAccessEqualityYieldNode.class, "for index access equality yield loop");
 	}
@@ -39,7 +39,8 @@ public class ForIndexAccessEqualityYieldNode extends EvalStatementNode  {
 
 	public ForIndexAccessEqualityYieldNode(Coords coords, BaseNode iterationVariable, int context,
 			IdentNode index, ExprNode expr, PatternGraphNode directlyNestingLHSGraph,
-			CollectNode<EvalStatementNode> loopedStatements) {
+			CollectNode<EvalStatementNode> loopedStatements)
+	{
 		super(coords);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
@@ -53,7 +54,8 @@ public class ForIndexAccessEqualityYieldNode extends EvalStatementNode  {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(getValidVersion(indexUnresolved, index));
@@ -64,7 +66,8 @@ public class ForIndexAccessEqualityYieldNode extends EvalStatementNode  {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("iterVar");
 		childrenNames.add("index");
@@ -74,13 +77,14 @@ public class ForIndexAccessEqualityYieldNode extends EvalStatementNode  {
 	}
 
 	private static DeclarationResolver<IndexDeclNode> indexResolver =
-		new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class);
+			new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
-		
+
 		if(iterationVariableUnresolved instanceof VarDeclNode) {
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
 		} else {
@@ -92,60 +96,71 @@ public class ForIndexAccessEqualityYieldNode extends EvalStatementNode  {
 			successfullyResolved = false;
 
 		index = indexResolver.resolve(indexUnresolved, this);
-		successfullyResolved &= index!=null;
+		successfullyResolved &= index != null;
 		successfullyResolved &= expr.resolve();
 		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(iterationVariable.getDeclType() instanceof NodeTypeNode)
-			&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode))
-		{
+				&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode)) {
 			reportError("iteration variable of for function loop must be of node or edge type.");
 			return false;
 		}
 
 		boolean res = true;
 		AttributeIndexDeclNode attributeIndex = index instanceof AttributeIndexDeclNode ? (AttributeIndexDeclNode)index : null;
-		IncidenceCountIndexDeclNode incidenceCountIndex = index instanceof IncidenceCountIndexDeclNode ? (IncidenceCountIndexDeclNode)index : null;
-		TypeNode expectedIndexAccessType = attributeIndex!=null ? attributeIndex.member.getDeclType() : IntTypeNode.intType;
+		IncidenceCountIndexDeclNode incidenceCountIndex = index instanceof IncidenceCountIndexDeclNode
+				? (IncidenceCountIndexDeclNode)index
+				: null;
+		TypeNode expectedIndexAccessType = attributeIndex != null
+				? attributeIndex.member.getDeclType()
+				: IntTypeNode.intType;
 		TypeNode indexAccessType = expr.getType();
 		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-			String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString() : expectedIndexAccessType.toString();
-			String typeName = indexAccessType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)indexAccessType).getIdentNode().toString() : indexAccessType.toString();
-			reportError("Cannot convert type used in accessing index from \""
-					+ typeName + "\" to \"" + expTypeName + "\" in index access loop");
+			String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode
+					? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString()
+					: expectedIndexAccessType.toString();
+			String typeName = indexAccessType instanceof DeclaredTypeNode
+					? ((DeclaredTypeNode)indexAccessType).getIdentNode().toString()
+					: indexAccessType.toString();
+			reportError("Cannot convert type used in accessing index from \"" + typeName + "\" to \"" + expTypeName
+					+ "\" in index access loop");
 			return false;
 		}
 		TypeNode expectedEntityType = iterationVariable.getDeclType();
-		TypeNode entityType = attributeIndex!=null ? attributeIndex.type : incidenceCountIndex.getType();
+		TypeNode entityType = attributeIndex != null ? attributeIndex.type : incidenceCountIndex.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
-			String expTypeName = expectedEntityType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedEntityType).getIdentNode().toString() : expectedEntityType.toString();
-			String typeName = entityType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)entityType).getIdentNode().toString() : entityType.toString();
-			reportError("Cannot convert index type from \""
-					+ typeName + "\" to type \"" + expTypeName + "\" in index access loop");
+			String expTypeName = expectedEntityType instanceof DeclaredTypeNode
+					? ((DeclaredTypeNode)expectedEntityType).getIdentNode().toString()
+					: expectedEntityType.toString();
+			String typeName = entityType instanceof DeclaredTypeNode
+					? ((DeclaredTypeNode)entityType).getIdentNode().toString()
+					: entityType.toString();
+			reportError("Cannot convert index type from \"" + typeName + "\" to type \"" + expTypeName
+					+ "\" in index access loop");
 			return false;
 		}
 		return res;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
-		ForIndexAccessEquality fiae = new ForIndexAccessEquality(
-				iterationVariable.checkIR(Variable.class),
-				new IndexAccessEquality(
-						index.checkIR(Index.class), expr.checkIR(Expression.class)
-				)
-			);
-		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren())
+	protected IR constructIR()
+	{
+		ForIndexAccessEquality fiae = new ForIndexAccessEquality(iterationVariable.checkIR(Variable.class),
+				new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)));
+		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren()) {
 			fiae.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
+		}
 		return fiae;
 	}
 }

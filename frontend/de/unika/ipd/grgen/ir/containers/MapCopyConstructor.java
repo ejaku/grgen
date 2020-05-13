@@ -13,27 +13,32 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapCopyConstructor extends Expression {
+public class MapCopyConstructor extends Expression
+{
 	private Expression mapToCopy;
 	private MapType mapType;
 
-	public MapCopyConstructor(Expression mapToCopy, MapType mapType) {
+	public MapCopyConstructor(Expression mapToCopy, MapType mapType)
+	{
 		super("map copy construtor", mapType);
 		this.mapToCopy = mapToCopy;
 		this.mapType = mapType;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		needs.needsGraph();
 		mapToCopy.collectNeededEntities(needs);
 	}
 
-	public Expression getMapToCopy() {
+	public Expression getMapToCopy()
+	{
 		return mapToCopy;
 	}
 
-	public MapType getMapType() {
+	public MapType getMapType()
+	{
 		return mapType;
 	}
 }

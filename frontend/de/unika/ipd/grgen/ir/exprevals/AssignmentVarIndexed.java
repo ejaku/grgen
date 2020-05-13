@@ -15,21 +15,25 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an indexed assignment statement in the IR.
  */
-public class AssignmentVarIndexed extends AssignmentVar {
+public class AssignmentVarIndexed extends AssignmentVar
+{
 
 	/** The index to the lhs. */
 	private Expression index;
 
-	public AssignmentVarIndexed(Variable target, Expression expr, Expression index) {
+	public AssignmentVarIndexed(Variable target, Expression expr, Expression index)
+	{
 		super("assignment var indexed", target, expr);
 		this.index = index;
 	}
 
-	public Expression getIndex() {
+	public Expression getIndex()
+	{
 		return index;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getTarget() + "[" + getIndex() + "] = " + getExpression();
 	}
 

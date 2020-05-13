@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a return statement (of function or procedure).
  */
-public class ReturnStatementNode extends EvalStatementNode {
+public class ReturnStatementNode extends EvalStatementNode
+{
 	static {
 		setName(ReturnStatementNode.class, "ReturnStatement");
 	}
@@ -35,7 +36,8 @@ public class ReturnStatementNode extends EvalStatementNode {
 	boolean isFilterReturn = false;
 	boolean isFunctionReturn = false;
 
-	public ReturnStatementNode(Coords coords, CollectNode<ExprNode> returnValueExprs) {
+	public ReturnStatementNode(Coords coords, CollectNode<ExprNode> returnValueExprs)
+	{
 		super(coords);
 		this.returnValueExprs = returnValueExprs;
 		becomeParent(returnValueExprs);
@@ -43,7 +45,8 @@ public class ReturnStatementNode extends EvalStatementNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(returnValueExprs);
 		return children;
@@ -51,24 +54,30 @@ public class ReturnStatementNode extends EvalStatementNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("return value expressions");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
-		if(!(root instanceof FunctionDeclNode) && !(root instanceof ProcedureDeclNode) && !(root instanceof FilterFunctionDeclNode)){
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
+		if(!(root instanceof FunctionDeclNode)
+				&& !(root instanceof ProcedureDeclNode)
+				&& !(root instanceof FilterFunctionDeclNode)) {
 			reportError("return must be nested inside a function or procedure or filter (from where to return?)");
 			return false;
 		}
@@ -87,16 +96,17 @@ public class ReturnStatementNode extends EvalStatementNode {
 		}
 		return checkReturns(retTypes, root);
 	}
-	
+
 	/**
 	 * Check if actual return arguments are conforming to the formal return parameters.
 	 */
-	protected boolean checkReturns(Vector<TypeNode> returnFormalParameters, DeclNode ident) {
+	protected boolean checkReturns(Vector<TypeNode> returnFormalParameters, DeclNode ident)
+	{
 		boolean res = true;
 
 		int declaredNumRets = returnFormalParameters.size();
 		int actualNumRets = returnValueExprs.size();
-		for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); ++i) {
+		for(int i = 0; i < Math.min(declaredNumRets, actualNumRets); ++i) {
 			ExprNode retExpr = returnValueExprs.get(i);
 			TypeNode retExprType = retExpr.getType();
 			TypeNode retDeclType = returnFormalParameters.get(i);
@@ -104,26 +114,28 @@ public class ReturnStatementNode extends EvalStatementNode {
 				res = false;
 				String exprTypeName;
 				if(retExprType instanceof InheritanceTypeNode)
-					exprTypeName = ((InheritanceTypeNode) retExprType).getIdentNode().toString();
+					exprTypeName = ((InheritanceTypeNode)retExprType).getIdentNode().toString();
 				else
 					exprTypeName = retExprType.toString();
-				reportError("Cannot convert " + (i + 1) + ". return parameter from \""
-						+ exprTypeName + "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
+				reportError("Cannot convert " + (i + 1) + ". return parameter from \"" + exprTypeName
+						+ "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
 			}
 		}
 
 		//check the number of returned elements
-		if (actualNumRets != declaredNumRets) {
+		if(actualNumRets != declaredNumRets) {
 			res = false;
-			returnValueExprs.reportError("Trying to return " + actualNumRets + " values, but expected are " + declaredNumRets + " values, for " + ident);
+			returnValueExprs.reportError("Trying to return " + actualNumRets + " values, but expected are "
+					+ declaredNumRets + " values, for " + ident);
 		}
 		return res;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(isFilterReturn) {
-			return new ReturnStatementFilter();			
+			return new ReturnStatementFilter();
 		} else if(isFunctionReturn) {
 			return new ReturnStatement(returnValueExprs.get(0).checkIR(Expression.class));
 		} else {

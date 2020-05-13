@@ -7,23 +7,28 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class GraphRemoveProc extends ProcedureInvocationBase {
+public class GraphRemoveProc extends ProcedureInvocationBase
+{
 	private Expression entity;
 
-	public GraphRemoveProc(Expression entity) {
+	public GraphRemoveProc(Expression entity)
+	{
 		super("graph remove procedure");
 		this.entity = entity;
 	}
 
-	public Expression getEntity() {
+	public Expression getEntity()
+	{
 		return entity;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		entity.collectNeededEntities(needs);
 	}

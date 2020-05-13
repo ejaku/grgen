@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class LongMaxExpr extends Expression {
-	public LongMaxExpr() {
+public class LongMaxExpr extends Expression
+{
+	public LongMaxExpr()
+	{
 		super("longmax expr", LongType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

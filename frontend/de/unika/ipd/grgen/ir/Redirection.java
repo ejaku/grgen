@@ -11,9 +11,9 @@
 
 package de.unika.ipd.grgen.ir;
 
-
 /** A class representing redirections in rules. */
-public class Redirection {
+public class Redirection
+{
 	public final Node from;
 	public final Node to;
 	public final EdgeType edgeType;
@@ -21,7 +21,8 @@ public class Redirection {
 	public final boolean incoming;
 
 	public Redirection(Node from, Node to, EdgeType edgeType,
-					   NodeType nodeType, boolean incoming) {
+			NodeType nodeType, boolean incoming)
+	{
 
 		this.from = from;
 		this.to = to;

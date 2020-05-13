@@ -18,17 +18,18 @@ import java.util.Set;
 /**
  * Base class for a reporting facility
  */
-public abstract class Reporter {
+public abstract class Reporter
+{
 	private int mask = 0;
 
 	protected final Set<Handler> handlers = new HashSet<Handler>();
-
 
 	/**
 	 * Add a handler to this reporter
 	 * @param handler The handler to add
 	 */
-	public void addHandler(Handler handler) {
+	public void addHandler(Handler handler)
+	{
 		handlers.add(handler);
 	}
 
@@ -36,7 +37,8 @@ public abstract class Reporter {
 	 * Remove a handler from this reporter
 	 * @param handler The handler to remove
 	 */
-	public void removeHandler(Handler handler) {
+	public void removeHandler(Handler handler)
+	{
 		handlers.remove(handler);
 	}
 
@@ -46,15 +48,18 @@ public abstract class Reporter {
 	 * with reporting level smaller than <code>level</code> will be displayed.
 	 * @param level The new level for the reporter.
 	 */
-	public void setMask(int mask) {
+	public void setMask(int mask)
+	{
 		this.mask = mask;
 	}
 
-	public void enableChannel(int channel) {
+	public void enableChannel(int channel)
+	{
 		mask |= channel;
 	}
 
-	public void disableChannel(int channel) {
+	public void disableChannel(int channel)
+	{
 		mask &= ~channel;
 	}
 
@@ -62,7 +67,8 @@ public abstract class Reporter {
 	 * Disables reporting on this reporter.
 	 * Re-enable it by setting the level to some value > 0
 	 */
-	public void disable() {
+	public void disable()
+	{
 		mask = 0;
 	}
 
@@ -70,21 +76,23 @@ public abstract class Reporter {
 	 * Check whether this reporter is disabled
 	 * @return true, if no message will be reported, false otherwise.
 	 */
-	public boolean isDisabled() {
+	public boolean isDisabled()
+	{
 		return mask == 0;
 	}
-
 
 	/**
 	 * Checks, whether a message supplied with this level will be reported
 	 * @param channel The channel to check
 	 * @return true, if the message would be reported, false if not.
 	 */
-	public boolean willReport(int channel) {
+	public boolean willReport(int channel)
+	{
 		return (channel & mask) != 0;
 	}
 
-	public void report(int level, Location loc, String msg) {
+	public void report(int level, Location loc, String msg)
+	{
 		if(willReport(level)) {
 			Iterator<Handler> it = handlers.iterator();
 			while(it.hasNext()) {
@@ -94,8 +102,8 @@ public abstract class Reporter {
 		}
 	}
 
-	public void report(int channel, String msg) {
+	public void report(int channel, String msg)
+	{
 		report(channel, EmptyLocation.getEmptyLocation(), msg);
 	}
 }
-

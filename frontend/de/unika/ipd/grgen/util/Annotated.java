@@ -11,16 +11,14 @@
 
 package de.unika.ipd.grgen.util;
 
-
 /**
  * Something that has annotations.
  */
-public interface Annotated {
-
+public interface Annotated
+{
 	/**
 	 * Get the annotations.
 	 * @return The annotations.
 	 */
 	Annotations getAnnotations();
-
 }

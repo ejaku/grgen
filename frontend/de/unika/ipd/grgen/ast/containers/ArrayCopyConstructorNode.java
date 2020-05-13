@@ -35,10 +35,11 @@ public class ArrayCopyConstructorNode extends ExprNode
 	private ExprNode arrayToCopy;
 	private BaseNode lhsUnresolved;
 
-	public ArrayCopyConstructorNode(Coords coords, IdentNode member, ArrayTypeNode arrayType, ExprNode arrayToCopy) {
+	public ArrayCopyConstructorNode(Coords coords, IdentNode member, ArrayTypeNode arrayType, ExprNode arrayToCopy)
+	{
 		super(coords);
 
-		if(member!=null) {
+		if(member != null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
 			this.arrayType = arrayType;
@@ -47,22 +48,25 @@ public class ArrayCopyConstructorNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(arrayToCopy);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("arrayToCopy");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
-		if(arrayType!=null) {
+	protected boolean resolveLocal()
+	{
+		if(arrayType != null) {
 			return arrayType.resolve();
 		} else {
 			return true;
@@ -70,40 +74,41 @@ public class ArrayCopyConstructorNode extends ExprNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean success = true;
 
-		if(lhsUnresolved!=null) {
+		if(lhsUnresolved != null) {
 			reportError("Array copy constructor not allowed in array initialization in model");
 			success = false;
 		} else {
-			if(arrayToCopy.getType() instanceof ArrayTypeNode)
-			{
+			if(arrayToCopy.getType() instanceof ArrayTypeNode) {
 				ArrayTypeNode sourceArrayType = (ArrayTypeNode)arrayToCopy.getType();
 				success &= checkCopyConstructorTypes(arrayType.valueType, sourceArrayType.valueType, "Array", "");
-			}
-			else
-			{
+			} else {
 				reportError("Array copy constructor expects array type");
 				success = false;
 			}
-		} 
+		}
 
 		return success;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
 		return arrayType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ArrayCopyConstructor(arrayToCopy.checkIR(Expression.class), arrayType.checkIR(ArrayType.class));
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "array copy constructor";
 	}
 }

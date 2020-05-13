@@ -13,17 +13,21 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 /**
  * A graph type.
  */
-public class GraphType extends PrimitiveType {
-	public GraphType(Ident ident) {
+public class GraphType extends PrimitiveType
+{
+	public GraphType(Ident ident)
+	{
 		super("graph type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_GRAPH;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.graphType.checkIR(Type.class);
 	}
 }

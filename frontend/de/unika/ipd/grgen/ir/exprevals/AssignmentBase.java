@@ -10,20 +10,24 @@ package de.unika.ipd.grgen.ir.exprevals;
 /**
  * Gives access to the expression of an assignment statement in the IR.
  */
-public abstract class AssignmentBase extends EvalStatement {
+public abstract class AssignmentBase extends EvalStatement
+{
 
 	/** The rhs of the assignment. */
 	protected Expression expr;
 
-	public AssignmentBase(String name) {
+	public AssignmentBase(String name)
+	{
 		super(name);
 	}
 
-	public Expression getExpression() {
+	public Expression getExpression()
+	{
 		return expr;
 	}
 
-	public void setExpression(Expression expr) {
+	public void setExpression(Expression expr)
+	{
 		this.expr = expr;
 	}
 }

@@ -17,17 +17,21 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 /**
  * A Integer type.
  */
-public class IntType extends PrimitiveType {
-	public IntType(Ident ident) {
+public class IntType extends PrimitiveType
+{
+	public IntType(Ident ident)
+	{
 		super("integer type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_INTEGER;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.intType.checkIR(Type.class);
 	}
 }

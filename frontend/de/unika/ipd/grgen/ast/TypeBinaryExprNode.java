@@ -18,7 +18,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing binary type expressions.
  */
-public class TypeBinaryExprNode extends TypeExprNode {
+public class TypeBinaryExprNode extends TypeExprNode
+{
 	static {
 		setName(TypeBinaryExprNode.class, "type binary expr");
 	}
@@ -26,7 +27,8 @@ public class TypeBinaryExprNode extends TypeExprNode {
 	private TypeExprNode lhs;
 	private TypeExprNode rhs;
 
-	public TypeBinaryExprNode(Coords coords, int op, TypeExprNode op0, TypeExprNode op1) {
+	public TypeBinaryExprNode(Coords coords, int op, TypeExprNode op0, TypeExprNode op1)
+	{
 		super(coords, op);
 		this.lhs = op0;
 		becomeParent(this.lhs);
@@ -36,7 +38,8 @@ public class TypeBinaryExprNode extends TypeExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(lhs);
 		children.add(rhs);
@@ -45,7 +48,8 @@ public class TypeBinaryExprNode extends TypeExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("lhs");
 		childrenNames.add("rhs");
@@ -54,17 +58,20 @@ public class TypeBinaryExprNode extends TypeExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		TypeExpr lhs = this.lhs.checkIR(TypeExpr.class);
 		TypeExpr rhs = this.rhs.checkIR(TypeExpr.class);
 
@@ -75,4 +82,3 @@ public class TypeBinaryExprNode extends TypeExprNode {
 		return expr;
 	}
 }
-

@@ -22,27 +22,32 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 
-public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor {
+public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
+{
 	static {
 		setName(MatchTypeNode.class, "match type");
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "match<" + actionUnresolved.toString() + "> type";
 	}
 
-	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode actionIdent) {
+	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode actionIdent)
+	{
 		String actionString = actionIdent.toString();
 		String matchTypeString = "match<" + actionString + ">";
-		IdentNode matchTypeIdentNode = new IdentNode(env.define(ParserEnvironment.TYPES, matchTypeString, actionIdent.getCoords()));
+		IdentNode matchTypeIdentNode = new IdentNode(
+				env.define(ParserEnvironment.TYPES, matchTypeString, actionIdent.getCoords()));
 		MatchTypeNode matchTypeNode = new MatchTypeNode(actionIdent);
-		TypeDeclNode typeDeclNode = new TypeDeclNode(matchTypeIdentNode, matchTypeNode); 
+		TypeDeclNode typeDeclNode = new TypeDeclNode(matchTypeIdentNode, matchTypeNode);
 		matchTypeIdentNode.setDecl(typeDeclNode);
 		return matchTypeIdentNode;
 	}
-	
-	public static IdentNode getMatchTypeIdentNode(ParserEnvironment env, IdentNode actionIdent) {
+
+	public static IdentNode getMatchTypeIdentNode(ParserEnvironment env, IdentNode actionIdent)
+	{
 		Occurrence actionOccurrence = actionIdent.occ;
 		Symbol actionSymbol = actionOccurrence.getSymbol();
 		String actionString = actionSymbol.getText();
@@ -51,53 +56,62 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor {
 			PackageIdentNode packageActionIdent = (PackageIdentNode)actionIdent;
 			Occurrence packageOccurrence = packageActionIdent.owningPackage;
 			Symbol packageSymbol = packageOccurrence.getSymbol();
-			return new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, packageSymbol.getText(), packageOccurrence.getCoords()), 
+			return new PackageIdentNode(
+					env.occurs(ParserEnvironment.PACKAGES, packageSymbol.getText(), packageOccurrence.getCoords()),
 					env.occurs(ParserEnvironment.TYPES, matchTypeString, actionOccurrence.getCoords()));
 		} else {
 			return new IdentNode(env.occurs(ParserEnvironment.TYPES, matchTypeString, actionOccurrence.getCoords()));
 		}
 	}
-	
+
 	protected IdentNode actionUnresolved;
 	protected TestDeclNode action;
 
 	// the match type node instances are created in ParserEnvironment as needed
-	public MatchTypeNode(IdentNode actionIdent) {
+	public MatchTypeNode(IdentNode actionIdent)
+	{
 		actionUnresolved = becomeParent(actionIdent);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<TestDeclNode> actionResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+	private static final DeclarationResolver<TestDeclNode> actionResolver =
+			new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!(actionUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition((IdentNode)actionUnresolved, actionUnresolved.getScope());
 		}
 		action = actionResolver.resolve(actionUnresolved, this);
-		if(action == null) return false;
+		if(action == null)
+			return false;
 		return true;
 	}
-	
-	public TestDeclNode getTest() {
+
+	public TestDeclNode getTest()
+	{
 		assert(isResolved());
 		return action;
 	}
 
-	public DeclNode tryGetMember(String name) {
+	public DeclNode tryGetMember(String name)
+	{
 		NodeDeclNode node = action.pattern.tryGetNode(name);
 		if(node != null)
 			return node;
@@ -108,12 +122,14 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor {
 	}
 
 	/** Returns the IR object for this match type node. */
-	public MatchType getMatchType() {
+	public MatchType getMatchType()
+	{
 		return checkIR(MatchType.class);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(isIRAlreadySet()) {
 			return (MatchType)getIR();
 		}

@@ -11,7 +11,8 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class ArcSinCosTanExpr extends Expression {
+public class ArcSinCosTanExpr extends Expression
+{
 	private int which;
 	private Expression expr;
 
@@ -19,21 +20,25 @@ public class ArcSinCosTanExpr extends Expression {
 	public static final int ARC_COS = 1;
 	public static final int ARC_TAN = 2;
 
-	public ArcSinCosTanExpr(int which, Expression expr) {
+	public ArcSinCosTanExpr(int which, Expression expr)
+	{
 		super("arc sin cos tan expr", expr.getType());
 		this.which = which;
 		this.expr = expr;
 	}
 
-	public int getWhich() {
+	public int getWhich()
+	{
 		return which;
 	}
 
-	public Expression getExpr() {
+	public Expression getExpr()
+	{
 		return expr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		expr.collectNeededEntities(needs);
 	}
 }

@@ -47,16 +47,12 @@ public class TypeChecker implements Checker
 
 		if(!res) {
 			node.reportError("Not a " + BaseNode.getName(DeclNode.class));
-		}
-		else
-		{
+		} else {
 			TypeNode type = ((DeclNode)node).getDeclType();
 
 			res = false;
-			for(Class<?> c : this.validTypes)
-			{
-				if(c.isInstance(type))
-				{
+			for(Class<?> c : this.validTypes) {
+				if(c.isInstance(type)) {
 					res = true;
 					break;
 				}
@@ -74,10 +70,8 @@ public class TypeChecker implements Checker
 		String res = "";
 
 		try {
-			res = (String) cls.getMethod("getKindStr").invoke(null);
-		}
-		catch(Exception e)
-		{
+			res = (String)cls.getMethod("getKindStr").invoke(null);
+		} catch(Exception e) {
 			res = "<invalid>";
 		}
 
@@ -87,11 +81,11 @@ public class TypeChecker implements Checker
 	protected String getExpectionList(Class<?>[] classes)
 	{
 		StringBuffer list = new StringBuffer();
-		for (int i=0; i < classes.length; i++) {
+		for(int i = 0; i < classes.length; i++) {
 			list.append(getExpection(classes[i]));
-			if ( i < classes.length - 2 )
+			if(i < classes.length - 2)
 				list.append(", ");
-			else if (i == classes.length - 2 )
+			else if(i == classes.length - 2)
 				list.append(" or ");
 		}
 		return list.toString();
@@ -102,4 +96,3 @@ public class TypeChecker implements Checker
 		return "expected a " + getExpectionList(classes);
 	}
 }
-

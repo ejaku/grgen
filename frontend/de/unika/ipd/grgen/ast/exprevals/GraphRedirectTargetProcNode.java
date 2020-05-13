@@ -16,7 +16,8 @@ import de.unika.ipd.grgen.ir.exprevals.GraphRedirectTargetProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphRedirectTargetProcNode extends ProcedureInvocationBaseNode {
+public class GraphRedirectTargetProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(GraphRedirectTargetProcNode.class, "graph redirect target procedure");
 	}
@@ -26,7 +27,8 @@ public class GraphRedirectTargetProcNode extends ProcedureInvocationBaseNode {
 	private ExprNode oldTargetNameExpr;
 
 	public GraphRedirectTargetProcNode(Coords coords, ExprNode edgeExpr, ExprNode newTargetExpr,
-			ExprNode oldTargetNameExpr) {
+			ExprNode oldTargetNameExpr)
+	{
 		super(coords);
 
 		this.edgeExpr = edgeExpr;
@@ -34,32 +36,39 @@ public class GraphRedirectTargetProcNode extends ProcedureInvocationBaseNode {
 		this.newTargetExpr = newTargetExpr;
 		becomeParent(newTargetExpr);
 		this.oldTargetNameExpr = oldTargetNameExpr;
-		if(oldTargetNameExpr!=null) becomeParent(oldTargetNameExpr);
+		if(oldTargetNameExpr != null)
+			becomeParent(oldTargetNameExpr);
 	}
 
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(edgeExpr);
 		children.add(newTargetExpr);
-		if(oldTargetNameExpr!=null) children.add(oldTargetNameExpr);
+		if(oldTargetNameExpr != null)
+			children.add(oldTargetNameExpr);
 		return children;
 	}
 
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("edge");
 		childrenNames.add("newTarget");
-		if(oldTargetNameExpr!=null) childrenNames.add("oldTargetName");
+		if(oldTargetNameExpr != null)
+			childrenNames.add("oldTargetName");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(edgeExpr.getType() instanceof EdgeTypeNode)) {
 			reportError("first(target) argument of redirectTarget(.,.,.) must be of edge type");
 			return false;
@@ -68,7 +77,7 @@ public class GraphRedirectTargetProcNode extends ProcedureInvocationBaseNode {
 			reportError("second(source) argument of redirectTarget(.,.,.) must be of node type");
 			return false;
 		}
-		if(oldTargetNameExpr!=null
+		if(oldTargetNameExpr != null
 				&& !(oldTargetNameExpr.getType().equals(BasicTypeNode.stringType))) {
 			reportError("third(source name) argument of redirectTarget(.,.,.) must be of string type");
 			return false;
@@ -76,12 +85,14 @@ public class GraphRedirectTargetProcNode extends ProcedureInvocationBaseNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new GraphRedirectTargetProc(edgeExpr.checkIR(Expression.class),
 				newTargetExpr.checkIR(Expression.class),
 				oldTargetNameExpr != null ? oldTargetNameExpr.checkIR(Expression.class) : null);

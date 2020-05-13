@@ -14,47 +14,51 @@ import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
 
-
 /**
  * Represents an assignment statement in the IR.
  */
-public class Assignment extends AssignmentBase {
+public class Assignment extends AssignmentBase
+{
 
 	/** The lhs of the assignment. */
 	private Qualification target;
 
-	public Assignment(Qualification target, Expression expr) {
+	public Assignment(Qualification target, Expression expr)
+	{
 		super("assignment");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	protected Assignment(String name, Qualification target, Expression expr) {
+	protected Assignment(String name, Qualification target, Expression expr)
+	{
 		super(name);
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Qualification getTarget() {
+	public Qualification getTarget()
+	{
 		return target;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getTarget() + " = " + getExpression();
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();
-		if(!isGlobalVariable(entity) 
+		if(!isGlobalVariable(entity)
 				&& !(entity.getType() instanceof MatchType)
 				&& !(entity.getType() instanceof DefinedMatchType)) {
 			if(entity instanceof GraphEntity)
-				needs.add((GraphEntity) entity);
+				needs.add((GraphEntity)entity);
 			else
-				needs.add((Variable) entity);
+				needs.add((Variable)entity);
 		}
-		
+
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;
 		needs.variables = null;

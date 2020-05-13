@@ -16,25 +16,30 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayRemoveItem extends ProcedureInvocationBase {
+public class ArrayRemoveItem extends ProcedureInvocationBase
+{
 	Qualification target;
 	Expression indexExpr;
 
-	public ArrayRemoveItem(Qualification target, Expression indexExpr) {
+	public ArrayRemoveItem(Qualification target, Expression indexExpr)
+	{
 		super("array remove item");
 		this.target = target;
 		this.indexExpr = indexExpr;
 	}
 
-	public Qualification getTarget() {
+	public Qualification getTarget()
+	{
 		return target;
 	}
 
-	public Expression getIndexExpr() {
+	public Expression getIndexExpr()
+	{
 		return indexExpr;
 	}
-	
-	public ProcedureBase getProcedureBase() {
+
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
@@ -42,7 +47,7 @@ public class ArrayRemoveItem extends ProcedureInvocationBase {
 	{
 		Entity entity = target.getOwner();
 		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity) entity);
+			needs.add((GraphEntity)entity);
 
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;
@@ -50,10 +55,10 @@ public class ArrayRemoveItem extends ProcedureInvocationBase {
 		target.collectNeededEntities(needs);
 		needs.variables = varSet;
 
-		if(getIndexExpr()!=null)
+		if(getIndexExpr() != null)
 			getIndexExpr().collectNeededEntities(needs);
 
-		if(getNext()!=null) {
+		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);
 		}
 	}

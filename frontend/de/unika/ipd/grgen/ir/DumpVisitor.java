@@ -58,7 +58,7 @@ public class DumpVisitor extends GraphDumpVisitor
 
 		dumper.beginSubgraph(gr);
 
-		for (Iterator<Node> it = nodes.iterator(); it.hasNext();) {
+		for(Iterator<Node> it = nodes.iterator(); it.hasNext();) {
 			Node n = it.next();
 			debug.report(NOTE, "node: " + n);
 			PrefixNode pn = new PrefixNode(n, prefix);
@@ -68,8 +68,8 @@ public class DumpVisitor extends GraphDumpVisitor
 
 		Collection<Edge> edges = gr.getEdges();
 
-		for (Iterator<Edge> it = edges.iterator(); it.hasNext();) {
-			Edge edge = (Edge) it.next();
+		for(Iterator<Edge> it = edges.iterator(); it.hasNext();) {
+			Edge edge = (Edge)it.next();
 			PrefixNode from, to, e;
 
 			e = new PrefixNode(edge, prefix);
@@ -88,14 +88,14 @@ public class DumpVisitor extends GraphDumpVisitor
 			dumper.edge(e, to);
 		}
 
-		if (gr instanceof PatternGraph) {
-			PatternGraph pg = (PatternGraph) gr;
+		if(gr instanceof PatternGraph) {
+			PatternGraph pg = (PatternGraph)gr;
 
-			for (Collection<? extends GraphEntity> homSet : pg.getHomomorphic()) {
-				if (!homSet.isEmpty()) {
-					for (Iterator<? extends GraphEntity> homIt1 = homSet.iterator(); homIt1.hasNext(); ) {
+			for(Collection<? extends GraphEntity> homSet : pg.getHomomorphic()) {
+				if(!homSet.isEmpty()) {
+					for(Iterator<? extends GraphEntity> homIt1 = homSet.iterator(); homIt1.hasNext();) {
 						Entity hom1 = homIt1.next();
-						for (Iterator<? extends GraphEntity> homIt2 = homSet.iterator(); homIt2.hasNext(); ) {
+						for(Iterator<? extends GraphEntity> homIt2 = homSet.iterator(); homIt2.hasNext();) {
 							Entity hom2 = homIt2.next();
 							PrefixNode from = prefixMap.get(hom1);
 							PrefixNode to = prefixMap.get(hom2);
@@ -116,14 +116,14 @@ public class DumpVisitor extends GraphDumpVisitor
 	{
 		assert n instanceof IR : "must have an ir object to dump";
 
-		if (n instanceof Node || n instanceof Edge || n instanceof Graph) {
+		if(n instanceof Node || n instanceof Edge || n instanceof Graph) {
 			return;
 		}
 
-		if (n instanceof Rule && ((Rule)n).getRight()!=null) {
-			Rule r = (Rule) n;
+		if(n instanceof Rule && ((Rule)n).getRight() != null) {
+			Rule r = (Rule)n;
 			dumper.beginSubgraph(r);
-			if(r.getRight()==null) {
+			if(r.getRight() == null) {
 				dumpGraph(r.getPattern(), "");
 				dumper.endSubgraph();
 			}
@@ -132,7 +132,7 @@ public class DumpVisitor extends GraphDumpVisitor
 
 			// Draw edges from left nodes that occur also on the right side.
 			Iterator<Node> commonNodes = r.getCommonNodes().iterator();
-			while (commonNodes.hasNext()) {
+			while(commonNodes.hasNext()) {
 				Node node = commonNodes.next();
 				PrefixNode left = new PrefixNode(node, "l");
 				PrefixNode right = new PrefixNode(node, "r");
@@ -141,7 +141,7 @@ public class DumpVisitor extends GraphDumpVisitor
 			}
 
 			Iterator<Edge> commonEdges = r.getCommonEdges().iterator();
-			while (commonEdges.hasNext()) {
+			while(commonEdges.hasNext()) {
 				Edge edge = commonEdges.next();
 				PrefixNode left = new PrefixNode(edge, "l");
 				PrefixNode right = new PrefixNode(edge, "r");

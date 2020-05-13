@@ -15,26 +15,29 @@ import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
 
-
 /**
  * Represents an assignment statement in the IR.
  */
-public class AssignmentVisited extends AssignmentBase {
+public class AssignmentVisited extends AssignmentBase
+{
 
 	/** The lhs of the assignment. */
 	private Visited target;
 
-	public AssignmentVisited(Visited target, Expression expr) {
+	public AssignmentVisited(Visited target, Expression expr)
+	{
 		super("assignment visited");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Visited getTarget() {
+	public Visited getTarget()
+	{
 		return target;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getTarget() + " = " + getExpression();
 	}
 

@@ -18,8 +18,8 @@ import java.io.OutputStream;
 
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
-public interface Sys {
-
+public interface Sys
+{
 	File getModelPath();
 
 	ErrorReporter getErrorReporter();
@@ -27,8 +27,8 @@ public interface Sys {
 	OutputStream createDebugFile(File file);
 
 	boolean mayFireEvents();
+
 	boolean mayFireDebugEvents();
-	
+
 	boolean emitProfilingInstrumentation();
 }
-

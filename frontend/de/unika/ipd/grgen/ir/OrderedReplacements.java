@@ -14,8 +14,8 @@ public class OrderedReplacements extends IR
 {
 	public List<OrderedReplacement> orderedReplacements = new LinkedList<OrderedReplacement>();
 
-	public OrderedReplacements(String name) {
+	public OrderedReplacements(String name)
+	{
 		super(name);
 	}
 }
-

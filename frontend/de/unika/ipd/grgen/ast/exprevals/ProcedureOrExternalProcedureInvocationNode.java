@@ -38,10 +38,11 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	private ExternalProcedureDeclNode externalProcedureDecl;
 	private ProcedureDeclNode procedureDecl;
 	private CollectNode<ExprNode> arguments;
-	
+
 	private int context;
 
-	public ProcedureOrExternalProcedureInvocationNode(IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
+	public ProcedureOrExternalProcedureInvocationNode(IdentNode procedureOrExternalProcedureUnresolved,
+			CollectNode<ExprNode> arguments, int context)
 	{
 		super(procedureOrExternalProcedureUnresolved.getCoords());
 		this.procedureOrExternalProcedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
@@ -50,7 +51,8 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(procedureOrExternalProcedureUnresolved, procedureDecl, externalProcedureDecl));
 		children.add(arguments);
@@ -58,7 +60,8 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("procedure or external procedure");
 		childrenNames.add("arguments");
@@ -68,7 +71,8 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	private static final DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode> resolver =
 			new DeclarationPairResolver<ProcedureDeclNode, ExternalProcedureDeclNode>(ProcedureDeclNode.class, ExternalProcedureDeclNode.class);
 
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!(procedureOrExternalProcedureUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition((IdentNode)procedureOrExternalProcedureUnresolved, procedureOrExternalProcedureUnresolved.getScope());
 		}
@@ -83,26 +87,29 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+	protected boolean checkLocal()
+	{
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
 			reportError("procedure call not allowed in function or lhs context");
 			return false;
 		}
 		return checkSignatureAdhered();
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
-	private boolean checkSignatureAdhered() {
-		ProcedureBase pb = procedureDecl!=null ? procedureDecl : externalProcedureDecl;
-		
+	private boolean checkSignatureAdhered()
+	{
+		ProcedureBase pb = procedureDecl != null ? procedureDecl : externalProcedureDecl;
+
 		// check if the number of parameters are correct
 		int expected = pb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
-		if (expected != actual) {
+		if(expected != actual) {
 			String patternName = pb.ident.toString();
 			procedureOrExternalProcedureUnresolved.reportError("The procedure \"" + patternName + "\" needs "
 					+ expected + " parameters, given are " + actual);
@@ -111,49 +118,52 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 
 		// check if the types of the parameters are correct
 		boolean res = true;
-		for (int i = 0; i < arguments.size(); ++i) {
+		for(int i = 0; i < arguments.size(); ++i) {
 			ExprNode actualParameter = arguments.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			TypeNode formalParameterType = pb.getParameterTypes().get(i);
-			
+
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
 				String exprTypeName = getTypeName(actualParameterType);
 				String paramTypeName = getTypeName(formalParameterType);
-				procedureOrExternalProcedureUnresolved.reportError("Cannot convert " + (i + 1) + ". procedure argument from \""
-						+ exprTypeName + "\" to \"" + paramTypeName + "\"");
+				procedureOrExternalProcedureUnresolved.reportError("Cannot convert " + (i + 1)
+						+ ". procedure argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
 
 		return res;
 	}
-	
-	private String getTypeName(TypeNode type) {
+
+	private String getTypeName(TypeNode type)
+	{
 		String typeName;
 		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode) type).getIdentNode().toString();
+			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
 		else
 			typeName = type.toString();
 		return typeName;
 	}
 
-	public Vector<TypeNode> getType() {
+	public Vector<TypeNode> getType()
+	{
 		assert isResolved();
-		return procedureDecl!=null ? procedureDecl.getReturnTypes() : externalProcedureDecl.getReturnTypes();
+		return procedureDecl != null ? procedureDecl.getReturnTypes() : externalProcedureDecl.getReturnTypes();
 	}
-	
-	public int getNumReturnTypes() {
-		if(procedureDecl!=null)
+
+	public int getNumReturnTypes()
+	{
+		if(procedureDecl != null)
 			return procedureDecl.returnTypes.size();
 		else
 			return externalProcedureDecl.returnTypes.size();
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(procedureDecl!=null) {
-			ProcedureInvocation pi = new ProcedureInvocation(
-					procedureDecl.checkIR(Procedure.class));
+	protected IR constructIR()
+	{
+		if(procedureDecl != null) {
+			ProcedureInvocation pi = new ProcedureInvocation(procedureDecl.checkIR(Procedure.class));
 			for(ExprNode expr : arguments.getChildren()) {
 				pi.addArgument(expr.checkIR(Expression.class));
 			}

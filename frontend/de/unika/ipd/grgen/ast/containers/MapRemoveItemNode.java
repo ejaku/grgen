@@ -45,15 +45,17 @@ public class MapRemoveItemNode extends ContainerProcedureMethodInvocationBaseNod
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(target!=null ? target : targetVar);
+		children.add(target != null ? target : targetVar);
 		children.add(keyExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
 		childrenNames.add("keyExpr");
@@ -61,22 +63,23 @@ public class MapRemoveItemNode extends ContainerProcedureMethodInvocationBaseNod
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = getTargetType();
-		if(target!=null) {
+		if(target != null) {
 			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
 			TypeNode keyType = keyExpr.getType();
-			if (!keyType.isEqual(targetKeyType))
-			{
+			if(!keyType.isEqual(targetKeyType)) {
 				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
 				if(keyExpr == ConstNode.getInvalid()) {
-					keyExpr.reportError("Argument (key) to "
-							+ "map remove item statement must be of type " + targetKeyType.toString());
+					keyExpr.reportError("Argument (key) to map remove item statement must be of type "
+							+ targetKeyType.toString());
 					return false;
 				}
 			}
@@ -87,13 +90,15 @@ public class MapRemoveItemNode extends ContainerProcedureMethodInvocationBaseNod
 		}
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(target!=null)
+	protected IR constructIR()
+	{
+		if(target != null)
 			return new MapRemoveItem(target.checkIR(Qualification.class),
 					keyExpr.checkIR(Expression.class));
 		else

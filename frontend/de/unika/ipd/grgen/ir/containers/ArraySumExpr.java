@@ -12,19 +12,23 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArraySumExpr extends Expression {
+public class ArraySumExpr extends Expression
+{
 	private Expression targetExpr;
 
-	public ArraySumExpr(Expression targetExpr) {
+	public ArraySumExpr(Expression targetExpr)
+	{
 		super("array sum expr", ((ArrayType)(targetExpr.getType())).valueType);
 		this.targetExpr = targetExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}

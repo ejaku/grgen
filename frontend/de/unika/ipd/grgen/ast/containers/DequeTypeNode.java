@@ -22,13 +22,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeType;
 import de.unika.ipd.grgen.ir.Type;
 
-public class DequeTypeNode extends DeclaredTypeNode {
+public class DequeTypeNode extends DeclaredTypeNode
+{
 	static {
 		setName(DequeTypeNode.class, "deque type");
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "deque<" + valueTypeUnresolved.toString() + "> type";
 	}
 
@@ -36,35 +38,41 @@ public class DequeTypeNode extends DeclaredTypeNode {
 	public TypeNode valueType;
 
 	// the deque type node instances are created in ParserEnvironment as needed
-	public DequeTypeNode(IdentNode valueTypeIdent) {
+	public DequeTypeNode(IdentNode valueTypeIdent)
+	{
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static final DeclarationTypeResolver<TypeNode> typeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(valueTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)valueTypeUnresolved);
 		else if(valueTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
 
-		if(valueType == null) return false;
+		if(valueType == null)
+			return false;
 
 		if(valueType instanceof InheritanceTypeNode) {
 			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
@@ -85,8 +93,8 @@ public class DequeTypeNode extends DeclaredTypeNode {
 				this, this, OperatorSignature.dequeEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
 				this, this, OperatorSignature.dequeEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.ADD, this, this, this,
-				OperatorSignature.dequeEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.ADD, this,
+				this, this, OperatorSignature.dequeEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 
@@ -94,7 +102,8 @@ public class DequeTypeNode extends DeclaredTypeNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Type vt = valueType.getType();
 		return new DequeType(vt);
 	}

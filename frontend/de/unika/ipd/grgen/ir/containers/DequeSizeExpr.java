@@ -13,20 +13,24 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class DequeSizeExpr extends Expression {
+public class DequeSizeExpr extends Expression
+{
 	Expression targetExpr;
 
-	public DequeSizeExpr(Expression targetExpr) {
+	public DequeSizeExpr(Expression targetExpr)
+	{
 		super("deque size expression", IntType.getType());
 		this.targetExpr = targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 }

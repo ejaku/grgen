@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 import java.util.Collection;
 import java.util.Vector;
 
@@ -22,11 +21,11 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 
-
 /**
  * AST node for a pattern with replacements.
  */
-public class SubpatternDeclNode extends ActionDeclNode  {
+public class SubpatternDeclNode extends ActionDeclNode
+{
 	static {
 		setName(SubpatternDeclNode.class, "subpattern declaration");
 	}
@@ -43,7 +42,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 */
-	public SubpatternDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right) {
+	public SubpatternDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right)
+	{
 		super(id, subpatternType, left);
 		this.right = right;
 		becomeParent(this.right);
@@ -51,7 +51,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -63,7 +64,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -74,11 +76,12 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	}
 
 	private static DeclarationTypeResolver<SubpatternTypeNode> typeResolver =
-		new DeclarationTypeResolver<SubpatternTypeNode>(SubpatternTypeNode.class);
+			new DeclarationTypeResolver<SubpatternTypeNode>(SubpatternTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		boolean rewritePartRequired = false;
@@ -89,13 +92,13 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				}
 			}
 		}
-		
+
 		for(IteratedNode iter : pattern.iters.getChildren()) {
 			if(iter.right != null) {
 				rewritePartRequired = true;
 			}
 		}
-		
+
 		if(right == null && rewritePartRequired) {
 			CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 			CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
@@ -104,16 +107,16 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			CollectNode<EvalStatementsNode> evals = new CollectNode<EvalStatementsNode>();
 			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 			CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-			GraphNode graph = new GraphNode(getIdentNode().toString(), getIdentNode().getCoords(), 
-				connections, new CollectNode<BaseNode>(), subpatterns, new CollectNode<SubpatternReplNode>(),
-				orderedReplacements, returnz, imperativeStmts,
-				BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, pattern);
+			GraphNode graph = new GraphNode(getIdentNode().toString(), getIdentNode().getCoords(),
+					connections, new CollectNode<BaseNode>(), subpatterns, new CollectNode<SubpatternReplNode>(),
+					orderedReplacements, returnz, imperativeStmts,
+					BaseNode.CONTEXT_PATTERN | BaseNode.CONTEXT_RHS, pattern);
 			graph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
 			graph.addEvals(evals);
 			right = new ModifyDeclNode(getIdentNode(), graph, new CollectNode<IdentNode>());
 			getIdentNode().setDecl(this);
 		}
-		
+
 		return type != null;
 	}
 
@@ -125,7 +128,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(right != null)
 			right.warnElemAppearsInsideAndOutsideDelete(pattern);
 
@@ -149,12 +153,17 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			abstr = noAbstractElementInstantiated(right);
 		}
 
-		return leftHandGraphsOk & sameNumberOfRewriteParts && noNestedRewriteParameters
-			& rhsReuseOk & noReturnInPatternOk
-			& execParamsNotDeleted & abstr;
+		return leftHandGraphsOk
+				& sameNumberOfRewriteParts 
+				& noNestedRewriteParameters
+				& rhsReuseOk
+				& noReturnInPatternOk
+				& execParamsNotDeleted
+				& abstr;
 	}
 
-	protected PatternGraphNode getPattern() {
+	protected PatternGraphNode getPattern()
+	{
 		assert isResolved();
 		return pattern;
 	}
@@ -163,7 +172,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the pattern graph already constructed the IR object
 		// that may happen in recursive patterns (and other usages/references)
 		if(isIRAlreadySet()) {
@@ -198,17 +208,20 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	}
 
 	@Override
-	public SubpatternTypeNode getDeclType() {
+	public SubpatternTypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return type;
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "subpattern declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "subpattern";
 	}
 }

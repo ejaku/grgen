@@ -17,10 +17,15 @@ import java.util.Map;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public interface ExpressionGenerationState {
+public interface ExpressionGenerationState
+{
 	Map<Expression, String> mapExprToTempVar();
+
 	boolean useVarForResult();
+
 	Model model();
+
 	boolean isToBeParallelizedActionExisting();
+
 	boolean emitProfilingInstrumentation();
 }

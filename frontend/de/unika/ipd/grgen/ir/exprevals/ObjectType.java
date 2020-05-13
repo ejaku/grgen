@@ -16,19 +16,22 @@ package de.unika.ipd.grgen.ir.exprevals;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ast.BasicTypeNode;
 
-public class ObjectType extends PrimitiveType {
+public class ObjectType extends PrimitiveType
+{
 	/** @param ident The name of the boolean type. */
-	public ObjectType(Ident ident) {
+	public ObjectType(Ident ident)
+	{
 		super("object type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_OBJECT;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.objectType.checkIR(Type.class);
 	}
 }
-

@@ -30,7 +30,8 @@ import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
  * A pattern graph is a graph as it occurs in left hand rule sides and negative parts.
  * Additionally it can have conditions referring to its items that restrict the set of possible matchings.
  */
-public class PatternGraph extends Graph {
+public class PatternGraph extends Graph
+{
 	private final Collection<Variable> vars = new LinkedHashSet<Variable>();
 
 	/** The alternative statements of the pattern graph */
@@ -61,18 +62,18 @@ public class PatternGraph extends Graph {
 	 *  they appear if they're not referenced within the pattern, but some nested component uses them */
 	private final HashSet<Node> homToAllNodes = new HashSet<Node>();
 
-    /** A set of edges which will be matched homomorphically to any other edge in the pattern.
-     *  they appear if they're not referenced within the pattern, but some nested component uses them  */
+	/** A set of edges which will be matched homomorphically to any other edge in the pattern.
+	 *  they appear if they're not referenced within the pattern, but some nested component uses them  */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
 
 	/** A map of nodes which will be matched homomorphically to any other node
 	 *  to the isomorphy exceptions, requested by independent(node); */
 	private final HashMap<Node, HashSet<Node>> totallyHomNodes = new HashMap<Node, HashSet<Node>>();
 
-    /** A map of edges which will be matched homomorphically to any other edge
-     *  to the isomorphy exceptions, requested by independent(edge); */
+	/** A map of edges which will be matched homomorphically to any other edge
+	 *  to the isomorphy exceptions, requested by independent(edge); */
 	private final HashMap<Edge, HashSet<Edge>> totallyHomEdges = new HashMap<Edge, HashSet<Edge>>();
-	
+
 	/** A set of the graph elements clearly deleted (in contrast to not mentioned ones) */
 	private final HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
 
@@ -88,154 +89,185 @@ public class PatternGraph extends Graph {
 
 	/** A list of the replacement parameters */
 	private final List<Entity> replParams = new LinkedList<Entity>();
-	
+
 	// if this pattern graph is a negative or independent nested inside an iterated
 	// it might break the iterated instead of only the current iterated case, if specified
 	private boolean iterationBreaking = false;
 
-
 	/** Make a new pattern graph. */
-	public PatternGraph(String nameOfGraph, int modifiers) {
+	public PatternGraph(String nameOfGraph, int modifiers)
+	{
 		super(nameOfGraph);
 		this.modifiers = modifiers;
 	}
 
-	public void addImperativeStmt(ImperativeStmt emit) {
+	public void addImperativeStmt(ImperativeStmt emit)
+	{
 		imperativeStmts.add(emit);
 	}
 
-	public List<ImperativeStmt> getImperativeStmts() {
+	public List<ImperativeStmt> getImperativeStmts()
+	{
 		return imperativeStmts;
 	}
 
-	public void addVariable(Variable var) {
+	public void addVariable(Variable var)
+	{
 		vars.add(var);
 	}
 
-	public Collection<Variable> getVars() {
+	public Collection<Variable> getVars()
+	{
 		return Collections.unmodifiableCollection(vars);
 	}
-	
-	public boolean hasVar(Variable var) {
+
+	public boolean hasVar(Variable var)
+	{
 		return vars.contains(var);
 	}
 
-	public void addAlternative(Alternative alternative) {
+	public void addAlternative(Alternative alternative)
+	{
 		alts.add(alternative);
 	}
 
-	public Collection<Alternative> getAlts() {
+	public Collection<Alternative> getAlts()
+	{
 		return Collections.unmodifiableCollection(alts);
 	}
 
-	public void addIterated(Rule iter) {
+	public void addIterated(Rule iter)
+	{
 		iters.add(iter);
 	}
 
-	public Collection<Rule> getIters() {
+	public Collection<Rule> getIters()
+	{
 		return Collections.unmodifiableCollection(iters);
 	}
 
-	public void addNegGraph(PatternGraph neg) {
+	public void addNegGraph(PatternGraph neg)
+	{
 		int patternNameNumber = negs.size();
 		neg.setName("N" + patternNameNumber);
 		negs.add(neg);
 	}
 
 	/** @return The negative graphs of the rule. */
-	public Collection<PatternGraph> getNegs() {
+	public Collection<PatternGraph> getNegs()
+	{
 		return Collections.unmodifiableCollection(negs);
 	}
 
-	public void addIdptGraph(PatternGraph idpt) {
+	public void addIdptGraph(PatternGraph idpt)
+	{
 		int patternNameNumber = idpts.size();
 		idpt.setName("I" + patternNameNumber);
 		idpts.add(idpt);
 	}
 
 	/** @return The independent graphs of the rule. */
-	public Collection<PatternGraph> getIdpts() {
+	public Collection<PatternGraph> getIdpts()
+	{
 		return Collections.unmodifiableCollection(idpts);
 	}
 
 	/** Add a condition given by it's expression expr to the graph. */
-	public void addCondition(Expression expr) {
+	public void addCondition(Expression expr)
+	{
 		conds.add(expr);
 	}
 
 	/** Add an assignment to the list of evaluations. */
-	public void addYield(EvalStatements a) {
+	public void addYield(EvalStatements a)
+	{
 		yields.add(a);
 	}
-	
+
 	/** Add a potentially homomorphic set to the graph. */
-	public void addHomomorphicNodes(Collection<Node> hom) {
+	public void addHomomorphicNodes(Collection<Node> hom)
+	{
 		homNodes.add(hom);
 	}
 
 	/** Add a potentially homomorphic set to the graph. */
-	public void addHomomorphicEdges(Collection<Edge> hom) {
+	public void addHomomorphicEdges(Collection<Edge> hom)
+	{
 		homEdges.add(hom);
 	}
 
-	public void addHomToAll(Node node) {
+	public void addHomToAll(Node node)
+	{
 		homToAllNodes.add(node);
 	}
 
-	public void addHomToAll(Edge edge) {
+	public void addHomToAll(Edge edge)
+	{
 		homToAllEdges.add(edge);
 	}
-	
-	public void addTotallyHomomorphic(Node node, HashSet<Node> isoNodes) {
+
+	public void addTotallyHomomorphic(Node node, HashSet<Node> isoNodes)
+	{
 		totallyHomNodes.put(node, isoNodes);
 	}
 
-	public void addTotallyHomomorphic(Edge edge, HashSet<Edge> isoEdges) {
+	public void addTotallyHomomorphic(Edge edge, HashSet<Edge> isoEdges)
+	{
 		totallyHomEdges.put(edge, isoEdges);
 	}
 
-	public void addDeletedElement(GraphEntity entity) {
+	public void addDeletedElement(GraphEntity entity)
+	{
 		deletedElements.add(entity);
 	}
 
-	public HashSet<GraphEntity> getDeletedElements() {
+	public HashSet<GraphEntity> getDeletedElements()
+	{
 		return deletedElements;
 	}
 
 	/** Add a replacement parameter to the rule. */
-	public void addReplParameter(Entity entity) {
+	public void addReplParameter(Entity entity)
+	{
 		replParams.add(entity);
 	}
 
 	/** Get all replacement parameters of this rule (may currently contain only nodes). */
-	public List<Entity> getReplParameters() {
+	public List<Entity> getReplParameters()
+	{
 		return Collections.unmodifiableList(replParams);
 	}
-	
-	public boolean replParametersContain(Entity entity) {
+
+	public boolean replParametersContain(Entity entity)
+	{
 		return replParams.contains(entity);
 	}
-	
-	public void setIterationBreaking(boolean value) {
+
+	public void setIterationBreaking(boolean value)
+	{
 		iterationBreaking = value;
 	}
 
-	public boolean isIterationBreaking() {
+	public boolean isIterationBreaking()
+	{
 		return iterationBreaking;
 	}
 
 	/** Get a collection with all conditions in this graph. */
-	public Collection<Expression> getConditions() {
+	public Collection<Expression> getConditions()
+	{
 		return Collections.unmodifiableCollection(conds);
 	}
-	
+
 	/** @return A collection containing all yield assignments of this graph. */
-	public Collection<EvalStatements> getYields() {
+	public Collection<EvalStatements> getYields()
+	{
 		return Collections.unmodifiableCollection(yields);
 	}
 
 	/** Get all potentially homomorphic sets in this graph. */
-	public Collection<Collection<? extends GraphEntity>> getHomomorphic() {
+	public Collection<Collection<? extends GraphEntity>> getHomomorphic()
+	{
 		Collection<Collection<? extends GraphEntity>> ret = new LinkedHashSet<Collection<? extends GraphEntity>>();
 		ret.addAll(homEdges);
 		ret.addAll(homNodes);
@@ -243,9 +275,10 @@ public class PatternGraph extends Graph {
 		return Collections.unmodifiableCollection(ret);
 	}
 
-	public Collection<Node> getHomomorphic(Node n) {
+	public Collection<Node> getHomomorphic(Node n)
+	{
 		for(Collection<Node> c : homNodes) {
-			if (c.contains(n)) {
+			if(c.contains(n)) {
 				// TODO: we got non-transitive homomorphy, why is this sufficient? A hom-merge pass before?
 				return c;
 			}
@@ -256,9 +289,10 @@ public class PatternGraph extends Graph {
 		return c;
 	}
 
-	public Collection<Edge> getHomomorphic(Edge e) {
+	public Collection<Edge> getHomomorphic(Edge e)
+	{
 		for(Collection<Edge> c : homEdges) {
-			if (c.contains(e)) {
+			if(c.contains(e)) {
 				// TODO: we got non-transitive homomorphy, why is this sufficient? A hom-merge pass before?
 				return c;
 			}
@@ -269,21 +303,24 @@ public class PatternGraph extends Graph {
 		return c;
 	}
 
-	public boolean isHomomorphic(Node n1, Node n2) {
+	public boolean isHomomorphic(Node n1, Node n2)
+	{
 		if(isTotallyHomomorphic(n1, n2))
 			return true;
 		return homToAllNodes.contains(n1) || homToAllNodes.contains(n2)
 				|| getHomomorphic(n1).contains(n2);
 	}
 
-	public boolean isHomomorphic(Edge e1, Edge e2) {
+	public boolean isHomomorphic(Edge e1, Edge e2)
+	{
 		if(isTotallyHomomorphic(e1, e2))
 			return true;
 		return homToAllEdges.contains(e1) || homToAllEdges.contains(e2)
 				|| getHomomorphic(e1).contains(e2);
 	}
 
-	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Node n1, Node n2) {
+	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Node n1, Node n2)
+	{
 		if(isTotallyHomomorphic(n1, n2))
 			return true;
 		if(!getHomomorphic(n1).contains(n2))
@@ -291,7 +328,8 @@ public class PatternGraph extends Graph {
 		return alreadyDefinedEntityToName.containsKey(n1) != alreadyDefinedEntityToName.containsKey(n2);
 	}
 
-	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Edge e1, Edge e2) {
+	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Edge e1, Edge e2)
+	{
 		if(isTotallyHomomorphic(e1, e2))
 			return true;
 		if(!getHomomorphic(e1).contains(e2))
@@ -299,7 +337,8 @@ public class PatternGraph extends Graph {
 		return alreadyDefinedEntityToName.containsKey(e1) != alreadyDefinedEntityToName.containsKey(e2);
 	}
 
-	public boolean isTotallyHomomorphic(Node n1, Node n2) {
+	public boolean isTotallyHomomorphic(Node n1, Node n2)
+	{
 		if(isTotallyHomomorphic(n1)) {
 			if(totallyHomNodes.get(n1).contains(n2))
 				return false;
@@ -314,7 +353,8 @@ public class PatternGraph extends Graph {
 		return false;
 	}
 
-	public boolean isTotallyHomomorphic(Edge e1, Edge e2) {
+	public boolean isTotallyHomomorphic(Edge e1, Edge e2)
+	{
 		if(isTotallyHomomorphic(e1)) {
 			if(totallyHomEdges.get(e1).contains(e2))
 				return false;
@@ -329,30 +369,34 @@ public class PatternGraph extends Graph {
 		return false;
 	}
 
-	public boolean isTotallyHomomorphic(Node n) {
+	public boolean isTotallyHomomorphic(Node n)
+	{
 		if(totallyHomNodes.containsKey(n))
 			return true;
 		else
 			return false;
 	}
 
-	public boolean isTotallyHomomorphic(Edge e) {
+	public boolean isTotallyHomomorphic(Edge e)
+	{
 		if(totallyHomEdges.containsKey(e))
 			return true;
 		else
 			return false;
 	}
 
-	public boolean isPatternpathLocked() {
-		return (modifiers&PatternGraphNode.MOD_PATTERNPATH_LOCKED)==PatternGraphNode.MOD_PATTERNPATH_LOCKED;
+	public boolean isPatternpathLocked()
+	{
+		return (modifiers & PatternGraphNode.MOD_PATTERNPATH_LOCKED) == PatternGraphNode.MOD_PATTERNPATH_LOCKED;
 	}
 
-	public void resolvePatternLockedModifier() {
+	public void resolvePatternLockedModifier()
+	{
 		// in pre-order walk: add all elements of parent to child if child requests so by pattern locked modifier
 
 		// if nested negative requests so, add all of our elements to it
-		for (PatternGraph negative : getNegs()) {
-			if((negative.modifiers&PatternGraphNode.MOD_PATTERN_LOCKED)!=PatternGraphNode.MOD_PATTERN_LOCKED)
+		for(PatternGraph negative : getNegs()) {
+			if((negative.modifiers & PatternGraphNode.MOD_PATTERN_LOCKED) != PatternGraphNode.MOD_PATTERN_LOCKED)
 				continue;
 
 			for(Node node : getNodes()) {
@@ -368,8 +412,8 @@ public class PatternGraph extends Graph {
 		}
 
 		// if nested independent requests so, add all of our elements to it
-		for (PatternGraph independent : getIdpts()) {
-			if((independent.modifiers&PatternGraphNode.MOD_PATTERN_LOCKED)!=PatternGraphNode.MOD_PATTERN_LOCKED)
+		for(PatternGraph independent : getIdpts()) {
+			if((independent.modifiers & PatternGraphNode.MOD_PATTERN_LOCKED) != PatternGraphNode.MOD_PATTERN_LOCKED)
 				continue;
 
 			for(Node node : getNodes()) {
@@ -385,24 +429,28 @@ public class PatternGraph extends Graph {
 		}
 
 		// recursive descend
-		for (PatternGraph negative : getNegs()) {
+		for(PatternGraph negative : getNegs()) {
 			negative.resolvePatternLockedModifier();
 		}
-		for (PatternGraph independent : getIdpts()) {
+		for(PatternGraph independent : getIdpts()) {
 			independent.resolvePatternLockedModifier();
 		}
 	}
 
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges, HashSet<Variable> alreadyDefinedVariables,
-			PatternGraph right) {
+			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
+			HashSet<Variable> alreadyDefinedVariables,
+			PatternGraph right)
+	{
 		// first local corrections, then global consistency
-		if(right!=null) insertElementsFromRhsDeclaredInNestingRhsToReplParams(right);
-		if(right!=null) insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(right);
+		if(right != null)
+			insertElementsFromRhsDeclaredInNestingRhsToReplParams(right);
+		if(right != null)
+			insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(right);
 
 		///////////////////////////////////////////////////////////////////////////////
 		// pre: add locally referenced/defined elements to already referenced/defined elements
-		
+
 		for(Node node : getNodes()) {
 			alreadyDefinedNodes.add(node);
 		}
@@ -437,7 +485,7 @@ public class PatternGraph extends Graph {
 					iterated.getRight());
 		}
 
-		for (PatternGraph negative : getNegs()) {
+		for(PatternGraph negative : getNegs()) {
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
@@ -446,7 +494,7 @@ public class PatternGraph extends Graph {
 					null);
 		}
 
-		for (PatternGraph independent : getIdpts()) {
+		for(PatternGraph independent : getIdpts()) {
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
@@ -469,11 +517,11 @@ public class PatternGraph extends Graph {
 						addSingleNode(node);
 						addHomToAll(node);
 						PatternGraph altCaseReplacement = altCase.getRight();
-						if(altCaseReplacement!=null && !altCaseReplacement.hasNode(node)) {
+						if(altCaseReplacement != null && !altCaseReplacement.hasNode(node)) {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleNode(node);
 						}
-						if(right!=null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+						if(right != null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
 							right.addSingleNode(node);
 						}
 					}
@@ -483,11 +531,11 @@ public class PatternGraph extends Graph {
 						addSingleEdge(edge); // TODO: maybe we loose context here
 						addHomToAll(edge);
 						PatternGraph altCaseReplacement = altCase.getRight();
-						if(altCaseReplacement!=null && !altCaseReplacement.hasEdge(edge)) {
+						if(altCaseReplacement != null && !altCaseReplacement.hasEdge(edge)) {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleEdge(edge);
 						}
-						if(right!=null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+						if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
 							right.addSingleEdge(edge);
 						}
 					}
@@ -497,15 +545,15 @@ public class PatternGraph extends Graph {
 						addVariable(var);
 					}
 				}
-				
+
 				// add rhs parameters from nested alternative cases if they are not used or defined here
 				// to our rhs parameters, so we get and forward them
-				if(right!=null) {
+				if(right != null) {
 					List<Entity> altCaseReplParameters = altCase.getRight().getReplParameters();
 					for(Entity entity : altCaseReplParameters) {
 						if(entity instanceof Node) {
-							Node node = (Node) entity;
-							if(node.directlyNestingLHSGraph!=this) {
+							Node node = (Node)entity;
+							if(node.directlyNestingLHSGraph != this) {
 								if(!right.getReplParameters().contains(node)) {
 									// evt. todo: right.addSingleNode(node); right.addHomToAll(node);
 									right.addReplParameter(node);
@@ -513,8 +561,8 @@ public class PatternGraph extends Graph {
 							}
 						}
 						if(entity instanceof Edge) {
-							Edge edge = (Edge) entity;
-							if(edge.directlyNestingLHSGraph!=this) {
+							Edge edge = (Edge)entity;
+							if(edge.directlyNestingLHSGraph != this) {
 								if(!right.getReplParameters().contains(edge)) {
 									// evt. todo: right.addSingleEdge(edge); right.addHomToAll(edge);
 									right.addReplParameter(edge);
@@ -522,13 +570,13 @@ public class PatternGraph extends Graph {
 							}
 						}
 						if(entity instanceof Variable) {
-							Variable var = (Variable) entity;
-							if(var.directlyNestingLHSGraph!=this) {
+							Variable var = (Variable)entity;
+							if(var.directlyNestingLHSGraph != this) {
 								if(!right.getReplParameters().contains(var)) {
 									// evt. todo: right.addVariable(var);
 									right.addReplParameter(var);
 								}
-							}				
+							}
 						}
 					}
 				}
@@ -544,11 +592,11 @@ public class PatternGraph extends Graph {
 					addSingleNode(node);
 					addHomToAll(node);
 					PatternGraph allReplacement = iterated.getRight();
-					if(allReplacement!=null && !allReplacement.hasNode(node)) {
+					if(allReplacement != null && !allReplacement.hasNode(node)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleNode(node);
 					}
-					if(right!=null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+					if(right != null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
 						right.addSingleNode(node);
 					}
 				}
@@ -558,11 +606,11 @@ public class PatternGraph extends Graph {
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);
 					PatternGraph allReplacement = iterated.getRight();
-					if(iterated!=null && !allReplacement.hasEdge(edge)) {
+					if(iterated != null && !allReplacement.hasEdge(edge)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleEdge(edge);
 					}
-					if(right!=null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+					if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
 						right.addSingleEdge(edge);
 					}
 				}
@@ -572,15 +620,15 @@ public class PatternGraph extends Graph {
 					addVariable(var);
 				}
 			}
-			
+
 			// add rhs parameters from nested iterateds if they are not used or defined here
 			// to our rhs parameters, so we get and forward them
-			if(right!=null) {
+			if(right != null) {
 				List<Entity> iteratedReplParameters = iterated.getRight().getReplParameters();
 				for(Entity entity : iteratedReplParameters) {
 					if(entity instanceof Node) {
-						Node node = (Node) entity;
-						if(node.directlyNestingLHSGraph!=this) {
+						Node node = (Node)entity;
+						if(node.directlyNestingLHSGraph != this) {
 							if(!right.getReplParameters().contains(node)) {
 								// evt. todo: right.addSingleNode(node); right.addHomToAll(node);
 								right.addReplParameter(node);
@@ -588,8 +636,8 @@ public class PatternGraph extends Graph {
 						}
 					}
 					if(entity instanceof Edge) {
-						Edge edge = (Edge) entity;
-						if(edge.directlyNestingLHSGraph!=this) {
+						Edge edge = (Edge)entity;
+						if(edge.directlyNestingLHSGraph != this) {
 							if(!right.getReplParameters().contains(edge)) {
 								// evt. todo: right.addSingleEdge(edge); right.addHomToAll(edge);
 								right.addReplParameter(edge);
@@ -597,13 +645,13 @@ public class PatternGraph extends Graph {
 						}
 					}
 					if(entity instanceof Variable) {
-						Variable var = (Variable) entity;
-						if(var.directlyNestingLHSGraph!=this) {
+						Variable var = (Variable)entity;
+						if(var.directlyNestingLHSGraph != this) {
 							if(!right.getReplParameters().contains(var)) {
 								// evt. todo: right.addVariable(var);
 								right.addReplParameter(var);
 							}
-						}				
+						}
 					}
 				}
 			}
@@ -611,12 +659,12 @@ public class PatternGraph extends Graph {
 
 		// add elements needed in nested neg, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
-		for (PatternGraph negative : getNegs()) {
+		for(PatternGraph negative : getNegs()) {
 			for(Node node : negative.getNodes()) {
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
-					if(right!=null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+					if(right != null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
 						right.addSingleNode(node);
 					}
 				}
@@ -625,7 +673,7 @@ public class PatternGraph extends Graph {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);
-					if(right!=null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+					if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
 						right.addSingleEdge(edge);
 					}
 				}
@@ -639,12 +687,12 @@ public class PatternGraph extends Graph {
 
 		// add elements needed in nested idpt, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
-		for (PatternGraph independent : getIdpts()) {
+		for(PatternGraph independent : getIdpts()) {
 			for(Node node : independent.getNodes()) {
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
-					if(right!=null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+					if(right != null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
 						right.addSingleNode(node);
 					}
 				}
@@ -653,7 +701,7 @@ public class PatternGraph extends Graph {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);
-					if(right!=null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+					if(right != null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
 						right.addSingleEdge(edge);
 					}
 				}
@@ -667,8 +715,9 @@ public class PatternGraph extends Graph {
 	}
 
 	// construct implicit rhs replace parameters
-	public void insertElementsFromRhsDeclaredInNestingRhsToReplParams(PatternGraph right) {
-		if(right==null) {
+	public void insertElementsFromRhsDeclaredInNestingRhsToReplParams(PatternGraph right)
+	{
+		if(right == null) {
 			return;
 		}
 
@@ -677,40 +726,42 @@ public class PatternGraph extends Graph {
 		// to the replacement parameters (so that they get handed down from the nesting replacement)
 
 		for(Node n : right.getNodes()) {
-			if(n.directlyNestingLHSGraph!=this && !right.replParametersContain(n)) {
-				if((n.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+			if(n.directlyNestingLHSGraph != this && !right.replParametersContain(n)) {
+				if((n.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
 					right.addReplParameter(n);
 				}
 			}
 		}
-		
+
 		for(Variable v : right.getVars()) {
-			if(v.directlyNestingLHSGraph!=this && !right.replParametersContain(v)) {
-				if((v.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+			if(v.directlyNestingLHSGraph != this && !right.replParametersContain(v)) {
+				if((v.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
 					right.addReplParameter(v);
 				}
 			}
 		}
-		
+
 		// emit error for edges which would have be to be handled like this,
 		// because they are not available in the nested replacement;
 		// as they are only created after the replacement code of the nested pattern is left, 
 		// that's because node retyping occurs only afterwards, 
 		// and we maybe want to create edges in between retyped=newly created nodes
 		for(Edge e : right.getEdges()) {
-			if(e.directlyNestingLHSGraph!=this) {
-				if((e.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
-					error.error(e.getIdent().getCoords(), "Can't access a newly created edge (" + e.getIdent() + ") in a nested replacement");
+			if(e.directlyNestingLHSGraph != this) {
+				if((e.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
+					error.error(e.getIdent().getCoords(),
+							"Can't access a newly created edge (" + e.getIdent() + ") in a nested replacement");
 				}
 			}
 		}
-		
+
 		// some check which is easier on ir
 		checkThatEvalhereIsNotAccessingCreatedEdges(right);
 	}
 
-	public void checkThatEvalhereIsNotAccessingCreatedEdges(PatternGraph right) {
-		if(right==null) {
+	public void checkThatEvalhereIsNotAccessingCreatedEdges(PatternGraph right)
+	{
+		if(right == null) {
 			return;
 		}
 
@@ -724,13 +775,15 @@ public class PatternGraph extends Graph {
 					NeededEntities needs = new NeededEntities(false, true, false, false, true, false, false, false);
 					evalStmt.collectNeededEntities(needs);
 					for(Edge edge : needs.edges) {
-						if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
-							error.error(edge.getIdent().getCoords(), "Can't access a newly created edge (" + edge.getIdent() + ") from an evalhere statement");
+						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
+							error.error(edge.getIdent().getCoords(), "Can't access a newly created edge ("
+									+ edge.getIdent() + ") from an evalhere statement");
 						}
 					}
 					for(Edge edge : needs.attrEdges) {
-						if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
-							error.error(edge.getIdent().getCoords(), "Can't access a newly created edge (" + edge.getIdent() + ") from an evalhere statement");
+						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
+							error.error(edge.getIdent().getCoords(), "Can't access a newly created edge ("
+									+ edge.getIdent() + ") from an evalhere statement");
 						}
 					}
 				}
@@ -739,8 +792,9 @@ public class PatternGraph extends Graph {
 	}
 
 	// constructs implicit lhs elements
-	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraph right) {
-		if(right==null) {
+	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraph right)
+	{
+		if(right == null) {
 			return;
 		}
 
@@ -751,7 +805,7 @@ public class PatternGraph extends Graph {
 		// otherwise they would be created (code generation by locally comparing lhs and rhs))
 
 		for(Node n : right.getNodes()) {
-			if(n.directlyNestingLHSGraph!=this && !right.replParametersContain(n)) {
+			if(n.directlyNestingLHSGraph != this && !right.replParametersContain(n)) {
 				if(!hasNode(n)) {
 					addSingleNode(n);
 					addHomToAll(n);
@@ -760,58 +814,59 @@ public class PatternGraph extends Graph {
 		}
 
 		for(Edge e : right.getEdges()) {
-			if(e.directlyNestingLHSGraph!=this && !right.replParametersContain(e)) {
+			if(e.directlyNestingLHSGraph != this && !right.replParametersContain(e)) {
 				if(!hasEdge(e)) {
-					addSingleEdge(e);	// TODO: maybe we loose context here
+					addSingleEdge(e); // TODO: maybe we loose context here
 					addHomToAll(e);
 				}
 			}
 		}
-		
+
 		for(Variable v : right.getVars()) {
-			if(v.directlyNestingLHSGraph!=this && !right.replParametersContain(v)) {
+			if(v.directlyNestingLHSGraph != this && !right.replParametersContain(v)) {
 				addVariable(v);
 			}
 		}
 	}
-	
+
 	public void checkForEmptyPatternsInIterateds()
 	{
 		if(mayPatternBeEmptyComputationState != PATTERN_NOT_YET_VISITED)
 			return;
-		
+
 		mayPatternBeEmptyComputationState = PATTERN_MAYBE_EMPTY;
 
 		///////////////////////////////////////////////////
 		// have a look at the local pattern
-		
+
 nodeHom:
 		for(Node node : getNodes()) {
-			if(node.directlyNestingLHSGraph!=this)
+			if(node.directlyNestingLHSGraph != this)
 				continue nodeHom;
-			for(Node homNode : getHomomorphic(node))
-				if(homNode.directlyNestingLHSGraph!=this)
+			for(Node homNode : getHomomorphic(node)) {
+				if(homNode.directlyNestingLHSGraph != this)
 					continue nodeHom;
+			}
 			mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
 			break;
 		}
-		if(mayPatternBeEmptyComputationState != PATTERN_NOT_EMPTY)
-		{
+		if(mayPatternBeEmptyComputationState != PATTERN_NOT_EMPTY) {
 edgeHom:
 			for(Edge edge : getEdges()) {
-				if(edge.directlyNestingLHSGraph!=this)
+				if(edge.directlyNestingLHSGraph != this)
 					continue edgeHom;
-				for(Edge homEdge : getHomomorphic(edge))
-					if(homEdge.directlyNestingLHSGraph!=this)
+				for(Edge homEdge : getHomomorphic(edge)) {
+					if(homEdge.directlyNestingLHSGraph != this)
 						continue edgeHom;
+				}
 				mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
 				break;
 			}
 		}
-		
+
 		///////////////////////////////////////////////////
 		// go through the nested patterns, check the iterateds
-		
+
 		for(Alternative alternative : getAlts()) {
 			boolean allCasesNonEmpty = true;
 			for(Rule altCase : alternative.getAlternativeCases()) {
@@ -829,20 +884,22 @@ edgeHom:
 			iterated.pattern.checkForEmptyPatternsInIterateds();
 			if(iterated.pattern.mayPatternBeEmptyComputationState == PATTERN_MAYBE_EMPTY) {
 				// emit error if the iterated pattern might be empty
-				if(iterated.getMaxMatches()==0) {
-					error.error(iterated.getIdent().getCoords(), "An unbounded pattern cardinality construct (iterated, multiple, [*])"
-							+ " must contain at least one locally defined node or edge (not being homomorphic to an enclosing element)"
-							+ " or a nested subpattern or alternative not being empty");
-				} else if(iterated.getMaxMatches()>1) {
-					error.warning(iterated.getIdent().getCoords(), "Maybe empty pattern in pattern cardinality construct (you must expect empty matches)");
+				if(iterated.getMaxMatches() == 0) {
+					error.error(iterated.getIdent().getCoords(),
+							"An unbounded pattern cardinality construct (iterated, multiple, [*])"
+									+ " must contain at least one locally defined node or edge (not being homomorphic to an enclosing element)"
+									+ " or a nested subpattern or alternative not being empty");
+				} else if(iterated.getMaxMatches() > 1) {
+					error.warning(iterated.getIdent().getCoords(),
+							"Maybe empty pattern in pattern cardinality construct (you must expect empty matches)");
 				}
 			} else {
-				if(iterated.getMinMatches()>0) {
+				if(iterated.getMinMatches() > 0) {
 					mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
 				}
 			}
 		}
-		
+
 		for(SubpatternUsage sub : getSubpatternUsages()) {
 			sub.subpatternAction.pattern.checkForEmptyPatternsInIterateds();
 			if(sub.subpatternAction.pattern.mayPatternBeEmptyComputationState == PATTERN_NOT_EMPTY) {
@@ -850,51 +907,54 @@ edgeHom:
 			}
 		}
 
-		for (PatternGraph negative : getNegs()) {
+		for(PatternGraph negative : getNegs()) {
 			negative.checkForEmptyPatternsInIterateds();
 		}
 
-		for (PatternGraph independent : getIdpts()) {
+		for(PatternGraph independent : getIdpts()) {
 			independent.checkForEmptyPatternsInIterateds();
 		}
 	}
-	
+
 	public void checkForEmptySubpatternRecursions(HashSet<PatternGraph> subpatternsAlreadyVisited)
 	{
 nodeHom:
 		for(Node node : getNodes()) {
-			if(node.directlyNestingLHSGraph!=this)
+			if(node.directlyNestingLHSGraph != this)
 				continue nodeHom;
-			for(Node homNode : getHomomorphic(node))
-				if(homNode.directlyNestingLHSGraph!=this)
+			for(Node homNode : getHomomorphic(node)) {
+				if(homNode.directlyNestingLHSGraph != this)
 					continue nodeHom;
+			}
 			return; // node which must get matched found -> can't build empty path
 		}
 edgeHom:
 		for(Edge edge : getEdges()) {
-			if(edge.directlyNestingLHSGraph!=this)
+			if(edge.directlyNestingLHSGraph != this)
 				continue edgeHom;
-			for(Edge homEdge : getHomomorphic(edge))
-				if(homEdge.directlyNestingLHSGraph!=this)
+			for(Edge homEdge : getHomomorphic(edge)) {
+				if(homEdge.directlyNestingLHSGraph != this)
 					continue edgeHom;
+			}
 			return; // edge which must get matched found -> can't build empty path
 		}
-		
+
 		for(Expression cond : getConditions()) {
 			if(cond instanceof Constant) {
 				if(((Constant)cond).value instanceof Boolean) {
-					Constant constCond = (Constant)cond; 
-					if(((Boolean)constCond.value)==true) {
+					Constant constCond = (Constant)cond;
+					if(((Boolean)constCond.value) == true) {
 						continue;
 					}
 				}
 			}
 			return; // a non-const or non-true const condition is a sign that the recursion will terminate
 		}
-		
+
 		for(Alternative alternative : getAlts()) {
 			for(Rule altCase : alternative.getAlternativeCases()) {
-				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+				HashSet<PatternGraph> subpatternsAlreadyVisitedClone =
+						new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 				altCase.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 			}
 		}
@@ -903,26 +963,29 @@ edgeHom:
 			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 			iterated.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 		}
-				
-		for (PatternGraph negative : getNegs()) {
+
+		for(PatternGraph negative : getNegs()) {
 			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 			negative.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 		}
 
-		for (PatternGraph independent : getIdpts()) {
+		for(PatternGraph independent : getIdpts()) {
 			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 			independent.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 		}
-		
+
 		for(SubpatternUsage sub : getSubpatternUsages()) {
 			if(!subpatternsAlreadyVisited.contains(sub.subpatternAction.pattern)) {
-				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+				HashSet<PatternGraph> subpatternsAlreadyVisitedClone =
+						new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 				subpatternsAlreadyVisitedClone.add(sub.subpatternAction.pattern);
 				sub.subpatternAction.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
 			} else {
 				// we're on path of only (maybe) empty patterns and see a subpattern already on it again
 				// -> endless loop of this subpattern matching only empty patterns until it gets matched again 
-				error.error(sub.subpatternAction.getIdent().getCoords(), "The subpattern "+ sub.subpatternAction.getIdent()+" (potentially) calls itself again with only empty patterns in between yielding an endless loop");
+				error.error(sub.subpatternAction.getIdent().getCoords(), "The subpattern "
+						+ sub.subpatternAction.getIdent()
+						+ " (potentially) calls itself again with only empty patterns in between yielding an endless loop");
 			}
 		}
 	}
@@ -930,11 +993,12 @@ edgeHom:
 	public boolean isNeverTerminatingSuccessfully(HashSet<PatternGraph> subpatternsAlreadyVisited)
 	{
 		boolean neverTerminatingSuccessfully = false;
-		
+
 		for(Alternative alternative : getAlts()) {
 			boolean allCasesNotTerminating = true;
 			for(Rule altCase : alternative.getAlternativeCases()) {
-				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+				HashSet<PatternGraph> subpatternsAlreadyVisitedClone =
+						new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 				allCasesNotTerminating &= altCase.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 			}
 			neverTerminatingSuccessfully |= allCasesNotTerminating;
@@ -942,34 +1006,36 @@ edgeHom:
 
 		for(Rule iterated : getIters()) {
 			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
-			if(iterated.getMinMatches()>0)
+			if(iterated.getMinMatches() > 0)
 				neverTerminatingSuccessfully |= iterated.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 		}
 
-		for (PatternGraph negative : getNegs()) {
+		for(PatternGraph negative : getNegs()) {
 			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 			neverTerminatingSuccessfully |= negative.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 		}
 
-		for (PatternGraph independent : getIdpts()) {
+		for(PatternGraph independent : getIdpts()) {
 			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 			neverTerminatingSuccessfully |= independent.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 		}
-		
+
 		for(SubpatternUsage sub : getSubpatternUsages()) {
 			if(!subpatternsAlreadyVisited.contains(sub.subpatternAction.pattern)) {
-				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+				HashSet<PatternGraph> subpatternsAlreadyVisitedClone =
+						new HashSet<PatternGraph>(subpatternsAlreadyVisited);
 				subpatternsAlreadyVisitedClone.add(sub.subpatternAction.pattern);
 				neverTerminatingSuccessfully |= sub.subpatternAction.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
 			} else {
 				return true;
 			}
 		}
-		
+
 		return neverTerminatingSuccessfully;
 	}
 
-	public void checkForMultipleRetypes(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges, PatternGraph right)
+	public void checkForMultipleRetypes(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
+			PatternGraph right)
 	{
 		for(Node node : getNodes()) {
 			alreadyDefinedNodes.add(node);
@@ -994,37 +1060,43 @@ edgeHom:
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			iteratedPattern.checkForMultipleRetypes(
 					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, iterated.getRight());
-			
-			if(iterated.getMaxMatches()!=1) {
-				iteratedPattern.checkForMultipleRetypesDoCheck(alreadyDefinedNodes, alreadyDefinedEdges, iterated.getRight());
+
+			if(iterated.getMaxMatches() != 1) {
+				iteratedPattern.checkForMultipleRetypesDoCheck(alreadyDefinedNodes, alreadyDefinedEdges,
+						iterated.getRight());
 			}
 		}
 	}
 
-	public void checkForMultipleRetypesDoCheck(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges, PatternGraph right)
+	public void checkForMultipleRetypesDoCheck(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges,
+			PatternGraph right)
 	{
 		for(Node node : right.getNodes()) {
-			if(node.getRetypedNode(right)==null)
+			if(node.getRetypedNode(right) == null)
 				continue;
 			if(alreadyDefinedNodes.contains(node)) {
-				error.error(node.getIdent().getCoords(), "Retype of nodes from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+				error.error(node.getIdent().getCoords(),
+						"Retype of nodes from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
 			} else {
 				for(Node homToRetypedNode : getHomomorphic(node)) {
 					if(alreadyDefinedNodes.contains(homToRetypedNode)) {
-						error.error(node.getIdent().getCoords(), "Retype of nodes which might be hom to nodes from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+						error.error(node.getIdent().getCoords(),
+								"Retype of nodes which might be hom to nodes from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
 					}
 				}
 			}
 		}
 		for(Edge edge : right.getEdges()) {
-			if(edge.getRetypedEdge(right)==null)
+			if(edge.getRetypedEdge(right) == null)
 				continue;
 			if(alreadyDefinedEdges.contains(edge)) {
-				error.error(edge.getIdent().getCoords(), "Retype of edges from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+				error.error(edge.getIdent().getCoords(),
+						"Retype of edges from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
 			} else {
 				for(Edge homToRetypedEdge : getHomomorphic(edge)) {
 					if(alreadyDefinedEdges.contains(homToRetypedEdge)) {
-						error.error(edge.getIdent().getCoords(), "Retype of edges which might be hom to edges from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+						error.error(edge.getIdent().getCoords(),
+								"Retype of edges which might be hom to edges from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
 					}
 				}
 			}

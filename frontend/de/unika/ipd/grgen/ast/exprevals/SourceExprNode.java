@@ -20,17 +20,19 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the source node of an edge.
  */
-public class SourceExprNode extends ExprNode {
+public class SourceExprNode extends ExprNode
+{
 	static {
 		setName(SourceExprNode.class, "source expr");
 	}
 
 	private ExprNode edge;
-	
+
 	private IdentNode nodeTypeUnresolved;
 	private NodeTypeNode nodeType;
-	
-	public SourceExprNode(Coords coords, ExprNode edge, IdentNode nodeType) {
+
+	public SourceExprNode(Coords coords, ExprNode edge, IdentNode nodeType)
+	{
 		super(coords);
 		this.edge = edge;
 		becomeParent(this.edge);
@@ -40,7 +42,8 @@ public class SourceExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(edge);
 		children.add(getValidVersion(nodeTypeUnresolved, nodeType));
@@ -49,7 +52,8 @@ public class SourceExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("edge");
 		childrenNames.add("nodeType");
@@ -57,18 +61,20 @@ public class SourceExprNode extends ExprNode {
 	}
 
 	private static final DeclarationTypeResolver<NodeTypeNode> nodeTypeResolver =
-		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
+			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		nodeType = nodeTypeResolver.resolve(nodeTypeUnresolved, this);
-		return nodeType!=null && getType().resolve();
+		return nodeType != null && getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(edge.getType() instanceof EdgeTypeNode)) {
 			reportError("argument of source(.) must be an edge type");
 			return false;
@@ -77,12 +83,14 @@ public class SourceExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new SourceExpr(edge.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return nodeType;
 	}
 }

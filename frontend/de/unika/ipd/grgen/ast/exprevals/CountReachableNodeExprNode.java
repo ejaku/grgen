@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the count of the reachable nodes/reachable nodes via incoming edges/reachable nodes via outgoing edges of a node.
  */
-public class CountReachableNodeExprNode extends ExprNode {
+public class CountReachableNodeExprNode extends ExprNode
+{
 	static {
 		setName(CountReachableNodeExprNode.class, "count reachable node expr");
 	}
@@ -29,15 +30,16 @@ public class CountReachableNodeExprNode extends ExprNode {
 	private ExprNode adjacentTypeExpr;
 
 	private int direction;
-	
+
 	public static final int ADJACENT = 0;
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
-	
+
 	public CountReachableNodeExprNode(Coords coords,
 			ExprNode startNodeExpr,
 			ExprNode incidentTypeExpr, int direction,
-			ExprNode adjacentTypeExpr) {
+			ExprNode adjacentTypeExpr)
+	{
 		super(coords);
 		this.startNodeExpr = startNodeExpr;
 		becomeParent(this.startNodeExpr);
@@ -50,7 +52,8 @@ public class CountReachableNodeExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(startNodeExpr);
 		children.add(incidentTypeExpr);
@@ -60,7 +63,8 @@ public class CountReachableNodeExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("start node expr");
 		childrenNames.add("incident type expr");
@@ -70,13 +74,15 @@ public class CountReachableNodeExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
 			reportError("first argument of countReachableNodes(.,.,.) must be a node");
 			return false;
@@ -93,15 +99,17 @@ public class CountReachableNodeExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-		return new CountReachableNodeExpr(startNodeExpr.checkIR(Expression.class), 
-								incidentTypeExpr.checkIR(Expression.class), direction,
-								adjacentTypeExpr.checkIR(Expression.class));
+		return new CountReachableNodeExpr(startNodeExpr.checkIR(Expression.class),
+				incidentTypeExpr.checkIR(Expression.class), direction,
+				adjacentTypeExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 }

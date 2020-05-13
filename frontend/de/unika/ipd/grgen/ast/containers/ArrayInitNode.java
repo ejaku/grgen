@@ -43,10 +43,11 @@ public class ArrayInitNode extends ExprNode
 	private DeclNode lhs;
 	private ArrayTypeNode arrayType;
 
-	public ArrayInitNode(Coords coords, IdentNode member, ArrayTypeNode arrayType) {
+	public ArrayInitNode(Coords coords, IdentNode member, ArrayTypeNode arrayType)
+	{
 		super(coords);
 
-		if(member!=null) {
+		if(member != null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
 			this.arrayType = arrayType;
@@ -54,78 +55,83 @@ public class ArrayInitNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(arrayItems);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("arrayItems");
 		return childrenNames;
 	}
 
-	public void addArrayItem(ArrayItemNode item) {
+	public void addArrayItem(ArrayItemNode item)
+	{
 		arrayItems.addChild(item);
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
 	@Override
-	protected boolean resolveLocal() {
-		if(lhsUnresolved!=null) {
+	protected boolean resolveLocal()
+	{
+		if(lhsUnresolved != null) {
 			if(!lhsResolver.resolve(lhsUnresolved))
 				return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
 		} else {
-			if(arrayType==null) 
+			if(arrayType == null)
 				arrayType = createArrayType();
 			return arrayType.resolve();
 		}
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean success = true;
 
 		ArrayTypeNode arrayType;
-		if(lhs!=null) {
+		if(lhs != null) {
 			TypeNode type = lhs.getDeclType();
-			assert type instanceof ArrayTypeNode: "Lhs should be a Array<Value>";
-			arrayType = (ArrayTypeNode) type;
+			assert type instanceof ArrayTypeNode : "Lhs should be a Array<Value>";
+			arrayType = (ArrayTypeNode)type;
 		} else {
 			arrayType = this.arrayType;
-		} 
+		}
 
 		for(ArrayItemNode item : arrayItems.getChildren()) {
 			if(item.valueExpr.getType() != arrayType.valueType) {
-				if(this.arrayType!=null) {
+				if(this.arrayType != null) {
 					ExprNode oldValueExpr = item.valueExpr;
 					item.valueExpr = item.valueExpr.adjustType(arrayType.valueType, getCoords());
 					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \""
-								+ arrayType.valueType + "\" of array.");
+								+ "\" of initializer doesn't fit to value type \"" + arrayType.valueType
+								+ "\" of array.");
 					}
 				} else {
 					success = false;
 					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
-							+ "\" of initializer doesn't fit to value type \""
-							+ arrayType.valueType + "\" of array (all items must be of exactly the same type).");
+							+ "\" of initializer doesn't fit to value type \"" + arrayType.valueType
+							+ "\" of array (all items must be of exactly the same type).");
 				}
 			}
 		}
 
-		if(lhs==null && this.arrayType==null) {
+		if(lhs == null && this.arrayType == null) {
 			this.arrayType = arrayType;
 		}
 
-		if(!isConstant() && lhs!=null) {
+		if(!isConstant() && lhs != null) {
 			reportError("Only constant items allowed in array initialization in model");
 			success = false;
 		}
@@ -133,7 +139,8 @@ public class ArrayInitNode extends ExprNode
 		return success;
 	}
 
-	protected ArrayTypeNode createArrayType() {
+	protected ArrayTypeNode createArrayType()
+	{
 		TypeNode itemTypeNode = arrayItems.getChildren().iterator().next().valueExpr.getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new ArrayTypeNode(itemTypeIdent);
@@ -143,7 +150,8 @@ public class ArrayInitNode extends ExprNode
 	 * Checks whether the set only contains constants.
 	 * @return True, if all set items are constant.
 	 */
-	protected boolean isConstant() {
+	protected boolean isConstant()
+	{
 		for(ArrayItemNode item : arrayItems.getChildren()) {
 			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
 				return false;
@@ -151,7 +159,8 @@ public class ArrayInitNode extends ExprNode
 		return true;
 	}
 
-	protected boolean isEnumValue(ExprNode expr) {
+	protected boolean isEnumValue(ExprNode expr)
+	{
 		if(!(expr instanceof DeclExprNode))
 			return false;
 		if(!(((DeclExprNode)expr).isEnumValue()))
@@ -159,10 +168,11 @@ public class ArrayInitNode extends ExprNode
 		return true;
 	}
 
-	protected boolean contains(ConstNode node) {
+	protected boolean contains(ConstNode node)
+	{
 		for(ArrayItemNode item : arrayItems.getChildren()) {
 			if(item.valueExpr instanceof ConstNode) {
-				ConstNode itemConst = (ConstNode) item.valueExpr;
+				ConstNode itemConst = (ConstNode)item.valueExpr;
 				if(node.getValue().equals(itemConst.getValue()))
 					return true;
 			}
@@ -171,36 +181,41 @@ public class ArrayInitNode extends ExprNode
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
-		if(lhs!=null) {
+		if(lhs != null) {
 			TypeNode type = lhs.getDeclType();
-			return (ArrayTypeNode) type;
+			return (ArrayTypeNode)type;
 		} else {
 			return arrayType;
 		}
 	}
 
-	protected CollectNode<ArrayItemNode> getItems() {
+	protected CollectNode<ArrayItemNode> getItems()
+	{
 		return arrayItems;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Vector<ArrayItem> items = new Vector<ArrayItem>();
 		for(ArrayItemNode item : arrayItems.getChildren()) {
 			items.add(item.getArrayItem());
 		}
-		Entity member = lhs!=null ? lhs.getEntity() : null;
-		ArrayType type = arrayType!=null ? arrayType.checkIR(ArrayType.class) : null;
+		Entity member = lhs != null ? lhs.getEntity() : null;
+		ArrayType type = arrayType != null ? arrayType.checkIR(ArrayType.class) : null;
 		return new ArrayInit(items, member, type, isConstant());
 	}
 
-	public ArrayInit getArrayInit() {
+	public ArrayInit getArrayInit()
+	{
 		return checkIR(ArrayInit.class);
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "array initialization";
 	}
 }

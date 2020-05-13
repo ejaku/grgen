@@ -13,27 +13,32 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class DequeCopyConstructor extends Expression {
+public class DequeCopyConstructor extends Expression
+{
 	private Expression dequeToCopy;
 	private DequeType dequeType;
 
-	public DequeCopyConstructor(Expression dequeToCopy, DequeType dequeType) {
+	public DequeCopyConstructor(Expression dequeToCopy, DequeType dequeType)
+	{
 		super("deque copy constructor", dequeType);
 		this.dequeToCopy = dequeToCopy;
 		this.dequeType = dequeType;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		needs.needsGraph();
 		dequeToCopy.collectNeededEntities(needs);
 	}
 
-	public Expression getDequeToCopy() {
+	public Expression getDequeToCopy()
+	{
 		return dequeToCopy;
 	}
 
-	public DequeType getDequeType() {
+	public DequeType getDequeType()
+	{
 		return dequeType;
 	}
 }

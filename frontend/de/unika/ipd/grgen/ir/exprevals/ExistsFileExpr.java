@@ -9,21 +9,24 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class ExistsFileExpr extends Expression {
+public class ExistsFileExpr extends Expression
+{
 	private final Expression pathExpr;
 
-	public ExistsFileExpr(Expression pathExpr, Type type) {
+	public ExistsFileExpr(Expression pathExpr, Type type)
+	{
 		super("exists file expression", type);
-		this.pathExpr= pathExpr;
+		this.pathExpr = pathExpr;
 	}
 
-	public Expression getPathExpr() {
+	public Expression getPathExpr()
+	{
 		return pathExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		pathExpr.collectNeededEntities(needs);
 	}
 }
-

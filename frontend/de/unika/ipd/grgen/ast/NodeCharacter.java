@@ -16,8 +16,7 @@ import de.unika.ipd.grgen.ir.Node;
 /**
  * Something, that produces an IR node.
  */
-public interface NodeCharacter {
-
+public interface NodeCharacter
+{
 	Node getNode();
-
 }

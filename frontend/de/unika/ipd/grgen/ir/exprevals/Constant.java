@@ -13,8 +13,8 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class Constant extends Expression {
-
+public class Constant extends Expression
+{
 	/** The value of the constant. */
 	public Object value;
 
@@ -22,20 +22,25 @@ public class Constant extends Expression {
 	 * @param type The type of the constant.
 	 * @param value The value of the constant.
 	 */
-	public Constant(Type type, Object value) {
+	public Constant(Type type, Object value)
+	{
 		super("constant", type);
 		this.value = value;
 	}
 
 	/** @return The value of the constant. */
-	public Object getValue() {
+	public Object getValue()
+	{
 		return value;
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return getName() + " " + value;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) { }
+	public void collectNeededEntities(NeededEntities needs)
+	{
+	}
 }

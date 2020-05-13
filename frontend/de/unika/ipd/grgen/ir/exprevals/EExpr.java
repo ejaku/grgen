@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class EExpr extends Expression {
-	public EExpr() {
+public class EExpr extends Expression
+{
+	public EExpr()
+	{
 		super("e expr", DoubleType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

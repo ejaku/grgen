@@ -10,26 +10,29 @@ public abstract class FunctionBase extends DeclNode
 {
 	protected BaseNode retUnresolved;
 	protected TypeNode ret;
-	
-	public FunctionBase(IdentNode n, BaseNode t) {
+
+	public FunctionBase(IdentNode n, BaseNode t)
+	{
 		super(n, t);
 	}
 
-	private static final Resolver<TypeNode> retTypeResolver = 
-		new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static final Resolver<TypeNode> retTypeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		ret = retTypeResolver.resolve(retUnresolved, this);
 		return ret != null;
 	}
-	
+
 	public abstract Vector<TypeNode> getParameterTypes();
-	
-	public TypeNode getReturnType() {
+
+	public TypeNode getReturnType()
+	{
 		assert isResolved();
-		
+
 		return ret;
 	}
 }

@@ -28,8 +28,8 @@ import de.unika.ipd.grgen.ir.PackageType;
 import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
 import de.unika.ipd.grgen.ir.exprevals.ExternalProcedure;
 
-
-public class ModelNode extends DeclNode {
+public class ModelNode extends DeclNode
+{
 	static {
 		setName(ModelNode.class, "model declaration");
 	}
@@ -59,13 +59,14 @@ public class ModelNode extends DeclNode {
 	private boolean areFunctionsParallel;
 	private int isoParallel;
 
-	public ModelNode(IdentNode id, CollectNode<IdentNode> packages, CollectNode<IdentNode> decls, 
-			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
-			CollectNode<IdentNode> indices, CollectNode<ModelNode> usedModels, 
+	public ModelNode(IdentNode id, CollectNode<IdentNode> packages, CollectNode<IdentNode> decls,
+			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs,
+			CollectNode<IdentNode> indices, CollectNode<ModelNode> usedModels,
 			boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
 			boolean isUniqueDefined, boolean isUniqueIndexDefined,
-			boolean areFunctionsParallel, int isoParallel) {
+			boolean areFunctionsParallel, int isoParallel)
+	{
 		super(id, modelType);
 
 		this.packagesUnresolved = packages;
@@ -93,7 +94,8 @@ public class ModelNode extends DeclNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -108,7 +110,8 @@ public class ModelNode extends DeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -132,19 +135,24 @@ public class ModelNode extends DeclNode {
 	private static CollectResolver<ExternalProcedureDeclNode> externalProceduresResolver = new CollectResolver<ExternalProcedureDeclNode>(
 			new DeclarationResolver<ExternalProcedureDeclNode>(ExternalProcedureDeclNode.class));
 
-	private static DeclarationTypeResolver<ModelTypeNode> typeResolver = 
+	private static DeclarationTypeResolver<ModelTypeNode> typeResolver =
 			new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(isLowerClassDefined) {
-			OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
-			OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
-			OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
-			OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType, BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+			OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType,
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+			OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType,
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+			OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
+			OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType,
+					BasicTypeNode.objectType, BasicTypeNode.objectType, OperatorSignature.objectEvaluator);
 		}
-		
+
 		packages = packagesResolver.resolve(packagesUnresolved, this);
 		decls = declsResolver.resolve(declsUnresolved, this);
 		indices = indicesResolver.resolve(indicesUnresolved, this);
@@ -152,7 +160,7 @@ public class ModelNode extends DeclNode {
 		externalProcDecls = externalProceduresResolver.resolve(externalProcDeclsUnresolved, this);
 		type = typeResolver.resolve(typeUnresolved, this);
 
-		return decls != null && externalFuncDecls!=null && externalProcDecls!=null && type != null;
+		return decls != null && externalFuncDecls != null && externalProcDecls != null && type != null;
 	}
 
 	/**
@@ -164,59 +172,73 @@ public class ModelNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return checkInhCycleFree() && equalityMustBeDefinedIfLowerIsDefined();
 	}
-	
-	public boolean IsEmitClassDefined() {
+
+	public boolean IsEmitClassDefined()
+	{
 		return isEmitClassDefined;
 	}
 
-	public boolean IsEmitGraphClassDefined() {
+	public boolean IsEmitGraphClassDefined()
+	{
 		return isEmitGraphClassDefined;
 	}
 
-	public boolean IsCopyClassDefined() {
+	public boolean IsCopyClassDefined()
+	{
 		return isCopyClassDefined;
 	}
 
-	public boolean IsEqualClassDefined() {
+	public boolean IsEqualClassDefined()
+	{
 		return isEqualClassDefined;
 	}
 
-	public boolean IsLowerClassDefined() {
+	public boolean IsLowerClassDefined()
+	{
 		return isLowerClassDefined;
 	}
-	
-	public boolean IsUniqueDefined() {
+
+	public boolean IsUniqueDefined()
+	{
 		return isUniqueDefined;
 	}
 
-	public boolean IsUniqueIndexDefined() {
+	public boolean IsUniqueIndexDefined()
+	{
 		return isUniqueIndexDefined;
 	}
 
-	public boolean AreFunctionsParallel() {
+	public boolean AreFunctionsParallel()
+	{
 		return areFunctionsParallel;
 	}
-	
-	public int IsoParallel() {
+
+	public int IsoParallel()
+	{
 		return isoParallel;
 	}
 
-	public CollectNode<TypeDeclNode> getTypeDecls() {
+	public CollectNode<TypeDeclNode> getTypeDecls()
+	{
 		return decls;
 	}
 
-	public CollectNode<IndexDeclNode> getIndices() {
+	public CollectNode<IndexDeclNode> getIndices()
+	{
 		return indices;
 	}
 
-	public CollectNode<ModelNode> getUsedModels() {
+	public CollectNode<ModelNode> getUsedModels()
+	{
 		return usedModels;
 	}
-	
-	public CollectNode<TypeDeclNode> getPackages() {
+
+	public CollectNode<TypeDeclNode> getPackages()
+	{
 		return packages;
 	}
 
@@ -224,7 +246,8 @@ public class ModelNode extends DeclNode {
 	 * Get the IR model node for this AST node.
 	 * @return The model for this AST node.
 	 */
-	protected Model getModel() {
+	protected Model getModel()
+	{
 		return checkIR(Model.class);
 	}
 
@@ -234,11 +257,11 @@ public class ModelNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected Model constructIR() {
+	protected Model constructIR()
+	{
 		Ident id = ident.checkIR(Ident.class);
-		Model res = new Model(id, isEmitClassDefined, 
-				isEmitGraphClassDefined, isCopyClassDefined, 
-				isEqualClassDefined, isLowerClassDefined, 
+		Model res = new Model(id, isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined,
+				isEqualClassDefined, isLowerClassDefined,
 				isUniqueDefined, isUniqueIndexDefined,
 				areFunctionsParallel, isoParallel);
 		for(ModelNode model : usedModels.getChildren())
@@ -262,30 +285,29 @@ public class ModelNode extends DeclNode {
 	}
 
 	private boolean checkInhCycleFree_rec(InheritanceTypeNode inhType,
-										  Collection<BaseNode> inProgress,
-										  Collection<BaseNode> done) {
+			Collection<BaseNode> inProgress, Collection<BaseNode> done)
+	{
 		inProgress.add(inhType);
-		for (BaseNode t : inhType.getDirectSuperTypes()) {
-			if ( ! (t instanceof InheritanceTypeNode)) {
+		for(BaseNode t : inhType.getDirectSuperTypes()) {
+			if(!(t instanceof InheritanceTypeNode)) {
 				continue;
 			}
 
-			assert (
-			   ((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
-			   ((inhType instanceof EdgeTypeNode) && (t instanceof EdgeTypeNode)) ||
-			   ((inhType instanceof ExternalTypeNode) && (t instanceof ExternalTypeNode))
-			): "nodes should extend nodes and edges should extend edges";
+			assert(
+				((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
+				((inhType instanceof EdgeTypeNode) && (t instanceof EdgeTypeNode)) ||
+				((inhType instanceof ExternalTypeNode) && (t instanceof ExternalTypeNode))
+			) : "nodes should extend nodes and edges should extend edges";
 
-			InheritanceTypeNode superType = (InheritanceTypeNode) t;
+			InheritanceTypeNode superType = (InheritanceTypeNode)t;
 
-			if ( inProgress.contains(superType) ) {
-				inhType.getIdentNode().reportError(
-					"\"" + inhType.getIdentNode() + "\" extends \"" + superType.getIdentNode() +
-						"\", which introduces a cycle to the type hierarchy");
+			if(inProgress.contains(superType)) {
+				inhType.getIdentNode().reportError("\"" + inhType.getIdentNode() + "\" extends \""
+						+ superType.getIdentNode() + "\", which introduces a cycle to the type hierarchy");
 				return false;
 			}
-			if ( ! done.contains(superType) ) {
-				if ( ! checkInhCycleFree_rec(superType, inProgress, done) ) {
+			if(!done.contains(superType)) {
+				if(!checkInhCycleFree_rec(superType, inProgress, done)) {
 					return false;
 				}
 			}
@@ -300,28 +322,30 @@ public class ModelNode extends DeclNode {
 	 * @return	<code>true</code> if there are no cycles,
 	 * 			<code>false</code> otherwise
 	 */
-	private boolean checkInhCycleFree() {
+	private boolean checkInhCycleFree()
+	{
 		Collection<TypeDeclNode> coll = decls.getChildren();
-		for (TypeDeclNode t : coll) {
+		for(TypeDeclNode t : coll) {
 			TypeNode type = t.getDeclType();
 
-			if ( !(type instanceof InheritanceTypeNode) ) {
-				continue ;
+			if(!(type instanceof InheritanceTypeNode)) {
+				continue;
 			}
 
 			Collection<BaseNode> inProgress = new HashSet<BaseNode>();
 			Collection<BaseNode> done = new HashSet<BaseNode>();
 
-			boolean isCycleFree = checkInhCycleFree_rec( (InheritanceTypeNode)type, inProgress, done);
+			boolean isCycleFree = checkInhCycleFree_rec((InheritanceTypeNode)type, inProgress, done);
 
-			if ( ! isCycleFree ) {
+			if(!isCycleFree) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	private boolean equalityMustBeDefinedIfLowerIsDefined() {
+
+	private boolean equalityMustBeDefinedIfLowerIsDefined()
+	{
 		if(isLowerClassDefined) {
 			if(!isEqualClassDefined) {
 				reportError("A \"< class;\" requires a \"== class;\"");
@@ -332,7 +356,8 @@ public class ModelNode extends DeclNode {
 	}
 
 	@Override
-	public ModelTypeNode getDeclType() {
+	public ModelTypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return type;
@@ -342,14 +367,14 @@ public class ModelNode extends DeclNode {
 	 Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
 	 TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
 	 alreadyExtended.add(type);
-
+	
 	 for ( BaseNode tt : alreadyExtended ) {
-
+	
 	 if ( !(tt instanceof InheritanceTypeNode) ) continue ;
-
+	
 	 InheritanceTypeNode inhType = (InheritanceTypeNode) tt;
 	 Collection<BaseNode> superTypes = inhType.getDirectSuperTypes();
-
+	
 	 for ( BaseNode s : superTypes ) {
 	 if ( alreadyExtended.contains(s) ) {
 	 s.reportError("extending \"" + s + "\" causes cyclic inheritance");
@@ -360,4 +385,3 @@ public class ModelNode extends DeclNode {
 	 }
 	 */
 }
-

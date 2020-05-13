@@ -38,8 +38,9 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureMethodInvoca
 
 	IdentNode externalProcedureUnresolved;
 	ExternalProcedureDeclNode externalProcedureDecl;
-	
-	public ExternalProcedureMethodInvocationNode(VarDeclNode targetVar, IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
+
+	public ExternalProcedureMethodInvocationNode(VarDeclNode targetVar,
+			IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
 	{
 		super(procedureOrExternalProcedureUnresolved.getCoords());
 		this.targetVar = becomeParent(targetVar);
@@ -48,7 +49,8 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureMethodInvoca
 		this.context = context;
 	}
 
-	public ExternalProcedureMethodInvocationNode(QualIdentNode targetQual, IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
+	public ExternalProcedureMethodInvocationNode(QualIdentNode targetQual,
+			IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
 	{
 		super(procedureOrExternalProcedureUnresolved.getCoords());
 		this.targetQual = becomeParent(targetQual);
@@ -58,16 +60,18 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureMethodInvoca
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(targetQual!=null ? targetQual : targetVar);
+		children.add(targetQual != null ? targetQual : targetVar);
 		children.add(getValidVersion(externalProcedureUnresolved, externalProcedureDecl));
 		children.add(arguments);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
 		childrenNames.add("external procedure");
@@ -75,23 +79,26 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureMethodInvoca
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<ExternalProcedureDeclNode> resolver = new DeclarationResolver<ExternalProcedureDeclNode>(ExternalProcedureDeclNode.class);
+	private static final DeclarationResolver<ExternalProcedureDeclNode> resolver =
+			new DeclarationResolver<ExternalProcedureDeclNode>(ExternalProcedureDeclNode.class);
 
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
-		TypeNode ownerType = targetVar!=null ? targetVar.getDeclType() : targetQual.getDecl().getDeclType();
+		TypeNode ownerType = targetVar != null ? targetVar.getDeclType() : targetQual.getDecl().getDeclType();
 		if(ownerType instanceof ExternalTypeNode) {
 			if(ownerType instanceof ScopeOwner) {
-				ScopeOwner o = (ScopeOwner) ownerType;
+				ScopeOwner o = (ScopeOwner)ownerType;
 				o.fixupDefinition(externalProcedureUnresolved);
 
 				externalProcedureDecl = resolver.resolve(externalProcedureUnresolved, this);
 				if(externalProcedureDecl == null) {
-					externalProcedureUnresolved.reportError("Unknown external procedure method called -- misspelled procedure name? Or function call intended (not possible when assignment target is given as (param,...)=call denoting a procedure call)?");
+					externalProcedureUnresolved.reportError(
+							"Unknown external procedure method called -- misspelled procedure name? Or function call intended (not possible when assignment target is given as (param,...)=call denoting a procedure call)?");
 					return false;
 				}
 
-				successfullyResolved = externalProcedureDecl!=null && successfullyResolved;
+				successfullyResolved = externalProcedureDecl != null && successfullyResolved;
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -105,37 +112,40 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureMethodInvoca
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+	protected boolean checkLocal()
+	{
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
 			reportError("external procedure method call not allowed in function or lhs context");
 			return false;
 		}
 		return checkSignatureAdhered(externalProcedureDecl, externalProcedureUnresolved);
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
-	public Vector<TypeNode> getType() {
+	public Vector<TypeNode> getType()
+	{
 		assert isResolved();
 		return externalProcedureDecl.getReturnTypes();
 	}
-	
-	public int getNumReturnTypes() {
+
+	public int getNumReturnTypes()
+	{
 		return externalProcedureDecl.returnTypes.size();
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		ExternalProcedureMethodInvocation epi;
 		if(targetQual != null) {
-			epi = new ExternalProcedureMethodInvocation(
-					targetQual.checkIR(Qualification.class),
+			epi = new ExternalProcedureMethodInvocation(targetQual.checkIR(Qualification.class),
 					externalProcedureDecl.checkIR(ExternalProcedure.class));
 		} else {
-			epi = new ExternalProcedureMethodInvocation(
-					targetVar.checkIR(Variable.class),
+			epi = new ExternalProcedureMethodInvocation(targetVar.checkIR(Variable.class),
 					externalProcedureDecl.checkIR(ExternalProcedure.class));
 		}
 		for(ExprNode expr : arguments.getChildren()) {

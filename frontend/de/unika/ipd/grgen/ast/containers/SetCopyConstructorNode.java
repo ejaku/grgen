@@ -35,10 +35,11 @@ public class SetCopyConstructorNode extends ExprNode
 	private ExprNode setToCopy;
 	private BaseNode lhsUnresolved;
 
-	public SetCopyConstructorNode(Coords coords, IdentNode member, SetTypeNode setType, ExprNode setToCopy) {
+	public SetCopyConstructorNode(Coords coords, IdentNode member, SetTypeNode setType, ExprNode setToCopy)
+	{
 		super(coords);
 
-		if(member!=null) {
+		if(member != null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
 			this.setType = setType;
@@ -47,63 +48,67 @@ public class SetCopyConstructorNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(setToCopy);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("setToCopy");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
-		if(setType!=null) {
+	protected boolean resolveLocal()
+	{
+		if(setType != null) {
 			return setType.resolve();
 		} else {
 			return true;
 		}
 	}
-	
+
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean success = true;
 
-		if(lhsUnresolved!=null) {
+		if(lhsUnresolved != null) {
 			reportError("Set copy constructor not allowed in set initialization in model");
 			success = false;
 		} else {
-			if(setToCopy.getType() instanceof SetTypeNode)
-			{
+			if(setToCopy.getType() instanceof SetTypeNode) {
 				SetTypeNode sourceSetType = (SetTypeNode)setToCopy.getType();
 				success &= checkCopyConstructorTypes(setType.valueType, sourceSetType.valueType, "Set", "");
-			}
-			else
-			{
+			} else {
 				reportError("Set copy constructor expects set type");
 				success = false;
 			}
-		} 
-		
+		}
+
 		return success;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
 		return setType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new SetCopyConstructor(setToCopy.checkIR(Expression.class), setType.checkIR(SetType.class));
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "set copy constructor";
 	}
 }

@@ -26,7 +26,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing an accumulation yielding of an iterated match def variable.
  */
-public class IteratedAccumulationYieldNode extends EvalStatementNode {
+public class IteratedAccumulationYieldNode extends EvalStatementNode
+{
 	static {
 		setName(IteratedAccumulationYieldNode.class, "IteratedAccumulationYield");
 	}
@@ -38,8 +39,9 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 	IteratedNode iterated;
 	CollectNode<EvalStatementNode> accumulationStatements;
 
-	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable,
-			IdentNode iterated, CollectNode<EvalStatementNode>  accumulationStatements) {
+	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable, IdentNode iterated,
+			CollectNode<EvalStatementNode> accumulationStatements)
+	{
 		super(coords);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
@@ -51,7 +53,8 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(getValidVersion(iteratedUnresolved, iterated));
@@ -61,7 +64,8 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("iterationVariable");
 		childrenNames.add("iterated");
@@ -70,15 +74,16 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 	}
 
 	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-		new DeclarationResolver<IteratedNode>(IteratedNode.class);
+			new DeclarationResolver<IteratedNode>(IteratedNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
 
 		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
-		if(iterated==null)
+		if(iterated == null)
 			successfullyResolved = false;
 
 		if(iterationVariableUnresolved instanceof VarDeclNode) {
@@ -89,7 +94,7 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 			reportError("error in resolving iteration variable of iterated accumulation yield.");
 			successfullyResolved = false;
 		}
-		
+
 		if((iterationVariable.context & BaseNode.CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("An iterated accumulation loop can only be used within a yield block in the pattern.");
 			successfullyResolved = false;
@@ -97,19 +102,19 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 		boolean iterationVariableFound = false;
 		for(VarDeclNode var : iterated.getLeft().getDefVariablesToBeYieldedTo().getChildren()) {
-			if(iterationVariable.toString()==var.toString()) {
+			if(iterationVariable.toString() == var.toString()) {
 				iterationVariable.typeUnresolved = var.typeUnresolved;
 				iterationVariableFound = true;
 			}
 		}
 		for(NodeDeclNode node : iterated.getLeft().getNodes()) {
-			if(iterationVariable.toString()==node.toString()) {
+			if(iterationVariable.toString() == node.toString()) {
 				iterationVariable.typeUnresolved = node.typeUnresolved;
 				iterationVariableFound = true;
 			}
 		}
 		for(EdgeDeclNode edge : iterated.getLeft().getEdges()) {
-			if(iterationVariable.toString()==edge.toString()) {
+			if(iterationVariable.toString() == edge.toString()) {
 				iterationVariable.typeUnresolved = edge.typeUnresolved;
 				iterationVariableFound = true;
 			}
@@ -127,21 +132,24 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		IteratedAccumulationYield iay = new IteratedAccumulationYield(
-				iterationVariable.checkIR(Variable.class),
+	protected IR constructIR()
+	{
+		IteratedAccumulationYield iay = new IteratedAccumulationYield(iterationVariable.checkIR(Variable.class),
 				iterated.checkIR(Rule.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren())
+		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren()) {
 			iay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
+		}
 		return iay;
 	}
 }

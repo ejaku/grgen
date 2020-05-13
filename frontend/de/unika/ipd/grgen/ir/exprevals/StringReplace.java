@@ -11,11 +11,13 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class StringReplace extends Expression {
+public class StringReplace extends Expression
+{
 	private Expression stringExpr, startExpr, lengthExpr, replaceStrExpr;
 
 	public StringReplace(Expression stringExpr,
-			Expression startExpr, Expression lengthExpr, Expression replaceStrExpr) {
+			Expression startExpr, Expression lengthExpr, Expression replaceStrExpr)
+	{
 		super("string replace", StringType.getType());
 		this.stringExpr = stringExpr;
 		this.startExpr = startExpr;
@@ -23,23 +25,28 @@ public class StringReplace extends Expression {
 		this.replaceStrExpr = replaceStrExpr;
 	}
 
-	public Expression getStringExpr() {
+	public Expression getStringExpr()
+	{
 		return stringExpr;
 	}
 
-	public Expression getStartExpr() {
+	public Expression getStartExpr()
+	{
 		return startExpr;
 	}
 
-	public Expression getLengthExpr() {
+	public Expression getLengthExpr()
+	{
 		return lengthExpr;
 	}
 
-	public Expression getReplaceStrExpr() {
+	public Expression getReplaceStrExpr()
+	{
 		return replaceStrExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		stringExpr.collectNeededEntities(needs);
 		startExpr.collectNeededEntities(needs);
 		lengthExpr.collectNeededEntities(needs);

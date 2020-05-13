@@ -16,13 +16,13 @@ import de.unika.ipd.grgen.ast.IdentNode;
 /**
  * A lexical symbol.
  */
-public class Symbol {
-
+public class Symbol
+{
 	/**
 	 * An occurrence of a symbol.
 	 */
-	public static class Occurrence {
-
+	public static class Occurrence
+	{
 		/** The scope in which the symbol occurred. */
 		protected final Scope scope;
 
@@ -44,7 +44,8 @@ public class Symbol {
 		 * @param c The source file coordinates.
 		 * @param sym The symbol that occurred.
 		 */
-		public Occurrence(Scope sc, Coords c, Symbol sym) {
+		public Occurrence(Scope sc, Coords c, Symbol sym)
+		{
 			symbol = sym;
 			scope = sc;
 			coords = c;
@@ -53,7 +54,8 @@ public class Symbol {
 		/**
 		 * @see java.lang.Object#toString()
 		 */
-		public String toString() {
+		public String toString()
+		{
 			return "" + symbol + "(" + coords + "," + scope + ")";
 		}
 
@@ -61,7 +63,8 @@ public class Symbol {
 		 * Get the occurring symbol.
 		 * @return The symbol.
 		 */
-		public Symbol getSymbol() {
+		public Symbol getSymbol()
+		{
 			return symbol;
 		}
 
@@ -69,7 +72,8 @@ public class Symbol {
 		 * Get the source code coordinates.
 		 * @return The coordinates.
 		 */
-		public Coords getCoords() {
+		public Coords getCoords()
+		{
 			return coords;
 		}
 
@@ -77,7 +81,8 @@ public class Symbol {
 		 * Get the scope of occurrence.
 		 * @return The scope.
 		 */
-		public Scope getScope() {
+		public Scope getScope()
+		{
 			return scope;
 		}
 
@@ -85,7 +90,8 @@ public class Symbol {
 		 * Get the symbol's definition.
 		 * @return The definition.
 		 */
-		public Definition getDefinition() {
+		public Definition getDefinition()
+		{
 			return def;
 		}
 
@@ -93,17 +99,18 @@ public class Symbol {
 		 * Set the definition for a symbol occurrence.
 		 * @param def The corresponding definition.
 		 */
-		public void setDefinition(Definition def) {
+		public void setDefinition(Definition def)
+		{
 			this.def = def;
 		}
-
 	}
 
 	/**
 	 * The definition of a symbol.
 	 * Especially, a definition is an occurrence, that defines an identifier.
 	 */
-	public static class Definition extends Occurrence {
+	public static class Definition extends Occurrence
+	{
 		/**
 		 * An AST ident node for this definition.
 		 * This is needed, because other ident nodes representing the same
@@ -112,14 +119,14 @@ public class Symbol {
 		 */
 		protected IdentNode node;
 
-		private static final Definition INVALID =
-			new Definition(Scope.getInvalid(), Coords.INVALID, Symbol.INVALID);
+		private static final Definition INVALID = new Definition(Scope.getInvalid(), Coords.INVALID, Symbol.INVALID);
 
 		/**
 		 * Make an invalid definition.
 		 * @return An invalid definition.
 		 */
-		public static Definition getInvalid() {
+		public static Definition getInvalid()
+		{
 			return INVALID;
 		}
 
@@ -129,7 +136,8 @@ public class Symbol {
 		 * @param c The source code coordinates where the symbol was defined.
 		 * @param sym The symbol, that was defined.
 		 */
-		public Definition(Scope sc, Coords c, Symbol sym) {
+		public Definition(Scope sc, Coords c, Symbol sym)
+		{
 			super(sc, c, sym);
 			def = this;
 		}
@@ -138,7 +146,8 @@ public class Symbol {
 		 * Checks the validity of a definition.
 		 * @return true, if the definition is valid.
 		 */
-		public boolean isValid() {
+		public boolean isValid()
+		{
 			return symbol != Symbol.INVALID;
 		}
 
@@ -146,7 +155,8 @@ public class Symbol {
 		 * Get the AST ident node for this definition.
 		 * @return The AST node for this definition.
 		 */
-		public IdentNode getNode() {
+		public IdentNode getNode()
+		{
 			return node;
 		}
 
@@ -154,15 +164,15 @@ public class Symbol {
 		 * Set an AST node for this definition.
 		 * @param node An AST ident node.
 		 */
-		public void setNode(IdentNode node) {
+		public void setNode(IdentNode node)
+		{
 			this.node = node;
 		}
-
 	}
 
 	/** An invalid symbol. */
 	private static final Symbol INVALID = new Symbol("<invalid>",
-													 SymbolTable.getInvalid());
+			SymbolTable.getInvalid());
 
 	/** The number of definitions concerning this symbol. */
 	private int definitions = 0;
@@ -185,7 +195,8 @@ public class Symbol {
 	 * Make a new symbol.
 	 * @param text The text of the symbol.
 	 */
-	public Symbol(String text, SymbolTable symbolTable) {
+	public Symbol(String text, SymbolTable symbolTable)
+	{
 		this.text = text;
 		this.symbolTable = symbolTable;
 	}
@@ -198,11 +209,12 @@ public class Symbol {
 	 * @return true, if the both symbols represent the same symbol,
 	 * false if not.
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if(obj instanceof Symbol) {
-			Symbol sym = (Symbol) obj;
+			Symbol sym = (Symbol)obj;
 			return text.equals(sym.getText())
-				&& symbolTable.equals(sym.getSymbolTable());
+					&& symbolTable.equals(sym.getSymbolTable());
 		}
 
 		return false;
@@ -212,7 +224,8 @@ public class Symbol {
 	 * Get the symbol table, the symbol was defined in.
 	 * @param The symbol table.
 	 */
-	public SymbolTable getSymbolTable() {
+	public SymbolTable getSymbolTable()
+	{
 		return symbolTable;
 	}
 
@@ -222,7 +235,8 @@ public class Symbol {
 	 * @param c The coordinates the occurrence happened.
 	 * @return An occurrence of the current symbol.
 	 */
-	public Occurrence occurs(Scope sc, Coords c) {
+	public Occurrence occurs(Scope sc, Coords c)
+	{
 		return new Occurrence(sc, c, this);
 	}
 
@@ -232,7 +246,8 @@ public class Symbol {
 	 * @param c The coordinates of the definition.
 	 * @return The definition.
 	 */
-	public Definition define(Scope sc, Coords c) throws SymbolTableException {
+	public Definition define(Scope sc, Coords c) throws SymbolTableException
+	{
 		if(isKeyword() && definitions > 0)
 			throw new SymbolTableException(c, "keyword cannot be redefined");
 		else {
@@ -241,11 +256,13 @@ public class Symbol {
 		}
 	}
 
-	public String getText() {
+	public String getText()
+	{
 		return text != null ? text : "<invalid>";
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getText();
 	}
 
@@ -254,7 +271,8 @@ public class Symbol {
 	 * A keyword symbol cannot be defined.
 	 * @return true, if the symbol is a keyword, false if not.
 	 */
-	public boolean isKeyword() {
+	public boolean isKeyword()
+	{
 		return false;
 	}
 
@@ -262,7 +280,8 @@ public class Symbol {
 	 * Get the number of definitions.
 	 * @return The number of times the symbol has been defined.
 	 */
-	public int getDefinitionCount() {
+	public int getDefinitionCount()
+	{
 		return definitions;
 	}
 
@@ -275,8 +294,8 @@ public class Symbol {
 	 * @param symTab The symbol table the symbol occurs in.
 	 * @return An anonymous symbol.
 	 */
-	public static Symbol makeAnonymous(String name, SymbolTable symTab) {
+	public static Symbol makeAnonymous(String name, SymbolTable symTab)
+	{
 		return new Symbol("$" + name, symTab);
 	}
-
 }

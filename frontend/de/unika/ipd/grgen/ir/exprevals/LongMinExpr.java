@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class LongMinExpr extends Expression {
-	public LongMinExpr() {
+public class LongMinExpr extends Expression
+{
+	public LongMinExpr()
+	{
 		super("longmin expr", LongType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

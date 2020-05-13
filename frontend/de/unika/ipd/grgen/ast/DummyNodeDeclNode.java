@@ -9,7 +9,6 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.Node;
 
-
 /**
  * Dummy node needed for dangling edges
  */
@@ -19,22 +18,26 @@ public class DummyNodeDeclNode extends NodeDeclNode
 		setName(DummyNodeDeclNode.class, "dummy node");
 	}
 
-	public DummyNodeDeclNode(IdentNode id, BaseNode type, int context, PatternGraphNode directlyNestingLHSGraph) {
+	public DummyNodeDeclNode(IdentNode id, BaseNode type, int context, PatternGraphNode directlyNestingLHSGraph)
+	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 	}
 
 	@Override
-	public Node getNode() {
+	public Node getNode()
+	{
 		return null;
 	}
 
 	@Override
-	public boolean isDummy() {
+	public boolean isDummy()
+	{
 		return true;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "a dummy node";
 	}
-};
+}

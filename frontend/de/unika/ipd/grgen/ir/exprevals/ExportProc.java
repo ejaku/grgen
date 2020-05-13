@@ -11,32 +11,38 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class ExportProc extends ProcedureInvocationBase {
+public class ExportProc extends ProcedureInvocationBase
+{
 	private Expression pathExpr;
 	private Expression graphExpr;
 
-	public ExportProc(Expression pathExpr, Expression graphExpr) {
+	public ExportProc(Expression pathExpr, Expression graphExpr)
+	{
 		super("export procedure");
 		this.pathExpr = pathExpr;
 		this.graphExpr = graphExpr;
 	}
 
-	public Expression getPathExpr() {
+	public Expression getPathExpr()
+	{
 		return pathExpr;
 	}
 
-	public Expression getGraphExpr() {
+	public Expression getGraphExpr()
+	{
 		return graphExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		pathExpr.collectNeededEntities(needs);
-		if(graphExpr!=null)
+		if(graphExpr != null)
 			graphExpr.collectNeededEntities(needs);
 	}
 }

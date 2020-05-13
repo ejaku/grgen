@@ -14,9 +14,11 @@ package de.unika.ipd.grgen.ir.exprevals;
 /**
  * Represents a return statement of a filter function in the IR.
  */
-public class ReturnStatementFilter extends EvalStatement {
+public class ReturnStatementFilter extends EvalStatement
+{
 
-	public ReturnStatementFilter() {
+	public ReturnStatementFilter()
+	{
 		super("return statement filter");
 	}
 

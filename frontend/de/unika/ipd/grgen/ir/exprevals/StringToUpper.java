@@ -11,19 +11,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class StringToUpper extends Expression {
+public class StringToUpper extends Expression
+{
 	private Expression stringExpr;
 
-	public StringToUpper(Expression stringExpr) {
+	public StringToUpper(Expression stringExpr)
+	{
 		super("string toUpper", StringType.getType());
 		this.stringExpr = stringExpr;
 	}
 
-	public Expression getStringExpr() {
+	public Expression getStringExpr()
+	{
 		return stringExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		stringExpr.collectNeededEntities(needs);
 	}
 }

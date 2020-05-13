@@ -14,9 +14,11 @@ package de.unika.ipd.grgen.ir.exprevals;
 /**
  * Represents a continue statement in the IR.
  */
-public class ContinueStatement extends EvalStatement {
+public class ContinueStatement extends EvalStatement
+{
 
-	public ContinueStatement() {
+	public ContinueStatement()
+	{
 		super("continue statement");
 	}
 

@@ -11,23 +11,28 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class VFreeProc extends ProcedureInvocationBase {
+public class VFreeProc extends ProcedureInvocationBase
+{
 	private Expression visFlagExpr;
 
-	public VFreeProc(Expression stringExpr) {
+	public VFreeProc(Expression stringExpr)
+	{
 		super("vfree procedure");
 		this.visFlagExpr = stringExpr;
 	}
 
-	public Expression getVisitedFlagExpr() {
+	public Expression getVisitedFlagExpr()
+	{
 		return visFlagExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		visFlagExpr.collectNeededEntities(needs);
 	}

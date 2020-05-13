@@ -13,27 +13,32 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class SetCopyConstructor extends Expression {
+public class SetCopyConstructor extends Expression
+{
 	private Expression setToCopy;
 	private SetType setType;
 
-	public SetCopyConstructor(Expression setToCopy, SetType setType) {
+	public SetCopyConstructor(Expression setToCopy, SetType setType)
+	{
 		super("set copy constructor", setType);
 		this.setToCopy = setToCopy;
 		this.setType = setType;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		needs.needsGraph();
 		setToCopy.collectNeededEntities(needs);
 	}
 
-	public Expression getSetToCopy() {
+	public Expression getSetToCopy()
+	{
 		return setToCopy;
 	}
 
-	public SetType getSetType() {
+	public SetType getSetType()
+	{
 		return setType;
 	}
 }

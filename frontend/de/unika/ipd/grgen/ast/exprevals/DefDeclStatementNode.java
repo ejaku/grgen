@@ -25,27 +25,30 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a def declaration statement node (a variable that can be assigned in an attribute evaluation statements).
  */
-public class DefDeclStatementNode extends EvalStatementNode {
+public class DefDeclStatementNode extends EvalStatementNode
+{
 	static {
 		setName(DefDeclStatementNode.class, "def decl statement");
 	}
 
 	BaseNode defDeclUnresolved;
 	int context;
-	
+
 	VarDeclNode defDeclVar;
 	ConstraintDeclNode defDeclGraphElement;
 
-	public DefDeclStatementNode(Coords coords, BaseNode target, int context) {
+	public DefDeclStatementNode(Coords coords, BaseNode target, int context)
+	{
 		super(coords);
 		this.defDeclUnresolved = target;
 		becomeParent(this.defDeclUnresolved);
 		this.context = context;
 	}
-	
+
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(defDeclUnresolved, defDeclVar, defDeclGraphElement));
 		return children;
@@ -53,7 +56,8 @@ public class DefDeclStatementNode extends EvalStatementNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("defDecl");
 		return childrenNames;
@@ -61,7 +65,8 @@ public class DefDeclStatementNode extends EvalStatementNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
 		DeclNode decl = getDecl();
 		if(decl.typeUnresolved instanceof PackageIdentNode)
@@ -73,15 +78,18 @@ public class DefDeclStatementNode extends EvalStatementNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
-	public DeclNode getDecl() {
+	public DeclNode getDecl()
+	{
 		if(defDeclUnresolved instanceof VarDeclNode) {
 			defDeclVar = (VarDeclNode)defDeclUnresolved;
 			return defDeclVar;
@@ -98,12 +106,13 @@ public class DefDeclStatementNode extends EvalStatementNode {
 			return defDeclGraphElement;
 		}
 	}
-	
+
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// potential initialization is attached to the Var or the GraphEntity
-		if(defDeclVar!=null) {
-			Variable var = defDeclVar.checkIR(Variable.class);	
+		if(defDeclVar != null) {
+			Variable var = defDeclVar.checkIR(Variable.class);
 			return new DefDeclVarStatement(var);
 		} else {
 			GraphEntity graphEntity = defDeclGraphElement.checkIR(GraphEntity.class);

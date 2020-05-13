@@ -21,57 +21,67 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.SetItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetItemNode extends BaseNode {
+public class SetItemNode extends BaseNode
+{
 	static {
 		setName(SetItemNode.class, "set item");
 	}
 
 	public ExprNode valueExpr;
 
-	public SetItemNode(Coords coords, ExprNode valueExpr) {
+	public SetItemNode(Coords coords, ExprNode valueExpr)
+	{
 		super(coords);
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
-	public void switchParenthoodOfItem(BaseNode throwOut, BaseNode adopt) {
+	public void switchParenthoodOfItem(BaseNode throwOut, BaseNode adopt)
+	{
 		switchParenthood(throwOut, adopt);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(valueExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("valueExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		// All checks are done in SetInitNode
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new SetItem(valueExpr.checkIR(Expression.class));
 	}
 
-	protected SetItem getSetItem() {
+	protected SetItem getSetItem()
+	{
 		return checkIR(SetItem.class);
 	}
 
-	public boolean noDefElement(String containingConstruct) {
+	public boolean noDefElement(String containingConstruct)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
@@ -80,7 +90,8 @@ public class SetItemNode extends BaseNode {
 		return res;
 	}
 
-	public boolean noIteratedReference(String containingConstruct) {
+	public boolean noIteratedReference(String containingConstruct)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
@@ -89,7 +100,8 @@ public class SetItemNode extends BaseNode {
 		return res;
 	}
 
-	public boolean iteratedNotReferenced(String iterName) {
+	public boolean iteratedNotReferenced(String iterName)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)

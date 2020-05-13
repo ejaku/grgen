@@ -34,41 +34,44 @@ public class ArrayExtractNode extends ContainerFunctionMethodInvocationBaseExprN
 	private DeclNode member;
 
 	private ArrayTypeNode extractedArrayType;
-	
+
 	public ArrayExtractNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
 	{
 		super(coords, targetExpr);
-		this.attribute = attribute; 
+		this.attribute = attribute;
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean ownerResolveResult = targetExpr.resolve();
-		if (!ownerResolveResult) {
+		if(!ownerResolveResult) {
 			// member can not be resolved due to inaccessible owner
 			return false;
 		}
-		
+
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to extract method call must be of type array<T>.");
 			return false;
 		}
-		
+
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)
@@ -88,39 +91,44 @@ public class ArrayExtractNode extends ContainerFunctionMethodInvocationBaseExprN
 				|| type instanceof SetTypeNode || type instanceof MapTypeNode
 				|| type instanceof ArrayTypeNode || type instanceof DequeTypeNode
 				|| type instanceof MatchTypeNode || type instanceof DefinedMatchTypeNode) {
-			reportError("The type "+ type + " is not an allowed type (basic type or node or edge class - set, map, array, deque are forbidden).");
+			reportError("The type " + type
+					+ " is not an allowed type (basic type or node or edge class - set, map, array, deque are forbidden).");
 			return false;
 		}
 
 		DeclaredTypeNode declType = (DeclaredTypeNode)type;
 		extractedArrayType = new ArrayTypeNode(declType.getIdentNode());
-		
+
 		return extractedArrayType.resolve();
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
 		return extractedArrayType;
 	}
 
-	private TypeNode getTypeOfElementToBeExtracted() {
+	private TypeNode getTypeOfElementToBeExtracted()
+	{
 		if(member != null)
 			return member.getDeclType();
 		return null;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Entity accessedMember = null;
 		if(member != null)
 			accessedMember = member.checkIR(Entity.class);
-		
+
 		return new ArrayExtract(targetExpr.checkIR(Expression.class), extractedArrayType.checkIR(ArrayType.class),
 				accessedMember);
 	}

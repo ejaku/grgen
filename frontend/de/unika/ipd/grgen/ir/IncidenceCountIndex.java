@@ -14,40 +14,46 @@ package de.unika.ipd.grgen.ir;
 /**
  * An incidence count index.
  */
-public class IncidenceCountIndex extends Index {
+public class IncidenceCountIndex extends Index
+{
 	private final NodeType startNodeType;
 	private final EdgeType incidentEdgeType;
 	private final int direction; // one of INCIDENT|INCOMING|OUTGOING in CountIncidentEdgeExpr
 	private final NodeType adjacentNodeType;
-	
+
 	/**
 	 * @param name The name of the incidence count index.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public IncidenceCountIndex(String name, Ident ident, 
+	public IncidenceCountIndex(String name, Ident ident,
 			NodeType startNodeType,
 			EdgeType incidentEdgeType, int direction,
-			NodeType adjacentNodeType) {
+			NodeType adjacentNodeType)
+	{
 		super(name, ident);
 		this.startNodeType = startNodeType;
 		this.incidentEdgeType = incidentEdgeType;
 		this.direction = direction;
 		this.adjacentNodeType = adjacentNodeType;
 	}
-	
-	public NodeType getStartNodeType() {
+
+	public NodeType getStartNodeType()
+	{
 		return startNodeType;
 	}
 
-	public EdgeType getIncidentEdgeType() {
+	public EdgeType getIncidentEdgeType()
+	{
 		return incidentEdgeType;
 	}
 
-	public int Direction() {
+	public int Direction()
+	{
 		return direction;
 	}
 
-	public NodeType getAdjacentNodeType() {
+	public NodeType getAdjacentNodeType()
+	{
 		return adjacentNodeType;
 	}
 }

@@ -23,8 +23,8 @@ import de.unika.ipd.grgen.ir.StorageAccess;
 import de.unika.ipd.grgen.ir.StorageAccessIndex;
 import de.unika.ipd.grgen.ir.Variable;
 
-
-public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCharacter  {
+public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCharacter
+{
 	static {
 		setName(MatchEdgeByStorageAccessNode.class, "match edge by storage access decl");
 	}
@@ -39,7 +39,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 
 	public MatchEdgeByStorageAccessNode(IdentNode id, BaseNode type, int context,
 			BaseNode storage, IdentExprNode accessor,
-			PatternGraphNode directlyNestingLHSGraph) {
+			PatternGraphNode directlyNestingLHSGraph)
+	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.storageUnresolved = storage;
 		becomeParent(this.storageUnresolved);
@@ -49,7 +50,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
@@ -61,7 +63,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -73,7 +76,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = super.resolveLocal();
 		if(storageUnresolved instanceof IdentExprNode) {
 			IdentExprNode unresolved = (IdentExprNode)storageUnresolved;
@@ -114,13 +118,16 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean res = super.checkLocal();
-		if((context&CONTEXT_LHS_OR_RHS)==CONTEXT_RHS) {
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Can't employ match edge by storage on RHS");
 			return false;
 		}
-		TypeNode storageType = storage!=null ? storage.getDeclType() : storageGlobalVariable!=null ? storageGlobalVariable.getDeclType() : storageAttribute.getDecl().getDeclType();
+		TypeNode storageType = storage != null ? storage.getDeclType()
+				: storageGlobalVariable != null ? storageGlobalVariable.getDeclType()
+						: storageAttribute.getDecl().getDeclType();
 		if(!(storageType instanceof MapTypeNode)) { // TODO: allow array/deque
 			reportError("match edge by storage access expects a parameter variable of map type.");
 			return false;
@@ -128,10 +135,14 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		TypeNode expectedStorageKeyType = ((MapTypeNode)storageType).keyType;
 		TypeNode storageKeyType = accessor.getDeclType();
 		if(!storageKeyType.isCompatibleTo(expectedStorageKeyType)) {
-			String expTypeName = expectedStorageKeyType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)expectedStorageKeyType).getIdentNode().toString() : expectedStorageKeyType.toString();
-			String typeName = storageKeyType instanceof DeclaredTypeNode ? ((DeclaredTypeNode)storageKeyType).getIdentNode().toString() : storageKeyType.toString();
-			ident.reportError("Cannot convert storage element type from \""
-					+ typeName + "\" to \"" + expTypeName + "\" in match edge by storage access");
+			String expTypeName = expectedStorageKeyType instanceof DeclaredTypeNode
+					? ((DeclaredTypeNode)expectedStorageKeyType).getIdentNode().toString()
+					: expectedStorageKeyType.toString();
+			String typeName = storageKeyType instanceof DeclaredTypeNode
+					? ((DeclaredTypeNode)storageKeyType).getIdentNode().toString()
+					: storageKeyType.toString();
+			ident.reportError("Cannot convert storage element type from \"" + typeName
+					+ "\" to \"" + expTypeName + "\" in match edge by storage access");
 			return false;
 		}
 		TypeNode storageElementType = ((MapTypeNode)storageType).valueType;
@@ -144,8 +155,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
 			String expTypeName = expectedStorageElemType.getIdentNode().toString();
 			String typeName = storageElemType.getIdentNode().toString();
-			ident.reportError("Cannot convert storage element type from \""
-					+ typeName + "\" to \"" + expTypeName + "\" match edge by storage access");
+			ident.reportError("Cannot convert storage element type from \"" + typeName
+					+ "\" to \"" + expTypeName + "\" match edge by storage access");
 			return false;
 		}
 		return res;
@@ -153,20 +164,21 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
 		}
-		
+
 		Edge edge = (Edge)super.constructIR();
 
 		setIR(edge);
 
-		if(storage!=null)
+		if(storage != null)
 			edge.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
-		else if(storageAttribute!=null)
+		else if(storageAttribute != null)
 			edge.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
-//		else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
+		//else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
 		edge.setStorageIndex(new StorageAccessIndex(accessor.checkIR(GraphEntity.class)));
 		return edge;
 	}

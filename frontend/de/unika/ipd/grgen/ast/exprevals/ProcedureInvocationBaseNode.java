@@ -21,7 +21,7 @@ public abstract class ProcedureInvocationBaseNode extends EvalStatementNode
 	static {
 		setName(ProcedureInvocationBaseNode.class, "procedure invocation base");
 	}
-	
+
 	private static final Vector<TypeNode> emptyReturn = new Vector<TypeNode>();
 
 	public ProcedureInvocationBaseNode(Coords coords)
@@ -31,7 +31,8 @@ public abstract class ProcedureInvocationBaseNode extends EvalStatementNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean res = true;
 		for(TypeNode typeNode : getType()) {
 			res &= typeNode.resolve();
@@ -40,7 +41,8 @@ public abstract class ProcedureInvocationBaseNode extends EvalStatementNode
 	}
 
 	// default is a procedure without returns, overwrite if return is not empty
-	public Vector<TypeNode> getType() {
+	public Vector<TypeNode> getType()
+	{
 		return emptyReturn;
 	}
 }

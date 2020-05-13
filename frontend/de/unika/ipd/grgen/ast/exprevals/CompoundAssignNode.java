@@ -68,27 +68,31 @@ public class CompoundAssignNode extends EvalStatementNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(targetUnresolved, targetQual, targetVar));
 		children.add(valueExpr);
-		if(targetChangedUnresolved!=null)
-			children.add(getValidVersion(targetChangedUnresolved, targetChangedQual, targetChangedVar, targetChangedVis));
+		if(targetChangedUnresolved != null)
+			children.add(getValidVersion(targetChangedUnresolved,
+					targetChangedQual, targetChangedVar, targetChangedVis));
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
 		childrenNames.add("valueExpr");
-		if(targetChangedUnresolved!=null)
+		if(targetChangedUnresolved != null)
 			childrenNames.add("targetChanged");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
 
 		if(targetUnresolved instanceof IdentExprNode) {
@@ -112,8 +116,7 @@ public class CompoundAssignNode extends EvalStatementNode
 			successfullyResolved = false;
 		}
 
-		if(targetChangedUnresolved!=null)
-		{
+		if(targetChangedUnresolved != null) {
 			if(targetChangedUnresolved instanceof IdentExprNode) {
 				IdentExprNode unresolved = (IdentExprNode)targetChangedUnresolved;
 				if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
@@ -148,30 +151,32 @@ public class CompoundAssignNode extends EvalStatementNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		TypeNode targetType = targetQual!=null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
-		if(compoundAssignmentType==CONCATENATE && !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
-			(targetQual!=null?targetQual:targetVar).reportError("compound assignment expects a target of array or deque type.");
+	protected boolean checkLocal()
+	{
+		TypeNode targetType = targetQual != null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
+		if(compoundAssignmentType == CONCATENATE
+				&& !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
+			(targetQual != null ? targetQual : targetVar).reportError("compound assignment expects a target of array or deque type.");
 			return false;
 		}
-		if(compoundAssignmentType!=CONCATENATE && !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
-			(targetQual!=null?targetQual:targetVar).reportError("compound assignment expects a target of set or map type.");
+		if(compoundAssignmentType != CONCATENATE
+				&& !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
+			(targetQual != null ? targetQual : targetVar).reportError("compound assignment expects a target of set or map type.");
 			return false;
 		}
 		TypeNode exprType = valueExpr.getType();
-		if (!exprType.isEqual(targetType))
-		{
+		if(!exprType.isEqual(targetType)) {
 			valueExpr.reportError("the expression value to the "
-					+ "compound assignment must be of type " +targetType.toString());
+					+ "compound assignment must be of type " + targetType.toString());
 			return false;
 		}
-		if(targetChangedUnresolved!=null) {
+		if(targetChangedUnresolved != null) {
 			TypeNode targetChangedType = null;
-			if(targetChangedQual!=null)
+			if(targetChangedQual != null)
 				targetChangedType = targetChangedQual.getDecl().getDeclType();
-			else if(targetChangedVar!=null)
+			else if(targetChangedVar != null)
 				targetChangedType = targetChangedVar.getDeclType();
-			else if(targetChangedVis!=null)
+			else if(targetChangedVis != null)
 				targetChangedType = targetChangedVis.getType();
 			if(targetChangedType != BasicTypeNode.booleanType) {
 				targetChangedUnresolved.reportError("the type of the target of the changement assignment "
@@ -182,22 +187,24 @@ public class CompoundAssignNode extends EvalStatementNode
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(targetQual!=null) {
-			if(targetChangedQual!=null)
+	protected IR constructIR()
+	{
+		if(targetQual != null) {
+			if(targetChangedQual != null)
 				return new CompoundAssignmentChanged(targetQual.checkIR(Qualification.class),
 						compoundAssignmentType, valueExpr.checkIR(Expression.class),
 						targetCompoundAssignmentType, targetChangedQual.checkIR(Qualification.class));
-			else if(targetChangedVar!=null)
+			else if(targetChangedVar != null)
 				return new CompoundAssignmentChangedVar(targetQual.checkIR(Qualification.class),
 						compoundAssignmentType, valueExpr.checkIR(Expression.class),
 						targetCompoundAssignmentType, targetChangedVar.checkIR(Variable.class));
-			else if(targetChangedVis!=null)
+			else if(targetChangedVis != null)
 				return new CompoundAssignmentChangedVisited(targetQual.checkIR(Qualification.class),
 						compoundAssignmentType, valueExpr.checkIR(Expression.class),
 						targetCompoundAssignmentType, targetChangedVis.checkIR(Visited.class));
@@ -205,15 +212,15 @@ public class CompoundAssignNode extends EvalStatementNode
 				return new CompoundAssignment(targetQual.checkIR(Qualification.class),
 						compoundAssignmentType, valueExpr.checkIR(Expression.class));
 		} else {
-			if(targetChangedQual!=null)
+			if(targetChangedQual != null)
 				return new CompoundAssignmentVarChanged(targetVar.checkIR(Variable.class),
 						compoundAssignmentType, valueExpr.checkIR(Expression.class),
 						targetCompoundAssignmentType, targetChangedQual.checkIR(Qualification.class));
-			else if(targetChangedVar!=null)
+			else if(targetChangedVar != null)
 				return new CompoundAssignmentVarChangedVar(targetVar.checkIR(Variable.class),
 						compoundAssignmentType, valueExpr.checkIR(Expression.class),
 						targetCompoundAssignmentType, targetChangedVar.checkIR(Variable.class));
-			else if(targetChangedVis!=null)
+			else if(targetChangedVis != null)
 				return new CompoundAssignmentVarChangedVisited(targetVar.checkIR(Variable.class),
 						compoundAssignmentType, valueExpr.checkIR(Expression.class),
 						targetCompoundAssignmentType, targetChangedVis.checkIR(Visited.class));

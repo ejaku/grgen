@@ -9,22 +9,25 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class CopyExpr extends Expression {
+public class CopyExpr extends Expression
+{
 	private final Expression sourceExpr;
 
-	public CopyExpr(Expression sourceExpr, Type type) {
+	public CopyExpr(Expression sourceExpr, Type type)
+	{
 		super("copy expression", type);
 		this.sourceExpr = sourceExpr;
 	}
 
-	public Expression getSourceExpr() {
+	public Expression getSourceExpr()
+	{
 		return sourceExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		sourceExpr.collectNeededEntities(needs);
 		needs.needsGraph();
 	}
 }
-

@@ -21,8 +21,8 @@ import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.StorageAccess;
 import de.unika.ipd.grgen.ir.Variable;
 
-
-public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharacter  {
+public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharacter
+{
 	static {
 		setName(MatchNodeFromStorageNode.class, "match node from storage decl");
 	}
@@ -32,9 +32,9 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 	private QualIdentNode storageAttribute = null;
 	private NodeDeclNode storageGlobalVariable = null;
 
-
 	public MatchNodeFromStorageNode(IdentNode id, BaseNode type, int context, BaseNode storage,
-			PatternGraphNode directlyNestingLHSGraph) {
+			PatternGraphNode directlyNestingLHSGraph)
+	{
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.storageUnresolved = storage;
 		becomeParent(this.storageUnresolved);
@@ -42,7 +42,8 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
@@ -53,7 +54,8 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -64,7 +66,8 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = super.resolveLocal();
 		if(storageUnresolved instanceof IdentExprNode) {
 			IdentExprNode unresolved = (IdentExprNode)storageUnresolved;
@@ -98,14 +101,17 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean res = super.checkLocal();
-		if((context&CONTEXT_LHS_OR_RHS)==CONTEXT_RHS) {
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Can't employ match node from storage on RHS");
 			return false;
 		}
-		TypeNode storageType = storage!=null ? storage.getDeclType() : storageGlobalVariable!=null ? storageGlobalVariable.getDeclType() : storageAttribute.getDecl().getDeclType();
-		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode 
+		TypeNode storageType = storage != null ? storage.getDeclType()
+				: storageGlobalVariable != null ? storageGlobalVariable.getDeclType()
+						: storageAttribute.getDecl().getDeclType();
+		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode
 				|| storageType instanceof ArrayTypeNode || storageType instanceof DequeTypeNode)) {
 			if(storageGlobalVariable == null) {
 				reportError("match node from storage expects a parameter variable of collection type (set|map|array|deque).");
@@ -130,7 +136,7 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 				return false;
 			} else {
 				reportError("match node from storage global variable expects a node type.");
-				return false;			
+				return false;
 			}
 		}
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
@@ -138,8 +144,8 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
 			String expTypeName = expectedStorageElemType.getIdentNode().toString();
 			String typeName = storageElemType.getIdentNode().toString();
-			ident.reportError("Cannot convert storage element type from \""
-					+ typeName + "\" to \"" + expTypeName + "\" in match node from storage");
+			ident.reportError("Cannot convert storage element type from \"" + typeName
+					+ "\" to \"" + expTypeName + "\" in match node from storage");
 			return false;
 		}
 		return res;
@@ -147,11 +153,14 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Node node = (Node)super.constructIR();
-		if(storage!=null) node.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
-		else if(storageAttribute!=null) node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
-//		else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
+		if(storage != null)
+			node.setStorage(new StorageAccess(storage.checkIR(Variable.class)));
+		else if(storageAttribute != null)
+			node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
+		//else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
 		return node;
 	}
 }

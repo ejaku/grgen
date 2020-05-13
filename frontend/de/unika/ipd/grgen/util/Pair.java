@@ -13,19 +13,20 @@
 
 package de.unika.ipd.grgen.util;
 
-public class Pair<T,S>
+public class Pair<T, S>
 {
 	public T first;
 	public S second;
 
-	public Pair() {
+	public Pair()
+	{
 		first = null;
 		second = null;
 	}
 
-	public Pair(T f, S s) {
+	public Pair(T f, S s)
+	{
 		first = f;
 		second = s;
 	}
 }
-

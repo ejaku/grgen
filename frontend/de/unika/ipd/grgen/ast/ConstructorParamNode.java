@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.ir.IR;
  * AST node representing a parameter of a constructor.
  * children: LHS:IdentNode, RHS:optional ExprNode
  */
-public class ConstructorParamNode extends BaseNode {
+public class ConstructorParamNode extends BaseNode
+{
 	static {
 		setName(ConstructorParamNode.class, "constructor parameter declaration");
 	}
@@ -34,14 +35,16 @@ public class ConstructorParamNode extends BaseNode {
 	protected DeclNode lhs;
 	protected ExprNode rhs;
 
-	public ConstructorParamNode(IdentNode paramNode, ExprNode expr) {
+	public ConstructorParamNode(IdentNode paramNode, ExprNode expr)
+	{
 		super(paramNode.getCoords());
 		lhsUnresolved = becomeParent(paramNode);
 		rhs = becomeParent(expr);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(lhsUnresolved, lhs));
 		if(rhs != null)
@@ -50,7 +53,8 @@ public class ConstructorParamNode extends BaseNode {
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("lhs");
 		if(rhs != null)
@@ -61,15 +65,18 @@ public class ConstructorParamNode extends BaseNode {
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
 	@Override
-	protected boolean resolveLocal() {
-		if(!lhsResolver.resolve(lhsUnresolved)) return false;
+	protected boolean resolveLocal()
+	{
+		if(!lhsResolver.resolve(lhsUnresolved))
+			return false;
 		lhs = lhsResolver.getResult(DeclNode.class);
 
 		return lhsResolver.finish();
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return rhs == null || typeCheckLocal();
 	}
 
@@ -78,11 +85,12 @@ public class ConstructorParamNode extends BaseNode {
 	 * to the type of the target. Inserts implicit cast if compatible.
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
-	private boolean typeCheckLocal() {
+	private boolean typeCheckLocal()
+	{
 		TypeNode targetType = lhs.getDeclType();
 		TypeNode exprType = rhs.getType();
 
-		if (exprType.isEqual(targetType))
+		if(exprType.isEqual(targetType))
 			return true;
 
 		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
@@ -90,7 +98,8 @@ public class ConstructorParamNode extends BaseNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Expression expr = rhs == null ? null : rhs.checkIR(Expression.class);
 		return new ConstructorParam(lhs.checkIR(Entity.class), expr);
 	}

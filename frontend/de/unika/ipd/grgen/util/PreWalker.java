@@ -23,13 +23,11 @@ public class PreWalker extends PrePostWalker
 	public PreWalker(Visitor pre)
 	{
 		super(
-			pre,
-			new Visitor()
-			{
-				public void visit(Walkable w)
-				{
-				}
-			}
-		);
+				pre,
+				new Visitor() {
+					public void visit(Walkable w)
+					{
+					}
+				});
 	}
 }

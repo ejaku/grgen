@@ -11,23 +11,28 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class VResetProc extends ProcedureInvocationBase {
+public class VResetProc extends ProcedureInvocationBase
+{
 	private Expression visFlagExpr;
 
-	public VResetProc(Expression stringExpr) {
+	public VResetProc(Expression stringExpr)
+	{
 		super("vreset procedure");
 		this.visFlagExpr = stringExpr;
 	}
 
-	public Expression getVisitedFlagExpr() {
+	public Expression getVisitedFlagExpr()
+	{
 		return visFlagExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		visFlagExpr.collectNeededEntities(needs);
 	}

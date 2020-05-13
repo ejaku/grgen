@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the count of instances of an iterated pattern.
  */
-public class CountNode extends ExprNode {
+public class CountNode extends ExprNode
+{
 	static {
 		setName(CountNode.class, "count");
 	}
@@ -28,7 +29,8 @@ public class CountNode extends ExprNode {
 	private IdentNode iteratedUnresolved;
 	private IteratedNode iterated;
 
-	public CountNode(Coords coords, IdentNode iterated) {
+	public CountNode(Coords coords, IdentNode iterated)
+	{
 		super(coords);
 		this.iteratedUnresolved = iterated;
 		becomeParent(this.iteratedUnresolved);
@@ -36,7 +38,8 @@ public class CountNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iteratedUnresolved, iterated));
 		return children;
@@ -44,18 +47,20 @@ public class CountNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("iterated");
 		return childrenNames;
 	}
 
 	private static final DeclarationResolver<IteratedNode> iteratedResolver =
-		new DeclarationResolver<IteratedNode>(IteratedNode.class);
+			new DeclarationResolver<IteratedNode>(IteratedNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean res = fixupDefinition(iteratedUnresolved, iteratedUnresolved.getScope());
 
 		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
@@ -67,28 +72,34 @@ public class CountNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new Count(iterated.checkIR(Rule.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 
 	@Override
-	public boolean noIteratedReference(String containingConstruct) {
-		reportError("The matches of an iterated can't be accessed with a count(" + iteratedUnresolved + ") from a " + containingConstruct + ", only from a yield block or yield expression or eval");
+	public boolean noIteratedReference(String containingConstruct)
+	{
+		reportError("The matches of an iterated can't be accessed with a count(" + iteratedUnresolved + ") from a "
+				+ containingConstruct + ", only from a yield block or yield expression or eval");
 		return false;
 	}
 
 	@Override
-	public boolean iteratedNotReferenced(String iterName) {
+	public boolean iteratedNotReferenced(String iterName)
+	{
 		if(iterated.getIdentNode().toString().equals(iterName)) {
 			reportError("The iterated can't be accessed by this nested count(" + iteratedUnresolved + ")");
 			return false;

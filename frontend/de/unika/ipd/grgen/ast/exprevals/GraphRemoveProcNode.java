@@ -16,39 +16,45 @@ import de.unika.ipd.grgen.ir.exprevals.GraphRemoveProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphRemoveProcNode extends ProcedureInvocationBaseNode {
+public class GraphRemoveProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(GraphRemoveProcNode.class, "graph remove procedure");
 	}
 
 	private ExprNode entityExpr;
 
-	public GraphRemoveProcNode(Coords coords, ExprNode entityExpr) {
+	public GraphRemoveProcNode(Coords coords, ExprNode entityExpr)
+	{
 		super(coords);
 
 		this.entityExpr = entityExpr;
 		becomeParent(entityExpr);
 	}
 
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(entityExpr);
 		return children;
 	}
 
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("entity");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(entityExpr.getType() instanceof EdgeTypeNode) {
 			return true;
 		}
@@ -59,12 +65,14 @@ public class GraphRemoveProcNode extends ProcedureInvocationBaseNode {
 		return false;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new GraphRemoveProc(entityExpr.checkIR(Expression.class));
 	}
 }

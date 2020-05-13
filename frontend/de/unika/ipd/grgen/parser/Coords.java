@@ -13,17 +13,19 @@ package de.unika.ipd.grgen.parser;
 
 import de.unika.ipd.grgen.util.report.Location;
 
-public class Coords implements Location {
-
+public class Coords implements Location
+{
 	protected static final Coords INVALID = new Coords();
 
 	protected static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
 
-	public static final Coords getInvalid() {
+	public static final Coords getInvalid()
+	{
 		return INVALID;
 	}
 
-	public static final Coords getBuiltin() {
+	public static final Coords getBuiltin()
+	{
 		return BUILTIN;
 	}
 
@@ -53,7 +55,8 @@ public class Coords implements Location {
 	 * Coordinates made with this constructor will return false
 	 * on #hasLocation().
 	 */
-	public Coords() {
+	public Coords()
+	{
 		this(-1, -1, null);
 	}
 
@@ -63,12 +66,12 @@ public class Coords implements Location {
 	 * @param col The column
 	 * @param filename The filename
 	 */
-	public Coords(int line, int col, String filename) {
+	public Coords(int line, int col, String filename)
+	{
 		this.line = line;
 		this.col = col;
 		this.filename = filename;
 	}
-
 
 	/**
 	 * Make coordinates just from line and column. The filename is set
@@ -76,23 +79,25 @@ public class Coords implements Location {
 	 * @param line The line
 	 * @param col The column
 	 */
-	public Coords(int line, int col) {
+	public Coords(int line, int col)
+	{
 		this(line, col, null);
 	}
-
 
 	/**
 	 * Checks, wheather the coordinates are valid.
 	 * @return true, if the coordinates are set and valid, false otherwise
 	 */
-	private boolean valid() {
+	private boolean valid()
+	{
 		return line != -1 && col != -1;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		if(valid())
 			return filename + ":" + line + "," + col;
-			// return (filename != null ? filename + ":" : "") + line + "," + col;
+		// return (filename != null ? filename + ":" : "") + line + "," + col;
 		else
 			return "nowhere";
 	}
@@ -100,14 +105,16 @@ public class Coords implements Location {
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Location#getLocation()
 	 */
-	public String getLocation() {
+	public String getLocation()
+	{
 		return toString();
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Location#hasLocation()
 	 */
-	public boolean hasLocation() {
+	public boolean hasLocation()
+	{
 		return valid();
 	}
 
@@ -117,13 +124,14 @@ public class Coords implements Location {
 	 * the same line and column.
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		boolean res = false;
 		if(obj instanceof Coords) {
-			Coords c = (Coords) obj;
+			Coords c = (Coords)obj;
 			res = line == c.line && col == c.col &&
-				((filename == null && c.filename == null)
-					 || (filename.equals(c.filename)));
+					((filename == null && c.filename == null)
+							|| (filename.equals(c.filename)));
 		}
 		return res;
 	}
@@ -132,7 +140,8 @@ public class Coords implements Location {
 	 * Get the line of the coordinates.
 	 * @return The line.
 	 */
-	public int getLine() {
+	public int getLine()
+	{
 		return line;
 	}
 
@@ -140,7 +149,8 @@ public class Coords implements Location {
 	 * Get the column of the coordinates.
 	 * @return The column.
 	 */
-	public int getColumn() {
+	public int getColumn()
+	{
 		return col;
 	}
 
@@ -148,19 +158,21 @@ public class Coords implements Location {
 	 * Get the filename of the coordinates.
 	 * @return The filename.
 	 */
-	public String getFileName() {
+	public String getFileName()
+	{
 		return filename;
 	}
 
-	public boolean comesBefore(Coords that) {
+	public boolean comesBefore(Coords that)
+	{
 		if(!this.valid())
 			return false;
 		if(!that.valid())
 			return false;
-		if(this.getLine()<that.getLine())
+		if(this.getLine() < that.getLine())
 			return true;
-		if(this.getLine()==that.getLine())
-			if(this.getColumn()<that.getColumn())
+		if(this.getLine() == that.getLine())
+			if(this.getColumn() < that.getColumn())
 				return true;
 		return false;
 	}

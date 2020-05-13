@@ -18,16 +18,18 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an exec statement embedded within a computation in the IR.
  */
-public class ExecStatement extends EvalStatement {
-
+public class ExecStatement extends EvalStatement
+{
 	private Exec exec;
 
-	public ExecStatement(Exec exec) {
+	public ExecStatement(Exec exec)
+	{
 		super("exec statement");
 		this.exec = exec;
 	}
 
-	public Exec getExec() {
+	public Exec getExec()
+	{
 		return exec;
 	}
 
@@ -38,17 +40,20 @@ public class ExecStatement extends EvalStatement {
 			arg.collectNeededEntities(needs);
 		}
 	}
-	
-	public Set<Entity> getNeededEntities(boolean forComputation) {
+
+	public Set<Entity> getNeededEntities(boolean forComputation)
+	{
 		return exec.getNeededEntities(forComputation);
 	}
-	
+
 	/** Returns XGRS as an String */
-	public String getXGRSString() {
+	public String getXGRSString()
+	{
 		return exec.getXGRSString();
 	}
-	
-	public int getLineNr() {
+
+	public int getLineNr()
+	{
 		return exec.getLineNr();
 	}
 }

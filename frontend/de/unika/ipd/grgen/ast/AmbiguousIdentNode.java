@@ -15,7 +15,8 @@ import de.unika.ipd.grgen.parser.Symbol;
 /**
  * AST node that represents an Identifier that may be defined in two different symbol tables.
  */
-public class AmbiguousIdentNode extends IdentNode {
+public class AmbiguousIdentNode extends IdentNode
+{
 	static {
 		setName(AmbiguousIdentNode.class, "ambig identifier");
 	}
@@ -27,18 +28,20 @@ public class AmbiguousIdentNode extends IdentNode {
 	 * Make a new identifier node at a symbol's occurrence.
 	 * @param occ The occurrence of the symbol.
 	 */
-	public AmbiguousIdentNode(Symbol.Occurrence occ, Symbol.Occurrence otherOcc) {
+	public AmbiguousIdentNode(Symbol.Occurrence occ, Symbol.Occurrence otherOcc)
+	{
 		super(occ);
 		this.otherOcc = otherOcc;
 	}
-	
+
 	/**
 	 * Get the symbol definition of this identifier
 	 * @see Symbol#Definition
 	 * @return The symbol definition.
 	 */
-	public Symbol.Definition getSymDef() {
-		if(occ.getDefinition()==null) {
+	public Symbol.Definition getSymDef()
+	{
+		if(occ.getDefinition() == null) {
 			// I don't now why this is needed, it feels like a hack, but it works
 			Symbol.Definition def = occ.getScope().getCurrDef(getSymbol());
 			if(def.isValid())
@@ -56,7 +59,8 @@ public class AmbiguousIdentNode extends IdentNode {
 	 * Get the symbol of the identifier.
 	 * @return The symbol.
 	 */
-	public Symbol getOtherSymbol() {
+	public Symbol getOtherSymbol()
+	{
 		return otherOcc.getSymbol();
 	}
 }

@@ -13,21 +13,25 @@ package de.unika.ipd.grgen.ir.exprevals;
 /**
  * Represents an indexed assignment statement in the IR.
  */
-public class AssignmentIndexed extends Assignment {
+public class AssignmentIndexed extends Assignment
+{
 
 	/** The index to the lhs. */
 	private Expression index;
 
-	public AssignmentIndexed(Qualification target, Expression expr, Expression index) {
+	public AssignmentIndexed(Qualification target, Expression expr, Expression index)
+	{
 		super("assignment indexed", target, expr);
 		this.index = index;
 	}
 
-	public Expression getIndex() {
+	public Expression getIndex()
+	{
 		return index;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getTarget() + "[" + getIndex() + "] = " + getExpression();
 	}
 

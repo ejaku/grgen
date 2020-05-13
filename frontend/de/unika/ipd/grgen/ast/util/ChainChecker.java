@@ -36,7 +36,7 @@ public class ChainChecker implements Checker
 	{
 		boolean res = true;
 
-		for (int i = 0; i < checkers.length; i++) {
+		for(int i = 0; i < checkers.length; i++) {
 			boolean r = checkers[i].check(node, reporter);
 
 			res = res && r;

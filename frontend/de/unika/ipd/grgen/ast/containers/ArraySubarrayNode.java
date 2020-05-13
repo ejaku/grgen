@@ -38,7 +38,8 @@ public class ArraySubarrayNode extends ContainerFunctionMethodInvocationBaseExpr
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(startExpr);
@@ -47,7 +48,8 @@ public class ArraySubarrayNode extends ContainerFunctionMethodInvocationBaseExpr
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("startExpr");
@@ -56,33 +58,35 @@ public class ArraySubarrayNode extends ContainerFunctionMethodInvocationBaseExpr
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array subarray expression must be of type array<T>");
 			return false;
 		}
 		if(!startExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startExpr.reportError("First argument (start position) to "
-					+ "subarray expression must be of type int");
+			startExpr.reportError("First argument (start position) to subarray expression must be of type int");
 			return false;
 		}
 		if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
-			lengthExpr.reportError("Second argument (length) to subarray "
-					+ "expression must be of type int");
+			lengthExpr.reportError("Second argument (length) to subarray expression must be of type int");
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
-		return ((ArrayTypeNode)targetExpr.getType());
+	public TypeNode getType()
+	{
+		return((ArrayTypeNode)targetExpr.getType());
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ArraySubarrayExpr(targetExpr.checkIR(Expression.class),
-				startExpr.checkIR(Expression.class), lengthExpr.checkIR(Expression.class));
+				startExpr.checkIR(Expression.class),
+				lengthExpr.checkIR(Expression.class));
 	}
 }

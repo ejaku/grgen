@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.ir.Unit;
 /**
  * Generic Backend interface.
  */
-public interface Backend {
-
+public interface Backend
+{
 	/**
 	 * Initialize the backend with the intermediate representation.
 	 * @param unit The intermediate representation unit to
@@ -42,6 +42,4 @@ public interface Backend {
 	 * Called after {@link #generate}.
 	 */
 	void done();
-
 }
-

@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.util.Annotations;
 /**
  * Abstract base class for entities occurring in graphs
  */
-public abstract class GraphEntity extends Entity {
-
+public abstract class GraphEntity extends Entity
+{
 	/** Type of the entity. */
 	protected final InheritanceType type;
 
@@ -59,7 +59,7 @@ public abstract class GraphEntity extends Entity {
 
 	// null or an expression used to initialize the node
 	public Expression initialization;
-	
+
 	public Vector<NameOrAttributeInitialization> nameOrAttributeInitialization = new Vector<NameOrAttributeInitialization>();
 
 	/** Dependencies because of match by storage access (element must be matched before storage map access with it)*/
@@ -76,7 +76,8 @@ public abstract class GraphEntity extends Entity {
 	 * @param context The context of the declaration.
 	 */
 	protected GraphEntity(String name, Ident ident, InheritanceType type, Annotations annots,
-			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context)
+	{
 		super(name, ident, type, false, isDefToBeYieldedTo, context);
 		setChildrenNames(childrenNames);
 		this.type = type;
@@ -86,35 +87,42 @@ public abstract class GraphEntity extends Entity {
 		this.context = context;
 	}
 
-	public InheritanceType getInheritanceType() {
+	public InheritanceType getInheritanceType()
+	{
 		return type;
 	}
 
 	/** Sets the entity this one inherits its dynamic type from */
-	public void setTypeof(GraphEntity typeof, boolean isCopy) {
+	public void setTypeof(GraphEntity typeof, boolean isCopy)
+	{
 		this.typeof = typeof;
 		this.isCopy = isCopy;
 	}
 
 	/** Sets the type constraints for this entity */
-	public void setConstraints(TypeExpr expr) {
+	public void setConstraints(TypeExpr expr)
+	{
 		this.constraints = expr.evaluate();
 	}
 
 	/** @return The annotations. */
-	public Annotations getAnnotations() {
+	public Annotations getAnnotations()
+	{
 		return annotations;
 	}
 
-	public boolean isMaybeDeleted() {
+	public boolean isMaybeDeleted()
+	{
 		return maybeDeleted;
 	}
 
-	public boolean isMaybeRetyped() {
+	public boolean isMaybeRetyped()
+	{
 		return maybeRetyped;
 	}
 
-	public void addFields(Map<String, Object> fields) {
+	public void addFields(Map<String, Object> fields)
+	{
 		super.addFields(fields);
 		fields.put("valid_types", constraints.iterator());
 		fields.put("retyped", Collections.singleton(retyped));
@@ -122,7 +130,8 @@ public abstract class GraphEntity extends Entity {
 	}
 
 	/** @return true, if this is a retyped entity, i.e. the result of a retype, else false */
-	public boolean isRetyped() {
+	public boolean isRetyped()
+	{
 		return false;
 	}
 
@@ -131,8 +140,10 @@ public abstract class GraphEntity extends Entity {
 	 * @param graph The graph where the entity is queried to change its type;
 	 * if null any graph will match, i.e. return is true as soon as one graph exists where type changes
 	 */
-	public boolean changesType(Graph graph) {
-		if(graph==null) return this.retyped != null;
+	public boolean changesType(Graph graph)
+	{
+		if(graph == null)
+			return this.retyped != null;
 		return getRetypedEntity(graph) != null;
 	}
 
@@ -141,8 +152,9 @@ public abstract class GraphEntity extends Entity {
 	 * @param retyped The retyped version
 	 * @param graph The graph where the entity gets retyped
 	 */
-	public void setRetypedEntity(GraphEntity retyped, Graph graph) {
-		if(this.retyped==null) {
+	public void setRetypedEntity(GraphEntity retyped, Graph graph)
+	{
+		if(this.retyped == null) {
 			this.retyped = new HashMap<Graph, GraphEntity>();
 		}
 		this.retyped.put(graph, retyped);
@@ -153,103 +165,123 @@ public abstract class GraphEntity extends Entity {
 	 * @param graph The graph where the entity might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public GraphEntity getRetypedEntity(Graph graph) {
-		if(this.retyped==null) {
+	public GraphEntity getRetypedEntity(Graph graph)
+	{
+		if(this.retyped == null) {
 			return null;
 		}
 		return this.retyped.get(graph);
 	}
 
 	/** Get the entity from which this entity inherits its dynamic type */
-	public GraphEntity getTypeof() {
+	public GraphEntity getTypeof()
+	{
 		return typeof;
 	}
 
 	/** returns whether the inherited type / typeof is the extended version in fact,
 	 * named copy, copying the attributes too  */
-	public boolean isCopy() {
+	public boolean isCopy()
+	{
 		return isCopy;
 	}
 
 	/** @return true, if this entity inherits its type from some other entitiy */
-	public boolean inheritsType() {
+	public boolean inheritsType()
+	{
 		return typeof != null;
 	}
 
-	public void setParameterInterfaceType(InheritanceType type) {
+	public void setParameterInterfaceType(InheritanceType type)
+	{
 		parameterInterfaceType = type;
 	}
 
-	public InheritanceType getParameterInterfaceType() {
+	public InheritanceType getParameterInterfaceType()
+	{
 		return parameterInterfaceType;
 	}
 
-	public void setStorage(StorageAccess storageAccess) {
+	public void setStorage(StorageAccess storageAccess)
+	{
 		this.storageAccess = storageAccess;
 	}
 
-	public void setStorageIndex(StorageAccessIndex storageAccessIndex) {
+	public void setStorageIndex(StorageAccessIndex storageAccessIndex)
+	{
 		this.storageAccessIndex = storageAccessIndex;
 	}
-	
-	public void setIndex(IndexAccess indexAccess) {
+
+	public void setIndex(IndexAccess indexAccess)
+	{
 		this.indexAccess = indexAccess;
 	}
 
-	public void setNameMapAccess(NameLookup nameMapAccess) {
+	public void setNameMapAccess(NameLookup nameMapAccess)
+	{
 		this.nameMapAccess = nameMapAccess;
 	}
 
-	public void setUniqueIndexAccess(UniqueLookup uniqueIndexAccess) {
+	public void setUniqueIndexAccess(UniqueLookup uniqueIndexAccess)
+	{
 		this.uniqueIndexAccess = uniqueIndexAccess;
 	}
 
-	public void setInitialization(Expression initialization) {
+	public void setInitialization(Expression initialization)
+	{
 		this.initialization = initialization;
 	}
-	
-	public void addNameOrAttributeInitialization(NameOrAttributeInitialization nai) {
+
+	public void addNameOrAttributeInitialization(NameOrAttributeInitialization nai)
+	{
 		this.nameOrAttributeInitialization.add(nai);
 	}
-	
-	public boolean hasNameInitialization() {
+
+	public boolean hasNameInitialization()
+	{
 		for(NameOrAttributeInitialization nai : nameOrAttributeInitialization) {
-			if(nai.attribute==null)
+			if(nai.attribute == null)
 				return true;
 		}
 		return false;
 	}
-	
-	public NameOrAttributeInitialization getNameInitialization() {
+
+	public NameOrAttributeInitialization getNameInitialization()
+	{
 		for(NameOrAttributeInitialization nai : nameOrAttributeInitialization) {
-			if(nai.attribute==null)
+			if(nai.attribute == null)
 				return nai;
 		}
 		return null;
 	}
 
-	public boolean hasAttributeInitialization() {
+	public boolean hasAttributeInitialization()
+	{
 		for(NameOrAttributeInitialization nai : nameOrAttributeInitialization) {
-			if(nai.attribute!=null)
+			if(nai.attribute != null)
 				return true;
 		}
 		return false;
 	}
 
-	public void incrementDependencyLevel() {
+	public void incrementDependencyLevel()
+	{
 		++dependencyLevel;
 	}
 
-	public int getDependencyLevel() {
+	public int getDependencyLevel()
+	{
 		return dependencyLevel;
 	}
 
-	public final Collection<InheritanceType> getConstraints() {
+	public final Collection<InheritanceType> getConstraints()
+	{
 		return Collections.unmodifiableCollection(constraints);
 	}
 
-	public String getNodeInfo() {
+	public String getNodeInfo()
+	{
 		return super.getNodeInfo()
-			+ "\nconstraints: " + getConstraints();
+				+ "\nconstraints: " + getConstraints();
 	}
 }

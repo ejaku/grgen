@@ -23,17 +23,20 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 	private Class<R> cls;
 	private Class<? extends R>[] classes;
 
-	public DeclarationResolver(Class<R> cls) {
+	public DeclarationResolver(Class<R> cls)
+	{
 		this.cls = cls;
 	}
 
-	public DeclarationResolver(Class<? extends R>... classes) {
+	public DeclarationResolver(Class<? extends R>... classes)
+	{
 		this.classes = classes;
 	}
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R */
-	public R resolve(BaseNode n, BaseNode parent) {
+	public R resolve(BaseNode n, BaseNode parent)
+	{
 		if(n instanceof IdentNode) {
 			R resolved = resolve((IdentNode)n);
 			parent.becomeParent(resolved);
@@ -41,7 +44,8 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		}
 
 		R res = tryCast(n);
-		if(res != null) return res;
+		if(res != null)
+			return res;
 
 		n.reportError("\"" + n + "\" is a " + n.getUseString() +
 				" but a " + getAllowedNames() + " is expected");
@@ -50,7 +54,8 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 
 	/** resolves n to node of type R, via declaration
 	 *  returns null if n's declaration can't be cast to R */
-	public R resolve(IdentNode n) {
+	public R resolve(IdentNode n)
+	{
 		if(n instanceof PackageIdentNode) {
 			if(!resolveOwner((PackageIdentNode)n)) {
 				return null;
@@ -60,14 +65,16 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		DeclNode resolved = n.getDecl();
 
 		R res = tryCast(resolved);
-		if(res != null) return res;
+		if(res != null)
+			return res;
 
 		n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
 				" but a " + getAllowedNames() + " is expected");
 		return null;
 	}
 
-	private R tryCast(BaseNode n) {
+	private R tryCast(BaseNode n)
+	{
 		if(cls == null) {
 			for(Class<? extends R> curCls : classes) {
 				if(curCls.isInstance(n))
@@ -79,8 +86,11 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		return null;
 	}
 
-	private String getAllowedNames() {
-		if(cls != null) return Util.getStr(cls, BaseNode.class, "getUseStr");
-		else return Util.getStrListWithOr(classes, BaseNode.class, "getUseStr");
+	private String getAllowedNames()
+	{
+		if(cls != null)
+			return Util.getStr(cls, BaseNode.class, "getUseStr");
+		else
+			return Util.getStrListWithOr(classes, BaseNode.class, "getUseStr");
 	}
 }

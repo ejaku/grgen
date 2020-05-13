@@ -17,19 +17,22 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 /**
  * A string type.
  */
-public class StringType extends PrimitiveType {
-
+public class StringType extends PrimitiveType
+{
 	/** @param ident The name of the string type. */
-	public StringType(Ident ident) {
+	public StringType(Ident ident)
+	{
 		super("string type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_STRING;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.stringType.checkIR(Type.class);
 	}
 }

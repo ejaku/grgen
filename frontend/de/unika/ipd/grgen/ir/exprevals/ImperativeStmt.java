@@ -11,5 +11,6 @@ package de.unika.ipd.grgen.ir.exprevals;
  * A statment that needs to be executed in an certain (user-specified) order.
  * It consists of Exec and Emit statments etc.
  */
-public interface ImperativeStmt {
+public interface ImperativeStmt
+{
 }

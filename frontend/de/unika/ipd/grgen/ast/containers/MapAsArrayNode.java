@@ -35,27 +35,31 @@ public class MapAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNod
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		arrayTypeNode = new ArrayTypeNode(((MapTypeNode)targetExpr.getType()).valueTypeUnresolved);
 		return arrayTypeNode.resolve();
 	}
-	
+
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof MapTypeNode)) {
 			targetExpr.reportError("This argument to map asArray expression must be of type map<int,T>");
@@ -70,12 +74,14 @@ public class MapAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNod
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return arrayTypeNode;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new MapAsArrayExpr(targetExpr.checkIR(Expression.class), getType().getType());
 	}
 }

@@ -24,7 +24,8 @@ import de.unika.ipd.grgen.util.Walkable;
 /**
  * A class for enum items.
  */
-public class EnumItemNode extends MemberDeclNode {
+public class EnumItemNode extends MemberDeclNode
+{
 	static {
 		setName(EnumItemNode.class, "enum item");
 	}
@@ -38,7 +39,8 @@ public class EnumItemNode extends MemberDeclNode {
 	/**
 	 * Make a new enum item node.
 	 */
-	public EnumItemNode(IdentNode identifier, IdentNode type, ExprNode value, int pos) {
+	public EnumItemNode(IdentNode identifier, IdentNode type, ExprNode value, int pos)
+	{
 		super(identifier, type, true);
 		this.value = value;
 		becomeParent(this.value);
@@ -47,7 +49,8 @@ public class EnumItemNode extends MemberDeclNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -57,7 +60,8 @@ public class EnumItemNode extends MemberDeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -65,11 +69,13 @@ public class EnumItemNode extends MemberDeclNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<EnumTypeNode> typeResolver = new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
+	private static final DeclarationTypeResolver<EnumTypeNode> typeResolver =
+			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 		return type != null;
 	}
@@ -79,7 +85,8 @@ public class EnumItemNode extends MemberDeclNode {
 	 * @return true, if the init expression is ok, false if not.
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean res = super.checkLocal();
 		// Check, if this enum item was defined with a latter one.
 		// This may not be.
@@ -88,7 +95,7 @@ public class EnumItemNode extends MemberDeclNode {
 			return false;
 
 		ExprNode newValue = value.evaluate();
-		if (!(newValue instanceof ConstNode)) {
+		if(!(newValue instanceof ConstNode)) {
 			reportError("Initialization of enum item is not constant");
 			return false;
 		}
@@ -99,7 +106,7 @@ public class EnumItemNode extends MemberDeclNode {
 			return false;
 		}
 
-		newValue = ((ConstNode) newValue).castTo(BasicTypeNode.intType);
+		newValue = ((ConstNode)newValue).castTo(BasicTypeNode.intType);
 		if(value != newValue) {
 			switchParenthood(value, newValue);
 			value = newValue;
@@ -113,63 +120,67 @@ public class EnumItemNode extends MemberDeclNode {
 	 * and accesses to enum item declared after use
 	 * @returns false, if an illegal use has been found
 	 */
-	private boolean checkValue(Walkable cur, HashSet<EnumItemNode> visitedEnumItems) {
+	private boolean checkValue(Walkable cur, HashSet<EnumItemNode> visitedEnumItems)
+	{
 		EnumItemNode enumItem = null;
 		if(cur instanceof EnumItemNode) {
-			enumItem = (EnumItemNode) cur;
+			enumItem = (EnumItemNode)cur;
 			if(pos == enumItem.pos) {
 				reportError("Enum item must not depend on its own value");
 				return false;
-			}
-			else if(pos < enumItem.pos) {
+			} else if(pos < enumItem.pos) {
 				reportError("Enum item must not depend on a following one");
 				return false;
-			}
-			else if(visitedEnumItems.contains(enumItem)) {
+			} else if(visitedEnumItems.contains(enumItem)) {
 				reportError("Circular dependency found on value of enum item \"" + enumItem.getIdentNode() + "\"");
 				return false;
 			}
 			visitedEnumItems.add(enumItem);
-		}
-		else if(cur instanceof EnumTypeNode)	// EnumTypeNode has all EnumItemNodes as children => don't check them
+		} else if(cur instanceof EnumTypeNode) // EnumTypeNode has all EnumItemNodes as children => don't check them
 			return true;
-		else if(cur instanceof EnumExprNode)	// Enum item from another, already declared enum => skip it
+		else if(cur instanceof EnumExprNode) // Enum item from another, already declared enum => skip it
 			return true;
 
-		for (Walkable child : cur.getWalkableChildren()) {
+		for(Walkable child : cur.getWalkableChildren()) {
 			if(!checkValue(child, visitedEnumItems))
 				return false;
 		}
 
 		// If cur is an EnumItemNode, mark it as unvisited again
 		// (needed for "a, b, c = a * b")
-		if(enumItem != null) visitedEnumItems.remove(enumItem);
+		if(enumItem != null)
+			visitedEnumItems.remove(enumItem);
 
 		return true;
 	}
 
 	/** @return The type node of the declaration */
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return type;
 	}
 
-	protected ExprNode getValue() {
-		if(constValue != null) return constValue;
+	protected ExprNode getValue()
+	{
+		if(constValue != null)
+			return constValue;
 
-		if(!(value instanceof ConstNode)) return value;
+		if(!(value instanceof ConstNode))
+			return value;
 
 		Object obj = ((ConstNode)value).getValue();
-		int v = ((Integer) obj).intValue();
+		int v = ((Integer)obj).intValue();
 		debug.report(NOTE, "result: " + value);
 
 		constValue = new EnumConstNode(getCoords(), getIdentNode(), v);
 		return constValue;
 	}
 
-	public final EnumItem getItem() {
+	public final EnumItem getItem()
+	{
 		return checkIR(EnumItem.class);
 	}
 
@@ -177,13 +188,15 @@ public class EnumItemNode extends MemberDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
-		EnumConstNode c = (EnumConstNode) getValue();
+	protected IR constructIR()
+	{
+		EnumConstNode c = (EnumConstNode)getValue();
 
 		return new EnumItem(ident.getIdent(), c.getConstant());
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "enum item";
 	}
 }

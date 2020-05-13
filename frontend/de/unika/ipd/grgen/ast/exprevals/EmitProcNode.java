@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class EmitProcNode extends ProcedureInvocationBaseNode {
+public class EmitProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(EmitProcNode.class, "emit procedure");
 	}
@@ -28,48 +29,56 @@ public class EmitProcNode extends ProcedureInvocationBaseNode {
 	private CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();
 	boolean isDebug;
 
-	public EmitProcNode(Coords coords, boolean isDebug) {
+	public EmitProcNode(Coords coords, boolean isDebug)
+	{
 		super(coords);
 
 		this.exprs = becomeParent(exprs);
 		this.isDebug = isDebug;
 	}
 
-	public void addExpression(ExprNode expr) {
+	public void addExpression(ExprNode expr)
+	{
 		exprs.addChild(expr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(exprs);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("exprs");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		// any type goes, must be converted toString in implementation
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Vector<Expression> expressions = new Vector<Expression>();
 		for(ExprNode expr : exprs.getChildren()) {
 			expressions.add(expr.checkIR(Expression.class));

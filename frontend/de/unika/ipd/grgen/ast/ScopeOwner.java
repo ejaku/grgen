@@ -14,8 +14,7 @@ package de.unika.ipd.grgen.ast;
 /**
  * Something, that owns a scope.
  */
-public interface ScopeOwner {
-
+public interface ScopeOwner
+{
 	boolean fixupDefinition(IdentNode id);
-
 }

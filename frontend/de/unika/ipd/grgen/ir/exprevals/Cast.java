@@ -20,26 +20,31 @@ public class Cast extends Expression
 {
 	protected Expression expr;
 
-	public Cast(Type type, Expression expr) {
+	public Cast(Type type, Expression expr)
+	{
 		super("cast", type);
 		this.expr = expr;
 	}
 
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return "Cast to " + type;
 	}
 
-	public Expression getExpression() {
+	public Expression getExpression()
+	{
 		return expr;
 	}
 
-	public Collection<Expression> getWalkableChildren() {
+	public Collection<Expression> getWalkableChildren()
+	{
 		Vector<Expression> vec = new Vector<Expression>();
 		vec.add(expr);
 		return vec;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		getExpression().collectNeededEntities(needs);
 	}
 }

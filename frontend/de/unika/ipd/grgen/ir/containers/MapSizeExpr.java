@@ -13,20 +13,24 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapSizeExpr extends Expression {
+public class MapSizeExpr extends Expression
+{
 	Expression targetExpr;
 
-	public MapSizeExpr(Expression targetExpr) {
+	public MapSizeExpr(Expression targetExpr)
+	{
 		super("map size expression", IntType.getType());
 		this.targetExpr = targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 }

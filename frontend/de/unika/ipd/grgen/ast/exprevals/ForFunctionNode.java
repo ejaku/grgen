@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a for lookup of a neighborhood function.
  */
-public class ForFunctionNode extends EvalStatementNode {
+public class ForFunctionNode extends EvalStatementNode
+{
 	static {
 		setName(ForFunctionNode.class, "ForFunction");
 	}
@@ -36,8 +37,9 @@ public class ForFunctionNode extends EvalStatementNode {
 	VarDeclNode iterationVariable;
 	CollectNode<EvalStatementNode> loopedStatements;
 
-	public ForFunctionNode(Coords coords, BaseNode iterationVariable,
-			FunctionInvocationExprNode function, CollectNode<EvalStatementNode> loopedStatements) {
+	public ForFunctionNode(Coords coords, BaseNode iterationVariable, FunctionInvocationExprNode function,
+			CollectNode<EvalStatementNode> loopedStatements)
+	{
 		super(coords);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
@@ -49,7 +51,8 @@ public class ForFunctionNode extends EvalStatementNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(function);
@@ -59,7 +62,8 @@ public class ForFunctionNode extends EvalStatementNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("iterationVariable");
 		childrenNames.add("function");
@@ -69,7 +73,8 @@ public class ForFunctionNode extends EvalStatementNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
 
 		if(iterationVariableUnresolved instanceof VarDeclNode) {
@@ -86,25 +91,25 @@ public class ForFunctionNode extends EvalStatementNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(iterationVariable.getDeclType() instanceof NodeTypeNode)
-			&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode))
-		{
+				&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode)) {
 			reportError("iteration variable of for function loop must be of node or edge type.");
 			return false;
 		}
 
 		if(function.getResult() instanceof IncidentEdgeExprNode) {
 			return true;
-		} else if(function.getResult() instanceof AdjacentNodeExprNode){
+		} else if(function.getResult() instanceof AdjacentNodeExprNode) {
 			return true;
-		} else if(function.getResult() instanceof ReachableEdgeExprNode){
+		} else if(function.getResult() instanceof ReachableEdgeExprNode) {
 			return true;
-		} else if(function.getResult() instanceof ReachableNodeExprNode){
+		} else if(function.getResult() instanceof ReachableNodeExprNode) {
 			return true;
-		} else if(function.getResult() instanceof BoundedReachableEdgeExprNode){
+		} else if(function.getResult() instanceof BoundedReachableEdgeExprNode) {
 			return true;
-		} else if(function.getResult() instanceof BoundedReachableNodeExprNode){
+		} else if(function.getResult() instanceof BoundedReachableNodeExprNode) {
 			return true;
 		} else if(function.getResult() instanceof NodesExprNode) {
 			return true;
@@ -116,17 +121,18 @@ public class ForFunctionNode extends EvalStatementNode {
 		}
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		ForFunction ff = new ForFunction(
-				iterationVariable.checkIR(Variable.class),
-				function.checkIR(Expression.class));
-		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren())
+	protected IR constructIR()
+	{
+		ForFunction ff = new ForFunction(iterationVariable.checkIR(Variable.class), function.checkIR(Expression.class));
+		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren()) {
 			ff.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
+		}
 		return ff;
 	}
 }

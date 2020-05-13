@@ -13,12 +13,11 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-
 /**
  * Represents a compound assignment var statement in the IR.
  */
-public class CompoundAssignmentVar extends EvalStatement {
-
+public class CompoundAssignmentVar extends EvalStatement
+{
 	public static final int NONE = -1;
 	public static final int UNION = 0;
 	public static final int INTERSECTION = 2;
@@ -34,27 +33,33 @@ public class CompoundAssignmentVar extends EvalStatement {
 	/** The rhs of the assignment. */
 	private Expression expr;
 
-	public CompoundAssignmentVar(Variable target, int compoundAssignmentType, Expression expr) {
+	public CompoundAssignmentVar(Variable target, int compoundAssignmentType, Expression expr)
+	{
 		super("compound assignment var");
 		this.target = target;
 		this.operation = compoundAssignmentType;
 		this.expr = expr;
 	}
 
-	public Variable getTarget() {
+	public Variable getTarget()
+	{
 		return target;
 	}
 
-	public Expression getExpression() {
+	public Expression getExpression()
+	{
 		return expr;
 	}
 
-	public int getOperation() {
+	public int getOperation()
+	{
 		return operation;
 	}
 
-	public String toString() {
-		return getTarget() + (operation==UNION?" |= ":operation==INTERSECTION?" &= ":" \\= ") + getExpression();
+	public String toString()
+	{
+		return getTarget() + (operation == UNION ? " |= " : operation == INTERSECTION ? " &= " : " \\= ")
+				+ getExpression();
 	}
 
 	public void collectNeededEntities(NeededEntities needs)

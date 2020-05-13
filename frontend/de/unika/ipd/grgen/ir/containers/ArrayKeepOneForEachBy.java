@@ -13,25 +13,30 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayKeepOneForEachBy extends Expression {
+public class ArrayKeepOneForEachBy extends Expression
+{
 	private Expression targetExpr;
 	private Entity member;
-	
-	public ArrayKeepOneForEachBy(Expression targetExpr, Entity member) {
+
+	public ArrayKeepOneForEachBy(Expression targetExpr, Entity member)
+	{
 		super("array keep one for each by expr", (ArrayType)targetExpr.getType());
 		this.targetExpr = targetExpr;
 		this.member = member;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Entity getMember() {
+	public Entity getMember()
+	{
 		return member;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}

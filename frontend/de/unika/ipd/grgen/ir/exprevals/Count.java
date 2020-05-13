@@ -9,20 +9,23 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class Count extends Expression {
+public class Count extends Expression
+{
 	private Rule iterated;
 
-	public Count(Rule iterated, Type type) {
+	public Count(Rule iterated, Type type)
+	{
 		super("count", type);
 		this.iterated = iterated;
 	}
 
-	public Rule getIterated() {
+	public Rule getIterated()
+	{
 		return iterated;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }
-

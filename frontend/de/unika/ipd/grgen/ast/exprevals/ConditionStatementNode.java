@@ -24,7 +24,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a condition statement.
  */
-public class ConditionStatementNode extends EvalStatementNode {
+public class ConditionStatementNode extends EvalStatementNode
+{
 	static {
 		setName(ConditionStatementNode.class, "ConditionStatement");
 	}
@@ -34,47 +35,52 @@ public class ConditionStatementNode extends EvalStatementNode {
 	CollectNode<EvalStatementNode> falseCaseStatements;
 
 	public ConditionStatementNode(Coords coords, ExprNode conditionExpr,
-			CollectNode<EvalStatementNode> trueCaseStatements, 
-			CollectNode<EvalStatementNode> falseCaseStatements) {
+			CollectNode<EvalStatementNode> trueCaseStatements,
+			CollectNode<EvalStatementNode> falseCaseStatements)
+	{
 		super(coords);
 		this.conditionExpr = conditionExpr;
 		becomeParent(conditionExpr);
 		this.trueCaseStatements = trueCaseStatements;
 		becomeParent(this.trueCaseStatements);
 		this.falseCaseStatements = falseCaseStatements;
-		if(falseCaseStatements!=null)
+		if(falseCaseStatements != null)
 			becomeParent(this.falseCaseStatements);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(conditionExpr);
 		children.add(trueCaseStatements);
-		if(falseCaseStatements!=null)
+		if(falseCaseStatements != null)
 			children.add(falseCaseStatements);
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("condition");
 		childrenNames.add("trueCaseStatements");
-		if(falseCaseStatements!=null)
+		if(falseCaseStatements != null)
 			childrenNames.add("falseCaseStatements");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
 			conditionExpr.reportError("if condition must be of type boolean");
 			return false;
@@ -82,18 +88,23 @@ public class ConditionStatementNode extends EvalStatementNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
-	
+
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		ConditionStatement cond = new ConditionStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode trueCaseStatement : trueCaseStatements.getChildren())
+		for(EvalStatementNode trueCaseStatement : trueCaseStatements.getChildren()) {
 			cond.addTrueCaseStatement(trueCaseStatement.checkIR(EvalStatement.class));
-		if(falseCaseStatements!=null)
-			for(EvalStatementNode falseCaseStatement : falseCaseStatements.getChildren())
+		}
+		if(falseCaseStatements != null) {
+			for(EvalStatementNode falseCaseStatement : falseCaseStatements.getChildren()) {
 				cond.addFalseCaseStatement(falseCaseStatement.checkIR(EvalStatement.class));
+			}
+		}
 		return cond;
 	}
 }

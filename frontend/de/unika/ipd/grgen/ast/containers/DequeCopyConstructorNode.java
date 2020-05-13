@@ -35,10 +35,11 @@ public class DequeCopyConstructorNode extends ExprNode
 	private ExprNode dequeToCopy;
 	private BaseNode lhsUnresolved;
 
-	public DequeCopyConstructorNode(Coords coords, IdentNode member, DequeTypeNode dequeType, ExprNode dequeToCopy) {
+	public DequeCopyConstructorNode(Coords coords, IdentNode member, DequeTypeNode dequeType, ExprNode dequeToCopy)
+	{
 		super(coords);
 
-		if(member!=null) {
+		if(member != null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
 			this.dequeType = dequeType;
@@ -47,22 +48,25 @@ public class DequeCopyConstructorNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(dequeToCopy);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("dequeToCopy");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
-		if(dequeType!=null) {
+	protected boolean resolveLocal()
+	{
+		if(dequeType != null) {
 			return dequeType.resolve();
 		} else {
 			return true;
@@ -70,40 +74,41 @@ public class DequeCopyConstructorNode extends ExprNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean success = true;
 
-		if(lhsUnresolved!=null) {
+		if(lhsUnresolved != null) {
 			reportError("Deque copy constructor not allowed in deque initialization in model");
 			success = false;
 		} else {
-			if(dequeToCopy.getType() instanceof DequeTypeNode)
-			{
+			if(dequeToCopy.getType() instanceof DequeTypeNode) {
 				DequeTypeNode sourceDequeType = (DequeTypeNode)dequeToCopy.getType();
 				success &= checkCopyConstructorTypes(dequeType.valueType, sourceDequeType.valueType, "Deque", "");
-			}
-			else
-			{
+			} else {
 				reportError("Deque copy constructor expects deque type");
 				success = false;
 			}
-		} 
-		
+		}
+
 		return success;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
 		return dequeType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new DequeCopyConstructor(dequeToCopy.checkIR(Expression.class), dequeType.checkIR(DequeType.class));
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "deque copy constructor";
 	}
 }

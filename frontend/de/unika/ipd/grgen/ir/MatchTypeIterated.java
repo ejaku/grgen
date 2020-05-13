@@ -11,18 +11,22 @@
 
 package de.unika.ipd.grgen.ir;
 
-public class MatchTypeIterated extends MatchType implements ContainedInPackage {
+public class MatchTypeIterated extends MatchType implements ContainedInPackage
+{
 	private Rule iterated;
 
-	public MatchTypeIterated(Ident iteratedIdent) {
+	public MatchTypeIterated(Ident iteratedIdent)
+	{
 		super(iteratedIdent);
 	}
 
-	public void setIterated(Rule iterated) {
-		this.iterated = iterated; 
+	public void setIterated(Rule iterated)
+	{
+		this.iterated = iterated;
 	}
 
-	public Rule getIterated() {
+	public Rule getIterated()
+	{
 		return iterated;
 	}
 }

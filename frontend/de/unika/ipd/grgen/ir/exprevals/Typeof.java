@@ -9,31 +9,35 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class Typeof extends Expression {
+public class Typeof extends Expression
+{
 	/** The entity whose type we want to know. */
 	private final Entity entity;
 
-	public Typeof(Entity entity) {
+	public Typeof(Entity entity)
+	{
 		super("typeof", entity.getType());
 		this.entity = entity;
 	}
 
-	public Entity getEntity() {
+	public Entity getEntity()
+	{
 		return entity;
 	}
 
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return "typeof<" + entity + ">";
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		if(!isGlobalVariable(entity)) {
 			if(entity instanceof GraphEntity)
-				needs.add((GraphEntity) entity);
+				needs.add((GraphEntity)entity);
 			else
-				needs.add((Variable) entity);
+				needs.add((Variable)entity);
 		}
 	}
 }
-

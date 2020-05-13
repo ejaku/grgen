@@ -22,41 +22,48 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a break statement.
  */
-public class BreakStatementNode extends EvalStatementNode {
+public class BreakStatementNode extends EvalStatementNode
+{
 	static {
 		setName(BreakStatementNode.class, "BreakStatement");
 	}
 
-	public BreakStatementNode(Coords coords) {
+	public BreakStatementNode(Coords coords)
+	{
 		super(coords);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
-		return true;
-	}
-	
-	@Override
-	protected boolean checkLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
-		if(enclosingLoop==null) {
+	@Override
+	protected boolean checkLocal()
+	{
+		return true;
+	}
+
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
+		if(enclosingLoop == null) {
 			reportError("break must be nested inside a loop (where to break out?)");
 			return false;
 		}
@@ -64,7 +71,8 @@ public class BreakStatementNode extends EvalStatementNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new BreakStatement();
 	}
 }

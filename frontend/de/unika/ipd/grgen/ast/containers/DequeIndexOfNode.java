@@ -44,27 +44,30 @@ public class DequeIndexOfNode extends ContainerFunctionMethodInvocationBaseExprN
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(valueExpr);
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			children.add(startIndexExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("valueExpr");
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			childrenNames.add("startIndex");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof DequeTypeNode)) {
 			targetExpr.reportError("This argument to deque indexOf expression must be of type deque<T>");
@@ -72,31 +75,31 @@ public class DequeIndexOfNode extends ContainerFunctionMethodInvocationBaseExprN
 		}
 		TypeNode valueType = valueExpr.getType();
 		DequeTypeNode dequeType = ((DequeTypeNode)targetExpr.getType());
-		if (!valueType.isEqual(dequeType.valueType))
-		{
+		if(!valueType.isEqual(dequeType.valueType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(dequeType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to "
-						+ "deque indexOf method must be of type " +dequeType.valueType.toString());
+				valueExpr.reportError("Argument (value) to deque indexOf method must be of type "
+						+ dequeType.valueType.toString());
 				return false;
 			}
 		}
-		if(startIndexExpr!=null
-			&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
+		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
 			startIndexExpr.reportError("Argument (start index) to deque indexOf expression must be of type int");
 			return false;
-			}
+		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(startIndexExpr!=null)
+	protected IR constructIR()
+	{
+		if(startIndexExpr != null)
 			return new DequeIndexOfExpr(targetExpr.checkIR(Expression.class),
 					valueExpr.checkIR(Expression.class),
 					startIndexExpr.checkIR(Expression.class));

@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 import java.util.Collection;
 import java.util.Set;
 import java.util.Vector;
@@ -25,7 +24,8 @@ import de.unika.ipd.grgen.ir.Graph;
  * AST node that represents a Connection (an edge connecting two nodes)
  * children: LEFT:NodeDeclNode, EDGE:EdgeDeclNode, RIGHT:NodeDeclNode
  */
-public class ConnectionNode extends BaseNode implements ConnectionCharacter {
+public class ConnectionNode extends BaseNode implements ConnectionCharacter
+{
 	static {
 		setName(ConnectionNode.class, "connection");
 	}
@@ -63,7 +63,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 *  @param d Direction of the connection.
 	 *  @param r Potential redirection of the edge in the connection.
 	 */
-	public ConnectionNode(BaseNode n1, BaseNode e, BaseNode n2, int d, int r) {
+	public ConnectionNode(BaseNode n1, BaseNode e, BaseNode n2, int d, int r)
+	{
 		super(e.getCoords());
 		leftUnresolved = n1;
 		becomeParent(leftUnresolved);
@@ -82,7 +83,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 *  @param n2 Second node.
 	 *  @param d Direction of the connection.
 	 */
-	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, int d, BaseNode parent) {
+	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, int d, BaseNode parent)
+	{
 		this(n1, e, n2, d, NO_REDIRECTION);
 		parent.becomeParent(this);
 
@@ -92,7 +94,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(leftUnresolved, left));
 		children.add(getValidVersion(edgeUnresolved, edge));
@@ -102,7 +105,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("src");
 		childrenNames.add("edge");
@@ -110,16 +114,20 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		return childrenNames;
 	}
 
-	private static DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-	private static DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
+	private static DeclarationResolver<NodeDeclNode> nodeResolver =
+			new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
+	private static DeclarationResolver<EdgeDeclNode> edgeResolver =
+			new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean res = fixupDefinition(leftUnresolved, leftUnresolved.getScope());
 		res &= fixupDefinition(edgeUnresolved, edgeUnresolved.getScope());
 		res &= fixupDefinition(rightUnresolved, rightUnresolved.getScope());
-		if(!res) return false;
+		if(!res)
+			return false;
 
 		left = nodeResolver.resolve(leftUnresolved, this);
 		edge = edgeResolver.resolve(edgeUnresolved, this);
@@ -136,14 +144,15 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean sucess = nodeTypeChecker.check(left, error)
-			& edgeTypeChecker.check(edge, error)
-			& nodeTypeChecker.check(right, error)
-			& checkEdgeRootType()
-			& areDanglingEdgesInReplacementDeclaredInPattern()
-			& noDefNonDefMixedConnection()
-			& checkDeclaredOnLHS();
+				& edgeTypeChecker.check(edge, error)
+				& nodeTypeChecker.check(right, error)
+				& checkEdgeRootType()
+				& areDanglingEdgesInReplacementDeclaredInPattern()
+				& noDefNonDefMixedConnection()
+				& checkDeclaredOnLHS();
 
 		if(!sucess) {
 			return false;
@@ -151,61 +160,61 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		warnArbitraryRootType();
 
 		return true;
-
 	}
 
 	private void warnArbitraryRootType()
-    {
-		if (connectionKind != ARBITRARY) {
+	{
+		if(connectionKind != ARBITRARY) {
 			return;
 		}
 
-		if (!(edge.getDeclType() instanceof ArbitraryEdgeTypeNode)) {
+		if(!(edge.getDeclType() instanceof ArbitraryEdgeTypeNode)) {
 			edge.reportWarning("The type of " + edge.getIdentNode().toString() + " differs from "
 					+ getArbitraryEdgeRootType().getIdentNode().toString()
 					+ ", please use another edge kind instead of ?--? (e.g. -->)");
 		}
 
 		return;
-    }
+	}
 
-	private boolean checkEdgeRootType() {
+	private boolean checkEdgeRootType()
+	{
 		TypeDeclNode rootDecl = null;
-		switch (connectionKind) {
-        case ARBITRARY:
-	        rootDecl = getArbitraryEdgeRootType();
-	        break;
+		switch(connectionKind) {
+		case ARBITRARY:
+			rootDecl = getArbitraryEdgeRootType();
+			break;
 
-        case ARBITRARY_DIRECTED:
-        	rootDecl = getDirectedEdgeRootType();
-        	break;
+		case ARBITRARY_DIRECTED:
+			rootDecl = getDirectedEdgeRootType();
+			break;
 
-        case DIRECTED:
-        	rootDecl = getDirectedEdgeRootType();
-        	break;
+		case DIRECTED:
+			rootDecl = getDirectedEdgeRootType();
+			break;
 
-        case UNDIRECTED:
-        	rootDecl = getUndirectedEdgeRootType();
-        	break;
+		case UNDIRECTED:
+			rootDecl = getUndirectedEdgeRootType();
+			break;
 
-        default:
-	        assert false;
-        	break;
-        }
+		default:
+			assert false;
+			break;
+		}
 
 		DeclaredTypeNode rootType = rootDecl.getDeclType();
 
-		if (!edge.getDeclType().isCompatibleTo(rootType)) {
+		if(!edge.getDeclType().isCompatibleTo(rootType)) {
 			reportError("Edge kind is incompatible with edge type");
 			return false;
 		}
 
 		return true;
-    }
+	}
 
-	private boolean areDanglingEdgesInReplacementDeclaredInPattern() {
-		if(!(left instanceof DummyNodeDeclNode)
-		   && !(right instanceof DummyNodeDeclNode)) {
+	private boolean areDanglingEdgesInReplacementDeclaredInPattern()
+	{
+		if(!(left instanceof DummyNodeDeclNode) && !(right instanceof DummyNodeDeclNode)) {
 			return true; // edge not dangling
 		}
 
@@ -236,7 +245,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		return false;
 	}
 
-	private boolean noDefNonDefMixedConnection() {
+	private boolean noDefNonDefMixedConnection()
+	{
 		if(left.defEntityToBeYieldedTo) {
 			if((left.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 					&& (edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
@@ -259,11 +269,12 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
-	private boolean checkDeclaredOnLHS() {
+
+	private boolean checkDeclaredOnLHS()
+	{
 		if(redirectionKind != NO_REDIRECTION) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				edge.reportError("An edge to be redirected must have been declared on the left hand side (thus matched).");
@@ -294,47 +305,57 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 * This method should only be used by {@link PatternGraphNode#constructIR()}.
 	 * @param gr The IR graph.
 	 */
-	public void addToGraph(Graph gr) {
-		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == DIRECTED, 
-				(redirectionKind & REDIRECT_SOURCE)==REDIRECT_SOURCE, (redirectionKind & REDIRECT_TARGET)==REDIRECT_TARGET);
+	public void addToGraph(Graph gr)
+	{
+		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == DIRECTED,
+				(redirectionKind & REDIRECT_SOURCE) == REDIRECT_SOURCE,
+				(redirectionKind & REDIRECT_TARGET) == REDIRECT_TARGET);
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdges(java.util.Set)
 	 */
-	public void addEdge(Set<EdgeDeclNode> set) {
+	public void addEdge(Set<EdgeDeclNode> set)
+	{
 		assert isResolved();
 
 		set.add(edge);
 	}
 
-	public int getConnectionKind() {
+	public int getConnectionKind()
+	{
 		return connectionKind;
 	}
 
-	public int getRedirectionKind() {
+	public int getRedirectionKind()
+	{
 		return redirectionKind;
 	}
 
-	public EdgeDeclNode getEdge() {
+	public EdgeDeclNode getEdge()
+	{
 		return edge;
 	}
 
-	public NodeDeclNode getSrc() {
+	public NodeDeclNode getSrc()
+	{
 		return left;
 	}
 
-	public void setSrc(NodeDeclNode n) {
-		assert(n!=null);
+	public void setSrc(NodeDeclNode n)
+	{
+		assert(n != null);
 		switchParenthood(left, n);
 		left = n;
 	}
 
-	public NodeDeclNode getTgt() {
+	public NodeDeclNode getTgt()
+	{
 		return right;
 	}
 
-	public void setTgt(NodeDeclNode n) {
+	public void setTgt(NodeDeclNode n)
+	{
 		assert(n != null);
 		switchParenthood(right, n);
 		right = n;
@@ -343,19 +364,21 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
 	 */
-	public void addNodes(Set<NodeDeclNode> set) {
+	public void addNodes(Set<NodeDeclNode> set)
+	{
 		assert isResolved();
 
 		set.add(left);
 		set.add(right);
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "connection node";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "ConnectionNode";
 	}
 }
-

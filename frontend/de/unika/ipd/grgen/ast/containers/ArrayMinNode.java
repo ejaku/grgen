@@ -30,7 +30,8 @@ public class ArrayMinNode extends ArrayAccumulationMethodNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array min method must be of type array<T>");
@@ -38,26 +39,30 @@ public class ArrayMinNode extends ArrayAccumulationMethodNode
 		}
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
 		if(!arrayType.valueType.isAccumulatableType()) {
-			targetExpr.reportError("The array value type of the array min method must be one of: " + TypeNode.getAccumulatableTypesAsString());
+			targetExpr.reportError("The array value type of the array min method must be one of: "
+					+ TypeNode.getAccumulatableTypesAsString());
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
 		return BasicTypeNode.getArrayAccumulationResultType(arrayType.valueType);
 	}
 
 	@Override
-	public boolean isValidTargetTypeOfAccumulation(TypeNode type) {
+	public boolean isValidTargetTypeOfAccumulation(TypeNode type)
+	{
 		return type.isEqual(BasicTypeNode.doubleType) || type.isEqual(BasicTypeNode.floatType)
 				|| type.isEqual(BasicTypeNode.longType) || type.isEqual(BasicTypeNode.intType);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ArrayMinExpr(targetExpr.checkIR(Expression.class));
 	}
 }

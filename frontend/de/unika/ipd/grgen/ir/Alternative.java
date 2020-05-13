@@ -14,12 +14,13 @@ package de.unika.ipd.grgen.ir;
 import java.util.Collection;
 import java.util.Vector;
 
-
 /**
  * Represents an alternative statement in the IR.
  */
-public class Alternative extends Identifiable {
-	public Alternative(Ident ident) {
+public class Alternative extends Identifiable
+{
+	public Alternative(Ident ident)
+	{
 		super("alternative", ident);
 	}
 
@@ -28,8 +29,8 @@ public class Alternative extends Identifiable {
 	/** Was the replacement code already called by means of an alternative replacement declaration? */
 	public boolean wasReplacementAlreadyCalled;
 
-
-	public Collection<Rule> getAlternativeCases() {
+	public Collection<Rule> getAlternativeCases()
+	{
 		return alternativeCases;
 	}
 
@@ -38,7 +39,8 @@ public class Alternative extends Identifiable {
 		alternativeCases.add(alternativeCaseRule);
 	}
 
-	public String getNameOfGraph() {
+	public String getNameOfGraph()
+	{
 		return getIdent().toString();
 	}
 }

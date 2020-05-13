@@ -23,25 +23,27 @@ import de.unika.ipd.grgen.ir.FilterFunctionExternal;
 import de.unika.ipd.grgen.ir.FilterFunctionInternal;
 import de.unika.ipd.grgen.ir.IR;
 
-
 /**
  * AST node class representing filter function declarations
  */
-public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter {
+public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
+{
 	static {
 		setName(FilterFunctionDeclNode.class, "filter function declaration");
 	}
 
 	protected CollectNode<BaseNode> paramsUnresolved;
 	protected CollectNode<DeclNode> params;
-	
+
 	public CollectNode<EvalStatementNode> evals;
 	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode();
 
 	protected IdentNode actionUnresolved;
 	protected TestDeclNode action;
 
-	public FilterFunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, IdentNode action) {
+	public FilterFunctionDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params,
+			IdentNode action)
+	{
 		super(id, filterFunctionType);
 		this.evals = evals;
 		becomeParent(this.evals);
@@ -52,10 +54,11 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		if(evals!=null)
+		if(evals != null)
 			children.add(evals);
 		children.add(paramsUnresolved);
 		children.add(actionUnresolved);
@@ -64,10 +67,11 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
-		if(evals!=null)
+		if(evals != null)
 			childrenNames.add("evals");
 		childrenNames.add("params");
 		childrenNames.add("action");
@@ -75,11 +79,12 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 	}
 
 	private static final DeclarationResolver<TestDeclNode> actionResolver =
-		new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+			new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(!(actionUnresolved instanceof PackageIdentNode)) {
 			fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 		}
@@ -89,50 +94,53 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		params = new CollectNode<DeclNode>();
-		for (BaseNode param : paramsUnresolved.getChildren()) {
-	        if (param instanceof ConnectionNode) {
-	        	ConnectionNode conn = (ConnectionNode) param;
-	        	params.addChild(conn.getEdge().getDecl());
-	        }
-	        else if (param instanceof SingleNodeConnNode) {
-	        	NodeDeclNode node = ((SingleNodeConnNode) param).getNode();
-	        	params.addChild(node);
-	        }
-			else if(param instanceof VarDeclNode) {
-				params.addChild((VarDeclNode) param);
-			}
-			else
+		for(BaseNode param : paramsUnresolved.getChildren()) {
+			if(param instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)param;
+				params.addChild(conn.getEdge().getDecl());
+			} else if(param instanceof SingleNodeConnNode) {
+				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
+				params.addChild(node);
+			} else if(param instanceof VarDeclNode) {
+				params.addChild((VarDeclNode)param);
+			} else
 				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
-        }
+		}
 
 		return true;
 	}
 
-	public String getFilterName() {
+	public String getFilterName()
+	{
 		return getIdentNode().toString();
 	}
 
-	public TestDeclNode getActionNode()	{
+	public TestDeclNode getActionNode()
+	{
 		return action;
 	}
 
 	/** Returns the IR object for this function filter node. */
-    public FilterFunction getFilterFunction() {
-        return checkIR(FilterFunction.class);
-    }
-    
+	public FilterFunction getFilterFunction()
+	{
+		return checkIR(FilterFunction.class);
+	}
+
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
-	
+
 		return filterFunctionType;
 	}
-	
-	public Vector<TypeNode> getParameterTypes() {
+
+	public Vector<TypeNode> getParameterTypes()
+	{
 		assert isChecked();
-		
+
 		Vector<TypeNode> types = new Vector<TypeNode>();
 		for(DeclNode decl : params.getChildren()) {
 			types.add(decl.getDeclType());
@@ -142,7 +150,8 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
 		if(isIRAlreadySet()) {
@@ -150,7 +159,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 		}
 
 		FilterFunction filterFunction;
-		if(evals!=null)
+		if(evals != null)
 			filterFunction = new FilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIdent());
 		else
 			filterFunction = new FilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIdent());
@@ -160,13 +169,13 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 
 		filterFunction.setAction(action.getAction());
 		action.getAction().addFilter(filterFunction);
-		
+
 		// add Params to the IR
 		for(DeclNode decl : params.getChildren()) {
 			filterFunction.addParameter(decl.checkIR(Entity.class));
 		}
 
-		if(evals!=null) {
+		if(evals != null) {
 			// add Computation Statements to the IR
 			for(EvalStatementNode eval : evals.getChildren()) {
 				((FilterFunctionInternal)filterFunction).addComputationStatement(eval.checkIR(EvalStatement.class));
@@ -175,14 +184,14 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter 
 
 		return filterFunction;
 	}
-	
-	public static String getKindStr() {
+
+	public static String getKindStr()
+	{
 		return "filter function declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "filter function";
 	}
 }
-
-

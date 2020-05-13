@@ -11,7 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
-public interface OrderedReplacement {
+public interface OrderedReplacement
+{
 	// no functionality, allows ordering of subpattern replacement nodes and emit here nodes and eval here nodes
 	// in one container of the ordered replacement node type
 }

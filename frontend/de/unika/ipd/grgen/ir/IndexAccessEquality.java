@@ -13,14 +13,16 @@ import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 /**
  * Class for accessing an index by equality comparison, binding a pattern element
  */
-public class IndexAccessEquality extends IndexAccess {
+public class IndexAccessEquality extends IndexAccess
+{
 	public Expression expr;
-	
-	public IndexAccessEquality(Index index, Expression expr) {
+
+	public IndexAccessEquality(Index index, Expression expr)
+	{
 		super(index);
 		this.expr = expr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		expr.collectNeededEntities(needs);

@@ -41,7 +41,8 @@ public class ArrayIndexOfOrderedByNode extends ContainerFunctionMethodInvocation
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(valueExpr);
@@ -49,31 +50,33 @@ public class ArrayIndexOfOrderedByNode extends ContainerFunctionMethodInvocation
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("valueExpr");
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<MemberDeclNode> memberResolver
-		= new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+	private static final DeclarationResolver<MemberDeclNode> memberResolver =
+			new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array indexOfOrderedBy expression must be of type array<T>");
 			return false;
 		}
-		
+
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)) {
 			reportError("indexOfOrderedBy can only be employed on an array of nodes or edges.");
 			return false;
 		}
 
-		ScopeOwner o = (ScopeOwner) arrayType.valueType;
+		ScopeOwner o = (ScopeOwner)arrayType.valueType;
 		o.fixupDefinition(attribute);
 		member = memberResolver.resolve(attribute, this);
 		if(member == null)
@@ -85,7 +88,7 @@ public class ArrayIndexOfOrderedByNode extends ContainerFunctionMethodInvocation
 
 		TypeNode memberType = member.getDeclType();
 		if(!(memberType.equals(BasicTypeNode.byteType))
-				&&!(memberType.equals(BasicTypeNode.shortType))
+				&& !(memberType.equals(BasicTypeNode.shortType))
 				&& !(memberType.equals(BasicTypeNode.intType))
 				&& !(memberType.equals(BasicTypeNode.longType))
 				&& !(memberType.equals(BasicTypeNode.floatType))
@@ -97,12 +100,11 @@ public class ArrayIndexOfOrderedByNode extends ContainerFunctionMethodInvocation
 		}
 
 		TypeNode valueType = valueExpr.getType();
-		if (!valueType.isEqual(memberType))
-		{
+		if(!valueType.isEqual(memberType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(memberType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to "
-						+ "array indexOfOrderedBy method must be of type " +memberType.toString());
+				valueExpr.reportError("Argument (value) to array indexOfOrderedBy method must be of type "
+						+ memberType.toString());
 				return false;
 			}
 		}
@@ -110,14 +112,15 @@ public class ArrayIndexOfOrderedByNode extends ContainerFunctionMethodInvocation
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new ArrayIndexOfOrderedByExpr(
-				targetExpr.checkIR(Expression.class),
+	protected IR constructIR()
+	{
+		return new ArrayIndexOfOrderedByExpr(targetExpr.checkIR(Expression.class),
 				member.checkIR(Entity.class),
 				valueExpr.checkIR(Expression.class));
 	}

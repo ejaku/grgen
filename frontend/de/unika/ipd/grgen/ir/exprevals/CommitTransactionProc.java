@@ -11,23 +11,28 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class CommitTransactionProc extends ProcedureInvocationBase {
+public class CommitTransactionProc extends ProcedureInvocationBase
+{
 	private Expression transactionIdExpr;
 
-	public CommitTransactionProc(Expression stringExpr) {
+	public CommitTransactionProc(Expression stringExpr)
+	{
 		super("commit transaction procedure");
 		this.transactionIdExpr = stringExpr;
 	}
 
-	public Expression getTransactionId() {
+	public Expression getTransactionId()
+	{
 		return transactionIdExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		transactionIdExpr.collectNeededEntities(needs);
 	}

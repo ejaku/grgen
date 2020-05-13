@@ -17,8 +17,8 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.ObjectType;
 
-
-public class ObjectTypeNode extends BasicTypeNode {
+public class ObjectTypeNode extends BasicTypeNode
+{
 	static {
 		setName(ObjectTypeNode.class, "object type");
 	}
@@ -28,28 +28,38 @@ public class ObjectTypeNode extends BasicTypeNode {
 	 * the basic type 'object' has.
 	 */
 	// TODO: No instance is ever used! Probably useless...
-	public static class Value {
+	public static class Value
+	{
 		public static Value NULL = new Value() {
-			public String toString() { return "Const null"; }
+			public String toString()
+			{
+				return "Const null";
+			}
 		};
 
-		private Value() {}
+		private Value()
+		{
+		}
 
-		public boolean equals(Object val) {
-			return (this == val);
+		public boolean equals(Object val)
+		{
+			return(this == val);
 		}
 	}
 
-	public ObjectTypeNode() {}
+	public ObjectTypeNode()
+	{
+	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ObjectType(getIdentNode().getIdent());
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "object";
 	}
 }
-

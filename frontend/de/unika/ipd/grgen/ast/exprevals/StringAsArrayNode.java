@@ -21,7 +21,8 @@ import de.unika.ipd.grgen.ir.exprevals.StringAsArray;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringAsArrayNode extends ExprNode {
+public class StringAsArrayNode extends ExprNode
+{
 	static {
 		setName(StringAsArrayNode.class, "string asArray");
 	}
@@ -30,16 +31,17 @@ public class StringAsArrayNode extends ExprNode {
 	private ExprNode stringToSplitAtExpr;
 	private ArrayTypeNode arrayTypeNode;
 
-	public StringAsArrayNode(Coords coords, ExprNode stringExpr,
-			ExprNode stringToSplitAtExpr) {
+	public StringAsArrayNode(Coords coords, ExprNode stringExpr, ExprNode stringToSplitAtExpr)
+	{
 		super(coords);
 
-		this.stringExpr            = becomeParent(stringExpr);
+		this.stringExpr = becomeParent(stringExpr);
 		this.stringToSplitAtExpr = becomeParent(stringToSplitAtExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
 		children.add(stringToSplitAtExpr);
@@ -47,7 +49,8 @@ public class StringAsArrayNode extends ExprNode {
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
 		childrenNames.add("stringToSplitAt");
@@ -55,13 +58,15 @@ public class StringAsArrayNode extends ExprNode {
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		arrayTypeNode = new ArrayTypeNode(((StringTypeNode)stringExpr.getType()).getIdentNode());
 		return arrayTypeNode.resolve();
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("This argument to string explode expression must be of type string");
 			return false;
@@ -75,14 +80,16 @@ public class StringAsArrayNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new StringAsArray(stringExpr.checkIR(Expression.class),
 				stringToSplitAtExpr.checkIR(Expression.class),
 				getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return arrayTypeNode;
 	}
 }

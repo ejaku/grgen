@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node comparing a subgraph against a subgraph set.
  */
-public class EqualsAnyExprNode extends ExprNode {
+public class EqualsAnyExprNode extends ExprNode
+{
 	static {
 		setName(EqualsAnyExprNode.class, "equals any expr");
 	}
@@ -28,8 +29,10 @@ public class EqualsAnyExprNode extends ExprNode {
 	private ExprNode subgraphExpr;
 	private ExprNode subgraphSetExpr;
 	private boolean includingAttributes;
-		
-	public EqualsAnyExprNode(Coords coords, ExprNode subgraphExpr, ExprNode subgraphSetExpr, boolean includingAttributes) {
+
+	public EqualsAnyExprNode(Coords coords, ExprNode subgraphExpr,
+			ExprNode subgraphSetExpr, boolean includingAttributes)
+	{
 		super(coords);
 		this.subgraphExpr = subgraphExpr;
 		becomeParent(this.subgraphExpr);
@@ -40,7 +43,8 @@ public class EqualsAnyExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(subgraphExpr);
 		children.add(subgraphSetExpr);
@@ -49,7 +53,8 @@ public class EqualsAnyExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("subgraphExpr");
 		childrenNames.add("subgraphSetExpr");
@@ -58,13 +63,15 @@ public class EqualsAnyExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(subgraphExpr.getType() instanceof GraphTypeNode)) {
 			subgraphExpr.reportError("(sub)graph expected as first argument to equalsAny");
 			return false;
@@ -82,15 +89,16 @@ public class EqualsAnyExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new EqualsAnyExpr(subgraphExpr.checkIR(Expression.class), 
-								subgraphSetExpr.checkIR(Expression.class), 
-								includingAttributes,
-								getType().getType());
+	protected IR constructIR()
+	{
+		return new EqualsAnyExpr(subgraphExpr.checkIR(Expression.class),
+				subgraphSetExpr.checkIR(Expression.class),
+				includingAttributes, getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.booleanType;
 	}
 }

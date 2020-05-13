@@ -19,18 +19,21 @@ import java.util.Vector;
  * Dummy AST node, that is used in the case of an error.
  * children: none
  */
-public class ErrorNode extends BaseNode {
+public class ErrorNode extends BaseNode
+{
 	static {
 		setName(ErrorNode.class, "error node");
 	}
 
-	protected ErrorNode() {
+	protected ErrorNode()
+	{
 		super();
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -38,7 +41,8 @@ public class ErrorNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
@@ -46,28 +50,33 @@ public class ErrorNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	public Color getNodeColor() {
+	public Color getNodeColor()
+	{
 		return Color.RED;
 	}
 
 	@Override
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return "Error";
 	}
 
 	@Override
-	public final boolean isError() {
+	public final boolean isError()
+	{
 		return true;
 	}
 }

@@ -13,14 +13,16 @@ import java.util.Vector;
 /**
  * Type of incidence count index node declaration.
  */
-public class IncidenceCountIndexTypeNode extends TypeNode {
+public class IncidenceCountIndexTypeNode extends TypeNode
+{
 	static {
 		setName(IncidenceCountIndexTypeNode.class, "incidence count index type");
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -28,10 +30,10 @@ public class IncidenceCountIndexTypeNode extends TypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
-};
-
+}

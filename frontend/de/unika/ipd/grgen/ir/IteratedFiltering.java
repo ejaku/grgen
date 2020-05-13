@@ -17,34 +17,41 @@ import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 
-public class IteratedFiltering extends EvalStatement {
+public class IteratedFiltering extends EvalStatement
+{
 	Rule actionOrSubpattern;
 	Rule iterated;
 	ArrayList<FilterInvocation> filterInvocations = new ArrayList<FilterInvocation>();
 
-	public IteratedFiltering(String name, Rule actionOrSubpattern, Rule iterated) {
+	public IteratedFiltering(String name, Rule actionOrSubpattern, Rule iterated)
+	{
 		super(name);
 		this.actionOrSubpattern = actionOrSubpattern;
 		this.iterated = iterated;
 	}
 
-	public void addFilterInvocation(FilterInvocation filterInvocation) {
+	public void addFilterInvocation(FilterInvocation filterInvocation)
+	{
 		filterInvocations.add(filterInvocation);
 	}
-	
-	public Rule getActionOrSubpattern() {
+
+	public Rule getActionOrSubpattern()
+	{
 		return actionOrSubpattern;
 	}
 
-	public Rule getIterated() {
+	public Rule getIterated()
+	{
 		return iterated;
 	}
-	
-	public ArrayList<FilterInvocation> getFilterInvocations() {
+
+	public ArrayList<FilterInvocation> getFilterInvocations()
+	{
 		return filterInvocations;
 	}
 
-	public FilterInvocation getFilterInvocation(int i) {
+	public FilterInvocation getFilterInvocation(int i)
+	{
 		return filterInvocations.get(i);
 	}
 

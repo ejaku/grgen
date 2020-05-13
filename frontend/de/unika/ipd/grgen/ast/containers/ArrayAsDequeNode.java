@@ -35,27 +35,31 @@ public class ArrayAsDequeNode extends ContainerFunctionMethodInvocationBaseExprN
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		dequeTypeNode = new DequeTypeNode(((ArrayTypeNode)targetExpr.getType()).valueTypeUnresolved);
 		return dequeTypeNode.resolve();
 	}
-	
+
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array as deque expression must be of type array<T>");
@@ -65,12 +69,14 @@ public class ArrayAsDequeNode extends ContainerFunctionMethodInvocationBaseExprN
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return dequeTypeNode;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ArrayAsDequeExpr(targetExpr.checkIR(Expression.class), getType().getType());
 	}
 }

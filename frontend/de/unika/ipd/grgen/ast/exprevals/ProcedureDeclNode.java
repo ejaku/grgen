@@ -22,11 +22,11 @@ import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 
-
 /**
  * AST node class representing procedure declarations
  */
-public class ProcedureDeclNode extends ProcedureBase {
+public class ProcedureDeclNode extends ProcedureBase
+{
 	static {
 		setName(ProcedureDeclNode.class, "procedure declaration");
 	}
@@ -36,10 +36,12 @@ public class ProcedureDeclNode extends ProcedureBase {
 
 	public CollectNode<EvalStatementNode> evals;
 	static final ProcedureTypeNode procedureType = new ProcedureTypeNode();
-	
+
 	boolean isMethod;
 
-	public ProcedureDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params, CollectNode<BaseNode> rets, boolean isMethod) {
+	public ProcedureDeclNode(IdentNode id, CollectNode<EvalStatementNode> evals, CollectNode<BaseNode> params,
+			CollectNode<BaseNode> rets, boolean isMethod)
+	{
 		super(id, procedureType);
 		this.evals = evals;
 		becomeParent(this.evals);
@@ -52,7 +54,8 @@ public class ProcedureDeclNode extends ProcedureBase {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(evals);
@@ -63,7 +66,8 @@ public class ProcedureDeclNode extends ProcedureBase {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("evals");
@@ -74,42 +78,43 @@ public class ProcedureDeclNode extends ProcedureBase {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		params = new CollectNode<DeclNode>();
-		for (BaseNode param : paramsUnresolved.getChildren()) {
-	        if (param instanceof ConnectionNode) {
-	        	ConnectionNode conn = (ConnectionNode) param;
-	        	params.addChild(conn.getEdge().getDecl());
-	        }
-	        else if (param instanceof SingleNodeConnNode) {
-	        	NodeDeclNode node = ((SingleNodeConnNode) param).getNode();
-	        	params.addChild(node);
-	        }
-			else if(param instanceof VarDeclNode) {
-				params.addChild((VarDeclNode) param);
-			}
-			else
+		for(BaseNode param : paramsUnresolved.getChildren()) {
+			if(param instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)param;
+				params.addChild(conn.getEdge().getDecl());
+			} else if(param instanceof SingleNodeConnNode) {
+				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
+				params.addChild(node);
+			} else if(param instanceof VarDeclNode) {
+				params.addChild((VarDeclNode)param);
+			} else
 				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
-        }
+		}
 
 		return true;
 	}
 
 	/** Returns the IR object for this procedure node. */
-    public Procedure getProcedure() {
-        return checkIR(Procedure.class);
-    }
-    
+	public Procedure getProcedure()
+	{
+		return checkIR(Procedure.class);
+	}
+
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
-	
+
 		return procedureType;
 	}
-	
-	public Vector<TypeNode> getParameterTypes() {
+
+	public Vector<TypeNode> getParameterTypes()
+	{
 		assert isChecked();
-		
+
 		Vector<TypeNode> types = new Vector<TypeNode>();
 		for(DeclNode decl : params.getChildren()) {
 			types.add(decl.getDeclType());
@@ -119,16 +124,16 @@ public class ProcedureDeclNode extends ProcedureBase {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
 		if(isIRAlreadySet()) {
 			return getIR();
 		}
 
-		Procedure procedure = isMethod ? 
-				new ProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent()) : 
-				new Procedure(getIdentNode().toString(), getIdentNode().getIdent());
+		Procedure procedure = isMethod ? new ProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent())
+				: new Procedure(getIdentNode().toString(), getIdentNode().getIdent());
 
 		// mark this node as already visited
 		setIR(procedure);
@@ -150,14 +155,14 @@ public class ProcedureDeclNode extends ProcedureBase {
 
 		return procedure;
 	}
-	
-	public static String getKindStr() {
+
+	public static String getKindStr()
+	{
 		return "procedure declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "procedure";
 	}
 }
-
-

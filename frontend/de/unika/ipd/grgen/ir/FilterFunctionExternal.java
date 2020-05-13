@@ -14,8 +14,10 @@ package de.unika.ipd.grgen.ir;
 /**
  * An external filter function.
  */
-public class FilterFunctionExternal extends FilterFunction {
-	public FilterFunctionExternal(String name, Ident ident) {
+public class FilterFunctionExternal extends FilterFunction
+{
+	public FilterFunctionExternal(String name, Ident ident)
+	{
 		super(name, ident);
-	}		
+	}
 }

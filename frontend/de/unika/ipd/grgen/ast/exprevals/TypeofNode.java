@@ -22,7 +22,8 @@ import de.unika.ipd.grgen.parser.Coords;
  * A node representing the current type of a
  * certain node/edge.
  */
-public class TypeofNode extends ExprNode {
+public class TypeofNode extends ExprNode
+{
 	static {
 		setName(TypeofNode.class, "typeof");
 	}
@@ -32,15 +33,17 @@ public class TypeofNode extends ExprNode {
 	private NodeDeclNode entityNodeDecl = null;
 	private VarDeclNode entityVarDecl = null;
 
-	public TypeofNode(Coords coords, IdentNode entity) {
+	public TypeofNode(Coords coords, IdentNode entity)
+	{
 		super(coords);
-		this.entityUnresolved= entity;
+		this.entityUnresolved = entity;
 		becomeParent(this.entityUnresolved);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl, entityVarDecl));
 		return children;
@@ -48,22 +51,24 @@ public class TypeofNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("entity");
 		return childrenNames;
 	}
 
 	private static final DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode> entityResolver =
-		new DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode>(EdgeDeclNode.class, NodeDeclNode.class, VarDeclNode.class);
+			new DeclarationTripleResolver<EdgeDeclNode, NodeDeclNode, VarDeclNode>(EdgeDeclNode.class, NodeDeclNode.class, VarDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean res = fixupDefinition(entityUnresolved, entityUnresolved.getScope());
-		
+
 		Triple<EdgeDeclNode, NodeDeclNode, VarDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
-		if (resolved != null) {
+		if(resolved != null) {
 			entityEdgeDecl = resolved.first;
 			entityNodeDecl = resolved.second;
 			entityVarDecl = resolved.third;
@@ -76,11 +81,11 @@ public class TypeofNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(entityVarDecl != null
 				&& !(entityVarDecl.getDeclType() instanceof NodeTypeNode)
-				&& !(entityVarDecl.getDeclType() instanceof EdgeTypeNode))
-		{
+				&& !(entityVarDecl.getDeclType() instanceof EdgeTypeNode)) {
 			reportError("the variable for a typeof must be of node or edge type.");
 			return false;
 		}
@@ -88,40 +93,47 @@ public class TypeofNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl).checkIR(Entity.class);
 
 		return new Typeof(entity);
 	}
 
-	protected DeclNode getEntity() {
+	protected DeclNode getEntity()
+	{
 		assert isResolved();
 
 		return getValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl);
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.typeType;
 	}
 
 	@Override
-	public boolean noDefElement(String containingConstruct) {
-		if(entityEdgeDecl!=null) {
+	public boolean noDefElement(String containingConstruct)
+	{
+		if(entityEdgeDecl != null) {
 			if(entityEdgeDecl.defEntityToBeYieldedTo) {
-				entityEdgeDecl.reportError("A def entity ("+entityEdgeDecl+") can't be accessed from a " + containingConstruct);
+				entityEdgeDecl.reportError("A def entity (" + entityEdgeDecl
+						+ ") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}
-		if(entityNodeDecl!=null) {
+		if(entityNodeDecl != null) {
 			if(entityNodeDecl.defEntityToBeYieldedTo) {
-				entityNodeDecl.reportError("A def variable ("+entityNodeDecl+") can't be accessed from a " + containingConstruct);
+				entityNodeDecl.reportError("A def variable (" + entityNodeDecl
+						+ ") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}
-		if(entityVarDecl!=null) {
+		if(entityVarDecl != null) {
 			if(entityVarDecl.defEntityToBeYieldedTo) {
-				entityVarDecl.reportError("A def variable ("+entityVarDecl+") can't be accessed from a " + containingConstruct);
+				entityVarDecl.reportError("A def variable (" + entityVarDecl
+						+ ") can't be accessed from a " + containingConstruct);
 				return false;
 			}
 		}

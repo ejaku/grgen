@@ -23,11 +23,11 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 import java.util.Collection;
 import java.util.Vector;
 
-
 /**
  * AST node class representing incidence count index declarations
  */
-public class IncidenceCountIndexDeclNode extends IndexDeclNode {
+public class IncidenceCountIndexDeclNode extends IndexDeclNode
+{
 	static {
 		setName(IncidenceCountIndexDeclNode.class, "incidence count index declaration");
 	}
@@ -42,24 +42,27 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode {
 	private InheritanceTypeNode adjacentNodeType;
 
 	private static final IncidenceCountIndexTypeNode incidenceCountIndexType =
-		new IncidenceCountIndexTypeNode();
+			new IncidenceCountIndexTypeNode();
 
-	private static final DeclarationTypeResolver<InheritanceTypeNode> typeResolver = 
-		new DeclarationTypeResolver<InheritanceTypeNode>(InheritanceTypeNode.class);
+	private static final DeclarationTypeResolver<InheritanceTypeNode> typeResolver =
+			new DeclarationTypeResolver<InheritanceTypeNode>(InheritanceTypeNode.class);
 
-	public IncidenceCountIndexDeclNode(IdentNode id, String functionName, 
+	public IncidenceCountIndexDeclNode(IdentNode id, String functionName,
 			IdentNode startNodeType, IdentNode incidentEdgeType, IdentNode adjacentNodeType,
-			ParserEnvironment env) {
+			ParserEnvironment env)
+	{
 		super(id, incidenceCountIndexType);
 		this.functionName = functionName;
 		this.startNodeTypeUnresolved = becomeParent(startNodeType);
-		this.incidentEdgeTypeUnresolved = becomeParent(incidentEdgeType!=null ? incidentEdgeType : env.getDirectedEdgeRoot());
-		this.adjacentNodeTypeUnresolved = becomeParent(adjacentNodeType!=null ? adjacentNodeType : env.getNodeRoot());
+		this.incidentEdgeTypeUnresolved = becomeParent(
+				incidentEdgeType != null ? incidentEdgeType : env.getDirectedEdgeRoot());
+		this.adjacentNodeTypeUnresolved = becomeParent(adjacentNodeType != null ? adjacentNodeType : env.getNodeRoot());
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(startNodeTypeUnresolved, startNodeType));
@@ -70,7 +73,8 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("startNodeType");
@@ -81,7 +85,8 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(startNodeTypeUnresolved == null) {
 			reportError(functionName + "() takes 1-3 parameters.");
 			return false;
@@ -116,7 +121,8 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(functionName.equals("countIncoming"))
 			direction = CountIncidentEdgeExprNode.INCOMING;
 		else if(functionName.equals("countOutgoing"))
@@ -124,46 +130,48 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode {
 		else if(functionName.equals("countIncident"))
 			direction = CountIncidentEdgeExprNode.INCIDENT;
 		else {
-			reportError(functionName + "() is not valid, use countIncoming|countOutgoing|countIncident for defining an incidence count index.");
+			reportError(functionName
+					+ "() is not valid, use countIncoming|countOutgoing|countIncident for defining an incidence count index.");
 			return false;
 		}
-		
+
 		if(!(startNodeType instanceof NodeTypeNode)) {
-			reportError("first argument of "+functionName+"(.,.,.) must be a node type");
+			reportError("first argument of " + functionName + "(.,.,.) must be a node type");
 			return false;
 		}
 		if(!(incidentEdgeType instanceof EdgeTypeNode)) {
-			reportError("second argument of "+functionName+"(.,.,.) must be an edge type");
+			reportError("second argument of " + functionName + "(.,.,.) must be an edge type");
 			return false;
 		}
 		if(!(adjacentNodeType instanceof NodeTypeNode)) {
-			reportError("third argument of "+functionName+"(.,.,.) must be a node type");
+			reportError("third argument of " + functionName + "(.,.,.) must be a node type");
 			return false;
 		}
 		return true;
 	}
-	
+
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
-	
+
 		return incidenceCountIndexType;
 	}
-	
-	public TypeNode getType() {
+
+	public TypeNode getType()
+	{
 		assert isResolved();
 
 		return startNodeType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		IncidenceCountIndex incidenceCountIndex = new IncidenceCountIndex(getIdentNode().toString(),
 				getIdentNode().getIdent(), startNodeType.checkIR(NodeType.class),
 				incidentEdgeType.checkIR(EdgeType.class), direction,
 				adjacentNodeType.checkIR(NodeType.class));
 		return incidenceCountIndex;
-	}	
+	}
 }
-
-

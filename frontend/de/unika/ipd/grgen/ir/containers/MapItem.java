@@ -14,25 +14,30 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapItem extends IR {
+public class MapItem extends IR
+{
 	Expression keyExpr;
 	Expression valueExpr;
 
-	public MapItem(Expression keyExpr, Expression valueExpr) {
+	public MapItem(Expression keyExpr, Expression valueExpr)
+	{
 		super("map item");
 		this.keyExpr = keyExpr;
 		this.valueExpr = valueExpr;
 	}
 
-	public Expression getKeyExpr() {
+	public Expression getKeyExpr()
+	{
 		return keyExpr;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		keyExpr.collectNeededEntities(needs);
 		valueExpr.collectNeededEntities(needs);
 	}

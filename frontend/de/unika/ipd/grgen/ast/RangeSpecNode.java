@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node representing a range specification (used by ConnAssertNode).
  * children: none
  */
-public class RangeSpecNode extends BaseNode {
+public class RangeSpecNode extends BaseNode
+{
 	static {
 		setName(RangeSpecNode.class, "range spec");
 	}
@@ -34,7 +35,8 @@ public class RangeSpecNode extends BaseNode {
 	/**
 	 * @param coords
 	 */
-	public RangeSpecNode(Coords coords, long lower, long upper) {
+	public RangeSpecNode(Coords coords, long lower, long upper)
+	{
 		super(coords);
 		this.lower = lower;
 		this.upper = upper;
@@ -42,7 +44,8 @@ public class RangeSpecNode extends BaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
@@ -50,7 +53,8 @@ public class RangeSpecNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
@@ -58,13 +62,15 @@ public class RangeSpecNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean good = true;
 		if(lower < 0) {
 			error.error(getCoords(), "Lower bound of range must be positive");
@@ -74,7 +80,7 @@ public class RangeSpecNode extends BaseNode {
 			error.error(getCoords(), "Upper bound of range must be positive");
 			good = false;
 		}
-		if(lower>upper) {
+		if(lower > upper) {
 			error.error(getCoords(), "Lower bound must be less (or equal) than upper bound of range");
 			good = false;
 		}
@@ -82,17 +88,20 @@ public class RangeSpecNode extends BaseNode {
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return super.getName() + " [" + lower + ":" + upper + "]";
 	}
 
 	/** @return the lower bound of the range. */
-	public long getLower() {
+	public long getLower()
+	{
 		return lower;
 	}
 
 	/** @return the upper bound of the range. */
-	public long getUpper() {
+	public long getUpper()
+	{
 		return upper;
 	}
 }

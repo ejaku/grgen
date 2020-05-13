@@ -10,6 +10,7 @@
  */
 
 package de.unika.ipd.grgen.ir;
+
 import java.util.Comparator;
 import java.util.Map;
 
@@ -20,10 +21,12 @@ import de.unika.ipd.grgen.util.Annotations;
  * Identifiable with an identifier.
  * This is a super class for all classes which are associated with an identifier.
  */
-public abstract class Identifiable extends IR implements Annotated, Comparable<Identifiable> {
+public abstract class Identifiable extends IR implements Annotated, Comparable<Identifiable>
+{
 	/** helper class for comparing objects of type Identifiable, used in compareTo */
 	protected static final Comparator<Identifiable> COMPARATOR = new Comparator<Identifiable>() {
-		public int compare(Identifiable lt, Identifiable rt) {
+		public int compare(Identifiable lt, Identifiable rt)
+		{
 			return lt.getIdent().compareTo(rt.getIdent());
 		}
 	};
@@ -33,48 +36,58 @@ public abstract class Identifiable extends IR implements Annotated, Comparable<I
 
 	/** @param name The name of the IR class
 	 *  @param ident The identifier associated with this IR object */
-	public Identifiable(String name, Ident ident) {
+	public Identifiable(String name, Ident ident)
+	{
 		super(name);
 		this.ident = ident;
 	}
 
 	/** @return The identifier that identifies this IR structure. */
-	public Ident getIdent() {
+	public Ident getIdent()
+	{
 		return ident;
 	}
 
 	/** Set the identifier for this object. */
-	public void setIdent(Ident ident) {
+	public void setIdent(Ident ident)
+	{
 		this.ident = ident;
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
-	public String getNodeLabel() {
+	public String getNodeLabel()
+	{
 		return toString();
 	}
 
-	public String getNodeInfo() {
+	public String getNodeInfo()
+	{
 		return ident.getNodeInfo();
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getName() + " " + ident;
 	}
 
-	public void addFields(Map<String, Object> fields) {
+	public void addFields(Map<String, Object> fields)
+	{
 		fields.put("ident", ident.toString());
 	}
 
-	public int hashCode() {
+	public int hashCode()
+	{
 		return getIdent().hashCode();
 	}
 
-	public int compareTo(Identifiable id) {
+	public int compareTo(Identifiable id)
+	{
 		return COMPARATOR.compare(this, id);
 	}
 
 	/** @return The annotations. */
-	public Annotations getAnnotations() {
+	public Annotations getAnnotations()
+	{
 		return getIdent().getAnnotations();
 	}
 }

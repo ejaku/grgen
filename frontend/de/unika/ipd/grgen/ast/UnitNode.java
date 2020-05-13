@@ -36,7 +36,8 @@ import de.unika.ipd.grgen.ir.exprevals.Procedure;
 /**
  * The main node of the text. It is the root of the AST.
  */
-public class UnitNode extends BaseNode {
+public class UnitNode extends BaseNode
+{
 	static {
 		setName(UnitNode.class, "unit declaration");
 	}
@@ -74,7 +75,6 @@ public class UnitNode extends BaseNode {
 	private CollectNode<TypeDeclNode> packages;
 	private CollectNode<IdentNode> packagesUnresolved;
 
-
 	/**
 	 * The name for this unit node
 	 */
@@ -91,7 +91,8 @@ public class UnitNode extends BaseNode {
 			CollectNode<IdentNode> matchTypes, CollectNode<IdentNode> filterFunctions,
 			CollectNode<IdentNode> matchClasses, CollectNode<IdentNode> matchClassFilterFunctions,
 			CollectNode<IdentNode> functions, CollectNode<IdentNode> procedures,
-			CollectNode<IdentNode> sequences, CollectNode<IdentNode> packages) {
+			CollectNode<IdentNode> sequences, CollectNode<IdentNode> packages)
+	{
 		this.stdModel = stdModel;
 		this.models = models;
 		becomeParent(this.models);
@@ -119,17 +120,20 @@ public class UnitNode extends BaseNode {
 		this.filename = filename;
 	}
 
-	protected ModelNode getStdModel() {
+	protected ModelNode getStdModel()
+	{
 		return stdModel;
 	}
 
-	public void addModel(ModelNode model) {
+	public void addModel(ModelNode model)
+	{
 		models.addChild(model);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(models);
 		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
@@ -147,7 +151,8 @@ public class UnitNode extends BaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("models");
 		childrenNames.add("subpatterns");
@@ -163,39 +168,40 @@ public class UnitNode extends BaseNode {
 		return childrenNames;
 	}
 
-	private static final CollectResolver<SubpatternDeclNode> subpatternsResolver = new CollectResolver<SubpatternDeclNode>(
-			new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class));
+	private static final CollectResolver<SubpatternDeclNode> subpatternsResolver =
+			new CollectResolver<SubpatternDeclNode>(new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class));
 
-	private static final CollectResolver<TestDeclNode> actionsResolver = new CollectResolver<TestDeclNode>(
-			new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
+	private static final CollectResolver<TestDeclNode> actionsResolver =
+			new CollectResolver<TestDeclNode>(new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
 
-	private static final CollectResolver<MatchTypeNode> matchTypesResolver = new CollectResolver<MatchTypeNode>(
-			new DeclarationTypeResolver<MatchTypeNode>(MatchTypeNode.class));
+	private static final CollectResolver<MatchTypeNode> matchTypesResolver =
+			new CollectResolver<MatchTypeNode>(new DeclarationTypeResolver<MatchTypeNode>(MatchTypeNode.class));
 
-	private static final CollectResolver<FilterFunctionDeclNode> filterFunctionsResolver = new CollectResolver<FilterFunctionDeclNode>(
-			new DeclarationResolver<FilterFunctionDeclNode>(FilterFunctionDeclNode.class));
+	private static final CollectResolver<FilterFunctionDeclNode> filterFunctionsResolver =
+			new CollectResolver<FilterFunctionDeclNode>(new DeclarationResolver<FilterFunctionDeclNode>(FilterFunctionDeclNode.class));
 
-	private static final CollectResolver<TypeDeclNode> matchClassesResolver = new CollectResolver<TypeDeclNode>(
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+	private static final CollectResolver<TypeDeclNode> matchClassesResolver =
+			new CollectResolver<TypeDeclNode>(new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 
-	private static final CollectResolver<MatchClassFilterFunctionDeclNode> matchClassFilterFunctionsResolver = new CollectResolver<MatchClassFilterFunctionDeclNode>(
-			new DeclarationResolver<MatchClassFilterFunctionDeclNode>(MatchClassFilterFunctionDeclNode.class));
+	private static final CollectResolver<MatchClassFilterFunctionDeclNode> matchClassFilterFunctionsResolver =
+			new CollectResolver<MatchClassFilterFunctionDeclNode>(new DeclarationResolver<MatchClassFilterFunctionDeclNode>(MatchClassFilterFunctionDeclNode.class));
 
-	private static final CollectResolver<FunctionDeclNode> functionsResolver = new CollectResolver<FunctionDeclNode>(
-			new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class));
+	private static final CollectResolver<FunctionDeclNode> functionsResolver =
+			new CollectResolver<FunctionDeclNode>(new DeclarationResolver<FunctionDeclNode>(FunctionDeclNode.class));
 
-	private static final CollectResolver<ProcedureDeclNode> proceduresResolver = new CollectResolver<ProcedureDeclNode>(
-			new DeclarationResolver<ProcedureDeclNode>(ProcedureDeclNode.class));
+	private static final CollectResolver<ProcedureDeclNode> proceduresResolver =
+			new CollectResolver<ProcedureDeclNode>(new DeclarationResolver<ProcedureDeclNode>(ProcedureDeclNode.class));
 
-	private static final CollectResolver<SequenceDeclNode> sequencesResolver = new CollectResolver<SequenceDeclNode>(
-			new DeclarationResolver<SequenceDeclNode>(SequenceDeclNode.class));
+	private static final CollectResolver<SequenceDeclNode> sequencesResolver =
+			new CollectResolver<SequenceDeclNode>(new DeclarationResolver<SequenceDeclNode>(SequenceDeclNode.class));
 
-	private static final CollectResolver<TypeDeclNode> packagesResolver = new CollectResolver<TypeDeclNode>(
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+	private static final CollectResolver<TypeDeclNode> packagesResolver =
+			new CollectResolver<TypeDeclNode>(new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		subpatterns = subpatternsResolver.resolve(subpatternsUnresolved, this);
 		actions = actionsResolver.resolve(actionsUnresolved, this);
 		matchTypes = matchTypesResolver.resolve(matchTypesUnresolved, this);
@@ -208,16 +214,17 @@ public class UnitNode extends BaseNode {
 		packages = packagesResolver.resolve(packagesUnresolved, this);
 
 		return subpatterns != null && actions != null
-			&& matchTypes != null && filterFunctions != null
-			&& matchClassDecls != null && matchClassFilterFunctions != null
-			&& functions != null && procedures != null
-			&& sequences != null && packages != null;
+				&& matchTypes != null && filterFunctions != null
+				&& matchClassDecls != null && matchClassFilterFunctions != null
+				&& functions != null && procedures != null
+				&& sequences != null && packages != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
 	 *  @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
 		boolean res = modelChecker.check(models, error);
 		for(ModelNode model : models.getChildren()) {
@@ -252,7 +259,8 @@ public class UnitNode extends BaseNode {
 		}
 		for(MatchClassFilterFunctionDeclNode matchClassFilterFunction : matchClassFilterFunctions.getChildren()) {
 			if(matchClassFilterFunction.evals != null) // otherwise external filter function without statements
-				res &= EvalStatementNode.checkStatements(true, matchClassFilterFunction, null, matchClassFilterFunction.evals, true);
+				res &= EvalStatementNode.checkStatements(true, matchClassFilterFunction, null,
+						matchClassFilterFunction.evals, true);
 		}
 		for(FunctionDeclNode function : functions.getChildren()) {
 			res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
@@ -263,7 +271,8 @@ public class UnitNode extends BaseNode {
 		return res;
 	}
 
-	private boolean checkModelTypes(boolean res, CollectNode<TypeDeclNode> typeDecls) {
+	private boolean checkModelTypes(boolean res, CollectNode<TypeDeclNode> typeDecls)
+	{
 		for(TypeDeclNode typeDecl : typeDecls.getChildren()) {
 			DeclaredTypeNode declType = typeDecl.getDeclType();
 			if(declType instanceof InheritanceTypeNode) {
@@ -273,8 +282,9 @@ public class UnitNode extends BaseNode {
 		}
 		return res;
 	}
-	
-	protected static boolean checkStatementsLHS(DeclNode root, PatternGraphNode curPattern) {
+
+	protected static boolean checkStatementsLHS(DeclNode root, PatternGraphNode curPattern)
+	{
 		boolean res = true;
 
 		// traverse graph structure
@@ -293,23 +303,24 @@ public class UnitNode extends BaseNode {
 		for(PatternGraphNode idpt : curPattern.idpts.getChildren()) {
 			res &= checkStatementsLHS(root, idpt);
 		}
-		
+
 		// spawn checking computation statement structure
 		for(EvalStatementsNode yields : curPattern.yieldsEvals.getChildren()) {
 			res &= EvalStatementNode.checkStatements(true, root, null, yields.evalStatements, true);
 		}
-		
+
 		return res;
 	}
 
-	protected static boolean checkStatementsRHS(DeclNode root, GraphNode curGraph) {
+	protected static boolean checkStatementsRHS(DeclNode root, GraphNode curGraph)
+	{
 		boolean res = true;
 
 		// spawn checking computation statement structure
 		for(EvalStatementsNode evals : curGraph.yieldsEvals.getChildren()) {
 			res &= EvalStatementNode.checkStatements(false, root, null, evals.evalStatements, true);
 		}
-		
+
 		return res;
 	}
 
@@ -317,7 +328,8 @@ public class UnitNode extends BaseNode {
 	 * Get the IR unit node for this AST node.
 	 * @return The Unit for this AST node.
 	 */
-	public Unit getUnit() {
+	public Unit getUnit()
+	{
 		return checkIR(Unit.class);
 	}
 
@@ -327,7 +339,8 @@ public class UnitNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Unit res = new Unit(unitname, filename);
 
 		for(ModelNode n : models.getChildren()) {

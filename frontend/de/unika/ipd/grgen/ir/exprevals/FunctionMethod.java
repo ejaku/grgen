@@ -16,19 +16,23 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A function method.
  */
-public class FunctionMethod extends Function {
+public class FunctionMethod extends Function
+{
 	/** The owner of the function method. */
 	protected Type owner = null;
 
-	public FunctionMethod(String name, Ident ident, Type retType) {
+	public FunctionMethod(String name, Ident ident, Type retType)
+	{
 		super(name, ident, retType);
 	}
-	
-	public Type getOwner() {
+
+	public Type getOwner()
+	{
 		return owner;
 	}
 
-	public void setOwner(Type type) {
+	public void setOwner(Type type)
+	{
 		owner = type;
 	}
 }

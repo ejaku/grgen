@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.ir.Graph;
  * Something that looks like a connection.
  * @see de.unika.ipd.grgen.ast.ConnectionNode
  */
-public interface ConnectionCharacter {
-
+public interface ConnectionCharacter
+{
 	/**
 	 * Add all nodes of this connection to a set.
 	 * @param set The set.

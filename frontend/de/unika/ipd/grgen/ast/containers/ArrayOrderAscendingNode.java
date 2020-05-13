@@ -33,21 +33,24 @@ public class ArrayOrderAscendingNode extends ContainerFunctionMethodInvocationBa
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array orderAscending expression must be of type array<T>");
@@ -55,18 +58,21 @@ public class ArrayOrderAscendingNode extends ContainerFunctionMethodInvocationBa
 		}
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
 		if(!(arrayType.valueType.isOrderableType())) {
-			targetExpr.reportError("array orderAscending only available for arrays of type " + TypeNode.getOrderableTypesAsString());
+			targetExpr.reportError("array orderAscending only available for arrays of type "
+					+ TypeNode.getOrderableTypesAsString());
 		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
-		return ((ArrayTypeNode)targetExpr.getType());
+	public TypeNode getType()
+	{
+		return((ArrayTypeNode)targetExpr.getType());
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new ArrayOrderAscending(targetExpr.checkIR(Expression.class));
 	}
 }

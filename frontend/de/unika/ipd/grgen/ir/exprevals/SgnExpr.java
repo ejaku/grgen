@@ -7,19 +7,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class SgnExpr extends Expression {
+public class SgnExpr extends Expression
+{
 	private Expression expr;
 
-	public SgnExpr(Expression expr) {
+	public SgnExpr(Expression expr)
+	{
 		super("sgn expr", expr.getType());
 		this.expr = expr;
 	}
 
-	public Expression getExpr() {
+	public Expression getExpr()
+	{
 		return expr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		expr.collectNeededEntities(needs);
 	}
 }

@@ -37,8 +37,9 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 
 	private IdentNode procedureUnresolved;
 	private ProcedureDeclNode procedureDecl;
-	
-	public ProcedureMethodInvocationNode(IdentNode owner, IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
+
+	public ProcedureMethodInvocationNode(IdentNode owner, IdentNode procedureOrExternalProcedureUnresolved,
+			CollectNode<ExprNode> arguments, int context)
 	{
 		super(procedureOrExternalProcedureUnresolved.getCoords());
 		this.ownerUnresolved = becomeParent(owner);
@@ -48,7 +49,8 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(ownerUnresolved, owner));
 		children.add(getValidVersion(procedureUnresolved, procedureDecl));
@@ -57,7 +59,8 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("owner");
 		childrenNames.add("procedure");
@@ -65,10 +68,13 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<DeclNode> ownerResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
-	private static final DeclarationResolver<ProcedureDeclNode> resolver = new DeclarationResolver<ProcedureDeclNode>(ProcedureDeclNode.class);
+	private static final DeclarationResolver<DeclNode> ownerResolver =
+			new DeclarationResolver<DeclNode>(DeclNode.class);
+	private static final DeclarationResolver<ProcedureDeclNode> resolver =
+			new DeclarationResolver<ProcedureDeclNode>(ProcedureDeclNode.class);
 
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
@@ -78,19 +84,19 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 
 		boolean successfullyResolved = true;
 		owner = ownerResolver.resolve(ownerUnresolved, this);
-		successfullyResolved = owner!=null && successfullyResolved;
-		boolean ownerResolveResult = owner!=null && owner.resolve();
+		successfullyResolved = owner != null && successfullyResolved;
+		boolean ownerResolveResult = owner != null && owner.resolve();
 
-		if (!ownerResolveResult) {
+		if(!ownerResolveResult) {
 			// member can not be resolved due to inaccessible owner
 			return false;
 		}
 
-		if (ownerResolveResult && owner != null 
+		if(ownerResolveResult && owner != null
 				&& (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = owner.getDeclType();
 			if(ownerType instanceof ScopeOwner) {
-				ScopeOwner o = (ScopeOwner) ownerType;
+				ScopeOwner o = (ScopeOwner)ownerType;
 				res = o.fixupDefinition(procedureUnresolved);
 
 				procedureDecl = resolver.resolve(procedureUnresolved, this);
@@ -99,7 +105,7 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 					return false;
 				}
 
-				successfullyResolved = procedureDecl!=null && successfullyResolved;
+				successfullyResolved = procedureDecl != null && successfullyResolved;
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -113,31 +119,35 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+	protected boolean checkLocal()
+	{
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
 			reportError("procedure method call not allowed in function or lhs context");
 			return false;
 		}
 		return checkSignatureAdhered(procedureDecl, procedureUnresolved);
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
-	public Vector<TypeNode> getType() {
+	public Vector<TypeNode> getType()
+	{
 		assert isResolved();
 		return procedureDecl.getReturnTypes();
 	}
-	
-	public int getNumReturnTypes() {
+
+	public int getNumReturnTypes()
+	{
 		return procedureDecl.returnTypes.size();
 	}
 
 	@Override
-	protected IR constructIR() {
-		ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(
-				owner.checkIR(Entity.class),
+	protected IR constructIR()
+	{
+		ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(owner.checkIR(Entity.class),
 				procedureDecl.checkIR(Procedure.class));
 		for(ExprNode expr : arguments.getChildren()) {
 			pmi.addArgument(expr.checkIR(Expression.class));

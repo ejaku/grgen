@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class PiExpr extends Expression {
-	public PiExpr() {
+public class PiExpr extends Expression
+{
+	public PiExpr()
+	{
 		super("pi expr", DoubleType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

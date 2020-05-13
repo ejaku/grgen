@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.ir.Variable;
 /**
  * Declaration of a variable.
  */
-public class VarDeclNode extends DeclNode {
+public class VarDeclNode extends DeclNode
+{
 	private TypeNode type;
 
 	public PatternGraphNode directlyNestingLHSGraph;
@@ -35,20 +36,23 @@ public class VarDeclNode extends DeclNode {
 
 
 	public VarDeclNode(IdentNode id, IdentNode type,
-			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo) {
+			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo)
+	{
 		super(id, type);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 		this.context = context;
-    }
+	}
 
 	public VarDeclNode(IdentNode id, IdentNode type,
-			PatternGraphNode directlyNestingLHSGraph, int context) {
+			PatternGraphNode directlyNestingLHSGraph, int context)
+	{
 		this(id, type, directlyNestingLHSGraph, context, false);
-    }
+	}
 
 	public VarDeclNode(IdentNode id, TypeNode type,
-			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo) {
+			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo)
+	{
 		super(id, type);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
@@ -57,12 +61,14 @@ public class VarDeclNode extends DeclNode {
 	}
 
 	public VarDeclNode(IdentNode id, TypeNode type,
-			PatternGraphNode directlyNestingLHSGraph, int context) {
+			PatternGraphNode directlyNestingLHSGraph, int context)
+	{
 		this(id, type, directlyNestingLHSGraph, context, false);
 	}
 
 	/** Get an invalid var declaration. */
-	public static final VarDeclNode getInvalidVar(PatternGraphNode directlyNestingLHSGraph, int context) {
+	public static final VarDeclNode getInvalidVar(PatternGraphNode directlyNestingLHSGraph, int context)
+	{
 		return new VarDeclNode(IdentNode.getInvalid(), IdentNode.getInvalid(), directlyNestingLHSGraph, context);
 	}
 
@@ -74,29 +80,34 @@ public class VarDeclNode extends DeclNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		if(initialization!=null) children.add(initialization);
+		if(initialization != null)
+			children.add(initialization);
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
-		if(initialization!=null) childrenNames.add("initialization expression");
+		if(initialization != null)
+			childrenNames.add("initialization expression");
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<DeclNode> declOfTypeResolver = 
-		new DeclarationResolver<DeclNode>(DeclNode.class);
+	private static final DeclarationResolver<DeclNode> declOfTypeResolver =
+			new DeclarationResolver<DeclNode>(DeclNode.class);
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(type != null) { // Type was already known at construction?
 			return true;
 		}
@@ -116,14 +127,15 @@ public class VarDeclNode extends DeclNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		if(initialization==null)
+	protected boolean checkLocal()
+	{
+		if(initialization == null)
 			return true;
 
 		TypeNode targetType = getDeclType();
 		TypeNode exprType = initialization.getType();
 
-		if (exprType.isEqual(targetType))
+		if(exprType.isEqual(targetType))
 			return true;
 
 		initialization = becomeParent(initialization.adjustType(targetType, getCoords()));
@@ -132,16 +144,19 @@ public class VarDeclNode extends DeclNode {
 
 	/** @return The type node of the declaration */
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved() : this + " was not resolved";
 		return type;
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "variable declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "variable";
 	}
 
@@ -149,24 +164,24 @@ public class VarDeclNode extends DeclNode {
 	 * Get the IR object correctly casted.
 	 * @return The Variable IR object.
 	 */
-	public Variable getVariable() {
+	public Variable getVariable()
+	{
 		return checkIR(Variable.class);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(isIRAlreadySet()) {
 			return (Variable)getIR();
 		}
 
-		Variable var = new Variable("Var", getIdentNode().getIdent(), type.getType(), 
-				defEntityToBeYieldedTo,
-				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getGraph() : null,
-				context);
-		
+		Variable var = new Variable("Var", getIdentNode().getIdent(), type.getType(), defEntityToBeYieldedTo,
+				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getGraph() : null, context);
+
 		setIR(var);
-		
-		if(initialization!=null) {
+
+		if(initialization != null) {
 			initialization = initialization.evaluate();
 			var.setInitialization(initialization.checkIR(Expression.class));
 		}
@@ -174,4 +189,3 @@ public class VarDeclNode extends DeclNode {
 		return var;
 	}
 }
-

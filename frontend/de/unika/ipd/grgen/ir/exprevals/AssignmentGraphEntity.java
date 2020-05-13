@@ -13,26 +13,29 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-
 /**
  * Represents an assignment statement in the IR.
  */
-public class AssignmentGraphEntity extends AssignmentBase {
+public class AssignmentGraphEntity extends AssignmentBase
+{
 
 	/** The lhs of the assignment. */
 	private GraphEntity target;
 
-	public AssignmentGraphEntity(GraphEntity target, Expression expr) {
+	public AssignmentGraphEntity(GraphEntity target, Expression expr)
+	{
 		super("assignment graph entity");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public GraphEntity getTarget() {
+	public GraphEntity getTarget()
+	{
 		return target;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getTarget() + " = " + getExpression();
 	}
 

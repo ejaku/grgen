@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.exprevals.StringEndsWith;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringEndsWithNode extends ExprNode {
+public class StringEndsWithNode extends ExprNode
+{
 	static {
 		setName(StringEndsWithNode.class, "string endsWith");
 	}
@@ -28,17 +29,17 @@ public class StringEndsWithNode extends ExprNode {
 	private ExprNode stringExpr;
 	private ExprNode stringToSearchForExpr;
 
-
-	public StringEndsWithNode(Coords coords, ExprNode stringExpr,
-			ExprNode stringToSearchForExpr) {
+	public StringEndsWithNode(Coords coords, ExprNode stringExpr, ExprNode stringToSearchForExpr)
+	{
 		super(coords);
 
-		this.stringExpr            = becomeParent(stringExpr);
+		this.stringExpr = becomeParent(stringExpr);
 		this.stringToSearchForExpr = becomeParent(stringToSearchForExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
 		children.add(stringToSearchForExpr);
@@ -46,7 +47,8 @@ public class StringEndsWithNode extends ExprNode {
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
 		childrenNames.add("stringToSearchFor");
@@ -54,7 +56,8 @@ public class StringEndsWithNode extends ExprNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("This argument to string endsWith expression must be of type string");
 			return false;
@@ -68,13 +71,15 @@ public class StringEndsWithNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new StringEndsWith(stringExpr.checkIR(Expression.class),
 				stringToSearchForExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.booleanType;
 	}
 }

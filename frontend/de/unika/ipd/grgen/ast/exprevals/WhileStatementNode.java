@@ -24,7 +24,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a while statement.
  */
-public class WhileStatementNode extends EvalStatementNode {
+public class WhileStatementNode extends EvalStatementNode
+{
 	static {
 		setName(WhileStatementNode.class, "WhileStatement");
 	}
@@ -32,8 +33,8 @@ public class WhileStatementNode extends EvalStatementNode {
 	private ExprNode conditionExpr;
 	CollectNode<EvalStatementNode> loopedStatements;
 
-	public WhileStatementNode(Coords coords, ExprNode conditionExpr,
-			CollectNode<EvalStatementNode> loopedStatements) {
+	public WhileStatementNode(Coords coords, ExprNode conditionExpr, CollectNode<EvalStatementNode> loopedStatements)
+	{
 		super(coords);
 		this.conditionExpr = conditionExpr;
 		becomeParent(conditionExpr);
@@ -43,7 +44,8 @@ public class WhileStatementNode extends EvalStatementNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(conditionExpr);
 		children.add(loopedStatements);
@@ -52,7 +54,8 @@ public class WhileStatementNode extends EvalStatementNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("condition");
 		childrenNames.add("loopedStatements");
@@ -60,7 +63,8 @@ public class WhileStatementNode extends EvalStatementNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
 			conditionExpr.reportError("while condition must be of type boolean");
 			return false;
@@ -69,19 +73,23 @@ public class WhileStatementNode extends EvalStatementNode {
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		WhileStatement ws = new WhileStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode loopedStatement : loopedStatements.getChildren())
+		for(EvalStatementNode loopedStatement : loopedStatements.getChildren()) {
 			ws.addLoopedStatement(loopedStatement.checkIR(EvalStatement.class));
+		}
 		return ws;
 	}
 }

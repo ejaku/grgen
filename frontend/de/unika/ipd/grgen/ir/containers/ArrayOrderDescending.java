@@ -12,19 +12,23 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayOrderDescending extends Expression {
+public class ArrayOrderDescending extends Expression
+{
 	private Expression targetExpr;
 
-	public ArrayOrderDescending(Expression targetExpr) {
+	public ArrayOrderDescending(Expression targetExpr)
+	{
 		super("array order descending expr", (ArrayType)targetExpr.getType());
 		this.targetExpr = targetExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}

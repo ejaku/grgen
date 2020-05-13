@@ -23,11 +23,11 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 
-
 /**
  * AST node for an iterated pattern, maybe including replacements.
  */
-public class IteratedNode extends ActionDeclNode  {
+public class IteratedNode extends ActionDeclNode
+{
 	static {
 		setName(IteratedNode.class, "iterated");
 	}
@@ -46,8 +46,8 @@ public class IteratedNode extends ActionDeclNode  {
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 */
-	public IteratedNode(IdentNode id, PatternGraphNode left, RhsDeclNode right,
-			int minMatches, int maxMatches) {
+	public IteratedNode(IdentNode id, PatternGraphNode left, RhsDeclNode right, int minMatches, int maxMatches)
+	{
 		super(id, iteratedType, left);
 		this.right = right;
 		becomeParent(this.right);
@@ -56,13 +56,15 @@ public class IteratedNode extends ActionDeclNode  {
 		this.filters = new ArrayList<FilterAutoNode>();
 	}
 
-	public void addFilters(ArrayList<FilterAutoNode> filters) {
+	public void addFilters(ArrayList<FilterAutoNode> filters)
+	{
 		this.filters.addAll(filters);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -74,7 +76,8 @@ public class IteratedNode extends ActionDeclNode  {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -85,14 +88,16 @@ public class IteratedNode extends ActionDeclNode  {
 	}
 
 	private static final DeclarationTypeResolver<IteratedTypeNode> typeResolver =
-		new DeclarationTypeResolver<IteratedTypeNode>(IteratedTypeNode.class);
+			new DeclarationTypeResolver<IteratedTypeNode>(IteratedTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 
-		return type != null && resolveFilters(filters);
+		return type != null
+				&& resolveFilters(filters);
 	}
 
 	/**
@@ -103,7 +108,8 @@ public class IteratedNode extends ActionDeclNode  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(right != null)
 			right.warnElemAppearsInsideAndOutsideDelete(pattern);
 
@@ -135,9 +141,15 @@ public class IteratedNode extends ActionDeclNode  {
 			abstr = noAbstractElementInstantiatedNestedPattern(right);
 		}
 
-		return leftHandGraphsOk & checkFilters(pattern, filters) & sameNumberOfRewriteParts && noNestedRewriteParameters
-			& rhsReuseOk & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement
-			& execParamsNotDeleted & abstr;
+		return leftHandGraphsOk
+				& checkFilters(pattern, filters)
+				& sameNumberOfRewriteParts
+				& noNestedRewriteParameters
+				& rhsReuseOk
+				& noReturnInPatternOk
+				& noReturnInAlterntiveCaseReplacement
+				& execParamsNotDeleted
+				& abstr;
 	}
 
 	public PatternGraphNode getLeft()
@@ -149,7 +161,8 @@ public class IteratedNode extends ActionDeclNode  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the pattern graph already constructed the IR object
 		// that may happen in recursive patterns (and other usages/references)
 		if(isIRAlreadySet()) {
@@ -160,7 +173,7 @@ public class IteratedNode extends ActionDeclNode  {
 
 		// mark this node as already visited
 		setIR(iteratedRule);
-		
+
 		PatternGraph left = pattern.getPatternGraph();
 
 		PatternGraph rightPattern = null;
@@ -193,17 +206,20 @@ public class IteratedNode extends ActionDeclNode  {
 	}
 
 	@Override
-	public IteratedTypeNode getDeclType() {
+	public IteratedTypeNode getDeclType()
+	{
 		assert isResolved();
 
 		return iteratedType;
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "iterated node";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "iterated";
 	}
 }

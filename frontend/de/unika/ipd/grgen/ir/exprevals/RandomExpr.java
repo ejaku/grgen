@@ -7,20 +7,24 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class RandomExpr extends Expression {
+public class RandomExpr extends Expression
+{
 	private Expression numExpr;
 
-	public RandomExpr(Expression numExpr) {
-		super("random", numExpr==null ? DoubleType.getType() : IntType.getType());
+	public RandomExpr(Expression numExpr)
+	{
+		super("random", numExpr == null ? DoubleType.getType() : IntType.getType());
 		this.numExpr = numExpr;
 	}
 
-	public Expression getNumExpr() {
+	public Expression getNumExpr()
+	{
 		return numExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
-		if(numExpr!=null)
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		if(numExpr != null)
 			numExpr.collectNeededEntities(needs);
 	}
 }

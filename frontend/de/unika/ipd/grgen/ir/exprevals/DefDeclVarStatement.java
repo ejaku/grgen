@@ -15,27 +15,30 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents a declaration of a local variable of non-graph-element-type in the IR.
  */
-public class DefDeclVarStatement extends EvalStatement {
-
+public class DefDeclVarStatement extends EvalStatement
+{
 	private Variable target;
 
-	public DefDeclVarStatement(Variable target) {
+	public DefDeclVarStatement(Variable target)
+	{
 		super("def decl var");
 		this.target = target;
 	}
 
-	public Variable getTarget() {
+	public Variable getTarget()
+	{
 		return target;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return target.getIdent().toString();
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		//needs.add(target); needed?
-		if(target.initialization!=null)
+		if(target.initialization != null)
 			target.initialization.collectNeededEntities(needs);
 	}
 }

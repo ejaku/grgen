@@ -20,17 +20,19 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding an inserted node of the insertion of an induced subgraph of a node set.
  */
-public class InsertInducedSubgraphProcNode extends ProcedureInvocationBaseNode {
+public class InsertInducedSubgraphProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(InsertInducedSubgraphProcNode.class, "insert induced subgraph procedure");
 	}
 
 	private ExprNode nodeSetExpr;
 	private ExprNode nodeExpr;
-	
+
 	Vector<TypeNode> returnTypes;
-		
-	public InsertInducedSubgraphProcNode(Coords coords, ExprNode nodeSetExpr, ExprNode nodeExpr) {
+
+	public InsertInducedSubgraphProcNode(Coords coords, ExprNode nodeSetExpr, ExprNode nodeExpr)
+	{
 		super(coords);
 		this.nodeSetExpr = nodeSetExpr;
 		becomeParent(this.nodeSetExpr);
@@ -40,7 +42,8 @@ public class InsertInducedSubgraphProcNode extends ProcedureInvocationBaseNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(nodeSetExpr);
 		children.add(nodeExpr);
@@ -49,7 +52,8 @@ public class InsertInducedSubgraphProcNode extends ProcedureInvocationBaseNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("nodeSetExpr");
 		childrenNames.add("nodeExpr");
@@ -58,7 +62,8 @@ public class InsertInducedSubgraphProcNode extends ProcedureInvocationBaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(nodeSetExpr.getType() instanceof SetTypeNode)) {
 			nodeSetExpr.reportError("set expected as 1st argument to insertInducedSubgraph");
 			return false;
@@ -75,15 +80,16 @@ public class InsertInducedSubgraphProcNode extends ProcedureInvocationBaseNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		InsertInducedSubgraphProc insertInduced = new InsertInducedSubgraphProc(
-														nodeSetExpr.checkIR(Expression.class), 
-														nodeExpr.checkIR(Expression.class));
+	protected IR constructIR()
+	{
+		InsertInducedSubgraphProc insertInduced = new InsertInducedSubgraphProc(nodeSetExpr.checkIR(Expression.class),
+				nodeExpr.checkIR(Expression.class));
 		for(TypeNode type : getType()) {
 			insertInduced.addReturnType(type.getType());
 		}
@@ -91,8 +97,9 @@ public class InsertInducedSubgraphProcNode extends ProcedureInvocationBaseNode {
 	}
 
 	@Override
-	public Vector<TypeNode> getType() {
-		if(returnTypes==null) {
+	public Vector<TypeNode> getType()
+	{
+		if(returnTypes == null) {
 			returnTypes = new Vector<TypeNode>();
 			returnTypes.add(nodeExpr.getType());
 		}

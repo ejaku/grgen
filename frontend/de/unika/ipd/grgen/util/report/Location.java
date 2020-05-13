@@ -16,8 +16,8 @@ package de.unika.ipd.grgen.util.report;
  * generated. For example, in parser, the file and line number in
  * the file that is parsed.
  */
-public interface Location {
-
+public interface Location
+{
 	/**
 	 * Get the location's string representation.
 	 * This string is only meaningful, if #hasLocation() returns true.

@@ -19,14 +19,16 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the name of some node/edge or the graph.
  */
-public class UniqueofExprNode extends ExprNode {
+public class UniqueofExprNode extends ExprNode
+{
 	static {
 		setName(UniqueofExprNode.class, "uniqueof");
 	}
 
 	private ExprNode entity;
 
-	public UniqueofExprNode(Coords coords, ExprNode entity) {
+	public UniqueofExprNode(Coords coords, ExprNode entity)
+	{
 		super(coords);
 		this.entity = entity;
 		becomeParent(this.entity);
@@ -34,18 +36,20 @@ public class UniqueofExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(entity!=null) 
+		if(entity != null)
 			children.add(entity);
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
-		if(entity!=null) 
+		if(entity != null)
 			childrenNames.add("entity");
 		return childrenNames;
 	}
@@ -54,11 +58,12 @@ public class UniqueofExprNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(entity != null) {
 			if(entity.getType().isEqual(BasicTypeNode.graphType)) {
 				return true;
-			} 
+			}
 			if(entity.getType() instanceof EdgeTypeNode) {
 				return true;
 			}
@@ -73,15 +78,17 @@ public class UniqueofExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(entity==null) {
+	protected IR constructIR()
+	{
+		if(entity == null) {
 			return new Uniqueof(null, getType().getType());
 		}
 		return new Uniqueof(entity.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 }

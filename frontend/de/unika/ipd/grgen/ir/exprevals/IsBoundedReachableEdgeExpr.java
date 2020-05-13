@@ -9,7 +9,8 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class IsBoundedReachableEdgeExpr extends Expression {
+public class IsBoundedReachableEdgeExpr extends Expression
+{
 	private final Expression startNodeExpr;
 	private final Expression endEdgeExpr;
 	private final Expression depthExpr;
@@ -21,10 +22,11 @@ public class IsBoundedReachableEdgeExpr extends Expression {
 	public static final int INCOMING = 1;
 	public static final int OUTGOING = 2;
 
-	public IsBoundedReachableEdgeExpr(Expression startNodeExpression, 
+	public IsBoundedReachableEdgeExpr(Expression startNodeExpression,
 			Expression endNodeExpression, Expression depthExpression,
 			Expression incidentEdgeTypeExpr, int direction,
-			Expression adjacentNodeTypeExpr, Type type) {
+			Expression adjacentNodeTypeExpr, Type type)
+	{
 		super("is bounded reachable edge expression", type);
 		this.startNodeExpr = startNodeExpression;
 		this.endEdgeExpr = endNodeExpression;
@@ -34,32 +36,39 @@ public class IsBoundedReachableEdgeExpr extends Expression {
 		this.adjacentNodeTypeExpr = adjacentNodeTypeExpr;
 	}
 
-	public Expression getStartNodeExpr() {
+	public Expression getStartNodeExpr()
+	{
 		return startNodeExpr;
 	}
 
-	public Expression getEndEdgeExpr() {
+	public Expression getEndEdgeExpr()
+	{
 		return endEdgeExpr;
 	}
 
-	public Expression getDepthExpr() {
+	public Expression getDepthExpr()
+	{
 		return depthExpr;
 	}
 
-	public Expression getIncidentEdgeTypeExpr() {
+	public Expression getIncidentEdgeTypeExpr()
+	{
 		return incidentEdgeTypeExpr;
 	}
 
-	public int Direction() {
+	public int Direction()
+	{
 		return direction;
 	}
 
-	public Expression getAdjacentNodeTypeExpr() {
+	public Expression getAdjacentNodeTypeExpr()
+	{
 		return adjacentNodeTypeExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		startNodeExpr.collectNeededEntities(needs);
 		endEdgeExpr.collectNeededEntities(needs);
@@ -68,4 +77,3 @@ public class IsBoundedReachableEdgeExpr extends Expression {
 		adjacentNodeTypeExpr.collectNeededEntities(needs);
 	}
 }
-

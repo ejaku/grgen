@@ -13,17 +13,21 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 /**
  * A byte type.
  */
-public class ByteType extends PrimitiveType {
-	public ByteType(Ident ident) {
+public class ByteType extends PrimitiveType
+{
+	public ByteType(Ident ident)
+	{
 		super("byte type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_BYTE;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.byteType.checkIR(Type.class);
 	}
 }

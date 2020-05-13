@@ -19,37 +19,43 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an accumulation yielding of a container variable in the IR.
  */
-public class IntegerRangeIterationYield extends EvalStatement {
-
+public class IntegerRangeIterationYield extends EvalStatement
+{
 	private Variable iterationVar;
 	private Expression leftExpr;
 	private Expression rightExpr;
 	private Collection<EvalStatement> accumulationStatements = new LinkedList<EvalStatement>();
 
-	public IntegerRangeIterationYield(Variable iterationVar, Expression left, Expression right) {
+	public IntegerRangeIterationYield(Variable iterationVar, Expression left, Expression right)
+	{
 		super("integer range iteration yield");
 		this.iterationVar = iterationVar;
 		this.leftExpr = left;
 		this.rightExpr = right;
 	}
 
-	public void addAccumulationStatement(EvalStatement accumulationStatement) {
+	public void addAccumulationStatement(EvalStatement accumulationStatement)
+	{
 		accumulationStatements.add(accumulationStatement);
 	}
 
-	public Variable getIterationVar() {
+	public Variable getIterationVar()
+	{
 		return iterationVar;
 	}
 
-	public Expression getLeftExpr() {
+	public Expression getLeftExpr()
+	{
 		return leftExpr;
 	}
 
-	public Expression getRightExpr() {
+	public Expression getRightExpr()
+	{
 		return rightExpr;
 	}
 
-	public Collection<EvalStatement> getAccumulationStatements() {
+	public Collection<EvalStatement> getAccumulationStatements()
+	{
 		return accumulationStatements;
 	}
 
@@ -57,8 +63,9 @@ public class IntegerRangeIterationYield extends EvalStatement {
 	{
 		leftExpr.collectNeededEntities(needs);
 		rightExpr.collectNeededEntities(needs);
-		for(EvalStatement accumulationStatement : accumulationStatements)
+		for(EvalStatement accumulationStatement : accumulationStatements) {
 			accumulationStatement.collectNeededEntities(needs);
+		}
 		if(needs.variables != null)
 			needs.variables.remove(iterationVar);
 	}

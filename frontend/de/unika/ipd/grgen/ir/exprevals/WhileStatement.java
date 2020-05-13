@@ -17,32 +17,37 @@ import java.util.LinkedList;
 /**
  * Represents a while statement in the IR.
  */
-public class WhileStatement extends EvalStatement {
-
+public class WhileStatement extends EvalStatement
+{
 	private Expression conditionExpr;
 	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
 
-	public WhileStatement(Expression conditionExpr) {
+	public WhileStatement(Expression conditionExpr)
+	{
 		super("while statement");
 		this.conditionExpr = conditionExpr;
 	}
 
-	public void addLoopedStatement(EvalStatement loopedStatement) {
+	public void addLoopedStatement(EvalStatement loopedStatement)
+	{
 		loopedStatements.add(loopedStatement);
 	}
 
-	public Expression getConditionExpr() {
+	public Expression getConditionExpr()
+	{
 		return conditionExpr;
 	}
 
-	public Collection<EvalStatement> getLoopedStatements() {
+	public Collection<EvalStatement> getLoopedStatements()
+	{
 		return loopedStatements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		conditionExpr.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements)
+		for(EvalStatement loopedStatement : loopedStatements) {
 			loopedStatement.collectNeededEntities(needs);
+		}
 	}
 }

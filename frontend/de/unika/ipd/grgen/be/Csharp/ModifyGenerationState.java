@@ -24,51 +24,172 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.ir.containers.*;
 
-class ModifyGenerationState implements ModifyGenerationStateConst {
-	public String name() { return functionOrProcedureName!=null ? functionOrProcedureName : actionName; }
+class ModifyGenerationState implements ModifyGenerationStateConst
+{
+	public String name()
+	{
+		return functionOrProcedureName != null ? functionOrProcedureName : actionName;
+	}
 
-	public Collection<Node> commonNodes() { return Collections.unmodifiableCollection(commonNodes); }
-	public Collection<Edge> commonEdges() { return Collections.unmodifiableCollection(commonEdges); }
-	public Collection<SubpatternUsage> commonSubpatternUsages() { return Collections.unmodifiableCollection(commonSubpatternUsages); }
+	public Collection<Node> commonNodes()
+	{
+		return Collections.unmodifiableCollection(commonNodes);
+	}
 
-	public Collection<Node> newNodes() { return Collections.unmodifiableCollection(newNodes); }
-	public Collection<Edge> newEdges() { return Collections.unmodifiableCollection(newEdges); }
-	public Collection<SubpatternUsage> newSubpatternUsages() { return Collections.unmodifiableCollection(newSubpatternUsages); }
+	public Collection<Edge> commonEdges()
+	{
+		return Collections.unmodifiableCollection(commonEdges);
+	}
 
-	public Collection<Node> delNodes() { return Collections.unmodifiableCollection(delNodes); }
-	public Collection<Edge> delEdges() { return Collections.unmodifiableCollection(delEdges); }
-	public Collection<SubpatternUsage> delSubpatternUsages() { return Collections.unmodifiableCollection(delSubpatternUsages); }
+	public Collection<SubpatternUsage> commonSubpatternUsages()
+	{
+		return Collections.unmodifiableCollection(commonSubpatternUsages);
+	}
 
-	public Collection<Node> yieldedNodes() { return Collections.unmodifiableCollection(yieldedNodes); }
-	public Collection<Edge> yieldedEdges() { return Collections.unmodifiableCollection(yieldedEdges); }
-	public Collection<Variable> yieldedVariables() { return Collections.unmodifiableCollection(yieldedVariables); }
+	public Collection<Node> newNodes()
+	{
+		return Collections.unmodifiableCollection(newNodes);
+	}
 
-	public Collection<Node> newOrRetypedNodes() { return Collections.unmodifiableCollection(newOrRetypedNodes); }
-	public Collection<Edge> newOrRetypedEdges() { return Collections.unmodifiableCollection(newOrRetypedEdges); }
-	public Collection<GraphEntity> accessViaInterface() { return Collections.unmodifiableCollection(accessViaInterface); }
+	public Collection<Edge> newEdges()
+	{
+		return Collections.unmodifiableCollection(newEdges);
+	}
 
-	public Map<GraphEntity, HashSet<Entity>> neededAttributes() { return Collections.unmodifiableMap(neededAttributes); }
-	public Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete() { return Collections.unmodifiableMap(attributesStoredBeforeDelete); }
+	public Collection<SubpatternUsage> newSubpatternUsages()
+	{
+		return Collections.unmodifiableCollection(newSubpatternUsages);
+	}
 
-	public Collection<Variable> neededVariables() { return Collections.unmodifiableCollection(neededVariables); }
+	public Collection<Node> delNodes()
+	{
+		return Collections.unmodifiableCollection(delNodes);
+	}
 
-	public Collection<Node> nodesNeededAsElements() { return Collections.unmodifiableCollection(nodesNeededAsElements); }
-	public Collection<Edge> edgesNeededAsElements() { return Collections.unmodifiableCollection(edgesNeededAsElements); }
-	public Collection<Node> nodesNeededAsAttributes() { return Collections.unmodifiableCollection(nodesNeededAsAttributes); }
-	public Collection<Edge> edgesNeededAsAttributes() { return Collections.unmodifiableCollection(edgesNeededAsAttributes); }
-	public Collection<Node> nodesNeededAsTypes() { return Collections.unmodifiableCollection(nodesNeededAsTypes); }
-	public Collection<Edge> edgesNeededAsTypes() { return Collections.unmodifiableCollection(edgesNeededAsTypes); }
+	public Collection<Edge> delEdges()
+	{
+		return Collections.unmodifiableCollection(delEdges);
+	}
 
-	public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar() { return Collections.unmodifiableMap(forceAttributeToVar); }
+	public Collection<SubpatternUsage> delSubpatternUsages()
+	{
+		return Collections.unmodifiableCollection(delSubpatternUsages);
+	}
 
-	public String matchClassName() { return matchClassName; }
-	public String packagePrefix() { return packagePrefix; }
-	
-	public Map<Expression, String> mapExprToTempVar() { return Collections.unmodifiableMap(mapExprToTempVar); }
-	public boolean useVarForResult() { return useVarForResult; }
-	public Model model() { return model; }
-	public boolean isToBeParallelizedActionExisting() { return isToBeParallelizedActionExisting; }
-	public boolean emitProfilingInstrumentation() { return emitProfiling; }
+	public Collection<Node> yieldedNodes()
+	{
+		return Collections.unmodifiableCollection(yieldedNodes);
+	}
+
+	public Collection<Edge> yieldedEdges()
+	{
+		return Collections.unmodifiableCollection(yieldedEdges);
+	}
+
+	public Collection<Variable> yieldedVariables()
+	{
+		return Collections.unmodifiableCollection(yieldedVariables);
+	}
+
+	public Collection<Node> newOrRetypedNodes()
+	{
+		return Collections.unmodifiableCollection(newOrRetypedNodes);
+	}
+
+	public Collection<Edge> newOrRetypedEdges()
+	{
+		return Collections.unmodifiableCollection(newOrRetypedEdges);
+	}
+
+	public Collection<GraphEntity> accessViaInterface()
+	{
+		return Collections.unmodifiableCollection(accessViaInterface);
+	}
+
+	public Map<GraphEntity, HashSet<Entity>> neededAttributes()
+	{
+		return Collections.unmodifiableMap(neededAttributes);
+	}
+
+	public Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete()
+	{
+		return Collections.unmodifiableMap(attributesStoredBeforeDelete);
+	}
+
+	public Collection<Variable> neededVariables()
+	{
+		return Collections.unmodifiableCollection(neededVariables);
+	}
+
+	public Collection<Node> nodesNeededAsElements()
+	{
+		return Collections.unmodifiableCollection(nodesNeededAsElements);
+	}
+
+	public Collection<Edge> edgesNeededAsElements()
+	{
+		return Collections.unmodifiableCollection(edgesNeededAsElements);
+	}
+
+	public Collection<Node> nodesNeededAsAttributes()
+	{
+		return Collections.unmodifiableCollection(nodesNeededAsAttributes);
+	}
+
+	public Collection<Edge> edgesNeededAsAttributes()
+	{
+		return Collections.unmodifiableCollection(edgesNeededAsAttributes);
+	}
+
+	public Collection<Node> nodesNeededAsTypes()
+	{
+		return Collections.unmodifiableCollection(nodesNeededAsTypes);
+	}
+
+	public Collection<Edge> edgesNeededAsTypes()
+	{
+		return Collections.unmodifiableCollection(edgesNeededAsTypes);
+	}
+
+	public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar()
+	{
+		return Collections.unmodifiableMap(forceAttributeToVar);
+	}
+
+	public String matchClassName()
+	{
+		return matchClassName;
+	}
+
+	public String packagePrefix()
+	{
+		return packagePrefix;
+	}
+
+	public Map<Expression, String> mapExprToTempVar()
+	{
+		return Collections.unmodifiableMap(mapExprToTempVar);
+	}
+
+	public boolean useVarForResult()
+	{
+		return useVarForResult;
+	}
+
+	public Model model()
+	{
+		return model;
+	}
+
+	public boolean isToBeParallelizedActionExisting()
+	{
+		return isToBeParallelizedActionExisting;
+	}
+
+	public boolean emitProfilingInstrumentation()
+	{
+		return emitProfiling;
+	}
 
 	// --------------------
 
@@ -76,7 +197,7 @@ class ModifyGenerationState implements ModifyGenerationStateConst {
 	public String functionOrProcedureName;
 	// otherwise it is the generation state of the modify of an action
 	public String actionName;
-	
+
 	public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
 	public HashSet<Edge> commonEdges = new LinkedHashSet<Edge>();
 	public HashSet<SubpatternUsage> commonSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
@@ -121,8 +242,8 @@ class ModifyGenerationState implements ModifyGenerationStateConst {
 	private boolean isToBeParallelizedActionExisting;
 	private boolean emitProfiling;
 
-
-	public void InitNeeds(NeededEntities needs) {
+	public void InitNeeds(NeededEntities needs)
+	{
 		neededAttributes = needs.attrEntityMap;
 		nodesNeededAsElements = needs.nodes;
 		edgesNeededAsElements = needs.edges;
@@ -132,7 +253,7 @@ class ModifyGenerationState implements ModifyGenerationStateConst {
 
 		int i = 0;
 		for(Expression expr : needs.containerExprs) {
-			if(expr instanceof MapInit || expr instanceof SetInit 
+			if(expr instanceof MapInit || expr instanceof SetInit
 					|| expr instanceof ArrayInit || expr instanceof DequeInit)
 				continue;
 			mapExprToTempVar.put(expr, "tempcontainervar_" + i);
@@ -140,10 +261,11 @@ class ModifyGenerationState implements ModifyGenerationStateConst {
 		}
 	}
 
-	public void InitNeeds(HashSet<Expression> containerExprs) {
+	public void InitNeeds(HashSet<Expression> containerExprs)
+	{
 		int i = 0;
 		for(Expression expr : containerExprs) {
-			if(expr instanceof MapInit || expr instanceof SetInit 
+			if(expr instanceof MapInit || expr instanceof SetInit
 					|| expr instanceof ArrayInit || expr instanceof DequeInit)
 				continue;
 			mapExprToTempVar.put(expr, "tempcontainervar_" + i);
@@ -151,14 +273,16 @@ class ModifyGenerationState implements ModifyGenerationStateConst {
 		}
 	}
 
-	public void ClearContainerExprs() {
+	public void ClearContainerExprs()
+	{
 		mapExprToTempVar.clear();
 	}
 
 	public ModifyGenerationState(Model model,
 			String matchClassName, String packagePrefix,
 			boolean isToBeParallelizedActionExisting,
-			boolean emitProfiling) {
+			boolean emitProfiling)
+	{
 		this.model = model;
 		this.matchClassName = matchClassName;
 		this.packagePrefix = packagePrefix;

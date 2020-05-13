@@ -28,34 +28,40 @@ public class TypeConstNode extends ConstNode
 	 * @param id The name of the enum item.
 	 * @param value The value of the enum item.
 	 */
-	public TypeConstNode(IdentNode id) {
+	public TypeConstNode(IdentNode id)
+	{
 		super(id.getCoords(), "type const", "DO NOT USE");
 		this.id = id;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	@Override
-	protected ConstNode doCastTo(TypeNode type)	{
+	protected ConstNode doCastTo(TypeNode type)
+	{
 		// TODO: ??? How would this be possible?
 		if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), id.toString());
-		} else throw new UnsupportedOperationException();
+		} else
+			throw new UnsupportedOperationException();
 	}
 
-    /** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new Constant(getType().getType(), id.getDecl().getDeclType().getIR());
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.typeType;
 	}
 
 	@Override
-	public Object getValue() {
+	public Object getValue()
+	{
 		return id.getDecl().getDeclType();
 	}
 }

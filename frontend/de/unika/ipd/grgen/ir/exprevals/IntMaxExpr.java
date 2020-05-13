@@ -7,11 +7,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class IntMaxExpr extends Expression {
-	public IntMaxExpr() {
+public class IntMaxExpr extends Expression
+{
+	public IntMaxExpr()
+	{
 		super("intmax expr", IntType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

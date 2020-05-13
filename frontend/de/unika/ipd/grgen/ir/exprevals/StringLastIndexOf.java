@@ -11,41 +11,47 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class StringLastIndexOf extends Expression {
+public class StringLastIndexOf extends Expression
+{
 	private Expression stringExpr;
 	private Expression stringToSearchForExpr;
 	private Expression startIndexExpr;
 
-	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr) {
+	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr)
+	{
 		super("string lastIndexOf", IntType.getType());
 		this.stringExpr = stringExpr;
 		this.stringToSearchForExpr = stringToSearchForExpr;
 	}
 
-	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr, Expression startIndexExpr) {
+	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr, Expression startIndexExpr)
+	{
 		super("string lastIndexOf", IntType.getType());
 		this.stringExpr = stringExpr;
 		this.stringToSearchForExpr = stringToSearchForExpr;
 		this.startIndexExpr = startIndexExpr;
 	}
 
-
-	public Expression getStringExpr() {
+	public Expression getStringExpr()
+	{
 		return stringExpr;
 	}
 
-	public Expression getStringToSearchForExpr() {
+	public Expression getStringToSearchForExpr()
+	{
 		return stringToSearchForExpr;
 	}
 
-	public Expression getStartIndexExpr() {
+	public Expression getStartIndexExpr()
+	{
 		return startIndexExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		stringExpr.collectNeededEntities(needs);
 		stringToSearchForExpr.collectNeededEntities(needs);
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			startIndexExpr.collectNeededEntities(needs);
 	}
 }

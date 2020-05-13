@@ -30,14 +30,16 @@ public abstract class ArrayAccumulationMethodNode extends ContainerFunctionMetho
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		return childrenNames;
@@ -47,7 +49,8 @@ public abstract class ArrayAccumulationMethodNode extends ContainerFunctionMetho
 	public abstract boolean isValidTargetTypeOfAccumulation(TypeNode type);
 
 	// returns DUMMY object only to be used for checking with isValidTargetTypeOfAccumulation
-	public static ArrayAccumulationMethodNode getArrayMethodNode(String method) {
+	public static ArrayAccumulationMethodNode getArrayMethodNode(String method)
+	{
 		if(method.equals("sum"))
 			return new ArraySumNode(null, null);
 		if(method.equals("prod"))

@@ -19,31 +19,36 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an accumulation yielding of a matches variable in the IR.
  */
-public class MatchesAccumulationYield extends EvalStatement {
-
+public class MatchesAccumulationYield extends EvalStatement
+{
 	private Variable iterationVar;
 	private Variable matchesVar;
 	private Collection<EvalStatement> accumulationStatements = new LinkedList<EvalStatement>();
 
-	public MatchesAccumulationYield(Variable iterationVar, Variable matchesVar) {
+	public MatchesAccumulationYield(Variable iterationVar, Variable matchesVar)
+	{
 		super("matches accumulation yield");
 		this.iterationVar = iterationVar;
 		this.matchesVar = matchesVar;
 	}
 
-	public void addAccumulationStatement(EvalStatement accumulationStatement) {
+	public void addAccumulationStatement(EvalStatement accumulationStatement)
+	{
 		accumulationStatements.add(accumulationStatement);
 	}
 
-	public Variable getIterationVar() {
+	public Variable getIterationVar()
+	{
 		return iterationVar;
 	}
 
-	public Variable getMatches() {
+	public Variable getMatches()
+	{
 		return matchesVar;
 	}
 
-	public Collection<EvalStatement> getAccumulationStatements() {
+	public Collection<EvalStatement> getAccumulationStatements()
+	{
 		return accumulationStatements;
 	}
 
@@ -51,8 +56,9 @@ public class MatchesAccumulationYield extends EvalStatement {
 	{
 		if(!isGlobalVariable(matchesVar))
 			needs.add(matchesVar);
-		for(EvalStatement accumulationStatement : accumulationStatements)
+		for(EvalStatement accumulationStatement : accumulationStatements) {
 			accumulationStatement.collectNeededEntities(needs);
+		}
 		if(needs.variables != null)
 			needs.variables.remove(iterationVar);
 	}

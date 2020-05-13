@@ -7,19 +7,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class CanonizeExpr extends Expression {
+public class CanonizeExpr extends Expression
+{
 	private Expression graphExpr;
 
-	public CanonizeExpr(Expression graphExpr) {
+	public CanonizeExpr(Expression graphExpr)
+	{
 		super("canonize expr", StringType.getType());
 		this.graphExpr = graphExpr;
 	}
 
-	public Expression getGraphExpr() {
+	public Expression getGraphExpr()
+	{
 		return graphExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		graphExpr.collectNeededEntities(needs);
 	}
 }

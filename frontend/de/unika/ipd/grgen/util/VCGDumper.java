@@ -18,8 +18,8 @@ import java.util.HashMap;
 /**
  * A VCG Graph dumper
  */
-public class VCGDumper implements GraphDumper {
-
+public class VCGDumper implements GraphDumper
+{
 	/** where to put the graph to */
 	private PrintStream ps;
 
@@ -67,7 +67,8 @@ public class VCGDumper implements GraphDumper {
 	 * @param s The input string.
 	 * @return A string ready for dumping.
 	 */
-	private static String escapeString(String s) {
+	private static String escapeString(String s)
+	{
 		return s.replaceAll("\"", "\\\\\"");
 	}
 
@@ -75,7 +76,8 @@ public class VCGDumper implements GraphDumper {
 	 * Make a new VCG dumper.
 	 * @param ps The print stream to dump the graph to.
 	 */
-	public VCGDumper(PrintStream ps) {
+	public VCGDumper(PrintStream ps)
+	{
 		this.ps = ps;
 		this.currSetColor = 32;
 	}
@@ -83,16 +85,18 @@ public class VCGDumper implements GraphDumper {
 	/**
 	 * Dump graph preamble.
 	 */
-	public void begin() {
+	public void begin()
+	{
 		ps.println("graph:{\nlate_edge_labels:yes\ndisplay_edge_labels:yes\n"
-					   + "manhattan_edges:yes\nport_sharing:no\n");
+				+ "manhattan_edges:yes\nport_sharing:no\n");
 	}
 
 	/**
 	 * Dump epilog.
 	 * @see de.unika.ipd.grgen.util.GraphDumper#finish()
 	 */
-	public void finish() {
+	public void finish()
+	{
 		ps.println("}");
 		ps.flush();
 		ps.close();
@@ -103,7 +107,8 @@ public class VCGDumper implements GraphDumper {
 	 * @param col The Java color.
 	 * @return The VCG color.
 	 */
-	private String getColor(Color col) {
+	private String getColor(Color col)
+	{
 		String res;
 
 		if(colorMap.containsKey(col))
@@ -118,15 +123,15 @@ public class VCGDumper implements GraphDumper {
 
 			// issue a vcg colormap statement
 			ps.println("colorentry " + index + ": " +
-						   col.getRed() + " " + col.getGreen() + " " + col.getBlue());
-		}
-		else
+					col.getRed() + " " + col.getGreen() + " " + col.getBlue());
+		} else
 			res = "white";
 
 		return res;
 	}
 
-	private String getPrefix() {
+	private String getPrefix()
+	{
 		return prefix;
 	}
 
@@ -135,7 +140,8 @@ public class VCGDumper implements GraphDumper {
 	 * @param d The node to dump.
 	 * @return VCG statements describing the node.
 	 */
-	private String getNodeAttributes(GraphDumpable d) {
+	private String getNodeAttributes(GraphDumpable d)
+	{
 		String col = getColor(d.getNodeColor());
 		Integer shp = new Integer(d.getNodeShape());
 
@@ -146,7 +152,7 @@ public class VCGDumper implements GraphDumper {
 		String label = escapeString(d.getNodeLabel());
 
 		String s = "title:\"" + getPrefix() + d.getNodeId()
-			+ "\" label:\"" + label + "\"";
+				+ "\" label:\"" + label + "\"";
 
 		if(info != null)
 			s += " info1:\"" + info + "\"";
@@ -157,17 +163,19 @@ public class VCGDumper implements GraphDumper {
 		return s;
 	}
 
-	public void node(GraphDumpable d) {
+	public void node(GraphDumpable d)
+	{
 		ps.println("node:{" + getNodeAttributes(d) + "}");
 	}
 
 	public void edge(GraphDumpable from, GraphDumpable to, String label,
-					 int style, Color color) {
-		if(from!=null && to !=null) {
+			int style, Color color)
+	{
+		if(from != null && to != null) {
 			String col = getColor(color);
 
 			String s = "edge:{sourcename:\"" + getPrefix() + from.getNodeId()
-				+ "\" targetname:\"" + getPrefix() + to.getNodeId() + "\"";
+					+ "\" targetname:\"" + getPrefix() + to.getNodeId() + "\"";
 
 			if(label != null)
 				s += " label:\"" + escapeString(label) + "\"";
@@ -183,27 +191,32 @@ public class VCGDumper implements GraphDumper {
 		}
 	}
 
-	public void edge(GraphDumpable from, GraphDumpable to, String label, int style) {
+	public void edge(GraphDumpable from, GraphDumpable to, String label, int style)
+	{
 		edge(from, to, label, style, Color.BLACK);
 	}
 
-	public void edge(GraphDumpable from, GraphDumpable to, String label) {
+	public void edge(GraphDumpable from, GraphDumpable to, String label)
+	{
 		edge(from, to, label, DEFAULT, Color.BLACK);
 	}
 
-	public void edge(GraphDumpable from, GraphDumpable to) {
+	public void edge(GraphDumpable from, GraphDumpable to)
+	{
 		edge(from, to, null, DEFAULT, Color.BLACK);
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumper#beginSubgraph(java.lang.String)
 	 */
-	public void beginSubgraph(GraphDumpable d) {
+	public void beginSubgraph(GraphDumpable d)
+	{
 		ps.println("graph:{" + getNodeAttributes(d)
-					   + " status:clustered");
+				+ " status:clustered");
 	}
 
-	public void beginSubgraph(String title) {
+	public void beginSubgraph(String title)
+	{
 		ps.print("graph:{title:\"");
 		ps.print(title);
 		ps.println('\"');
@@ -216,8 +229,8 @@ public class VCGDumper implements GraphDumper {
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumper#endSubgraph()
 	 */
-	public void endSubgraph() {
+	public void endSubgraph()
+	{
 		ps.println("}\n");
 	}
-
 }

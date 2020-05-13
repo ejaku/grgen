@@ -13,27 +13,32 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayCopyConstructor extends Expression {
+public class ArrayCopyConstructor extends Expression
+{
 	private Expression arrayToCopy;
 	private ArrayType arrayType;
 
-	public ArrayCopyConstructor(Expression arrayToCopy, ArrayType arrayType) {
+	public ArrayCopyConstructor(Expression arrayToCopy, ArrayType arrayType)
+	{
 		super("array copy constructor", arrayType);
 		this.arrayToCopy = arrayToCopy;
 		this.arrayType = arrayType;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		needs.needsGraph();
 		arrayToCopy.collectNeededEntities(needs);
 	}
 
-	public Expression getArrayToCopy() {
+	public Expression getArrayToCopy()
+	{
 		return arrayToCopy;
 	}
 
-	public ArrayType getArrayType() {
+	public ArrayType getArrayType()
+	{
 		return arrayType;
 	}
 }

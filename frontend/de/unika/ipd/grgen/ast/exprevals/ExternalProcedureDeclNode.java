@@ -22,11 +22,11 @@ import de.unika.ipd.grgen.ir.exprevals.ExternalProcedureMethod;
 import java.util.Collection;
 import java.util.Vector;
 
-
 /**
  * AST node class representing external procedure declarations
  */
-public class ExternalProcedureDeclNode extends ProcedureBase {
+public class ExternalProcedureDeclNode extends ProcedureBase
+{
 	static {
 		setName(ExternalProcedureDeclNode.class, "external procedure declaration");
 	}
@@ -34,12 +34,13 @@ public class ExternalProcedureDeclNode extends ProcedureBase {
 	protected CollectNode<BaseNode> paramTypesUnresolved;
 	protected CollectNode<TypeNode> paramTypes;
 
-	private static final ExternalProcedureTypeNode externalProcedureType = 
-		new ExternalProcedureTypeNode();
-	
+	private static final ExternalProcedureTypeNode externalProcedureType = new ExternalProcedureTypeNode();
+
 	boolean isMethod;
 
-	public ExternalProcedureDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved, CollectNode<BaseNode> rets, boolean isMethod) {
+	public ExternalProcedureDeclNode(IdentNode id, CollectNode<BaseNode> paramTypesUnresolved,
+			CollectNode<BaseNode> rets, boolean isMethod)
+	{
 		super(id, externalProcedureType);
 		this.paramTypesUnresolved = paramTypesUnresolved;
 		becomeParent(this.paramTypesUnresolved);
@@ -50,7 +51,8 @@ public class ExternalProcedureDeclNode extends ProcedureBase {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(paramTypesUnresolved, paramTypes));
@@ -60,7 +62,8 @@ public class ExternalProcedureDeclNode extends ProcedureBase {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("paramTypes");
@@ -68,40 +71,45 @@ public class ExternalProcedureDeclNode extends ProcedureBase {
 		return childrenNames;
 	}
 
-	private static final CollectResolver<TypeNode> paramsTypeResolver = new CollectResolver<TypeNode>(
-    		new DeclarationTypeResolver<TypeNode>(TypeNode.class));
+	private static final CollectResolver<TypeNode> paramsTypeResolver =
+			new CollectResolver<TypeNode>(new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
-		paramTypes = paramsTypeResolver.resolve(paramTypesUnresolved, this);	
+	protected boolean resolveLocal()
+	{
+		paramTypes = paramsTypeResolver.resolve(paramTypesUnresolved, this);
 		return paramTypes != null && super.resolveLocal();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
-	
+
 	@Override
-	public TypeNode getDeclType() {
+	public TypeNode getDeclType()
+	{
 		assert isResolved();
-	
+
 		return externalProcedureType;
 	}
 
-	public Vector<TypeNode> getParameterTypes() {
+	public Vector<TypeNode> getParameterTypes()
+	{
 		assert isResolved();
 
 		return paramTypes.getChildrenAsVector();
 	}
 
 	@Override
-	protected IR constructIR() {
-		ExternalProcedure externalProc = isMethod ? 
-				new ExternalProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent()) :
-				new ExternalProcedure(getIdentNode().toString(), getIdentNode().getIdent());
+	protected IR constructIR()
+	{
+		ExternalProcedure externalProc = isMethod
+				? new ExternalProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent())
+				: new ExternalProcedure(getIdentNode().toString(), getIdentNode().getIdent());
 		for(TypeNode retType : returnTypes.getChildren()) {
 			externalProc.addReturnType(retType.checkIR(Type.class));
 		}
@@ -110,14 +118,14 @@ public class ExternalProcedureDeclNode extends ProcedureBase {
 		}
 		return externalProc;
 	}
-	
-	public static String getKindStr() {
+
+	public static String getKindStr()
+	{
 		return "external procedure declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "procedure";
 	}
 }
-
-

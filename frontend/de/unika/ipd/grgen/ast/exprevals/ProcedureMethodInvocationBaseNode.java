@@ -25,40 +25,42 @@ public abstract class ProcedureMethodInvocationBaseNode extends ProcedureInvocat
 
 	protected CollectNode<ExprNode> arguments;
 	protected int context;
-	
+
 	public ProcedureMethodInvocationBaseNode(Coords coords)
 	{
 		super(coords);
 	}
 
-	String getTypeName(TypeNode type) {
+	String getTypeName(TypeNode type)
+	{
 		String typeName;
 		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode) type).getIdentNode().toString();
+			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
 		else
 			typeName = type.toString();
 		return typeName;
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
-	protected boolean checkSignatureAdhered(ProcedureBase pb, IdentNode unresolved) {	
+	protected boolean checkSignatureAdhered(ProcedureBase pb, IdentNode unresolved)
+	{
 		// check if the number of parameters are correct
 		int expected = pb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
-		if (expected != actual) {
+		if(expected != actual) {
 			String patternName = pb.ident.toString();
 			unresolved.reportError("The procedure method \"" + patternName + "\" needs "
 					+ expected + " parameters, given are " + actual);
 			return false;
 		}
-	
+
 		// check if the types of the parameters are correct
 		boolean res = true;
-		for (int i = 0; i < arguments.size(); ++i) {
+		for(int i = 0; i < arguments.size(); ++i) {
 			ExprNode actualParameter = arguments.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			TypeNode formalParameterType = pb.getParameterTypes().get(i);
-			
+
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
 				String exprTypeName = getTypeName(actualParameterType);
@@ -67,7 +69,7 @@ public abstract class ProcedureMethodInvocationBaseNode extends ProcedureInvocat
 						+ exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
-	
+
 		return res;
 	}
 }

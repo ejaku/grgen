@@ -22,13 +22,15 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.SetType;
 import de.unika.ipd.grgen.ir.Type;
 
-public class SetTypeNode extends DeclaredTypeNode {
+public class SetTypeNode extends DeclaredTypeNode
+{
 	static {
 		setName(SetTypeNode.class, "set type");
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "set<" + valueTypeUnresolved.toString() + "> type";
 	}
 
@@ -36,35 +38,41 @@ public class SetTypeNode extends DeclaredTypeNode {
 	public TypeNode valueType;
 
 	// the set type node instances are created in ParserEnvironment as needed
-	public SetTypeNode(IdentNode valueTypeIdent) {
+	public SetTypeNode(IdentNode valueTypeIdent)
+	{
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static final DeclarationTypeResolver<TypeNode> typeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(valueTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)valueTypeUnresolved);
 		else if(valueTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
 
-		if(valueType == null) return false;
+		if(valueType == null)
+			return false;
 
 		if(valueType instanceof InheritanceTypeNode) {
 			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
@@ -85,12 +93,12 @@ public class SetTypeNode extends DeclaredTypeNode {
 				this, this, OperatorSignature.setEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
 				this, this, OperatorSignature.setEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.BIT_OR, this, this, this,
-				OperatorSignature.setEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this, this, this,
-				OperatorSignature.setEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, this,
-				OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.BIT_OR, this,
+				this, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this,
+				this, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this,
+				this, this, OperatorSignature.setEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 
@@ -98,7 +106,8 @@ public class SetTypeNode extends DeclaredTypeNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Type vt = valueType.getType();
 		return new SetType(vt);
 	}

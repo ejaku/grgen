@@ -32,11 +32,12 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionMethodInvo
 	}
 
 	private ExprNode owner;
-	
+
 	private IdentNode externalFunctionUnresolved;
 	private ExternalFunctionDeclNode externalFunctionDecl;
-	
-	public ExternalFunctionMethodInvocationExprNode(ExprNode owner, IdentNode externalFunctionUnresolved, CollectNode<ExprNode> arguments)
+
+	public ExternalFunctionMethodInvocationExprNode(ExprNode owner, IdentNode externalFunctionUnresolved,
+			CollectNode<ExprNode> arguments)
 	{
 		super(externalFunctionUnresolved.getCoords());
 		this.owner = becomeParent(owner);
@@ -45,7 +46,8 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionMethodInvo
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(owner);
 		children.add(getValidVersion(externalFunctionUnresolved, externalFunctionDecl));
@@ -54,7 +56,8 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionMethodInvo
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("owner");
 		childrenNames.add("external function method");
@@ -62,23 +65,26 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionMethodInvo
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<ExternalFunctionDeclNode> resolver = new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class);
+	private static final DeclarationResolver<ExternalFunctionDeclNode> resolver =
+			new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class);
 
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = true;
 		TypeNode ownerType = owner.getType();
-		if (ownerType instanceof ExternalTypeNode) {
+		if(ownerType instanceof ExternalTypeNode) {
 			if(ownerType instanceof ScopeOwner) {
-				ScopeOwner o = (ScopeOwner) ownerType;
+				ScopeOwner o = (ScopeOwner)ownerType;
 				o.fixupDefinition(externalFunctionUnresolved);
 
 				externalFunctionDecl = resolver.resolve(externalFunctionUnresolved, this);
 				if(externalFunctionDecl == null) {
-					externalFunctionUnresolved.reportError("Unknown external function method called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
+					externalFunctionUnresolved.reportError(
+							"Unknown external function method called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
 					return false;
 				}
 
-				successfullyResolved = externalFunctionDecl!=null && successfullyResolved;
+				successfullyResolved = externalFunctionDecl != null && successfullyResolved;
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -92,18 +98,21 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionMethodInvo
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return checkSignatureAdhered(externalFunctionDecl, externalFunctionUnresolved);
 	}
-	
+
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert isResolved();
 		return externalFunctionDecl.getReturnType();
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		ExternalFunctionMethodInvocationExpr efi = new ExternalFunctionMethodInvocationExpr(
 				owner.checkIR(Expression.class),
 				externalFunctionDecl.ret.checkIR(Type.class),

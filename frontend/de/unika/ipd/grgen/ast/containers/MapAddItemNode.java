@@ -48,16 +48,18 @@ public class MapAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(target!=null ? target : targetVar);
+		children.add(target != null ? target : targetVar);
 		children.add(keyExpr);
 		children.add(valueExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
 		childrenNames.add("keyExpr");
@@ -66,33 +68,33 @@ public class MapAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = getTargetType();
-		if(target!=null) {
+		if(target != null) {
 			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
 			TypeNode keyType = keyExpr.getType();
-			if (!keyType.isEqual(targetKeyType))
-			{
+			if(!keyType.isEqual(targetKeyType)) {
 				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
 				if(keyExpr == ConstNode.getInvalid()) {
-					keyExpr.reportError("Argument (key) to "
-							+ "map add item statement must be of type " +targetKeyType.toString());
+					keyExpr.reportError("Argument (key) to map add item statement must be of type "
+							+ targetKeyType.toString());
 					return false;
 				}
 			}
 			TypeNode targetValueType = ((MapTypeNode)targetType).valueType;
 			TypeNode valueType = valueExpr.getType();
-			if (!valueType.isEqual(targetValueType))
-			{
+			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
-					valueExpr.reportError("Argument (value) to "
-							+ "map add item statement must be of type " +targetValueType.toString());
+					valueExpr.reportError("Argument (value) to map add item statement must be of type "
+							+ targetValueType.toString());
 					return false;
 				}
 			}
@@ -100,22 +102,26 @@ public class MapAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
 			TypeNode targetValueType = ((MapTypeNode)targetType).valueType;
 			return checkType(keyExpr, targetKeyType, "map add item statement", "key")
-				&& checkType(valueExpr, targetValueType, "map add item statement", "value");
+					&& checkType(valueExpr, targetValueType, "map add item statement", "value");
 		}
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(target!=null)
+	protected IR constructIR()
+	{
+		if(target != null)
 			return new MapAddItem(target.checkIR(Qualification.class),
-					keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
+					keyExpr.checkIR(Expression.class),
+					valueExpr.checkIR(Expression.class));
 		else
 			return new MapVarAddItem(targetVar.checkIR(Variable.class),
-					keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
+					keyExpr.checkIR(Expression.class),
+					valueExpr.checkIR(Expression.class));
 	}
 }

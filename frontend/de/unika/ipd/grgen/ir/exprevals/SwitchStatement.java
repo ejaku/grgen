@@ -17,32 +17,37 @@ import java.util.LinkedList;
 /**
  * Represents a switch statement in the IR.
  */
-public class SwitchStatement extends EvalStatement {
-
+public class SwitchStatement extends EvalStatement
+{
 	private Expression switchExpr;
 	private Collection<CaseStatement> statements = new LinkedList<CaseStatement>();
 
-	public SwitchStatement(Expression switchExpr) {
+	public SwitchStatement(Expression switchExpr)
+	{
 		super("switch statement");
 		this.switchExpr = switchExpr;
 	}
-	
-	public void addStatement(CaseStatement statement) {
+
+	public void addStatement(CaseStatement statement)
+	{
 		statements.add(statement);
 	}
 
-	public Expression getSwitchExpr() {
+	public Expression getSwitchExpr()
+	{
 		return switchExpr;
 	}
 
-	public Collection<CaseStatement> getStatements() {
+	public Collection<CaseStatement> getStatements()
+	{
 		return statements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		switchExpr.collectNeededEntities(needs);
-		for(EvalStatement statement : statements)
+		for(EvalStatement statement : statements) {
 			statement.collectNeededEntities(needs);
+		}
 	}
 }

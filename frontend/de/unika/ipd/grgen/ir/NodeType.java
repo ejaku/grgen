@@ -14,29 +14,34 @@ package de.unika.ipd.grgen.ir;
 /**
  * IR class that represents node types.
  */
-public class NodeType extends InheritanceType implements ContainedInPackage {
+public class NodeType extends InheritanceType implements ContainedInPackage
+{
 	private String packageContainedIn;
-	
+
 	/**
 	 * Make a new node type.
 	 * @param ident The identifier that declares this type.
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public NodeType(Ident ident, int modifiers, String externalName) {
+	public NodeType(Ident ident, int modifiers, String externalName)
+	{
 		super("node type", ident, modifiers, externalName);
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_NODE;
 	}
-	
-	public String getPackageContainedIn() {
+
+	public String getPackageContainedIn()
+	{
 		return packageContainedIn;
 	}
-	
-	public void setPackageContainedIn(String packageContainedIn) {
+
+	public void setPackageContainedIn(String packageContainedIn)
+	{
 		this.packageContainedIn = packageContainedIn;
 	}
 }

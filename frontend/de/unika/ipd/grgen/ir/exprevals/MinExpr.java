@@ -11,25 +11,30 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class MinExpr extends Expression {
+public class MinExpr extends Expression
+{
 	private Expression leftExpr;
 	private Expression rightExpr;
 
-	public MinExpr(Expression leftExpr, Expression rightExpr) {
+	public MinExpr(Expression leftExpr, Expression rightExpr)
+	{
 		super("min expr", leftExpr.getType());
 		this.leftExpr = leftExpr;
 		this.rightExpr = rightExpr;
 	}
 
-	public Expression getLeftExpr() {
+	public Expression getLeftExpr()
+	{
 		return leftExpr;
 	}
 
-	public Expression getRightExpr() {
+	public Expression getRightExpr()
+	{
 		return rightExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		leftExpr.collectNeededEntities(needs);
 		rightExpr.collectNeededEntities(needs);
 	}

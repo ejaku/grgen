@@ -43,7 +43,8 @@ public class IndexedAccessExprNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(keyExpr);
@@ -51,7 +52,8 @@ public class IndexedAccessExprNode extends ExprNode
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("keyExpr");
@@ -59,13 +61,14 @@ public class IndexedAccessExprNode extends ExprNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(targetType instanceof UntypedExecVarTypeNode) {
 			return true;
 		}
 
-		if(!(targetType instanceof MapTypeNode) 
+		if(!(targetType instanceof MapTypeNode)
 				&& !(targetType instanceof ArrayTypeNode)
 				&& !(targetType instanceof DequeTypeNode)) {
 			reportError("indexed access only supported on map, array, and deque type");
@@ -78,25 +81,25 @@ public class IndexedAccessExprNode extends ExprNode
 			keyType = IntTypeNode.intType;
 		TypeNode keyExprType = keyExpr.getType();
 
-		if (keyExprType instanceof InheritanceTypeNode) {
+		if(keyExprType instanceof InheritanceTypeNode) {
 			if(keyExprType.isCompatibleTo(keyType))
 				return true;
-			
+
 			String givenTypeName;
 			if(keyExprType instanceof InheritanceTypeNode)
-				givenTypeName = ((InheritanceTypeNode) keyExprType).getIdentNode().toString();
+				givenTypeName = ((InheritanceTypeNode)keyExprType).getIdentNode().toString();
 			else
 				givenTypeName = keyExprType.toString();
 			String expectedTypeName;
 			if(keyType instanceof InheritanceTypeNode)
-				expectedTypeName = ((InheritanceTypeNode) keyType).getIdentNode().toString();
+				expectedTypeName = ((InheritanceTypeNode)keyType).getIdentNode().toString();
 			else
 				expectedTypeName = keyType.toString();
 			reportError("Cannot convert indexed access argument from \""
 					+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
 			return false;
 		} else {
-			if (keyExprType.isEqual(keyType))
+			if(keyExprType.isEqual(keyType))
 				return true;
 
 			keyExpr = becomeParent(keyExpr.adjustType(keyType, getCoords()));
@@ -105,7 +108,8 @@ public class IndexedAccessExprNode extends ExprNode
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		TypeNode targetExprType = targetExpr.getType();
 		if(targetExprType instanceof MapTypeNode)
 			return ((MapTypeNode)targetExprType).valueType;
@@ -118,7 +122,8 @@ public class IndexedAccessExprNode extends ExprNode
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Expression texp = targetExpr.checkIR(Expression.class);
 		Type type = texp.getType();
 		Type accessedType;
@@ -131,6 +136,6 @@ public class IndexedAccessExprNode extends ExprNode
 		else
 			accessedType = type; // assuming untypedType
 		return new IndexedAccessExpr(targetExpr.checkIR(Expression.class),
-			keyExpr.checkIR(Expression.class), accessedType);
+				keyExpr.checkIR(Expression.class), accessedType);
 	}
 }

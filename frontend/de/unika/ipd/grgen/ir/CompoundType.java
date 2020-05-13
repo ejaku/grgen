@@ -24,7 +24,8 @@ import de.unika.ipd.grgen.ir.exprevals.ProcedureMethod;
 /**
  * Abstract base class for compound types containing members.
  */
-public abstract class CompoundType extends Type {
+public abstract class CompoundType extends Type
+{
 
 	/** Collection containing all members defined in that type. */
 	private List<Entity> members = new LinkedList<Entity>();
@@ -37,49 +38,59 @@ public abstract class CompoundType extends Type {
 	 * @param name The name of the type.
 	 * @param ident The identifier used to declare this type.
 	 */
-	public CompoundType(String name, Ident ident) {
+	public CompoundType(String name, Ident ident)
+	{
 		super(name, ident);
 	}
 
 	/** Get all members of this compound type. */
-	public Collection<Entity> getMembers() {
+	public Collection<Entity> getMembers()
+	{
 		return Collections.unmodifiableCollection(members);
 	}
 
 	/** Add a member entity to the compound type. */
-	public void addMember(Entity member) {
+	public void addMember(Entity member)
+	{
 		members.add(member);
 		member.setOwner(this);
 	}
 
-	public Collection<FunctionMethod> getFunctionMethods() {
+	public Collection<FunctionMethod> getFunctionMethods()
+	{
 		return Collections.unmodifiableCollection(functionMethods);
 	}
 
-	public void addFunctionMethod(FunctionMethod method) {
+	public void addFunctionMethod(FunctionMethod method)
+	{
 		functionMethods.add(method);
 		method.setOwner(this);
 	}
 
-	public void addProcedureMethod(ProcedureMethod method) {
+	public void addProcedureMethod(ProcedureMethod method)
+	{
 		procedureMethods.add(method);
 		method.setOwner(this);
 	}
 
-	public Collection<ProcedureMethod> getProcedureMethods() {
+	public Collection<ProcedureMethod> getProcedureMethods()
+	{
 		return Collections.unmodifiableCollection(procedureMethods);
 	}
 
-	protected void canonicalizeLocal() {
+	protected void canonicalizeLocal()
+	{
 		Collections.sort(members, Identifiable.COMPARATOR);
 	}
 
-	public void addFields(Map<String, Object> fields) {
+	public void addFields(Map<String, Object> fields)
+	{
 		super.addFields(fields);
 		fields.put("members", members.iterator());
 	}
 
-	public void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb)
+	{
 		sb.append(this);
 		sb.append('[');
 

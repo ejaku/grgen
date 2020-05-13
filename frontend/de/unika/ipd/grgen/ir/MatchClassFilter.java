@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ir;
 /**
  * A match class filter (base type for auto-generated match class filters and match class filter functions).
  */
-public interface MatchClassFilter {
+public interface MatchClassFilter
+{
 	DefinedMatchType getMatchClass();
 }

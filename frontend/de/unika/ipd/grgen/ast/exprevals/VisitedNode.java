@@ -16,7 +16,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.Visited;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class VisitedNode extends ExprNode {
+public class VisitedNode extends ExprNode
+{
 	static {
 		setName(VisitedNode.class, "visited");
 	}
@@ -24,7 +25,8 @@ public class VisitedNode extends ExprNode {
 	private ExprNode visitorIDExpr;
 	private ExprNode entityExpr;
 
-	public VisitedNode(Coords coords, ExprNode visitorIDExpr, ExprNode entityExpr) {
+	public VisitedNode(Coords coords, ExprNode visitorIDExpr, ExprNode entityExpr)
+	{
 		super(coords);
 
 		this.visitorIDExpr = visitorIDExpr;
@@ -34,14 +36,16 @@ public class VisitedNode extends ExprNode {
 		becomeParent(entityExpr);
 	}
 
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(visitorIDExpr);
 		children.add(entityExpr);
 		return children;
 	}
 
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("visitorID");
 		childrenNames.add("entity");
@@ -49,12 +53,14 @@ public class VisitedNode extends ExprNode {
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(visitorIDExpr.getType() instanceof UntypedExecVarTypeNode) {
 			return true;
 		}
@@ -76,12 +82,14 @@ public class VisitedNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new Visited(visitorIDExpr.checkIR(Expression.class), entityExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.booleanType;
 	}
 }

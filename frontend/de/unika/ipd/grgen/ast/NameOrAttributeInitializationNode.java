@@ -27,41 +27,46 @@ public class NameOrAttributeInitializationNode extends BaseNode
 	public IdentNode attributeUnresolved;
 	public MemberDeclNode attribute;
 	public ExprNode initialization;
-	
-	public NameOrAttributeInitializationNode(ConstraintDeclNode owner, IdentNode attribute, ExprNode initialization) {
+
+	public NameOrAttributeInitializationNode(ConstraintDeclNode owner, IdentNode attribute, ExprNode initialization)
+	{
 		this.owner = owner;
 		this.attributeUnresolved = attribute;
 		this.initialization = initialization;
 	}
 
-	public NameOrAttributeInitializationNode(ConstraintDeclNode owner, ExprNode initialization) {
+	public NameOrAttributeInitializationNode(ConstraintDeclNode owner, ExprNode initialization)
+	{
 		this.owner = owner;
 		this.initialization = initialization;
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(attributeUnresolved!=null)
+		if(attributeUnresolved != null)
 			children.add(getValidVersion(attributeUnresolved, attribute));
 		children.add(initialization);
 		return children;
 	}
 
 	@Override
-	protected Collection<String> getChildrenNames() {
+	protected Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
-		if(attributeUnresolved!=null)
+		if(attributeUnresolved != null)
 			childrenNames.add("attribute");
 		childrenNames.add("initialization");
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<MemberDeclNode> memberResolver
-		= new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+	private static final DeclarationResolver<MemberDeclNode> memberResolver =
+			new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(attributeUnresolved != null) {
 			owner.getDeclType().fixupDefinition(attributeUnresolved);
 			attribute = memberResolver.resolve(attributeUnresolved, this);
@@ -71,21 +76,22 @@ public class NameOrAttributeInitializationNode extends BaseNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		if(attributeUnresolved==null) {
+	protected boolean checkLocal()
+	{
+		if(attributeUnresolved == null) {
 			TypeNode targetType = StringTypeNode.stringType;
 			TypeNode exprType = initialization.getType();
 
-			if (exprType.isEqual(targetType))
+			if(exprType.isEqual(targetType))
 				return true;
 
 			initialization = becomeParent(initialization.adjustType(targetType, getCoords()));
-			if(initialization==ConstNode.getInvalid()) {
+			if(initialization == ConstNode.getInvalid()) {
 				error.error(getCoords(), "element name must be initialized with a value of type string");
 				return false;
 			}
-			
-			return true;		
+
+			return true;
 		}
 
 		if(attribute.isConst()) {
@@ -101,34 +107,35 @@ public class NameOrAttributeInitializationNode extends BaseNode
 		TypeNode targetType = attribute.getDeclType();
 		TypeNode exprType = initialization.getType();
 
-		if (exprType.isEqual(targetType))
+		if(exprType.isEqual(targetType))
 			return true;
 
 		initialization = becomeParent(initialization.adjustType(targetType, getCoords()));
-		if(initialization==ConstNode.getInvalid())
+		if(initialization == ConstNode.getInvalid())
 			return false;
-		
+
 		if(targetType instanceof NodeTypeNode && exprType instanceof NodeTypeNode
-				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode)
-		{
+				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode) {
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
-				error.error(getCoords(), "can't initialize-assign value of "+exprType+" to attribute of "+targetType);
+				error.error(getCoords(), "can't initialize-assign value of "
+						+ exprType + " to attribute of " + targetType);
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			error.error(getCoords(), "can't initialize-assign value of "+exprType+" to attribute of "+targetType);
+			error.error(getCoords(), "can't initialize-assign value of " + exprType + " to attribute of " + targetType);
 			return false;
 		}
-		return true;		
+		return true;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
 		if(isIRAlreadySet()) {
@@ -140,13 +147,12 @@ public class NameOrAttributeInitializationNode extends BaseNode
 		// mark this node as already visited
 		setIR(nai);
 
-		assert(ownerIR!=null);
+		assert(ownerIR != null);
 		nai.owner = ownerIR;
-		if(attribute!=null)
+		if(attribute != null)
 			nai.attribute = attribute.checkIR(Entity.class);
 		nai.expr = initialization.checkIR(Expression.class);
-			
+
 		return nai;
 	}
 }
-

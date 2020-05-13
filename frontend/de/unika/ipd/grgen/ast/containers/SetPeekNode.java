@@ -36,7 +36,8 @@ public class SetPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(numberExpr);
@@ -44,7 +45,8 @@ public class SetPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("numberExpr");
@@ -52,27 +54,29 @@ public class SetPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof SetTypeNode)) {
 			targetExpr.reportError("This argument to set peek expression must be of type set<T>");
 			return false;
 		}
 		if(!numberExpr.getType().isEqual(BasicTypeNode.intType)) {
-			numberExpr.reportError("Argument (number) to "
-					+ "set peek expression must be of type int");
+			numberExpr.reportError("Argument (number) to set peek expression must be of type int");
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return ((SetTypeNode)targetExpr.getType()).valueType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new SetPeekExpr(targetExpr.checkIR(Expression.class),
 				numberExpr.checkIR(Expression.class));
 	}

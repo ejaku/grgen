@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.Variable;
 /**
  * An external procedure method invocation.
  */
-public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase {
+public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase
+{
 	/** The owner of the procedure method. */
 	private Qualification ownerQual;
 	private Variable ownerVar;
@@ -31,48 +32,57 @@ public class ExternalProcedureMethodInvocation extends ProcedureInvocationBase {
 	/** The procedure of the procedure method invocation expression. */
 	protected ExternalProcedure externalProcedure;
 
-	public ExternalProcedureMethodInvocation(Qualification ownerQual, ExternalProcedure externalProcedure) {
+	public ExternalProcedureMethodInvocation(Qualification ownerQual, ExternalProcedure externalProcedure)
+	{
 		super("external procedure method invocation");
 
 		this.ownerQual = ownerQual;
 		this.externalProcedure = externalProcedure;
 	}
 
-	public ExternalProcedureMethodInvocation(Variable ownerVar, ExternalProcedure externalProcedure) {
+	public ExternalProcedureMethodInvocation(Variable ownerVar, ExternalProcedure externalProcedure)
+	{
 		super("external procedure method invocation");
 
 		this.ownerVar = ownerVar;
 		this.externalProcedure = externalProcedure;
 	}
 
-	public Qualification getOwnerQual() {
+	public Qualification getOwnerQual()
+	{
 		return ownerQual;
 	}
 
-	public Variable getOwnerVar() {
+	public Variable getOwnerVar()
+	{
 		return ownerVar;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return externalProcedure;
 	}
 
-	public ExternalProcedure getExternalProc() {
+	public ExternalProcedure getExternalProc()
+	{
 		return externalProcedure;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
-		if(ownerQual!=null) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		if(ownerQual != null) {
 			ownerQual.collectNeededEntities(needs);
-			if(ownerQual.getOwner()!=null)
+			if(ownerQual.getOwner() != null) {
 				if(ownerQual.getOwner() instanceof GraphEntity)
 					needs.add((GraphEntity)ownerQual.getOwner());
+			}
 		} else {
 			if(!isGlobalVariable(ownerVar))
 				needs.add(ownerVar);
 		}
-		for(Expression child : getWalkableChildren())
+		for(Expression child : getWalkableChildren()) {
 			child.collectNeededEntities(needs);
+		}
 	}
 }

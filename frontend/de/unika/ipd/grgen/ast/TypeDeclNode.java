@@ -20,25 +20,28 @@ import de.unika.ipd.grgen.ir.IR;
 /**
  * Declaration of a type.
  */
-public class TypeDeclNode extends DeclNode {
+public class TypeDeclNode extends DeclNode
+{
 	static {
 		setName(TypeDeclNode.class, "type declaration");
 	}
 
 	private DeclaredTypeNode type;
 
-	public TypeDeclNode(IdentNode i, BaseNode t) {
+	public TypeDeclNode(IdentNode i, BaseNode t)
+	{
 		super(i, t);
 
 		// Set the declaration of the declared type node to this node.
 		if(t instanceof DeclaredTypeNode) {
-			((DeclaredTypeNode) t).setDecl(this);
+			((DeclaredTypeNode)t).setDecl(this);
 		}
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -47,18 +50,21 @@ public class TypeDeclNode extends DeclNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		return childrenNames;
 	}
 
-	private static DeclarationTypeResolver<DeclaredTypeNode> typeResolver = new DeclarationTypeResolver<DeclaredTypeNode>(DeclaredTypeNode.class);
+	private static DeclarationTypeResolver<DeclaredTypeNode> typeResolver =
+			new DeclarationTypeResolver<DeclaredTypeNode>(DeclaredTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
@@ -66,7 +72,8 @@ public class TypeDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return checkNoConflictingEdgeParents();
 	}
 
@@ -77,47 +84,47 @@ public class TypeDeclNode extends DeclNode {
 	 * @return Check pass without an error.
 	 */
 	private boolean checkNoConflictingEdgeParents()
-    {
-		if (!(type instanceof EdgeTypeNode)) {
-	    	return true;
-	    }
+	{
+		if(!(type instanceof EdgeTypeNode)) {
+			return true;
+		}
 
-	    EdgeTypeNode edgeType = (EdgeTypeNode) type;
+		EdgeTypeNode edgeType = (EdgeTypeNode)type;
 
 		boolean extendEdge = false;
 		boolean extendUEdge = false;
-	    for (InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
-	        if (inh instanceof DirectedEdgeTypeNode) {
-	        	extendEdge = true;
-	        }
-	        if (inh instanceof UndirectedEdgeTypeNode) {
-	        	extendUEdge = true;
-	        }
-        }
+		for(InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
+			if(inh instanceof DirectedEdgeTypeNode) {
+				extendEdge = true;
+			}
+			if(inh instanceof UndirectedEdgeTypeNode) {
+				extendUEdge = true;
+			}
+		}
 
-	    if (extendEdge && extendUEdge) {
-	    	reportError("An edge class cannot extend a directed and an undirected edge class");
-	    	return false;
-	    }
-	    if ((type instanceof ArbitraryEdgeTypeNode) && extendEdge) {
-	    	reportError("An arbitrary edge class cannot extend a directed edge class");
-	    	return false;
-	    }
-	    if (type instanceof ArbitraryEdgeTypeNode && extendUEdge) {
-	    	reportError("An arbitrary edge class cannot extend an undirected edge class");
-	    	return false;
-	    }
-	    if ((type instanceof UndirectedEdgeTypeNode) && extendEdge) {
-	    	reportError("An undirected edge class cannot extend a directed edge class");
-	    	return false;
-	    }
-	    if (type instanceof DirectedEdgeTypeNode && extendUEdge) {
-	    	reportError("A directed edge class cannot extend an undirected edge class");
-	    	return false;
-	    }
+		if(extendEdge && extendUEdge) {
+			reportError("An edge class cannot extend a directed and an undirected edge class");
+			return false;
+		}
+		if((type instanceof ArbitraryEdgeTypeNode) && extendEdge) {
+			reportError("An arbitrary edge class cannot extend a directed edge class");
+			return false;
+		}
+		if(type instanceof ArbitraryEdgeTypeNode && extendUEdge) {
+			reportError("An arbitrary edge class cannot extend an undirected edge class");
+			return false;
+		}
+		if((type instanceof UndirectedEdgeTypeNode) && extendEdge) {
+			reportError("An undirected edge class cannot extend a directed edge class");
+			return false;
+		}
+		if(type instanceof DirectedEdgeTypeNode && extendUEdge) {
+			reportError("A directed edge class cannot extend an undirected edge class");
+			return false;
+		}
 
-	    return true;
-    }
+		return true;
+	}
 
 	/**
 	 * A type declaration returns the declared type
@@ -125,15 +132,18 @@ public class TypeDeclNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return getDeclType().getIR();
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "type declaration";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "type";
 	}
 

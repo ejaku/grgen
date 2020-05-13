@@ -14,31 +14,37 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayVarAddItem extends ProcedureInvocationBase {
+public class ArrayVarAddItem extends ProcedureInvocationBase
+{
 	Variable target;
-    Expression valueExpr;
-    Expression indexExpr;
+	Expression valueExpr;
+	Expression indexExpr;
 
-	public ArrayVarAddItem(Variable target, Expression valueExpr, Expression indexExpr) {
+	public ArrayVarAddItem(Variable target, Expression valueExpr, Expression indexExpr)
+	{
 		super("array var add item");
 		this.target = target;
 		this.valueExpr = valueExpr;
 		this.indexExpr = indexExpr;
 	}
 
-	public Variable getTarget() {
+	public Variable getTarget()
+	{
 		return target;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public Expression getIndexExpr() {
+	public Expression getIndexExpr()
+	{
 		return indexExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
@@ -49,10 +55,10 @@ public class ArrayVarAddItem extends ProcedureInvocationBase {
 
 		getValueExpr().collectNeededEntities(needs);
 
-		if(getIndexExpr()!=null)
+		if(getIndexExpr() != null)
 			getIndexExpr().collectNeededEntities(needs);
 
-		if(getNext()!=null) {
+		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);
 		}
 	}

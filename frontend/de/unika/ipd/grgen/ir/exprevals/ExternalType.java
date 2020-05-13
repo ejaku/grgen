@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * IR class that represents external types.
  */
-public class ExternalType extends InheritanceType {
+public class ExternalType extends InheritanceType
+{
 	private List<ExternalFunctionMethod> externalFunctionMethods = new LinkedList<ExternalFunctionMethod>();
 	private List<ExternalProcedureMethod> externalProcedureMethods = new LinkedList<ExternalProcedureMethod>();
 
@@ -34,29 +35,35 @@ public class ExternalType extends InheritanceType {
 	 * Make a new external type.
 	 * @param ident The identifier that declares this type.
 	 */
-	public ExternalType(Ident ident) {
+	public ExternalType(Ident ident)
+	{
 		super("node type", ident, 0, null);
 	}
 
-	public Collection<ExternalFunctionMethod> getExternalFunctionMethods() {
+	public Collection<ExternalFunctionMethod> getExternalFunctionMethods()
+	{
 		return Collections.unmodifiableCollection(externalFunctionMethods);
 	}
 
-	public void addExternalFunctionMethod(ExternalFunctionMethod method) {
+	public void addExternalFunctionMethod(ExternalFunctionMethod method)
+	{
 		externalFunctionMethods.add(method);
 		method.setOwner(this);
 	}
 
-	public void addExternalProcedureMethod(ExternalProcedureMethod method) {
+	public void addExternalProcedureMethod(ExternalProcedureMethod method)
+	{
 		externalProcedureMethods.add(method);
 		method.setOwner(this);
 	}
 
-	public Collection<ExternalProcedureMethod> getExternalProcedureMethods() {
+	public Collection<ExternalProcedureMethod> getExternalProcedureMethods()
+	{
 		return Collections.unmodifiableCollection(externalProcedureMethods);
 	}
 
-	private void addExternalFunctionMethods(ExternalType type) {
+	private void addExternalFunctionMethods(ExternalType type)
+	{
 		for(ExternalFunctionMethod fm : type.getExternalFunctionMethods()) {
 			// METHOD-TODO - what version is of relevance if alreay defined; override handling
 			String functionName = fm.getIdent().toString();
@@ -64,7 +71,8 @@ public class ExternalType extends InheritanceType {
 		}
 	}
 
-	private void addExternalProcedureMethods(ExternalType type) {
+	private void addExternalProcedureMethods(ExternalType type)
+	{
 		for(ExternalProcedureMethod pm : type.getExternalProcedureMethods()) {
 			// METHOD-TODO - what version is of relevance if alreay defined; override handling
 			String procedureName = pm.getIdent().toString();
@@ -72,8 +80,9 @@ public class ExternalType extends InheritanceType {
 		}
 	}
 
-	public Collection<ExternalFunctionMethod> getAllExternalFunctionMethods() {
-		if( allExternalFunctionMethods == null ) {
+	public Collection<ExternalFunctionMethod> getAllExternalFunctionMethods()
+	{
+		if(allExternalFunctionMethods == null) {
 			allExternalFunctionMethods = new LinkedHashMap<String, ExternalFunctionMethod>();
 			//overridingMembers = new LinkedHashMap<Entity, Entity>(); METHOD-TODO
 
@@ -88,8 +97,9 @@ public class ExternalType extends InheritanceType {
 		return allExternalFunctionMethods.values();
 	}
 
-	public Collection<ExternalProcedureMethod> getAllExternalProcedureMethods() {
-		if( allExternalProcedureMethods == null ) {
+	public Collection<ExternalProcedureMethod> getAllExternalProcedureMethods()
+	{
+		if(allExternalProcedureMethods == null) {
 			allExternalProcedureMethods = new LinkedHashMap<String, ExternalProcedureMethod>();
 			//overridingMembers = new LinkedHashMap<Entity, Entity>(); METHOD-TODO
 
@@ -105,7 +115,8 @@ public class ExternalType extends InheritanceType {
 	}
 
 	/** Return a classification of a type for the IR. */
-	public int classify() {
+	public int classify()
+	{
 		return IS_EXTERNAL_TYPE;
 	}
 }

@@ -12,12 +12,14 @@ import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
 /**
  * Base class for the different kinds of accessing an index, binding a pattern element
  */
-public abstract class IndexAccess {
+public abstract class IndexAccess
+{
 	public Index index = null;
 
-	public IndexAccess(Index index) {
+	public IndexAccess(Index index)
+	{
 		this.index = index;
 	}
-	
+
 	public abstract void collectNeededEntities(NeededEntities needs);
 }

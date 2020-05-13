@@ -12,19 +12,23 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayReverseExpr extends Expression {
+public class ArrayReverseExpr extends Expression
+{
 	private Expression targetExpr;
 
-	public ArrayReverseExpr(Expression targetExpr) {
+	public ArrayReverseExpr(Expression targetExpr)
+	{
 		super("array reverse expr", (ArrayType)targetExpr.getType());
 		this.targetExpr = targetExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}

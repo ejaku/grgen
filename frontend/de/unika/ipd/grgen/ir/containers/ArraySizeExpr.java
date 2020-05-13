@@ -13,20 +13,24 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArraySizeExpr extends Expression {
+public class ArraySizeExpr extends Expression
+{
 	Expression targetExpr;
 
-	public ArraySizeExpr(Expression targetExpr) {
+	public ArraySizeExpr(Expression targetExpr)
+	{
 		super("array size expression", IntType.getType());
 		this.targetExpr = targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 }

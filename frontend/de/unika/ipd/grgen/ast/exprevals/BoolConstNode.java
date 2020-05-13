@@ -19,22 +19,26 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class BoolConstNode extends ConstNode
 {
-	public BoolConstNode(Coords coords, boolean value) {
+	public BoolConstNode(Coords coords, boolean value)
+	{
 		super(coords, "boolean", new Boolean(value));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.booleanType;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	@Override
-	protected ConstNode doCastTo(TypeNode type) {
-		Boolean value = (Boolean) getValue();
+	protected ConstNode doCastTo(TypeNode type)
+	{
+		Boolean value = (Boolean)getValue();
 
-		if (type.isEqual(BasicTypeNode.stringType)) {
+		if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
-		} else throw new UnsupportedOperationException();
+		} else
+			throw new UnsupportedOperationException();
 	}
 }

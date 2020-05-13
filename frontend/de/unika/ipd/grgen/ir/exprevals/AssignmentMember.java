@@ -13,27 +13,30 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-
 /**
  * Represents an assignment statement in the IR.
  */
 //currently unused, would be needed for member assignment inside method without "this." prefix
-public class AssignmentMember extends AssignmentBase {
+public class AssignmentMember extends AssignmentBase
+{
 
 	/** The lhs of the assignment. */
 	private Entity target;
 
-	public AssignmentMember(Entity target, Expression expr) {
+	public AssignmentMember(Entity target, Expression expr)
+	{
 		super("assignment member");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Entity getTarget() {
+	public Entity getTarget()
+	{
 		return target;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return getTarget() + " = " + getExpression();
 	}
 

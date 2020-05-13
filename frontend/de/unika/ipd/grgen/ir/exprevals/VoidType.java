@@ -17,21 +17,25 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 /**
  * The void type.
  */
-public class VoidType extends PrimitiveType {
-
-	public VoidType(Ident ident) {
+public class VoidType extends PrimitiveType
+{
+	public VoidType(Ident ident)
+	{
 		super("void type", ident);
 	}
 
-	public boolean isVoid() {
+	public boolean isVoid()
+	{
 		return true;
 	}
 
-	public boolean isEqual(Type t) {
+	public boolean isEqual(Type t)
+	{
 		return t.isVoid();
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.voidType.checkIR(Type.class);
 	}
 }

@@ -14,12 +14,15 @@ package de.unika.ipd.grgen.ir.exprevals;
 /**
  * Represents a relict from an assignment statement of the form x=x optimized away.
  */
-public class AssignmentIdentical extends EvalStatement {
-	public AssignmentIdentical() {
+public class AssignmentIdentical extends EvalStatement
+{
+	public AssignmentIdentical()
+	{
 		super("assignment identical");
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return ". = .";
 	}
 

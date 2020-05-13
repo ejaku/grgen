@@ -12,7 +12,8 @@ import java.awt.Color;
 /**
  * A Dumper for Graphs
  */
-public interface GraphDumper {
+public interface GraphDumper
+{
 
 	int DEFAULT = -1;
 
@@ -26,18 +27,23 @@ public interface GraphDumper {
 	int DOTTED = 2;
 
 	void begin();
+
 	void finish();
 
 	void beginSubgraph(GraphDumpable d);
+
 	void beginSubgraph(String name);
+
 	void endSubgraph();
 
 	void node(GraphDumpable d);
 
 	void edge(GraphDumpable from, GraphDumpable to, String label, int style,
-						Color color);
+			Color color);
 
 	void edge(GraphDumpable from, GraphDumpable to, String label, int style);
+
 	void edge(GraphDumpable from, GraphDumpable to, String label);
+
 	void edge(GraphDumpable from, GraphDumpable to);
 }

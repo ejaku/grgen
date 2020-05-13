@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.PowExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class PowExprNode extends ExprNode {
+public class PowExprNode extends ExprNode
+{
 	static {
 		setName(PowExprNode.class, "pow expr");
 	}
@@ -28,41 +29,47 @@ public class PowExprNode extends ExprNode {
 	private ExprNode leftExpr;
 	private ExprNode rightExpr;
 
-
-	public PowExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr) {
+	public PowExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr)
+	{
 		super(coords);
 
 		this.leftExpr = becomeParent(leftExpr);
 		this.rightExpr = becomeParent(rightExpr);
 	}
 
-	public PowExprNode(Coords coords, ExprNode rightExpr) {
+	public PowExprNode(Coords coords, ExprNode rightExpr)
+	{
 		super(coords);
 
 		this.rightExpr = becomeParent(rightExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(leftExpr!=null) children.add(leftExpr);
+		if(leftExpr != null)
+			children.add(leftExpr);
 		children.add(rightExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
-		if(leftExpr!=null) childrenNames.add("left");
+		if(leftExpr != null)
+			childrenNames.add("left");
 		childrenNames.add("right");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
-		if(leftExpr!=null) {
+	protected boolean checkLocal()
+	{
+		if(leftExpr != null) {
 			if(leftExpr.getType().isEqual(BasicTypeNode.doubleType)
-				&& rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
+					&& rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 				return true;
 			}
 			reportError("valid types for pow(.,.) are: (double,double)");
@@ -77,16 +84,17 @@ public class PowExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(leftExpr!=null)
-			return new PowExpr(leftExpr.checkIR(Expression.class),
-					rightExpr.checkIR(Expression.class));
+	protected IR constructIR()
+	{
+		if(leftExpr != null)
+			return new PowExpr(leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
 		else
 			return new PowExpr(rightExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.doubleType;
 	}
 }

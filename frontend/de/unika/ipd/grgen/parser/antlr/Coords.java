@@ -16,19 +16,20 @@ import org.antlr.runtime.CharStream;
 /**
  * Coordinates more suitable for an ANTLR parser.
  */
-public class Coords extends de.unika.ipd.grgen.parser.Coords {
-
+public class Coords extends de.unika.ipd.grgen.parser.Coords
+{
 	/**
 	 * Construct coordinates from an ANTLR token.
 	 * @param tok The ANTLR token.
 	 */
-	public Coords(org.antlr.runtime.Token tok) {
-		if(tok!=null) {
+	public Coords(org.antlr.runtime.Token tok)
+	{
+		if(tok != null) {
 			line = tok.getLine();
 			col = tok.getCharPositionInLine();
 
 			CharStream stream = tok.getInputStream();
-			if (stream != null) {
+			if(stream != null) {
 				filename = tok.getInputStream().getSourceName();
 			}
 		}
@@ -38,11 +39,12 @@ public class Coords extends de.unika.ipd.grgen.parser.Coords {
 	 * Get the coordinates from an ANTLR recognition exception.
 	 * @param e The ANTLR recognition exception.
 	 */
-	public Coords(org.antlr.runtime.RecognitionException e) {
-		if(e!=null) {
+	public Coords(org.antlr.runtime.RecognitionException e)
+	{
+		if(e != null) {
 			line = e.line;
 			col = e.charPositionInLine;
-			if(e.input!=null) {
+			if(e.input != null) {
 				filename = e.input.getSourceName();
 			}
 		}

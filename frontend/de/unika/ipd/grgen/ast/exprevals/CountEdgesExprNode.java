@@ -19,14 +19,16 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the count of the edges of an edge type.
  */
-public class CountEdgesExprNode extends ExprNode {
+public class CountEdgesExprNode extends ExprNode
+{
 	static {
 		setName(CountEdgesExprNode.class, "count edges expr");
 	}
 
 	private ExprNode edgeType;
-	
-	public CountEdgesExprNode(Coords coords, ExprNode edgeType) {
+
+	public CountEdgesExprNode(Coords coords, ExprNode edgeType)
+	{
 		super(coords);
 		this.edgeType = edgeType;
 		becomeParent(this.edgeType);
@@ -34,7 +36,8 @@ public class CountEdgesExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(edgeType);
 		return children;
@@ -42,7 +45,8 @@ public class CountEdgesExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("edge type");
 		return childrenNames;
@@ -50,13 +54,15 @@ public class CountEdgesExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
 			reportError("argument of countEdges(.) must be an edge type");
 			return false;
@@ -65,12 +71,14 @@ public class CountEdgesExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new CountEdgesExpr(edgeType.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
-	}	
+	}
 }

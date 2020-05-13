@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Edge;
@@ -21,11 +20,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
-
 /**
  * AST node for a replacement right-hand side.
  */
-public class ReplaceDeclNode extends RhsDeclNode {
+public class ReplaceDeclNode extends RhsDeclNode
+{
 	static {
 		setName(ReplaceDeclNode.class, "replace declaration");
 	}
@@ -39,12 +38,14 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	 * @param id The identifier of this RHS.
 	 * @param graph The right hand side graph.
 	 */
-	public ReplaceDeclNode(IdentNode id, GraphNode graph) {
+	public ReplaceDeclNode(IdentNode id, GraphNode graph)
+	{
 		super(id, graph);
 	}
 
 	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -53,7 +54,8 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -62,7 +64,8 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	}
 
 	@Override
-	protected PatternGraph getPatternGraph(PatternGraph left) {
+	protected PatternGraph getPatternGraph(PatternGraph left)
+	{
 		PatternGraph right = graph.getGraph();
 		insertElementsFromEvalIntoRhs(left, right);
 		insertElementsFromOrderedReplacementsIntoRhs(left, right);
@@ -71,7 +74,8 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	}
 
 	@Override
-	protected Set<DeclNode> getDeleted(PatternGraphNode pattern) {
+	protected Set<DeclNode> getDeleted(PatternGraphNode pattern)
+	{
 		if(deletedElements != null)
 			return deletedElements;
 
@@ -82,7 +86,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 
 		for(EdgeDeclNode decl : graph.getEdges()) {
 			while(decl instanceof EdgeTypeChangeNode) {
-				decl = ((EdgeTypeChangeNode) decl).getOldEdge();
+				decl = ((EdgeTypeChangeNode)decl).getOldEdge();
 			}
 			rhsEdges.add(decl);
 		}
@@ -94,7 +98,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 
 		for(NodeDeclNode decl : graph.getNodes()) {
 			while(decl instanceof NodeTypeChangeNode) {
-				decl = ((NodeTypeChangeNode) decl).getOldNode();
+				decl = ((NodeTypeChangeNode)decl).getOldNode();
 			}
 			rhsNodes.add(decl);
 		}
@@ -115,16 +119,17 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	 * the right-hand side.
 	 */
 	@Override
-	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern) {
+	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern)
+	{
 		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 		Collection<EdgeDeclNode> lhs = pattern.getEdges();
 
 		for(BaseNode node : graph.getConnections()) {
 			if(node instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) node;
+				ConnectionNode conn = (ConnectionNode)node;
 				EdgeDeclNode edge = conn.getEdge();
 				while(edge instanceof EdgeTypeChangeNode) {
-					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
 				}
 				if(lhs.contains(edge)) {
 					res.add(conn);
@@ -139,7 +144,8 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	 * Return all reused nodes, that excludes new nodes of the right-hand side.
 	 */
 	@Override
-	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern) {
+	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern)
+	{
 		if(reusedNodes != null)
 			return reusedNodes;
 
@@ -157,7 +163,8 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	}
 
 	@Override
-	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
+	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern)
+	{
 		// nothing to do
 	}
 
@@ -168,22 +175,22 @@ public class ReplaceDeclNode extends RhsDeclNode {
 
 		for(BaseNode conn : graph.getConnections()) {
 			if(conn instanceof ConnectionNode) {
-				res.add((ConnectionNode) conn);
+				res.add((ConnectionNode)conn);
 			}
 		}
-		
+
 		return res;
 	}
 
 	private void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraph left, PatternGraph right)
 	{
 		for(Node node : left.getNodes()) {
-			if(node.directlyNestingLHSGraph!=left && !right.hasNode(node)) {
+			if(node.directlyNestingLHSGraph != left && !right.hasNode(node)) {
 				right.addSingleNode(node);
 			}
 		}
 		for(Edge edge : left.getEdges()) {
-			if(edge.directlyNestingLHSGraph!=left && !right.hasEdge(edge)) {
+			if(edge.directlyNestingLHSGraph != left && !right.hasEdge(edge)) {
 				right.addSingleEdge(edge);
 			}
 		}

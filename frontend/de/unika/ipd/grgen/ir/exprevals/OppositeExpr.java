@@ -9,28 +9,32 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class OppositeExpr extends Expression {
+public class OppositeExpr extends Expression
+{
 	private final Expression edge;
 	private final Expression node;
 
-	public OppositeExpr(Expression edge, Expression node, Type type) {
+	public OppositeExpr(Expression edge, Expression node, Type type)
+	{
 		super("opposite expression", type);
 		this.edge = edge;
 		this.node = node;
 	}
 
-	public Expression getEdgeExpr() {
+	public Expression getEdgeExpr()
+	{
 		return edge;
 	}
 
-	public Expression getNodeExpr() {
+	public Expression getNodeExpr()
+	{
 		return node;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		edge.collectNeededEntities(needs);
 		node.collectNeededEntities(needs);
 	}
 }
-

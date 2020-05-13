@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.MinExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MinExprNode extends ExprNode {
+public class MinExprNode extends ExprNode
+{
 	static {
 		setName(MinExprNode.class, "min expr");
 	}
@@ -28,8 +29,8 @@ public class MinExprNode extends ExprNode {
 	private ExprNode leftExpr;
 	private ExprNode rightExpr;
 
-
-	public MinExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr) {
+	public MinExprNode(Coords coords, ExprNode leftExpr, ExprNode rightExpr)
+	{
 		super(coords);
 
 		this.leftExpr = becomeParent(leftExpr);
@@ -37,7 +38,8 @@ public class MinExprNode extends ExprNode {
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(leftExpr);
 		children.add(rightExpr);
@@ -45,7 +47,8 @@ public class MinExprNode extends ExprNode {
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("left");
 		childrenNames.add("right");
@@ -53,7 +56,8 @@ public class MinExprNode extends ExprNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(leftExpr.getType().isEqual(BasicTypeNode.byteType)
 				&& rightExpr.getType().isEqual(BasicTypeNode.byteType)) {
 			return true;
@@ -83,13 +87,14 @@ public class MinExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new MinExpr(leftExpr.checkIR(Expression.class),
-				rightExpr.checkIR(Expression.class));
+	protected IR constructIR()
+	{
+		return new MinExpr(leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return leftExpr.getType();
 	}
 }

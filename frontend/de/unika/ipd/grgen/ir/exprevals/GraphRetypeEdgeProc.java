@@ -7,33 +7,38 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class GraphRetypeEdgeProc extends ProcedureInvocationBase {
+public class GraphRetypeEdgeProc extends ProcedureInvocationBase
+{
 	private final Expression edge;
 	private final Expression newEdgeType;
 
-	public GraphRetypeEdgeProc(Expression edge, Expression newEdgeType) {
+	public GraphRetypeEdgeProc(Expression edge, Expression newEdgeType)
+	{
 		super("graph retype edge procedure");
 		this.edge = edge;
 		this.newEdgeType = newEdgeType;
 	}
 
-	public Expression getEdgeExpr() {
+	public Expression getEdgeExpr()
+	{
 		return edge;
 	}
 
-	public Expression getNewEdgeTypeExpr() {
+	public Expression getNewEdgeTypeExpr()
+	{
 		return newEdgeType;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		edge.collectNeededEntities(needs);
 		newEdgeType.collectNeededEntities(needs);
 	}
 }
-

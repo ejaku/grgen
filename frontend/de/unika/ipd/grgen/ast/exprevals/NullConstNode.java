@@ -23,7 +23,8 @@ public class NullConstNode extends ConstNode
 {
 	private TypeNode type;
 
-	public NullConstNode(Coords coords) {
+	public NullConstNode(Coords coords)
+	{
 		super(coords, "null", Value.NULL);
 		type = BasicTypeNode.nullType;
 	}
@@ -32,36 +33,47 @@ public class NullConstNode extends ConstNode
 	 * Singleton class representing the only constant value 'null' that
 	 * the basic type 'object' has.
 	 */
-	public static class Value {
+	public static class Value
+	{
 		public static Value NULL = new Value() {
-			public String toString() { return "Const null"; }
+			public String toString()
+			{
+				return "Const null";
+			}
 		};
 
-		private Value() {}
+		private Value()
+		{
+		}
 
-		public boolean equals(Object val) {
-			return (this == val);
+		public boolean equals(Object val)
+		{
+			return(this == val);
 		}
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return type;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Const (" + type + ") null";
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new Constant(getType().getType(), null);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	@Override
-	protected ConstNode doCastTo(TypeNode type) {
+	protected ConstNode doCastTo(TypeNode type)
+	{
 		NullConstNode castedNull = new NullConstNode(getCoords());
 		castedNull.type = type;
 		return castedNull;

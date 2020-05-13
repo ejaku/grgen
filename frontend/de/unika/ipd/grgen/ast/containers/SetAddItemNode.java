@@ -45,15 +45,17 @@ public class SetAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(target!=null ? target : targetVar);
+		children.add(target != null ? target : targetVar);
 		children.add(valueExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("target");
 		childrenNames.add("valueExpr");
@@ -61,22 +63,23 @@ public class SetAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = getTargetType();
-		if(target!=null) {
+		if(target != null) {
 			TypeNode targetValueType = ((SetTypeNode)targetType).valueType;
 			TypeNode valueType = valueExpr.getType();
-			if (!valueType.isEqual(targetValueType))
-			{
+			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
-					valueExpr.reportError("Argument (value) to "
-							+ "set add item statement must be of type " +targetValueType.toString());
+					valueExpr.reportError("Argument (value) to set add item statement must be of type "
+							+ targetValueType.toString());
 					return false;
 				}
 			}
@@ -87,13 +90,15 @@ public class SetAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 		}
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(target!=null)
+	protected IR constructIR()
+	{
+		if(target != null)
 			return new SetAddItem(target.checkIR(Qualification.class),
 					valueExpr.checkIR(Expression.class));
 		else

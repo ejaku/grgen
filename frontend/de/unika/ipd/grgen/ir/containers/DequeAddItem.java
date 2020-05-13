@@ -16,31 +16,37 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class DequeAddItem extends ProcedureInvocationBase {
+public class DequeAddItem extends ProcedureInvocationBase
+{
 	Qualification target;
-    Expression valueExpr;
-    Expression indexExpr;
+	Expression valueExpr;
+	Expression indexExpr;
 
-	public DequeAddItem(Qualification target, Expression valueExpr, Expression indexExpr) {
+	public DequeAddItem(Qualification target, Expression valueExpr, Expression indexExpr)
+	{
 		super("deque add item");
 		this.target = target;
 		this.valueExpr = valueExpr;
 		this.indexExpr = indexExpr;
 	}
 
-	public Qualification getTarget() {
+	public Qualification getTarget()
+	{
 		return target;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public Expression getIndexExpr() {
+	public Expression getIndexExpr()
+	{
 		return indexExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
@@ -48,7 +54,7 @@ public class DequeAddItem extends ProcedureInvocationBase {
 	{
 		Entity entity = target.getOwner();
 		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity) entity);
+			needs.add((GraphEntity)entity);
 
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;
@@ -58,10 +64,10 @@ public class DequeAddItem extends ProcedureInvocationBase {
 
 		getValueExpr().collectNeededEntities(needs);
 
-		if(getIndexExpr()!=null)
+		if(getIndexExpr() != null)
 			getIndexExpr().collectNeededEntities(needs);
 
-		if(getNext()!=null) {
+		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);
 		}
 	}

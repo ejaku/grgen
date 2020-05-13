@@ -43,10 +43,11 @@ public class MapInitNode extends ExprNode
 	private DeclNode lhs;
 	private MapTypeNode mapType;
 
-	public MapInitNode(Coords coords, IdentNode member, MapTypeNode mapType) {
+	public MapInitNode(Coords coords, IdentNode member, MapTypeNode mapType)
+	{
 		super(coords);
 
-		if(member!=null) {
+		if(member != null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
 			this.mapType = mapType;
@@ -54,63 +55,67 @@ public class MapInitNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(mapItems);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("mapItems");
 		return childrenNames;
 	}
 
-	public void addMapItem(MapItemNode item) {
+	public void addMapItem(MapItemNode item)
+	{
 		mapItems.addChild(item);
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
 	@Override
-	protected boolean resolveLocal() {
-		if(lhsUnresolved!=null) {
+	protected boolean resolveLocal()
+	{
+		if(lhsUnresolved != null) {
 			if(!lhsResolver.resolve(lhsUnresolved))
 				return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
 		} else {
-			if(mapType==null)
+			if(mapType == null)
 				mapType = createMapType();
 			return mapType.resolve();
 		}
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean success = true;
 
 		MapTypeNode mapType;
-		if(lhs!=null) {
+		if(lhs != null) {
 			TypeNode type = lhs.getDeclType();
-			assert type instanceof MapTypeNode: "Lhs should be a Map<Key,Value>";
-			mapType = (MapTypeNode) type;
+			assert type instanceof MapTypeNode : "Lhs should be a Map<Key,Value>";
+			mapType = (MapTypeNode)type;
 		} else {
 			mapType = this.mapType;
-		} 
-		
+		}
+
 		for(MapItemNode item : mapItems.getChildren()) {
-			if (item.keyExpr.getType() != mapType.keyType) {
-				if(this.mapType!=null) {
+			if(item.keyExpr.getType() != mapType.keyType) {
+				if(this.mapType != null) {
 					ExprNode oldKeyExpr = item.keyExpr;
 					item.keyExpr = item.keyExpr.adjustType(mapType.keyType, getCoords());
 					item.switchParenthoodOfItem(oldKeyExpr, item.keyExpr);
 					if(item.keyExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.keyExpr.reportError("Key type \"" + oldKeyExpr.getType()
-								+ "\" of initializer doesn't fit to key type \""
-								+ mapType.keyType + "\" of map.");
+								+ "\" of initializer doesn't fit to key type \"" + mapType.keyType + "\" of map.");
 					}
 				} else {
 					success = false;
@@ -119,31 +124,30 @@ public class MapInitNode extends ExprNode
 							+ mapType.keyType + "\" of map (all items must be of exactly the same type).");
 				}
 			}
-			if (item.valueExpr.getType() != mapType.valueType) {
-				if(this.mapType!=null) {
+			if(item.valueExpr.getType() != mapType.valueType) {
+				if(this.mapType != null) {
 					ExprNode oldValueExpr = item.valueExpr;
 					item.valueExpr = item.valueExpr.adjustType(mapType.valueType, getCoords());
 					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \""
-								+ mapType.valueType + "\" of map.");
+								+ "\" of initializer doesn't fit to value type \"" + mapType.valueType + "\" of map.");
 					}
 				} else {
 					success = false;
 					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
-							+ "\" of initializer doesn't fit to value type \""
-							+ mapType.valueType + "\" of map (all items must be of exactly the same type).");
+							+ "\" of initializer doesn't fit to value type \"" + mapType.valueType
+							+ "\" of map (all items must be of exactly the same type).");
 				}
 			}
 		}
 
-		if(lhs==null && this.mapType==null) {
+		if(lhs == null && this.mapType == null) {
 			this.mapType = mapType;
 		}
 
-		if(!isConstant() && lhs!=null) {
+		if(!isConstant() && lhs != null) {
 			reportError("Only constant items allowed in map initialization in model");
 			success = false;
 		}
@@ -151,7 +155,8 @@ public class MapInitNode extends ExprNode
 		return success;
 	}
 
-	private MapTypeNode createMapType() {
+	private MapTypeNode createMapType()
+	{
 		TypeNode keyTypeNode = mapItems.getChildren().iterator().next().keyExpr.getType();
 		TypeNode valueTypeNode = mapItems.getChildren().iterator().next().valueExpr.getType();
 		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).getIdentNode();
@@ -163,7 +168,8 @@ public class MapInitNode extends ExprNode
 	 * Checks whether the map only contains constants.
 	 * @return True, if all map items are constant.
 	 */
-	protected final boolean isConstant() {
+	protected final boolean isConstant()
+	{
 		for(MapItemNode item : mapItems.getChildren()) {
 			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
 				return false;
@@ -173,7 +179,8 @@ public class MapInitNode extends ExprNode
 		return true;
 	}
 
-	private boolean isEnumValue(ExprNode expr) {
+	private boolean isEnumValue(ExprNode expr)
+	{
 		if(!(expr instanceof DeclExprNode))
 			return false;
 		if(!(((DeclExprNode)expr).isEnumValue()))
@@ -182,36 +189,41 @@ public class MapInitNode extends ExprNode
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
-		if(lhs!=null) {
+		if(lhs != null) {
 			TypeNode type = lhs.getDeclType();
-			return (MapTypeNode) type;
+			return (MapTypeNode)type;
 		} else {
 			return mapType;
 		}
 	}
 
-	public CollectNode<MapItemNode> getItems() {
+	public CollectNode<MapItemNode> getItems()
+	{
 		return mapItems;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Vector<MapItem> items = new Vector<MapItem>();
 		for(MapItemNode item : mapItems.getChildren()) {
 			items.add(item.getMapItem());
 		}
-		Entity member = lhs!=null ? lhs.getEntity() : null;
-		MapType type = mapType!=null ? mapType.checkIR(MapType.class) : null;
+		Entity member = lhs != null ? lhs.getEntity() : null;
+		MapType type = mapType != null ? mapType.checkIR(MapType.class) : null;
 		return new MapInit(items, member, type, isConstant());
 	}
 
-	public MapInit getMapInit() {
+	public MapInit getMapInit()
+	{
 		return checkIR(MapInit.class);
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "map initialization";
 	}
 }

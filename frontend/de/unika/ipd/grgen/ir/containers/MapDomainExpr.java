@@ -14,20 +14,24 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapDomainExpr extends Expression {
+public class MapDomainExpr extends Expression
+{
 	Expression targetExpr;
 
-	public MapDomainExpr(Expression targetExpr, Type targetType) {
+	public MapDomainExpr(Expression targetExpr, Type targetType)
+	{
 		super("map domain expression", targetType);
 		this.targetExpr = targetExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 }

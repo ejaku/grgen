@@ -43,10 +43,11 @@ public class DequeInitNode extends ExprNode
 	private DeclNode lhs;
 	private DequeTypeNode dequeType;
 
-	public DequeInitNode(Coords coords, IdentNode member, DequeTypeNode dequeType) {
+	public DequeInitNode(Coords coords, IdentNode member, DequeTypeNode dequeType)
+	{
 		super(coords);
 
-		if(member!=null) {
+		if(member != null) {
 			lhsUnresolved = becomeParent(member);
 		} else {
 			this.dequeType = dequeType;
@@ -54,78 +55,83 @@ public class DequeInitNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(dequeItems);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("dequeItems");
 		return childrenNames;
 	}
 
-	public void addDequeItem(DequeItemNode item) {
+	public void addDequeItem(DequeItemNode item)
+	{
 		dequeItems.addChild(item);
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
 	@Override
-	protected boolean resolveLocal() {
-		if(lhsUnresolved!=null) {
+	protected boolean resolveLocal()
+	{
+		if(lhsUnresolved != null) {
 			if(!lhsResolver.resolve(lhsUnresolved))
 				return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
 		} else {
-			if(dequeType==null)
+			if(dequeType == null)
 				dequeType = createDequeType();
 			return dequeType.resolve();
 		}
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean success = true;
 
 		DequeTypeNode dequeType;
-		if(lhs!=null) {
+		if(lhs != null) {
 			TypeNode type = lhs.getDeclType();
-			assert type instanceof DequeTypeNode: "Lhs should be a Deque<Value>";
-			dequeType = (DequeTypeNode) type;
+			assert type instanceof DequeTypeNode : "Lhs should be a Deque<Value>";
+			dequeType = (DequeTypeNode)type;
 		} else {
 			dequeType = this.dequeType;
 		}
 
 		for(DequeItemNode item : dequeItems.getChildren()) {
 			if(item.valueExpr.getType() != dequeType.valueType) {
-				if(this.dequeType!=null) {
+				if(this.dequeType != null) {
 					ExprNode oldValueExpr = item.valueExpr;
 					item.valueExpr = item.valueExpr.adjustType(dequeType.valueType, getCoords());
 					item.switchParenthoodOfItem(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
 						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \""
-								+ dequeType.valueType + "\" of deque.");
+								+ "\" of initializer doesn't fit to value type \"" + dequeType.valueType
+								+ "\" of deque.");
 					}
 				} else {
 					success = false;
 					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
-							+ "\" of initializer doesn't fit to value type \""
-							+ dequeType.valueType + "\" of deque (all items must be of exactly the same type).");
+							+ "\" of initializer doesn't fit to value type \"" + dequeType.valueType
+							+ "\" of deque (all items must be of exactly the same type).");
 				}
 			}
 		}
 
-		if(lhs==null && this.dequeType==null) {
+		if(lhs == null && this.dequeType == null) {
 			this.dequeType = dequeType;
 		}
 
-		if(!isConstant() && lhs!=null) {
+		if(!isConstant() && lhs != null) {
 			reportError("Only constant items allowed in deque initialization in model");
 			success = false;
 		}
@@ -133,7 +139,8 @@ public class DequeInitNode extends ExprNode
 		return success;
 	}
 
-	protected DequeTypeNode createDequeType() {
+	protected DequeTypeNode createDequeType()
+	{
 		TypeNode itemTypeNode = dequeItems.getChildren().iterator().next().valueExpr.getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new DequeTypeNode(itemTypeIdent);
@@ -143,7 +150,8 @@ public class DequeInitNode extends ExprNode
 	 * Checks whether the set only contains constants.
 	 * @return True, if all set items are constant.
 	 */
-	protected boolean isConstant() {
+	protected boolean isConstant()
+	{
 		for(DequeItemNode item : dequeItems.getChildren()) {
 			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
 				return false;
@@ -151,7 +159,8 @@ public class DequeInitNode extends ExprNode
 		return true;
 	}
 
-	protected boolean isEnumValue(ExprNode expr) {
+	protected boolean isEnumValue(ExprNode expr)
+	{
 		if(!(expr instanceof DeclExprNode))
 			return false;
 		if(!(((DeclExprNode)expr).isEnumValue()))
@@ -159,10 +168,11 @@ public class DequeInitNode extends ExprNode
 		return true;
 	}
 
-	protected boolean contains(ConstNode node) {
+	protected boolean contains(ConstNode node)
+	{
 		for(DequeItemNode item : dequeItems.getChildren()) {
 			if(item.valueExpr instanceof ConstNode) {
-				ConstNode itemConst = (ConstNode) item.valueExpr;
+				ConstNode itemConst = (ConstNode)item.valueExpr;
 				if(node.getValue().equals(itemConst.getValue()))
 					return true;
 			}
@@ -171,36 +181,41 @@ public class DequeInitNode extends ExprNode
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		assert(isResolved());
-		if(lhs!=null) {
+		if(lhs != null) {
 			TypeNode type = lhs.getDeclType();
-			return (DequeTypeNode) type;
+			return (DequeTypeNode)type;
 		} else {
 			return dequeType;
 		}
 	}
 
-	protected CollectNode<DequeItemNode> getItems() {
+	protected CollectNode<DequeItemNode> getItems()
+	{
 		return dequeItems;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Vector<DequeItem> items = new Vector<DequeItem>();
 		for(DequeItemNode item : dequeItems.getChildren()) {
 			items.add(item.getDequeItem());
 		}
-		Entity member = lhs!=null ? lhs.getEntity() : null;
-		DequeType type = dequeType!=null ? dequeType.checkIR(DequeType.class) : null;
+		Entity member = lhs != null ? lhs.getEntity() : null;
+		DequeType type = dequeType != null ? dequeType.checkIR(DequeType.class) : null;
 		return new DequeInit(items, member, type, isConstant());
 	}
 
-	public DequeInit getDequeInit() {
+	public DequeInit getDequeInit()
+	{
 		return checkIR(DequeInit.class);
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "deque initialization";
 	}
 }

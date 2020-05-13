@@ -11,16 +11,20 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class VAllocProc extends ProcedureInvocationBase {
-	public VAllocProc() {
+public class VAllocProc extends ProcedureInvocationBase
+{
+	public VAllocProc()
+	{
 		super("valloc procedure");
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 	}
 }

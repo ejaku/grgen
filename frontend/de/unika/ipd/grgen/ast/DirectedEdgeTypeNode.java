@@ -13,7 +13,8 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.EdgeType;
 
-public class DirectedEdgeTypeNode extends EdgeTypeNode {
+public class DirectedEdgeTypeNode extends EdgeTypeNode
+{
 	static {
 		setName(DirectedEdgeTypeNode.class, "directed edge type");
 	}
@@ -28,20 +29,24 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode {
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
 	public DirectedEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
-						int modifiers, String externalName) {
+			int modifiers, String externalName)
+	{
 		super(ext, cas, body, modifiers, externalName);
 	}
 
 	@Override
-	protected void setDirectednessIR(EdgeType edgeType) {
+	protected void setDirectednessIR(EdgeType edgeType)
+	{
 		edgeType.setDirectedness(EdgeType.Directedness.Directed);
-    }
+	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "directed edge type";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "directed edge type";
 	}
 }

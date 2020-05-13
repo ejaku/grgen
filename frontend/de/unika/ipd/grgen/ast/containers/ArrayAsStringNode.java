@@ -36,7 +36,8 @@ public class ArrayAsStringNode extends ContainerFunctionMethodInvocationBaseExpr
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(valueExpr);
@@ -44,7 +45,8 @@ public class ArrayAsStringNode extends ContainerFunctionMethodInvocationBaseExpr
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("valueExpr");
@@ -52,13 +54,15 @@ public class ArrayAsStringNode extends ContainerFunctionMethodInvocationBaseExpr
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		targetExpr.getType().resolve(); // call to ensure the array type exists
 		return true;
 	}
-	
+
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array asString expression must be of type array<string> (is not an array)");
@@ -70,23 +74,22 @@ public class ArrayAsStringNode extends ContainerFunctionMethodInvocationBaseExpr
 			return false;
 		}
 		TypeNode valueType = valueExpr.getType();
-		if (!valueType.isEqual(BasicTypeNode.stringType))
-		{
-			valueExpr.reportError("Argument (value) to "
-					+ "array asString method must be of type string");
+		if(!valueType.isEqual(BasicTypeNode.stringType)) {
+			valueExpr.reportError("Argument (value) to " + "array asString method must be of type string");
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.stringType;
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new ArrayAsString(targetExpr.checkIR(Expression.class),
-				valueExpr.checkIR(Expression.class));
+	protected IR constructIR()
+	{
+		return new ArrayAsString(targetExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
 }

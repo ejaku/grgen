@@ -31,35 +31,38 @@ public class ArrayKeepOneForEachByNode extends ContainerFunctionMethodInvocation
 
 	private IdentNode attribute;
 	private DeclNode member;
-	
+
 	public ArrayKeepOneForEachByNode(Coords coords, ExprNode targetExpr, IdentNode attribute)
 	{
 		super(coords, targetExpr);
-		this.attribute = attribute; 
+		this.attribute = attribute;
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array keepOneForEach expression must be of type array<T>");
 			return false;
 		}
-		
+
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)
@@ -75,7 +78,8 @@ public class ArrayKeepOneForEachByNode extends ContainerFunctionMethodInvocation
 
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!memberType.isFilterableType()) {
-			targetExpr.reportError("array method keepOneForEach only available for graph element attributes of type " + TypeNode.getFilterableTypesAsString());
+			targetExpr.reportError("array method keepOneForEach only available for graph element attributes of type "
+					+ TypeNode.getFilterableTypesAsString());
 			return false;
 		}
 
@@ -83,22 +87,25 @@ public class ArrayKeepOneForEachByNode extends ContainerFunctionMethodInvocation
 	}
 
 	@Override
-	public TypeNode getType() {
-		return ((ArrayTypeNode)targetExpr.getType());
+	public TypeNode getType()
+	{
+		return((ArrayTypeNode)targetExpr.getType());
 	}
 
-	private TypeNode getTypeOfElementToBeExtracted() {
+	private TypeNode getTypeOfElementToBeExtracted()
+	{
 		if(member != null)
 			return member.getDeclType();
 		return null;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Entity accessedMember = null;
 		if(member != null)
 			accessedMember = member.checkIR(Entity.class);
-		
+
 		return new ArrayKeepOneForEachBy(targetExpr.checkIR(Expression.class),
 				accessedMember);
 	}

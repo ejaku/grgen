@@ -11,17 +11,16 @@
 
 package de.unika.ipd.grgen.ast;
 
-
 /**
  * Base class for all AST nodes representing compound types.
  * Note: The scope stored in the node
  * (accessible via {@link BaseNode#getScope()}) is the scope,
  * this compound type owns, not the scope it is declared in.
  */
-public abstract class CompoundTypeNode extends DeclaredTypeNode
-	implements ScopeOwner
+public abstract class CompoundTypeNode extends DeclaredTypeNode implements ScopeOwner
 {
-	public boolean fixupDefinition(IdentNode id) {
+	public boolean fixupDefinition(IdentNode id)
+	{
 		return fixupDefinition(id, getScope(), true);
 	}
 }

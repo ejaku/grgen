@@ -7,35 +7,42 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class GraphMergeProc extends ProcedureInvocationBase {
+public class GraphMergeProc extends ProcedureInvocationBase
+{
 	private Expression target;
 	private Expression source;
 	private Expression sourceName;
 
-	public GraphMergeProc(Expression target, Expression source, Expression sourceName) {
+	public GraphMergeProc(Expression target, Expression source, Expression sourceName)
+	{
 		super("graph merge procedure");
 		this.target = target;
 		this.source = source;
 		this.sourceName = sourceName;
 	}
 
-	public Expression getTarget() {
+	public Expression getTarget()
+	{
 		return target;
 	}
 
-	public Expression getSource() {
+	public Expression getSource()
+	{
 		return source;
 	}
 
-	public Expression getSourceName() {
+	public Expression getSourceName()
+	{
 		return sourceName;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		target.collectNeededEntities(needs);
 		source.collectNeededEntities(needs);

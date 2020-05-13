@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * An external function.
  */
-public class ExternalFunction extends FunctionBase {
+public class ExternalFunction extends FunctionBase
+{
 	/** A list of the pattern parameters */
 	private final List<Type> paramTypes = new LinkedList<Type>();
 
@@ -28,17 +29,20 @@ public class ExternalFunction extends FunctionBase {
 	 * @param name The name of the external function.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public ExternalFunction(String name, Ident ident, Type retType) {
+	public ExternalFunction(String name, Ident ident, Type retType)
+	{
 		super(name, ident, retType);
 	}
 
 	/** Add a parameter type to the external function. */
-	public void addParameterType(Type paramType) {
+	public void addParameterType(Type paramType)
+	{
 		paramTypes.add(paramType);
 	}
 
 	/** Get all parameter types of this external function. */
-	public List<Type> getParameterTypes() {
+	public List<Type> getParameterTypes()
+	{
 		return Collections.unmodifiableList(paramTypes);
 	}
 }

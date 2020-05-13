@@ -19,8 +19,8 @@ import java.util.HashMap;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
 
-public class Edge extends GraphEntity {
-
+public class Edge extends GraphEntity
+{
 	/** Type of the edge. */
 	protected final EdgeType type;
 
@@ -33,13 +33,12 @@ public class Edge extends GraphEntity {
 	protected boolean fixedDirection;
 
 	protected boolean maybeNull;
-	
+
 	/** The redirected source node of this edge if any. */
 	protected HashMap<Graph, Node> redirectedSource = null;
 
 	/** The redirected target node of this edge if any. */
 	protected HashMap<Graph, Node> redirectedTarget = null;
-
 
 	/**
 	 * Make a new edge.
@@ -53,7 +52,9 @@ public class Edge extends GraphEntity {
 	 */
 	public Edge(Ident ident, EdgeType type, Annotations annots,
 			PatternGraph directlyNestingLHSGraph,
-			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+			boolean maybeDeleted, boolean maybeRetyped,
+			boolean isDefToBeYieldedTo, int context)
+	{
 		super("edge", ident, type, annots,
 				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 		this.type = type;
@@ -71,21 +72,26 @@ public class Edge extends GraphEntity {
 	 */
 	public Edge(Ident ident, EdgeType type,
 			PatternGraph directlyNestingLHSGraph,
-			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+			boolean maybeDeleted, boolean maybeRetyped,
+			boolean isDefToBeYieldedTo, int context)
+	{
 		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph,
 				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
 
-	public void setMaybeNull(boolean maybeNull) {
+	public void setMaybeNull(boolean maybeNull)
+	{
 		this.maybeNull = maybeNull;
 	}
 
-	public boolean getMaybeNull() {
+	public boolean getMaybeNull()
+	{
 		return maybeNull;
 	}
 
 	/** @return The type of the edge. */
-	public EdgeType getEdgeType() {
+	public EdgeType getEdgeType()
+	{
 		return type;
 	}
 
@@ -94,7 +100,8 @@ public class Edge extends GraphEntity {
 	 * @param retyped The retyped edge
 	 * @param graph The graph where the edge gets retyped
 	 */
-	public void setRetypedEdge(Edge retyped, Graph graph) {
+	public void setRetypedEdge(Edge retyped, Graph graph)
+	{
 		super.setRetypedEntity(retyped, graph);
 	}
 
@@ -103,8 +110,9 @@ public class Edge extends GraphEntity {
 	 * @param graph The graph where the edge might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public RetypedEdge getRetypedEdge(Graph graph) {
-		if(super.getRetypedEntity(graph)!=null)
+	public RetypedEdge getRetypedEdge(Graph graph)
+	{
+		if(super.getRetypedEntity(graph) != null)
 			return (RetypedEdge)super.getRetypedEntity(graph);
 		else
 			return null;
@@ -114,42 +122,49 @@ public class Edge extends GraphEntity {
 	 * @return whether the edge has a fixed direction (i.e. directed Edge) or
 	 * not (all other edge kinds)
 	 */
-	public boolean hasFixedDirection() {
+	public boolean hasFixedDirection()
+	{
 		return fixedDirection;
 	}
 
-	public void setPointOfDefinition(PatternGraph pointOfDefinition) {
-		assert this.pointOfDefinition==null && pointOfDefinition!=null;
+	public void setPointOfDefinition(PatternGraph pointOfDefinition)
+	{
+		assert this.pointOfDefinition == null && pointOfDefinition != null;
 		this.pointOfDefinition = pointOfDefinition;
 	}
 
-	public PatternGraph getPointOfDefinition() {
+	public PatternGraph getPointOfDefinition()
+	{
 		return pointOfDefinition;
 	}
-	
-	public void setRedirectedSource(Node redirectedSource, Graph graph) {
-		if(this.redirectedSource==null) {
+
+	public void setRedirectedSource(Node redirectedSource, Graph graph)
+	{
+		if(this.redirectedSource == null) {
 			this.redirectedSource = new HashMap<Graph, Node>();
 		}
 		this.redirectedSource.put(graph, redirectedSource);
 	}
 
-	public void setRedirectedTarget(Node redirectedTarget, Graph graph) {
-		if(this.redirectedTarget==null) {
+	public void setRedirectedTarget(Node redirectedTarget, Graph graph)
+	{
+		if(this.redirectedTarget == null) {
 			this.redirectedTarget = new HashMap<Graph, Node>();
 		}
 		this.redirectedTarget.put(graph, redirectedTarget);
 	}
 
-	public Node getRedirectedSource(Graph graph) {
-		if(this.redirectedSource==null) {
+	public Node getRedirectedSource(Graph graph)
+	{
+		if(this.redirectedSource == null) {
 			return null;
 		}
 		return this.redirectedSource.get(graph);
 	}
-	
-	public Node getRedirectedTarget(Graph graph) {
-		if(this.redirectedTarget==null) {
+
+	public Node getRedirectedTarget(Graph graph)
+	{
+		if(this.redirectedTarget == null) {
 			return null;
 		}
 		return this.redirectedTarget.get(graph);

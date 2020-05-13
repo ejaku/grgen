@@ -16,29 +16,36 @@ import de.unika.ipd.grgen.ir.exprevals.*;;
 /**
  * A exec variable expression node.
  */
-public class ExecVariableExpression extends Expression {
+public class ExecVariableExpression extends Expression
+{
 	private ExecVariable var;
 
-	public ExecVariableExpression(ExecVariable var) {
+	public ExecVariableExpression(ExecVariable var)
+	{
 		super("exec variable", var.getType());
 		this.var = var;
 	}
 
 	/** Returns the exec variable of this exec variable expression. */
-	public ExecVariable getVariable() {
+	public ExecVariable getVariable()
+	{
 		return var;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 
-	public boolean equals(Object other) {
-		if(!(other instanceof ExecVariableExpression)) return false;
-		return var == ((ExecVariableExpression) other).getVariable();
+	public boolean equals(Object other)
+	{
+		if(!(other instanceof ExecVariableExpression))
+			return false;
+		return var == ((ExecVariableExpression)other).getVariable();
 	}
 
-	public int hashCode() {
+	public int hashCode()
+	{
 		return var.hashCode();
 	}
 }

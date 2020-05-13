@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 /**
  * A debug message reporter.
  */
-public class DebugReporter extends Reporter {
-
+public class DebugReporter extends Reporter
+{
 	private Pattern pattern = Pattern.compile(".*");
 	private Matcher matcher = pattern.matcher("");
 	private boolean inclusive = true;
@@ -27,7 +27,8 @@ public class DebugReporter extends Reporter {
 	private String prefix = "";
 	private boolean enableStackTrace = true;
 
-	public DebugReporter(int mask) {
+	public DebugReporter(int mask)
+	{
 		setMask(mask);
 	}
 
@@ -38,7 +39,8 @@ public class DebugReporter extends Reporter {
 	 * regex matches, the message is reported.
 	 * @param regex A regular expression.
 	 */
-	public void setFilter(String regex) {
+	public void setFilter(String regex)
+	{
 		pattern = Pattern.compile(regex);
 		matcher = pattern.matcher("");
 	}
@@ -51,15 +53,18 @@ public class DebugReporter extends Reporter {
 	 * are ignored.
 	 * @param value Inclusive or exclusive filtering.
 	 */
-	public void setFilterInclusive(boolean value) {
+	public void setFilterInclusive(boolean value)
+	{
 		inclusive = value;
 	}
 
-	public void setStackTrace(boolean enabled) {
+	public void setStackTrace(boolean enabled)
+	{
 		enableStackTrace = enabled;
 	}
 
-	protected void makePrefix() {
+	protected void makePrefix()
+	{
 		if(enableStackTrace) {
 			StackTraceElement[] st = (new Exception()).getStackTrace();
 			StackTraceElement ste = st[2];
@@ -87,7 +92,8 @@ public class DebugReporter extends Reporter {
 	 * @param channel The channel to check
 	 * @return true, if the message would be reported, false if not.
 	 */
-	public boolean willReport(int channel) {
+	public boolean willReport(int channel)
+	{
 		int res = inclusive ? 1 : 0;
 
 		if(prefix.length() != 0) {
@@ -98,15 +104,16 @@ public class DebugReporter extends Reporter {
 		return (res == 0 || res == 2) && super.willReport(channel);
 	}
 
-	public void report(int level, Location loc, String msg) {
+	public void report(int level, Location loc, String msg)
+	{
 		makePrefix();
 		super.report(level, loc, prefix + ": " + msg);
 	}
 
-	public void report(int channel, String msg) {
+	public void report(int channel, String msg)
+	{
 		makePrefix();
 		super.report(channel, EmptyLocation.getEmptyLocation(),
-								 prefix + ": " + msg);
-
+				prefix + ": " + msg);
 	}
 }

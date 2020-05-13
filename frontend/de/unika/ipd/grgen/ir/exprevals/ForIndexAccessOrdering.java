@@ -19,39 +19,45 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents a for over an ordered index access in the IR.
  */
-public class ForIndexAccessOrdering extends EvalStatement {
-
+public class ForIndexAccessOrdering extends EvalStatement
+{
 	private Variable iterationVar;
 	private IndexAccessOrdering iao;
 	private Collection<EvalStatement> loopedStatements = new LinkedList<EvalStatement>();
 
-	public ForIndexAccessOrdering(Variable iterationVar, IndexAccessOrdering iao) {
+	public ForIndexAccessOrdering(Variable iterationVar, IndexAccessOrdering iao)
+	{
 		super("for index access ordering");
 		this.iterationVar = iterationVar;
 		this.iao = iao;
 	}
 
-	public void addLoopedStatement(EvalStatement loopedStatement) {
+	public void addLoopedStatement(EvalStatement loopedStatement)
+	{
 		loopedStatements.add(loopedStatement);
 	}
 
-	public Variable getIterationVar() {
+	public Variable getIterationVar()
+	{
 		return iterationVar;
 	}
 
-	public IndexAccessOrdering getIndexAccessOrdering() {
+	public IndexAccessOrdering getIndexAccessOrdering()
+	{
 		return iao;
 	}
 
-	public Collection<EvalStatement> getLoopedStatements() {
+	public Collection<EvalStatement> getLoopedStatements()
+	{
 		return loopedStatements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		iao.collectNeededEntities(needs);
-		for(EvalStatement loopedStatement : loopedStatements)
+		for(EvalStatement loopedStatement : loopedStatements) {
 			loopedStatement.collectNeededEntities(needs);
+		}
 		if(needs.variables != null)
 			needs.variables.remove(iterationVar);
 	}

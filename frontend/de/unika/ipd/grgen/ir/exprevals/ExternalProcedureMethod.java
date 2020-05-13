@@ -16,7 +16,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * An external procedure method.
  */
-public class ExternalProcedureMethod extends ExternalProcedure {
+public class ExternalProcedureMethod extends ExternalProcedure
+{
 	/** The owner of the procedure method. */
 	protected Type owner = null;
 
@@ -24,15 +25,18 @@ public class ExternalProcedureMethod extends ExternalProcedure {
 	 * @param name The name of the external procedure.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public ExternalProcedureMethod(String name, Ident ident) {
+	public ExternalProcedureMethod(String name, Ident ident)
+	{
 		super(name, ident);
 	}
-	
-	public Type getOwner() {
+
+	public Type getOwner()
+	{
 		return owner;
 	}
 
-	public void setOwner(Type type) {
+	public void setOwner(Type type)
+	{
 		owner = type;
 	}
 }

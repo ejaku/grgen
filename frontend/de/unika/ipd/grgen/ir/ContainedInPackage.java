@@ -7,6 +7,7 @@
 
 package de.unika.ipd.grgen.ir;
 
-public interface ContainedInPackage {
+public interface ContainedInPackage
+{
 	public String getPackageContainedIn();
 }

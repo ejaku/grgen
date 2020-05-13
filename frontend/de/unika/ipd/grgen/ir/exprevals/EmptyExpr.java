@@ -11,13 +11,15 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class EmptyExpr extends Expression {
-
-	public EmptyExpr() {
+public class EmptyExpr extends Expression
+{
+	public EmptyExpr()
+	{
 		super("empty expr", BooleanType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 	}
 }

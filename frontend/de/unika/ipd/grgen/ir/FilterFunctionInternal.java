@@ -20,21 +20,25 @@ import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 /**
  * An internal filter function.
  */
-public class FilterFunctionInternal extends FilterFunction {
+public class FilterFunctionInternal extends FilterFunction
+{
 	/** The computation statements */
 	private List<EvalStatement> computationStatements = new LinkedList<EvalStatement>();
 
-	public FilterFunctionInternal(String name, Ident ident) {
+	public FilterFunctionInternal(String name, Ident ident)
+	{
 		super(name, ident);
 	}
-		
+
 	/** Add a computation statement to the function. */
-	public void addComputationStatement(EvalStatement eval) {
+	public void addComputationStatement(EvalStatement eval)
+	{
 		computationStatements.add(eval);
 	}
 
 	/** Get all computation statements of this function. */
-	public List<EvalStatement> getComputationStatements() {
+	public List<EvalStatement> getComputationStatements()
+	{
 		return Collections.unmodifiableList(computationStatements);
 	}
 }

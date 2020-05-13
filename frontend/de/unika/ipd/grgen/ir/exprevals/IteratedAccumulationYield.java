@@ -19,38 +19,44 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Represents an accumulation yielding of an iterated match def variable in the IR.
  */
-public class IteratedAccumulationYield extends EvalStatement {
-
+public class IteratedAccumulationYield extends EvalStatement
+{
 	private Variable iterationVar;
 	private Rule iterated;
 	private Collection<EvalStatement> accumulationStatements = new LinkedList<EvalStatement>();
 
-	public IteratedAccumulationYield(Variable accumulationVar, Rule iterated) {
+	public IteratedAccumulationYield(Variable accumulationVar, Rule iterated)
+	{
 		super("iterated accumulation yield");
 		this.iterationVar = accumulationVar;
 		this.iterated = iterated;
 	}
 
-	public void addAccumulationStatement(EvalStatement accumulationStatement) {
+	public void addAccumulationStatement(EvalStatement accumulationStatement)
+	{
 		accumulationStatements.add(accumulationStatement);
 	}
 
-	public Variable getIterationVar() {
+	public Variable getIterationVar()
+	{
 		return iterationVar;
 	}
 
-	public Rule getIterated() {
+	public Rule getIterated()
+	{
 		return iterated;
 	}
 
-	public Collection<EvalStatement> getAccumulationStatements() {
+	public Collection<EvalStatement> getAccumulationStatements()
+	{
 		return accumulationStatements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		for(EvalStatement accumulationStatement : accumulationStatements)
+		for(EvalStatement accumulationStatement : accumulationStatements) {
 			accumulationStatement.collectNeededEntities(needs);
+		}
 		if(needs.variables != null)
 			needs.variables.remove(iterationVar);
 	}

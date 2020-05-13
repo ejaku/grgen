@@ -14,7 +14,8 @@ package de.unika.ipd.grgen.ast;
 /**
  * AST interface representing match class filters
  */
-public interface MatchClassFilterCharacter {
+public interface MatchClassFilterCharacter
+{
 	// returns the name of the filter (plain name without entity in case of an auto-generated filter)
 	String getFilterName();
 

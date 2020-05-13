@@ -7,22 +7,25 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class CountEdgesExpr extends Expression {
+public class CountEdgesExpr extends Expression
+{
 	private final Expression edgeType;
 
-	public CountEdgesExpr(Expression edgeType) {
+	public CountEdgesExpr(Expression edgeType)
+	{
 		super("count edges expression", IntType.getType());
 		this.edgeType = edgeType;
 	}
 
-	public Expression getEdgeTypeExpr() {
+	public Expression getEdgeTypeExpr()
+	{
 		return edgeType;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		edgeType.collectNeededEntities(needs);
 	}
 }
-

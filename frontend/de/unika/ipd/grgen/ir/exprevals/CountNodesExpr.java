@@ -7,22 +7,25 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class CountNodesExpr extends Expression {
+public class CountNodesExpr extends Expression
+{
 	private final Expression nodeType;
 
-	public CountNodesExpr(Expression nodeType) {
+	public CountNodesExpr(Expression nodeType)
+	{
 		super("count nodes expression", IntType.getType());
 		this.nodeType = nodeType;
 	}
 
-	public Expression getNodeTypeExpr() {
+	public Expression getNodeTypeExpr()
+	{
 		return nodeType;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		nodeType.collectNeededEntities(needs);
 	}
 }
-

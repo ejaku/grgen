@@ -20,41 +20,48 @@ public class OrderedReplacementsNode extends BaseNode
 	public String name;
 	public CollectNode<OrderedReplacementNode> orderedReplacements;
 
-	public OrderedReplacementsNode(Coords coords, String name) {
+	public OrderedReplacementsNode(Coords coords, String name)
+	{
 		super(coords);
 		this.name = name;
 		orderedReplacements = new CollectNode<OrderedReplacementNode>();
 	}
-	
-	public void addChild(OrderedReplacementNode c) {
+
+	public void addChild(OrderedReplacementNode c)
+	{
 		orderedReplacements.addChild(c);
 	}
 
 	@Override
-	public Collection<OrderedReplacementNode> getChildren() {
+	public Collection<OrderedReplacementNode> getChildren()
+	{
 		return orderedReplacements.getChildren();
 	}
 
 	@Override
-	protected Collection<String> getChildrenNames() {
+	protected Collection<String> getChildrenNames()
+	{
 		LinkedList<String> res = new LinkedList<String>();
-		for(int i=0; i<getChildren().size(); ++i) {
-			res.add("eval"+i);
+		for(int i = 0; i < getChildren().size(); ++i) {
+			res.add("eval" + i);
 		}
 		return res;
 	}
-	
+
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
-	public boolean noExecStatement() {
+	public boolean noExecStatement()
+	{
 		boolean res = true;
 		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildren()) {
 			res &= orderedReplacement.noExecStatement(true);
@@ -63,7 +70,8 @@ public class OrderedReplacementsNode extends BaseNode
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		OrderedReplacements ors = new OrderedReplacements(name);
 
 		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildren()) {

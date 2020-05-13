@@ -14,15 +14,17 @@ package de.unika.ipd.grgen.ir;
 /**
  * An attribute index.
  */
-public class AttributeIndex extends Index {
+public class AttributeIndex extends Index
+{
 	public InheritanceType type;
 	public Entity entity;
-	
+
 	/**
 	 * @param name The name of the attribute index.
 	 * @param ident The identifier that identifies this object.
 	 */
-	public AttributeIndex(String name, Ident ident, InheritanceType type, Entity entity) {
+	public AttributeIndex(String name, Ident ident, InheritanceType type, Entity entity)
+	{
 		super(name, ident);
 		this.type = type;
 		this.entity = entity;

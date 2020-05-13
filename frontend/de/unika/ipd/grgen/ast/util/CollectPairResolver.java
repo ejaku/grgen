@@ -18,28 +18,30 @@ public class CollectPairResolver<T extends BaseNode>
 {
 	private Resolver<? extends Pair<? extends T, ? extends T>> resolver;
 
-	public CollectPairResolver(Resolver<? extends Pair<? extends T, ? extends T>> resolver) {
+	public CollectPairResolver(Resolver<? extends Pair<? extends T, ? extends T>> resolver)
+	{
 		this.resolver = resolver;
 	}
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R */
-	public CollectNode<T> resolve(CollectNode<?> collect, BaseNode parent) {
+	public CollectNode<T> resolve(CollectNode<?> collect, BaseNode parent)
+	{
 		CollectNode<T> res = new CollectNode<T>();
 		res.setCoords(collect.getCoords());
 
-		for (BaseNode elem : collect.getChildren()) {
-	        Pair<? extends T, ? extends T> pair = resolver.resolve(elem, collect);
-	        if (pair == null) {
-	        	return null;
-	        }
-	        if (pair.fst != null) {
-	        	res.addChild(pair.fst);
-	        }
-	        if (pair.snd != null) {
-	        	res.addChild(pair.snd);
-	        }
-        }
+		for(BaseNode elem : collect.getChildren()) {
+			Pair<? extends T, ? extends T> pair = resolver.resolve(elem, collect);
+			if(pair == null) {
+				return null;
+			}
+			if(pair.fst != null) {
+				res.addChild(pair.fst);
+			}
+			if(pair.snd != null) {
+				res.addChild(pair.snd);
+			}
+		}
 		parent.becomeParent(res);
 		return res;
 	}

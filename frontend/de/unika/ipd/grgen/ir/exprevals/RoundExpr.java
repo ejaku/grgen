@@ -7,19 +7,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class RoundExpr extends Expression {
+public class RoundExpr extends Expression
+{
 	private Expression expr;
 
-	public RoundExpr(Expression expr) {
+	public RoundExpr(Expression expr)
+	{
 		super("round expr", expr.getType());
 		this.expr = expr;
 	}
 
-	public Expression getExpr() {
+	public Expression getExpr()
+	{
 		return expr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		expr.collectNeededEntities(needs);
 	}
 }

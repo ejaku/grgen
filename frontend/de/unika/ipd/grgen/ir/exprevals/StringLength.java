@@ -11,19 +11,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class StringLength extends Expression {
+public class StringLength extends Expression
+{
 	private Expression stringExpr;
 
-	public StringLength(Expression stringExpr) {
+	public StringLength(Expression stringExpr)
+	{
 		super("string length", IntType.getType());
 		this.stringExpr = stringExpr;
 	}
 
-	public Expression getStringExpr() {
+	public Expression getStringExpr()
+	{
 		return stringExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		stringExpr.collectNeededEntities(needs);
 	}
 }

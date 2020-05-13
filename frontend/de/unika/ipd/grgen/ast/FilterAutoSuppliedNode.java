@@ -23,27 +23,30 @@ import de.unika.ipd.grgen.ir.Rule;
 /**
  * AST node class representing auto supplied filters
  */
-public class FilterAutoSuppliedNode extends FilterAutoNode {
+public class FilterAutoSuppliedNode extends FilterAutoNode
+{
 	static {
 		setName(FilterAutoSuppliedNode.class, "auto supplied filter");
 	}
-	
+
 	IdentNode ident;
-	
+
 	protected IdentNode actionUnresolved;
 	protected TestDeclNode action;
 	protected IteratedNode iterated;
 
-	public FilterAutoSuppliedNode(IdentNode ident, IdentNode action) {
+	public FilterAutoSuppliedNode(IdentNode ident, IdentNode action)
+	{
 		super(ident);
-		
+
 		this.ident = ident;
 		this.actionUnresolved = action;
 	}
-	
+
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(actionUnresolved, action, iterated));
 		return children;
@@ -51,18 +54,20 @@ public class FilterAutoSuppliedNode extends FilterAutoNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("actionOrIterated");
 		return childrenNames;
 	}
 
 	private static final DeclarationPairResolver<TestDeclNode, IteratedNode> actionOrIteratedResolver =
-		new DeclarationPairResolver<TestDeclNode, IteratedNode>(TestDeclNode.class, IteratedNode.class);
+			new DeclarationPairResolver<TestDeclNode, IteratedNode>(TestDeclNode.class, IteratedNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		Pair<TestDeclNode, IteratedNode> actionOrIterated = actionOrIteratedResolver.resolve(actionUnresolved, this);
 		if(actionOrIterated == null)
 			return false;
@@ -73,12 +78,14 @@ public class FilterAutoSuppliedNode extends FilterAutoNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
-	
+
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// return if the IR object was already constructed
 		// that may happen in recursive calls
 		if(isIRAlreadySet()) {
@@ -93,11 +100,12 @@ public class FilterAutoSuppliedNode extends FilterAutoNode {
 		Rule actionOrIterated = action != null ? action.getAction() : iterated.getAction();
 		filterAutoSup.setAction(actionOrIterated);
 		actionOrIterated.addFilter(filterAutoSup);
-		
+
 		return filterAutoSup;
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "auto supplied filter";
 	}
 }

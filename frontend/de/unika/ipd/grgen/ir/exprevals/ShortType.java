@@ -13,17 +13,21 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 /**
  * A short type.
  */
-public class ShortType extends PrimitiveType {
-	public ShortType(Ident ident) {
+public class ShortType extends PrimitiveType
+{
+	public ShortType(Ident ident)
+	{
 		super("short type", ident);
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_SHORT;
 	}
 
-	public static Type getType() {
+	public static Type getType()
+	{
 		return BasicTypeNode.shortType.checkIR(Type.class);
 	}
 }

@@ -23,14 +23,15 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a name assignment.
  */
-public class AssignNameofNode extends EvalStatementNode {
+public class AssignNameofNode extends EvalStatementNode
+{
 	static {
 		setName(AssignNameofNode.class, "Assign name");
 	}
 
 	ExprNode lhs;
 	ExprNode rhs;
-	
+
 	int context;
 
 	/**
@@ -38,7 +39,8 @@ public class AssignNameofNode extends EvalStatementNode {
 	 * @param target The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignNameofNode(Coords coords, ExprNode target, ExprNode expr, int context) {
+	public AssignNameofNode(Coords coords, ExprNode target, ExprNode expr, int context)
+	{
 		super(coords);
 		this.lhs = target;
 		becomeParent(this.lhs);
@@ -49,9 +51,10 @@ public class AssignNameofNode extends EvalStatementNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(lhs!=null)
+		if(lhs != null)
 			children.add(lhs);
 		children.add(rhs);
 		return children;
@@ -59,9 +62,10 @@ public class AssignNameofNode extends EvalStatementNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
-		if(lhs!=null)
+		if(lhs != null)
 			childrenNames.add("lhs");
 		childrenNames.add("rhs");
 		return childrenNames;
@@ -69,14 +73,16 @@ public class AssignNameofNode extends EvalStatementNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
-		if((context&BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE)==BaseNode.CONTEXT_FUNCTION) {
+	protected boolean checkLocal()
+	{
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
 			reportError("assignment to name not allowed in function or lhs context");
 			return false;
 		}
@@ -85,11 +91,11 @@ public class AssignNameofNode extends EvalStatementNode {
 			error.error(getCoords(), "The name to be assigned must be a string value");
 			return false;
 		}
-		
+
 		if(lhs != null) {
 			if(lhs.getType().isEqual(BasicTypeNode.graphType)) {
 				return true;
-			} 
+			}
 			if(lhs.getType() instanceof EdgeTypeNode) {
 				return true;
 			}
@@ -104,7 +110,8 @@ public class AssignNameofNode extends EvalStatementNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
@@ -113,9 +120,10 @@ public class AssignNameofNode extends EvalStatementNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Expression lhsExpr = null;
-		if(lhs!=null)
+		if(lhs != null)
 			lhsExpr = lhs.checkIR(Expression.class);
 		ExprNode rhsEvaluated = rhs.evaluate();
 		return new AssignmentNameof(lhsExpr, rhsEvaluated.checkIR(Expression.class));

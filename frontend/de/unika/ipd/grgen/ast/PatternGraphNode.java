@@ -46,13 +46,13 @@ import de.unika.ipd.grgen.ir.exprevals.Typeof;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.SymbolTable;
 
-
 /**
  * AST node that represents a graph pattern as it appears within the pattern
  * part of some rule Extension of the graph pattern of the rewrite part
  */
 // TODO: a pattern graph is not a graph, factor the common stuff out into a base class
-public class PatternGraphNode extends GraphNode {
+public class PatternGraphNode extends GraphNode
+{
 	static {
 		setName(PatternGraphNode.class, "pattern_graph");
 	}
@@ -114,22 +114,22 @@ public class PatternGraphNode extends GraphNode {
 	 */
 	private Map<List<Set<NodeDeclNode>>, Set<ConnectionNode>> doubleNodeNegMap =
 		new LinkedHashMap<List<Set<NodeDeclNode>>, Set<ConnectionNode>>();
-	
+
 	// counts number of implicit single and double node negative patterns
 	// created from pattern modifiers, in order to get unique negative names
 	int implicitNegCounter = 0;
-	
+
 	// if this pattern graph is a negative or independent nested inside an iterated
 	// it might break the iterated instead of only the current iterated case, if specified
 	public boolean iterationBreaking = false;
-	
+
 	private static PatternGraphNode invalid;
-	
+
 	// invalid pattern node just needed for the isGlobalVariable checks, 
 	// so that computations stuff that doesn't have a pattern graph is not classified as global 
 	public static PatternGraphNode getInvalid()
 	{
-		if(invalid==null) {
+		if(invalid == null) {
 			invalid = new PatternGraphNode("invalid", Coords.getInvalid(), 
 					null, null, 
 					null, null, 
@@ -141,9 +141,8 @@ public class PatternGraphNode extends GraphNode {
 					null, null,
 					0, BaseNode.CONTEXT_COMPUTATION);
 		}
-		return invalid;		
+		return invalid;
 	}
-	
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
@@ -176,21 +175,22 @@ public class PatternGraphNode extends GraphNode {
 		this.induced = induced;
 		becomeParent(this.induced);
 		this.modifiers = modifiers;
-		
+
 		directlyNestingLHSGraph = this;
-		if(params!=null)
+		if(params != null)
 			addParamsToConnections(params);
 	}
-	
+
 	public void addYieldings(CollectNode<EvalStatementsNode> yieldsEvals)
 	{
 		this.yieldsEvals = yieldsEvals;
-		becomeParent(this.yieldsEvals);	
+		becomeParent(this.yieldsEvals);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(params);
@@ -214,7 +214,8 @@ public class PatternGraphNode extends GraphNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
 		childrenNames.add("params");
@@ -240,10 +241,12 @@ public class PatternGraphNode extends GraphNode {
 	 * @see GraphNode#getNodes()
 	 */
 	@Override
-	public Set<NodeDeclNode> getNodes() {
+	public Set<NodeDeclNode> getNodes()
+	{
 		assert isResolved();
 
-		if(nodes != null) return nodes;
+		if(nodes != null)
+			return nodes;
 
 		LinkedHashSet<NodeDeclNode> coll = new LinkedHashSet<NodeDeclNode>();
 
@@ -252,10 +255,10 @@ public class PatternGraphNode extends GraphNode {
 			conn.addNodes(coll);
 		}
 
-		for (HomNode homNode : homs.getChildren()) {
-			for (BaseNode homElem : homNode.getChildren()) {
-				if (homElem instanceof NodeDeclNode) {
-					coll.add((NodeDeclNode) homElem);
+		for(HomNode homNode : homs.getChildren()) {
+			for(BaseNode homElem : homNode.getChildren()) {
+				if(homElem instanceof NodeDeclNode) {
+					coll.add((NodeDeclNode)homElem);
 				}
 			}
 		}
@@ -268,10 +271,12 @@ public class PatternGraphNode extends GraphNode {
 	 * @see GraphNode#getEdges()
 	 */
 	@Override
-	public Set<EdgeDeclNode> getEdges() {
+	public Set<EdgeDeclNode> getEdges()
+	{
 		assert isResolved();
 
-		if(edges != null) return edges;
+		if(edges != null)
+			return edges;
 
 		LinkedHashSet<EdgeDeclNode> coll = new LinkedHashSet<EdgeDeclNode>();
 
@@ -280,10 +285,10 @@ public class PatternGraphNode extends GraphNode {
 			conn.addEdge(coll);
 		}
 
-		for (HomNode homNode : homs.getChildren()) {
-			for (BaseNode homElem : homNode.getChildren()) {
-				if (homElem instanceof EdgeDeclNode) {
-					coll.add((EdgeDeclNode) homElem);
+		for(HomNode homNode : homs.getChildren()) {
+			for(BaseNode homElem : homNode.getChildren()) {
+				if(homElem instanceof EdgeDeclNode) {
+					coll.add((EdgeDeclNode)homElem);
 				}
 			}
 		}
@@ -292,7 +297,8 @@ public class PatternGraphNode extends GraphNode {
 		return edges;
 	}
 
-	public VarDeclNode getVariable(String name) {
+	public VarDeclNode getVariable(String name)
+	{
 		for(VarDeclNode var : getDefVariablesToBeYieldedTo().getChildren()) {
 			if(var.getIdentNode().toString().equals(name))
 				return var;
@@ -306,7 +312,8 @@ public class PatternGraphNode extends GraphNode {
 		return null;
 	}
 
-	public NodeDeclNode tryGetNode(String name) {
+	public NodeDeclNode tryGetNode(String name)
+	{
 		for(NodeDeclNode node : getNodes()) {
 			if(node.ident.toString().equals(name))
 				return node;
@@ -314,7 +321,8 @@ public class PatternGraphNode extends GraphNode {
 		return null;
 	}
 
-	public EdgeDeclNode tryGetEdge(String name) {
+	public EdgeDeclNode tryGetEdge(String name)
+	{
 		for(EdgeDeclNode edge : getEdges()) {
 			if(edge.ident.toString().equals(name))
 				return edge;
@@ -322,7 +330,8 @@ public class PatternGraphNode extends GraphNode {
 		return null;
 	}
 
-	public VarDeclNode tryGetVar(String name) {
+	public VarDeclNode tryGetVar(String name)
+	{
 		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
 			if(var.ident.toString().equals(name))
 				return var;
@@ -337,7 +346,8 @@ public class PatternGraphNode extends GraphNode {
 		return null;
 	}
 
-	public DeclNode tryGetMember(String name) {
+	public DeclNode tryGetMember(String name)
+	{
 		NodeDeclNode node = tryGetNode(name);
 		if(node != null)
 			return node;
@@ -347,55 +357,58 @@ public class PatternGraphNode extends GraphNode {
 		return tryGetVar(name);
 	}
 
-	private void initHomMaps() {
+	private void initHomMaps()
+	{
 		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
 
 		// Each node is homomorphic to itself.
-		for (NodeDeclNode node : getNodes()) {
+		for(NodeDeclNode node : getNodes()) {
 			Set<NodeDeclNode> homSet = new LinkedHashSet<NodeDeclNode>();
 			homSet.add(node);
 			nodeHomMap.put(node, homSet);
 		}
 
 		// Each edge is homomorphic to itself.
-		for (EdgeDeclNode edge : getEdges()) {
+		for(EdgeDeclNode edge : getEdges()) {
 			Set<EdgeDeclNode> homSet = new LinkedHashSet<EdgeDeclNode>();
 			homSet.add(edge);
 			edgeHomMap.put(edge, homSet);
 		}
 
-		for (Set<ConstraintDeclNode> homSet : homSets) {
+		for(Set<ConstraintDeclNode> homSet : homSets) {
 			// Homomorphic nodes.
-			if (homSet.iterator().next() instanceof NodeDeclNode) {
-				for (ConstraintDeclNode elem : homSet) {
-					NodeDeclNode node = (NodeDeclNode) elem;
+			if(homSet.iterator().next() instanceof NodeDeclNode) {
+				for(ConstraintDeclNode elem : homSet) {
+					NodeDeclNode node = (NodeDeclNode)elem;
 					Set<NodeDeclNode> mapEntry = nodeHomMap.get(node);
-					for (ConstraintDeclNode homomorphicNode : homSet) {
-						mapEntry.add((NodeDeclNode) homomorphicNode);
+					for(ConstraintDeclNode homomorphicNode : homSet) {
+						mapEntry.add((NodeDeclNode)homomorphicNode);
 					}
 				}
 			}
 
 			// Homomorphic edges.
-			if (homSet.iterator().next() instanceof EdgeDeclNode) {
-				for (ConstraintDeclNode elem : homSet) {
-					EdgeDeclNode edge = (EdgeDeclNode) elem;
+			if(homSet.iterator().next() instanceof EdgeDeclNode) {
+				for(ConstraintDeclNode elem : homSet) {
+					EdgeDeclNode edge = (EdgeDeclNode)elem;
 					Set<EdgeDeclNode> mapEntry = edgeHomMap.get(edge);
-					for (ConstraintDeclNode homomorphicEdge : homSet) {
-						mapEntry.add((EdgeDeclNode) homomorphicEdge);
+					for(ConstraintDeclNode homomorphicEdge : homSet) {
+						mapEntry.add((EdgeDeclNode)homomorphicEdge);
 					}
 				}
 			}
 		}
 	}
 
-	private PatternGraphNode getParentPatternGraph() {
-		for (BaseNode parent : getParents()) {
-			if (!(parent instanceof CollectNode<?>)) continue;
+	private PatternGraphNode getParentPatternGraph()
+	{
+		for(BaseNode parent : getParents()) {
+			if(!(parent instanceof CollectNode<?>))
+				continue;
 
-			for (BaseNode grandParent : parent.getParents()) {
-				if (grandParent instanceof PatternGraphNode) {
-					return (PatternGraphNode) grandParent;
+			for(BaseNode grandParent : parent.getParents()) {
+				if(grandParent instanceof PatternGraphNode) {
+					return (PatternGraphNode)grandParent;
 				}
 			}
 		}
@@ -403,37 +416,38 @@ public class PatternGraphNode extends GraphNode {
 		return null;
 	}
 
-	private void initHomSets() {
+	private void initHomSets()
+	{
 		homSets = new LinkedHashSet<Set<ConstraintDeclNode>>();
 		Set<NodeDeclNode> nodes = getNodes();
 		Set<EdgeDeclNode> edges = getEdges();
 
 		// Own homomorphic sets.
-		for (HomNode homNode : homs.getChildren()) {
+		for(HomNode homNode : homs.getChildren()) {
 			homSets.addAll(splitHoms(homNode.getChildren()));
 		}
 
 		// Inherited homomorphic sets.
-		for (PatternGraphNode parent = getParentPatternGraph(); parent != null;
+		for(PatternGraphNode parent = getParentPatternGraph(); parent != null;
 				parent = parent.getParentPatternGraph()) {
-			for (Set<ConstraintDeclNode> parentHomSet : parent.getHoms()) {
+			for(Set<ConstraintDeclNode> parentHomSet : parent.getHoms()) {
 				Set<ConstraintDeclNode> inheritedHomSet = new LinkedHashSet<ConstraintDeclNode>();
-				if (parentHomSet.iterator().next() instanceof NodeDeclNode) {
-					for (ConstraintDeclNode homNode : parentHomSet) {
-						if (nodes.contains(homNode)) {
+				if(parentHomSet.iterator().next() instanceof NodeDeclNode) {
+					for(ConstraintDeclNode homNode : parentHomSet) {
+						if(nodes.contains(homNode)) {
 							inheritedHomSet.add(homNode);
 						}
 					}
-					if (inheritedHomSet.size() > 1) {
+					if(inheritedHomSet.size() > 1) {
 						homSets.add(inheritedHomSet);
 					}
 				} else {
-					for (ConstraintDeclNode homEdge : parentHomSet) {
-						if (edges.contains(homEdge)) {
+					for(ConstraintDeclNode homEdge : parentHomSet) {
+						if(edges.contains(homEdge)) {
 							inheritedHomSet.add(homEdge);
 						}
 					}
-					if (inheritedHomSet.size() > 1) {
+					if(inheritedHomSet.size() > 1) {
 						homSets.add(inheritedHomSet);
 					}
 				}
@@ -441,8 +455,9 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	protected Collection<Set<ConstraintDeclNode>> getHoms() {
-		if (homSets == null) {
+	protected Collection<Set<ConstraintDeclNode>> getHoms()
+	{
+		if(homSets == null) {
 			initHomSets();
 		}
 
@@ -453,17 +468,18 @@ public class PatternGraphNode extends GraphNode {
 	 * Warn if two homomorphic elements can never be matched homomorphic,
 	 * because they have incompatible types.
 	 */
-	private void warnOnSuperfluousHoms() {
+	private void warnOnSuperfluousHoms()
+	{
 		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
 
-		for (Set<ConstraintDeclNode> homSet : homSets) {
+		for(Set<ConstraintDeclNode> homSet : homSets) {
 			Set<ConstraintDeclNode> alreadyProcessed = new LinkedHashSet<ConstraintDeclNode>();
 
-			for (ConstraintDeclNode elem1 : homSet) {
+			for(ConstraintDeclNode elem1 : homSet) {
 				InheritanceTypeNode type1 = elem1.getDeclType();
 				Collection<InheritanceTypeNode> subTypes1 = type1.getAllSubTypes();
-				for (ConstraintDeclNode elem2 : homSet) {
-					if (elem1 == elem2 || alreadyProcessed.contains(elem2))
+				for(ConstraintDeclNode elem2 : homSet) {
+					if(elem1 == elem2 || alreadyProcessed.contains(elem2))
 						continue;
 
 					InheritanceTypeNode type2 = elem2.getDeclType();
@@ -471,22 +487,22 @@ public class PatternGraphNode extends GraphNode {
 
 					boolean hasCommonSubType = type1.isA(type2) || type2.isA(type1);
 
-					if (hasCommonSubType)
+					if(hasCommonSubType)
 						continue;
 
-					for (TypeNode typeNode2 : subTypes2) {
-						if (subTypes1.contains(typeNode2)) {
+					for(TypeNode typeNode2 : subTypes2) {
+						if(subTypes1.contains(typeNode2)) {
 							hasCommonSubType = true;
 							break;
 						}
 					}
 
-					if (!hasCommonSubType) {
+					if(!hasCommonSubType) {
 						// search hom statement
 						HomNode hom = null;
-						for (HomNode homNode : homs.getChildren()) {
+						for(HomNode homNode : homs.getChildren()) {
 							Collection<BaseNode> homChildren = homNode.getChildren();
-							if (homChildren.contains(elem1) && homChildren.contains(elem2)) {
+							if(homChildren.contains(elem1) && homChildren.contains(elem2)) {
 								hom = homNode;
 								break;
 							}
@@ -502,7 +518,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	boolean noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent() {
+	boolean noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
+	{
 		boolean result = true;
 		for(PatternGraphNode pattern : negs.getChildren()) {
 			for(IteratedNode iter : pattern.iters.getChildren()) {
@@ -539,7 +556,8 @@ public class PatternGraphNode extends GraphNode {
 		return result;
 	}
 
-	boolean noExecStatementInEvalsOfIteratedOrAlternative() {
+	boolean noExecStatementInEvalsOfIteratedOrAlternative()
+	{
 		boolean result = true;
 		for(IteratedNode iter : iters.getChildren()) {
 			if(iter.right != null) {
@@ -561,13 +579,14 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		boolean childs = super.checkLocal();
 
 		boolean expr = true;
-		if (childs) {
-			for (ExprNode exp : conditions.getChildren()) {
-				if (!exp.getType().isEqual(BasicTypeNode.booleanType)) {
+		if(childs) {
+			for(ExprNode exp : conditions.getChildren()) {
+				if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
 					exp.reportError("Expression must be of type boolean");
 					expr = false;
 				}
@@ -575,9 +594,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		boolean noReturnInNegOrIdpt = true;
-		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE
-			|| (context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
-			if(returns.size()!=0) {
+		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE || (context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
+			if(returns.size() != 0) {
 				reportError("return not allowed in negative or independent block");
 				noReturnInNegOrIdpt = false;
 			}
@@ -593,7 +611,8 @@ public class PatternGraphNode extends GraphNode {
 				&& noExecStatementInEvalsOfIteratedOrAlternative();
 	}
 
-	private boolean noDefElementOrIteratedReferenceInCondition() {
+	private boolean noDefElementOrIteratedReferenceInCondition()
+	{
 		boolean res = true;
 		for(ExprNode cond : conditions.getChildren()) {
 			res &= cond.noDefElement("if condition");
@@ -602,7 +621,8 @@ public class PatternGraphNode extends GraphNode {
 		return res;
 	}
 
-	private boolean noIteratedReferenceInDefElementInitialization() {
+	private boolean noIteratedReferenceInDefElementInitialization()
+	{
 		boolean res = true;
 		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
 			if(var.initialization != null)
@@ -611,7 +631,8 @@ public class PatternGraphNode extends GraphNode {
 		return res;
 	}
 
-	private boolean iteratedNameIsNotAccessedInNestedPattern() {
+	private boolean iteratedNameIsNotAccessedInNestedPattern()
+	{
 		boolean res = true;
 		for(IteratedNode iterForNameToCheck : iters.getChildren()) {
 			String iterName = iterForNameToCheck.getIdentNode().toString();
@@ -638,7 +659,8 @@ public class PatternGraphNode extends GraphNode {
 		return res;
 	}
 
-	public boolean checkFilterVariable(IdentNode errorTarget, String filterNameWithEntitySuffix, String filterVariable) {
+	public boolean checkFilterVariable(IdentNode errorTarget, String filterNameWithEntitySuffix, String filterVariable)
+	{
 		VarDeclNode variable = tryGetVar(filterVariable);
 		if(variable == null) {
 			errorTarget.reportError(filterNameWithEntitySuffix + ": unknown variable " + filterVariable);
@@ -646,13 +668,15 @@ public class PatternGraphNode extends GraphNode {
 		}
 		TypeNode filterVariableType = variable.getDeclType();
 		if(!filterVariableType.isOrderableType()) {
-			errorTarget.reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable + " must be of one of the following types: " + TypeNode.getOrderableTypesAsString());
+			errorTarget.reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable
+					+ " must be of one of the following types: " + TypeNode.getOrderableTypesAsString());
 			return false;
 		}
 		return true;
 	}
 
-	public boolean checkFilterEntity(IdentNode errorTarget, String filterNameWithEntitySuffix, String filterEntity) {
+	public boolean checkFilterEntity(IdentNode errorTarget, String filterNameWithEntitySuffix, String filterEntity)
+	{
 		DeclNode entity = tryGetNode(filterEntity);
 		if(entity == null)
 			entity = tryGetEdge(filterEntity);
@@ -664,7 +688,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 		TypeNode filterVariableType = entity.getDeclType();
 		if(!filterVariableType.isFilterableType()) {
-			errorTarget.reportError(filterNameWithEntitySuffix + ": the entity " + filterEntity + " must be of one of the following types: " + TypeNode.getFilterableTypesAsString());
+			errorTarget.reportError(filterNameWithEntitySuffix + ": the entity " + filterEntity
+					+ " must be of one of the following types: " + TypeNode.getFilterableTypesAsString());
 			return false;
 		}
 		return true;
@@ -675,15 +700,17 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @return The IR object.
 	 */
-	protected PatternGraph getPatternGraph() {
+	protected PatternGraph getPatternGraph()
+	{
 		return checkIR(PatternGraph.class);
 	}
 
 	/** NOTE: Use this only in DPO-Mode,i.e. if the pattern is part of a rule */
-	private RuleDeclNode getRule() {
-		for (BaseNode parent : getParents()) {
-			if (parent instanceof RuleDeclNode) {
-				return (RuleDeclNode) parent;
+	private RuleDeclNode getRule()
+	{
+		for(BaseNode parent : getParents()) {
+			if(parent instanceof RuleDeclNode) {
+				return (RuleDeclNode)parent;
 			}
 		}
 		assert false;
@@ -694,8 +721,9 @@ public class PatternGraphNode extends GraphNode {
 	 * Generates a type condition if the given graph entity inherits its type
 	 * from another element via a typeof expression (dynamic type checks).
 	 */
-	private void genTypeConditionsFromTypeof(PatternGraph gr, GraphEntity elem) {
-		if (elem.inheritsType()) {
+	private void genTypeConditionsFromTypeof(PatternGraph gr, GraphEntity elem)
+	{
+		if(elem.inheritsType()) {
 			assert !elem.isCopy(); // must extend this function and lgsp nodes if left hand side copy/copyof are wanted meaning compare attributes of exact dynamic types
 
 			Expression e1 = new Typeof(elem);
@@ -710,20 +738,21 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		if(isIRAlreadySet()) {
 			return getIR();
 		}
 
 		PatternGraph patternGraph = new PatternGraph(nameOfGraph, modifiers);
 		patternGraph.setDirectlyNestingLHSGraph(patternGraph);
-		
+
 		// mark this node as already visited
 		setIR(patternGraph);
 
 		if(this == getInvalid())
 			return patternGraph;
-		
+
 		patternGraph.setIterationBreaking(iterationBreaking);
 
 		for(BaseNode connectionNode : connections.getChildren()) {
@@ -839,7 +868,7 @@ public class PatternGraphNode extends GraphNode {
 
 		// add elements only mentioned in hom-declaration to the IR
 		// (they're declared in an enclosing graph and locally only show up in the hom-declaration)
-		for(Collection<? extends GraphEntity> homEntities : patternGraph.getHomomorphic())	{
+		for(Collection<? extends GraphEntity> homEntities : patternGraph.getHomomorphic()) {
 			addHomElements(patternGraph, homEntities);
 		}
 
@@ -849,7 +878,7 @@ public class PatternGraphNode extends GraphNode {
 			addElementsFromStorageAccess(patternGraph, node);
 		}
 
-		for(Node node : patternGraph.getNodes()) {	
+		for(Node node : patternGraph.getNodes()) {
 			// add old node of lhs retype
 			if(node instanceof RetypedNode && !node.isRHSEntity()) {
 				addNodeIfNotYetContained(patternGraph, ((RetypedNode)node).getOldNode());
@@ -871,19 +900,20 @@ public class PatternGraphNode extends GraphNode {
 		// (they're declared in an enclosing graph and locally only show up in the index access)
 		needs = new NeededEntities(true, true, true, false, false, true, false, false);
 		for(Node node : patternGraph.getNodes()) {
-			if(node.indexAccess!=null) {
+			if(node.indexAccess != null) {
 				node.indexAccess.collectNeededEntities(needs);
 			}
 		}
 		for(Edge edge : patternGraph.getEdges()) {
-			if(edge.indexAccess!=null) {
+			if(edge.indexAccess != null) {
 				edge.indexAccess.collectNeededEntities(needs);
 			}
 		}
 		addNeededEntities(patternGraph, needs);
 	}
-	
-	void addSubpatternUsageArgument(PatternGraph patternGraph, SubpatternUsageNode subpatternUsageNode) {
+
+	void addSubpatternUsageArgument(PatternGraph patternGraph, SubpatternUsageNode subpatternUsageNode)
+	{
 		List<Expression> subpatternConnections = subpatternUsageNode.checkIR(SubpatternUsage.class).getSubpatternConnections();
 		for(Expression expr : subpatternConnections) {
 			if(expr instanceof GraphEntityExpression) {
@@ -907,7 +937,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addSubpatternUsageYieldArgument(PatternGraph patternGraph, SubpatternUsageNode subpatternUsageNode) {
+	void addSubpatternUsageYieldArgument(PatternGraph patternGraph, SubpatternUsageNode subpatternUsageNode)
+	{
 		List<Expression> subpatternYields = subpatternUsageNode.checkIR(SubpatternUsage.class).getSubpatternYields();
 		for(Expression expr : subpatternYields) {
 			if(expr instanceof GraphEntityExpression) {
@@ -931,19 +962,22 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addNodeFromTypeof(PatternGraph patternGraph, Node node) {
+	void addNodeFromTypeof(PatternGraph patternGraph, Node node)
+	{
 		if(node.inheritsType()) {
 			addNodeIfNotYetContained(patternGraph, (Node)node.getTypeof());
 		}
 	}
 
-	void addEdgeFromTypeof(PatternGraph patternGraph, Edge edge) {
+	void addEdgeFromTypeof(PatternGraph patternGraph, Edge edge)
+	{
 		if(edge.inheritsType()) {
 			addEdgeIfNotYetContained(patternGraph, (Edge)edge.getTypeof());
 		}
 	}
 
-	void addHomElements(PatternGraph patternGraph, Collection<? extends GraphEntity> homEntities) {
+	void addHomElements(PatternGraph patternGraph, Collection<? extends GraphEntity> homEntities)
+	{
 		for(GraphEntity homEntity : homEntities) {
 			if(homEntity instanceof Node) {
 				addNodeIfNotYetContained(patternGraph, (Node)homEntity);
@@ -953,7 +987,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addElementsFromStorageAccess(PatternGraph patternGraph, Node node) {
+	void addElementsFromStorageAccess(PatternGraph patternGraph, Node node)
+	{
 		if(node.storageAccess != null) {
 			if(node.storageAccess.storageVariable != null) {
 				Variable storageVariable = node.storageAccess.storageVariable;
@@ -982,7 +1017,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addElementsFromStorageAccess(PatternGraph patternGraph, Edge edge) {
+	void addElementsFromStorageAccess(PatternGraph patternGraph, Edge edge)
+	{
 		if(edge.storageAccess != null) {
 			if(edge.storageAccess.storageVariable != null) {
 				Variable storageVariable = edge.storageAccess.storageVariable;
@@ -1011,7 +1047,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	protected void addNeededEntities(PatternGraph patternGraph, NeededEntities needs) {
+	protected void addNeededEntities(PatternGraph patternGraph, NeededEntities needs)
+	{
 		for(Node neededNode : needs.nodes) {
 			addNodeIfNotYetContained(patternGraph, neededNode);
 		}
@@ -1025,9 +1062,10 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void warnIfConditionIsConstant(ExprNode expr) {
+	void warnIfConditionIsConstant(ExprNode expr)
+	{
 		if(expr instanceof BoolConstNode) {
-			if((Boolean)((BoolConstNode) expr).getValue()) {
+			if((Boolean)((BoolConstNode)expr).getValue()) {
 				expr.reportWarning("Condition is always true");
 			} else {
 				expr.reportWarning("Condition is always false, pattern will never match");
@@ -1035,9 +1073,10 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addHoms(PatternGraph patternGraph, Set<ConstraintDeclNode> homEntityNodes) {
+	void addHoms(PatternGraph patternGraph, Set<ConstraintDeclNode> homEntityNodes)
+	{
 		// homSet is not empty, first element defines type of all elements
-		if (homEntityNodes.iterator().next() instanceof NodeDeclNode) {
+		if(homEntityNodes.iterator().next() instanceof NodeDeclNode) {
 			HashSet<Node> homNodes = new HashSet<Node>();
 			for(DeclNode node : homEntityNodes) {
 				homNodes.add(node.checkIR(Node.class));
@@ -1052,7 +1091,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addTotallyHom(PatternGraph patternGraph, TotallyHomNode totallyHomNode) {
+	void addTotallyHom(PatternGraph patternGraph, TotallyHomNode totallyHomNode)
+	{
 		if(totallyHomNode.node != null) {
 			HashSet<Node> totallyHomNodes = new HashSet<Node>();
 			for(NodeDeclNode node : totallyHomNode.childrenNode) {
@@ -1068,7 +1108,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addNegatives(PatternGraph patternGraph, PatternGraphNode negativeNode) {
+	void addNegatives(PatternGraph patternGraph, PatternGraphNode negativeNode)
+	{
 		PatternGraph negative = negativeNode.getPatternGraph();
 		patternGraph.addNegGraph(negative);
 		if(negative.isIterationBreaking()) {
@@ -1076,7 +1117,8 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	void addIndependents(PatternGraph patternGraph, PatternGraphNode independentNode) {
+	void addIndependents(PatternGraph patternGraph, PatternGraphNode independentNode)
+	{
 		PatternGraph independent = independentNode.getPatternGraph();
 		patternGraph.addIdptGraph(independent);
 		if(independent.isIterationBreaking()) {
@@ -1086,20 +1128,23 @@ public class PatternGraphNode extends GraphNode {
 
 	// ensure def to be yielded to elements are hom to all others
 	// so backend doing some fake search planning for them is not scheduling checks for them
-	void ensureDefNodesAreHomToAllOthers(PatternGraph patternGraph, Node node) {
+	void ensureDefNodesAreHomToAllOthers(PatternGraph patternGraph, Node node)
+	{
 		if(node.isDefToBeYieldedTo()) {
 			patternGraph.addHomToAll(node);
 		}
 	}
-	
-	void ensureDefEdgesAreHomToAllOthers(PatternGraph patternGraph, Edge edge) {
+
+	void ensureDefEdgesAreHomToAllOthers(PatternGraph patternGraph, Edge edge)
+	{
 		if(edge.isDefToBeYieldedTo()) {
 			patternGraph.addHomToAll(edge);
 		}
 	}
 
 	// ensure lhs retype elements are hom to their old element
-	void ensureRetypedNodeHomToOldNode(PatternGraph patternGraph, Node node) {
+	void ensureRetypedNodeHomToOldNode(PatternGraph patternGraph, Node node)
+	{
 		if(node instanceof RetypedNode && !node.isRHSEntity()) {
 			Vector<Node> homNodes = new Vector<Node>();
 			homNodes.add(node);
@@ -1107,8 +1152,9 @@ public class PatternGraphNode extends GraphNode {
 			patternGraph.addHomomorphicNodes(homNodes);
 		}
 	}
-	
-	void ensureRetypedEdgeHomToOldEdge(PatternGraph patternGraph, Edge edge) {
+
+	void ensureRetypedEdgeHomToOldEdge(PatternGraph patternGraph, Edge edge)
+	{
 		if(edge instanceof RetypedEdge && !edge.isRHSEntity()) {
 			Vector<Edge> homEdges = new Vector<Edge>();
 			homEdges.add(edge);
@@ -1127,59 +1173,64 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @param homChildren Children of a HomNode
 	 */
-	private Set<Set<ConstraintDeclNode>> splitHoms(Collection<? extends BaseNode> homChildren) {
+	private Set<Set<ConstraintDeclNode>> splitHoms(Collection<? extends BaseNode> homChildren)
+	{
 		Set<Set<ConstraintDeclNode>> ret = new LinkedHashSet<Set<ConstraintDeclNode>>();
-		if (isIdentification()) {
-    		// homs between deleted entities
-    		HashSet<ConstraintDeclNode> deleteHomSet = new HashSet<ConstraintDeclNode>();
-    		// homs between reused entities
-    		HashSet<ConstraintDeclNode> reuseHomSet = new HashSet<ConstraintDeclNode>();
+		if(isIdentification()) {
+			// homs between deleted entities
+			HashSet<ConstraintDeclNode> deleteHomSet = new HashSet<ConstraintDeclNode>();
+			// homs between reused entities
+			HashSet<ConstraintDeclNode> reuseHomSet = new HashSet<ConstraintDeclNode>();
 
-    		for (BaseNode m : homChildren) {
-    			ConstraintDeclNode decl = (ConstraintDeclNode) m;
+			for(BaseNode m : homChildren) {
+				ConstraintDeclNode decl = (ConstraintDeclNode)m;
 
-    			Set<DeclNode> deletedEntities = getRule().getDeleted();
-    			if (deletedEntities.contains(decl)) {
-    				deleteHomSet.add(decl);
-    			} else {
-    				reuseHomSet.add(decl);
-    			}
-    		}
-    		if (deleteHomSet.size() > 1) {
-    			ret.add(deleteHomSet);
-    		}
-    		if (reuseHomSet.size() > 1) {
-    			ret.add(reuseHomSet);
-    		}
-    		return ret;
+				Set<DeclNode> deletedEntities = getRule().getDeleted();
+				if(deletedEntities.contains(decl)) {
+					deleteHomSet.add(decl);
+				} else {
+					reuseHomSet.add(decl);
+				}
+			}
+			if(deleteHomSet.size() > 1) {
+				ret.add(deleteHomSet);
+			}
+			if(reuseHomSet.size() > 1) {
+				ret.add(reuseHomSet);
+			}
+			return ret;
 		}
 
 		Set<ConstraintDeclNode> homSet = new LinkedHashSet<ConstraintDeclNode>();
 
-		for (BaseNode m : homChildren) {
-			ConstraintDeclNode decl = (ConstraintDeclNode) m;
+		for(BaseNode m : homChildren) {
+			ConstraintDeclNode decl = (ConstraintDeclNode)m;
 
 			homSet.add(decl);
 		}
-		if (homSet.size() > 1) {
+		if(homSet.size() > 1) {
 			ret.add(homSet);
 		}
 		return ret;
-    }
+	}
 
-	private boolean isInduced() {
+	private boolean isInduced()
+	{
 		return (modifiers & MOD_INDUCED) != 0;
 	}
 
-	private boolean isDangling() {
+	private boolean isDangling()
+	{
 		return (modifiers & MOD_DANGLING) != 0;
 	}
 
-	private boolean isIdentification() {
+	private boolean isIdentification()
+	{
 		return (modifiers & MOD_IDENTIFICATION) != 0;
 	}
 
-	private boolean isExact() {
+	private boolean isExact()
+	{
 		return (modifiers & MOD_EXACT) != 0;
 	}
 
@@ -1188,7 +1239,8 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @return The Collection for the NACs.
 	 */
-	protected Collection<PatternGraph> getImplicitNegGraphs() {
+	protected Collection<PatternGraph> getImplicitNegGraphs()
+	{
 		Collection<PatternGraph> ret = new LinkedList<PatternGraph>();
 
 		initDoubleNodeNegMap();
@@ -1200,40 +1252,38 @@ public class PatternGraphNode extends GraphNode {
 		return ret;
 	}
 
-	private void initDoubleNodeNegMap() {
+	private void initDoubleNodeNegMap()
+	{
 		Collection<InducedNode> inducedNodes = induced.getChildren();
-		if (isInduced()) {
+		if(isInduced()) {
 			addToDoubleNodeMap(getNodes());
 
-			for (BaseNode node : inducedNodes) {
+			for(BaseNode node : inducedNodes) {
 				node.reportWarning("Induced statement occurs in induced pattern");
 			}
 			return;
 		}
 
-		Map<Set<NodeDeclNode>, Integer> genInducedSets =
-			new LinkedHashMap<Set<NodeDeclNode>, Integer>();
+		Map<Set<NodeDeclNode>, Integer> genInducedSets = new LinkedHashMap<Set<NodeDeclNode>, Integer>();
 
-		for (int i = 0; i < induced.getChildren().size(); i++) {
+		for(int i = 0; i < induced.getChildren().size(); i++) {
 			BaseNode inducedNode = induced.get(i);
 			Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
 
-			for (BaseNode inducedChild : inducedNode.getChildren()) {
+			for(BaseNode inducedChild : inducedNode.getChildren()) {
 				// This cast must be ok after checking.
-				NodeDeclNode nodeDeclNode = (NodeDeclNode) inducedChild;
+				NodeDeclNode nodeDeclNode = (NodeDeclNode)inducedChild;
 
 				// coords of occurrence are not available
-				if (nodes.contains(nodeDeclNode)) {
-					inducedNode.reportWarning("Multiple occurrence of "
-							+ nodeDeclNode.getUseString() + " "
-							+ nodeDeclNode.getIdentNode().getSymbol().getText()
-							+ " in a single induced statement");
+				if(nodes.contains(nodeDeclNode)) {
+					inducedNode.reportWarning("Multiple occurrence of " + nodeDeclNode.getUseString() + " "
+							+ nodeDeclNode.getIdentNode().getSymbol().getText() + " in a single induced statement");
 				} else {
 					nodes.add(nodeDeclNode);
 				}
 			}
 
-			if (genInducedSets.containsKey(nodes)) {
+			if(genInducedSets.containsKey(nodes)) {
 				BaseNode oldOcc = induced.get(genInducedSets.get(nodes));
 				inducedNode.reportWarning("Same induced statement also occurs at " + oldOcc.getCoords());
 			} else {
@@ -1260,17 +1310,16 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @param genInducedSets Set of all induced statements
 	 */
-	private void warnRedundantInducedStatement(
-		Map<Set<NodeDeclNode>, Integer> genInducedSets) {
-		Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap =
-			new LinkedHashMap<Map<List<NodeDeclNode>, Boolean>, Integer>();
+	private void warnRedundantInducedStatement(Map<Set<NodeDeclNode>, Integer> genInducedSets)
+	{
+		Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap = new LinkedHashMap<Map<List<NodeDeclNode>, Boolean>, Integer>();
 
 		// create all pairs of nodes (->edges)
-		for (Map.Entry<Set<NodeDeclNode>, Integer> nodeMapEntry : genInducedSets.entrySet()) {
+		for(Map.Entry<Set<NodeDeclNode>, Integer> nodeMapEntry : genInducedSets.entrySet()) {
 			// if the Boolean is true -> edge is marked
 			Map<List<NodeDeclNode>, Boolean> markedMap = new LinkedHashMap<List<NodeDeclNode>, Boolean>();
-			for (NodeDeclNode src : nodeMapEntry.getKey()) {
-				for (NodeDeclNode tgt : nodeMapEntry.getKey()) {
+			for(NodeDeclNode src : nodeMapEntry.getKey()) {
+				for(NodeDeclNode tgt : nodeMapEntry.getKey()) {
 					List<NodeDeclNode> edge = new LinkedList<NodeDeclNode>();
 					edge.add(src);
 					edge.add(tgt);
@@ -1282,16 +1331,16 @@ public class PatternGraphNode extends GraphNode {
 			inducedEdgeMap.put(markedMap, nodeMapEntry.getValue());
 		}
 
-		for (Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> candidate : inducedEdgeMap.entrySet()) {
+		for(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> candidate : inducedEdgeMap.entrySet()) {
 			Set<Integer> witnesses = new LinkedHashSet<Integer>();
 
-			for (Map.Entry<List<NodeDeclNode>, Boolean> candidateMarkedMap : candidate.getKey().entrySet()) {
+			for(Map.Entry<List<NodeDeclNode>, Boolean> candidateMarkedMap : candidate.getKey().entrySet()) {
 				// TODO also mark witness edge (and candidate as witness)
-				if (!candidateMarkedMap.getValue().booleanValue()) {
-					for (Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> witness : inducedEdgeMap.entrySet()) {
-						if (candidate != witness) {
+				if(!candidateMarkedMap.getValue().booleanValue()) {
+					for(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> witness : inducedEdgeMap.entrySet()) {
+						if(candidate != witness) {
 							// if witness contains edge
-							if (witness.getKey().containsKey(candidateMarkedMap.getKey())) {
+							if(witness.getKey().containsKey(candidateMarkedMap.getKey())) {
 								// mark Edge
 								candidateMarkedMap.setValue(true);
 								// add witness
@@ -1304,51 +1353,49 @@ public class PatternGraphNode extends GraphNode {
 
 			// all edges marked?
 			boolean allMarked = true;
-			for (boolean edgeMarked : candidate.getKey().values()) {
+			for(boolean edgeMarked : candidate.getKey().values()) {
 				allMarked = allMarked && edgeMarked;
 			}
-			if (allMarked) {
+			if(allMarked) {
 				String witnessesLoc = "";
-				for (Integer index : witnesses) {
+				for(Integer index : witnesses) {
 					witnessesLoc += induced.get(index).getCoords() + " ";
 				}
 				witnessesLoc = witnessesLoc.trim();
 				induced.get(candidate.getValue()).reportWarning(
-					"Induced statement is redundant, since covered by statement(s) at "
-						+ witnessesLoc);
+						"Induced statement is redundant, since covered by statement(s) at " + witnessesLoc);
 			}
 		}
 	}
 
-	private void initSingleNodeNegMap() {
+	private void initSingleNodeNegMap()
+	{
 		Collection<ExactNode> exactNodes = exact.getChildren();
 
-		if (isExact()) {
+		if(isExact()) {
 			addToSingleNodeMap(getNodes());
 
-			if (isDangling() && !isIdentification()) {
+			if(isDangling() && !isIdentification()) {
 				reportWarning("The keyword \"dangling\" is redundant for exact patterns");
 			}
 
-			for (ExactNode node : exactNodes) {
+			for(ExactNode node : exactNodes) {
 				node.reportWarning("Exact statement occurs in exact pattern");
 			}
 
 			return;
 		}
 
-		if (isDangling()) {
+		if(isDangling()) {
 			Set<DeclNode> deletedNodes = getRule().getDeleted();
 			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
 
-			for (BaseNode exactNode : exactNodes) {
-				for (BaseNode exactChild : exactNode.getChildren()) {
+			for(BaseNode exactNode : exactNodes) {
+				for(BaseNode exactChild : exactNode.getChildren()) {
 					// This cast must be ok after checking.
-					NodeDeclNode nodeDeclNode = (NodeDeclNode) exactChild;
-					if (deletedNodes.contains(nodeDeclNode)) {
-						exactNode.reportWarning("Exact statement for "
-								+ nodeDeclNode.getUseString()
-								+ " "
+					NodeDeclNode nodeDeclNode = (NodeDeclNode)exactChild;
+					if(deletedNodes.contains(nodeDeclNode)) {
+						exactNode.reportWarning("Exact statement for " + nodeDeclNode.getUseString() + " "
 								+ nodeDeclNode.getIdentNode().getSymbol().getText()
 								+ " is redundant, since the pattern is declared \"dangling\" or \"dpo\"");
 					}
@@ -1358,15 +1405,14 @@ public class PatternGraphNode extends GraphNode {
 
 		Map<NodeDeclNode, Integer> genExactNodes = new LinkedHashMap<NodeDeclNode, Integer>();
 		// exact Statements
-		for (int i = 0; i < exact.getChildren().size(); i++) {
+		for(int i = 0; i < exact.getChildren().size(); i++) {
 			BaseNode exactNode = exact.get(i);
-			for (BaseNode exactChild : exactNode.getChildren()) {
+			for(BaseNode exactChild : exactNode.getChildren()) {
 				// This cast must be ok after checking.
-				NodeDeclNode nodeDeclNode = (NodeDeclNode) exactChild;
+				NodeDeclNode nodeDeclNode = (NodeDeclNode)exactChild;
 				// coords of occurrence are not available
-				if (genExactNodes.containsKey(nodeDeclNode)) {
-					exactNode.reportWarning(nodeDeclNode.getUseString()
-							+ " "
+				if(genExactNodes.containsKey(nodeDeclNode)) {
+					exactNode.reportWarning(nodeDeclNode.getUseString() + " "
 							+ nodeDeclNode.getIdentNode().getSymbol().getText()
 							+ " already occurs in exact statement at "
 							+ exact.get(genExactNodes.get(nodeDeclNode)).getCoords());
@@ -1383,13 +1429,14 @@ public class PatternGraphNode extends GraphNode {
 	 * Return the set of nodes needed for the singleNodeNegMap if the whole
 	 * pattern is dpo.
 	 */
-	private Set<NodeDeclNode> getDpoPatternNodes(Set<DeclNode> deletedEntities) {
+	private Set<NodeDeclNode> getDpoPatternNodes(Set<DeclNode> deletedEntities)
+	{
 		Set<NodeDeclNode> deletedNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for (DeclNode declNode : deletedEntities) {
-			if (declNode instanceof NodeDeclNode) {
-				NodeDeclNode node = (NodeDeclNode) declNode;
-				if (!node.isDummy()) {
+		for(DeclNode declNode : deletedEntities) {
+			if(declNode instanceof NodeDeclNode) {
+				NodeDeclNode node = (NodeDeclNode)declNode;
+				if(!node.isDummy()) {
 					deletedNodes.add(node);
 				}
 			}
@@ -1398,22 +1445,23 @@ public class PatternGraphNode extends GraphNode {
 		return deletedNodes;
 	}
 
-	private void addSingleNodeNegGraphs(Collection<PatternGraph> ret) {
+	private void addSingleNodeNegGraphs(Collection<PatternGraph> ret)
+	{
 		assert isResolved();
 
 		// add existing edges to the corresponding sets
-		for (BaseNode n : connections.getChildren()) {
-			if (n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) n;
+		for(BaseNode n : connections.getChildren()) {
+			if(n instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)n;
 				NodeDeclNode src = conn.getSrc();
-				if (singleNodeNegNodes.contains(src)) {
+				if(singleNodeNegNodes.contains(src)) {
 					Set<NodeDeclNode> homSet = getHomomorphic(src);
 					Set<ConnectionNode> edges = singleNodeNegMap.get(homSet);
 					edges.add(conn);
 					singleNodeNegMap.put(homSet, edges);
 				}
 				NodeDeclNode tgt = conn.getTgt();
-				if (singleNodeNegNodes.contains(tgt)) {
+				if(singleNodeNegNodes.contains(tgt)) {
 					Set<NodeDeclNode> homSet = getHomomorphic(tgt);
 					Set<ConnectionNode> edges = singleNodeNegMap.get(homSet);
 					edges.add(conn);
@@ -1426,35 +1474,35 @@ public class PatternGraphNode extends GraphNode {
 		BaseNode nodeRoot = getNodeRootType();
 
 		// generate and add pattern graphs
-		for (NodeDeclNode singleNodeNegNode : singleNodeNegNodes) {
-//			for (int direction = INCOMING; direction <= OUTGOING; direction++) {
-				Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
-				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
-				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getHomomorphic(singleNodeNegNode));
-				PatternGraph neg = new PatternGraph("implneg_"+implicitNegCounter, 0);
-				++implicitNegCounter;
-				neg.setDirectlyNestingLHSGraph(neg);
+		for(NodeDeclNode singleNodeNegNode : singleNodeNegNodes) {
+			//for (int direction = INCOMING; direction <= OUTGOING; direction++) {
+			Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
+			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
+			Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getHomomorphic(singleNodeNegNode));
+			PatternGraph neg = new PatternGraph("implneg_" + implicitNegCounter, 0);
+			++implicitNegCounter;
+			neg.setDirectlyNestingLHSGraph(neg);
 
-				// add edges to NAC
-				for (ConnectionNode conn : edgeSet) {
-					conn.addToGraph(neg);
-
-					allNegEdges.add(conn.getEdge());
-					allNegNodes.add(conn.getSrc());
-					allNegNodes.add(conn.getTgt());
-				}
-
-				addInheritedHomSet(neg, allNegEdges, allNegNodes);
-
-				// add another edge of type edgeRoot to the NAC
-				EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
-				NodeDeclNode dummyNode = getAnonymousDummyNode(nodeRoot, context);
-
-				ConnectionNode conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, ConnectionNode.ARBITRARY, this);
+			// add edges to NAC
+			for(ConnectionNode conn : edgeSet) {
 				conn.addToGraph(neg);
 
-				ret.add(neg);
-//			}
+				allNegEdges.add(conn.getEdge());
+				allNegNodes.add(conn.getSrc());
+				allNegNodes.add(conn.getTgt());
+			}
+
+			addInheritedHomSet(neg, allNegEdges, allNegNodes);
+
+			// add another edge of type edgeRoot to the NAC
+			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
+			NodeDeclNode dummyNode = getAnonymousDummyNode(nodeRoot, context);
+
+			ConnectionNode conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, ConnectionNode.ARBITRARY, this);
+			conn.addToGraph(neg);
+
+			ret.add(neg);
+			//}
 		}
 	}
 
@@ -1463,13 +1511,15 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @param nodes Set of Nodes.
 	 */
-	private void addToSingleNodeMap(Set<NodeDeclNode> nodes) {
-		for (NodeDeclNode node : nodes) {
-			if (node.isDummy()) continue;
+	private void addToSingleNodeMap(Set<NodeDeclNode> nodes)
+	{
+		for(NodeDeclNode node : nodes) {
+			if(node.isDummy())
+				continue;
 
 			singleNodeNegNodes.add(node);
 			Set<NodeDeclNode> homSet = getHomomorphic(node);
-			if (!singleNodeNegMap.containsKey(homSet)) {
+			if(!singleNodeNegMap.containsKey(homSet)) {
 				Set<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
 				singleNodeNegMap.put(homSet, edgeSet);
 			}
@@ -1478,48 +1528,50 @@ public class PatternGraphNode extends GraphNode {
 
 	/** Return the correspondent homomorphic set. */
 	protected Set<NodeDeclNode> getHomomorphic(NodeDeclNode node)
-    {
-		if (!nodeHomMap.containsKey(node)) {
-	    	initHomMaps();
-	    }
+	{
+		if(!nodeHomMap.containsKey(node)) {
+			initHomMaps();
+		}
 
 		Set<NodeDeclNode> homSet = nodeHomMap.get(node);
 
-		if (homSet == null) {
+		if(homSet == null) {
 			// If the node isn't part of the pattern, return empty set.
 			homSet = new LinkedHashSet<NodeDeclNode>();
 		}
 
 		return homSet;
-    }
+	}
 
 	/** Return the correspondent homomorphic set. */
 	protected Set<EdgeDeclNode> getHomomorphic(EdgeDeclNode edge)
-    {
-		if (!edgeHomMap.containsKey(edge)) {
+	{
+		if(!edgeHomMap.containsKey(edge)) {
 			initHomMaps();
 		}
 
 		Set<EdgeDeclNode> homSet = edgeHomMap.get(edge);
 
-		if (homSet == null) {
+		if(homSet == null) {
 			// If the edge isn't part of the pattern, return empty set.
 			homSet = new LinkedHashSet<EdgeDeclNode>();
 		}
 
 		return homSet;
-    }
+	}
 
-	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot, int context) {
-		IdentNode nodeName = new IdentNode(getScope().defineAnonymous(
-				"dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
+	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot, int context)
+	{
+		IdentNode nodeName = new IdentNode(
+				getScope().defineAnonymous("dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
 		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, context, this);
 		return dummyNode;
 	}
 
-	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot, int context) {
-		IdentNode edgeName = new IdentNode(getScope().defineAnonymous(
-				"edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
+	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot, int context)
+	{
+		IdentNode edgeName = new IdentNode(
+				getScope().defineAnonymous("edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
 		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, this, this);
 		return edge;
 	}
@@ -1527,13 +1579,14 @@ public class PatternGraphNode extends GraphNode {
 	/**
 	 * @param negs
 	 */
-	private void addDoubleNodeNegGraphs(Collection<PatternGraph> ret) {
+	private void addDoubleNodeNegGraphs(Collection<PatternGraph> ret)
+	{
 		assert isResolved();
 
 		// add existing edges to the corresponding pattern graph
-		for (BaseNode n : connections.getChildren()) {
-			if (n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) n;
+		for(BaseNode n : connections.getChildren()) {
+			if(n instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)n;
 
 				List<Set<NodeDeclNode>> key = new LinkedList<Set<NodeDeclNode>>();
 				key.add(getHomomorphic(conn.getSrc()));
@@ -1542,7 +1595,7 @@ public class PatternGraphNode extends GraphNode {
 				Set<ConnectionNode> edges = doubleNodeNegMap.get(key);
 				// edges == null if conn is a dangling edge or one of the nodes
 				// is not induced
-				if (edges != null) {
+				if(edges != null) {
 					edges.add(conn);
 					doubleNodeNegMap.put(key, edges);
 				}
@@ -1551,11 +1604,11 @@ public class PatternGraphNode extends GraphNode {
 
 		BaseNode edgeRoot = getArbitraryEdgeRootType();
 
-		for (List<NodeDeclNode> pair : doubleNodeNegPairs) {
+		for(List<NodeDeclNode> pair : doubleNodeNegPairs) {
 			NodeDeclNode src = pair.get(0);
 			NodeDeclNode tgt = pair.get(1);
 
-			if (src.getId().compareTo(tgt.getId()) > 0) {
+			if(src.getId().compareTo(tgt.getId()) > 0) {
 				continue;
 			}
 
@@ -1570,12 +1623,12 @@ public class PatternGraphNode extends GraphNode {
 			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
 			edgeSet.addAll(doubleNodeNegMap.get(key2));
 
-			PatternGraph neg = new PatternGraph("implneg_"+implicitNegCounter, 0);
+			PatternGraph neg = new PatternGraph("implneg_" + implicitNegCounter, 0);
 			++implicitNegCounter;
 			neg.setDirectlyNestingLHSGraph(neg);
-			
+
 			// add edges to the NAC
-			for (ConnectionNode conn : edgeSet) {
+			for(ConnectionNode conn : edgeSet) {
 				conn.addToGraph(neg);
 
 				allNegEdges.add(conn.getEdge());
@@ -1597,51 +1650,53 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	/**
-     * Add all necessary homomorphic sets to a NAC.
-     *
-     * If an edge a-e->b is homomorphic to another edge c-f->d f only added if
-     * a is homomorphic to c and b is homomorphic to d.
-     */
-    private void addInheritedHomSet(PatternGraph neg,
-            Set<EdgeDeclNode> allNegEdges, Set<NodeDeclNode> allNegNodes)
-    {
-	    // inherit homomorphic nodes
-	    for (NodeDeclNode node : allNegNodes) {
-	    	Set<Node> homSet = new LinkedHashSet<Node>();
-	    	Set<NodeDeclNode> homNodes = getHomomorphic(node);
+	 * Add all necessary homomorphic sets to a NAC.
+	 *
+	 * If an edge a-e->b is homomorphic to another edge c-f->d f only added if
+	 * a is homomorphic to c and b is homomorphic to d.
+	 */
+	private void addInheritedHomSet(PatternGraph neg, Set<EdgeDeclNode> allNegEdges, Set<NodeDeclNode> allNegNodes)
+	{
+		// inherit homomorphic nodes
+		for(NodeDeclNode node : allNegNodes) {
+			Set<Node> homSet = new LinkedHashSet<Node>();
+			Set<NodeDeclNode> homNodes = getHomomorphic(node);
 
-	    	for (NodeDeclNode homNode : homNodes) {
-	            if (allNegNodes.contains(homNode)) {
-	    			homSet.add(homNode.checkIR(Node.class));
-	            }
-	        }
-	    	if (homSet.size() > 1) {
-	    		neg.addHomomorphicNodes(homSet);
-	    	}
-	    }
+			for(NodeDeclNode homNode : homNodes) {
+				if(allNegNodes.contains(homNode)) {
+					homSet.add(homNode.checkIR(Node.class));
+				}
+			}
+			if(homSet.size() > 1) {
+				neg.addHomomorphicNodes(homSet);
+			}
+		}
 
-    	// inherit homomorphic edges
-	    for (EdgeDeclNode edge : allNegEdges) {
-	    	Set<Edge> homSet = new LinkedHashSet<Edge>();
-	    	Set<EdgeDeclNode> homEdges = getHomomorphic(edge);
+		// inherit homomorphic edges
+		for(EdgeDeclNode edge : allNegEdges) {
+			Set<Edge> homSet = new LinkedHashSet<Edge>();
+			Set<EdgeDeclNode> homEdges = getHomomorphic(edge);
 
-	    	for (EdgeDeclNode homEdge : homEdges) {
-	            if (allNegEdges.contains(homEdge)) {
-	    			homSet.add(homEdge.checkIR(Edge.class));
-	            }
-	        }
-	    	if (homSet.size() > 1) {
-	    		neg.addHomomorphicEdges(homSet);
-	    	}
-	    }
-    }
+			for(EdgeDeclNode homEdge : homEdges) {
+				if(allNegEdges.contains(homEdge)) {
+					homSet.add(homEdge.checkIR(Edge.class));
+				}
+			}
+			if(homSet.size() > 1) {
+				neg.addHomomorphicEdges(homSet);
+			}
+		}
+	}
 
-	private void addToDoubleNodeMap(Set<NodeDeclNode> nodes) {
-		for (NodeDeclNode src : nodes) {
-			if (src.isDummy()) continue;
+	private void addToDoubleNodeMap(Set<NodeDeclNode> nodes)
+	{
+		for(NodeDeclNode src : nodes) {
+			if(src.isDummy())
+				continue;
 
-			for (NodeDeclNode tgt : nodes) {
-				if (tgt.isDummy()) continue;
+			for(NodeDeclNode tgt : nodes) {
+				if(tgt.isDummy())
+					continue;
 
 				List<NodeDeclNode> pair = new LinkedList<NodeDeclNode>();
 				pair.add(src);
@@ -1652,7 +1707,7 @@ public class PatternGraphNode extends GraphNode {
 				key.add(getHomomorphic(src));
 				key.add(getHomomorphic(tgt));
 
-				if (!doubleNodeNegMap.containsKey(key)) {
+				if(!doubleNodeNegMap.containsKey(key)) {
 					Set<ConnectionNode> edges = new LinkedHashSet<ConnectionNode>();
 					doubleNodeNegMap.put(key, edges);
 				}

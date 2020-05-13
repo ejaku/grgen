@@ -26,18 +26,13 @@ import de.unika.ipd.grgen.util.report.Reporter;
 import de.unika.ipd.grgen.util.report.StreamHandler;
 import de.unika.ipd.grgen.util.report.TreeHandler;
 
-/**
- *
- */
-public class ReportTest extends JPanel {
-
-	/**
-	 *
-	 */
+public class ReportTest extends JPanel
+{
 	private static final long serialVersionUID = 3732095867547713469L;
 	Reporter reporter;
 
-	public ReportTest(JFrame frame) {
+	public ReportTest(JFrame frame)
+	{
 		TreeHandler treeHandler = new TreeHandler();
 		StreamHandler streamHandler = new StreamHandler(System.out);
 		reporter = new ErrorReporter();
@@ -53,8 +48,8 @@ public class ReportTest extends JPanel {
 		add(tree, BorderLayout.CENTER);
 	}
 
-
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 
 		JFrame frame = new JFrame("Tree Handler Demo");
 		ReportTest test = new ReportTest(frame);
@@ -64,18 +59,18 @@ public class ReportTest extends JPanel {
 		contentPane.add(test);
 
 		frame.addWindowListener(new WindowAdapter() {
-					public void windowClosing(WindowEvent e) {
-						System.exit(0);
-					}
-				});
+			public void windowClosing(WindowEvent e)
+			{
+				System.exit(0);
+			}
+		});
 
 		frame.pack();
 		frame.setVisible(true);
-
-
 	}
 
-	public void reportSomething() {
+	public void reportSomething()
+	{
 		reporter.report(0, "Hallo");
 		reporter.report(1, "Hallo1");
 		reporter.report(2, "Hallo2");

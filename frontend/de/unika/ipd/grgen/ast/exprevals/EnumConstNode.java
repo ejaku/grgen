@@ -29,48 +29,54 @@ public class EnumConstNode extends ConstNode
 	 * @param id The name of the enum item.
 	 * @param value The value of the enum item.
 	 */
-	public EnumConstNode(Coords coords, IdentNode id, int value) {
+	public EnumConstNode(Coords coords, IdentNode id, int value)
+	{
 		super(coords, "enum item", new Integer(value));
 		this.id = id;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	@Override
-	protected ConstNode doCastTo(TypeNode type) {
-		int value = ((Integer) getValue()).intValue();
+	protected ConstNode doCastTo(TypeNode type)
+	{
+		int value = ((Integer)getValue()).intValue();
 
-		if (type.isEqual(BasicTypeNode.byteType)) {
+		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)value);
-		} else if (type.isEqual(BasicTypeNode.shortType)) {
+		} else if(type.isEqual(BasicTypeNode.shortType)) {
 			return new ShortConstNode(getCoords(), (short)value);
-		} else if (type.isEqual(BasicTypeNode.intType)) {
+		} else if(type.isEqual(BasicTypeNode.intType)) {
 			return new IntConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.longType)) {
+		} else if(type.isEqual(BasicTypeNode.longType)) {
 			return new LongConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.floatType)) {
+		} else if(type.isEqual(BasicTypeNode.floatType)) {
 			return new FloatConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.doubleType)) {
+		} else if(type.isEqual(BasicTypeNode.doubleType)) {
 			return new DoubleConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.stringType)) {
+		} else if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), id.toString());
-		} else throw new UnsupportedOperationException();
+		} else
+			throw new UnsupportedOperationException();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.enumItemType;
 	}
 
 	@Override
-	protected EnumExpression getConstant() {
+	protected EnumExpression getConstant()
+	{
 		return checkIR(EnumExpression.class);
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		// The EnumExpression is initialized later in EnumTypeNode.constructIR()
 		// to break the circular dependency.
-		return new EnumExpression((int)(Integer) value);
+		return new EnumExpression((int)(Integer)value);
 	}
 }

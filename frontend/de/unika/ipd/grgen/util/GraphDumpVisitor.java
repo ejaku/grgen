@@ -40,11 +40,11 @@ public class GraphDumpVisitor extends Base implements Visitor
 	 */
 	public void visit(Walkable n)
 	{
-		GraphDumpable gd = (GraphDumpable) n;
+		GraphDumpable gd = (GraphDumpable)n;
 		dumper.node(gd);
 
 		int i = 0;
-		for (GraphDumpable target : n.getWalkableChildren()) {
+		for(GraphDumpable target : n.getWalkableChildren()) {
 			dumper.edge(gd, target, gd.getEdgeLabel(i));
 			i++;
 		}

@@ -18,14 +18,16 @@ import de.unika.ipd.grgen.util.Util;
  * by drawing the declaration node out of the source node if it is an identifier node,
  * or by simply casting source to R/S/T otherwise
  */
-public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode> extends Resolver<Triple<R, S, T>>
+public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode>
+		extends Resolver<Triple<R, S, T>>
 {
 	private Class<R> clsR;
 	private Class<S> clsS;
 	private Class<T> clsT;
 	private Class<?>[] classes;
 
-	public DeclarationTripleResolver(Class<R> clsR, Class<S> clsS, Class<T> clsT) {
+	public DeclarationTripleResolver(Class<R> clsR, Class<S> clsS, Class<T> clsT)
+	{
 		this.clsR = clsR;
 		this.clsS = clsS;
 		this.clsT = clsT;
@@ -35,14 +37,15 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 
 	/** resolves n to node of type R, S or T, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R, S or T */
-	public Triple<R, S, T> resolve(BaseNode n, BaseNode parent) {
+	public Triple<R, S, T> resolve(BaseNode n, BaseNode parent)
+	{
 		Triple<R, S, T> triple;
 		if(n instanceof IdentNode) {
 			triple = resolve((IdentNode)n);
-			if (triple != null) {
-				assert (triple.first  == null ? 0 : 1)
-					 + (triple.second == null ? 0 : 1)
-					 + (triple.third  == null ? 0 : 1) == 1;
+			if(triple != null) {
+				assert(triple.first == null ? 0 : 1)
+						+ (triple.second == null ? 0 : 1)
+						+ (triple.third == null ? 0 : 1) == 1;
 				parent.becomeParent(triple.first);
 				parent.becomeParent(triple.second);
 				parent.becomeParent(triple.third);
@@ -61,9 +64,9 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 			triple.third = clsT.cast(n);
 		}
 		if(triple.first != null || triple.second != null || triple.third != null) {
-			assert (triple.first  == null ? 0 : 1)
-				 + (triple.second == null ? 0 : 1)
-				 + (triple.third  == null ? 0 : 1) == 1;
+			assert(triple.first == null ? 0 : 1)
+					+ (triple.second == null ? 0 : 1)
+					+ (triple.third == null ? 0 : 1) == 1;
 
 			return triple;
 		}
@@ -75,7 +78,8 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 
 	/** resolves n to node of type R, S or T, via declaration
 	 *  returns null if n's declaration can't be cast to R/S/T */
-	private Triple<R, S, T> resolve(IdentNode n) {
+	private Triple<R, S, T> resolve(IdentNode n)
+	{
 		if(n instanceof PackageIdentNode) {
 			if(!resolveOwner((PackageIdentNode)n)) {
 				return null;

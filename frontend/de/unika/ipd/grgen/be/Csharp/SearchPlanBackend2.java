@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Unit;
 
-public class SearchPlanBackend2 implements Backend, BackendFactory {
+public class SearchPlanBackend2 implements Backend, BackendFactory
+{
 	/** The unit to generate code for. */
 	protected Unit unit;
 
@@ -40,7 +41,8 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 	 * Returns this backend.
 	 * @return This backend.
 	 */
-	public Backend getBackend() {
+	public Backend getBackend()
+	{
 		return this;
 	}
 
@@ -48,7 +50,8 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 	 * Initializes this backend.
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
-	public void init(Unit unit, Sys system, File outputPath) {
+	public void init(Unit unit, Sys system, File outputPath)
+	{
 		this.unit = unit;
 		this.system = system;
 		this.path = outputPath;
@@ -72,14 +75,16 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 	 * Starts the C#-code Generation of the SearchPlanBackend2
 	 * @see de.unika.ipd.grgen.be.Backend#generate()
 	 */
-	public void generate() {
+	public void generate()
+	{
 		System.out.println("The " + this.getClass() + " GrGen backend...");
 
 		// Check whether type prefixes are needed because type names
 		// use one of the names from reservedWords (results in a warning)
 		String nodeTypePrefix = "";
 		String edgeTypePrefix = "";
-modloop:for(Model model : unit.getModels()) {
+modloop:
+		for(Model model : unit.getModels()) {
 			for(Type type : model.getTypes()) {
 				if(!(type instanceof InheritanceType))
 					continue;
@@ -88,8 +93,8 @@ modloop:for(Model model : unit.getModels()) {
 				if(reservedWords.contains(typeName)) {
 					BaseNode.error.warning(type.getIdent().getCoords(),
 							"The reserved name \"" + typeName
-							+ "\" has been used for a type. \"Node_\" and \"Edge_\""
-							+ " prefixes are applied to the C# element class names to avoid errors.");
+									+ "\" has been used for a type. \"Node_\" and \"Edge_\""
+									+ " prefixes are applied to the C# element class names to avoid errors.");
 					nodeTypePrefix = "Node_";
 					edgeTypePrefix = "Edge_";
 					break modloop;
@@ -116,11 +121,12 @@ modloop:for(Model model : unit.getModels()) {
 		for(Model model : unit.getModels()) {
 			if(forceUnique)
 				model.forceUniqueDefined();
-			
+
 			modelGen.genModel(model);
-			
+
 			if(modelGenerated)
-				throw new UnsupportedOperationException("Internal error: Only one model supported, and that was already generated");
+				throw new UnsupportedOperationException(
+						"Internal error: Only one model supported, and that was already generated");
 			else
 				modelGenerated = true;
 		}
@@ -128,11 +134,12 @@ modloop:for(Model model : unit.getModels()) {
 		modelGen = null; // throw away model generator (including filled output buffer) not needed any more -> reduce memory requirements
 
 		//if(unit.getActionRules().size() != 0 || unit.getSubpatternRules().size() != 0)
-			new ActionsGen(this, nodeTypePrefix, edgeTypePrefix).genActionlike();
+		new ActionsGen(this, nodeTypePrefix, edgeTypePrefix).genActionlike();
 
 		System.out.println("done!");
 	}
 
-	public void done() {
+	public void done()
+	{
 	}
 }

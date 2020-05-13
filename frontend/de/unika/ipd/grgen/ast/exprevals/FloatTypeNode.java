@@ -20,12 +20,14 @@ public class FloatTypeNode extends BasicTypeNode
 	}
 
 	@Override
-	protected FloatType constructIR() {
+	protected FloatType constructIR()
+	{
 		return new FloatType(getIdentNode().getIdent());
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "float";
 	}
 };

@@ -15,39 +15,46 @@ import de.unika.ipd.grgen.ir.exprevals.DoubleMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DoubleMaxExprNode extends ExprNode {
+public class DoubleMaxExprNode extends ExprNode
+{
 	static {
 		setName(DoubleMaxExprNode.class, "doublemax expr");
 	}
 
-	public DoubleMaxExprNode(Coords coords) {
+	public DoubleMaxExprNode(Coords coords)
+	{
 		super(coords);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new DoubleMaxExpr();
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.doubleType;
 	}
 }

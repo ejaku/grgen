@@ -19,13 +19,21 @@ import de.unika.ipd.grgen.ir.exprevals.Procedure;
 /**
  * A type bearing all the different actions available in the rules language.
  */
-public interface ActionsBearer {
+public interface ActionsBearer
+{
 	public Collection<Rule> getSubpatternRules();
+
 	public Collection<Rule> getActionRules();
+
 	public Collection<FilterFunction> getFilterFunctions();
+
 	public Collection<DefinedMatchType> getMatchClasses();
+
 	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions();
+
 	public Collection<Function> getFunctions();
+
 	public Collection<Procedure> getProcedures();
+
 	public Collection<Sequence> getSequences();
 }

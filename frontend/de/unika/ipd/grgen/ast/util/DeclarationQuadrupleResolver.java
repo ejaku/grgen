@@ -18,7 +18,8 @@ import de.unika.ipd.grgen.util.Util;
  * by drawing the declaration node out of the source node if it is an identifier node,
  * or by simply casting source to R/S/T otherwise
  */
-public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode, U extends BaseNode> extends Resolver<Quadruple<R, S, T, U>>
+public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode, U extends BaseNode>
+		extends Resolver<Quadruple<R, S, T, U>>
 {
 	private Class<R> clsR;
 	private Class<S> clsS;
@@ -26,7 +27,8 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 	private Class<U> clsU;
 	private Class<?>[] classes;
 
-	public DeclarationQuadrupleResolver(Class<R> clsR, Class<S> clsS, Class<T> clsT, Class<U> clsU) {
+	public DeclarationQuadrupleResolver(Class<R> clsR, Class<S> clsS, Class<T> clsT, Class<U> clsU)
+	{
 		this.clsR = clsR;
 		this.clsS = clsS;
 		this.clsT = clsT;
@@ -37,15 +39,16 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 
 	/** resolves n to node of type R, S, T or U, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R, S, T or U */
-	public Quadruple<R, S, T, U> resolve(BaseNode n, BaseNode parent) {
+	public Quadruple<R, S, T, U> resolve(BaseNode n, BaseNode parent)
+	{
 		Quadruple<R, S, T, U> quadruple;
 		if(n instanceof IdentNode) {
 			quadruple = resolve((IdentNode)n);
-			if (quadruple != null) {
-				assert (quadruple.first  == null ? 0 : 1)
-					 + (quadruple.second == null ? 0 : 1)
-					 + (quadruple.third  == null ? 0 : 1)
-					 + (quadruple.fourth == null ? 0 : 1) == 1;
+			if(quadruple != null) {
+				assert(quadruple.first == null ? 0 : 1)
+						+ (quadruple.second == null ? 0 : 1)
+						+ (quadruple.third == null ? 0 : 1)
+						+ (quadruple.fourth == null ? 0 : 1) == 1;
 				parent.becomeParent(quadruple.first);
 				parent.becomeParent(quadruple.second);
 				parent.becomeParent(quadruple.third);
@@ -67,11 +70,11 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 		if(clsU.isInstance(n)) {
 			quadruple.fourth = clsU.cast(n);
 		}
-		if(quadruple.first != null || quadruple.second != null || quadruple.third != null || quadruple.fourth!= null) {
-			assert (quadruple.first  == null ? 0 : 1)
-				 + (quadruple.second == null ? 0 : 1)
-				 + (quadruple.third  == null ? 0 : 1) 
-				 + (quadruple.fourth == null ? 0 : 1) == 1;
+		if(quadruple.first != null || quadruple.second != null || quadruple.third != null || quadruple.fourth != null) {
+			assert(quadruple.first == null ? 0 : 1)
+					+ (quadruple.second == null ? 0 : 1)
+					+ (quadruple.third == null ? 0 : 1)
+					+ (quadruple.fourth == null ? 0 : 1) == 1;
 
 			return quadruple;
 		}
@@ -83,7 +86,8 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 
 	/** resolves n to node of type R, S, T or U, via declaration
 	 *  returns null if n's declaration can't be cast to R/S/T/U */
-	private Quadruple<R, S, T, U> resolve(IdentNode n) {
+	private Quadruple<R, S, T, U> resolve(IdentNode n)
+	{
 		if(n instanceof PackageIdentNode) {
 			if(!resolveOwner((PackageIdentNode)n)) {
 				return null;

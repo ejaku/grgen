@@ -19,37 +19,42 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class LongConstNode extends ConstNode
 {
-	public LongConstNode(Coords coords, long v) {
+	public LongConstNode(Coords coords, long v)
+	{
 		super(coords, "long", new Long(v));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.longType;
 	}
 
 	@Override
-	protected ConstNode doCastTo(TypeNode type) {
-		Long value = (Long) getValue();
+	protected ConstNode doCastTo(TypeNode type)
+	{
+		Long value = (Long)getValue();
 
-		if (type.isEqual(BasicTypeNode.byteType)) {
+		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)(long)value);
-		} else if (type.isEqual(BasicTypeNode.shortType)) {
+		} else if(type.isEqual(BasicTypeNode.shortType)) {
 			return new ShortConstNode(getCoords(), (short)(long)value);
-		} else if (type.isEqual(BasicTypeNode.intType)) {
+		} else if(type.isEqual(BasicTypeNode.intType)) {
 			return new IntConstNode(getCoords(), (int)(long)value);
-		} else if (type.isEqual(BasicTypeNode.floatType)) {
+		} else if(type.isEqual(BasicTypeNode.floatType)) {
 			return new FloatConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.doubleType)) {
+		} else if(type.isEqual(BasicTypeNode.doubleType)) {
 			return new DoubleConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.stringType)) {
+		} else if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
-		} else throw new UnsupportedOperationException();
+		} else
+			throw new UnsupportedOperationException();
 	}
-	
-	public static String removeSuffix(String longLiteral) {
+
+	public static String removeSuffix(String longLiteral)
+	{
 		if(longLiteral.endsWith("l") || longLiteral.endsWith("L"))
-			return longLiteral.substring(0, longLiteral.length()-1);
+			return longLiteral.substring(0, longLiteral.length() - 1);
 		else
 			return longLiteral;
 	}

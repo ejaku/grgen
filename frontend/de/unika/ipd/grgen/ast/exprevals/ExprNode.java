@@ -19,7 +19,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Base class for all AST nodes representing expressions.
  */
-public abstract class ExprNode extends BaseNode {
+public abstract class ExprNode extends BaseNode
+{
 	static {
 		setName(ExprNode.class, "expression");
 	}
@@ -29,17 +30,20 @@ public abstract class ExprNode extends BaseNode {
 	/**
 	 * Make a new expression
 	 */
-	public ExprNode(Coords coords) {
+	public ExprNode(Coords coords)
+	{
 		super(coords);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
-	public static ExprNode getInvalid() {
+	public static ExprNode getInvalid()
+	{
 		return INVALID;
 	}
 
@@ -47,7 +51,8 @@ public abstract class ExprNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
 	@Override
-	public Color getNodeColor()	{
+	public Color getNodeColor()
+	{
 		return Color.PINK;
 	}
 
@@ -66,19 +71,21 @@ public abstract class ExprNode extends BaseNode {
 	 * this expression, if <code>type</code> was compatible with the type of
 	 * this expression, an invalid expression otherwise (one of an error type).
 	 */
-	protected ExprNode adjustType(TypeNode tgt)	{
+	protected ExprNode adjustType(TypeNode tgt)
+	{
 		TypeNode src = getType();
 
-		if(src.isEqual(tgt) 
+		if(src.isEqual(tgt)
 				|| src instanceof NodeTypeNode || src instanceof EdgeTypeNode) {
 			return this;
 		}
-		
-		if((tgt instanceof MatchTypeNode || tgt instanceof DefinedMatchTypeNode) && src instanceof NullTypeNode) {
+
+		if((tgt instanceof MatchTypeNode || tgt instanceof DefinedMatchTypeNode)
+				&& src instanceof NullTypeNode) {
 			return this;
 		}
 
-		if( src.isCompatibleTo(tgt) ) {
+		if(src.isCompatibleTo(tgt)) {
 			return new CastNode(getCoords(), tgt, this, this);
 		}
 
@@ -86,8 +93,8 @@ public abstract class ExprNode extends BaseNode {
 		 * compatibility graph. But as it is very small we do it shortly
 		 * and nicely with this little piece of code finding a compatibility
 		 * with only one indirection */
-		for (TypeNode t : src.getCompatibleToTypes()) {
-			if (t.isCompatibleTo(tgt) && t!=BasicTypeNode.untypedType) {
+		for(TypeNode t : src.getCompatibleToTypes()) {
+			if(t.isCompatibleTo(tgt) && t != BasicTypeNode.untypedType) {
 				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this, this), this);
 			}
 		}
@@ -99,9 +106,9 @@ public abstract class ExprNode extends BaseNode {
 	{
 		ExprNode expr = adjustType(targetType);
 
-		if (expr == ConstNode.getInvalid()) {
+		if(expr == ConstNode.getInvalid()) {
 			String msg;
-			if (getType().isCastableTo(targetType)) {
+			if(getType().isCastableTo(targetType)) {
 				msg = "Assignment of " + getType() + " to " + targetType + " without a cast";
 			} else {
 				msg = "Incompatible assignment from " + getType() + " to " + targetType;
@@ -117,11 +124,13 @@ public abstract class ExprNode extends BaseNode {
 	 * Tries to simplify this node.
 	 * @return The possibly simplified value of the expression.
 	 */
-	public ExprNode evaluate() {
+	public ExprNode evaluate()
+	{
 		return this;
 	}
 
-	public boolean noDefElement(String containingConstruct) {
+	public boolean noDefElement(String containingConstruct)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
@@ -132,7 +141,8 @@ public abstract class ExprNode extends BaseNode {
 		return res;
 	}
 
-	public boolean noIteratedReference(String containingConstruct) {
+	public boolean noIteratedReference(String containingConstruct)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
@@ -143,7 +153,8 @@ public abstract class ExprNode extends BaseNode {
 		return res;
 	}
 
-	public boolean iteratedNotReferenced(String iterName) {
+	public boolean iteratedNotReferenced(String iterName)
+	{
 		boolean res = true;
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
@@ -164,32 +175,34 @@ public abstract class ExprNode extends BaseNode {
 			return EdgeTypeNode.undirectedEdgeType.getIdentNode();
 		return EdgeTypeNode.arbitraryEdgeType.getIdentNode();
 	}
-	
+
 	public static IdentNode getNodeRoot(ExprNode nodeTypeExpr)
 	{
 		return NodeTypeNode.nodeType.getIdentNode();
 	}
-	
-	protected boolean checkCopyConstructorTypes(TypeNode declaredType, TypeNode givenType, String containerType, String amendment)
+
+	protected boolean checkCopyConstructorTypes(TypeNode declaredType, TypeNode givenType, String containerType,
+			String amendment)
 	{
-		if(declaredType instanceof NodeTypeNode && !(givenType instanceof NodeTypeNode))
-		{
-			reportError(containerType + " copy constructor of node type expects " + containerType + " of node type" + amendment);
+		if(declaredType instanceof NodeTypeNode && !(givenType instanceof NodeTypeNode)) {
+			reportError(containerType + " copy constructor of node type expects " + containerType + " of node type"
+					+ amendment);
 			return false;
 		}
-		if(declaredType instanceof EdgeTypeNode && !(givenType instanceof EdgeTypeNode))
-		{
-			reportError(containerType + " copy constructor of edge type expects " + containerType + " of edge type" + amendment);
+		if(declaredType instanceof EdgeTypeNode && !(givenType instanceof EdgeTypeNode)) {
+			reportError(containerType + " copy constructor of edge type expects " + containerType + " of edge type"
+					+ amendment);
 			return false;
 		}
-		if(!(declaredType instanceof NodeTypeNode) && !(declaredType instanceof EdgeTypeNode))
-		{
+		if(!(declaredType instanceof NodeTypeNode) && !(declaredType instanceof EdgeTypeNode)) {
 			if(givenType instanceof NodeTypeNode || givenType instanceof EdgeTypeNode) {
-				reportError(containerType + " copy constructor of non-node and non-edge type cannot be given a " + containerType + " of node or edge type" + amendment);
+				reportError(containerType + " copy constructor of non-node and non-edge type cannot be given a "
+						+ containerType + " of node or edge type" + amendment);
 				return false;
 			}
 			if(!declaredType.isEqual(givenType)) {
-				reportError(containerType + " copy constructor non-node/edge type not equal to " + containerType + " of given type" + amendment);
+				reportError(containerType + " copy constructor non-node/edge type not equal to " + containerType
+						+ " of given type" + amendment);
 				return false;
 			}
 		}

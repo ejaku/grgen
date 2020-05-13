@@ -9,22 +9,25 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.*;
 
-public class InducedSubgraphExpr extends Expression {
+public class InducedSubgraphExpr extends Expression
+{
 	private final Expression setExpr;
 
-	public InducedSubgraphExpr(Expression setExpr, Type type) {
+	public InducedSubgraphExpr(Expression setExpr, Type type)
+	{
 		super("induced subgraph expression", type);
-		this.setExpr= setExpr;
+		this.setExpr = setExpr;
 	}
 
-	public Expression getSetExpr() {
+	public Expression getSetExpr()
+	{
 		return setExpr;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		setExpr.collectNeededEntities(needs);
 		needs.needsGraph();
 	}
 }
-

@@ -9,12 +9,15 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import de.unika.ipd.grgen.ir.GraphType;
 
-public class ThisExpr extends Expression {
-	public ThisExpr() {
+public class ThisExpr extends Expression
+{
+	public ThisExpr()
+	{
 		super("this", GraphType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 	}
 }

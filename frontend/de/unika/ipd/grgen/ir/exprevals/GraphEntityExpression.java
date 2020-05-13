@@ -16,30 +16,37 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A graph entity expression node.
  */
-public class GraphEntityExpression extends Expression {
+public class GraphEntityExpression extends Expression
+{
 	private GraphEntity graphEntity;
 
-	public GraphEntityExpression(GraphEntity graphEntity) {
+	public GraphEntityExpression(GraphEntity graphEntity)
+	{
 		super("graph entity", graphEntity.getType());
 		this.graphEntity = graphEntity;
 	}
 
 	/** Returns the graph entity of this graph entity expression. */
-	public GraphEntity getGraphEntity() {
+	public GraphEntity getGraphEntity()
+	{
 		return graphEntity;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		if(!isGlobalVariable(graphEntity))
 			needs.add(graphEntity);
 	}
 
-	public boolean equals(Object other) {
-		if(!(other instanceof GraphEntityExpression)) return false;
-		return graphEntity == ((GraphEntityExpression) other).getGraphEntity();
+	public boolean equals(Object other)
+	{
+		if(!(other instanceof GraphEntityExpression))
+			return false;
+		return graphEntity == ((GraphEntityExpression)other).getGraphEntity();
 	}
 
-	public int hashCode() {
+	public int hashCode()
+	{
 		return graphEntity.hashCode();
 	}
 }

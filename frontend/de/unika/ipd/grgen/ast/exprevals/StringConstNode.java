@@ -19,18 +19,21 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class StringConstNode extends ConstNode
 {
-    public StringConstNode(Coords coords, String value) {
-        super(coords, "string", value);
-    }
+	public StringConstNode(Coords coords, String value)
+	{
+		super(coords, "string", value);
+	}
 
 	@Override
-    public TypeNode getType() {
-        return BasicTypeNode.stringType;
-    }
+	public TypeNode getType()
+	{
+		return BasicTypeNode.stringType;
+	}
 
-    /** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
+	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	@Override
-    protected ConstNode doCastTo(TypeNode type) {
+	protected ConstNode doCastTo(TypeNode type)
+	{
 		throw new UnsupportedOperationException();
-    }
+	}
 }

@@ -29,7 +29,7 @@ public class ArrayIndexOfByNode extends ContainerFunctionMethodInvocationBaseExp
 		setName(ArrayIndexOfByNode.class, "array index of by");
 	}
 
-	private IdentNode attribute; 
+	private IdentNode attribute;
 	private MemberDeclNode member;
 	private ExprNode valueExpr;
 	private ExprNode startIndexExpr;
@@ -41,7 +41,8 @@ public class ArrayIndexOfByNode extends ContainerFunctionMethodInvocationBaseExp
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
-	public ArrayIndexOfByNode(Coords coords, ExprNode targetExpr, IdentNode attribute, ExprNode valueExpr, ExprNode startIndexExpr)
+	public ArrayIndexOfByNode(Coords coords, ExprNode targetExpr, IdentNode attribute, ExprNode valueExpr,
+			ExprNode startIndexExpr)
 	{
 		super(coords, targetExpr);
 		this.attribute = attribute;
@@ -50,43 +51,46 @@ public class ArrayIndexOfByNode extends ContainerFunctionMethodInvocationBaseExp
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		children.add(valueExpr);
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			children.add(startIndexExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("valueExpr");
-		if(startIndexExpr!=null)
+		if(startIndexExpr != null)
 			childrenNames.add("startIndex");
 		return childrenNames;
 	}
 
 	private static final DeclarationResolver<MemberDeclNode> memberResolver
-		= new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+			= new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof ArrayTypeNode)) {
 			targetExpr.reportError("This argument to array indexOfBy expression must be of type array<T>");
 			return false;
 		}
-		
+
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)) {
 			reportError("indexOfBy can only be employed on an array of nodes or edges.");
 			return false;
 		}
 
-		ScopeOwner o = (ScopeOwner) arrayType.valueType;
+		ScopeOwner o = (ScopeOwner)arrayType.valueType;
 		o.fixupDefinition(attribute);
 		member = memberResolver.resolve(attribute, this);
 		if(member == null)
@@ -95,34 +99,34 @@ public class ArrayIndexOfByNode extends ContainerFunctionMethodInvocationBaseExp
 		if(member.isConst()) {
 			reportError("indexOfBy cannot be used on const attributes.");
 		}
-		
+
 		TypeNode memberType = member.getDeclType();
 		TypeNode valueType = valueExpr.getType();
-		if (!valueType.isEqual(memberType))
-		{
+		if(!valueType.isEqual(memberType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(memberType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to "
-						+ "array indexOfBy method must be of type " +memberType.toString());
+				valueExpr.reportError("Argument (value) to array indexOfBy method must be of type "
+						+ memberType.toString());
 				return false;
 			}
 		}
-		if(startIndexExpr!=null
-			&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
+		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
 			startIndexExpr.reportError("Argument (start index) to array indexOfBy expression must be of type int");
 			return false;
-			}
+		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.intType;
 	}
 
 	@Override
-	protected IR constructIR() {
-		if(startIndexExpr!=null)
+	protected IR constructIR()
+	{
+		if(startIndexExpr != null)
 			return new ArrayIndexOfByExpr(targetExpr.checkIR(Expression.class),
 					member.checkIR(Entity.class),
 					valueExpr.checkIR(Expression.class),

@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.ir.PackageType;
 /**
  * A package type AST node.
  */
-public class PackageTypeNode extends CompoundTypeNode {
+public class PackageTypeNode extends CompoundTypeNode
+{
 	static {
 		setName(PackageTypeNode.class, "package type");
 	}
@@ -31,14 +32,16 @@ public class PackageTypeNode extends CompoundTypeNode {
 	private CollectNode<IdentNode> declsUnresolved;
 	protected CollectNode<TypeDeclNode> decls;
 
-	public PackageTypeNode(CollectNode<IdentNode> decls) {
+	public PackageTypeNode(CollectNode<IdentNode> decls)
+	{
 		this.declsUnresolved = decls;
 		becomeParent(this.declsUnresolved);
 	}
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(declsUnresolved, decls));
 		return children;
@@ -46,7 +49,8 @@ public class PackageTypeNode extends CompoundTypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("decls");
 		return childrenNames;
@@ -57,18 +61,21 @@ public class PackageTypeNode extends CompoundTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		decls = declsResolver.resolve(declsUnresolved, this);
 		return decls != null;
 	}
 
-	public CollectNode<TypeDeclNode> getTypeDecls() {
+	public CollectNode<TypeDeclNode> getTypeDecls()
+	{
 		return decls;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Ident id = getIdentNode().checkIR(Ident.class);
 		PackageType pt = new PackageType(id);
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
@@ -78,15 +85,18 @@ public class PackageTypeNode extends CompoundTypeNode {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "package " + getIdentNode();
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "package type";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "package";
 	}
 }

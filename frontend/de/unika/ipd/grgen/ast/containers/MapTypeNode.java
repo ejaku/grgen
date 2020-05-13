@@ -21,13 +21,15 @@ import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.containers.MapType;
 import de.unika.ipd.grgen.ir.Type;
 
-public class MapTypeNode extends DeclaredTypeNode {
+public class MapTypeNode extends DeclaredTypeNode
+{
 	static {
 		setName(MapTypeNode.class, "map type");
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return "map<" + keyTypeUnresolved.toString() + "," + valueTypeUnresolved.toString() + "> type";
 	}
 
@@ -39,30 +41,35 @@ public class MapTypeNode extends DeclaredTypeNode {
 	private SetTypeNode exceptCompatibleSetTyp;
 
 	// the map type node instances are created in ParserEnvironment as needed
-	public MapTypeNode(IdentNode keyTypeIdent, IdentNode valueTypeIdent) {
-		keyTypeUnresolved   = becomeParent(keyTypeIdent);
+	public MapTypeNode(IdentNode keyTypeIdent, IdentNode valueTypeIdent)
+	{
+		keyTypeUnresolved = becomeParent(keyTypeIdent);
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
 		exceptCompatibleSetTyp = new SetTypeNode(keyTypeIdent);
 	}
 
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
-	private static DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+	private static DeclarationTypeResolver<TypeNode> typeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		if(keyTypeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)keyTypeUnresolved);
 		else if(keyTypeUnresolved instanceof IdentNode)
@@ -72,12 +79,13 @@ public class MapTypeNode extends DeclaredTypeNode {
 		else if(valueTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
 
-		keyType   = typeResolver.resolve(keyTypeUnresolved, this);
+		keyType = typeResolver.resolve(keyTypeUnresolved, this);
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
-		
+
 		exceptCompatibleSetTyp.resolve();
 
-		if(keyType == null || valueType == null) return false;
+		if(keyType == null || valueType == null)
+			return false;
 
 		if(keyType instanceof InheritanceTypeNode) {
 			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
@@ -98,14 +106,14 @@ public class MapTypeNode extends DeclaredTypeNode {
 				this, this, OperatorSignature.mapEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
 				this, this, OperatorSignature.mapEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.BIT_OR, this, this, this,
-				OperatorSignature.mapEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this, this, this,
-				OperatorSignature.mapEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, this,
-				OperatorSignature.mapEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, exceptCompatibleSetTyp,
-				OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.BIT_OR, this,
+				this, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this,
+				this, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this,
+				this, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this,
+				this, exceptCompatibleSetTyp, OperatorSignature.mapEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 
@@ -113,7 +121,8 @@ public class MapTypeNode extends DeclaredTypeNode {
 	}
 
 	@Override
-	protected MapType constructIR() {
+	protected MapType constructIR()
+	{
 		Type kt = keyType.getType();
 		Type vt = valueType.getType();
 		return new MapType(kt, vt);

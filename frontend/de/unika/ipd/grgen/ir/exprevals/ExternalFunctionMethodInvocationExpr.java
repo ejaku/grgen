@@ -20,7 +20,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * An external function method invocation is an expression.
  */
-public class ExternalFunctionMethodInvocationExpr extends Expression {
+public class ExternalFunctionMethodInvocationExpr extends Expression
+{
 	/** The owner of the function method. */
 	private Expression owner;
 
@@ -30,24 +31,27 @@ public class ExternalFunctionMethodInvocationExpr extends Expression {
 	/** The function of the function method invocation expression. */
 	protected ExternalFunction externalFunction;
 
-
-	public ExternalFunctionMethodInvocationExpr(Expression owner, Type type, ExternalFunction externalFunction) {
+	public ExternalFunctionMethodInvocationExpr(Expression owner, Type type, ExternalFunction externalFunction)
+	{
 		super("external function method invocation expr", type);
 
 		this.owner = owner;
 		this.externalFunction = externalFunction;
 	}
 
-	public Expression getOwner() {
+	public Expression getOwner()
+	{
 		return owner;
 	}
 
 	/** @return The number of arguments. */
-	public int arity() {
+	public int arity()
+	{
 		return arguments.size();
 	}
 
-	public ExternalFunction getExternalFunc() {
+	public ExternalFunction getExternalFunc()
+	{
 		return externalFunction;
 	}
 
@@ -56,23 +60,28 @@ public class ExternalFunctionMethodInvocationExpr extends Expression {
 	 * @param index The index of the argument
 	 * @return The argument, if <code>index</code> was valid, <code>null</code> if not.
 	 */
-	public Expression getArgument(int index) {
+	public Expression getArgument(int index)
+	{
 		return index >= 0 || index < arguments.size() ? arguments.get(index) : null;
 	}
 
 	/** Adds an argument e to the expression. */
-	public void addArgument(Expression e) {
+	public void addArgument(Expression e)
+	{
 		arguments.add(e);
 	}
 
-	public Collection<Expression> getWalkableChildren() {
+	public Collection<Expression> getWalkableChildren()
+	{
 		return arguments;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		owner.collectNeededEntities(needs);
-		for(Expression child : getWalkableChildren())
+		for(Expression child : getWalkableChildren()) {
 			child.collectNeededEntities(needs);
+		}
 	}
 }

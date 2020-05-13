@@ -11,19 +11,23 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class SqrtExpr extends Expression {
+public class SqrtExpr extends Expression
+{
 	private Expression expr;
 
-	public SqrtExpr(Expression expr) {
+	public SqrtExpr(Expression expr)
+	{
 		super("sqrt expr", expr.getType());
 		this.expr = expr;
 	}
 
-	public Expression getExpr() {
+	public Expression getExpr()
+	{
 		return expr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		expr.collectNeededEntities(needs);
 	}
 }

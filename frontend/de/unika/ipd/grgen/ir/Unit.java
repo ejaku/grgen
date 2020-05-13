@@ -28,8 +28,8 @@ import de.unika.ipd.grgen.util.Util;
 /**
  * A unit with all declared entities
  */
-public class Unit extends IR implements ActionsBearer {
-
+public class Unit extends IR implements ActionsBearer
+{
 	private final List<Model> models = new LinkedList<Model>();
 
 	private final List<Rule> subpatternRules = new LinkedList<Rule>();
@@ -47,7 +47,7 @@ public class Unit extends IR implements ActionsBearer {
 	private final List<Procedure> procedures = new LinkedList<Procedure>();
 
 	private final List<Sequence> sequences = new LinkedList<Sequence>();
-	
+
 	private final List<PackageActionType> packages = new LinkedList<PackageActionType>();
 
 	private String digest = "";
@@ -59,133 +59,159 @@ public class Unit extends IR implements ActionsBearer {
 
 	/** The source filename of this unit. */
 	private String filename;
-	
-	
-	public Unit(String unitName, String filename) {
+
+	public Unit(String unitName, String filename)
+	{
 		super("unit");
 		this.unitName = unitName;
 		this.filename = filename;
 	}
 
 	/** Add a model to the unit. */
-	public void addModel(Model model) {
+	public void addModel(Model model)
+	{
 		models.add(model);
 		digestValid = false;
 	}
 
 	/** @return The type model of this unit. */
-	public Collection<Model> getModels() {
+	public Collection<Model> getModels()
+	{
 		return Collections.unmodifiableCollection(models);
 	}
 
 	/** Add a subpattern-rule to the unit. */
-	public void addSubpatternRule(Rule subpatternRule) {
+	public void addSubpatternRule(Rule subpatternRule)
+	{
 		subpatternRules.add(subpatternRule);
 	}
 
-	public Collection<Rule> getSubpatternRules() {
+	public Collection<Rule> getSubpatternRules()
+	{
 		return Collections.unmodifiableCollection(subpatternRules);
 	}
 
 	/** Add an action-rule to the unit. */
-	public void addActionRule(Rule actionRule) {
+	public void addActionRule(Rule actionRule)
+	{
 		actionRules.add(actionRule);
 	}
 
-	public Collection<Rule> getActionRules() {
+	public Collection<Rule> getActionRules()
+	{
 		return Collections.unmodifiableCollection(actionRules);
 	}
-	
+
 	/** Add a filter function to the unit. */
-	public void addFilterFunction(FilterFunction filterFunction) {
+	public void addFilterFunction(FilterFunction filterFunction)
+	{
 		filterFunctions.add(filterFunction);
 	}
 
-	public Collection<FilterFunction> getFilterFunctions() {
+	public Collection<FilterFunction> getFilterFunctions()
+	{
 		return Collections.unmodifiableCollection(filterFunctions);
 	}
 
 	/** Add a match class to the unit. */
-	public void addMatchClass(DefinedMatchType matchClass) {
+	public void addMatchClass(DefinedMatchType matchClass)
+	{
 		matchClasses.add(matchClass);
 	}
 
-	public Collection<DefinedMatchType> getMatchClasses() {
+	public Collection<DefinedMatchType> getMatchClasses()
+	{
 		return Collections.unmodifiableCollection(matchClasses);
 	}
 
 	/** Add a match filter function to the unit. */
-	public void addMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction) {
+	public void addMatchClassFilterFunction(MatchClassFilterFunction matchClassFilterFunction)
+	{
 		matchClassFilterFunctions.add(matchClassFilterFunction);
 	}
 
-	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions() {
+	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
+	{
 		return Collections.unmodifiableCollection(matchClassFilterFunctions);
 	}
 
 	/** Add a function to the unit. */
-	public void addFunction(Function function) {
+	public void addFunction(Function function)
+	{
 		functions.add(function);
 	}
 
-	public Collection<Function> getFunctions() {
+	public Collection<Function> getFunctions()
+	{
 		return Collections.unmodifiableCollection(functions);
 	}
 
 	/** Add a procedure to the unit. */
-	public void addProcedure(Procedure procedure) {
+	public void addProcedure(Procedure procedure)
+	{
 		procedures.add(procedure);
 	}
 
-	public Collection<Procedure> getProcedures() {
+	public Collection<Procedure> getProcedures()
+	{
 		return Collections.unmodifiableCollection(procedures);
 	}
 
 	/** Add a sequence to the unit. */
-	public void addSequence(Sequence sequence) {
+	public void addSequence(Sequence sequence)
+	{
 		sequences.add(sequence);
 	}
 
-	public Collection<Sequence> getSequences() {
+	public Collection<Sequence> getSequences()
+	{
 		return Collections.unmodifiableCollection(sequences);
 	}
 
 	/** Add a package to the unit. */
-	public void addPackage(PackageActionType packageActionType) {
+	public void addPackage(PackageActionType packageActionType)
+	{
 		packages.add(packageActionType);
 	}
 
-	public Collection<PackageActionType> getPackages() {
+	public Collection<PackageActionType> getPackages()
+	{
 		return Collections.unmodifiableCollection(packages);
 	}
 
-	public Model getActionsGraphModel() {
+	public Model getActionsGraphModel()
+	{
 		return models.get(0);
 	}
 
-	public String getActionsGraphModelName() {
+	public String getActionsGraphModelName()
+	{
 		return models.get(0).getIdent().toString();
 	}
 
 	/** @return The unit name of this unit. */
-	public String getUnitName() {
+	public String getUnitName()
+	{
 		return unitName;
 	}
 
 	/** @return The source filename corresponding to this unit. */
-	public String getFilename() {
+	public String getFilename()
+	{
 		return filename;
 	}
 
-	public void addFields(Map<String, Object> fields) {
+	public void addFields(Map<String, Object> fields)
+	{
 		super.addFields(fields);
 		fields.put("models", models.iterator());
 	}
 
-	protected void canonicalizeLocal() {
-//		Collections.sort(models, Identifiable.COMPARATOR);
-//		Collections.sort(actions, Identifiable.COMPARATOR);
-//		Collections.sort(subpatterns, Identifiable.COMPARATOR);
+	protected void canonicalizeLocal()
+	{
+		//Collections.sort(models, Identifiable.COMPARATOR);
+		//Collections.sort(actions, Identifiable.COMPARATOR);
+		//Collections.sort(subpatterns, Identifiable.COMPARATOR);
 
 		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
 			Model model = it.next();
@@ -193,7 +219,8 @@ public class Unit extends IR implements ActionsBearer {
 		}
 	}
 
-	public void addToDigest(StringBuffer sb) {
+	public void addToDigest(StringBuffer sb)
+	{
 		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
 			Model model = it.next();
 			model.addToDigest(sb);
@@ -201,7 +228,8 @@ public class Unit extends IR implements ActionsBearer {
 	}
 
 	/** Build the digest string of this type model. */
-	private void buildDigest() {
+	private void buildDigest()
+	{
 		StringBuffer sb = new StringBuffer();
 
 		addToDigest(sb);
@@ -210,7 +238,7 @@ public class Unit extends IR implements ActionsBearer {
 			byte[] serialData = sb.toString().getBytes("US-ASCII");
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			digest = Util.hexString(md.digest(serialData));
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace(System.err);
 			digest = "<error>";
 		}
@@ -219,16 +247,18 @@ public class Unit extends IR implements ActionsBearer {
 	}
 
 	/** Get the digest of this type model. */
-	public final String getTypeDigest() {
+	public final String getTypeDigest()
+	{
 		if(!digestValid)
 			buildDigest();
 
 		return digest;
 	}
 
-	public void postPatchIR() {
+	public void postPatchIR()
+	{
 		for(Model model : models) {
-//			model.forceFunctionsParallel(); // comment out to parallelize everything as far as possible, for testing - don't forget "uncomment to parallelize everything as far as possible, for testing"
+			//model.forceFunctionsParallel(); // comment out to parallelize everything as far as possible, for testing - don't forget "uncomment to parallelize everything as far as possible, for testing"
 			postPatchIR(model);
 			for(PackageType pt : model.getPackages()) {
 				postPatchIR(pt);
@@ -237,7 +267,8 @@ public class Unit extends IR implements ActionsBearer {
 		postPatchIR(new ComposedActionsBearer(this));
 	}
 
-	public static void postPatchIR(NodeEdgeEnumBearer bearer) {
+	public static void postPatchIR(NodeEdgeEnumBearer bearer)
+	{
 		// deferred step that has to be done after IR was built
 		// filling in transitive members for inheritance types
 		// can't be called during IR building because of dependencies (node/edge attributes of subtypes)
@@ -249,10 +280,11 @@ public class Unit extends IR implements ActionsBearer {
 		}
 	}
 
-	public static void postPatchIR(ActionsBearer bearer) {
+	public static void postPatchIR(ActionsBearer bearer)
+	{
 		for(Rule actionRule : bearer.getActionRules()) {
-//			if(!actionRule.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as far as possible, for testing
-//				actionRule.getAnnotations().put("parallelize", 2); // don't forget "comment out to parallelize everything as far as possible, for testing"
+			//if(!actionRule.getAnnotations().containsKey("parallelize")) // uncomment to parallelize everything as far as possible, for testing
+			//	actionRule.getAnnotations().put("parallelize", 2); // don't forget "comment out to parallelize everything as far as possible, for testing"
 		}
 	}
 
@@ -304,9 +336,10 @@ public class Unit extends IR implements ActionsBearer {
 		HashSet<PatternGraph> subpatternsAlreadyVisited = new HashSet<PatternGraph>();
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsAlreadyVisited.add(subpatternRule.pattern);
-			if(subpatternRule.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisited))
-			{
-				error.warning(subpatternRule.getIdent().getCoords(), "Matching the subpattern " +subpatternRule.getIdent() + " will never terminate successfully (endless recursion on any path, only (potentially) terminated by failing matching)");
+			if(subpatternRule.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisited)) {
+				error.warning(subpatternRule.getIdent().getCoords(), "Matching the subpattern "
+						+ subpatternRule.getIdent()
+						+ " will never terminate successfully (endless recursion on any path, only (potentially) terminated by failing matching)");
 			}
 			subpatternsAlreadyVisited.clear();
 		}
@@ -325,7 +358,7 @@ public class Unit extends IR implements ActionsBearer {
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
 		for(Rule actionRule : bearer.getActionRules()) {
-			if(actionRule.getRight()!=null) {
+			if(actionRule.getRight() != null) {
 				actionRule.pattern.checkForMultipleRetypes(
 						alreadyDefinedNodes, alreadyDefinedEdges, actionRule.getRight());
 				alreadyDefinedNodes.clear();
@@ -333,7 +366,7 @@ public class Unit extends IR implements ActionsBearer {
 			}
 		}
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
-			if(subpatternRule.getRight()!=null) {
+			if(subpatternRule.getRight() != null) {
 				subpatternRule.pattern.checkForMultipleRetypes(
 						alreadyDefinedNodes, alreadyDefinedEdges, subpatternRule.getRight());
 				alreadyDefinedNodes.clear();
@@ -353,10 +386,9 @@ public class Unit extends IR implements ActionsBearer {
 		// or even in a subpattern called and outside of this subpattern
 		// so we check that on all nesting paths there is only one delete/retype occuring
 		// and emit error messages if this is not the case
-		
+
 		// initial step: compute the subpatterns where a subpattern is used
-		HashMap<Rule, HashSet<Rule>> subpatternsDefToUse = 
-			new HashMap<Rule, HashSet<Rule>>();
+		HashMap<Rule, HashSet<Rule>> subpatternsDefToUse = new HashMap<Rule, HashSet<Rule>>();
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsDefToUse.put(subpatternRule, new HashSet<Rule>());
 		}
@@ -366,8 +398,7 @@ public class Unit extends IR implements ActionsBearer {
 		// then: compute which parameters may get deleted/retyped, 
 		// if this information changed from before, the used subpatterns are added to a worklist
 		// which is processed step by step until it gets empty due to a fixpoint being reached
-		HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern = 
-			new HashMap<Rule, HashMap<Entity, Rule>>();
+		HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern = new HashMap<Rule, HashMap<Entity, Rule>>();
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsToParametersToTheirDeletingOrRetypingPattern.put(subpatternRule, new HashMap<Entity, Rule>());
 			for(Entity param : subpatternRule.getParameters()) {
@@ -378,7 +409,7 @@ public class Unit extends IR implements ActionsBearer {
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternsToProcess.add(subpatternRule);
 		}
-		while(subpatternsToProcess.size()>0) {
+		while(subpatternsToProcess.size() > 0) {
 			Rule subpattern = subpatternsToProcess.remove();
 			boolean changed = subpattern.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(),
 					subpatternsToParametersToTheirDeletingOrRetypingPattern);
@@ -392,7 +423,7 @@ public class Unit extends IR implements ActionsBearer {
 		}
 		// finally: do the computation on the (non-callable) rules
 		for(Rule actionRule : bearer.getActionRules()) {
-			actionRule.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(), 
+			actionRule.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(),
 					subpatternsToParametersToTheirDeletingOrRetypingPattern);
 		}
 	}
@@ -409,7 +440,7 @@ public class Unit extends IR implements ActionsBearer {
 		// at the end the root rule must execute this queue.
 		// determine for which root rules this is the case, 
 		// so we generate the queue-executing code only for them
-		
+
 		// step 1a: compute the subpatterns and rules where a subpattern is used
 		HashMap<Rule, HashSet<Rule>> defToUse = new HashMap<Rule, HashSet<Rule>>();
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
@@ -447,7 +478,7 @@ public class Unit extends IR implements ActionsBearer {
 				}
 			}
 		} while(changed);
-		
+
 		// final step: remove the information again from the subpatterns to prevent the exec-dequeing code being called from there
 		for(Rule subpatternRule : bearer.getSubpatternRules()) {
 			subpatternRule.mightThereBeDeferredExecs = false;
@@ -459,7 +490,8 @@ public class Unit extends IR implements ActionsBearer {
 		resolvePatternLockedModifier(new ComposedActionsBearer(this));
 	}
 
-	public static void resolvePatternLockedModifier(ActionsBearer bearer) {
+	public static void resolvePatternLockedModifier(ActionsBearer bearer)
+	{
 		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.pattern.resolvePatternLockedModifier();
 		}
@@ -473,7 +505,8 @@ public class Unit extends IR implements ActionsBearer {
 		ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(new ComposedActionsBearer(this));
 	}
 
-	public static void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(ActionsBearer bearer) {
+	public static void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(ActionsBearer bearer)
+	{
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
 		HashSet<Variable> alreadyDefinedVariables = new HashSet<Variable>();
@@ -494,7 +527,7 @@ public class Unit extends IR implements ActionsBearer {
 			alreadyDefinedVariables.clear();
 		}
 	}
-	
+
 	public void checkForRhsElementsUsedOnLhs()
 	{
 		checkForRhsElementsUsedOnLhs(new ComposedActionsBearer(this));
@@ -515,7 +548,8 @@ public class Unit extends IR implements ActionsBearer {
 		setDependencyLevelOfInterElementDependencies(new ComposedActionsBearer(this));
 	}
 
-	public static void setDependencyLevelOfInterElementDependencies(ActionsBearer bearer) {
+	public static void setDependencyLevelOfInterElementDependencies(ActionsBearer bearer)
+	{
 		for(Rule actionRule : bearer.getActionRules()) {
 			actionRule.setDependencyLevelOfInterElementDependencies();
 		}
@@ -523,18 +557,20 @@ public class Unit extends IR implements ActionsBearer {
 			subpatternRule.setDependencyLevelOfInterElementDependencies();
 		}
 	}
-	
+
 	public void checkForParallelizedModelIfParallelizedActionExists()
 	{
 		checkForParallelizedModelIfParallelizedActionExists(new ComposedActionsBearer(this), getActionsGraphModel());
 	}
-	
+
 	public static void checkForParallelizedModelIfParallelizedActionExists(ActionsBearer bearer, Model model)
 	{
 		if(!model.areFunctionsParallel()) {
 			for(Rule actionRule : bearer.getActionRules()) {
 				if(actionRule.getAnnotations().containsKey("parallelize")) {
-					error.error(actionRule.getIdent().getCoords(), "Parallelized matching is requested from the action " + actionRule.getIdent() + ", but parallelization is not requested in the model \"for function[parallelize=true];\".");
+					error.error(actionRule.getIdent().getCoords(), "Parallelized matching is requested from the action "
+							+ actionRule.getIdent()
+							+ ", but parallelization is not requested in the model \"for function[parallelize=true];\".");
 				}
 			}
 		}

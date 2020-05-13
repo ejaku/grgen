@@ -9,30 +9,36 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 import java.util.Collection;
 
-public class DebugHaltProc extends ProcedureInvocationBase {
+public class DebugHaltProc extends ProcedureInvocationBase
+{
 	private Collection<Expression> exprs;
 
-	public DebugHaltProc(Collection<Expression> expressions) {
+	public DebugHaltProc(Collection<Expression> expressions)
+	{
 		super("debug halt procedure");
 		this.exprs = expressions;
 	}
 
-	public Expression getFirstExpression() {
+	public Expression getFirstExpression()
+	{
 		for(Expression expr : exprs) {
 			return expr;
 		}
 		return null;
 	}
 
-	public Collection<Expression> getExpressions() {
+	public Collection<Expression> getExpressions()
+	{
 		return exprs;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		for(Expression expr : exprs) {
 			expr.collectNeededEntities(needs);

@@ -7,35 +7,42 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class GraphRedirectTargetProc extends ProcedureInvocationBase {
+public class GraphRedirectTargetProc extends ProcedureInvocationBase
+{
 	private Expression edge;
 	private Expression newTarget;
 	private Expression oldTargetName; // optional
 
-	public GraphRedirectTargetProc(Expression edge, Expression newTarget, Expression oldTargetName) {
+	public GraphRedirectTargetProc(Expression edge, Expression newTarget, Expression oldTargetName)
+	{
 		super("graph redirect target procedure");
 		this.edge = edge;
 		this.newTarget = newTarget;
 		this.oldTargetName = oldTargetName;
 	}
 
-	public Expression getEdge() {
+	public Expression getEdge()
+	{
 		return edge;
 	}
 
-	public Expression getNewTarget() {
+	public Expression getNewTarget()
+	{
 		return newTarget;
 	}
 
-	public Expression getOldTargetName() {
+	public Expression getOldTargetName()
+	{
 		return oldTargetName;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.needsGraph();
 		edge.collectNeededEntities(needs);
 		newTarget.collectNeededEntities(needs);

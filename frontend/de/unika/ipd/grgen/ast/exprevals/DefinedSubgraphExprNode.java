@@ -20,14 +20,16 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the defined subgraph of an edge set.
  */
-public class DefinedSubgraphExprNode extends ExprNode {
+public class DefinedSubgraphExprNode extends ExprNode
+{
 	static {
 		setName(DefinedSubgraphExprNode.class, "defined subgraph expr");
 	}
 
 	private ExprNode edgeSetExpr;
-		
-	public DefinedSubgraphExprNode(Coords coords, ExprNode edgeSetExpr) {
+
+	public DefinedSubgraphExprNode(Coords coords, ExprNode edgeSetExpr)
+	{
 		super(coords);
 		this.edgeSetExpr = edgeSetExpr;
 		becomeParent(this.edgeSetExpr);
@@ -35,7 +37,8 @@ public class DefinedSubgraphExprNode extends ExprNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(edgeSetExpr);
 		return children;
@@ -43,7 +46,8 @@ public class DefinedSubgraphExprNode extends ExprNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("edgeSetExpr");
 		return childrenNames;
@@ -51,13 +55,15 @@ public class DefinedSubgraphExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!(edgeSetExpr.getType() instanceof SetTypeNode)) {
 			edgeSetExpr.reportError("set expected as argument to definedSubgraph");
 			return false;
@@ -78,13 +84,14 @@ public class DefinedSubgraphExprNode extends ExprNode {
 	}
 
 	@Override
-	protected IR constructIR() {
-		return new DefinedSubgraphExpr(edgeSetExpr.checkIR(Expression.class), 
-								getType().getType());
+	protected IR constructIR()
+	{
+		return new DefinedSubgraphExpr(edgeSetExpr.checkIR(Expression.class), getType().getType());
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.graphType;
 	}
 }

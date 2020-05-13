@@ -13,24 +13,29 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class SetPeekExpr extends Expression {
+public class SetPeekExpr extends Expression
+{
 	private Expression targetExpr, numberExpr;
 
-	public SetPeekExpr(Expression targetExpr, Expression numberExpr) {
+	public SetPeekExpr(Expression targetExpr, Expression numberExpr)
+	{
 		super("set peek expr", ((SetType)(targetExpr.getType())).valueType);
 		this.targetExpr = targetExpr;
 		this.numberExpr = numberExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Expression getNumberExpr() {
+	public Expression getNumberExpr()
+	{
 		return numberExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 		numberExpr.collectNeededEntities(needs);

@@ -10,25 +10,26 @@ package de.unika.ipd.grgen.ast.exprevals;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.parser.Coords;
 
-
 public class InvalidConstNode extends ConstNode
 {
 	static {
 		setName(InvalidConstNode.class, "invalid const");
 	}
 
-	public InvalidConstNode(Coords coords, String name, Object value) {
+	public InvalidConstNode(Coords coords, String name, Object value)
+	{
 		super(coords, name, value);
 	}
 
 	@Override
-	protected ConstNode doCastTo(TypeNode type) {
+	protected ConstNode doCastTo(TypeNode type)
+	{
 		return this;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "invalid const";
 	}
 }
-

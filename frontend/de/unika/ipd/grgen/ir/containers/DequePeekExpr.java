@@ -12,26 +12,32 @@ package de.unika.ipd.grgen.ir.containers;
 
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class DequePeekExpr extends Expression {
+public class DequePeekExpr extends Expression
+{
 	private Expression targetExpr, numberExpr;
 
-	public DequePeekExpr(Expression targetExpr, Expression numberExpr) {
+	public DequePeekExpr(Expression targetExpr, Expression numberExpr)
+	{
 		super("deque peek expr", ((DequeType)(targetExpr.getType())).valueType);
 		this.targetExpr = targetExpr;
 		this.numberExpr = numberExpr;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Expression getNumberExpr() {
+	public Expression getNumberExpr()
+	{
 		return numberExpr;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
-		if(numberExpr!=null) numberExpr.collectNeededEntities(needs);
+		if(numberExpr != null)
+			numberExpr.collectNeededEntities(needs);
 	}
 }

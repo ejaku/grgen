@@ -14,12 +14,11 @@ import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
 
-
 /**
  * Represents a compound assignment statement in the IR.
  */
-public class CompoundAssignment extends EvalStatement {
-
+public class CompoundAssignment extends EvalStatement
+{
 	public static final int NONE = -1;
 	public static final int UNION = 0;
 	public static final int INTERSECTION = 2;
@@ -36,32 +35,42 @@ public class CompoundAssignment extends EvalStatement {
 	/** The rhs of the assignment. */
 	private Expression expr;
 
-	public CompoundAssignment(Qualification target, int compoundAssignmentType, Expression expr) {
+	public CompoundAssignment(Qualification target, int compoundAssignmentType, Expression expr)
+	{
 		super("compound assignment");
 		this.target = target;
 		this.operation = compoundAssignmentType;
 		this.expr = expr;
 	}
 
-	public Qualification getTarget() {
+	public Qualification getTarget()
+	{
 		return target;
 	}
 
-	public Expression getExpression() {
+	public Expression getExpression()
+	{
 		return expr;
 	}
 
-	public int getOperation() {
+	public int getOperation()
+	{
 		return operation;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		String res = getTarget().toString();
-		if(operation==UNION) res += " |= ";
-		else if(operation==INTERSECTION) res += " &= ";
-		else if(operation==WITHOUT) res += " \\= ";
-		else if(operation==CONCATENATE) res += " += ";
-		else res += " = ";
+		if(operation == UNION)
+			res += " |= ";
+		else if(operation == INTERSECTION)
+			res += " &= ";
+		else if(operation == WITHOUT)
+			res += " \\= ";
+		else if(operation == CONCATENATE)
+			res += " += ";
+		else
+			res += " = ";
 		res += getExpression().toString();
 		return res;
 	}
@@ -70,7 +79,7 @@ public class CompoundAssignment extends EvalStatement {
 	{
 		Entity entity = target.getOwner();
 		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity) entity);
+			needs.add((GraphEntity)entity);
 
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;

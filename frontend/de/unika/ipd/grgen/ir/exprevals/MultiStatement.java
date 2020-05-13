@@ -17,25 +17,29 @@ import java.util.LinkedList;
 /**
  * Represents a multi statement in the IR.
  */
-public class MultiStatement extends EvalStatement {
-
+public class MultiStatement extends EvalStatement
+{
 	private Collection<EvalStatement> statements = new LinkedList<EvalStatement>();
 
-	public MultiStatement() {
+	public MultiStatement()
+	{
 		super("multi statement");
 	}
 
-	public void addStatement(EvalStatement loopedStatement) {
+	public void addStatement(EvalStatement loopedStatement)
+	{
 		statements.add(loopedStatement);
 	}
 
-	public Collection<EvalStatement> getStatements() {
+	public Collection<EvalStatement> getStatements()
+	{
 		return statements;
 	}
 
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		for(EvalStatement statement : statements)
+		for(EvalStatement statement : statements) {
 			statement.collectNeededEntities(needs);
+		}
 	}
 }

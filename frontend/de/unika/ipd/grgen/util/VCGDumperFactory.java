@@ -12,29 +12,27 @@
  */
 
 package de.unika.ipd.grgen.util;
+
 import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
 import de.unika.ipd.grgen.Sys;
 
-
-
-public class VCGDumperFactory implements GraphDumperFactory {
-
+public class VCGDumperFactory implements GraphDumperFactory
+{
 	private Sys system;
 
-	public VCGDumperFactory(Sys system) {
+	public VCGDumperFactory(Sys system)
+	{
 		this.system = system;
 	}
 
-	public GraphDumper get(String fileNamePart) {
-
+	public GraphDumper get(String fileNamePart)
+	{
 		String fileName = fileNamePart + ".vcg";
 		OutputStream os = system.createDebugFile(new File(fileName));
 		PrintStream ps = new PrintStream(os);
 		return new VCGDumper(ps);
 	}
-
 }
-

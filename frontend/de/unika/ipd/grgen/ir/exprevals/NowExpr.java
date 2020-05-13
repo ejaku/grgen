@@ -11,12 +11,14 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-public class NowExpr extends Expression {
-
-	public NowExpr() {
+public class NowExpr extends Expression
+{
+	public NowExpr()
+	{
 		super("now expr", LongType.getType());
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 	}
 }

@@ -18,7 +18,8 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * Holds a collection of entities needed by an expression.
  */
-public class NeededEntities {
+public class NeededEntities
+{
 	/**
 	 * Instantiates a new NeededEntities object.
 	 * @param collectNodes Specifies, whether needed nodes shall be collected.
@@ -38,15 +39,20 @@ public class NeededEntities {
 	 */
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars,
 			boolean collectAllEntities, boolean collectAllAttributes, boolean collectContainerExprs,
-			boolean collectComputationContext, boolean collectMembers) {
-		if(collectNodes)       nodes     = new LinkedHashSet<Node>();
-		if(collectEdges)       edges     = new LinkedHashSet<Edge>();
-		if(collectVars)        variables = new LinkedHashSet<Variable>();
-		if(collectAllEntities) entities  = new LinkedHashSet<Entity>();
+			boolean collectComputationContext, boolean collectMembers)
+	{
+		if(collectNodes)
+			nodes = new LinkedHashSet<Node>();
+		if(collectEdges)
+			edges = new LinkedHashSet<Edge>();
+		if(collectVars)
+			variables = new LinkedHashSet<Variable>();
+		if(collectAllEntities)
+			entities = new LinkedHashSet<Entity>();
 		if(collectAllAttributes) {
 			attrEntityMap = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
-			attrNodes     = new LinkedHashSet<Node>();
-			attrEdges     = new LinkedHashSet<Edge>();
+			attrNodes = new LinkedHashSet<Node>();
+			attrEdges = new LinkedHashSet<Edge>();
 		}
 		if(collectContainerExprs) {
 			this.collectContainerExprs = true;
@@ -119,62 +125,72 @@ public class NeededEntities {
 	 */
 	public boolean collectComputationContext;
 
-	
 	/**
 	 * Adds a needed graph entity.
 	 * @param entity The needed entity.
 	 */
-	public void add(GraphEntity entity) {
-		if((entity.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+	public void add(GraphEntity entity)
+	{
+		if((entity.getContext() & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION
 				&& !collectComputationContext)
 			return;
-			
+
 		if(entity instanceof Node) {
-			if(nodes != null) nodes.add((Node) entity);
-		}
-		else if(entity instanceof Edge) {
-			if(edges != null) edges.add((Edge) entity);
-		}
-		else
+			if(nodes != null)
+				nodes.add((Node)entity);
+		} else if(entity instanceof Edge) {
+			if(edges != null)
+				edges.add((Edge)entity);
+		} else
 			throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
 
-		if(entities != null) entities.add(entity);
+		if(entities != null)
+			entities.add(entity);
 	}
 
 	/**
 	 * Adds a needed node.
 	 * @param node The needed node.
 	 */
-	public void add(Node node) {
-		if((node.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+	public void add(Node node)
+	{
+		if((node.getContext() & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION
 				&& !collectComputationContext)
 			return;
-		if(nodes != null) nodes.add(node);
-		if(entities != null) entities.add(node);
+		if(nodes != null)
+			nodes.add(node);
+		if(entities != null)
+			entities.add(node);
 	}
 
 	/**
 	 * Adds a needed edge.
 	 * @param edge The needed edge.
 	 */
-	public void add(Edge edge) {
-		if((edge.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+	public void add(Edge edge)
+	{
+		if((edge.getContext() & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION
 				&& !collectComputationContext)
 			return;
-		if(edges != null) edges.add(edge);
-		if(entities != null) entities.add(edge);
+		if(edges != null)
+			edges.add(edge);
+		if(entities != null)
+			entities.add(edge);
 	}
 
 	/**
 	 * Adds a needed variable.
 	 * @param var The needed variable.
 	 */
-	public void add(Variable var) {
-		if((var.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+	public void add(Variable var)
+	{
+		if((var.getContext() & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION
 				&& !collectComputationContext)
 			return;
-		if(variables != null) variables.add(var);
-		if(entities != null) entities.add(var);
+		if(variables != null)
+			variables.add(var);
+		if(entities != null)
+			entities.add(var);
 	}
 
 	/**
@@ -182,8 +198,9 @@ public class NeededEntities {
 	 * @param grEnt The entity being accessed.
 	 * @param attr The needed attribute.
 	 */
-	public void addAttr(GraphEntity grEnt, Entity attr) {
-		if((grEnt.getContext()&BaseNode.CONTEXT_COMPUTATION)==BaseNode.CONTEXT_COMPUTATION 
+	public void addAttr(GraphEntity grEnt, Entity attr)
+	{
+		if((grEnt.getContext() & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION
 				&& !collectComputationContext)
 			return;
 
@@ -198,9 +215,9 @@ public class NeededEntities {
 		attrs.add(attr);
 
 		if(grEnt instanceof Node)
-			attrNodes.add((Node) grEnt);
+			attrNodes.add((Node)grEnt);
 		else if(grEnt instanceof Edge)
-			attrEdges.add((Edge) grEnt);
+			attrEdges.add((Edge)grEnt);
 		else
 			throw new UnsupportedOperationException("Unsupported entity (" + grEnt + ")");
 	}
@@ -209,7 +226,8 @@ public class NeededEntities {
 	 * Adds a container expression.
 	 * @param expr The container expressions.
 	 */
-	public void add(Expression expr) {
+	public void add(Expression expr)
+	{
 		if(collectContainerExprs)
 			containerExprs.add(expr);
 	}
@@ -218,12 +236,14 @@ public class NeededEntities {
 	 * Adds a member expression.
 	 * @param expr The member expressions.
 	 */
-	public void add(MemberExpression expr) {
+	public void add(MemberExpression expr)
+	{
 		if(members != null)
 			members.add(expr.getMember());
 	}
 
-	public void needsGraph() {
+	public void needsGraph()
+	{
 		isGraphUsed = true;
 	}
 }

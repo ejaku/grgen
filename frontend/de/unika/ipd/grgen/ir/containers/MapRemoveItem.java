@@ -16,25 +16,30 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapRemoveItem extends ProcedureInvocationBase {
+public class MapRemoveItem extends ProcedureInvocationBase
+{
 	Qualification target;
 	Expression keyExpr;
 
-	public MapRemoveItem(Qualification target, Expression keyExpr) {
+	public MapRemoveItem(Qualification target, Expression keyExpr)
+	{
 		super("map remove item");
 		this.target = target;
 		this.keyExpr = keyExpr;
 	}
 
-	public Qualification getTarget() {
+	public Qualification getTarget()
+	{
 		return target;
 	}
 
-	public Expression getKeyExpr() {
+	public Expression getKeyExpr()
+	{
 		return keyExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
@@ -42,7 +47,7 @@ public class MapRemoveItem extends ProcedureInvocationBase {
 	{
 		Entity entity = target.getOwner();
 		if(!isGlobalVariable(entity))
-			needs.add((GraphEntity) entity);
+			needs.add((GraphEntity)entity);
 
 		// Temporarily do not collect variables for target
 		HashSet<Variable> varSet = needs.variables;
@@ -52,7 +57,7 @@ public class MapRemoveItem extends ProcedureInvocationBase {
 
 		getKeyExpr().collectNeededEntities(needs);
 
-		if(getNext()!=null) {
+		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);
 		}
 	}

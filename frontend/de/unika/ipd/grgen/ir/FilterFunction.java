@@ -18,7 +18,8 @@ import java.util.List;
 /**
  * Base type for filter functions (internal and external).
  */
-public abstract class FilterFunction extends Identifiable implements Filter, ContainedInPackage {
+public abstract class FilterFunction extends Identifiable implements Filter, ContainedInPackage
+{
 	private String packageContainedIn;
 
 	/** A list of the parameters */
@@ -26,47 +27,56 @@ public abstract class FilterFunction extends Identifiable implements Filter, Con
 
 	/** A list of the parameter types, computed from the parameters */
 	protected List<Type> parameterTypes = null;
-	
+
 	/** The action we're a filter for */
 	protected Rule action;
 
-	public FilterFunction(String name, Ident ident) {
+	public FilterFunction(String name, Ident ident)
+	{
 		super(name, ident);
 	}
-	
-	public void setAction(Rule action) {
+
+	public void setAction(Rule action)
+	{
 		this.action = action;
 	}
 
-	public Rule getAction() {
+	public Rule getAction()
+	{
 		return action;
 	}
 
-	public String getPackageContainedIn() {
+	public String getPackageContainedIn()
+	{
 		return packageContainedIn;
 	}
-	
-	public void setPackageContainedIn(String packageContainedIn) {
+
+	public void setPackageContainedIn(String packageContainedIn)
+	{
 		this.packageContainedIn = packageContainedIn;
 	}
 
-	public String getFilterName() {
+	public String getFilterName()
+	{
 		return getIdent().toString();
 	}
 
 	/** Add a parameter to the filter function. */
-	public void addParameter(Entity entity) {
+	public void addParameter(Entity entity)
+	{
 		params.add(entity);
 	}
 
 	/** Get all parameters of this filter function. */
-	public List<Entity> getParameters() {
+	public List<Entity> getParameters()
+	{
 		return Collections.unmodifiableList(params);
 	}
-	
+
 	/** Get all parameter types of this filter function. */
-	public List<Type> getParameterTypes() {
-		if(parameterTypes==null) {
+	public List<Type> getParameterTypes()
+	{
+		if(parameterTypes == null) {
 			parameterTypes = new LinkedList<Type>();
 			for(Entity entity : getParameters()) {
 				parameterTypes.add(entity.getType());

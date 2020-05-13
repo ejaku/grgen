@@ -41,44 +41,50 @@ public class DequePeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
-		if(numberExpr!=null) children.add(numberExpr);
+		if(numberExpr != null)
+			children.add(numberExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
-		if(numberExpr!=null) childrenNames.add("numberExpr");
+		if(numberExpr != null)
+			childrenNames.add("numberExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof DequeTypeNode)) {
 			targetExpr.reportError("This argument to deque peek expression must be of type deque<T>");
 			return false;
 		}
-		if(numberExpr!=null && !numberExpr.getType().isEqual(BasicTypeNode.intType)) {
-			numberExpr.reportError("Argument (number) to "
-					+ "deque peek expression must be of type int");
+		if(numberExpr != null && !numberExpr.getType().isEqual(BasicTypeNode.intType)) {
+			numberExpr.reportError("Argument (number) to deque peek expression must be of type int");
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return ((DequeTypeNode)targetExpr.getType()).valueType;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new DequePeekExpr(targetExpr.checkIR(Expression.class),
-				numberExpr!=null ? numberExpr.checkIR(Expression.class) : null);
+				numberExpr != null ? numberExpr.checkIR(Expression.class) : null);
 	}
 }

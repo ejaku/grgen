@@ -27,7 +27,8 @@ import de.unika.ipd.grgen.ir.RetypedNode;
 /**
  * A node which is created by retyping, with the old node (old nodes in case of a merge)
  */
-public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
+public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
+{
 	static {
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
@@ -37,7 +38,9 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	private CollectNode<IdentNode> mergeesUnresolved;
 	private CollectNode<NodeDeclNode> mergees;
 
-	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid, CollectNode<IdentNode> mergees, PatternGraphNode directlyNestingLHSGraph) {
+	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid,
+			CollectNode<IdentNode> mergees, PatternGraphNode directlyNestingLHSGraph)
+	{
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.oldUnresolved = oldid;
 		becomeParent(this.oldUnresolved);
@@ -47,7 +50,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
@@ -59,7 +63,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -69,13 +74,15 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-	private static final CollectResolver<NodeDeclNode> mergeesResolver = new CollectResolver<NodeDeclNode>(
-    		new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class));
-	
+	private static final DeclarationResolver<NodeDeclNode> nodeResolver =
+			new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
+	private static final CollectResolver<NodeDeclNode> mergeesResolver =
+			new CollectResolver<NodeDeclNode>(new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class));
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		boolean successfullyResolved = super.resolveLocal();
 
 		old = nodeResolver.resolve(oldUnresolved, this);
@@ -89,7 +96,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	/**
 	 * @return the original node for this retyped node
 	 */
-	protected final NodeDeclNode getOldNode() {
+	protected final NodeDeclNode getOldNode()
+	{
 		assert isResolved();
 
 		return old;
@@ -99,15 +107,15 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
-		boolean res = super.checkLocal()
-			& nodeChecker.check(old, error);
-		if (!res) {
+		boolean res = super.checkLocal() & nodeChecker.check(old, error);
+		if(!res) {
 			return false;
 		}
 
-		if(nameOrAttributeInits.size()>0) {
+		if(nameOrAttributeInits.size() > 0) {
 			reportError("A name or attribute initialization is not allowed for a retyped node");
 			return false;
 		}
@@ -125,7 +133,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			// doesn't matter which parent you choose, in the end you reach RuleDeclNode/SubpatternDeclNode/AlternativeCaseNode
 			curr = curr.getParents().iterator().next();
 		}
-		if (curr instanceof RuleDeclNode && prev == ((RuleDeclNode)curr).right
+		if(curr instanceof RuleDeclNode && prev == ((RuleDeclNode)curr).right
 				|| curr instanceof SubpatternDeclNode && prev == ((SubpatternDeclNode)curr).right
 				|| curr instanceof AlternativeCaseNode && prev == ((AlternativeCaseNode)curr).right) {
 			if(!old.defEntityToBeYieldedTo) {
@@ -133,15 +141,15 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 				res = false;
 			}
 		}
-		
+
 		// TODO: do the same for mergees
 
 		// Collect all outer Alternative cases
-		Collection<BaseNode> cases= new LinkedHashSet<BaseNode>();
+		Collection<BaseNode> cases = new LinkedHashSet<BaseNode>();
 		BaseNode currCase = this;
 
-		while (!currCase.isRoot()) {
-			if (currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode) {
+		while(!currCase.isRoot()) {
+			if(currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode) {
 				cases.add(currCase);
 			}
 
@@ -150,16 +158,16 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 
 		// check if two ambiguous retyping statements for the same node declaration occurs
 		Collection<BaseNode> parents = old.getParents();
-		for (BaseNode p : parents) {
+		for(BaseNode p : parents) {
 			// to be erroneous there must be another NodeTypeChangeNode with the same OLD-child
-			if (p != this && p instanceof NodeTypeChangeNode && ((NodeTypeChangeNode)p).old == old) {
+			if(p != this && p instanceof NodeTypeChangeNode && ((NodeTypeChangeNode)p).old == old) {
 				BaseNode alternativeCase = p;
 
-				while (!alternativeCase.isRoot()) {
-					if (alternativeCase instanceof AlternativeCaseNode || alternativeCase instanceof RuleDeclNode) {
-						if (cases.contains(alternativeCase)) {
+				while(!alternativeCase.isRoot()) {
+					if(alternativeCase instanceof AlternativeCaseNode || alternativeCase instanceof RuleDeclNode) {
+						if(cases.contains(alternativeCase)) {
 							reportError("Two (and hence ambiguous) retype statements for the same node are forbidden,"
-											+ " previous retype statement at " + p.getCoords());
+									+ " previous retype statement at " + p.getCoords());
 							res = false;
 						}
 
@@ -172,12 +180,13 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		}
 
 		// TODO: do the same for mergees
-		
+
 		return res;
 	}
 
 	@Override
-	public Node getNode() {
+	public Node getNode()
+	{
 		return checkIR(Node.class);
 	}
 
@@ -185,7 +194,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		NodeTypeNode tn = getDeclType();
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
@@ -196,11 +206,11 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		Node oldNode = old.getNode();
 		res.setOldNode(oldNode);
 
-		if (inheritsType()) {
+		if(inheritsType()) {
 			assert !isCopy;
 			res.setTypeof(typeNodeDecl.checkIR(Node.class), false);
 		}
-		
+
 		for(NodeDeclNode mergee : mergees.getChildren()) {
 			res.addMergee(mergee.checkIR(Node.class));
 		}
@@ -208,4 +218,3 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		return res;
 	}
 }
-

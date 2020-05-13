@@ -16,19 +16,23 @@ import de.unika.ipd.grgen.ir.*;
 /**
  * A procedure method.
  */
-public class ProcedureMethod extends Procedure {
+public class ProcedureMethod extends Procedure
+{
 	/** The owner of the procedure method. */
 	protected Type owner = null;
 
-	public ProcedureMethod(String name, Ident ident) {
+	public ProcedureMethod(String name, Ident ident)
+	{
 		super(name, ident);
 	}
-	
-	public Type getOwner() {
+
+	public Type getOwner()
+	{
 		return owner;
 	}
 
-	public void setOwner(Type type) {
+	public void setOwner(Type type)
+	{
 		owner = type;
 	}
 }

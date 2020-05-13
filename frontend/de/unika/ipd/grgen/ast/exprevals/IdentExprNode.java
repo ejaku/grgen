@@ -21,52 +21,59 @@ import de.unika.ipd.grgen.ir.IR;
 /**
  * An identifier expression.
  */
-public class IdentExprNode extends DeclExprNode {
+public class IdentExprNode extends DeclExprNode
+{
 	static {
 		setName(IdentExprNode.class, "ident expression");
 	}
 
 	public boolean yieldedTo = false;
-	
-	public IdentExprNode(IdentNode ident) {
+
+	public IdentExprNode(IdentNode ident)
+	{
 		super(ident);
 	}
 
-	public IdentExprNode(IdentNode ident, boolean yieldedTo) {
+	public IdentExprNode(IdentNode ident, boolean yieldedTo)
+	{
 		super(ident);
-		this.yieldedTo = yieldedTo; 
+		this.yieldedTo = yieldedTo;
 	}
 
-	public void setYieldedTo() {
+	public void setYieldedTo()
+	{
 		yieldedTo = true;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
-		decl = ((DeclaredCharacter) declUnresolved).getDecl();
+	protected boolean resolveLocal()
+	{
+		decl = ((DeclaredCharacter)declUnresolved).getDecl();
 		if(decl instanceof TypeDeclNode)
 			return true;
 
 		return super.resolveLocal();
 	}
 
-	public IdentNode getIdent() {
-		return (IdentNode) declUnresolved;
+	public IdentNode getIdent()
+	{
+		return (IdentNode)declUnresolved;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		return childrenNames;
 	}
 
 	@Override
-	protected IR constructIR() {
-		BaseNode declNode = (BaseNode) decl;
+	protected IR constructIR()
+	{
+		BaseNode declNode = (BaseNode)decl;
 		if(declNode instanceof TypeDeclNode)
-			return new Constant(BasicTypeNode.typeType.getType(),
-					((TypeDeclNode) decl).getDeclType().getIR());
+			return new Constant(BasicTypeNode.typeType.getType(), ((TypeDeclNode)decl).getDeclType().getIR());
 		else
 			return super.constructIR();
 	}

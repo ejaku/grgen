@@ -17,7 +17,8 @@ import java.util.Vector;
 /**
  * Type of constructor declaration nodes.
  */
-public class ConstructorTypeNode extends TypeNode {
+public class ConstructorTypeNode extends TypeNode
+{
 	static Vector<BaseNode> emptyChildren = new Vector<BaseNode>();
 	static Vector<String> emptyChildrenNames = new Vector<String>();
 	static {
@@ -26,13 +27,15 @@ public class ConstructorTypeNode extends TypeNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		return emptyChildren;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		return emptyChildrenNames;
 	}
 }

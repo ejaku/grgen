@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.ir.Ident;
 /**
  * An enumeration type AST node.
  */
-public class EnumTypeNode extends CompoundTypeNode {
+public class EnumTypeNode extends CompoundTypeNode
+{
 	static {
 		setName(EnumTypeNode.class, "enum type");
 	}
@@ -35,7 +36,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 	 new OperatorSignature.Evaluator() {
 	 public ConstNode evaluate(Coords coords, OperatorSignature op,
 	 ConstNode[] args) {
-
+	
 	 switch(op.getOpId()) {
 	 case OperatorSignature.EQ:
 	 return new BoolConstNode(coords, args[0].getValue().equals(args[1].getValue()));
@@ -47,15 +48,14 @@ public class EnumTypeNode extends CompoundTypeNode {
 	 };
 	 */
 
-	public EnumTypeNode(CollectNode<EnumItemNode> body) {
+	public EnumTypeNode(CollectNode<EnumItemNode> body)
+	{
 		this.elements = body;
 		becomeParent(this.elements);
 
 		//enumerations can be used with the conditional operator
 		OperatorSignature.makeOp(OperatorSignature.COND, this,
-								 new TypeNode[] { BasicTypeNode.booleanType, this, this },
-								 OperatorSignature.condEvaluator
-								);
+				new TypeNode[] { BasicTypeNode.booleanType, this, this }, OperatorSignature.condEvaluator);
 
 		//the compatibility of the this enum type
 		addCompatibility(this, BasicTypeNode.byteType);
@@ -76,7 +76,8 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 	/** returns children of this node */
 	@Override
-	public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(elements);
 		return children;
@@ -84,7 +85,8 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("elements");
 		return childrenNames;
@@ -92,11 +94,12 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Ident name = getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 
-		for (EnumItemNode item : elements.getChildren()) {
+		for(EnumItemNode item : elements.getChildren()) {
 			EnumItem it = item.getItem();
 			it.getValue().lateInit(ty, it);
 			ty.addItem(it);
@@ -106,15 +109,18 @@ public class EnumTypeNode extends CompoundTypeNode {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "enum " + getIdentNode().toString();
 	}
 
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "enum type";
 	}
 
-	public static String getUseStr() {
+	public static String getUseStr()
+	{
 		return "enum";
 	}
 }

@@ -13,21 +13,25 @@ package de.unika.ipd.grgen.ir;
 
 import de.unika.ipd.grgen.ir.exprevals.*;;
 
-public class ConstructorParam extends IR {
+public class ConstructorParam extends IR
+{
 	private Entity entity;
 	private Expression defValue;
 
-	public ConstructorParam(Entity entity, Expression defValue) {
+	public ConstructorParam(Entity entity, Expression defValue)
+	{
 		super("constructor param");
 		this.entity = entity;
 		this.defValue = defValue;
 	}
 
-	public Entity getEntity() {
+	public Entity getEntity()
+	{
 		return entity;
 	}
 
-	public Expression getDefValue() {
+	public Expression getDefValue()
+	{
 		return defValue;
 	}
 }

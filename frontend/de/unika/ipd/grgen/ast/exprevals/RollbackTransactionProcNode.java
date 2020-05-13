@@ -20,41 +20,46 @@ import de.unika.ipd.grgen.ir.exprevals.RollbackTransactionProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class RollbackTransactionProcNode extends ProcedureInvocationBaseNode {
+public class RollbackTransactionProcNode extends ProcedureInvocationBaseNode
+{
 	static {
 		setName(RollbackTransactionProcNode.class, "rollback transaction procedure");
 	}
 
 	private ExprNode transactionIdExpr;
 
-
-	public RollbackTransactionProcNode(Coords coords, ExprNode transactionIdExpr) {
+	public RollbackTransactionProcNode(Coords coords, ExprNode transactionIdExpr)
+	{
 		super(coords);
 
 		this.transactionIdExpr = becomeParent(transactionIdExpr);
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren()
+	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(transactionIdExpr);
 		return children;
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames()
+	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("transactionIdExpr");
 		return childrenNames;
 	}
 
 	@Override
-	protected boolean resolveLocal() {
+	protected boolean resolveLocal()
+	{
 		return true;
 	}
 
 	@Override
-	protected boolean checkLocal() {
+	protected boolean checkLocal()
+	{
 		if(!transactionIdExpr.getType().isEqual(BasicTypeNode.intType)) {
 			transactionIdExpr.reportError("Argument (transaction id) to rollbackTransaction statement must be of type int");
 			return false;
@@ -62,12 +67,14 @@ public class RollbackTransactionProcNode extends ProcedureInvocationBaseNode {
 		return true;
 	}
 
-	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop) {
+	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
+	{
 		return true;
 	}
 
 	@Override
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		return new RollbackTransactionProc(transactionIdExpr.checkIR(Expression.class));
 	}
 }

@@ -12,20 +12,23 @@ import de.unika.ipd.grgen.ir.exprevals.*;
 /**
  * Class for the different kinds of storages available for binding a pattern element by accessing
  */
-public class StorageAccess {
+public class StorageAccess
+{
 	public Variable storageVariable = null;
 	public Qualification storageAttribute = null;
-//	public GraphEntity storageGlobalVariable = null;
+	//public GraphEntity storageGlobalVariable = null;
 
-	public StorageAccess(Variable storageVariable) {
+	public StorageAccess(Variable storageVariable)
+	{
 		this.storageVariable = storageVariable;
 	}
 
-	public StorageAccess(Qualification storageAttribute) {
+	public StorageAccess(Qualification storageAttribute)
+	{
 		this.storageAttribute = storageAttribute;
 	}
 
-//	public StorageAccess(GraphEntity storageGlobalVariable) {
-//		this.storageGlobalVariable = storageGlobalVariable;
-//	}
+	//	public StorageAccess(GraphEntity storageGlobalVariable) {
+	//		this.storageGlobalVariable = storageGlobalVariable;
+	//	}
 }

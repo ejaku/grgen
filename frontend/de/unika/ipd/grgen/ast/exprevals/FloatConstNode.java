@@ -15,31 +15,35 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class FloatConstNode extends ConstNode
 {
-	public FloatConstNode(Coords coords, double v) {
+	public FloatConstNode(Coords coords, double v)
+	{
 		super(coords, "float", new Float(v));
 	}
 
 	@Override
-	public TypeNode getType() {
+	public TypeNode getType()
+	{
 		return BasicTypeNode.floatType;
 	}
 
 	@Override
-	protected ConstNode doCastTo(TypeNode type) {
-		Float value = (Float) getValue();
+	protected ConstNode doCastTo(TypeNode type)
+	{
+		Float value = (Float)getValue();
 
-		if (type.isEqual(BasicTypeNode.byteType)) {
+		if(type.isEqual(BasicTypeNode.byteType)) {
 			return new ByteConstNode(getCoords(), (byte)(float)value);
-		} else if (type.isEqual(BasicTypeNode.shortType)) {
+		} else if(type.isEqual(BasicTypeNode.shortType)) {
 			return new ShortConstNode(getCoords(), (short)(float)value);
-		} else if (type.isEqual(BasicTypeNode.intType)) {
+		} else if(type.isEqual(BasicTypeNode.intType)) {
 			return new IntConstNode(getCoords(), (int)(float)value);
-		} else if (type.isEqual(BasicTypeNode.longType)) {
+		} else if(type.isEqual(BasicTypeNode.longType)) {
 			return new LongConstNode(getCoords(), (long)(float)value);
-		} else if (type.isEqual(BasicTypeNode.doubleType)) {
+		} else if(type.isEqual(BasicTypeNode.doubleType)) {
 			return new DoubleConstNode(getCoords(), value);
-		} else if (type.isEqual(BasicTypeNode.stringType)) {
+		} else if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), value.toString());
-		} else throw new UnsupportedOperationException();
+		} else
+			throw new UnsupportedOperationException();
 	}
 }

@@ -14,31 +14,37 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class MapVarAddItem extends ProcedureInvocationBase {
+public class MapVarAddItem extends ProcedureInvocationBase
+{
 	Variable target;
 	Expression keyExpr;
-    Expression valueExpr;
+	Expression valueExpr;
 
-	public MapVarAddItem(Variable target, Expression keyExpr, Expression valueExpr) {
+	public MapVarAddItem(Variable target, Expression keyExpr, Expression valueExpr)
+	{
 		super("map var add item");
 		this.target = target;
 		this.keyExpr = keyExpr;
 		this.valueExpr = valueExpr;
 	}
 
-	public Variable getTarget() {
+	public Variable getTarget()
+	{
 		return target;
 	}
 
-	public Expression getKeyExpr() {
+	public Expression getKeyExpr()
+	{
 		return keyExpr;
 	}
 
-	public Expression getValueExpr() {
+	public Expression getValueExpr()
+	{
 		return valueExpr;
 	}
 
-	public ProcedureBase getProcedureBase() {
+	public ProcedureBase getProcedureBase()
+	{
 		return null; // dummy needed for interface, not accessed because the type of the class already defines the procedure method
 	}
 
@@ -50,7 +56,7 @@ public class MapVarAddItem extends ProcedureInvocationBase {
 		getKeyExpr().collectNeededEntities(needs);
 		getValueExpr().collectNeededEntities(needs);
 
-		if(getNext()!=null) {
+		if(getNext() != null) {
 			getNext().collectNeededEntities(needs);
 		}
 	}

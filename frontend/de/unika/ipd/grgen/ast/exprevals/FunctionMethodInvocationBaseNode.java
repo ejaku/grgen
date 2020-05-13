@@ -25,25 +25,28 @@ public abstract class FunctionMethodInvocationBaseNode extends ExprNode
 
 	protected CollectNode<ExprNode> arguments;
 
-	public FunctionMethodInvocationBaseNode(Coords coords) {
+	public FunctionMethodInvocationBaseNode(Coords coords)
+	{
 		super(coords);
 	}
 
-	protected String getTypeName(TypeNode type) {
+	protected String getTypeName(TypeNode type)
+	{
 		String typeName;
 		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode) type).getIdentNode().toString();
+			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
 		else
 			typeName = type.toString();
 		return typeName;
 	}
-	
+
 	/** Check whether the usage adheres to the signature of the declaration */
-	protected boolean checkSignatureAdhered(FunctionBase fb, IdentNode unresolved) {
+	protected boolean checkSignatureAdhered(FunctionBase fb, IdentNode unresolved)
+	{
 		// check if the number of parameters are correct
 		int expected = fb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
-		if (expected != actual) {
+		if(expected != actual) {
 			String patternName = fb.ident.toString();
 			unresolved.reportError("The function \"" + patternName + "\" needs "
 					+ expected + " parameters, given are " + actual);
@@ -52,17 +55,17 @@ public abstract class FunctionMethodInvocationBaseNode extends ExprNode
 
 		// check if the types of the parameters are correct
 		boolean res = true;
-		for (int i = 0; i < arguments.size(); ++i) {
+		for(int i = 0; i < arguments.size(); ++i) {
 			ExprNode actualParameter = arguments.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
 			TypeNode formalParameterType = fb.getParameterTypes().get(i);
-			
+
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
 				String exprTypeName = getTypeName(actualParameterType);
 				String paramTypeName = getTypeName(formalParameterType);
-				unresolved.reportError("Cannot convert " + (i + 1) + ". function argument from \""
-						+ exprTypeName + "\" to \"" + paramTypeName + "\"");
+				unresolved.reportError("Cannot convert " + (i + 1) + ". function argument from \"" + exprTypeName
+						+ "\" to \"" + paramTypeName + "\"");
 			}
 		}
 

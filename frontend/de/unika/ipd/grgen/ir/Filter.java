@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ir;
 /**
  * A filter (base type for auto-generated filters and filter functions (internal and external)).
  */
-public interface Filter {
+public interface Filter
+{
 	Rule getAction();
 }

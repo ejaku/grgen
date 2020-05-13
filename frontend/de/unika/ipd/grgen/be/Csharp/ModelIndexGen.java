@@ -16,8 +16,10 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.exprevals.*;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
-public class ModelIndexGen extends CSharpBase {
-	public ModelIndexGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix) {
+public class ModelIndexGen extends CSharpBase
+{
+	public ModelIndexGen(Model model, SourceBuilder sb, String nodeTypePrefix, String edgeTypePrefix)
+	{
 		super(nodeTypePrefix, edgeTypePrefix);
 		this.model = model;
 		this.sb = sb;
@@ -27,16 +29,20 @@ public class ModelIndexGen extends CSharpBase {
 	// Index generation //
 	////////////////////////////
 
-	void genIndexTypes() {
+	void genIndexTypes()
+	{
 		for(Index index : model.getIndices()) {
 			genIndexType(index);
 		}
 	}
 
-	void genIndexType(Index index) {
+	void genIndexType(Index index)
+	{
 		String indexName = index.getIdent().toString();
 		String lookupType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String graphElementType = index instanceof AttributeIndex
+				? formatElementInterfaceRef(((AttributeIndex)index).type)
+				: formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		if(index instanceof AttributeIndex) {
 			sb.appendFront("interface Index" + indexName + " : GRGEN_LIBGR.IAttributeIndex\n");
 		} else if(index instanceof IncidenceCountIndex) {
@@ -44,25 +50,42 @@ public class ModelIndexGen extends CSharpBase {
 		}
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("IEnumerable<" + graphElementType + "> Lookup(" + lookupType + " fromto);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> Lookup("
+				+ lookupType + " fromto);\n");
 		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscending();\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusive(" + lookupType + " from);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusive(" + lookupType + " from);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingToInclusive(" + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingToExclusive(" + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusive("
+				+ lookupType + " from);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusive("
+				+ lookupType + " from);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingToInclusive("
+				+ lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingToExclusive("
+				+ lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToInclusive("
+				+ lookupType + " from, " + lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromInclusiveToExclusive("
+				+ lookupType + " from, " + lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToInclusive("
+				+ lookupType + " from, " + lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupAscendingFromExclusiveToExclusive("
+				+ lookupType + " from, " + lookupType + " to);\n");
 		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescending();\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusive(" + lookupType + " from);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusive(" + lookupType + " from);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingToInclusive(" + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingToExclusive(" + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToInclusive(" + lookupType + " from, " + lookupType + " to);\n");
-		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToExclusive(" + lookupType + " from, " + lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusive("
+				+ lookupType + " from);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusive("
+				+ lookupType + " from);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingToInclusive("
+				+ lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingToExclusive("
+				+ lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToInclusive("
+				+ lookupType + " from, " + lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromInclusiveToExclusive("
+				+ lookupType + " from, " + lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToInclusive("
+				+ lookupType + " from, " + lookupType + " to);\n");
+		sb.appendFront("IEnumerable<" + graphElementType + "> LookupDescendingFromExclusiveToExclusive("
+				+ lookupType + " from, " + lookupType + " to);\n");
 		if(index instanceof IncidenceCountIndex) {
 			sb.appendFront("int GetIncidenceCount(" + graphElementType + " element);\n");
 		}
@@ -71,8 +94,9 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genIndexImplementations() {
-		int i=0;
+	void genIndexImplementations()
+	{
+		int i = 0;
 		for(Index index : model.getIndices()) {
 			if(index instanceof AttributeIndex) {
 				genIndexImplementation((AttributeIndex)index, i);
@@ -83,15 +107,17 @@ public class ModelIndexGen extends CSharpBase {
 		}
 	}
 
-	void genIndexImplementation(AttributeIndex index, int indexNum) {
+	void genIndexImplementation(AttributeIndex index, int indexNum)
+	{
 		String indexName = index.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
 		String modelName = model.getIdent().toString() + "GraphModel";
 		sb.appendFront("public class Index" + indexName + "Impl : Index" + indexName + "\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		
-		sb.appendFront("public GRGEN_LIBGR.IndexDescription Description { get { return " + modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
+
+		sb.appendFront("public GRGEN_LIBGR.IndexDescription Description { get { return "
+				+ modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
 		sb.append("\n");
 
 		sb.appendFront("protected class TreeNode\n");
@@ -113,34 +139,34 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("right = this;\n");
 		sb.appendFront("level = 0;\n");
 		sb.unindent();
-	    sb.appendFront("}\n");
-	    sb.append("\n");
-	    sb.appendFront("// for regular nodes (that are born as leaf nodes)\n");
-	    sb.appendFront("public TreeNode(" + graphElementType + " value, TreeNode bottom)\n");
-	    sb.appendFront("{\n");
-	    sb.indent();
-	    sb.appendFront("left = bottom;\n");
-	    sb.appendFront("right = bottom;\n");
-	    sb.appendFront("level = 1;\n");
-	    sb.append("\n");
-	    sb.appendFront("this.value = value;\n");
-	    sb.unindent();
-	    sb.appendFront("}\n");
-	    sb.append("\n");
-	    sb.appendFront("// for copy constructing from other index\n");
-	    sb.appendFront("public TreeNode(TreeNode left, TreeNode right, int level, " + graphElementType + " value)\n");
-	    sb.appendFront("{\n");
-	    sb.indent();
-	    sb.appendFront("this.left = left;\n");
-	    sb.appendFront("this.right = right;\n");
-	    sb.appendFront("this.level = level;\n");
-	    sb.append("\n");
-	    sb.appendFront("this.value = value;\n");
-	    sb.unindent();
-	    sb.appendFront("}\n");
-	    sb.unindent();
-	    sb.appendFront("}\n");
-	    sb.append("\n");
+		sb.appendFront("}\n");
+		sb.append("\n");
+		sb.appendFront("// for regular nodes (that are born as leaf nodes)\n");
+		sb.appendFront("public TreeNode(" + graphElementType + " value, TreeNode bottom)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("left = bottom;\n");
+		sb.appendFront("right = bottom;\n");
+		sb.appendFront("level = 1;\n");
+		sb.append("\n");
+		sb.appendFront("this.value = value;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.append("\n");
+		sb.appendFront("// for copy constructing from other index\n");
+		sb.appendFront("public TreeNode(TreeNode left, TreeNode right, int level, " + graphElementType + " value)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("this.left = left;\n");
+		sb.appendFront("this.right = right;\n");
+		sb.appendFront("this.level = level;\n");
+		sb.append("\n");
+		sb.appendFront("this.value = value;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.append("\n");
 
 		sb.appendFront("protected TreeNode root;\n");
 		sb.appendFront("protected TreeNode bottom;\n");
@@ -149,7 +175,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("protected int count;\n");
 		sb.appendFront("protected int version;\n");
 		sb.append("\n");
-		
+
 		genEqualElementEntry(index);
 		genEqualEntry(index);
 
@@ -240,8 +266,9 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
-		sb.appendFront("public void FillAsClone(Index" + indexName + "Impl that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+
+		sb.appendFront("public void FillAsClone(Index" + indexName + "Impl that, "
+				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("root = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
@@ -249,8 +276,9 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
-		sb.appendFront("protected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+
+		sb.appendFront("protected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, "
+				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(that == otherBottom)\n");
@@ -264,10 +292,10 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("that.level,\n");
 		sb.appendFront("(" + graphElementType + ")oldToNewMap[that.value]\n");
 		sb.unindent();
-        sb.appendFront(");\n");
-        sb.unindent();
-        sb.unindent();
-        sb.appendFront("}\n");
+		sb.appendFront(");\n");
+		sb.unindent();
+		sb.unindent();
+		sb.appendFront("}\n");
 		sb.append("\n");
 
 		genIndexMaintainingEventHandlers(index);
@@ -284,7 +312,7 @@ public class ModelIndexGen extends CSharpBase {
 	void genEqualElementEntry(Index index)
 	{
 		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		
+
 		sb.appendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements(object fromto)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -307,8 +335,10 @@ public class ModelIndexGen extends CSharpBase {
 	void genEqualEntry(Index index)
 	{
 		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
-		
+		String graphElementType = index instanceof AttributeIndex
+				? formatElementInterfaceRef(((AttributeIndex)index).type)
+				: formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+
 		sb.appendFront("public IEnumerable<" + graphElementType + "> Lookup(" + attributeType + " fromto)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -333,11 +363,12 @@ public class ModelIndexGen extends CSharpBase {
 		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
-		
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup(TreeNode current, " + attributeType + " fromto)\n");
+
+		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup(TreeNode current, "
+				 + attributeType + " fromto)\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		
+
 		sb.appendFront("if(current == bottom)\n");
 		sb.appendFront("\tyield break;\n");
 		sb.append("\n");
@@ -346,9 +377,10 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("// don't go left if the value is already lower than fromto\n");
 		if(index.entity.getType() instanceof BooleanType)
 			sb.appendFront("if(current.value." + attributeName + ".CompareTo(fromto)>=0)\n");
-		else if(index.entity.getType() instanceof StringType)
-			sb.appendFront("if(String.Compare(current.value." + attributeName + ", fromto, StringComparison.InvariantCulture)>=0)\n");
-		else
+		else if(index.entity.getType() instanceof StringType) {
+			sb.appendFront("if(String.Compare(current.value." + attributeName
+					+ ", fromto, StringComparison.InvariantCulture)>=0)\n");
+		} else
 			sb.appendFront("if(current.value." + attributeName + " >= fromto)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -363,7 +395,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		sb.appendFront("// (only) yield a value that is equal to fromto\n");
 		sb.appendFront("if(current.value." + attributeName + " == fromto)\n");
 		sb.appendFront("{\n");
@@ -375,13 +407,14 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		sb.appendFront("// don't go right if the value is already higher than fromto\n");
 		if(index.entity.getType() instanceof BooleanType)
 			sb.appendFront("if(current.value." + attributeName + ".CompareTo(fromto)<=0)\n");
-		else if(index.entity.getType() instanceof StringType)
-			sb.appendFront("if(String.Compare(current.value." + attributeName + ", fromto, StringComparison.InvariantCulture)<=0)\n");
-		else
+		else if(index.entity.getType() instanceof StringType) {
+			sb.appendFront("if(String.Compare(current.value." + attributeName
+					+ ", fromto, StringComparison.InvariantCulture)<=0)\n");
+		} else
 			sb.appendFront("if(current.value." + attributeName + " <= fromto)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -395,13 +428,14 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("}\n");
 		sb.unindent();
 		sb.appendFront("}\n");
-		
+
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
 	}
 
-	void genAscendingElementEntry(Index index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genAscendingElementEntry(Index index, boolean fromConstrained, boolean fromInclusive,
+			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
 
@@ -420,7 +454,7 @@ public class ModelIndexGen extends CSharpBase {
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		
+
 		sb.appendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
 			sb.append("object from");
@@ -452,10 +486,13 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genAscendingEntry(Index index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genAscendingEntry(Index index, boolean fromConstrained, boolean fromInclusive,
+			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String graphElementType = index instanceof AttributeIndex
+				? formatElementInterfaceRef(((AttributeIndex)index).type)
+				: formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 
 		String lookupMethodNameAppendix = "Ascending";
 		if(fromConstrained) {
@@ -472,7 +509,7 @@ public class ModelIndexGen extends CSharpBase {
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		
+
 		sb.appendFront("public IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
 			sb.append(attributeType + " from");
@@ -483,7 +520,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append(")\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		
+
 		sb.appendFront("int versionAtIterationBegin = version;\n");
 		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(root");
 		if(fromConstrained)
@@ -504,7 +541,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genAscending(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genAscending(AttributeIndex index, boolean fromConstrained, boolean fromInclusive,
+			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
@@ -525,8 +563,9 @@ public class ModelIndexGen extends CSharpBase {
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(TreeNode current");
+
+		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
+				+ "(TreeNode current");
 		if(fromConstrained)
 			sb.append(", " + attributeType + " from");
 		if(toConstrained)
@@ -541,11 +580,13 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 		if(fromConstrained) {
 			sb.appendFront("// don't go left if the value is already lower than from\n");
-			if(index.entity.getType() instanceof BooleanType)
-				sb.appendFront("if(current.value." + attributeName + ".CompareTo(from)" + (fromInclusive ? " >= " : " > ") + "0)\n");
-			else if(index.entity.getType() instanceof StringType)
-				sb.appendFront("if(String.Compare(current.value." + attributeName + ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " >= " : " > ") + "0)\n");
-			else
+			if(index.entity.getType() instanceof BooleanType) {
+				sb.appendFront("if(current.value." + attributeName + ".CompareTo(from)"
+						+ (fromInclusive ? " >= " : " > ") + "0)\n");
+			} else if(index.entity.getType() instanceof StringType) {
+				sb.appendFront("if(String.Compare(current.value." + attributeName
+						+ ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " >= " : " > ") + "0)\n");
+			} else
 				sb.appendFront("if(current.value." + attributeName + (fromInclusive ? " >= " : " > ") + "from)\n");
 		}
 		sb.appendFront("{\n");
@@ -566,25 +607,29 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(fromConstrained || toConstrained) {
 			sb.appendFront("// (only) yield a value that is within bounds\n");
 			sb.appendFront("if(");
 			if(fromConstrained) {
-				if(index.entity.getType() instanceof BooleanType)
-					sb.append("current.value." + attributeName + ".CompareTo(from)" + (fromInclusive ? " >= " : " > ") + "0");
-				else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName + ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " >= " : " > ") + "0");
-				else
+				if(index.entity.getType() instanceof BooleanType) {
+					sb.append("current.value." + attributeName + ".CompareTo(from)"
+							+ (fromInclusive ? " >= " : " > ") + "0");
+				} else if(index.entity.getType() instanceof StringType) {
+					sb.append("String.Compare(current.value." + attributeName
+							+ ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " >= " : " > ") + "0");
+				} else
 					sb.append("current.value." + attributeName + (fromInclusive ? " >= " : " > ") + "from");
 			}
 			if(fromConstrained && toConstrained)
 				sb.append(" && ");
 			if(toConstrained) {
-				if(index.entity.getType() instanceof BooleanType)
-					sb.append("current.value." + attributeName + ".CompareTo(to)" + (toInclusive ? " <= " : " < ") + "0");
-				else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName + ", to, StringComparison.InvariantCulture)" + (toInclusive ? " <= " : " < ") + "0");
+				if(index.entity.getType() instanceof BooleanType) {
+					sb.append("current.value." + attributeName + ".CompareTo(to)"
+							 + (toInclusive ? " <= " : " < ") + "0");
+				} else if(index.entity.getType() instanceof StringType)
+					sb.append("String.Compare(current.value." + attributeName
+							+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " <= " : " < ") + "0");
 				else
 					sb.append("current.value." + attributeName + (toInclusive ? " <= " : " < ") + "to");
 			}
@@ -599,19 +644,22 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(toConstrained) {
 			sb.appendFront("// don't go right if the value is already higher than to\n");
-			if(index.entity.getType() instanceof BooleanType)
-				sb.appendFront("if(current.value." + attributeName + ".CompareTo(to)" + (toInclusive ? " <= " : " < ") + "0)\n");
-			else if(index.entity.getType() instanceof StringType)
-				sb.appendFront("if(String.Compare(current.value." + attributeName + ", to, StringComparison.InvariantCulture)" + (toInclusive ? " <= " : " < ") + "0)\n");
-			else
+			if(index.entity.getType() instanceof BooleanType) {
+				sb.appendFront("if(current.value." + attributeName + ".CompareTo(to)"
+						+ (toInclusive ? " <= " : " < ") + "0)\n");
+			} else if(index.entity.getType() instanceof StringType) {
+				sb.appendFront("if(String.Compare(current.value." + attributeName
+						+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " <= " : " < ") + "0)\n");
+			} else
 				sb.appendFront("if(current.value." + attributeName + (toInclusive ? " <= " : " < ") + "to)\n");
 		}
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.right");
+		sb.appendFront("foreach(" + graphElementType + " value in Lookup"
+				+ lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -631,7 +679,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genDescendingElementEntry(Index index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genDescendingElementEntry(Index index, boolean fromConstrained, boolean fromInclusive,
+			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
 
@@ -650,7 +699,7 @@ public class ModelIndexGen extends CSharpBase {
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		
+
 		sb.appendFront("public IEnumerable<GRGEN_LIBGR.IGraphElement> LookupElements" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
 			sb.append("object from");
@@ -682,10 +731,13 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genDescendingEntry(Index index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genDescendingEntry(Index index, boolean fromConstrained, boolean fromInclusive,
+			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = index instanceof AttributeIndex ? formatAttributeType(((AttributeIndex)index).entity) : "int";
-		String graphElementType = index instanceof AttributeIndex ? formatElementInterfaceRef(((AttributeIndex)index).type) : formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
+		String graphElementType = index instanceof AttributeIndex
+				? formatElementInterfaceRef(((AttributeIndex)index).type)
+				: formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 
 		String lookupMethodNameAppendix = "Descending";
 		if(fromConstrained) {
@@ -702,7 +754,7 @@ public class ModelIndexGen extends CSharpBase {
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		
+
 		sb.appendFront("public IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(");
 		if(fromConstrained)
 			sb.append(attributeType + " from");
@@ -734,7 +786,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genDescending(AttributeIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genDescending(AttributeIndex index, boolean fromConstrained, boolean fromInclusive,
+			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
@@ -755,8 +808,9 @@ public class ModelIndexGen extends CSharpBase {
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(TreeNode current");
+
+		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
+				+ "(TreeNode current");
 		if(fromConstrained)
 			sb.append(", " + attributeType + " from");
 		if(toConstrained)
@@ -771,16 +825,19 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 		if(fromConstrained) {
 			sb.appendFront("// don't go left if the value is already lower than from\n");
-			if(index.entity.getType() instanceof BooleanType)
-				sb.appendFront("if(current.value." + attributeName + ".CompareTo(from)" + (fromInclusive ? " <= " : " < ") + "0)\n");
-			else if(index.entity.getType() instanceof StringType)
-				sb.appendFront("if(String.Compare(current.value." + attributeName + ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " <= " : " < ") + "0)\n");
-			else
+			if(index.entity.getType() instanceof BooleanType) {
+				sb.appendFront("if(current.value." + attributeName + ".CompareTo(from)"
+						+ (fromInclusive ? " <= " : " < ") + "0)\n");
+			} else if(index.entity.getType() instanceof StringType) {
+				sb.appendFront("if(String.Compare(current.value." + attributeName
+						+ ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " <= " : " < ") + "0)\n");
+			} else
 				sb.appendFront("if(current.value." + attributeName + (fromInclusive ? " <= " : " < ") + "from)\n");
 		}
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.right");
+		sb.appendFront("foreach(" + graphElementType + " value in Lookup"
+				+ lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -796,26 +853,30 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(fromConstrained || toConstrained) {
 			sb.appendFront("// (only) yield a value that is within bounds\n");
 			sb.appendFront("if(");
 			if(fromConstrained) {
-				if(index.entity.getType() instanceof BooleanType)
-					sb.append("current.value." + attributeName + ".CompareTo(from)" + (fromInclusive ? " <= " : " < ") + "0");
-				else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName + ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " <= " : " < ") + "0");
-				else
+				if(index.entity.getType() instanceof BooleanType) {
+					sb.append("current.value." + attributeName + ".CompareTo(from)"
+							+ (fromInclusive ? " <= " : " < ") + "0");
+				} else if(index.entity.getType() instanceof StringType) {
+					sb.append("String.Compare(current.value." + attributeName
+							+ ", from, StringComparison.InvariantCulture)" + (fromInclusive ? " <= " : " < ") + "0");
+				} else
 					sb.append("current.value." + attributeName + (fromInclusive ? " <= " : " < ") + "from");
 			}
 			if(fromConstrained && toConstrained)
 				sb.append(" && ");
 			if(toConstrained) {
-				if(index.entity.getType() instanceof BooleanType)
-					sb.append("current.value." + attributeName + ".CompareTo(to)" + (toInclusive ? " >= " : " > ") + "0");
-				else if(index.entity.getType() instanceof StringType)
-					sb.append("String.Compare(current.value." + attributeName + ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0");
-				else
+				if(index.entity.getType() instanceof BooleanType) {
+					sb.append("current.value." + attributeName + ".CompareTo(to)"
+							+ (toInclusive ? " >= " : " > ") + "0");
+				} else if(index.entity.getType() instanceof StringType) {
+					sb.append("String.Compare(current.value." + attributeName
+							+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0");
+				} else
 					sb.append("current.value." + attributeName + (toInclusive ? " >= " : " > ") + "to");
 			}
 			sb.append(")\n");
@@ -829,14 +890,16 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(toConstrained) {
 			sb.appendFront("// don't go right if the value is already higher than to\n");
-			if(index.entity.getType() instanceof BooleanType)
-				sb.appendFront("if(current.value." + attributeName + ".CompareTo(to)" + (toInclusive ? " >= " : " > ") + "0)\n");
-			else if(index.entity.getType() instanceof StringType)
-				sb.appendFront("if(String.Compare(current.value." + attributeName + ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0)\n");
-			else
+			if(index.entity.getType() instanceof BooleanType) {
+				sb.appendFront("if(current.value." + attributeName + ".CompareTo(to)"
+						+ (toInclusive ? " >= " : " > ") + "0)\n");
+			} else if(index.entity.getType() instanceof StringType) {
+				sb.appendFront("if(String.Compare(current.value." + attributeName
+						+ ", to, StringComparison.InvariantCulture)" + (toInclusive ? " >= " : " > ") + "0)\n");
+			} else
 				sb.appendFront("if(current.value." + attributeName + (toInclusive ? " >= " : " > ") + "to)\n");
 		}
 		sb.appendFront("{\n");
@@ -879,12 +942,13 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("version = 0;\n");
 		sb.unindent();
 		sb.appendFront("}\n\n");
-		
+
 		sb.appendFront("void Added(GRGEN_LIBGR.IGraphElement elem)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(elem is " + graphElementType + ")\n");
-		sb.appendFront("\tInsert(ref root, (" + graphElementType + ")elem, ((" + graphElementType + ")elem)." + attributeName + ");\n");
+		sb.appendFront("\tInsert(ref root, (" + graphElementType + ")elem, "
+				+"((" + graphElementType + ")elem)." + attributeName + ");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -896,7 +960,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		sb.appendFront("void ChangingAttribute(GRGEN_LIBGR.IGraphElement elem, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.AttributeChangeType changeType, Object newValue, Object keyValue)\n");
+		sb.appendFront("void ChangingAttribute(GRGEN_LIBGR.IGraphElement elem, "
+				+ "GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.AttributeChangeType changeType, Object newValue, Object keyValue)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(elem is " + graphElementType + " && attrType.Name==\"" + attributeName + "\")\n");
@@ -915,13 +980,15 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("if(oldElem is " + graphElementType + ")\n");
 		sb.appendFront("\tDelete(ref root, (" + graphElementType + ")oldElem);\n");
 		sb.appendFront("if(newElem is " + graphElementType + ")\n");
-		sb.appendFront("\tInsert(ref root, (" + graphElementType + ")newElem, ((" + graphElementType + ")newElem)." + attributeName + ");\n");
+		sb.appendFront("\tInsert(ref root, (" + graphElementType + ")newElem, "
+				+ "((" + graphElementType + ")newElem)." + attributeName + ");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
 	}
 
-	void genIndexAATreeBalancingInsertionDeletion(AttributeIndex index) {
+	void genIndexAATreeBalancingInsertionDeletion(AttributeIndex index)
+	{
 		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
@@ -957,8 +1024,9 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
-		sb.appendFront("private void Insert(ref TreeNode current, " + graphElementType + " value, " + attributeType + " attributeValue)\n");
+
+		sb.appendFront("private void Insert(ref TreeNode current, " + graphElementType + " value, "
+				+ attributeType + " attributeValue)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
@@ -973,19 +1041,23 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 		if(index.entity.getType() instanceof BooleanType)
 			sb.appendFront("if(attributeValue.CompareTo(current.value." + attributeName + ")<0");
-		else if(index.entity.getType() instanceof StringType)
-			sb.appendFront("if(String.Compare(attributeValue, current.value." + attributeName + ", StringComparison.InvariantCulture)<0");
-		else
+		else if(index.entity.getType() instanceof StringType) {
+			sb.appendFront("if(String.Compare(attributeValue, current.value." + attributeName
+					+ ", StringComparison.InvariantCulture)<0");
+		} else
 			sb.appendFront("if(attributeValue < current.value." + attributeName);
-		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
+		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique
+				+ ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.appendFront("\tInsert(ref current.left, value, attributeValue);\n");
 		if(index.entity.getType() instanceof BooleanType)
 			sb.appendFront("else if(attributeValue.CompareTo(current.value." + attributeName + ")>0");
-		else if(index.entity.getType() instanceof StringType)
-			sb.appendFront("else if(String.Compare(attributeValue, current.value." + attributeName + ", StringComparison.InvariantCulture)>0");
-		else
+		else if(index.entity.getType() instanceof StringType) {
+			sb.appendFront("else if(String.Compare(attributeValue, current.value." + attributeName
+					+ ", StringComparison.InvariantCulture)>0");
+		} else
 			sb.appendFront("else if(attributeValue > current.value." + attributeName);
-		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId > (current.value" + castForUnique + ").uniqueId ) )\n");
+		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique
+				+ ").uniqueId > (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.appendFront("\tInsert(ref current.right, value, attributeValue);\n");
 		sb.appendFront("else\n");
 		sb.appendFront("\tthrow new Exception(\"Insertion of already available element\");\n");
@@ -995,7 +1067,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		sb.appendFront("private void Delete(ref TreeNode current, " + graphElementType + " value)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1006,11 +1078,13 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("last = current;\n");
 		if(index.entity.getType() instanceof BooleanType)
 			sb.appendFront("if(value." + attributeName + ".CompareTo(current.value." + attributeName + ")<0");
-		else if(index.entity.getType() instanceof StringType)
-			sb.appendFront("if(String.Compare(value." + attributeName + ", current.value." + attributeName + ", StringComparison.InvariantCulture)<0");
-		else
+		else if(index.entity.getType() instanceof StringType) {
+			sb.appendFront("if(String.Compare(value." + attributeName + ", current.value." + attributeName
+					+ ", StringComparison.InvariantCulture)<0");
+		} else
 			sb.appendFront("if(value." + attributeName + " < current.value." + attributeName);
-		sb.append(" || ( value." + attributeName + " == current.value." + attributeName + " && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
+		sb.append(" || ( value." + attributeName + " == current.value." + attributeName + " && (value" + castForUnique
+				+ ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.appendFront("\tDelete(ref current.left, value);\n");
 		sb.appendFront("else\n");
 		sb.appendFront("{\n");
@@ -1021,7 +1095,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("}\n");
 		sb.append("\n");
 		sb.appendFront("// at the bottom of the tree we remove the element (if present)\n");
-		sb.appendFront("if(current == last && deleted != bottom && value." + attributeName + " == deleted.value." + attributeName);
+		sb.appendFront("if(current == last && deleted != bottom && "
+				+"value." + attributeName + " == deleted.value." + attributeName);
 		sb.append(" && (value" + castForUnique + ").uniqueId == (deleted.value" + castForUnique + ").uniqueId )\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1052,7 +1127,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genIndexSetType() {
+	void genIndexSetType()
+	{
 		sb.appendFront("public class " + model.getIdent() + "IndexSet : GRGEN_LIBGR.IIndexSet\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1066,10 +1142,10 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-				
+
 		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
-			sb.appendFront("public Index" + indexName + "Impl " + indexName +";\n");
+			sb.appendFront("public Index" + indexName + "Impl " + indexName + ";\n");
 		}
 		sb.append("\n");
 
@@ -1089,30 +1165,34 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
-		sb.appendFront("public void FillAsClone(GRGEN_LGSP.LGSPGraph originalGraph, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+
+		sb.appendFront("public void FillAsClone(GRGEN_LGSP.LGSPGraph originalGraph, "
+				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		for(Index index : model.getIndices()) {
 			String indexName = index.getIdent().toString();
-			sb.appendFront(indexName + ".FillAsClone((Index" + indexName + "Impl)originalGraph.Indices.GetIndex(\"" + indexName + "\"), oldToNewMap);\n");
+			sb.appendFront(indexName + ".FillAsClone((Index" + indexName + "Impl)originalGraph.Indices.GetIndex(\""
+					+ indexName + "\"), oldToNewMap);\n");
 		}
 		sb.unindent();
 		sb.appendFront("}\n");
-		
+
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
-	
-	void genIndexImplementation(IncidenceCountIndex index, int indexNum) {
+
+	void genIndexImplementation(IncidenceCountIndex index, int indexNum)
+	{
 		String indexName = index.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		String modelName = model.getIdent().toString() + "GraphModel";
 		sb.appendFront("public class Index" + indexName + "Impl : Index" + indexName + "\n");
 		sb.appendFront("{\n");
 		sb.indent();
-		
-		sb.appendFront("public GRGEN_LIBGR.IndexDescription Description { get { return " + modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
+
+		sb.appendFront("public GRGEN_LIBGR.IndexDescription Description { get { return "
+				+ modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
 		sb.append("\n");
 
 		sb.appendFront("protected class TreeNode\n");
@@ -1135,36 +1215,36 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("right = this;\n");
 		sb.appendFront("level = 0;\n");
 		sb.unindent();
-	    sb.appendFront("}\n");
-	    sb.append("\n");
-	    sb.appendFront("// for regular nodes (that are born as leaf nodes)\n");
-	    sb.appendFront("public TreeNode(int key, " + graphElementType + " value, TreeNode bottom)\n");
-	    sb.appendFront("{\n");
-	    sb.indent();
-	    sb.appendFront("left = bottom;\n");
-	    sb.appendFront("right = bottom;\n");
-	    sb.appendFront("level = 1;\n");
-	    sb.append("\n");
-	    sb.appendFront("this.key = key;\n");
-	    sb.appendFront("this.value = value;\n");
-	    sb.unindent();
-	    sb.appendFront("}\n");
-	    sb.append("\n");
-	    sb.appendFront("// for copy constructing from other index\n");
-	    sb.appendFront("public TreeNode(TreeNode left, TreeNode right, int level, int key, " + graphElementType + " value)\n");
-	    sb.appendFront("{\n");
-	    sb.indent();
-	    sb.appendFront("this.left = left;\n");
-	    sb.appendFront("this.right = right;\n");
-	    sb.appendFront("this.level = level;\n");
-	    sb.append("\n");
-	    sb.appendFront("this.key = key;\n");
-	    sb.appendFront("this.value = value;\n");
-	    sb.unindent();
-	    sb.appendFront("}\n");
-	    sb.unindent();
-	    sb.appendFront("}\n");
-	    sb.append("\n");
+		sb.appendFront("}\n");
+		sb.append("\n");
+		sb.appendFront("// for regular nodes (that are born as leaf nodes)\n");
+		sb.appendFront("public TreeNode(int key, " + graphElementType + " value, TreeNode bottom)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("left = bottom;\n");
+		sb.appendFront("right = bottom;\n");
+		sb.appendFront("level = 1;\n");
+		sb.append("\n");
+		sb.appendFront("this.key = key;\n");
+		sb.appendFront("this.value = value;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.append("\n");
+		sb.appendFront("// for copy constructing from other index\n");
+		sb.appendFront("public TreeNode(TreeNode left, TreeNode right, int level, int key, " + graphElementType + " value)\n");
+		sb.appendFront("{\n");
+		sb.indent();
+		sb.appendFront("this.left = left;\n");
+		sb.appendFront("this.right = right;\n");
+		sb.appendFront("this.level = level;\n");
+		sb.append("\n");
+		sb.appendFront("this.key = key;\n");
+		sb.appendFront("this.value = value;\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.unindent();
+		sb.appendFront("}\n");
+		sb.append("\n");
 
 		sb.appendFront("protected TreeNode root;\n");
 		sb.appendFront("protected TreeNode bottom;\n");
@@ -1173,7 +1253,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("protected int count;\n");
 		sb.appendFront("protected int version;\n");
 		sb.append("\n");
-		sb.appendFront("protected IDictionary<" + graphElementType + ", int> nodeToIncidenceCount = new Dictionary<" + graphElementType + ", int>();\n");
+		sb.appendFront("protected IDictionary<" + graphElementType + ", int> nodeToIncidenceCount = "
+				+ "new Dictionary<" + graphElementType + ", int>();\n");
 		sb.append("\n");
 
 		genEqualElementEntry(index);
@@ -1240,7 +1321,7 @@ public class ModelIndexGen extends CSharpBase {
 		genDescending(index, true, false, true, false);
 
 		genGetIncidenceCount(index);
-		
+
 		sb.appendFront("public Index" + indexName + "Impl(GRGEN_LGSP.LGSPGraph graph)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1264,7 +1345,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("}\n");
 		sb.append("\n");
 
-		sb.appendFront("public void FillAsClone(Index" + indexName + "Impl that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+		sb.appendFront("public void FillAsClone(Index" + indexName + "Impl that, "
+				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("root = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
@@ -1276,7 +1358,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.append("\n");
 
-		sb.appendFront("protected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
+		sb.appendFront("protected TreeNode FillAsClone(TreeNode that, TreeNode otherBottom, "
+				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(that == otherBottom)\n");
@@ -1291,10 +1374,10 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("that.key,\n");
 		sb.appendFront("(" + graphElementType + ")oldToNewMap[that.value]\n");
 		sb.unindent();
-        sb.unindent();
-        sb.append(");\n");
-        sb.unindent();
-        sb.appendFront("}\n");
+		sb.unindent();
+		sb.append(");\n");
+		sb.unindent();
+		sb.appendFront("}\n");
 		sb.append("\n");
 
 		genIndexMaintainingEventHandlers(index);
@@ -1313,7 +1396,7 @@ public class ModelIndexGen extends CSharpBase {
 	void genEqual(IncidenceCountIndex index)
 	{
 		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
-		
+
 		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup(TreeNode current, int fromto)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1337,7 +1420,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		sb.appendFront("// (only) yield a value that is equal to fromto\n");
 		sb.appendFront("if(current.key == fromto)\n");
 		sb.appendFront("{\n");
@@ -1349,7 +1432,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		sb.appendFront("// don't go right if the value is already higher than fromto\n");
 		sb.appendFront("if(current.key <= fromto)\n");
 		sb.appendFront("{\n");
@@ -1369,7 +1452,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genAscending(IncidenceCountIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genAscending(IncidenceCountIndex index, boolean fromConstrained, boolean fromInclusive,
+			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = "int";
 		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
@@ -1389,8 +1473,9 @@ public class ModelIndexGen extends CSharpBase {
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(TreeNode current");
+
+		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
+				+ "(TreeNode current");
 		if(fromConstrained)
 			sb.append(", " + attributeType + " from");
 		if(toConstrained)
@@ -1425,7 +1510,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(fromConstrained || toConstrained) {
 			sb.appendFront("// (only) yield a value that is within bounds\n");
 			sb.appendFront("if(");
@@ -1448,14 +1533,15 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(toConstrained) {
 			sb.appendFront("// don't go right if the value is already higher than to\n");
 			sb.appendFront("if(current.key" + (toInclusive ? " <= " : " < ") + "to)\n");
 		}
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.right");
+		sb.appendFront("foreach(" + graphElementType + " value in Lookup"
+				+ lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -1474,7 +1560,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	void genDescending(IncidenceCountIndex index, boolean fromConstrained, boolean fromInclusive, boolean toConstrained, boolean toInclusive)
+	void genDescending(IncidenceCountIndex index, boolean fromConstrained, boolean fromInclusive,
+			boolean toConstrained, boolean toInclusive)
 	{
 		String attributeType = "int";
 		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
@@ -1494,8 +1581,9 @@ public class ModelIndexGen extends CSharpBase {
 			else
 				lookupMethodNameAppendix += "Exclusive";
 		}
-		
-		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix + "(TreeNode current");
+
+		sb.appendFront("private IEnumerable<" + graphElementType + "> Lookup" + lookupMethodNameAppendix
+				+ "(TreeNode current");
 		if(fromConstrained)
 			sb.append(", " + attributeType + " from");
 		if(toConstrained)
@@ -1514,7 +1602,8 @@ public class ModelIndexGen extends CSharpBase {
 		}
 		sb.appendFront("{\n");
 		sb.indent();
-		sb.appendFront("foreach(" + graphElementType + " value in Lookup" + lookupMethodNameAppendix + "(current.right");
+		sb.appendFront("foreach(" + graphElementType + " value in Lookup"
+				+ lookupMethodNameAppendix + "(current.right");
 		if(fromConstrained)
 			sb.append(", from");
 		if(toConstrained)
@@ -1530,7 +1619,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(fromConstrained || toConstrained) {
 			sb.appendFront("// (only) yield a value that is within bounds\n");
 			sb.appendFront("if(");
@@ -1553,7 +1642,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		if(toConstrained) {
 			sb.appendFront("// don't go right if the value is already higher than to\n");
 			sb.appendFront("if(current.key" + (toInclusive ? " >= " : " > ") + "to)\n");
@@ -1594,7 +1683,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("\treturn nodeToIncidenceCount[element];\n");
 		sb.appendFront("}\n");
 	}
-	
+
 	void genCheckDump(IncidenceCountIndex index)
 	{
 		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
@@ -1607,14 +1696,14 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("Check(current.left);\n");
 		sb.appendFront("if(!nodeToIncidenceCount.ContainsKey(current.value)) {\n");
 		sb.indent();
-		sb.appendFront("Dump(root);\n");		
+		sb.appendFront("Dump(root);\n");
 		sb.appendFront("Dump();\n");
 		sb.appendFront("throw new Exception(\"Missing node\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.appendFront("if(nodeToIncidenceCount[current.value]!=current.key) {\n");
 		sb.indent();
-		sb.appendFront("Dump(root);\n");		
+		sb.appendFront("Dump(root);\n");
 		sb.appendFront("Dump();\n");
 		sb.appendFront("throw new Exception(\"Incidence values differ\");\n");
 		sb.unindent();
@@ -1637,7 +1726,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		sb.appendFront("protected void Dump()\n");
 		sb.appendFront("{\n");
 		sb.appendFront("foreach(KeyValuePair<" + startNodeType + ",int> kvp in nodeToIncidenceCount) {\n");
@@ -1657,7 +1746,7 @@ public class ModelIndexGen extends CSharpBase {
 		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		String incidentEdgeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getIncidentEdgeType());
 		String incidentEdgeTypeType = formatTypeClassRefInstance(((IncidenceCountIndex)index).getIncidentEdgeType());
-		
+
 		sb.appendFront("void ClearingGraph()\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1745,7 +1834,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("{\n");
 		sb.indent();
 		//sb.append("Check(root);\n");
-		sb.appendFront("IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> incidentEdges = GRGEN_LIBGR.GraphHelper.Incident(oldNode, " + incidentEdgeTypeType + ", graph.Model.NodeModel.RootType);\n");
+		sb.appendFront("IDictionary<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> incidentEdges = "
+				+ "GRGEN_LIBGR.GraphHelper.Incident(oldNode, " + incidentEdgeTypeType + ", graph.Model.NodeModel.RootType);\n");
 		sb.appendFront("foreach(KeyValuePair<GRGEN_LIBGR.IEdge, GRGEN_LIBGR.SetValueType> edgeKVP in incidentEdges)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1789,80 +1879,105 @@ public class ModelIndexGen extends CSharpBase {
 		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		String adjacentNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getAdjacentNodeType());
 
-		if(index.Direction()==IncidentEdgeExpr.OUTGOING) {
+		if(index.Direction() == IncidentEdgeExpr.OUTGOING) {
 			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
 			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+ "(" + startNodeType + ")source);\n");
+			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
+					+"nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
+			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+"(" + startNodeType + ")source);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		} else if(index.Direction()==IncidentEdgeExpr.INCOMING) {
+		} else if(index.Direction() == IncidentEdgeExpr.INCOMING) {
 			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
 			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+"(" + startNodeType + ")target);\n");
+			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
+					+ "nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
+			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+"(" + startNodeType + ")target);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 		} else {
 			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
 			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+"(" + startNodeType + ")source);\n");
+			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
+					+ "nodeToIncidenceCount[(" + startNodeType + ")source] + 1;\n");
+			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+"(" + startNodeType + ")source);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + " && source!=target) {\n");
 			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+"(" + startNodeType + ")target);\n");
+			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
+					+"nodeToIncidenceCount[(" + startNodeType + ")target] + 1;\n");
+			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+"(" + startNodeType + ")target);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		}		
+		}
 	}
 
 	void genIndexMaintainingRemovingEdge(IncidenceCountIndex index)
 	{
 		String startNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		String adjacentNodeType = formatElementInterfaceRef(((IncidenceCountIndex)index).getAdjacentNodeType());
-	
-		if(index.Direction()==IncidentEdgeExpr.OUTGOING) {
+
+		if(index.Direction() == IncidentEdgeExpr.OUTGOING) {
 			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
 			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = nodeToIncidenceCount[(" + startNodeType + ")source] - 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+ "(" + startNodeType + ")source);\n");
+			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
+					+ "nodeToIncidenceCount[(" + startNodeType + ")source] - 1;\n");
+			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+ "(" + startNodeType + ")source);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
-		} else if(index.Direction()==IncidentEdgeExpr.INCOMING) {
+		} else if(index.Direction() == IncidentEdgeExpr.INCOMING) {
 			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + ") {\n");
 			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = nodeToIncidenceCount[(" + startNodeType + ")target] - 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+ "(" + startNodeType + ")target);\n");
+			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
+					+ "nodeToIncidenceCount[("+ startNodeType + ")target] - 1;\n");
+			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+ "(" + startNodeType + ")target);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 		} else {
 			sb.appendFront("if(source is " + startNodeType + " && target is " + adjacentNodeType + ") {\n");
 			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = nodeToIncidenceCount[(" + startNodeType + ")source] - 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], (" + startNodeType + ")source);\n");
+			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+ "(" + startNodeType + ")source);\n");
+			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")source] = "
+					+ "nodeToIncidenceCount[(" + startNodeType + ")source] - 1;\n");
+			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")source], "
+					+ "(" + startNodeType + ")source);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 			sb.appendFront("if(target is " + startNodeType + " && source is " + adjacentNodeType + " && source!=target) {\n");
 			sb.indent();
-			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
-			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = nodeToIncidenceCount[(" + startNodeType + ")target] - 1;\n");
-			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], (" + startNodeType + ")target);\n");
+			sb.appendFront("Delete(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+ "(" + startNodeType + ")target);\n");
+			sb.appendFront("nodeToIncidenceCount[(" + startNodeType + ")target] = "
+					+ "nodeToIncidenceCount[(" + startNodeType + ")target] - 1;\n");
+			sb.appendFront("Insert(ref root, nodeToIncidenceCount[(" + startNodeType + ")target], "
+					+ "(" + startNodeType + ")target);\n");
 			sb.unindent();
 			sb.appendFront("}\n");
 		}
 	}
 
-	void genIndexAATreeBalancingInsertionDeletion(IncidenceCountIndex index) {
+	void genIndexAATreeBalancingInsertionDeletion(IncidenceCountIndex index)
+	{
 		String graphElementType = formatElementInterfaceRef(((IncidenceCountIndex)index).getStartNodeType());
 		String castForUnique = " as GRGEN_LGSP.LGSPNode";
 
@@ -1896,7 +2011,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		sb.appendFront("private void Insert(ref TreeNode current, int key, " + graphElementType + " value)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1911,10 +2026,12 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("}\n");
 		sb.append("\n");
 		sb.appendFront("if(key < current.key");
-		sb.appendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
+		sb.appendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId < "
+				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.appendFront("\tInsert(ref current.left, key, value);\n");
 		sb.appendFront("else if(key > current.key");
-		sb.appendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId > (current.value" + castForUnique + ").uniqueId ) )\n");
+		sb.appendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId > "
+				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.appendFront("\tInsert(ref current.right, key, value);\n");
 		sb.appendFront("else\n");
 		sb.appendFront("\tthrow new Exception(\"Insertion of already available element\");\n");
@@ -1924,7 +2041,7 @@ public class ModelIndexGen extends CSharpBase {
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
-		
+
 		sb.appendFront("private void Delete(ref TreeNode current, int key, " + graphElementType + " value)\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1934,7 +2051,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("// search down the tree (and set pointer last and deleted)\n");
 		sb.appendFront("last = current;\n");
 		sb.appendFront("if(key < current.key");
-		sb.append(" || ( key == current.key && (value" + castForUnique + ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
+		sb.append(" || ( key == current.key && (value" + castForUnique + ").uniqueId < "
+				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
 		sb.appendFront("\tDelete(ref current.left, key, value);\n");
 		sb.appendFront("else\n");
 		sb.appendFront("{\n");
@@ -1946,7 +2064,8 @@ public class ModelIndexGen extends CSharpBase {
 		sb.append("\n");
 		sb.appendFront("// at the bottom of the tree we remove the element (if present)\n");
 		sb.appendFront("if(current == last && deleted != bottom && key == deleted.key");
-		sb.appendFront(" && (value" + castForUnique + ").uniqueId == (deleted.value" + castForUnique + ").uniqueId )\n");
+		sb.appendFront(" && (value" + castForUnique + ").uniqueId"
+				+ " == (deleted.value" + castForUnique + ").uniqueId )\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("deleted.value = current.value;\n");
@@ -1976,14 +2095,16 @@ public class ModelIndexGen extends CSharpBase {
 		sb.appendFront("}\n");
 		sb.append("\n");
 	}
-	
+
 	@Override
-	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState) {
+	protected void genQualAccess(SourceBuilder sb, Qualification qual, Object modifyGenerationState)
+	{
 		// needed because of inheritance, maybe todo: remove
 	}
 
 	@Override
-	protected void genMemberAccess(SourceBuilder sb, Entity member) {
+	protected void genMemberAccess(SourceBuilder sb, Entity member)
+	{
 		// needed because of inheritance, maybe todo: remove
 	}
 
@@ -1994,4 +2115,3 @@ public class ModelIndexGen extends CSharpBase {
 	private Model model;
 	private SourceBuilder sb = null;
 }
-

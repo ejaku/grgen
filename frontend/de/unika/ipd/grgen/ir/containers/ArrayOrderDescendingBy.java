@@ -13,25 +13,30 @@ package de.unika.ipd.grgen.ir.containers;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.*;
 
-public class ArrayOrderDescendingBy extends Expression {
+public class ArrayOrderDescendingBy extends Expression
+{
 	private Expression targetExpr;
 	private Entity member;
-	
-	public ArrayOrderDescendingBy(Expression targetExpr, Entity member) {
+
+	public ArrayOrderDescendingBy(Expression targetExpr, Entity member)
+	{
 		super("array order descending by expr", (ArrayType)targetExpr.getType());
 		this.targetExpr = targetExpr;
 		this.member = member;
 	}
 
-	public Expression getTargetExpr() {
+	public Expression getTargetExpr()
+	{
 		return targetExpr;
 	}
 
-	public Entity getMember() {
+	public Entity getMember()
+	{
 		return member;
 	}
 
-	public void collectNeededEntities(NeededEntities needs) {
+	public void collectNeededEntities(NeededEntities needs)
+	{
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}

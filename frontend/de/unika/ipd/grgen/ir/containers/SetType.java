@@ -16,24 +16,29 @@ import de.unika.ipd.grgen.ir.*;
 //TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 
 //should be unified in abstract base classes and algorithms working on them
 
-public class SetType extends Type {
+public class SetType extends Type
+{
 	Type valueType;
 
-	public SetType(Type valueType) {
+	public SetType(Type valueType)
+	{
 		super("set type", null);
 		this.valueType = valueType;
 	}
 
-	public Type getValueType() {
+	public Type getValueType()
+	{
 		return valueType;
 	}
 
-	public String toString() {
+	public String toString()
+	{
 		return "set<" + valueType + ">";
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
-	public int classify() {
+	public int classify()
+	{
 		return IS_SET;
 	}
 }
