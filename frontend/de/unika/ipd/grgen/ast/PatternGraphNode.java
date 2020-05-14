@@ -524,14 +524,16 @@ public class PatternGraphNode extends GraphNode
 		for(PatternGraphNode pattern : negs.getChildren()) {
 			for(IteratedNode iter : pattern.iters.getChildren()) {
 				if(iter.right != null) {
-					iter.right.reportError("An iterated contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
+					iter.right.reportError("An iterated contained within a negative can't possess a rewrite part"
+							+ " (the negative is a pure negative application condition)");
 					result = false;
 				}
 			}
 			for(AlternativeNode alt : pattern.alts.getChildren()) {
 				for(AlternativeCaseNode altCase : alt.getChildren()) {
 					if(altCase.right != null) {
-						altCase.right.reportError("An alternative case contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
+						altCase.right.reportError("An alternative case contained within a negative can't possess a rewrite part"
+								+ " (the negative is a pure negative application condition)");
 						result = false;
 					}
 				}
@@ -540,14 +542,16 @@ public class PatternGraphNode extends GraphNode
 		for(PatternGraphNode pattern : idpts.getChildren()) {
 			for(IteratedNode iter : pattern.iters.getChildren()) {
 				if(iter.right != null) {
-					iter.right.reportError("An iterated contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
+					iter.right.reportError("An iterated contained within an independent can't possess a rewrite part"
+								+ " (the independent is a pure positive application condition)");
 					result = false;
 				}
 			}
 			for(AlternativeNode alt : pattern.alts.getChildren()) {
 				for(AlternativeCaseNode altCase : alt.getChildren()) {
 					if(altCase.right != null) {
-						altCase.right.reportError("An alternative case contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
+						altCase.right.reportError("An alternative case contained within an independent can't possess a rewrite part"
+								+ " (the independent is a pure positive application condition)");
 						result = false;
 					}
 				}
@@ -724,7 +728,8 @@ public class PatternGraphNode extends GraphNode
 	private void genTypeConditionsFromTypeof(PatternGraph gr, GraphEntity elem)
 	{
 		if(elem.inheritsType()) {
-			assert !elem.isCopy(); // must extend this function and lgsp nodes if left hand side copy/copyof are wanted meaning compare attributes of exact dynamic types
+			assert !elem.isCopy(); // must extend this function and lgsp nodes if left hand side copy/copyof are wanted
+								   // (meaning compare attributes of exact dynamic types)
 
 			Expression e1 = new Typeof(elem);
 			Expression e2 = new Typeof(elem.getTypeof());
