@@ -30,7 +30,7 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 	}
 
 	protected IdentNode typeUnresolved;
-	public TypeNode type;
+	public InheritanceTypeNode type;
 	protected IdentNode memberUnresolved;
 	public MemberDeclNode member;
 
@@ -82,12 +82,14 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 			return false;
 		//if(!resolved.resolve()) return false;
 
-		type = resolved.getDeclType();
+		TypeNode type = resolved.getDeclType();
 
 		if(!(type instanceof InheritanceTypeNode)) {
 			typeUnresolved.reportError("Type used for indexing with \"" + getIdentNode() + "\" must be a node or edge type ");
 			return false;
 		}
+		else
+			this.type = (InheritanceTypeNode)type;
 
 		ScopeOwner o = (ScopeOwner)type;
 		o.fixupDefinition(memberUnresolved);
@@ -109,6 +111,22 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 		assert isResolved();
 
 		return attributeIndexType;
+	}
+
+	@Override
+	public InheritanceTypeNode getType()
+	{
+		assert isResolved();
+
+		return type;
+	}
+
+	@Override
+	public TypeNode getExpectedAccessType()
+	{
+		assert isResolved();
+		
+		return member.getDeclType();
 	}
 
 	@Override

@@ -135,12 +135,8 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 		TypeNode expectedStorageKeyType = ((MapTypeNode)storageType).keyType;
 		TypeNode storageKeyType = accessor.getDeclType();
 		if(!storageKeyType.isCompatibleTo(expectedStorageKeyType)) {
-			String expTypeName = expectedStorageKeyType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)expectedStorageKeyType).getIdentNode().toString()
-					: expectedStorageKeyType.toString();
-			String typeName = storageKeyType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)storageKeyType).getIdentNode().toString()
-					: storageKeyType.toString();
+			String expTypeName = expectedStorageKeyType.getTypeName();
+			String typeName = storageKeyType.getTypeName();
 			ident.reportError("Cannot convert storage element type from \"" + typeName
 					+ "\" to \"" + expTypeName + "\" in match node by storage access");
 			return false;

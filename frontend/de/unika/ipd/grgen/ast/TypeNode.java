@@ -282,4 +282,8 @@ public abstract class TypeNode extends BaseNode
 	{
 		return "byte, short, int, long, float, double";
 	}
+	
+	public String getTypeName() {
+		return toString();
+	}
 }

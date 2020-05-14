@@ -80,12 +80,8 @@ public class MatchEdgeByNameLookupNode extends EdgeDeclNode implements EdgeChara
 		TypeNode expectedLookupType = StringTypeNode.stringType;
 		TypeNode lookupType = expr.getType();
 		if(!lookupType.isCompatibleTo(expectedLookupType)) {
-			String expTypeName = expectedLookupType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)expectedLookupType).getIdentNode().toString()
-					: expectedLookupType.toString();
-			String typeName = lookupType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)lookupType).getIdentNode().toString()
-					: lookupType.toString();
+			String expTypeName = expectedLookupType.getTypeName();
+			String typeName = lookupType.getTypeName();
 			ident.reportError("Cannot convert type used in accessing name map from \"" + typeName
 					+ "\" to \"" + expTypeName + "\" in match edge by name lookup");
 			return false;

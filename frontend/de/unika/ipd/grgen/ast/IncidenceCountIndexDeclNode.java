@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.exprevals.CountIncidentEdgeExprNode;
+import de.unika.ipd.grgen.ast.exprevals.IntTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.EdgeType;
@@ -158,11 +159,20 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 		return incidenceCountIndexType;
 	}
 
-	public TypeNode getType()
+	@Override
+	public InheritanceTypeNode getType()
 	{
 		assert isResolved();
 
 		return startNodeType;
+	}
+
+	@Override
+	public TypeNode getExpectedAccessType()
+	{
+		assert isResolved();
+		
+		return IntTypeNode.intType;
 	}
 
 	@Override

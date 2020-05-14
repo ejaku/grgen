@@ -80,12 +80,8 @@ public class MatchNodeByUniqueLookupNode extends NodeDeclNode implements NodeCha
 		TypeNode expectedLookupType = IntTypeNode.intType;
 		TypeNode lookupType = expr.getType();
 		if(!lookupType.isCompatibleTo(expectedLookupType)) {
-			String expTypeName = expectedLookupType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)expectedLookupType).getIdentNode().toString()
-					: expectedLookupType.toString();
-			String typeName = lookupType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)lookupType).getIdentNode().toString()
-					: lookupType.toString();
+			String expTypeName = expectedLookupType.getTypeName();
+			String typeName = lookupType.getTypeName();
 			ident.reportError("Cannot convert type used in accessing unique index from \"" + typeName
 					+ "\" to \"" + expTypeName + "\" in match node by unique lookup");
 			return false;

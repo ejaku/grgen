@@ -111,20 +111,12 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 			reportError("Can't employ match edge by index on RHS");
 			return false;
 		}
-		AttributeIndexDeclNode attributeIndex = index instanceof AttributeIndexDeclNode ? (AttributeIndexDeclNode)index : null;
-		IncidenceCountIndexDeclNode incidenceCountIndex = index instanceof IncidenceCountIndexDeclNode
-				? (IncidenceCountIndexDeclNode)index
-				: null;
 		if(expr != null) {
-			TypeNode expectedIndexAccessType = attributeIndex != null ? attributeIndex.member.getDeclType() : IntTypeNode.intType;
+			TypeNode expectedIndexAccessType = index.getExpectedAccessType();
 			TypeNode indexAccessType = expr.getType();
 			if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-				String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode
-						? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString()
-						: expectedIndexAccessType.toString();
-				String typeName = indexAccessType instanceof DeclaredTypeNode
-						? ((DeclaredTypeNode)indexAccessType).getIdentNode().toString()
-						: indexAccessType.toString();
+				String expTypeName = expectedIndexAccessType.getTypeName();
+				String typeName = indexAccessType.getTypeName();
 				ident.reportError("Cannot convert type used in accessing index from \"" + typeName
 						+ "\" to \"" + expTypeName + "\" in match edge by index access");
 				return false;
@@ -132,12 +124,8 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 			if(expr2 != null) {
 				TypeNode indexAccessType2 = expr2.getType();
 				if(!indexAccessType2.isCompatibleTo(expectedIndexAccessType)) {
-					String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode
-							? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString()
-							: expectedIndexAccessType.toString();
-					String typeName = indexAccessType2 instanceof DeclaredTypeNode
-							? ((DeclaredTypeNode)indexAccessType2).getIdentNode().toString()
-							: indexAccessType2.toString();
+					String expTypeName = expectedIndexAccessType.getTypeName();
+					String typeName = indexAccessType2.getTypeName();
 					ident.reportError("Cannot convert type used in accessing index from \"" + typeName
 							+ "\" to \"" + expTypeName + "\" in match edge by index access");
 					return false;
@@ -145,14 +133,10 @@ public class MatchEdgeByIndexAccessOrderingNode extends EdgeDeclNode implements 
 			}
 		}
 		TypeNode expectedEntityType = getDeclType();
-		TypeNode entityType = attributeIndex != null ? attributeIndex.type : incidenceCountIndex.getType();
+		InheritanceTypeNode entityType = index.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
-			String expTypeName = expectedEntityType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)expectedEntityType).getIdentNode().toString()
-					: expectedEntityType.toString();
-			String typeName = entityType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)entityType).getIdentNode().toString()
-					: entityType.toString();
+			String expTypeName = expectedEntityType.getTypeName();
+			String typeName = entityType.getTypeName();
 			ident.reportError("Cannot convert index type from \"" + typeName
 					+ "\" to pattern element type \"" + expTypeName + "\" in match edge by index access");
 			return false;

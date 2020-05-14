@@ -52,4 +52,8 @@ public abstract class DeclaredTypeNode extends TypeNode
 	{
 		return checkIR(PrimitiveType.class);
 	}
+	
+	public String getTypeName() {
+		return getIdentNode().toString();
+	}
 }

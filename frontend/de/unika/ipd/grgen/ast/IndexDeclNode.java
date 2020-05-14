@@ -24,4 +24,8 @@ public abstract class IndexDeclNode extends DeclNode
 	{
 		super(id, indexType);
 	}
+	
+	public abstract InheritanceTypeNode getType();
+	
+	public abstract TypeNode getExpectedAccessType();
 }
