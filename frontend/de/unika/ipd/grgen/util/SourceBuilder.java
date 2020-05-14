@@ -47,6 +47,15 @@ public class SourceBuilder
 		return this;
 	}
 
+	public SourceBuilder appendFrontIndented(String str)
+	{
+		for(int i = 0; i < indentationLevel + 1; ++i) {
+			stringBuilder.append("\t");
+		}
+		stringBuilder.append(str);
+		return this;
+	}
+
 	public SourceBuilder append(boolean b)
 	{
 		stringBuilder.append(b);
