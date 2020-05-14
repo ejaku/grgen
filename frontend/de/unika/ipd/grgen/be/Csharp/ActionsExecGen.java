@@ -364,7 +364,7 @@ public class ActionsExecGen extends CSharpBase
 			sb.appendFront("}\n");
 
 			sb.appendFront("public override bool exec(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv) {\n");
-			sb.appendFront("\treturn ApplyXGRS_" + pathPrefix + xgrsID + "(procEnv");
+			sb.appendFrontIndented("return ApplyXGRS_" + pathPrefix + xgrsID + "(procEnv");
 			for(Entity neededEntity : exec.getNeededEntities(false)) {
 				sb.append(", " + formatEntity(neededEntity));
 			}

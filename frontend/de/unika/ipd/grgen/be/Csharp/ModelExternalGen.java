@@ -119,7 +119,7 @@ public class ModelExternalGen extends CSharpBase
 		sb.indent();
 
 		sb.appendFront("public ExternalType_" + type.getIdent() + "()\n");
-		sb.appendFront("\t: base(\"" + type.getIdent() + "\", typeof(" + type.getIdent() + "))\n");
+		sb.appendFrontIndented(": base(\"" + type.getIdent() + "\", typeof(" + type.getIdent() + "))\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 
@@ -164,7 +164,7 @@ public class ModelExternalGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 			for(ExternalFunctionMethod efm : allExternalFunctionMethods) {
-				sb.append("yield return " + formatExternalFunctionMethodInfoName(efm, type) + ".Instance;\n");
+				sb.appendFront("yield return " + formatExternalFunctionMethodInfoName(efm, type) + ".Instance;\n");
 			}
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -188,7 +188,7 @@ public class ModelExternalGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 			for(ExternalFunctionMethod efm : allExternalFunctionMethods) {
-				sb.append("case \"" + formatIdentifiable(efm) + "\" : return " +
+				sb.appendFront("case \"" + formatIdentifiable(efm) + "\" : return " +
 						formatExternalFunctionMethodInfoName(efm, type) + ".Instance;\n");
 			}
 			sb.unindent();
@@ -238,7 +238,7 @@ public class ModelExternalGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 			for(ExternalProcedureMethod epm : allExternalProcedureMethods) {
-				sb.append("case \"" + formatIdentifiable(epm) + "\" : return " +
+				sb.appendFront("case \"" + formatIdentifiable(epm) + "\" : return " +
 						formatExternalProcedureMethodInfoName(epm, type) + ".Instance;\n");
 			}
 			sb.unindent();
@@ -266,7 +266,7 @@ public class ModelExternalGen extends CSharpBase
 		sb.append("\n");
 
 		sb.appendFront("private " + className + "()\n");
-		sb.indent().indent().indent();
+		sb.indent();
 		sb.appendFront(": base(\n");
 		sb.indent();
 		sb.appendFront("\"" + externalFunctionMethodName + "\",\n");
@@ -285,27 +285,27 @@ public class ModelExternalGen extends CSharpBase
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type inParamType : efm.getParameterTypes()) {
 			if(inParamType instanceof InheritanceType && !(inParamType instanceof ExternalType)) {
-				sb.append(formatTypeClassRef(inParamType) + ".typeVar, ");
+				sb.appendFront(formatTypeClassRef(inParamType) + ".typeVar, ");
 			} else {
-				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParamType) + ")), ");
+				sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(inParamType) + ")), ");
 			}
 		}
 		sb.append(" },\n");
 		Type outType = efm.getReturnType();
 		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
-			sb.append(formatTypeClassRef(outType) + ".typeVar\n");
+			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
-			sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
+			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
 		}
 		sb.unindent();
-		sb.append(")\n");
-		sb.unindent().unindent().unindent();
+		sb.appendFront(")\n");
+		sb.unindent();
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 
 		sb.appendFront("public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\tthrow new Exception(\"Not implemented, can't call function method without this object!\");\n");
+		sb.appendFrontIndented("throw new Exception(\"Not implemented, can't call function method without this object!\");\n");
 		sb.appendFront("}\n");
 
 		sb.unindent();
@@ -330,7 +330,7 @@ public class ModelExternalGen extends CSharpBase
 		sb.append("\n");
 
 		sb.appendFront("private " + className + "()\n");
-		sb.indent().indent().indent();
+		sb.indent();
 		sb.appendFront(": base(\n");
 		sb.indent();
 		sb.appendFront("\"" + externalProcedureMethodName + "\",\n");
@@ -364,15 +364,15 @@ public class ModelExternalGen extends CSharpBase
 			}
 		}
 		sb.append(" }\n");
-		sb.indent();
+		sb.unindent();
 		sb.appendFront(")\n");
-		sb.indent().indent().indent();
+		sb.unindent();
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 
 		sb.appendFront("public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, object[] arguments)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\tthrow new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
+		sb.appendFrontIndented("throw new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
 		sb.appendFront("}\n");
 
 		sb.unindent();
@@ -388,7 +388,7 @@ public class ModelExternalGen extends CSharpBase
 		sb.indent();
 
 		sb.appendFront("public ExternalType_object()\n");
-		sb.appendFront("\t: base(\"object\", typeof(object))\n");
+		sb.appendFrontIndented(": base(\"object\", typeof(object))\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 

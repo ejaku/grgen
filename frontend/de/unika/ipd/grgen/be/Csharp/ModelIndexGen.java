@@ -282,7 +282,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(that == otherBottom)\n");
-		sb.appendFront("\treturn bottom;\n");
+		sb.appendFrontIndented("return bottom;\n");
 		sb.appendFront("else\n");
 		sb.indent();
 		sb.appendFront("return new TreeNode(\n");
@@ -323,7 +323,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -349,7 +349,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -370,7 +370,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\tyield break;\n");
+		sb.appendFrontIndented("yield break;\n");
 		sb.append("\n");
 		sb.appendFront("int versionAtIterationBegin = version;\n");
 		sb.append("\n");
@@ -389,7 +389,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -403,7 +403,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("// the value is within range.\n");
 		sb.appendFront("yield return current.value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -423,7 +423,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -477,7 +477,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -532,7 +532,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -574,7 +574,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\tyield break;\n");
+		sb.appendFrontIndented("yield break;\n");
 		sb.append("\n");
 		sb.appendFront("int versionAtIterationBegin = version;\n");
 		sb.append("\n");
@@ -601,7 +601,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -640,7 +640,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("// the value is within range.\n");
 		sb.appendFront("yield return current.value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -669,7 +669,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -722,7 +722,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -777,7 +777,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 
@@ -819,7 +819,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\tyield break;\n");
+		sb.appendFrontIndented("yield break;\n");
 		sb.append("\n");
 		sb.appendFront("int versionAtIterationBegin = version;\n");
 		sb.append("\n");
@@ -847,7 +847,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -886,7 +886,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("// the value is within range.\n");
 		sb.appendFront("yield return current.value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -914,7 +914,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -947,7 +947,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(elem is " + graphElementType + ")\n");
-		sb.appendFront("\tInsert(ref root, (" + graphElementType + ")elem, "
+		sb.appendFrontIndented("Insert(ref root, (" + graphElementType + ")elem, "
 				+"((" + graphElementType + ")elem)." + attributeName + ");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -956,7 +956,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(elem is " + graphElementType + ")\n");
-		sb.appendFront("\tDelete(ref root, (" + graphElementType + ")elem);\n");
+		sb.appendFrontIndented("Delete(ref root, (" + graphElementType + ")elem);\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -978,9 +978,9 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(oldElem is " + graphElementType + ")\n");
-		sb.appendFront("\tDelete(ref root, (" + graphElementType + ")oldElem);\n");
+		sb.appendFrontIndented("Delete(ref root, (" + graphElementType + ")oldElem);\n");
 		sb.appendFront("if(newElem is " + graphElementType + ")\n");
-		sb.appendFront("\tInsert(ref root, (" + graphElementType + ")newElem, "
+		sb.appendFrontIndented("Insert(ref root, (" + graphElementType + ")newElem, "
 				+ "((" + graphElementType + ")newElem)." + attributeName + ");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -998,7 +998,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current.level != current.left.level)\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.append("\n");
 		sb.appendFront("// rotate right\n");
 		sb.appendFront("TreeNode left = current.left;\n");
@@ -1013,7 +1013,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current.right.right.level != current.level)\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.append("\n");
 		sb.appendFront("// rotate left\n");
 		sb.appendFront("TreeNode right = current.right;\n");
@@ -1048,7 +1048,7 @@ public class ModelIndexGen extends CSharpBase
 			sb.appendFront("if(attributeValue < current.value." + attributeName);
 		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique
 				+ ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFront("\tInsert(ref current.left, value, attributeValue);\n");
+		sb.appendFrontIndented("Insert(ref current.left, value, attributeValue);\n");
 		if(index.entity.getType() instanceof BooleanType)
 			sb.appendFront("else if(attributeValue.CompareTo(current.value." + attributeName + ")>0");
 		else if(index.entity.getType() instanceof StringType) {
@@ -1058,9 +1058,9 @@ public class ModelIndexGen extends CSharpBase
 			sb.appendFront("else if(attributeValue > current.value." + attributeName);
 		sb.append(" || ( attributeValue == current.value." + attributeName + " && (value" + castForUnique
 				+ ").uniqueId > (current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFront("\tInsert(ref current.right, value, attributeValue);\n");
+		sb.appendFrontIndented("Insert(ref current.right, value, attributeValue);\n");
 		sb.appendFront("else\n");
-		sb.appendFront("\tthrow new Exception(\"Insertion of already available element\");\n");
+		sb.appendFrontIndented("throw new Exception(\"Insertion of already available element\");\n");
 		sb.append("\n");
 		sb.appendFront("Skew(ref current);\n");
 		sb.appendFront("Split(ref current);\n");
@@ -1072,7 +1072,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.append("\n");
 		sb.appendFront("// search down the tree (and set pointer last and deleted)\n");
 		sb.appendFront("last = current;\n");
@@ -1085,7 +1085,7 @@ public class ModelIndexGen extends CSharpBase
 			sb.appendFront("if(value." + attributeName + " < current.value." + attributeName);
 		sb.append(" || ( value." + attributeName + " == current.value." + attributeName + " && (value" + castForUnique
 				+ ").uniqueId < (current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFront("\tDelete(ref current.left, value);\n");
+		sb.appendFrontIndented("Delete(ref current.left, value);\n");
 		sb.appendFront("else\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1109,12 +1109,12 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("}\n");
 		sb.appendFront("// on the way back, we rebalance\n");
 		sb.appendFront("else if(current.left.level < current.level - 1\n");
-		sb.appendFront("\t|| current.right.level < current.level - 1)\n");
+		sb.appendFrontIndented("|| current.right.level < current.level - 1)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("--current.level;\n");
 		sb.appendFront("if(current.right.level > current.level)\n");
-		sb.appendFront("\tcurrent.right.level = current.level;\n");
+		sb.appendFrontIndented("current.right.level = current.level;\n");
 		sb.appendFront("Skew(ref current);\n");
 		sb.appendFront("Skew(ref current.right);\n");
 		sb.appendFront("Skew(ref current.right.right);\n");
@@ -1352,7 +1352,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("root = FillAsClone(that.root, that.bottom, oldToNewMap);\n");
 		sb.appendFront("count = that.count;\n");
 		sb.appendFront("foreach(KeyValuePair<" + graphElementType + ", int> ntic in that.nodeToIncidenceCount)\n");
-		sb.appendFront("\tnodeToIncidenceCount.Add((" + graphElementType + ")oldToNewMap[ntic.Key], ntic.Value);\n");
+		sb.appendFrontIndented("nodeToIncidenceCount.Add((" + graphElementType + ")oldToNewMap[ntic.Key], ntic.Value);\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -1363,7 +1363,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(that == otherBottom)\n");
-		sb.appendFront("\treturn bottom;\n");
+		sb.appendFrontIndented("return bottom;\n");
 		sb.appendFront("else\n");
 		sb.indent();
 		sb.appendFront("return new TreeNode(\n");
@@ -1401,7 +1401,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\tyield break;\n");
+		sb.appendFrontIndented("yield break;\n");
 		sb.append("\n");
 		sb.appendFront("int versionAtIterationBegin = version;\n");
 		sb.append("\n");
@@ -1414,7 +1414,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -1428,7 +1428,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("// the value is within range.\n");
 		sb.appendFront("yield return current.value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -1442,7 +1442,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -1484,7 +1484,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\tyield break;\n");
+		sb.appendFrontIndented("yield break;\n");
 		sb.append("\n");
 		sb.appendFront("int versionAtIterationBegin = version;\n");
 		sb.append("\n");
@@ -1504,7 +1504,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -1529,7 +1529,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("// the value is within range.\n");
 		sb.appendFront("yield return current.value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -1551,7 +1551,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.appendFront("}\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -1592,7 +1592,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\tyield break;\n");
+		sb.appendFrontIndented("yield break;\n");
 		sb.append("\n");
 		sb.appendFront("int versionAtIterationBegin = version;\n");
 		sb.append("\n");
@@ -1613,7 +1613,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -1638,7 +1638,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("// the value is within range.\n");
 		sb.appendFront("yield return current.value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -1659,7 +1659,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		sb.appendFront("yield return value;\n");
 		sb.appendFront("if(version != versionAtIterationBegin)\n");
-		sb.appendFront("\tthrow new InvalidOperationException(\"Index changed during enumeration\");\n");
+		sb.appendFrontIndented("throw new InvalidOperationException(\"Index changed during enumeration\");\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.unindent();
@@ -1674,13 +1674,13 @@ public class ModelIndexGen extends CSharpBase
 		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
 		sb.appendFront("public int GetIncidenceCount(GRGEN_LIBGR.IGraphElement element)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\treturn GetIncidenceCount((" + graphElementType + ") element);\n");
+		sb.appendFrontIndented("return GetIncidenceCount((" + graphElementType + ") element);\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
 
 		sb.appendFront("public int GetIncidenceCount(" + graphElementType + " element)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\treturn nodeToIncidenceCount[element];\n");
+		sb.appendFrontIndented("return nodeToIncidenceCount[element];\n");
 		sb.appendFront("}\n");
 	}
 
@@ -1692,7 +1692,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.appendFront("Check(current.left);\n");
 		sb.appendFront("if(!nodeToIncidenceCount.ContainsKey(current.value)) {\n");
 		sb.indent();
@@ -1717,7 +1717,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.appendFront("Dump(current.left);\n");
 		sb.appendFront("Console.Write(current.key);\n");
 		sb.appendFront("Console.Write(\" -> \");\n");
@@ -1766,7 +1766,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		//sb.append("Check(root);\n");
 		sb.appendFront("if(!(edge is " + incidentEdgeType + "))\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.appendFront("GRGEN_LIBGR.INode source = edge.Source;\n");
 		sb.appendFront("GRGEN_LIBGR.INode target = edge.Target;\n");
 		genIndexMaintainingEdgeAdded(index);
@@ -1795,7 +1795,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.indent();
 		//sb.append("Check(root);\n");
 		sb.appendFront("if(!(edge is " + incidentEdgeType + "))\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.appendFront("GRGEN_LIBGR.INode source = edge.Source;\n");
 		sb.appendFront("GRGEN_LIBGR.INode target = edge.Target;\n");
 		genIndexMaintainingRemovingEdge(index);
@@ -1985,7 +1985,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current.level != current.left.level)\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.append("\n");
 		sb.appendFront("// rotate right\n");
 		sb.appendFront("TreeNode left = current.left;\n");
@@ -2000,7 +2000,7 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current.right.right.level != current.level)\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.append("\n");
 		sb.appendFront("// rotate left\n");
 		sb.appendFront("TreeNode right = current.right;\n");
@@ -2028,13 +2028,13 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("if(key < current.key");
 		sb.appendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId < "
 				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFront("\tInsert(ref current.left, key, value);\n");
+		sb.appendFrontIndented("Insert(ref current.left, key, value);\n");
 		sb.appendFront("else if(key > current.key");
 		sb.appendFront(" || ( key == current.key && (value" + castForUnique + ").uniqueId > "
 				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFront("\tInsert(ref current.right, key, value);\n");
+		sb.appendFrontIndented("Insert(ref current.right, key, value);\n");
 		sb.appendFront("else\n");
-		sb.appendFront("\tthrow new Exception(\"Insertion of already available element\");\n");
+		sb.appendFrontIndented("throw new Exception(\"Insertion of already available element\");\n");
 		sb.append("\n");
 		sb.appendFront("Skew(ref current);\n");
 		sb.appendFront("Split(ref current);\n");
@@ -2046,14 +2046,14 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(current == bottom)\n");
-		sb.appendFront("\treturn;\n");
+		sb.appendFrontIndented("return;\n");
 		sb.append("\n");
 		sb.appendFront("// search down the tree (and set pointer last and deleted)\n");
 		sb.appendFront("last = current;\n");
 		sb.appendFront("if(key < current.key");
 		sb.append(" || ( key == current.key && (value" + castForUnique + ").uniqueId < "
 				+ "(current.value" + castForUnique + ").uniqueId ) )\n");
-		sb.appendFront("\tDelete(ref current.left, key, value);\n");
+		sb.appendFrontIndented("Delete(ref current.left, key, value);\n");
 		sb.appendFront("else\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -2078,12 +2078,12 @@ public class ModelIndexGen extends CSharpBase
 		sb.appendFront("}\n");
 		sb.appendFront("// on the way back, we rebalance\n");
 		sb.appendFront("else if(current.left.level < current.level - 1\n");
-		sb.appendFront("\t|| current.right.level < current.level - 1)\n");
+		sb.appendFrontIndented("|| current.right.level < current.level - 1)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("--current.level;\n");
 		sb.appendFront("if(current.right.level > current.level)\n");
-		sb.appendFront("\tcurrent.right.level = current.level;\n");
+		sb.appendFrontIndented("current.right.level = current.level;\n");
 		sb.appendFront("Skew(ref current);\n");
 		sb.appendFront("Skew(ref current.right);\n");
 		sb.appendFront("Skew(ref current.right.right);\n");

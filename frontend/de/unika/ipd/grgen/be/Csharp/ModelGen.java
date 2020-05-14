@@ -541,7 +541,7 @@ public class ModelGen extends CSharpBase
 		} else {
 			sb.appendFront("public " + elemname + "(GRGEN_LGSP.LGSPNode source, "
 					+ "GRGEN_LGSP.LGSPNode target)\n");
-			sb.appendFront("\t: base(" + typeref + ".typeVar, source, target)\n");
+			sb.appendFrontIndented(": base(" + typeref + ".typeVar, source, target)\n");
 			sb.appendFront("{\n");
 			sb.indent();
 			initAllMembersNonConst(type, "this", false, false);
@@ -560,12 +560,12 @@ public class ModelGen extends CSharpBase
 		boolean isNode = type instanceof NodeType;
 		if(isNode) {
 			routedSB.appendFront("public override GRGEN_LIBGR.INode Clone() {\n");
-			routedSB.appendFront("\treturn new " + routedDeclName + "(this);\n");
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this);\n");
 			routedSB.appendFront("}\n");
 		} else {
 			routedSB.appendFront("public override GRGEN_LIBGR.IEdge Clone("
 					+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget) {\n");
-			routedSB.appendFront("\treturn new " + routedDeclName + "(this, (GRGEN_LGSP.LGSPNode) newSource, "
+			routedSB.appendFrontIndented("return new " + routedDeclName + "(this, (GRGEN_LGSP.LGSPNode) newSource, "
 					+ "(GRGEN_LGSP.LGSPNode) newTarget);\n");
 			routedSB.appendFront("}\n");
 		}
@@ -581,7 +581,7 @@ public class ModelGen extends CSharpBase
 		} else {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName
 					+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)\n");
-			routedSB.appendFront("\t: base("
+			routedSB.appendFrontIndented(": base("
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
 		}
 		routedSB.appendFront("{\n");
@@ -658,7 +658,7 @@ public class ModelGen extends CSharpBase
 			sb.indent();
 			sb.appendFront(elemref + " node;\n");
 			sb.appendFront("if(poolLevel == 0)\n");
-			sb.appendFront("\tnode = new " + allocName + "();\n");
+			sb.appendFrontIndented("node = new " + allocName + "();\n");
 			sb.appendFront("else\n");
 			sb.appendFront("{\n");
 			sb.indent();
@@ -681,7 +681,7 @@ public class ModelGen extends CSharpBase
 			sb.indent();
 			sb.appendFront(elemref + " node;\n");
 			sb.appendFront("if(poolLevel == 0)\n");
-			sb.appendFront("\tnode = new " + allocName + "();\n");
+			sb.appendFrontIndented("node = new " + allocName + "();\n");
 			sb.appendFront("else\n");
 			sb.appendFront("{\n");
 			sb.indent();
@@ -703,7 +703,7 @@ public class ModelGen extends CSharpBase
 			sb.indent();
 			sb.appendFront(elemref + " edge;\n");
 			sb.appendFront("if(poolLevel == 0)\n");
-			sb.appendFront("\tedge = new " + allocName + "(source, target);\n");
+			sb.appendFrontIndented("edge = new " + allocName + "(source, target);\n");
 			sb.appendFront("else\n");
 			sb.appendFront("{\n");
 			sb.indent();
@@ -726,7 +726,7 @@ public class ModelGen extends CSharpBase
 			sb.indent();
 			sb.appendFront(elemref + " edge;\n");
 			sb.appendFront("if(poolLevel == 0)\n");
-			sb.appendFront("\tedge = new " + allocName + "(source, target);\n");
+			sb.appendFrontIndented("edge = new " + allocName + "(source, target);\n");
 			sb.appendFront("else\n");
 			sb.appendFront("{\n");
 			sb.indent();
@@ -750,7 +750,7 @@ public class ModelGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(poolLevel < 10)\n");
-		sb.appendFront("\tpool[poolLevel++] = this;\n");
+		sb.appendFrontIndented("pool[poolLevel++] = this;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
 	}
@@ -1118,7 +1118,7 @@ deque_init_loop:
 		// init const members of deque value with explicit initialization
 		genMemberInitsConstDequeType(type, targetType, staticInitializers, initializedConstMembers);
 
-		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type)
+		sb.appendFront("// implicit initializations of " + formatIdentifiable(type)
 				+ " for target " + formatIdentifiable(targetType) + "\n");
 
 		genMemberImplicitInitsNonConst(type, targetType, initializedConstMembers);
@@ -1287,10 +1287,10 @@ deque_init_loop:
 
 			if(memberType instanceof MapType || memberType instanceof SetType
 					|| memberType instanceof ArrayType || memberType instanceof DequeType) {
-				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX
+				sb.appendFront("private static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX
 						+ " = " + "new " + attrType + "();\n");
 			} else
-				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
+				sb.appendFront("private static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 		}
 	}
 
@@ -1399,7 +1399,7 @@ deque_init_loop:
 			// they are class static, the member is created at the point of initialization
 			routedSB.appendFront("public " + extModifier + attrType + " @" + attrName + "\n");
 			routedSB.appendFront("{\n");
-			routedSB.appendFront("\tget { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
+			routedSB.appendFrontIndented("get { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
 			routedSB.appendFront("}\n");
 		} else {
 			// member, getter, setter for non-const attributes
@@ -1447,7 +1447,7 @@ deque_init_loop:
 			sb.appendFront("}\n");
 		}
 		sb.appendFront("throw new NullReferenceException(\n");
-		sb.appendFront("\t\"The " + (type instanceof NodeType ? "node" : "edge")
+		sb.appendFrontIndented("\"The " + (type instanceof NodeType ? "node" : "edge")
 				+ " type \\\"" + formatIdentifiable(type)
 				+ "\\\" does not have the attribute \\\"\" + attrName + \"\\\"!\");\n");
 
@@ -1481,7 +1481,7 @@ deque_init_loop:
 			sb.appendFront("}\n");
 		}
 		sb.appendFront("throw new NullReferenceException(\n");
-		sb.appendFront("\t\"The " + (type instanceof NodeType ? "node" : "edge")
+		sb.appendFrontIndented("\"The " + (type instanceof NodeType ? "node" : "edge")
 				+ " type \\\"" + formatIdentifiable(type)
 				+ "\\\" does not have the attribute \\\"\" + attrName + \"\\\"!\");\n");
 		sb.unindent();
@@ -1501,7 +1501,7 @@ deque_init_loop:
 	private void genParameterPassingMethodCall(InheritanceType type, FunctionMethod fm)
 	{
 		sb.appendFront("case \"" + fm.getIdent().toString() + "\":\n");
-		sb.appendFront("\treturn @" + fm.getIdent().toString() + "(actionEnv, graph");
+		sb.appendFrontIndented("return @" + fm.getIdent().toString() + "(actionEnv, graph");
 		int i = 0;
 		for(Entity inParam : fm.getParameters()) {
 			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
@@ -1875,7 +1875,7 @@ deque_init_loop:
 
 		sb.appendFront("public override bool IsA(GRGEN_LIBGR.GrGenType other)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\treturn (this == other) || isA[other.TypeID];\n");
+		sb.appendFrontIndented("return (this == other) || isA[other.TypeID];\n");
 		sb.appendFront("}\n");
 
 		genCreateWithCopyCommons(type);
@@ -2097,13 +2097,15 @@ deque_init_loop:
 			sb.indent();
 			sb.appendFront("get\n");
 			sb.appendFront("{\n");
+			sb.indent();
 			for(Entity e : allMembers) {
 				Type ownerType = e.getOwner();
 				if(ownerType == type)
-					sb.appendFront("\tyield return " + formatAttributeTypeName(e) + ";\n");
+					sb.appendFront("yield return " + formatAttributeTypeName(e) + ";\n");
 				else
-					sb.appendFront("\tyield return " + formatTypeClassRef(ownerType) + "." + formatAttributeTypeName(e) + ";\n");
+					sb.appendFront("yield return " + formatTypeClassRef(ownerType) + "." + formatAttributeTypeName(e) + ";\n");
 			}
+			sb.unindent();
 			sb.appendFront("}\n");
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -2123,15 +2125,17 @@ deque_init_loop:
 			sb.indent();
 			sb.appendFront("switch(name)\n");
 			sb.appendFront("{\n");
+			sb.indent();
 			for(Entity e : allMembers) {
 				Type ownerType = e.getOwner();
 				if(ownerType == type)
-					sb.appendFront("\tcase \"" + formatIdentifiable(e) + "\" : return " +
+					sb.appendFront("case \"" + formatIdentifiable(e) + "\" : return " +
 							formatAttributeTypeName(e) + ";\n");
 				else
-					sb.appendFront("\tcase \"" + formatIdentifiable(e) + "\" : return " +
+					sb.appendFront("case \"" + formatIdentifiable(e) + "\" : return " +
 							formatTypeClassRef(ownerType) + "." + formatAttributeTypeName(e) + ";\n");
 			}
+			sb.unindent();
 			sb.appendFront("}\n");
 			sb.appendFront("return null;\n");
 			sb.unindent();
@@ -2152,9 +2156,11 @@ deque_init_loop:
 			sb.indent();
 			sb.appendFront("get\n");
 			sb.appendFront("{\n");
+			sb.indent();
 			for(FunctionMethod fm : allFunctionMethods) {
-				sb.append("\tyield return " + formatFunctionMethodInfoName(fm, type) + ".Instance;\n");
+				sb.appendFront("yield return " + formatFunctionMethodInfoName(fm, type) + ".Instance;\n");
 			}
+			sb.unindent();
 			sb.appendFront("}\n");
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -2174,10 +2180,12 @@ deque_init_loop:
 			sb.indent();
 			sb.appendFront("switch(name)\n");
 			sb.appendFront("{\n");
+			sb.indent();
 			for(FunctionMethod fm : allFunctionMethods) {
-				sb.append("\tcase \"" + formatIdentifiable(fm) + "\" : return " +
+				sb.appendFront("case \"" + formatIdentifiable(fm) + "\" : return " +
 						formatFunctionMethodInfoName(fm, type) + ".Instance;\n");
 			}
+			sb.unindent();
 			sb.appendFront("}\n");
 			sb.appendFront("return null;\n");
 			sb.unindent();
@@ -2198,9 +2206,11 @@ deque_init_loop:
 			sb.indent();
 			sb.appendFront("get\n");
 			sb.appendFront("{\n");
+			sb.indent();
 			for(ProcedureMethod pm : allProcedureMethods) {
-				sb.append("\tyield return " + formatProcedureMethodInfoName(pm, type) + ".Instance;\n");
+				sb.appendFront("yield return " + formatProcedureMethodInfoName(pm, type) + ".Instance;\n");
 			}
+			sb.unindent();
 			sb.appendFront("}\n");
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -2220,10 +2230,12 @@ deque_init_loop:
 			sb.indent();
 			sb.appendFront("switch(name)\n");
 			sb.appendFront("{\n");
+			sb.indent();
 			for(ProcedureMethod pm : allProcedureMethods) {
-				sb.append("\tcase \"" + formatIdentifiable(pm) + "\" : return " +
+				sb.appendFront("case \"" + formatIdentifiable(pm) + "\" : return " +
 						formatProcedureMethodInfoName(pm, type) + ".Instance;\n");
 			}
+			sb.unindent();
 			sb.appendFront("}\n");
 			sb.appendFront("return null;\n");
 			sb.unindent();
@@ -2390,15 +2402,15 @@ commonLoop:
 				boolean alreadyCasted = false;
 				for(Entity member : members) {
 					if(member.isConst()) {
-						sb.appendFront("\t// is const: " + formatIdentifiable(member) + "\n");
+						sb.appendFrontIndented("// is const: " + formatIdentifiable(member) + "\n");
 						continue;
 					}
 					if(member.getType().isVoid()) {
-						sb.appendFront("\t// is abstract: " + formatIdentifiable(member) + "\n");
+						sb.appendFrontIndented("// is abstract: " + formatIdentifiable(member) + "\n");
 						continue;
 					}
 					if(copiedAttribs.contains(member)) {
-						sb.appendFront("\t// already copied: " + formatIdentifiable(member) + "\n");
+						sb.appendFrontIndented("// already copied: " + formatIdentifiable(member) + "\n");
 						continue;
 					}
 					if(!alreadyCasted) {
@@ -2457,19 +2469,21 @@ commonLoop:
 		sb.append("\n");
 
 		sb.appendFront("private " + className + "()\n");
-		sb.appendFront("\t\t\t: base(\n");
-		sb.appendFront("\t\t\t\t\"" + functionMethodName + "\",\n");
-		sb.appendFront("\t\t\t\t" + (packageName != null ? "\"" + packageName + "\"" : "null") + ", ");
+		sb.indent();
+		sb.appendFront(": base(\n");
+		sb.indent();
+		sb.appendFront("\"" + functionMethodName + "\",\n");
+		sb.appendFront((packageName != null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName != null
 				? packageName + "::" + functionMethodName
 				: functionMethodName) + "\",\n");
-		sb.appendFront("\t\t\t\tfalse,\n");
-		sb.appendFront("\t\t\t\tnew String[] { ");
+		sb.appendFront("false,\n");
+		sb.appendFront("new String[] { ");
 		for(Entity inParam : fm.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");
 		}
 		sb.append(" },\n");
-		sb.appendFront("\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : fm.getParameters()) {
 			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
@@ -2480,18 +2494,20 @@ commonLoop:
 		sb.append(" },\n");
 		Type outType = fm.getReturnType();
 		if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
-			sb.appendFront("\t\t\t\t" + formatTypeClassRef(outType) + ".typeVar\n");
+			sb.appendFront(formatTypeClassRef(outType) + ".typeVar\n");
 		} else {
-			sb.appendFront("\t\t\t\tGRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
+			sb.appendFront("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(outType) + "))\n");
 		}
-		sb.appendFront("\t\t\t  )\n");
+		sb.unindent();
+		sb.appendFront(")\n");
+		sb.unindent();
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 
 		sb.appendFront("public override object Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph, "
 				+ "object[] arguments)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\tthrow new Exception(\"Not implemented, can't call function method without this object!\");\n");
+		sb.appendFrontIndented("throw new Exception(\"Not implemented, can't call function method without this object!\");\n");
 		sb.appendFront("}\n");
 
 		sb.unindent();
@@ -2509,26 +2525,28 @@ commonLoop:
 
 		sb.appendFront("public class " + className + " : GRGEN_LIBGR.ProcedureInfo\n");
 		sb.appendFront("{\n");
-		sb.unindent();
+		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
 		sb.append("public static " + className + " Instance { get { if (instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 
 		sb.appendFront("private " + className + "()\n");
-		sb.appendFront("\t\t\t: base(\n");
-		sb.appendFront("\t\t\t\t\"" + procedureMethodName + "\",\n");
-		sb.appendFront("\t\t\t\t" + (packageName != null ? "\"" + packageName + "\"" : "null") + ", ");
+		sb.indent();
+		sb.appendFront(": base(\n");
+		sb.indent();
+		sb.appendFront("\"" + procedureMethodName + "\",\n");
+		sb.appendFront((packageName != null ? "\"" + packageName + "\"" : "null") + ", ");
 		sb.append("\"" + (packageName != null
 				? packageName + "::" + procedureMethodName
 				: procedureMethodName) + "\",\n");
-		sb.appendFront("\t\t\t\tfalse,\n");
-		sb.appendFront("\t\t\t\tnew String[] { ");
+		sb.appendFront("false,\n");
+		sb.appendFront("new String[] { ");
 		for(Entity inParam : pm.getParameters()) {
 			sb.append("\"" + inParam.getIdent() + "\", ");
 		}
 		sb.append(" },\n");
-		sb.appendFront("\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity inParam : pm.getParameters()) {
 			if(inParam.getType() instanceof InheritanceType && !(inParam.getType() instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
@@ -2537,7 +2555,7 @@ commonLoop:
 			}
 		}
 		sb.append(" },\n");
-		sb.appendFront("\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
 		for(Type outType : pm.getReturnTypes()) {
 			if(outType instanceof InheritanceType && !(outType instanceof ExternalType)) {
 				sb.append(formatTypeClassRef(outType) + ".typeVar, ");
@@ -2546,14 +2564,16 @@ commonLoop:
 			}
 		}
 		sb.append(" }\n");
-		sb.appendFront("\t\t\t  )\n");
+		sb.unindent();
+		sb.appendFront(")\n");
+		sb.unindent();
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 
 		sb.appendFront("public override object[] Apply(GRGEN_LIBGR.IActionExecutionEnvironment actionEnv, GRGEN_LIBGR.IGraph graph,"
 				+ " object[] arguments)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\tthrow new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
+		sb.appendFrontIndented("throw new Exception(\"Not implemented, can't call procedure method without this object!\");\n");
 		sb.appendFront("}\n");
 
 		sb.unindent();
@@ -2653,8 +2673,10 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i = 0; i < list.Count; ++i)\n");
-		sb.appendFront("\tif(list[i].@" + attributeName + ".Equals(entry))\n");
-		sb.appendFront("\t\treturn i;\n");
+		sb.indent();
+		sb.appendFront("if(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.appendFrontIndented("return i;\n");
+		sb.unindent();
 		sb.appendFront("return -1;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -2667,8 +2689,10 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i = startIndex; i < list.Count; ++i)\n");
-		sb.appendFront("\tif(list[i].@" + attributeName + ".Equals(entry))\n");
-		sb.appendFront("\t\treturn i;\n");
+		sb.indent();
+		sb.appendFront("if(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.appendFrontIndented("return i;\n");
+		sb.unindent();
 		sb.appendFront("return -1;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -2681,8 +2705,10 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i = list.Count - 1; i >= 0; --i)\n");
-		sb.appendFront("\tif(list[i].@" + attributeName + ".Equals(entry))\n");
-		sb.appendFront("\t\treturn i;\n");
+		sb.indent();
+		sb.appendFront("if(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.appendFrontIndented("return i;\n");
+		sb.unindent();
 		sb.appendFront("return -1;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -2695,8 +2721,10 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i = startIndex; i >= 0; --i)\n");
-		sb.appendFront("\tif(list[i].@" + attributeName + ".Equals(entry))\n");
-		sb.appendFront("\t\treturn i;\n");
+		sb.indent();
+		sb.appendFront("if(list[i].@" + attributeName + ".Equals(entry))\n");
+		sb.appendFrontIndented("return i;\n");
+		sb.unindent();
 		sb.appendFront("return -1;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -2746,7 +2774,7 @@ commonLoop:
 		sb.appendFront("List<" + attributeTypeName + "> resultList = new List<"
 				+ attributeTypeName + ">(list.Count);\n");
 		sb.appendFront("foreach(" + typeName + " entry in list)\n");
-		sb.appendFront("\tresultList.Add(entry.@" + attributeName + ");\n");
+		sb.appendFrontIndented("resultList.Add(entry.@" + attributeName + ");\n");
 		sb.appendFront("return resultList;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -2816,7 +2844,7 @@ commonLoop:
 		sb.appendFront("}\n");
 		sb.appendFront("GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\treturn GetType(name);\n");
+		sb.appendFrontIndented("return GetType(name);\n");
 		sb.appendFront("}\n");
 
 		sb.appendFront("private GRGEN_LIBGR." + kindStr + "Type[] types = {\n");
@@ -2938,7 +2966,7 @@ commonLoop:
 
 		sb.appendFront("public " + modelName + "GraphModel()\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\tFullyInitializeExternalTypes();\n");
+		sb.appendFrontIndented("FullyInitializeExternalTypes();\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
 
@@ -3036,7 +3064,7 @@ commonLoop:
 		String elemref = formatElementClassRef(nodeType);
 		sb.appendFront("public " + elemref + " CreateNode" + name + "()\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\treturn " + elemref + ".CreateNode(this);\n");
+		sb.appendFrontIndented("return " + elemref + ".CreateNode(this);\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
 
@@ -3045,7 +3073,7 @@ commonLoop:
 
 		sb.appendFront("public " + elemref + " CreateNode" + name + "(string nodeName)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\treturn " + elemref + ".CreateNode(this, nodeName);\n");
+		sb.appendFrontIndented("return " + elemref + ".CreateNode(this, nodeName);\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
 	}
@@ -3060,7 +3088,7 @@ commonLoop:
 		sb.appendFront("public @" + elemref + " CreateEdge" + name);
 		sb.append("(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\treturn @" + elemref + ".CreateEdge(this, source, target);\n");
+		sb.appendFrontIndented("return @" + elemref + ".CreateEdge(this, source, target);\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
 
@@ -3070,7 +3098,7 @@ commonLoop:
 		sb.appendFront("public @" + elemref + " CreateEdge" + name);
 		sb.append("(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string edgeName)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\treturn @" + elemref + ".CreateEdge(this, source, target, edgeName);\n");
+		sb.appendFrontIndented("return @" + elemref + ".CreateEdge(this, source, target, edgeName);\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
 	}
@@ -3106,8 +3134,10 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("for(int i=0; i<indexDescriptions.Length; ++i)\n");
-		sb.appendFront("\tif(indexDescriptions[i].Name==indexName)\n");
-		sb.appendFront("\t\treturn indexDescriptions[i];\n");
+		sb.indent();
+		sb.appendFront("if(indexDescriptions[i].Name==indexName)\n");
+		sb.appendFrontIndented("return indexDescriptions[i];\n");
+		sb.unindent();
 		sb.appendFront("return null;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -3133,26 +3163,26 @@ commonLoop:
 			sb.append("\n");
 			sb.appendFront("public override object Parse(TextReader reader, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.appendFront("{\n");
-			sb.appendFront("\treturn AttributeTypeObjectEmitterParser.Parse(reader, attrType, graph);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectEmitterParser.Parse(reader, attrType, graph);\n");
 			sb.appendFront("}\n");
 			sb.appendFront("public override string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.appendFront("{\n");
-			sb.appendFront("\treturn AttributeTypeObjectEmitterParser.Serialize(attribute, attrType, graph);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectEmitterParser.Serialize(attribute, attrType, graph);\n");
 			sb.appendFront("}\n");
 			sb.appendFront("public override string Emit(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.appendFront("{\n");
-			sb.appendFront("\treturn AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectEmitterParser.Emit(attribute, attrType, graph);\n");
 			sb.appendFront("}\n");
 			sb.appendFront("public override void External(string line, GRGEN_LIBGR.IGraph graph)\n");
 			sb.appendFront("{\n");
-			sb.appendFront("\tAttributeTypeObjectEmitterParser.External(line, graph);\n");
+			sb.appendFrontIndented("AttributeTypeObjectEmitterParser.External(line, graph);\n");
 			sb.appendFront("}\n");
 		}
 		if(model.isEmitGraphClassDefined()) {
 			sb.append("\n");
 			sb.appendFront("public override GRGEN_LIBGR.INamedGraph AsGraph(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)\n");
 			sb.appendFront("{\n");
-			sb.appendFront("\treturn AttributeTypeObjectEmitterParser.AsGraph(attribute, attrType, graph);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectEmitterParser.AsGraph(attribute, attrType, graph);\n");
 			sb.appendFront("}\n");
 		}
 
@@ -3185,18 +3215,18 @@ commonLoop:
 			sb.appendFront("public override bool IsLowerClassDefined { get { return true; } }\n");
 			sb.appendFront("public override bool IsEqual(object this_, object that)\n");
 			sb.appendFront("{\n");
-			sb.appendFront("\treturn AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
 			sb.appendFront("}\n");
 			sb.appendFront("public override bool IsLower(object this_, object that)\n");
 			sb.appendFront("{\n");
-			sb.appendFront("\treturn AttributeTypeObjectCopierComparer.IsLower(this_, that);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsLower(this_, that);\n");
 			sb.appendFront("}\n");
 		} else if(model.isEqualClassDefined()) {
 			sb.append("\n");
 			sb.appendFront("public override bool IsEqualClassDefined { get { return true; } }\n");
 			sb.appendFront("public override bool IsEqual(object this_, object that)\n");
 			sb.appendFront("{\n");
-			sb.appendFront("\treturn AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
+			sb.appendFrontIndented("return AttributeTypeObjectCopierComparer.IsEqual(this_, that);\n");
 			sb.appendFront("}\n");
 		}
 	}
@@ -3328,7 +3358,7 @@ commonLoop:
 		sb.appendFront("}\n");
 
 		sb.appendFront("public override GRGEN_LIBGR.IIndexSet CreateIndexSet(GRGEN_LIBGR.IGraph graph) {\n");
-		sb.appendFront("\treturn new " + model.getIdent() + "IndexSet((GRGEN_LGSP.LGSPGraph)graph);\n");
+		sb.appendFrontIndented("return new " + model.getIdent() + "IndexSet((GRGEN_LGSP.LGSPGraph)graph);\n");
 		sb.appendFront("}\n");
 
 		sb.appendFront("public override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, "

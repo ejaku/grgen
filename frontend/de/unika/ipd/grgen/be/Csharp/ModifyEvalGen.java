@@ -1680,13 +1680,13 @@ public class ModifyEvalGen extends CSharpBase
 					sb.appendFront("if(!edge_" + id + ".InstanceOf(");
 					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);
 					sb.append("))\n");
-					sb.appendFront("\tcontinue;\n");
+					sb.appendFrontIndented("continue;\n");
 				}
 
 				sb.appendFront("if(!edge_" + id + ".Opposite(node_" + id + ").InstanceOf(");
 				genExpression(sb, adjacent.getAdjacentNodeTypeExpr(), state);
 				sb.append("))\n");
-				sb.appendFront("\tcontinue;\n");
+				sb.appendFrontIndented("continue;\n");
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id
@@ -1715,13 +1715,13 @@ public class ModifyEvalGen extends CSharpBase
 					sb.appendFront("if(!edge_" + id + ".InstanceOf(");
 					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);
 					sb.append("))\n");
-					sb.appendFront("\tcontinue;\n");
+					sb.appendFrontIndented("continue;\n");
 				}
 
 				sb.appendFront("if(!edge_" + id + ".Source.InstanceOf(");
 				genExpression(sb, adjacent.getAdjacentNodeTypeExpr(), state);
 				sb.append("))\n");
-				sb.appendFront("\tcontinue;\n");
+				sb.appendFrontIndented("continue;\n");
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id
@@ -1750,13 +1750,13 @@ public class ModifyEvalGen extends CSharpBase
 					sb.appendFront("if(!edge_" + id + ".InstanceOf(");
 					genExpression(sb, adjacent.getIncidentEdgeTypeExpr(), state);
 					sb.append("))\n");
-					sb.appendFront("\tcontinue;\n");
+					sb.appendFrontIndented("continue;\n");
 				}
 
 				sb.appendFront("if(!edge_" + id + ".Target.InstanceOf(");
 				genExpression(sb, adjacent.getAdjacentNodeTypeExpr(), state);
 				sb.append("))\n");
-				sb.appendFront("\tcontinue;\n");
+				sb.appendFrontIndented("continue;\n");
 				sb.append(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id
@@ -1788,13 +1788,13 @@ public class ModifyEvalGen extends CSharpBase
 					sb.appendFront("if(!edge_" + id + ".InstanceOf(");
 					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);
 					sb.append("))\n");
-					sb.appendFront("\tcontinue;\n");
+					sb.appendFrontIndented("continue;\n");
 				}
 
 				sb.appendFront("if(!edge_" + id + ".Opposite(node_" + id + ").InstanceOf(");
 				genExpression(sb, incident.getAdjacentNodeTypeExpr(), state);
 				sb.append("))\n");
-				sb.appendFront("\tcontinue;\n");
+				sb.appendFrontIndented("continue;\n");
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
@@ -1822,13 +1822,13 @@ public class ModifyEvalGen extends CSharpBase
 					sb.appendFront("if(!edge_" + id + ".InstanceOf(");
 					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);
 					sb.append("))\n");
-					sb.appendFront("\tcontinue;\n");
+					sb.appendFrontIndented("continue;\n");
 				}
 
 				sb.appendFront("if(!edge_" + id + ".Source.InstanceOf(");
 				genExpression(sb, incident.getAdjacentNodeTypeExpr(), state);
 				sb.append("))\n");
-				sb.appendFront("\tcontinue;\n");
+				sb.appendFrontIndented("continue;\n");
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
@@ -1856,13 +1856,13 @@ public class ModifyEvalGen extends CSharpBase
 					sb.appendFront("if(!edge_" + id + ".InstanceOf(");
 					genExpression(sb, incident.getIncidentEdgeTypeExpr(), state);
 					sb.append("))\n");
-					sb.appendFront("\tcontinue;\n");
+					sb.appendFrontIndented("continue;\n");
 				}
 
 				sb.appendFront("if(!edge_" + id + ".Target.InstanceOf(");
 				genExpression(sb, incident.getAdjacentNodeTypeExpr(), state);
 				sb.append("))\n");
-				sb.appendFront("\tcontinue;\n");
+				sb.appendFrontIndented("continue;\n");
 				sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 						+ formatEntity(ff.getIterationVar()));
 				sb.append(" = (" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
@@ -2562,7 +2562,7 @@ public class ModifyEvalGen extends CSharpBase
 			genExpression(sb, expr, state);
 			sb.append(";\n");
 			sb.appendFront("if(" + emitVar + " != null)\n");
-			sb.appendFront("\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv)." + emitWriter + ".Write("
+			sb.appendFrontIndented("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv)." + emitWriter + ".Write("
 					+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph));\n");
 		}
 	}
@@ -2662,7 +2662,7 @@ public class ModifyEvalGen extends CSharpBase
 		genExpression(sb, rp.getToRecordExpr(), state);
 		sb.append(";\n");
 		sb.appendFront("if(" + recordVar + " != null)\n");
-		sb.appendFront("\t((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
+		sb.appendFrontIndented("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
 				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph));\n");
 	}
 
@@ -3080,7 +3080,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront("foreach(KeyValuePair<" + formatType(attributeType.getKeyType()) + ","
 						+ formatType(attributeType.getValueType()) + "> kvp " +
 						"in " + targetStr + ")\n");
-				sb.appendFront("\tgraph.Changing" + kindStr + "Attribute(" +
+				sb.appendFrontIndented("graph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) + ", " +
 						formatTypeClassRef(elementType) + "." +
 						formatAttributeTypeName(attribute) + ", " +
@@ -3091,7 +3091,7 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront("foreach(KeyValuePair<" + formatType(attributeType.getValueType())
 						+ ", GRGEN_LIBGR.SetValueType> kvp " +
 						"in " + targetStr + ")\n");
-				sb.appendFront("\tgraph.Changing" + kindStr + "Attribute(" +
+				sb.appendFrontIndented("graph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) + ", " +
 						formatTypeClassRef(elementType) + "." +
 						formatAttributeTypeName(attribute) + ", " +
@@ -3099,7 +3099,7 @@ public class ModifyEvalGen extends CSharpBase
 						"kvp.Key, null);\n");
 			} else if(attribute.getType() instanceof ArrayType) {
 				sb.appendFront("for(int i = " + targetStr + ".Count; i>=0; --i)\n");
-				sb.appendFront("\tgraph.Changing" + kindStr + "Attribute(" +
+				sb.appendFrontIndented("graph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) + ", " +
 						formatTypeClassRef(elementType) + "." +
 						formatAttributeTypeName(attribute) + ", " +
@@ -3107,7 +3107,7 @@ public class ModifyEvalGen extends CSharpBase
 						"null, i);\n");
 			} else if(attribute.getType() instanceof DequeType) {
 				sb.appendFront("for(int i = " + targetStr + ".Count; i>=0; --i)\n");
-				sb.appendFront("\tgraph.Changing" + kindStr + "Attribute(" +
+				sb.appendFrontIndented("graph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) + ", " +
 						formatTypeClassRef(elementType) + "." +
 						formatAttributeTypeName(attribute) + ", " +

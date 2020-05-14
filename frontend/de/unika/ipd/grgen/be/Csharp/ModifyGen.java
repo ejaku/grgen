@@ -385,7 +385,7 @@ public class ModifyGen extends CSharpBase
 		// Emit dispatcher calling the modify-method of the iterated pattern which was matched
 		sb.appendFront("for(Match_" + pathPrefix + iterName + " curMatch=curMatches.Root;"
 				+ " curMatch!=null; curMatch=curMatch.next) {\n");
-		sb.appendFront("\t" + pathPrefix + iterName + "_Delete"
+		sb.appendFrontIndented("" + pathPrefix + iterName + "_Delete"
 				+ "(actionEnv, curMatch);\n");
 		sb.appendFront("}\n");
 

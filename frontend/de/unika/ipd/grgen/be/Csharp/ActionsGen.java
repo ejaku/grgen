@@ -1440,7 +1440,7 @@ public class ActionsGen extends CSharpBase
 		genEnums(sb, pattern, pathPrefixForElements);
 		genLocalContainers(sb, rule, staticInitializers, pathPrefixForElements,
 				alreadyDefinedEntityToName);
-		sb.append("\t\tpublic GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
+		sb.appendFront("public GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
 		for(PatternGraph neg : pattern.getNegs()) {
@@ -2416,7 +2416,7 @@ public class ActionsGen extends CSharpBase
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, true, false, false);
 		for(Expression expr : sub.getSubpatternConnections()) {
 			expr.collectNeededEntities(needs);
-			sb.appendFront("\t");
+			sb.appendFrontIndented("");
 			eyGen.genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(",\n");
 		}
@@ -3065,9 +3065,11 @@ public class ActionsGen extends CSharpBase
 	{
 		sb.append("\n");
 		sb.appendFront("static " + className + "() {\n");
+		sb.indent();
 		for(String staticInit : staticInitializers) {
-			sb.appendFront("\t" + staticInit + "();\n");
+			sb.appendFront(staticInit + "();\n");
 		}
+		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
 	}

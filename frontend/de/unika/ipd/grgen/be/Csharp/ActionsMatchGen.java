@@ -168,7 +168,7 @@ public class ActionsMatchGen extends CSharpBase
 		sb.appendFront("public interface " + interfaceName + " : GRGEN_LIBGR.IMatch\n");
 		sb.appendFront("{\n");
 
-		sb.appendFront("\tvoid SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);\n");
+		sb.appendFrontIndented("void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);\n");
 
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -261,7 +261,7 @@ public class ActionsMatchGen extends CSharpBase
 
 		sb.appendFront("public " + className + "(" + className + " that)\n");
 		sb.appendFront("{\n");
-		sb.appendFront("\tCopyMatchContent(that);\n");
+		sb.appendFrontIndented("CopyMatchContent(that);\n");
 		sb.appendFront("}\n");
 	}
 
