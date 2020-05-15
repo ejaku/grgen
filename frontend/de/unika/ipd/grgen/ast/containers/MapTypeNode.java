@@ -30,9 +30,15 @@ public class MapTypeNode extends DeclaredTypeNode
 	@Override
 	public String getName()
 	{
-		return "map<" + keyTypeUnresolved.toString() + "," + valueTypeUnresolved.toString() + "> type";
+		return getTypeName();
 	}
 
+	@Override
+	public String getTypeName()
+	{
+		return "map<" + keyTypeUnresolved.toString() + "," + valueTypeUnresolved.toString() + ">";
+	}
+	
 	protected IdentNode keyTypeUnresolved;
 	public TypeNode keyType;
 	protected IdentNode valueTypeUnresolved;

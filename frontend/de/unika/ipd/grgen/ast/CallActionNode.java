@@ -12,27 +12,17 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
-import de.unika.ipd.grgen.ir.containers.ArrayType;
-import de.unika.ipd.grgen.ir.containers.DequeType;
 import de.unika.ipd.grgen.ir.Bad;
-import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.containers.MapType;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.exprevals.ObjectType;
-import de.unika.ipd.grgen.ir.containers.SetType;
-import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.TypeType;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -43,7 +33,6 @@ import de.unika.ipd.grgen.parser.Symbol;
  */
 public class CallActionNode extends BaseNode
 {
-
 	static {
 		setName(CallActionNode.class, "call action");
 	}
@@ -303,100 +292,25 @@ public class CallActionNode extends BaseNode
 		} else {
 			formalParameterType = formalParam.getDecl().getDeclType();
 		}
-		Type formalParamType = formalParameterType.getType();
 
 		TypeNode actualParameterType = actualParam.getType();
-		Type actualParamType = actualParameterType.getType();
 
-		if(actualParamType.classify() == Type.IS_UNTYPED_EXEC_VAR_TYPE)
+		if(actualParameterType instanceof UntypedExecVarTypeNode)
 			return true;
 
-		boolean incommensurable = false;
+		if(actualParameterType instanceof TypeTypeNode
+				&& (formalParameterType instanceof NodeTypeNode || formalParameterType instanceof EdgeTypeNode))
+			return true;
 
-		// Formal param type is a variable?
-		if(formalParamType.classify() != Type.IS_UNKNOWN
-				&& formalParamType.classify() != Type.IS_NODE
-				&& formalParamType.classify() != Type.IS_EDGE) {
-			// Do types match?
-			if(actualParamType.classify() != formalParamType.classify())
-				incommensurable = true; // No => illegal
-			else {
-				if(actualParamType instanceof SetType) {
-					SetType apt = (SetType)actualParamType;
-					SetType fpt = (SetType)formalParamType;
-					if(apt.getValueType().classify() != fpt.getValueType().classify()) {
-						reportError("Set value types are incommensurable. (" + paramPos + ". argument)");
-						incommensurable = true;
-					}
-				} else if(actualParamType instanceof MapType) {
-					MapType apt = (MapType)actualParamType;
-					MapType fpt = (MapType)formalParamType;
-					if(apt.getValueType().classify() != fpt.getValueType().classify()) {
-						reportError("Map value types are incommensurable. (" + paramPos + ". argument)");
-						incommensurable = true;
-					}
-					if(apt.getKeyType().classify() != fpt.getKeyType().classify()) {
-						reportError("Map key types are incommensurable. (" + paramPos + ". argument)");
-						incommensurable = true;
-					}
-				} else if(actualParamType instanceof ArrayType) {
-					ArrayType apt = (ArrayType)actualParamType;
-					ArrayType fpt = (ArrayType)formalParamType;
-					if(apt.getValueType().classify() != fpt.getValueType().classify()) {
-						reportError("Array value types are incommensurable. (" + paramPos + ". argument)");
-						incommensurable = true;
-					}
-				} else if(actualParamType instanceof DequeType) {
-					DequeType apt = (DequeType)actualParamType;
-					DequeType fpt = (DequeType)formalParamType;
-					if(apt.getValueType().classify() != fpt.getValueType().classify()) {
-						reportError("Deque value types are incommensurable. (" + paramPos + ". argument)");
-						incommensurable = true;
-					}
-				}
-			}
-		}
-		// No, are formal and actual param types of same kind?
-		else if(!(isEdgeCompatible(actualParamType) && formalParamType instanceof EdgeType
-				|| isNodeCompatible(actualParamType) && formalParamType instanceof NodeType))
-			incommensurable = true; // No => illegal
-
-		if(incommensurable) {
-			reportError("Actual param type \"" + actualParamType + "\" and formal param type \""
-					+ formalParamType + "\" are incommensurable. (" + paramPos + ". argument)");
+		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
+			String argumentTypeName = actualParameterType.getTypeName();
+			String paramTypeName = formalParameterType.getTypeName();
+			reportError("Cannot convert " + paramPos + ". argument from \"" + argumentTypeName
+					+ "\" to \"" + paramTypeName + "\" (the expected parameter type)");
 			return false;
 		}
 		
-		if(actualParamType instanceof InheritanceType) {
-			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
-				reportError("The " + paramPos + ". argument is not the same or a subtype of the formal parameter");
-				return false;
-			} 
-
-			InheritanceType fpt = (InheritanceType)formalParamType;
-			InheritanceType apt = (InheritanceType)actualParamType;
-			if(fpt != apt && !fpt.isRoot() && !apt.isRoot()
-					&& Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes())) {
-				reportWarning("Formal param type \"" + formalParamType
-						+ "\" will never match to actual param type \"" + actualParamType + "\".");
-			}
-		}
-		
 		return true;
-	}
-
-	private boolean isNodeCompatible(Type actualParamType)
-	{
-		return actualParamType instanceof NodeType 
-				|| actualParamType instanceof ObjectType 
-				|| actualParamType instanceof TypeType;
-	}
-
-	private boolean isEdgeCompatible(Type actualParamType)
-	{
-		return actualParamType instanceof EdgeType 
-				|| actualParamType instanceof ObjectType 
-				|| actualParamType instanceof TypeType;
 	}
 
 	/**
@@ -431,48 +345,32 @@ public class CallActionNode extends BaseNode
 
 	private boolean checkReturn(TypeNode formalReturn, ExecVarDeclNode actualReturn)
 	{
-		Type formalReturnType = formalReturn.getType();
-		Type actualReturnType = actualReturn.getDecl().getDeclType().getType();
+		TypeNode formalReturnType = formalReturn;
+		TypeNode actualReturnType = actualReturn.getDecl().getDeclType();
 
-		if(actualReturnType.classify() == Type.IS_UNTYPED_EXEC_VAR_TYPE)
+		if(actualReturnType instanceof UntypedExecVarTypeNode)
 			return true;
 
 		boolean incommensurable = false;
 
-		// Formal return type is a variable?
-		if(formalReturnType.classify() != Type.IS_UNKNOWN) {
-			if(isAllBracketed) {
-				// Do types match?
-				if(actualReturnType.classify() != Type.IS_ARRAY)
-					incommensurable = true; // No => illegal
-				else if(((ArrayType)actualReturnType).getValueType().classify() != formalReturnType.classify())
+		if(isAllBracketed) {
+			if(!(actualReturnType instanceof ArrayTypeNode))
+				incommensurable = true;
+			else {
+				ArrayTypeNode arrayType = (ArrayTypeNode)actualReturnType;
+				if(!formalReturnType.isCompatibleTo(arrayType.valueType))
 					incommensurable = true;
 			}
-			// Do types match?
-			else if(actualReturnType.classify() != formalReturnType.classify())
-				incommensurable = true; // No => illegal
 		}
-		// No, are formal and actual return types of same kind?
-		else if(!(actualReturnType instanceof EdgeType && formalReturnType instanceof EdgeType
-				|| actualReturnType instanceof NodeType && formalReturnType instanceof NodeType))
-			incommensurable = true; // No => illegal
+		else if(!formalReturnType.isCompatibleTo(actualReturnType))
+			incommensurable = true;
 
 		if(incommensurable) {
-			reportError("Actual return type \"" + actualReturnType + "\" and formal return type \""
-					+ (isAllBracketed ? "array<" + formalReturnType + ">" : formalReturnType)
-					+ "\" of action " + actionUnresolved.toString() + " are incommensurable.");
+			reportError("Values of formal return type \"" + formalReturnType.getTypeName() + "\""
+					+ (isAllBracketed ? " (array<" + formalReturnType.getTypeName() + ">)" : "")
+					+ " cannot be assigned to a variable \"" + actualReturn + "\" of type \""
+					+ actualReturnType.getTypeName() + "\" (action " + actionUnresolved.toString() + ").");
 			return false;
-		}
-
-		if(actualReturnType instanceof InheritanceType) {
-			InheritanceType frt = (InheritanceType)formalReturnType;
-			InheritanceType art = (InheritanceType)actualReturnType;
-			if(!frt.isCastableTo(art)) {
-				reportError("Instances of formal return type \"" + formalReturnType
-						+ "\" cannot be assigned to a variable \"" + actualReturn + "\" of type \""
-						+ actualReturnType + "\" (action " + actionUnresolved.toString() + ").");
-				return false;
-			}
 		}
 
 		return true;

@@ -31,7 +31,13 @@ public class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 	@Override
 	public String getName()
 	{
-		return "match<" + actionUnresolved.toString() + "> type";
+		return getTypeName();
+	}
+
+	@Override
+	public String getTypeName()
+	{
+		return "match<" + actionUnresolved.toString() + ">";
 	}
 
 	public static IdentNode defineMatchType(ParserEnvironment env, IdentNode actionIdent)

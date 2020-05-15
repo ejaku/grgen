@@ -33,15 +33,15 @@ public class DefinedMatchTypeNode extends DeclaredTypeNode implements MemberAcce
 	}
 
 	@Override
-	public String getTypeName()
-	{
-		return "match<class " + getIdentNode().toString() + "> type";
-	}
-
-	@Override
 	public String getName()
 	{
 		return getTypeName();
+	}
+
+	@Override
+	public String getTypeName()
+	{
+		return "match<class " + getIdentNode().toString() + ">";
 	}
 
 	/////////

@@ -31,9 +31,15 @@ public class DequeTypeNode extends DeclaredTypeNode
 	@Override
 	public String getName()
 	{
-		return "deque<" + valueTypeUnresolved.toString() + "> type";
+		return getTypeName();
 	}
 
+	@Override
+	public String getTypeName()
+	{
+		return "deque<" + valueTypeUnresolved.toString() + ">";
+	}
+	
 	public IdentNode valueTypeUnresolved;
 	public TypeNode valueType;
 

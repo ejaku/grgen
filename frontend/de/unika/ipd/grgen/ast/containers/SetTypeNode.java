@@ -31,9 +31,15 @@ public class SetTypeNode extends DeclaredTypeNode
 	@Override
 	public String getName()
 	{
-		return "set<" + valueTypeUnresolved.toString() + "> type";
+		return getTypeName();
 	}
 
+	@Override
+	public String getTypeName()
+	{
+		return "set<" + valueTypeUnresolved.toString() + ">";
+	}
+	
 	IdentNode valueTypeUnresolved;
 	public TypeNode valueType;
 

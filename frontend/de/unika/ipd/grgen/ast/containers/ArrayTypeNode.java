@@ -31,9 +31,15 @@ public class ArrayTypeNode extends DeclaredTypeNode
 	@Override
 	public String getName()
 	{
-		return "array<" + valueTypeUnresolved.toString() + "> type";
+		return getTypeName();
 	}
 
+	@Override
+	public String getTypeName()
+	{
+		return "array<" + valueTypeUnresolved.toString() + ">";
+	}
+	
 	public IdentNode valueTypeUnresolved;
 	public TypeNode valueType;
 
