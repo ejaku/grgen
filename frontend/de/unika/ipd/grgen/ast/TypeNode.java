@@ -283,6 +283,7 @@ public abstract class TypeNode extends BaseNode
 		return "byte, short, int, long, float, double";
 	}
 	
+	// returns type name (to be used in error reporting)
 	public String getTypeName() {
 		return toString();
 	}

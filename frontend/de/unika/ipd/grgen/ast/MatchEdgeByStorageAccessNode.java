@@ -149,8 +149,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		EdgeTypeNode storageElemType = (EdgeTypeNode)storageElementType;
 		EdgeTypeNode expectedStorageElemType = getDeclType();
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
-			String expTypeName = expectedStorageElemType.getIdentNode().toString();
-			String typeName = storageElemType.getIdentNode().toString();
+			String expTypeName = expectedStorageElemType.getTypeName();
+			String typeName = storageElemType.getTypeName();
 			ident.reportError("Cannot convert storage element type from \"" + typeName
 					+ "\" to \"" + expTypeName + "\" match edge by storage access");
 			return false;

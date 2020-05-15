@@ -953,22 +953,22 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		return rootType;
 	}
 
-	protected final TypeDeclNode getNodeRootType()
+	protected final TypeDeclNode getNodeRootTypeDecl()
 	{
 		return findType("Node");
 	}
 
-	protected final TypeDeclNode getArbitraryEdgeRootType()
+	protected final TypeDeclNode getArbitraryEdgeRootTypeDecl()
 	{
 		return findType("AEdge");
 	}
 
-	protected final TypeDeclNode getDirectedEdgeRootType()
+	protected final TypeDeclNode getDirectedEdgeRootTypeDecl()
 	{
 		return findType("Edge");
 	}
 
-	protected final TypeDeclNode getUndirectedEdgeRootType()
+	protected final TypeDeclNode getUndirectedEdgeRootTypeDecl()
 	{
 		return findType("UEdge");
 	}

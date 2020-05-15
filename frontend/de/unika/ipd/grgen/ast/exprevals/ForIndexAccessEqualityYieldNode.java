@@ -121,12 +121,8 @@ public class ForIndexAccessEqualityYieldNode extends EvalStatementNode
 				: IntTypeNode.intType;
 		TypeNode indexAccessType = expr.getType();
 		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
-			String expTypeName = expectedIndexAccessType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)expectedIndexAccessType).getIdentNode().toString()
-					: expectedIndexAccessType.toString();
-			String typeName = indexAccessType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)indexAccessType).getIdentNode().toString()
-					: indexAccessType.toString();
+			String expTypeName = expectedIndexAccessType.getTypeName();
+			String typeName = indexAccessType.getTypeName();
 			reportError("Cannot convert type used in accessing index from \"" + typeName + "\" to \"" + expTypeName
 					+ "\" in index access loop");
 			return false;
@@ -134,12 +130,8 @@ public class ForIndexAccessEqualityYieldNode extends EvalStatementNode
 		TypeNode expectedEntityType = iterationVariable.getDeclType();
 		TypeNode entityType = attributeIndex != null ? attributeIndex.type : incidenceCountIndex.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
-			String expTypeName = expectedEntityType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)expectedEntityType).getIdentNode().toString()
-					: expectedEntityType.toString();
-			String typeName = entityType instanceof DeclaredTypeNode
-					? ((DeclaredTypeNode)entityType).getIdentNode().toString()
-					: entityType.toString();
+			String expTypeName = expectedEntityType.getTypeName();
+			String typeName = entityType.getTypeName();
 			reportError("Cannot convert index type from \"" + typeName + "\" to type \"" + expTypeName
 					+ "\" in index access loop");
 			return false;

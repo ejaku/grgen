@@ -9,7 +9,7 @@ test foo implements Foo
 	def var i:int;
 }
 
-match filter filterRemoveNonMatching<Foo>(var i:int)
+filter filterRemoveNonMatching<class Foo>(var i:int)
 {
 	for(m:match<foo> in this)
 	{

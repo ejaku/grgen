@@ -1475,8 +1475,8 @@ public class PatternGraphNode extends GraphNode
 			}
 		}
 
-		BaseNode edgeRoot = getArbitraryEdgeRootType();
-		BaseNode nodeRoot = getNodeRootType();
+		TypeDeclNode edgeRoot = getArbitraryEdgeRootTypeDecl();
+		TypeDeclNode nodeRoot = getNodeRootTypeDecl();
 
 		// generate and add pattern graphs
 		for(NodeDeclNode singleNodeNegNode : singleNodeNegNodes) {
@@ -1607,7 +1607,7 @@ public class PatternGraphNode extends GraphNode
 			}
 		}
 
-		BaseNode edgeRoot = getArbitraryEdgeRootType();
+		TypeDeclNode edgeRoot = getArbitraryEdgeRootTypeDecl();
 
 		for(List<NodeDeclNode> pair : doubleNodeNegPairs) {
 			NodeDeclNode src = pair.get(0);

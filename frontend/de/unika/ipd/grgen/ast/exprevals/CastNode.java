@@ -168,7 +168,7 @@ public class CastNode extends ExprNode
 
 		boolean result = fromType.isCastableTo(type);
 		if(!result) {
-			reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + type + "\"");
+			reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + type.getTypeName() + "\"");
 		}
 
 		return result;

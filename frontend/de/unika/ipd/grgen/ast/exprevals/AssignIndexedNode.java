@@ -247,16 +247,8 @@ public class AssignIndexedNode extends EvalStatementNode
 			if(keyExprType.isCompatibleTo(keyType))
 				return true;
 
-			String givenTypeName;
-			if(keyExprType instanceof InheritanceTypeNode)
-				givenTypeName = ((InheritanceTypeNode)keyExprType).getIdentNode().toString();
-			else
-				givenTypeName = keyExprType.toString();
-			String expectedTypeName;
-			if(keyType instanceof InheritanceTypeNode)
-				expectedTypeName = ((InheritanceTypeNode)keyType).getIdentNode().toString();
-			else
-				expectedTypeName = keyType.toString();
+			String givenTypeName = keyExprType.getTypeName();
+			String expectedTypeName = keyType.getTypeName();
 			reportError("Cannot convert assign index from \"" + givenTypeName + "\" to \"" + expectedTypeName + "\"");
 			return false;
 		} else {

@@ -293,8 +293,8 @@ public class ExecNode extends BaseNode
 			if(writeResolve.second != null) {
 				for(NodeDeclNode c : writeResolve.second.getChildren()) {
 					if(!c.defEntityToBeYieldedTo) {
-						reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement (violated by "
-										+ c.getIdentNode().toString() + ").");
+						reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement"
+								+ " (violated by " + c.getIdentNode().toString() + ").");
 					}
 					writeUsage.addChild(c);
 				}
@@ -303,8 +303,8 @@ public class ExecNode extends BaseNode
 			if(writeResolve.third != null) {
 				for(EdgeDeclNode c : writeResolve.third.getChildren()) {
 					if(!c.defEntityToBeYieldedTo) {
-						reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement (violated by "
-										+ c.getIdentNode().toString() + ").");
+						reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement"
+								+ " (violated by " + c.getIdentNode().toString() + ").");
 					}
 					writeUsage.addChild(c);
 				}
@@ -313,9 +313,8 @@ public class ExecNode extends BaseNode
 			if(writeResolve.fourth != null) {
 				for(VarDeclNode c : writeResolve.fourth.getChildren()) {
 					if(!c.defEntityToBeYieldedTo) {
-						reportError(
-								"Only a def (to be yielded to) variable is allowed to be written from an exec statement (violated by "
-										+ c.getIdentNode().toString() + ").");
+						reportError("Only a def (to be yielded to) variable is allowed to be written from an exec statement"
+								+ " (violated by " + c.getIdentNode().toString() + ").");
 					}
 					writeUsage.addChild(c);
 				}

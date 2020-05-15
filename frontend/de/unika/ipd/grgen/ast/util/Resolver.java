@@ -116,9 +116,9 @@ public abstract class Resolver<T> extends Base
 			}
 			result = definedMatchType.tryGetMember(member.toString());
 			if(result == null) {
-				String matchClassName = definedMatchType.getIdentNode().toString();
+				String matchClassName = definedMatchType.getTypeName();
 				member.reportError("Unknown member " + memberName
-						+ ",can't find in match class type " + matchClassName);
+						+ ", can't find in match class type " + matchClassName);
 			}
 		} else if(type instanceof InheritanceTypeNode) {
 			ScopeOwner o = (ScopeOwner)type;
@@ -127,7 +127,7 @@ public abstract class Resolver<T> extends Base
 			InheritanceTypeNode inheritanceType = (InheritanceTypeNode)type;
 			result = (MemberDeclNode)inheritanceType.tryGetMember(member.getIdent().toString());
 			if(result == null) {
-				String className = inheritanceType.getIdentNode().toString();
+				String className = inheritanceType.getTypeName();
 				member.reportError("Unknown member " + memberName
 						+ ", can't find in (node/edge/external) class " + className);
 			}

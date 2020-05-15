@@ -302,8 +302,8 @@ public class ModelNode extends DeclNode
 			InheritanceTypeNode superType = (InheritanceTypeNode)t;
 
 			if(inProgress.contains(superType)) {
-				inhType.getIdentNode().reportError("\"" + inhType.getIdentNode() + "\" extends \""
-						+ superType.getIdentNode() + "\", which introduces a cycle to the type hierarchy");
+				inhType.getIdentNode().reportError("\"" + inhType.getTypeName() + "\" extends \""
+						+ superType.getTypeName() + "\", which introduces a cycle to the type hierarchy");
 				return false;
 			}
 			if(!done.contains(superType)) {

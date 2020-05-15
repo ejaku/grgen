@@ -75,8 +75,8 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 		if(!interfaceType.resolve())
 			return false;
 		if(!(interfaceType.getDeclType() instanceof EdgeTypeNode)) {
-			interfaceTypeUnresolved.reportError("Interface type of edge \""
-					+ getIdentNode() + "\" must be an edge type");
+			interfaceTypeUnresolved.reportError("Interface type of edge \"" + getIdentNode() + "\" must be an edge type"
+					+ "(not " + interfaceType.getDeclType().getTypeName() + ")");
 			return false;
 		}
 		if(!successfullyResolved)
@@ -85,8 +85,8 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 		EdgeTypeNode interfaceEdgeTypeNode = (EdgeTypeNode)interfaceType.getDeclType();
 		EdgeTypeNode edgeTypeNode = (EdgeTypeNode)typeTypeDecl.getDeclType();
 		if(!edgeTypeNode.isA(interfaceEdgeTypeNode)) {
-			interfaceTypeUnresolved.reportWarning("parameter interface type of "
-					+ ident.toString() + " is not supertype of parameter type");
+			interfaceTypeUnresolved.reportWarning("parameter interface type of " + ident.toString()
+					+ " is not supertype of parameter type");
 		}
 		return successfullyResolved;
 	}

@@ -149,8 +149,8 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
 		NodeTypeNode expectedStorageElemType = getDeclType();
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
-			String expTypeName = expectedStorageElemType.getIdentNode().toString();
-			String typeName = storageElemType.getIdentNode().toString();
+			String expTypeName = expectedStorageElemType.getTypeName();
+			String typeName = storageElemType.getTypeName();
 			ident.reportError("Cannot convert storage element type from \"" + typeName
 					+ "\" to \"" + expTypeName + "\" in match node by storage access");
 			return false;

@@ -141,7 +141,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		if(!typeDecl.resolve())
 			return false;
 		if(!(typeDecl.getDeclType() instanceof EdgeTypeNode)) {
-			typeUnresolved.reportError("Type of edge \"" + getIdentNode() + "\" must be a edge type");
+			typeUnresolved.reportError("Type of edge \"" + getIdentNode() + "\" must be a edge type"
+					+ " (not " + typeDecl.getDeclType().getTypeName() + ")");
 			return false;
 		}
 

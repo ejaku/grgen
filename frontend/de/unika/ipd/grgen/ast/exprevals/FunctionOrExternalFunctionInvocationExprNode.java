@@ -116,24 +116,14 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
-				String exprTypeName = getTypeName(actualParameterType);
-				String paramTypeName = getTypeName(formalParameterType);
+				String exprTypeName = actualParameterType.getTypeName();
+				String paramTypeName = formalParameterType.getTypeName();
 				functionOrExternalFunctionUnresolved.reportError("Cannot convert " + (i + 1)
 						+ ". function argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
 
 		return res;
-	}
-
-	private String getTypeName(TypeNode type)
-	{
-		String typeName;
-		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
-		else
-			typeName = type.toString();
-		return typeName;
 	}
 
 	@Override

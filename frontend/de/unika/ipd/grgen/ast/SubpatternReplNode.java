@@ -165,8 +165,8 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		
 		if(!formalParameterType.isCompatibleTo(actualParameterType)) {
 			res = false;
-			String exprTypeName = getTypeName(actualParameterType);
-			String paramTypeName = getTypeName(formalParameterType);
+			String exprTypeName = actualParameterType.getTypeName();
+			String paramTypeName = formalParameterType.getTypeName();
 			subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern replacement argument of type \""
 					+ exprTypeName + "\" can't be yielded to from the subpattern rewrite def parameter type \""
 					+ paramTypeName + "\"");
@@ -202,23 +202,13 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		
 		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 			res = false;
-			String exprTypeName = getTypeName(actualParameterType);
-			String paramTypeName = getTypeName(formalParameterType);
+			String exprTypeName = actualParameterType.getTypeName();
+			String paramTypeName = formalParameterType.getTypeName();
 			subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". subpattern replacement argument from \""
 					+ exprTypeName + "\" to \"" + paramTypeName + "\"");
 		}
 		
 		return res;
-	}
-
-	private String getTypeName(TypeNode type)
-	{
-		String typeName;
-		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
-		else
-			typeName = type.toString();
-		return typeName;
 	}
 
 	public IdentNode getSubpatternIdent()

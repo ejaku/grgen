@@ -26,16 +26,8 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		TypeNode givenType = value.getType();
 		TypeNode expectedType = targetType;
 		if(!givenType.isCompatibleTo(expectedType)) {
-			String givenTypeName;
-			if(givenType instanceof InheritanceTypeNode)
-				givenTypeName = ((InheritanceTypeNode)givenType).getIdentNode().toString();
-			else
-				givenTypeName = givenType.toString();
-			String expectedTypeName;
-			if(expectedType instanceof InheritanceTypeNode)
-				expectedTypeName = ((InheritanceTypeNode)expectedType).getIdentNode().toString();
-			else
-				expectedTypeName = expectedType.toString();
+			String givenTypeName = givenType.getTypeName();
+			String expectedTypeName = expectedType.getTypeName();
 			reportError("Cannot convert parameter " + parameter + " of " + statement + " from \"" + givenTypeName
 					+ "\" to \"" + expectedTypeName + "\"");
 			return false;

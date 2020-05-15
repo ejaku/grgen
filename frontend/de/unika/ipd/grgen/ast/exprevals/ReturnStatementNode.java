@@ -112,13 +112,10 @@ public class ReturnStatementNode extends EvalStatementNode
 			TypeNode retDeclType = returnFormalParameters.get(i);
 			if(!retExprType.isCompatibleTo(retDeclType)) {
 				res = false;
-				String exprTypeName;
-				if(retExprType instanceof InheritanceTypeNode)
-					exprTypeName = ((InheritanceTypeNode)retExprType).getIdentNode().toString();
-				else
-					exprTypeName = retExprType.toString();
+				String exprTypeName = retExprType.getTypeName();
+				String parameterTypeName = retDeclType.getTypeName();
 				reportError("Cannot convert " + (i + 1) + ". return parameter from \"" + exprTypeName
-						+ "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
+						+ "\" to \"" + parameterTypeName + "\"");
 			}
 		}
 

@@ -177,8 +177,8 @@ public class SubpatternUsageNode extends DeclNode
 
 		if(!formalParameterType.isCompatibleTo(actualParameterType)) {
 			res = false;
-			String exprTypeName = getTypeName(actualParameterType);
-			String paramTypeName = getTypeName(formalParameterType);
+			String exprTypeName = actualParameterType.getTypeName();
+			String paramTypeName = formalParameterType.getTypeName();
 			ident.reportError("The " + (i + 1) + ". subpattern usage argument of type \"" + exprTypeName
 					+ "\" can't be yielded to from the subpattern def parameter type \"" + paramTypeName
 					+ "\"");
@@ -214,8 +214,8 @@ public class SubpatternUsageNode extends DeclNode
 
 		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 			res = false;
-			String exprTypeName = getTypeName(actualParameterType);
-			String paramTypeName = getTypeName(formalParameterType);
+			String exprTypeName = actualParameterType.getTypeName();
+			String paramTypeName = formalParameterType.getTypeName();
 			ident.reportError("Cannot convert " + (i + 1) + ". subpattern usage argument from \"" + exprTypeName
 					+ "\" to \"" + paramTypeName + "\"");
 		}
@@ -259,16 +259,6 @@ public class SubpatternUsageNode extends DeclNode
 		}
 		
 		return true;
-	}
-
-	private String getTypeName(TypeNode type)
-	{
-		String typeName;
-		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
-		else
-			typeName = type.toString();
-		return typeName;
 	}
 
 	@Override

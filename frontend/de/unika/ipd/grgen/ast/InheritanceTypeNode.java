@@ -126,7 +126,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		for(DeclNode member : getAllMembers().values()) {
 			if(member instanceof AbstractMemberDeclNode && !isAbstract()) {
-				error.error(getIdentNode().getCoords(), getUseStr() + " \"" + getIdentNode()
+				error.error(getIdentNode().getCoords(), getUseStr() + " \"" + getTypeName()
 						+ "\" must be declared abstract, because member \"" + member + "\" is abstract.");
 				res = false;
 			}
@@ -135,10 +135,10 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof DeclNode && !(n instanceof ConstructorDeclNode)) {
 				DeclNode directMember = (DeclNode)n;
-				if(directMember.getIdentNode().getIdent().toString().equals(getIdentNode().getIdent().toString())) {
+				if(directMember.getIdentNode().toString().equals(getIdentNode().toString())) {
 					error.error(getIdentNode().getCoords(), "the member \"" + directMember.getIdentNode()
 									+ "\" must be named differently than its containing " + getUseStr() + " \""
-									+ getIdentNode() + "\"");
+									+ getTypeName() + "\"");
 				}
 			}
 		}

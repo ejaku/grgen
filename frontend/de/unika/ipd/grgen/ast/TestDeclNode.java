@@ -158,16 +158,14 @@ public class TestDeclNode extends ActionDeclNode
 		boolean res = true;
 
 		TypeNode retExprType = retExpr.getType();
+		TypeNode retParameterType = returnFormalParameters.get(i);
 
 		if(!retExprType.isCompatibleTo(retDeclType)) {
 			res = false;
-			String exprTypeName;
-			if(retExprType instanceof InheritanceTypeNode)
-				exprTypeName = ((InheritanceTypeNode)retExprType).getIdentNode().toString();
-			else
-				exprTypeName = retExprType.toString();
+			String exprTypeName = retExprType.getTypeName();
+			String parameterTypeName = retParameterType.getTypeName();
 			ident.reportError("Cannot convert " + (i + 1) + ". return parameter from \"" + exprTypeName
-					+ "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
+					+ "\" to \"" + parameterTypeName + "\"");
 			return res;
 		}
 
@@ -200,7 +198,7 @@ public class TestDeclNode extends ActionDeclNode
 			res = false;
 			retExpr.reportError("Return parameter \"" + retElem.getIdentNode() + "\" is homomorphic to \""
 					+ homElem.getIdentNode() + "\", which gets retyped to the incompatible type \""
-					+ retypedElemType.getIdentNode() + "\"");
+					+ retypedElemType.getTypeName() + "\"");
 			return res;
 		}
 
@@ -295,8 +293,8 @@ public class TestDeclNode extends ActionDeclNode
 			if(!type.isEqual(typeOfNodeFromPattern)) {
 				getIdentNode().reportError("The type of the node " + nodeName + " from the action " + actionName
 						+ " does not equal the type of the node from the match class " + matchTypeName
-						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, "
-						+ getTypeName(typeOfNodeFromPattern) + " is declared.");
+						+ ". In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
+						+ typeOfNodeFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(nodeFromPattern.defEntityToBeYieldedTo && !node.defEntityToBeYieldedTo) {
@@ -333,8 +331,8 @@ public class TestDeclNode extends ActionDeclNode
 			if(!type.isEqual(typeOfEdgeFromPattern)) {
 				getIdentNode().reportError("The type of the edge " + edgeName + " from the action " + actionName
 						+ " does not equal the type of the edge from the match class " + matchTypeName
-						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, "
-						+ getTypeName(typeOfEdgeFromPattern) + " is declared.");
+						+ ". In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
+						+ typeOfEdgeFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(edgeFromPattern.defEntityToBeYieldedTo && !edge.defEntityToBeYieldedTo) {
@@ -371,8 +369,8 @@ public class TestDeclNode extends ActionDeclNode
 			if(!type.isEqual(typeOfVarFromPattern)) {
 				getIdentNode().reportError("The type of the variable " + varName + " from the action " + actionName
 						+ " does not equal the type of the variable from the match class " + matchTypeName
-						+ ". In the match class, " + getTypeName(type) + " is declared, but in the pattern, "
-						+ getTypeName(typeOfVarFromPattern) + " is declared.");
+						+ ". In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
+						+ typeOfVarFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(varFromPattern.defEntityToBeYieldedTo && !var.defEntityToBeYieldedTo) {
@@ -390,16 +388,6 @@ public class TestDeclNode extends ActionDeclNode
 		}
 
 		return isOk;
-	}
-
-	private String getTypeName(TypeNode type)
-	{
-		String typeName;
-		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
-		else
-			typeName = type.toString();
-		return typeName;
 	}
 
 	public boolean checkControlFlow()

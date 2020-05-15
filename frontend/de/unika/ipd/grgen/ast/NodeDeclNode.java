@@ -132,7 +132,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 			return false;
 		if(!(typeDecl.getDeclType() instanceof NodeTypeNode)) {
 			typeUnresolved.reportError("Type of node \"" + getIdentNode()
-					+ "\" must be a node type (use edge syntax for edges, var for variables, ref for containers)");
+					+ "\" must be a node type (not " + typeDecl.getDeclType().getTypeName() + ") "
+					+ "(use edge syntax for edges, var for variables, ref for containers)");
 			return false;
 		}
 

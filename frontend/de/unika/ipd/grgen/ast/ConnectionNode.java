@@ -170,7 +170,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 
 		if(!(edge.getDeclType() instanceof ArbitraryEdgeTypeNode)) {
 			edge.reportWarning("The type of " + edge.getIdentNode().toString() + " differs from "
-					+ getArbitraryEdgeRootType().getIdentNode().toString()
+					+ getArbitraryEdgeRootTypeDecl().getIdentNode().toString()
 					+ ", please use another edge kind instead of ?--? (e.g. -->)");
 		}
 
@@ -182,19 +182,19 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		TypeDeclNode rootDecl = null;
 		switch(connectionKind) {
 		case ARBITRARY:
-			rootDecl = getArbitraryEdgeRootType();
+			rootDecl = getArbitraryEdgeRootTypeDecl();
 			break;
 
 		case ARBITRARY_DIRECTED:
-			rootDecl = getDirectedEdgeRootType();
+			rootDecl = getDirectedEdgeRootTypeDecl();
 			break;
 
 		case DIRECTED:
-			rootDecl = getDirectedEdgeRootType();
+			rootDecl = getDirectedEdgeRootTypeDecl();
 			break;
 
 		case UNDIRECTED:
-			rootDecl = getUndirectedEdgeRootType();
+			rootDecl = getUndirectedEdgeRootTypeDecl();
 			break;
 
 		default:

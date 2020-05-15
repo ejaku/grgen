@@ -125,24 +125,14 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
-				String exprTypeName = getTypeName(actualParameterType);
-				String paramTypeName = getTypeName(formalParameterType);
+				String exprTypeName = actualParameterType.getTypeName();
+				String paramTypeName = formalParameterType.getTypeName();
 				procedureOrExternalProcedureUnresolved.reportError("Cannot convert " + (i + 1)
 						+ ". procedure argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
 
 		return res;
-	}
-
-	private String getTypeName(TypeNode type)
-	{
-		String typeName;
-		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
-		else
-			typeName = type.toString();
-		return typeName;
 	}
 
 	public Vector<TypeNode> getType()

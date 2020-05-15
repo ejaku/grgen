@@ -142,8 +142,8 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 		EdgeTypeNode storageElemType = (EdgeTypeNode)storageElementType;
 		EdgeTypeNode expectedStorageElemType = getDeclType();
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
-			String expTypeName = expectedStorageElemType.getIdentNode().toString();
-			String typeName = storageElemType.getIdentNode().toString();
+			String expTypeName = expectedStorageElemType.getTypeName();
+			String typeName = storageElemType.getTypeName();
 			ident.reportError("Cannot convert storage element type from\"" + typeName
 					+ "\" to \"" + expTypeName + "\" in match edge from storage");
 			return false;

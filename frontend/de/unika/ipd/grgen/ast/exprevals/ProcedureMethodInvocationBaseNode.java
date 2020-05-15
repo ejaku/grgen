@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ast.exprevals;
 
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -29,16 +28,6 @@ public abstract class ProcedureMethodInvocationBaseNode extends ProcedureInvocat
 	public ProcedureMethodInvocationBaseNode(Coords coords)
 	{
 		super(coords);
-	}
-
-	String getTypeName(TypeNode type)
-	{
-		String typeName;
-		if(type instanceof InheritanceTypeNode)
-			typeName = ((InheritanceTypeNode)type).getIdentNode().toString();
-		else
-			typeName = type.toString();
-		return typeName;
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
@@ -63,8 +52,8 @@ public abstract class ProcedureMethodInvocationBaseNode extends ProcedureInvocat
 
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
-				String exprTypeName = getTypeName(actualParameterType);
-				String paramTypeName = getTypeName(formalParameterType);
+				String exprTypeName = actualParameterType.getTypeName();
+				String paramTypeName = formalParameterType.getTypeName();
 				unresolved.reportError("Cannot convert " + (i + 1) + ". procedure method argument from \""
 						+ exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}

@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.exprevals;
 
-import de.unika.ipd.grgen.ir.containers.*;
 import de.unika.ipd.grgen.ir.Type;
 
 public class IndexedAccessExpr extends Expression

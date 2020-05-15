@@ -126,7 +126,7 @@ public class MultiCallActionNode extends BaseNode
 				StringBuilder matchClassesImplementedByAction = new StringBuilder();
 				boolean first = true;
 				for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses()) {
-					String matchTypeNameImplementedByAction = matchType.getIdentNode().toString();
+					String matchTypeNameImplementedByAction = matchType.getTypeName();
 					if(first) {
 						first = false;
 					} else {

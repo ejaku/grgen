@@ -4,6 +4,8 @@ rule r {
 	x:TYPE1;
 
 	multiple {
+		.;
+		
 		modify {
 			y:TYPE2<x>;
 		}
