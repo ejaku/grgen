@@ -103,18 +103,16 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 	{
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 		boolean res = super.checkLocal() & nodeChecker.check(interfaceType, error);
-		if(!res) {
+		if(!res)
 			return false;
-		}
 
 		return res & onlyPatternNodesCanChangeInterfaceType();
 	}
 
 	private boolean onlyPatternNodesCanChangeInterfaceType()
 	{
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
 			return true;
-		}
 
 		constraints.reportError("replace nodes can't change interface type, only pattern nodes can");
 		return false;

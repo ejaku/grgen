@@ -97,18 +97,16 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 	{
 		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
 		boolean res = super.checkLocal() & edgeChecker.check(interfaceType, error);
-		if(!res) {
+		if(!res)
 			return false;
-		}
 
 		return res & onlyPatternEdgesCanChangeInterfaceType();
 	}
 
 	private boolean onlyPatternEdgesCanChangeInterfaceType()
 	{
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
 			return true;
-		}
 
 		constraints.reportError("replace edges can't change interface type, only pattern edges can");
 		return false;

@@ -29,6 +29,8 @@ public abstract class ConstraintDeclNode extends DeclNode
 	public PatternGraphNode directlyNestingLHSGraph;
 	public boolean defEntityToBeYieldedTo;
 
+	protected boolean isCopy;
+
 	/** The retyped version of this element if any. */
 	protected ConstraintDeclNode retypedElem = null;
 
@@ -41,10 +43,11 @@ public abstract class ConstraintDeclNode extends DeclNode
 	CollectNode<NameOrAttributeInitializationNode> nameOrAttributeInits =
 			new CollectNode<NameOrAttributeInitializationNode>();
 
-	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints,
+	protected ConstraintDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
 			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
 		super(id, type);
+		this.isCopy = isCopy;
 		this.constraints = constraints;
 		becomeParent(this.constraints);
 		this.context = context;
@@ -67,7 +70,11 @@ public abstract class ConstraintDeclNode extends DeclNode
 	@Override
 	protected boolean checkLocal()
 	{
-		return initializationIsWellTyped() && onlyPatternElementsAreAllowedToBeConstrained();
+		return initializationIsWellTyped()
+				& noRhsConstraint()
+				& noLhsCopy()
+				& noLhsNameOrAttributeInit()
+				& atMostOneNameInit();
 	}
 
 	private boolean initializationIsWellTyped()
@@ -94,15 +101,62 @@ public abstract class ConstraintDeclNode extends DeclNode
 		return false;
 	}
 
-	private boolean onlyPatternElementsAreAllowedToBeConstrained()
+	private boolean noRhsConstraint()
 	{
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
+			return true;
+
 		if(constraints != TypeExprNode.getEmpty()) {
-			if((context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
-				constraints.reportError("replacement elements are not allowed to be type constrained, only pattern elements are");
-				return false;
+			constraints.reportError("replacement elements are not allowed to be type constrained, only pattern elements are");
+			return false;
+		}
+		
+		return true;
+	}
+
+	private boolean noLhsCopy()
+	{
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS)
+			return true;
+		
+		if(isCopy) {
+			reportError("LHS copy<> not allowed");
+			return false;
+		}
+		
+		return true;
+	}
+
+	private boolean noLhsNameOrAttributeInit()
+	{
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) 
+			return true;
+
+		if(nameOrAttributeInits.size() > 0) {
+			reportError("A name or attribute initialization is not allowed in the pattern");
+			return false;
+		}
+		
+		return true;
+	}
+
+	private boolean atMostOneNameInit()
+	{
+		boolean atMostOneNameInit = true;
+
+		boolean nameInitFound = false;
+		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildren()) {
+			if(nain.attributeUnresolved == null) {
+				if(!nameInitFound)
+					nameInitFound = true;
+				else {
+					reportError("Only one name initialization allowed");
+					atMostOneNameInit = false;
+				}
 			}
 		}
-		return true;
+		
+		return atMostOneNameInit;
 	}
 
 	protected final TypeExpr getConstraints()

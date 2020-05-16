@@ -38,4 +38,4 @@ public class ProcedureTypeNode extends TypeNode
 		// no children
 		return childrenNames;
 	}
-};
+}

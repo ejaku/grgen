@@ -97,9 +97,8 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 	{
 		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
 		boolean res = super.checkLocal() & edgeChecker.check(old, error);
-		if(!res) {
+		if(!res)
 			return false;
-		}
 
 		if(nameOrAttributeInits.size() > 0) {
 			reportError("A name or attribute initialization is not allowed for a retyped edge");
@@ -133,9 +132,8 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		BaseNode currCase = this;
 
 		while(!currCase.isRoot()) {
-			if(currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode) {
+			if(currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode)
 				cases.add(currCase);
-			}
 
 			currCase = currCase.getParents().iterator().next();
 		}

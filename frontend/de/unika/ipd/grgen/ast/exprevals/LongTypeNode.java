@@ -31,4 +31,4 @@ public class LongTypeNode extends BasicTypeNode
 	{
 		return "long";
 	}
-};
+}

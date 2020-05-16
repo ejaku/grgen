@@ -23,9 +23,6 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-/**
- *
- */
 public class EmitNode extends OrderedReplacementNode
 {
 	static {
@@ -91,8 +88,9 @@ public class EmitNode extends OrderedReplacementNode
 	protected IR constructIR()
 	{
 		List<Expression> arguments = new ArrayList<Expression>();
-		for(BaseNode child : getChildren())
+		for(BaseNode child : getChildren()) {
 			arguments.add(child.checkIR(Expression.class));
+		}
 		Emit res = new Emit(arguments, isDebug);
 		return res;
 	}

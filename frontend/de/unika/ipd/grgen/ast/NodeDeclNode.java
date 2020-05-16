@@ -37,7 +37,6 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 
 	protected NodeDeclNode typeNodeDecl = null;
 	protected TypeDeclNode typeTypeDecl = null;
-	boolean isCopy;
 
 	private static DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
 			new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
@@ -45,8 +44,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constr,
 			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
-		super(id, type, context, constr, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
-		this.isCopy = isCopy;
+		super(id, type, isCopy, context, constr, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 	}
 
 	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constr,
@@ -145,21 +143,22 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	 */
 	private void warnOnTypeofOfRhsNodes()
 	{
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			// As long as we're typed with a rhs edge we change our type to the type of that node,
-			// the first time we do so we emit a warning to the user (further steps will be warned by the elements reached there)
-			boolean firstTime = true;
-			while(inheritsType() && (typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				if(firstTime) {
-					firstTime = false;
-					reportWarning("type of node " + typeNodeDecl.ident + " is statically known");
-				}
-				typeTypeDecl = typeNodeDecl.typeTypeDecl;
-				typeNodeDecl = typeNodeDecl.typeNodeDecl;
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
+			return;
+		
+		// As long as we're typed with a rhs edge we change our type to the type of that node,
+		// the first time we do so we emit a warning to the user (further steps will be warned by the elements reached there)
+		boolean firstTime = true;
+		while(inheritsType() && (typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+			if(firstTime) {
+				firstTime = false;
+				reportWarning("type of node " + typeNodeDecl.ident + " is statically known");
 			}
-			// either reached a statically known type by walking rhs elements
-			// or reached a lhs element (with statically unknown type as it matches any subtypes)
+			typeTypeDecl = typeNodeDecl.typeTypeDecl;
+			typeNodeDecl = typeNodeDecl.typeNodeDecl;
 		}
+		// either reached a statically known type by walking rhs elements
+		// or reached a lhs element (with statically unknown type as it matches any subtypes)
 	}
 
 	private static final Checker typeChecker = new TypeChecker(NodeTypeNode.class);
@@ -169,40 +168,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	{
 		warnOnTypeofOfRhsNodes();
 
-		boolean noLhsCopy = true;
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
-			if(isCopy) {
-				reportError("LHS copy<> not allowed");
-				noLhsCopy = false;
-			}
-		}
-
-		boolean noLhsNameOrAttributeInit = true;
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
-			if(nameOrAttributeInits.size() > 0) {
-				reportError("A name or attribute initialization is not allowed in the pattern");
-				noLhsNameOrAttributeInit = false;
-			}
-		}
-
-		boolean atMostOneNameInit = true;
-		boolean nameInitFound = false;
-		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildren()) {
-			if(nain.attributeUnresolved == null) {
-				if(!nameInitFound)
-					nameInitFound = true;
-				else {
-					reportError("Only one name initialization allowed");
-					atMostOneNameInit = false;
-				}
-			}
-		}
-
 		return super.checkLocal()
-			& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error)
-			& noLhsCopy
-			& noLhsNameOrAttributeInit
-			& atMostOneNameInit;
+			& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error);
 	}
 
 	/**

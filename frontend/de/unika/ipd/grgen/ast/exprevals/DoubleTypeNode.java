@@ -29,4 +29,4 @@ public class DoubleTypeNode extends BasicTypeNode
 	{
 		return "double";
 	}
-};
+}

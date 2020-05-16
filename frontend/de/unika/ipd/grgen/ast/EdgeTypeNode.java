@@ -123,10 +123,24 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 
 		// "resolve" connection assertion inheritance,
 		// after resolve to ensure everything is available, before IR building
-		// remember connection assertions to copy and copy after iteration to prevent iterator from becoming stale
+		Vector<ConnAssertNode> connAssertsToCopy = getConnectionAssertionsToCopy();
+		for(ConnAssertNode caToCopy : connAssertsToCopy) {
+			cas.addChild(caToCopy);
+		}
+
+		// todo: check for duplicate connection assertions and issue warning about being senseless
+
+		return res;
+	}
+
+	private Vector<ConnAssertNode> getConnectionAssertionsToCopy()
+	{
+		// return connection assertions to copy to prevent iterator from becoming stale, copied after iteration 
 		Vector<ConnAssertNode> connAssertsToCopy = new Vector<ConnAssertNode>();
+
 		boolean alreadyCopiedExtends = false;
-		for(Iterator<ConnAssertNode> it = cas.getChildren().iterator(); it.hasNext();) {
+		Iterator<ConnAssertNode> it = cas.getChildren().iterator();
+		while(it.hasNext()) {
 			ConnAssertNode ca = it.next();
 			if(ca.copyExtends) {
 				if(alreadyCopiedExtends) {
@@ -136,9 +150,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 				for(EdgeTypeNode parent : extend.getChildren()) {
 					for(ConnAssertNode caToCopy : parent.cas.getChildren()) {
 						if(caToCopy.copyExtends) {
-							reportError(
-									"internal error: copy extends in parent while copying connection assertions from parent");
-							res = false;
+							reportError("internal error: copy extends in parent"
+												+ " while copying connection assertions from parent");
 							assert false;
 						}
 						connAssertsToCopy.add(caToCopy);
@@ -149,14 +162,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 				alreadyCopiedExtends = true;
 			}
 		}
-
-		for(ConnAssertNode caToCopy : connAssertsToCopy) {
-			cas.addChild(caToCopy);
-		}
-
-		// todo: check for duplicate connection assertions and issue warning about being senseless
-
-		return res;
+		
+		return connAssertsToCopy;
 	}
 
 	/**

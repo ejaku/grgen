@@ -31,4 +31,4 @@ public class IntTypeNode extends BasicTypeNode
 	{
 		return "int";
 	}
-};
+}

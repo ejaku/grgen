@@ -395,48 +395,53 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	protected void constructIR(InheritanceType inhType)
 	{
 		for(BaseNode n : body.getChildren()) {
-			if(n instanceof ConstructorDeclNode) {
-				ConstructorDeclNode cd = (ConstructorDeclNode)n;
-				inhType.addConstructor(cd.getConstructor());
-			} else if(n instanceof DeclNode) {
-				DeclNode decl = (DeclNode)n;
-				if(n instanceof FunctionDeclNode) {
-					inhType.addFunctionMethod(n.checkIR(FunctionMethod.class));
-				} else if(n instanceof ProcedureDeclNode) {
-					inhType.addProcedureMethod(n.checkIR(ProcedureMethod.class));
-				} else {
-					inhType.addMember(decl.getEntity());
-				}
-			} else if(n instanceof MemberInitNode) {
-				MemberInitNode mi = (MemberInitNode)n;
-				IR init = mi.getIR();
-				if(init instanceof MapInit) {
-					inhType.addMapInit(mi.checkIR(MapInit.class));
-				} else if(init instanceof SetInit) {
-					inhType.addSetInit(mi.checkIR(SetInit.class));
-				} else if(init instanceof ArrayInit) {
-					inhType.addArrayInit(mi.checkIR(ArrayInit.class));
-				} else if(init instanceof DequeInit) {
-					inhType.addDequeInit(mi.checkIR(DequeInit.class));
-				} else {
-					inhType.addMemberInit(mi.checkIR(MemberInit.class));
-				}
-			} else if(n instanceof MapInitNode) {
-				MapInitNode mi = (MapInitNode)n;
-				inhType.addMapInit(mi.getMapInit());
-			} else if(n instanceof SetInitNode) {
-				SetInitNode si = (SetInitNode)n;
-				inhType.addSetInit(si.getSetInit());
-			} else if(n instanceof ArrayInitNode) {
-				ArrayInitNode ai = (ArrayInitNode)n;
-				inhType.addArrayInit(ai.getArrayInit());
-			} else if(n instanceof DequeInitNode) {
-				DequeInitNode di = (DequeInitNode)n;
-				inhType.addDequeInit(di.getDequeInit());
-			}
+			constructAndAddIRChild(inhType, n);
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
 			inhType.addDirectSuperType((InheritanceType)inh.getType());
+		}
+	}
+
+	private void constructAndAddIRChild(InheritanceType inhType, BaseNode n)
+	{
+		if(n instanceof ConstructorDeclNode) {
+			ConstructorDeclNode cd = (ConstructorDeclNode)n;
+			inhType.addConstructor(cd.getConstructor());
+		} else if(n instanceof DeclNode) {
+			DeclNode decl = (DeclNode)n;
+			if(n instanceof FunctionDeclNode) {
+				inhType.addFunctionMethod(n.checkIR(FunctionMethod.class));
+			} else if(n instanceof ProcedureDeclNode) {
+				inhType.addProcedureMethod(n.checkIR(ProcedureMethod.class));
+			} else {
+				inhType.addMember(decl.getEntity());
+			}
+		} else if(n instanceof MemberInitNode) {
+			MemberInitNode mi = (MemberInitNode)n;
+			IR init = mi.getIR();
+			if(init instanceof MapInit) {
+				inhType.addMapInit(mi.checkIR(MapInit.class));
+			} else if(init instanceof SetInit) {
+				inhType.addSetInit(mi.checkIR(SetInit.class));
+			} else if(init instanceof ArrayInit) {
+				inhType.addArrayInit(mi.checkIR(ArrayInit.class));
+			} else if(init instanceof DequeInit) {
+				inhType.addDequeInit(mi.checkIR(DequeInit.class));
+			} else {
+				inhType.addMemberInit(mi.checkIR(MemberInit.class));
+			}
+		} else if(n instanceof MapInitNode) {
+			MapInitNode mi = (MapInitNode)n;
+			inhType.addMapInit(mi.getMapInit());
+		} else if(n instanceof SetInitNode) {
+			SetInitNode si = (SetInitNode)n;
+			inhType.addSetInit(si.getSetInit());
+		} else if(n instanceof ArrayInitNode) {
+			ArrayInitNode ai = (ArrayInitNode)n;
+			inhType.addArrayInit(ai.getArrayInit());
+		} else if(n instanceof DequeInitNode) {
+			DequeInitNode di = (DequeInitNode)n;
+			inhType.addDequeInit(di.getDequeInit());
 		}
 	}
 

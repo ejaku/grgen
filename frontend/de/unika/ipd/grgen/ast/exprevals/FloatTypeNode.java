@@ -30,4 +30,4 @@ public class FloatTypeNode extends BasicTypeNode
 	{
 		return "float";
 	}
-};
+}

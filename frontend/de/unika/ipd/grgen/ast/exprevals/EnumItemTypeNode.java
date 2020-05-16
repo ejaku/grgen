@@ -25,4 +25,4 @@ public class EnumItemTypeNode extends BasicTypeNode
 	{
 		return new IntType(getIdentNode().getIdent());
 	}
-};
+}

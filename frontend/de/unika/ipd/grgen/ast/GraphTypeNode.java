@@ -30,4 +30,4 @@ public class GraphTypeNode extends BasicTypeNode
 	{
 		return "graph";
 	}
-};
+}

@@ -18,9 +18,6 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.parser.Coords;
 
-/**
- *
- */
 public class InducedNode extends BaseNode
 {
 	static {

@@ -221,7 +221,19 @@ public class GraphNode extends BaseNode
 			becomeParent(subpatterns);
 		}
 
+		boolean paramsOK = resolveParamVars();
+
+		boolean subUsagesOK = resolveSubpatternUsages();
+
+		replaceSubpatternReplacementsIntoOrderedReplacements();
+
+		return resolve != null && paramsOK && subUsagesOK;
+	}
+
+	private boolean resolveParamVars()
+	{
 		boolean paramsOK = true;
+
 		for(BaseNode n : params.getChildren()) {
 			if(!(n instanceof VarDeclNode))
 				continue;
@@ -243,24 +255,35 @@ public class GraphNode extends BaseNode
 			} else
 				paramsOK = false;
 		}
+		
+		return paramsOK;
+	}
 
-		boolean resSubUsages = true;
+	private boolean resolveSubpatternUsages()
+	{
+		boolean subUsagesOK = true;
+		
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			for(SubpatternUsageNode subUsage : subpatterns.getChildren()) {
 				if(subUsage.resolve()) {
 					PatternGraphNode pattern = subUsage.getSubpatternDeclNode().getPattern();
 					if(pattern.hasAbstractElements) {
 						subUsage.reportError("Cannot instantiate pattern with abstract elements");
-						resSubUsages = false;
+						subUsagesOK = false;
 					}
 				} else
-					resSubUsages = false;
+					subUsagesOK = false;
 			}
 		}
+		
+		return subUsagesOK;
+	}
 
-		// replace subpattern replacement node placeholder just specifying position in ordered list 
-		// by subpattern replacement node from unordered list with correct arguments
-		// move missing replacement nodes to the begin of the ordered list, it is the base list for further processing
+	// replace subpattern replacement node placeholder just specifying position in ordered list 
+	// by subpattern replacement node from unordered list with correct arguments
+	// move missing replacement nodes to the begin of the ordered list, it is the base list for further processing
+	private void replaceSubpatternReplacementsIntoOrderedReplacements()
+	{
 		Iterator<SubpatternReplNode> it = subpatternRepls.getChildren().iterator();
 		while(it.hasNext()) {
 			SubpatternReplNode subpatternRepl = it.next();
@@ -289,8 +312,6 @@ public class GraphNode extends BaseNode
 			orderedReplacements.addChildAtFront(orderedRepls);
 		}
 		subpatternRepls.getChildren().clear();
-
-		return resolve != null && paramsOK && resSubUsages;
 	}
 
 	private static final Checker connectionsChecker =
@@ -466,7 +487,7 @@ public class GraphNode extends BaseNode
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
 		for(OrderedReplacementsNode ors : orderedReplacements.getChildren()) {
-			addSubpatternReplacementUsageArgument(gr, ors);
+			addSubpatternReplacementUsageArguments(gr, ors);
 		}
 
 		// don't add elements only mentioned in ordered replacements here to the pattern, it prevents them from being deleted
@@ -508,32 +529,38 @@ public class GraphNode extends BaseNode
 		return gr;
 	}
 
-	void addSubpatternReplacementUsageArgument(PatternGraph gr, OrderedReplacementsNode ors)
+	void addSubpatternReplacementUsageArguments(PatternGraph gr, OrderedReplacementsNode ors)
 	{
-		for(OrderedReplacementNode n : ors.getChildren()) {
+		for(OrderedReplacementNode orderedReplNode : ors.getChildren()) {
 			// TODO: what's with all the other ordered replacement operations containing entitites?
-			if(!(n instanceof SubpatternReplNode))
+			if(!(orderedReplNode instanceof SubpatternReplNode))
 				continue;
-			SubpatternReplNode r = (SubpatternReplNode)n;
-			List<Expression> connections = r.checkIR(SubpatternDependentReplacement.class).getReplConnections();
-			for(Expression e : connections) {
-				if(e instanceof GraphEntityExpression) {
-					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
-					if(connection instanceof Node) {
-						addNodeIfNotYetContained(gr, (Node)connection);
-					} else if(connection instanceof Edge) {
-						addEdgeIfNotYetContained(gr, (Edge)connection);
-					} else {
-						assert(false);
-					}
-				} else {
-					NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
-					e.collectNeededEntities(needs);
-					for(Variable neededVariable : needs.variables) {
-						if(!gr.hasVar(neededVariable)) {
-							gr.addVariable(neededVariable);
-						}
-					}
+			SubpatternReplNode subpatternReplNode = (SubpatternReplNode)orderedReplNode;
+			SubpatternDependentReplacement subpatternDepRepl = subpatternReplNode.checkIR(SubpatternDependentReplacement.class); 
+			List<Expression> connections = subpatternDepRepl.getReplConnections();
+			for(Expression expr : connections) {
+				addSubpatternReplacementUsageArgument(gr, expr);
+			}
+		}
+	}
+
+	private void addSubpatternReplacementUsageArgument(PatternGraph gr, Expression expr)
+	{
+		if(expr instanceof GraphEntityExpression) {
+			GraphEntity connection = ((GraphEntityExpression)expr).getGraphEntity();
+			if(connection instanceof Node) {
+				addNodeIfNotYetContained(gr, (Node)connection);
+			} else if(connection instanceof Edge) {
+				addEdgeIfNotYetContained(gr, (Edge)connection);
+			} else {
+				assert(false);
+			}
+		} else {
+			NeededEntities needs = new NeededEntities(false, false, true, false, false, false, false, false);
+			expr.collectNeededEntities(needs);
+			for(Variable neededVariable : needs.variables) {
+				if(!gr.hasVar(neededVariable)) {
+					gr.addVariable(neededVariable);
 				}
 			}
 		}

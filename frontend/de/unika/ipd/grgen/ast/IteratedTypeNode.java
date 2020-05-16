@@ -36,4 +36,4 @@ public class IteratedTypeNode extends TypeNode
 		// no children
 		return childrenNames;
 	}
-};
+}

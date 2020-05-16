@@ -36,4 +36,4 @@ public class ModelTypeNode extends TypeNode
 		// no children
 		return childrenNames;
 	}
-};
+}

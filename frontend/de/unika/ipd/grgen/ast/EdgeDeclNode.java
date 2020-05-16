@@ -34,7 +34,6 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 
 	protected EdgeDeclNode typeEdgeDecl = null;
 	protected TypeDeclNode typeTypeDecl = null;
-	boolean isCopy;
 
 	protected static final DeclarationPairResolver<EdgeDeclNode, TypeDeclNode> typeResolver =
 			new DeclarationPairResolver<EdgeDeclNode, TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
@@ -42,9 +41,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
 			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
-		super(id, type, context, constraints, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
+		super(id, type, isCopy, context, constraints, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 		setName("edge");
-		this.isCopy = isCopy;
 	}
 
 	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, int context, TypeExprNode constraints,
@@ -154,21 +152,22 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	 */
 	private void warnOnTypeofOfRhsEdges()
 	{
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			// As long as we're typed with a rhs edge we change our type to the type of that edge,
-			// the first time we do so we emit a warning to the user (further steps will be warned by the elements reached there)
-			boolean firstTime = true;
-			while(inheritsType() && (typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				if(firstTime) {
-					firstTime = false;
-					reportWarning("type of edge " + typeEdgeDecl.ident + " is statically known");
-				}
-				typeTypeDecl = typeEdgeDecl.typeTypeDecl;
-				typeEdgeDecl = typeEdgeDecl.typeEdgeDecl;
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
+			return;
+		
+		// As long as we're typed with a rhs edge we change our type to the type of that edge,
+		// the first time we do so we emit a warning to the user (further steps will be warned by the elements reached there)
+		boolean firstTime = true;
+		while(inheritsType() && (typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+			if(firstTime) {
+				firstTime = false;
+				reportWarning("type of edge " + typeEdgeDecl.ident + " is statically known");
 			}
-			// either reached a statically known type by walking rhs elements
-			// or reached a lhs element (with statically unknown type as it matches any subtypes)
+			typeTypeDecl = typeEdgeDecl.typeTypeDecl;
+			typeEdgeDecl = typeEdgeDecl.typeEdgeDecl;
 		}
+		// either reached a statically known type by walking rhs elements
+		// or reached a lhs element (with statically unknown type as it matches any subtypes)
 	}
 
 	private static final Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
@@ -178,40 +177,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	{
 		warnOnTypeofOfRhsEdges();
 
-		boolean noLhsCopy = true;
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
-			if(isCopy) {
-				reportError("LHS copy<> not allowed");
-				noLhsCopy = false;
-			}
-		}
-
-		boolean noLhsNameOrAttributeInit = true;
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
-			if(nameOrAttributeInits.size() > 0) {
-				reportError("A name or attribute initialization is not allowed in the pattern");
-				noLhsNameOrAttributeInit = false;
-			}
-		}
-
-		boolean atMostOneNameInit = true;
-		boolean nameInitFound = false;
-		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildren()) {
-			if(nain.attributeUnresolved == null) {
-				if(!nameInitFound)
-					nameInitFound = true;
-				else {
-					reportError("Only one name initialization allowed");
-					atMostOneNameInit = false;
-				}
-			}
-		}
-
 		return super.checkLocal()
-				& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error)
-				& noLhsCopy
-				& noLhsNameOrAttributeInit
-				& atMostOneNameInit;
+				& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
 	}
 
 	/**

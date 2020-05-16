@@ -31,4 +31,4 @@ public class ByteTypeNode extends BasicTypeNode
 	{
 		return "byte";
 	}
-};
+}

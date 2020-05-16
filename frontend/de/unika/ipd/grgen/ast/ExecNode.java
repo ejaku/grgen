@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -341,9 +340,6 @@ public class ExecNode extends BaseNode
 	@Override
 	protected IR constructIR()
 	{
-		Set<ExecVarDeclNode> localVars = new HashSet<ExecVarDeclNode>();
-		for(ExecVarDeclNode node : varDecls.getChildren())
-			localVars.add(node);
 		Set<Expression> parameters = new LinkedHashSet<Expression>();
 		for(DeclNode dn : usage.getChildren()) {
 			if(dn instanceof ConstraintDeclNode)
@@ -360,8 +356,6 @@ public class ExecNode extends BaseNode
 		for(CallActionNode callActionNode : callActions.getChildren()) {
 			callActionNode.checkPost();
 			for(ExprNode param : callActionNode.getParams().getChildren()) {
-				if(localVars.contains(param))
-					continue;
 				parameters.add(param.checkIR(Expression.class));
 			}
 		}

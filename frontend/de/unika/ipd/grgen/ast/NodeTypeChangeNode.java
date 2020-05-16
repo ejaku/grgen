@@ -111,9 +111,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	{
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 		boolean res = super.checkLocal() & nodeChecker.check(old, error);
-		if(!res) {
+		if(!res)
 			return false;
-		}
 
 		if(nameOrAttributeInits.size() > 0) {
 			reportError("A name or attribute initialization is not allowed for a retyped node");
@@ -149,9 +148,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		BaseNode currCase = this;
 
 		while(!currCase.isRoot()) {
-			if(currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode) {
+			if(currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode)
 				cases.add(currCase);
-			}
 
 			currCase = currCase.getParents().iterator().next();
 		}

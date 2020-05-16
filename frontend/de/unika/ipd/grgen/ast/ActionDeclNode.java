@@ -147,7 +147,8 @@ public abstract class ActionDeclNode extends DeclNode
 		} else if(filter.name.equals("keepOneForEachAccumulateBy")) {
 			if(filter.entities.size() != 3) {
 				getIdentNode().reportError(filterNameWithEntitySuffix
-						+ " must be declared with exactly one variable, one accumulation variable, and one accumulation method");
+						+ " must be declared with exactly one variable, one accumulation variable,"
+						+ " and one accumulation method");
 				return false;
 			} else {
 				if(filter.entities.get(0).equals(filter.entities.get(1))) {
@@ -159,7 +160,8 @@ public abstract class ActionDeclNode extends DeclNode
 						filterNameWithEntitySuffix, filter.entities.get(0));
 				if(!filterEntityExistsAndIsOfAdmissibleType)
 					return false;
-				ArrayAccumulationMethodNode accumulationMethod = ArrayAccumulationMethodNode.getArrayMethodNode(filter.entities.get(2));
+				ArrayAccumulationMethodNode accumulationMethod = 
+						ArrayAccumulationMethodNode.getArrayMethodNode(filter.entities.get(2));
 				if(accumulationMethod == null) {
 					getIdentNode().reportError("The array accumulation method "
 							+ filter.entities.get(2) + " is not known.");
@@ -207,25 +209,25 @@ public abstract class ActionDeclNode extends DeclNode
 			leftHandGraphs.add(idpt);
 		}
 
-		GraphNode[] graphs = leftHandGraphs.toArray(new GraphNode[0]);
+		PatternGraphNode[] graphs = leftHandGraphs.toArray(new PatternGraphNode[0]);
 		Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
 
 		for(int i = 0; i < graphs.length; i++) {
-			for(int o = i + 1; o < graphs.length; o++) {
-				for(BaseNode iBN : graphs[i].getConnections()) {
-					if(!(iBN instanceof ConnectionNode)) {
-						continue;
-					}
-					ConnectionNode iConn = (ConnectionNode)iBN;
+			for(BaseNode iBN : graphs[i].getConnections()) {
+				if(!(iBN instanceof ConnectionNode)) {
+					continue;
+				}
+				ConnectionNode iConn = (ConnectionNode)iBN;
 
-					for(BaseNode oBN : graphs[o].getConnections()) {
-						if(!(oBN instanceof ConnectionNode)) {
+				for(int j = i + 1; j < graphs.length; j++) {
+					for(BaseNode jBN : graphs[j].getConnections()) {
+						if(!(jBN instanceof ConnectionNode)) {
 							continue;
 						}
-						ConnectionNode oConn = (ConnectionNode)oBN;
+						ConnectionNode jConn = (ConnectionNode)jBN;
 
-						if(iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
-							isLhsEdgeReuseOk &= isLhsEdgeReuseOk(alreadyReported, iConn, oConn);
+						if(iConn.getEdge().equals(jConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
+							isLhsEdgeReuseOk &= isLhsEdgeReuseOk(alreadyReported, iConn, jConn);
 						}
 					}
 				}
@@ -236,24 +238,24 @@ public abstract class ActionDeclNode extends DeclNode
 	}
 
 	private boolean isLhsEdgeReuseOk(Collection<EdgeCharacter> alreadyReported,
-			ConnectionNode iConn, ConnectionNode oConn)
+			ConnectionNode iConn, ConnectionNode jConn)
 	{
 		boolean edgeReuse = true;
 
-		NodeCharacter oSrc = oConn.getSrc();
-		NodeCharacter oTgt = oConn.getTgt();
 		NodeCharacter iSrc = iConn.getSrc();
 		NodeCharacter iTgt = iConn.getTgt();
+		NodeCharacter jSrc = jConn.getSrc();
+		NodeCharacter jTgt = jConn.getTgt();
 
-		assert !(oSrc instanceof NodeTypeChangeNode) : "no type changes in test actions";
-		assert !(oTgt instanceof NodeTypeChangeNode) : "no type changes in test actions";
 		assert !(iSrc instanceof NodeTypeChangeNode) : "no type changes in test actions";
 		assert !(iTgt instanceof NodeTypeChangeNode) : "no type changes in test actions";
+		assert !(jSrc instanceof NodeTypeChangeNode) : "no type changes in test actions";
+		assert !(jTgt instanceof NodeTypeChangeNode) : "no type changes in test actions";
 
 		//check only if there's no dangling edge
 		if(!( (iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy() )
-			&& !( (oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy() )
-			&& iSrc != oSrc) {
+			&& !( (jSrc instanceof NodeDeclNode) && ((NodeDeclNode)jSrc).isDummy() )
+			&& iSrc != jSrc) {
 			alreadyReported.add(iConn.getEdge());
 			iConn.reportError("Reused edge does not connect the same nodes");
 			edgeReuse = false;
@@ -261,15 +263,15 @@ public abstract class ActionDeclNode extends DeclNode
 
 		//check only if there's no dangling edge
 		if(!( (iTgt instanceof NodeDeclNode) && ((NodeDeclNode)iTgt).isDummy() )
-			&& !( (oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy() )
-			&& iTgt != oTgt
+			&& !( (jTgt instanceof NodeDeclNode) && ((NodeDeclNode)jTgt).isDummy() )
+			&& iTgt != jTgt
 			&& !alreadyReported.contains(iConn.getEdge())) {
 			alreadyReported.add(iConn.getEdge());
 			iConn.reportError("Reused edge does not connect the same nodes");
 			edgeReuse = false;
 		}
 
-		if(iConn.getConnectionKind() != oConn.getConnectionKind()) {
+		if(iConn.getConnectionKind() != jConn.getConnectionKind()) {
 			alreadyReported.add(iConn.getEdge());
 			iConn.reportError("Reused edge does not have the same connection kind");
 			edgeReuse = false;
@@ -317,7 +319,7 @@ public abstract class ActionDeclNode extends DeclNode
 					alreadyReported.add(re);
 				}
 
-				res &= isLhsRhsReuseOk(alreadyReported, redirectedFrom, redirectedTo, right, lConn, le, rConn, re);
+				res &= isLhsRhsReuseOk(alreadyReported, redirectedFrom, redirectedTo, right, lConn, rConn);
 			}
 		}
 
@@ -326,12 +328,8 @@ public abstract class ActionDeclNode extends DeclNode
 
 	private boolean isLhsRhsReuseOk(Collection<EdgeDeclNode> alreadyReported,
 			HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom, HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo,
-			RhsDeclNode right, ConnectionNode lConn, EdgeDeclNode le, ConnectionNode rConn, EdgeDeclNode re)
+			RhsDeclNode right, ConnectionNode lConn, ConnectionNode rConn)
 	{
-		boolean res = true;
-
-		NodeDeclNode lSrc = lConn.getSrc();
-		NodeDeclNode lTgt = lConn.getTgt();
 		NodeDeclNode rSrc = rConn.getSrc();
 		NodeDeclNode rTgt = rConn.getTgt();
 
@@ -346,6 +344,26 @@ public abstract class ActionDeclNode extends DeclNode
 			rTgt = ((NodeTypeChangeNode)rTgt).getOldNode();
 			rhsNodes.add(rTgt);
 		}
+
+		boolean res = true;
+
+		res &= isLhsRhsSourceReuseOk(alreadyReported, redirectedFrom, lConn, rConn, rSrc, rhsNodes);
+
+		res &= isLhsRhsTargetReuseOk(alreadyReported, redirectedTo, lConn, rConn, rTgt, rhsNodes);
+
+		return res;
+	}
+
+	private boolean isLhsRhsSourceReuseOk(Collection<EdgeDeclNode> alreadyReported,
+			HashMap<EdgeDeclNode, NodeDeclNode> redirectedFrom, ConnectionNode lConn, ConnectionNode rConn, 
+			NodeDeclNode rSrc, HashSet<BaseNode> rhsNodes)
+	{
+		boolean res = true;
+
+		EdgeDeclNode le = lConn.getEdge();
+		EdgeDeclNode re = rConn.getEdge();
+
+		NodeDeclNode lSrc = lConn.getSrc();
 
 		if(!lSrc.isDummy()) {
 			if(rSrc.isDummy()) {
@@ -384,6 +402,30 @@ public abstract class ActionDeclNode extends DeclNode
 			redirectedFrom.put(le, rSrc);
 		}
 
+		//check, whether RHS "adds" a node to a dangling end of a edge
+		if(!alreadyReported.contains(re)) {
+			if(lSrc.isDummy() && !rSrc.isDummy()
+					&& (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE) {
+				res = false;
+				rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
+				alreadyReported.add(re);
+			}
+		}
+
+		return res;
+	}
+
+	private boolean isLhsRhsTargetReuseOk(Collection<EdgeDeclNode> alreadyReported,
+			HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo, ConnectionNode lConn, ConnectionNode rConn, 
+			NodeDeclNode rTgt, HashSet<BaseNode> rhsNodes)
+	{
+		boolean res = true;
+	
+		EdgeDeclNode le = lConn.getEdge();
+		EdgeDeclNode re = rConn.getEdge();
+
+		NodeDeclNode lTgt = lConn.getTgt();
+
 		if(!lTgt.isDummy()) {
 			if(rTgt.isDummy()) {
 				if(rhsNodes.contains(lTgt)) {
@@ -418,17 +460,11 @@ public abstract class ActionDeclNode extends DeclNode
 				res = false;
 				rConn.reportError("Can't redirect edge target more than once.");
 			}
-			redirectedTo.put(le, rSrc);
+			redirectedTo.put(le, rTgt);
 		}
 
 		//check, whether RHS "adds" a node to a dangling end of a edge
 		if(!alreadyReported.contains(re)) {
-			if(lSrc.isDummy() && !rSrc.isDummy()
-					&& (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE) {
-				res = false;
-				rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
-				alreadyReported.add(re);
-			}
 			if(lTgt.isDummy() && !rTgt.isDummy()
 					&& (rConn.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET) {
 				res = false;
