@@ -111,22 +111,15 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 		TypeNode storageType = storage != null ? storage.getDeclType()
 				: storageGlobalVariable != null ? storageGlobalVariable.getDeclType()
 						: storageAttribute.getDecl().getDeclType();
-		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode
-				|| storageType instanceof ArrayTypeNode || storageType instanceof DequeTypeNode)) {
+		if(!(storageType instanceof ContainerTypeNode)) {
 			if(storageGlobalVariable == null) {
-				reportError("match node from storage expects a parameter variable of collection type (set|map|array|deque).");
+				reportError("match node from storage expects a parameter variable of container type (set|map|array|deque).");
 				return false;
 			}
 		}
 		TypeNode storageElementType = null;
-		if(storageType instanceof SetTypeNode) {
-			storageElementType = ((SetTypeNode)storageType).valueType;
-		} else if(storageType instanceof MapTypeNode) {
-			storageElementType = ((MapTypeNode)storageType).keyType;
-		} else if(storageType instanceof ArrayTypeNode) {
-			storageElementType = ((ArrayTypeNode)storageType).valueType;
-		} else if(storageType instanceof DequeTypeNode) {
-			storageElementType = ((DequeTypeNode)storageType).valueType;
+		if(storageType instanceof ContainerTypeNode) {
+			storageElementType = ((ContainerTypeNode)storageType).getElementType();
 		} else {
 			storageElementType = storageGlobalVariable.getDeclType();
 		}

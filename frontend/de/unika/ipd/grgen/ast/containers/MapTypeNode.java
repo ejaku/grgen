@@ -21,16 +21,10 @@ import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.containers.MapType;
 import de.unika.ipd.grgen.ir.Type;
 
-public class MapTypeNode extends DeclaredTypeNode
+public class MapTypeNode extends ContainerTypeNode
 {
 	static {
 		setName(MapTypeNode.class, "map type");
-	}
-
-	@Override
-	public String getName()
-	{
-		return getTypeName();
 	}
 
 	@Override
@@ -124,6 +118,12 @@ public class MapTypeNode extends DeclaredTypeNode
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 
 		return true;
+	}
+
+	@Override
+	public TypeNode getElementType()
+	{
+		return keyType;
 	}
 
 	@Override

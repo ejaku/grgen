@@ -22,16 +22,10 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeType;
 import de.unika.ipd.grgen.ir.Type;
 
-public class DequeTypeNode extends DeclaredTypeNode
+public class DequeTypeNode extends ContainerTypeNode
 {
 	static {
 		setName(DequeTypeNode.class, "deque type");
-	}
-
-	@Override
-	public String getName()
-	{
-		return getTypeName();
 	}
 
 	@Override
@@ -105,6 +99,12 @@ public class DequeTypeNode extends DeclaredTypeNode
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 
 		return true;
+	}
+
+	@Override
+	public TypeNode getElementType()
+	{
+		return valueType;
 	}
 
 	@Override

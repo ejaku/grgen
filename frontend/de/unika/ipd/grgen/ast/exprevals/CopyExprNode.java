@@ -11,10 +11,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.containers.DequeTypeNode;
-import de.unika.ipd.grgen.ast.containers.MapTypeNode;
-import de.unika.ipd.grgen.ast.containers.SetTypeNode;
+import de.unika.ipd.grgen.ast.containers.ContainerTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.CopyExpr;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
@@ -70,10 +67,7 @@ public class CopyExprNode extends ExprNode
 		if(!(sourceExpr.getType() instanceof GraphTypeNode)
 				&& !(sourceExpr.getType() instanceof MatchTypeNode)
 				&& !(sourceExpr.getType() instanceof DefinedMatchTypeNode)
-				&& !(sourceExpr.getType() instanceof SetTypeNode)
-				&& !(sourceExpr.getType() instanceof MapTypeNode)
-				&& !(sourceExpr.getType() instanceof ArrayTypeNode)
-				&& !(sourceExpr.getType() instanceof DequeTypeNode)) {
+				&& !(sourceExpr.getType() instanceof ContainerTypeNode)) {
 			sourceExpr.reportError("graph or match or container expected as argument to copy");
 			return false;
 		}
@@ -91,10 +85,7 @@ public class CopyExprNode extends ExprNode
 	{
 		if(sourceExpr.getType() instanceof MatchTypeNode
 				|| sourceExpr.getType() instanceof DefinedMatchTypeNode
-				|| sourceExpr.getType() instanceof SetTypeNode
-				|| sourceExpr.getType() instanceof MapTypeNode
-				|| sourceExpr.getType() instanceof ArrayTypeNode
-				|| sourceExpr.getType() instanceof DequeTypeNode)
+				|| sourceExpr.getType() instanceof ContainerTypeNode)
 			return sourceExpr.getType();
 		else
 			return BasicTypeNode.graphType;
