@@ -125,9 +125,7 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 			reportError("Can't employ match edge by storage on RHS");
 			return false;
 		}
-		TypeNode storageType = storage != null ? storage.getDeclType()
-				: storageGlobalVariable != null ? storageGlobalVariable.getDeclType()
-						: storageAttribute.getDecl().getDeclType();
+		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof MapTypeNode)) { // TODO: allow array/deque
 			reportError("match edge by storage access expects a parameter variable of map type.");
 			return false;
@@ -177,5 +175,15 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		//else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
 		edge.setStorageIndex(new StorageAccessIndex(accessor.checkIR(GraphEntity.class)));
 		return edge;
+	}
+	
+	TypeNode getStorageType()
+	{
+		if(storage != null)
+			return storage.getDeclType();
+		else if(storageGlobalVariable != null)
+			return storageGlobalVariable.getDeclType();
+		else
+			return storageAttribute.getDecl().getDeclType();
 	}
 }

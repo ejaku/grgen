@@ -34,8 +34,8 @@ public class CollectQuadrupleResolver<R extends BaseNode, S extends BaseNode, T 
 		CollectNode<T> third = null;
 		CollectNode<U> fourth = null;
 
-		for(BaseNode elem : collect.getChildren()) {
-			Quadruple<R, S, T, U> quadruple = resolver.resolve(elem, collect);
+		for(BaseNode child : collect.getChildren()) {
+			Quadruple<R, S, T, U> quadruple = resolver.resolve(child, collect);
 			if(quadruple == null) {
 				return null;
 			}

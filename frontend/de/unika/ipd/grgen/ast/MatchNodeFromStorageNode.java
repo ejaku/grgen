@@ -108,9 +108,7 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 			reportError("Can't employ match node from storage on RHS");
 			return false;
 		}
-		TypeNode storageType = storage != null ? storage.getDeclType()
-				: storageGlobalVariable != null ? storageGlobalVariable.getDeclType()
-						: storageAttribute.getDecl().getDeclType();
+		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof ContainerTypeNode)) {
 			if(storageGlobalVariable == null) {
 				reportError("match node from storage expects a parameter variable of container type (set|map|array|deque).");
@@ -124,7 +122,7 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 			storageElementType = storageGlobalVariable.getDeclType();
 		}
 		if(!(storageElementType instanceof NodeTypeNode)) {
-			if(storageGlobalVariable != null) {
+			if(storageGlobalVariable == null) {
 				reportError("match node from storage expects the element type to be a node type.");
 				return false;
 			} else {
@@ -155,5 +153,15 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 			node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
 		//else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
 		return node;
+	}
+	
+	TypeNode getStorageType()
+	{
+		if(storage != null)
+			return storage.getDeclType();
+		else if(storageGlobalVariable != null)
+			return storageGlobalVariable.getDeclType();
+		else
+			return storageAttribute.getDecl().getDeclType();
 	}
 }

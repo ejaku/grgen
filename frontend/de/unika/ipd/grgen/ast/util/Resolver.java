@@ -38,12 +38,12 @@ public abstract class Resolver<T> extends Base
 	 * Resolves a node to another node.
 	 * (but doesn't replace the node in the AST)
 	 *
-	 * @param node The original node to resolve.
+	 * @param bn The original node to resolve.
 	 * @param parent The new parent of the resolved node.
 	 * @return The node the original node was resolved to (which might be the
 	 *         original node itself), or null if the resolving failed.
 	 */
-	public abstract T resolve(BaseNode node, BaseNode parent);
+	public abstract T resolve(BaseNode bn, BaseNode parent);
 
 	public static boolean resolveOwner(PackageIdentNode pn)
 	{

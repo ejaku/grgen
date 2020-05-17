@@ -127,11 +127,11 @@ public class ExternalTypeNode extends InheritanceTypeNode
 
 	protected void constructIR(ExternalType extType)
 	{
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof ExternalFunctionDeclNode) {
-				extType.addExternalFunctionMethod(n.checkIR(ExternalFunctionMethod.class));
+		for(BaseNode child : body.getChildren()) {
+			if(child instanceof ExternalFunctionDeclNode) {
+				extType.addExternalFunctionMethod(child.checkIR(ExternalFunctionMethod.class));
 			} else {
-				extType.addExternalProcedureMethod(n.checkIR(ExternalProcedureMethod.class));
+				extType.addExternalProcedureMethod(child.checkIR(ExternalProcedureMethod.class));
 			}
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
@@ -176,24 +176,24 @@ public class ExternalTypeNode extends InheritanceTypeNode
 	@Override
 	protected void getMembers(Map<String, DeclNode> members)
 	{
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof ExternalFunctionDeclNode) {
-				ExternalFunctionDeclNode function = (ExternalFunctionDeclNode)n;
+		for(BaseNode child : body.getChildren()) {
+			if(child instanceof ExternalFunctionDeclNode) {
+				ExternalFunctionDeclNode function = (ExternalFunctionDeclNode)child;
 				for(InheritanceTypeNode base : getAllSuperTypes()) {
-					for(BaseNode c : base.getBody().getChildren()) {
-						if(c instanceof ExternalFunctionDeclNode) {
-							ExternalFunctionDeclNode functionBase = (ExternalFunctionDeclNode)c;
+					for(BaseNode baseChild : base.getBody().getChildren()) {
+						if(baseChild instanceof ExternalFunctionDeclNode) {
+							ExternalFunctionDeclNode functionBase = (ExternalFunctionDeclNode)baseChild;
 							if(function.ident.toString().equals(functionBase.ident.toString()))
 								checkSignatureAdhered(functionBase, function);
 						}
 					}
 				}
-			} else if(n instanceof ExternalProcedureDeclNode) {
-				ExternalProcedureDeclNode procedure = (ExternalProcedureDeclNode)n;
+			} else if(child instanceof ExternalProcedureDeclNode) {
+				ExternalProcedureDeclNode procedure = (ExternalProcedureDeclNode)child;
 				for(InheritanceTypeNode base : getAllSuperTypes()) {
-					for(BaseNode c : base.getBody().getChildren()) {
-						if(c instanceof ExternalProcedureDeclNode) {
-							ExternalProcedureDeclNode procedureBase = (ExternalProcedureDeclNode)c;
+					for(BaseNode baseChild : base.getBody().getChildren()) {
+						if(baseChild instanceof ExternalProcedureDeclNode) {
+							ExternalProcedureDeclNode procedureBase = (ExternalProcedureDeclNode)baseChild;
 							if(procedure.ident.toString().equals(procedureBase.ident.toString()))
 								checkSignatureAdhered(procedureBase, procedure);
 						}

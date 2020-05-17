@@ -30,7 +30,7 @@ public class TotallyHomNode extends BaseNode
 	Vector<NodeDeclNode> childrenNode = new Vector<NodeDeclNode>();
 	Vector<EdgeDeclNode> childrenEdge = new Vector<EdgeDeclNode>();
 
-	private BaseNode entity;
+	private BaseNode entityUnresolved;
 	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 
 	public TotallyHomNode(Coords coords)
@@ -38,19 +38,19 @@ public class TotallyHomNode extends BaseNode
 		super(coords);
 	}
 
-	public void setTotallyHom(BaseNode n)
+	public void setTotallyHom(BaseNode entityUnresolved)
 	{
-		assert(entity == null);
-		becomeParent(n);
-		entity = n;
+		assert(this.entityUnresolved == null);
+		becomeParent(entityUnresolved);
+		this.entityUnresolved = entityUnresolved;
 
 	}
 
-	public void addChild(BaseNode n)
+	public void addChild(BaseNode child)
 	{
 		assert(!isResolved());
-		becomeParent(n);
-		childrenUnresolved.add(n);
+		becomeParent(child);
+		childrenUnresolved.add(child);
 	}
 
 	/** returns children of this node */
@@ -58,7 +58,7 @@ public class TotallyHomNode extends BaseNode
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(entity, node, edge));
+		children.add(getValidVersion(entityUnresolved, node, edge));
 		children.addAll(getValidVersionVector(childrenUnresolved, childrenNode, childrenEdge));
 		return children;
 	}
@@ -80,7 +80,7 @@ public class TotallyHomNode extends BaseNode
 	@Override
 	protected boolean resolveLocal()
 	{
-		Pair<NodeDeclNode, EdgeDeclNode> resolved = declResolver.resolve(entity, this);
+		Pair<NodeDeclNode, EdgeDeclNode> resolved = declResolver.resolve(entityUnresolved, this);
 		boolean successfullyResolved = resolved != null;
 		if(resolved != null) {
 			if(resolved.fst != null) {
@@ -130,11 +130,11 @@ public class TotallyHomNode extends BaseNode
 		}
 
 		boolean successfullyChecked = true;
-		for(BaseNode n : childrenNode) {
-			successfullyChecked = nodeTypeChecker.check(n, error) && successfullyChecked;
+		for(NodeDeclNode node : childrenNode) {
+			successfullyChecked = nodeTypeChecker.check(node, error) && successfullyChecked;
 		}
-		for(BaseNode n : childrenEdge) {
-			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
+		for(EdgeDeclNode edge : childrenEdge) {
+			successfullyChecked = edgeTypeChecker.check(edge, error) && successfullyChecked;
 		}
 		if(edge != null) {
 			warnEdgeTypes();

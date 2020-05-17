@@ -30,8 +30,8 @@ public class CollectPairResolver<T extends BaseNode>
 		CollectNode<T> res = new CollectNode<T>();
 		res.setCoords(collect.getCoords());
 
-		for(BaseNode elem : collect.getChildren()) {
-			Pair<? extends T, ? extends T> pair = resolver.resolve(elem, collect);
+		for(BaseNode child : collect.getChildren()) {
+			Pair<? extends T, ? extends T> pair = resolver.resolve(child, collect);
 			if(pair == null) {
 				return null;
 			}

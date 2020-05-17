@@ -140,16 +140,16 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 
 		// check if two ambiguous retyping statements for the same edge declaration occurs
 		Collection<BaseNode> parents = old.getParents();
-		for(BaseNode p : parents) {
+		for(BaseNode parent : parents) {
 			// to be erroneous there must be another EdgeTypeChangeNode with the same OLD-child
-			if(p != this && p instanceof EdgeTypeChangeNode && ((EdgeTypeChangeNode)p).old == old) {
-				BaseNode alternativeCase = p;
+			if(parent != this && parent instanceof EdgeTypeChangeNode && ((EdgeTypeChangeNode)parent).old == old) {
+				BaseNode alternativeCase = parent;
 
 				while(!alternativeCase.isRoot()) {
 					if(alternativeCase instanceof AlternativeCaseNode || alternativeCase instanceof RuleDeclNode) {
 						if(cases.contains(alternativeCase)) {
 							reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
-									+ " previous retype statement at " + p.getCoords());
+									+ " previous retype statement at " + parent.getCoords());
 							res = false;
 						}
 

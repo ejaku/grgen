@@ -56,36 +56,35 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 
 	/** Construct a new connection node.
 	 *  A connection node has two node nodes and one edge node
-	 *  @param n1 First node
+	 *  @param left First node
 	 *  @param edge Edge that connects n1 with n2
-	 *  @param n2 Second node.
-	 *  @param n2 Second node.
-	 *  @param d Direction of the connection.
-	 *  @param r Potential redirection of the edge in the connection.
+	 *  @param right Second node.
+	 *  @param direction Direction of the connection.
+	 *  @param redirection Potential redirection of the edge in the connection.
 	 */
-	public ConnectionNode(BaseNode n1, BaseNode e, BaseNode n2, int d, int r)
+	public ConnectionNode(BaseNode left, BaseNode edge, BaseNode right, int direction, int redirection)
 	{
-		super(e.getCoords());
-		leftUnresolved = n1;
+		super(edge.getCoords());
+		leftUnresolved = left;
 		becomeParent(leftUnresolved);
-		edgeUnresolved = e;
+		edgeUnresolved = edge;
 		becomeParent(edgeUnresolved);
-		rightUnresolved = n2;
+		rightUnresolved = right;
 		becomeParent(rightUnresolved);
-		connectionKind = d;
-		redirectionKind = r;
+		connectionKind = direction;
+		redirectionKind = redirection;
 	}
 
 	/** Construct a new already resolved and checked connection node.
 	 *  A connection node has two node nodes and one edge node
-	 *  @param n1 First node
+	 *  @param left First node
 	 *  @param edge Edge that connects n1 with n2
-	 *  @param n2 Second node.
-	 *  @param d Direction of the connection.
+	 *  @param right Second node.
+	 *  @param direction Direction of the connection.
 	 */
-	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, int d, BaseNode parent)
+	public ConnectionNode(NodeDeclNode left, EdgeDeclNode edge, NodeDeclNode right, int direction, BaseNode parent)
 	{
-		this(n1, e, n2, d, NO_REDIRECTION);
+		this(left, edge, right, direction, NO_REDIRECTION);
 		parent.becomeParent(this);
 
 		resolve();

@@ -319,11 +319,11 @@ public class RuleDeclNode extends TestDeclNode
 		Set<DeclNode> delete = right.getDeleted(pattern);
 		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 
-		for(BaseNode x : right.graph.imperativeStmts.getChildren()) {
-			if(!(x instanceof EmitNode))
+		for(BaseNode imperativeStmt : right.graph.imperativeStmts.getChildren()) {
+			if(!(imperativeStmt instanceof EmitNode))
 				continue;
 
-			EmitNode emit = (EmitNode)x;
+			EmitNode emit = (EmitNode)imperativeStmt;
 			for(BaseNode child : emit.getChildren()) {
 				ExprNode expr = (ExprNode)child;
 				for(ConstraintDeclNode declNode : collectNeededElements(expr)) {

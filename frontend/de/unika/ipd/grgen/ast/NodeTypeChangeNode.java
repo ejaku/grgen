@@ -123,7 +123,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		BaseNode curr = old;
 		BaseNode prev = null;
 
-		while (!(curr instanceof RuleDeclNode
+		while(!(curr instanceof RuleDeclNode
 					|| curr instanceof TestDeclNode
 					|| curr instanceof SubpatternDeclNode
 					|| curr instanceof AlternativeCaseNode))
@@ -156,16 +156,16 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 
 		// check if two ambiguous retyping statements for the same node declaration occurs
 		Collection<BaseNode> parents = old.getParents();
-		for(BaseNode p : parents) {
+		for(BaseNode parent : parents) {
 			// to be erroneous there must be another NodeTypeChangeNode with the same OLD-child
-			if(p != this && p instanceof NodeTypeChangeNode && ((NodeTypeChangeNode)p).old == old) {
-				BaseNode alternativeCase = p;
+			if(parent != this && parent instanceof NodeTypeChangeNode && ((NodeTypeChangeNode)parent).old == old) {
+				BaseNode alternativeCase = parent;
 
 				while(!alternativeCase.isRoot()) {
 					if(alternativeCase instanceof AlternativeCaseNode || alternativeCase instanceof RuleDeclNode) {
 						if(cases.contains(alternativeCase)) {
 							reportError("Two (and hence ambiguous) retype statements for the same node are forbidden,"
-									+ " previous retype statement at " + p.getCoords());
+									+ " previous retype statement at " + parent.getCoords());
 							res = false;
 						}
 

@@ -86,7 +86,8 @@ public class MultiCallActionNode extends BaseNode
 
 		// all actions must implement the match classes of the employed filters
 		for(MatchTypeQualIdentNode matchClassFilterReference : matchClassFilterFunctions.getChildren()) {
-			MatchClassFilterFunctionDeclNode matchClassFilter = (MatchClassFilterFunctionDeclNode)matchClassFilterReference.getMember();
+			MatchClassFilterFunctionDeclNode matchClassFilter =
+					(MatchClassFilterFunctionDeclNode)matchClassFilterReference.getMember();
 			String matchClassReferencedByFilterFunction = matchClassFilter.matchType.getIdentNode().toString();
 			String nameOfFilterFunction = matchClassFilter.getIdentNode().toString();
 

@@ -108,9 +108,7 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 			reportError("Can't employ match edge from storage on RHS");
 			return false;
 		}
-		TypeNode storageType = storage != null ? storage.getDeclType()
-				: storageGlobalVariable != null ? storageGlobalVariable.getDeclType()
-						: storageAttribute.getDecl().getDeclType();
+		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof ContainerTypeNode)) {
 			if(storageGlobalVariable == null) {
 				reportError("match edge from storage expects a parameter variable of collection type (set|map|array|deque).");
@@ -124,7 +122,7 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 			storageElementType = storageGlobalVariable.getDeclType();
 		}
 		if(!(storageElementType instanceof EdgeTypeNode)) {
-			if(storageGlobalVariable != null) {
+			if(storageGlobalVariable == null) {
 				reportError("match edge from storage expects the element type to be an edge type.");
 				return false;
 			} else {
@@ -155,5 +153,15 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 			edge.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
 		//else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
 		return edge;
+	}
+	
+	TypeNode getStorageType()
+	{
+		if(storage != null)
+			return storage.getDeclType();
+		else if(storageGlobalVariable != null)
+			return storageGlobalVariable.getDeclType();
+		else
+			return storageAttribute.getDecl().getDeclType();
 	}
 }

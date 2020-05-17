@@ -250,15 +250,15 @@ public class PatternGraphNode extends GraphNode
 
 		LinkedHashSet<NodeDeclNode> coll = new LinkedHashSet<NodeDeclNode>();
 
-		for(BaseNode n : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter)n;
-			conn.addNodes(coll);
+		for(BaseNode connection : connections.getChildren()) {
+			ConnectionCharacter cc = (ConnectionCharacter)connection;
+			cc.addNodes(coll);
 		}
 
 		for(HomNode homNode : homs.getChildren()) {
-			for(BaseNode homElem : homNode.getChildren()) {
-				if(homElem instanceof NodeDeclNode) {
-					coll.add((NodeDeclNode)homElem);
+			for(BaseNode homChild : homNode.getChildren()) {
+				if(homChild instanceof NodeDeclNode) {
+					coll.add((NodeDeclNode)homChild);
 				}
 			}
 		}
@@ -280,15 +280,15 @@ public class PatternGraphNode extends GraphNode
 
 		LinkedHashSet<EdgeDeclNode> coll = new LinkedHashSet<EdgeDeclNode>();
 
-		for(BaseNode n : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter)n;
-			conn.addEdge(coll);
+		for(BaseNode connection : connections.getChildren()) {
+			ConnectionCharacter cc = (ConnectionCharacter)connection;
+			cc.addEdge(coll);
 		}
 
 		for(HomNode homNode : homs.getChildren()) {
-			for(BaseNode homElem : homNode.getChildren()) {
-				if(homElem instanceof EdgeDeclNode) {
-					coll.add((EdgeDeclNode)homElem);
+			for(BaseNode homChild : homNode.getChildren()) {
+				if(homChild instanceof EdgeDeclNode) {
+					coll.add((EdgeDeclNode)homChild);
 				}
 			}
 		}
@@ -760,17 +760,17 @@ public class PatternGraphNode extends GraphNode
 
 		patternGraph.setIterationBreaking(iterationBreaking);
 
-		for(BaseNode connectionNode : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter)connectionNode;
-			conn.addToGraph(patternGraph);
+		for(BaseNode connection : connections.getChildren()) {
+			ConnectionCharacter cc = (ConnectionCharacter)connection;
+			cc.addToGraph(patternGraph);
 		}
 
 		for(VarDeclNode varNode : defVariablesToBeYieldedTo.getChildren()) {
 			patternGraph.addVariable(varNode.checkIR(Variable.class));
 		}
 
-		for(BaseNode subpatternUsageNode : subpatterns.getChildren()) {
-			patternGraph.addSubpatternUsage(subpatternUsageNode.checkIR(SubpatternUsage.class));
+		for(BaseNode subpatternUsage : subpatterns.getChildren()) {
+			patternGraph.addSubpatternUsage(subpatternUsage.checkIR(SubpatternUsage.class));
 		}
 
 		for(AlternativeNode alternativeNode : alts.getChildren()) {
@@ -1187,8 +1187,8 @@ public class PatternGraphNode extends GraphNode
 			// homs between reused entities
 			HashSet<ConstraintDeclNode> reuseHomSet = new HashSet<ConstraintDeclNode>();
 
-			for(BaseNode m : homChildren) {
-				ConstraintDeclNode decl = (ConstraintDeclNode)m;
+			for(BaseNode homChild : homChildren) {
+				ConstraintDeclNode decl = (ConstraintDeclNode)homChild;
 
 				Set<DeclNode> deletedEntities = getRule().getDeleted();
 				if(deletedEntities.contains(decl)) {
@@ -1208,8 +1208,8 @@ public class PatternGraphNode extends GraphNode
 
 		Set<ConstraintDeclNode> homSet = new LinkedHashSet<ConstraintDeclNode>();
 
-		for(BaseNode m : homChildren) {
-			ConstraintDeclNode decl = (ConstraintDeclNode)m;
+		for(BaseNode homChild : homChildren) {
+			ConstraintDeclNode decl = (ConstraintDeclNode)homChild;
 
 			homSet.add(decl);
 		}
@@ -1263,8 +1263,8 @@ public class PatternGraphNode extends GraphNode
 		if(isInduced()) {
 			addToDoubleNodeMap(getNodes());
 
-			for(BaseNode node : inducedNodes) {
-				node.reportWarning("Induced statement occurs in induced pattern");
+			for(InducedNode inducedNode : inducedNodes) {
+				inducedNode.reportWarning("Induced statement occurs in induced pattern");
 			}
 			return;
 		}
@@ -1455,21 +1455,21 @@ public class PatternGraphNode extends GraphNode
 		assert isResolved();
 
 		// add existing edges to the corresponding sets
-		for(BaseNode n : connections.getChildren()) {
-			if(n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode)n;
-				NodeDeclNode src = conn.getSrc();
+		for(BaseNode connection : connections.getChildren()) {
+			if(connection instanceof ConnectionNode) {
+				ConnectionNode cn = (ConnectionNode)connection;
+				NodeDeclNode src = cn.getSrc();
 				if(singleNodeNegNodes.contains(src)) {
 					Set<NodeDeclNode> homSet = getHomomorphic(src);
 					Set<ConnectionNode> edges = singleNodeNegMap.get(homSet);
-					edges.add(conn);
+					edges.add(cn);
 					singleNodeNegMap.put(homSet, edges);
 				}
-				NodeDeclNode tgt = conn.getTgt();
+				NodeDeclNode tgt = cn.getTgt();
 				if(singleNodeNegNodes.contains(tgt)) {
 					Set<NodeDeclNode> homSet = getHomomorphic(tgt);
 					Set<ConnectionNode> edges = singleNodeNegMap.get(homSet);
-					edges.add(conn);
+					edges.add(cn);
 					singleNodeNegMap.put(homSet, edges);
 				}
 			}
@@ -1565,7 +1565,7 @@ public class PatternGraphNode extends GraphNode
 		return homSet;
 	}
 
-	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot, int context)
+	private NodeDeclNode getAnonymousDummyNode(TypeDeclNode nodeRoot, int context)
 	{
 		IdentNode nodeName = new IdentNode(
 				getScope().defineAnonymous("dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
@@ -1573,7 +1573,7 @@ public class PatternGraphNode extends GraphNode
 		return dummyNode;
 	}
 
-	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot, int context)
+	private EdgeDeclNode getAnonymousEdgeDecl(TypeDeclNode edgeRoot, int context)
 	{
 		IdentNode edgeName = new IdentNode(
 				getScope().defineAnonymous("edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
@@ -1589,19 +1589,19 @@ public class PatternGraphNode extends GraphNode
 		assert isResolved();
 
 		// add existing edges to the corresponding pattern graph
-		for(BaseNode n : connections.getChildren()) {
-			if(n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode)n;
+		for(BaseNode connection : connections.getChildren()) {
+			if(connection instanceof ConnectionNode) {
+				ConnectionNode cn = (ConnectionNode)connection;
 
 				List<Set<NodeDeclNode>> key = new LinkedList<Set<NodeDeclNode>>();
-				key.add(getHomomorphic(conn.getSrc()));
-				key.add(getHomomorphic(conn.getTgt()));
+				key.add(getHomomorphic(cn.getSrc()));
+				key.add(getHomomorphic(cn.getTgt()));
 
 				Set<ConnectionNode> edges = doubleNodeNegMap.get(key);
 				// edges == null if conn is a dangling edge or one of the nodes
 				// is not induced
 				if(edges != null) {
-					edges.add(conn);
+					edges.add(cn);
 					doubleNodeNegMap.put(key, edges);
 				}
 			}

@@ -124,15 +124,15 @@ public class ReplaceDeclNode extends RhsDeclNode
 		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 		Collection<EdgeDeclNode> lhs = pattern.getEdges();
 
-		for(BaseNode node : graph.getConnections()) {
-			if(node instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode)node;
-				EdgeDeclNode edge = conn.getEdge();
+		for(BaseNode connection : graph.getConnections()) {
+			if(connection instanceof ConnectionNode) {
+				ConnectionNode cn = (ConnectionNode)connection;
+				EdgeDeclNode edge = cn.getEdge();
 				while(edge instanceof EdgeTypeChangeNode) {
 					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
 				}
 				if(lhs.contains(edge)) {
-					res.add(conn);
+					res.add(cn);
 				}
 			}
 		}
@@ -153,7 +153,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 		Set<NodeDeclNode> patternNodes = pattern.getNodes();
 		Set<NodeDeclNode> rhsNodes = graph.getNodes();
 
-		for(BaseNode node : patternNodes) {
+		for(NodeDeclNode node : patternNodes) {
 			if(rhsNodes.contains(node))
 				coll.add(node);
 		}
@@ -173,9 +173,9 @@ public class ReplaceDeclNode extends RhsDeclNode
 	{
 		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 
-		for(BaseNode conn : graph.getConnections()) {
-			if(conn instanceof ConnectionNode) {
-				res.add((ConnectionNode)conn);
+		for(BaseNode connection : graph.getConnections()) {
+			if(connection instanceof ConnectionNode) {
+				res.add((ConnectionNode)connection);
 			}
 		}
 

@@ -559,8 +559,8 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 			debug.report(NOTE, getCoords(), "local resolve ERROR in " + this);
 		}
 
-		for(BaseNode c : getChildren()) {
-			boolean res = (c != null) && c.resolve();
+		for(BaseNode child : getChildren()) {
+			boolean res = (child != null) && child.resolve();
 			//assert(res || this instanceof InvalidDeclNode);
 			successfullyResolved &= res;
 		}

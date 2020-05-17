@@ -33,11 +33,11 @@ public class InducedNode extends BaseNode
 		super(coords);
 	}
 
-	public void addChild(BaseNode n)
+	public void addChild(BaseNode child)
 	{
 		assert(!isResolved());
-		becomeParent(n);
-		childrenUnresolved.add(n);
+		becomeParent(child);
+		childrenUnresolved.add(child);
 	}
 
 	/** returns children of this node */

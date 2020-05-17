@@ -234,11 +234,11 @@ public class GraphNode extends BaseNode
 	{
 		boolean paramsOK = true;
 
-		for(BaseNode n : params.getChildren()) {
-			if(!(n instanceof VarDeclNode))
+		for(BaseNode param : params.getChildren()) {
+			if(!(param instanceof VarDeclNode))
 				continue;
 
-			VarDeclNode paramVar = (VarDeclNode)n;
+			VarDeclNode paramVar = (VarDeclNode)param;
 			if(paramVar.resolve()) {
 				if(!(paramVar.getDeclType() instanceof BasicTypeNode)
 						&& !(paramVar.getDeclType() instanceof EnumTypeNode)
@@ -337,12 +337,12 @@ public class GraphNode extends BaseNode
 	{
 		boolean edgeUsage = true;
 		HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
-		for(BaseNode n : connections.getChildren()) {
-			ConnectionCharacter cc = (ConnectionCharacter)n;
+		for(BaseNode connection : connections.getChildren()) {
+			ConnectionCharacter cc = (ConnectionCharacter)connection;
 			EdgeCharacter ec = cc.getEdge();
 
 			// add() returns false iff edges already contains ec
-			if (ec != null
+			if(ec != null
 					&& !(cc instanceof ConnectionNode
 							&& cc.getSrc() instanceof DummyNodeDeclNode
 							&& cc.getTgt() instanceof DummyNodeDeclNode)
@@ -412,9 +412,9 @@ public class GraphNode extends BaseNode
 
 		LinkedHashSet<NodeDeclNode> coll = new LinkedHashSet<NodeDeclNode>();
 
-		for(BaseNode n : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter)n;
-			conn.addNodes(coll);
+		for(BaseNode connection : connections.getChildren()) {
+			ConnectionCharacter cc = (ConnectionCharacter)connection;
+			cc.addNodes(coll);
 		}
 
 		nodes = Collections.unmodifiableSet(coll);
@@ -430,9 +430,9 @@ public class GraphNode extends BaseNode
 
 		LinkedHashSet<EdgeDeclNode> coll = new LinkedHashSet<EdgeDeclNode>();
 
-		for(BaseNode n : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter)n;
-			conn.addEdge(coll);
+		for(BaseNode connection : connections.getChildren()) {
+			ConnectionCharacter cc = (ConnectionCharacter)connection;
+			cc.addEdge(coll);
 		}
 
 		edges = Collections.unmodifiableSet(coll);
@@ -464,9 +464,9 @@ public class GraphNode extends BaseNode
 		PatternGraph gr = new PatternGraph(nameOfGraph, 0);
 		gr.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getGraph());
 
-		for(BaseNode n : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter)n;
-			conn.addToGraph(gr);
+		for(BaseNode connection : connections.getChildren()) {
+			ConnectionCharacter cc = (ConnectionCharacter)connection;
+			cc.addToGraph(gr);
 		}
 
 		for(VarDeclNode n : defVariablesToBeYieldedTo.getChildren()) {
@@ -497,13 +497,15 @@ public class GraphNode extends BaseNode
 		Set<Edge> edgesToAdd = new HashSet<Edge>();
 
 		// add elements which we could not be added before because their container was iterated over
-		for(Node n : nodesToAdd)
+		for(Node n : nodesToAdd) {
 			addNodeIfNotYetContained(gr, n);
-		for(Edge e : edgesToAdd)
+		}
+		for(Edge e : edgesToAdd) {
 			addEdgeIfNotYetContained(gr, e);
+		}
 
-		for(BaseNode imp : imperativeStmts.getChildren()) {
-			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
+		for(BaseNode imperativeStmt : imperativeStmts.getChildren()) {
+			gr.addImperativeStmt((ImperativeStmt)imperativeStmt.getIR());
 		}
 
 		// add deferred exec elements only mentioned there to the IR
@@ -599,25 +601,25 @@ public class GraphNode extends BaseNode
 
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
 	{
-		for(BaseNode n : params.getChildren()) {
+		for(BaseNode param : params.getChildren()) {
 			// directly nesting lhs pattern is null for parameters of lhs/rhs pattern
 			// because it doesn't exist at the time the parameters are parsed -> patch it in here
-			if(n instanceof VarDeclNode) {
-				((VarDeclNode)n).directlyNestingLHSGraph = directlyNestingLHSGraph;
+			if(param instanceof VarDeclNode) {
+				((VarDeclNode)param).directlyNestingLHSGraph = directlyNestingLHSGraph;
 				continue;
-			} else if(n instanceof SingleNodeConnNode) {
-				SingleNodeConnNode sncn = (SingleNodeConnNode)n;
+			} else if(param instanceof SingleNodeConnNode) {
+				SingleNodeConnNode sncn = (SingleNodeConnNode)param;
 				((NodeDeclNode)sncn.nodeUnresolved).directlyNestingLHSGraph = directlyNestingLHSGraph;
-			} else if(n instanceof ConstraintDeclNode) {
-				((ConstraintDeclNode)n).directlyNestingLHSGraph = directlyNestingLHSGraph;
+			} else if(param instanceof ConstraintDeclNode) {
+				((ConstraintDeclNode)param).directlyNestingLHSGraph = directlyNestingLHSGraph;
 			} else {
 				// don't need to adapt left/right nodes as only dummies
 				// TODO casts checked?
-				ConnectionNode cn = (ConnectionNode)n;
+				ConnectionNode cn = (ConnectionNode)param;
 				((EdgeDeclNode)cn.edgeUnresolved).directlyNestingLHSGraph = directlyNestingLHSGraph;
 			}
 
-			connectionsUnresolved.addChild(n);
+			connectionsUnresolved.addChild(param);
 		}
 	}
 
@@ -625,17 +627,17 @@ public class GraphNode extends BaseNode
 	{
 		Vector<DeclNode> res = new Vector<DeclNode>();
 
-		for(BaseNode para : params.getChildren()) {
-			if(para instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode)para;
+		for(BaseNode param : params.getChildren()) {
+			if(param instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode)param;
 				res.add(conn.getEdge().getDecl());
-			} else if(para instanceof SingleNodeConnNode) {
-				NodeDeclNode node = ((SingleNodeConnNode)para).getNode();
+			} else if(param instanceof SingleNodeConnNode) {
+				NodeDeclNode node = ((SingleNodeConnNode)param).getNode();
 				res.add(node);
-			} else if(para instanceof VarDeclNode) {
-				res.add((VarDeclNode)para);
+			} else if(param instanceof VarDeclNode) {
+				res.add((VarDeclNode)param);
 			} else
-				throw new UnsupportedOperationException("Unsupported parameter (" + para + ")");
+				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
 		}
 
 		return res;

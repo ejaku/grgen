@@ -319,11 +319,11 @@ public abstract class RhsDeclNode extends DeclNode
 	protected boolean sourceOrTargetNodeIncluded(PatternGraphNode pattern, Collection<? extends BaseNode> coll,
 			EdgeDeclNode edgeDecl)
 	{
-		for(BaseNode n : pattern.getConnections()) {
-			if(n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode)n;
-				if(conn.getEdge().equals(edgeDecl)) {
-					if(coll.contains(conn.getSrc()) || coll.contains(conn.getTgt())) {
+		for(BaseNode connection : pattern.getConnections()) {
+			if(connection instanceof ConnectionNode) {
+				ConnectionNode cn = (ConnectionNode)connection;
+				if(cn.getEdge().equals(edgeDecl)) {
+					if(coll.contains(cn.getSrc()) || coll.contains(cn.getTgt())) {
 						return true;
 					}
 				}

@@ -41,14 +41,14 @@ public class TypeChecker implements Checker
 	 * if so check whether the declaration has the right type
 	 * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
-	public boolean check(BaseNode node, ErrorReporter reporter)
+	public boolean check(BaseNode bn, ErrorReporter reporter)
 	{
-		boolean res = (node instanceof DeclNode);
+		boolean res = (bn instanceof DeclNode);
 
 		if(!res) {
-			node.reportError("Not a " + BaseNode.getName(DeclNode.class));
+			bn.reportError("Not a " + BaseNode.getName(DeclNode.class));
 		} else {
-			TypeNode type = ((DeclNode)node).getDeclType();
+			TypeNode type = ((DeclNode)bn).getDeclType();
 
 			res = false;
 			for(Class<?> c : this.validTypes) {
@@ -59,7 +59,7 @@ public class TypeChecker implements Checker
 			}
 
 			if(!res)
-				((DeclNode)node).getIdentNode().reportError(getErrorMsg(validTypes, node));
+				((DeclNode)bn).getIdentNode().reportError(getErrorMsg(validTypes, bn));
 
 		}
 		
@@ -92,7 +92,7 @@ public class TypeChecker implements Checker
 		return list.toString();
 	}
 
-	protected String getErrorMsg(Class<?>[] classes, BaseNode node)
+	protected String getErrorMsg(Class<?>[] classes, BaseNode bn)
 	{
 		return "expected a " + getExpectionList(classes);
 	}

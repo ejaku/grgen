@@ -251,7 +251,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 
@@ -322,7 +322,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 
@@ -421,7 +421,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
 
@@ -466,7 +466,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
 
@@ -522,7 +522,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 
@@ -658,7 +658,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 
@@ -817,7 +817,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 
@@ -1109,7 +1109,7 @@ public class ActionsGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 

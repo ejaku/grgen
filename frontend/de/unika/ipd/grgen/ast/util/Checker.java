@@ -21,8 +21,8 @@ public interface Checker
 {
 	/**
 	 * Check some AST node
-	 * @param node The AST node to check
+	 * @param bn The AST node to check
 	 * @return true if the check succeeded, false if not.
 	 */
-	boolean check(BaseNode node, ErrorReporter reporter);
+	boolean check(BaseNode bn, ErrorReporter reporter);
 }

@@ -38,7 +38,7 @@ public class SimpleChecker implements Checker
 	 * Just check whether the node is an instance of one of the valid types
 	 * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
-	public boolean check(BaseNode node, ErrorReporter reporter)
+	public boolean check(BaseNode bn, ErrorReporter reporter)
 	{
 		boolean res = false;
 
@@ -46,7 +46,7 @@ public class SimpleChecker implements Checker
 		// everything's fine, else report errors
 
 		for(int i = 0; i < validTypes.length; i++) {
-			if(validTypes[i].isInstance(node)) {
+			if(validTypes[i].isInstance(bn)) {
 				res = true;
 				break;
 			}
@@ -54,9 +54,9 @@ public class SimpleChecker implements Checker
 
 		if(!res) {
 			if(validTypes.length == 1) {
-				node.reportError("AST node " + node.getName() + " must be an instance of type " + shortClassName(validTypes[0]));
+				bn.reportError("AST node " + bn.getName() + " must be an instance of type " + shortClassName(validTypes[0]));
 			} else {
-				node.reportError("AST node " + node.getName() + " - Unknown type");
+				bn.reportError("AST node " + bn.getName() + " - Unknown type");
 			}
 		}
 

@@ -36,11 +36,11 @@ public class HomNode extends BaseNode
 		super(coords);
 	}
 
-	public void addChild(BaseNode n)
+	public void addChild(BaseNode child)
 	{
 		assert(!isResolved());
-		becomeParent(n);
-		childrenUnresolved.add(n);
+		becomeParent(child);
+		childrenUnresolved.add(child);
 	}
 
 	/** returns children of this node */
@@ -104,11 +104,11 @@ public class HomNode extends BaseNode
 		}
 
 		boolean successfullyChecked = true;
-		for(BaseNode n : childrenNode) {
-			successfullyChecked = nodeTypeChecker.check(n, error) && successfullyChecked;
+		for(NodeDeclNode node : childrenNode) {
+			successfullyChecked = nodeTypeChecker.check(node, error) && successfullyChecked;
 		}
-		for(BaseNode n : childrenEdge) {
-			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
+		for(EdgeDeclNode edge : childrenEdge) {
+			successfullyChecked = edgeTypeChecker.check(edge, error) && successfullyChecked;
 		}
 		warnEdgeTypes();
 

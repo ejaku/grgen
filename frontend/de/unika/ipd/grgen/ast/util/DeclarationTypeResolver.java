@@ -34,17 +34,17 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 	 * Resolves n to node of type R, via declaration type if n is an identifier, via simple cast otherwise
 	 * returns null if n's declaration or n can't be cast to R.
 	 */
-	public T resolve(BaseNode n, BaseNode parent)
+	public T resolve(BaseNode bn, BaseNode parent)
 	{
-		if(n instanceof IdentNode) {
-			T resolved = resolve((IdentNode)n);
+		if(bn instanceof IdentNode) {
+			T resolved = resolve((IdentNode)bn);
 			parent.becomeParent(resolved);
 			return resolved;
 		}
-		if(cls.isInstance(n)) {
-			return cls.cast(n);
+		if(cls.isInstance(bn)) {
+			return cls.cast(bn);
 		}
-		n.reportError("\"" + n + "\" is a " + n.getUseString() +
+		bn.reportError("\"" + bn + "\" is a " + bn.getUseString() +
 				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
 		return null;
 	}

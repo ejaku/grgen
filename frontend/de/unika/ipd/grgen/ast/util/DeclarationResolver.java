@@ -35,19 +35,19 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R */
-	public R resolve(BaseNode n, BaseNode parent)
+	public R resolve(BaseNode bn, BaseNode parent)
 	{
-		if(n instanceof IdentNode) {
-			R resolved = resolve((IdentNode)n);
+		if(bn instanceof IdentNode) {
+			R resolved = resolve((IdentNode)bn);
 			parent.becomeParent(resolved);
 			return resolved;
 		}
 
-		R res = tryCast(n);
+		R res = tryCast(bn);
 		if(res != null)
 			return res;
 
-		n.reportError("\"" + n + "\" is a " + n.getUseString() +
+		bn.reportError("\"" + bn + "\" is a " + bn.getUseString() +
 				" but a " + getAllowedNames() + " is expected");
 		return null;
 	}
@@ -73,15 +73,15 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		return null;
 	}
 
-	private R tryCast(BaseNode n)
+	private R tryCast(BaseNode bn)
 	{
 		if(cls == null) {
 			for(Class<? extends R> curCls : classes) {
-				if(curCls.isInstance(n))
-					return curCls.cast(n);
+				if(curCls.isInstance(bn))
+					return curCls.cast(bn);
 			}
-		} else if(cls.isInstance(n)) {
-			return cls.cast(n);
+		} else if(cls.isInstance(bn)) {
+			return cls.cast(bn);
 		}
 		return null;
 	}

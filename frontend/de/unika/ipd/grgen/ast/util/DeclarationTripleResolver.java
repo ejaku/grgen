@@ -37,11 +37,11 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 
 	/** resolves n to node of type R, S or T, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R, S or T */
-	public Triple<R, S, T> resolve(BaseNode n, BaseNode parent)
+	public Triple<R, S, T> resolve(BaseNode bn, BaseNode parent)
 	{
 		Triple<R, S, T> triple;
-		if(n instanceof IdentNode) {
-			triple = resolve((IdentNode)n);
+		if(bn instanceof IdentNode) {
+			triple = resolve((IdentNode)bn);
 			if(triple != null) {
 				assert(triple.first == null ? 0 : 1)
 						+ (triple.second == null ? 0 : 1)
@@ -54,14 +54,14 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 		}
 
 		triple = new Triple<R, S, T>();
-		if(clsR.isInstance(n)) {
-			triple.first = clsR.cast(n);
+		if(clsR.isInstance(bn)) {
+			triple.first = clsR.cast(bn);
 		}
-		if(clsS.isInstance(n)) {
-			triple.second = clsS.cast(n);
+		if(clsS.isInstance(bn)) {
+			triple.second = clsS.cast(bn);
 		}
-		if(clsT.isInstance(n)) {
-			triple.third = clsT.cast(n);
+		if(clsT.isInstance(bn)) {
+			triple.third = clsT.cast(bn);
 		}
 		if(triple.first != null || triple.second != null || triple.third != null) {
 			assert(triple.first == null ? 0 : 1)
@@ -71,7 +71,7 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 			return triple;
 		}
 
-		n.reportError("\"" + n + "\" is a " + n.getUseString() +
+		bn.reportError("\"" + bn + "\" is a " + bn.getUseString() +
 				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getUseStr") + " is expected");
 		return null;
 	}

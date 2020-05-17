@@ -2464,7 +2464,7 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.appendFront("public static " + className + " Instance { get { if (instance==null) { "
+		sb.appendFront("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 
@@ -2527,7 +2527,7 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("private static " + className + " instance = null;\n");
-		sb.append("public static " + className + " Instance { get { if (instance==null) { "
+		sb.append("public static " + className + " Instance { get { if(instance==null) { "
 				+ "instance = new " + className + "(); } return instance; } }\n");
 		sb.append("\n");
 

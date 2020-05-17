@@ -39,11 +39,11 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 
 	/** resolves n to node of type R, S, T or U, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R, S, T or U */
-	public Quadruple<R, S, T, U> resolve(BaseNode n, BaseNode parent)
+	public Quadruple<R, S, T, U> resolve(BaseNode bn, BaseNode parent)
 	{
 		Quadruple<R, S, T, U> quadruple;
-		if(n instanceof IdentNode) {
-			quadruple = resolve((IdentNode)n);
+		if(bn instanceof IdentNode) {
+			quadruple = resolve((IdentNode)bn);
 			if(quadruple != null) {
 				assert(quadruple.first == null ? 0 : 1)
 						+ (quadruple.second == null ? 0 : 1)
@@ -58,17 +58,17 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 		}
 
 		quadruple = new Quadruple<R, S, T, U>();
-		if(clsR.isInstance(n)) {
-			quadruple.first = clsR.cast(n);
+		if(clsR.isInstance(bn)) {
+			quadruple.first = clsR.cast(bn);
 		}
-		if(clsS.isInstance(n)) {
-			quadruple.second = clsS.cast(n);
+		if(clsS.isInstance(bn)) {
+			quadruple.second = clsS.cast(bn);
 		}
-		if(clsT.isInstance(n)) {
-			quadruple.third = clsT.cast(n);
+		if(clsT.isInstance(bn)) {
+			quadruple.third = clsT.cast(bn);
 		}
-		if(clsU.isInstance(n)) {
-			quadruple.fourth = clsU.cast(n);
+		if(clsU.isInstance(bn)) {
+			quadruple.fourth = clsU.cast(bn);
 		}
 		if(quadruple.first != null || quadruple.second != null || quadruple.third != null || quadruple.fourth != null) {
 			assert(quadruple.first == null ? 0 : 1)
@@ -79,7 +79,7 @@ public class DeclarationQuadrupleResolver<R extends BaseNode, S extends BaseNode
 			return quadruple;
 		}
 
-		n.reportError("\"" + n + "\" is a " + n.getUseString() +
+		bn.reportError("\"" + bn + "\" is a " + bn.getUseString() +
 				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getUseStr") + " is expected");
 		return null;
 	}

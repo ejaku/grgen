@@ -217,8 +217,8 @@ public class ArithmeticOpNode extends OpNode
 		DeclaredTypeNode type = (DeclaredTypeNode)getType();
 		Operator op = new Operator(type.getType(), getIROpCode(getOpId()));
 
-		for(BaseNode n : children) {
-			Expression ir = n.checkIR(Expression.class);
+		for(ExprNode child : children) {
+			Expression ir = child.checkIR(Expression.class);
 			op.addOperand(ir);
 		}
 

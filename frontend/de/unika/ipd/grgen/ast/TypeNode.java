@@ -194,16 +194,16 @@ public abstract class TypeNode extends BaseNode
 	{
 		debug.report(NOTE, "compatible types to " + getName() + ":");
 
-		Collection<TypeNode> compat = compatibleMap.get(this);
-		if(compat == null)
+		Collection<TypeNode> compatibleTypes = compatibleMap.get(this);
+		if(compatibleTypes == null)
 			return;
 
 		if(debug.willReport(NOTE)) {
-			for(BaseNode curNode : compat) {
-				debug.report(NOTE, "" + curNode.getName());
+			for(BaseNode compatibleType : compatibleTypes) {
+				debug.report(NOTE, "" + compatibleType.getName());
 			}
 		}
-		coll.addAll(compat);
+		coll.addAll(compatibleTypes);
 	}
 
 	/**

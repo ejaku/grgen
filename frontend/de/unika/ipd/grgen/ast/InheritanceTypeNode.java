@@ -132,9 +132,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			}
 		}
 
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof DeclNode && !(n instanceof ConstructorDeclNode)) {
-				DeclNode directMember = (DeclNode)n;
+		for(BaseNode child : body.getChildren()) {
+			if(child instanceof DeclNode && !(child instanceof ConstructorDeclNode)) {
+				DeclNode directMember = (DeclNode)child;
 				if(directMember.getIdentNode().toString().equals(getIdentNode().toString())) {
 					error.error(getIdentNode().getCoords(), "the member \"" + directMember.getIdentNode()
 									+ "\" must be named differently than its containing " + getUseStr() + " \""
@@ -145,9 +145,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		// Check constructors for ambiguity
 		Vector<ConstructorDeclNode> constrs = new Vector<ConstructorDeclNode>();
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof ConstructorDeclNode)
-				constrs.add((ConstructorDeclNode)n);
+		for(BaseNode child : body.getChildren()) {
+			if(child instanceof ConstructorDeclNode)
+				constrs.add((ConstructorDeclNode)child);
 		}
 
 		for(int i = 0; i < constrs.size(); i++) {
@@ -284,12 +284,12 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	protected boolean checkStatementsInMethods()
 	{
 		boolean res = true;
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof FunctionDeclNode) {
-				FunctionDeclNode function = (FunctionDeclNode)n;
+		for(BaseNode child : body.getChildren()) {
+			if(child instanceof FunctionDeclNode) {
+				FunctionDeclNode function = (FunctionDeclNode)child;
 				res &= EvalStatementNode.checkStatements(true, function, null, function.evals, true);
-			} else if(n instanceof ProcedureDeclNode) {
-				ProcedureDeclNode procedure = (ProcedureDeclNode)n;
+			} else if(child instanceof ProcedureDeclNode) {
+				ProcedureDeclNode procedure = (ProcedureDeclNode)child;
 				res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evals, true);
 			}
 		}
@@ -394,30 +394,30 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 	protected void constructIR(InheritanceType inhType)
 	{
-		for(BaseNode n : body.getChildren()) {
-			constructAndAddIRChild(inhType, n);
+		for(BaseNode child : body.getChildren()) {
+			constructAndAddIRChild(inhType, child);
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
 			inhType.addDirectSuperType((InheritanceType)inh.getType());
 		}
 	}
 
-	private void constructAndAddIRChild(InheritanceType inhType, BaseNode n)
+	private void constructAndAddIRChild(InheritanceType inhType, BaseNode child)
 	{
-		if(n instanceof ConstructorDeclNode) {
-			ConstructorDeclNode cd = (ConstructorDeclNode)n;
+		if(child instanceof ConstructorDeclNode) {
+			ConstructorDeclNode cd = (ConstructorDeclNode)child;
 			inhType.addConstructor(cd.getConstructor());
-		} else if(n instanceof DeclNode) {
-			DeclNode decl = (DeclNode)n;
-			if(n instanceof FunctionDeclNode) {
-				inhType.addFunctionMethod(n.checkIR(FunctionMethod.class));
-			} else if(n instanceof ProcedureDeclNode) {
-				inhType.addProcedureMethod(n.checkIR(ProcedureMethod.class));
+		} else if(child instanceof DeclNode) {
+			DeclNode decl = (DeclNode)child;
+			if(child instanceof FunctionDeclNode) {
+				inhType.addFunctionMethod(child.checkIR(FunctionMethod.class));
+			} else if(child instanceof ProcedureDeclNode) {
+				inhType.addProcedureMethod(child.checkIR(ProcedureMethod.class));
 			} else {
 				inhType.addMember(decl.getEntity());
 			}
-		} else if(n instanceof MemberInitNode) {
-			MemberInitNode mi = (MemberInitNode)n;
+		} else if(child instanceof MemberInitNode) {
+			MemberInitNode mi = (MemberInitNode)child;
 			IR init = mi.getIR();
 			if(init instanceof MapInit) {
 				inhType.addMapInit(mi.checkIR(MapInit.class));
@@ -430,17 +430,17 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			} else {
 				inhType.addMemberInit(mi.checkIR(MemberInit.class));
 			}
-		} else if(n instanceof MapInitNode) {
-			MapInitNode mi = (MapInitNode)n;
+		} else if(child instanceof MapInitNode) {
+			MapInitNode mi = (MapInitNode)child;
 			inhType.addMapInit(mi.getMapInit());
-		} else if(n instanceof SetInitNode) {
-			SetInitNode si = (SetInitNode)n;
+		} else if(child instanceof SetInitNode) {
+			SetInitNode si = (SetInitNode)child;
 			inhType.addSetInit(si.getSetInit());
-		} else if(n instanceof ArrayInitNode) {
-			ArrayInitNode ai = (ArrayInitNode)n;
+		} else if(child instanceof ArrayInitNode) {
+			ArrayInitNode ai = (ArrayInitNode)child;
 			inhType.addArrayInit(ai.getArrayInit());
-		} else if(n instanceof DequeInitNode) {
-			DequeInitNode di = (DequeInitNode)n;
+		} else if(child instanceof DequeInitNode) {
+			DequeInitNode di = (DequeInitNode)child;
 			inhType.addDequeInit(di.getDequeInit());
 		}
 	}

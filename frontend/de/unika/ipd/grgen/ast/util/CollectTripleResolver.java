@@ -33,8 +33,8 @@ public class CollectTripleResolver<R extends BaseNode, S extends BaseNode, T ext
 		CollectNode<S> second = null;
 		CollectNode<T> third = null;
 
-		for(BaseNode elem : collect.getChildren()) {
-			Triple<R, S, T> triple = resolver.resolve(elem, collect);
+		for(BaseNode child : collect.getChildren()) {
+			Triple<R, S, T> triple = resolver.resolve(child, collect);
 			if(triple == null) {
 				return null;
 			}

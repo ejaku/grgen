@@ -125,9 +125,7 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 			reportError("Can't employ match node by storage on RHS");
 			return false;
 		}
-		TypeNode storageType = storage != null ? storage.getDeclType()
-				: storageGlobalVariable != null ? storageGlobalVariable.getDeclType()
-						: storageAttribute.getDecl().getDeclType();
+		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof MapTypeNode)) { // TODO: allow array/deque
 			reportError("match node by storage access expects a parameter variable of map type.");
 			return false;
@@ -177,5 +175,15 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 		//else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
 		node.setStorageIndex(new StorageAccessIndex(accessor.checkIR(GraphEntity.class)));
 		return node;
+	}
+	
+	TypeNode getStorageType()
+	{
+		if(storage != null)
+			return storage.getDeclType();
+		else if(storageGlobalVariable != null)
+			return storageGlobalVariable.getDeclType();
+		else
+			return storageAttribute.getDecl().getDeclType();
 	}
 }

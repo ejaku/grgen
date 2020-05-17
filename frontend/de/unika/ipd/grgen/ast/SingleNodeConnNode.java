@@ -34,10 +34,10 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 	private NodeDeclNode node;
 	public BaseNode nodeUnresolved;
 
-	public SingleNodeConnNode(BaseNode n)
+	public SingleNodeConnNode(BaseNode node)
 	{
-		super(n.getCoords());
-		this.nodeUnresolved = n;
+		super(node.getCoords());
+		this.nodeUnresolved = node;
 		becomeParent(this.nodeUnresolved);
 	}
 

@@ -20,9 +20,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 
-/**
- *
- */
 public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCharacter
 {
 	static {

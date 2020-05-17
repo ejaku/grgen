@@ -32,16 +32,16 @@ public class CollectChecker implements Checker
 
 	/** Check if the node is a collect node and if so apply the child checker to all children.
 	 *  @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter) */
-	public boolean check(BaseNode node, ErrorReporter reporter)
+	public boolean check(BaseNode bn, ErrorReporter reporter)
 	{
-		if(node instanceof CollectNode<?>) {
+		if(bn instanceof CollectNode<?>) {
 			boolean result = true;
-			for(BaseNode n : node.getChildren()) {
-				result = childChecker.check(n, reporter) && result;
+			for(BaseNode child : bn.getChildren()) {
+				result = childChecker.check(child, reporter) && result;
 			}
 			return result;
 		} else {
-			node.reportError("Not a collect node"); // TODO: WTF? why report to the node??
+			bn.reportError("Not a collect node"); // TODO: WTF? why report to the node??
 			return false;
 		}
 	}

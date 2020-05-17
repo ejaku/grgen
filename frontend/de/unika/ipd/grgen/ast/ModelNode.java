@@ -264,8 +264,9 @@ public class ModelNode extends DeclNode
 				isEqualClassDefined, isLowerClassDefined,
 				isUniqueDefined, isUniqueIndexDefined,
 				areFunctionsParallel, isoParallel);
-		for(ModelNode model : usedModels.getChildren())
+		for(ModelNode model : usedModels.getChildren()) {
 			res.addUsedModel(model.getModel());
+		}
 		for(TypeDeclNode typeDecl : packages.getChildren()) {
 			res.addPackage((PackageType)typeDecl.getDeclType().getType());
 		}
@@ -288,18 +289,18 @@ public class ModelNode extends DeclNode
 			Collection<BaseNode> inProgress, Collection<BaseNode> done)
 	{
 		inProgress.add(inhType);
-		for(BaseNode t : inhType.getDirectSuperTypes()) {
-			if(!(t instanceof InheritanceTypeNode)) {
+		for(BaseNode st : inhType.getDirectSuperTypes()) {
+			if(!(st instanceof InheritanceTypeNode)) {
 				continue;
 			}
 
 			assert(
-				((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
-				((inhType instanceof EdgeTypeNode) && (t instanceof EdgeTypeNode)) ||
-				((inhType instanceof ExternalTypeNode) && (t instanceof ExternalTypeNode))
+				((inhType instanceof NodeTypeNode) && (st instanceof NodeTypeNode)) ||
+				((inhType instanceof EdgeTypeNode) && (st instanceof EdgeTypeNode)) ||
+				((inhType instanceof ExternalTypeNode) && (st instanceof ExternalTypeNode))
 			) : "nodes should extend nodes and edges should extend edges";
 
-			InheritanceTypeNode superType = (InheritanceTypeNode)t;
+			InheritanceTypeNode superType = (InheritanceTypeNode)st;
 
 			if(inProgress.contains(superType)) {
 				inhType.getIdentNode().reportError("\"" + inhType.getTypeName() + "\" extends \""

@@ -34,10 +34,10 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R or S */
-	public Pair<R, S> resolve(BaseNode n, BaseNode parent)
+	public Pair<R, S> resolve(BaseNode bn, BaseNode parent)
 	{
-		if(n instanceof IdentNode) {
-			Pair<R, S> pair = resolve((IdentNode)n);
+		if(bn instanceof IdentNode) {
+			Pair<R, S> pair = resolve((IdentNode)bn);
 			if(pair != null) {
 				assert pair.fst == null || pair.snd == null;
 				parent.becomeParent(pair.fst);
@@ -47,18 +47,18 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 		}
 
 		Pair<R, S> pair = new Pair<R, S>();
-		if(clsR.isInstance(n)) {
-			pair.fst = clsR.cast(n);
+		if(clsR.isInstance(bn)) {
+			pair.fst = clsR.cast(bn);
 		}
-		if(clsS.isInstance(n)) {
-			pair.snd = clsS.cast(n);
+		if(clsS.isInstance(bn)) {
+			pair.snd = clsS.cast(bn);
 		}
 		if(pair.fst != null || pair.snd != null) {
 			assert pair.fst == null || pair.snd == null;
 			return pair;
 		}
 
-		n.reportError("\"" + n + "\" is a " + n.getUseString() +
+		bn.reportError("\"" + bn + "\" is a " + bn.getUseString() +
 				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getUseStr") + " is expected");
 		return null;
 	}

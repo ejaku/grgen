@@ -45,12 +45,12 @@ public class MemberResolver<T> extends Base
 	 * @returns True, if the BaseNode was resolved.
 	 *          False, when an error occurred (the error is reported).
 	 */
-	public boolean resolve(BaseNode node)
+	public boolean resolve(BaseNode bn)
 	{
 		triedClasses.clear();
 		validClasses = 0;
 
-		orginalNode = node;
+		orginalNode = bn;
 		if(!(orginalNode instanceof IdentNode)) {
 			unresolvedNode = orginalNode;
 			return true;
