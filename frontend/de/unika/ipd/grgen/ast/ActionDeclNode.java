@@ -213,21 +213,21 @@ public abstract class ActionDeclNode extends DeclNode
 		Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
 
 		for(int i = 0; i < graphs.length; i++) {
-			for(BaseNode iConnection : graphs[i].getConnections()) {
-				if(!(iConnection instanceof ConnectionNode)) {
+			for(ConnectionCharacter iConnectionCharacter : graphs[i].getConnections()) {
+				if(!(iConnectionCharacter instanceof ConnectionNode)) {
 					continue;
 				}
-				ConnectionNode icn = (ConnectionNode)iConnection;
+				ConnectionNode iConnection = (ConnectionNode)iConnectionCharacter;
 
 				for(int j = i + 1; j < graphs.length; j++) {
-					for(BaseNode jConnection : graphs[j].getConnections()) {
-						if(!(jConnection instanceof ConnectionNode)) {
+					for(ConnectionCharacter jConnectionCharacter : graphs[j].getConnections()) {
+						if(!(jConnectionCharacter instanceof ConnectionNode)) {
 							continue;
 						}
-						ConnectionNode jcn = (ConnectionNode)jConnection;
+						ConnectionNode jConnection = (ConnectionNode)jConnectionCharacter;
 
-						if(icn.getEdge().equals(jcn.getEdge()) && !alreadyReported.contains(icn.getEdge())) {
-							isLhsEdgeReuseOk &= isLhsEdgeReuseOk(alreadyReported, icn, jcn);
+						if(iConnection.getEdge().equals(jConnection.getEdge()) && !alreadyReported.contains(iConnection.getEdge())) {
+							isLhsEdgeReuseOk &= isLhsEdgeReuseOk(alreadyReported, iConnection, jConnection);
 						}
 					}
 				}
@@ -291,35 +291,36 @@ public abstract class ActionDeclNode extends DeclNode
 		HashMap<EdgeDeclNode, NodeDeclNode> redirectedTo = new HashMap<EdgeDeclNode, NodeDeclNode>();
 
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for(ConnectionNode rcn : right.getReusedConnections(pattern)) {
-			EdgeDeclNode re = rcn.getEdge();
+		for(ConnectionNode rightConnection : right.getReusedConnections(pattern)) {
+			EdgeDeclNode rightEdge = rightConnection.getEdge();
 
-			if(re instanceof EdgeTypeChangeNode) {
-				re = ((EdgeTypeChangeNode)re).getOldEdge();
+			if(rightEdge instanceof EdgeTypeChangeNode) {
+				rightEdge = ((EdgeTypeChangeNode)rightEdge).getOldEdge();
 			}
 
-			for(BaseNode lc : pattern.getConnections()) {
-				if(!(lc instanceof ConnectionNode)) {
+			for(ConnectionCharacter leftConnectionCharacter : pattern.getConnections()) {
+				if(!(leftConnectionCharacter instanceof ConnectionNode)) {
 					continue;
 				}
 
-				ConnectionNode lcn = (ConnectionNode)lc;
+				ConnectionNode leftConnection = (ConnectionNode)leftConnectionCharacter;
 
-				EdgeDeclNode le = lcn.getEdge();
+				EdgeDeclNode leftEdge = leftConnection.getEdge();
 
-				if(!le.equals(re)) {
+				if(!leftEdge.equals(rightEdge)) {
 					continue;
 				}
 
-				if(lcn.getConnectionKind() != rcn.getConnectionKind()) {
+				if(leftConnection.getConnectionKind() != rightConnection.getConnectionKind()) {
 					res = false;
-					rcn.reportError("Reused edge does not have the same connection kind");
+					rightConnection.reportError("Reused edge does not have the same connection kind");
 					// if you don't add to alreadyReported erroneous errors can occur,
 					// e.g. lhs=x-e->y, rhs=y-e-x
-					alreadyReported.add(re);
+					alreadyReported.add(rightEdge);
 				}
 
-				res &= isLhsRhsReuseOk(alreadyReported, redirectedFrom, redirectedTo, right, lcn, rcn);
+				res &= isLhsRhsReuseOk(alreadyReported, redirectedFrom, redirectedTo,
+						right, leftConnection, rightConnection);
 			}
 		}
 

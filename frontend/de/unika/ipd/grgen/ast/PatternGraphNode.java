@@ -248,22 +248,21 @@ public class PatternGraphNode extends GraphNode
 		if(nodes != null)
 			return nodes;
 
-		LinkedHashSet<NodeDeclNode> coll = new LinkedHashSet<NodeDeclNode>();
+		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(BaseNode connection : connections.getChildren()) {
-			ConnectionCharacter cc = (ConnectionCharacter)connection;
-			cc.addNodes(coll);
+		for(ConnectionCharacter connection : connections.getChildren()) {
+			connection.addNodes(tempNodes);
 		}
 
 		for(HomNode homNode : homs.getChildren()) {
 			for(BaseNode homChild : homNode.getChildren()) {
 				if(homChild instanceof NodeDeclNode) {
-					coll.add((NodeDeclNode)homChild);
+					tempNodes.add((NodeDeclNode)homChild);
 				}
 			}
 		}
 
-		nodes = Collections.unmodifiableSet(coll);
+		nodes = Collections.unmodifiableSet(tempNodes);
 		return nodes;
 	}
 
@@ -278,22 +277,21 @@ public class PatternGraphNode extends GraphNode
 		if(edges != null)
 			return edges;
 
-		LinkedHashSet<EdgeDeclNode> coll = new LinkedHashSet<EdgeDeclNode>();
+		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
-		for(BaseNode connection : connections.getChildren()) {
-			ConnectionCharacter cc = (ConnectionCharacter)connection;
-			cc.addEdge(coll);
+		for(ConnectionCharacter connection : connections.getChildren()) {
+			connection.addEdge(tempEdges);
 		}
 
 		for(HomNode homNode : homs.getChildren()) {
 			for(BaseNode homChild : homNode.getChildren()) {
 				if(homChild instanceof EdgeDeclNode) {
-					coll.add((EdgeDeclNode)homChild);
+					tempEdges.add((EdgeDeclNode)homChild);
 				}
 			}
 		}
 
-		edges = Collections.unmodifiableSet(coll);
+		edges = Collections.unmodifiableSet(tempEdges);
 		return edges;
 	}
 
@@ -760,9 +758,8 @@ public class PatternGraphNode extends GraphNode
 
 		patternGraph.setIterationBreaking(iterationBreaking);
 
-		for(BaseNode connection : connections.getChildren()) {
-			ConnectionCharacter cc = (ConnectionCharacter)connection;
-			cc.addToGraph(patternGraph);
+		for(ConnectionCharacter connection : connections.getChildren()) {
+			connection.addToGraph(patternGraph);
 		}
 
 		for(VarDeclNode varNode : defVariablesToBeYieldedTo.getChildren()) {

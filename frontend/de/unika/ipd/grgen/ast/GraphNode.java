@@ -12,11 +12,8 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.ast.containers.*;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
@@ -58,7 +55,7 @@ public class GraphNode extends BaseNode
 	}
 
 	protected CollectNode<BaseNode> connectionsUnresolved;
-	protected CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
+	protected CollectNode<ConnectionCharacter> connections = new CollectNode<ConnectionCharacter>();
 	protected CollectNode<SubpatternUsageNode> subpatterns;
 	protected CollectNode<SubpatternReplNode> subpatternRepls;
 	protected CollectNode<OrderedReplacementsNode> orderedReplacements;
@@ -311,9 +308,6 @@ public class GraphNode extends BaseNode
 		subpatternRepls.getChildren().clear();
 	}
 
-	private static final Checker connectionsChecker =
-			new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
-
 	/**
 	 * A pattern node contains just a collect node with connection nodes as its children.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
@@ -321,33 +315,28 @@ public class GraphNode extends BaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		boolean connCheck = connectionsChecker.check(connections, error);
-
 		boolean isRhsEdgeUseOk = true;
 
-		if(connCheck) {
-			//check, that each named edge is only used once in a pattern
-			isRhsEdgeUseOk = isRhsEdgeReuseOk();
-		}
+		//check, that each named edge is only used once in a pattern
+		isRhsEdgeUseOk = isRhsEdgeReuseOk();
 
-		return isRhsEdgeUseOk && connCheck && noExecStatementInEvalHere();
+		return isRhsEdgeUseOk && noExecStatementInEvalHere();
 	}
 
 	private boolean isRhsEdgeReuseOk()
 	{
 		boolean edgeUsage = true;
 		HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
-		for(BaseNode connection : connections.getChildren()) {
-			ConnectionCharacter cc = (ConnectionCharacter)connection;
-			EdgeCharacter ec = cc.getEdge();
+		for(ConnectionCharacter connection : connections.getChildren()) {
+			EdgeCharacter edge = connection.getEdge();
 
 			// add() returns false iff edges already contains ec
-			if(ec != null
-					&& !(cc instanceof ConnectionNode
-							&& cc.getSrc() instanceof DummyNodeDeclNode
-							&& cc.getTgt() instanceof DummyNodeDeclNode)
-					&& !edges.add(ec)) {
-				((EdgeDeclNode) ec).reportError("Edge " + ec + " is used more than once in a graph of this action");
+			if(edge != null
+					&& !(connection instanceof ConnectionNode
+							&& connection.getSrc() instanceof DummyNodeDeclNode
+							&& connection.getTgt() instanceof DummyNodeDeclNode)
+					&& !edges.add(edge)) {
+				((EdgeDeclNode) edge).reportError("Edge " + edge + " is used more than once in a graph of this action");
 				edgeUsage = false;
 			}
 		}
@@ -389,7 +378,7 @@ public class GraphNode extends BaseNode
 	 * These are the children of the collect node at position 0.
 	 * @return The iterator.
 	 */
-	protected Collection<BaseNode> getConnections()
+	protected Collection<ConnectionCharacter> getConnections()
 	{
 		assert isResolved();
 
@@ -410,14 +399,13 @@ public class GraphNode extends BaseNode
 		if(nodes != null)
 			return nodes;
 
-		LinkedHashSet<NodeDeclNode> coll = new LinkedHashSet<NodeDeclNode>();
+		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(BaseNode connection : connections.getChildren()) {
-			ConnectionCharacter cc = (ConnectionCharacter)connection;
-			cc.addNodes(coll);
+		for(ConnectionCharacter connection : connections.getChildren()) {
+			connection.addNodes(tempNodes);
 		}
 
-		nodes = Collections.unmodifiableSet(coll);
+		nodes = Collections.unmodifiableSet(tempNodes);
 		return nodes;
 	}
 
@@ -428,14 +416,13 @@ public class GraphNode extends BaseNode
 		if(edges != null)
 			return edges;
 
-		LinkedHashSet<EdgeDeclNode> coll = new LinkedHashSet<EdgeDeclNode>();
+		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
-		for(BaseNode connection : connections.getChildren()) {
-			ConnectionCharacter cc = (ConnectionCharacter)connection;
-			cc.addEdge(coll);
+		for(ConnectionCharacter connection : connections.getChildren()) {
+			connection.addEdge(tempEdges);
 		}
 
-		edges = Collections.unmodifiableSet(coll);
+		edges = Collections.unmodifiableSet(tempEdges);
 		return edges;
 	}
 
@@ -464,9 +451,8 @@ public class GraphNode extends BaseNode
 		PatternGraph gr = new PatternGraph(nameOfGraph, 0);
 		gr.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getGraph());
 
-		for(BaseNode connection : connections.getChildren()) {
-			ConnectionCharacter cc = (ConnectionCharacter)connection;
-			cc.addToGraph(gr);
+		for(ConnectionCharacter connection : connections.getChildren()) {
+			connection.addToGraph(gr);
 		}
 
 		for(VarDeclNode n : defVariablesToBeYieldedTo.getChildren()) {

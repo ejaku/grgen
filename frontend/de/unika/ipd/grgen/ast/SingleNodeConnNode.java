@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.Graph;
  * that occur without any edge connection to the rest of the graph.
  * children: NODE:NodeDeclNode|IdentNode
  */
-public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
+public class SingleNodeConnNode extends ConnectionCharacter
 {
 	static {
 		setName(SingleNodeConnNode.class, "single node");

@@ -231,18 +231,18 @@ public class ModifyDeclNode extends RhsDeclNode
 		}
 
 		// add edges with deleted source or target
-		for(BaseNode connection : pattern.getConnections()) {
-			if(connection instanceof ConnectionNode) {
-				ConnectionNode cn = (ConnectionNode)connection;
-				if(deleted.contains(cn.getSrc()) || deleted.contains(cn.getTgt()))
-					deleted.add(cn.getEdge());
+		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
+			if(connectionCharacter instanceof ConnectionNode) {
+				ConnectionNode connection = (ConnectionNode)connectionCharacter;
+				if(deleted.contains(connection.getSrc()) || deleted.contains(connection.getTgt()))
+					deleted.add(connection.getEdge());
 			}
 		}
-		for(BaseNode connection : graph.getConnections()) {
-			if(connection instanceof ConnectionNode) {
-				ConnectionNode cn = (ConnectionNode)connection;
-				if(deleted.contains(cn.getSrc()) || deleted.contains(cn.getTgt()))
-					deleted.add(cn.getEdge());
+		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
+			if(connectionCharacter instanceof ConnectionNode) {
+				ConnectionNode connection = (ConnectionNode)connectionCharacter;
+				if(deleted.contains(connection.getSrc()) || deleted.contains(connection.getTgt()))
+					deleted.add(connection.getEdge());
 			}
 		}
 
@@ -261,25 +261,25 @@ public class ModifyDeclNode extends RhsDeclNode
 		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 		Collection<EdgeDeclNode> lhs = pattern.getEdges();
 
-		for(BaseNode connection : graph.getConnections()) {
-			if(connection instanceof ConnectionNode) {
-				ConnectionNode cn = (ConnectionNode)connection;
-				EdgeDeclNode edge = cn.getEdge();
+		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
+			if(connectionCharacter instanceof ConnectionNode) {
+				ConnectionNode connection = (ConnectionNode)connectionCharacter;
+				EdgeDeclNode edge = connection.getEdge();
 				while(edge instanceof EdgeTypeChangeNode) {
 					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
 				}
 
 				// add connection only if source and target are reused
 				if(lhs.contains(edge) && !sourceOrTargetNodeIncluded(pattern, delete.getChildren(), edge)) {
-					res.add(cn);
+					res.add(connection);
 				}
 			}
 		}
 
-		for(BaseNode connection : pattern.getConnections()) {
-			if(connection instanceof ConnectionNode) {
-				ConnectionNode cn = (ConnectionNode)connection;
-				EdgeDeclNode edge = cn.getEdge();
+		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
+			if(connectionCharacter instanceof ConnectionNode) {
+				ConnectionNode connection = (ConnectionNode)connectionCharacter;
+				EdgeDeclNode edge = connection.getEdge();
 				while(edge instanceof EdgeTypeChangeNode) {
 					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
 				}
@@ -287,7 +287,7 @@ public class ModifyDeclNode extends RhsDeclNode
 				// add connection only if source and target are reused
 				if(!delete.getChildren().contains(edge)
 						&& !sourceOrTargetNodeIncluded(pattern, delete.getChildren(), edge)) {
-					res.add(cn);
+					res.add(connection);
 				}
 			}
 		}
@@ -323,12 +323,14 @@ public class ModifyDeclNode extends RhsDeclNode
 		Set<DeclNode> deletes = getDeleted(pattern);
 
 		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
-		for(BaseNode connection : graph.getConnections()) {
+		for(ConnectionCharacter connectionCharacter : graph.getConnections()) {
 			BaseNode elem = BaseNode.getErrorNode();
-			if(connection instanceof SingleNodeConnNode) {
-				elem = ((SingleNodeConnNode)connection).getNode();
-			} else if(connection instanceof ConnectionNode) {
-				elem = ((ConnectionNode)connection).getEdge();
+			if(connectionCharacter instanceof SingleNodeConnNode) {
+				SingleNodeConnNode singleNodeConnection = (SingleNodeConnNode)connectionCharacter;
+				elem = singleNodeConnection.getNode();
+			} else if(connectionCharacter instanceof ConnectionNode) {
+				ConnectionNode connection = (ConnectionNode)connectionCharacter;
+				elem = connection.getEdge();
 			}
 
 			if(alreadyReported.contains(elem)) {
@@ -339,7 +341,7 @@ public class ModifyDeclNode extends RhsDeclNode
 				if(elem.equals(del)) {
 					if(elem instanceof ConstraintDeclNode && ((ConstraintDeclNode)elem).defEntityToBeYieldedTo)
 						continue;
-					connection.reportWarning("\"" + del + "\" appears inside as well as outside a delete statement");
+					connectionCharacter.reportWarning("\"" + del + "\" appears inside as well as outside a delete statement");
 					alreadyReported.add(elem);
 				}
 			}
@@ -353,13 +355,13 @@ public class ModifyDeclNode extends RhsDeclNode
 
 		Collection<DeclNode> delete = getDeleted(pattern);
 
-		for(BaseNode connection : pattern.getConnections()) {
-			if(connection instanceof ConnectionNode) {
-				ConnectionNode cn = (ConnectionNode)connection;
-				if(!delete.contains(cn.getEdge())
-						&& !delete.contains(cn.getSrc())
-						&& !delete.contains(cn.getTgt())) {
-					res.add(cn);
+		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
+			if(connectionCharacter instanceof ConnectionNode) {
+				ConnectionNode connection = (ConnectionNode)connectionCharacter;
+				if(!delete.contains(connection.getEdge())
+						&& !delete.contains(connection.getSrc())
+						&& !delete.contains(connection.getTgt())) {
+					res.add(connection);
 				}
 			}
 		}

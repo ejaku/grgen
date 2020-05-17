@@ -14,38 +14,44 @@ package de.unika.ipd.grgen.ast;
 import java.util.Set;
 
 import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * Something that looks like a connection.
  * @see de.unika.ipd.grgen.ast.ConnectionNode
  */
-public interface ConnectionCharacter
+public abstract class ConnectionCharacter extends BaseNode
 {
+	protected ConnectionCharacter(Coords coords)
+	{
+		super(coords);
+	}
+
 	/**
 	 * Add all nodes of this connection to a set.
 	 * @param set The set.
 	 */
-	void addNodes(Set<NodeDeclNode> set);
+	public abstract void addNodes(Set<NodeDeclNode> set);
 
 	/**
 	 * Add all edges of this connection to a set.
 	 * @param set The set.
 	 */
-	void addEdge(Set<EdgeDeclNode> set);
+	public abstract void addEdge(Set<EdgeDeclNode> set);
 
-	EdgeCharacter getEdge();
+	public abstract EdgeCharacter getEdge();
 
-	NodeCharacter getSrc();
+	public abstract NodeCharacter getSrc();
 
-	void setSrc(NodeDeclNode src);
+	public abstract void setSrc(NodeDeclNode src);
 
-	NodeCharacter getTgt();
+	public abstract NodeCharacter getTgt();
 
-	void setTgt(NodeDeclNode tgt);
+	public abstract void setTgt(NodeDeclNode tgt);
 
 	/**
 	 * Add this connection character to an IR graph.
 	 * @param gr The IR graph.
 	 */
-	void addToGraph(Graph gr);
+	public abstract void addToGraph(Graph gr);
 }
