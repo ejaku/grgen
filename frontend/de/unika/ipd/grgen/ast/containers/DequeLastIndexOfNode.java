@@ -56,11 +56,7 @@ public class DequeLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof DequeTypeNode)) {
-			targetExpr.reportError("This argument to deque lastIndexOf expression must be of type deque<T>");
-			return false;
-		}
+		// target type already checked during resolving into this node
 		TypeNode valueType = valueExpr.getType();
 		DequeTypeNode dequeType = ((DequeTypeNode)targetExpr.getType());
 		if(!valueType.isEqual(dequeType.valueType)) {

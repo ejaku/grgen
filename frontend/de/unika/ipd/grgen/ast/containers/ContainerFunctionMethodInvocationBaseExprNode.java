@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ast.containers;
 
+import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -27,5 +28,11 @@ public abstract class ContainerFunctionMethodInvocationBaseExprNode extends Expr
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
+	}
+	
+	protected ContainerTypeNode getTargetType()
+	{
+		TypeNode targetType = targetExpr.getType();
+		return (ContainerTypeNode)targetType;
 	}
 }

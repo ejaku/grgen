@@ -66,13 +66,8 @@ public class ArrayExtractNode extends ContainerFunctionMethodInvocationBaseExprN
 			return false;
 		}
 
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to extract method call must be of type array<T>.");
-			return false;
-		}
-
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
+		// target type already checked during resolving into this node
+		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)
 				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {

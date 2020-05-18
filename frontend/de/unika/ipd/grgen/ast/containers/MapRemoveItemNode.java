@@ -65,13 +65,14 @@ public class MapRemoveItemNode extends ContainerProcedureMethodInvocationBaseNod
 	@Override
 	protected boolean resolveLocal()
 	{
+		// target type already checked during resolving into this node
 		return true;
 	}
 
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = getTargetType();
+		ContainerTypeNode targetType = getTargetType();
 		if(target != null) {
 			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
 			TypeNode keyType = keyExpr.getType();

@@ -51,12 +51,8 @@ public class ArrayOrderAscendingNode extends ContainerFunctionMethodInvocationBa
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array orderAscending expression must be of type array<T>");
-			return false;
-		}
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
+		// target type already checked during resolving into this node
+		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
 		if(!(arrayType.valueType.isOrderableType())) {
 			targetExpr.reportError("array orderAscending only available for arrays of type "
 					+ TypeNode.getOrderableTypesAsString());

@@ -53,6 +53,7 @@ public class SetAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNod
 	@Override
 	protected boolean resolveLocal()
 	{
+		// target type already checked during resolving into this node
 		arrayTypeNode = new ArrayTypeNode(((SetTypeNode)targetExpr.getType()).valueTypeUnresolved);
 		return arrayTypeNode.resolve();
 	}
@@ -60,11 +61,6 @@ public class SetAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNod
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof SetTypeNode)) {
-			targetExpr.reportError("This argument to set as array expression must be of type set<T>");
-			return false;
-		}
 		return true;
 	}
 

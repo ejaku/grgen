@@ -53,6 +53,7 @@ public class MapAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNod
 	@Override
 	protected boolean resolveLocal()
 	{
+		// target type already checked during resolving into this node
 		arrayTypeNode = new ArrayTypeNode(((MapTypeNode)targetExpr.getType()).valueTypeUnresolved);
 		return arrayTypeNode.resolve();
 	}
@@ -60,12 +61,7 @@ public class MapAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNod
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof MapTypeNode)) {
-			targetExpr.reportError("This argument to map asArray expression must be of type map<int,T>");
-			return false;
-		}
-		MapTypeNode targetMapType = (MapTypeNode)targetType;
+		MapTypeNode targetMapType = (MapTypeNode)targetExpr.getType();
 		if(!(targetMapType.keyType instanceof IntTypeNode)) {
 			targetExpr.reportError("This argument to map asArray expression must be of type map<int,T>");
 			return false;

@@ -53,6 +53,7 @@ public class DequeAsSetNode extends ContainerFunctionMethodInvocationBaseExprNod
 	@Override
 	protected boolean resolveLocal()
 	{
+		// target type already checked during resolving into this node
 		setTypeNode = new SetTypeNode(((DequeTypeNode)targetExpr.getType()).valueTypeUnresolved);
 		return setTypeNode.resolve();
 	}
@@ -60,11 +61,6 @@ public class DequeAsSetNode extends ContainerFunctionMethodInvocationBaseExprNod
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof DequeTypeNode)) {
-			targetExpr.reportError("This argument to deque as set expression must be of type deque<T>");
-			return false;
-		}
 		return true;
 	}
 

@@ -53,6 +53,7 @@ public class MapRangeNode extends ContainerFunctionMethodInvocationBaseExprNode
 	@Override
 	protected boolean resolveLocal()
 	{
+		// target type already checked during resolving into this node
 		setTypeNode = new SetTypeNode(((MapTypeNode)targetExpr.getType()).valueTypeUnresolved);
 		return setTypeNode.resolve();
 	}
@@ -60,11 +61,6 @@ public class MapRangeNode extends ContainerFunctionMethodInvocationBaseExprNode
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof MapTypeNode)) {
-			targetExpr.reportError("This argument to map range expression must be of type map<S,T>");
-			return false;
-		}
 		return true;
 	}
 

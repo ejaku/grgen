@@ -56,6 +56,7 @@ public class ArrayAsStringNode extends ContainerFunctionMethodInvocationBaseExpr
 	@Override
 	protected boolean resolveLocal()
 	{
+		// target type already checked during resolving into this node
 		targetExpr.getType().resolve(); // call to ensure the array type exists
 		return true;
 	}
@@ -63,12 +64,7 @@ public class ArrayAsStringNode extends ContainerFunctionMethodInvocationBaseExpr
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array asString expression must be of type array<string> (is not an array)");
-			return false;
-		}
-		ArrayTypeNode arrayMemberType = (ArrayTypeNode)targetType;
+		ArrayTypeNode arrayMemberType = (ArrayTypeNode)targetExpr.getType();
 		if(!(arrayMemberType.valueType instanceof StringTypeNode)) {
 			targetExpr.reportError("This argument to array asString expression must be of type array<string> (array is not of string))");
 			return false;

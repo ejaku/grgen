@@ -36,12 +36,14 @@ public abstract class ContainerProcedureMethodInvocationBaseNode extends Procedu
 		this.targetVar = becomeParent(targetVar);
 	}
 
-	protected TypeNode getTargetType()
+	protected ContainerTypeNode getTargetType()
 	{
 		if(target != null) {
-			return target.getDecl().getDeclType();
+			TypeNode targetType = target.getDecl().getDeclType();
+			return (ContainerTypeNode)targetType;
 		} else {
-			return targetVar.getDeclType();
+			TypeNode targetType = targetVar.getDeclType();
+			return (ContainerTypeNode)targetType;
 		}
 	}
 }

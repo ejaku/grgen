@@ -32,11 +32,7 @@ public class ArrayVarNode extends ArrayAccumulationMethodNode
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array var method must be of type array<T>");
-			return false;
-		}
+		// target type already checked during resolving into this node
 		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
 		if(!arrayType.valueType.isAccumulatableType()) {
 			targetExpr.reportError("The array value type of the array var method must be one of: "

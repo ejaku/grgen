@@ -53,6 +53,7 @@ public class ArrayAsDequeNode extends ContainerFunctionMethodInvocationBaseExprN
 	@Override
 	protected boolean resolveLocal()
 	{
+		// target type already checked during resolving into this node
 		dequeTypeNode = new DequeTypeNode(((ArrayTypeNode)targetExpr.getType()).valueTypeUnresolved);
 		return dequeTypeNode.resolve();
 	}
@@ -60,11 +61,6 @@ public class ArrayAsDequeNode extends ContainerFunctionMethodInvocationBaseExprN
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array as deque expression must be of type array<T>");
-			return false;
-		}
 		return true;
 	}
 

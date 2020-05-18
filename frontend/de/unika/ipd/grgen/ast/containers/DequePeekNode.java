@@ -63,11 +63,7 @@ public class DequePeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof DequeTypeNode)) {
-			targetExpr.reportError("This argument to deque peek expression must be of type deque<T>");
-			return false;
-		}
+		// target type already checked during resolving into this node
 		if(numberExpr != null && !numberExpr.getType().isEqual(BasicTypeNode.intType)) {
 			numberExpr.reportError("Argument (number) to deque peek expression must be of type int");
 			return false;

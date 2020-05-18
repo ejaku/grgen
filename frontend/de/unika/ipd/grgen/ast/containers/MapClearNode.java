@@ -56,14 +56,9 @@ public class MapClearNode extends ContainerProcedureMethodInvocationBaseNode
 	}
 
 	@Override
-	protected boolean resolveLocal()
-	{
-		return true;
-	}
-
-	@Override
 	protected boolean checkLocal()
 	{
+		// target type already checked during resolving into this node
 		return true;
 	}
 

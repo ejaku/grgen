@@ -67,14 +67,9 @@ public class DequeRemoveItemNode extends ContainerProcedureMethodInvocationBaseN
 	}
 
 	@Override
-	protected boolean resolveLocal()
-	{
-		return true;
-	}
-
-	@Override
 	protected boolean checkLocal()
 	{
+		// target type already checked during resolving into this node
 		if(target != null) {
 			if(valueExpr != null) {
 				TypeNode valueType = valueExpr.getType();

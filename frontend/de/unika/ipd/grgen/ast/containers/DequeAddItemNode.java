@@ -72,15 +72,10 @@ public class DequeAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	}
 
 	@Override
-	protected boolean resolveLocal()
-	{
-		return true;
-	}
-
-	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = getTargetType();
+		// target type already checked during resolving into this node
+		ContainerTypeNode targetType = getTargetType();
 		if(target != null) {
 			TypeNode targetValueType = ((DequeTypeNode)targetType).valueType;
 			TypeNode valueType = valueExpr.getType();

@@ -67,15 +67,10 @@ public class ArrayRemoveItemNode extends ContainerProcedureMethodInvocationBaseN
 	}
 
 	@Override
-	protected boolean resolveLocal()
-	{
-		return true;
-	}
-
-	@Override
 	protected boolean checkLocal()
 	{
-		//TypeNode targetType = getTargetType();
+		// target type already checked during resolving into this node
+		//ContainerTypeNode targetType = getTargetType();
 		if(target != null) {
 			//TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
 			if(valueExpr != null) {

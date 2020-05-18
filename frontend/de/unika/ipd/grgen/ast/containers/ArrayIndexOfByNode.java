@@ -78,13 +78,8 @@ public class ArrayIndexOfByNode extends ContainerFunctionMethodInvocationBaseExp
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof ArrayTypeNode)) {
-			targetExpr.reportError("This argument to array indexOfBy expression must be of type array<T>");
-			return false;
-		}
-
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetType;
+		// target type already checked during resolving into this node
+		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)) {
 			reportError("indexOfBy can only be employed on an array of nodes or edges.");
 			return false;

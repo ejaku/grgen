@@ -52,11 +52,7 @@ public class MapEmptyNode extends ContainerFunctionMethodInvocationBaseExprNode
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode targetType = targetExpr.getType();
-		if(!(targetType instanceof MapTypeNode)) {
-			targetExpr.reportError("This argument to map empty expression must be of type map<S,T>");
-			return false;
-		}
+		// target type already checked during resolving into this node
 		return true;
 	}
 
