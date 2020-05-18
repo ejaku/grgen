@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NameLookup;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 
-public class MatchEdgeByNameLookupNode extends EdgeDeclNode implements EdgeCharacter
+public class MatchEdgeByNameLookupNode extends EdgeDeclNode
 {
 	static {
 		setName(MatchEdgeByNameLookupNode.class, "match edge by name lookup decl");

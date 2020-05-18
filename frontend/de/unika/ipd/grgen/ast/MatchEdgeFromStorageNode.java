@@ -21,23 +21,16 @@ import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.StorageAccess;
 import de.unika.ipd.grgen.ir.Variable;
 
-public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharacter
+public class MatchEdgeFromStorageNode extends MatchEdgeFromByStorageNode
 {
 	static {
 		setName(MatchEdgeFromStorageNode.class, "match edge from storage decl");
 	}
 
-	private BaseNode storageUnresolved;
-	private VarDeclNode storage = null;
-	private QualIdentNode storageAttribute = null;
-	private EdgeDeclNode storageGlobalVariable = null;
-
-	public MatchEdgeFromStorageNode(IdentNode id, BaseNode newType, int context, BaseNode storage,
+	public MatchEdgeFromStorageNode(IdentNode id, BaseNode type, int context, BaseNode storage,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
-		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
-		this.storageUnresolved = storage;
-		becomeParent(this.storageUnresolved);
+		super(id, type, context, storage, directlyNestingLHSGraph);
 	}
 
 	/** returns children of this node */
@@ -153,15 +146,5 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 			edge.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
 		//else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
 		return edge;
-	}
-	
-	TypeNode getStorageType()
-	{
-		if(storage != null)
-			return storage.getDeclType();
-		else if(storageGlobalVariable != null)
-			return storageGlobalVariable.getDeclType();
-		else
-			return storageAttribute.getDecl().getDeclType();
 	}
 }

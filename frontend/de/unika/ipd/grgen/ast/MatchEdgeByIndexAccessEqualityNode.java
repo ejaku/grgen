@@ -21,22 +21,18 @@ import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.IndexAccessEquality;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 
-public class MatchEdgeByIndexAccessEqualityNode extends EdgeDeclNode implements EdgeCharacter
+public class MatchEdgeByIndexAccessEqualityNode extends MatchEdgeByIndexNode
 {
 	static {
 		setName(MatchEdgeByIndexAccessEqualityNode.class, "match edge by index access equality decl");
 	}
 
-	private IdentNode indexUnresolved;
-	private IndexDeclNode index;
 	private ExprNode expr;
 
 	public MatchEdgeByIndexAccessEqualityNode(IdentNode id, BaseNode type, int context,
 			IdentNode index, ExprNode expr, PatternGraphNode directlyNestingLHSGraph)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
-		this.indexUnresolved = index;
-		becomeParent(this.indexUnresolved);
+		super(id, type, context, index, directlyNestingLHSGraph);
 		this.expr = expr;
 		becomeParent(this.expr);
 	}

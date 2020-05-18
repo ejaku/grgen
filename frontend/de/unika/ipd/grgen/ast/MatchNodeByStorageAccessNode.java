@@ -23,16 +23,12 @@ import de.unika.ipd.grgen.ir.StorageAccess;
 import de.unika.ipd.grgen.ir.StorageAccessIndex;
 import de.unika.ipd.grgen.ir.Variable;
 
-public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCharacter
+public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 {
 	static {
 		setName(MatchNodeByStorageAccessNode.class, "match node by storage access decl");
 	}
 
-	private BaseNode storageUnresolved;
-	private VarDeclNode storage = null;
-	private QualIdentNode storageAttribute = null;
-	private NodeDeclNode storageGlobalVariable = null;
 	private IdentExprNode accessorUnresolved;
 	private ConstraintDeclNode accessor = null;
 	// TODO: auch vardeclnode für int et al, und qualidentnode für attribute zulassen
@@ -41,9 +37,7 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 			BaseNode storage, IdentExprNode accessor,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
-		this.storageUnresolved = storage;
-		becomeParent(this.storageUnresolved);
+		super(id, type, context, storage, directlyNestingLHSGraph);
 		this.accessorUnresolved = accessor;
 		becomeParent(this.accessorUnresolved);
 	}
@@ -175,15 +169,5 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 		//else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
 		node.setStorageIndex(new StorageAccessIndex(accessor.checkIR(GraphEntity.class)));
 		return node;
-	}
-	
-	TypeNode getStorageType()
-	{
-		if(storage != null)
-			return storage.getDeclType();
-		else if(storageGlobalVariable != null)
-			return storageGlobalVariable.getDeclType();
-		else
-			return storageAttribute.getDecl().getDeclType();
 	}
 }

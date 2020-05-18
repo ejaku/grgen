@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.NameLookup;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 
-public class MatchNodeByNameLookupNode extends NodeDeclNode implements NodeCharacter
+public class MatchNodeByNameLookupNode extends NodeDeclNode
 {
 	static {
 		setName(MatchNodeByNameLookupNode.class, "match node by name lookup decl");

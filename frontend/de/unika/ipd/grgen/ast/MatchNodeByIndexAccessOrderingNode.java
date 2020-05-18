@@ -21,15 +21,13 @@ import de.unika.ipd.grgen.ir.IndexAccessOrdering;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 
-public class MatchNodeByIndexAccessOrderingNode extends NodeDeclNode implements NodeCharacter
+public class MatchNodeByIndexAccessOrderingNode extends MatchNodeByIndexNode
 {
 	static {
 		setName(MatchNodeByIndexAccessOrderingNode.class, "match node by index access ordering decl");
 	}
 
 	private boolean ascending;
-	private IdentNode indexUnresolved;
-	private IndexDeclNode index;
 	private int comp;
 	private ExprNode expr;
 	private int comp2;
@@ -41,10 +39,8 @@ public class MatchNodeByIndexAccessOrderingNode extends NodeDeclNode implements 
 			int comp2, ExprNode expr2,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		super(id, type, context, index, directlyNestingLHSGraph);
 		this.ascending = ascending;
-		this.indexUnresolved = index;
-		becomeParent(this.indexUnresolved);
 		this.comp = comp;
 		this.expr = expr;
 		becomeParent(this.expr);

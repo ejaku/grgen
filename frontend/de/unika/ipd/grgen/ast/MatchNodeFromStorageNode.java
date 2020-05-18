@@ -21,23 +21,16 @@ import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.StorageAccess;
 import de.unika.ipd.grgen.ir.Variable;
 
-public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharacter
+public class MatchNodeFromStorageNode extends MatchNodeFromByStorageNode
 {
 	static {
 		setName(MatchNodeFromStorageNode.class, "match node from storage decl");
 	}
 
-	private BaseNode storageUnresolved;
-	private VarDeclNode storage = null;
-	private QualIdentNode storageAttribute = null;
-	private NodeDeclNode storageGlobalVariable = null;
-
 	public MatchNodeFromStorageNode(IdentNode id, BaseNode type, int context, BaseNode storage,
 			PatternGraphNode directlyNestingLHSGraph)
 	{
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
-		this.storageUnresolved = storage;
-		becomeParent(this.storageUnresolved);
+		super(id, type, context, storage, directlyNestingLHSGraph);
 	}
 
 	/** returns children of this node */
@@ -153,15 +146,5 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 			node.setStorage(new StorageAccess(storageAttribute.checkIR(Qualification.class)));
 		//else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
 		return node;
-	}
-	
-	TypeNode getStorageType()
-	{
-		if(storage != null)
-			return storage.getDeclType();
-		else if(storageGlobalVariable != null)
-			return storageGlobalVariable.getDeclType();
-		else
-			return storageAttribute.getDecl().getDeclType();
 	}
 }
