@@ -100,38 +100,9 @@ public abstract class RhsDeclNode extends DeclNode
 			ret.addAll(pattern.getHomomorphic(node));
 		}
 
-		// check if a deleted node exists
+		// add edges resulting from deleted nodes (only needed if a deleted node exists)
 		if(nodes.size() > 0) {
-			Collection<ConnectionNode> conns = getResultingConnections(pattern);
-
-			// edges of deleted nodes are deleted, too --> add them
-			for(ConnectionNode conn : conns) {
-				if(sourceOrTargetNodeIncluded(pattern, ret, conn.getEdge())) {
-					ret.add(conn.getEdge());
-				}
-			}
-
-			// nodes of dangling edges are homomorphic to all other nodes,
-			// especially the deleted ones :-)
-			for(ConnectionNode conn : conns) {
-				EdgeDeclNode edge = conn.getEdge();
-				while(edge instanceof EdgeTypeChangeNode) {
-					edge = ((EdgeTypeChangeNode)edge).getOldEdge();
-				}
-				boolean srcIsDummy = true;
-				boolean tgtIsDummy = true;
-				for(ConnectionNode innerConn : conns) {
-					if(edge.equals(innerConn.getEdge())) {
-						srcIsDummy &= innerConn.getSrc().isDummy();
-						tgtIsDummy &= innerConn.getTgt().isDummy();
-					}
-				}
-
-				// so maybe the dangling edge is deleted by one of the node deletions --> add it
-				if(srcIsDummy || tgtIsDummy) {
-					ret.add(edge);
-				}
-			}
+			addEdgesResultingFromDeletedNodes(ret, pattern);
 		}
 
 		// extract deleted edges, then add homomorphic edges
@@ -146,6 +117,40 @@ public abstract class RhsDeclNode extends DeclNode
 		}
 
 		return ret;
+	}
+
+	private void addEdgesResultingFromDeletedNodes(Collection<DeclNode> ret, PatternGraphNode pattern)
+	{
+		Collection<ConnectionNode> conns = getResultingConnections(pattern);
+
+		// edges of deleted nodes are deleted, too --> add them
+		for(ConnectionNode conn : conns) {
+			if(sourceOrTargetNodeIncluded(pattern, ret, conn.getEdge())) {
+				ret.add(conn.getEdge());
+			}
+		}
+
+		// nodes of dangling edges are homomorphic to all other nodes,
+		// especially the deleted ones :-)
+		for(ConnectionNode conn : conns) {
+			EdgeDeclNode edge = conn.getEdge();
+			while(edge instanceof EdgeTypeChangeNode) {
+				edge = ((EdgeTypeChangeNode)edge).getOldEdge();
+			}
+			boolean srcIsDummy = true;
+			boolean tgtIsDummy = true;
+			for(ConnectionNode innerConn : conns) {
+				if(edge.equals(innerConn.getEdge())) {
+					srcIsDummy &= innerConn.getSrc().isDummy();
+					tgtIsDummy &= innerConn.getTgt().isDummy();
+				}
+			}
+
+			// so maybe the dangling edge is deleted by one of the node deletions --> add it
+			if(srcIsDummy || tgtIsDummy) {
+				ret.add(edge);
+			}
+		}
 	}
 
 	/** only used in checks against usage of deleted elements */

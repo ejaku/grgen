@@ -11,7 +11,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.containers.*;
@@ -160,58 +159,5 @@ public class NodeTypeNode extends InheritanceTypeNode
 		assert isResolved();
 
 		return extend.getChildren();
-	}
-
-	@Override
-	protected void getMembers(Map<String, DeclNode> members)
-	{
-		assert isResolved();
-
-		for(BaseNode child : body.getChildren()) {
-			if(child instanceof ConstructorDeclNode)
-				continue;
-
-			if(child instanceof FunctionDeclNode) {
-				FunctionDeclNode function = (FunctionDeclNode)child;
-				if(!function.isChecked())
-					continue;
-				for(InheritanceTypeNode base : getAllSuperTypes()) {
-					for(BaseNode baseChild : base.getBody().getChildren()) {
-						if(baseChild instanceof FunctionDeclNode) {
-							FunctionDeclNode functionBase = (FunctionDeclNode)baseChild;
-							if(!functionBase.isChecked())
-								continue;
-							if(function.ident.toString().equals(functionBase.ident.toString()))
-								checkSignatureAdhered(functionBase, function);
-						}
-					}
-				}
-			} else if(child instanceof ProcedureDeclNode) {
-				ProcedureDeclNode procedure = (ProcedureDeclNode)child;
-				if(!procedure.isChecked())
-					continue;
-				for(InheritanceTypeNode base : getAllSuperTypes()) {
-					for(BaseNode baseChild : base.getBody().getChildren()) {
-						if(baseChild instanceof ProcedureDeclNode) {
-							ProcedureDeclNode procedureBase = (ProcedureDeclNode)baseChild;
-							if(!procedureBase.isChecked())
-								continue;
-							if(procedure.ident.toString().equals(procedureBase.ident.toString()))
-								checkSignatureAdhered(procedureBase, procedure);
-						}
-					}
-				}
-			} else if(child instanceof DeclNode) {
-				DeclNode decl = (DeclNode)child;
-
-				DeclNode old = members.put(decl.getIdentNode().toString(), decl);
-				if(old != null && !(old instanceof AbstractMemberDeclNode)) {
-					// TODO this should be part of a check (that return false)
-					error.error(decl.getCoords(), "member " + decl.toString() + " of " + getUseString() + " "
-							+ getIdentNode() + " already defined in " + old.getParents() + "." // TODO improve error message
-					);
-				}
-			}
-		}
 	}
 }

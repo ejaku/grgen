@@ -179,25 +179,35 @@ public class ExternalTypeNode extends InheritanceTypeNode
 		for(BaseNode child : body.getChildren()) {
 			if(child instanceof ExternalFunctionDeclNode) {
 				ExternalFunctionDeclNode function = (ExternalFunctionDeclNode)child;
-				for(InheritanceTypeNode base : getAllSuperTypes()) {
-					for(BaseNode baseChild : base.getBody().getChildren()) {
-						if(baseChild instanceof ExternalFunctionDeclNode) {
-							ExternalFunctionDeclNode functionBase = (ExternalFunctionDeclNode)baseChild;
-							if(function.ident.toString().equals(functionBase.ident.toString()))
-								checkSignatureAdhered(functionBase, function);
-						}
-					}
-				}
+				checkExternalFunctionOverride(function);
 			} else if(child instanceof ExternalProcedureDeclNode) {
 				ExternalProcedureDeclNode procedure = (ExternalProcedureDeclNode)child;
-				for(InheritanceTypeNode base : getAllSuperTypes()) {
-					for(BaseNode baseChild : base.getBody().getChildren()) {
-						if(baseChild instanceof ExternalProcedureDeclNode) {
-							ExternalProcedureDeclNode procedureBase = (ExternalProcedureDeclNode)baseChild;
-							if(procedure.ident.toString().equals(procedureBase.ident.toString()))
-								checkSignatureAdhered(procedureBase, procedure);
-						}
-					}
+				checkExternalProcedureOverride(procedure);
+			}
+		}
+	}
+
+	private void checkExternalFunctionOverride(ExternalFunctionDeclNode function)
+	{
+		for(InheritanceTypeNode base : getAllSuperTypes()) {
+			for(BaseNode baseChild : base.getBody().getChildren()) {
+				if(baseChild instanceof ExternalFunctionDeclNode) {
+					ExternalFunctionDeclNode functionBase = (ExternalFunctionDeclNode)baseChild;
+					if(function.ident.toString().equals(functionBase.ident.toString()))
+						checkSignatureAdhered(functionBase, function);
+				}
+			}
+		}
+	}
+	
+	private void checkExternalProcedureOverride(ExternalProcedureDeclNode procedure)
+	{
+		for(InheritanceTypeNode base : getAllSuperTypes()) {
+			for(BaseNode baseChild : base.getBody().getChildren()) {
+				if(baseChild instanceof ExternalProcedureDeclNode) {
+					ExternalProcedureDeclNode procedureBase = (ExternalProcedureDeclNode)baseChild;
+					if(procedure.ident.toString().equals(procedureBase.ident.toString()))
+						checkSignatureAdhered(procedureBase, procedure);
 				}
 			}
 		}

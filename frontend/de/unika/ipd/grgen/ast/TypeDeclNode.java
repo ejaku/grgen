@@ -34,7 +34,8 @@ public class TypeDeclNode extends DeclNode
 
 		// Set the declaration of the declared type node to this node.
 		if(t instanceof DeclaredTypeNode) {
-			((DeclaredTypeNode)t).setDecl(this);
+			DeclaredTypeNode declTypeNode = (DeclaredTypeNode)t;
+			declTypeNode.setDecl(this);
 		}
 	}
 
@@ -91,16 +92,8 @@ public class TypeDeclNode extends DeclNode
 
 		EdgeTypeNode edgeType = (EdgeTypeNode)type;
 
-		boolean extendEdge = false;
-		boolean extendUEdge = false;
-		for(InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
-			if(inh instanceof DirectedEdgeTypeNode) {
-				extendEdge = true;
-			}
-			if(inh instanceof UndirectedEdgeTypeNode) {
-				extendUEdge = true;
-			}
-		}
+		boolean extendEdge = extendsEdge(edgeType);
+		boolean extendUEdge = extendsUEdge(edgeType);
 
 		if(extendEdge && extendUEdge) {
 			reportError("An edge class cannot extend a directed and an undirected edge class");
@@ -126,6 +119,26 @@ public class TypeDeclNode extends DeclNode
 		return true;
 	}
 
+	private static boolean extendsEdge(EdgeTypeNode edgeType)
+	{
+		for(InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
+			if(inh instanceof DirectedEdgeTypeNode) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private static boolean extendsUEdge(EdgeTypeNode edgeType)
+	{
+		for(InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
+			if(inh instanceof UndirectedEdgeTypeNode) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * A type declaration returns the declared type
 	 * as result.

@@ -117,9 +117,9 @@ public class TestDeclNode extends ActionDeclNode
 		returnFormalParameters = retTypeResolver.resolve(returnFormalParametersUnresolved, this);
 
 		return type != null
-				&& returnFormalParameters != null
-				&& implementedMatchTypes != null
-				&& resolveFilters(filters);
+				& returnFormalParameters != null
+				& implementedMatchTypes != null
+				& resolveFilters(filters);
 	}
 
 	/**

@@ -112,6 +112,24 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		return allSuperTypes;
 	}
 
+	public static boolean hasCommonSubtype(InheritanceTypeNode type1, InheritanceTypeNode type2)
+	{
+		if(type1.isA(type2))
+			return true;
+		if(type2.isA(type1))
+			return true;
+
+		Collection<InheritanceTypeNode> subTypes1 = type1.getAllSubTypes();
+		Collection<InheritanceTypeNode> subTypes2 = type2.getAllSubTypes();
+		for(TypeNode typeNode2 : subTypes2) {
+			if(subTypes1.contains(typeNode2)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	public CollectNode<BaseNode> getBody()
 	{
 		return body;
@@ -258,14 +276,74 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 	protected abstract Collection<? extends InheritanceTypeNode> getDirectSuperTypes();
 
-	protected abstract void getMembers(Map<String, DeclNode> members);
-
 	public DeclNode tryGetMember(String name)
 	{
 		return getAllMembers().get(name);
 	}
 
-	/** Returns all members (including inherited ones) of this type. */
+	/** Returns all members (including inherited ones) of this type. Checks the members as side effect. */
+	protected void getMembers(Map<String, DeclNode> members)
+	{
+		assert isResolved();
+
+		for(BaseNode child : body.getChildren()) {
+			if(child instanceof ConstructorDeclNode)
+				continue;
+
+			if(child instanceof FunctionDeclNode) {
+				FunctionDeclNode function = (FunctionDeclNode)child;
+				checkFunctionOverride(function);
+			} else if(child instanceof ProcedureDeclNode) {
+				ProcedureDeclNode procedure = (ProcedureDeclNode)child;
+				checkProcedureOverride(procedure);
+			} else if(child instanceof DeclNode) {
+				DeclNode decl = (DeclNode)child;
+				DeclNode old = members.put(decl.getIdentNode().toString(), decl);
+				if(old != null && !(old instanceof AbstractMemberDeclNode)) {
+					// TODO this should be part of a check (that return false)
+					error.error(decl.getCoords(), "member " + decl.toString() + " of " + getUseString() + " "
+							+ getIdentNode() + " already defined in " + old.getParents() + "." // TODO improve error message
+					);
+				}
+			}
+		}
+	}
+
+	private void checkFunctionOverride(FunctionDeclNode function)
+	{
+		if(!function.isChecked())
+			return;
+		for(InheritanceTypeNode base : getAllSuperTypes()) {
+			for(BaseNode baseChild : base.getBody().getChildren()) {
+				if(baseChild instanceof FunctionDeclNode) {
+					FunctionDeclNode functionBase = (FunctionDeclNode)baseChild;
+					if(!functionBase.isChecked())
+						continue;
+					if(function.ident.toString().equals(functionBase.ident.toString()))
+						checkSignatureAdhered(functionBase, function);
+				}
+			}
+		}
+	}
+
+	private void checkProcedureOverride(ProcedureDeclNode procedure)
+	{
+		if(!procedure.isChecked())
+			return;
+		for(InheritanceTypeNode base : getAllSuperTypes()) {
+			for(BaseNode baseChild : base.getBody().getChildren()) {
+				if(baseChild instanceof ProcedureDeclNode) {
+					ProcedureDeclNode procedureBase = (ProcedureDeclNode)baseChild;
+					if(!procedureBase.isChecked())
+						continue;
+					if(procedure.ident.toString().equals(procedureBase.ident.toString()))
+						checkSignatureAdhered(procedureBase, procedure);
+				}
+			}
+		}
+	}
+
+	/** Returns all members (including inherited ones) of this type. Checks the members as side effect. */
 	public Map<String, DeclNode> getAllMembers()
 	{
 		if(allMembers == null) {

@@ -84,22 +84,7 @@ public class SubpatternDeclNode extends ActionDeclNode
 	{
 		type = typeResolver.resolve(typeUnresolved, this);
 
-		boolean rewritePartRequired = false;
-		for(AlternativeNode alt : pattern.alts.getChildren()) {
-			for(AlternativeCaseNode altCase : alt.getChildren()) {
-				if(altCase.right != null) {
-					rewritePartRequired = true;
-				}
-			}
-		}
-
-		for(IteratedNode iter : pattern.iters.getChildren()) {
-			if(iter.right != null) {
-				rewritePartRequired = true;
-			}
-		}
-
-		if(right == null && rewritePartRequired) {
+		if(right == null && rewritePartRequired()) {
 			CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 			CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
 			CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -118,6 +103,25 @@ public class SubpatternDeclNode extends ActionDeclNode
 		}
 
 		return type != null;
+	}
+
+	private boolean rewritePartRequired()
+	{
+		for(AlternativeNode alt : pattern.alts.getChildren()) {
+			for(AlternativeCaseNode altCase : alt.getChildren()) {
+				if(altCase.right != null) {
+					return true;
+				}
+			}
+		}
+
+		for(IteratedNode iter : pattern.iters.getChildren()) {
+			if(iter.right != null) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	/**

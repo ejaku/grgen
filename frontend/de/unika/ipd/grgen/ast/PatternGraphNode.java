@@ -374,26 +374,32 @@ public class PatternGraphNode extends GraphNode
 		}
 
 		for(Set<ConstraintDeclNode> homSet : homSets) {
-			// Homomorphic nodes.
 			if(homSet.iterator().next() instanceof NodeDeclNode) {
-				for(ConstraintDeclNode elem : homSet) {
-					NodeDeclNode node = (NodeDeclNode)elem;
-					Set<NodeDeclNode> mapEntry = nodeHomMap.get(node);
-					for(ConstraintDeclNode homomorphicNode : homSet) {
-						mapEntry.add((NodeDeclNode)homomorphicNode);
-					}
-				}
+				initNodeHomSet(homSet);
+			} else {//if(homSet.iterator().next() instanceof EdgeDeclNode)
+				initEdgeHomSet(homSet);
 			}
+		}
+	}
 
-			// Homomorphic edges.
-			if(homSet.iterator().next() instanceof EdgeDeclNode) {
-				for(ConstraintDeclNode elem : homSet) {
-					EdgeDeclNode edge = (EdgeDeclNode)elem;
-					Set<EdgeDeclNode> mapEntry = edgeHomMap.get(edge);
-					for(ConstraintDeclNode homomorphicEdge : homSet) {
-						mapEntry.add((EdgeDeclNode)homomorphicEdge);
-					}
-				}
+	private void initNodeHomSet(Set<ConstraintDeclNode> homSet)
+	{
+		for(ConstraintDeclNode elem : homSet) {
+			NodeDeclNode node = (NodeDeclNode)elem;
+			Set<NodeDeclNode> mapEntry = nodeHomMap.get(node);
+			for(ConstraintDeclNode homomorphicNode : homSet) {
+				mapEntry.add((NodeDeclNode)homomorphicNode);
+			}
+		}
+	}
+
+	private void initEdgeHomSet(Set<ConstraintDeclNode> homSet)
+	{
+		for(ConstraintDeclNode elem : homSet) {
+			EdgeDeclNode edge = (EdgeDeclNode)elem;
+			Set<EdgeDeclNode> mapEntry = edgeHomMap.get(edge);
+			for(ConstraintDeclNode homomorphicEdge : homSet) {
+				mapEntry.add((EdgeDeclNode)homomorphicEdge);
 			}
 		}
 	}
@@ -417,38 +423,45 @@ public class PatternGraphNode extends GraphNode
 	private void initHomSets()
 	{
 		homSets = new LinkedHashSet<Set<ConstraintDeclNode>>();
-		Set<NodeDeclNode> nodes = getNodes();
-		Set<EdgeDeclNode> edges = getEdges();
 
 		// Own homomorphic sets.
 		for(HomNode homNode : homs.getChildren()) {
 			homSets.addAll(splitHoms(homNode.getChildren()));
 		}
 
+		Set<NodeDeclNode> nodes = getNodes();
+		Set<EdgeDeclNode> edges = getEdges();
+
 		// Inherited homomorphic sets.
 		for(PatternGraphNode parent = getParentPatternGraph(); parent != null;
 				parent = parent.getParentPatternGraph()) {
 			for(Set<ConstraintDeclNode> parentHomSet : parent.getHoms()) {
-				Set<ConstraintDeclNode> inheritedHomSet = new LinkedHashSet<ConstraintDeclNode>();
-				if(parentHomSet.iterator().next() instanceof NodeDeclNode) {
-					for(ConstraintDeclNode homNode : parentHomSet) {
-						if(nodes.contains(homNode)) {
-							inheritedHomSet.add(homNode);
-						}
-					}
-					if(inheritedHomSet.size() > 1) {
-						homSets.add(inheritedHomSet);
-					}
-				} else {
-					for(ConstraintDeclNode homEdge : parentHomSet) {
-						if(edges.contains(homEdge)) {
-							inheritedHomSet.add(homEdge);
-						}
-					}
-					if(inheritedHomSet.size() > 1) {
-						homSets.add(inheritedHomSet);
-					}
+				addInheritedHomSet(parentHomSet, nodes, edges);
+			}
+		}
+	}
+
+	private void addInheritedHomSet(Set<ConstraintDeclNode> parentHomSet,
+			Set<NodeDeclNode> nodes, Set<EdgeDeclNode> edges)
+	{
+		Set<ConstraintDeclNode> inheritedHomSet = new LinkedHashSet<ConstraintDeclNode>();
+		if(parentHomSet.iterator().next() instanceof NodeDeclNode) {
+			for(ConstraintDeclNode homNode : parentHomSet) {
+				if(nodes.contains(homNode)) {
+					inheritedHomSet.add(homNode);
 				}
+			}
+			if(inheritedHomSet.size() > 1) {
+				homSets.add(inheritedHomSet);
+			}
+		} else {
+			for(ConstraintDeclNode homEdge : parentHomSet) {
+				if(edges.contains(homEdge)) {
+					inheritedHomSet.add(homEdge);
+				}
+			}
+			if(inheritedHomSet.size() > 1) {
+				homSets.add(inheritedHomSet);
 			}
 		}
 	}
@@ -469,53 +482,44 @@ public class PatternGraphNode extends GraphNode
 	private void warnOnSuperfluousHoms()
 	{
 		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
-
 		for(Set<ConstraintDeclNode> homSet : homSets) {
-			Set<ConstraintDeclNode> alreadyProcessed = new LinkedHashSet<ConstraintDeclNode>();
-
-			for(ConstraintDeclNode elem1 : homSet) {
-				InheritanceTypeNode type1 = elem1.getDeclType();
-				Collection<InheritanceTypeNode> subTypes1 = type1.getAllSubTypes();
-				for(ConstraintDeclNode elem2 : homSet) {
-					if(elem1 == elem2 || alreadyProcessed.contains(elem2))
-						continue;
-
-					InheritanceTypeNode type2 = elem2.getDeclType();
-					Collection<InheritanceTypeNode> subTypes2 = type2.getAllSubTypes();
-
-					boolean hasCommonSubType = type1.isA(type2) || type2.isA(type1);
-
-					if(hasCommonSubType)
-						continue;
-
-					for(TypeNode typeNode2 : subTypes2) {
-						if(subTypes1.contains(typeNode2)) {
-							hasCommonSubType = true;
-							break;
-						}
-					}
-
-					if(!hasCommonSubType) {
-						// search hom statement
-						HomNode hom = null;
-						for(HomNode homNode : homs.getChildren()) {
-							Collection<BaseNode> homChildren = homNode.getChildren();
-							if(homChildren.contains(elem1) && homChildren.contains(elem2)) {
-								hom = homNode;
-								break;
-							}
-						}
-
-						hom.reportWarning(elem1.ident + " and " + elem2.ident
-								+ " have no common subtype and thus can never match the same element");
-					}
-				}
-
-				alreadyProcessed.add(elem1);
-			}
+			warnOnSuperfluousHoms(homSet);
 		}
 	}
 
+	private void warnOnSuperfluousHoms(Set<ConstraintDeclNode> homSet)
+	{
+		Set<ConstraintDeclNode> alreadyProcessed = new LinkedHashSet<ConstraintDeclNode>();
+
+		for(ConstraintDeclNode elem1 : homSet) {
+			InheritanceTypeNode type1 = elem1.getDeclType();
+			for(ConstraintDeclNode elem2 : homSet) {
+				if(elem1 == elem2 || alreadyProcessed.contains(elem2))
+					continue;
+
+				InheritanceTypeNode type2 = elem2.getDeclType();
+
+				if(InheritanceTypeNode.hasCommonSubtype(type1, type2))
+					continue;
+
+				// search hom statement
+				HomNode hom = null;
+				for(HomNode homNode : homs.getChildren()) {
+					Collection<BaseNode> homChildren = homNode.getChildren();
+					if(homChildren.contains(elem1) && homChildren.contains(elem2)) {
+						hom = homNode;
+						break;
+					}
+				}
+
+				hom.reportWarning(elem1.ident + " and " + elem2.ident
+						+ " have no common subtype and thus can never match the same element");
+			}
+
+			alreadyProcessed.add(elem1);
+		}
+	}
+	
 	boolean noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
 	{
 		boolean result = true;
@@ -605,12 +609,12 @@ public class PatternGraphNode extends GraphNode
 
 		warnOnSuperfluousHoms();
 
-		return childs && expr && noReturnInNegOrIdpt 
-				&& noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
-				&& noDefElementOrIteratedReferenceInCondition()
-				&& noIteratedReferenceInDefElementInitialization()
-				&& iteratedNameIsNotAccessedInNestedPattern()
-				&& noExecStatementInEvalsOfIteratedOrAlternative();
+		return childs & expr & noReturnInNegOrIdpt 
+				& noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
+				& noDefElementOrIteratedReferenceInCondition()
+				& noIteratedReferenceInDefElementInitialization()
+				& iteratedNameIsNotAccessedInNestedPattern()
+				& noExecStatementInEvalsOfIteratedOrAlternative();
 	}
 
 	private boolean noDefElementOrIteratedReferenceInCondition()
@@ -1270,20 +1274,8 @@ public class PatternGraphNode extends GraphNode
 
 		for(int i = 0; i < induced.getChildren().size(); i++) {
 			BaseNode inducedNode = induced.get(i);
-			Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
-
-			for(BaseNode inducedChild : inducedNode.getChildren()) {
-				// This cast must be ok after checking.
-				NodeDeclNode nodeDeclNode = (NodeDeclNode)inducedChild;
-
-				// coords of occurrence are not available
-				if(nodes.contains(nodeDeclNode)) {
-					inducedNode.reportWarning("Multiple occurrence of " + nodeDeclNode.getUseString() + " "
-							+ nodeDeclNode.getIdentNode().getSymbol().getText() + " in a single induced statement");
-				} else {
-					nodes.add(nodeDeclNode);
-				}
-			}
+			
+			Set<NodeDeclNode> nodes = getInducedNodes(inducedNode);
 
 			if(genInducedSets.containsKey(nodes)) {
 				BaseNode oldOcc = induced.get(genInducedSets.get(nodes));
@@ -1295,6 +1287,26 @@ public class PatternGraphNode extends GraphNode
 		}
 
 		warnRedundantInducedStatement(genInducedSets);
+	}
+
+	private Set<NodeDeclNode> getInducedNodes(BaseNode inducedNode)
+	{
+		Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
+
+		for(BaseNode inducedChild : inducedNode.getChildren()) {
+			// This cast must be ok after checking.
+			NodeDeclNode nodeDeclNode = (NodeDeclNode)inducedChild;
+
+			// coords of occurrence are not available
+			if(nodes.contains(nodeDeclNode)) {
+				inducedNode.reportWarning("Multiple occurrence of " + nodeDeclNode.getUseString() + " "
+						+ nodeDeclNode.getIdentNode().getSymbol().getText() + " in a single induced statement");
+			} else {
+				nodes.add(nodeDeclNode);
+			}
+		}
+		
+		return nodes;
 	}
 
 	/**
@@ -1314,51 +1326,19 @@ public class PatternGraphNode extends GraphNode
 	 */
 	private void warnRedundantInducedStatement(Map<Set<NodeDeclNode>, Integer> genInducedSets)
 	{
-		Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap = new LinkedHashMap<Map<List<NodeDeclNode>, Boolean>, Integer>();
+		Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap =
+				new LinkedHashMap<Map<List<NodeDeclNode>, Boolean>, Integer>();
 
 		// create all pairs of nodes (->edges)
 		for(Map.Entry<Set<NodeDeclNode>, Integer> nodeMapEntry : genInducedSets.entrySet()) {
-			// if the Boolean is true -> edge is marked
-			Map<List<NodeDeclNode>, Boolean> markedMap = new LinkedHashMap<List<NodeDeclNode>, Boolean>();
-			for(NodeDeclNode src : nodeMapEntry.getKey()) {
-				for(NodeDeclNode tgt : nodeMapEntry.getKey()) {
-					List<NodeDeclNode> edge = new LinkedList<NodeDeclNode>();
-					edge.add(src);
-					edge.add(tgt);
-
-					markedMap.put(edge, false);
-				}
-			}
-
-			inducedEdgeMap.put(markedMap, nodeMapEntry.getValue());
+			fillInducedEdgeMap(inducedEdgeMap, nodeMapEntry);
 		}
 
 		for(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> candidate : inducedEdgeMap.entrySet()) {
-			Set<Integer> witnesses = new LinkedHashSet<Integer>();
-
-			for(Map.Entry<List<NodeDeclNode>, Boolean> candidateMarkedMap : candidate.getKey().entrySet()) {
-				// TODO also mark witness edge (and candidate as witness)
-				if(!candidateMarkedMap.getValue().booleanValue()) {
-					for(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> witness : inducedEdgeMap.entrySet()) {
-						if(candidate != witness) {
-							// if witness contains edge
-							if(witness.getKey().containsKey(candidateMarkedMap.getKey())) {
-								// mark Edge
-								candidateMarkedMap.setValue(true);
-								// add witness
-								witnesses.add(witness.getValue());
-							}
-						}
-					}
-				}
-			}
+			Set<Integer> witnesses = getWitnessesAndMarkEdge(inducedEdgeMap, candidate);
 
 			// all edges marked?
-			boolean allMarked = true;
-			for(boolean edgeMarked : candidate.getKey().values()) {
-				allMarked = allMarked && edgeMarked;
-			}
-			if(allMarked) {
+			if(allMarked(candidate)) {
 				String witnessesLoc = "";
 				for(Integer index : witnesses) {
 					witnessesLoc += induced.get(index).getCoords() + " ";
@@ -1368,6 +1348,61 @@ public class PatternGraphNode extends GraphNode
 						"Induced statement is redundant, since covered by statement(s) at " + witnessesLoc);
 			}
 		}
+	}
+
+	private void fillInducedEdgeMap(Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap,
+			Map.Entry<Set<NodeDeclNode>, Integer> nodeMapEntry)
+	{
+		// if the Boolean in markedMap is true -> edge is marked
+		Map<List<NodeDeclNode>, Boolean> markedMap = new LinkedHashMap<List<NodeDeclNode>, Boolean>();
+
+		for(NodeDeclNode src : nodeMapEntry.getKey()) {
+			for(NodeDeclNode tgt : nodeMapEntry.getKey()) {
+				List<NodeDeclNode> edge = new LinkedList<NodeDeclNode>();
+				edge.add(src);
+				edge.add(tgt);
+
+				markedMap.put(edge, false);
+			}
+		}
+
+		inducedEdgeMap.put(markedMap, nodeMapEntry.getValue());
+	}
+
+	private Set<Integer> getWitnessesAndMarkEdge(Map<Map<List<NodeDeclNode>, Boolean>, Integer> inducedEdgeMap,
+			Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> candidate)
+	{
+		Set<Integer> witnesses = new LinkedHashSet<Integer>();
+
+		for(Map.Entry<List<NodeDeclNode>, Boolean> candidateMarkedMap : candidate.getKey().entrySet()) {
+			// TODO also mark witness edge (and candidate as witness)
+			if(!candidateMarkedMap.getValue().booleanValue()) {
+				for(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> witness : inducedEdgeMap.entrySet()) {
+					if(candidate != witness) {
+						// if witness contains edge
+						if(witness.getKey().containsKey(candidateMarkedMap.getKey())) {
+							// mark Edge
+							candidateMarkedMap.setValue(true);
+							// add witness
+							witnesses.add(witness.getValue());
+						}
+					}
+				}
+			}
+		}
+		
+		return witnesses;
+	}
+
+	private boolean allMarked(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> candidate)
+	{
+		boolean allMarked = true;
+		
+		for(boolean edgeMarked : candidate.getKey().values()) {
+			allMarked &= edgeMarked;
+		}
+		
+		return allMarked;
 	}
 
 	private void initSingleNodeNegMap()

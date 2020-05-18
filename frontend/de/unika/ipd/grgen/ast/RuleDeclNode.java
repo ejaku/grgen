@@ -113,9 +113,9 @@ public class RuleDeclNode extends TestDeclNode
 		}
 
 		return type != null
-				&& returnFormalParameters != null
-				&& implementedMatchTypes != null
-				&& filtersOk;
+				& returnFormalParameters != null
+				& implementedMatchTypes != null
+				& filtersOk;
 	}
 
 	protected Set<DeclNode> getDeleted()
