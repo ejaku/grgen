@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeAsArrayExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class DequeAsArrayNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeAsArrayNode.class, "deque as array expression");
@@ -54,7 +54,7 @@ public class DequeAsArrayNode extends ContainerFunctionMethodInvocationBaseExprN
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		arrayTypeNode = new ArrayTypeNode(((DequeTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		arrayTypeNode = new ArrayTypeNode(getTargetType().valueTypeUnresolved);
 		return arrayTypeNode.resolve();
 	}
 

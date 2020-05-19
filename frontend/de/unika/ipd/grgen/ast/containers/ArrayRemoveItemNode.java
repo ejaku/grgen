@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.containers.ArrayRemoveItem;
 import de.unika.ipd.grgen.ir.containers.ArrayVarRemoveItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayRemoveItemNode extends ContainerProcedureMethodInvocationBaseNode
+public class ArrayRemoveItemNode extends ArrayProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(ArrayRemoveItemNode.class, "array remove item statement");
@@ -70,9 +70,9 @@ public class ArrayRemoveItemNode extends ContainerProcedureMethodInvocationBaseN
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		//ContainerTypeNode targetType = getTargetType();
+		//ArrayTypeNode targetType = getTargetType();
 		if(target != null) {
-			//TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
+			//TypeNode targetValueType = targetType.valueType;
 			if(valueExpr != null) {
 				TypeNode valueType = valueExpr.getType();
 				if(!valueType.isEqual(IntTypeNode.intType)) {
@@ -85,7 +85,7 @@ public class ArrayRemoveItemNode extends ContainerProcedureMethodInvocationBaseN
 			}
 			return true;
 		} else {
-			//TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
+			//TypeNode targetValueType = targetType.valueType;
 			if(valueExpr != null)
 				return checkType(valueExpr, IntTypeNode.intType, "index value", "array remove item statement");
 			else

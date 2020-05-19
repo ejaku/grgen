@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeAsSetExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeAsSetNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class DequeAsSetNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeAsSetNode.class, "deque as set expression");
@@ -54,7 +54,7 @@ public class DequeAsSetNode extends ContainerFunctionMethodInvocationBaseExprNod
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		setTypeNode = new SetTypeNode(((DequeTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		setTypeNode = new SetTypeNode(getTargetType().valueTypeUnresolved);
 		return setTypeNode.resolve();
 	}
 

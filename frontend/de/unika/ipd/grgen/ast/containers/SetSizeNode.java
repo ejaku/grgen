@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.SetSizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetSizeNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class SetSizeNode extends SetFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(SetSizeNode.class, "set size expression");

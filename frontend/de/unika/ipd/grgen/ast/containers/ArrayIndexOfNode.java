@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayIndexOfNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayIndexOfNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayIndexOfNode.class, "array index of");
@@ -70,7 +70,7 @@ public class ArrayIndexOfNode extends ContainerFunctionMethodInvocationBaseExprN
 	{
 		// target type already checked during resolving into this node
 		TypeNode valueType = valueExpr.getType();
-		ArrayTypeNode arrayType = ((ArrayTypeNode)targetExpr.getType());
+		ArrayTypeNode arrayType = getTargetType();
 		if(!valueType.isEqual(arrayType.valueType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(arrayType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {

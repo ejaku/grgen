@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapDomainExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapDomainNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class MapDomainNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapSizeNode.class, "map domain expression");
@@ -54,7 +54,7 @@ public class MapDomainNode extends ContainerFunctionMethodInvocationBaseExprNode
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		setTypeNode = new SetTypeNode(((MapTypeNode)targetExpr.getType()).keyTypeUnresolved);
+		setTypeNode = new SetTypeNode(getTargetType().keyTypeUnresolved);
 		return setTypeNode.resolve();
 	}
 

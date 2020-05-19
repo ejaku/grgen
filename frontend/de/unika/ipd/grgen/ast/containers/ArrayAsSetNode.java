@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArrayAsSetExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayAsSetNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayAsSetNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayAsSetNode.class, "array as set expression");
@@ -54,7 +54,7 @@ public class ArrayAsSetNode extends ContainerFunctionMethodInvocationBaseExprNod
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		setTypeNode = new SetTypeNode(((ArrayTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		setTypeNode = new SetTypeNode(getTargetType().valueTypeUnresolved);
 		return setTypeNode.resolve();
 	}
 

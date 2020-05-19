@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArraySizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArraySizeNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArraySizeNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArraySizeNode.class, "array size expression");

@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.containers.DequeRemoveItem;
 import de.unika.ipd.grgen.ir.containers.DequeVarRemoveItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeRemoveItemNode extends ContainerProcedureMethodInvocationBaseNode
+public class DequeRemoveItemNode extends DequeProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(DequeRemoveItemNode.class, "deque remove item statement");

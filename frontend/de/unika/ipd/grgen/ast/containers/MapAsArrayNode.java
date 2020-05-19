@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapAsArrayExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class MapAsArrayNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapAsArrayNode.class, "map as array expression");
@@ -54,14 +54,14 @@ public class MapAsArrayNode extends ContainerFunctionMethodInvocationBaseExprNod
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		arrayTypeNode = new ArrayTypeNode(((MapTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		arrayTypeNode = new ArrayTypeNode(getTargetType().valueTypeUnresolved);
 		return arrayTypeNode.resolve();
 	}
 
 	@Override
 	protected boolean checkLocal()
 	{
-		MapTypeNode targetMapType = (MapTypeNode)targetExpr.getType();
+		MapTypeNode targetMapType = getTargetType();
 		if(!(targetMapType.keyType instanceof IntTypeNode)) {
 			targetExpr.reportError("This argument to map asArray expression must be of type map<int,T>");
 			return false;

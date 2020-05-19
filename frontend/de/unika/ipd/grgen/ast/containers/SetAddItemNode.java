@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.containers.SetAddItem;
 import de.unika.ipd.grgen.ir.containers.SetVarAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetAddItemNode extends ContainerProcedureMethodInvocationBaseNode
+public class SetAddItemNode extends SetProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(SetAddItemNode.class, "set add item statement");
@@ -66,9 +66,9 @@ public class SetAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ContainerTypeNode targetType = getTargetType();
+		SetTypeNode targetType = getTargetType();
 		if(target != null) {
-			TypeNode targetValueType = ((SetTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();
 			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
@@ -80,7 +80,7 @@ public class SetAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 			}
 			return true;
 		} else {
-			TypeNode targetValueType = ((SetTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			return checkType(valueExpr, targetValueType, "set add item statement", "value");
 		}
 	}

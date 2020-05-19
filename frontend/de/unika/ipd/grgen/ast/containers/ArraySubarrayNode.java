@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArraySubarrayNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArraySubarrayNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArraySubarrayNode.class, "array subarray");
@@ -75,7 +75,7 @@ public class ArraySubarrayNode extends ContainerFunctionMethodInvocationBaseExpr
 	@Override
 	public TypeNode getType()
 	{
-		return((ArrayTypeNode)targetExpr.getType());
+		return getTargetType();
 	}
 
 	@Override

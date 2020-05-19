@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.SetPeekExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class SetPeekNode extends SetFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(SetPeekNode.class, "set peek");
@@ -67,7 +67,7 @@ public class SetPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return ((SetTypeNode)targetExpr.getType()).valueType;
+		return getTargetType().valueType;
 	}
 
 	@Override

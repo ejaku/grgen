@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequePeekExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequePeekNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class DequePeekNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequePeekNode.class, "deque peek");
@@ -74,7 +74,7 @@ public class DequePeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return ((DequeTypeNode)targetExpr.getType()).valueType;
+		return getTargetType().valueType;
 	}
 
 	@Override

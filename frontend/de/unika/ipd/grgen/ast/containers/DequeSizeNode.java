@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeSizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeSizeNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class DequeSizeNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeSizeNode.class, "deque size expression");

@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapEmptyExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapEmptyNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class MapEmptyNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapEmptyNode.class, "map empty expression");

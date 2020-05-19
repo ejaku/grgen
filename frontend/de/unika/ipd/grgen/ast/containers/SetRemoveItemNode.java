@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.containers.SetRemoveItem;
 import de.unika.ipd.grgen.ir.containers.SetVarRemoveItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetRemoveItemNode extends ContainerProcedureMethodInvocationBaseNode
+public class SetRemoveItemNode extends SetProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(SetRemoveItemNode.class, "set remove item statement");
@@ -66,9 +66,9 @@ public class SetRemoveItemNode extends ContainerProcedureMethodInvocationBaseNod
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ContainerTypeNode targetType = getTargetType();
+		SetTypeNode targetType = getTargetType();
 		if(target != null) {
-			TypeNode targetValueType = ((SetTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();
 			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
@@ -80,7 +80,7 @@ public class SetRemoveItemNode extends ContainerProcedureMethodInvocationBaseNod
 			}
 			return true;
 		} else {
-			TypeNode targetValueType = ((SetTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			return checkType(valueExpr, targetValueType, "value", "set remove item statement");
 		}
 	}

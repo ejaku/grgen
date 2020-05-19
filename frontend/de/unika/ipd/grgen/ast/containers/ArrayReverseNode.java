@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayReverseNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayReverseNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayReverseNode.class, "array reverse");
@@ -58,7 +58,7 @@ public class ArrayReverseNode extends ContainerFunctionMethodInvocationBaseExprN
 	@Override
 	public TypeNode getType()
 	{
-		return((ArrayTypeNode)targetExpr.getType());
+		return getTargetType();
 	}
 
 	@Override

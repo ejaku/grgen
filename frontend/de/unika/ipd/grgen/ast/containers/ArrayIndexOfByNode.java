@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayIndexOfByNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayIndexOfByNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayIndexOfByNode.class, "array index of by");
@@ -79,7 +79,7 @@ public class ArrayIndexOfByNode extends ContainerFunctionMethodInvocationBaseExp
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)) {
 			reportError("indexOfBy can only be employed on an array of nodes or edges.");
 			return false;

@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapRangeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapRangeNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class MapRangeNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapSizeNode.class, "map range expression");
@@ -54,7 +54,7 @@ public class MapRangeNode extends ContainerFunctionMethodInvocationBaseExprNode
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		setTypeNode = new SetTypeNode(((MapTypeNode)targetExpr.getType()).valueTypeUnresolved);
+		setTypeNode = new SetTypeNode(getTargetType().valueTypeUnresolved);
 		return setTypeNode.resolve();
 	}
 

@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapRemoveItemNode extends ContainerProcedureMethodInvocationBaseNode
+public class MapRemoveItemNode extends MapProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(MapRemoveItemNode.class, "map remove item statement");
@@ -72,9 +72,9 @@ public class MapRemoveItemNode extends ContainerProcedureMethodInvocationBaseNod
 	@Override
 	protected boolean checkLocal()
 	{
-		ContainerTypeNode targetType = getTargetType();
+		MapTypeNode targetType = getTargetType();
 		if(target != null) {
-			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
+			TypeNode targetKeyType = targetType.keyType;
 			TypeNode keyType = keyExpr.getType();
 			if(!keyType.isEqual(targetKeyType)) {
 				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
@@ -86,7 +86,7 @@ public class MapRemoveItemNode extends ContainerProcedureMethodInvocationBaseNod
 			}
 			return true;
 		} else {
-			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
+			TypeNode targetKeyType = targetType.keyType;
 			return checkType(keyExpr, targetKeyType, "map remove item statement", "key");
 		}
 	}

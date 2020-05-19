@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.containers.DequeAddItem;
 import de.unika.ipd.grgen.ir.containers.DequeVarAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeAddItemNode extends ContainerProcedureMethodInvocationBaseNode
+public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(DequeAddItemNode.class, "Deque add item statement");
@@ -75,9 +75,9 @@ public class DequeAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ContainerTypeNode targetType = getTargetType();
+		DequeTypeNode targetType = getTargetType();
 		if(target != null) {
-			TypeNode targetValueType = ((DequeTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();
 			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
@@ -100,7 +100,7 @@ public class DequeAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 			return true;
 		} else {
 			boolean success = true;
-			TypeNode targetValueType = ((DequeTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			if(indexExpr != null)
 				success &= checkType(indexExpr, IntTypeNode.intType, "deque add item with index statement", "index");
 			success &= checkType(valueExpr, targetValueType, "deque add item statement", "value");

@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArrayEmptyExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayEmptyNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayEmptyNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayEmptyNode.class, "array empty expression");

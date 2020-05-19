@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayAsStringNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayAsStringNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayAsStringNode.class, "array asString");
@@ -64,7 +64,7 @@ public class ArrayAsStringNode extends ContainerFunctionMethodInvocationBaseExpr
 	@Override
 	protected boolean checkLocal()
 	{
-		ArrayTypeNode arrayMemberType = (ArrayTypeNode)targetExpr.getType();
+		ArrayTypeNode arrayMemberType = getTargetType();
 		if(!(arrayMemberType.valueType instanceof StringTypeNode)) {
 			targetExpr.reportError("This argument to array asString expression must be of type array<string> (array is not of string))");
 			return false;

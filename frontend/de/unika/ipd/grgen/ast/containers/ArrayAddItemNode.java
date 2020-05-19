@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.containers.ArrayAddItem;
 import de.unika.ipd.grgen.ir.containers.ArrayVarAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayAddItemNode extends ContainerProcedureMethodInvocationBaseNode
+public class ArrayAddItemNode extends ArrayProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(ArrayAddItemNode.class, "array add item statement");
@@ -75,9 +75,9 @@ public class ArrayAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ContainerTypeNode targetType = getTargetType();
+		ArrayTypeNode targetType = getTargetType();
 		if(target != null) {
-			TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();
 			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
@@ -100,7 +100,7 @@ public class ArrayAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 			return true;
 		} else {
 			boolean success = true;
-			TypeNode targetValueType = ((ArrayTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			if(indexExpr != null)
 				success &= checkType(indexExpr, IntTypeNode.intType, "array add item with index statement", "index");
 			success &= checkType(valueExpr, targetValueType, "array add item statement", "value");

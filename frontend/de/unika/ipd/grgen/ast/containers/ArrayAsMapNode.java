@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArrayAsMapExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayAsMapNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayAsMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayAsMapNode.class, "array as map expression");
@@ -55,7 +55,7 @@ public class ArrayAsMapNode extends ContainerFunctionMethodInvocationBaseExprNod
 	{
 		// target type already checked during resolving into this node
 		mapTypeNode = new MapTypeNode(BasicTypeNode.intType.getIdentNode(),
-				((ArrayTypeNode)targetExpr.getType()).valueTypeUnresolved);
+				getTargetType().valueTypeUnresolved);
 		return mapTypeNode.resolve();
 	}
 

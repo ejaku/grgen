@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.ArrayPeekExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayPeekNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayPeekNode.class, "array peek");
@@ -74,7 +74,7 @@ public class ArrayPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return ((ArrayTypeNode)targetExpr.getType()).valueType;
+		return getTargetType().valueType;
 	}
 
 	@Override

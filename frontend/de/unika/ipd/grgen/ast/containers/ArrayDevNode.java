@@ -33,7 +33,7 @@ public class ArrayDevNode extends ArrayAccumulationMethodNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		ArrayTypeNode arrayType = getTargetType();
 		if(!arrayType.valueType.isAccumulatableType()) {
 			targetExpr.reportError("The array value type of the array dev method must be one of: "
 					+ TypeNode.getAccumulatableTypesAsString());

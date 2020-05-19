@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayOrderAscendingByNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayOrderAscendingByNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayOrderAscendingByNode.class, "array order ascending by");
@@ -58,7 +58,7 @@ public class ArrayOrderAscendingByNode extends ContainerFunctionMethodInvocation
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)
 				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {
@@ -84,7 +84,7 @@ public class ArrayOrderAscendingByNode extends ContainerFunctionMethodInvocation
 	@Override
 	public TypeNode getType()
 	{
-		return((ArrayTypeNode)targetExpr.getType());
+		return getTargetType();
 	}
 
 	private TypeNode getTypeOfElementToBeExtracted()

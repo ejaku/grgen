@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapPeekExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class MapPeekNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapPeekNode.class, "map peek");
@@ -67,7 +67,7 @@ public class MapPeekNode extends ContainerFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return ((MapTypeNode)targetExpr.getType()).keyType;
+		return getTargetType().keyType;
 	}
 
 	@Override

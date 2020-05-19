@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.DequeEmptyExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeEmptyNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class DequeEmptyNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeEmptyNode.class, "deque empty expression");

@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayExtractNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayExtractNode.class, "array extract");
@@ -67,7 +67,7 @@ public class ArrayExtractNode extends ContainerFunctionMethodInvocationBaseExprN
 		}
 
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)
 				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {

@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.MapSizeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapSizeNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class MapSizeNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(MapSizeNode.class, "map size expression");

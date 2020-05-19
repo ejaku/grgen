@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayOrderAscendingNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayOrderAscendingNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayOrderAscendingNode.class, "array order ascending");
@@ -52,7 +52,7 @@ public class ArrayOrderAscendingNode extends ContainerFunctionMethodInvocationBa
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType.isOrderableType())) {
 			targetExpr.reportError("array orderAscending only available for arrays of type "
 					+ TypeNode.getOrderableTypesAsString());
@@ -63,7 +63,7 @@ public class ArrayOrderAscendingNode extends ContainerFunctionMethodInvocationBa
 	@Override
 	public TypeNode getType()
 	{
-		return((ArrayTypeNode)targetExpr.getType());
+		return getTargetType();
 	}
 
 	@Override

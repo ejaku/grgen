@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.containers.SetEmptyExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetEmptyNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class SetEmptyNode extends SetFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(SetEmptyNode.class, "set empty expression");

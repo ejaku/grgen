@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapAddItemNode extends ContainerProcedureMethodInvocationBaseNode
+public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(MapAddItemNode.class, "map add item statement");
@@ -71,9 +71,9 @@ public class MapAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ContainerTypeNode targetType = getTargetType();
+		MapTypeNode targetType = getTargetType();
 		if(target != null) {
-			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
+			TypeNode targetKeyType = targetType.keyType;
 			TypeNode keyType = keyExpr.getType();
 			if(!keyType.isEqual(targetKeyType)) {
 				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
@@ -83,7 +83,7 @@ public class MapAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 					return false;
 				}
 			}
-			TypeNode targetValueType = ((MapTypeNode)targetType).valueType;
+			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();
 			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
@@ -94,8 +94,8 @@ public class MapAddItemNode extends ContainerProcedureMethodInvocationBaseNode
 				}
 			}
 		} else {
-			TypeNode targetKeyType = ((MapTypeNode)targetType).keyType;
-			TypeNode targetValueType = ((MapTypeNode)targetType).valueType;
+			TypeNode targetKeyType = targetType.keyType;
+			TypeNode targetValueType = targetType.valueType;
 			return checkType(keyExpr, targetKeyType, "map add item statement", "key")
 					&& checkType(valueExpr, targetValueType, "map add item statement", "value");
 		}

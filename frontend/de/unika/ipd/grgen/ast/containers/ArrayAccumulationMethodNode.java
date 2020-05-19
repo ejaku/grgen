@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ArrayAccumulationMethodNode extends ContainerFunctionMethodInvocationBaseExprNode
+public abstract class ArrayAccumulationMethodNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayAccumulationMethodNode.class, "array accumulation method");

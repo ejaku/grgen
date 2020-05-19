@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DequeLastIndexOfNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(DequeLastIndexOfNode.class, "deque last index of");
@@ -58,7 +58,7 @@ public class DequeLastIndexOfNode extends ContainerFunctionMethodInvocationBaseE
 	{
 		// target type already checked during resolving into this node
 		TypeNode valueType = valueExpr.getType();
-		DequeTypeNode dequeType = ((DequeTypeNode)targetExpr.getType());
+		DequeTypeNode dequeType = getTargetType();
 		if(!valueType.isEqual(dequeType.valueType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(dequeType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {

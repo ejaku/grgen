@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapClearNode extends ContainerProcedureMethodInvocationBaseNode
+public class MapClearNode extends MapProcedureMethodInvocationBaseNode
 {
 	static {
 		setName(MapClearNode.class, "map clear statement");

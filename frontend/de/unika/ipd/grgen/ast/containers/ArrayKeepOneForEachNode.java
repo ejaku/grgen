@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArrayKeepOneForEachNode extends ContainerFunctionMethodInvocationBaseExprNode
+public class ArrayKeepOneForEachNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
 		setName(ArrayKeepOneForEachNode.class, "array keep one for each");
@@ -52,7 +52,7 @@ public class ArrayKeepOneForEachNode extends ContainerFunctionMethodInvocationBa
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = (ArrayTypeNode)targetExpr.getType();
+		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType.isFilterableType())) {
 			targetExpr.reportError("array keepOneForEach only available for arrays of type "
 					+ TypeNode.getFilterableTypesAsString());
@@ -63,7 +63,7 @@ public class ArrayKeepOneForEachNode extends ContainerFunctionMethodInvocationBa
 	@Override
 	public TypeNode getType()
 	{
-		return((ArrayTypeNode)targetExpr.getType());
+		return getTargetType();
 	}
 
 	@Override
