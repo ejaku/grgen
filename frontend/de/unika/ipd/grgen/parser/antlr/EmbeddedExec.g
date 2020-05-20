@@ -428,7 +428,7 @@ seqFunctionCall [ExecNode xg] returns[ExprNode res = env.initExprNode()]
 			if(i.getText().equals("now") && params.getChildren().size()==0
 				|| env.isGlobalFunction(null, i, params)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-				res = new FunctionInvocationExprNode(funcIdent, params, env);
+				res = new FunctionInvocationDecisionNode(funcIdent, params, env);
 			} else {
 				IdentNode funcIdent = inPackage ? 
 					new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 

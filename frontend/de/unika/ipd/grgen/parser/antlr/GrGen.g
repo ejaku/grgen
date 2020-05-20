@@ -3285,7 +3285,7 @@ options { k = 5; }
 					if(env.isKnownProcedure(pack, i, params))
 					{
 						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
-						ProcedureInvocationNode proc = new ProcedureInvocationNode(procIdent, params, context, env);
+						ProcedureInvocationDecisionNode proc = new ProcedureInvocationDecisionNode(procIdent, params, context, env);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(proc);
@@ -3522,7 +3522,7 @@ options { k = *; }
 			{ env.isKnownForFunction(input.LT(1).getText()) }?
 			function=externalFunctionInvocationExpr[context, false] RPAREN
 			{
-				if(!(function instanceof FunctionInvocationExprNode))
+				if(!(function instanceof FunctionInvocationDecisionNode))
 					reportError(function.getCoords(), "unknown function or wrong parameters in for loop over graph access function");
 			}
 		LBRACE
@@ -3530,7 +3530,7 @@ options { k = *; }
 		RBRACE { env.popScope(); }
 		{
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context);
-			res = new ForFunctionNode(f, iterVar, (FunctionInvocationExprNode)function, cs);
+			res = new ForFunctionNode(f, iterVar, (FunctionInvocationDecisionNode)function, cs);
 		}
 	| MATCH LT actionIdent=actionIdentUse GT IN i=IDENT RPAREN
 		LBRACE
@@ -3922,7 +3922,7 @@ externalFunctionInvocationExpr [ int context, boolean inEnumInit ] returns [ Exp
 		{
 			if(env.isKnownFunction(pack, i, params)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, pack!=null ? i.getText() + pack.getText() : i.getText(), getCoords(i)));
-				res = new FunctionInvocationExprNode(funcIdent, params, env);
+				res = new FunctionInvocationDecisionNode(funcIdent, params, env);
 			} else {
 				IdentNode funcIdent;
 				if(packPrefix) {

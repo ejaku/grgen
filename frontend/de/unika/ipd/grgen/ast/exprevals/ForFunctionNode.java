@@ -31,10 +31,10 @@ public class ForFunctionNode extends ForGraphQueryNode
 		setName(ForFunctionNode.class, "ForFunction");
 	}
 
-	FunctionInvocationExprNode function;
+	FunctionInvocationDecisionNode function;
 
 	
-	public ForFunctionNode(Coords coords, BaseNode iterationVariable, FunctionInvocationExprNode function,
+	public ForFunctionNode(Coords coords, BaseNode iterationVariable, FunctionInvocationDecisionNode function,
 			CollectNode<EvalStatementNode> loopedStatements)
 	{
 		super(coords, iterationVariable, loopedStatements);

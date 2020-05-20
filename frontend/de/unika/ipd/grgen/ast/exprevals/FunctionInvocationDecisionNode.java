@@ -18,10 +18,10 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
-public class FunctionInvocationExprNode extends FunctionInvocationBaseNode
+public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 {
 	static {
-		setName(FunctionInvocationExprNode.class, "function invocation expression");
+		setName(FunctionInvocationDecisionNode.class, "function invocation decision expression");
 	}
 
 	static TypeNode functionTypeNode = new FunctionTypeNode();
@@ -31,7 +31,7 @@ public class FunctionInvocationExprNode extends FunctionInvocationBaseNode
 
 	ParserEnvironment env;
 
-	public FunctionInvocationExprNode(IdentNode functionIdent, CollectNode<ExprNode> arguments, ParserEnvironment env)
+	public FunctionInvocationDecisionNode(IdentNode functionIdent, CollectNode<ExprNode> arguments, ParserEnvironment env)
 	{
 		super(functionIdent.getCoords(), arguments);
 		this.functionIdent = becomeParent(functionIdent);

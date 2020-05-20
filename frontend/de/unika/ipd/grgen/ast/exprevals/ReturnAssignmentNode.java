@@ -30,7 +30,7 @@ public class ReturnAssignmentNode extends EvalStatementNode
 	}
 
 	ProcedureOrExternalProcedureInvocationNode procedure;
-	ProcedureInvocationNode builtinProcedure;
+	ProcedureInvocationDecisionNode builtinProcedure;
 	ProcedureMethodInvocationDecisionNode procedureMethod;
 	CollectNode<EvalStatementNode> targets;
 	int context;
@@ -46,7 +46,7 @@ public class ReturnAssignmentNode extends EvalStatementNode
 		this.context = context;
 	}
 
-	public ReturnAssignmentNode(Coords coords, ProcedureInvocationNode builtinProcedure,
+	public ReturnAssignmentNode(Coords coords, ProcedureInvocationDecisionNode builtinProcedure,
 			CollectNode<EvalStatementNode> targets, int context)
 	{
 		super(coords);

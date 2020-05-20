@@ -18,10 +18,10 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
-public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
+public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 {
 	static {
-		setName(ProcedureInvocationNode.class, "procedure invocation");
+		setName(ProcedureInvocationDecisionNode.class, "procedure invocation decision");
 	}
 
 	static TypeNode procedureTypeNode = new ProcedureTypeNode();
@@ -31,7 +31,7 @@ public class ProcedureInvocationNode extends ProcedureInvocationBaseNode
 
 	ParserEnvironment env;
 
-	public ProcedureInvocationNode(IdentNode procedureIdent, CollectNode<ExprNode> arguments, int context,
+	public ProcedureInvocationDecisionNode(IdentNode procedureIdent, CollectNode<ExprNode> arguments, int context,
 			ParserEnvironment env)
 	{
 		super(procedureIdent.getCoords(), arguments, context);
