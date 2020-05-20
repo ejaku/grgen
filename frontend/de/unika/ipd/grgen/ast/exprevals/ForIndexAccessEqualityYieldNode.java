@@ -24,27 +24,19 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.ForIndexAccessEquality;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ForIndexAccessEqualityYieldNode extends NestingStatementNode
+public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 {
 	static {
 		setName(ForIndexAccessEqualityYieldNode.class, "for index access equality yield loop");
 	}
 
-	private BaseNode iterationVariableUnresolved;
-	private VarDeclNode iterationVariable;
-	private IdentNode indexUnresolved;
-	private IndexDeclNode index;
 	private ExprNode expr;
 
 	public ForIndexAccessEqualityYieldNode(Coords coords, BaseNode iterationVariable, int context,
 			IdentNode index, ExprNode expr, PatternGraphNode directlyNestingLHSGraph,
 			CollectNode<EvalStatementNode> loopedStatements)
 	{
-		super(coords, loopedStatements);
-		this.iterationVariableUnresolved = iterationVariable;
-		becomeParent(this.iterationVariableUnresolved);
-		this.indexUnresolved = index;
-		becomeParent(this.indexUnresolved);
+		super(coords, iterationVariable, context, index, directlyNestingLHSGraph, loopedStatements);
 		this.expr = expr;
 		becomeParent(this.expr);
 	}
@@ -82,14 +74,7 @@ public class ForIndexAccessEqualityYieldNode extends NestingStatementNode
 	{
 		boolean successfullyResolved = true;
 
-		if(iterationVariableUnresolved instanceof VarDeclNode) {
-			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
-		} else {
-			reportError("error in resolving iteration variable of for function loop.");
-			successfullyResolved = false;
-		}
-
-		if(!iterationVariable.resolve())
+		if(!resolveIterationVariable("index access equality"))
 			successfullyResolved = false;
 
 		index = indexResolver.resolve(indexUnresolved, this);
@@ -102,11 +87,8 @@ public class ForIndexAccessEqualityYieldNode extends NestingStatementNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(iterationVariable.getDeclType() instanceof NodeTypeNode)
-				&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode)) {
-			reportError("iteration variable of for function loop must be of node or edge type.");
+		if(!checkIterationVariable("index access equality"))
 			return false;
-		}
 
 		boolean res = true;
 		AttributeIndexDeclNode attributeIndex = index instanceof AttributeIndexDeclNode ? (AttributeIndexDeclNode)index : null;

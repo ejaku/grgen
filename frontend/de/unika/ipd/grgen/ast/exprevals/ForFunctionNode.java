@@ -25,23 +25,19 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a for lookup of a neighborhood function.
  */
-public class ForFunctionNode extends NestingStatementNode
+public class ForFunctionNode extends ForGraphQueryNode
 {
 	static {
 		setName(ForFunctionNode.class, "ForFunction");
 	}
 
-	BaseNode iterationVariableUnresolved;
 	FunctionInvocationExprNode function;
 
-	VarDeclNode iterationVariable;
-
+	
 	public ForFunctionNode(Coords coords, BaseNode iterationVariable, FunctionInvocationExprNode function,
 			CollectNode<EvalStatementNode> loopedStatements)
 	{
-		super(coords, loopedStatements);
-		this.iterationVariableUnresolved = iterationVariable;
-		becomeParent(this.iterationVariableUnresolved);
+		super(coords, iterationVariable, loopedStatements);
 		this.function = function;
 		becomeParent(this.function);
 	}
@@ -72,27 +68,13 @@ public class ForFunctionNode extends NestingStatementNode
 	@Override
 	protected boolean resolveLocal()
 	{
-		boolean successfullyResolved = true;
-
-		if(iterationVariableUnresolved instanceof VarDeclNode) {
-			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
-		} else {
-			reportError("error in resolving iteration variable of for function loop.");
-			successfullyResolved = false;
-		}
-
-		if(!iterationVariable.resolve())
-			successfullyResolved = false;
-
-		return successfullyResolved;
+		return resolveIterationVariable("function");
 	}
 
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(iterationVariable.getDeclType() instanceof NodeTypeNode)
-				&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode)) {
-			reportError("iteration variable of for function loop must be of node or edge type.");
+		if(!checkIterationVariable("function")) {
 			return false;
 		}
 

@@ -24,20 +24,19 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a do while statement.
  */
-public class DoWhileStatementNode extends EvalStatementNode
+public class DoWhileStatementNode extends NestingStatementNode
 {
 	static {
 		setName(DoWhileStatementNode.class, "DoWhileStatement");
 	}
 
-	CollectNode<EvalStatementNode> statements;
 	private ExprNode conditionExpr;
 
 	public DoWhileStatementNode(Coords coords,
 			CollectNode<EvalStatementNode> loopedStatements,
 			ExprNode conditionExpr)
 	{
-		super(coords);
+		super(coords, loopedStatements);
 		this.statements = loopedStatements;
 		becomeParent(this.statements);
 		this.conditionExpr = conditionExpr;
