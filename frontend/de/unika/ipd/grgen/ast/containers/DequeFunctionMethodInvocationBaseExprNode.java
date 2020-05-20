@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ast.containers;
 
-import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -27,9 +26,9 @@ public abstract class DequeFunctionMethodInvocationBaseExprNode extends Containe
 		super(coords, targetExpr);
 	}
 	
+	@Override
 	protected DequeTypeNode getTargetType()
 	{
-		TypeNode targetType = targetExpr.getType();
-		return (DequeTypeNode)targetType;
+		return (DequeTypeNode)super.getTargetType();
 	}
 }

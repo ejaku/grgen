@@ -34,12 +34,6 @@ public abstract class ArrayProcedureMethodInvocationBaseNode extends ContainerPr
 	@Override
 	protected ArrayTypeNode getTargetType()
 	{
-		if(target != null) {
-			TypeNode targetType = target.getDecl().getDeclType();
-			return (ArrayTypeNode)targetType;
-		} else {
-			TypeNode targetType = targetVar.getDeclType();
-			return (ArrayTypeNode)targetType;
-		}
+		return (ArrayTypeNode)super.getTargetType();
 	}
 }
