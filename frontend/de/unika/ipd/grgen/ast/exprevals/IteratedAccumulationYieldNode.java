@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing an accumulation yielding of an iterated match def variable.
  */
-public class IteratedAccumulationYieldNode extends EvalStatementNode
+public class IteratedAccumulationYieldNode extends NestingStatementNode
 {
 	static {
 		setName(IteratedAccumulationYieldNode.class, "IteratedAccumulationYield");
@@ -37,18 +37,15 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode
 
 	VarDeclNode iterationVariable;
 	IteratedNode iterated;
-	CollectNode<EvalStatementNode> accumulationStatements;
 
 	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable, IdentNode iterated,
 			CollectNode<EvalStatementNode> accumulationStatements)
 	{
-		super(coords);
+		super(coords, accumulationStatements);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
 		this.iteratedUnresolved = iterated;
 		becomeParent(this.iteratedUnresolved);
-		this.accumulationStatements = accumulationStatements;
-		becomeParent(this.accumulationStatements);
 	}
 
 	/** returns children of this node */
@@ -58,7 +55,7 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(getValidVersion(iteratedUnresolved, iterated));
-		children.add(accumulationStatements);
+		children.add(statements);
 		return children;
 	}
 
@@ -147,7 +144,7 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode
 	{
 		IteratedAccumulationYield iay = new IteratedAccumulationYield(iterationVariable.checkIR(Variable.class),
 				iterated.checkIR(Rule.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
 			iay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return iay;

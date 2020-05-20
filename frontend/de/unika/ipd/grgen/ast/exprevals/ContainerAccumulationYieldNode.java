@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing an accumulation yielding of a container variable.
  */
-public class ContainerAccumulationYieldNode extends EvalStatementNode
+public class ContainerAccumulationYieldNode extends NestingStatementNode
 {
 	static {
 		setName(ContainerAccumulationYieldNode.class, "ContainerAccumulationYield");
@@ -38,12 +38,11 @@ public class ContainerAccumulationYieldNode extends EvalStatementNode
 	VarDeclNode iterationVariable;
 	VarDeclNode iterationIndex;
 	VarDeclNode container;
-	CollectNode<EvalStatementNode> accumulationStatements;
 
 	public ContainerAccumulationYieldNode(Coords coords, BaseNode iterationVariable, BaseNode iterationIndex,
 			IdentNode container, CollectNode<EvalStatementNode> accumulationStatements)
 	{
-		super(coords);
+		super(coords, accumulationStatements);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
 		this.iterationIndexUnresolved = iterationIndex;
@@ -51,8 +50,8 @@ public class ContainerAccumulationYieldNode extends EvalStatementNode
 			becomeParent(this.iterationIndexUnresolved);
 		this.containerUnresolved = container;
 		becomeParent(this.containerUnresolved);
-		this.accumulationStatements = accumulationStatements;
-		becomeParent(this.accumulationStatements);
+		this.statements = accumulationStatements;
+		becomeParent(this.statements);
 	}
 
 	/** returns children of this node */
@@ -64,7 +63,7 @@ public class ContainerAccumulationYieldNode extends EvalStatementNode
 		if(iterationIndexUnresolved != null)
 			children.add(getValidVersion(iterationIndexUnresolved, iterationIndex));
 		children.add(getValidVersion(containerUnresolved, container));
-		children.add(accumulationStatements);
+		children.add(statements);
 		return children;
 	}
 
@@ -137,7 +136,7 @@ public class ContainerAccumulationYieldNode extends EvalStatementNode
 		ContainerAccumulationYield cay = new ContainerAccumulationYield(iterationVariable.checkIR(Variable.class),
 				iterationIndex != null ? iterationIndex.checkIR(Variable.class) : null,
 				container.checkIR(Variable.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren())
+		for(EvalStatementNode accumulationStatement : statements.getChildren())
 			cay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		return cay;
 	}

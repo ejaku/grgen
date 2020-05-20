@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.exprevals.ForIndexAccessOrdering;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ForIndexAccessOrderingYieldNode extends EvalStatementNode
+public class ForIndexAccessOrderingYieldNode extends NestingStatementNode
 {
 	static {
 		setName(ForIndexAccessOrderingYieldNode.class, "for index access ordering yield loop");
@@ -39,7 +39,6 @@ public class ForIndexAccessOrderingYieldNode extends EvalStatementNode
 	private ExprNode expr;
 	private int comp2;
 	private ExprNode expr2;
-	private CollectNode<EvalStatementNode> loopedStatements;
 
 	public ForIndexAccessOrderingYieldNode(Coords coords, BaseNode iterationVariable, int context,
 			boolean ascending, IdentNode index, 
@@ -48,7 +47,7 @@ public class ForIndexAccessOrderingYieldNode extends EvalStatementNode
 			PatternGraphNode directlyNestingLHSGraph,
 			CollectNode<EvalStatementNode> loopedStatements)
 	{
-		super(coords);
+		super(coords, loopedStatements);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
 		this.ascending = ascending;
@@ -60,8 +59,6 @@ public class ForIndexAccessOrderingYieldNode extends EvalStatementNode
 		this.comp2 = comp2;
 		this.expr2 = expr2;
 		becomeParent(this.expr);
-		this.loopedStatements = loopedStatements;
-		becomeParent(this.loopedStatements);
 	}
 
 	/** returns children of this node */
@@ -75,7 +72,7 @@ public class ForIndexAccessOrderingYieldNode extends EvalStatementNode
 			children.add(expr);
 		if(expr2 != null)
 			children.add(expr2);
-		children.add(loopedStatements);
+		children.add(statements);
 		return children;
 	}
 
@@ -197,7 +194,7 @@ public class ForIndexAccessOrderingYieldNode extends EvalStatementNode
 				new IndexAccessOrdering(index.checkIR(Index.class), ascending,
 						comp, expr != null ? expr.checkIR(Expression.class) : null,
 						comp2, expr2 != null ? expr2.checkIR(Expression.class) : null));
-		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
 			fiao.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return fiao;

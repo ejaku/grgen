@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a for lookup of a neighborhood function.
  */
-public class ForFunctionNode extends EvalStatementNode
+public class ForFunctionNode extends NestingStatementNode
 {
 	static {
 		setName(ForFunctionNode.class, "ForFunction");
@@ -35,18 +35,15 @@ public class ForFunctionNode extends EvalStatementNode
 	FunctionInvocationExprNode function;
 
 	VarDeclNode iterationVariable;
-	CollectNode<EvalStatementNode> loopedStatements;
 
 	public ForFunctionNode(Coords coords, BaseNode iterationVariable, FunctionInvocationExprNode function,
 			CollectNode<EvalStatementNode> loopedStatements)
 	{
-		super(coords);
+		super(coords, loopedStatements);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
 		this.function = function;
 		becomeParent(this.function);
-		this.loopedStatements = loopedStatements;
-		becomeParent(this.loopedStatements);
 	}
 
 	/** returns children of this node */
@@ -56,7 +53,7 @@ public class ForFunctionNode extends EvalStatementNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(function);
-		children.add(loopedStatements);
+		children.add(statements);
 		return children;
 	}
 
@@ -130,7 +127,7 @@ public class ForFunctionNode extends EvalStatementNode
 	protected IR constructIR()
 	{
 		ForFunction ff = new ForFunction(iterationVariable.checkIR(Variable.class), function.checkIR(Expression.class));
-		for(EvalStatementNode accumulationStatement : loopedStatements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
 			ff.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return ff;

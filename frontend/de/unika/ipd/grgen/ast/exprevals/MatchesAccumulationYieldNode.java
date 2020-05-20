@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing an accumulation yielding of a matches variable.
  */
-public class MatchesAccumulationYieldNode extends EvalStatementNode
+public class MatchesAccumulationYieldNode extends NestingStatementNode
 {
 	static {
 		setName(MatchesAccumulationYieldNode.class, "MatchesAccumulationYield");
@@ -37,18 +37,15 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode
 
 	VarDeclNode iterationVariable;
 	VarDeclNode matchesContainer;
-	CollectNode<EvalStatementNode> accumulationStatements;
 
 	public MatchesAccumulationYieldNode(Coords coords, BaseNode iterationVariable, IdentNode matchesContainer,
 			CollectNode<EvalStatementNode> accumulationStatements)
 	{
-		super(coords);
+		super(coords, accumulationStatements);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
 		this.matchesContainerUnresolved = matchesContainer;
 		becomeParent(this.matchesContainerUnresolved);
-		this.accumulationStatements = accumulationStatements;
-		becomeParent(this.accumulationStatements);
 	}
 
 	/** returns children of this node */
@@ -58,7 +55,7 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(getValidVersion(matchesContainerUnresolved, matchesContainer));
-		children.add(accumulationStatements);
+		children.add(statements);
 		return children;
 	}
 
@@ -181,7 +178,7 @@ public class MatchesAccumulationYieldNode extends EvalStatementNode
 	{
 		MatchesAccumulationYield may = new MatchesAccumulationYield(iterationVariable.checkIR(Variable.class),
 				matchesContainer.checkIR(Variable.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
 			may.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return may;

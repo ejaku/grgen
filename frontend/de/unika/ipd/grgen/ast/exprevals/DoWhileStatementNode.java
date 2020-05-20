@@ -30,7 +30,7 @@ public class DoWhileStatementNode extends EvalStatementNode
 		setName(DoWhileStatementNode.class, "DoWhileStatement");
 	}
 
-	CollectNode<EvalStatementNode> loopedStatements;
+	CollectNode<EvalStatementNode> statements;
 	private ExprNode conditionExpr;
 
 	public DoWhileStatementNode(Coords coords,
@@ -38,8 +38,8 @@ public class DoWhileStatementNode extends EvalStatementNode
 			ExprNode conditionExpr)
 	{
 		super(coords);
-		this.loopedStatements = loopedStatements;
-		becomeParent(this.loopedStatements);
+		this.statements = loopedStatements;
+		becomeParent(this.statements);
 		this.conditionExpr = conditionExpr;
 		becomeParent(conditionExpr);
 	}
@@ -49,7 +49,7 @@ public class DoWhileStatementNode extends EvalStatementNode
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(loopedStatements);
+		children.add(statements);
 		children.add(conditionExpr);
 		return children;
 	}
@@ -89,7 +89,7 @@ public class DoWhileStatementNode extends EvalStatementNode
 	protected IR constructIR()
 	{
 		DoWhileStatement dws = new DoWhileStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode loopedStatement : loopedStatements.getChildren()) {
+		for(EvalStatementNode loopedStatement : statements.getChildren()) {
 			dws.addLoopedStatement(loopedStatement.checkIR(EvalStatement.class));
 		}
 		return dws;

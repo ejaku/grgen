@@ -24,23 +24,20 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a case statement from a switch statement.
  */
-public class CaseStatementNode extends EvalStatementNode
+public class CaseStatementNode extends NestingStatementNode
 {
 	static {
 		setName(CaseStatementNode.class, "CaseStatement");
 	}
 
 	ExprNode caseConstantExpr; // null for the "else" (aka default) case
-	CollectNode<EvalStatementNode> statements;
 
 	public CaseStatementNode(Coords coords, ExprNode caseConstExpr,
 			CollectNode<EvalStatementNode> statements)
 	{
-		super(coords);
+		super(coords, statements);
 		this.caseConstantExpr = caseConstExpr;
 		becomeParent(caseConstExpr);
-		this.statements = statements;
-		becomeParent(this.statements);
 	}
 
 	/** returns children of this node */

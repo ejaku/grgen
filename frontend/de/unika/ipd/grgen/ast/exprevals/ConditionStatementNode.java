@@ -24,25 +24,22 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a condition statement.
  */
-public class ConditionStatementNode extends EvalStatementNode
+public class ConditionStatementNode extends NestingStatementNode
 {
 	static {
 		setName(ConditionStatementNode.class, "ConditionStatement");
 	}
 
 	private ExprNode conditionExpr;
-	CollectNode<EvalStatementNode> trueCaseStatements;
 	CollectNode<EvalStatementNode> falseCaseStatements;
 
 	public ConditionStatementNode(Coords coords, ExprNode conditionExpr,
 			CollectNode<EvalStatementNode> trueCaseStatements,
 			CollectNode<EvalStatementNode> falseCaseStatements)
 	{
-		super(coords);
+		super(coords, trueCaseStatements);
 		this.conditionExpr = conditionExpr;
 		becomeParent(conditionExpr);
-		this.trueCaseStatements = trueCaseStatements;
-		becomeParent(this.trueCaseStatements);
 		this.falseCaseStatements = falseCaseStatements;
 		if(falseCaseStatements != null)
 			becomeParent(this.falseCaseStatements);
@@ -54,7 +51,7 @@ public class ConditionStatementNode extends EvalStatementNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(conditionExpr);
-		children.add(trueCaseStatements);
+		children.add(statements);
 		if(falseCaseStatements != null)
 			children.add(falseCaseStatements);
 		return children;
@@ -97,7 +94,7 @@ public class ConditionStatementNode extends EvalStatementNode
 	protected IR constructIR()
 	{
 		ConditionStatement cond = new ConditionStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode trueCaseStatement : trueCaseStatements.getChildren()) {
+		for(EvalStatementNode trueCaseStatement : statements.getChildren()) {
 			cond.addTrueCaseStatement(trueCaseStatement.checkIR(EvalStatement.class));
 		}
 		if(falseCaseStatements != null) {

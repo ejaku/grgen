@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing an integer range iteration.
  */
-public class IntegerRangeIterationYieldNode extends EvalStatementNode
+public class IntegerRangeIterationYieldNode extends NestingStatementNode
 {
 	static {
 		setName(IntegerRangeIterationYieldNode.class, "IntegerRangeIterationYield");
@@ -36,20 +36,17 @@ public class IntegerRangeIterationYieldNode extends EvalStatementNode
 	ExprNode rightExpr;
 
 	VarDeclNode iterationVariable;
-	CollectNode<EvalStatementNode> accumulationStatements;
 
 	public IntegerRangeIterationYieldNode(Coords coords, BaseNode iterationVariable, ExprNode left, ExprNode right,
 			CollectNode<EvalStatementNode> accumulationStatements)
 	{
-		super(coords);
+		super(coords, accumulationStatements);
 		this.iterationVariableUnresolved = iterationVariable;
 		becomeParent(this.iterationVariableUnresolved);
 		this.leftExpr = left;
 		becomeParent(this.leftExpr);
 		this.rightExpr = right;
 		becomeParent(this.rightExpr);
-		this.accumulationStatements = accumulationStatements;
-		becomeParent(this.accumulationStatements);
 	}
 
 	/** returns children of this node */
@@ -60,7 +57,7 @@ public class IntegerRangeIterationYieldNode extends EvalStatementNode
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(leftExpr);
 		children.add(rightExpr);
-		children.add(accumulationStatements);
+		children.add(statements);
 		return children;
 	}
 
@@ -123,7 +120,7 @@ public class IntegerRangeIterationYieldNode extends EvalStatementNode
 	{
 		IntegerRangeIterationYield cay = new IntegerRangeIterationYield(iterationVariable.checkIR(Variable.class),
 				leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
-		for(EvalStatementNode accumulationStatement : accumulationStatements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
 			cay.addAccumulationStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return cay;

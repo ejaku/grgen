@@ -56,23 +56,11 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 
 			if(eval instanceof ConditionStatementNode) {
 				ConditionStatementNode csn = (ConditionStatementNode)eval;
-				res &= checkStatements(isLHS, root, enclosingLoop, csn.trueCaseStatements, false);
+				res &= checkStatements(isLHS, root, enclosingLoop, csn.statements, false);
 				res &= checkStatements(isLHS, root, enclosingLoop, csn.falseCaseStatements, false);
-			} else if(eval instanceof WhileStatementNode) {
-				WhileStatementNode wsn = (WhileStatementNode)eval;
-				res &= checkStatements(isLHS, root, wsn, wsn.loopedStatements, false);
-			} else if(eval instanceof DoWhileStatementNode) {
-				DoWhileStatementNode dwsn = (DoWhileStatementNode)eval;
-				res &= checkStatements(isLHS, root, dwsn, dwsn.loopedStatements, false);
-			} else if(eval instanceof ForFunctionNode) {
-				ForFunctionNode ffn = (ForFunctionNode)eval;
-				res &= checkStatements(isLHS, root, ffn, ffn.loopedStatements, false);
-			} else if(eval instanceof ContainerAccumulationYieldNode) {
-				ContainerAccumulationYieldNode cayn = (ContainerAccumulationYieldNode)eval;
-				res &= checkStatements(isLHS, root, cayn, cayn.accumulationStatements, false);
-			} else if(eval instanceof IteratedAccumulationYieldNode) {
-				IteratedAccumulationYieldNode iayn = (IteratedAccumulationYieldNode)eval;
-				res &= checkStatements(isLHS, root, iayn, iayn.accumulationStatements, false);
+			} else if(eval instanceof NestingStatementNode) {
+				NestingStatementNode nsn = (NestingStatementNode)eval;
+				res &= checkStatements(isLHS, root, nsn, nsn.statements, false);
 			} else if(eval instanceof ReturnStatementNode) {
 				returnPassed = true;
 			} else if(eval instanceof ReturnAssignmentNode) {
@@ -150,7 +138,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		boolean allEndWithReturn = true;
 
 		EvalStatementNode last = null;
-		for(EvalStatementNode eval : condition.trueCaseStatements.getChildren()) {
+		for(EvalStatementNode eval : condition.statements.getChildren()) {
 			last = eval;
 		}
 		if(!(last instanceof ReturnStatementNode)) {

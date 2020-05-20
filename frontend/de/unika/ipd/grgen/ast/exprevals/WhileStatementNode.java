@@ -24,22 +24,21 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * AST node representing a while statement.
  */
-public class WhileStatementNode extends EvalStatementNode
+public class WhileStatementNode extends NestingStatementNode
 {
 	static {
 		setName(WhileStatementNode.class, "WhileStatement");
 	}
 
 	private ExprNode conditionExpr;
-	CollectNode<EvalStatementNode> loopedStatements;
 
 	public WhileStatementNode(Coords coords, ExprNode conditionExpr, CollectNode<EvalStatementNode> loopedStatements)
 	{
-		super(coords);
+		super(coords, loopedStatements);
 		this.conditionExpr = conditionExpr;
 		becomeParent(conditionExpr);
-		this.loopedStatements = loopedStatements;
-		becomeParent(this.loopedStatements);
+		this.statements = loopedStatements;
+		becomeParent(this.statements);
 	}
 
 	/** returns children of this node */
@@ -48,7 +47,7 @@ public class WhileStatementNode extends EvalStatementNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(conditionExpr);
-		children.add(loopedStatements);
+		children.add(statements);
 		return children;
 	}
 
@@ -87,7 +86,7 @@ public class WhileStatementNode extends EvalStatementNode
 	protected IR constructIR()
 	{
 		WhileStatement ws = new WhileStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode loopedStatement : loopedStatements.getChildren()) {
+		for(EvalStatementNode loopedStatement : statements.getChildren()) {
 			ws.addLoopedStatement(loopedStatement.checkIR(EvalStatement.class));
 		}
 		return ws;
