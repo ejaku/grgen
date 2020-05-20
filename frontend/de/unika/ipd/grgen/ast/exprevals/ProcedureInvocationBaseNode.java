@@ -16,30 +16,32 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ProcedureMethodInvocationBaseNode extends ProcBaseNode
+public abstract class ProcedureInvocationBaseNode extends ProcBaseNode
 {
 	static {
-		setName(ProcedureMethodInvocationBaseNode.class, "procedure method invocation base");
+		setName(ProcedureInvocationBaseNode.class, "procedure invocation base");
 	}
 
 	protected CollectNode<ExprNode> arguments;
 	protected int context;
 
-	public ProcedureMethodInvocationBaseNode(Coords coords)
+	protected ProcedureInvocationBaseNode(Coords coords, CollectNode<ExprNode> arguments, int context)
 	{
 		super(coords);
+		this.arguments = becomeParent(arguments);
+		this.context = context;
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
-	protected boolean checkSignatureAdhered(ProcedureBase pb, IdentNode unresolved)
+	protected boolean checkSignatureAdhered(ProcedureBase pb, IdentNode unresolved, boolean isMethod)
 	{
 		// check if the number of parameters are correct
 		int expected = pb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
 		if(expected != actual) {
 			String patternName = pb.ident.toString();
-			unresolved.reportError("The procedure method \"" + patternName + "\" needs "
-					+ expected + " parameters, given are " + actual);
+			unresolved.reportError("The procedure " + (isMethod ? "method " : "") + "\"" + patternName
+					+ "\" needs " + expected + " parameters, given are " + actual);
 			return false;
 		}
 
@@ -54,8 +56,8 @@ public abstract class ProcedureMethodInvocationBaseNode extends ProcBaseNode
 				res = false;
 				String exprTypeName = actualParameterType.getTypeName();
 				String paramTypeName = formalParameterType.getTypeName();
-				unresolved.reportError("Cannot convert " + (i + 1) + ". procedure method argument from \""
-						+ exprTypeName + "\" to \"" + paramTypeName + "\"");
+				unresolved.reportError("Cannot convert " + (i + 1) + ". procedure " + (isMethod ? "method " : "")
+						+ "argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
 

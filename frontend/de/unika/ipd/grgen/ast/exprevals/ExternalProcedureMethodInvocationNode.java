@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.ir.Variable;
 /**
  * Invocation of an external procedure method
  */
-public class ExternalProcedureMethodInvocationNode extends ProcedureMethodInvocationBaseNode
+public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 {
 	static {
 		setName(ExternalProcedureMethodInvocationNode.class, "external procedure method invocation");
@@ -42,21 +42,17 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureMethodInvoca
 	public ExternalProcedureMethodInvocationNode(VarDeclNode targetVar,
 			IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
 	{
-		super(procedureOrExternalProcedureUnresolved.getCoords());
+		super(procedureOrExternalProcedureUnresolved.getCoords(), arguments, context);
 		this.targetVar = becomeParent(targetVar);
 		this.externalProcedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
-		this.arguments = becomeParent(arguments);
-		this.context = context;
 	}
 
 	public ExternalProcedureMethodInvocationNode(QualIdentNode targetQual,
 			IdentNode procedureOrExternalProcedureUnresolved, CollectNode<ExprNode> arguments, int context)
 	{
-		super(procedureOrExternalProcedureUnresolved.getCoords());
+		super(procedureOrExternalProcedureUnresolved.getCoords(), arguments, context);
 		this.targetQual = becomeParent(targetQual);
 		this.externalProcedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
-		this.arguments = becomeParent(arguments);
-		this.context = context;
 	}
 
 	@Override
@@ -118,7 +114,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureMethodInvoca
 			reportError("external procedure method call not allowed in function or lhs context");
 			return false;
 		}
-		return checkSignatureAdhered(externalProcedureDecl, externalProcedureUnresolved);
+		return checkSignatureAdhered(externalProcedureDecl, externalProcedureUnresolved, true);
 	}
 
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)

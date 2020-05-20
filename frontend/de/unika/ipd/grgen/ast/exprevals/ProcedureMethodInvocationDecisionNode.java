@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.IR;
 
-public class ProcedureMethodInvocationDecisionNode extends ProcedureMethodInvocationBaseNode
+public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBaseNode
 {
 	static {
 		setName(ProcedureMethodInvocationDecisionNode.class, "procedure method invocation decision statement");
@@ -26,17 +26,14 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureMethodInvoca
 
 	private BaseNode target;
 	private IdentNode methodIdent;
-	private CollectNode<ExprNode> params;
-	private ProcedureMethodInvocationBaseNode result;
+	private ProcBaseNode result;
 
-	public ProcedureMethodInvocationDecisionNode(BaseNode target, IdentNode methodIdent, CollectNode<ExprNode> params,
+	public ProcedureMethodInvocationDecisionNode(BaseNode target, IdentNode methodIdent, CollectNode<ExprNode> arguments,
 			int context)
 	{
-		super(methodIdent.getCoords());
+		super(methodIdent.getCoords(), arguments, context);
 		this.target = becomeParent(target);
 		this.methodIdent = becomeParent(methodIdent);
-		this.params = becomeParent(params);
-		this.context = context;
 	}
 
 	@Override
@@ -45,7 +42,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureMethodInvoca
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(target);
 		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
-		children.add(params);
+		children.add(arguments);
 		if(isResolved())
 			children.add(result);
 		return children;
@@ -84,27 +81,27 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureMethodInvoca
 
 		if(targetType instanceof MapTypeNode) {
 			if(methodName.equals("add")) {
-				if(params.size() != 2) {
+				if(arguments.size() != 2) {
 					reportError("map<S,T>.add(key, value) takes two parameters.");
 					return false;
 				} else {
 					if(targetQual != null)
-						result = new MapAddItemNode(getCoords(), targetQual, params.get(0), params.get(1));
+						result = new MapAddItemNode(getCoords(), targetQual, arguments.get(0), arguments.get(1));
 					else
-						result = new MapAddItemNode(getCoords(), targetVar, params.get(0), params.get(1));
+						result = new MapAddItemNode(getCoords(), targetVar, arguments.get(0), arguments.get(1));
 				}
 			} else if(methodName.equals("rem")) {
-				if(params.size() != 1) {
+				if(arguments.size() != 1) {
 					reportError("map<S,T>.rem(key) takes one parameter.");
 					return false;
 				} else {
 					if(targetQual != null)
-						result = new MapRemoveItemNode(getCoords(), targetQual, params.get(0));
+						result = new MapRemoveItemNode(getCoords(), targetQual, arguments.get(0));
 					else
-						result = new MapRemoveItemNode(getCoords(), targetVar, params.get(0));
+						result = new MapRemoveItemNode(getCoords(), targetVar, arguments.get(0));
 				}
 			} else if(methodName.equals("clear")) {
-				if(params.size() != 0) {
+				if(arguments.size() != 0) {
 					reportError("map<S,T>.clear() takes no parameters.");
 					return false;
 				} else {
@@ -119,27 +116,27 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureMethodInvoca
 			}
 		} else if(targetType instanceof SetTypeNode) {
 			if(methodName.equals("add")) {
-				if(params.size() != 1) {
+				if(arguments.size() != 1) {
 					reportError("set<T>.add(value) takes one parameter.");
 					return false;
 				} else {
 					if(targetQual != null)
-						result = new SetAddItemNode(getCoords(), targetQual, params.get(0));
+						result = new SetAddItemNode(getCoords(), targetQual, arguments.get(0));
 					else
-						result = new SetAddItemNode(getCoords(), targetVar, params.get(0));
+						result = new SetAddItemNode(getCoords(), targetVar, arguments.get(0));
 				}
 			} else if(methodName.equals("rem")) {
-				if(params.size() != 1) {
+				if(arguments.size() != 1) {
 					reportError("set<T>.rem(value) takes one parameter.");
 					return false;
 				} else {
 					if(targetQual != null)
-						result = new SetRemoveItemNode(getCoords(), targetQual, params.get(0));
+						result = new SetRemoveItemNode(getCoords(), targetQual, arguments.get(0));
 					else
-						result = new SetRemoveItemNode(getCoords(), targetVar, params.get(0));
+						result = new SetRemoveItemNode(getCoords(), targetVar, arguments.get(0));
 				}
 			} else if(methodName.equals("clear")) {
-				if(params.size() != 0) {
+				if(arguments.size() != 0) {
 					reportError("set<T>.clear() takes no parameters.");
 					return false;
 				} else {
@@ -154,33 +151,33 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureMethodInvoca
 			}
 		} else if(targetType instanceof ArrayTypeNode) {
 			if(methodName.equals("add")) {
-				if(params.size() != 1 && params.size() != 2) {
+				if(arguments.size() != 1 && arguments.size() != 2) {
 					reportError("array<T>.add(value)/array<T>.add(value, index) takes one or two parameters.");
 					return false;
 				} else {
 					if(targetQual != null) {
-						result = new ArrayAddItemNode(getCoords(), targetQual, params.get(0),
-								params.size() != 1 ? params.get(1) : null);
+						result = new ArrayAddItemNode(getCoords(), targetQual, arguments.get(0),
+								arguments.size() != 1 ? arguments.get(1) : null);
 					} else {
-						result = new ArrayAddItemNode(getCoords(), targetVar, params.get(0),
-								params.size() != 1 ? params.get(1) : null);
+						result = new ArrayAddItemNode(getCoords(), targetVar, arguments.get(0),
+								arguments.size() != 1 ? arguments.get(1) : null);
 					}
 				}
 			} else if(methodName.equals("rem")) {
-				if(params.size() != 1 && params.size() != 0) {
+				if(arguments.size() != 1 && arguments.size() != 0) {
 					reportError("array<T>.rem()/array<T>.rem(index) takes zero or one parameter.");
 					return false;
 				} else {
 					if(targetQual != null) {
 						result = new ArrayRemoveItemNode(getCoords(), targetQual,
-								params.size() != 0 ? params.get(0) : null);
+								arguments.size() != 0 ? arguments.get(0) : null);
 					} else {
 						result = new ArrayRemoveItemNode(getCoords(), targetVar,
-								params.size() != 0 ? params.get(0) : null);
+								arguments.size() != 0 ? arguments.get(0) : null);
 					}
 				}
 			} else if(methodName.equals("clear")) {
-				if(params.size() != 0) {
+				if(arguments.size() != 0) {
 					reportError("array<T>.clear() takes no parameters.");
 					return false;
 				} else {
@@ -195,33 +192,33 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureMethodInvoca
 			}
 		} else if(targetType instanceof DequeTypeNode) {
 			if(methodName.equals("add")) {
-				if(params.size() != 1 && params.size() != 2) {
+				if(arguments.size() != 1 && arguments.size() != 2) {
 					reportError("deque<T>.add(value)/deque<T>.add(value, index) takes one or two parameters.");
 					return false;
 				} else {
 					if(targetQual != null) {
-						result = new DequeAddItemNode(getCoords(), targetQual, params.get(0),
-								params.size() != 1 ? params.get(1) : null);
+						result = new DequeAddItemNode(getCoords(), targetQual, arguments.get(0),
+								arguments.size() != 1 ? arguments.get(1) : null);
 					} else {
-						result = new DequeAddItemNode(getCoords(), targetVar, params.get(0),
-								params.size() != 1 ? params.get(1) : null);
+						result = new DequeAddItemNode(getCoords(), targetVar, arguments.get(0),
+								arguments.size() != 1 ? arguments.get(1) : null);
 					}
 				}
 			} else if(methodName.equals("rem")) {
-				if(params.size() != 1 && params.size() != 0) {
+				if(arguments.size() != 1 && arguments.size() != 0) {
 					reportError("deque<T>.rem()/deque<T>.rem(index) takes zero or one parameter.");
 					return false;
 				} else {
 					if(targetQual != null) {
 						result = new DequeRemoveItemNode(getCoords(), targetQual,
-								params.size() != 0 ? params.get(0) : null);
+								arguments.size() != 0 ? arguments.get(0) : null);
 					} else {
 						result = new DequeRemoveItemNode(getCoords(), targetVar,
-								params.size() != 0 ? params.get(0) : null);
+								arguments.size() != 0 ? arguments.get(0) : null);
 					}
 				}
 			} else if(methodName.equals("clear")) {
-				if(params.size() != 0) {
+				if(arguments.size() != 0) {
 					reportError("deque<T>.clear() takes no parameters.");
 					return false;
 				} else {
@@ -236,13 +233,13 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureMethodInvoca
 			}
 		} else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
 			// we don't support calling a method from a graph element typed attribute contained in a graph element, only calling method directly on the graph element
-			result = new ProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, params, context);
+			result = new ProcedureMethodInvocationNode(((IdentExprNode)target).getIdent(), methodIdent, arguments, context);
 			result.resolve();
 		} else if(targetType instanceof ExternalTypeNode) {
 			if(targetQual != null)
-				result = new ExternalProcedureMethodInvocationNode(targetQual, methodIdent, params, context);
+				result = new ExternalProcedureMethodInvocationNode(targetQual, methodIdent, arguments, context);
 			else
-				result = new ExternalProcedureMethodInvocationNode(targetVar, methodIdent, params, context);
+				result = new ExternalProcedureMethodInvocationNode(targetVar, methodIdent, arguments, context);
 			result.resolve();
 		} else {
 			reportError(targetType.toString() + " does not have any methods");

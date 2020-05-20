@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * Invocation of a procedure method
  */
-public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBaseNode
+public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 {
 	static {
 		setName(ProcedureMethodInvocationNode.class, "procedure method invocation");
@@ -41,11 +41,9 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 	public ProcedureMethodInvocationNode(IdentNode owner, IdentNode procedureOrExternalProcedureUnresolved,
 			CollectNode<ExprNode> arguments, int context)
 	{
-		super(procedureOrExternalProcedureUnresolved.getCoords());
+		super(procedureOrExternalProcedureUnresolved.getCoords(), arguments, context);
 		this.ownerUnresolved = becomeParent(owner);
 		this.procedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
-		this.arguments = becomeParent(arguments);
-		this.context = context;
 	}
 
 	@Override
@@ -125,7 +123,7 @@ public class ProcedureMethodInvocationNode extends ProcedureMethodInvocationBase
 			reportError("procedure method call not allowed in function or lhs context");
 			return false;
 		}
-		return checkSignatureAdhered(procedureDecl, procedureUnresolved);
+		return checkSignatureAdhered(procedureDecl, procedureUnresolved, true);
 	}
 
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)

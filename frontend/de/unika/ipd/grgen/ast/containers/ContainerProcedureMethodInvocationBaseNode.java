@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ContainerProcedureMethodInvocationBaseNode extends ProcedureMethodInvocationBaseNode
+public abstract class ContainerProcedureMethodInvocationBaseNode extends ProcBaseNode
 {
 	static {
 		setName(ContainerProcedureMethodInvocationBaseNode.class, "container procedure method invocation base");

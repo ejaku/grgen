@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * Invocation of a procedure or an external procedure
  */
-public class ProcedureOrExternalProcedureInvocationNode extends ProcBaseNode
+public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocationBaseNode
 {
 	static {
 		setName(ProcedureOrExternalProcedureInvocationNode.class, "procedure or external procedure invocation");
@@ -37,17 +37,12 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcBaseNode
 	private IdentNode procedureOrExternalProcedureUnresolved;
 	private ExternalProcedureDeclNode externalProcedureDecl;
 	private ProcedureDeclNode procedureDecl;
-	private CollectNode<ExprNode> arguments;
-
-	private int context;
 
 	public ProcedureOrExternalProcedureInvocationNode(IdentNode procedureOrExternalProcedureUnresolved,
 			CollectNode<ExprNode> arguments, int context)
 	{
-		super(procedureOrExternalProcedureUnresolved.getCoords());
+		super(procedureOrExternalProcedureUnresolved.getCoords(), arguments, context);
 		this.procedureOrExternalProcedureUnresolved = becomeParent(procedureOrExternalProcedureUnresolved);
-		this.arguments = becomeParent(arguments);
-		this.context = context;
 	}
 
 	@Override
@@ -105,34 +100,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcBaseNode
 	private boolean checkSignatureAdhered()
 	{
 		ProcedureBase pb = procedureDecl != null ? procedureDecl : externalProcedureDecl;
-
-		// check if the number of parameters are correct
-		int expected = pb.getParameterTypes().size();
-		int actual = arguments.getChildren().size();
-		if(expected != actual) {
-			String patternName = pb.ident.toString();
-			procedureOrExternalProcedureUnresolved.reportError("The procedure \"" + patternName + "\" needs "
-					+ expected + " parameters, given are " + actual);
-			return false;
-		}
-
-		// check if the types of the parameters are correct
-		boolean res = true;
-		for(int i = 0; i < arguments.size(); ++i) {
-			ExprNode actualParameter = arguments.get(i);
-			TypeNode actualParameterType = actualParameter.getType();
-			TypeNode formalParameterType = pb.getParameterTypes().get(i);
-
-			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
-				res = false;
-				String exprTypeName = actualParameterType.getTypeName();
-				String paramTypeName = formalParameterType.getTypeName();
-				procedureOrExternalProcedureUnresolved.reportError("Cannot convert " + (i + 1)
-						+ ". procedure argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
-			}
-		}
-
-		return res;
+		return checkSignatureAdhered(pb, procedureOrExternalProcedureUnresolved, false);
 	}
 
 	public Vector<TypeNode> getType()
