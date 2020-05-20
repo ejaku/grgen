@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.FloorExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class FloorExprNode extends ExprNode
+public class FloorExprNode extends FuncBaseNode
 {
 	static {
 		setName(FloorExprNode.class, "floor expr");

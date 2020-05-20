@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node that checks whether a path exists.
  */
-public class ExistsFileExprNode extends ExprNode
+public class ExistsFileExprNode extends FuncBaseNode
 {
 	static {
 		setName(ExistsFileExprNode.class, "exists file expr");

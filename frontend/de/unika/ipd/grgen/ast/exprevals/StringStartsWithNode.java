@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.StringStartsWith;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringStartsWithNode extends ExprNode
+public class StringStartsWithNode extends FuncBaseNode
 {
 	static {
 		setName(StringStartsWithNode.class, "string startsWith");

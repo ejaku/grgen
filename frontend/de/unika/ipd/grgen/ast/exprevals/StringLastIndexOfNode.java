@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.StringLastIndexOf;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringLastIndexOfNode extends ExprNode
+public class StringLastIndexOfNode extends FuncBaseNode
 {
 	static {
 		setName(StringLastIndexOfNode.class, "string lastIndexOf");

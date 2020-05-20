@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Base class for neighborhood graph queries (with members shared by all these queries).
  */
-public abstract class NeighborhoodQueryExprNode extends ExprNode
+public abstract class NeighborhoodQueryExprNode extends FuncBaseNode
 {
 	static {
 		setName(NeighborhoodQueryExprNode.class, "neighborhood query expr");

@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.DoubleMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DoubleMaxExprNode extends ExprNode
+public class DoubleMaxExprNode extends FuncBaseNode
 {
 	static {
 		setName(DoubleMaxExprNode.class, "doublemax expr");

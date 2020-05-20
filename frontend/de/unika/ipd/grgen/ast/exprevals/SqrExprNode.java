@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.SqrExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SqrExprNode extends ExprNode
+public class SqrExprNode extends FuncBaseNode
 {
 	static {
 		setName(SqrExprNode.class, "sqr expr");

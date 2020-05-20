@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.LongMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class LongMaxExprNode extends ExprNode
+public class LongMaxExprNode extends FuncBaseNode
 {
 	static {
 		setName(LongMaxExprNode.class, "longmax expr");

@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding a graph imported from a file.
  */
-public class ImportExprNode extends ExprNode
+public class ImportExprNode extends FuncBaseNode
 {
 	static {
 		setName(ImportExprNode.class, "import expr");

@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.RandomExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class RandomNode extends ExprNode
+public class RandomNode extends FuncBaseNode
 {
 	static {
 		setName(RandomNode.class, "random");

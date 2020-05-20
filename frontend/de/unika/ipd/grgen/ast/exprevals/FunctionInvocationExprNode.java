@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
-public class FunctionInvocationExprNode extends ExprNode
+public class FunctionInvocationExprNode extends FunctionInvocationBaseNode
 {
 	static {
 		setName(FunctionInvocationExprNode.class, "function invocation expression");
@@ -27,16 +27,14 @@ public class FunctionInvocationExprNode extends ExprNode
 	static TypeNode functionTypeNode = new FunctionTypeNode();
 
 	public IdentNode functionIdent;
-	private CollectNode<ExprNode> params;
-	private ExprNode result;
+	private FuncBaseNode result;
 
 	ParserEnvironment env;
 
-	public FunctionInvocationExprNode(IdentNode functionIdent, CollectNode<ExprNode> params, ParserEnvironment env)
+	public FunctionInvocationExprNode(IdentNode functionIdent, CollectNode<ExprNode> arguments, ParserEnvironment env)
 	{
-		super(functionIdent.getCoords());
+		super(functionIdent.getCoords(), arguments);
 		this.functionIdent = becomeParent(functionIdent);
-		this.params = becomeParent(params);
 		this.env = env;
 	}
 
@@ -45,7 +43,7 @@ public class FunctionInvocationExprNode extends ExprNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
-		children.add(params);
+		children.add(arguments);
 		if(isResolved())
 			children.add(result);
 		return children;
@@ -67,322 +65,322 @@ public class FunctionInvocationExprNode extends ExprNode
 		String functionName = functionIdent.toString();
 
 		if(functionName.equals("minMath")) {
-			if(params.size() != 2) {
+			if(arguments.size() != 2) {
 				reportError("Math::min(.,.) takes two parameters.");
 				return false;
 			} else
-				result = new MinExprNode(getCoords(), params.get(0), params.get(1));
+				result = new MinExprNode(getCoords(), arguments.get(0), arguments.get(1));
 		} else if(functionName.equals("maxMath")) {
-			if(params.size() != 2) {
+			if(arguments.size() != 2) {
 				reportError("Math::max(.,.) takes two parameters.");
 				return false;
 			} else
-				result = new MaxExprNode(getCoords(), params.get(0), params.get(1));
+				result = new MaxExprNode(getCoords(), arguments.get(0), arguments.get(1));
 		} else if(functionName.equals("sinMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::sin(.) takes one parameter.");
 				return false;
 			} else
 				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.sin,
-						params.get(0));
+						arguments.get(0));
 		} else if(functionName.equals("cosMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::cos(.) takes one parameter.");
 				return false;
 			} else
 				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.cos,
-						params.get(0));
+						arguments.get(0));
 		} else if(functionName.equals("tanMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::tan(.) takes one parameter.");
 				return false;
 			} else
 				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.tan,
-						params.get(0));
+						arguments.get(0));
 		} else if(functionName.equals("arcsinMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::arcsin(.) takes one parameter.");
 				return false;
 			} else
 				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arcsin,
-						params.get(0));
+						arguments.get(0));
 		} else if(functionName.equals("arccosMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::arccos(.) takes one parameter.");
 				return false;
 			} else
 				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arccos,
-						params.get(0));
+						arguments.get(0));
 		} else if(functionName.equals("arctanMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::arctan(.) takes one parameter.");
 				return false;
 			} else
 				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arctan,
-						params.get(0));
+						arguments.get(0));
 		} else if(functionName.equals("sqrMath")) {
-			if(params.size() == 1) {
-				result = new SqrExprNode(getCoords(), params.get(0));
+			if(arguments.size() == 1) {
+				result = new SqrExprNode(getCoords(), arguments.get(0));
 			} else {
 				reportError("Math::sqr(.) takes one parameter.");
 				return false;
 			}
 		} else if(functionName.equals("sqrtMath")) {
-			if(params.size() == 1) {
-				result = new SqrtExprNode(getCoords(), params.get(0));
+			if(arguments.size() == 1) {
+				result = new SqrtExprNode(getCoords(), arguments.get(0));
 			} else {
 				reportError("Math::sqrt(.) takes one parameter.");
 				return false;
 			}
 		} else if(functionName.equals("powMath")) {
-			if(params.size() == 2) {
-				result = new PowExprNode(getCoords(), params.get(0), params.get(1));
-			} else if(params.size() == 1) {
-				result = new PowExprNode(getCoords(), params.get(0));
+			if(arguments.size() == 2) {
+				result = new PowExprNode(getCoords(), arguments.get(0), arguments.get(1));
+			} else if(arguments.size() == 1) {
+				result = new PowExprNode(getCoords(), arguments.get(0));
 			} else {
 				reportError("Math::pow(.,.)/Math::pow(.) takes one or two parameters (one means base e).");
 				return false;
 			}
 		} else if(functionName.equals("logMath")) {
-			if(params.size() == 2) {
-				result = new LogExprNode(getCoords(), params.get(0), params.get(1));
-			} else if(params.size() == 1) {
-				result = new LogExprNode(getCoords(), params.get(0));
+			if(arguments.size() == 2) {
+				result = new LogExprNode(getCoords(), arguments.get(0), arguments.get(1));
+			} else if(arguments.size() == 1) {
+				result = new LogExprNode(getCoords(), arguments.get(0));
 			} else {
 				reportError("Math::log(.,.)/Math::log(.) takes one or two parameters (one means base e).");
 				return false;
 			}
 		} else if(functionName.equals("absMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::abs(.) takes one parameter.");
 				return false;
 			} else
-				result = new AbsExprNode(getCoords(), params.get(0));
+				result = new AbsExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("piMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::pi() takes no parameters.");
 				return false;
 			} else
 				result = new PiExprNode(getCoords());
 		} else if(functionName.equals("eMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::e() takes no parameters.");
 				return false;
 			} else
 				result = new EExprNode(getCoords());
 		} else if(functionName.equals("byteMinMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::byteMin() takes no parameters.");
 				return false;
 			} else
 				result = new ByteMinExprNode(getCoords());
 		} else if(functionName.equals("byteMaxMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::byteMax() takes no parameters.");
 				return false;
 			} else
 				result = new ByteMaxExprNode(getCoords());
 		} else if(functionName.equals("shortMinMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::shortMin() takes no parameters.");
 				return false;
 			} else
 				result = new ShortMinExprNode(getCoords());
 		} else if(functionName.equals("shortMaxMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::shortMax() takes no parameters.");
 				return false;
 			} else
 				result = new ShortMaxExprNode(getCoords());
 		} else if(functionName.equals("intMinMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::intMin() takes no parameters.");
 				return false;
 			} else
 				result = new IntMinExprNode(getCoords());
 		} else if(functionName.equals("intMaxMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::intMax() takes no parameters.");
 				return false;
 			} else
 				result = new IntMaxExprNode(getCoords());
 		} else if(functionName.equals("longMinMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::longMin() takes no parameters.");
 				return false;
 			} else
 				result = new LongMinExprNode(getCoords());
 		} else if(functionName.equals("longMaxMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::longMax() takes no parameters.");
 				return false;
 			} else
 				result = new LongMaxExprNode(getCoords());
 		} else if(functionName.equals("floatMinMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::floatMin() takes no parameters.");
 				return false;
 			} else
 				result = new FloatMinExprNode(getCoords());
 		} else if(functionName.equals("floatMaxMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::floatMax() takes no parameters.");
 				return false;
 			} else
 				result = new FloatMaxExprNode(getCoords());
 		} else if(functionName.equals("doubleMinMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::doubleMin() takes no parameters.");
 				return false;
 			} else
 				result = new DoubleMinExprNode(getCoords());
 		} else if(functionName.equals("doubleMaxMath")) {
-			if(params.size() != 0) {
+			if(arguments.size() != 0) {
 				reportError("Math::doubleMax() takes no parameters.");
 				return false;
 			} else
 				result = new DoubleMaxExprNode(getCoords());
 		} else if(functionName.equals("ceilMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::ceil(.) takes one parameter.");
 				return false;
 			} else
-				result = new CeilExprNode(getCoords(), params.get(0));
+				result = new CeilExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("floorMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::floor(.) takes one parameter.");
 				return false;
 			} else
-				result = new FloorExprNode(getCoords(), params.get(0));
+				result = new FloorExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("roundMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::round(.) takes one parameter.");
 				return false;
 			} else
-				result = new RoundExprNode(getCoords(), params.get(0));
+				result = new RoundExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("truncateMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::truncate(.) takes one parameter.");
 				return false;
 			} else
-				result = new TruncateExprNode(getCoords(), params.get(0));
+				result = new TruncateExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("sgnMath")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("Math::sgn(.) takes one parameter.");
 				return false;
 			} else
-				result = new SgnExprNode(getCoords(), params.get(0));
+				result = new SgnExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("random")) {
-			if(params.size() == 1) {
-				result = new RandomNode(getCoords(), params.get(0));
-			} else if(params.size() == 0) {
+			if(arguments.size() == 1) {
+				result = new RandomNode(getCoords(), arguments.get(0));
+			} else if(arguments.size() == 0) {
 				result = new RandomNode(getCoords(), null);
 			} else {
 				reportError("random(.)/random() takes one or no parameters.");
 				return false;
 			}
 		} else if(functionName.equals("nodes")) {
-			if(params.size() > 1) {
+			if(arguments.size() > 1) {
 				reportError("nodes() takes one or none parameter.");
 				return false;
 			} else {
 				result = new NodesExprNode(getCoords(),
-						params.size() == 1 ? params.get(0) : new IdentExprNode(env.getNodeRoot()));
+						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getNodeRoot()));
 			}
 		} else if(functionName.equals("edges")) {
-			if(params.size() > 1) {
+			if(arguments.size() > 1) {
 				reportError("edges() takes one or none parameter.");
 				return false;
 			} else {
 				result = new EdgesExprNode(getCoords(),
-						params.size() == 1 ? params.get(0) : new IdentExprNode(env.getArbitraryEdgeRoot()));
+						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getArbitraryEdgeRoot()));
 			}
 		} else if(functionName.equals("countNodes")) {
-			if(params.size() > 1) {
+			if(arguments.size() > 1) {
 				reportError("countNodes() takes one or none parameter.");
 				return false;
 			} else {
 				result = new CountNodesExprNode(getCoords(),
-						params.size() == 1 ? params.get(0) : new IdentExprNode(env.getNodeRoot()));
+						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getNodeRoot()));
 			}
 		} else if(functionName.equals("countEdges")) {
-			if(params.size() > 1) {
+			if(arguments.size() > 1) {
 				reportError("countEdges() takes one or none parameter.");
 				return false;
 			} else {
 				result = new CountEdgesExprNode(getCoords(),
-						params.size() == 1 ? params.get(0) : new IdentExprNode(env.getArbitraryEdgeRoot()));
+						arguments.size() == 1 ? arguments.get(0) : new IdentExprNode(env.getArbitraryEdgeRoot()));
 			}
 		} else if(functionName.equals("nowTime")) {
-			if(params.size() > 0) {
+			if(arguments.size() > 0) {
 				reportError("Time::now() takes no parameters.");
 				return false;
 			} else {
 				result = new NowExprNode(getCoords());
 			}
 		} else if(functionName.equals("empty")) {
-			if(params.size() > 0) {
+			if(arguments.size() > 0) {
 				reportError("empty() takes no parameters.");
 				return false;
 			} else {
 				result = new EmptyExprNode(getCoords());
 			}
 		} else if(functionName.equals("size")) {
-			if(params.size() > 0) {
+			if(arguments.size() > 0) {
 				reportError("size() takes no parameters.");
 				return false;
 			} else {
 				result = new SizeExprNode(getCoords());
 			}
 		} else if(functionName.equals("source")) {
-			if(params.size() == 1) {
-				result = new SourceExprNode(getCoords(), params.get(0), env.getNodeRoot());
+			if(arguments.size() == 1) {
+				result = new SourceExprNode(getCoords(), arguments.get(0), env.getNodeRoot());
 			} else {
 				reportError(functionName + "() takes 1 parameter.");
 				return false;
 			}
 		} else if(functionName.equals("target")) {
-			if(params.size() == 1) {
-				result = new TargetExprNode(getCoords(), params.get(0), env.getNodeRoot());
+			if(arguments.size() == 1) {
+				result = new TargetExprNode(getCoords(), arguments.get(0), env.getNodeRoot());
 			} else {
 				reportError(functionName + "() takes 1 parameter.");
 				return false;
 			}
 		} else if(functionName.equals("opposite")) {
-			if(params.size() == 2) {
-				result = new OppositeExprNode(getCoords(), params.get(0), params.get(1), env.getNodeRoot());
+			if(arguments.size() == 2) {
+				result = new OppositeExprNode(getCoords(), arguments.get(0), arguments.get(1), env.getNodeRoot());
 			} else {
 				reportError(functionName + "() takes 2 parameters.");
 				return false;
 			}
 		} else if(functionName.equals("nodeByName")) {
-			if(params.size() >= 1 && params.size() <= 2) {
-				result = new NodeByNameExprNode(getCoords(), params.get(0),
-						params.size() == 2 ? params.get(1) : new IdentExprNode(env.getNodeRoot()));
+			if(arguments.size() >= 1 && arguments.size() <= 2) {
+				result = new NodeByNameExprNode(getCoords(), arguments.get(0),
+						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getNodeRoot()));
 			} else {
 				reportError(functionName + "() takes one or two parameters.");
 				return false;
 			}
 		} else if(functionName.equals("edgeByName")) {
-			if(params.size() >= 1 && params.size() <= 2) {
-				result = new EdgeByNameExprNode(getCoords(), params.get(0),
-						params.size() == 2 ? params.get(1) : new IdentExprNode(env.getArbitraryEdgeRoot()));
+			if(arguments.size() >= 1 && arguments.size() <= 2) {
+				result = new EdgeByNameExprNode(getCoords(), arguments.get(0),
+						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getArbitraryEdgeRoot()));
 			} else {
 				reportError(functionName + "() takes one or two parameters.");
 				return false;
 			}
 		} else if(functionName.equals("nodeByUnique")) {
-			if(params.size() >= 1 && params.size() <= 2) {
-				result = new NodeByUniqueExprNode(getCoords(), params.get(0),
-						params.size() == 2 ? params.get(1) : new IdentExprNode(env.getNodeRoot()));
+			if(arguments.size() >= 1 && arguments.size() <= 2) {
+				result = new NodeByUniqueExprNode(getCoords(), arguments.get(0),
+						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getNodeRoot()));
 			} else {
 				reportError(functionName + "() takes one or two parameters.");
 				return false;
 			}
 		} else if(functionName.equals("edgeByUnique")) {
-			if(params.size() >= 1 && params.size() <= 2) {
-				result = new EdgeByUniqueExprNode(getCoords(), params.get(0),
-						params.size() == 2 ? params.get(1) : new IdentExprNode(env.getArbitraryEdgeRoot()));
+			if(arguments.size() >= 1 && arguments.size() <= 2) {
+				result = new EdgeByUniqueExprNode(getCoords(), arguments.get(0),
+						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getArbitraryEdgeRoot()));
 			} else {
 				reportError(functionName + "() takes one or two parameters.");
 				return false;
@@ -398,14 +396,14 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IncidentEdgeExprNode.INCIDENT;
 
-			if(params.size() == 1) {
-				result = new IncidentEdgeExprNode(getCoords(), params.get(0),
+			if(arguments.size() == 1) {
+				result = new IncidentEdgeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 2) {
-				result = new IncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), direction,
+			} else if(arguments.size() == 2) {
+				result = new IncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new IncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, params.get(2));
+			} else if(arguments.size() == 3) {
+				result = new IncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
 				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
@@ -421,14 +419,14 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = AdjacentNodeExprNode.ADJACENT;
 
-			if(params.size() == 1) {
-				result = new AdjacentNodeExprNode(getCoords(), params.get(0),
+			if(arguments.size() == 1) {
+				result = new AdjacentNodeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 2) {
-				result = new AdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), direction,
+			} else if(arguments.size() == 2) {
+				result = new AdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new AdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), direction, params.get(2));
+			} else if(arguments.size() == 3) {
+				result = new AdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
 				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
@@ -444,15 +442,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = CountIncidentEdgeExprNode.INCIDENT;
 
-			if(params.size() == 1) {
-				result = new CountIncidentEdgeExprNode(getCoords(), params.get(0),
+			if(arguments.size() == 1) {
+				result = new CountIncidentEdgeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 2) {
-				result = new CountIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), direction,
+			} else if(arguments.size() == 2) {
+				result = new CountIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new CountIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), direction,
-						params.get(2));
+			} else if(arguments.size() == 3) {
+				result = new CountIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
+						arguments.get(2));
 			} else {
 				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
@@ -468,15 +466,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = CountAdjacentNodeExprNode.ADJACENT;
 
-			if(params.size() == 1) {
-				result = new CountAdjacentNodeExprNode(getCoords(), params.get(0),
+			if(arguments.size() == 1) {
+				result = new CountAdjacentNodeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 2) {
-				result = new CountAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), direction,
+			} else if(arguments.size() == 2) {
+				result = new CountAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new CountAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), direction,
-						params.get(2));
+			} else if(arguments.size() == 3) {
+				result = new CountAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
+						arguments.get(2));
 			} else {
 				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
@@ -492,15 +490,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IsIncidentEdgeExprNode.INCIDENT;
 
-			if(params.size() == 2) {
-				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new IsIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction,
+			} else if(arguments.size() == 3) {
+				result = new IsIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new IsIncidentEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction,
-						params.get(3));
+			} else if(arguments.size() == 4) {
+				result = new IsIncidentEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
+						arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -516,15 +514,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IsAdjacentNodeExprNode.ADJACENT;
 
-			if(params.size() == 2) {
-				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new IsAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction,
+			} else if(arguments.size() == 3) {
+				result = new IsAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new IsAdjacentNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2), direction,
-						params.get(3));
+			} else if(arguments.size() == 4) {
+				result = new IsAdjacentNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
+						arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -540,14 +538,14 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = ReachableEdgeExprNode.INCIDENT;
 
-			if(params.size() == 1) {
-				result = new ReachableEdgeExprNode(getCoords(), params.get(0),
+			if(arguments.size() == 1) {
+				result = new ReachableEdgeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 2) {
-				result = new ReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), direction,
+			} else if(arguments.size() == 2) {
+				result = new ReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new ReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), direction, params.get(2));
+			} else if(arguments.size() == 3) {
+				result = new ReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
 				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
@@ -563,14 +561,14 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = ReachableNodeExprNode.ADJACENT;
 
-			if(params.size() == 1) {
-				result = new ReachableNodeExprNode(getCoords(), params.get(0),
+			if(arguments.size() == 1) {
+				result = new ReachableNodeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 2) {
-				result = new ReachableNodeExprNode(getCoords(), params.get(0), params.get(1), direction,
+			} else if(arguments.size() == 2) {
+				result = new ReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new ReachableNodeExprNode(getCoords(), params.get(0), params.get(1), direction, params.get(2));
+			} else if(arguments.size() == 3) {
+				result = new ReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
 				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
@@ -586,15 +584,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = CountReachableEdgeExprNode.INCIDENT;
 
-			if(params.size() == 1) {
-				result = new CountReachableEdgeExprNode(getCoords(), params.get(0),
+			if(arguments.size() == 1) {
+				result = new CountReachableEdgeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 2) {
-				result = new CountReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), direction,
+			} else if(arguments.size() == 2) {
+				result = new CountReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new CountReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), direction,
-						params.get(2));
+			} else if(arguments.size() == 3) {
+				result = new CountReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
+						arguments.get(2));
 			} else {
 				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
@@ -610,15 +608,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = CountReachableNodeExprNode.ADJACENT;
 
-			if(params.size() == 1) {
-				result = new CountReachableNodeExprNode(getCoords(), params.get(0),
+			if(arguments.size() == 1) {
+				result = new CountReachableNodeExprNode(getCoords(), arguments.get(0),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 2) {
-				result = new CountReachableNodeExprNode(getCoords(), params.get(0), params.get(1), direction,
+			} else if(arguments.size() == 2) {
+				result = new CountReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
 						new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new CountReachableNodeExprNode(getCoords(), params.get(0), params.get(1), direction,
-						params.get(2));
+			} else if(arguments.size() == 3) {
+				result = new CountReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), direction,
+						arguments.get(2));
 			} else {
 				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
@@ -634,15 +632,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IsReachableNodeExprNode.ADJACENT;
 
-			if(params.size() == 2) {
-				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new IsReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
+			} else if(arguments.size() == 3) {
+				result = new IsReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new IsReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						direction, params.get(3));
+			} else if(arguments.size() == 4) {
+				result = new IsReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -658,15 +656,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IsReachableEdgeExprNode.INCIDENT;
 
-			if(params.size() == 2) {
-				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new IsReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
+			} else if(arguments.size() == 3) {
+				result = new IsReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new IsReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						direction, params.get(3));
+			} else if(arguments.size() == 4) {
+				result = new IsReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -682,15 +680,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = BoundedReachableEdgeExprNode.INCIDENT;
 
-			if(params.size() == 2) {
-				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new BoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
+			} else if(arguments.size() == 3) {
+				result = new BoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new BoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						direction, params.get(3));
+			} else if(arguments.size() == 4) {
+				result = new BoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -706,15 +704,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = BoundedReachableNodeExprNode.ADJACENT;
 
-			if(params.size() == 2) {
-				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new BoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
+			} else if(arguments.size() == 3) {
+				result = new BoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new BoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						direction, params.get(3));
+			} else if(arguments.size() == 4) {
+				result = new BoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -730,15 +728,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = BoundedReachableNodeWithRemainingDepthExprNode.ADJACENT;
 
-			if(params.size() == 2) {
-				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1),
-						params.get(2), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), params.get(0), params.get(1),
-						params.get(2), direction, params.get(3));
+			} else if(arguments.size() == 3) {
+				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), arguments.get(0), arguments.get(1),
+						arguments.get(2), direction, new IdentExprNode(env.getNodeRoot()));
+			} else if(arguments.size() == 4) {
+				result = new BoundedReachableNodeWithRemainingDepthExprNode(getCoords(), arguments.get(0), arguments.get(1),
+						arguments.get(2), direction, arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -754,15 +752,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = CountBoundedReachableEdgeExprNode.INCIDENT;
 
-			if(params.size() == 2) {
-				result = new CountBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new CountBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new CountBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
+			} else if(arguments.size() == 3) {
+				result = new CountBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new CountBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						direction, params.get(3));
+			} else if(arguments.size() == 4) {
+				result = new CountBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -778,15 +776,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = CountBoundedReachableNodeExprNode.ADJACENT;
 
-			if(params.size() == 2) {
-				result = new CountBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1),
+			if(arguments.size() == 2) {
+				result = new CountBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 3) {
-				result = new CountBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
+			} else if(arguments.size() == 3) {
+				result = new CountBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new CountBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						direction, params.get(3));
+			} else if(arguments.size() == 4) {
+				result = new CountBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						direction, arguments.get(3));
 			} else {
 				reportError(functionName + "() takes 2-4 parameters.");
 				return false;
@@ -802,15 +800,15 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IsBoundedReachableNodeExprNode.ADJACENT;
 
-			if(params.size() == 3) {
-				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
+			if(arguments.size() == 3) {
+				result = new IsBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						params.get(3), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 5) {
-				result = new IsBoundedReachableNodeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						params.get(3), direction, params.get(4));
+			} else if(arguments.size() == 4) {
+				result = new IsBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						arguments.get(3), direction, new IdentExprNode(env.getNodeRoot()));
+			} else if(arguments.size() == 5) {
+				result = new IsBoundedReachableNodeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						arguments.get(3), direction, arguments.get(4));
 			} else {
 				reportError(functionName + "() takes 3-5 parameters.");
 				return false;
@@ -826,73 +824,73 @@ public class FunctionInvocationExprNode extends ExprNode
 			else
 				direction = IsBoundedReachableEdgeExprNode.INCIDENT;
 
-			if(params.size() == 3) {
-				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
+			if(arguments.size() == 3) {
+				result = new IsBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						new IdentExprNode(env.getArbitraryEdgeRoot()), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 4) {
-				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						params.get(3), direction, new IdentExprNode(env.getNodeRoot()));
-			} else if(params.size() == 5) {
-				result = new IsBoundedReachableEdgeExprNode(getCoords(), params.get(0), params.get(1), params.get(2),
-						params.get(3), direction, params.get(4));
+			} else if(arguments.size() == 4) {
+				result = new IsBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						arguments.get(3), direction, new IdentExprNode(env.getNodeRoot()));
+			} else if(arguments.size() == 5) {
+				result = new IsBoundedReachableEdgeExprNode(getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
+						arguments.get(3), direction, arguments.get(4));
 			} else {
 				reportError(functionName + "() takes 3-5 parameters.");
 				return false;
 			}
 		} else if(functionName.equals("inducedSubgraph")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("inducedSubgraph(.) takes one parameter.");
 				return false;
 			} else
-				result = new InducedSubgraphExprNode(getCoords(), params.get(0));
+				result = new InducedSubgraphExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("definedSubgraph")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("definedSubgraph(.) takes one parameter.");
 				return false;
 			} else
-				result = new DefinedSubgraphExprNode(getCoords(), params.get(0));
+				result = new DefinedSubgraphExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("equalsAny")) {
-			if(params.size() != 2) {
+			if(arguments.size() != 2) {
 				reportError("equalsAny(.,.) takes two parameters.");
 				return false;
 			} else
-				result = new EqualsAnyExprNode(getCoords(), params.get(0), params.get(1), true);
+				result = new EqualsAnyExprNode(getCoords(), arguments.get(0), arguments.get(1), true);
 		} else if(functionName.equals("equalsAnyStructurally")) {
-			if(params.size() != 2) {
+			if(arguments.size() != 2) {
 				reportError("equalsAnyStructurally(.,.) takes two parameters.");
 				return false;
 			} else
-				result = new EqualsAnyExprNode(getCoords(), params.get(0), params.get(1), false);
+				result = new EqualsAnyExprNode(getCoords(), arguments.get(0), arguments.get(1), false);
 		} else if(functionName.equals("existsFile")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("File::exists(.) takes one parameter.");
 				return false;
 			} else
-				result = new ExistsFileExprNode(getCoords(), params.get(0));
+				result = new ExistsFileExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("importFile")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("File::import(.) takes one parameter.");
 				return false;
 			} else
-				result = new ImportExprNode(getCoords(), params.get(0));
+				result = new ImportExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("copy")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("copy(.) takes one parameter.");
 				return false;
 			} else
-				result = new CopyExprNode(getCoords(), params.get(0));
+				result = new CopyExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("canonize")) {
-			if(params.size() != 1) {
+			if(arguments.size() != 1) {
 				reportError("canonize(.) takes one parameter.");
 				return false;
 			} else
-				result = new CanonizeExprNode(getCoords(), params.get(0));
+				result = new CanonizeExprNode(getCoords(), arguments.get(0));
 		} else if(functionName.equals("uniqueof")) {
-			if(params.size() > 1) {
+			if(arguments.size() > 1) {
 				reportError("uniqueof(.) takes none or one parameter.");
 				return false;
-			} else if(params.size() == 1)
-				result = new UniqueofExprNode(getCoords(), params.get(0));
+			} else if(arguments.size() == 1)
+				result = new UniqueofExprNode(getCoords(), arguments.get(0));
 			else
 				result = new UniqueofExprNode(getCoords(), null);
 		} else {

@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.StringToUpper;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringToUpperNode extends ExprNode
+public class StringToUpperNode extends FuncBaseNode
 {
 	static {
 		setName(StringToUpperNode.class, "string toUpper");

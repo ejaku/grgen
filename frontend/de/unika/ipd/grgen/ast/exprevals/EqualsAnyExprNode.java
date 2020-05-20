@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node comparing a subgraph against a subgraph set.
  */
-public class EqualsAnyExprNode extends ExprNode
+public class EqualsAnyExprNode extends FuncBaseNode
 {
 	static {
 		setName(EqualsAnyExprNode.class, "equals any expr");

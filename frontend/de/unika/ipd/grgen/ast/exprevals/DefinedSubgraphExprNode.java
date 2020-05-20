@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the defined subgraph of an edge set.
  */
-public class DefinedSubgraphExprNode extends ExprNode
+public class DefinedSubgraphExprNode extends FuncBaseNode
 {
 	static {
 		setName(DefinedSubgraphExprNode.class, "defined subgraph expr");

@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.PiExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class PiExprNode extends ExprNode
+public class PiExprNode extends FuncBaseNode
 {
 	static {
 		setName(PiExprNode.class, "pi expr");

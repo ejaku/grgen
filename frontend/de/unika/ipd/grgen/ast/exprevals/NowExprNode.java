@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.exprevals.NowExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class NowExprNode extends ExprNode
+public class NowExprNode extends FuncBaseNode
 {
 	static {
 		setName(NowExprNode.class, "now expr");

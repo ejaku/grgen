@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.ShortMinExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ShortMinExprNode extends ExprNode
+public class ShortMinExprNode extends FuncBaseNode
 {
 	static {
 		setName(ShortMinExprNode.class, "shortmin expr");

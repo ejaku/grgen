@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.ShortMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ShortMaxExprNode extends ExprNode
+public class ShortMaxExprNode extends FuncBaseNode
 {
 	static {
 		setName(ShortMaxExprNode.class, "shortmax expr");

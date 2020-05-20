@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.ArcSinCosTanExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ArcSinCosTanExprNode extends ExprNode
+public class ArcSinCosTanExprNode extends FuncBaseNode
 {
 	static {
 		setName(ArcSinCosTanExprNode.class, "arcsincostan expr");

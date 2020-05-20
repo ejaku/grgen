@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the edges of an edge type.
  */
-public class EdgesExprNode extends ExprNode
+public class EdgesExprNode extends FuncBaseNode
 {
 	static {
 		setName(EdgesExprNode.class, "edges expr");

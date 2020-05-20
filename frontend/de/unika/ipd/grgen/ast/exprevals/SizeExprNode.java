@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.exprevals.SizeExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SizeExprNode extends ExprNode
+public class SizeExprNode extends FuncBaseNode
 {
 	static {
 		setName(SizeExprNode.class, "size expr");
