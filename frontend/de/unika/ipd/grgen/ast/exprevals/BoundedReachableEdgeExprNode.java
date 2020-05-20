@@ -20,24 +20,15 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the depth-bounded reachable incident/incoming/outgoing edges of a node.
  */
-public class BoundedReachableEdgeExprNode extends ExprNode
+public class BoundedReachableEdgeExprNode extends NeighborhoodQueryExprNode
 {
 	static {
 		setName(BoundedReachableEdgeExprNode.class, "bounded reachable edge expr");
 	}
 
-	private ExprNode startNodeExpr;
 	private ExprNode depthExpr;
-	private ExprNode incidentTypeExpr;
-	private ExprNode adjacentTypeExpr;
-
-	private int direction;
 
 	private SetTypeNode setTypeNode;
-
-	public static final int INCIDENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
 
 	
 	public BoundedReachableEdgeExprNode(Coords coords,
@@ -45,16 +36,9 @@ public class BoundedReachableEdgeExprNode extends ExprNode
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords);
-		this.startNodeExpr = startNodeExpr;
-		becomeParent(this.startNodeExpr);
+		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 		this.depthExpr = depthExpr;
 		becomeParent(this.depthExpr);
-		this.incidentTypeExpr = incidentTypeExpr;
-		becomeParent(this.incidentTypeExpr);
-		this.direction = direction;
-		this.adjacentTypeExpr = adjacentTypeExpr;
-		becomeParent(this.adjacentTypeExpr);
 	}
 
 	/** returns children of this node */

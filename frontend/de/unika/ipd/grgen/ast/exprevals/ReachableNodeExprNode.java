@@ -18,39 +18,22 @@ import de.unika.ipd.grgen.ir.exprevals.ReachableNodeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the reachable nodes/reachable nodes via incoming edges/reachable nodes via outgoing edges of a node.
+ * A node yielding the reachable nodes of a node, via incident edges, via incoming edges, via outgoing edges.
  */
-public class ReachableNodeExprNode extends ExprNode
+public class ReachableNodeExprNode extends NeighborhoodQueryExprNode
 {
 	static {
 		setName(ReachableNodeExprNode.class, "reachable node expr");
 	}
 
-	private ExprNode startNodeExpr;
-	private ExprNode incidentTypeExpr;
-	private ExprNode adjacentTypeExpr;
-
-	private int direction;
-
 	private SetTypeNode setTypeNode;
-
-	public static final int ADJACENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
 
 	public ReachableNodeExprNode(Coords coords,
 			ExprNode startNodeExpr,
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords);
-		this.startNodeExpr = startNodeExpr;
-		becomeParent(this.startNodeExpr);
-		this.incidentTypeExpr = incidentTypeExpr;
-		becomeParent(this.incidentTypeExpr);
-		this.direction = direction;
-		this.adjacentTypeExpr = adjacentTypeExpr;
-		becomeParent(this.adjacentTypeExpr);
+		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 	}
 
 	/** returns children of this node */

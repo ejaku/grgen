@@ -20,41 +20,25 @@ import de.unika.ipd.grgen.parser.Coords;
  * An ast node telling whether an end edge can be reached from a start node within a given number of steps into depth,
  * via incoming/outgoing/incident edges of given type, from/to a node of given type.
  */
-public class IsBoundedReachableEdgeExprNode extends ExprNode
+public class IsBoundedReachableEdgeExprNode extends NeighborhoodQueryExprNode
 {
 	static {
 		setName(IsBoundedReachableEdgeExprNode.class, "is bounded reachable edge expr");
 	}
 
-	private ExprNode startNodeExpr;
 	private ExprNode endEdgeExpr;
 	private ExprNode depthExpr;
-	private ExprNode incidentTypeExpr;
-	private ExprNode adjacentTypeExpr;
-
-	private int direction;
-
-	public static final int INCIDENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
 
 	public IsBoundedReachableEdgeExprNode(Coords coords, 
 			ExprNode startNodeExpr, ExprNode endEdgeExpr, ExprNode depthExpr,
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords);
-		this.startNodeExpr = startNodeExpr;
-		becomeParent(this.startNodeExpr);
+		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 		this.endEdgeExpr = endEdgeExpr;
 		becomeParent(this.endEdgeExpr);
 		this.depthExpr = depthExpr;
 		becomeParent(this.depthExpr);
-		this.incidentTypeExpr = incidentTypeExpr;
-		becomeParent(this.incidentTypeExpr);
-		this.direction = direction;
-		this.adjacentTypeExpr = adjacentTypeExpr;
-		becomeParent(this.adjacentTypeExpr);
 	}
 
 	/** returns children of this node */

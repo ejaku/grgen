@@ -19,38 +19,23 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Am ast node telling whether an end node is adjacent to a start node, via incoming/outgoing/incident edges of given type, from/to a node of given type.
  */
-public class IsAdjacentNodeExprNode extends ExprNode
+public class IsAdjacentNodeExprNode extends NeighborhoodQueryExprNode
 {
 	static {
 		setName(IsAdjacentNodeExprNode.class, "is adjacent node expr");
 	}
 
-	private ExprNode startNodeExpr;
 	private ExprNode endNodeExpr;
-	private ExprNode incidentTypeExpr;
-	private ExprNode adjacentTypeExpr;
 
-	private int direction;
-
-	public static final int ADJACENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
 
 	public IsAdjacentNodeExprNode(Coords coords, 
 			ExprNode startNodeExpr, ExprNode endNodeExpr,
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords);
-		this.startNodeExpr = startNodeExpr;
-		becomeParent(this.startNodeExpr);
+		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 		this.endNodeExpr = endNodeExpr;
 		becomeParent(this.endNodeExpr);
-		this.incidentTypeExpr = incidentTypeExpr;
-		becomeParent(this.incidentTypeExpr);
-		this.direction = direction;
-		this.adjacentTypeExpr = adjacentTypeExpr;
-		becomeParent(this.adjacentTypeExpr);
 	}
 
 	/** returns children of this node */

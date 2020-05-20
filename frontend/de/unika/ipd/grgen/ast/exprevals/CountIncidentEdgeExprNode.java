@@ -19,35 +19,19 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the count of the incident/incoming/outgoing edges of a node.
  */
-public class CountIncidentEdgeExprNode extends ExprNode
+public class CountIncidentEdgeExprNode extends NeighborhoodQueryExprNode
 {
 	static {
 		setName(CountIncidentEdgeExprNode.class, "count incident edge expr");
 	}
 
-	private ExprNode startNodeExpr;
-	private ExprNode incidentTypeExpr;
-	private ExprNode adjacentTypeExpr;
-
-	private int direction;
-
-	public static final int INCIDENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
 
 	public CountIncidentEdgeExprNode(Coords coords,
 			ExprNode startNodeExpr,
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords);
-		this.startNodeExpr = startNodeExpr;
-		becomeParent(this.startNodeExpr);
-		this.incidentTypeExpr = incidentTypeExpr;
-		becomeParent(this.incidentTypeExpr);
-		this.direction = direction;
-		this.adjacentTypeExpr = adjacentTypeExpr;
-		becomeParent(this.adjacentTypeExpr);
+		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 	}
 
 	/** returns children of this node */

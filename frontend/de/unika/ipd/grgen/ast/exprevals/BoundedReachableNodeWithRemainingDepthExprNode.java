@@ -20,25 +20,16 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the depth-bounded reachable nodes/reachable nodes via incoming edges/reachable nodes via outgoing edges of a node.
  */
-public class BoundedReachableNodeWithRemainingDepthExprNode extends ExprNode
+public class BoundedReachableNodeWithRemainingDepthExprNode extends NeighborhoodQueryExprNode
 {
 	static {
 		setName(BoundedReachableNodeWithRemainingDepthExprNode.class,
 				"bounded reachable node with remaining depth expr");
 	}
 
-	private ExprNode startNodeExpr;
 	private ExprNode depthExpr;
-	private ExprNode incidentTypeExpr;
-	private ExprNode adjacentTypeExpr;
-
-	private int direction;
 
 	private MapTypeNode mapTypeNode;
-
-	public static final int ADJACENT = 0;
-	public static final int INCOMING = 1;
-	public static final int OUTGOING = 2;
 
 	
 	public BoundedReachableNodeWithRemainingDepthExprNode(Coords coords,
@@ -46,16 +37,9 @@ public class BoundedReachableNodeWithRemainingDepthExprNode extends ExprNode
 			ExprNode incidentTypeExpr, int direction,
 			ExprNode adjacentTypeExpr)
 	{
-		super(coords);
-		this.startNodeExpr = startNodeExpr;
-		becomeParent(this.startNodeExpr);
+		super(coords, startNodeExpr, incidentTypeExpr, direction, adjacentTypeExpr);
 		this.depthExpr = depthExpr;
 		becomeParent(this.depthExpr);
-		this.incidentTypeExpr = incidentTypeExpr;
-		becomeParent(this.incidentTypeExpr);
-		this.direction = direction;
-		this.adjacentTypeExpr = adjacentTypeExpr;
-		becomeParent(this.adjacentTypeExpr);
 	}
 
 	/** returns children of this node */
