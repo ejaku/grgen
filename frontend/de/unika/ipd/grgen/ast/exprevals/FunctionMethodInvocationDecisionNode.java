@@ -18,10 +18,10 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ir.IR;
 
-public class MethodInvocationExprNode extends ExprNode
+public class FunctionMethodInvocationDecisionNode extends ExprNode
 {
 	static {
-		setName(MethodInvocationExprNode.class, "method invocation expression");
+		setName(FunctionMethodInvocationDecisionNode.class, "function method invocation decision expression");
 	}
 
 	static TypeNode methodTypeNode = new TypeNode() {
@@ -46,7 +46,7 @@ public class MethodInvocationExprNode extends ExprNode
 	private CollectNode<ExprNode> params;
 	private ExprNode result;
 
-	public MethodInvocationExprNode(ExprNode targetExpr, IdentNode methodIdent, CollectNode<ExprNode> params,
+	public FunctionMethodInvocationDecisionNode(ExprNode targetExpr, IdentNode methodIdent, CollectNode<ExprNode> params,
 			IdentNode attributeIdent)
 	{
 		super(methodIdent.getCoords());
@@ -520,7 +520,7 @@ public class MethodInvocationExprNode extends ExprNode
 		///////////////////////////////////////////////////
 		else if(targetType instanceof InheritanceTypeNode && !(targetType instanceof ExternalTypeNode)) {
 		///////////////////////////////////////////////////
-			if(targetExpr instanceof MethodInvocationExprNode) {
+			if(targetExpr instanceof FunctionMethodInvocationDecisionNode) {
 				reportError("method call chains are not supported, assign to a temporary def variable and invoke the method on it");
 				return false;
 			}

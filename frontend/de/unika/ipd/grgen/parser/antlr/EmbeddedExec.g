@@ -391,7 +391,7 @@ options { k = 3; }
 			( arg=seqExpression[xg] { arguments.addChild(arg); }
 				(COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); })*
 				)? RPAREN { xg.append(")"); }
-			{ res = new MethodInvocationExprNode(prefix, methodOrAttrName, arguments, mi); }
+			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, mi); }
 		|
 			{ res = new MemberAccessExprNode(getCoords(d), prefix, methodOrAttrName); }
 		)

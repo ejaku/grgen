@@ -3941,7 +3941,7 @@ selectorExpr [ int context, ExprNode target, boolean inEnumInit ] returns [ Expr
 	| d=DOT id=memberIdentUse
 			( { env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }? LT mi=memberIdentUse GT )?
 		(
-			params=paramExprs[context, inEnumInit] { res = new MethodInvocationExprNode(target, id, params, mi); }
+			params=paramExprs[context, inEnumInit] { res = new FunctionMethodInvocationDecisionNode(target, id, params, mi); }
 		| 
 			{ res = new MemberAccessExprNode(getCoords(d), target, id); }
 		)
