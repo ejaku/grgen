@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DeleteFileProcNode extends ProcedureInvocationBaseNode
+public class DeleteFileProcNode extends ProcBaseNode
 {
 	static {
 		setName(DeleteFileProcNode.class, "deleteFile procedure");

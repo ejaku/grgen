@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * Invocation of a procedure or an external procedure
  */
-public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocationBaseNode
+public class ProcedureOrExternalProcedureInvocationNode extends ProcBaseNode
 {
 	static {
 		setName(ProcedureOrExternalProcedureInvocationNode.class, "procedure or external procedure invocation");

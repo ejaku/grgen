@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class CommitTransactionProcNode extends ProcedureInvocationBaseNode
+public class CommitTransactionProcNode extends ProcBaseNode
 {
 	static {
 		setName(CommitTransactionProcNode.class, "commit transaction procedure");

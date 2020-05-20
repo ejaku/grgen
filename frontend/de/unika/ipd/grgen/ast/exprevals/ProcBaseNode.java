@@ -16,15 +16,16 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ProcedureInvocationBaseNode extends EvalStatementNode
+/** base class for builtin and real procedures calls */
+public abstract class ProcBaseNode extends EvalStatementNode
 {
 	static {
-		setName(ProcedureInvocationBaseNode.class, "procedure invocation base");
+		setName(ProcBaseNode.class, "proc base");
 	}
 
 	private static final Vector<TypeNode> emptyReturn = new Vector<TypeNode>();
 
-	public ProcedureInvocationBaseNode(Coords coords)
+	public ProcBaseNode(Coords coords)
 	{
 		super(coords);
 	}

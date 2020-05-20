@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.exprevals.GraphClearProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphClearProcNode extends ProcedureInvocationBaseNode
+public class GraphClearProcNode extends ProcBaseNode
 {
 	static {
 		setName(GraphClearProcNode.class, "graph clear procedure");

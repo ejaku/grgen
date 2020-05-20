@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DebugHaltProcNode extends ProcedureInvocationBaseNode
+public class DebugHaltProcNode extends ProcBaseNode
 {
 	static {
 		setName(DebugHaltProcNode.class, "debug halt procedure");

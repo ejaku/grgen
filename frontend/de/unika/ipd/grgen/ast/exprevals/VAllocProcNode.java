@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.exprevals.VAllocProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class VAllocProcNode extends ProcedureInvocationBaseNode
+public class VAllocProcNode extends ProcBaseNode
 {
 	static {
 		setName(VAllocProcNode.class, "valloc procedure");

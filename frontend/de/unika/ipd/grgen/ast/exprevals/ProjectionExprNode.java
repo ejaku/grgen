@@ -23,7 +23,7 @@ public class ProjectionExprNode extends ExprNode
 	}
 
 	private int index;
-	private ProcedureInvocationBaseNode procedure;
+	private ProcBaseNode procedure;
 
 	public ProjectionExprNode(Coords coords, int index)
 	{
@@ -32,7 +32,7 @@ public class ProjectionExprNode extends ExprNode
 		this.index = index;
 	}
 
-	public void setProcedure(ProcedureInvocationBaseNode procedure)
+	public void setProcedure(ProcBaseNode procedure)
 	{
 		this.procedure = procedure;
 		becomeParent(procedure);

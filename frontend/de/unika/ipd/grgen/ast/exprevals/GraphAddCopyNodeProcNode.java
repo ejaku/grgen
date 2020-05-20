@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node for adding a copy of a node to graph.
  */
-public class GraphAddCopyNodeProcNode extends ProcedureInvocationBaseNode
+public class GraphAddCopyNodeProcNode extends ProcBaseNode
 {
 	static {
 		setName(GraphAddCopyNodeProcNode.class, "graph add copy node procedure");
