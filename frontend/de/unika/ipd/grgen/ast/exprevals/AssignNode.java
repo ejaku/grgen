@@ -149,141 +149,165 @@ public class AssignNode extends EvalStatementNode
 	protected boolean checkLocal()
 	{
 		if(lhsQual != null) {
-			if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION
-					&& !lhsQual.isMatchAssignment()) {
-				reportError("assignment to attribute of graph element not allowed in function or lhs context");
+			if(!checkLhsQual())
 				return false;
-			}
-
-			DeclNode owner = lhsQual.getOwner();
-			TypeNode ty = owner.getDeclType();
-
-			MemberDeclNode member = lhsQual.getDecl(); // null for match type
-			if(member != null && member.isConst()) {
-				error.error(getCoords(), "assignment to a const member is not allowed");
-				return false;
-			}
-
-			if(ty instanceof InheritanceTypeNode) {
-				InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
-
-				if(inhTy.isConst()) {
-					error.error(getCoords(), "assignment to a const type object not allowed");
-					return false;
-				}
-			}
-
-			if(owner instanceof ConstraintDeclNode) {
-				ConstraintDeclNode entity = (ConstraintDeclNode)owner;
-				if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
-					if(getCoords().comesBefore(entity.getCoords())) {
-						reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
-						return false;
-					}
-				}
-			}
 		} else if(lhsGraphElement != null) {
-			if(lhsGraphElement.defEntityToBeYieldedTo) {
-				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-				if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
-					if(!identExpr.yieldedTo) {
-						error.error(getCoords(), "only yield assignment allowed to a def graph element ("
-								+ lhsGraphElement.getIdentNode() + ")");
-						return false;
-					}
-				} else {
-					if(identExpr.yieldedTo) {
-						error.error(getCoords(), "use non-yield assignment to a computation local def graph element ("
-								+ lhsGraphElement.getIdentNode() + ")");
-						return false;
-					}
-				}
-
-				if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
-					if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
-							&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-						error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("
-								+ lhsGraphElement.getIdentNode() + ")");
-						return false;
-					}
-				}
-			} else {
-				if(lhsGraphElement.directlyNestingLHSGraph != null) {
-					IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-					if(identExpr.yieldedTo) {
-						error.error(getCoords(), "yield assignment only allowed to a def graph element ("
-								+ lhsGraphElement.getIdentNode() + ")");
-						return false;
-					}
-					error.error(getCoords(), "only a def graph element can be assigned to ("
-							+ lhsGraphElement.getIdentNode() + ")");
-					return false;
-				}
-
-				if(lhsGraphElement.directlyNestingLHSGraph == null && onLHS) {
-					error.error(getCoords(), "assignment to a global variable not allowed from a yield block ("
-							+ lhsGraphElement.getIdentNode() + ")");
-					return false;
-				}
-			}
-
-			if((lhsGraphElement.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
-				if(getCoords().comesBefore(lhsGraphElement.getCoords())) {
-					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
-					return false;
-				}
-			}
+			if(!checkLhsGraphElement())
+				return false;
 		} else if(lhsVar != null) {
-			if(lhsVar.defEntityToBeYieldedTo) {
-				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-				if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
-					if(!identExpr.yieldedTo) {
-						error.error(getCoords(), "only yield assignment allowed to a def variable ("
-								+ lhsVar.getIdentNode() + ")");
-						return false;
-					}
-				} else {
-					if(identExpr.yieldedTo) {
-						error.error(getCoords(), "use non-yield assignment to a computation local def variable ("
-								+ lhsVar.getIdentNode() + ")");
-						return false;
-					}
-				}
-
-				if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
-					if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
-							&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-						error.error(getCoords(), "can't yield from RHS to a LHS def variable ("
-								+ lhsVar.getIdentNode() + ")");
-						return false;
-					}
-				}
-			} else {
-				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
-				if(identExpr.yieldedTo) {
-					error.error(getCoords(), "yield assignment only allowed to a def variable ("
-							+ lhsVar.getIdentNode() + ")");
-					return false;
-				}
-
-				if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
-					error.error(getCoords(), "assignment to a global variable not allowed from a yield block ("
-							+ lhsVar.getIdentNode() + ")");
-					return false;
-				}
-			}
-
-			if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
-				if(getCoords().comesBefore(lhsVar.getCoords())) {
-					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
-					return false;
-				}
-			}
+			if(!checkLhsVar())
+				return false;
 		} else {
 			// METHOD-TODO
 		}
 
 		return typeCheckLocal();
+	}
+
+	private boolean checkLhsQual()
+	{
+		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION
+				&& !lhsQual.isMatchAssignment()) {
+			reportError("assignment to attribute of graph element not allowed in function or lhs context");
+			return false;
+		}
+
+		DeclNode owner = lhsQual.getOwner();
+		TypeNode ty = owner.getDeclType();
+
+		MemberDeclNode member = lhsQual.getDecl(); // null for match type
+		if(member != null && member.isConst()) {
+			error.error(getCoords(), "assignment to a const member is not allowed");
+			return false;
+		}
+
+		if(ty instanceof InheritanceTypeNode) {
+			InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
+
+			if(inhTy.isConst()) {
+				error.error(getCoords(), "assignment to a const type object not allowed");
+				return false;
+			}
+		}
+
+		if(owner instanceof ConstraintDeclNode) {
+			ConstraintDeclNode entity = (ConstraintDeclNode)owner;
+			if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
+				if(getCoords().comesBefore(entity.getCoords())) {
+					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+
+	private boolean checkLhsGraphElement()
+	{
+		if(lhsGraphElement.defEntityToBeYieldedTo) {
+			IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
+			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
+				if(!identExpr.yieldedTo) {
+					error.error(getCoords(), "only yield assignment allowed to a def graph element ("
+							+ lhsGraphElement.getIdentNode() + ")");
+					return false;
+				}
+			} else {
+				if(identExpr.yieldedTo) {
+					error.error(getCoords(), "use non-yield assignment to a computation local def graph element ("
+							+ lhsGraphElement.getIdentNode() + ")");
+					return false;
+				}
+			}
+
+			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
+				if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+					error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("
+							+ lhsGraphElement.getIdentNode() + ")");
+					return false;
+				}
+			}
+		} else {
+			if(lhsGraphElement.directlyNestingLHSGraph != null) {
+				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
+				if(identExpr.yieldedTo) {
+					error.error(getCoords(), "yield assignment only allowed to a def graph element ("
+							+ lhsGraphElement.getIdentNode() + ")");
+					return false;
+				}
+				error.error(getCoords(), "only a def graph element can be assigned to ("
+						+ lhsGraphElement.getIdentNode() + ")");
+				return false;
+			}
+
+			if(lhsGraphElement.directlyNestingLHSGraph == null && onLHS) {
+				error.error(getCoords(), "assignment to a global variable not allowed from a yield block ("
+						+ lhsGraphElement.getIdentNode() + ")");
+				return false;
+			}
+		}
+
+		if((lhsGraphElement.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
+			if(getCoords().comesBefore(lhsGraphElement.getCoords())) {
+				reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	private boolean checkLhsVar()
+	{
+		if(lhsVar.defEntityToBeYieldedTo) {
+			IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
+			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
+				if(!identExpr.yieldedTo) {
+					error.error(getCoords(), "only yield assignment allowed to a def variable ("
+							+ lhsVar.getIdentNode() + ")");
+					return false;
+				}
+			} else {
+				if(identExpr.yieldedTo) {
+					error.error(getCoords(), "use non-yield assignment to a computation local def variable ("
+							+ lhsVar.getIdentNode() + ")");
+					return false;
+				}
+			}
+
+			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
+				if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+					error.error(getCoords(), "can't yield from RHS to a LHS def variable ("
+							+ lhsVar.getIdentNode() + ")");
+					return false;
+				}
+			}
+		} else {
+			IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
+			if(identExpr.yieldedTo) {
+				error.error(getCoords(), "yield assignment only allowed to a def variable ("
+						+ lhsVar.getIdentNode() + ")");
+				return false;
+			}
+
+			if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
+				error.error(getCoords(), "assignment to a global variable not allowed from a yield block ("
+						+ lhsVar.getIdentNode() + ")");
+				return false;
+			}
+		}
+
+		if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
+			if(getCoords().comesBefore(lhsVar.getCoords())) {
+				reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned.");
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	/**

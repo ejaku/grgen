@@ -148,68 +148,8 @@ public class ArithmeticOpNode extends OpNode
 					previous = previous.getNext();
 				}
 			}
-			if(getOperator().getOpId() == OperatorSignature.BIT_OR) {
-				if(children.get(1).getType() instanceof SetTypeNode) {
-					SetInitNode initNode = (SetInitNode)children.get(1);
-					for(SetItemNode item : initNode.getItems().getChildren()) {
-						SetAddItem addItem = new SetAddItem(qual,
-								item.valueExpr.checkIR(Expression.class));
-						if(first == null)
-							first = addItem;
-						if(previous != null)
-							previous.setNext(addItem);
-						previous = addItem;
-					}
-				} else { //if(children.get(1).getType() instanceof MapTypeNode)
-					MapInitNode initNode = (MapInitNode)children.get(1);
-					for(MapItemNode item : initNode.getItems().getChildren()) {
-						MapAddItem addItem = new MapAddItem(qual,
-								item.keyExpr.checkIR(Expression.class),
-								item.valueExpr.checkIR(Expression.class));
-						if(first == null)
-							first = addItem;
-						if(previous != null)
-							previous.setNext(addItem);
-						previous = addItem;
-					}
-				}
-			} else { //if(getOperator().getOpId()==OperatorSignature.EXCEPT) // only BIT_OR/EXCEPT are marked
-				if(children.get(1).getType() instanceof SetTypeNode) {
-					SetInitNode initNode = (SetInitNode)children.get(1);
-					if(children.get(0).getType() instanceof MapTypeNode) { // handle map \ set
-						for(SetItemNode item : initNode.getItems().getChildren()) {
-							MapRemoveItem remItem = new MapRemoveItem(qual,
-									item.valueExpr.checkIR(Expression.class));
-							if(first == null)
-								first = remItem;
-							if(previous != null)
-								previous.setNext(remItem);
-							previous = remItem;
-						}
-					} else { // handle normal case set \ set
-						for(SetItemNode item : initNode.getItems().getChildren()) {
-							SetRemoveItem remItem = new SetRemoveItem(qual,
-									item.valueExpr.checkIR(Expression.class));
-							if(first == null)
-								first = remItem;
-							if(previous != null)
-								previous.setNext(remItem);
-							previous = remItem;
-						}
-					}
-				} else { //if(children.get(1).getType() instanceof MapTypeNode)
-					MapInitNode initNode = (MapInitNode)children.get(1);
-					for(MapItemNode item : initNode.getItems().getChildren()) {
-						MapRemoveItem remItem = new MapRemoveItem(qual,
-								item.keyExpr.checkIR(Expression.class));
-						if(first == null)
-							first = remItem;
-						if(previous != null)
-							previous.setNext(remItem);
-						previous = remItem;
-					}
-				}
-			}
+			
+			first = replaceSetMapOrExceptByAddRemove(qual, previous, first);
 
 			return first;
 		}
@@ -223,6 +163,74 @@ public class ArithmeticOpNode extends OpNode
 		}
 
 		return op;
+	}
+
+	private EvalStatement replaceSetMapOrExceptByAddRemove(Qualification qual,
+			EvalStatement previous, EvalStatement first)
+	{
+		if(getOperator().getOpId() == OperatorSignature.BIT_OR) {
+			if(children.get(1).getType() instanceof SetTypeNode) {
+				SetInitNode initNode = (SetInitNode)children.get(1);
+				for(SetItemNode item : initNode.getItems().getChildren()) {
+					SetAddItem addItem = new SetAddItem(qual,
+							item.valueExpr.checkIR(Expression.class));
+					if(first == null)
+						first = addItem;
+					if(previous != null)
+						previous.setNext(addItem);
+					previous = addItem;
+				}
+			} else { //if(children.get(1).getType() instanceof MapTypeNode)
+				MapInitNode initNode = (MapInitNode)children.get(1);
+				for(MapItemNode item : initNode.getItems().getChildren()) {
+					MapAddItem addItem = new MapAddItem(qual,
+							item.keyExpr.checkIR(Expression.class),
+							item.valueExpr.checkIR(Expression.class));
+					if(first == null)
+						first = addItem;
+					if(previous != null)
+						previous.setNext(addItem);
+					previous = addItem;
+				}
+			}
+		} else { //if(getOperator().getOpId()==OperatorSignature.EXCEPT) // only BIT_OR/EXCEPT are marked
+			if(children.get(1).getType() instanceof SetTypeNode) {
+				SetInitNode initNode = (SetInitNode)children.get(1);
+				if(children.get(0).getType() instanceof MapTypeNode) { // handle map \ set
+					for(SetItemNode item : initNode.getItems().getChildren()) {
+						MapRemoveItem remItem = new MapRemoveItem(qual,
+								item.valueExpr.checkIR(Expression.class));
+						if(first == null)
+							first = remItem;
+						if(previous != null)
+							previous.setNext(remItem);
+						previous = remItem;
+					}
+				} else { // handle normal case set \ set
+					for(SetItemNode item : initNode.getItems().getChildren()) {
+						SetRemoveItem remItem = new SetRemoveItem(qual,
+								item.valueExpr.checkIR(Expression.class));
+						if(first == null)
+							first = remItem;
+						if(previous != null)
+							previous.setNext(remItem);
+						previous = remItem;
+					}
+				}
+			} else { //if(children.get(1).getType() instanceof MapTypeNode)
+				MapInitNode initNode = (MapInitNode)children.get(1);
+				for(MapItemNode item : initNode.getItems().getChildren()) {
+					MapRemoveItem remItem = new MapRemoveItem(qual,
+							item.keyExpr.checkIR(Expression.class));
+					if(first == null)
+						first = remItem;
+					if(previous != null)
+						previous.setNext(remItem);
+					previous = remItem;
+				}
+			}
+		}
+		return first;
 	}
 
 	private static void assocOpCode(int id, int opcode)
