@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * Invocation of a function or an external function
  */
-public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
+public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvocationBaseNode
 {
 	static {
 		setName(FunctionOrExternalFunctionInvocationExprNode.class,
@@ -38,14 +38,12 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	private IdentNode functionOrExternalFunctionUnresolved;
 	private ExternalFunctionDeclNode externalFunctionDecl;
 	private FunctionDeclNode functionDecl;
-	private CollectNode<ExprNode> arguments;
 
 	public FunctionOrExternalFunctionInvocationExprNode(IdentNode functionOrExternalFunctionUnresolved,
 			CollectNode<ExprNode> arguments)
 	{
-		super(functionOrExternalFunctionUnresolved.getCoords());
+		super(functionOrExternalFunctionUnresolved.getCoords(), arguments);
 		this.functionOrExternalFunctionUnresolved = becomeParent(functionOrExternalFunctionUnresolved);
-		this.arguments = becomeParent(arguments);
 	}
 
 	@Override
@@ -89,41 +87,8 @@ public class FunctionOrExternalFunctionInvocationExprNode extends ExprNode
 	@Override
 	protected boolean checkLocal()
 	{
-		return checkSignatureAdhered();
-	}
-
-	/** Check whether the usage adheres to the signature of the declaration */
-	private boolean checkSignatureAdhered()
-	{
 		FunctionBase fb = functionDecl != null ? functionDecl : externalFunctionDecl;
-
-		// check if the number of parameters are correct
-		int expected = fb.getParameterTypes().size();
-		int actual = arguments.getChildren().size();
-		if(expected != actual) {
-			String patternName = fb.ident.toString();
-			functionOrExternalFunctionUnresolved.reportError("The function \"" + patternName + "\" needs "
-					+ expected + " parameters, given are " + actual);
-			return false;
-		}
-
-		// check if the types of the parameters are correct
-		boolean res = true;
-		for(int i = 0; i < arguments.size(); ++i) {
-			ExprNode actualParameter = arguments.get(i);
-			TypeNode actualParameterType = actualParameter.getType();
-			TypeNode formalParameterType = fb.getParameterTypes().get(i);
-
-			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
-				res = false;
-				String exprTypeName = actualParameterType.getTypeName();
-				String paramTypeName = formalParameterType.getTypeName();
-				functionOrExternalFunctionUnresolved.reportError("Cannot convert " + (i + 1)
-						+ ". function argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
-			}
-		}
-
-		return res;
+		return checkSignatureAdhered(fb, functionOrExternalFunctionUnresolved, false);
 	}
 
 	@Override

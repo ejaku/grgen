@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.exprevals.UntypedFunctionMethodInvocationExpr;
 /**
  * Invocation of a function method on an untyped target - result untyped
  */
-public class UntypedFunctionMethodInvocationExprNode extends FunctionMethodInvocationBaseNode
+public class UntypedFunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 {
 	static {
 		setName(UntypedFunctionMethodInvocationExprNode.class, "untyped function method invocation expression");
@@ -32,8 +32,7 @@ public class UntypedFunctionMethodInvocationExprNode extends FunctionMethodInvoc
 
 	public UntypedFunctionMethodInvocationExprNode(Coords coords, CollectNode<ExprNode> arguments)
 	{
-		super(coords);
-		this.arguments = becomeParent(arguments);
+		super(coords, arguments);
 	}
 
 	@Override

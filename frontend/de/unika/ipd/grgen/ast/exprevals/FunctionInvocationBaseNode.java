@@ -16,29 +16,30 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class FunctionMethodInvocationBaseNode extends ExprNode
+public abstract class FunctionInvocationBaseNode extends ExprNode
 {
 	static {
-		setName(FunctionMethodInvocationBaseNode.class, "function method invocation base");
+		setName(FunctionInvocationBaseNode.class, "function invocation base");
 	}
 
 	protected CollectNode<ExprNode> arguments;
 
-	public FunctionMethodInvocationBaseNode(Coords coords)
+	public FunctionInvocationBaseNode(Coords coords, CollectNode<ExprNode> arguments)
 	{
 		super(coords);
+		this.arguments = becomeParent(arguments);
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
-	protected boolean checkSignatureAdhered(FunctionBase fb, IdentNode unresolved)
+	protected boolean checkSignatureAdhered(FunctionBase fb, IdentNode unresolved, boolean isMethod)
 	{
 		// check if the number of parameters are correct
 		int expected = fb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
 		if(expected != actual) {
 			String patternName = fb.ident.toString();
-			unresolved.reportError("The function \"" + patternName + "\" needs "
-					+ expected + " parameters, given are " + actual);
+			unresolved.reportError("The function " + (isMethod ? "method " : "") + "\"" + patternName
+					+ "\" needs " + expected + " parameters, given are " + actual);
 			return false;
 		}
 
@@ -53,8 +54,8 @@ public abstract class FunctionMethodInvocationBaseNode extends ExprNode
 				res = false;
 				String exprTypeName = actualParameterType.getTypeName();
 				String paramTypeName = formalParameterType.getTypeName();
-				unresolved.reportError("Cannot convert " + (i + 1) + ". function argument from \"" + exprTypeName
-						+ "\" to \"" + paramTypeName + "\"");
+				unresolved.reportError("Cannot convert " + (i + 1) + ". function " + (isMethod ? "method " : "")
+						+ "argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
 

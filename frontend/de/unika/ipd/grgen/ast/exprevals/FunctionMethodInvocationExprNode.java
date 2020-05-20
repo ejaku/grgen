@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * Invocation of a function method
  */
-public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBaseNode
+public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 {
 	static {
 		setName(FunctionMethodInvocationExprNode.class, "function method invocation expression");
@@ -41,10 +41,9 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 	public FunctionMethodInvocationExprNode(IdentNode owner, IdentNode functionUnresolved,
 			CollectNode<ExprNode> arguments)
 	{
-		super(functionUnresolved.getCoords());
+		super(functionUnresolved.getCoords(), arguments);
 		this.ownerUnresolved = becomeParent(owner);
 		this.functionUnresolved = becomeParent(functionUnresolved);
-		this.arguments = becomeParent(arguments);
 	}
 
 	@Override
@@ -120,7 +119,7 @@ public class FunctionMethodInvocationExprNode extends FunctionMethodInvocationBa
 	@Override
 	protected boolean checkLocal()
 	{
-		return checkSignatureAdhered(functionDecl, functionUnresolved);
+		return checkSignatureAdhered(functionDecl, functionUnresolved, true);
 	}
 
 	@Override
