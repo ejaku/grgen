@@ -26,14 +26,15 @@ public class SinCosTanExprNode extends ExprNode
 		setName(SinCosTanExprNode.class, "sincostan expr");
 	}
 
-	int which;
+	public enum TrigonometryFunctionType
+	{
+		sin, cos, tan
+	}
+
+	TrigonometryFunctionType which;
 	private ExprNode argumentExpr;
 
-	public static final int SIN = 0;
-	public static final int COS = 1;
-	public static final int TAN = 2;
-
-	public SinCosTanExprNode(Coords coords, int which, ExprNode argumentExpr)
+	public SinCosTanExprNode(Coords coords, TrigonometryFunctionType which, ExprNode argumentExpr)
 	{
 		super(coords);
 
@@ -63,7 +64,7 @@ public class SinCosTanExprNode extends ExprNode
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("valid types for sin(.),cos(.),tan(.) are: (double)");
+		reportError("The only admissible type for " + which + "(.) is: (double)");
 		return false;
 	}
 
@@ -71,7 +72,17 @@ public class SinCosTanExprNode extends ExprNode
 	protected IR constructIR()
 	{
 		// assumes that the which:int of the AST node uses the same values as the which of the IR expression
-		return new SinCosTanExpr(which, argumentExpr.checkIR(Expression.class));
+		return new SinCosTanExpr(getTrigonometryFunctionType(), argumentExpr.checkIR(Expression.class));
+	}
+
+	private SinCosTanExpr.TrigonometryFunctionType getTrigonometryFunctionType()
+	{
+		switch(which) {
+		case sin: return SinCosTanExpr.TrigonometryFunctionType.sin;
+		case cos: return SinCosTanExpr.TrigonometryFunctionType.cos;
+		case tan: return SinCosTanExpr.TrigonometryFunctionType.tan;
+		default: throw new RuntimeException("internal compiler error");
+		}
 	}
 
 	@Override

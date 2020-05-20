@@ -1531,13 +1531,13 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(expr instanceof SinCosTanExpr) {
 			SinCosTanExpr sct = (SinCosTanExpr)expr;
 			switch(sct.getWhich()) {
-			case SinCosTanExpr.SIN:
+			case sin:
 				sb.append("new GRGEN_EXPR.Sin(");
 				break;
-			case SinCosTanExpr.COS:
+			case cos:
 				sb.append("new GRGEN_EXPR.Cos(");
 				break;
-			case SinCosTanExpr.TAN:
+			case tan:
 				sb.append("new GRGEN_EXPR.Tan(");
 				break;
 			}
@@ -1546,13 +1546,13 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(expr instanceof ArcSinCosTanExpr) {
 			ArcSinCosTanExpr asct = (ArcSinCosTanExpr)expr;
 			switch(asct.getWhich()) {
-			case ArcSinCosTanExpr.ARC_SIN:
+			case arcsin:
 				sb.append("new GRGEN_EXPR.ArcSin(");
 				break;
-			case ArcSinCosTanExpr.ARC_COS:
+			case arccos:
 				sb.append("new GRGEN_EXPR.ArcCos(");
 				break;
-			case ArcSinCosTanExpr.ARC_TAN:
+			case arctan:
 				sb.append("new GRGEN_EXPR.ArcTan(");
 				break;
 			}

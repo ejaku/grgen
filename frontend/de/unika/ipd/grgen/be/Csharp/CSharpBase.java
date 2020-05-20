@@ -2317,13 +2317,13 @@ public abstract class CSharpBase
 		} else if(expr instanceof SinCosTanExpr) {
 			SinCosTanExpr sct = (SinCosTanExpr)expr;
 			switch(sct.getWhich()) {
-			case SinCosTanExpr.SIN:
+			case sin:
 				sb.append("Math.Sin(");
 				break;
-			case SinCosTanExpr.COS:
+			case cos:
 				sb.append("Math.Cos(");
 				break;
-			case SinCosTanExpr.TAN:
+			case tan:
 				sb.append("Math.Tan(");
 				break;
 			}
@@ -2332,13 +2332,13 @@ public abstract class CSharpBase
 		} else if(expr instanceof ArcSinCosTanExpr) {
 			ArcSinCosTanExpr asct = (ArcSinCosTanExpr)expr;
 			switch(asct.getWhich()) {
-			case ArcSinCosTanExpr.ARC_SIN:
+			case arcsin:
 				sb.append("Math.Asin(");
 				break;
-			case ArcSinCosTanExpr.ARC_COS:
+			case arccos:
 				sb.append("Math.Acos(");
 				break;
-			case ArcSinCosTanExpr.ARC_TAN:
+			case arctan:
 				sb.append("Math.Atan(");
 				break;
 			}

@@ -222,7 +222,7 @@ public class AssignIndexedNode extends EvalStatementNode
 		} else if(targetType instanceof MapTypeNode) {
 			valueType = ((MapTypeNode)targetType).valueType;
 		} else {
-			targetType.reportError("can only do an indexed assignment on an attribute/variable of array/deque/map type");
+			targetType.reportError("can only carry out an indexed assignment on an attribute/variable of array/deque/map type");
 			return false;
 		}
 

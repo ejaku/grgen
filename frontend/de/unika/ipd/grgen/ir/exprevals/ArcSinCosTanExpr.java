@@ -13,21 +13,22 @@ package de.unika.ipd.grgen.ir.exprevals;
 
 public class ArcSinCosTanExpr extends Expression
 {
-	private int which;
+	public enum ArcusTrigonometryFunctionType
+	{
+		arcsin, arccos, arctan
+	}
+
+	private ArcusTrigonometryFunctionType which;
 	private Expression expr;
 
-	public static final int ARC_SIN = 0;
-	public static final int ARC_COS = 1;
-	public static final int ARC_TAN = 2;
-
-	public ArcSinCosTanExpr(int which, Expression expr)
+	public ArcSinCosTanExpr(ArcusTrigonometryFunctionType which, Expression expr)
 	{
 		super("arc sin cos tan expr", expr.getType());
 		this.which = which;
 		this.expr = expr;
 	}
 
-	public int getWhich()
+	public ArcusTrigonometryFunctionType getWhich()
 	{
 		return which;
 	}

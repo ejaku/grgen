@@ -26,14 +26,15 @@ public class ArcSinCosTanExprNode extends ExprNode
 		setName(ArcSinCosTanExprNode.class, "arcsincostan expr");
 	}
 
-	int which;
+	enum ArcusTrigonometryFunctionType
+	{
+		arcsin, arccos, arctan
+	}
+
+	ArcusTrigonometryFunctionType which;
 	private ExprNode argumentExpr;
-
-	public static final int ARC_SIN = 0;
-	public static final int ARC_COS = 1;
-	public static final int ARC_TAN = 2;
-
-	public ArcSinCosTanExprNode(Coords coords, int which, ExprNode argumentExpr)
+	
+	public ArcSinCosTanExprNode(Coords coords, ArcusTrigonometryFunctionType which, ExprNode argumentExpr)
 	{
 		super(coords);
 
@@ -63,7 +64,7 @@ public class ArcSinCosTanExprNode extends ExprNode
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("valid types for arcsin(.),arccos(.),arctan(.) are: (double)");
+		reportError("The only admissible type for " + which + "(.) is: (double)");
 		return false;
 	}
 
@@ -71,7 +72,17 @@ public class ArcSinCosTanExprNode extends ExprNode
 	protected IR constructIR()
 	{
 		// assumes that the which:int of the AST node uses the same values as the which of the IR expression
-		return new ArcSinCosTanExpr(which, argumentExpr.checkIR(Expression.class));
+		return new ArcSinCosTanExpr(getArcusTrigonometryFunctionType(), argumentExpr.checkIR(Expression.class));
+	}
+	
+	private ArcSinCosTanExpr.ArcusTrigonometryFunctionType getArcusTrigonometryFunctionType()
+	{
+		switch(which) {
+		case arcsin: return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arcsin;
+		case arccos: return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arccos;
+		case arctan: return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arctan;
+		default: throw new RuntimeException("internal compiler error");
+		}
 	}
 
 	@Override

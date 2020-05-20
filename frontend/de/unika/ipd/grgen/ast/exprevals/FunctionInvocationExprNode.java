@@ -83,37 +83,43 @@ public class FunctionInvocationExprNode extends ExprNode
 				reportError("Math::sin(.) takes one parameter.");
 				return false;
 			} else
-				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.SIN, params.get(0));
+				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.sin,
+						params.get(0));
 		} else if(functionName.equals("cosMath")) {
 			if(params.size() != 1) {
 				reportError("Math::cos(.) takes one parameter.");
 				return false;
 			} else
-				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.COS, params.get(0));
+				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.cos,
+						params.get(0));
 		} else if(functionName.equals("tanMath")) {
 			if(params.size() != 1) {
 				reportError("Math::tan(.) takes one parameter.");
 				return false;
 			} else
-				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TAN, params.get(0));
+				result = new SinCosTanExprNode(getCoords(), SinCosTanExprNode.TrigonometryFunctionType.tan,
+						params.get(0));
 		} else if(functionName.equals("arcsinMath")) {
 			if(params.size() != 1) {
 				reportError("Math::arcsin(.) takes one parameter.");
 				return false;
 			} else
-				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_SIN, params.get(0));
+				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arcsin,
+						params.get(0));
 		} else if(functionName.equals("arccosMath")) {
 			if(params.size() != 1) {
 				reportError("Math::arccos(.) takes one parameter.");
 				return false;
 			} else
-				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_COS, params.get(0));
+				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arccos,
+						params.get(0));
 		} else if(functionName.equals("arctanMath")) {
 			if(params.size() != 1) {
 				reportError("Math::arctan(.) takes one parameter.");
 				return false;
 			} else
-				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ARC_TAN, params.get(0));
+				result = new ArcSinCosTanExprNode(getCoords(), ArcSinCosTanExprNode.ArcusTrigonometryFunctionType.arctan,
+						params.get(0));
 		} else if(functionName.equals("sqrMath")) {
 			if(params.size() == 1) {
 				result = new SqrExprNode(getCoords(), params.get(0));
