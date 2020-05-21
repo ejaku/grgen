@@ -22,9 +22,9 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.IndexAccessEquality;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.ForIndexAccessEquality;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.graph.ForIndexAccessEquality;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode

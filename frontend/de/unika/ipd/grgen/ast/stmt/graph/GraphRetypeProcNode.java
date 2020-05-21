@@ -15,9 +15,9 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.GraphRetypeEdgeProc;
-import de.unika.ipd.grgen.ir.exprevals.GraphRetypeNodeProc;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.graph.GraphRetypeEdgeProc;
+import de.unika.ipd.grgen.ir.stmt.graph.GraphRetypeNodeProc;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

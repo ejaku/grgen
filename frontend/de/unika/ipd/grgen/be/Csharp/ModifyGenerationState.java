@@ -21,8 +21,11 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
-import de.unika.ipd.grgen.ir.containers.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
+import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
+import de.unika.ipd.grgen.ir.expr.map.MapInit;
+import de.unika.ipd.grgen.ir.expr.set.SetInit;
 
 class ModifyGenerationState implements ModifyGenerationStateConst
 {

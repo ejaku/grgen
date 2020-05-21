@@ -11,9 +11,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class EvalStatementsNode extends BaseNode

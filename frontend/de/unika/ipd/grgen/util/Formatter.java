@@ -14,7 +14,15 @@
 package de.unika.ipd.grgen.util;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Cast;
+import de.unika.ipd.grgen.ir.expr.Constant;
+import de.unika.ipd.grgen.ir.expr.EnumExpression;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.expr.Typeof;
+import de.unika.ipd.grgen.ir.expr.VariableExpression;
+import de.unika.ipd.grgen.ir.expr.graph.Visited;
 
 public class Formatter
 {

@@ -19,10 +19,10 @@ import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.IndexedIncidenceCountIndexAccessExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.IncidenceCountIndex;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.graph.IndexedIncidenceCountIndexAccessExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode

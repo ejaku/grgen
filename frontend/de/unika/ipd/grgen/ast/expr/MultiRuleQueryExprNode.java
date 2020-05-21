@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.MultiRuleQueryExpr;
+import de.unika.ipd.grgen.ir.expr.MultiRuleQueryExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MultiRuleQueryExprNode extends ExprNode

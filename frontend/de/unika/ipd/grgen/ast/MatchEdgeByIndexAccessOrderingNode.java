@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.IndexAccessOrdering;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class MatchEdgeByIndexAccessOrderingNode extends MatchEdgeByIndexNode
 {

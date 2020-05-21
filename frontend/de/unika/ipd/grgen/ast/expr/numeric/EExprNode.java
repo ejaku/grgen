@@ -12,8 +12,8 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ir.exprevals.EExpr;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.numeric.EExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class EExprNode extends BuiltinFunctionInvocationBaseNode

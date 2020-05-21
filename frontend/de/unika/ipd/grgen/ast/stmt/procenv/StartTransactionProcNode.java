@@ -17,8 +17,8 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ir.exprevals.StartTransactionProc;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.stmt.procenv.StartTransactionProc;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class StartTransactionProcNode extends BuiltinProcedureInvocationBaseNode

@@ -25,11 +25,11 @@ import de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableNodeExprNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.ForFunction;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.graph.ForFunction;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

@@ -22,7 +22,6 @@ import de.unika.ipd.grgen.ast.BaseNode;
  */
 public class Entity extends Identifiable
 {
-
 	protected static final String[] childrenNames = { "type" };
 
 	/** Type of the entity. */

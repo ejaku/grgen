@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ast.typedecl;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.ByteType;
+import de.unika.ipd.grgen.ir.typedecl.ByteType;
 
 /**
  * The byte basic type.

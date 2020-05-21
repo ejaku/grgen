@@ -7,8 +7,7 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 /**
  * Class for initializing a single attribute of a type, or the name

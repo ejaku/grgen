@@ -29,8 +29,8 @@ import de.unika.ipd.grgen.ir.MatchType;
 import de.unika.ipd.grgen.ir.PackageActionType;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Sequence;
-import de.unika.ipd.grgen.ir.exprevals.Function;
-import de.unika.ipd.grgen.ir.exprevals.Procedure;
+import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.typedecl.Procedure;
 
 /**
  * A package type AST node, for packages from the actions (in contrast to the models).

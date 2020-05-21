@@ -18,12 +18,12 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.Procedure;
-import de.unika.ipd.grgen.ir.exprevals.ProcedureMethodInvocation;
+import de.unika.ipd.grgen.ir.typedecl.Procedure;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.ProcedureMethodInvocation;
 
 /**
  * Invocation of a procedure method

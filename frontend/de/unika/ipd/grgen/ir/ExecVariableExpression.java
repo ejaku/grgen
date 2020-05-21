@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ir.exprevals.*;;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 /**
  * A exec variable expression node.
@@ -32,7 +32,7 @@ public class ExecVariableExpression extends Expression
 		return var;
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
+	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

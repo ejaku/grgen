@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import de.unika.ipd.grgen.ir.exprevals.Function;
-import de.unika.ipd.grgen.ir.exprevals.Procedure;
+import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.typedecl.Procedure;
 
 /**
  * Offers all the actions in the unit including all the packages for flat iteration.

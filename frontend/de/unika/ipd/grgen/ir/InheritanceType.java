@@ -20,8 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.unika.ipd.grgen.ir.exprevals.*;
-import de.unika.ipd.grgen.ir.containers.*;
+import de.unika.ipd.grgen.ir.typedecl.FunctionMethod;
+import de.unika.ipd.grgen.ir.typedecl.ProcedureMethod;
+import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
+import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
+import de.unika.ipd.grgen.ir.expr.map.MapInit;
+import de.unika.ipd.grgen.ir.expr.set.SetInit;
 
 /**
  * Abstract base class for types that inherit from other types.

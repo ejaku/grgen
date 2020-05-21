@@ -7,8 +7,6 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
-
 /**
  * Base class for the different kinds of accessing an index, binding a pattern element
  */

@@ -20,7 +20,6 @@ import java.util.Map;
 import de.unika.ipd.grgen.ir.CompoundType;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.exprevals.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.InheritanceType;
@@ -28,6 +27,7 @@ import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Unit;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
 import de.unika.ipd.grgen.util.Base;
 
 /**

@@ -19,13 +19,13 @@ import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.DequeTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.containers.ArrayType;
-import de.unika.ipd.grgen.ir.containers.DequeType;
-import de.unika.ipd.grgen.ir.containers.MapType;
-import de.unika.ipd.grgen.ir.exprevals.IndexedAccessExpr;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.IndexedAccessExpr;
+import de.unika.ipd.grgen.ir.typedecl.ArrayType;
+import de.unika.ipd.grgen.ir.typedecl.DequeType;
+import de.unika.ipd.grgen.ir.typedecl.MapType;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class IndexedAccessExprNode extends ExprNode

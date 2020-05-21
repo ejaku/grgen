@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ast.typedecl;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.IntType;
+import de.unika.ipd.grgen.ir.typedecl.IntType;
 
 /**
  * The enum member type.

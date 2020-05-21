@@ -13,8 +13,8 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.typedecl.ContainerTypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.CopyExpr;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.expr.CopyExpr;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

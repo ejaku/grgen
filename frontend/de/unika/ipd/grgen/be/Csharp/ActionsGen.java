@@ -21,7 +21,19 @@ import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.expr.VariableExpression;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
+import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
+import de.unika.ipd.grgen.ir.stmt.ReturnStatementFilter;
+import de.unika.ipd.grgen.ir.typedecl.ExternalFunction;
+import de.unika.ipd.grgen.ir.typedecl.ExternalProcedure;
+import de.unika.ipd.grgen.ir.typedecl.ExternalType;
+import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.typedecl.Procedure;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ActionsGen extends CSharpBase

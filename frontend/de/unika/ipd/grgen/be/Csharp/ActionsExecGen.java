@@ -13,7 +13,22 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.stmt.CaseStatement;
+import de.unika.ipd.grgen.ir.stmt.ConditionStatement;
+import de.unika.ipd.grgen.ir.stmt.ContainerAccumulationYield;
+import de.unika.ipd.grgen.ir.stmt.DoWhileStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
+import de.unika.ipd.grgen.ir.stmt.ExecStatement;
+import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
+import de.unika.ipd.grgen.ir.stmt.IntegerRangeIterationYield;
+import de.unika.ipd.grgen.ir.stmt.MatchesAccumulationYield;
+import de.unika.ipd.grgen.ir.stmt.MultiStatement;
+import de.unika.ipd.grgen.ir.stmt.SwitchStatement;
+import de.unika.ipd.grgen.ir.stmt.WhileStatement;
+import de.unika.ipd.grgen.ir.stmt.graph.ForFunction;
+import de.unika.ipd.grgen.ir.typedecl.Procedure;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ActionsExecGen extends CSharpBase

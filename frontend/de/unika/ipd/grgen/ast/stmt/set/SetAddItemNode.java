@@ -20,12 +20,12 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.containers.SetAddItem;
-import de.unika.ipd.grgen.ir.containers.SetVarAddItem;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.stmt.set.SetAddItem;
+import de.unika.ipd.grgen.ir.stmt.set.SetVarAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class SetAddItemNode extends SetProcedureMethodInvocationBaseNode

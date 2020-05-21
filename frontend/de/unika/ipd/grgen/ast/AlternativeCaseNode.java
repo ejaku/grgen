@@ -15,10 +15,10 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 /**
  * AST node for an alternative case pattern, maybe including replacements.

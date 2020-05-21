@@ -17,11 +17,11 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.FilterFunction;
 import de.unika.ipd.grgen.ir.FilterFunctionExternal;
 import de.unika.ipd.grgen.ir.FilterFunctionInternal;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
 /**
  * AST node class representing filter function declarations

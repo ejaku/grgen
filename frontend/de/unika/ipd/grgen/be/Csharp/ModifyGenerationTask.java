@@ -16,7 +16,8 @@ import java.util.Collection;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 class ModifyGenerationTask
 {

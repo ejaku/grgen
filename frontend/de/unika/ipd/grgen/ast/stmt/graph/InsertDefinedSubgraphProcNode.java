@@ -16,8 +16,8 @@ import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.InsertDefinedSubgraphProc;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.graph.InsertDefinedSubgraphProc;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

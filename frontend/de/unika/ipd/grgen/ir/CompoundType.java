@@ -18,15 +18,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ir.exprevals.FunctionMethod;
-import de.unika.ipd.grgen.ir.exprevals.ProcedureMethod;
+import de.unika.ipd.grgen.ir.typedecl.FunctionMethod;
+import de.unika.ipd.grgen.ir.typedecl.ProcedureMethod;
 
 /**
  * Abstract base class for compound types containing members.
  */
 public abstract class CompoundType extends Type
 {
-
 	/** Collection containing all members defined in that type. */
 	private List<Entity> members = new LinkedList<Entity>();
 

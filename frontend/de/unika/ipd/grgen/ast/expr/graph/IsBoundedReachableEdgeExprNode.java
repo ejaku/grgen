@@ -15,8 +15,8 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.BooleanTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.IsBoundedReachableEdgeExpr;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

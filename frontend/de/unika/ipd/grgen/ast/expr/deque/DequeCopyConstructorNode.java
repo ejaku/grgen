@@ -18,9 +18,9 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.DequeTypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.DequeCopyConstructor;
-import de.unika.ipd.grgen.ir.containers.DequeType;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.deque.DequeCopyConstructor;
+import de.unika.ipd.grgen.ir.typedecl.DequeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 //TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque

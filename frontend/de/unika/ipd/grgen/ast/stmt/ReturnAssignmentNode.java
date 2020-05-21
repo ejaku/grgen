@@ -14,9 +14,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.ProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.exprevals.ReturnAssignment;
 import de.unika.ipd.grgen.ir.stmt.AssignmentBase;
+import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
+import de.unika.ipd.grgen.ir.stmt.ReturnAssignment;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 

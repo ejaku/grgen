@@ -19,10 +19,10 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class SubpatternUsageNode extends DeclNode
 {

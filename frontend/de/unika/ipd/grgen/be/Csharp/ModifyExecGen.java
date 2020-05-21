@@ -17,7 +17,10 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.stmt.ExecStatement;
+import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModifyExecGen extends CSharpBase

@@ -18,11 +18,11 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.typedecl.ProcedureDeclNode;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.ReturnStatementFilter;
-import de.unika.ipd.grgen.ir.exprevals.ReturnStatementProcedure;
+import de.unika.ipd.grgen.ir.stmt.ReturnStatement;
+import de.unika.ipd.grgen.ir.stmt.ReturnStatementFilter;
+import de.unika.ipd.grgen.ir.stmt.ReturnStatementProcedure;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.ReturnStatement;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

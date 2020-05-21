@@ -15,7 +15,7 @@ package de.unika.ipd.grgen.be.Csharp;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 public interface ExpressionGenerationState
 {

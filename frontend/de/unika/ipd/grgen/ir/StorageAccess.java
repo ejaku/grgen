@@ -7,7 +7,7 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Qualification;
 
 /**
  * Class for the different kinds of storages available for binding a pattern element by accessing

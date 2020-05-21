@@ -15,7 +15,7 @@ package de.unika.ipd.grgen.be.Csharp;
 import java.util.HashSet;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ActionsMatchGen extends CSharpBase

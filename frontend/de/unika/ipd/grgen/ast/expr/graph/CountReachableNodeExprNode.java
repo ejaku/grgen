@@ -13,8 +13,8 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.CountReachableNodeExpr;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.graph.CountReachableNodeExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

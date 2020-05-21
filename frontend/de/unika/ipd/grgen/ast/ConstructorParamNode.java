@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.ConstructorParam;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 /**
  * AST node representing a parameter of a constructor.

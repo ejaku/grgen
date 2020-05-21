@@ -15,8 +15,8 @@ import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.EdgesExpr;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

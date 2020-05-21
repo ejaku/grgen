@@ -21,12 +21,12 @@ import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.containers.ArrayAddItem;
-import de.unika.ipd.grgen.ir.containers.ArrayVarAddItem;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.stmt.array.ArrayAddItem;
+import de.unika.ipd.grgen.ir.stmt.array.ArrayVarAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ArrayAddItemNode extends ArrayProcedureMethodInvocationBaseNode

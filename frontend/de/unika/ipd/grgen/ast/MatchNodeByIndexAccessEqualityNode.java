@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.IndexAccessEquality;
 import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class MatchNodeByIndexAccessEqualityNode extends MatchNodeByIndexNode
 {

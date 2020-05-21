@@ -21,12 +21,12 @@ import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.typedecl.DequeTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
-import de.unika.ipd.grgen.ir.containers.DequeAddItem;
-import de.unika.ipd.grgen.ir.containers.DequeVarAddItem;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.stmt.deque.DequeAddItem;
+import de.unika.ipd.grgen.ir.stmt.deque.DequeVarAddItem;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode

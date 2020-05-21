@@ -16,10 +16,10 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ir.exprevals.Function;
-import de.unika.ipd.grgen.ir.exprevals.FunctionMethod;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.typedecl.FunctionMethod;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 

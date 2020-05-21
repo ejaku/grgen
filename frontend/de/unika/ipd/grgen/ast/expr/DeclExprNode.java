@@ -21,11 +21,11 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.ExecVariable;
 import de.unika.ipd.grgen.ir.ExecVariableExpression;
 import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.exprevals.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.MemberExpression;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.exprevals.VariableExpression;
+import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
+import de.unika.ipd.grgen.ir.expr.MemberExpression;
+import de.unika.ipd.grgen.ir.expr.VariableExpression;
 
 /**
  * An expression that results from a declared identifier.

@@ -18,7 +18,6 @@ import java.util.Collections;
 
 public abstract class TypeExpr extends IR
 {
-
 	public TypeExpr()
 	{
 		super("type expr");

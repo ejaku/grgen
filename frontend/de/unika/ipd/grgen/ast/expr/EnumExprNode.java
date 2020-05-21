@@ -19,10 +19,10 @@ import de.unika.ipd.grgen.ast.typedecl.EnumItemNode;
 import de.unika.ipd.grgen.ast.typedecl.EnumTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.exprevals.EnumExpression;
-import de.unika.ipd.grgen.ir.exprevals.EnumItem;
-import de.unika.ipd.grgen.ir.exprevals.EnumType;
+import de.unika.ipd.grgen.ir.typedecl.EnumItem;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.EnumExpression;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class EnumExprNode extends QualIdentNode implements DeclaredCharacter

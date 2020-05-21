@@ -16,9 +16,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.exprevals.Function;
-import de.unika.ipd.grgen.ir.exprevals.PrimitiveType;
-import de.unika.ipd.grgen.ir.exprevals.Procedure;
+import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.typedecl.PrimitiveType;
+import de.unika.ipd.grgen.ir.typedecl.Procedure;
 
 /**
  * A package type, for packages from the actions (in contrast to the models).

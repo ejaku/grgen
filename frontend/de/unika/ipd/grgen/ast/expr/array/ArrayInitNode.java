@@ -21,10 +21,10 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
+import de.unika.ipd.grgen.ir.expr.array.ArrayItem;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.containers.ArrayInit;
-import de.unika.ipd.grgen.ir.containers.ArrayItem;
-import de.unika.ipd.grgen.ir.containers.ArrayType;
+import de.unika.ipd.grgen.ir.typedecl.ArrayType;
 import de.unika.ipd.grgen.parser.Coords;
 
 //TODO: there's a lot of code which could be handled in a common way regarding the containers set|map|array|deque 

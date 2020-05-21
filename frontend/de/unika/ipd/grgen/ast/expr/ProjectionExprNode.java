@@ -13,8 +13,8 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.stmt.ProcedureOrBuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.ProcedureInvocationBase;
-import de.unika.ipd.grgen.ir.exprevals.ProjectionExpr;
+import de.unika.ipd.grgen.ir.expr.ProjectionExpr;
+import de.unika.ipd.grgen.ir.stmt.ProcedureInvocationBase;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ProjectionExprNode extends ExprNode

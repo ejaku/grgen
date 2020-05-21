@@ -22,7 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.typedecl.Procedure;
 import de.unika.ipd.grgen.util.Util;
 
 /**

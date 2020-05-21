@@ -21,9 +21,18 @@ import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
+import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
+import de.unika.ipd.grgen.ir.typedecl.ArrayType;
+import de.unika.ipd.grgen.ir.typedecl.DequeType;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
+import de.unika.ipd.grgen.ir.typedecl.MapType;
+import de.unika.ipd.grgen.ir.typedecl.SetType;
 import de.unika.ipd.grgen.util.SourceBuilder;
-import de.unika.ipd.grgen.ir.containers.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
+import de.unika.ipd.grgen.ir.expr.Qualification;
 
 public class ModifyGen extends CSharpBase
 {

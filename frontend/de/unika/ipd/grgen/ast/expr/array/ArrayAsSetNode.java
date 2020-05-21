@@ -17,9 +17,9 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.ArrayAsSetExpr;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.array.ArrayAsSetExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ArrayAsSetNode extends ArrayFunctionMethodInvocationBaseExprNode

@@ -15,7 +15,8 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import de.unika.ipd.grgen.ir.exprevals.*;;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 
 /**
  * A XGRS in an exec statement.

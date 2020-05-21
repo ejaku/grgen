@@ -29,9 +29,37 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.typedecl.ArrayType;
+import de.unika.ipd.grgen.ir.typedecl.BooleanType;
+import de.unika.ipd.grgen.ir.typedecl.ByteType;
+import de.unika.ipd.grgen.ir.typedecl.DequeType;
+import de.unika.ipd.grgen.ir.typedecl.DoubleType;
+import de.unika.ipd.grgen.ir.typedecl.EnumItem;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
+import de.unika.ipd.grgen.ir.typedecl.ExternalType;
+import de.unika.ipd.grgen.ir.typedecl.FloatType;
+import de.unika.ipd.grgen.ir.typedecl.FunctionMethod;
+import de.unika.ipd.grgen.ir.typedecl.IntType;
+import de.unika.ipd.grgen.ir.typedecl.LongType;
+import de.unika.ipd.grgen.ir.typedecl.MapType;
+import de.unika.ipd.grgen.ir.typedecl.ObjectType;
+import de.unika.ipd.grgen.ir.typedecl.ProcedureMethod;
+import de.unika.ipd.grgen.ir.typedecl.SetType;
+import de.unika.ipd.grgen.ir.typedecl.ShortType;
+import de.unika.ipd.grgen.ir.typedecl.StringType;
+import de.unika.ipd.grgen.ir.typedecl.VoidType;
 import de.unika.ipd.grgen.util.SourceBuilder;
-import de.unika.ipd.grgen.ir.containers.*;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
+import de.unika.ipd.grgen.ir.expr.array.ArrayItem;
+import de.unika.ipd.grgen.ir.expr.deque.DequeInit;
+import de.unika.ipd.grgen.ir.expr.deque.DequeItem;
+import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
+import de.unika.ipd.grgen.ir.expr.map.MapInit;
+import de.unika.ipd.grgen.ir.expr.map.MapItem;
+import de.unika.ipd.grgen.ir.expr.set.SetInit;
+import de.unika.ipd.grgen.ir.expr.set.SetItem;
 
 public class ModelGen extends CSharpBase
 {

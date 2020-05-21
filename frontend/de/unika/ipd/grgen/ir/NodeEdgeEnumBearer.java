@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 
-import de.unika.ipd.grgen.ir.exprevals.EnumType;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
 
 /**
  * A type bearing nodes, edges, and enums.

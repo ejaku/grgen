@@ -15,9 +15,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.MultiStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.MultiStatement;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

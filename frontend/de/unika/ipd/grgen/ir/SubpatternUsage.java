@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class SubpatternUsage extends Identifiable
 {

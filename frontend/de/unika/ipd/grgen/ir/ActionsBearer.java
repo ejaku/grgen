@@ -13,8 +13,8 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 
-import de.unika.ipd.grgen.ir.exprevals.Function;
-import de.unika.ipd.grgen.ir.exprevals.Procedure;
+import de.unika.ipd.grgen.ir.typedecl.Function;
+import de.unika.ipd.grgen.ir.typedecl.Procedure;
 
 /**
  * A type bearing all the different actions available in the rules language.

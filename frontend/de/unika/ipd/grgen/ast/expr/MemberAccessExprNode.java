@@ -17,12 +17,12 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.exprevals.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.MatchAccess;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
-import de.unika.ipd.grgen.ir.exprevals.VariableExpression;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
+import de.unika.ipd.grgen.ir.expr.MatchAccess;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.expr.VariableExpression;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MemberAccessExprNode extends ExprNode

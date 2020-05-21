@@ -18,10 +18,10 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.containers.SetClear;
-import de.unika.ipd.grgen.ir.containers.SetVarClear;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.stmt.set.SetClear;
+import de.unika.ipd.grgen.ir.stmt.set.SetVarClear;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class SetClearNode extends SetProcedureMethodInvocationBaseNode

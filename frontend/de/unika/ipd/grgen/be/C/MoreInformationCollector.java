@@ -22,7 +22,13 @@ import java.util.Map;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.stmt.Assignment;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
+import de.unika.ipd.grgen.ir.typedecl.PrimitiveType;
 import de.unika.ipd.grgen.util.Annotations;
 
 public class MoreInformationCollector extends InformationCollector

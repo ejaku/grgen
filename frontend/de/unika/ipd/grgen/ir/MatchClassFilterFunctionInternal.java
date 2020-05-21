@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
 /**
  * An internal match class filter function.

@@ -18,8 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import de.unika.ipd.grgen.ir.exprevals.EnumType;
-import de.unika.ipd.grgen.ir.exprevals.PrimitiveType;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
+import de.unika.ipd.grgen.ir.typedecl.PrimitiveType;
 
 /**
  * A package type.

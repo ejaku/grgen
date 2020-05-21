@@ -13,9 +13,8 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.ArrayList;
 
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.NeededEntities;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
 public class IteratedFiltering extends EvalStatement
 {

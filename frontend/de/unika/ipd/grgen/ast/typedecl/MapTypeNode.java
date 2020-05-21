@@ -17,8 +17,8 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.containers.MapType;
 import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.typedecl.MapType;
 
 public class MapTypeNode extends ContainerTypeNode
 {

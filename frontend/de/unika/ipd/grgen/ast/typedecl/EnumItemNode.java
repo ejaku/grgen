@@ -21,8 +21,8 @@ import de.unika.ipd.grgen.ast.expr.EnumConstNode;
 import de.unika.ipd.grgen.ast.expr.EnumExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.exprevals.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.typedecl.EnumItem;
 import de.unika.ipd.grgen.util.Walkable;
 
 /**

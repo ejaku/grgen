@@ -23,7 +23,8 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.typedecl.EnumItem;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
 import de.unika.ipd.grgen.util.Util;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 

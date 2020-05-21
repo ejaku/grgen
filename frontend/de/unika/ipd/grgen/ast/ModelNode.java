@@ -28,8 +28,8 @@ import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Index;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.PackageType;
-import de.unika.ipd.grgen.ir.exprevals.ExternalFunction;
-import de.unika.ipd.grgen.ir.exprevals.ExternalProcedure;
+import de.unika.ipd.grgen.ir.typedecl.ExternalFunction;
+import de.unika.ipd.grgen.ir.typedecl.ExternalProcedure;
 
 public class ModelNode extends DeclNode
 {

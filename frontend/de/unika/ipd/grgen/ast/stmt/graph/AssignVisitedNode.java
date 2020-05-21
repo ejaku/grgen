@@ -18,10 +18,10 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.VisitedNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.exprevals.Visited;
-import de.unika.ipd.grgen.ir.stmt.AssignmentVisited;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.graph.Visited;
+import de.unika.ipd.grgen.ir.stmt.graph.AssignmentVisited;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

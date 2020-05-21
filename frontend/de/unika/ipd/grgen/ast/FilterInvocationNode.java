@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ir.FilterAutoSupplied;
 import de.unika.ipd.grgen.ir.FilterInvocation;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class FilterInvocationNode extends BaseNode
 {

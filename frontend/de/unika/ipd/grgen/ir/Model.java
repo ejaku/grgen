@@ -22,7 +22,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
+import de.unika.ipd.grgen.ir.typedecl.ExternalFunction;
+import de.unika.ipd.grgen.ir.typedecl.ExternalProcedure;
+import de.unika.ipd.grgen.ir.typedecl.ExternalType;
+import de.unika.ipd.grgen.ir.typedecl.PrimitiveType;
 
 public class Model extends Identifiable implements NodeEdgeEnumBearer
 {

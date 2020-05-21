@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.util.Annotations;
 
 /**

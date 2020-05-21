@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.exprevals.IteratedQueryExpr;
+import de.unika.ipd.grgen.ir.expr.IteratedQueryExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class IteratedQueryExprNode extends ExprNode

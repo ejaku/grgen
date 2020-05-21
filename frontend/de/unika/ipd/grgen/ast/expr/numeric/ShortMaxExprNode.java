@@ -12,8 +12,8 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ir.exprevals.ShortMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.expr.numeric.ShortMaxExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ShortMaxExprNode extends BuiltinFunctionInvocationBaseNode

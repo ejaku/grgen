@@ -22,7 +22,11 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Constant;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
+import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.ast.PatternGraphNode; // for the MOD_... - constants
 import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
 

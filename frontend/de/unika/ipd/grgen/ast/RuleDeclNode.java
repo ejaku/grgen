@@ -21,12 +21,12 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.MemberAccessExprNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
 import de.unika.ipd.grgen.ir.DefinedMatchType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 /**
  * AST node for a replacement rule.

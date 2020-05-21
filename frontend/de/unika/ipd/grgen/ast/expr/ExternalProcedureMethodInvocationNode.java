@@ -20,13 +20,13 @@ import de.unika.ipd.grgen.ast.stmt.ProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.typedecl.ExternalProcedureDeclNode;
 import de.unika.ipd.grgen.ast.typedecl.ExternalTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
-import de.unika.ipd.grgen.ir.exprevals.ExternalProcedure;
-import de.unika.ipd.grgen.ir.exprevals.ExternalProcedureMethodInvocation;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
+import de.unika.ipd.grgen.ir.typedecl.ExternalProcedure;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.stmt.ExternalProcedureMethodInvocation;
 
 /**
  * Invocation of an external procedure method

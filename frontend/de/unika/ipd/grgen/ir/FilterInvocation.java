@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ir;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class FilterInvocation extends Identifiable
 {

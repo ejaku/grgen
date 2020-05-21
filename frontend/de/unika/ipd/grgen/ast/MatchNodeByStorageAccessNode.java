@@ -19,10 +19,10 @@ import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.StorageAccess;
 import de.unika.ipd.grgen.ir.StorageAccessIndex;
 import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.expr.Qualification;
 
 public class MatchNodeByStorageAccessNode extends MatchNodeFromByStorageNode
 {

@@ -17,10 +17,10 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatements;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 /**
  * AST node for a pattern with replacements.

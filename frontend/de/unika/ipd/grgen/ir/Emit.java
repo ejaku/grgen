@@ -14,14 +14,14 @@ package de.unika.ipd.grgen.ir;
 import java.util.Collections;
 import java.util.List;
 
-import de.unika.ipd.grgen.ir.exprevals.*;;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 
 /**
  * An emit statement.
  */
 public class Emit extends IR implements ImperativeStmt, OrderedReplacement
 {
-
 	private List<Expression> arguments;
 	private boolean isDebug;
 

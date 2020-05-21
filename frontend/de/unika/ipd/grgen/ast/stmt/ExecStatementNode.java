@@ -15,9 +15,9 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.ExecStatement;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.stmt.ExecStatement;
 
 /**
  * AST node representing an embedded exec statement.

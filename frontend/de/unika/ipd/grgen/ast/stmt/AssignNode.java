@@ -28,19 +28,19 @@ import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.OperatorSignature;
 import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
 import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
 import de.unika.ipd.grgen.ir.stmt.Assignment;
 import de.unika.ipd.grgen.ir.stmt.AssignmentGraphEntity;
 import de.unika.ipd.grgen.ir.stmt.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.stmt.AssignmentMember;
 import de.unika.ipd.grgen.ir.stmt.AssignmentVar;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

@@ -16,7 +16,12 @@ import java.util.Collection;
 import java.util.Date;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.typedecl.ExternalFunction;
+import de.unika.ipd.grgen.ir.typedecl.ExternalFunctionMethod;
+import de.unika.ipd.grgen.ir.typedecl.ExternalProcedure;
+import de.unika.ipd.grgen.ir.typedecl.ExternalProcedureMethod;
+import de.unika.ipd.grgen.ir.typedecl.ExternalType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModelExternalGen extends CSharpBase

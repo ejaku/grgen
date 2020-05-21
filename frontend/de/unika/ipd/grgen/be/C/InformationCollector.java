@@ -24,7 +24,14 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.exprevals.*;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.typedecl.BooleanType;
+import de.unika.ipd.grgen.ir.typedecl.EnumItem;
+import de.unika.ipd.grgen.ir.typedecl.EnumType;
+import de.unika.ipd.grgen.ir.typedecl.IntType;
+import de.unika.ipd.grgen.ir.typedecl.StringType;
 import de.unika.ipd.grgen.util.Annotations;
 
 public class InformationCollector extends CBackend

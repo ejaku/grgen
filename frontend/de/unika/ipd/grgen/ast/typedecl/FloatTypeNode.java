@@ -8,7 +8,7 @@
 package de.unika.ipd.grgen.ast.typedecl;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ir.exprevals.FloatType;
+import de.unika.ipd.grgen.ir.typedecl.FloatType;
 
 /**
  * The floating point basic type.

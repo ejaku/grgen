@@ -24,15 +24,15 @@ import de.unika.ipd.grgen.ast.expr.set.SetItemNode;
 import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
 import de.unika.ipd.grgen.ast.typedecl.OperatorSignature;
 import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
-import de.unika.ipd.grgen.ir.exprevals.EvalStatement;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.containers.MapAddItem;
-import de.unika.ipd.grgen.ir.containers.MapRemoveItem;
-import de.unika.ipd.grgen.ir.exprevals.Operator;
-import de.unika.ipd.grgen.ir.exprevals.Qualification;
-import de.unika.ipd.grgen.ir.containers.SetAddItem;
-import de.unika.ipd.grgen.ir.containers.SetRemoveItem;
+import de.unika.ipd.grgen.ir.stmt.EvalStatement;
+import de.unika.ipd.grgen.ir.stmt.map.MapAddItem;
+import de.unika.ipd.grgen.ir.stmt.map.MapRemoveItem;
+import de.unika.ipd.grgen.ir.stmt.set.SetAddItem;
+import de.unika.ipd.grgen.ir.stmt.set.SetRemoveItem;
+import de.unika.ipd.grgen.ir.expr.Expression;
+import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

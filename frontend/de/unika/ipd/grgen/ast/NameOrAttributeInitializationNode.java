@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NameOrAttributeInitialization;
-import de.unika.ipd.grgen.ir.exprevals.Expression;
+import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class NameOrAttributeInitializationNode extends BaseNode
 {
