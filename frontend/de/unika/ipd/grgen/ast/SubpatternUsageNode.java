@@ -16,7 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.exprevals.*;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;

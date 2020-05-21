@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.exprevals.CountIncidentEdgeExprNode;
-import de.unika.ipd.grgen.ast.exprevals.IntTypeNode;
+import de.unika.ipd.grgen.ast.expr.graph.CountIncidentEdgeExprNode;
+import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.EdgeType;

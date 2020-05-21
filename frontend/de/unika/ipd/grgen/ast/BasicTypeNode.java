@@ -15,7 +15,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.exprevals.*;
+import de.unika.ipd.grgen.ast.expr.NullConstNode;
+import de.unika.ipd.grgen.ast.typedecl.BooleanTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.ByteTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.DoubleTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.EnumItemTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.FloatTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.IntTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.LongTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.NullTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.ObjectTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.ShortTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.StringTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.VoidTypeNode;
 
 /**
  * A basic type AST node such as string or int

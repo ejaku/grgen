@@ -20,7 +20,8 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.Lexer;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.exprevals.*;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.numeric.IntConstNode;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;

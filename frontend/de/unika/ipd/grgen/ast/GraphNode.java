@@ -10,8 +10,12 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.exprevals.*;
-import de.unika.ipd.grgen.ast.containers.*;
+import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
+import de.unika.ipd.grgen.ast.typedecl.ContainerTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.EnumTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.ExternalTypeNode;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;

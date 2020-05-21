@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.exprevals.*;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;

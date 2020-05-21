@@ -10,7 +10,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.exprevals.*;
+import de.unika.ipd.grgen.ast.expr.QualIdentNode;
 
 public abstract class MatchEdgeFromByStorageNode extends EdgeDeclNode
 {

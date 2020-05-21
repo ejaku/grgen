@@ -11,9 +11,9 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.containers.ArrayAccumulationMethodNode;
-import de.unika.ipd.grgen.ast.exprevals.DeclExprNode;
-import de.unika.ipd.grgen.ast.exprevals.ExprNode;
+import de.unika.ipd.grgen.ast.expr.DeclExprNode;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayAccumulationMethodNode;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;

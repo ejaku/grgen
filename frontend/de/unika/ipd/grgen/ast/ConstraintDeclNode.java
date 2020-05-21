@@ -13,7 +13,7 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.exprevals.*;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
 import java.util.Collection;
 import java.util.HashSet;
 

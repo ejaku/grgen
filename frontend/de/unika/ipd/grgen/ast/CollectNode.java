@@ -15,7 +15,10 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.containers.*;
+import de.unika.ipd.grgen.ast.expr.array.ArrayItemNode;
+import de.unika.ipd.grgen.ast.expr.deque.DequeItemNode;
+import de.unika.ipd.grgen.ast.expr.map.MapItemNode;
+import de.unika.ipd.grgen.ast.expr.set.SetItemNode;
 
 /**
  * An AST node that represents a collection of other nodes.

@@ -14,9 +14,12 @@ import java.util.Collection;
 import java.util.Vector;
 import java.util.Iterator;
 
-import de.unika.ipd.grgen.ast.containers.*;
-import de.unika.ipd.grgen.ast.exprevals.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.exprevals.ProcedureDeclNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
+import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
+import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
+import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
+import de.unika.ipd.grgen.ast.typedecl.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.typedecl.ProcedureDeclNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;

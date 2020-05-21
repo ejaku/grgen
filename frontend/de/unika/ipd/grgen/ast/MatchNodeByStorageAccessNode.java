@@ -13,8 +13,9 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.exprevals.*;
-import de.unika.ipd.grgen.ast.containers.*;
+import de.unika.ipd.grgen.ast.expr.IdentExprNode;
+import de.unika.ipd.grgen.ast.expr.QualIdentNode;
+import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;

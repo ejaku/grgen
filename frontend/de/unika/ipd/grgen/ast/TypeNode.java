@@ -11,11 +11,11 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.containers.ArrayTypeNode;
-import de.unika.ipd.grgen.ast.containers.DequeTypeNode;
-import de.unika.ipd.grgen.ast.containers.MapTypeNode;
-import de.unika.ipd.grgen.ast.containers.SetTypeNode;
-import de.unika.ipd.grgen.ast.exprevals.EnumTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.DequeTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.EnumTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.MapTypeNode;
+import de.unika.ipd.grgen.ast.typedecl.SetTypeNode;
 import de.unika.ipd.grgen.ir.Type;
 import java.awt.Color;
 import java.util.Collection;

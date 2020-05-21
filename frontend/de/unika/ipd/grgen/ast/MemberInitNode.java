@@ -13,8 +13,12 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.exprevals.*;
-import de.unika.ipd.grgen.ast.containers.*;
+import de.unika.ipd.grgen.ast.expr.ConstNode;
+import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
+import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;
+import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
+import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.exprevals.Expression;
