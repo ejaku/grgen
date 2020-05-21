@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node for inserting a copy of the subgraph to the given main graph.
  */
-public class InsertCopyProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+public class InsertCopyProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(InsertCopyProcNode.class, "insert copy procedure");

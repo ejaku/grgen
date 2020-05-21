@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.PowExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class PowExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class PowExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(PowExprNode.class, "pow expr");

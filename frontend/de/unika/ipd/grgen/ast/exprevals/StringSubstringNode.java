@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.StringSubstring;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringSubstringNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class StringSubstringNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(StringSubstringNode.class, "string substring");

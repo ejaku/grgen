@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class CanonizeExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class CanonizeExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(CanonizeExprNode.class, "canonize expr");

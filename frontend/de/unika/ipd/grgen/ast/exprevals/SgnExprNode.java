@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.SgnExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SgnExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class SgnExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(SgnExprNode.class, "sgn expr");

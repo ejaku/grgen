@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.exprevals.ResumeTransactionProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ResumeTransactionProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+public class ResumeTransactionProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(ResumeTransactionProcNode.class, "resume transaction procedure");

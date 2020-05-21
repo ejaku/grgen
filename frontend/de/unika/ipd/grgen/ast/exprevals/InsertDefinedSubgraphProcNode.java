@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding an inserted edge of the insertion of a defined subgraph of an edge set.
  */
-public class InsertDefinedSubgraphProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+public class InsertDefinedSubgraphProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(InsertDefinedSubgraphProcNode.class, "insert defined subgraph procedure");

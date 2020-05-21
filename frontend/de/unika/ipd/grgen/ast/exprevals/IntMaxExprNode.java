@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.IntMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class IntMaxExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class IntMaxExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(IntMaxExprNode.class, "intmax expr");

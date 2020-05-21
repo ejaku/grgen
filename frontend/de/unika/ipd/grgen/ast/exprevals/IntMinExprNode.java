@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.IntMinExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class IntMinExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class IntMinExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(IntMinExprNode.class, "intmin expr");

@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.RoundExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class RoundExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class RoundExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(RoundExprNode.class, "round expr");

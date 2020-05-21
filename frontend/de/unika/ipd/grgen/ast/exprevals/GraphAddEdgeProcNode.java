@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node for adding an edge to graph.
  */
-public class GraphAddEdgeProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+public class GraphAddEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(GraphAddEdgeProcNode.class, "graph add edge procedure");

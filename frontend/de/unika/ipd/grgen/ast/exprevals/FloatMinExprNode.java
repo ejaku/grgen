@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.FloatMinExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class FloatMinExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class FloatMinExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(FloatMinExprNode.class, "floatmin expr");

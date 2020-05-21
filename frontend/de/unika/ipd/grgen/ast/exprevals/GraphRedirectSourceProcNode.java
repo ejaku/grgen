@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.GraphRedirectSourceProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphRedirectSourceProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+public class GraphRedirectSourceProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(GraphRedirectSourceProcNode.class, "graph redirect source procedure");

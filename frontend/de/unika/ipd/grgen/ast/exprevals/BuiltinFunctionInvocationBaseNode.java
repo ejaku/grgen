@@ -13,14 +13,14 @@ package de.unika.ipd.grgen.ast.exprevals;
 
 import de.unika.ipd.grgen.parser.Coords;
 
-/** base class for builtin and real function calls */
-public abstract class FunctionOrBuiltinFunctionInvocationBaseNode extends ExprNode
+/** base class for builtin function calls */
+public abstract class BuiltinFunctionInvocationBaseNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(FunctionOrBuiltinFunctionInvocationBaseNode.class, "function or builtin function invocation base");
+		setName(BuiltinFunctionInvocationBaseNode.class, "builtin function invocation base");
 	}
 
-	public FunctionOrBuiltinFunctionInvocationBaseNode(Coords coords)
+	public BuiltinFunctionInvocationBaseNode(Coords coords)
 	{
 		super(coords);
 	}

@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.LongMinExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class LongMinExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class LongMinExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(LongMinExprNode.class, "longmin expr");

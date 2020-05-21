@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.TruncateExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class TruncateExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class TruncateExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(TruncateExprNode.class, "truncate expr");

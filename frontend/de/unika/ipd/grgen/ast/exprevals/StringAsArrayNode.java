@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.exprevals.StringAsArray;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringAsArrayNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class StringAsArrayNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(StringAsArrayNode.class, "string asArray");

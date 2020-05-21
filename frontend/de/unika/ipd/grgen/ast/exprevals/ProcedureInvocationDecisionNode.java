@@ -27,7 +27,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	static TypeNode procedureTypeNode = new ProcedureTypeNode();
 
 	private IdentNode procedureIdent;
-	private ProcedureOrBuiltinProcedureInvocationBaseNode result;
+	private BuiltinProcedureInvocationBaseNode result;
 
 	ParserEnvironment env;
 

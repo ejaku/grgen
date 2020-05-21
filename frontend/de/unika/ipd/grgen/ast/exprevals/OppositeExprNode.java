@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the opposite node of an edge and a node.
  */
-public class OppositeExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class OppositeExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(OppositeExprNode.class, "opposite expr");

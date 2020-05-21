@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.exprevals.EmptyExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class EmptyExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class EmptyExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(EmptyExprNode.class, "empty expr");

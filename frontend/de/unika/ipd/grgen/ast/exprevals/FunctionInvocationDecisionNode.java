@@ -27,7 +27,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 	static TypeNode functionTypeNode = new FunctionTypeNode();
 
 	public IdentNode functionIdent;
-	private FunctionOrBuiltinFunctionInvocationBaseNode result;
+	private BuiltinFunctionInvocationBaseNode result;
 
 	ParserEnvironment env;
 

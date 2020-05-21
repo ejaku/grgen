@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.StringIndexOf;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringIndexOfNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class StringIndexOfNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(StringIndexOfNode.class, "string indexOf");

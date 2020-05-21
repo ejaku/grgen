@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the source node of an edge.
  */
-public class SourceExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class SourceExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(SourceExprNode.class, "source expr");

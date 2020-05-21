@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node retrieving a node from a unique id.
  */
-public class NodeByUniqueExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class NodeByUniqueExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(NodeByUniqueExprNode.class, "node by unique expr");

@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.DoubleMinExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DoubleMinExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class DoubleMinExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(DoubleMinExprNode.class, "doublemin expr");

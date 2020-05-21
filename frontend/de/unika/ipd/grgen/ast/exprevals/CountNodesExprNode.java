@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the count of the nodes of a node type.
  */
-public class CountNodesExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class CountNodesExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(CountNodesExprNode.class, "count nodes expr");

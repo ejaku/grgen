@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.exprevals.StartTransactionProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StartTransactionProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+public class StartTransactionProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(StartTransactionProcNode.class, "start transaction procedure");

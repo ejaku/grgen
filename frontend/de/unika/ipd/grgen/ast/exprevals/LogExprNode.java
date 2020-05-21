@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.LogExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class LogExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class LogExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(LogExprNode.class, "log expr");

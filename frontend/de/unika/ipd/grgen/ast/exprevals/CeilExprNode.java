@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class CeilExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
+public class CeilExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(CeilExprNode.class, "ceil expr");

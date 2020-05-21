@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.VFreeNonResetProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class VFreeNonResetProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
+public class VFreeNonResetProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(VFreeNonResetProcNode.class, "vfreenonreset procedure");
