@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * AST node class representing procedure declarations
  */
-public class ProcedureDeclNode extends ProcedureBase
+public class ProcedureDeclNode extends ProcedureDeclBaseNode
 {
 	static {
 		setName(ProcedureDeclNode.class, "procedure declaration");

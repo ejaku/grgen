@@ -99,7 +99,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	/** Check whether the usage adheres to the signature of the declaration */
 	private boolean checkSignatureAdhered()
 	{
-		ProcedureBase pb = procedureDecl != null ? procedureDecl : externalProcedureDecl;
+		ProcedureDeclBaseNode pb = procedureDecl != null ? procedureDecl : externalProcedureDecl;
 		return checkSignatureAdhered(pb, procedureOrExternalProcedureUnresolved, false);
 	}
 

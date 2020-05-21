@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * AST node class representing function declarations
  */
-public class FunctionDeclNode extends FunctionBase
+public class FunctionDeclNode extends FunctionDeclBaseNode
 {
 	static {
 		setName(FunctionDeclNode.class, "function declaration");

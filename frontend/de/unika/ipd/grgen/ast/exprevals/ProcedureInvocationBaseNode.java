@@ -33,7 +33,7 @@ public abstract class ProcedureInvocationBaseNode extends ProcBaseNode
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
-	protected boolean checkSignatureAdhered(ProcedureBase pb, IdentNode unresolved, boolean isMethod)
+	protected boolean checkSignatureAdhered(ProcedureDeclBaseNode pb, IdentNode unresolved, boolean isMethod)
 	{
 		// check if the number of parameters are correct
 		int expected = pb.getParameterTypes().size();

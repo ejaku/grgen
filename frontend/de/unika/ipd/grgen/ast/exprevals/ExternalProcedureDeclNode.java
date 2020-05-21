@@ -25,7 +25,7 @@ import java.util.Vector;
 /**
  * AST node class representing external procedure declarations
  */
-public class ExternalProcedureDeclNode extends ProcedureBase
+public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 {
 	static {
 		setName(ExternalProcedureDeclNode.class, "external procedure declaration");

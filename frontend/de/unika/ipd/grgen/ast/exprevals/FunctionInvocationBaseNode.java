@@ -31,7 +31,7 @@ public abstract class FunctionInvocationBaseNode extends FuncBaseNode
 	}
 
 	/** Check whether the usage adheres to the signature of the declaration */
-	protected boolean checkSignatureAdhered(FunctionBase fb, IdentNode unresolved, boolean isMethod)
+	protected boolean checkSignatureAdhered(FunctionDeclBaseNode fb, IdentNode unresolved, boolean isMethod)
 	{
 		// check if the number of parameters are correct
 		int expected = fb.getParameterTypes().size();

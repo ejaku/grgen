@@ -87,7 +87,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 	@Override
 	protected boolean checkLocal()
 	{
-		FunctionBase fb = functionDecl != null ? functionDecl : externalFunctionDecl;
+		FunctionDeclBaseNode fb = functionDecl != null ? functionDecl : externalFunctionDecl;
 		return checkSignatureAdhered(fb, functionOrExternalFunctionUnresolved, false);
 	}
 

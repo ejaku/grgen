@@ -19,9 +19,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.containers.*;
 import de.unika.ipd.grgen.ast.exprevals.EvalStatementNode;
-import de.unika.ipd.grgen.ast.exprevals.FunctionBase;
+import de.unika.ipd.grgen.ast.exprevals.FunctionDeclBaseNode;
 import de.unika.ipd.grgen.ast.exprevals.FunctionDeclNode;
-import de.unika.ipd.grgen.ast.exprevals.ProcedureBase;
+import de.unika.ipd.grgen.ast.exprevals.ProcedureDeclBaseNode;
 import de.unika.ipd.grgen.ast.exprevals.ProcedureDeclNode;
 import de.unika.ipd.grgen.ir.containers.ArrayInit;
 import de.unika.ipd.grgen.ir.IR;
@@ -375,7 +375,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	}
 
 	/** Check whether the override adheres to the signature of the base declaration */
-	protected boolean checkSignatureAdhered(FunctionBase base, FunctionBase override)
+	protected boolean checkSignatureAdhered(FunctionDeclBaseNode base, FunctionDeclBaseNode override)
 	{
 		String functionName = base.ident.toString();
 
@@ -413,7 +413,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	}
 
 	/** Check whether the override adheres to the signature of the base declaration */
-	protected boolean checkSignatureAdhered(ProcedureBase base, ProcedureBase override)
+	protected boolean checkSignatureAdhered(ProcedureDeclBaseNode base, ProcedureDeclBaseNode override)
 	{
 		String procedureName = base.ident.toString();
 
