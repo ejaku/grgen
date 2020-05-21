@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node for inserting the subgraph to the given main graph (destroying the original graph).
  */
-public class InsertProcNode extends ProcBaseNode
+public class InsertProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(InsertProcNode.class, "insert procedure");

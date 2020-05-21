@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node for retyping a node or an edge to a new type.
  */
-public class GraphRetypeProcNode extends ProcBaseNode
+public class GraphRetypeProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(GraphRetypeProcNode.class, "retype procedure");

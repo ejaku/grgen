@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class EmitProcNode extends ProcBaseNode
+public class EmitProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(EmitProcNode.class, "emit procedure");

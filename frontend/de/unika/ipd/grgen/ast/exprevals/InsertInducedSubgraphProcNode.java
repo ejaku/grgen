@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding an inserted node of the insertion of an induced subgraph of a node set.
  */
-public class InsertInducedSubgraphProcNode extends ProcBaseNode
+public class InsertInducedSubgraphProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(InsertInducedSubgraphProcNode.class, "insert induced subgraph procedure");

@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class FunctionInvocationBaseNode extends FuncBaseNode
+public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(FunctionInvocationBaseNode.class, "function invocation base");

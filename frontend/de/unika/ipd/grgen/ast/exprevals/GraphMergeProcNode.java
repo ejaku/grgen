@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.GraphMergeProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphMergeProcNode extends ProcBaseNode
+public class GraphMergeProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(GraphMergeProcNode.class, "graph merge procedure");

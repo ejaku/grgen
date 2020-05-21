@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.MaxExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MaxExprNode extends FuncBaseNode
+public class MaxExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(MaxExprNode.class, "max expr");

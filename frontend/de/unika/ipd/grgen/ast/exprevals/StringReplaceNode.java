@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.StringReplace;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringReplaceNode extends FuncBaseNode
+public class StringReplaceNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(StringReplaceNode.class, "string replace");

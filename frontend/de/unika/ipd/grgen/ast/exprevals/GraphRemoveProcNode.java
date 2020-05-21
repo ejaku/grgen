@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.exprevals.GraphRemoveProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class GraphRemoveProcNode extends ProcBaseNode
+public class GraphRemoveProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(GraphRemoveProcNode.class, "graph remove procedure");

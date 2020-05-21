@@ -27,7 +27,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	static TypeNode procedureTypeNode = new ProcedureTypeNode();
 
 	private IdentNode procedureIdent;
-	private ProcBaseNode result;
+	private ProcedureOrBuiltinProcedureInvocationBaseNode result;
 
 	ParserEnvironment env;
 
@@ -360,7 +360,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		return true;
 	}
 
-	protected ProcBaseNode getResult()
+	protected ProcedureOrBuiltinProcedureInvocationBaseNode getResult()
 	{
 		return result;
 	}

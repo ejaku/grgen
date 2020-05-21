@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.FloatMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class FloatMaxExprNode extends FuncBaseNode
+public class FloatMaxExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(FloatMaxExprNode.class, "floatmax expr");

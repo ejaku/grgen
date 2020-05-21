@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.exprevals.PauseTransactionProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class PauseTransactionProcNode extends ProcBaseNode
+public class PauseTransactionProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(PauseTransactionProcNode.class, "pause transaction procedure");

@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DebugHighlightProcNode extends ProcBaseNode
+public class DebugHighlightProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(DebugHighlightProcNode.class, "debug highlight procedure");

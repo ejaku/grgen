@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.EExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class EExprNode extends FuncBaseNode
+public class EExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(EExprNode.class, "e expr");

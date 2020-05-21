@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the copy of a subgraph, or a match, or a container.
  */
-public class CopyExprNode extends FuncBaseNode
+public class CopyExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(CopyExprNode.class, "copy expr");

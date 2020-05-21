@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node retrieving an edge from a unique id.
  */
-public class EdgeByUniqueExprNode extends FuncBaseNode
+public class EdgeByUniqueExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(EdgeByUniqueExprNode.class, "edge by unique expr");

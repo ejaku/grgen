@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the name of some node/edge or the graph.
  */
-public class UniqueofExprNode extends FuncBaseNode
+public class UniqueofExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(UniqueofExprNode.class, "uniqueof");

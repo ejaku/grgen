@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.RecordProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class RecordProcNode extends ProcBaseNode
+public class RecordProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(RecordProcNode.class, "record procedure");

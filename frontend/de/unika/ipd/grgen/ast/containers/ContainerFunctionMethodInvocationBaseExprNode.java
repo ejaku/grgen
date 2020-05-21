@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.ast.exprevals.*;
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class ContainerFunctionMethodInvocationBaseExprNode extends FuncBaseNode
+public abstract class ContainerFunctionMethodInvocationBaseExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(ContainerFunctionMethodInvocationBaseExprNode.class,

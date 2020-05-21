@@ -26,7 +26,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 
 	private BaseNode target;
 	private IdentNode methodIdent;
-	private ProcBaseNode result;
+	private ProcedureOrBuiltinProcedureInvocationBaseNode result;
 
 	public ProcedureMethodInvocationDecisionNode(BaseNode target, IdentNode methodIdent, CollectNode<ExprNode> arguments,
 			int context)

@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the induced subgraph of a node set.
  */
-public class InducedSubgraphExprNode extends FuncBaseNode
+public class InducedSubgraphExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(InducedSubgraphExprNode.class, "induced subgraph expr");

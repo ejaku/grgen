@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.exprevals.StringLength;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringLengthNode extends FuncBaseNode
+public class StringLengthNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(StringLengthNode.class, "string length");

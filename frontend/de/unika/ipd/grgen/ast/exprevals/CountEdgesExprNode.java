@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the count of the edges of an edge type.
  */
-public class CountEdgesExprNode extends FuncBaseNode
+public class CountEdgesExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(CountEdgesExprNode.class, "count edges expr");

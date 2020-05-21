@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.ByteMinExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ByteMinExprNode extends FuncBaseNode
+public class ByteMinExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(ByteMinExprNode.class, "bytemin expr");

@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.SinCosTanExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SinCosTanExprNode extends FuncBaseNode
+public class SinCosTanExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(SinCosTanExprNode.class, "sincostan expr");

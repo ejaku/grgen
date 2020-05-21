@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.RollbackTransactionProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class RollbackTransactionProcNode extends ProcBaseNode
+public class RollbackTransactionProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(RollbackTransactionProcNode.class, "rollback transaction procedure");

@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.exprevals.ByteMaxExpr;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ByteMaxExprNode extends FuncBaseNode
+public class ByteMaxExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(ByteMaxExprNode.class, "bytemax expr");

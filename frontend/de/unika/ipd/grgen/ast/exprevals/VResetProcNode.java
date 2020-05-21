@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.VResetProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class VResetProcNode extends ProcBaseNode
+public class VResetProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(VResetProcNode.class, "vreset procedure");

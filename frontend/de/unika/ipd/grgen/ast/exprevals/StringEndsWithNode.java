@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.StringEndsWith;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringEndsWithNode extends FuncBaseNode
+public class StringEndsWithNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(StringEndsWithNode.class, "string endsWith");

@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.StringToLower;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class StringToLowerNode extends FuncBaseNode
+public class StringToLowerNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(StringToLowerNode.class, "string toLower");

@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.exprevals.VFreeProc;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class VFreeProcNode extends ProcBaseNode
+public class VFreeProcNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
 		setName(VFreeProcNode.class, "vfree procedure");

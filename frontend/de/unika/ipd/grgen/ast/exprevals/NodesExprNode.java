@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A node yielding the nodes of a node type.
  */
-public class NodesExprNode extends FuncBaseNode
+public class NodesExprNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
 		setName(NodesExprNode.class, "nodes expr");

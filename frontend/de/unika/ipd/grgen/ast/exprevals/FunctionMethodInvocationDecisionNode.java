@@ -43,7 +43,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 	private ExprNode targetExpr;
 	private IdentNode methodIdent;
 	private IdentNode attributeIdent; // in most cases null, not used
-	private FuncBaseNode result;
+	private FunctionOrBuiltinFunctionInvocationBaseNode result;
 
 	public FunctionMethodInvocationDecisionNode(ExprNode targetExpr, IdentNode methodIdent, CollectNode<ExprNode> arguments,
 			IdentNode attributeIdent)
